@@ -6,14 +6,14 @@
  *
  */
 
-import { ReactNode, useState } from 'react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { colors, fonts, spacing, spacingUnit } from '@ndla/core';
-import { ForwardArrow, RightArrow } from '@ndla/icons/action';
-import { SafeLinkButton } from '@ndla/safelink';
-import { DrawerListItem } from './DrawerPortion';
+import { ReactNode, useState } from "react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { colors, fonts, spacing } from "@ndla/core";
+import { ForwardArrow, RightArrow } from "@ndla/icons/action";
+import { SafeLinkButton } from "@ndla/safelink";
+import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
   id?: string;
@@ -21,27 +21,25 @@ interface BaseProps {
   icon?: ReactNode;
   active?: boolean;
   tabIndex?: number;
-  type: 'link' | 'button';
+  type: "link" | "button";
   current?: boolean;
 }
 
 interface ButtonProps extends BaseProps {
-  type: 'button';
+  type: "button";
   onClick: () => void;
   ownsId: string;
 }
 
 interface LinkProps extends BaseProps {
-  type: 'link';
+  type: "link";
   to: string;
   onClose: () => void;
 }
 
 type Props = ButtonProps | LinkProps;
 
-const headerSpacing = `${spacing.small} ${spacingUnit * 1.5}px ${
-  spacing.small
-} ${spacing.normal}`;
+const headerSpacing = `${spacing.small} ${spacing.nsmall} ${spacing.small} ${spacing.normal}`;
 
 const rowHeaderWrapperStyles = css`
   display: flex;
@@ -51,7 +49,7 @@ const rowHeaderWrapperStyles = css`
   text-decoration: none;
   padding: ${headerSpacing};
   color: ${colors.brand.primary};
-  ${fonts.sizes('20px', '24px')};
+  ${fonts.sizes("20px", "24px")};
   font-weight: ${fonts.weight.semibold};
   background-color: #f7fafd;
   border: 0px;
@@ -86,14 +84,7 @@ const IconTitleWrapper = styled.div`
   justify-content: center;
 `;
 
-const DrawerRowHeader = ({
-  title,
-  icon,
-  active,
-  id,
-  current,
-  ...rest
-}: Props) => {
+const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   const contents = (
@@ -103,7 +94,7 @@ const DrawerRowHeader = ({
     </IconTitleWrapper>
   );
 
-  if (rest.type === 'button') {
+  if (rest.type === "button") {
     return (
       <DrawerListItem role="none" data-list-item>
         <StyledButton
@@ -111,7 +102,7 @@ const DrawerRowHeader = ({
           aria-owns={rest.ownsId}
           role="menuitem"
           aria-expanded={expanded}
-          aria-current={current ? 'page' : undefined}
+          aria-current={current ? "page" : undefined}
           colorTheme="light"
           onClick={() => {
             setExpanded(true);
@@ -128,7 +119,7 @@ const DrawerRowHeader = ({
     return (
       <DrawerListItem role="none" data-list-item>
         <StyledLink
-          aria-current={current ? 'page' : undefined}
+          aria-current={current ? "page" : undefined}
           tabIndex={-1}
           role="menuitem"
           to={rest.to}

@@ -6,18 +6,18 @@
  *
  */
 
-const titleTemplate = 'NDLA';
+const titleTemplate = "NDLA";
 
 const messages = {
   htmlTitles: {
     titleTemplate,
     welcomePage: `Ovdasiidu - ${titleTemplate}`,
-    topicPage: 'Fáddá',
+    topicPage: "Fáddá",
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
-    subject: 'Fága',
+    subject: "Fága",
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
     lti: `LTI - ${titleTemplate}`,
     movedResourcePage: `Siidu lea sirdojuvvon - ${titleTemplate}`,
@@ -28,75 +28,90 @@ const messages = {
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
+    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
     arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
+    arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
+    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
   podcastPage: {
-    episodes: 'Jearahusat',
-    podcast: 'Podkast',
-    podcasts: 'Podkasttat',
-    pageInfo: 'Siidu {{page}} eret {{lastPage}}',
-    noResults: '...Eai leat oasit',
+    episodes: "Jearahusat",
+    podcast: "Podkast",
+    podcasts: "Podkasttat",
+    pageInfo: "Siidu {{page}} eret {{lastPage}}",
+    noResults: "...Eai leat oasit",
   },
   myndla: {
     campaignBlock: {
-      title: 'Geahččal min ságastallanbottu',
-      linkText: 'Geahččal NDLA ságastallanrobohta',
+      title: "Geahččal min ságastallanbottu",
+      linkText: "Geahččal NDLA ságastallanrobohta",
       ingressStudent:
-        'Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!',
+        "Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!",
       ingress:
-        'Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.',
+        "Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.",
+    },
+  },
+  myNdla: {
+    arena: {
+      notification: {
+        description:
+          "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
+      },
     },
   },
   validation: {
     fields: {
-      name: 'Namma',
-      description: 'Válddahus',
-      title: 'Namahus',
-      content: 'Sisdoallu',
+      name: "Namma",
+      description: "Válddahus",
+      title: "Namahus",
+      content: "Sisdoallu",
     },
-    required: 'Dát fealta gáibiduvvo',
-    requiredField: '$t(validation.fields.{{field}}) gáibiduvvo',
-    notUnique: 'Gávdno juo',
-    maxLength: 'Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat',
-    maxLengthField:
-      '$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat',
+    required: "Dát fealta gáibiduvvo",
+    requiredField: "$t(validation.fields.{{field}}) ii sáhte leat guoros",
+    notUnique: "Gávdno juo",
+    maxLength: "Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat",
+    maxLengthField: "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",
   },
   resourcepageTitles: {
-    video: 'Video',
-    image: 'Govva',
-    concept: 'Čilgehus',
-    audio: 'Jietna',
+    video: "Video",
+    image: "Govva",
+    concept: "Čilgehus",
+    audio: "Jietna",
   },
   markdownEditor: {
     link: {
-      url: 'Liŋka',
+      url: "Lenkeadresse",
+      text: "Lenketekst",
       error: {
-        empty: 'Liŋka ii sáhte leat guorus',
-        invalid: 'Gustohis liŋka. Čuovo formáhta dáppe https://ndla.no',
+        url: {
+          empty: "Lenkeadressa kan ikke være tom",
+          invalid: "Ugyldig lenkeadresse. Følg formatet https://ndla.no",
+        },
+        text: {
+          empty: "Lenketeksta kan ikke være tom",
+        },
       },
     },
     toolbar: {
       bold: {
-        active: 'Váldde eret buoiddes fontta',
-        inactive: 'Lasit buoiddes fontta',
+        active: "Váldde eret buoiddes fontta",
+        inactive: "Lasit buoiddes fontta",
       },
       italic: {
-        active: 'Váldde eret vinjučála fontta',
-        inactive: 'Lasit vinjučála fontta',
+        active: "Váldde eret vinjučála fontta",
+        inactive: "Lasit vinjučála fontta",
       },
       unorderedList: {
-        active: 'Váldde eret čuoggátávvala',
-        inactive: 'Lasit čuoggátávvala',
+        active: "Váldde eret čuoggátávvala",
+        inactive: "Lasit čuoggátávvala",
       },
       orderedList: {
-        active: 'Váldde eret nummáraston listtu',
-        inactive: 'Lasit nummárastojuvvon listtu',
+        active: "Váldde eret nummáraston listtu",
+        inactive: "Lasit nummárastojuvvon listtu",
       },
       link: {
-        active: 'Váldde eret liŋkka',
-        inactive: 'Lasit liŋkka',
-        noSelection: 'Merke teavstta liŋkka lasihit',
+        active: "Váldde eret liŋkka",
+        inactive: "Lasit liŋkka",
       },
     },
   },

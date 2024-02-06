@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { NormalizedCacheObject } from '@apollo/client';
-import { ConfigType } from './config';
-import { LocaleValues } from './constants';
+import { NormalizedCacheObject } from "@apollo/client";
+import { ConfigType } from "./config";
+import { LocaleValues } from "./constants";
 
 export type InitialProps = {
   articleId?: string;
   taxonomyId?: string;
   isOembed?: string;
-  status?: 'success' | 'error';
+  status?: "success" | "error";
   loading?: boolean;
   resCookie?: string;
   basename?: string;
@@ -53,9 +53,9 @@ export type LocaleType = (typeof LocaleValues)[number];
 
 export type Breadcrumb = { to: string; name: string };
 
-export type CompetenceGoalsType = 'LK06' | 'LK20';
+export type CompetenceGoalsType = "LK06" | "LK20";
 
-export type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+export type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5";
 
 interface ProgrammeMeta {
   description: Partial<Record<LocaleType, string>>;

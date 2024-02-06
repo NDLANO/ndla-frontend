@@ -6,20 +6,20 @@
  *
  */
 
-import { formatDistanceStrict } from 'date-fns';
-import { nb, nn, enGB } from 'date-fns/locale';
-import { useCallback, useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { spacing, colors, fonts } from '@ndla/core';
-import { HelpCircleDual, KeyboardReturn } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Heading, Text } from '@ndla/typography';
-import { GQLArenaNotificationFragment } from '../../../graphqlTypes';
-import { toMyNdlaArenaTopic } from '../../../routeHelpers';
-import { capitalizeFirstLetter } from '../Arena/utils';
-import { useMarkNotificationsAsRead } from '../arenaMutations';
+import { formatDistanceStrict } from "date-fns";
+import { useCallback, useMemo } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { spacing, colors, fonts } from "@ndla/core";
+import { HelpCircleDual, KeyboardReturn } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Heading, Text } from "@ndla/typography";
+import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
+import { DateFNSLocales } from "../../../i18n";
+import { toMyNdlaArenaTopic } from "../../../routeHelpers";
+import { useArenaMarkNotificationsAsRead } from "../Arena/components/temporaryNodebbHooks";
+import { capitalizeFirstLetter } from "../Arena/utils";
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const TitleWrapper = styled.div`
   padding-bottom: ${spacing.normal};
   padding-top: ${spacing.large};
 
-  &[data-popover='true'] {
+  &[data-popover="true"] {
     padding-top: unset;
   }
 `;
@@ -52,9 +52,9 @@ const StyledLink = styled(SafeLinkButton)`
     color: ${colors.text.primary};
   }
 
-  &[data-not-viewed='true'] {
-    background-color: ${colors.brand.lightest};
-    border: solid 1px ${colors.brand.lighter};
+  &[data-not-viewed="true"] {
+    background-color: ${colors.background.lightBlue};
+    border: solid 1px ${colors.brand.secondary};
   }
 `;
 
@@ -69,11 +69,13 @@ const Notification = styled.div`
 const StyledList = styled.ul`
   list-style: none;
   gap: ${spacing.xxsmall};
+  display: flex;
+  flex-direction: column;
   padding: 0 0 ${spacing.small} 0;
 `;
 
 const StyledLi = styled.li`
-  margin-bottom: ${spacing.xxsmall};
+  padding: 0;
 `;
 
 const StyledText = styled(Text)`
@@ -86,28 +88,18 @@ const StyledKeyboardReturn = styled(KeyboardReturn)`
   min-height: ${spacing.normal};
 `;
 
-const Locales = {
-  nn: nn,
-  nb: nb,
-  en: enGB,
-  se: nb,
-};
-
 interface Props {
-  notifications?: GQLArenaNotificationFragment[];
+  notifications?: GQLArenaNotificationV2Fragment[];
   close?: VoidFunction;
 }
 
 const NotificationList = ({ notifications, close }: Props) => {
-  const { markNotificationsAsRead } = useMarkNotificationsAsRead();
+  const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
   const { t, i18n } = useTranslation();
   const now = new Date();
 
   const markAllRead = useCallback(async () => {
-    const topicIdsToBeMarkedRead =
-      notifications
-        ?.filter(({ read }) => !read)
-        ?.map(({ topicId }) => topicId) ?? [];
+    const topicIdsToBeMarkedRead = notifications?.filter(({ isRead }) => !isRead)?.map(({ topicId }) => topicId) ?? [];
 
     await markNotificationsAsRead({
       variables: { topicIds: topicIdsToBeMarkedRead },
@@ -124,55 +116,55 @@ const NotificationList = ({ notifications, close }: Props) => {
       <TitleWrapper data-popover={!!close}>
         {close ? (
           <Heading element="h4" headingStyle="h4" margin="none">
-            {t('myNdla.arena.notification.title')}
+            {t("myNdla.arena.notification.title")}
           </Heading>
         ) : (
           <Heading element="h2" headingStyle="list-title" margin="none">
-            {t('myNdla.arena.notification.title')}
+            {t("myNdla.arena.notification.title")}
           </Heading>
         )}
 
         <ButtonV2 variant="link" fontWeight="light" onClick={markAllRead}>
-          {t('myNdla.arena.notification.markAll')}
+          {t("myNdla.arena.notification.markAll")}
         </ButtonV2>
       </TitleWrapper>
       <StyledList>
-        {notifcationsToShow?.map(
-          ({ topicId, read, user, datetimeISO, topicTitle }, index) => (
+        {notifcationsToShow?.map((notification, index) => {
+          return (
             <StyledLi key={index}>
               <StyledLink
                 variant="stripped"
-                data-not-viewed={!read}
-                to={toMyNdlaArenaTopic(topicId)}
+                data-not-viewed={!notification.isRead}
+                to={toMyNdlaArenaTopic(notification.topicId)}
                 onClick={() => close?.()}
               >
                 <Notification>
                   <StyledKeyboardReturn />
                   <div>
                     <StyledText textStyle="meta-text-medium" margin="none">
-                      {user.displayName}
+                      {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
                       <Trans
-                        i18nKey={'myNdla.arena.notification.commentedOn'}
-                        tOptions={{ title: topicTitle }}
+                        i18nKey={"myNdla.arena.notification.commentedOn"}
+                        tOptions={{ title: notification.topicTitle }}
                         t={t}
                       />
                     </StyledText>
                     <Text textStyle="meta-text-small" margin="none">
                       {`${capitalizeFirstLetter(
-                        formatDistanceStrict(Date.parse(datetimeISO), now, {
+                        formatDistanceStrict(Date.parse(notification.notificationTime), now, {
                           addSuffix: true,
-                          locale: Locales[i18n.language],
-                          roundingMethod: 'floor',
+                          locale: DateFNSLocales[i18n.language],
+                          roundingMethod: "floor",
                         }),
                       )}`}
                     </Text>
                   </div>
                 </Notification>
-                {!read && <StyledDot />}
+                {!notification.isRead && <StyledDot />}
               </StyledLink>
             </StyledLi>
-          ),
-        )}
+          );
+        })}
       </StyledList>
     </>
   );

@@ -6,26 +6,17 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import { breakpoints, mq } from '@ndla/core';
-import { Plus } from '@ndla/icons/action';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTitle,
-  ModalTrigger,
-} from '@ndla/modal';
-import FolderForm, { FolderFormValues } from './FolderForm';
-import { buttonCss, iconCss } from './FoldersPage';
-import { GQLFolder } from '../../../graphqlTypes';
-import { useUserAgent } from '../../../UserAgentContext';
-import { useAddFolderMutation, useFolders } from '../folderMutations';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { breakpoints, mq } from "@ndla/core";
+import { Plus } from "@ndla/icons/action";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import FolderForm, { FolderFormValues } from "./FolderForm";
+import { buttonCss, iconCss } from "./FoldersPage";
+import { GQLFolder } from "../../../graphqlTypes";
+import { useAddFolderMutation, useFolders } from "../folderMutations";
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {
@@ -43,7 +34,6 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   const { t } = useTranslation();
   const { addFolder } = useAddFolderMutation();
   const [folderCreated, setFolderCreated] = useState(false);
-  const userAgent = useUserAgent();
 
   const { folders } = useFolders();
 
@@ -64,15 +54,11 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
           css={buttonCss}
           variant="ghost"
           colorTheme="lighter"
-          aria-label={t('myNdla.newFolder')}
-          title={t('myNdla.newFolder')}
+          aria-label={t("myNdla.newFolder")}
+          title={t("myNdla.newFolder")}
         >
           <Plus css={iconCss} />
-          <span>
-            {userAgent?.isMobile
-              ? t('myNdla.newFolder')
-              : t('myNdla.newFolderShort')}
-          </span>
+          <span>{t("myNdla.newFolderShort")}</span>
         </AddButton>
       </ModalTrigger>
       <CreateModalContent
@@ -107,18 +93,12 @@ interface ContentProps {
   skipAutoFocus?: VoidFunction;
 }
 
-export const CreateModalContent = ({
-  onClose,
-  parentFolder,
-  folders,
-  onCreate,
-  skipAutoFocus,
-}: ContentProps) => {
+export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, skipAutoFocus }: ContentProps) => {
   const { t } = useTranslation();
   return (
     <ModalContent onCloseAutoFocus={onClose}>
       <ModalHeader>
-        <ModalTitle>{t('myNdla.newFolder')}</ModalTitle>
+        <ModalTitle>{t("myNdla.newFolder")}</ModalTitle>
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody>

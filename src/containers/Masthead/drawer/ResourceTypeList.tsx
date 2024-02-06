@@ -6,16 +6,15 @@
  *
  */
 
-import { ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Heading } from '@ndla/typography';
-import { ContentTypeBadge, resourceTypeColor } from '@ndla/ui';
-import { DrawerListItem } from './DrawerPortion';
-import { contentTypeMapping } from '../../../util/getContentType';
+import { ReactNode } from "react";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Heading } from "@ndla/typography";
+import { ContentTypeBadge, resourceTypeColor } from "@ndla/ui";
+import { DrawerListItem } from "./DrawerPortion";
+import { contentTypeMapping } from "../../../util/getContentType";
 
 const StyledResourceTypeList = styled.ul`
-  margin: 0;
   flex: 1;
   padding: 0;
   list-style: none;
@@ -25,15 +24,14 @@ interface HeaderProps {
   backgroundColor: string;
 }
 
-const shouldForwardProp = (p: string) => p !== 'backgroundColor';
+const shouldForwardProp = (p: string) => p !== "backgroundColor";
 
-const ResourceTypeHeader = styled('li', { shouldForwardProp })<HeaderProps>`
+const ResourceTypeHeader = styled("li", { shouldForwardProp })<HeaderProps>`
   background-color: ${(p) => p.backgroundColor};
   display: flex;
   align-items: center;
   padding: ${spacing.xxsmall} 0 ${spacing.xxsmall} ${spacing.normal};
   gap: ${spacing.small};
-  margin: 0;
   margin-top: ${spacing.small};
 `;
 
@@ -47,15 +45,8 @@ const ResourceTypeList = ({ name, id, children }: Props) => {
   const contentType = contentTypeMapping[id];
   return (
     <DrawerListItem role="none" id={`li-${id}`} data-resource-group>
-      <StyledResourceTypeList
-        id={id}
-        role="group"
-        aria-labelledby={`header-${id}`}
-      >
-        <ResourceTypeHeader
-          id={`header-${id}`}
-          backgroundColor={resourceTypeColor(contentType!)}
-        >
+      <StyledResourceTypeList id={id} role="group" aria-labelledby={`header-${id}`}>
+        <ResourceTypeHeader id={`header-${id}`} backgroundColor={resourceTypeColor(contentType!)}>
           <ContentTypeBadge type={contentType!} border={false} />
           <Heading element="span" headingStyle="list-title" margin="none">
             {name}

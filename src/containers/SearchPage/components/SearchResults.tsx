@@ -6,13 +6,13 @@
  *
  */
 
-import { Fragment } from 'react';
-import { SearchTypeResult, constants } from '@ndla/ui';
-import { SearchGroup, TypeFilter } from '../searchHelpers';
+import { Fragment } from "react";
+import { SearchTypeResult, constants } from "@ndla/ui";
+import { SearchGroup, TypeFilter } from "../searchHelpers";
 
 const { contentTypes } = constants;
 
-export type ViewType = 'grid' | 'list';
+export type ViewType = "grid" | "list";
 interface Props {
   showAll?: boolean;
   handleSubFilterClick: (type: string, filterId: string) => void;
@@ -37,21 +37,14 @@ const SearchResults = ({
         .map((group) => {
           const { totalCount, type, items, resourceTypes } = group;
           const filter = typeFilter[type];
-          if (
-            (showAll || filter?.selected || type === contentTypes.SUBJECT) &&
-            items.length
-          ) {
+          if ((showAll || filter?.selected || type === contentTypes.SUBJECT) && items.length) {
             const toCount = filter ? filter?.page * filter?.pageSize : 0;
 
             return (
               <Fragment key={`searchresult-${type}`}>
                 <SearchTypeResult
                   filters={
-                    filter?.filters?.filter(
-                      (filter) =>
-                        resourceTypes.includes(filter.id) ||
-                        filter.id === 'all',
-                    ) ?? []
+                    filter?.filters?.filter((filter) => resourceTypes.includes(filter.id) || filter.id === "all") ?? []
                   }
                   onFilterClick={(id) => handleSubFilterClick(type, id)}
                   items={items.slice(0, toCount)}
@@ -59,11 +52,10 @@ const SearchResults = ({
                   pagination={{
                     totalCount,
                     toCount: Math.min(toCount, totalCount),
-                    onShowMore: () =>
-                      handleShowMore(type === 'topic' ? 'topic-article' : type),
+                    onShowMore: () => handleShowMore(type === "topic" ? "topic-article" : type),
                   }}
                   //@ts-ignore
-                  type={type === 'topic-article' ? 'topic' : type}
+                  type={type === "topic-article" ? "topic" : type}
                   viewType={viewType}
                   totalCount={totalCount}
                 ></SearchTypeResult>

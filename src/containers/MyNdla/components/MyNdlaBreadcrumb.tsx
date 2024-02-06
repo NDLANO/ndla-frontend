@@ -6,40 +6,34 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { Breadcrumb } from '@ndla/ui';
-import { GQLBreadcrumb } from '../../../graphqlTypes';
-import {
-  MyNdla,
-  MyNdlaArena,
-  MyNdlaFolders,
-  MyNdlaSubjects,
-  MyNdlaTags,
-} from '../../../routeHelpers';
+import { useTranslation } from "react-i18next";
+import { Breadcrumb } from "@ndla/ui";
+import { GQLBreadcrumb } from "../../../graphqlTypes";
+import { MyNdla, MyNdlaArena, MyNdlaFolders, MyNdlaSubjects, MyNdlaTags } from "../../../routeHelpers";
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
   page: PageType;
 }
 
-type PageType = 'folders' | 'tags' | 'subjects' | 'arena';
+type PageType = "folders" | "tags" | "subjects" | "arena" | "admin";
 
 const types = {
   folders: {
     to: MyNdlaFolders,
-    name: 'myNdla.myFolders',
+    name: "myNdla.myFolders",
   },
   tags: {
     to: MyNdlaTags,
-    name: 'myNdla.myTags',
+    name: "myNdla.myTags",
   },
   subjects: {
     to: MyNdlaSubjects,
-    name: 'myNdla.favoriteSubjects',
+    name: "myNdla.favoriteSubjects",
   },
   arena: {
     to: MyNdlaArena,
-    name: 'myNdla.arena.title',
+    name: "myNdla.arena.title",
   },
 };
 

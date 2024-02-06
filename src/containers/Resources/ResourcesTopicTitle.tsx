@@ -6,23 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import { LearningPathQuiz } from '@ndla/icons/contentType';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalCloseButton,
-  Modal,
-  ModalTrigger,
-  ModalContent,
-} from '@ndla/modal';
-import { Switch } from '@ndla/switch';
-import { Heading, Text } from '@ndla/typography';
-import { HeadingType } from '../../interfaces';
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
+import { LearningPathQuiz } from "@ndla/icons/contentType";
+import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Switch } from "@ndla/switch";
+import { Heading, Text } from "@ndla/typography";
+import { HeadingType } from "../../interfaces";
 
 const switchCSS = css`
   margin-right: ${spacing.xsmall};
@@ -56,6 +49,16 @@ const StyledRow = styled.div`
   gap: ${spacing.xsmall};
 `;
 
+const StyledSwitch = styled(Switch)`
+  border: 2px solid transparent;
+  border-radius: ${misc.borderRadius};
+  &:focus,
+  &:focus-visible,
+  &:focus-within {
+    border-color: ${colors.brand.dark};
+  }
+`;
+
 const StyledHGroup = styled.hgroup`
   display: flex;
   gap: ${spacing.small};
@@ -82,12 +85,10 @@ const ResourcesTopicTitle = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const tooltipId = 'popupDialogTooltip';
+  const tooltipId = "popupDialogTooltip";
 
   return (
-    <TopicTitleWrapper
-      css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}
-    >
+    <TopicTitleWrapper css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}>
       <StyledHGroup>
         <Heading element={heading} headingStyle="list-title" margin="none">
           {title}
@@ -99,10 +100,10 @@ const ResourcesTopicTitle = ({
       {hasAdditionalResources && (
         <StyledRow>
           <form>
-            <Switch
+            <StyledSwitch
               id="toggleAdditionID"
               checked={showAdditionalResources}
-              label={t('resource.activateAdditionalResources')}
+              label={t("resource.activateAdditionalResources")}
               onChange={toggleAdditionalResources}
               css={invertedStyle ? invertedSwitchCSS : switchCSS}
             />
@@ -113,21 +114,21 @@ const ResourcesTopicTitle = ({
                 colorTheme="light"
                 inverted={invertedStyle}
                 id={tooltipId}
-                aria-label={t('resource.dialogTooltip')}
-                title={t('resource.dialogTooltip')}
+                aria-label={t("resource.dialogTooltip")}
+                title={t("resource.dialogTooltip")}
               >
                 <LearningPathQuiz />
               </IconButtonV2>
             </ModalTrigger>
             <ModalContent>
               <ModalHeader>
-                <h1>{t('resource.dialogHeading')}</h1>
-                <ModalCloseButton title={t('modal.closeModal')} />
+                <h1>{t("resource.dialogHeading")}</h1>
+                <ModalCloseButton title={t("modal.closeModal")} />
               </ModalHeader>
               <ModalBody>
                 <hr />
-                <p>{t('resource.dialogText1')}</p>
-                <p>{t('resource.dialogText2')}</p>
+                <p>{t("resource.dialogText1")}</p>
+                <p>{t("resource.dialogText2")}</p>
               </ModalBody>
             </ModalContent>
           </Modal>

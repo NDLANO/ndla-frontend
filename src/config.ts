@@ -5,38 +5,32 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LocaleType } from './interfaces';
+import { LocaleType } from "./interfaces";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string,
-): string | undefined;
-export function getEnvironmentVariabel(
-  key: string,
-  fallback?: string | boolean,
-): string | boolean | undefined {
-  const env = 'env';
+export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
+export function getEnvironmentVariabel(key: string, fallback?: string | boolean): string | boolean | undefined {
+  const env = "env";
   const variableValue = process[env][key]; // Hack to prevent DefinePlugin replacing process.env
-  if (typeof fallback === 'boolean') {
-    return variableValue ? variableValue.toLowerCase() === 'true' : fallback;
+  if (typeof fallback === "boolean") {
+    return variableValue ? variableValue.toLowerCase() === "true" : fallback;
   }
 
   return variableValue || fallback;
 }
 
-const ndlaEnvironment = getEnvironmentVariabel('NDLA_ENVIRONMENT', 'dev');
-const ndlaEnvironmentHostname = ndlaEnvironment.replace('_', '-');
+const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "dev");
+const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
 
 const apiDomain = (): string => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://api-gateway.ndla-local';
-    case 'dev':
-      return 'https://api.test.ndla.no';
-    case 'prod':
-      return 'https://api.ndla.no';
+    case "local":
+      return "http://api-gateway.ndla-local";
+    case "dev":
+      return "https://api.test.ndla.no";
+    case "prod":
+      return "https://api.ndla.no";
     default:
       return `https://api.${ndlaEnvironmentHostname}.ndla.no`;
   }
@@ -44,12 +38,12 @@ const apiDomain = (): string => {
 
 const ndlaFrontendDomain = (): string => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://localhost:30017';
-    case 'dev':
-      return 'https://test.ndla.no';
-    case 'prod':
-      return 'https://ndla.no';
+    case "local":
+      return "http://localhost:30017";
+    case "dev":
+      return "https://test.ndla.no";
+    case "prod":
+      return "https://ndla.no";
     default:
       return `https://${ndlaEnvironmentHostname}.ndla.no`;
   }
@@ -57,12 +51,12 @@ const ndlaFrontendDomain = (): string => {
 
 const learningPathDomain = (): string => {
   switch (ndlaEnvironment) {
-    case 'local':
-      return 'http://localhost:30007';
-    case 'dev':
-      return 'https://stier.test.ndla.no';
-    case 'prod':
-      return 'https://stier.ndla.no';
+    case "local":
+      return "http://localhost:30007";
+    case "dev":
+      return "https://stier.test.ndla.no";
+    case "prod":
+      return "https://stier.ndla.no";
     default:
       return `https://stier.${ndlaEnvironmentHostname}.ndla.no`;
   }
@@ -70,25 +64,24 @@ const learningPathDomain = (): string => {
 
 export const feideDomain = (): string => {
   switch (ndlaEnvironment) {
-    case 'local':
-    case 'dev':
-      return 'localhost';
-    case 'prod':
-      return 'ndla.no';
+    case "local":
+    case "dev":
+      return "localhost";
+    case "prod":
+      return "ndla.no";
     default:
       return `${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
 const logglyApiKey = (): string | undefined => {
-  if (process.env.NODE_ENV === 'unittest') {
-    return '';
+  if (process.env.NODE_ENV === "unittest") {
+    return "";
   }
-  return getEnvironmentVariabel('LOGGLY_API_KEY');
+  return getEnvironmentVariabel("LOGGLY_API_KEY");
 };
 
-export const getDefaultLocale = () =>
-  getEnvironmentVariabel('NDLA_DEFAULT_LOCALE', 'nb');
+export const getDefaultLocale = () => getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb");
 
 export type ConfigType = {
   defaultLocale: LocaleType;
@@ -115,52 +108,41 @@ export type ConfigType = {
   isVercel: boolean;
   monsidoToken: string;
   arenaModeratorGroup: string;
+  arenaAdminGroup: string;
+  enableNodeBB: boolean;
 };
 
 const config: ConfigType = {
-  defaultLocale: getEnvironmentVariabel(
-    'NDLA_DEFAULT_LOCALE',
-    'nb',
-  ) as LocaleType,
-  componentName: 'ndla-frontend',
+  defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb") as LocaleType,
+  componentName: "ndla-frontend",
   ndlaEnvironment,
-  host: getEnvironmentVariabel('NDLA_FRONTEND_HOST', 'localhost'),
-  port: getEnvironmentVariabel('NDLA_FRONTEND_PORT', '3000'),
-  redirectPort: getEnvironmentVariabel('NDLA_REDIRECT_PORT', '3001'),
-  logEnvironment: getEnvironmentVariabel('NDLA_ENVIRONMENT', 'local'),
+  host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),
+  port: getEnvironmentVariabel("NDLA_FRONTEND_PORT", "3000"),
+  redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
+  logEnvironment: getEnvironmentVariabel("NDLA_ENVIRONMENT", "local"),
   logglyApiKey: logglyApiKey(),
-  disableSSR: getEnvironmentVariabel('RAZZLE_DISABLE_SSR', false),
-  isNdlaProdEnvironment: ndlaEnvironment === 'prod',
-  ndlaApiUrl: getEnvironmentVariabel('NDLA_API_URL', apiDomain()),
-  ndlaFrontendDomain: getEnvironmentVariabel(
-    'FRONTEND_DOMAIN',
-    ndlaFrontendDomain(),
-  ),
-  learningPathDomain: getEnvironmentVariabel(
-    'LEARNINGPATH_DOMAIN',
-    learningPathDomain(),
-  ),
-  zendeskWidgetKey: getEnvironmentVariabel('NDLA_ZENDESK_WIDGET_KEY'),
-  localGraphQLApi: getEnvironmentVariabel('LOCAL_GRAPHQL_API', false),
-  saamiEnabled: getEnvironmentVariabel('SAAMI_ENABLED', false),
+  disableSSR: getEnvironmentVariabel("DISABLE_SSR", false),
+  isNdlaProdEnvironment: ndlaEnvironment === "prod",
+  ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", apiDomain()),
+  ndlaFrontendDomain: getEnvironmentVariabel("FRONTEND_DOMAIN", ndlaFrontendDomain()),
+  learningPathDomain: getEnvironmentVariabel("LEARNINGPATH_DOMAIN", learningPathDomain()),
+  zendeskWidgetKey: getEnvironmentVariabel("NDLA_ZENDESK_WIDGET_KEY"),
+  localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
+  saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
   feideDomain: feideDomain(),
-  feideEnabled: getEnvironmentVariabel('FEIDE_ENABLED', false),
-  matomoUrl: getEnvironmentVariabel('MATOMO_URL', 'https://tall.ndla.no'),
-  matomoSiteId: getEnvironmentVariabel('MATOMO_SITE_ID', ''),
-  matomoTagmanagerId: getEnvironmentVariabel('MATOMO_TAGMANAGER_ID', ''),
-  isVercel: getEnvironmentVariabel('IS_VERCEL', false),
-  monsidoToken: getEnvironmentVariabel('MONSIDO_TOKEN', ''),
-  arenaModeratorGroup: getEnvironmentVariabel(
-    'ARENA_MODERATOR_GROUP',
-    'Global Moderators',
-  ),
+  feideEnabled: getEnvironmentVariabel("FEIDE_ENABLED", false),
+  matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
+  matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
+  matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
+  isVercel: getEnvironmentVariabel("IS_VERCEL", false),
+  monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
+  arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
+  arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
+  enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
 };
 
 export function getUniversalConfig() {
-  return process.env.BUILD_TARGET === 'server' ||
-    process.env.NODE_ENV === 'unittest'
-    ? config
-    : window.DATA.config;
+  return process.env.BUILD_TARGET === "server" || process.env.NODE_ENV === "unittest" ? config : window.DATA.config;
 }
 
 export default getUniversalConfig();

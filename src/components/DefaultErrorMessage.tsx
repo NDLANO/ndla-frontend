@@ -6,8 +6,8 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { OneColumn, ErrorMessage } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import { OneColumn, ErrorMessage } from "@ndla/ui";
 
 interface Props {
   minimal?: boolean;
@@ -18,15 +18,15 @@ const DefaultErrorMessage = ({ minimal }: Props) => {
   const illustrations = minimal
     ? undefined
     : {
-        url: '/static/oops.gif',
-        altText: t('errorMessage.title'),
+        url: "/static/oops.gif",
+        altText: t("errorMessage.title"),
       };
   const messages = {
-    title: t('errorMessage.title'),
-    description: t('errorMessage.description'),
+    title: t("errorMessage.title"),
+    description: t("errorMessage.description"),
     ...(!minimal && {
-      linksTitle: t('errorMessage.linksTitle'),
-      goToFrontPage: t('errorMessage.goToFrontPage'),
+      linksTitle: t("errorMessage.linksTitle"),
+      goToFrontPage: t("errorMessage.goToFrontPage"),
     }),
   };
 

@@ -6,23 +6,23 @@
  *
  */
 
-import { useEffect, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { Forward } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import SubjectLink from '../../AllSubjectsPage/SubjectLink';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-import MyNdlaTitle from '../components/MyNdlaTitle';
-import SettingsMenu from '../components/SettingsMenu';
-import { buttonCss, iconCss } from '../Folders/FoldersPage';
-import { useSubjects } from '../subjectQueries';
+import { useEffect, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Forward } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import SubjectLink from "../../AllSubjectsPage/SubjectLink";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import MyNdlaTitle from "../components/MyNdlaTitle";
+import SettingsMenu from "../components/SettingsMenu";
+import { buttonCss, iconCss } from "../Folders/FoldersPage";
+import { useSubjects } from "../subjectQueries";
 
 const StyledSubjectLink = styled(SubjectLink)`
   border: 1px solid ${colors.brand.neutral7};
@@ -39,9 +39,11 @@ const Wrapper = styled.div`
 `;
 
 const StyledUl = styled.ul`
+  display: flex;
+  flex-direction: column;
   padding: 0;
-  margin: 0;
   width: 100%;
+  gap: ${spacing.small};
 `;
 
 const FavoriteSubjectsPage = () => {
@@ -59,20 +61,15 @@ const FavoriteSubjectsPage = () => {
   useEffect(() => {
     if (!authContextLoaded) return;
     trackPageView({
-      title: t('myNdla.favoriteSubjects.title'),
+      title: t("myNdla.favoriteSubjects.title"),
       dimensions: getAllDimensions({ user }),
     });
   }, [authContextLoaded, t, trackPageView, user]);
 
   const allSubjects = useMemo(
     () => (
-      <SafeLinkButton
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to="/subjects"
-      >
-        {t('subjectsPage.allSubjects')}
+      <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
+        {t("subjectsPage.allSubjects")}
         <Forward css={iconCss} />
       </SafeLinkButton>
     ),
@@ -84,11 +81,12 @@ const FavoriteSubjectsPage = () => {
       <SettingsMenu
         menuItems={[
           {
-            text: t('subjectsPage.allSubjects'),
+            text: t("subjectsPage.allSubjects"),
             icon: <Forward css={iconCss} />,
-            onClick: () => navigate('/subjects'),
+            onClick: () => navigate("/subjects"),
           },
         ]}
+        modalHeader={t("myNdla.tools")}
       />
     ),
     [t, navigate],
@@ -101,20 +99,16 @@ const FavoriteSubjectsPage = () => {
   return (
     <MyNdlaPageWrapper buttons={allSubjects} dropDownMenu={dropDown}>
       <Wrapper>
-        <HelmetWithTracker title={t('myNdla.favoriteSubjects.title')} />
-        <MyNdlaTitle title={t('myNdla.favoriteSubjects.title')} />
+        <HelmetWithTracker title={t("myNdla.favoriteSubjects.title")} />
+        <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
         {loading ? (
           <Spinner />
         ) : !favoriteSubjects?.length ? (
-          <p>{t('myNdla.favoriteSubjects.noFavorites')}</p>
+          <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
         ) : (
           <StyledUl>
             {favoriteSubjects.map((subject) => (
-              <StyledSubjectLink
-                key={subject.id}
-                favorites={user?.favoriteSubjects}
-                subject={subject}
-              />
+              <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
           </StyledUl>
         )}

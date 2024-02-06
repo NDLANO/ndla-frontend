@@ -6,29 +6,26 @@
  *
  */
 
-import { $getRoot, $insertNodes, EditorState } from 'lexical';
-import { forwardRef, useState } from 'react';
-import styled from '@emotion/styled';
-import { $generateNodesFromDOM } from '@lexical/html';
-import { $convertToMarkdownString } from '@lexical/markdown';
-import {
-  LexicalComposer,
-  InitialConfigType,
-} from '@lexical/react/LexicalComposer';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { colors, misc, spacing } from '@ndla/core';
-import { useFormControl } from '@ndla/forms';
-import { editorTheme } from './editorTheme';
-import { EditorToolbar } from './EditorToolbar';
-import { FloatingLinkEditorPlugin } from './FloatingLinkEditorPlugin';
-import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from './MarkdownPlugin';
-import { editorNodes } from './nodes';
+import { $getRoot, EditorState } from "lexical";
+import { forwardRef, useState } from "react";
+import styled from "@emotion/styled";
+import { $generateNodesFromDOM } from "@lexical/html";
+import { $convertToMarkdownString } from "@lexical/markdown";
+import { LexicalComposer, InitialConfigType } from "@lexical/react/LexicalComposer";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { colors, misc, spacing } from "@ndla/core";
+import { useFormControl } from "@ndla/forms";
+import { editorTheme } from "./editorTheme";
+import { EditorToolbar } from "./EditorToolbar";
+import { FloatingLinkEditorPlugin } from "./FloatingLinkEditorPlugin";
+import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from "./MarkdownPlugin";
+import { editorNodes } from "./nodes";
 
 const onError = (error: any) => {
   console.error(error);
@@ -37,7 +34,7 @@ const onError = (error: any) => {
 const EditableWrapper = styled.div`
   border-bottom-left-radius: ${misc.borderRadius};
   border-bottom-right-radius: ${misc.borderRadius};
-  background-color: ${colors.brand.greyLightest};
+  background-color: ${colors.white};
   min-height: 115px;
   display: flex;
   flex-direction: column;
@@ -54,7 +51,7 @@ const EditableWrapper = styled.div`
     ul,
     ol {
       padding: 0px;
-      padding-left: ${spacing.small};
+      padding-left: ${spacing.normal};
       margin: 0px;
     }
   }
@@ -66,11 +63,20 @@ const StyledEditorContainer = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.greyLight};
+  border: 1px solid ${colors.brand.grey};
 `;
 
 const InnerEditorContainer = styled.div`
   position: relative;
+`;
+
+const StyledContentEditable = styled(ContentEditable)`
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.brand.primary};
+    border-radius: ${misc.borderRadius};
+  }
 `;
 
 interface Props {
@@ -79,68 +85,76 @@ interface Props {
   name: string;
 }
 
-export const MarkdownEditor = forwardRef(
-  ({ name, setContentWritten, initialValue }: Props, _) => {
-    const [floatingAnchorElem, setFloatingAnchorElem] = useState<
-      HTMLDivElement | undefined
-    >(undefined);
-    const props = useFormControl({});
-    const initialConfig: InitialConfigType = {
-      namespace: 'MyEditor',
-      onError,
-      nodes: editorNodes,
-      theme: editorTheme,
-      editorState: (editor) => {
-        const parser = new DOMParser();
-        const nodes = $generateNodesFromDOM(
-          editor,
-          parser.parseFromString(initialValue, 'text/html'),
-        );
-        $getRoot().select();
-        $insertNodes(nodes);
-      },
-    };
+export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Props, _) => {
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
+  const props = useFormControl({});
+  const [editorFocused, setEditorFocused] = useState(false);
+  const initialConfig: InitialConfigType = {
+    namespace: "MyEditor",
+    onError,
+    nodes: editorNodes,
+    theme: editorTheme,
+    editorState: (editor) => {
+      const parser = new DOMParser();
+      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
+      $getRoot().select().insertNodes(nodes);
+      setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
+    },
+  };
 
-    const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-      if (_floatingAnchorElem !== null) {
-        setFloatingAnchorElem(_floatingAnchorElem);
-      }
-    };
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
-    const onChange = (editorState: EditorState) => {
-      editorState.read(() => {
-        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-        setContentWritten(markdown);
-      });
-    };
+  /**
+   * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+   * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+   * */
+  const onChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+      setContentWritten(markdown);
+    });
+  };
 
-    return (
-      <StyledEditorContainer>
-        <LexicalComposer initialConfig={initialConfig}>
-          <EditorToolbar />
-          <InnerEditorContainer>
-            <RichTextPlugin
-              contentEditable={
-                <EditableWrapper ref={onRef}>
-                  <ContentEditable name={name} role="textbox" {...props} />
-                </EditableWrapper>
-              }
-              placeholder={<span />}
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-          </InnerEditorContainer>
-          {floatingAnchorElem ? (
-            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} />
-          ) : (
-            ''
-          )}
-          <ListPlugin />
-          <LinkPlugin />
-          <MarkdownPlugin />
-          <HistoryPlugin />
-          <OnChangePlugin ignoreSelectionChange onChange={onChange} />
-        </LexicalComposer>
-      </StyledEditorContainer>
-    );
-  },
-);
+  return (
+    <StyledEditorContainer>
+      <LexicalComposer initialConfig={initialConfig}>
+        <EditorToolbar editorIsFocused={editorFocused} />
+        <InnerEditorContainer>
+          <RichTextPlugin
+            contentEditable={
+              <EditableWrapper ref={onRef}>
+                <StyledContentEditable
+                  name={name}
+                  role="textbox"
+                  onFocus={() => {
+                    setEditorFocused(true);
+                  }}
+                  onBlur={() => {
+                    setEditorFocused(false);
+                  }}
+                  {...props}
+                />
+              </EditableWrapper>
+            }
+            placeholder={<span />}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+        </InnerEditorContainer>
+        {floatingAnchorElem ? (
+          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} editorIsFocused={editorFocused} />
+        ) : (
+          ""
+        )}
+        <ListPlugin />
+        <LinkPlugin />
+        <MarkdownPlugin />
+        <HistoryPlugin />
+        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
+      </LexicalComposer>
+    </StyledEditorContainer>
+  );
+});

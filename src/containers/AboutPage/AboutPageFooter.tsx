@@ -6,18 +6,18 @@
  *
  */
 
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { Forward } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Heading } from '@ndla/typography';
-import { FRONTPAGE_ARTICLE_MAX_WIDTH } from '@ndla/ui';
-import { findBreadcrumb } from './AboutPageContent';
-import { GQLAboutPageFooter_FrontpageMenuFragment } from '../../graphqlTypes';
-import { toAbout } from '../../routeHelpers';
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Forward } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Heading } from "@ndla/typography";
+import { FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
+import { findBreadcrumb } from "./AboutPageContent";
+import { GQLAboutPageFooter_FrontpageMenuFragment } from "../../graphqlTypes";
+import { toAbout } from "../../routeHelpers";
 
 interface Props {
   frontpage: GQLAboutPageFooter_FrontpageMenuFragment;
@@ -26,12 +26,11 @@ interface Props {
 const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
-  margin: 0px;
   padding: 0px;
   list-style: none;
   gap: ${spacing.small};
   li {
-    margin: 0px;
+    padding: 0px;
   }
 `;
 
@@ -42,7 +41,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
   border-color: ${colors.brand.tertiary};
   border-width: 1px;
   background-color: ${colors.background.lightBlue};
-  &[data-current='true'] {
+  &[data-current="true"] {
     background-color: ${colors.brand.primary};
     color: ${colors.white};
     svg {
@@ -56,7 +55,7 @@ const StyledSubSafeLinkButton = styled(SafeLinkButton)`
   padding-left: ${spacing.medium};
   padding-right: ${spacing.medium};
   justify-content: space-between;
-  &[aria-current='page'] {
+  &[aria-current="page"] {
     &:not(:hover, :focus, :focus-visible) {
       background-color: ${colors.brand.primary};
       color: ${colors.white};
@@ -88,10 +87,7 @@ const StyledNav = styled.nav`
 const AboutPageFooter = ({ frontpage }: Props) => {
   const { slug } = useParams();
 
-  const crumb = useMemo(
-    () => findBreadcrumb(frontpage.menu ?? [], slug),
-    [frontpage.menu, slug],
-  );
+  const crumb = useMemo(() => findBreadcrumb(frontpage.menu ?? [], slug), [frontpage.menu, slug]);
 
   const [title, menu] = useMemo(() => {
     if (frontpage.article.slug === slug) {
@@ -101,10 +97,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
     // If the current page does not have a menu, use the parent menu.
     const menu = item?.menu ?? crumb[crumb.length - 2]?.menu ?? [];
     // If the current page does not have a menu, use the parent title.
-    return [
-      item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title,
-      menu,
-    ];
+    return [item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title, menu];
   }, [crumb, frontpage, slug]);
 
   const isRoot = useMemo(() => crumb.length === 1, [crumb]);
@@ -126,7 +119,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   variant="ghost"
                   colorTheme="light"
                   shape="sharp"
-                  aria-current={menuItem.article.slug === slug ? 'page' : false}
+                  aria-current={menuItem.article.slug === slug ? "page" : false}
                 >
                   {menuItem.article.title}
                   <Forward />
@@ -136,7 +129,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   to={toAbout(menuItem.article.slug)}
                   variant="ghost"
                   colorTheme="light"
-                  aria-current={menuItem.article.slug === slug ? 'page' : false}
+                  aria-current={menuItem.article.slug === slug ? "page" : false}
                 >
                   {menuItem.article.title}
                 </StyledSubSafeLinkButton>

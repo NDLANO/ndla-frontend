@@ -6,9 +6,9 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq } from '@ndla/core';
+import { DetailedHTMLProps, HTMLAttributes } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq } from "@ndla/core";
 
 const StyledDiv = styled.div`
   display: none;
@@ -35,15 +35,11 @@ const StyledDiv = styled.div`
     }
   }
 `;
-const DrawerPortion = ({
-  children,
-  ...rest
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
+const DrawerPortion = ({ children, ...rest }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
   return <StyledDiv {...rest}>{children}</StyledDiv>;
 };
 
 const StyledDrawerList = styled.ul`
-  margin: 0;
   padding: 0;
   overflow-y: auto;
 `;
@@ -60,7 +56,6 @@ export const DrawerList = ({
 };
 
 export const DrawerListItem = styled.li`
-  margin: 0;
   padding: 0;
   list-style: none;
   display: flex;

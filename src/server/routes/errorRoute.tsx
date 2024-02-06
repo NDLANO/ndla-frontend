@@ -6,24 +6,23 @@
  *
  */
 
-import { FilledContext, HelmetProvider } from 'react-helmet-async';
-import { I18nextProvider } from 'react-i18next';
-import { MissingRouterContext } from '@ndla/safelink';
-import { i18nInstance } from '@ndla/ui';
-import { RedirectInfo } from '../../components/RedirectContext';
-import ErrorPage from '../../containers/ErrorPage';
-import { INTERNAL_SERVER_ERROR } from '../../statusCodes';
-import { Assets } from '../helpers/Document';
-import { renderHtml, renderPage } from '../helpers/render';
+import { FilledContext, HelmetProvider } from "react-helmet-async";
+import { I18nextProvider } from "react-i18next";
+import { MissingRouterContext } from "@ndla/safelink";
+import { i18nInstance } from "@ndla/ui";
+import { RedirectInfo } from "../../components/RedirectContext";
+import ErrorPage from "../../containers/ErrorPage";
+import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import { Assets } from "../helpers/Document";
+import { renderHtml, renderPage } from "../helpers/render";
 
 //@ts-ignore
-const assets: Record<string, string> = require(process.env
-  .RAZZLE_ASSETS_MANIFEST); //eslint-disable-line
+const assets = require(process.env.ASSETS_MANIFEST);
 
 const getAssets = (): Assets => ({
-  css: assets['client.css'],
+  css: assets["client.css"],
   // Error page is a static page, only use js to inject css under development
-  js: assets['injectCss.js'] ? [{ src: assets['injectCss.js'] }] : [],
+  js: assets["injectCss.js"] ? [{ src: assets["injectCss.js"] }] : [],
 });
 
 async function doRenderError(status = INTERNAL_SERVER_ERROR) {

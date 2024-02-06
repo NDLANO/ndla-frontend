@@ -6,26 +6,25 @@
  *
  */
 
-import { useCallback, useContext, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { Heading, Text } from '@ndla/typography';
-import { ArenaFormValues } from './components/ArenaForm';
-import ArenaTextModal from './components/ArenaTextModal';
-import TopicCard from './components/TopicCard';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
-import { MyNdla, toMyNdlaArenaTopic } from '../../../routeHelpers';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import { useCreateArenaTopic } from '../arenaMutations';
-import { arenaCategoryQuery, useArenaCategory } from '../arenaQueries';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
-
+import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { Eye } from "@ndla/icons/editor";
+import { SafeLinkButton } from "@ndla/safelink";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading, Text } from "@ndla/typography";
+import { useArenaCategory } from "./components/temporaryNodebbHooks";
+import TopicCard from "./components/TopicCard";
+import { toArena } from "./utils";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { MyNdla, toMyNdlaArenaTopic } from "../../../routeHelpers";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
 `;
@@ -47,108 +46,92 @@ const StyledContainer = styled.div`
 const StyledCardContainer = styled.li`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  padding: 0;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const StyledEye = styled(Eye)`
+  width: ${spacing.normal};
+  height: ${spacing.normal};
+  margin-left: ${spacing.small};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.xsmall};
 `;
 
 const TopicPage = () => {
   const { t } = useTranslation();
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
-  const navigate = useNavigate();
 
-  const { loading, arenaCategory } = useArenaCategory({
-    variables: { categoryId: Number(categoryId), page: 1 },
-    skip: !Number(categoryId),
-  });
+  const { loading, arenaCategory } = useArenaCategory(categoryId);
   const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
-      title: t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name }),
+      title: t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaCategory?.name, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
-  const { createArenaTopic } = useCreateArenaTopic({
-    refetchQueries: [
-      {
-        query: arenaCategoryQuery,
-        variables: { categoryId: arenaCategory?.id, page: 1 },
-      },
-    ],
-  });
-
-  const createTopic = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
-      if (arenaCategory) {
-        const topic = await createArenaTopic({
-          variables: {
-            content: data.content ?? '',
-            title: data.title ?? '',
-            categoryId: arenaCategory?.id,
-          },
-        });
-        navigate(toMyNdlaArenaTopic(topic.data?.newArenaTopic?.id));
-      }
-    },
-    [arenaCategory, createArenaTopic, navigate],
-  );
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (!user?.arenaEnabled && user?.arenaEnabled !== undefined) {
-    return <Navigate to={MyNdla} />;
-  }
+  if (loading || !authContextLoaded) return <Spinner />;
+  if (!user?.arenaEnabled) return <Navigate to={MyNdla} />;
+  if (!arenaCategory) return <Navigate to={toArena()} />;
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('htmlTitles.arenaTopicPage', { name: arenaCategory?.name })}
-      />
+      <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
-          breadcrumbs={
-            categoryId
-              ? [{ name: arenaCategory?.name ?? '', id: categoryId }]
-              : []
-          }
-          page={'arena'}
+          breadcrumbs={categoryId ? [{ name: arenaCategory?.title ?? "", id: categoryId }] : []}
+          page={"arena"}
         />
       </BreadcrumbWrapper>
-      <Heading
-        element="h1"
-        id={SKIP_TO_CONTENT_ID}
-        headingStyle="h1-resource"
-        margin="small"
-      >
-        {arenaCategory?.name}
-      </Heading>
+      <HeaderWrapper>
+        <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+          {arenaCategory?.title}
+          {user.isModerator && !arenaCategory?.visible && (
+            <StyledEye
+              title={t("myNdla.arena.admin.category.notVisible")}
+              aria-label={t("myNdla.arena.admin.category.notVisible")}
+              aria-hidden={false}
+            />
+          )}
+        </Heading>
+      </HeaderWrapper>
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
       </Text>
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
-          {t('myNdla.arena.category.posts')}
+          {t("myNdla.arena.posts.title")}
         </Heading>
-        <ArenaTextModal type="topic" onSave={createTopic} />
+        <ButtonContainer>
+          {user.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+          <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
+        </ButtonContainer>
       </StyledContainer>
       <ListWrapper>
-        {arenaCategory?.topics
-          ?.filter(({ deleted }) => !deleted)
-          .map((topic) => (
-            <StyledCardContainer key={`topicContainer-${topic.id}`}>
-              <TopicCard
-                key={`topic-${topic.id}`}
-                id={topic.id}
-                title={topic.title}
-                timestamp={topic.timestamp}
-                count={topic.postCount}
-              />
-            </StyledCardContainer>
-          ))}
+        {arenaCategory?.topics?.map((topic) => (
+          <StyledCardContainer key={`topicContainer-${topic.id}`}>
+            <TopicCard
+              key={`topic-${topic.id}`}
+              id={topic.id}
+              title={topic.title}
+              timestamp={topic.created}
+              count={topic.postCount}
+            />
+          </StyledCardContainer>
+        ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
   );

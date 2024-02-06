@@ -6,26 +6,26 @@
  *
  */
 
-import parse from 'html-react-parser';
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { extractEmbedMeta } from '@ndla/article-converter';
-import { useTracker } from '@ndla/tracker';
-import { Topic } from '@ndla/ui';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { SKIP_TO_CONTENT_ID } from '../../../constants';
+import parse from "html-react-parser";
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { extractEmbedMeta } from "@ndla/article-converter";
+import { useTracker } from "@ndla/tracker";
+import { Topic } from "@ndla/ui";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_SubjectFragment,
   GQLToolboxTopicWrapper_TopicFragment,
-} from '../../../graphqlTypes';
-import { toTopic } from '../../../routeHelpers';
-import { htmlTitle } from '../../../util/titleHelper';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import Resources from '../../Resources/Resources';
-import TopicVisualElementContent from '../../SubjectPage/components/TopicVisualElementContent';
+} from "../../../graphqlTypes";
+import { toTopic } from "../../../routeHelpers";
+import { htmlTitle } from "../../../util/titleHelper";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import Resources from "../../Resources/Resources";
+import TopicVisualElementContent from "../../SubjectPage/components/TopicVisualElementContent";
 
 interface Props {
   subject: GQLToolboxTopicWrapper_SubjectFragment;
@@ -37,26 +37,17 @@ interface Props {
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
-  return htmlTitle(name, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
 };
 
-const ToolboxTopicWrapper = ({
-  subject,
-  topicList,
-  index,
-  topic,
-  resourceTypes,
-  loading,
-}: Props) => {
+const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
 
   useEffect(() => {
     if (authContextLoaded && topic && index === topicList.length - 1) {
-      const topicPath = topicList.map(
-        (t) => subject.allTopics?.find((topic) => topic.id === t),
-      );
+      const topicPath = topicList.map((t) => subject.allTopics?.find((topic) => topic.id === t));
       const dimensions = getAllDimensions({
         subject,
         topicPath,
@@ -66,46 +57,22 @@ const ToolboxTopicWrapper = ({
       });
       trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
     }
-  }, [
-    authContextLoaded,
-    index,
-    subject,
-    t,
-    topic,
-    topicList,
-    trackPageView,
-    user,
-  ]);
+  }, [authContextLoaded, index, subject, t, topic, topicList, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
     if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(
-      topic.article.visualElementEmbed?.content,
-    );
+    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed?.content);
     return embedMeta;
   }, [topic?.article?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta)
-      return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.visualElementEmbed?.meta}
-      />
-    );
+    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
   }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return (
-        <Resources
-          topic={topic}
-          resourceTypes={resourceTypes}
-          headingType="h3"
-          subHeadingType="h4"
-        />
-      );
+      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
     }
     return null;
   }, [resourceTypes, topic]);
@@ -115,9 +82,9 @@ const ToolboxTopicWrapper = ({
   }
 
   const subTopics = topic?.subtopics?.map((subtopic) => {
-    const path = topic.path || '';
+    const path = topic.path || "";
     const topicPath = path
-      .split('/')
+      .split("/")
       .slice(2)
       .map((id) => `urn:${id}`);
     return {
@@ -130,16 +97,12 @@ const ToolboxTopicWrapper = ({
 
   return (
     <Topic
-      id={
-        topic.id === topicList[topicList.length - 1]
-          ? SKIP_TO_CONTENT_ID
-          : undefined
-      }
+      id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
       frame={subTopics?.length === 0}
       isLoading={loading}
       subTopics={subTopics}
       title={topic.article.title}
-      introduction={parse(topic.article.introduction ?? '')}
+      introduction={parse(topic.article.introduction ?? "")}
       metaImage={topic.article.metaImage}
       visualElementEmbedMeta={embedMeta}
       visualElement={visualElement}

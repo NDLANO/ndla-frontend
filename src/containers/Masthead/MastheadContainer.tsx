@@ -6,30 +6,27 @@
  *
  */
 
-import { useContext } from 'react';
+import { useContext } from "react";
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import { Feide } from '@ndla/icons/common';
-import { Masthead, LanguageSelector, Logo } from '@ndla/ui';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import { Feide } from "@ndla/icons/common";
+import { Masthead, LanguageSelector, Logo } from "@ndla/ui";
 
-import MastheadSearch from './components/MastheadSearch';
-import MastheadDrawer from './drawer/MastheadDrawer';
-import { useAlerts } from '../../components/AlertsContext';
-import { AuthContext } from '../../components/AuthenticationContext';
-import FeideLoginButton from '../../components/FeideLoginButton';
-import config from '../../config';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import {
-  GQLMastHeadQuery,
-  GQLMastHeadQueryVariables,
-} from '../../graphqlTypes';
-import { supportedLanguages } from '../../i18n';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import ErrorBoundary from '../ErrorPage/ErrorBoundary';
+import MastheadSearch from "./components/MastheadSearch";
+import MastheadDrawer from "./drawer/MastheadDrawer";
+import { useAlerts } from "../../components/AlertsContext";
+import { AuthContext } from "../../components/AuthenticationContext";
+import FeideLoginButton from "../../components/FeideLoginButton";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
+import { supportedLanguages } from "../../i18n";
+import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
+import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled.span`
   ${mq.range({ until: breakpoints.mobileWide })} {
@@ -79,10 +76,7 @@ const MastheadContainer = () => {
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const ndlaFilm = useIsNdlaFilm();
-  const { data: freshData, previousData } = useGraphQuery<
-    GQLMastHeadQuery,
-    GQLMastHeadQueryVariables
-  >(mastheadQuery, {
+  const { data: freshData, previousData } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
     },
@@ -110,27 +104,16 @@ const MastheadContainer = () => {
           <MastheadDrawer subject={data?.subject} />
         </DrawerWrapper>
         <LogoWrapper>
-          <Logo
-            to="/"
-            locale={locale}
-            label="NDLA"
-            cssModifier={ndlaFilm ? 'white' : ''}
-          />
+          <Logo to="/" locale={locale} label="NDLA" cssModifier={ndlaFilm ? "white" : ""} />
         </LogoWrapper>
         <ButtonWrapper>
           <MastheadSearch subject={data?.subject} />
           <LanguageSelectWrapper>
-            <LanguageSelector
-              inverted={ndlaFilm}
-              locales={supportedLanguages}
-              onSelect={i18n.changeLanguage}
-            />
+            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={i18n.changeLanguage} />
           </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton>
-              <FeideLoginLabel data-hj-suppress>
-                {user ? t('myNdla.myNDLA') : t('login')}
-              </FeideLoginLabel>
+              <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
               <Feide />
             </FeideLoginButton>
           )}

@@ -2,7 +2,7 @@
 
 exports[`Document renderers correctly 1`] = `
 <html
-  lang="nb"
+  lang="no"
 >
   <head>
     <meta

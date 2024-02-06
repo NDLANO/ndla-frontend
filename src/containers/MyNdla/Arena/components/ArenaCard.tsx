@@ -6,23 +6,32 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, breakpoints, mq, misc } from '@ndla/core';
-import { Forum, ForumOutlined } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { toMyNdlaArenaCategory } from '../../../../routeHelpers';
+import { useTranslation } from "react-i18next";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
+import { Forum, ForumOutlined } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import DeleteCategoryModal from "./DeleteCategoryModal";
+import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
+import { toMyNdlaArenaCategory } from "../../../../routeHelpers";
+import DragHandle from "../../Folders/DragHandle";
 
 interface Props {
   id: number;
   title: string;
   subText: string;
-  count: number;
+  count?: number;
+  user: MyNDLAUserType;
+  visible: boolean;
+  isEditing: boolean;
+  index: number;
 }
 
-const StyledSafelink = styled(SafeLink)`
+const StyledCardWrapper = styled.div`
   color: ${colors.text.primary};
   display: flex;
   flex-direction: row;
@@ -33,17 +42,24 @@ const StyledSafelink = styled(SafeLink)`
   border-radius: ${misc.borderRadius};
   box-shadow: none;
 
-  [data-hover-icon=''] {
+  position: relative;
+
+  [data-hover-icon=""] {
     display: none;
+  }
+
+  &[data-visible="false"] {
+    background-color: ${colors.brand.greyLight};
   }
 
   &:hover,
   &:focus-within {
     background-color: ${colors.background.lightBlue};
-    [data-name='hover'] {
+    [data-name="hover"] {
       text-decoration: none;
     }
-    svg {
+
+    [data-normal-icon=""] {
       display: none;
     }
   }
@@ -51,7 +67,7 @@ const StyledSafelink = styled(SafeLink)`
   ${mq.range({ from: breakpoints.mobileWide })} {
     &:hover,
     &:focus-within {
-      [data-hover-icon=''] {
+      [data-hover-icon=""] {
         display: block;
       }
     }
@@ -90,40 +106,92 @@ const iconCss = css`
   }
 `;
 
-const ArenaCard = ({ id, title, subText, count }: Props) => {
+const RightSideContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.normal};
+  align-items: center;
+  z-index: 1;
+`;
+
+const StyledSafeLink = styled(SafeLink)`
+  text-decoration: none;
+  box-shadow: none;
+  color: ${colors.brand.primary};
+  flex: 1;
+
+  // To make the link clickable in the entire container, not only text
+  :after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+`;
+
+const ArenaCardWrapper = styled.li`
+  list-style: none;
+  padding: 0;
+`;
+
+const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing }: Props) => {
   const { t } = useTranslation();
+
+  const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
+    id: id.toString(),
+    data: {
+      name: title,
+      index: index + 1,
+    },
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <StyledSafelink to={toMyNdlaArenaCategory(id)}>
-      <ForumOutlined css={iconCss} />
-      <Forum data-hover-icon="" css={iconCss} />
-      <SpacingContainer>
-        <div>
-          <StyledHeader
-            element="label"
-            textStyle="label-small"
-            margin="none"
-            data-name="hover"
-          >
-            {title}
-          </StyledHeader>
-          <StyledDescriptionText
-            element="p"
-            textStyle="meta-text-small"
-            margin="none"
-          >
-            {subText}
-          </StyledDescriptionText>
-        </div>
-        <StyledCountContainer>
-          <Text element="p" textStyle="content-alt" margin="none">
-            {count}
-          </Text>
-          <Text textStyle="meta-text-small" margin="none">
-            {t('myNdla.arena.category.posts')}
-          </Text>
-        </StyledCountContainer>
-      </SpacingContainer>
-    </StyledSafelink>
+    <ArenaCardWrapper id={`category-${id}`} ref={setNodeRef} data-is-dragging={isDragging} style={style}>
+      <StyledCardWrapper data-visible={visible}>
+        <DragHandle
+          sortableId={id.toString()}
+          name={title}
+          disabled={!isEditing || items.length < 2}
+          type="category"
+          {...attributes}
+        />
+        <ForumOutlined data-normal-icon="" css={iconCss} />
+        <Forum data-hover-icon="" css={iconCss} />
+        <SpacingContainer>
+          <div>
+            <StyledSafeLink to={toMyNdlaArenaCategory(id)}>
+              <StyledHeader element="p" textStyle="label-small" margin="none" data-name="hover">
+                {title}
+              </StyledHeader>
+            </StyledSafeLink>
+            <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
+              {subText}
+            </StyledDescriptionText>
+          </div>
+          <RightSideContainer>
+            {isEditing && user.isModerator && <DeleteCategoryModal categoryId={id} />}
+            {count !== undefined && (
+              <StyledCountContainer>
+                <Text element="p" textStyle="content-alt" margin="none">
+                  {count}
+                </Text>
+                <Text textStyle="meta-text-small" margin="none">
+                  {t("myNdla.arena.category.posts", { count })}
+                </Text>
+              </StyledCountContainer>
+            )}
+          </RightSideContainer>
+        </SpacingContainer>
+      </StyledCardWrapper>
+    </ArenaCardWrapper>
   );
 };
 

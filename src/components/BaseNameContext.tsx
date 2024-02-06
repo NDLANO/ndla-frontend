@@ -5,27 +5,23 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext } from "react";
 
-const BaseNameContext = createContext<string>('');
+const BaseNameContext = createContext<string>("");
 
 interface Props {
   children: ReactNode;
   value?: string;
 }
 
-const BaseNameProvider = ({ children, value = '' }: Props) => {
-  return (
-    <BaseNameContext.Provider value={value}>
-      {children}
-    </BaseNameContext.Provider>
-  );
+const BaseNameProvider = ({ children, value = "" }: Props) => {
+  return <BaseNameContext.Provider value={value}>{children}</BaseNameContext.Provider>;
 };
 
 const useBaseName = () => {
   const context = useContext(BaseNameContext);
   if (context === undefined) {
-    throw new Error('useBaseName must be used within a BaseNameProvider');
+    throw new Error("useBaseName must be used within a BaseNameProvider");
   }
   return context;
 };

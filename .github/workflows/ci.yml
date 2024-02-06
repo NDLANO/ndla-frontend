@@ -56,7 +56,6 @@ jobs:
       DEFAULT_TIMEOUT: 5000
       JEST_TIMEOUT: 15000
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
-      CYPRESS_RECORD_KEY: ${{ secrets.NDLA_FRONTEND_CYPRESS_RECORD_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -65,7 +64,7 @@ jobs:
       - name: 'Enable yarn v4'
         run: |
           corepack enable
-          yarn set version berry
+          yarn set version 4.1.0
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
@@ -82,7 +81,7 @@ jobs:
       - name: 'Deploy vercel build'
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
-      - name: 'Run e2e-ci'
-        run: |
-          yarn cross-env NDLA_ENVIRONMENT=mock NODE_ENV=production node build/server &
-          yarn e2e-ci
+      - name: Install Playwright Browsers
+        run: yarn playwright install --with-deps chromium
+      - name: 'E2E'
+        run: yarn e2e:headless

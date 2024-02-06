@@ -6,17 +6,12 @@
  *
  */
 
-import { MatomoTagManager } from '@ndla/tracker';
-import config from '../../config';
+import { MatomoTagManager } from "@ndla/tracker";
+import config from "../../config";
 
 export const Tagmanager = () => {
   if (config.matomoTagmanagerId) {
-    return (
-      <MatomoTagManager
-        containerId={config.matomoTagmanagerId}
-        trackerUrl={config.matomoUrl}
-      />
-    );
+    return <MatomoTagManager containerId={config.matomoTagmanagerId} trackerUrl={config.matomoUrl} />;
   }
   return null;
 };

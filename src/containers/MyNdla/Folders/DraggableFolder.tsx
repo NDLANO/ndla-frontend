@@ -6,18 +6,18 @@
  *
  */
 
-import { Dispatch, SetStateAction, memo, useMemo } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Folder } from '@ndla/ui';
-import DragHandle from './DragHandle';
-import FolderActions from './FolderActions';
-import { ViewType } from './FoldersPage';
-import { GQLFolder } from '../../../graphqlTypes';
-import { toMyNdlaFolder } from '../../../routeHelpers';
-import { FolderTotalCount } from '../../../util/folderHelpers';
+import { Dispatch, SetStateAction, memo, useMemo } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import styled from "@emotion/styled";
+import { colors, spacing, stackOrder } from "@ndla/core";
+import { Folder } from "@ndla/ui";
+import DragHandle from "./DragHandle";
+import FolderActions from "./FolderActions";
+import { ViewType } from "./FoldersPage";
+import { GQLFolder } from "../../../graphqlTypes";
+import { toMyNdlaFolder } from "../../../routeHelpers";
+import { FolderTotalCount } from "../../../util/folderHelpers";
 
 interface Props {
   folder: GQLFolder;
@@ -29,18 +29,18 @@ interface Props {
   folderRefId?: string;
 }
 
-interface DraggableListItemProps {
-  isDragging: boolean;
-}
-
-export const DraggableListItem = styled.li<DraggableListItemProps>`
+export const DraggableListItem = styled.li`
   display: flex;
   position: relative;
   list-style: none;
-  margin: 0;
+  padding: 0;
   align-items: center;
   gap: ${spacing.xsmall};
-  z-index: ${(p) => (p.isDragging ? '10' : '0')};
+  z-index: ${stackOrder.base};
+
+  &[data-is-dragging="true"] {
+    z-index: ${stackOrder.offsetSingle};
+  }
 `;
 
 export const DragWrapper = styled.div`
@@ -49,23 +49,14 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({
-  index,
-  folder,
-  type,
-  foldersCount,
-  folders,
-  setFocusId,
-  folderRefId,
-}: Props) => {
-  const { attributes, setNodeRef, transform, transition, items, isDragging } =
-    useSortable({
-      id: folder.id,
-      data: {
-        name: folder.name,
-        index: index + 1,
-      },
-    });
+const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId }: Props) => {
+  const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
+    id: folder.id,
+    data: {
+      name: folder.name,
+      index: index + 1,
+    },
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -86,15 +77,10 @@ const DraggableFolder = ({
   );
 
   return (
-    <DraggableListItem
-      id={`folder-${folder.id}`}
-      ref={setNodeRef}
-      style={style}
-      isDragging={isDragging}
-    >
+    <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
       <DragHandle
         sortableId={folder.id}
-        disabled={type === 'block' || items.length < 2}
+        disabled={type === "block" || items.length < 2}
         name={folder.name}
         type="folder"
         {...attributes}
@@ -102,7 +88,7 @@ const DraggableFolder = ({
       <DragWrapper>
         <Folder
           id={folder.id}
-          isShared={folder.status === 'shared'}
+          isShared={folder.status === "shared"}
           link={toMyNdlaFolder(folder.id)}
           title={folder.name}
           type={type}

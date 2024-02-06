@@ -6,23 +6,18 @@
  *
  */
 
-import { useParams } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import Folder, { StyledUl } from './Folder';
-import {
-  GQLFolder,
-  GQLFolderResourceMetaSearchQuery,
-} from '../../../graphqlTypes';
-import useArrowNavigation from '../../Masthead/drawer/useArrowNavigation';
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import Folder, { StyledUl } from "./Folder";
+import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import useArrowNavigation from "../../Masthead/drawer/useArrowNavigation";
 
 interface Props {
   folder: GQLFolder;
   onClose?: () => void;
-  meta: Record<
-    string,
-    GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
-  >;
+  meta: Record<string, GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0]>;
 }
 
 const RootUl = styled(StyledUl)`
@@ -37,11 +32,9 @@ const RootUl = styled(StyledUl)`
 
 const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   const { subfolderId, resourceId, folderId } = useParams();
+  const { t } = useTranslation();
 
-  const defaultSelected =
-    subfolderId && resourceId
-      ? `shared-${subfolderId}-${resourceId}`
-      : `shared-${folderId}`;
+  const defaultSelected = subfolderId && resourceId ? `shared-${subfolderId}-${resourceId}` : `shared-${folderId}`;
 
   const { setFocused } = useArrowNavigation(true, {
     multilevel: true,
@@ -49,7 +42,7 @@ const FolderNavigation = ({ folder, meta, onClose }: Props) => {
   });
 
   return (
-    <nav>
+    <nav aria-label={t("myNdla.folder.navigation")}>
       <RootUl role="tree" data-list>
         <Folder
           setFocus={setFocused}

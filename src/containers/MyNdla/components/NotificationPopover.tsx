@@ -6,16 +6,17 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { Root, Trigger, Portal, Content, Arrow } from '@radix-ui/react-popover';
-import { colors, spacing } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import NotificationBellButton from './NotificationButton';
-import NotificationList from './NotificationList';
-import { MyNdlaNotifications } from '../../../routeHelpers';
-import { useArenaNotifications } from '../arenaQueries';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
+import { colors, spacing } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import NotificationBellButton from "./NotificationButton";
+import NotificationList from "./NotificationList";
+import { MyNdlaNotifications } from "../../../routeHelpers";
+import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
+import { toAllNotifications } from "../Arena/utils";
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
@@ -31,31 +32,30 @@ const StyledArrow = styled(Arrow)`
 `;
 
 const ShowAllLink = styled(SafeLinkButton)`
+  margin-top: ${spacing.small};
   width: 100%;
+  &:focus-visible {
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: ${colors.black};
+  }
 `;
 
 const NotificationPopover = () => {
-  const { notifications } = useArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <Root open={open} onOpenChange={setOpen}>
       <Trigger asChild>
-        <NotificationBellButton notifications={notifications} />
+        <NotificationBellButton notifications={notifications?.items} />
       </Trigger>
       <Portal>
         <StyledContent align="end">
           <StyledArrow />
-          <NotificationList
-            notifications={notifications}
-            close={() => setOpen(false)}
-          />
-          <ShowAllLink
-            to={MyNdlaNotifications}
-            onClick={() => setOpen(false)}
-            fontWeight="bold"
-          >
-            {t('myNdla.arena.notification.showAll')}
+          <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
+          <ShowAllLink to={MyNdlaNotifications} onClick={() => setOpen(false)} fontWeight="bold">
+            {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>
         </StyledContent>
       </Portal>

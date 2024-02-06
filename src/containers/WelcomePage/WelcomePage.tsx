@@ -6,37 +6,26 @@
  *
  */
 
-import { useContext, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import {
-  breakpoints,
-  colors,
-  mq,
-  spacing,
-  spacingUnit,
-  utils,
-} from '@ndla/core';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import {
-  ProgrammeV2,
-  FrontpageArticle,
-  WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH,
-} from '@ndla/ui';
+import { useContext, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing, utils } from "@ndla/core";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { ProgrammeV2, FrontpageArticle, WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
 
-import Programmes from './Components/Programmes';
-import { AuthContext } from '../../components/AuthenticationContext';
-import LicenseBox from '../../components/license/LicenseBox';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
-import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from '../../constants';
-import { GQLFrontpageDataQuery, GQLProgrammePage } from '../../graphqlTypes';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import { structuredArticleDataFragment } from '../../util/getStructuredDataFromArticle';
-import { useGraphQuery } from '../../util/runQueries';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
+import Programmes from "./Components/Programmes";
+import { AuthContext } from "../../components/AuthenticationContext";
+import LicenseBox from "../../components/license/LicenseBox";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLFrontpageDataQuery, GQLProgrammePage } from "../../graphqlTypes";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { useGraphQuery } from "../../util/runQueries";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
 
 const HiddenHeading = styled.h1`
   ${utils.visuallyHidden};
@@ -47,9 +36,8 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: ${spacingUnit * 3}px;
+  padding-bottom: ${spacing.xlarge};
   padding-top: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
 
   section {
     padding: 0px;
@@ -64,7 +52,7 @@ const StyledMain = styled.main`
   }
   /* This is a SSR-friendly :first-child */
   [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
-    margin-top: ${spacingUnit * 4}px;
+    margin-top: ${spacing.xxlarge};
   }
 `;
 
@@ -125,14 +113,14 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
       id: p.id,
       title: p.title,
       wideImage: {
-        src: p.desktopImage?.url || '',
-        alt: p.desktopImage?.alt || '',
+        src: p.desktopImage?.url || "",
+        alt: p.desktopImage?.alt || "",
       },
       narrowImage: {
-        src: p.mobileImage?.url || '',
-        alt: p.mobileImage?.alt || '',
+        src: p.mobileImage?.url || "",
+        alt: p.mobileImage?.alt || "",
       },
-      url: `${PROGRAMME_PATH}${p.url}` || '',
+      url: `${PROGRAMME_PATH}${p.url}` || "",
     };
   });
 };
@@ -145,7 +133,7 @@ const WelcomePage = () => {
   useEffect(() => {
     if (authContextLoaded) {
       trackPageView({
-        title: t('htmlTitles.welcomePage'),
+        title: t("htmlTitles.welcomePage"),
         dimensions: getAllDimensions({ user }),
       });
     }
@@ -181,13 +169,13 @@ const WelcomePage = () => {
 
   const googleSearchJSONLd = () => {
     const data = {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      url: 'https://ndla.no/',
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      url: "https://ndla.no/",
       potentialAction: {
-        '@type': 'SearchAction',
-        target: 'https://ndla.no/search?query={search_term_string}',
-        'query-input': 'required name=search_term_string',
+        "@type": "SearchAction",
+        target: "https://ndla.no/search?query={search_term_string}",
+        "query-input": "required name=search_term_string",
       },
     };
     return JSON.stringify(data);
@@ -195,25 +183,23 @@ const WelcomePage = () => {
 
   return (
     <>
-      <HiddenHeading>{t('welcomePage.heading.heading')}</HiddenHeading>
-      <HelmetWithTracker title={t('htmlTitles.welcomePage')}>
+      <HiddenHeading>{t("welcomePage.heading.heading")}</HiddenHeading>
+      <HelmetWithTracker title={t("htmlTitles.welcomePage")}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
       <SocialMediaMetadata
         type="website"
-        title={t('welcomePage.heading.heading')}
-        description={t('meta.description')}
+        title={t("welcomePage.heading.heading")}
+        description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}
       >
-        <meta name="keywords" content={t('meta.keywords')} />
+        <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
       <StyledMain>
         <ProgrammeWrapper data-testid="programme-list">
           <Programmes programmes={programmes} loading={fpQuery.loading} />
         </ProgrammeWrapper>
-        {article && (
-          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />
-        )}
+        {article && <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />}
       </StyledMain>
     </>
   );

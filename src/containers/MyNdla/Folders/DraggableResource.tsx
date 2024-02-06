@@ -6,28 +6,24 @@
  *
  */
 
-import { useCallback, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { FolderOutlined } from '@ndla/icons/contentType';
-import { DeleteForever, Link } from '@ndla/icons/editor';
-import { BlockResource, ListResource, useSnack } from '@ndla/ui';
-import { DraggableListItem, DragWrapper } from './DraggableFolder';
-import DragHandle from './DragHandle';
-import { ViewType } from './FoldersPage';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { AddResourceToFolderModalContent } from '../../../components/MyNdla/AddResourceToFolderModal';
-import config from '../../../config';
-import {
-  GQLFolder,
-  GQLFolderResource,
-  GQLFolderResourceMeta,
-} from '../../../graphqlTypes';
-import { MyNdlaTags } from '../../../routeHelpers';
-import DeleteModalContent from '../components/DeleteModalContent';
-import SettingsMenu, { MenuItemProps } from '../components/SettingsMenu';
-import { useDeleteFolderResourceMutation } from '../folderMutations';
+import { useCallback, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { FolderOutlined } from "@ndla/icons/contentType";
+import { DeleteForever, Link } from "@ndla/icons/editor";
+import { BlockResource, ListResource, useSnack } from "@ndla/ui";
+import { DraggableListItem, DragWrapper } from "./DraggableFolder";
+import DragHandle from "./DragHandle";
+import { ViewType } from "./FoldersPage";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
+import config from "../../../config";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../graphqlTypes";
+import { MyNdlaTags } from "../../../routeHelpers";
+import DeleteModalContent from "../components/DeleteModalContent";
+import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
+import { useDeleteFolderResourceMutation } from "../folderMutations";
 
 interface Props {
   resource: GQLFolderResource;
@@ -55,18 +51,15 @@ const DraggableResource = ({
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { addSnack } = useSnack();
-  const { attributes, setNodeRef, transform, items, transition, isDragging } =
-    useSortable({
-      id: resource.id,
-      data: {
-        name: resourceMeta?.title,
-        index: index + 1,
-      },
-    });
+  const { attributes, setNodeRef, transform, items, transition, isDragging } = useSortable({
+    id: resource.id,
+    data: {
+      name: resourceMeta?.title,
+      index: index + 1,
+    },
+  });
 
-  const { deleteFolderResource } = useDeleteFolderResourceMutation(
-    selectedFolder.id,
-  );
+  const { deleteFolderResource } = useDeleteFolderResourceMutation(selectedFolder.id);
 
   const onDeleteFolder = useCallback(
     async (resource: GQLFolderResource, index?: number) => {
@@ -77,7 +70,7 @@ const DraggableResource = ({
       });
       addSnack({
         id: `removedFromFolder${selectedFolder.id}`,
-        content: t('myNdla.resource.removedFromFolder', {
+        content: t("myNdla.resource.removedFromFolder", {
           folderName: selectedFolder.name,
         }),
       });
@@ -87,35 +80,24 @@ const DraggableResource = ({
         setTimeout(
           () =>
             (
-              document
-                .getElementById(resourceRefId)
-                ?.getElementsByTagName('a')?.[0] ??
+              document.getElementById(resourceRefId)?.getElementsByTagName("a")?.[0] ??
               document.getElementById(resourceRefId)
             )?.focus({ preventScroll: true }),
           1,
         );
       }
     },
-    [
-      addSnack,
-      deleteFolderResource,
-      resources,
-      selectedFolder.id,
-      selectedFolder.name,
-      setFocusId,
-      resourceRefId,
-      t,
-    ],
+    [addSnack, deleteFolderResource, resources, selectedFolder.id, selectedFolder.name, setFocusId, resourceRefId, t],
   );
 
-  const Resource = viewType === 'block' ? BlockResource : ListResource;
+  const Resource = viewType === "block" ? BlockResource : ListResource;
 
   const actions: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
     return [
       {
         icon: <FolderOutlined />,
-        text: t('myNdla.resource.add'),
+        text: t("myNdla.resource.add"),
         isModal: true,
         modality: false,
         modalContent: (close) => (
@@ -132,20 +114,18 @@ const DraggableResource = ({
       },
       {
         icon: <Link />,
-        text: t('myNdla.resource.copyLink'),
+        text: t("myNdla.resource.copyLink"),
         onClick: () => {
-          navigator.clipboard.writeText(
-            `${config.ndlaFrontendDomain}${resource.path}`,
-          );
+          navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
           addSnack({
-            content: t('myNdla.resource.linkCopied'),
-            id: 'linkCopied',
+            content: t("myNdla.resource.linkCopied"),
+            id: "linkCopied",
           });
         },
       },
       {
         icon: <DeleteForever />,
-        text: t('myNdla.resource.remove'),
+        text: t("myNdla.resource.remove"),
         isModal: true,
         modalContent: (close, setSkipAutoFocus) => (
           <DeleteModalContent
@@ -155,12 +135,12 @@ const DraggableResource = ({
               await onDeleteFolder(resource, index);
               close();
             }}
-            description={t('myNdla.resource.confirmRemove')}
-            title={t('myNdla.resource.removeTitle')}
-            removeText={t('myNdla.resource.remove')}
+            description={t("myNdla.resource.confirmRemove")}
+            title={t("myNdla.resource.removeTitle")}
+            removeText={t("myNdla.resource.remove")}
           />
         ),
-        type: 'danger',
+        type: "danger",
       },
     ];
   }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
@@ -177,12 +157,12 @@ const DraggableResource = ({
       id={`resource-${resource.id}`}
       ref={setNodeRef}
       style={style}
-      isDragging={isDragging}
+      data-is-dragging={isDragging}
     >
       <DragHandle
         type="resource"
-        disabled={viewType === 'block' || items.length < 2}
-        name={resourceMeta?.title ?? ''}
+        disabled={viewType === "block" || items.length < 2}
+        name={resourceMeta?.title ?? ""}
         sortableId={resource.id}
         {...attributes}
       />
@@ -193,16 +173,14 @@ const DraggableResource = ({
           isLoading={loading}
           key={resource.id}
           resourceImage={{
-            src: resourceMeta?.metaImage?.url ?? '',
-            alt: '',
+            src: resourceMeta?.metaImage?.url ?? "",
+            alt: "",
           }}
           link={resource.path}
           tags={resource.tags}
           resourceTypes={resourceMeta?.resourceTypes ?? []}
-          title={resourceMeta?.title ?? ''}
-          description={
-            viewType !== 'list' ? resourceMeta?.description ?? '' : undefined
-          }
+          title={resourceMeta?.title ?? ""}
+          description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />
       </DragWrapper>

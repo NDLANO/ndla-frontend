@@ -6,28 +6,21 @@
  *
  */
 
-import { ReactNode, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { ButtonV2 as Button, ButtonV2 } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import { FeideText, LogOut } from '@ndla/icons/common';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
-import { SafeLinkButton } from '@ndla/safelink';
-import { UserInfo } from '../../containers/MyNdla/components/UserInfo';
-import { MyNdla, useIsNdlaFilm } from '../../routeHelpers';
-import { constructNewPath, toHref } from '../../util/urlHelper';
-import { AuthContext } from '../AuthenticationContext';
-import { useBaseName } from '../BaseNameContext';
-import LoginModalContent from '../MyNdla/LoginModalContent';
+import { ReactNode, useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import styled from "@emotion/styled";
+import { ButtonV2 as Button, ButtonV2 } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { FeideText, LogOut } from "@ndla/icons/common";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { SafeLinkButton } from "@ndla/safelink";
+import { UserInfo } from "../../containers/MyNdla/components/UserInfo";
+import { MyNdla, useIsNdlaFilm } from "../../routeHelpers";
+import { constructNewPath, toHref } from "../../util/urlHelper";
+import { AuthContext } from "../AuthenticationContext";
+import { useBaseName } from "../BaseNameContext";
+import LoginModalContent from "../MyNdla/LoginModalContent";
 
 const FeideFooterButton = styled(Button)`
   padding: ${spacing.xsmall} ${spacing.small};
@@ -87,7 +80,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         shape="pill"
         inverted={ndlaFilm}
         to={MyNdla}
-        aria-label={t('myNdla.myNDLA')}
+        aria-label={t("myNdla.myNDLA")}
       >
         {children}
       </StyledLink>
@@ -99,12 +92,12 @@ const FeideLoginButton = ({ footer, children }: Props) => {
       <Modal>
         <ModalTrigger>
           <LoginButton
-            variant={footer ? 'outline' : 'ghost'}
-            colorTheme={footer ? 'greyLighter' : 'lighter'}
+            variant={footer ? "outline" : "ghost"}
+            colorTheme={footer ? "greyLighter" : "lighter"}
             inverted={!footer && ndlaFilm}
-            shape={footer ? 'normal' : 'pill'}
-            aria-label={t('myNdla.myNDLA')}
-            title={t('myNdla.myNDLA')}
+            shape={footer ? "normal" : "pill"}
+            aria-label={t("myNdla.myNDLA")}
+            title={t("myNdla.myNDLA")}
           >
             {children}
           </LoginButton>
@@ -115,7 +108,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   }
 
   return (
-    <Modal aria-label={t('user.modal.isAuth')}>
+    <Modal aria-label={t("user.modal.isAuth")}>
       <ModalTrigger>
         <FeideFooterButton>{children}</FeideFooterButton>
       </ModalTrigger>
@@ -130,13 +123,10 @@ const FeideLoginButton = ({ footer, children }: Props) => {
           {user && <UserInfo user={user} />}
           <StyledButton
             onClick={() => {
-              window.location.href = constructNewPath(
-                `/logout?state=${toHref(location)}`,
-                basename,
-              );
+              window.location.href = constructNewPath(`/logout?state=${toHref(location)}`, basename);
             }}
           >
-            {t('user.buttonLogOut')}
+            {t("user.buttonLogOut")}
             <StyledLogOut />
           </StyledButton>
         </ModalBody>
