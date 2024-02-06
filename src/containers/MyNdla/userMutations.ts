@@ -6,11 +6,8 @@
  *
  */
 
-import { useApolloClient, useMutation, gql } from '@apollo/client';
-import {
-  GQLUpdatePersonalDataMutation,
-  GQLUpdatePersonalDataMutationVariables,
-} from '../../graphqlTypes';
+import { useApolloClient, useMutation, gql } from "@apollo/client";
+import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../../graphqlTypes";
 
 const deletePersonalDataMutation = gql`
   mutation deletePersonalData {
@@ -20,12 +17,9 @@ const deletePersonalDataMutation = gql`
 
 export const useDeletePersonalData = () => {
   const client = useApolloClient();
-  const [deletePersonalData] = useMutation<boolean>(
-    deletePersonalDataMutation,
-    {
-      onCompleted: () => client.clearStore(),
-    },
-  );
+  const [deletePersonalData] = useMutation<boolean>(deletePersonalDataMutation, {
+    onCompleted: () => client.clearStore(),
+  });
 
   return { deletePersonalData };
 };
@@ -41,14 +35,8 @@ const personalDataQueryFragment = gql`
 `;
 
 const updatePersonalDataQuery = gql`
-  mutation updatePersonalData(
-    $favoriteSubjects: [String!]
-    $shareName: Boolean
-  ) {
-    updatePersonalData(
-      favoriteSubjects: $favoriteSubjects
-      shareName: $shareName
-    ) {
+  mutation updatePersonalData($favoriteSubjects: [String!], $shareName: Boolean) {
+    updatePersonalData(favoriteSubjects: $favoriteSubjects, shareName: $shareName) {
       ...MySubjectMyNdlaPersonalDataFragment
     }
   }

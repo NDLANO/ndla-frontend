@@ -6,16 +6,9 @@
  *
  */
 
-import { NextFunction, Request, Response } from 'express';
-import {
-  isLearningPathResource,
-  getLearningPathUrlFromResource,
-} from '../../containers/Resources/resourceHelpers';
-import {
-  resolveJsonOrRejectWithError,
-  apiResourceUrl,
-  fetch,
-} from '../../util/apiHelpers';
+import { NextFunction, Request, Response } from "express";
+import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
+import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from "../../util/apiHelpers";
 
 interface ExternalIds {
   externalIds: string[];
@@ -23,11 +16,11 @@ interface ExternalIds {
 
 async function findNBNodeId(nodeId: string, lang: string) {
   // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
-  if (lang !== 'nn') {
+  if (lang !== "nn") {
     return nodeId;
   }
 
-  const baseUrl = apiResourceUrl('/article-api/v2/articles');
+  const baseUrl = apiResourceUrl("/article-api/v2/articles");
   const response = await fetch(`${baseUrl}/external_ids/${nodeId}`);
 
   // The nodeId my be a learningpath (return nodeId)
@@ -43,7 +36,7 @@ async function findNBNodeId(nodeId: string, lang: string) {
 }
 
 async function lookup(url: string) {
-  const baseUrl = apiResourceUrl('/taxonomy/v1/url/mapping');
+  const baseUrl = apiResourceUrl("/taxonomy/v1/url/mapping");
   const response = await fetch(`${baseUrl}?url=${url}`);
   return resolveJsonOrRejectWithError<{ path: string }>(response);
 }
@@ -53,16 +46,12 @@ interface Resolve {
 }
 
 async function resolve(path: string) {
-  const baseUrl = apiResourceUrl('/taxonomy/v1/url/resolve');
+  const baseUrl = apiResourceUrl("/taxonomy/v1/url/resolve");
   const response = await fetch(`${baseUrl}?path=${path}`);
   return resolveJsonOrRejectWithError<Resolve>(response);
 }
 
-export async function forwardingRoute(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export async function forwardingRoute(req: Request, res: Response, next: NextFunction) {
   const { lang } = req.params;
 
   try {
@@ -73,17 +62,11 @@ export async function forwardingRoute(
 
     const resource = await resolve(data!.path);
 
-    const languagePrefix = lang && lang !== 'nb' ? lang : ''; // send urls with nb to root/default lang
+    const languagePrefix = lang && lang !== "nb" ? lang : ""; // send urls with nb to root/default lang
     if (isLearningPathResource(resource!)) {
-      res.redirect(
-        301,
-        getLearningPathUrlFromResource(resource!, languagePrefix),
-      );
+      res.redirect(301, getLearningPathUrlFromResource(resource!, languagePrefix));
     } else {
-      res.redirect(
-        301,
-        `${languagePrefix ? `/${languagePrefix}` : ''}${data!.path}`,
-      );
+      res.redirect(301, `${languagePrefix ? `/${languagePrefix}` : ""}${data!.path}`);
     }
   } catch (e) {
     next();

@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode, useContext } from 'react';
-import RedirectContext, { RedirectInfo } from './RedirectContext';
+import { ReactNode, useContext } from "react";
+import RedirectContext, { RedirectInfo } from "./RedirectContext";
 
 interface Props {
   code: number;

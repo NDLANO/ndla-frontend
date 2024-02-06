@@ -6,11 +6,11 @@
  *
  */
 
-import format from 'date-fns/format';
-import { gql } from '@apollo/client';
-import { COPYRIGHTED, getLicenseByAbbreviation } from '@ndla/licenses';
-import config from '../config';
-import { AcquireLicensePage } from '../constants';
+import format from "date-fns/format";
+import { gql } from "@apollo/client";
+import { COPYRIGHTED, getLicenseByAbbreviation } from "@ndla/licenses";
+import config from "../config";
+import { AcquireLicensePage } from "../constants";
 import {
   GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
@@ -19,12 +19,12 @@ import {
   GQLStructuredArticleData_PodcastLicenseFragment,
   GQLStructuredArticleData_BrightcoveLicenseFragment,
   GQLStructuredArticleData_ImageLicenseFragment,
-} from '../graphqlTypes';
-import { Breadcrumb } from '../interfaces';
+} from "../graphqlTypes";
+import { Breadcrumb } from "../interfaces";
 
-type CopyrightHolder = { '@type': string; name?: string };
+type CopyrightHolder = { "@type": string; name?: string };
 type Alignment = {
-  '@type': string;
+  "@type": string;
   alignmentType: string;
   educationalFramework: string;
   targetDescription?: string;
@@ -32,12 +32,12 @@ type Alignment = {
   targetUrl?: string;
 };
 interface StructuredData {
-  '@type'?: string;
-  '@context'?: string;
-  '@id'?: string;
+  "@type"?: string;
+  "@context"?: string;
+  "@id"?: string;
   abstract?: string;
   audience?: {
-    '@type': string;
+    "@type": string;
     educationalRole: string[];
   };
   author?: CopyrightHolder[];
@@ -59,7 +59,7 @@ interface StructuredData {
   image?: string;
   inLanguage?: string;
   itemListELement?: {
-    '@type': string;
+    "@type": string;
     name?: string;
     item: string;
     position: number;
@@ -82,44 +82,39 @@ interface Mediaelements {
   type: string;
 }
 
-const CREATIVE_WORK_TYPE = 'Article';
-const BREADCRUMB_TYPE = 'BreadcrumbList';
-const ITEM_TYPE = 'ListItem';
+const CREATIVE_WORK_TYPE = "Article";
+const BREADCRUMB_TYPE = "BreadcrumbList";
+const ITEM_TYPE = "ListItem";
 
-const PERSON_TYPE = 'Person';
-const ORGANIZATION_TYPE = 'Organization';
-const IMAGE_TYPE = 'ImageObject';
-const VIDEO_TYPE = 'VideoObject';
-const AUDIO_TYPE = 'AudioObject';
-const PODCAST_TYPE = 'PodcastEpisode';
-const AUDIENCE_TYPE = 'EducationalAudience';
+const PERSON_TYPE = "Person";
+const ORGANIZATION_TYPE = "Organization";
+const IMAGE_TYPE = "ImageObject";
+const VIDEO_TYPE = "VideoObject";
+const AUDIO_TYPE = "AudioObject";
+const PODCAST_TYPE = "PodcastEpisode";
+const AUDIENCE_TYPE = "EducationalAudience";
 
 export const publisher = {
   publisher: {
-    '@type': ORGANIZATION_TYPE,
-    name: 'NDLA',
-    legalName: 'NDLA',
-    url: 'https://ndla.no',
-    logo: 'https://ndla.no/static/logo.png',
+    "@type": ORGANIZATION_TYPE,
+    name: "NDLA",
+    legalName: "NDLA",
+    url: "https://ndla.no",
+    logo: "https://ndla.no/static/logo.png",
   },
 };
 
 const structuredDataBase = {
-  '@context': 'http://schema.org',
+  "@context": "http://schema.org",
 };
 
-const mapType = (
-  type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE,
-  arr?: GQLContributor[],
-) =>
+const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: GQLContributor[]) =>
   arr?.map((item) => ({
-    '@type': type,
+    "@type": type,
     name: item.name,
   }));
 
-const getCopyrightData = (
-  copyright: GQLStructuredArticleData_CopyrightFragment,
-): StructuredData => {
+const getCopyrightData = (copyright: GQLStructuredArticleData_CopyrightFragment): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
   return {
     license: license?.url,
@@ -136,34 +131,28 @@ const getCopyrightDataImage = (
 
   const isCopyrighted = license.license?.toLocaleLowerCase() === COPYRIGHTED;
 
-  const licenseUrl = isCopyrighted
-    ? getLicenseByAbbreviation(license.license, language).url
-    : license?.url;
+  const licenseUrl = isCopyrighted ? getLicenseByAbbreviation(license.license, language).url : license?.url;
 
   return {
     license: licenseUrl,
     creator: mapType(PERSON_TYPE, creators),
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
-    ...(rightsholders.length
-      ? { creditText: rightsholders.map((r) => r.name).join(', ') }
-      : {}),
+    ...(rightsholders.length ? { creditText: rightsholders.map((r) => r.name).join(", ") } : {}),
     ...(isCopyrighted
       ? {
-          copyrightNotice: rightsholders.map((r) => r.name).join(', '),
+          copyrightNotice: rightsholders.map((r) => r.name).join(", "),
         }
       : {}),
   };
 };
 
-const getBreadcrumbs = (
-  breadcrumbItems?: Breadcrumb[],
-): StructuredData | undefined => {
+const getBreadcrumbs = (breadcrumbItems?: Breadcrumb[]): StructuredData | undefined => {
   if (!breadcrumbItems) {
     return undefined;
   }
   const items = breadcrumbItems.map((item, index) => ({
-    '@type': ITEM_TYPE,
+    "@type": ITEM_TYPE,
     name: item.name,
     position: index + 1,
     item: `${config.ndlaFrontendDomain}${item.to}`,
@@ -171,21 +160,19 @@ const getBreadcrumbs = (
 
   return {
     ...structuredDataBase,
-    '@type': BREADCRUMB_TYPE,
+    "@type": BREADCRUMB_TYPE,
     numberOfItems: breadcrumbItems.length,
     itemListELement: items,
   };
 };
 
-const getAllignments = (
-  article: GQLStructuredArticleDataFragment,
-): Alignment[] | undefined => {
+const getAllignments = (article: GQLStructuredArticleDataFragment): Alignment[] | undefined => {
   const core = article.coreElements
     ? article.coreElements?.map((ce) => {
         return {
-          '@type': 'AlignmentObject',
-          alignmentType: 'assesses',
-          educationalFramework: 'LK20',
+          "@type": "AlignmentObject",
+          alignmentType: "assesses",
+          educationalFramework: "LK20",
           targetDescription: ce.title,
           targetName: ce.id,
           targetUrl: `http://psi.udir.no/kl06/${ce.id}`,
@@ -195,8 +182,8 @@ const getAllignments = (
   const goals = article.competenceGoals
     ? article.competenceGoals?.map((kg) => {
         return {
-          '@type': 'AlignmentObject',
-          alignmentType: 'teaches',
+          "@type": "AlignmentObject",
+          alignmentType: "teaches",
           educationalFramework: kg.type,
           targetDescription: kg.title,
           targetName: kg.code || kg.id,
@@ -332,30 +319,22 @@ const getStructuredDataFromArticle = (
   const educationalAlignment = getAllignments(article);
   const articleData: StructuredData = {
     ...structuredDataBase,
-    '@type': CREATIVE_WORK_TYPE,
-    '@id': `${config.ndlaFrontendDomain}/article/${article.id}`,
+    "@type": CREATIVE_WORK_TYPE,
+    "@id": `${config.ndlaFrontendDomain}/article/${article.id}`,
     identifier: `${config.ndlaFrontendDomain}/article/${article.id}`,
     inLanguage: inLanguage,
-    learningResourceType: ['text'],
+    learningResourceType: ["text"],
     name: article.title,
     headline: article.title,
     abstract: article.metaDescription,
     audience: {
-      '@type': AUDIENCE_TYPE,
-      educationalRole: [
-        article.availability === 'teacher' ? 'teacher' : 'student',
-      ],
+      "@type": AUDIENCE_TYPE,
+      educationalRole: [article.availability === "teacher" ? "teacher" : "student"],
     },
     description: article.metaDescription,
-    dateCreated: article.published
-      ? format(new Date(article.published), 'yyyy-MM-dd')
-      : undefined,
-    datePublished: article.published
-      ? format(new Date(article.published), 'yyyy-MM-dd')
-      : undefined,
-    dateModified: article.updated
-      ? format(new Date(article.updated), 'yyyy-MM-dd')
-      : undefined,
+    dateCreated: article.published ? format(new Date(article.published), "yyyy-MM-dd") : undefined,
+    datePublished: article.published ? format(new Date(article.published), "yyyy-MM-dd") : undefined,
+    dateModified: article.updated ? format(new Date(article.updated), "yyyy-MM-dd") : undefined,
     educationalAlignment,
     image: article.metaImage?.url,
     thumbnailUrl: article.metaImage?.url,
@@ -380,40 +359,33 @@ const getStructuredDataFromArticle = (
 
   return {
     ...structuredDataBase,
-    '@graph': [...structuredData, ...mediaData, ...podcastData, ...videoData],
+    "@graph": [...structuredData, ...mediaData, ...podcastData, ...videoData],
   };
 };
 
-const createMediaData = (
-  media: Mediaelements[],
-  language: string,
-): StructuredData[] =>
+const createMediaData = (media: Mediaelements[], language: string): StructuredData[] =>
   media.map((media) => {
     const { data, type } = media;
     return {
       ...structuredDataBase,
-      '@type': type,
-      '@id': data?.src,
+      "@type": type,
+      "@id": data?.src,
       name: data?.title,
       contentUrl: data?.src,
       acquireLicensePage: AcquireLicensePage,
-      ...(type === IMAGE_TYPE
-        ? getCopyrightDataImage(data?.copyright!, language)
-        : getCopyrightData(data?.copyright!)),
+      ...(type === IMAGE_TYPE ? getCopyrightDataImage(data?.copyright!, language) : getCopyrightData(data?.copyright!)),
     };
   });
 
-const createPodcastData = (
-  podcasts: GQLStructuredArticleData_PodcastLicenseFragment[],
-): StructuredData[] =>
+const createPodcastData = (podcasts: GQLStructuredArticleData_PodcastLicenseFragment[]): StructuredData[] =>
   podcasts.map((podcast) => {
     return {
       ...structuredDataBase,
-      '@type': PODCAST_TYPE,
-      '@id': podcast?.src,
+      "@type": PODCAST_TYPE,
+      "@id": podcast?.src,
       name: podcast?.title,
       audio: {
-        '@type': AUDIO_TYPE,
+        "@type": AUDIO_TYPE,
         contentUrl: podcast?.src,
       },
       abstract: podcast?.description,
@@ -422,22 +394,18 @@ const createPodcastData = (
     };
   });
 
-const createVideoData = (
-  videos: GQLStructuredArticleData_BrightcoveLicenseFragment[],
-): StructuredData[] =>
+const createVideoData = (videos: GQLStructuredArticleData_BrightcoveLicenseFragment[]): StructuredData[] =>
   videos.map((video) => {
     return {
       ...structuredDataBase,
-      '@type': VIDEO_TYPE,
-      '@id': video?.src,
+      "@type": VIDEO_TYPE,
+      "@id": video?.src,
       name: video?.title,
       embedUrl: video?.src,
       thumbnailUrl: video?.cover,
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
-      uploadDate: video?.uploadDate
-        ? format(new Date(video?.uploadDate!), 'yyyy-MM-dd')
-        : undefined,
+      uploadDate: video?.uploadDate ? format(new Date(video?.uploadDate!), "yyyy-MM-dd") : undefined,
       ...getCopyrightData(video?.copyright!),
     };
   });

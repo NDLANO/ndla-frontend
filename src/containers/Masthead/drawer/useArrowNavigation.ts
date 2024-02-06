@@ -6,17 +6,15 @@
  *
  */
 
-import findIndex from 'lodash/findIndex';
-import nth from 'lodash/nth';
-import { useCallback, useEffect, useState } from 'react';
+import findIndex from "lodash/findIndex";
+import nth from "lodash/nth";
+import { useCallback, useEffect, useState } from "react";
 
 const ROOT_SELECTOR = '[role="menubar"], [role="tree"]';
 const ITEM_SELECTOR = '[role="menuitem"], [role="treeitem"]';
 
 const getItem = (activeElement: Element, direction: number) => {
-  const elements = activeElement
-    .closest(ROOT_SELECTOR)
-    ?.querySelectorAll(ITEM_SELECTOR);
+  const elements = activeElement.closest(ROOT_SELECTOR)?.querySelectorAll(ITEM_SELECTOR);
 
   const index = findIndex(elements, (el) => el === activeElement);
 
@@ -33,20 +31,14 @@ interface ArrowNavigationConfig {
 
 const useArrowNavigation = (
   active: boolean,
-  {
-    initialFocused,
-    initialSelected,
-    onLeftKeyPressed,
-    onRightKeyPressed,
-    multilevel,
-  }: ArrowNavigationConfig,
+  { initialFocused, initialSelected, onLeftKeyPressed, onRightKeyPressed, multilevel }: ArrowNavigationConfig,
 ) => {
   const [focused, _setFocused] = useState<string | undefined>(undefined);
 
   const setFocused = useCallback(
     (focus: string) => {
       if (focused && focus !== focused) {
-        document.getElementById(focused)?.setAttribute('tabIndex', '-1');
+        document.getElementById(focused)?.setAttribute("tabIndex", "-1");
       }
       _setFocused(focus);
     },
@@ -60,20 +52,16 @@ const useArrowNavigation = (
         return;
       }
 
-      if (e.key === 'ArrowDown') {
+      if (e.key === "ArrowDown") {
         e.preventDefault();
-        activeElement.setAttribute('tabindex', '-1');
+        activeElement.setAttribute("tabindex", "-1");
         const listItem = activeElement.closest('[data-list-item="true"]');
 
-        const resourceGroup = activeElement?.closest(
-          '[data-resource-group="true"]',
-        );
+        const resourceGroup = activeElement?.closest('[data-resource-group="true"]');
 
         const element = multilevel
           ? getItem(activeElement, +1)
-          : (
-              listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling
-            )?.querySelector(ITEM_SELECTOR);
+          : (listItem?.nextElementSibling ?? resourceGroup?.nextElementSibling)?.querySelector(ITEM_SELECTOR);
 
         if (element?.id) {
           setFocused(element.id);
@@ -83,9 +71,9 @@ const useArrowNavigation = (
             setFocused(element.id);
           }
         }
-      } else if (e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        activeElement.setAttribute('tabindex', '-1');
+        activeElement.setAttribute("tabindex", "-1");
 
         const listItem = activeElement
           .closest('[data-list-item="true"')
@@ -96,29 +84,25 @@ const useArrowNavigation = (
         if (element?.id) {
           setFocused(element.id);
         } else {
-          const resourceGroup = activeElement?.closest(
-            '[data-resource-group="true"]',
-          )?.previousElementSibling;
-          const elements = (resourceGroup ?? listElement).querySelectorAll(
-            ITEM_SELECTOR,
-          );
+          const resourceGroup = activeElement?.closest('[data-resource-group="true"]')?.previousElementSibling;
+          const elements = (resourceGroup ?? listElement).querySelectorAll(ITEM_SELECTOR);
           const element = elements[elements.length - 1];
           if (element?.id) {
             setFocused(element.id);
           }
         }
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         onLeftKeyPressed?.(document.activeElement?.id, e);
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         e.preventDefault();
         onRightKeyPressed?.(document.activeElement?.id, e);
-      } else if (e.key === 'Home') {
+      } else if (e.key === "Home") {
         const element = listElement.querySelector(ITEM_SELECTOR);
         if (element?.id) {
           setFocused(element.id);
         }
-      } else if (e.key === 'End') {
+      } else if (e.key === "End") {
         const elements = listElement.querySelectorAll(ITEM_SELECTOR);
         const element = elements[elements.length - 1];
         if (element?.id) {
@@ -137,9 +121,7 @@ const useArrowNavigation = (
 
   useEffect(() => {
     if (initialSelected) {
-      document
-        .getElementById(initialSelected)
-        ?.setAttribute('tabindex', active ? '0' : '-1');
+      document.getElementById(initialSelected)?.setAttribute("tabindex", active ? "0" : "-1");
     }
   }, [initialSelected, active]);
 
@@ -151,15 +133,13 @@ const useArrowNavigation = (
 
   useEffect(() => {
     if (focused) {
-      document
-        .getElementById(focused)
-        ?.setAttribute('tabindex', active ? '0' : '-1');
+      document.getElementById(focused)?.setAttribute("tabindex", active ? "0" : "-1");
     }
   }, [active, focused]);
 
   useEffect(() => {
-    window.addEventListener('keydown', arrowHandler);
-    return () => window.removeEventListener('keydown', arrowHandler);
+    window.addEventListener("keydown", arrowHandler);
+    return () => window.removeEventListener("keydown", arrowHandler);
   }, [arrowHandler]);
 
   return { focused, setFocused };

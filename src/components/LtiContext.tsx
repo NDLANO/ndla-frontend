@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode, createContext, useContext } from 'react';
-import { LtiData } from '../interfaces';
+import { ReactNode, createContext, useContext } from "react";
+import { LtiData } from "../interfaces";
 
 interface LtiContextType {
   ltiData?: LtiData;

@@ -6,26 +6,23 @@
  *
  */
 
-import { formatDistanceStrict } from 'date-fns';
-import parse from 'html-react-parser';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { colors, spacing, misc, mq, breakpoints } from '@ndla/core';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Text, Heading } from '@ndla/typography';
-import { SKIP_TO_CONTENT_ID } from '../../../../constants';
-import {
-  GQLArenaPostV2Fragment,
-  GQLArenaTopicByIdV2Query,
-} from '../../../../graphqlTypes';
-import { DateFNSLocales } from '../../../../i18n';
-import { formatDateTime } from '../../../../util/formatDate';
-import UserProfileTag from '../../components/UserProfileTag';
-import { capitalizeFirstLetter, toArenaTopic } from '../utils';
+import { formatDistanceStrict } from "date-fns";
+import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Text, Heading } from "@ndla/typography";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
+import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
+import { DateFNSLocales } from "../../../../i18n";
+import { formatDateTime } from "../../../../util/formatDate";
+import UserProfileTag from "../../components/UserProfileTag";
+import { capitalizeFirstLetter, toArenaTopic } from "../utils";
 
 interface Props {
   post: GQLArenaPostV2Fragment;
-  topic: GQLArenaTopicByIdV2Query['arenaTopicV2'];
+  topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
 }
 
 const PostCardWrapper = styled.div`
@@ -75,14 +72,12 @@ const PostCard = ({ topic, post }: Props) => {
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
     locale: DateFNSLocales[language],
-    roundingMethod: 'floor',
+    roundingMethod: "floor",
   });
 
   const postTime = (
     <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(created, language)}>
-        {`${capitalizeFirstLetter(timeDistance)}`}
-      </span>
+      <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
     </TimestampText>
   );
 
@@ -92,12 +87,7 @@ const PostCard = ({ topic, post }: Props) => {
         <UserProfileTag user={post.owner} />
       </PostHeader>
       <ContentWrapper>
-        <Heading
-          element="h1"
-          id={SKIP_TO_CONTENT_ID}
-          headingStyle="h4"
-          margin="none"
-        >
+        <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
           {topic?.title}
         </Heading>
         <StyledContent element="div" textStyle="content-alt" margin="none">
@@ -106,9 +96,7 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
-        <SafeLinkButton to={toArenaTopic(topicId)}>
-          {t('myNdla.arena.admin.flags.goToTopic')}
-        </SafeLinkButton>
+        <SafeLinkButton to={toArenaTopic(topicId)}>{t("myNdla.arena.admin.flags.goToTopic")}</SafeLinkButton>
       </FlexLine>
     </PostCardWrapper>
   );

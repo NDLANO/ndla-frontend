@@ -6,23 +6,18 @@
  *
  */
 
-import { useRef } from 'react';
-import { Navigate } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
-import MovedTopicPage from './components/MovedTopicPage';
-import SubjectContainer, {
-  subjectContainerFragments,
-} from './SubjectContainer';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from '../../constants';
-import {
-  GQLSubjectPageTestQuery,
-  GQLSubjectPageTestQueryVariables,
-} from '../../graphqlTypes';
-import { useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import { useRef } from "react";
+import { Navigate } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
+import MovedTopicPage from "./components/MovedTopicPage";
+import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
+import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
+import { useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
+import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
   query subjectPageTest(
@@ -40,11 +35,7 @@ const subjectPageQuery = gql`
         ...MovedTopicPage_Topic
       }
     }
-    subjects(
-      metadataFilterKey: $metadataFilterKey
-      metadataFilterValue: $metadataFilterValue
-      filterVisible: true
-    ) {
+    subjects(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
       path
       metadata {
         customFields
@@ -65,18 +56,15 @@ const SubjectPage = () => {
     loading,
     data: newData,
     previousData,
-  } = useGraphQuery<GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables>(
-    subjectPageQuery,
-    {
-      variables: {
-        subjectId: subjectId!,
-        topicId: topicId || '',
-        includeTopic: isFirstRenderWithTopicId(),
-        metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
-        metadataFilterValue: subjectId,
-      },
+  } = useGraphQuery<GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables>(subjectPageQuery, {
+    variables: {
+      subjectId: subjectId!,
+      topicId: topicId || "",
+      includeTopic: isFirstRenderWithTopicId(),
+      metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
+      metadataFilterValue: subjectId,
     },
-  );
+  });
 
   const data = newData ?? previousData;
 
@@ -101,7 +89,7 @@ const SubjectPage = () => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Navigate to={redirect.path || ''} replace />;
+      return <Navigate to={redirect.path || ""} replace />;
     }
   }
 
@@ -113,13 +101,7 @@ const SubjectPage = () => {
 
   initialLoad.current = false;
 
-  return (
-    <SubjectContainer
-      topicIds={topicList}
-      subject={data.subject}
-      loading={loading}
-    />
-  );
+  return <SubjectContainer topicIds={topicList} subject={data.subject} loading={loading} />;
 };
 
 export default SubjectPage;

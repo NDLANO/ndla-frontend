@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { Text } from '@ndla/typography';
-import { GQLMyNdlaPersonalDataFragmentFragment } from '../../../graphqlTypes';
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Text } from "@ndla/typography";
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 
 interface Props {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
@@ -41,28 +41,26 @@ export const UserInfo = ({ user }: Props) => {
     <StyledComponentContainer>
       {
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.loggedInAs', {
+          {t("user.loggedInAs", {
             role: t(`user.role.${user?.role}`),
           })}
         </Text>
       }
       <ShortInfoDiv>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.username')}: {user?.username}
+          {t("user.username")}: {user?.username}
         </Text>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.name')}: {user?.displayName}
+          {t("user.name")}: {user?.displayName}
         </Text>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t('user.mail')}: {user?.email}
+          {t("user.mail")}: {user?.email}
         </Text>
       </ShortInfoDiv>
       <StyledUl>
         {user?.groups.map((org) => (
           <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
-            {`${org.displayName}${
-              org.isPrimarySchool ? ` (${t('user.primarySchool')})` : ''
-            }`}
+            {`${org.displayName}${org.isPrimarySchool ? ` (${t("user.primarySchool")})` : ""}`}
           </Text>
         ))}
       </StyledUl>

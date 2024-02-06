@@ -856,12 +856,7 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(
-    description: String
-    name: String!
-    parentId: String
-    status: String
-  ): Folder!
+  addFolder(description: String, name: String!, parentId: String, status: String): Folder!
   addFolderResource(
     folderId: String!
     path: String!
@@ -883,11 +878,7 @@ type Mutation {
   markAllNotificationsAsRead: Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
-  newArenaCategory(
-    description: String!
-    title: String!
-    visible: Boolean!
-  ): ArenaCategoryV2!
+  newArenaCategory(description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   newArenaTopicV2(
     categoryId: Int!
@@ -916,37 +907,15 @@ type Mutation {
   unfollowCategory(categoryId: Int!): ArenaCategoryV2!
   unfollowTopic(topicId: Int!): ArenaTopicV2!
   unsubscribeFromTopic(topicId: Int!): Int!
-  updateArenaCategory(
-    categoryId: Int!
-    description: String!
-    title: String!
-    visible: Boolean!
-  ): ArenaCategoryV2!
-  updateFolder(
-    description: String
-    id: String!
-    name: String
-    status: String
-  ): Folder!
+  updateArenaCategory(categoryId: Int!, description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
+  updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updateOtherArenaUser(
-    data: ArenaUserV2Input!
-    userId: Int!
-  ): MyNdlaPersonalData!
-  updatePersonalData(
-    favoriteSubjects: [String]
-    shareName: Boolean
-  ): MyNdlaPersonalData!
+  updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
+  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateTopicV2(
-    content: String!
-    isLocked: Boolean
-    isPinned: Boolean
-    title: String!
-    topicId: Int!
-  ): ArenaTopicV2!
+  updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
 type MyNdlaGroup {
@@ -1107,10 +1076,7 @@ type Query {
   arenaCategoryV2(categoryId: Int!, page: Int, pageSize: Int): ArenaCategoryV2
   arenaEnabledOrgs: ConfigMetaStringList
   arenaNotifications: [ArenaNotification!]!
-  arenaNotificationsV2(
-    page: Int
-    pageSize: Int
-  ): PaginatedArenaNewPostNotificationV2!
+  arenaNotificationsV2(page: Int, pageSize: Int): PaginatedArenaNewPostNotificationV2!
   arenaPostInContext(pageSize: Int, postId: Int!): ArenaTopicV2
   arenaRecentTopics: [ArenaTopic!]!
   arenaRecentTopicsV2(page: Int, pageSize: Int): PaginatedTopics!
@@ -1151,17 +1117,9 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
-  folder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): Folder!
-  folderResourceMeta(
-    resource: FolderResourceMetaSearchInput!
-  ): FolderResourceMeta
-  folderResourceMetaSearch(
-    resources: [FolderResourceMetaSearchInput!]!
-  ): [FolderResourceMeta!]!
+  folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
+  folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
+  folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
   frontpage: FrontpageMenu
   frontpageSearch(query: String): FrontpageSearch
@@ -1181,21 +1139,12 @@ type Query {
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
-  listArenaUserV2(
-    filterTeachers: Boolean
-    page: Int
-    pageSize: Int
-    query: String
-  ): PaginatedArenaUsers!
+  listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-  podcastSeriesSearch(
-    fallback: Boolean
-    page: Int!
-    pageSize: Int!
-  ): PodcastSeriesSearch
+  podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
@@ -1235,18 +1184,10 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
-  sharedFolder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): SharedFolder!
+  sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
-  subjects(
-    filterVisible: Boolean
-    metadataFilterKey: String
-    metadataFilterValue: String
-  ): [Subject!]
+  subjects(filterVisible: Boolean, metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1511,11 +1452,7 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(
-    convertEmbeds: Boolean
-    showVisualElement: String
-    subjectId: String
-  ): Article
+  article(convertEmbeds: Boolean, showVisualElement: String, subjectId: String): Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String

@@ -6,29 +6,23 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useOutletContext } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { IconButtonV2 } from '@ndla/button';
-import { spacing, colors, fonts } from '@ndla/core';
-import { FourlineHamburger, List } from '@ndla/icons/action';
-import {
-  ModalBody,
-  ModalHeader,
-  ModalContent,
-  ModalCloseButton,
-  ModalTitle,
-} from '@ndla/modal';
-import { SafeLinkButton } from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import NavigationLink from './NavigationLink';
-import { BellIcon } from './NotificationButton';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { useTemporaryArenaNotifications } from '../Arena/components/temporaryNodebbHooks';
-import { toAllNotifications } from '../Arena/utils';
-import { ViewType, buttonCss } from '../Folders/FoldersPage';
-import { OutletContext, menuLinks } from '../MyNdlaLayout';
+import { ReactNode, useCallback, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useOutletContext } from "react-router-dom";
+import styled from "@emotion/styled";
+import { IconButtonV2 } from "@ndla/button";
+import { spacing, colors, fonts } from "@ndla/core";
+import { FourlineHamburger, List } from "@ndla/icons/action";
+import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
+import { SafeLinkButton } from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import NavigationLink from "./NavigationLink";
+import { BellIcon } from "./NotificationButton";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
+import { toAllNotifications } from "../Arena/utils";
+import { ViewType, buttonCss } from "../Folders/FoldersPage";
+import { OutletContext, menuLinks } from "../MyNdlaLayout";
 
 const MenuItem = styled.li`
   list-style: none;
@@ -41,11 +35,11 @@ const StyledText = styled(Text)`
   color: ${colors.brand.grey};
   font-weight: ${fonts.weight.bold};
 
-  &[data-border-top='true'] {
+  &[data-border-top="true"] {
     border-top: 1px solid ${colors.brand.lightest};
   }
 
-  &[data-no-padding-top='true'] {
+  &[data-no-padding-top="true"] {
     padding-top: unset;
   }
 `;
@@ -109,7 +103,7 @@ const ViewButton = styled(IconButtonV2)`
   border-radius: ${spacing.xxsmall};
   border-color: ${colors.brand.light};
 
-  &[aria-current='true'] {
+  &[aria-current="true"] {
     background-color: ${colors.brand.lightest};
   }
 `;
@@ -129,40 +123,32 @@ interface Props {
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({
-  onViewTypeChange,
-  viewType,
-  buttons,
-  showButtons = true,
-}: Props) => {
+const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } =
-    useOutletContext<OutletContext>();
+  const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
   const { user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location).map(
-        ({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
-          if (shownForUser && !shownForUser(user)) {
-            return null;
-          }
-          return (
-            <MenuItem key={id}>
-              <NavigationLink
-                id={id}
-                to={to}
-                name={name}
-                icon={icon}
-                shortName={shortName}
-                iconFilled={iconFilled}
-                onClick={() => setIsOpen(false)}
-              />
-            </MenuItem>
-          );
-        },
-      ),
+      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
+        if (shownForUser && !shownForUser(user)) {
+          return null;
+        }
+        return (
+          <MenuItem key={id}>
+            <NavigationLink
+              id={id}
+              to={to}
+              name={name}
+              icon={icon}
+              shortName={shortName}
+              iconFilled={iconFilled}
+              onClick={() => setIsOpen(false)}
+            />
+          </MenuItem>
+        );
+      }),
     [t, location, user, setIsOpen],
   );
 
@@ -176,12 +162,10 @@ const MenuModalContent = ({
         css={buttonCss}
       >
         <BellIcon
-          amountOfUnreadNotifications={
-            notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0
-          }
+          amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
           left={true}
         />
-        {t('myNdla.arena.notification.title')}
+        {t("myNdla.arena.notification.title")}
       </SafeLinkButton>
     ),
     [notifications, setIsOpen, t],
@@ -200,24 +184,22 @@ const MenuModalContent = ({
   return (
     <ModalContent onCloseAutoFocus={onCloseModal}>
       <StyledModalHeader>
-        <StyledModalTitle data-no-padding-top={true}>
-          {t('myNdla.myNDLA')}
-        </StyledModalTitle>
+        <StyledModalTitle data-no-padding-top={true}>{t("myNdla.myNDLA")}</StyledModalTitle>
         <CloseWrapper>
           <ModalCloseButton />
           <Text textStyle="meta-text-xxsmall" margin="none">
-            {t('close')}
+            {t("close")}
           </Text>
         </CloseWrapper>
       </StyledModalHeader>
       <StyledModalBody>
-        <nav aria-label={t('myNdla.myNDLAMenu')}>
+        <nav aria-label={t("myNdla.myNDLAMenu")}>
           <MenuItems role="tablist">{links}</MenuItems>
         </nav>
         {showButtons && (!!buttons || user?.arenaEnabled) && (
           <>
             <StyledText margin="none" textStyle="meta-text-medium">
-              {t('myNdla.tools')}
+              {t("myNdla.tools")}
             </StyledText>
             <ToolMenu>
               {buttons}
@@ -227,32 +209,28 @@ const MenuModalContent = ({
         )}
         {!!viewType && (
           <>
-            <StyledText
-              data-border-top={showButtons}
-              textStyle="meta-text-medium"
-              margin="none"
-            >
-              {t('myNdla.selectView')}
+            <StyledText data-border-top={showButtons} textStyle="meta-text-medium" margin="none">
+              {t("myNdla.selectView")}
             </StyledText>
             <ViewButtonWrapper>
               <ViewButton
-                aria-label={t('myNdla.listView')}
-                aria-current={viewType === 'list'}
-                onClick={() => onViewTypeChange?.('list')}
+                aria-label={t("myNdla.listView")}
+                aria-current={viewType === "list"}
+                onClick={() => onViewTypeChange?.("list")}
               >
                 <FourlineHamburger />
                 <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t('myNdla.simpleList')}
+                  {t("myNdla.simpleList")}
                 </Text>
               </ViewButton>
               <ViewButton
-                aria-label={t('myNdla.detailView')}
-                aria-current={viewType === 'listLarger'}
-                onClick={() => onViewTypeChange?.('listLarger')}
+                aria-label={t("myNdla.detailView")}
+                aria-current={viewType === "listLarger"}
+                onClick={() => onViewTypeChange?.("listLarger")}
               >
                 <List />
                 <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t('myNdla.detailedList')}
+                  {t("myNdla.detailedList")}
                 </Text>
               </ViewButton>
             </ViewButtonWrapper>

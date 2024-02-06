@@ -6,12 +6,12 @@
  *
  */
 
-import { HTMLAttributes, ReactNode } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, mq, spacing } from '@ndla/core';
-import Toolbar from './Toolbar';
-import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
+import { HTMLAttributes, ReactNode } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, mq, spacing } from "@ndla/core";
+import Toolbar from "./Toolbar";
+import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
+import { ViewType } from "../Folders/FoldersPage";
 
 const ContentWrapper = styled.main`
   display: flex;
@@ -36,14 +36,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showButtons?: boolean;
 }
 
-const MyNdlaPageWrapper = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-  children,
-}: Props) => {
+const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons, children }: Props) => {
   return (
     <>
       <Toolbar

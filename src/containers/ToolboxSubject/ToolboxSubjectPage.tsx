@@ -6,18 +6,13 @@
  *
  */
 
-import { gql } from '@apollo/client';
-import { ContentPlaceholder } from '@ndla/ui';
-import ToolboxSubjectContainer, {
-  toolboxSubjectContainerFragments,
-} from './ToolboxSubjectContainer';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import {
-  GQLToolboxSubjectPageQuery,
-  GQLToolboxSubjectPageQueryVariables,
-} from '../../graphqlTypes';
-import { useUrnIds } from '../../routeHelpers';
-import { useGraphQuery } from '../../util/runQueries';
+import { gql } from "@apollo/client";
+import { ContentPlaceholder } from "@ndla/ui";
+import ToolboxSubjectContainer, { toolboxSubjectContainerFragments } from "./ToolboxSubjectContainer";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { GQLToolboxSubjectPageQuery, GQLToolboxSubjectPageQueryVariables } from "../../graphqlTypes";
+import { useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 
 const toolboxSubjectPageQuery = gql`
   query toolboxSubjectPage($subjectId: String!) {
@@ -30,14 +25,14 @@ const toolboxSubjectPageQuery = gql`
 const ToolboxSubjectPage = () => {
   const { subjectId, topicList } = useUrnIds();
 
-  const { loading, data } = useGraphQuery<
-    GQLToolboxSubjectPageQuery,
-    GQLToolboxSubjectPageQueryVariables
-  >(toolboxSubjectPageQuery, {
-    variables: {
-      subjectId: subjectId!,
+  const { loading, data } = useGraphQuery<GQLToolboxSubjectPageQuery, GQLToolboxSubjectPageQueryVariables>(
+    toolboxSubjectPageQuery,
+    {
+      variables: {
+        subjectId: subjectId!,
+      },
     },
-  });
+  );
 
   if (loading) {
     return <ContentPlaceholder />;

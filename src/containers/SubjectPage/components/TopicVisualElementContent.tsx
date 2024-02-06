@@ -6,28 +6,17 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import {
-  AccordionContent,
-  AccordionHeader,
-  AccordionItem,
-  AccordionRoot,
-} from '@ndla/accordion';
-import { colors, spacing } from '@ndla/core';
-import { EmbedMetaData } from '@ndla/types-embed';
-import { Text } from '@ndla/typography';
-import {
-  BrightcoveEmbed,
-  ExternalEmbed,
-  H5pEmbed,
-  IframeEmbed,
-  ImageEmbed,
-} from '@ndla/ui';
-import { GQLTopicVisualElementContent_MetaFragment } from '../../../graphqlTypes';
-import { hasLicensedContent } from '../../ResourceEmbed/components/ResourceEmbed';
-import ResourceEmbedLicenseBox from '../../ResourceEmbed/components/ResourceEmbedLicenseBox';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
+import { colors, spacing } from "@ndla/core";
+import { EmbedMetaData } from "@ndla/types-embed";
+import { Text } from "@ndla/typography";
+import { BrightcoveEmbed, ExternalEmbed, H5pEmbed, IframeEmbed, ImageEmbed } from "@ndla/ui";
+import { GQLTopicVisualElementContent_MetaFragment } from "../../../graphqlTypes";
+import { hasLicensedContent } from "../../ResourceEmbed/components/ResourceEmbed";
+import ResourceEmbedLicenseBox from "../../ResourceEmbed/components/ResourceEmbedLicenseBox";
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,15 +39,15 @@ const TopicVisualElementContent = ({ embed, metadata }: Props) => {
   const { t } = useTranslation();
   return (
     <Wrapper>
-      {embed.resource === 'image' ? (
+      {embed.resource === "image" ? (
         <ImageEmbed embed={embed} />
-      ) : embed.resource === 'brightcove' ? (
+      ) : embed.resource === "brightcove" ? (
         <BrightcoveEmbed embed={embed} />
-      ) : embed.resource === 'h5p' ? (
+      ) : embed.resource === "h5p" ? (
         <H5pEmbed embed={embed} />
-      ) : embed.resource === 'iframe' ? (
+      ) : embed.resource === "iframe" ? (
         <IframeEmbed embed={embed} />
-      ) : embed.resource === 'external' ? (
+      ) : embed.resource === "external" ? (
         <ExternalEmbed embed={embed} />
       ) : null}
       <AccordionRoot type="single" collapsible>
@@ -66,7 +55,7 @@ const TopicVisualElementContent = ({ embed, metadata }: Props) => {
           <AccordionItem value="rulesForUse">
             <StyledAccordionHeader>
               <Text element="span" textStyle="button" margin="none">
-                {t('article.useContent')}
+                {t("article.useContent")}
               </Text>
             </StyledAccordionHeader>
             <AccordionContent>

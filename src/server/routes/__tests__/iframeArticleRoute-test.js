@@ -6,31 +6,31 @@
  *
  */
 
-import { iframeArticleRoute } from '../iframeArticleRoute';
+import { iframeArticleRoute } from "../iframeArticleRoute";
 
-jest.mock('../../helpers/Document', () => () => (
+jest.mock("../../helpers/Document", () => () => (
   <html lang="en">
     <body>REPLACE_ME</body>
   </html>
 ));
 
-jest.mock('../../../iframe/IframePage', () => ({ status }) => (
+jest.mock("../../../iframe/IframePage", () => ({ status }) => (
   <div>
     <p>{status}</p>
   </div>
 ));
 
-test('iframeArticleRoute 200 OK', async () => {
+test("iframeArticleRoute 200 OK", async () => {
   const response = await iframeArticleRoute({
     params: {
-      lang: 'nb',
-      articleId: '26050',
-      taxonomyId: 'urn:resource:123',
+      lang: "nb",
+      articleId: "26050",
+      taxonomyId: "urn:resource:123",
     },
     headers: {
-      'user-agent': 'Mozilla/5.0 Gecko/20100101 Firefox/58.0',
+      "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
     },
-    url: '/article-iframe/nb/urn:resource:123/26050',
+    url: "/article-iframe/nb/urn:resource:123/26050",
   });
 
   expect(response).toMatchSnapshot();
