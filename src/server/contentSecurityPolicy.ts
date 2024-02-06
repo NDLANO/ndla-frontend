@@ -28,7 +28,7 @@ const connectSrc = (() => {
     "https://*.dataporten.no",
     "https://*.clarity.ms",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return [
       ...defaultConnectSrc,
       "https://devtools.apollodata.com/graphql",
@@ -103,7 +103,7 @@ const scriptSrc = (() => {
     "https://*.clarity.ms",
     "https://app-script.monsido.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
   }
   // Temp for testing xapi
@@ -184,7 +184,7 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return [...defaultFrameSrc, `http://localhost:${hmrPort}`, "http://localhost:3000"];
   }
   return defaultFrameSrc;
@@ -199,7 +199,7 @@ const fontSrc = (() => {
     "https://*.clarity.ms",
     "cdn.jsdelivr.net",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
   }
   return defaultFontSrc;
@@ -209,7 +209,7 @@ const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", "https://tall.ndla.no"],
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: process.env.NODE_ENV === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
     frameAncestors: null,

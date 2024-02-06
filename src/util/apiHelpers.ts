@@ -22,7 +22,7 @@ const __SERVER__ = process.env.BUILD_TARGET === "server"; //eslint-disable-line
 const __CLIENT__ = process.env.BUILD_TARGET === "client"; //eslint-disable-line
 
 const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === "unittest") {
+  if (config.runtimeType === "unittest") {
     return "http://ndla-api";
   }
 
