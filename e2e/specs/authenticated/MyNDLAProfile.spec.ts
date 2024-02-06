@@ -6,49 +6,45 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute } from '../../apiMock';
+import { test, expect } from "@playwright/test";
+import { mockGraphqlRoute } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        fixture: 'minndla_profile_myndladata',
-        names: ['myNdlaData'],
+        fixture: "minndla_profile_myndladata",
+        names: ["myNdlaData"],
       },
       {
-        fixture: 'minndla_profile_notifications',
-        names: ['arenaNotificationsV2'],
+        fixture: "minndla_profile_notifications",
+        names: ["arenaNotificationsV2"],
       },
       {
-        fixture: 'minndla_profile_updatedata',
-        names: ['updatePersonalData'],
+        fixture: "minndla_profile_updatedata",
+        names: ["updatePersonalData"],
       },
     ],
   });
-  await page.goto('/minndla/profile');
+  await page.goto("/minndla/profile");
 });
 
-test('has name, school and profile image', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: 'Anne LærerVGS Haugen' }),
-  ).toBeAttached();
-  expect(
-    page.getByRole('heading', { name: 'Anne LærerVGS Haugen' }),
-  ).toBeTruthy();
-  expect(page.getByText('LERK VGS')).toBeTruthy();
+test("has name, school and profile image", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Anne LærerVGS Haugen" })).toBeAttached();
+  expect(page.getByRole("heading", { name: "Anne LærerVGS Haugen" })).toBeTruthy();
+  expect(page.getByText("LERK VGS")).toBeTruthy();
   expect(page.locator('div[data-myprofile="true"]')).toBeTruthy();
-  await expect(page.locator('div[data-myprofile="true"]')).toHaveText('AH');
+  await expect(page.locator('div[data-myprofile="true"]')).toHaveText("AH");
 });
 
-test('can change folder sharing settings', async ({ page }) => {
+test("can change folder sharing settings", async ({ page }) => {
   await expect(
-    page.getByRole('heading', {
-      name: 'Velg om du vil vise navn når du deler en mappe',
+    page.getByRole("heading", {
+      name: "Velg om du vil vise navn når du deler en mappe",
     }),
   ).toBeAttached();
-  const [show, dontShow] = await page.locator('form').locator('button').all();
+  const [show, dontShow] = await page.locator("form").locator("button").all();
   await expect(show).toBeChecked();
   await expect(dontShow).toBeChecked({ checked: false });
 
@@ -56,15 +52,11 @@ test('can change folder sharing settings', async ({ page }) => {
   await expect(dontShow).toBeChecked();
   await expect(show).toBeChecked({ checked: false });
 
-  await expect(
-    page.getByText('Navnet ditt er nå fjernet fra alle dine delte mapper'),
-  ).toBeInViewport();
+  await expect(page.getByText("Navnet ditt er nå fjernet fra alle dine delte mapper")).toBeInViewport();
 
   await show.click();
   await expect(show).toBeChecked();
   await expect(dontShow).toBeChecked({ checked: false });
 
-  await expect(
-    page.getByText('Navnet ditt vises nå på alle dine delte mapper'),
-  ).toBeInViewport();
+  await expect(page.getByText("Navnet ditt vises nå på alle dine delte mapper")).toBeInViewport();
 });
