@@ -46,8 +46,9 @@ test('have recently added to folder', async ({ page }) => {
   expect(
     await page
       .getByRole('main')
+      .locator('section')
+      .first()
       .getByRole('listitem')
-      .filter({ has: page.locator('[data-link]') })
       .count(),
   ).toBeGreaterThanOrEqual(1);
 
@@ -68,8 +69,9 @@ test('have new posts in arena', async ({ page }) => {
   expect(
     await page
       .getByRole('main')
+      .locator('section')
+      .nth(1)
       .getByRole('listitem')
-      .filter({ hasNot: page.locator('[data-link]') })
       .count(),
   ).toBeGreaterThanOrEqual(1);
 
