@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import SafeLinkButton from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { MyNdla } from "../../../routeHelpers";
 
@@ -71,8 +71,6 @@ const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: 
 
   return (
     <StyledSafeLink
-      colorTheme="lighter"
-      variant="ghost"
       aria-current={selected ? "page" : undefined}
       to={linkTo}
       reloadDocument={!!to}

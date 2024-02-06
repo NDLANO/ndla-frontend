@@ -18,10 +18,9 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
-import { toArena } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { MyNdla, toMyNdlaArenaTopic } from "../../../routeHelpers";
+import { MyNdla, MyNdlaArena } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -85,7 +84,7 @@ const TopicPage = () => {
 
   if (loading || !authContextLoaded) return <Spinner />;
   if (!user?.arenaEnabled) return <Navigate to={MyNdla} />;
-  if (!arenaCategory) return <Navigate to={toArena()} />;
+  if (!arenaCategory) return <Navigate to={MyNdlaArena} />;
 
   return (
     <MyNdlaPageWrapper>

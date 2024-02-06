@@ -17,7 +17,7 @@ import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
 import { FolderFormValues } from "./FolderForm";
 import { FolderShareModalContent } from "./FolderShareModal";
-import { copyFolderSharingLink, isStudent, sharedFolderLinkInternal } from "./util";
+import { copyFolderSharingLink, isStudent } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import config from "../../../config";
 import { GQLFolder } from "../../../graphqlTypes";
@@ -164,10 +164,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: sharedFolderLinkInternal(selectedFolder.id),
+      link: toMyNdlaFolder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(sharedFolderLinkInternal(selectedFolder.id));
+        navigate(toMyNdlaFolder(selectedFolder.id));
       },
     };
 

@@ -21,7 +21,6 @@ import { BellIcon } from "./NotificationButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaNotifications } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
-import { toAllNotifications } from "../Arena/utils";
 import { ViewType, buttonCss } from "../Folders/FoldersPage";
 import { OutletContext, menuLinks } from "../MyNdlaLayout";
 

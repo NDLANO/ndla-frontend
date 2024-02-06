@@ -74,7 +74,7 @@ const ModeratorTag = styled(Text)`
 `;
 
 const TagContainer = ({ username, children }: { children: ReactNode; username: string | undefined }) => {
-  const link = username ? `/minndla/arena/user/${username}` : null;
+  const link = username ? toMyNdlaArenaUser(username) : null;
   if (!link) {
     return <UserProfileTagContainerNoLink>{children}</UserProfileTagContainerNoLink>;
   }

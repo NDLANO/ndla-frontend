@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Breadcrumb } from "@ndla/ui";
 import { GQLBreadcrumb } from "../../../graphqlTypes";
-import { MyNdla, MyNdlaArena, MyNdlaFolders, MyNdlaSubjects, MyNdlaTags } from "../../../routeHelpers";
+import { MyNdla, MyNdlaAdmin, MyNdlaArena, MyNdlaFolders, MyNdlaSubjects, MyNdlaTags } from "../../../routeHelpers";
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
@@ -34,6 +34,10 @@ const types = {
   arena: {
     to: MyNdlaArena,
     name: "myNdla.arena.title",
+  },
+  admin: {
+    to: MyNdlaAdmin,
+    name: "myNdla.arena.admin",
   },
 };
 

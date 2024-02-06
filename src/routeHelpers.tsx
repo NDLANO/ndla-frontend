@@ -203,6 +203,8 @@ export const MyNdlaFolders = `${MyNdla}/folders`;
 export const MyNdlaSubjects = `${MyNdla}/subjects`;
 export const MyNdlaTags = `${MyNdla}/tags`;
 export const MyNdlaNotifications = `${MyNdlaArena}/notifications`;
+export const MyNdlaAdmin = `${MyNdla}/admin`;
+export const MyNdlaAdminFlags = `${MyNdlaAdmin}/flags`;
 
 export const toMyNdlaArenaCategory = (categoryId: number) => {
   return `${MyNdlaArena}/category/${categoryId}`;
@@ -218,4 +220,16 @@ export const toMyNdlaArenaUser = (username: String) => {
 
 export const toMyNdlaFolder = (folderId: String) => {
   return `${MyNdlaFolders}/${folderId}`;
+};
+
+export const toMyNdlaFolderPreview = (folderId: String) => {
+  return `${MyNdlaFolders}/preview/${folderId}`;
+};
+
+export const toMyNdlaAdminUsers = (params: String) => {
+  return `${MyNdlaAdmin}/users${params}`;
+};
+
+export const toMyNdlaAdminFlagsWithParams = (params: String) => {
+  return `${MyNdlaAdminFlags}${params}`;
 };

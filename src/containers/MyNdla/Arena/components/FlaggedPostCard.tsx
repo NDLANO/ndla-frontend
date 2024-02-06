@@ -16,9 +16,10 @@ import { Text, Heading } from "@ndla/typography";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
+import { toMyNdlaArenaTopic } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
-import { capitalizeFirstLetter, toArenaTopic } from "../utils";
+import { capitalizeFirstLetter } from "../utils";
 
 interface Props {
   post: GQLArenaPostV2Fragment;
@@ -96,7 +97,7 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
-        <SafeLinkButton to={toArenaTopic(topicId)}>{t("myNdla.arena.admin.flags.goToTopic")}</SafeLinkButton>
+        <SafeLinkButton to={toMyNdlaArenaTopic(topicId)}>{t("myNdla.arena.admin.flags.goToTopic")}</SafeLinkButton>
       </FlexLine>
     </PostCardWrapper>
   );

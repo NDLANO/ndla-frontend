@@ -19,7 +19,7 @@ import FolderDeleteModal from "./FolderDeleteModal";
 import FolderEditModal from "./FolderEditModal";
 import FolderShareModal from "./FolderShareModal";
 import { buttonCss, iconCss } from "./FoldersPage";
-import { isStudent, copyFolderSharingLink, sharedFolderLinkInternal } from "./util";
+import { isStudent, copyFolderSharingLink } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { toMyNdlaFolder } from "../../../routeHelpers";
@@ -247,7 +247,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={sharedFolderLinkInternal(selectedFolder.id)}
+        to={toMyNdlaFolder(selectedFolder.id)}
         aria-label={t("myNdla.folder.sharing.button.goTo")}
         title={t("myNdla.folder.sharing.button.goTo")}
       >

@@ -16,7 +16,6 @@ import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
 import { MyNdlaNotifications } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
-import { toAllNotifications } from "../Arena/utils";
 
 const StyledContent = styled(Content)`
   background-color: ${colors.background.default};
