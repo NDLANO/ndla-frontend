@@ -32,7 +32,6 @@ export type EmbedInitialProps = {
   isOembed?: string;
   status?: "success" | "error";
   loading?: boolean;
-  resCookie?: string;
   basename?: string;
   locale?: LocaleType;
   ltiData?: LtiData;

@@ -75,7 +75,7 @@ export const convertSearchParam = (value?: any) => {
 interface ResultBase {
   id: number | string;
   title?: string;
-  url: string | { href: string };
+  url: string;
   contentType?: string;
   metaImage?: {
     url?: string;
