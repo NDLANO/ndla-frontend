@@ -112,6 +112,7 @@ export type ConfigType = {
   arenaAdminGroup: string;
   enableNodeBB: boolean;
   runtimeType: RuntimeType;
+  isClient: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -144,6 +145,7 @@ const getServerSideConfig = (): ConfigType => {
     arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
     enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
+    isClient: false,
   };
 };
 

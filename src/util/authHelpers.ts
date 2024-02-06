@@ -20,7 +20,7 @@ const locationOrigin = (() => {
     return "http://ndla-frontend";
   }
 
-  if (process.env.BUILD_TARGET === "server") {
+  if (!config.isClient) {
     return "";
   }
   if (typeof window === "undefined") {

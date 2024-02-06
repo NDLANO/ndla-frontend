@@ -65,7 +65,7 @@ exports[`Document renderers correctly 1`] = `
     <script
       type="text/javascript"
     >
-      window.DATA = {}; 
+      window.DATA = {"config":{"isClient":true}}; 
     </script>
     <script
       crossorigin="anonymous"

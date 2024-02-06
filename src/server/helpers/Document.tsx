@@ -111,7 +111,13 @@ const Document = ({ helmet, assets, data, styles }: Props) => {
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
-            __html: `window.DATA = ${serialize(data)}; `,
+            __html: `window.DATA = ${serialize({
+              ...data,
+              config: {
+                ...data?.config,
+                isClient: true,
+              },
+            })}; `,
           }}
         />
         {assets.js.map((asset) => (
