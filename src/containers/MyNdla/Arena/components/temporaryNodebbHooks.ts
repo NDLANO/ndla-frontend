@@ -44,7 +44,11 @@ export const useArenaCategory = (categoryId: string | undefined) => {
         title: nodebbArenaCategory?.name,
         visible: true,
         topics: nodebbArenaCategory?.topics?.map((topic) => {
-          return { ...topic, created: topic.timestamp };
+          return {
+            ...topic,
+            created: topic.timestamp,
+            isLocked: topic?.locked,
+          };
         }),
       },
     };
