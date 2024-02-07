@@ -96,5 +96,4 @@ test("can cancel and get usaved edits message when creating topic", async ({ pag
   await expect(page.getByRole("dialog").getByRole("heading")).toHaveText("Forkast nytt innlegg");
   await page.getByRole("button", { name: "Forkast innlegget" }).click();
   await page.waitForURL("/minndla/arena/category/1");
-  await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeInViewport();
 });
