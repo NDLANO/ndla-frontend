@@ -212,7 +212,7 @@ const contentSecurityPolicy = {
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
-    frameAncestors: null,
+    frameAncestors: "https://tall.ndla.no",
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
