@@ -70,12 +70,7 @@ const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: 
   const linkTo = to ?? `${MyNdla}${id ? `/${id}` : ""}`;
 
   return (
-    <StyledSafeLink
-      aria-current={selected ? "page" : undefined}
-      to={linkTo}
-      reloadDocument={!!to}
-      onClick={onClick}
-    >
+    <StyledSafeLink aria-current={selected ? "page" : undefined} to={linkTo} reloadDocument={!!to} onClick={onClick}>
       <IconWrapper>{selectedIcon}</IconWrapper>
       <LongText textStyle="meta-text-small" margin="none" data-current={selected}>
         {name}

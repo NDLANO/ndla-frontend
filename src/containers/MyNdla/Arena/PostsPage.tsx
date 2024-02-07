@@ -115,7 +115,7 @@ const PostsPage = () => {
 
   if (loading) return <Spinner />;
   if (authContextLoaded && !user?.arenaEnabled) {
-    return <Navigate to={MyNdlaArena} />;
+    return <Navigate to={MyNdla} />;
   }
 
   return (

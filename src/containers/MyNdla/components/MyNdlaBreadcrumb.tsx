@@ -37,7 +37,7 @@ const types = {
   },
   admin: {
     to: MyNdlaAdmin,
-    name: "myNdla.arena.admin",
+    name: "myNdla.arena.admin.title",
   },
 };
 
