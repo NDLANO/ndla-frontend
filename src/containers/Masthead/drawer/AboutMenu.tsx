@@ -157,6 +157,9 @@ const NewAboutMenuPortion = ({
             active={!selected}
           />
           {item.menu?.map((link) => {
+            if (link.hideLevel) {
+              return null;
+            }
             if (!link.menu?.length) {
               return (
                 <DrawerMenuItem
