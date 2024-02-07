@@ -8,10 +8,10 @@
 
 // N.B! don't import this on the client!
 
-import { createLogger } from 'bunyan';
-import 'source-map-support/register';
+import { createLogger } from "bunyan";
+import "source-map-support/register";
 
-const log = createLogger({ name: 'ndla-frontend' });
+const log = createLogger({ name: "ndla-frontend" });
 
 // Not used.
 // log.logAndReturnValue = (level, msg, value) => {

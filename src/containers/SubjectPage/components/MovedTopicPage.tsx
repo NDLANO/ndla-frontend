@@ -6,22 +6,16 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { SearchResultList, OneColumn } from '@ndla/ui';
-import {
-  GQLMovedTopicPage_TopicFragment,
-  GQLSearchResult,
-} from '../../../graphqlTypes';
-import { resultsWithContentTypeBadgeAndImage } from '../../SearchPage/searchHelpers';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { SearchResultList, OneColumn } from "@ndla/ui";
+import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
+import { resultsWithContentTypeBadgeAndImage } from "../../SearchPage/searchHelpers";
 
 interface GQLSearchResultExtended
-  extends Omit<
-    GQLSearchResult,
-    'id' | 'contexts' | 'metaDescription' | 'supportedLanguages' | 'traits'
-  > {
+  extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
   subjects?: {
     url?: string;
     title: string;
@@ -32,21 +26,19 @@ interface GQLSearchResultExtended
   contentType: string;
 }
 
-const convertTopicToResult = (
-  topic: GQLMovedTopicPage_TopicFragment,
-): GQLSearchResultExtended => {
+const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
-    url: topic.path || '',
+    url: topic.path || "",
     id: topic.id,
-    ingress: topic.meta?.metaDescription ?? '',
+    ingress: topic.meta?.metaDescription ?? "",
     subjects: topic.contexts?.map(({ breadcrumbs }) => ({
       url: topic.path,
       title: breadcrumbs[0]!,
       breadcrumb: breadcrumbs,
     })),
-    contentType: 'topic',
+    contentType: "topic",
   };
 };
 
@@ -57,9 +49,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
   return [
     {
       ...firstResult,
-      subjects: results.flatMap(
-        (topic: GQLSearchResultExtended) => topic.subjects ?? [],
-      ),
+      subjects: results.flatMap((topic: GQLSearchResultExtended) => topic.subjects ?? []),
     },
   ];
 };
@@ -85,7 +75,7 @@ const MovedTopicPage = ({ topics }: Props) => {
 
   return (
     <OneColumn>
-      <h1>{t('movedResourcePage.title')}</h1>
+      <h1>{t("movedResourcePage.title")}</h1>
       <StyledSearchResultListWrapper>
         <SearchResultList results={mergedTopic} />
       </StyledSearchResultListWrapper>

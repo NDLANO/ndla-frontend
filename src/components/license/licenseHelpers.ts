@@ -6,16 +6,11 @@
  *
  */
 
-import { COPYRIGHTED } from '@ndla/licenses';
-import { GQLCopyright } from '../../graphqlTypes';
+import { COPYRIGHTED } from "@ndla/licenses";
+import { GQLCopyright } from "../../graphqlTypes";
 
-type BaseCopyright = Pick<
-  GQLCopyright,
-  'creators' | 'processors' | 'rightsholders'
->;
-export const licenseCopyrightToCopyrightType = <T extends BaseCopyright>(
-  copyright: T | undefined,
-) => {
+type BaseCopyright = Pick<GQLCopyright, "creators" | "processors" | "rightsholders">;
+export const licenseCopyrightToCopyrightType = <T extends BaseCopyright>(copyright: T | undefined) => {
   const processors = copyright?.processors ?? [];
   const rightsholders = copyright?.rightsholders ?? [];
   const creators = copyright?.creators ?? [];
@@ -27,5 +22,4 @@ export const licenseCopyrightToCopyrightType = <T extends BaseCopyright>(
   };
 };
 
-export const isCopyrighted = (license?: string) =>
-  license?.toLowerCase() === COPYRIGHTED;
+export const isCopyrighted = (license?: string) => license?.toLowerCase() === COPYRIGHTED;

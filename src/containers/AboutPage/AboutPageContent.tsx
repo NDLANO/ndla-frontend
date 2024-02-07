@@ -6,38 +6,29 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect, useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { DynamicComponents } from '@ndla/article-converter';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import { useTracker } from '@ndla/tracker';
-import {
-  FRONTPAGE_ARTICLE_MAX_WIDTH,
-  FrontpageArticle,
-  HomeBreadcrumb,
-} from '@ndla/ui';
-import AboutPageFooter from './AboutPageFooter';
-import { AuthContext } from '../../components/AuthenticationContext';
-import LicenseBox from '../../components/license/LicenseBox';
-import AddEmbedToFolder from '../../components/MyNdla/AddEmbedToFolder';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import config from '../../config';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import {
-  GQLAboutPage_ArticleFragment,
-  GQLAboutPage_FrontpageMenuFragment,
-} from '../../graphqlTypes';
-import { toAbout } from '../../routeHelpers';
-import { getArticleScripts } from '../../util/getArticleScripts';
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from '../../util/getStructuredDataFromArticle';
-import { getAllDimensions } from '../../util/trackingUtil';
-import { transformArticle } from '../../util/transformArticle';
+import { TFunction } from "i18next";
+import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { DynamicComponents } from "@ndla/article-converter";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { useTracker } from "@ndla/tracker";
+import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from "@ndla/ui";
+import AboutPageFooter from "./AboutPageFooter";
+import { AuthContext } from "../../components/AuthenticationContext";
+import LicenseBox from "../../components/license/LicenseBox";
+import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
+import { toAbout } from "../../routeHelpers";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
 
 interface Props {
   article: GQLAboutPage_ArticleFragment;
@@ -82,11 +73,7 @@ export const findBreadcrumb = (
     if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
       return newPath;
     } else if (item.menu?.length) {
-      const foundPath = findBreadcrumb(
-        item.menu as GQLAboutPage_FrontpageMenuFragment[],
-        slug,
-        newPath,
-      );
+      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath);
       if (foundPath.length) {
         return foundPath;
       }
@@ -95,19 +82,12 @@ export const findBreadcrumb = (
   return [];
 };
 
-const getBreadcrumb = (
-  slug: string | undefined,
-  frontpage: GQLAboutPage_FrontpageMenuFragment,
-  t: TFunction,
-) => {
-  const crumbs = findBreadcrumb(
-    frontpage.menu as GQLAboutPage_FrontpageMenuFragment[],
-    slug,
-  );
+const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_FrontpageMenuFragment, t: TFunction) => {
+  const crumbs = findBreadcrumb(frontpage.menu as GQLAboutPage_FrontpageMenuFragment[], slug);
   return [
     {
-      name: t('breadcrumb.toFrontpage'),
-      to: '/',
+      name: t("breadcrumb.toFrontpage"),
+      to: "/",
     },
   ].concat(
     crumbs.map((crumb) => ({
@@ -117,8 +97,7 @@ const getBreadcrumb = (
   );
 };
 
-const getDocumentTitle = (t: TFunction, title: string) =>
-  t('htmlTitles.aboutPage', { name: title });
+const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
 const converterComponents: DynamicComponents = {
   heartButton: AddEmbedToFolder,
@@ -129,18 +108,11 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
-  const crumbs = useMemo(
-    () => getBreadcrumb(_article.slug, frontpage, t),
-    [_article.slug, frontpage, t],
-  );
+  const crumbs = useMemo(() => getBreadcrumb(_article.slug, frontpage, t), [_article.slug, frontpage, t]);
 
   useEffect(() => {
     if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions(
-        { article: _article, user },
-        undefined,
-        true,
-      );
+      const dimensions = getAllDimensions({ article: _article, user }, undefined, true);
       trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);
@@ -157,14 +129,14 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
           ..._article.copyright,
           processed: _article.copyright.processed ?? false,
         },
-        introduction: transformedArticle.introduction ?? '',
+        introduction: transformedArticle.introduction ?? "",
       },
       getArticleScripts(_article, i18n.language),
     ];
   }, [_article, i18n.language])!;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === 'function') {
+    if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
       } catch (err) {
@@ -180,24 +152,11 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
           <title>{`${getDocumentTitle(t, article.title)}`}</title>
           <meta name="pageid" content={`${article.id}`} />
           {scripts?.map((script) => (
-            <script
-              key={script.src}
-              src={script.src}
-              type={script.type}
-              async={script.async}
-              defer={script.defer}
-            />
+            <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={oembedUrl}
-            title={article.title}
-          />
+          <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
           <script type="application/ld+json">
-            {JSON.stringify(
-              getStructuredDataFromArticle(_article, i18n.language, crumbs),
-            )}
+            {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
           </script>
         </Helmet>
         <SocialMediaMetadata
@@ -210,12 +169,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         <FrontpageArticle
           id={SKIP_TO_CONTENT_ID}
           article={article}
-          licenseBox={
-            <LicenseBox
-              article={article}
-              copyText={article?.metaData?.copyText}
-            />
-          }
+          licenseBox={<LicenseBox article={article} copyText={article?.metaData?.copyText} />}
         />
       </StyledMain>
       <AboutPageFooter frontpage={frontpage} />

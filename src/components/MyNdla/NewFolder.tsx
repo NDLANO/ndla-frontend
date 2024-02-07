@@ -6,17 +6,13 @@
  *
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useApolloClient } from '@apollo/client';
-import { FolderInput } from '@ndla/ui';
-import {
-  getFolder,
-  useAddFolderMutation,
-  useFolders,
-} from '../../containers/MyNdla/folderMutations';
-import { GQLFolder } from '../../graphqlTypes';
-import useValidationTranslation from '../../util/useValidationTranslation';
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useApolloClient } from "@apollo/client";
+import { FolderInput } from "@ndla/ui";
+import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
+import { GQLFolder } from "../../graphqlTypes";
+import useValidationTranslation from "../../util/useValidationTranslation";
 
 interface Props {
   parentId: string;
@@ -25,22 +21,14 @@ interface Props {
   onCreate?: (folder: GQLFolder, parentId: string) => void;
 }
 
-const NewFolder = ({
-  parentId,
-  onClose,
-  initialValue = '',
-  onCreate,
-}: Props) => {
+const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { folders } = useFolders();
   const { cache } = useApolloClient();
   const siblings = useMemo(
-    () =>
-      parentId !== 'folders'
-        ? getFolder(cache, parentId)?.subfolders ?? []
-        : folders,
+    () => (parentId !== "folders" ? getFolder(cache, parentId)?.subfolders ?? [] : folders),
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
@@ -54,7 +42,7 @@ const NewFolder = ({
     }
     const res = await addFolder({
       variables: {
-        parentId: parentId === 'folders' ? undefined : parentId,
+        parentId: parentId === "folders" ? undefined : parentId,
         name,
       },
     });
@@ -70,19 +58,19 @@ const NewFolder = ({
       return;
     }
     if (name.length === 0) {
-      setError(validationT({ field: 'name', type: 'required' }));
+      setError(validationT({ field: "name", type: "required" }));
     } else if (siblingNames.includes(name.toLowerCase())) {
-      setError(validationT({ type: 'notUnique' }));
+      setError(validationT({ type: "notUnique" }));
     } else if (name.length > 64) {
       setError(
         validationT({
-          type: 'maxLength',
-          field: 'name',
+          type: "maxLength",
+          field: "name",
           vars: { count: 64 },
         }),
       );
     } else {
-      setError('');
+      setError("");
     }
   }, [name, validationT, siblingNames]);
 
@@ -92,8 +80,8 @@ const NewFolder = ({
       // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus
       name="name"
-      label={t('treeStructure.newFolder.folderName')}
-      placeholder={t('treeStructure.newFolder.placeholder')}
+      label={t("treeStructure.newFolder.folderName")}
+      placeholder={t("treeStructure.newFolder.placeholder")}
       loading={loading}
       onClose={onClose}
       onSave={onSave}
@@ -105,10 +93,10 @@ const NewFolder = ({
         }
       }}
       onKeyDown={(e) => {
-        if (e.key === 'Escape') {
+        if (e.key === "Escape") {
           e.preventDefault();
           onClose?.();
-        } else if (e.key === 'Enter') {
+        } else if (e.key === "Enter") {
           e.preventDefault();
           onSave();
         }

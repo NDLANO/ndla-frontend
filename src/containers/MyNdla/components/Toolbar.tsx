@@ -6,14 +6,14 @@
  *
  */
 
-import { ReactNode, useContext } from 'react';
-import styled from '@emotion/styled';
-import { breakpoints, colors, mq, spacing } from '@ndla/core';
-import MenuModalContent from './MenuModalContent';
-import NotificationPopover from './NotificationPopover';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { MY_NDLA_CONTENT_WIDTH } from '../../../constants';
-import { ViewType } from '../Folders/FoldersPage';
+import { ReactNode, useContext } from "react";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import MenuModalContent from "./MenuModalContent";
+import NotificationPopover from "./NotificationPopover";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
+import { ViewType } from "../Folders/FoldersPage";
 
 const ToolbarContainer = styled.div`
   display: none;
@@ -67,13 +67,7 @@ interface Props {
   showButtons?: boolean;
 }
 
-const Toolbar = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-}: Props) => {
+const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons }: Props) => {
   const { user } = useContext(AuthContext);
   return (
     <ToolbarContainer>

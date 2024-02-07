@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { TreeStructure } from '@ndla/ui';
-import { ComboboxContainer } from './AddResourceToFolder';
-import NewFolder from './NewFolder';
-import { GQLFolder, GQLFolderResource } from '../../graphqlTypes';
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { TreeStructure } from "@ndla/ui";
+import { ComboboxContainer } from "./AddResourceToFolder";
+import NewFolder from "./NewFolder";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
 interface Props {
   folders: GQLFolder[];
@@ -35,14 +35,14 @@ const FolderSelect = ({
   const structureFolders: GQLFolder[] = useMemo(
     () => [
       {
-        id: 'folders',
-        name: t('myNdla.myFolders'),
-        status: 'private',
+        id: "folders",
+        name: t("myNdla.myFolders"),
+        status: "private",
         subfolders: folders,
         breadcrumbs: [],
         resources: [],
-        created: '',
-        updated: '',
+        created: "",
+        updated: "",
       },
     ],
     [folders, t],
@@ -50,21 +50,19 @@ const FolderSelect = ({
 
   const defaultOpenFolders = useMemo(() => {
     const firstFolderId = structureFolders?.[0]?.subfolders[0]?.id;
-    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map(
-      (bc) => bc.id,
-    );
+    const defaultOpenFolderIds = defaultOpenFolder?.breadcrumbs.map((bc) => bc.id);
     const defaultOpen = defaultOpenFolderIds
-      ? ['folders'].concat(defaultOpenFolderIds)
+      ? ["folders"].concat(defaultOpenFolderIds)
       : firstFolderId
-        ? ['folders', firstFolderId]
-        : ['folders'];
+        ? ["folders", firstFolderId]
+        : ["folders"];
 
     return defaultOpen;
   }, [structureFolders, defaultOpenFolder?.breadcrumbs]);
 
   useEffect(() => {
     const last = defaultOpenFolders[defaultOpenFolders.length - 1];
-    if (last !== 'folders' && !selectedFolderId) {
+    if (last !== "folders" && !selectedFolderId) {
       setSelectedFolderId(last);
     }
   }, [defaultOpenFolders, selectedFolderId, setSelectedFolderId]);
@@ -74,17 +72,13 @@ const FolderSelect = ({
       <TreeStructure
         loading={loading}
         folders={structureFolders}
-        label={t('myNdla.myFolders')}
+        label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
         type="picker"
         targetResource={storedResource}
         newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder
-            parentId={parentId}
-            onClose={onClose}
-            onCreate={onCreate}
-          />
+          <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
         )}
         ariaDescribedby="treestructure-error-label"
       />

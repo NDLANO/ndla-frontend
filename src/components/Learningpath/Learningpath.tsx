@@ -6,11 +6,11 @@
  *
  */
 
-import { useEffect, useState } from 'react';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { breakpoints, mq } from '@ndla/core';
-import { useWindowSize } from '@ndla/hooks';
+import { useEffect, useState } from "react";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, mq } from "@ndla/core";
+import { useWindowSize } from "@ndla/hooks";
 import {
   LearningPathWrapper,
   LearningPathMenu,
@@ -24,10 +24,10 @@ import {
   constants,
   HomeBreadcrumb,
   HeroContent,
-} from '@ndla/ui';
-import LastLearningpathStepInfo from './LastLearningpathStepInfo';
-import LearningpathEmbed from './LearningpathEmbed';
-import config from '../../config';
+} from "@ndla/ui";
+import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
+import LearningpathEmbed from "./LearningpathEmbed";
+import config from "../../config";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -36,14 +36,14 @@ import {
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
   GQLLearningpath_TopicPathFragment,
-} from '../../graphqlTypes';
-import { Breadcrumb as BreadcrumbType } from '../../interfaces';
-import { toLearningPath, useIsNdlaFilm } from '../../routeHelpers';
-import { getContentType } from '../../util/getContentType';
-import FavoriteButton from '../Article/FavoritesButton';
-import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+} from "../../graphqlTypes";
+import { Breadcrumb as BreadcrumbType } from "../../interfaces";
+import { toLearningPath, useIsNdlaFilm } from "../../routeHelpers";
+import { getContentType } from "../../util/getContentType";
+import FavoriteButton from "../Article/FavoritesButton";
+import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
-const LEARNING_PATHS_STORAGE_KEY = 'LEARNING_PATHS_COOKIES_KEY';
+const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -75,9 +75,9 @@ const Learningpath = ({
 
   const lastUpdatedDate = new Date(lastUpdated);
 
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${
-    lastUpdatedDate.getMonth() + 1 < 10 ? '0' : ''
-  }${lastUpdatedDate.getMonth() + 1}.${lastUpdatedDate.getFullYear()}`;
+  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
+    lastUpdatedDate.getMonth() + 1
+  }.${lastUpdatedDate.getFullYear()}`;
 
   const { contentTypes } = constants;
 
@@ -94,30 +94,21 @@ const Learningpath = ({
   const [viewedSteps, setViewedSteps] = useState({});
 
   const updateViewedSteps = () => {
-    if (
-      learningpath &&
-      learningpathStep &&
-      learningpathStep.seqNo !== undefined
-    ) {
+    if (learningpath && learningpathStep && learningpathStep.seqNo !== undefined) {
       const currentViewedSteps = window.localStorage.getItem(storageKey);
-      const updatedViewedSteps = currentViewedSteps
-        ? JSON.parse(currentViewedSteps)
-        : {};
+      const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
       setViewedSteps(updatedViewedSteps);
       updatedViewedSteps[learningpathStep.id] = true;
-      window.localStorage.setItem(
-        storageKey,
-        JSON.stringify(updatedViewedSteps),
-      );
+      window.localStorage.setItem(storageKey, JSON.stringify(updatedViewedSteps));
     }
   };
 
   useEffect(() => updateViewedSteps(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
-    window.addEventListener('keyup', onKeyUpEvent);
+    window.addEventListener("keyup", onKeyUpEvent);
     updateViewedSteps();
     return () => {
-      window.removeEventListener('keyup', onKeyUpEvent);
+      window.removeEventListener("keyup", onKeyUpEvent);
     };
   }, [onKeyUpEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -128,9 +119,7 @@ const Learningpath = ({
       invertedStyle={ndlaFilm}
       learningPathId={id}
       learningsteps={mappedLearningsteps}
-      toLearningPathUrl={(pathId, stepId) =>
-        toLearningPath(pathId, stepId, resource)
-      }
+      toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
       lastUpdated={lastUpdatedString}
       copyright={copyright}
       currentIndex={learningpathStep.seqNo}
@@ -144,7 +133,7 @@ const Learningpath = ({
             resource={{
               id: learningpath.id.toString(),
               path: resource.path,
-              resourceType: 'learningpath',
+              resourceType: "learningpath",
             }}
           >
             <FavoriteButton path={resource.path} />
@@ -186,9 +175,7 @@ const Learningpath = ({
               />
             )}
             <LearningpathEmbed
-              skipToContentId={
-                !learningpathStep.showTitle ? skipToContentId : undefined
-              }
+              skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
               topic={topic}
               subjectId={subject?.id}
               learningpathStep={learningpathStep}
@@ -213,26 +200,19 @@ const Learningpath = ({
             arrow="left"
             pathId={learningpath.id}
             stepId={previousStep.id}
-            toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
-            }
+            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
             title={previousStep.title}
           />
         ) : (
           <LearningPathStickyPlaceholder />
         )}
-        <LearningPathMobileStepInfo
-          total={learningsteps.length}
-          current={learningpathStep.seqNo + 1}
-        />
+        <LearningPathMobileStepInfo total={learningsteps.length} current={learningpathStep.seqNo + 1} />
         {nextStep ? (
           <LearningPathStickySibling
             arrow="right"
             pathId={learningpath.id}
             stepId={nextStep.id}
-            toLearningPathUrl={(pathId, stepId) =>
-              toLearningPath(pathId, stepId, resource)
-            }
+            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
             title={nextStep.title}
           />
         ) : (

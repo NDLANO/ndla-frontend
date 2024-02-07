@@ -6,21 +6,21 @@
  *
  */
 
-import { TFunction } from 'i18next';
-import { useContext, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useTracker } from '@ndla/tracker';
-import { Programme } from '@ndla/ui';
-import { AuthContext } from '../../components/AuthenticationContext';
-import SocialMediaMetadata from '../../components/SocialMediaMetadata';
-import { SKIP_TO_CONTENT_ID } from '../../constants';
-import { LocaleType } from '../../interfaces';
-import { htmlTitle } from '../../util/titleHelper';
-import { getAllDimensions } from '../../util/trackingUtil';
+import { TFunction } from "i18next";
+import { useContext, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+import { useTracker } from "@ndla/tracker";
+import { Programme } from "@ndla/ui";
+import { AuthContext } from "../../components/AuthenticationContext";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { LocaleType } from "../../interfaces";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
-  return htmlTitle(`${title} - ${grade}`, [t('htmlTitles.titleTemplate')]);
+  return htmlTitle(`${title} - ${grade}`, [t("htmlTitles.titleTemplate")]);
 };
 
 interface GradeResult {
@@ -91,11 +91,10 @@ export const mapGradesData = (grades: GradeResult[]): GradesData[] => {
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
-      foundProgrammeSubject =
-        foundProgrammeSubject || category.isProgrammeSubject;
+      foundProgrammeSubject = foundProgrammeSubject || category.isProgrammeSubject;
       const categorySubjects = category.subjects?.map((subject) => {
         return {
-          label: subject.subjectpage?.about?.title || subject.name || '',
+          label: subject.subjectpage?.about?.title || subject.name || "",
           url: subject.path,
         };
       });
@@ -120,7 +119,7 @@ const ProgrammeContainer = ({ programme, grade }: Props) => {
   const grades = mapGradesData(programme.grades || []);
   const socialMediaTitle = `${programme.title.title} - ${grade}`;
   const metaDescription = programme.metaDescription;
-  const image = programme.desktopImage?.url || '';
+  const image = programme.desktopImage?.url || "";
   const pageTitle = getDocumentTitle(programme.title.title, grade, t);
   const { trackPageView } = useTracker();
 
@@ -142,11 +141,7 @@ const ProgrammeContainer = ({ programme, grade }: Props) => {
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
-      <SocialMediaMetadata
-        title={socialMediaTitle}
-        description={metaDescription}
-        imageUrl={image}
-      />
+      <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
       <main>
         <Programme
           headingId={SKIP_TO_CONTENT_ID}

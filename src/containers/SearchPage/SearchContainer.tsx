@@ -6,28 +6,20 @@
  *
  */
 
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacingUnit } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import {
-  SearchSubjectResult,
-  SearchFilterContent,
-  LanguageSelector,
-} from '@ndla/ui';
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacingUnit } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { SearchSubjectResult, SearchFilterContent, LanguageSelector } from "@ndla/ui";
 
-import SearchHeader from './components/SearchHeader';
-import SearchResults, { ViewType } from './components/SearchResults';
-import { SearchGroup, sortResourceTypes, TypeFilter } from './searchHelpers';
-import {
-  SearchCompetenceGoal,
-  SearchCoreElements,
-  SubjectItem,
-} from './SearchInnerPage';
-import { GQLSubjectInfoFragment } from '../../graphqlTypes';
-import { supportedLanguages } from '../../i18n';
-import { LocaleType } from '../../interfaces';
+import SearchHeader from "./components/SearchHeader";
+import SearchResults, { ViewType } from "./components/SearchResults";
+import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
+import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { GQLSubjectInfoFragment } from "../../graphqlTypes";
+import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -77,7 +69,7 @@ const SearchContainer = ({
   coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [listViewType, setListViewType] = useState<ViewType>('grid');
+  const [listViewType, setListViewType] = useState<ViewType>("grid");
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -90,8 +82,8 @@ const SearchContainer = ({
     }
   }
 
-  const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, 'value');
-  const sortedSearchGroups = sortResourceTypes(searchGroups, 'type');
+  const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
+  const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
 
   return (
     <main>
@@ -107,12 +99,8 @@ const SearchContainer = ({
         coreElements={coreElements}
         loading={loading}
       />
-      {subjectItems && subjectItems?.length > 0 && (
-        <SearchSubjectResult items={subjectItems} />
-      )}
-      <div aria-live="assertive">
-        {loading && searchGroups.length === 0 && <Spinner />}
-      </div>
+      {subjectItems && subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (
         <>
           {sortedFilterButtonItems.length > 1 && (
@@ -135,10 +123,7 @@ const SearchContainer = ({
           />
           {isLti && (
             <StyledLanguageSelector>
-              <LanguageSelector
-                locales={supportedLanguages}
-                onSelect={i18n.changeLanguage}
-              />
+              <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
             </StyledLanguageSelector>
           )}
         </>

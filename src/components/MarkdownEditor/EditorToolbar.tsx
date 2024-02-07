@@ -18,36 +18,26 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_NORMAL,
   KEY_MODIFIER_COMMAND,
-} from 'lexical';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+} from "lexical";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $isListNode,
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
   REMOVE_LIST_COMMAND,
-} from '@lexical/list';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $isAtNodeEnd } from '@lexical/selection';
-import {
-  $findMatchingParent,
-  mergeRegister,
-  $getNearestNodeOfType,
-} from '@lexical/utils';
-import { IconButtonV2 } from '@ndla/button';
-import { colors, misc, spacing } from '@ndla/core';
-import {
-  Bold,
-  Italic,
-  Link,
-  ListCircle,
-  ListNumbered,
-} from '@ndla/icons/editor';
-import { ADD_LINK_COMMAND } from './FloatingLinkEditorPlugin';
-import { useUserAgent } from '../../UserAgentContext';
+} from "@lexical/list";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $isAtNodeEnd } from "@lexical/selection";
+import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
+import { IconButtonV2 } from "@ndla/button";
+import { colors, misc, spacing } from "@ndla/core";
+import { Bold, Italic, Link, ListCircle, ListNumbered } from "@ndla/icons/editor";
+import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
+import { useUserAgent } from "../../UserAgentContext";
 
 const ButtonRow = styled.div`
   display: flex;
@@ -62,7 +52,7 @@ const ButtonRow = styled.div`
 const StyledButton = styled(IconButtonV2)`
   color: ${colors.text.primary};
   border-radius: ${misc.borderRadius};
-  &[data-active='true'] {
+  &[data-active="true"] {
     background: ${colors.brand.neutral7};
   }
   &[disabled] {
@@ -75,9 +65,7 @@ const StyledButton = styled(IconButtonV2)`
   }
 `;
 
-export const getSelectedNode = (
-  selection: RangeSelection,
-): TextNode | ElementNode => {
+export const getSelectedNode = (selection: RangeSelection): TextNode | ElementNode => {
   const anchor = selection.anchor;
   const focus = selection.focus;
   const anchorNode = selection.anchor.getNode();
@@ -111,17 +99,15 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
   const osCtrl = useCallback(
     (key: string) => {
-      if (selectors?.isMobile) return '';
-      return `(${selectors?.isMacOs ? '⌘' : 'Ctrl'}+${key})`;
+      if (selectors?.isMobile) return "";
+      return `(${selectors?.isMacOs ? "⌘" : "Ctrl"}+${key})`;
     },
     [selectors?.isMacOs, selectors?.isMobile],
   );
 
   const linkLabel = useMemo(() => {
-    const baseText = t(
-      `markdownEditor.toolbar.link.${isLink ? 'active' : 'inactive'}`,
-    );
-    return `${baseText} ${osCtrl('k')}`;
+    const baseText = t(`markdownEditor.toolbar.link.${isLink ? "active" : "inactive"}`);
+    return `${baseText} ${osCtrl("k")}`;
   }, [isLink, osCtrl, t]);
 
   const insertLink = useCallback(() => {
@@ -151,7 +137,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
     if ($isRangeSelection(selection) && editorIsFocused) {
       const anchorNode = selection.anchor.getNode();
       let element =
-        anchorNode.getKey() === 'root'
+        anchorNode.getKey() === "root"
           ? anchorNode
           : $findMatchingParent(anchorNode, (e) => {
               const parent = e.getParent();
@@ -165,8 +151,8 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
 
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
+      setIsBold(selection.hasFormat("bold"));
+      setIsItalic(selection.hasFormat("italic"));
 
       setHasSelectedText(selection.anchor.offset !== selection.focus.offset);
 
@@ -177,15 +163,10 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
       if (elementDOM !== null) {
         if ($isListNode(element)) {
-          const parentList = $getNearestNodeOfType<ListNode>(
-            anchorNode,
-            ListNode,
-          );
-          const type = parentList
-            ? parentList.getListType()
-            : element.getListType();
-          setIsUnorderedList(type === 'bullet');
-          setIsNumberedList(type === 'number');
+          const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
+          const type = parentList ? parentList.getListType() : element.getListType();
+          setIsUnorderedList(type === "bullet");
+          setIsNumberedList(type === "number");
         } else {
           setIsUnorderedList(false);
           setIsNumberedList(false);
@@ -213,7 +194,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         const event: KeyboardEvent = payload;
         const { code, ctrlKey, metaKey } = event;
 
-        if (code === 'KeyK' && (ctrlKey || metaKey)) {
+        if (code === "KeyK" && (ctrlKey || metaKey)) {
           event.preventDefault();
           if (isLink) {
             activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
@@ -242,16 +223,10 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       <StyledButton
         variant="ghost"
         colorTheme="greyLighter"
-        aria-label={`${t(
-          `markdownEditor.toolbar.bold.${isBold ? 'active' : 'inactive'}`,
-        )} ${osCtrl('b')}`}
-        title={`${t(
-          `markdownEditor.toolbar.bold.${isBold ? 'active' : 'inactive'}`,
-        )} ${osCtrl('b')}`}
+        aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
+        title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         data-active={isBold}
-        onClick={() =>
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
-        }
+        onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
       >
         <Bold />
       </StyledButton>
@@ -259,16 +234,10 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       <StyledButton
         variant="ghost"
         colorTheme="greyLighter"
-        aria-label={`${t(
-          `markdownEditor.toolbar.italic.${isItalic ? 'active' : 'inactive'}`,
-        )} ${osCtrl('i')}`}
-        title={`${t(
-          `markdownEditor.toolbar.italic.${isItalic ? 'active' : 'inactive'}`,
-        )} ${osCtrl('i')} `}
+        aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
+        title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         data-active={isItalic}
-        onClick={() =>
-          activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
-        }
+        onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
       >
         <Italic />
       </StyledButton>
@@ -277,16 +246,8 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         colorTheme="greyLighter"
         data-active={isUnorderedList}
         onClick={formatBulletList}
-        aria-label={t(
-          `markdownEditor.toolbar.unorderedList.${
-            isUnorderedList ? 'active' : 'inactive'
-          }`,
-        )}
-        title={t(
-          `markdownEditor.toolbar.unorderedList.${
-            isUnorderedList ? 'active' : 'inactive'
-          }`,
-        )}
+        aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
+        title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
       >
         <ListCircle />
       </StyledButton>
@@ -295,16 +256,8 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         colorTheme="greyLighter"
         data-active={isNumberedList}
         onClick={formatNumberedList}
-        aria-label={t(
-          `markdownEditor.toolbar.orderedList.${
-            isNumberedList ? 'active' : 'inactive'
-          }`,
-        )}
-        title={t(
-          `markdownEditor.toolbar.orderedList.${
-            isNumberedList ? 'active' : 'inactive'
-          }`,
-        )}
+        aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
+        title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
       >
         <ListNumbered />
       </StyledButton>

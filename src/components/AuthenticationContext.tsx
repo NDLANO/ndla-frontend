@@ -6,21 +6,12 @@
  *
  */
 
-import {
-  createContext,
-  ReactNode,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import { gql } from '@apollo/client';
-import config from '../config';
-import {
-  GQLMyNdlaDataQuery,
-  GQLMyNdlaPersonalDataFragmentFragment,
-} from '../graphqlTypes';
-import { isAccessTokenValid, millisUntilExpiration } from '../util/authHelpers';
-import { useGraphQuery } from '../util/runQueries';
+import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
+import { gql } from "@apollo/client";
+import config from "../config";
+import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
+import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
+import { useGraphQuery } from "../util/runQueries";
 
 export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
   isModerator: boolean;
@@ -51,10 +42,7 @@ interface Props {
 
 export const isArenaModerator = (groups?: string[]): boolean => {
   if (!groups) return false;
-  return (
-    groups.includes(config.arenaAdminGroup) ||
-    groups.includes(config.arenaModeratorGroup)
-  );
+  return groups.includes(config.arenaAdminGroup) || groups.includes(config.arenaModeratorGroup);
 };
 
 export const personalDataQueryFragment = gql`
@@ -99,7 +87,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
-    skip: typeof window === 'undefined',
+    skip: typeof window === "undefined",
   });
 
   useEffect(() => {
@@ -111,12 +99,11 @@ const AuthenticationContext = ({ children }: Props) => {
     const { personalData, examLockStatus } = myNdlaData.data;
 
     if (isValid && personalData !== undefined) {
-      if (personalData?.role === 'student') {
+      if (personalData?.role === "student") {
         setExamLock(examLockStatus?.value === true);
       }
       setUser({
-        isModerator:
-          isArenaModerator(personalData?.arenaGroups) && !config.enableNodeBB,
+        isModerator: isArenaModerator(personalData?.arenaGroups) && !config.enableNodeBB,
         ...personalData,
       });
       setLoaded(true);

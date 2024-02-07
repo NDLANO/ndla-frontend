@@ -64,7 +64,7 @@ jobs:
       - name: 'Enable yarn v4'
         run: |
           corepack enable
-          yarn set version berry
+          yarn set version 4.1.0
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)

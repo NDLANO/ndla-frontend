@@ -6,16 +6,16 @@
  *
  */
 
-import { parse, stringify } from 'query-string';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
-import { InputV3 } from '@ndla/forms';
-import Pager from '@ndla/pager';
-import UserList from './UserList';
-import { useArenaUsers } from '../../arenaQueries';
+import { parse, stringify } from "query-string";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { colors, spacing, misc } from "@ndla/core";
+import { InputV3 } from "@ndla/forms";
+import Pager from "@ndla/pager";
+import UserList from "./UserList";
+import { useArenaUsers } from "../../arenaQueries";
 
 const StyledHeaderRow = styled.div`
   background-color: ${colors.brand.lighter};
@@ -51,7 +51,7 @@ const Users = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchObject = parse(location.search);
-  const [queryString, setQueryString] = useState('');
+  const [queryString, setQueryString] = useState("");
   const page = getPage(searchObject);
   const pageSize = 30;
   const { users, loading } = useArenaUsers({
@@ -73,14 +73,11 @@ const Users = () => {
       ...newSearchObject,
     };
 
-    const newSearchQuery = Object.keys(searchQuery).reduce(
-      (acc: Record<string, string>, key) => {
-        if (searchQuery[key] === '') return acc;
-        acc[key] = searchQuery[key];
-        return acc;
-      },
-      {},
-    );
+    const newSearchQuery = Object.keys(searchQuery).reduce((acc: Record<string, string>, key) => {
+      if (searchQuery[key] === "") return acc;
+      acc[key] = searchQuery[key];
+      return acc;
+    }, {});
     navigate(`/minndla/admin/users?${stringify(newSearchQuery)}`);
   };
 
@@ -88,17 +85,17 @@ const Users = () => {
     <>
       <div>
         <SearchInput
-          placeholder={t('myNdla.arena.admin.users.search')}
+          placeholder={t("myNdla.arena.admin.users.search")}
           onChange={(e) => {
             setQueryString(e.target.value);
             navigate(`/minndla/admin/users?page=1`); // Reset page number when searching
           }}
         />
         <StyledHeaderRow>
-          <Cell>{t('myNdla.arena.admin.users.username')}</Cell>
-          <Cell>{t('myNdla.arena.admin.users.displayName')}</Cell>
-          <Cell>{t('myNdla.arena.admin.users.location')}</Cell>
-          <Cell>{t('myNdla.arena.admin.users.isAdmin')}</Cell>
+          <Cell>{t("myNdla.arena.admin.users.username")}</Cell>
+          <Cell>{t("myNdla.arena.admin.users.displayName")}</Cell>
+          <Cell>{t("myNdla.arena.admin.users.location")}</Cell>
+          <Cell>{t("myNdla.arena.admin.users.isAdmin")}</Cell>
         </StyledHeaderRow>
         <UserList loading={loading} users={users} />
       </div>

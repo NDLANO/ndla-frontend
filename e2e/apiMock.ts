@@ -6,10 +6,10 @@
  *
  */
 
-import { readFile, writeFile, mkdir } from 'fs/promises';
-import isEqual from 'lodash/isEqual';
-import { Page } from '@playwright/test';
-const mockDir = 'e2e/apiMocks/';
+import { readFile, writeFile, mkdir } from "fs/promises";
+import isEqual from "lodash/isEqual";
+import { Page } from "@playwright/test";
+const mockDir = "e2e/apiMocks/";
 
 interface MockRoute {
   page: Page;
@@ -20,43 +20,34 @@ interface MockRoute {
   overrideRoute?: boolean;
 }
 
-const skipHttpMethods = ['POST', 'PATCH', 'PUT', 'DELETE'];
+const skipHttpMethods = ["POST", "PATCH", "PUT", "DELETE"];
 
 /**
  *  Method for capturing and mocking calls that are not graphql calls.
  *  We only per now capture get methods.
  *
  */
-export const mockRoute = async ({
-  page,
-  path,
-  fixture,
-  overrideValue,
-  overrideRoute,
-  status = 200,
-}: MockRoute) => {
+export const mockRoute = async ({ page, path, fixture, overrideValue, overrideRoute, status = 200 }: MockRoute) => {
   if (overrideRoute) {
     await page.unroute(path);
   }
 
   return await page.route(path, async (route) => {
-    if (process.env.RECORD_FIXTURES === 'true') {
-      const text = skipHttpMethods.includes(route.request().method())
-        ? ''
-        : await (await route.fetch()).text();
+    if (process.env.RECORD_FIXTURES === "true") {
+      const text = skipHttpMethods.includes(route.request().method()) ? "" : await (await route.fetch()).text();
       const override = overrideValue
-        ? typeof overrideValue === 'string'
+        ? typeof overrideValue === "string"
           ? overrideValue
           : overrideValue(text)
         : undefined;
       await mkdir(mockDir, { recursive: true });
       await writeFile(`${mockDir}${fixture}.json`, override ?? text, {
-        flag: 'w',
+        flag: "w",
       });
       return route.fulfill({ body: text, status });
     } else {
       try {
-        const res = await readFile(`${mockDir}${fixture}.json`, 'utf8');
+        const res = await readFile(`${mockDir}${fixture}.json`, "utf8");
         return route.fulfill({ body: res, status });
       } catch (e) {
         route.abort();
@@ -89,33 +80,21 @@ interface GQLBody {
  * match the gql body operation names
  *
  */
-export const mockGraphqlRoute = async ({
-  page,
-  operation,
-  overrideRoute,
-}: GraphqlMockRoute) => {
-  if (overrideRoute) {
-    await page.unroute('**/graphql-api/graphql');
-  }
-
-  return await page.route('**/graphql-api/graphql', async (route) => {
-    if (process.env.RECORD_FIXTURES === 'true') {
+export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) => {
+  return await page.route("**/graphql-api/graphql", async (route) => {
+    if (process.env.RECORD_FIXTURES === "true") {
       const body: GQLBody[] | GQLBody = await route.request().postDataJSON();
       const resp = await route.fetch();
       const text = await resp.text();
 
-      const bodyOperationNames = Array.isArray(body)
-        ? body.map((b) => b.operationName)
-        : [body.operationName];
+      const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
 
-      const match = operation
-        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
-        .pop();
+      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
 
       if (match) {
         await mkdir(mockDir, { recursive: true });
         await writeFile(`${mockDir}${match.fixture}.json`, text, {
-          flag: 'w',
+          flag: "w",
         });
         return route.fulfill({
           body: text,
@@ -123,22 +102,15 @@ export const mockGraphqlRoute = async ({
       }
     } else {
       const body = await route.request().postDataJSON();
-      const bodyOperationNames = Array.isArray(body)
-        ? body.map((b) => b.operationName)
-        : [body.operationName];
+      const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
 
-      const match = operation
-        .filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort()))
-        .pop();
+      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
 
       if (match) {
         try {
-          const res = await readFile(
-            `${mockDir}${match.fixture}.json`,
-            'utf-8',
-          );
+          const res = await readFile(`${mockDir}${match.fixture}.json`, "utf-8");
           return route.fulfill({
-            contentType: 'application/json',
+            contentType: "application/json",
             body: res,
           });
         } catch (e) {
@@ -150,7 +122,7 @@ export const mockGraphqlRoute = async ({
 };
 
 export const mockWaitResponse = async (page: Page, url: string) => {
-  if (process.env.RECORD_FIXTURES === 'true') {
+  if (process.env.RECORD_FIXTURES === "true") {
     await page.waitForResponse(url);
   }
 };

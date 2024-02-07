@@ -6,15 +6,15 @@
  *
  */
 
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { OneColumn, ErrorResourceAccessDenied } from '@ndla/ui';
-import { Status } from '../../components';
-import { AuthContext } from '../../components/AuthenticationContext';
-import { useBaseName } from '../../components/BaseNameContext';
-import { constructNewPath, toHref } from '../../util/urlHelper';
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { OneColumn, ErrorResourceAccessDenied } from "@ndla/ui";
+import { Status } from "../../components";
+import { AuthContext } from "../../components/AuthenticationContext";
+import { useBaseName } from "../../components/BaseNameContext";
+import { constructNewPath, toHref } from "../../util/urlHelper";
 
 const AccessDenied = () => {
   const { t } = useTranslation();
@@ -25,15 +25,12 @@ const AccessDenied = () => {
 
   return (
     <Status code={statusCode}>
-      <HelmetWithTracker title={t('htmlTitles.accessDenied')} />
+      <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
       <OneColumn cssModifier="clear">
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
-            const route = authenticated ? 'logout' : 'login';
-            window.location.href = constructNewPath(
-              `/${route}?state=${toHref(location)}`,
-              basename,
-            );
+            const route = authenticated ? "logout" : "login";
+            window.location.href = constructNewPath(`/${route}?state=${toHref(location)}`, basename);
           }}
         />
       </OneColumn>

@@ -6,7 +6,7 @@
  *
  */
 
-import MastheadContainer from './MastheadContainer';
+import MastheadContainer from "./MastheadContainer";
 
 export { MastheadContainer };
 

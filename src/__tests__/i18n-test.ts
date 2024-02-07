@@ -6,32 +6,32 @@
  *
  */
 
-import { isValidLocale, getLocaleInfoFromPath, getLocaleObject } from '../i18n';
+import { isValidLocale, getLocaleInfoFromPath, getLocaleObject } from "../i18n";
 
-test('i18n getLocaleObject()', () => {
-  expect(getLocaleObject('nn').abbreviation).toBe('nn');
+test("i18n getLocaleObject()", () => {
+  expect(getLocaleObject("nn").abbreviation).toBe("nn");
 
-  expect(getLocaleObject('nb').abbreviation).toBe('nb');
+  expect(getLocaleObject("nb").abbreviation).toBe("nb");
 
   // Defaults to nb if locale not found
-  expect(getLocaleObject('ru').abbreviation).toBe('nb');
+  expect(getLocaleObject("ru").abbreviation).toBe("nb");
 });
 
-test('i18n isValidLocale()', () => {
-  expect(isValidLocale('nb')).toBe(true);
-  expect(isValidLocale('nn')).toBe(true);
-  expect(isValidLocale('en')).toBe(true);
-  expect(isValidLocale('aa')).toBe(false);
-  expect(isValidLocale('ub')).toBe(false);
+test("i18n isValidLocale()", () => {
+  expect(isValidLocale("nb")).toBe(true);
+  expect(isValidLocale("nn")).toBe(true);
+  expect(isValidLocale("en")).toBe(true);
+  expect(isValidLocale("aa")).toBe(false);
+  expect(isValidLocale("ub")).toBe(false);
 });
 
-test('i18n getLocaleInfoFromPath', () => {
-  expect(getLocaleInfoFromPath('/nb/subjects/').basepath).toBe('/subjects/');
-  expect(getLocaleInfoFromPath('/nb/subjects/').basename).toBe('nb');
+test("i18n getLocaleInfoFromPath", () => {
+  expect(getLocaleInfoFromPath("/nb/subjects/").basepath).toBe("/subjects/");
+  expect(getLocaleInfoFromPath("/nb/subjects/").basename).toBe("nb");
 
-  expect(getLocaleInfoFromPath('/nn/subjects/').basepath).toBe('/subjects/');
-  expect(getLocaleInfoFromPath('/nn/subjects/').basename).toBe('nn');
+  expect(getLocaleInfoFromPath("/nn/subjects/").basepath).toBe("/subjects/");
+  expect(getLocaleInfoFromPath("/nn/subjects/").basename).toBe("nn");
 
-  expect(getLocaleInfoFromPath('/subjects/').basepath).toBe('/subjects/');
-  expect(getLocaleInfoFromPath('/subjects/').basename).toBe('');
+  expect(getLocaleInfoFromPath("/subjects/").basepath).toBe("/subjects/");
+  expect(getLocaleInfoFromPath("/subjects/").basename).toBe("");
 });

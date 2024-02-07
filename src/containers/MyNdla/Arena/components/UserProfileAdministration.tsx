@@ -5,18 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import { CheckboxItem } from '@ndla/forms';
-import { Heading } from '@ndla/typography';
-import {
-  AuthContext,
-  isArenaModerator,
-} from '../../../../components/AuthenticationContext';
-import config from '../../../../config';
-import { useUpdateOtherUser } from '../../arenaMutations';
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { CheckboxItem } from "@ndla/forms";
+import { Heading } from "@ndla/typography";
+import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
+import config from "../../../../config";
+import { useUpdateOtherUser } from "../../arenaMutations";
 
 interface Props {
   userToAdmin:
@@ -28,13 +25,10 @@ interface Props {
     | undefined;
 }
 
-const getNewGroups = (
-  newIsModerator: boolean,
-  oldGroups: string[],
-): string[] => {
-  if (newIsModerator) return [...new Set([...oldGroups, 'ADMIN'])];
+const getNewGroups = (newIsModerator: boolean, oldGroups: string[]): string[] => {
+  if (newIsModerator) return [...new Set([...oldGroups, "ADMIN"])];
 
-  return oldGroups.filter((g) => g !== 'ADMIN');
+  return oldGroups.filter((g) => g !== "ADMIN");
 };
 
 const SettingsWrapper = styled.div`
@@ -49,13 +43,12 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
   const isModerator = isArenaModerator(userToAdmin?.groups);
   const [updateUser] = useUpdateOtherUser();
 
-  if (!currentUser?.isModerator || !userToAdmin || config.enableNodeBB)
-    return null;
+  if (!currentUser?.isModerator || !userToAdmin || config.enableNodeBB) return null;
 
   return (
     <>
       <Heading element="h2" headingStyle="h2" margin="normal">
-        {`${t('myNdla.arena.admin.administrate')} ${userToAdmin?.displayName}`}
+        {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
       </Heading>
       <SettingsWrapper>
         <CheckboxItem

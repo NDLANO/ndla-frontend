@@ -6,11 +6,11 @@
  *
  */
 
-import { gql, ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import config from '../config';
-import { GQLPodcastSeriesQuery } from '../graphqlTypes';
-import { copyrightInfoFragment } from '../queries';
-import { createApolloClient } from '../util/apiHelpers';
+import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import config from "../config";
+import { GQLPodcastSeriesQuery } from "../graphqlTypes";
+import { copyrightInfoFragment } from "../queries";
+import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
@@ -26,17 +26,16 @@ const getApolloClient = (locale: string) => {
 };
 
 const podcastRssFeed = async (seriesId: number): Promise<string> => {
-  const client = getApolloClient('nb');
+  const client = getApolloClient("nb");
 
-  const { data: { podcastSeries } = {} } =
-    await client.query<GQLPodcastSeriesQuery>({
-      query: podcastSeriesQuery,
-      variables: { id: seriesId },
-    });
+  const { data: { podcastSeries } = {} } = await client.query<GQLPodcastSeriesQuery>({
+    query: podcastSeriesQuery,
+    variables: { id: seriesId },
+  });
 
   try {
     const podcastUrl = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries?.id}`;
-    const ownerEmail = 'hjelp+podcast@ndla.no';
+    const ownerEmail = "hjelp+podcast@ndla.no";
 
     const description = `
     <description>
@@ -48,12 +47,11 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
 
     const episodes = podcastSeries?.episodes?.map((episode) => {
       const episodeLink = `${podcastUrl}#episode-${episode.id}`;
-      const GUIDEnvPart =
-        config.ndlaEnvironment === 'prod' ? '' : `${config.ndlaEnvironment}-`;
+      const GUIDEnvPart = config.ndlaEnvironment === "prod" ? "" : `${config.ndlaEnvironment}-`;
       const episodeGUID = `NDLA-${GUIDEnvPart}${episode.id}`;
       const episodePubDate = new Date(episode.created).toUTCString();
       const description = !episode.podcastMeta?.introduction
-        ? ''
+        ? ""
         : `
       <description>
       <![CDATA[
@@ -65,7 +63,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
       `;
 
       const coverPhoto = !episode.podcastMeta?.image?.imageUrl
-        ? ''
+        ? ""
         : `<itunes:image href="${episode.podcastMeta.image.imageUrl}" />`;
       return `
       <item>
@@ -102,7 +100,7 @@ const podcastRssFeed = async (seriesId: number): Promise<string> => {
           <itunes:email>${ownerEmail}</itunes:email>
         </itunes:owner>
         <itunes:image href="${podcastSeries?.image.imageUrl}" />
-        ${episodes?.join('')}
+        ${episodes?.join("")}
       </channel>
     </rss>
       `;
