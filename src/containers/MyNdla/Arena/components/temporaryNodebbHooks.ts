@@ -6,8 +6,8 @@
  *
  */
 
-import { ApolloError, MutationFunctionOptions } from '@apollo/client';
-import config from '../../../../config';
+import { ApolloError, MutationFunctionOptions } from "@apollo/client";
+import config from "../../../../config";
 import {
   Exact,
   GQLArenaCategoryV2Fragment,
@@ -17,11 +17,11 @@ import {
   GQLPaginatedNotificationsFragment,
   GQLPaginatedPostsFragment,
   GQLUpdateTopicV2Mutation,
-} from '../../../../graphqlTypes';
-import * as myndlaMutations from '../../arenaMutations';
-import * as myndlaQueries from '../../arenaQueries';
-import * as nodebbMutations from '../../nodebbMutations';
-import * as nodebbQueries from '../../nodebbQueries';
+} from "../../../../graphqlTypes";
+import * as myndlaMutations from "../../arenaMutations";
+import * as myndlaQueries from "../../arenaQueries";
+import * as nodebbMutations from "../../nodebbMutations";
+import * as nodebbQueries from "../../nodebbQueries";
 
 // NOTE: This file contains hooks that will be removed when nodebb is dead
 export const useArenaCategory = (categoryId: string | undefined) => {
@@ -30,11 +30,10 @@ export const useArenaCategory = (categoryId: string | undefined) => {
     skip: !Number(categoryId) || config.enableNodeBB,
   });
 
-  const { loading: nodebbLoading, arenaCategory: nodebbArenaCategory } =
-    nodebbQueries.useArenaCategory({
-      variables: { categoryId: Number(categoryId), page: 1 },
-      skip: !Number(categoryId) || !config.enableNodeBB,
-    });
+  const { loading: nodebbLoading, arenaCategory: nodebbArenaCategory } = nodebbQueries.useArenaCategory({
+    variables: { categoryId: Number(categoryId), page: 1 },
+    skip: !Number(categoryId) || !config.enableNodeBB,
+  });
 
   if (config.enableNodeBB)
     return {
@@ -44,7 +43,11 @@ export const useArenaCategory = (categoryId: string | undefined) => {
         title: nodebbArenaCategory?.name,
         visible: true,
         topics: nodebbArenaCategory?.topics?.map((topic) => {
-          return { ...topic, created: topic.timestamp };
+          return {
+            ...topic,
+            created: topic.timestamp,
+            isLocked: topic.locked,
+          };
         }),
       },
     };
@@ -65,10 +68,9 @@ export const useArenaCategories: () => {
   } = nodebbQueries.useArenaCategories({
     skip: !nodebb,
   });
-  const { arenaCategories, loading, error } =
-    myndlaQueries.useArenaCategoriesV2({
-      skip: nodebb,
-    });
+  const { arenaCategories, loading, error } = myndlaQueries.useArenaCategoriesV2({
+    skip: nodebb,
+  });
 
   if (nodebb)
     return {
@@ -91,11 +93,7 @@ export const useArenaCategories: () => {
   };
 };
 
-export const useArenaTopic = (
-  topicId: string | undefined,
-  postPage: number,
-  postPageSize: number,
-) => {
+export const useArenaTopic = (topicId: string | undefined, postPage: number, postPageSize: number) => {
   const { refetch } = myndlaQueries.useArenaNotifications();
   const { arenaTopic, loading, error } = myndlaQueries.useArenaTopic({
     variables: {
@@ -131,18 +129,18 @@ export const useArenaTopic = (
     return {
       arenaTopic: {
         ...nodebbArenaTopic,
-        __typename: 'ArenaTopicV2',
+        __typename: "ArenaTopicV2",
         created: nodebbArenaTopic?.timestamp,
         updated: nodebbArenaTopic?.timestamp,
         posts: {
-          __typename: 'PaginatedPosts',
+          __typename: "PaginatedPosts",
           totalCount: nodebbArenaTopic?.postCount,
           page: 1,
           pageSize: 100,
           items: nodebbArenaTopic?.posts?.map((post) => {
             return {
               ...post,
-              __typename: 'ArenaPostV2',
+              __typename: "ArenaPostV2",
               contentAsHTML: post.content,
               created: post.timestamp,
               updated: post.timestamp,
@@ -156,6 +154,7 @@ export const useArenaTopic = (
             } as GQLArenaPostV2Fragment;
           }),
         },
+        isLocked: nodebbArenaTopic?.locked,
       } as GQLArenaTopicV2Fragment & {
         posts: GQLPaginatedPostsFragment & {
           items: (GQLArenaPostV2Fragment & { deleted?: boolean })[];
@@ -168,18 +167,16 @@ export const useArenaTopic = (
 
 export const useArenaUser = (username: string | undefined) => {
   const { arenaUser, loading } = myndlaQueries.useArenaUser({
-    variables: { username: username ?? '' },
+    variables: { username: username ?? "" },
     skip: !username || config.enableNodeBB,
   });
 
-  const { arenaUser: nodebbUser, loading: nodebbLoading } =
-    nodebbQueries.useArenaUser({
-      variables: { username: username ?? '' },
-      skip: !username || !config.enableNodeBB,
-    });
+  const { arenaUser: nodebbUser, loading: nodebbLoading } = nodebbQueries.useArenaUser({
+    variables: { username: username ?? "" },
+    skip: !username || !config.enableNodeBB,
+  });
 
-  if (!config.enableNodeBB)
-    return { arenaUser: { ...arenaUser, slug: undefined }, loading };
+  if (!config.enableNodeBB) return { arenaUser: { ...arenaUser, slug: undefined }, loading };
   else
     return {
       arenaUser: {
@@ -190,20 +187,16 @@ export const useArenaUser = (username: string | undefined) => {
     };
 };
 
-export const useArenaTopicsByUser = (
-  userId: number | undefined,
-  userSlug: string | undefined,
-) => {
+export const useArenaTopicsByUser = (userId: number | undefined, userSlug: string | undefined) => {
   const { arenaTopicsByUser, loading } = myndlaQueries.useArenaTopicsByUser({
     variables: { userId: userId ?? 0 },
     skip: !userId || config.enableNodeBB,
   });
 
-  const { arenaTopicsByUser: nodebbTopicsByUser, loading: nodebbLoading } =
-    nodebbQueries.useArenaTopicsByUser({
-      variables: { userSlug: userSlug },
-      skip: !userSlug || !config.enableNodeBB,
-    });
+  const { arenaTopicsByUser: nodebbTopicsByUser, loading: nodebbLoading } = nodebbQueries.useArenaTopicsByUser({
+    variables: { userSlug: userSlug },
+    skip: !userSlug || !config.enableNodeBB,
+  });
 
   if (!config.enableNodeBB) return { arenaTopicsByUser, loading };
   else {
@@ -215,7 +208,7 @@ export const useArenaTopicsByUser = (
         items: nodebbTopicsByUser?.map((topic) => {
           return {
             ...topic,
-            __typename: 'ArenaTopicV2',
+            __typename: "ArenaTopicV2",
             created: topic?.timestamp,
             updated: topic?.timestamp,
           };
@@ -234,10 +227,9 @@ export const useArenaRecentTopics = (skip?: boolean, pageSize?: number) => {
     },
   });
 
-  const { data: nodebbData, loading: nodebbLoading } =
-    nodebbQueries.useRecentTopics({
-      skip: !config.enableNodeBB || !!skip,
-    });
+  const { data: nodebbData, loading: nodebbLoading } = nodebbQueries.useRecentTopics({
+    skip: !config.enableNodeBB || !!skip,
+  });
 
   if (!config.enableNodeBB) return { data, loading };
   else {
@@ -249,7 +241,7 @@ export const useArenaRecentTopics = (skip?: boolean, pageSize?: number) => {
         items: nodebbData?.slice(0, 5).map((topic) => {
           return {
             ...topic,
-            __typename: 'ArenaTopicV2',
+            __typename: "ArenaTopicV2",
             created: topic?.timestamp,
             updated: topic?.timestamp,
           };
@@ -270,8 +262,7 @@ export const useArenaFollowTopicMutation = () => {
 
 export const useArenaUnfollowTopicMutation = () => {
   const unsubscribeToTopic = myndlaMutations.useUnsubscribeFromTopicMutation();
-  const unsubscribeNodebbToTopic =
-    nodebbMutations.useUnsubscribeFromTopicMutation();
+  const unsubscribeNodebbToTopic = nodebbMutations.useUnsubscribeFromTopicMutation();
 
   if (config.enableNodeBB) return unsubscribeNodebbToTopic;
   else return unsubscribeToTopic;
@@ -279,8 +270,7 @@ export const useArenaUnfollowTopicMutation = () => {
 
 export const useArenaMarkNotificationsAsRead = () => {
   const markNotificationsAsRead = myndlaMutations.useMarkNotificationsAsRead();
-  const markNodebbNotificationsAsRead =
-    nodebbMutations.useMarkNotificationsAsRead();
+  const markNodebbNotificationsAsRead = nodebbMutations.useMarkNotificationsAsRead();
 
   if (config.enableNodeBB) return markNodebbNotificationsAsRead;
   else return markNotificationsAsRead;
@@ -360,18 +350,12 @@ export const useArenaUpdateTopic = (topicId: number) => {
   if (config.enableNodeBB) {
     const nodebbUpdateTopicFunction = async (
       options?:
-        | MutationFunctionOptions<
-            GQLUpdateTopicV2Mutation,
-            Exact<{ topicId: number; content: string; title: string }>
-          >
+        | MutationFunctionOptions<GQLUpdateTopicV2Mutation, Exact<{ topicId: number; content: string; title: string }>>
         | undefined,
     ) => {
       const postId = options?.variables?.topicId;
-      if (!postId)
-        throw new Error(
-          'Missing topicId to updateTopic, this seems like a bug.',
-        );
-      const content = options?.variables?.content ?? '';
+      if (!postId) throw new Error("Missing topicId to updateTopic, this seems like a bug.");
+      const content = options?.variables?.content ?? "";
       const title = options?.variables?.title;
 
       return newNodebbUpdatePost.updatePost({
@@ -458,23 +442,22 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
   const { notifications, loading } = myndlaQueries.useArenaNotifications({
     skip: config.enableNodeBB || skip,
   });
-  const { notifications: nodebbNotifications, loading: nodebbLoading } =
-    nodebbQueries.useArenaNotifications({
-      skip: !config.enableNodeBB || skip,
-    });
+  const { notifications: nodebbNotifications, loading: nodebbLoading } = nodebbQueries.useArenaNotifications({
+    skip: !config.enableNodeBB || skip,
+  });
 
   if (config.enableNodeBB) {
     const items: GQLArenaNotificationV2Fragment[] =
       nodebbNotifications?.map((notification) => {
         return {
-          __typename: 'ArenaNewPostNotificationV2',
+          __typename: "ArenaNewPostNotificationV2",
           id: 123,
           topicId: notification.topicId,
           topicTitle: notification.topicTitle,
           notificationTime: notification.datetimeISO,
           isRead: notification.read,
           post: {
-            __typename: 'ArenaPostV2',
+            __typename: "ArenaPostV2",
             id: notification.postId,
             contentAsHTML: notification.bodyShort,
             content: notification.bodyShort,
@@ -482,11 +465,11 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
             topicId: notification.topicId,
             updated: notification.datetimeISO,
             owner: {
-              __typename: 'ArenaUserV2',
+              __typename: "ArenaUserV2",
               id: notification.user.id,
               username: notification.user.slug,
               displayName: notification.user.displayName,
-              location: '',
+              location: "",
               groups: [],
             },
           },
@@ -494,7 +477,7 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
       }) ?? [];
 
     const notifications: GQLPaginatedNotificationsFragment = {
-      __typename: 'PaginatedArenaNewPostNotificationV2',
+      __typename: "PaginatedArenaNewPostNotificationV2",
       totalCount: items.length,
       page: 1,
       pageSize: 100,

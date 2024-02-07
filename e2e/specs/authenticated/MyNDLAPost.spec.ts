@@ -6,166 +6,109 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
+import { test, expect } from "@playwright/test";
+import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        fixture: 'minndla_post_myNdlaData',
-        names: ['myNdlaData', 'arenaNotificationsV2', 'arenaTopicByIdV2'],
+        fixture: "minndla_post_myNdlaData",
+        names: ["myNdlaData", "arenaNotificationsV2", "arenaTopicByIdV2"],
       },
       {
-        fixture: 'minndla_post_data',
-        names: ['arenaCategoryV2', 'ArenaUserV2', 'arenaNotificationsV2'],
+        fixture: "minndla_post_data",
+        names: ["arenaCategoryV2", "ArenaUserV2", "arenaNotificationsV2"],
       },
       {
-        fixture: 'minndla_post_topic',
-        names: ['arenaTopicByIdV2'],
+        fixture: "minndla_post_topic",
+        names: ["arenaTopicByIdV2"],
       },
       {
-        fixture: 'minndla_post_edit',
-        names: ['UpdatePostV2'],
+        fixture: "minndla_post_edit",
+        names: ["UpdatePostV2"],
       },
       {
-        fixture: 'minndla_post_add',
-        names: ['ReplyToTopicV2'],
+        fixture: "minndla_post_add",
+        names: ["ReplyToTopicV2"],
       },
       {
-        fixture: 'minndla_post_delete',
-        names: ['DeletePostV2'],
+        fixture: "minndla_post_delete",
+        names: ["DeletePostV2"],
       },
     ],
   });
-  await page.goto('/minndla/arena/topic/7');
+  await page.goto("/minndla/arena/topic/7");
 });
 
-test('has main post and comments', async ({ page }) => {
-  const title =
-    (await page.getByRole('main').getByRole('heading').first().textContent()) ??
-    '';
-  await expect(page.getByRole('heading', { name: title })).toBeInViewport();
+test("has main post and comments", async ({ page }) => {
+  const title = (await page.getByRole("main").getByRole("heading").first().textContent()) ?? "";
+  await expect(page.getByRole("heading", { name: title })).toBeInViewport();
 
   await expect(page.locator('li[data-main-post="true"]')).toHaveCount(1);
   await expect(page.locator('li[data-main-post="false"]')).toHaveCount(1);
 });
 
-test('can add comment', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: 'Test på innlegg' }),
-  ).toBeInViewport();
-  await page.getByRole('button', { name: 'Skriv et svar' }).click();
-  const answer = 'Test kommentar!!!';
+test("can add comment", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Test på innlegg" })).toBeInViewport();
+  await page.getByRole("button", { name: "Skriv et svar" }).click();
+  const answer = "Test kommentar!!!";
   await page.keyboard.type(answer);
-  await page.getByRole('button', { name: 'Publiser' }).click();
-  await mockWaitResponse(page, '**/graphql-api/graphql');
-  await mockWaitResponse(page, '**/graphql-api/graphql');
+  await page.getByRole("button", { name: "Publiser" }).click();
+  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await mockWaitResponse(page, "**/graphql-api/graphql");
 
-  const postCard = page.getByRole('main').getByRole('listitem');
+  const postCard = page.getByRole("main").getByRole("listitem");
 
   await expect(postCard.getByText(answer)).toHaveCount(1);
 
-  await postCard.last().getByRole('button').click();
-  await page.getByRole('menuitem', { name: 'Slett innlegget' }).click();
+  await postCard.last().getByRole("button").click();
+  await page.getByRole("menuitem", { name: "Slett innlegget" }).click();
 
-  await expect(page.getByRole('dialog')).toBeInViewport();
-  await page
-    .getByRole('dialog')
-    .getByRole('button', { name: 'Slett kommentar' })
-    .click();
+  await expect(page.getByRole("dialog")).toBeInViewport();
+  await page.getByRole("dialog").getByRole("button", { name: "Slett kommentar" }).click();
 });
 
-test('can edit comment', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: 'Test på innlegg' }),
-  ).toBeInViewport();
+test("can edit comment", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Test på innlegg" })).toBeInViewport();
   const comment =
-    (await page
-      .locator('li[data-main-post="false"]')
-      .first()
-      .getByRole('paragraph')
-      .last()
-      .textContent()) ?? '';
-  await page
-    .locator('li[data-main-post="false"]')
-    .first()
-    .getByRole('button')
-    .click();
-  await page.getByRole('menuitem', { name: 'Rediger innlegg' }).click();
-  await page.keyboard.press('Shift+a');
+    (await page.locator('li[data-main-post="false"]').first().getByRole("paragraph").last().textContent()) ?? "";
+  await page.locator('li[data-main-post="false"]').first().getByRole("button").click();
+  await page.getByRole("menuitem", { name: "Rediger innlegg" }).click();
+  await page.keyboard.press("Shift+a");
   await page.keyboard.type(Math.random().toString(36).slice(2, 7));
-  await page.getByRole('button', { name: 'Publiser' }).click();
-  await mockWaitResponse(page, '**/graphql-api/graphql');
-  await expect(page.locator('#field-editor-21')).not.toBeInViewport();
-  await expect(
-    page
-      .locator('li[data-main-post="false"]')
-      .first()
-      .getByRole('paragraph')
-      .last(),
-  ).not.toHaveText(comment);
+  await page.getByRole("button", { name: "Publiser" }).click();
+  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await expect(page.locator("#field-editor-21")).not.toBeInViewport();
+  await expect(page.locator('li[data-main-post="false"]').first().getByRole("paragraph").last()).not.toHaveText(
+    comment,
+  );
 });
 
-test('cancelling add comment with text gives warning', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: 'Test på innlegg' }),
-  ).toBeInViewport();
-  await page.getByRole('button', { name: 'Skriv et svar' }).click();
-  const answer = 'Test kommentar!!!';
+test("cancelling add comment with text gives warning", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Test på innlegg" })).toBeInViewport();
+  await page.getByRole("button", { name: "Skriv et svar" }).click();
+  const answer = "Test kommentar!!!";
   await page.keyboard.type(answer);
 
-  await page.getByRole('button', { name: 'Avbryt' }).click();
-  await expect(
-    page
-      .getByRole('dialog')
-      .getByRole('heading', { name: 'Forkast nytt svar' }),
-  ).toBeInViewport();
-  await page.getByRole('button', { name: 'Forkast svaret' }).click();
-  await expect(
-    page
-      .getByRole('dialog')
-      .getByRole('heading', { name: 'Forkast nytt svar' }),
-  ).not.toBeInViewport();
+  await page.getByRole("button", { name: "Avbryt" }).click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Forkast nytt svar" })).toBeInViewport();
+  await page.getByRole("button", { name: "Forkast svaret" }).click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Forkast nytt svar" })).not.toBeInViewport();
 });
 
-test('cancelling edit comment with edits gives warning', async ({ page }) => {
-  await expect(
-    page.getByRole('heading', { name: 'Test på innlegg' }),
-  ).toBeInViewport();
+test("cancelling edit comment with edits gives warning", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Test på innlegg" })).toBeInViewport();
   const comment =
-    (await page
-      .locator('li[data-main-post="false"]')
-      .first()
-      .getByRole('paragraph')
-      .last()
-      .textContent()) ?? '';
-  await page
-    .locator('li[data-main-post="false"]')
-    .first()
-    .getByRole('button')
-    .click();
-  await page.getByRole('menuitem', { name: 'Rediger innlegg' }).click();
-  await page.keyboard.type('aaaaa');
+    (await page.locator('li[data-main-post="false"]').first().getByRole("paragraph").last().textContent()) ?? "";
+  await page.locator('li[data-main-post="false"]').first().getByRole("button").click();
+  await page.getByRole("menuitem", { name: "Rediger innlegg" }).click();
+  await page.keyboard.type("aaaaa");
 
-  await page.getByRole('button', { name: 'Avbryt' }).click();
-  await expect(
-    page
-      .getByRole('dialog')
-      .getByRole('heading', { name: 'Avbryt redigering' }),
-  ).toBeInViewport();
-  await page.getByRole('button', { name: 'Avbryt redigeringen' }).click();
-  await expect(
-    page
-      .getByRole('dialog')
-      .getByRole('heading', { name: 'Avbryt redigering' }),
-  ).not.toBeInViewport();
-  await expect(
-    page
-      .locator('li[data-main-post="false"]')
-      .first()
-      .getByRole('paragraph')
-      .last(),
-  ).toHaveText(comment);
+  await page.getByRole("button", { name: "Avbryt" }).click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Avbryt redigering" })).toBeInViewport();
+  await page.getByRole("button", { name: "Avbryt redigeringen" }).click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Avbryt redigering" })).not.toBeInViewport();
+  await expect(page.locator('li[data-main-post="false"]').first().getByRole("paragraph").last()).toHaveText(comment);
 });

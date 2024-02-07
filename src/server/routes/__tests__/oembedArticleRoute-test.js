@@ -6,24 +6,19 @@
  *
  */
 
-import nock from 'nock';
-import { oembedArticleRoute } from '../oembedArticleRoute';
+import nock from "nock";
+import { oembedArticleRoute } from "../oembedArticleRoute";
 
-const validArticleUrl1 =
-  'https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
-const validArticleUrl2 =
-  'https://test.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682';
-const unvalidArticleUrl = 'https://test.ndla.no/subject:3';
+const validArticleUrl1 = "https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
+const validArticleUrl2 = "https://test.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
+const unvalidArticleUrl = "https://test.ndla.no/subject:3";
 
-test('oembedArticleRoute success', async () => {
-  nock('http://ndla-api')
-    .get('/taxonomy/v1/resources/urn:resource:1:1682?language=nb')
-    .times(2)
-    .reply(200, {
-      id: 'urn:resource:1',
-      contentUri: 'urn:article:123',
-      name: 'Resource title',
-    });
+test("oembedArticleRoute success", async () => {
+  nock("http://ndla-api").get("/taxonomy/v1/nodes/urn:resource:1:1682?language=nb").times(2).reply(200, {
+    id: "urn:resource:1",
+    contentUri: "urn:article:123",
+    name: "Resource title",
+  });
 
   const response = await oembedArticleRoute({
     query: {
@@ -43,7 +38,7 @@ test('oembedArticleRoute success', async () => {
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
-test('oembedArticleRoute invalid url', async () => {
+test("oembedArticleRoute invalid url", async () => {
   const response = await oembedArticleRoute({
     query: {
       url: unvalidArticleUrl,

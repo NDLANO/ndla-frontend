@@ -6,17 +6,17 @@
  *
  */
 
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { buttonStyleV2 } from '@ndla/button';
-import { breakpoints, colors, misc, mq, spacing } from '@ndla/core';
-import { useIntersectionObserver } from '@ndla/hooks';
-import { Forward } from '@ndla/icons/common';
-import { Heading, Text } from '@ndla/typography';
-import { OneColumn, useMastheadHeight } from '@ndla/ui';
-import { Subject } from './interfaces';
-import SubjectLink from './SubjectLink';
+import { useRef } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { buttonStyleV2 } from "@ndla/button";
+import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
+import { useIntersectionObserver } from "@ndla/hooks";
+import { Forward } from "@ndla/icons/common";
+import { Heading, Text } from "@ndla/typography";
+import { OneColumn, useMastheadHeight } from "@ndla/ui";
+import { Subject } from "./interfaces";
+import SubjectLink from "./SubjectLink";
 
 const StyledColumn = styled(OneColumn)`
   display: flex;
@@ -64,7 +64,7 @@ const StickyHeading = styled.div<StyledProps>`
     padding: ${spacing.small} 0;
     border-radius: 0;
     :before {
-      content: '';
+      content: "";
       position: absolute;
       width: 100%;
       bottom: 0;
@@ -86,7 +86,7 @@ const GoToTop = styled(Text)`
   gap: ${spacing.small};
   box-shadow: none;
   color: ${colors.brand.primary};
-  &[data-sticky='false'] {
+  &[data-sticky="false"] {
     opacity: 0;
   }
   transition: ${misc.transition.default};
@@ -96,7 +96,7 @@ const GoToTop = styled(Text)`
   }
 
   ${mq.range({ until: breakpoints.tabletWide })} {
-    ${buttonStyleV2({ shape: 'pill', variant: 'outline' })}
+    ${buttonStyleV2({ shape: "pill", variant: "outline" })}
     border-width: 1px;
   }
 `;
@@ -113,17 +113,13 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const { entry } = useIntersectionObserver({
     root: rootRef.current,
     target: stickyRef.current,
-    rootMargin: '-1px 0px 0px 0px',
+    rootMargin: "-1px 0px 0px 0px",
     threshold: 1,
   });
   const { height = 85 } = useMastheadHeight();
 
   return (
-    <li
-      ref={rootRef}
-      aria-owns={`subject-${label}`}
-      aria-labelledby={`subject-header-${label}`}
-    >
+    <li ref={rootRef} aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
       <StickyHeading ref={stickyRef} offset={height}>
         <StyledColumn wide>
           <Heading
@@ -131,33 +127,24 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
             headingStyle="list-title"
             margin="none"
             id={`subject-header-${label}`}
-            aria-label={label === '#' ? t('labels.other') : label}
+            aria-label={label === "#" ? t("labels.other") : label}
           >
             {label.toUpperCase()}
           </Heading>
-          <GoToTop
-            textStyle="button"
-            element="a"
-            data-sticky={!!entry?.isIntersecting}
-            href="#SkipToContentId"
-          >
-            {t('subjectsPage.goToTop')} <StyledArrow />
+          <GoToTop textStyle="button" element="a" data-sticky={!!entry?.isIntersecting} href="#SkipToContentId">
+            {t("subjectsPage.goToTop")} <StyledArrow />
           </GoToTop>
         </StyledColumn>
       </StickyHeading>
       <StyledColumn wide>
         <GridList
           id={`subject-${label}`}
-          aria-label={t('subjectsPage.subjectGroup', {
-            category: label === '#' ? t('labels.other') : label,
+          aria-label={t("subjectsPage.subjectGroup", {
+            category: label === "#" ? t("labels.other") : label,
           })}
         >
           {subjects.map((subject) => (
-            <SubjectLink
-              favorites={favorites}
-              key={subject.id}
-              subject={subject}
-            />
+            <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
           ))}
         </GridList>
       </StyledColumn>

@@ -6,26 +6,26 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Navigate, useParams, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { spacing, spacingUnit, mq, breakpoints } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import { HelmetWithTracker, useTracker } from '@ndla/tracker';
-import { useSnack } from '@ndla/ui';
-import DeletedPostCard from './components/DeletedPostCard';
-import PostCard from './components/PostCard';
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams, useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
+import { spacing, spacingUnit, mq, breakpoints } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { useSnack } from "@ndla/ui";
+import DeletedPostCard from "./components/DeletedPostCard";
+import PostCard from "./components/PostCard";
 import {
   useArenaTopic,
   useArenaCategory,
   useArenaFollowTopicMutation,
   useArenaUnfollowTopicMutation,
-} from './components/temporaryNodebbHooks';
-import { AuthContext } from '../../../components/AuthenticationContext';
-import { getAllDimensions } from '../../../util/trackingUtil';
-import MyNdlaBreadcrumb from '../components/MyNdlaBreadcrumb';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+} from "./components/temporaryNodebbHooks";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -43,7 +43,7 @@ const PostCardWrapper = styled.li`
   margin-bottom: ${spacing.normal};
 
   ${mq.range({ from: breakpoints.tablet })} {
-    &[data-main-post='false'] {
+    &[data-main-post="false"] {
       margin-left: ${spacingUnit * 3}px;
     }
   }
@@ -57,15 +57,9 @@ const PostsPage = () => {
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const postPage = 1;
   const postPageSize = 100;
-  const { arenaTopic, loading, error } = useArenaTopic(
-    topicId,
-    postPage,
-    postPageSize,
-  );
+  const { arenaTopic, loading, error } = useArenaTopic(topicId, postPage, postPageSize);
 
-  const { arenaCategory } = useArenaCategory(
-    arenaTopic?.categoryId?.toString(),
-  );
+  const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
 
@@ -75,7 +69,7 @@ const PostsPage = () => {
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
-      title: t('htmlTitles.arenaPostPage', { name: arenaTopic?.title ?? '' }),
+      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
@@ -85,45 +79,35 @@ const PostsPage = () => {
     if (arenaTopic?.isFollowing) {
       unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
-        content: t('myNdla.arena.notification.unsubscribe'),
-        id: 'myNdla.arena.notification.unsubscribe',
+        content: t("myNdla.arena.notification.unsubscribe"),
+        id: "myNdla.arena.notification.unsubscribe",
       });
     } else {
       subscribeToTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
-        content: t('myNdla.arena.notification.subscribe'),
-        id: 'myNdla.arena.notification.subscribe',
+        content: t("myNdla.arena.notification.subscribe"),
+        id: "myNdla.arena.notification.subscribe",
       });
     }
   }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {
-      setTimeout(
-        () =>
-          document
-            .getElementById(`post-${focusId}`)
-            ?.getElementsByTagName('a')?.[0]
-            ?.focus(),
-        1,
-      );
+      setTimeout(() => document.getElementById(`post-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 1);
       setFocusId(undefined);
     }
   }, [focusId, arenaTopic?.posts]);
 
   useEffect(() => {
-    if (
-      error?.graphQLErrors.map((err) => err.extensions.status).includes(403) ||
-      (!loading && !arenaTopic)
-    ) {
-      if (document.referrer.includes('/minndla')) {
+    if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
+      if (document.referrer.includes("/minndla")) {
         navigate(-1);
       } else {
-        navigate('/minndla/arena');
+        navigate("/minndla/arena");
       }
       addSnack({
-        content: t('myNdla.arena.topic.isDeleted'),
-        id: 'myNdla.arena.topic.isDeleted',
+        content: t("myNdla.arena.topic.isDeleted"),
+        id: "myNdla.arena.topic.isDeleted",
       });
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
@@ -135,23 +119,21 @@ const PostsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker
-        title={t('htmlTitles.arenaPostPage', { name: arenaTopic?.title })}
-      />
+      <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
             topicId
               ? [
                   {
-                    name: arenaCategory?.title ?? '',
+                    name: arenaCategory?.title ?? "",
                     id: `category/${arenaTopic?.categoryId}`,
                   },
-                  { name: arenaTopic?.title ?? '', id: topicId },
+                  { name: arenaTopic?.title ?? "", id: topicId },
                 ]
               : []
           }
-          page={'arena'}
+          page={"arena"}
         />
       </BreadcrumbWrapper>
       <ListWrapper>

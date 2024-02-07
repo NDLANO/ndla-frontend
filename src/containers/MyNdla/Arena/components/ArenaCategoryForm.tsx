@@ -6,22 +6,16 @@
  *
  */
 
-import { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2, LoadingButton } from '@ndla/button';
-import { colors, spacing } from '@ndla/core';
-import {
-  FormControl,
-  InputV3,
-  Label,
-  FieldErrorMessage,
-  CheckboxItem,
-} from '@ndla/forms';
-import { INewCategory } from '@ndla/types-backend/myndla-api';
-import useValidationTranslation from '../../../../util/useValidationTranslation';
-import { FieldLength } from '../../Folders/FolderForm';
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2, LoadingButton } from "@ndla/button";
+import { colors, spacing } from "@ndla/core";
+import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
+import { INewCategory } from "@ndla/types-backend/myndla-api";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../Folders/FolderForm";
 
 const StyledForm = styled.form`
   display: flex;
@@ -80,11 +74,11 @@ const ArenaCategoryForm = ({
   const { validationT } = useValidationTranslation();
   const { formState, trigger, control, handleSubmit, setValue } = useForm({
     defaultValues: {
-      title: initialTitle ?? '',
-      description: initialDescription ?? '',
+      title: initialTitle ?? "",
+      description: initialDescription ?? "",
       visible: initialVisible ?? true,
     },
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -93,10 +87,7 @@ const ArenaCategoryForm = ({
 
   useEffect(() => {
     id
-      ? setTimeout(
-          () => document.getElementById(`field-editor-${id}`)?.focus(),
-          1,
-        )
+      ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
       : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, [id]);
 
@@ -116,31 +107,22 @@ const ArenaCategoryForm = ({
         control={control}
         name="title"
         rules={{
-          required: validationT({ type: 'required', field: 'title' }),
+          required: validationT({ type: "required", field: "title" }),
           maxLength: {
             value: 64,
             message: validationT({
-              type: 'maxLength',
-              field: 'title',
+              type: "maxLength",
+              field: "title",
               vars: { count: titleMaxLength },
             }),
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl
-            id="title"
-            isRequired
-            isInvalid={!!fieldState.error?.message}
-          >
-            <StyledLabel textStyle="label-small">
-              {t('myNdla.arena.admin.category.form.title')}
-            </StyledLabel>
+          <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
+            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.title")}</StyledLabel>
             <StyledInput {...field} />
             <FieldInfoWrapper>
-              <FieldLength
-                value={field.value.length ?? 0}
-                maxLength={titleMaxLength}
-              />
+              <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             </FieldInfoWrapper>
           </FormControl>
@@ -153,14 +135,8 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl
-            id={id ? `editor-${id}` : 'editor'}
-            isRequired
-            isInvalid={!!fieldState.error?.message}
-          >
-            <StyledLabel textStyle="label-small">
-              {t('myNdla.arena.admin.category.form.description')}
-            </StyledLabel>
+          <FormControl id={id ? `editor-${id}` : "editor"} isRequired isInvalid={!!fieldState.error?.message}>
+            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.description")}</StyledLabel>
             <StyledInput {...field} />
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
@@ -173,15 +149,12 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl
-            id={id ? `editor-${id}` : 'editor'}
-            isInvalid={!!fieldState.error?.message}
-          >
+          <FormControl id={id ? `editor-${id}` : "editor"} isInvalid={!!fieldState.error?.message}>
             <CheckboxItem
               checked={field.value}
-              label={t('myNdla.arena.admin.category.form.visible')}
+              label={t("myNdla.arena.admin.category.form.visible")}
               onChange={() => {
-                setValue('visible', !field.value, {
+                setValue("visible", !field.value, {
                   shouldDirty: true,
                   shouldTouch: true,
                   shouldValidate: true,
@@ -194,14 +167,10 @@ const ArenaCategoryForm = ({
       />
       <ButtonRow>
         <ButtonV2 variant="outline" onClick={onAbort}>
-          {t('cancel')}
+          {t("cancel")}
         </ButtonV2>
-        <LoadingButton
-          colorTheme="primary"
-          type="submit"
-          disabled={!formIsSubmittable}
-        >
-          {t('myNdla.arena.publish')}
+        <LoadingButton colorTheme="primary" type="submit" disabled={!formIsSubmittable}>
+          {t("myNdla.arena.publish")}
         </LoadingButton>
       </ButtonRow>
     </StyledForm>

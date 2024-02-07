@@ -6,7 +6,7 @@
  *
  */
 
-import { QueryHookOptions, gql } from '@apollo/client';
+import { QueryHookOptions, gql } from "@apollo/client";
 import {
   GQLArenaUserV2Query,
   GQLArenaUserV2QueryVariables,
@@ -22,8 +22,8 @@ import {
   GQLArenaTopicsByUserV2Query,
   GQLAllFlagsV2Query,
   GQLArenaPage2QueryVariables,
-} from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
+} from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 const arenaUserFragment = gql`
   fragment ArenaUserV2 on ArenaUserV2 {
@@ -57,6 +57,7 @@ export const arenaTopicV2Fragment = gql`
     title
     isFollowing
     categoryId
+    isLocked
   }
 `;
 
@@ -174,13 +175,8 @@ export const arenaTopicsByUserV2Query = gql`
   ${arenaPaginatedTopicsV2Fragment}
 `;
 
-export const useArenaUser = (
-  options: QueryHookOptions<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>,
-) => {
-  const { data, loading } = useGraphQuery<
-    GQLArenaUserV2Query,
-    GQLArenaUserV2QueryVariables
-  >(arenaUserQuery, options);
+export const useArenaUser = (options: QueryHookOptions<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>) => {
+  const { data, loading } = useGraphQuery<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>(arenaUserQuery, options);
   return { arenaUser: data?.arenaUserV2, loading };
 };
 
@@ -193,31 +189,18 @@ const arenaRecentTopics = gql`
   ${arenaPaginatedTopicsV2Fragment}
 `;
 
-export const useArenaCategoriesV2 = (
-  options: QueryHookOptions<GQLArenaPage2Query, GQLArenaPage2QueryVariables>,
-) => {
-  const { data, loading, error } = useGraphQuery(
-    arenaCategoriesV2Query,
-    options,
-  );
+export const useArenaCategoriesV2 = (options: QueryHookOptions<GQLArenaPage2Query, GQLArenaPage2QueryVariables>) => {
+  const { data, loading, error } = useGraphQuery(arenaCategoriesV2Query, options);
   return { arenaCategories: data?.arenaCategoriesV2, loading, error };
 };
 
-export const useArenaCategory = (
-  options: QueryHookOptions<
-    GQLArenaCategoryV2Query,
-    GQLQueryArenaCategoryV2Args
-  >,
-) => {
+export const useArenaCategory = (options: QueryHookOptions<GQLArenaCategoryV2Query, GQLQueryArenaCategoryV2Args>) => {
   const { data, loading, error } = useGraphQuery(arenaCategoryV2Query, options);
   return { arenaCategory: data?.arenaCategoryV2, loading, error };
 };
 
 export const useArenaTopic = (
-  options: QueryHookOptions<
-    GQLArenaTopicByIdV2Query,
-    GQLArenaTopicByIdV2QueryVariables
-  >,
+  options: QueryHookOptions<GQLArenaTopicByIdV2Query, GQLArenaTopicByIdV2QueryVariables>,
 ) => {
   const { data, loading, error } = useGraphQuery(arenaTopicByIdV2, options);
   return { arenaTopic: data?.arenaTopicV2, loading, error };
@@ -260,15 +243,12 @@ export const arenaNotificationV2Query = gql`
   ${arenaPaginatedNotificationsFragment}
 `;
 
-export const useArenaNotifications = (
-  options?: QueryHookOptions<GQLArenaNotificationsV2Query>,
-) => {
-  const { data, refetch, loading } =
-    useGraphQuery<GQLArenaNotificationsV2Query>(arenaNotificationV2Query, {
-      ...options,
-      pollInterval: 60000,
-      ssr: false,
-    });
+export const useArenaNotifications = (options?: QueryHookOptions<GQLArenaNotificationsV2Query>) => {
+  const { data, refetch, loading } = useGraphQuery<GQLArenaNotificationsV2Query>(arenaNotificationV2Query, {
+    ...options,
+    pollInterval: 60000,
+    ssr: false,
+  });
   return {
     loading,
     notifications: data?.arenaNotificationsV2,
@@ -299,18 +279,8 @@ export const arenaPostInContextQuery = gql`
 `;
 
 const arenaUsersQuery = gql`
-  query arenaUsers(
-    $query: String
-    $filterTeachers: Boolean
-    $page: Int!
-    $pageSize: Int!
-  ) {
-    listArenaUserV2(
-      pageSize: $pageSize
-      page: $page
-      query: $query
-      filterTeachers: $filterTeachers
-    ) {
+  query arenaUsers($query: String, $filterTeachers: Boolean, $page: Int!, $pageSize: Int!) {
+    listArenaUserV2(pageSize: $pageSize, page: $page, query: $query, filterTeachers: $filterTeachers) {
       __typename
       page
       pageSize
@@ -323,54 +293,29 @@ const arenaUsersQuery = gql`
   ${arenaUserFragment}
 `;
 
-export const useArenaPostInContext = (
-  options: QueryHookOptions<GQLArenaPostInContextQuery>,
-) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaPostInContextQuery>(
-    arenaPostInContextQuery,
-    options,
-  );
+export const useArenaPostInContext = (options: QueryHookOptions<GQLArenaPostInContextQuery>) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaPostInContextQuery>(arenaPostInContextQuery, options);
   return { topic: data?.arenaPostInContext, loading, error };
 };
 
-export const useArenaFlags = (
-  options?: QueryHookOptions<GQLAllFlagsV2Query>,
-) => {
-  const { data, loading, error } = useGraphQuery<GQLAllFlagsV2Query>(
-    arenaFlagV2Query,
-    options,
-  );
+export const useArenaFlags = (options?: QueryHookOptions<GQLAllFlagsV2Query>) => {
+  const { data, loading, error } = useGraphQuery<GQLAllFlagsV2Query>(arenaFlagV2Query, options);
   return { arenaAllFlags: data?.arenaAllFlags, loading, error };
 };
 
-export const useArenaUsers = (
-  options?: QueryHookOptions<GQLArenaUsersQuery>,
-) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaUsersQuery>(
-    arenaUsersQuery,
-    options,
-  );
+export const useArenaUsers = (options?: QueryHookOptions<GQLArenaUsersQuery>) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaUsersQuery>(arenaUsersQuery, options);
 
   return { users: data?.listArenaUserV2, loading, error };
 };
 
-export const useArenaTopicsByUser = (
-  options: QueryHookOptions<GQLArenaTopicsByUserV2Query>,
-) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserV2Query>(
-    arenaTopicsByUserV2Query,
-    options,
-  );
+export const useArenaTopicsByUser = (options: QueryHookOptions<GQLArenaTopicsByUserV2Query>) => {
+  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserV2Query>(arenaTopicsByUserV2Query, options);
   return { arenaTopicsByUser: data?.arenaTopicsByUserV2, loading, error };
 };
 
-export const useArenaRecentTopics = (
-  options?: QueryHookOptions<GQLArenaRecentTopicsV2Query>,
-) => {
-  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsV2Query>(
-    arenaRecentTopics,
-    options,
-  );
+export const useArenaRecentTopics = (options?: QueryHookOptions<GQLArenaRecentTopicsV2Query>) => {
+  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsV2Query>(arenaRecentTopics, options);
   return {
     data: data?.arenaRecentTopicsV2,
     ...rest,

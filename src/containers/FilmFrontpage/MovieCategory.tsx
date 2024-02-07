@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { FilmMovieList, MovieGrid } from '@ndla/ui';
-import { findName } from './filmHelper';
-import { MoviesByType } from './NdlaFilmFrontpage';
-import { GQLMovieCategory_MovieThemeFragment } from '../../graphqlTypes';
-import { movieFragment } from '../../queries';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { FilmMovieList, MovieGrid } from "@ndla/ui";
+import { findName } from "./filmHelper";
+import { MoviesByType } from "./NdlaFilmFrontpage";
+import { GQLMovieCategory_MovieThemeFragment } from "../../graphqlTypes";
+import { movieFragment } from "../../queries";
 
 interface Props {
   fetchingMoviesByType?: boolean;
@@ -53,8 +53,8 @@ const MovieCategory = ({
           key={theme.name[0]?.name}
           name={findName(theme.name ?? [], i18n.language)}
           movies={theme.movies}
-          slideForwardsLabel={t('ndlaFilm.slideForwardsLabel')}
-          slideBackwardsLabel={t('ndlaFilm.slideBackwardsLabel')}
+          slideForwardsLabel={t("ndlaFilm.slideForwardsLabel")}
+          slideBackwardsLabel={t("ndlaFilm.slideBackwardsLabel")}
           resourceTypes={resourceTypes}
         />
       ))}

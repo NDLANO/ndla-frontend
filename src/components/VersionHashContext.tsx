@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { createContext, ReactNode, useContext } from 'react';
+import { createContext, ReactNode, useContext } from "react";
 
-export const defaultValue = 'default';
+export const defaultValue = "default";
 const VersionHashContext = createContext<string>(defaultValue);
 
 interface Props {
@@ -15,15 +15,8 @@ interface Props {
   value?: string;
 }
 
-export const VersionHashProvider = ({
-  children,
-  value = defaultValue,
-}: Props) => {
-  return (
-    <VersionHashContext.Provider value={value}>
-      {children}
-    </VersionHashContext.Provider>
-  );
+export const VersionHashProvider = ({ children, value = defaultValue }: Props) => {
+  return <VersionHashContext.Provider value={value}>{children}</VersionHashContext.Provider>;
 };
 
 export const useVersionHash = () => {

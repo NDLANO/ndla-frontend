@@ -6,21 +6,14 @@
  *
  */
 
-import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { ButtonV2 } from '@ndla/button';
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalTrigger,
-} from '@ndla/modal';
-import config from '../../config';
-import { fetchArticleOembed } from '../../containers/ArticlePage/articleApi';
-import { LtiItem } from '../../interfaces';
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import config from "../../config";
+import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
+import { LtiItem } from "../../interfaces";
 
 const MarginLeftParagraph = styled.p`
   margin-left: 26px;
@@ -34,7 +27,7 @@ interface Props {
   item: LtiItem;
 }
 const LtiDefault = ({ item }: Props) => {
-  const [embedCode, setEmbedCode] = useState('');
+  const [embedCode, setEmbedCode] = useState("");
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
 
@@ -42,18 +35,10 @@ const LtiDefault = ({ item }: Props) => {
     async (open: boolean) => {
       if (!open) {
         setOpen(false);
-        setEmbedCode('');
+        setEmbedCode("");
       } else {
-        if (typeof item.url === 'string') {
-          const oembed = await fetchArticleOembed(
-            `${config.ndlaFrontendDomain}${item.url}`,
-          );
-          setEmbedCode(oembed.html);
-        } else {
-          setEmbedCode(
-            `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
-          );
-        }
+        const oembed = await fetchArticleOembed(`${config.ndlaFrontendDomain}${item.url}`);
+        setEmbedCode(oembed.html);
         setOpen(true);
       }
     },
@@ -63,14 +48,14 @@ const LtiDefault = ({ item }: Props) => {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalTrigger>
-        <ButtonV2>{t('lti.embed')}</ButtonV2>
+        <ButtonV2>{t("lti.embed")}</ButtonV2>
       </ModalTrigger>
       <ModalContent size="normal">
         <ModalHeader>
           <ModalCloseButton />
         </ModalHeader>
         <ModalBody>
-          <MarginLeftParagraph>{t('lti.notSupported')}</MarginLeftParagraph>
+          <MarginLeftParagraph>{t("lti.notSupported")}</MarginLeftParagraph>
           <pre>
             <CodeWithBreakWord>{embedCode}</CodeWithBreakWord>
           </pre>

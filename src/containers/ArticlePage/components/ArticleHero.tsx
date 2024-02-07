@@ -6,24 +6,14 @@
  *
  */
 
-import { ReactNode } from 'react';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { stackOrder } from '@ndla/core';
-import {
-  Hero,
-  HeroContent,
-  HeroContentType,
-  HomeBreadcrumb,
-  NdlaFilmHero,
-  OneColumn,
-} from '@ndla/ui';
-import {
-  GQLArticleHero_MetaImageFragment,
-  GQLArticleHero_SubjectFragment,
-} from '../../../graphqlTypes';
-import { Breadcrumb as BreadcrumbType } from '../../../interfaces';
-import { useIsNdlaFilm } from '../../../routeHelpers';
+import { ReactNode } from "react";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { stackOrder } from "@ndla/core";
+import { Hero, HeroContent, HeroContentType, HomeBreadcrumb, NdlaFilmHero, OneColumn } from "@ndla/ui";
+import { GQLArticleHero_MetaImageFragment, GQLArticleHero_SubjectFragment } from "../../../graphqlTypes";
+import { Breadcrumb as BreadcrumbType } from "../../../interfaces";
+import { useIsNdlaFilm } from "../../../routeHelpers";
 
 interface WrapperProps {
   children: ReactNode;
@@ -31,18 +21,9 @@ interface WrapperProps {
   ndlaFilm?: boolean;
   metaImage?: GQLArticleHero_MetaImageFragment;
 }
-const WrapperComponent = ({
-  children,
-  resourceType,
-  ndlaFilm,
-  metaImage,
-}: WrapperProps) => {
+const WrapperComponent = ({ children, resourceType, ndlaFilm, metaImage }: WrapperProps) => {
   if (ndlaFilm) {
-    return (
-      <NdlaFilmHero hasImage={!!(metaImage && metaImage.url)}>
-        {children}
-      </NdlaFilmHero>
-    );
+    return <NdlaFilmHero hasImage={!!(metaImage && metaImage.url)}>{children}</NdlaFilmHero>;
   }
 
   return <Hero contentType={resourceType}>{children}</Hero>;
@@ -60,7 +41,7 @@ const HeroBackground = styled.div`
   }
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     display: block;
     background-image: linear-gradient(#091a2a00, #091a2aff);
@@ -81,19 +62,10 @@ const StyledSection = styled.section`
   z-index: ${stackOrder.offsetSingle};
 `;
 
-const ArticleHero = ({
-  resourceType,
-  metaImage,
-  subject,
-  breadcrumbItems,
-}: Props) => {
+const ArticleHero = ({ resourceType, metaImage, subject, breadcrumbItems }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   return (
-    <WrapperComponent
-      ndlaFilm={ndlaFilm}
-      resourceType={resourceType}
-      metaImage={metaImage}
-    >
+    <WrapperComponent ndlaFilm={ndlaFilm} resourceType={resourceType} metaImage={metaImage}>
       {ndlaFilm && metaImage?.url && (
         <HeroBackground>
           <img src={metaImage.url} alt="" />
@@ -102,12 +74,7 @@ const ArticleHero = ({
       <OneColumn>
         <HeroContent data-image={!!(ndlaFilm && metaImage?.url)}>
           <StyledSection>
-            {subject && (
-              <HomeBreadcrumb
-                light={ndlaFilm ? true : undefined}
-                items={breadcrumbItems}
-              />
-            )}
+            {subject && <HomeBreadcrumb light={ndlaFilm ? true : undefined} items={breadcrumbItems} />}
           </StyledSection>
         </HeroContent>
       </OneColumn>

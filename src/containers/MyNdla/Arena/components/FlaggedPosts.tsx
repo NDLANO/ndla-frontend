@@ -6,18 +6,18 @@
  *
  */
 
-import { compareDesc } from 'date-fns';
-import { parse, stringify } from 'query-string';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
-import { Spinner } from '@ndla/icons';
-import Pager from '@ndla/pager';
-import SafeLink from '@ndla/safelink';
-import { formateDateObject } from '../../../../util/formatDate';
-import { useArenaFlags } from '../../arenaQueries';
+import { compareDesc } from "date-fns";
+import { parse, stringify } from "query-string";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, misc } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
+import Pager from "@ndla/pager";
+import SafeLink from "@ndla/safelink";
+import { formateDateObject } from "../../../../util/formatDate";
+import { useArenaFlags } from "../../arenaQueries";
 
 const rowStyle = css`
   color: ${colors.text.primary};
@@ -82,7 +82,7 @@ const FlaggedPosts = () => {
   const page = getPage(searchObject);
   const pageSize = 30;
   const { arenaAllFlags, loading } = useArenaFlags({
-    fetchPolicy: 'no-cache',
+    fetchPolicy: "no-cache",
     variables: {
       page,
       pageSize,
@@ -98,29 +98,25 @@ const FlaggedPosts = () => {
       ...newSearchObject,
     };
 
-    const newSearchQuery = Object.keys(searchQuery).reduce(
-      (acc: Record<string, string>, key) => {
-        if (searchQuery[key] === '') return acc;
-        acc[key] = searchQuery[key];
-        return acc;
-      },
-      {},
-    );
+    const newSearchQuery = Object.keys(searchQuery).reduce((acc: Record<string, string>, key) => {
+      if (searchQuery[key] === "") return acc;
+      acc[key] = searchQuery[key];
+      return acc;
+    }, {});
     navigate(`/minndla/admin/flags?${stringify(newSearchQuery)}`);
   };
 
   if (loading) return <Spinner />;
-  if ((arenaAllFlags?.items?.length ?? 0) === 0)
-    return <p>{t('myNdla.arena.admin.flags.noflags')}</p>;
+  if ((arenaAllFlags?.items?.length ?? 0) === 0) return <p>{t("myNdla.arena.admin.flags.noflags")}</p>;
 
   return (
     <>
       <div>
         <StyledHeaderRow>
-          <div>{t('myNdla.arena.admin.flags.postId')}</div>
-          <div>{t('myNdla.arena.admin.flags.numFlags')}</div>
-          <div>{t('myNdla.arena.admin.flags.latestFlag')}</div>
-          <div>{t('myNdla.arena.admin.flags.status.title')}</div>
+          <div>{t("myNdla.arena.admin.flags.postId")}</div>
+          <div>{t("myNdla.arena.admin.flags.numFlags")}</div>
+          <div>{t("myNdla.arena.admin.flags.latestFlag")}</div>
+          <div>{t("myNdla.arena.admin.flags.status.title")}</div>
         </StyledHeaderRow>
         {arenaAllFlags?.items.map((post) => {
           const flags = (post.flags ?? []).map((f) => {
@@ -129,26 +125,20 @@ const FlaggedPosts = () => {
               createdObject: new Date(f.created),
             };
           });
-          const sortedFlags = flags.sort((flagA, flagB) =>
-            compareDesc(flagA.createdObject, flagB.createdObject),
-          );
+          const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
 
           const lastFlagAt = sortedFlags[0]?.createdObject
             ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
-            : '';
+            : "";
 
           const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
           const count = `${resolvedFlags.length}/${flags.length}`;
 
           const state =
             resolvedFlags.length === flags.length ? (
-              <ResolvedBox>
-                {t(`myNdla.arena.admin.flags.status.resolved`)}
-              </ResolvedBox>
+              <ResolvedBox>{t(`myNdla.arena.admin.flags.status.resolved`)}</ResolvedBox>
             ) : (
-              <UnresolvedBox>
-                {t(`myNdla.arena.admin.flags.status.unresolved`)}
-              </UnresolvedBox>
+              <UnresolvedBox>{t(`myNdla.arena.admin.flags.status.unresolved`)}</UnresolvedBox>
             );
 
           return (

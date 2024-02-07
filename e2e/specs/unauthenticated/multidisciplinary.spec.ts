@@ -6,43 +6,34 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute, mockWaitResponse } from '../../apiMock';
+import { test, expect } from "@playwright/test";
+import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        names: [
-          'myNdlaData',
-          'alerts',
-          'frontpageData',
-          'mastheadProgramme',
-          'mastheadFrontpage',
-        ],
-        fixture: 'multidisciplinary_frontpage',
+        names: ["myNdlaData", "alerts", "frontpageData", "mastheadProgramme", "mastheadFrontpage"],
+        fixture: "multidisciplinary_frontpage",
       },
       {
-        names: ['multidisciplinarySubjectPage', 'mastHead'],
-        fixture: 'multidisciplinary_page',
+        names: ["multidisciplinarySubjectPage", "mastHead"],
+        fixture: "multidisciplinary_page",
       },
     ],
   });
-  await page.goto('/?disableSSR=true');
+  await page.goto("/?disableSSR=true");
 });
 
-test('contains content', async ({ page }) => {
-  await mockWaitResponse(page, '**/graphql-api/graphql*');
-  await page.getByRole('button').getByText('Meny').click();
-  await page
-    .getByRole('menuitem', { name: 'Tverrfaglige tema' })
-    .first()
-    .click();
-  await page.waitForURL('/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7');
-  await mockWaitResponse(page, '**/graphql-api/graphql*');
+test("contains content", async ({ page }) => {
+  await mockWaitResponse(page, "**/graphql-api/graphql*");
+  await page.getByRole("button").getByText("Meny").click();
+  await page.getByRole("menuitem", { name: "Tverrfaglige tema" }).first().click();
+  await page.waitForURL("/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7");
+  await mockWaitResponse(page, "**/graphql-api/graphql*");
   await page.waitForLoadState();
-  const heading = page.getByRole('heading').getByText('Tverrfaglige temaer');
+  const heading = page.getByRole("heading").getByText("Tverrfaglige temaer");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 });

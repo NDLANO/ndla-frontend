@@ -6,46 +6,38 @@
  *
  */
 
-import { test, expect } from '@playwright/test';
-import { mockGraphqlRoute } from '../../apiMock';
+import { test, expect } from "@playwright/test";
+import { mockGraphqlRoute } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        fixture: 'minndla_category_myndladata',
-        names: ['myNdlaData', 'arenaPage2'],
+        fixture: "minndla_category_myndladata",
+        names: ["myNdlaData", "arenaPage2"],
       },
       {
-        fixture: 'minndla_category_notifications',
-        names: ['arenaNotificationsV2'],
+        fixture: "minndla_category_notifications",
+        names: ["arenaNotificationsV2"],
       },
       {
-        fixture: 'minndla_category_topics',
-        names: ['arenaCategoryV2'],
+        fixture: "minndla_category_topics",
+        names: ["arenaCategoryV2"],
       },
     ],
   });
-  await page.goto('/minndla/arena');
+  await page.goto("/minndla/arena");
 });
 
-test('has categories and is working link', async ({ page }) => {
-  await expect(page.getByRole('heading', { name: 'Arena' })).toBeInViewport();
+test("has categories and is working link", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Arena" })).toBeInViewport();
 
-  expect(
-    await page.getByRole('main').getByRole('listitem').count(),
-  ).toBeGreaterThanOrEqual(1);
+  expect(await page.getByRole("main").getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
 
-  const link = page
-    .getByRole('main')
-    .getByRole('listitem')
-    .getByRole('link')
-    .first();
-  const linkHeading = (await link.textContent()) ?? '';
+  const link = page.getByRole("main").getByRole("listitem").getByRole("link").first();
+  const linkHeading = (await link.textContent()) ?? "";
   await link.click();
-  await page.waitForURL('/minndla/arena/category/*');
-  await expect(
-    page.getByRole('main').getByRole('heading', { name: linkHeading }),
-  ).toHaveText(linkHeading);
+  await page.waitForURL("/minndla/arena/category/*");
+  await expect(page.getByRole("main").getByRole("heading", { name: linkHeading })).toHaveText(linkHeading);
 });

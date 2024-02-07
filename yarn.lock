@@ -4118,6 +4118,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ndla/types-taxonomy@npm:^1.0.22":
+  version: 1.0.22
+  resolution: "@ndla/types-taxonomy@npm:1.0.22"
+  checksum: 10c0/13d3b71a3d9633e5f3e39f968079d56a7462a9a3ab09d294442e33e07b4d0e5d4b6f85dab9d2379fbba9a0706a38ed548518e1e5c93b4cf64d946ef8129a975e
+  languageName: node
+  linkType: hard
+
 "@ndla/typography@npm:^0.4.11":
   version: 0.4.11
   resolution: "@ndla/typography@npm:0.4.11"
@@ -13157,6 +13164,7 @@ __metadata:
     "@ndla/tracker": "npm:^5.0.6"
     "@ndla/types-backend": "npm:^0.2.46"
     "@ndla/types-embed": "npm:^4.0.13"
+    "@ndla/types-taxonomy": "npm:^1.0.22"
     "@ndla/typography": "npm:^0.4.11"
     "@ndla/ui": "npm:^50.9.7"
     "@ndla/util": "npm:^4.0.4"

@@ -6,7 +6,7 @@
  *
  */
 
-import { Component } from 'react';
+import { Component } from "react";
 
 interface Props {}
 interface State {
@@ -27,11 +27,11 @@ class PostResizeMessage extends Component<Props, State> {
   async componentDidMount() {
     this.onWatchHeight();
     this.onResizeReady();
-    window.addEventListener('resize', this.onResizeReady);
+    window.addEventListener("resize", this.onResizeReady);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResizeReady);
+    window.removeEventListener("resize", this.onResizeReady);
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = undefined;
@@ -39,11 +39,11 @@ class PostResizeMessage extends Component<Props, State> {
   }
 
   onResizeReady = () => {
-    if (document.readyState === 'complete') {
+    if (document.readyState === "complete") {
       this.sendResizeToParentWindow();
     } else {
       document.onreadystatechange = () => {
-        if (document.readyState === 'complete') {
+        if (document.readyState === "complete") {
           this.sendResizeToParentWindow();
         }
       };
@@ -52,7 +52,7 @@ class PostResizeMessage extends Component<Props, State> {
 
   onWatchHeight = () => {
     this.intervalId = setInterval(() => {
-      const container = document.querySelector('.c-article--iframe');
+      const container = document.querySelector(".c-article--iframe");
       const height = container ? container.scrollHeight + 35 : 0;
       if (this.state.height !== height) {
         this.resizer();
@@ -61,26 +61,23 @@ class PostResizeMessage extends Component<Props, State> {
   };
 
   sendResizeToParentWindow = () => {
-    const outerWidth =
-      document && document.body
-        ? document.body.getBoundingClientRect().width
-        : 0;
+    const outerWidth = document && document.body ? document.body.getBoundingClientRect().width : 0;
     if (window.parent && this.state.width !== outerWidth) {
       this.resizer(outerWidth);
     }
   };
 
   resizer = (width: number | undefined = undefined) => {
-    const container = document.querySelector('.c-article--iframe');
+    const container = document.querySelector(".c-article--iframe");
     const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };
     this.setState(newState, () =>
       window.parent.postMessage(
         {
-          event: 'resize',
+          event: "resize",
           height,
         },
-        '*',
+        "*",
       ),
     );
   };

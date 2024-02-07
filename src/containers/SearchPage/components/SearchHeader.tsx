@@ -6,14 +6,14 @@
  *
  */
 
-import { useState, useEffect, useMemo, FormEvent } from 'react';
-import { useTranslation } from 'react-i18next';
-import { SearchHeader as SearchHeaderUI } from '@ndla/ui';
-import { groupCompetenceGoals } from '../../../components/CompetenceGoals';
-import { GQLSubjectInfoFragment } from '../../../graphqlTypes';
-import { LocaleType } from '../../../interfaces';
-import { getSubjectsCategories } from '../../../util/subjects';
-import { SearchCompetenceGoal, SearchCoreElements } from '../SearchInnerPage';
+import { useState, useEffect, useMemo, FormEvent } from "react";
+import { useTranslation } from "react-i18next";
+import { SearchHeader as SearchHeaderUI } from "@ndla/ui";
+import { groupCompetenceGoals } from "../../../components/CompetenceGoals";
+import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { LocaleType } from "../../../interfaces";
+import { getSubjectsCategories } from "../../../util/subjects";
+import { SearchCompetenceGoal, SearchCoreElements } from "../SearchInnerPage";
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -49,10 +49,7 @@ const SearchHeader = ({
   const [searchValue, setSearchValue] = useState(query);
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([]);
 
-  const localeSubjectCategories = useMemo(
-    () => getSubjectsCategories(t, subjects),
-    [t, subjects],
-  );
+  const localeSubjectCategories = useMemo(() => getSubjectsCategories(t, subjects), [t, subjects]);
 
   useEffect(() => {
     setSearchValue(query);
@@ -60,7 +57,7 @@ const SearchHeader = ({
 
   useEffect(() => {
     const activeSubjects = subjectIds.map((id) => {
-      const name = subjects?.find((subject) => subject.id === id)?.name || '';
+      const name = subjects?.find((subject) => subject.id === id)?.name || "";
       return {
         value: id,
         name: name,
@@ -83,10 +80,7 @@ const SearchHeader = ({
     });
   };
 
-  const onFilterValueChange = (
-    grepCodeFilters: string[],
-    subjectFilters: string[],
-  ) => {
+  const onFilterValueChange = (grepCodeFilters: string[], subjectFilters: string[]) => {
     handleSearchParamsChange({
       grepCodes: grepCodeFilters,
       subjects: subjectFilters,
@@ -100,9 +94,9 @@ const SearchHeader = ({
       onSubjectValuesChange: onSubjectValuesChange,
     },
     messages: {
-      filterLabel: t('searchPage.searchFilterMessages.filterLabel'),
-      closeButton: t('searchPage.close'),
-      buttonText: t('searchPage.searchFilterMessages.noValuesButtonText'),
+      filterLabel: t("searchPage.searchFilterMessages.filterLabel"),
+      closeButton: t("searchPage.close"),
+      buttonText: t("searchPage.searchFilterMessages.noValuesButtonText"),
     },
   };
 
@@ -123,25 +117,19 @@ const SearchHeader = ({
   };
 
   const onSearchValueChange = (value: string) => {
-    if (value === '' && (searchValue ?? '').length > 2) {
-      handleSearchParamsChange({ query: '' });
+    if (value === "" && (searchValue ?? "").length > 2) {
+      handleSearchParamsChange({ query: "" });
     }
     setSearchValue(value);
   };
 
-  const competenceGoalsMetadata = groupCompetenceGoals(
-    competenceGoals,
-    false,
-    'LK06',
-  )?.flatMap((e) => e.elements);
+  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06")?.flatMap((e) => e.elements);
 
   return (
     <SearchHeaderUI
       searchPhrase={query}
       searchPhraseSuggestion={suggestion}
-      searchPhraseSuggestionOnClick={() =>
-        handleSearchParamsChange({ query: suggestion })
-      }
+      searchPhraseSuggestionOnClick={() => handleSearchParamsChange({ query: suggestion })}
       searchValue={searchValue}
       onSearchValueChange={(value: string) => onSearchValueChange(value)}
       onSubmit={handleSearchSubmit}

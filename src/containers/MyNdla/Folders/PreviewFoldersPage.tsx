@@ -6,8 +6,8 @@
  *
  */
 
-import SharedFolderPage from '../../SharedFolderPage/SharedFolderPage';
-import MyNdlaPageWrapper from '../components/MyNdlaPageWrapper';
+import SharedFolderPage from "../../SharedFolderPage/SharedFolderPage";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const PreviewFoldersPage = () => {
   return (
