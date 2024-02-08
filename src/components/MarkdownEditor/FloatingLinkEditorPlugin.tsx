@@ -27,7 +27,7 @@ import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useSt
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { $isLinkNode, toggleLink, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister, $findMatchingParent } from "@lexical/utils";
 import { ButtonV2 } from "@ndla/button";
@@ -346,11 +346,24 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   const handleLinkSubmission = () => {
     editor.update(() => {
       const selection = $getSelection();
-      if (editedLinkElement) {
-        editedLinkElement.setURL(sanitizeUrl(editedLinkUrl));
-        editedLinkElement.getFirstChild().setTextContent(editedLinkText);
-      } else {
-        if ($isRangeSelection(selection)) {
+      if ($isRangeSelection(selection)) {
+        const parent = getSelectedNode(selection).getParent();
+        let linkElement = editedLinkElement;
+        if (parent && $isAutoLinkNode(parent)) {
+          const linkNode = $createLinkNode(parent.getURL(), {
+            rel: parent.__rel,
+            target: parent.__target,
+            title: parent.__title,
+          });
+          parent.replace(linkNode, true);
+          linkElement = linkNode;
+          setEditedLinkElement(linkNode);
+        }
+        if (linkElement) {
+          linkElement.setURL(sanitizeUrl(editedLinkUrl));
+          linkElement.getFirstChild().setTextContent(editedLinkText);
+          setTimeout(() => editor.focus());
+        } else {
           selection.removeText();
           selection.insertRawText(editedLinkText);
           toggleLink(sanitizeUrl(editedLinkUrl));
