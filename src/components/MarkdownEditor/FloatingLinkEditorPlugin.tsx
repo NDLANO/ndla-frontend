@@ -137,7 +137,7 @@ const sanitizeUrl = (url: string) => {
   return url;
 };
 
-const VALID_URL_PROTOCOLS = ["http:", "https:"];
+const VALID_URL_PROTOCOLS = ["http:", "https:", "mailto:"];
 
 const validateUrl = (url: string) => {
   try {
