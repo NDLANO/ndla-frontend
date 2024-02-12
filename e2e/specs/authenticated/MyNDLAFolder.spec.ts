@@ -284,6 +284,6 @@ test("can add and delete folder", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql");
   await expect(page.getByRole("dialog")).not.toBeInViewport();
   await mockWaitResponse(page, "**/graphql-api/graphql");
-  await page.waitForTimeout(1000);
+  await expect(page.getByRole("listitem").getByText(name).last()).toBeInViewport();
   expect(await folderList.getByRole("listitem").count()).toEqual(count);
 });
