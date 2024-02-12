@@ -455,6 +455,20 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #595959;
 }
 
+.emotion-36 {
+  width: 120px;
+  margin: 0;
+  position: relative;
+}
+
+.emotion-36 a {
+  box-shadow: none;
+}
+
+.emotion-38 {
+  fill: #20588f;
+}
+
 <div
     class="o-wrapper"
   >
@@ -626,7 +640,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                 </div>
                 <div
-                  class="c-logo"
+                  class="emotion-36 emotion-37"
                 >
                   <a
                     aria-label="NDLA"
@@ -634,7 +648,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     title="NDLA"
                   >
                     <svg
-                      class="c-logo__graphic"
+                      class="emotion-38 emotion-39"
                       fill="#000000"
                       fill-rule="evenodd"
                       viewBox="0 0 376 152"
