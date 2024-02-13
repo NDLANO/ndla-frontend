@@ -33,7 +33,7 @@ const getNewGroups = (newIsModerator: boolean, oldGroups: string[]): string[] =>
 
 const SettingsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: ${spacing.small};
 `;
 
@@ -52,12 +52,13 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
       </Heading>
       <SettingsWrapper>
         <CheckboxItem
+          id={`administrate-${userToAdmin.id}`}
           disabled={userToAdmin.id === currentUser.id}
-          label={t(`myNdla.arena.admin.users.selectAdministrator`, {
+          content={t(`myNdla.arena.admin.users.selectAdministrator`, {
             user: userToAdmin.displayName,
           })}
           checked={isModerator}
-          onChange={() => {
+          onClick={() => {
             if (!userToAdmin.id || !userToAdmin.groups) return;
             updateUser({
               variables: {
@@ -69,6 +70,11 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
             });
           }}
         />
+        <label htmlFor={`administrate-${userToAdmin.id}`}>
+          {t(`myNdla.arena.admin.users.selectAdministrator`, {
+            user: userToAdmin.displayName,
+          })}
+        </label>
       </SettingsWrapper>
     </>
   );

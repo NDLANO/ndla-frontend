@@ -151,9 +151,9 @@ const ArenaCategoryForm = ({
         render={({ field, fieldState }) => (
           <FormControl id={id ? `editor-${id}` : "editor"} isInvalid={!!fieldState.error?.message}>
             <CheckboxItem
+              id={`checkbox-${id}`}
               checked={field.value}
-              label={t("myNdla.arena.admin.category.form.visible")}
-              onChange={() => {
+              onClick={() => {
                 setValue("visible", !field.value, {
                   shouldDirty: true,
                   shouldTouch: true,
@@ -161,6 +161,7 @@ const ArenaCategoryForm = ({
                 });
               }}
             />
+            <label htmlFor={`checkbox-${id}`}>{t("myNdla.arena.admin.category.form.visible")}</label>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
         )}
