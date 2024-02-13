@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { CheckboxItem } from "@ndla/forms";
+import { CheckboxItem, Label } from "@ndla/forms";
 import { Heading } from "@ndla/typography";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
@@ -37,6 +37,12 @@ const SettingsWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
+`;
+
 const UserProfileAdministration = ({ userToAdmin }: Props) => {
   const { t } = useTranslation();
   const { user: currentUser } = useContext(AuthContext);
@@ -51,24 +57,28 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
         {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
       </Heading>
       <SettingsWrapper>
-        <CheckboxItem
-          disabled={userToAdmin.id === currentUser.id}
-          label={t(`myNdla.arena.admin.users.selectAdministrator`, {
-            user: userToAdmin.displayName,
-          })}
-          checked={isModerator}
-          onChange={() => {
-            if (!userToAdmin.id || !userToAdmin.groups) return;
-            updateUser({
-              variables: {
-                userId: userToAdmin.id,
-                user: {
-                  arenaGroups: getNewGroups(!isModerator, userToAdmin?.groups),
+        <CheckboxWrapper>
+          <CheckboxItem
+            disabled={userToAdmin.id === currentUser.id}
+            checked={isModerator}
+            onCheckedChange={() => {
+              if (!userToAdmin.id || !userToAdmin.groups) return;
+              updateUser({
+                variables: {
+                  userId: userToAdmin.id,
+                  user: {
+                    arenaGroups: getNewGroups(!isModerator, userToAdmin?.groups),
+                  },
                 },
-              },
-            });
-          }}
-        />
+              });
+            }}
+          />
+          <Label textStyle="label-small" margin="none">
+            {t(`myNdla.arena.admin.users.selectAdministrator`, {
+              user: userToAdmin.displayName,
+            })}
+          </Label>
+        </CheckboxWrapper>
       </SettingsWrapper>
     </>
   );
