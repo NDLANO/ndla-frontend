@@ -6,19 +6,21 @@
  *
  */
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { FormControl, InputV3, Label, FieldErrorMessage } from "@ndla/forms";
+import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
 import { InformationOutline } from "@ndla/icons/common";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
+import { AuthContext } from "../../../../components/AuthenticationContext";
 import { MarkdownEditor } from "../../../../components/MarkdownEditor/MarkdownEditor";
-import { FieldLength } from "../../../../containers/MyNdla/Folders/FolderForm";
+import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../Folders/FolderForm";
 import { iconCss } from "../../Folders/FoldersPage";
 
 export const ArenaFormWrapper = styled.div`
@@ -70,10 +72,17 @@ const StyledInput = styled(InputV3)`
   background: ${colors.white};
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
+`;
+
 interface ArenaFormProps {
   type: "topic" | "post";
   initialTitle?: string;
   initialContent?: string;
+  initialLocked?: boolean;
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
@@ -83,18 +92,21 @@ interface ArenaFormProps {
 export interface ArenaFormValues {
   title: string;
   content: string;
+  locked: boolean;
 }
 
 const titleMaxLength = 64;
 const contentMaxLength = 32767;
 
-const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: ArenaFormProps) => {
+const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initialLocked, id }: ArenaFormProps) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   const { validationT } = useValidationTranslation();
   const { formState, control, handleSubmit, setValue } = useForm({
     defaultValues: {
       title: initialTitle ?? "",
       content: initialContent ?? "",
+      locked: initialLocked ?? false,
     },
     mode: "onSubmit",
     reValidateMode: "onSubmit",
@@ -108,9 +120,19 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
         : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, [id, type]);
 
-  const onSubmit = async ({ title, content }: ArenaFormValues) => {
-    await onSave(type === "topic" ? { title: title, content: content } : { content: content });
+  const onSubmit = async ({ title, content, locked }: ArenaFormValues) => {
+    await onSave(
+      type === "topic"
+        ? {
+            title: title,
+            content: content,
+            locked: locked,
+          }
+        : { content: content },
+    );
   };
+
+  const showLockedOption = user?.isModerator && type === "topic" && !config.enableNodeBB;
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -176,6 +198,33 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, id }: 
           </FormControl>
         )}
       />
+      {showLockedOption && (
+        <Controller
+          control={control}
+          name="locked"
+          rules={{ required: false }}
+          render={({ field, fieldState }) => (
+            <FormControl id="locked" isInvalid={!!fieldState.error?.message}>
+              <CheckboxWrapper>
+                <CheckboxItem
+                  checked={field.value}
+                  onCheckedChange={() => {
+                    setValue("locked", !field.value, {
+                      shouldDirty: true,
+                      shouldTouch: true,
+                      shouldValidate: true,
+                    });
+                  }}
+                />
+                <Label margin="none" textStyle="label-small">
+                  {t("myNdla.arena.topic.locked")}
+                </Label>
+              </CheckboxWrapper>
+              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            </FormControl>
+          )}
+        />
+      )}
       <InformationLabel>
         <StyledInformationOutline />
         <Text margin="none" textStyle="content">

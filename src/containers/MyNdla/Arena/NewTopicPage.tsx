@@ -55,6 +55,7 @@ export const NewTopicPage = () => {
           content: values.content ?? "",
           title: values.title ?? "",
           categoryId: Number(categoryId),
+          isLocked: values.locked ?? false,
         },
       });
       const data = topic?.data;
