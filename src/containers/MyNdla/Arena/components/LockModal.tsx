@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
+import { Text } from "@ndla/typography";
 import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
 import { useUpdateTopicV2 } from "../../arenaMutations";
 
@@ -53,7 +54,7 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
-        <p>{description}</p>
+        <Text>{description}</Text>
         <StyledButtonRow>
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
