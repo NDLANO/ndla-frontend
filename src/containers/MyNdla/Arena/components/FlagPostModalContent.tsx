@@ -11,8 +11,8 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, LoadingButton } from "@ndla/button";
-import { fonts, spacing } from "@ndla/core";
-import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldErrorMessage } from "@ndla/forms";
+import { colors, spacing } from "@ndla/core";
+import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldErrorMessage, RadioButtonItem } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
@@ -39,15 +39,6 @@ const StyledModalBody = styled(ModalBody)`
   gap: ${spacing.nsmall};
 `;
 
-const StyledRadioButtonGroup = styled(RadioButtonGroup)`
-  > div {
-    > label {
-      font-size: ${fonts.size.text.metaText.small};
-      font-weight: ${fonts.weight.semibold};
-    }
-  }
-`;
-
 const StyledTextArea = styled(TextAreaV3)`
   min-height: 74px;
 `;
@@ -56,6 +47,14 @@ const FieldInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
+`;
+
+const StyledFormControl = styled(FormControl)`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.small};
+  flex-direction: row;
+  color: ${colors.brand.primary};
 `;
 
 interface FlagPost {
@@ -114,6 +113,15 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
     onClose();
   };
 
+  const radioButtonOptions = [
+    { title: t("myNdla.arena.flag.spam"), value: "spam" },
+    {
+      title: t("myNdla.arena.flag.offensive"),
+      value: "offensive",
+    },
+    { title: t("myNdla.arena.flag.other"), value: "other" },
+  ];
+
   return (
     <ModalContent forceOverlay>
       <ModalHeader>
@@ -134,27 +142,25 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               }),
             }}
             render={({ field }) => (
-              <FormControl id="type" isRequired>
-                <StyledRadioButtonGroup
-                  {...field}
-                  options={[
-                    { title: t("myNdla.arena.flag.spam"), value: "spam" },
-                    {
-                      title: t("myNdla.arena.flag.offensive"),
-                      value: "offensive",
-                    },
-                    { title: t("myNdla.arena.flag.other"), value: "other" },
-                  ]}
-                  direction="vertical"
-                  onChange={(value) => {
-                    setValue("type", value, {
-                      shouldDirty: true,
-                      shouldValidate: true,
-                    });
-                    setShowReasonField(value === "other");
-                  }}
-                />
-              </FormControl>
+              <RadioButtonGroup
+                {...field}
+                onValueChange={(value) => {
+                  setValue("type", value, {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                  });
+                  setShowReasonField(value === "other");
+                }}
+              >
+                {radioButtonOptions.map((option) => (
+                  <StyledFormControl id={option.value} key={option.value}>
+                    <RadioButtonItem value={option.value} />
+                    <Label margin="none" textStyle="label-small">
+                      {option.title}
+                    </Label>
+                  </StyledFormControl>
+                ))}
+              </RadioButtonGroup>
             )}
           />
 
