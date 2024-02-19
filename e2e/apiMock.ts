@@ -116,6 +116,8 @@ export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) =>
         } catch (e) {
           route.abort();
         }
+      } else {
+        console.error("[ERROR] Operationname array does not match any results. Update mock array and rerecord test");
       }
     }
   });
