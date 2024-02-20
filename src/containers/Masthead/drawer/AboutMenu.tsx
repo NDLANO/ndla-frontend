@@ -140,10 +140,7 @@ const NewAboutMenuPortion = ({
             active={!selected}
           />
           {item.menu?.map((link) => {
-            if (link.hideLevel) {
-              return null;
-            }
-            if (!link.menu?.length) {
+            if (!link.menu?.length || link.hideLevel) {
               return (
                 <DrawerMenuItem
                   key={link.article.slug}
