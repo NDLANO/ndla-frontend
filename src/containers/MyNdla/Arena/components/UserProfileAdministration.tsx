@@ -78,8 +78,8 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
                 });
                 addSnack({
                   content: becameAdmin
-                    ? t("myNdla.arena.admin.users.becameAdmin")
-                    : t("myNdla.arena.admin.users.becameNormalUser"),
+                    ? t("myNdla.arena.admin.users.becameAdmin", { user: userToAdmin?.displayName })
+                    : t("myNdla.arena.admin.users.becameNormalUser", { user: userToAdmin?.displayName }),
                   id: "updatedAdminStatus",
                 });
               }}
