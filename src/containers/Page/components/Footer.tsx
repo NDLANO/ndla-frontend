@@ -9,6 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { ZendeskButton } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import { FacebookFilled, HelpCircleOutline, Instagram, LinkedIn, Email, Youtube } from "@ndla/icons/common";
 import { Footer, FooterText, EditorName } from "@ndla/ui";

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,12 +12,12 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Text } from "@ndla/typography";
+import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
+import { useUpdateTopicV2 } from "../../arenaMutations";
 
 interface Props {
-  onDelete: () => void;
-  title: string;
-  description: string;
-  removeText: string;
+  topic: GQLArenaTopicV2Fragment | undefined;
+  post: GQLArenaPostV2Fragment | undefined;
   onClose?: (e?: Event) => void;
 }
 
@@ -27,8 +27,26 @@ const StyledButtonRow = styled.div`
   gap: ${spacing.small};
 `;
 
-const DeleteModalContent = ({ onDelete, onClose, title, description, removeText }: Props) => {
+const LockModal = ({ topic, post, onClose }: Props) => {
   const { t } = useTranslation();
+  const updateTopic = useUpdateTopicV2({});
+  const isLocked = topic?.isLocked;
+  const title = isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked");
+  const lockText = isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked");
+  const description = isLocked ? t("myNdla.arena.topic.unlockDescription") : t("myNdla.arena.topic.lockDescription");
+
+  const onLock = () => {
+    if (!topic || !post) return;
+    updateTopic.updateTopic({
+      variables: {
+        topicId: topic.id,
+        title: topic.title,
+        content: post.content,
+        isLocked: !isLocked,
+      },
+    });
+  };
+
   return (
     <ModalContent onCloseAutoFocus={onClose}>
       <ModalHeader>
@@ -41,8 +59,8 @@ const DeleteModalContent = ({ onDelete, onClose, title, description, removeText 
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
           </ModalCloseButton>
-          <ButtonV2 colorTheme="danger" variant="outline" onClick={onDelete}>
-            {removeText}
+          <ButtonV2 colorTheme="danger" variant="outline" onClick={onLock}>
+            {lockText}
           </ButtonV2>
         </StyledButtonRow>
       </ModalBody>
@@ -50,4 +68,4 @@ const DeleteModalContent = ({ onDelete, onClose, title, description, removeText 
   );
 };
 
-export default DeleteModalContent;
+export default LockModal;
