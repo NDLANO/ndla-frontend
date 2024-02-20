@@ -299,7 +299,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 .emotion-14 {
   border: 1px solid #ceddea;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .emotion-14[data-state="open"] {
