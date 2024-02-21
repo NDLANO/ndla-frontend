@@ -42,7 +42,8 @@ export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menu
     },
     [menuItems, _setMenu],
   );
-
+  console.log("menuItems", menuItems);
+  console.log("length", menuItems.length);
   return menuItems.map((item, index) => (
     <NewAboutMenuPortion
       key={item.article.id}
@@ -140,7 +141,11 @@ const NewAboutMenuPortion = ({
             active={!selected}
           />
           {item.menu?.map((link) => {
-            if (!link.menu?.length || link.hideLevel) {
+            const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
+            if (link.hideLevel) {
+              return null;
+            }
+            if (!link.menu?.length || allSublevelsHidden) {
               return (
                 <DrawerMenuItem
                   key={link.article.slug}
