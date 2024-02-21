@@ -42,8 +42,6 @@ export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menu
     },
     [menuItems, _setMenu],
   );
-  console.log("menuItems", menuItems);
-  console.log("length", menuItems.length);
   return menuItems.map((item, index) => (
     <NewAboutMenuPortion
       key={item.article.id}
