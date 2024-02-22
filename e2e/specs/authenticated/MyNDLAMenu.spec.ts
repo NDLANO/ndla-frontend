@@ -15,11 +15,11 @@ test.beforeEach(async ({ page }) => {
     operation: [
       {
         fixture: "minndla_menu_myndladata",
-        names: ["myNdlaData", "recentlyUsed"],
+        names: ["arenaNotificationsV2", "arenaRecentTopicsV2", "folderResourceMetaSearch"],
       },
       {
-        fixture: "minndla_menu_folderMeta",
-        names: ["folderResourceMetaSearch"],
+        fixture: "arena_notifications",
+        names: ["arenaNotificationsV2"],
       },
       {
         fixture: "minndla_menu_folder",
@@ -28,6 +28,14 @@ test.beforeEach(async ({ page }) => {
       {
         fixture: "minndla_menu_subjects",
         names: ["allSubjects"],
+      },
+      {
+        names: ["myNdlaData", "recentlyUsed"],
+        fixture: "minndla_menu_recentlyused",
+      },
+      {
+        names: ["arenaNotificationsV2", "foldersPage"],
+        fixture: "minndla_menu_folders",
       },
     ],
   });
