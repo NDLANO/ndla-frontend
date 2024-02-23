@@ -27,6 +27,18 @@ const FooterTextWrapper = styled.div`
   }
 `;
 
+const LanguageLinkWrappers = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: ${spacing.small};
+  a {
+    color: ${colors.white};
+    &:hover {
+      color: ${colors.white};
+    }
+  }
+`;
+
 const FooterWrapper = () => {
   const { t, i18n } = useTranslation();
   const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
@@ -159,12 +171,22 @@ const FooterWrapper = () => {
         }
         privacyLinks={privacyLinks}
       >
-        <FooterTextWrapper>
-          <FooterText>
-            <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
-          </FooterText>
-          <FooterText>{t("footer.info")}</FooterText>
-        </FooterTextWrapper>
+        <>
+          <LanguageLinkWrappers>
+            <a href="/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466" rel="noopener noreferrer">
+              Українська
+            </a>
+            <a href="/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c" rel="noopener noreferrer">
+              Davvisámegiella
+            </a>
+          </LanguageLinkWrappers>
+          <FooterTextWrapper>
+            <FooterText>
+              <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
+            </FooterText>
+            <FooterText>{t("footer.info")}</FooterText>
+          </FooterTextWrapper>
+        </>
       </Footer>
     </>
   );
