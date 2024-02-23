@@ -37,7 +37,7 @@ const checkIfNoCurrent: (
   structure: GQLAboutMenu_FrontpageMenuFragment[],
   parentSlug: String | undefined,
   slug: String | undefined,
-) => any = (structure, parentSlug, slug) => {
+) => boolean = (structure, parentSlug, slug) => {
   if (parentSlug === slug) return true;
   for (const item of structure) {
     if (item.article.slug === parentSlug) {
