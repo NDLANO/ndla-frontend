@@ -33,6 +33,24 @@ interface NewAboutMenuProps extends Props {
   setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
   onClose: () => void;
 }
+const checkIfNoCurrent: (
+  structure: GQLAboutMenu_FrontpageMenuFragment[],
+  parentSlug: String | undefined,
+  slug: String | undefined,
+) => any = (structure, parentSlug, slug) => {
+  if (parentSlug === slug) return true;
+  for (const item of structure) {
+    if (item.article.slug === parentSlug) {
+      if (item.menu && item.menu.some((subItem) => subItem.article.slug === slug)) {
+        return true;
+      }
+    }
+    if (item.menu && checkIfNoCurrent(item.menu, parentSlug, slug)) {
+      return true;
+    }
+  }
+  return false;
+};
 
 const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) => {
   const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] => {
@@ -69,6 +87,7 @@ export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menu
   );
   return filteredMenuItems.map((item, index) => (
     <NewAboutMenuPortion
+      unfilteredMenuItems={menuItems}
       key={item.article.id}
       setMenu={setMenu}
       item={item}
@@ -82,6 +101,7 @@ export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menu
 };
 
 interface NewAboutMenuPortionProps {
+  unfilteredMenuItems: GQLAboutMenu_FrontpageMenuFragment[];
   item: GQLAboutMenu_FrontpageMenuFragment;
   onGoBack: () => void;
   onClose: () => void;
@@ -92,6 +112,7 @@ interface NewAboutMenuPortionProps {
 }
 
 const NewAboutMenuPortion = ({
+  unfilteredMenuItems,
   item,
   onGoBack,
   onClose,
@@ -175,7 +196,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  current={link.article.slug === slug}
+                  current={checkIfNoCurrent(unfilteredMenuItems, link.article.slug, slug)} //{link.article.slug === slug}
                   to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
