@@ -6,6 +6,7 @@
  *
  */
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -15,6 +16,7 @@ import { Facebook, HelpCircleOutline, Instagram, LinkedIn, EmailOutline, Youtube
 import { Footer, FooterText, EditorName, LanguageSelector } from "@ndla/ui";
 import config from "../../../config";
 import { supportedLanguages } from "../../../i18n";
+import { constructNewPath } from "../../../util/urlHelper";
 
 const FooterTextWrapper = styled.div`
   p:first-of-type {
@@ -128,6 +130,10 @@ const FooterWrapper = () => {
     height: 20px;
   `;
 
+  const onChangeLanguage = useCallback((lang: string) => {
+    window.location.href = constructNewPath(window.location.pathname, lang);
+  }, []);
+
   return (
     <>
       {config.zendeskWidgetKey && (
@@ -147,7 +153,7 @@ const FooterWrapper = () => {
           <LanguageSelector
             inverted
             locales={supportedLanguages}
-            onSelect={i18n.changeLanguage}
+            onSelect={onChangeLanguage}
             triggerId="languageSelectorFooter"
           />
         }

@@ -32,12 +32,12 @@ import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 // @ts-ignore
 import ErrorReporter from "@ndla/error-reporter";
-import { i18nInstance } from "@ndla/ui";
 import App from "./App";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { EmotionCacheKey } from "./constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
+import { i18nInstance } from "./tempI18nClone";
 import { UserAgentProvider } from "./UserAgentContext";
 import { createApolloClient } from "./util/apiHelpers";
 
