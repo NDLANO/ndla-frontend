@@ -23,7 +23,6 @@ import FeideLoginButton from "../../components/FeideLoginButton";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
-import { supportedLanguages } from "../../i18n";
 import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { constructNewPath } from "../../util/urlHelper";
@@ -114,7 +113,7 @@ const MastheadContainer = () => {
         <ButtonWrapper>
           <MastheadSearch subject={data?.subject} />
           <LanguageSelectWrapper>
-            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={onChangeLanguage} />
+            <LanguageSelector inverted={ndlaFilm} locales={["nb", "nn"]} onSelect={onChangeLanguage} />
           </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton>

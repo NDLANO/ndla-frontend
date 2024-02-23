@@ -15,7 +15,6 @@ import { colors, spacing, stackOrder } from "@ndla/core";
 import { Facebook, HelpCircleOutline, Instagram, LinkedIn, EmailOutline, Youtube } from "@ndla/icons/common";
 import { Footer, FooterText, EditorName, LanguageSelector } from "@ndla/ui";
 import config from "../../../config";
-import { supportedLanguages } from "../../../i18n";
 import { constructNewPath } from "../../../util/urlHelper";
 
 const FooterTextWrapper = styled.div`
@@ -164,7 +163,7 @@ const FooterWrapper = () => {
         languageSelector={
           <LanguageSelector
             inverted
-            locales={supportedLanguages}
+            locales={["nb", "nn"]}
             onSelect={onChangeLanguage}
             triggerId="languageSelectorFooter"
           />
