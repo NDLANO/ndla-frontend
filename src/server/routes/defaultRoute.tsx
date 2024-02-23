@@ -16,16 +16,13 @@ import { ApolloProvider } from "@apollo/client";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie } from "@ndla/util";
 
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { EmotionCacheKey } from "../../constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
-import { LocaleType } from "../../interfaces";
-import { TEMPORARY_REDIRECT } from "../../statusCodes";
 import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
 import { Assets } from "../helpers/Document";
@@ -51,12 +48,11 @@ const disableSSR = (req: Request) => {
 async function doRender(req: Request) {
   //@ts-ignore
   global.assets = assets; // used for including mathjax js in pages with math
-  const resCookie = req.headers["cookie"] ?? "";
   const userAgent = req.headers["user-agent"];
   const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const { basename, abbreviation } = getLocaleInfoFromPath(req.path);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
+  const locale = isValidLocale(abbreviation) ? abbreviation : config.defaultLocale;
   const noSSR = disableSSR(req);
 
   const client = createApolloClient(locale, versionHash);
@@ -112,25 +108,7 @@ async function doRender(req: Request) {
   };
 }
 
-function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
-  return abbreviation;
-}
-
 export async function defaultRoute(req: Request) {
-  const resCookie = req.headers["cookie"] ?? "";
-  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
-  if ((locale === "nb" && basename === "") || locale === basename) {
-    const { html, context, docProps, helmetContext } = await doRender(req);
-    return renderHtml(html, context, docProps, helmetContext);
-  }
-
-  return {
-    status: TEMPORARY_REDIRECT,
-    data: { Location: `/${locale}${basepath}` },
-  };
+  const { html, context, docProps, helmetContext } = await doRender(req);
+  return renderHtml(html, context, docProps, helmetContext);
 }
