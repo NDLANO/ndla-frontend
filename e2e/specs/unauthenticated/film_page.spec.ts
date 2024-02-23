@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
     page,
     operation: [
       {
-        names: ["myNdlaData", "filmFrontPage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
+        names: ["filmFrontPage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
         fixture: "filmpage",
       },
     ],
