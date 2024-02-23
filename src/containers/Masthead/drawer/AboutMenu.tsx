@@ -34,15 +34,40 @@ interface NewAboutMenuProps extends Props {
   onClose: () => void;
 }
 
+const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) => {
+  const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] => {
+    const filteredItems = items
+      .filter((item) => {
+        const shouldInclude = !item.hideLevel;
+        return shouldInclude;
+      })
+      .map((item) => {
+        const newItem = {
+          ...item,
+          menu: item.menu ? filterMenuItems(item.menu) : [],
+        };
+        if (newItem.menu && newItem.menu.length === 0) {
+          const { menu, ...emptyItem } = newItem;
+          return emptyItem;
+        }
+        return newItem;
+      });
+    return filteredItems;
+  };
+  const filteredMenuItems = filterMenuItems(items);
+  return filteredMenuItems.filter((item) => item.menu && item.menu.length > 0);
+};
+
 export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menuItems }: NewAboutMenuProps) => {
+  const filteredMenuItems = filterAndReduceMenuItems(menuItems);
   const setMenu = useCallback(
     (value: GQLAboutMenu_FrontpageMenuFragment) => {
-      const newMenu = findBreadcrumb(menuItems, value.article.slug);
+      const newMenu = findBreadcrumb(filteredMenuItems, value.article.slug);
       _setMenu(newMenu as GQLDrawerContent_FrontpageMenuFragment[]);
     },
-    [menuItems, _setMenu],
+    [filteredMenuItems, _setMenu],
   );
-  return menuItems.map((item, index) => (
+  return filteredMenuItems.map((item, index) => (
     <NewAboutMenuPortion
       key={item.article.id}
       setMenu={setMenu}
