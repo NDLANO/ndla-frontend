@@ -38,7 +38,7 @@ test.beforeEach(async ({ page }) => {
         fixture: "minndla_menu_folders",
       },
       {
-        fixture: "minndla_menu_recentlyused",
+        fixture: "myndla_menu_masthead",
         names: ["mastheadFrontpage", "myNdlaData", "recentlyUsed"],
       },
     ],
