@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, misc, spacing, stackOrder } from "@ndla/core";
-import { FormControl, Label, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
+import { Fieldset, FormControl, Label, Legend, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { Heading, Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import { uuid } from "@ndla/util";
@@ -46,7 +46,7 @@ const StyledRadioButtonGroup = styled(RadioButtonGroup)`
   padding: 0;
 `;
 
-const StyledFormControl = styled(FormControl)`
+const RadioButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
@@ -120,19 +120,25 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             </Text>
           </OptionContainer>
           <form>
-            <StyledRadioButtonGroup
-              onValueChange={setUserPref}
-              defaultValue={user?.shareName ? "showName" : "dontShowName"}
-            >
-              {preferenceOptions.map((option) => (
-                <StyledFormControl id={option.value} key={option.value}>
-                  <RadioButtonItem value={option.value} />
-                  <Label margin="none" textStyle="label-small">
-                    {option.title}
-                  </Label>
-                </StyledFormControl>
-              ))}
-            </StyledRadioButtonGroup>
+            <FormControl id="nameControl">
+              <StyledRadioButtonGroup
+                onValueChange={setUserPref}
+                defaultValue={user?.shareName ? "showName" : "dontShowName"}
+                asChild
+              >
+                <Fieldset>
+                  <Legend visuallyHidden>{t("myNdla.myProfile.preferenceTitle")}</Legend>
+                  {preferenceOptions.map((option) => (
+                    <RadioButtonWrapper key={option.value}>
+                      <RadioButtonItem value={option.value} id={`name-${option.value}`} />
+                      <Label margin="none" htmlFor={`name-${option.value}`} textStyle="label-small">
+                        {option.title}
+                      </Label>
+                    </RadioButtonWrapper>
+                  ))}
+                </Fieldset>
+              </StyledRadioButtonGroup>
+            </FormControl>
           </form>
         </>
       )}

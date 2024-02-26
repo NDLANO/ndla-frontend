@@ -3790,12 +3790,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "@ndla/article-converter@npm:6.1.0"
+"@ndla/article-converter@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "@ndla/article-converter@npm:6.1.1"
   dependencies:
     "@ndla/code": "npm:^5.0.45"
-    "@ndla/ui": "npm:^50.10.0"
+    "@ndla/ui": "npm:^50.10.1"
     html-react-parser: "npm:^4.2.2"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -3806,7 +3806,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/5f27c3e4c564c30ef448599ae0432bf2bf49634de8db0b5bed96bd4c7db4d824b46d94a98a1a74416e5b9f1d2a735175d3e3e4b67c91936138f20aa27e4bb543
+  checksum: 10c0/c2c6c31c4be18d8d4472e5995093507760475e5cb6ac6c43cd0fe5b0f986bc81d46be65bc72d9f100d25c060e790924fe8c20e68f19fdd588a620146cfbfecdd
   languageName: node
   linkType: hard
 
@@ -3898,9 +3898,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/forms@npm:^7.0.2":
-  version: 7.0.2
-  resolution: "@ndla/forms@npm:7.0.2"
+"@ndla/forms@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "@ndla/forms@npm:7.0.3"
   dependencies:
     "@ndla/core": "npm:^4.4.2"
     "@ndla/icons": "npm:^5.0.12"
@@ -3915,7 +3915,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/09ce8541cfe25244b9b4c6a9b3e93a4df0062a8931d83f22cf8abc904b812f5b67fc9cd1c903934b3342e7e0903ee2704e08b114bcc4945fdb2a0edf35e2e910
+  checksum: 10c0/ff55ac2d2bdc569e2f6ef2ead262842995f3dd85fa1343cb3507e0db37f574856a5612a5ed4a77c94c515180325b995b38d97db39ef6bfbaff237861a4d2c20f
   languageName: node
   linkType: hard
 
@@ -4139,16 +4139,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.10.0":
-  version: 50.10.0
-  resolution: "@ndla/ui@npm:50.10.0"
+"@ndla/ui@npm:^50.10.1":
+  version: 50.10.1
+  resolution: "@ndla/ui@npm:50.10.1"
   dependencies:
     "@ndla/accordion": "npm:^3.0.31"
     "@ndla/button": "npm:^12.0.35"
     "@ndla/carousel": "npm:^4.0.33"
     "@ndla/core": "npm:^4.4.2"
     "@ndla/dropdown-menu": "npm:^1.0.30"
-    "@ndla/forms": "npm:^7.0.2"
+    "@ndla/forms": "npm:^7.0.3"
     "@ndla/hooks": "npm:^2.1.5"
     "@ndla/icons": "npm:^5.0.12"
     "@ndla/licenses": "npm:^7.2.5"
@@ -4179,7 +4179,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/6f1a66727c49b1fbdad4b9113fa01e869729eed108bedc5aa28f8e8ffad4111ff7b371fd1098b0e6d89af9c577e9eb3ebd0f45120a9f83207dab0bfdc0af84cd
+  checksum: 10c0/188cdebb8215cf931e26b20ab578962edaa406035e31425daf3978257fc04792361ebc97b76d628f3d0e49f9be93486e67be2f03a8b6d13a8f39823cf46d0226
   languageName: node
   linkType: hard
 
@@ -13162,12 +13162,12 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.0.1"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.1.0"
+    "@ndla/article-converter": "npm:^6.1.1"
     "@ndla/button": "npm:^12.0.35"
     "@ndla/core": "npm:^4.4.2"
     "@ndla/dropdown-menu": "npm:^1.0.30"
     "@ndla/error-reporter": "npm:^1.0.37"
-    "@ndla/forms": "npm:^7.0.2"
+    "@ndla/forms": "npm:^7.0.3"
     "@ndla/icons": "npm:^5.0.12"
     "@ndla/licenses": "npm:^7.2.5"
     "@ndla/modal": "npm:^5.0.32"
@@ -13181,7 +13181,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.1.0"
     "@ndla/types-taxonomy": "npm:^1.0.22"
     "@ndla/typography": "npm:^0.4.13"
-    "@ndla/ui": "npm:^50.10.0"
+    "@ndla/ui": "npm:^50.10.1"
     "@ndla/util": "npm:^4.0.4"
     "@playwright/test": "npm:^1.41.1"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.10"

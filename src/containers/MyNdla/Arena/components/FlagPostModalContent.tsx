@@ -12,7 +12,16 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2, LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { FormControl, Label, TextAreaV3, RadioButtonGroup, FieldErrorMessage, RadioButtonItem } from "@ndla/forms";
+import {
+  FormControl,
+  Label,
+  TextAreaV3,
+  RadioButtonGroup,
+  FieldErrorMessage,
+  RadioButtonItem,
+  Fieldset,
+  Legend,
+} from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
@@ -49,7 +58,7 @@ const FieldInfoWrapper = styled.div`
   flex-direction: row-reverse;
 `;
 
-const StyledFormControl = styled(FormControl)`
+const RadioButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
@@ -142,25 +151,31 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               }),
             }}
             render={({ field }) => (
-              <RadioButtonGroup
-                {...field}
-                onValueChange={(value) => {
-                  setValue("type", value, {
-                    shouldDirty: true,
-                    shouldValidate: true,
-                  });
-                  setShowReasonField(value === "other");
-                }}
-              >
-                {radioButtonOptions.map((option) => (
-                  <StyledFormControl id={option.value} key={option.value}>
-                    <RadioButtonItem value={option.value} />
-                    <Label margin="none" textStyle="label-small">
-                      {option.title}
-                    </Label>
-                  </StyledFormControl>
-                ))}
-              </RadioButtonGroup>
+              <FormControl id="flag-type">
+                <RadioButtonGroup
+                  {...field}
+                  asChild
+                  onValueChange={(value) => {
+                    setValue("type", value, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    });
+                    setShowReasonField(value === "other");
+                  }}
+                >
+                  <Fieldset>
+                    <Legend visuallyHidden>{t("myNdla.arena.flag.reason")}</Legend>
+                    {radioButtonOptions.map((option) => (
+                      <RadioButtonWrapper key={option.value}>
+                        <RadioButtonItem id={`flag-${option.value}`} value={option.value} />
+                        <Label htmlFor={`flag-${option.value}`} margin="none" textStyle="label-small">
+                          {option.title}
+                        </Label>
+                      </RadioButtonWrapper>
+                    ))}
+                  </Fieldset>
+                </RadioButtonGroup>
+              </FormControl>
             )}
           />
 
