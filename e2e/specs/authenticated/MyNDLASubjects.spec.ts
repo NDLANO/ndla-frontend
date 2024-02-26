@@ -19,7 +19,7 @@ test.beforeEach(async ({ page }) => {
       },
       {
         fixture: "minndla_subjects_data",
-        names: ["allSubjects"],
+        names: ["arenaNotificationsV2"],
       },
     ],
   });

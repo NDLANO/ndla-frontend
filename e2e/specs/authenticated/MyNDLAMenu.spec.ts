@@ -37,6 +37,10 @@ test.beforeEach(async ({ page }) => {
         names: ["arenaNotificationsV2", "foldersPage"],
         fixture: "minndla_menu_folders",
       },
+      {
+        fixture: "minndla_menu_recentlyused",
+        names: ["mastheadFrontpage", "myNdlaData", "recentlyUsed"],
+      },
     ],
   });
   await page.goto("/minndla");
