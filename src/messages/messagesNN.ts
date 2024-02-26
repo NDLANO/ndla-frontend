@@ -54,7 +54,7 @@ const messages = {
   },
   myNdla: {
     sharedFolder: {
-      learningpathUnsupportedTitle: "Læringsstiar støttast ikkje",
+      learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
     },
     arena: {
       notification: {
