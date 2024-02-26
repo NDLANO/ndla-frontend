@@ -18,6 +18,10 @@ test.beforeEach(async ({ page }) => {
         names: ["myNdlaData", "recentlyUsed", "mastheadFrontpage"],
       },
       {
+        fixture: "minndla_home_myndladata",
+        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "myNdlaData", "recentlyUsed"],
+      },
+      {
         fixture: "minndla_home_data",
         names: ["folderResourceMetaSearch", "arenaRecentTopicsV2", "arenaNotificationsV2"],
       },
