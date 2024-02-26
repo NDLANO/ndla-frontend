@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
     operation: [
       {
         fixture: "minndla_home_myndladata",
-        names: ["myNdlaData", "recentlyUsed"],
+        names: ["myNdlaData", "recentlyUsed", "mastheadFrontpage"],
       },
       {
         fixture: "minndla_home_data",
@@ -42,6 +42,7 @@ test("have recently added to folder", async ({ page }) => {
   );
 
   const toFolder = page.getByRole("link").getByText("Se alle mappene dine");
+  toFolder.scrollIntoViewIfNeeded();
   await expect(toFolder).toBeInViewport();
   await toFolder.click();
   await page.waitForURL("/minndla/folders");
