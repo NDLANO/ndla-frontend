@@ -157,6 +157,8 @@ type Article {
   created: String!
   crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
   grepCodes: [String!]
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String!
@@ -812,6 +814,8 @@ type Manuscript {
 
 type Meta {
   availability: String
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String

@@ -137,6 +137,7 @@ LicenseBox.fragments = {
     fragment LicenseBox_Article on Article {
       id
       title
+      htmlTitle
       oembed
       published
       copyright {
