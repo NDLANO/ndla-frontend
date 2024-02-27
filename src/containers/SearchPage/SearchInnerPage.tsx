@@ -85,7 +85,7 @@ const SearchInnerPage = ({
   const searchParams = converSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
     ? {
-        query,
+        query: !query ? undefined : query,
         subjects: convertSearchParam([...subjectIds]),
       }
     : getStateSearchParams(searchParams);
