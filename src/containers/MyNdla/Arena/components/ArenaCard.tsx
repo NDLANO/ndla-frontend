@@ -183,11 +183,11 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
           <RightSideContainer>
             {isEditing && user.isModerator && <DeleteCategoryModal categoryId={id} />}
             {count !== undefined && (
-              <StyledCountContainer>
-                <Text element="p" textStyle="content-alt" margin="none">
+              <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
+                <Text aria-hidden element="p" textStyle="content-alt" margin="none">
                   {count}
                 </Text>
-                <Text textStyle="meta-text-small" margin="none">
+                <Text aria-hidden textStyle="meta-text-small" margin="none">
                   {t("myNdla.arena.category.posts", { count })}
                 </Text>
               </StyledCountContainer>
