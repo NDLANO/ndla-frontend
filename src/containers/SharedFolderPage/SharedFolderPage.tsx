@@ -8,6 +8,7 @@
 
 import keyBy from "lodash/keyBy";
 import { useCallback, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -263,12 +264,18 @@ const SharedFolderPage = () => {
 
 const SharedLearningpathWarning = () => {
   const { t } = useTranslation();
+  const errorTitle = `${t("myNdla.sharedFolder.learningpathUnsupportedTitle")} - ${t(
+    "myNdla.folder.sharing.sharedFolder",
+  )} - ${t("htmlTitles.titleTemplate")}`;
 
   return (
     <OneColumn>
+      <Helmet>
+        <title>{errorTitle}</title>
+      </Helmet>
       <ErrorMessage
         messages={{
-          title: "",
+          title: t("myNdla.sharedFolder.learningpathUnsupportedTitle"),
           description: t("myNdla.sharedFolder.learningpathUnsupported"),
         }}
         illustration={{
