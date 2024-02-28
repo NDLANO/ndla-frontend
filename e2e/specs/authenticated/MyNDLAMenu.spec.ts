@@ -7,7 +7,7 @@
  */
 
 import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute } from "../../apiMock";
+import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
@@ -71,6 +71,7 @@ test("can navigate to profile", async ({ page }) => {
 });
 
 test("have all options at the different pages", async ({ page }) => {
+  await mockWaitResponse(page, "**/graphql-api/graphql");
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
