@@ -85,11 +85,12 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
   const { arenaUser } = useArenaUser(user?.username); // TODO: Delete this hook and use user directly when nodebb dies
   const { t } = useTranslation();
 
+  const profilePicture = undefined;
   const displayName = user?.displayName ? user.displayName : t("user.deletedUser");
 
   return (
     <TagContainer username={user?.username}>
-      <Avatar displayName={displayName} profilePicture={undefined} />
+      <Avatar aria-hidden={!profilePicture} displayName={displayName} profilePicture={profilePicture} />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name textStyle="meta-text-large" margin="none" data-name="hover">
