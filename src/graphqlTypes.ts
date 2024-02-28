@@ -188,6 +188,8 @@ export type GQLArticle = {
   created: Scalars["String"]["output"];
   crossSubjectTopics?: Maybe<Array<GQLCrossSubjectElement>>;
   grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
+  htmlIntroduction?: Maybe<Scalars["String"]["output"]>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   introduction?: Maybe<Scalars["String"]["output"]>;
   language: Scalars["String"]["output"];
@@ -919,6 +921,8 @@ export type GQLManuscript = {
 export type GQLMeta = {
   __typename?: "Meta";
   availability?: Maybe<Scalars["String"]["output"]>;
+  htmlIntroduction?: Maybe<Scalars["String"]["output"]>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   introduction?: Maybe<Scalars["String"]["output"]>;
   language?: Maybe<Scalars["String"]["output"]>;
@@ -2400,6 +2404,7 @@ export type GQLLicenseBox_ArticleFragment = {
   __typename?: "Article";
   id: number;
   title: string;
+  htmlTitle: string;
   oembed?: string;
   published: string;
   copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;

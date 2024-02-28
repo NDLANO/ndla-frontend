@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { ReactElement, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -161,6 +162,7 @@ const Article = ({
 
   const art = {
     ...article,
+    title: parse(article.htmlTitle!),
     introduction: article.introduction!,
     copyright: {
       ...article.copyright,
