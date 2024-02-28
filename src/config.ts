@@ -154,7 +154,7 @@ export function getUniversalConfig() {
     return getServerSideConfig();
   }
 
-  return window.config;
+  return window.DATA.config;
 }
 
 export default getUniversalConfig();

@@ -13,4 +13,4 @@ const baseUrl = apiResourceUrl("/article-api/v2/articles");
 export const fetchArticle = (id, locale) =>
   fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(resolveJsonOrRejectWithError);
 
-export const fetchArticleOembed = (url) => fetch(`oembed?url=${url}`).then(resolveJsonOrRejectWithError);
+export const fetchArticleOembed = (url) => fetch(`/oembed?url=${url}`).then(resolveJsonOrRejectWithError);

@@ -35,6 +35,7 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
       title,
       html,
     },
+    status: 200,
   };
 }
 

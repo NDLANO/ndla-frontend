@@ -13,15 +13,10 @@ import { gql } from "@apollo/client";
 import { OneColumn, ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import RedirectContext from "../components/RedirectContext";
-import config from "../config";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { useGraphQuery } from "../util/runQueries";
-
-if (config.runtimeType !== "production") {
-  // Can't require in production because of multiple asses emit to the same filename..
-  require("../style/index.css"); // eslint-disable-line global-require
-}
+import "../style/index.css";
 
 const Error = () => {
   const { t } = useTranslation();

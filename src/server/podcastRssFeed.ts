@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client/core";
 import config from "../config";
 import { GQLPodcastSeriesQuery } from "../graphqlTypes";
 import { copyrightInfoFragment } from "../queries";

@@ -75,7 +75,3 @@ root.render(
     </LtiContextProvider>
   </HelmetProvider>,
 );
-
-if (module.hot) {
-  module.hot.accept();
-}

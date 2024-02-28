@@ -202,7 +202,3 @@ renderOrHydrate(
     </I18nextProvider>
   </HelmetProvider>,
 );
-
-if (module.hot) {
-  module.hot.accept();
-}

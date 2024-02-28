@@ -6,7 +6,7 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client";
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
