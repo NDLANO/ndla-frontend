@@ -93,8 +93,8 @@ export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menu
       item={item}
       onClose={onClose}
       onGoBack={onCloseMenuPortion}
-      nextItem={menuItems[index + 1]}
-      lastPortion={index === menuItems.length - 1}
+      nextItem={filteredMenuItems[index + 1]}
+      lastPortion={index === filteredMenuItems.length - 1}
       homeButton
     />
   ));
@@ -196,7 +196,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  current={checkIfNoCurrent(unfilteredMenuItems, link.article.slug, slug)} //{link.article.slug === slug}
+                  current={checkIfNoCurrent(unfilteredMenuItems, link.article.slug, slug)}
                   to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
