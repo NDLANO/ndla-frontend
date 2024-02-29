@@ -15,7 +15,7 @@ import { colors, spacing, misc } from "@ndla/core";
 import { InputV3 } from "@ndla/forms";
 import Pager from "@ndla/pager";
 import UserList from "./UserList";
-import { myNdlaRoutes } from "../../../../routeHelpers";
+import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
 
 const StyledHeaderRow = styled.div`
@@ -79,7 +79,7 @@ const Users = () => {
       acc[key] = searchQuery[key];
       return acc;
     }, {});
-    navigate(myNdlaRoutes.myNdlaAdminUsers(`?${stringify(newSearchQuery)}`));
+    navigate(routes.myNdla.adminUsers(`?${stringify(newSearchQuery)}`));
   };
 
   return (
@@ -89,7 +89,7 @@ const Users = () => {
           placeholder={t("myNdla.arena.admin.users.search")}
           onChange={(e) => {
             setQueryString(e.target.value);
-            navigate(myNdlaRoutes.myNdlaAdminUsers("?page=1")); // Reset page number when searching
+            navigate(routes.myNdla.adminUsers("?page=1")); // Reset page number when searching
           }}
         />
         <StyledHeaderRow>

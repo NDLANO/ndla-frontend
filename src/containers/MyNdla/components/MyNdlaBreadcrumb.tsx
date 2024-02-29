@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Breadcrumb } from "@ndla/ui";
 import { GQLBreadcrumb } from "../../../graphqlTypes";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];
@@ -20,23 +20,23 @@ type PageType = "folders" | "tags" | "subjects" | "arena" | "admin";
 
 const types = {
   folders: {
-    to: myNdlaRoutes.myNdlaFolders,
+    to: routes.myNdla.folders,
     name: "myNdla.myFolders",
   },
   tags: {
-    to: myNdlaRoutes.myNdlaTags,
+    to: routes.myNdla.tags,
     name: "myNdla.myTags",
   },
   subjects: {
-    to: myNdlaRoutes.myNdlaSubjects,
+    to: routes.myNdla.subjects,
     name: "myNdla.favoriteSubjects",
   },
   arena: {
-    to: myNdlaRoutes.myNdlaArena,
+    to: routes.myNdla.arena,
     name: "myNdla.arena.title",
   },
   admin: {
-    to: myNdlaRoutes.myNdlaAdmin,
+    to: routes.myNdla.admin,
     name: "myNdla.arena.admin.title",
   },
 };
@@ -48,7 +48,7 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
     breadcrumbs.map((bc) => ({
       name: bc.name,
-      to: `${myNdlaRoutes.myNdla}/${page}/${bc.id}`,
+      to: `${routes.myNdla.root}/${page}/${bc.id}`,
     })),
   );
 

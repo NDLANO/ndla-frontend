@@ -23,7 +23,7 @@ import {
   useArenaUnfollowTopicMutation,
 } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -101,10 +101,10 @@ const PostsPage = () => {
 
   useEffect(() => {
     if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
-      if (document.referrer.includes(myNdlaRoutes.myNdla)) {
+      if (document.referrer.includes(routes.myNdla.root)) {
         navigate(-1);
       } else {
-        navigate(myNdlaRoutes.myNdlaArena);
+        navigate(routes.myNdla.arena);
       }
       addSnack({
         content: t("myNdla.arena.topic.isDeleted"),
@@ -115,7 +115,7 @@ const PostsPage = () => {
 
   if (loading) return <Spinner />;
   if (authContextLoaded && !user?.arenaEnabled) {
-    return <Navigate to={myNdlaRoutes.myNdla} />;
+    return <Navigate to={routes.myNdla.root} />;
   }
 
   return (

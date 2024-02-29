@@ -16,7 +16,7 @@ import { Text } from "@ndla/typography";
 import Avatar from "./Avatar";
 import { isArenaModerator } from "../../../components/AuthenticationContext";
 import { GQLArenaUserV2 } from "../../../graphqlTypes";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import { useArenaUser } from "../Arena/components/temporaryNodebbHooks";
 
 type UserProfileTagProps = {
@@ -74,7 +74,7 @@ const ModeratorTag = styled(Text)`
 `;
 
 const TagContainer = ({ username, children }: { children: ReactNode; username: string | undefined }) => {
-  const link = username ? myNdlaRoutes.myNdlaArenaUser(username) : null;
+  const link = username ? routes.myNdla.arenaUser(username) : null;
   if (!link) {
     return <UserProfileTagContainerNoLink>{children}</UserProfileTagContainerNoLink>;
   }

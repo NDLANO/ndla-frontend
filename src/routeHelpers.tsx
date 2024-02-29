@@ -197,20 +197,22 @@ export const useTypedParams = <TParams extends TypedParams>() => {
   return useParams() as TParams;
 };
 
-export const myNdlaRoutes = {
-  myNdla: "/minndla",
-  myNdlaArena: "/minndla/arena",
-  myNdlaFolders: "/minndla/folders",
-  myNdlaSubjects: "/minndla/subjects",
-  myNdlaTags: "/minndla/tags",
-  myNdlaNotifications: "/minndla/arena/notifications",
-  myNdlaAdmin: "/minndla/admin",
-  myNdlaAdminFlags: "/minndla/admin/flags",
-  myNdlaArenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
-  myNdlaArenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
-  myNdlaArenaUser: (username: String) => `/minndla/arena/user/${username}`,
-  myNdlaFolder: (folderId: String) => `/minndla/folders/${folderId}`,
-  myNdlaFolderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
-  myNdlaAdminUsers: (params: String) => `/minndla/admin/users${params}`,
-  myNdlaAdminFlagsWithParams: (params: String) => `/minndla/admin/flags${params}`,
+export const routes = {
+  myNdla: {
+    root: "/minndla",
+    arena: "/minndla/arena",
+    folders: "/minndla/folders",
+    subjects: "/minndla/subjects",
+    tags: "/minndla/tags",
+    notifications: "/minndla/arena/notifications",
+    admin: "/minndla/admin",
+    adminFlags: "/minndla/admin/flags",
+    arenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
+    arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
+    arenaUser: (username: String) => `/minndla/arena/user/${username}`,
+    folder: (folderId: String) => `/minndla/folders/${folderId}`,
+    folderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
+    adminUsers: (params: String) => `/minndla/admin/users${params}`,
+    adminFlagsWithParams: (params: String) => `/minndla/admin/flags${params}`,
+  },
 };

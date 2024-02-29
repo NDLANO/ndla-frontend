@@ -16,7 +16,7 @@ import { Text, Heading } from "@ndla/typography";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
-import { myNdlaRoutes } from "../../../../routeHelpers";
+import { routes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
@@ -97,7 +97,7 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
-        <SafeLinkButton to={myNdlaRoutes.myNdlaArenaTopic(topicId)}>
+        <SafeLinkButton to={routes.myNdla.arenaTopic(topicId)}>
           {t("myNdla.arena.admin.flags.goToTopic")}
         </SafeLinkButton>
       </FlexLine>

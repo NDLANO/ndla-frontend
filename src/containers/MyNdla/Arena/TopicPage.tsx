@@ -20,7 +20,7 @@ import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -83,8 +83,8 @@ const TopicPage = () => {
   }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading || !authContextLoaded) return <Spinner />;
-  if (!user?.arenaEnabled) return <Navigate to={myNdlaRoutes.myNdla} />;
-  if (!arenaCategory) return <Navigate to={myNdlaRoutes.myNdlaArena} />;
+  if (!user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
+  if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

@@ -16,7 +16,7 @@ import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import Pager from "@ndla/pager";
 import SafeLink from "@ndla/safelink";
-import { myNdlaRoutes } from "../../../../routeHelpers";
+import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
@@ -104,7 +104,7 @@ const FlaggedPosts = () => {
       acc[key] = searchQuery[key];
       return acc;
     }, {});
-    navigate(myNdlaRoutes.myNdlaAdminFlagsWithParams(`?${stringify(newSearchQuery)}`));
+    navigate(routes.myNdla.adminFlagsWithParams(`?${stringify(newSearchQuery)}`));
   };
 
   if (loading) return <Spinner />;

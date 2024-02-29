@@ -16,7 +16,7 @@ import { Feide } from "@ndla/icons/common";
 import { ModalCloseButton } from "@ndla/modal";
 import SafeLink, { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
-import { myNdlaRoutes } from "../../routeHelpers";
+import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
 
 const LoginComponentContainer = styled.div`
@@ -107,7 +107,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
           </ModalCloseButton>
-          <SafeLinkButton reloadDocument to={`/login?state=${masthead ? myNdlaRoutes.myNdla : toHref(location)}`}>
+          <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
             {t("user.buttonLogIn")}
           </SafeLinkButton>
         </ButtonRow>

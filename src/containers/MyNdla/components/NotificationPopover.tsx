@@ -14,7 +14,7 @@ import { colors, spacing } from "@ndla/core";
 import { SafeLinkButton } from "@ndla/safelink";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 
 const StyledContent = styled(Content)`
@@ -53,7 +53,7 @@ const NotificationPopover = () => {
         <StyledContent align="end">
           <StyledArrow />
           <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
-          <ShowAllLink to={myNdlaRoutes.myNdlaNotifications} onClick={() => setOpen(false)} fontWeight="bold">
+          <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)} fontWeight="bold">
             {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>
         </StyledContent>

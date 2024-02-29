@@ -24,7 +24,7 @@ import TitleWrapper from "./components/TitleWrapper";
 import { useFolderResourceMetaSearch, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { myNdlaRoutes } from "../../routeHelpers";
+import { routes } from "../../routeHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 const StyledPageContentContainer = styled.div`
@@ -168,7 +168,7 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix={myNdlaRoutes.myNdlaTags}
+                      tagLinkPrefix={routes.myNdla.tags}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}

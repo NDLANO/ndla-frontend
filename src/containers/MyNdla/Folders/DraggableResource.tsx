@@ -20,7 +20,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../graphqlTypes";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../folderMutations";
@@ -169,7 +169,7 @@ const DraggableResource = ({
       <DragWrapper>
         <Resource
           id={resource.id}
-          tagLinkPrefix={myNdlaRoutes.myNdlaTags}
+          tagLinkPrefix={routes.myNdla.tags}
           isLoading={loading}
           key={resource.id}
           resourceImage={{

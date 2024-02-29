@@ -16,7 +16,7 @@ import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory, useArenaCreateTopic } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { myNdlaRoutes } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -61,18 +61,18 @@ export const NewTopicPage = () => {
       const data = topic?.data;
 
       if (data && "newArenaTopicV2" in data && data.newArenaTopicV2?.id) {
-        navigate(myNdlaRoutes.myNdlaArenaTopic(data.newArenaTopicV2?.id));
+        navigate(routes.myNdla.arenaTopic(data.newArenaTopicV2?.id));
       }
 
       if (data && "newArenaTopic" in data && data.newArenaTopic?.id) {
-        navigate(myNdlaRoutes.myNdlaArenaTopic(data.newArenaTopic?.id));
+        navigate(routes.myNdla.arenaTopic(data.newArenaTopic?.id));
       }
     },
     [arenaTopicMutation, categoryId, navigate],
   );
 
   const onAbort = useCallback(() => {
-    navigate(categoryId ? myNdlaRoutes.myNdlaArenaCategory(Number(categoryId)) : myNdlaRoutes.myNdlaArena);
+    navigate(categoryId ? routes.myNdla.arenaCategory(Number(categoryId)) : routes.myNdla.arena);
   }, [categoryId, navigate]);
 
   return (
