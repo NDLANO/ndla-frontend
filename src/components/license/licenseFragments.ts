@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const licenseListCopyrightFragment = gql`
   fragment LicenseListCopyright on Copyright {

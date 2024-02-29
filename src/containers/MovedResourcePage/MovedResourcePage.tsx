@@ -6,70 +6,67 @@
  *
  */
 
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { HelmetWithTracker } from '@ndla/tracker';
-import { SearchResultList, OneColumn } from '@ndla/ui';
-import DefaultErrorMessage from '../../components/DefaultErrorMessage';
-import {
-  GQLMovedResourcePage_ResourceFragment,
-  GQLMovedResourceQuery,
-} from '../../graphqlTypes';
-import { movedResourceQuery } from '../../queries';
-import { contentTypeMapping } from '../../util/getContentType';
-import handleError from '../../util/handleError';
-import { useGraphQuery } from '../../util/runQueries';
-import { resultsWithContentTypeBadgeAndImage } from '../SearchPage/searchHelpers';
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { HelmetWithTracker } from "@ndla/tracker";
+import { SearchResultList, OneColumn } from "@ndla/ui";
+import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
+import { movedResourceQuery } from "../../queries";
+import { contentTypeMapping } from "../../util/getContentType";
+import handleError from "../../util/handleError";
+import { useGraphQuery } from "../../util/runQueries";
+import { resultsWithContentTypeBadgeAndImage } from "../SearchPage/searchHelpers";
 
 interface Props {
   resource: GQLMovedResourcePage_ResourceFragment;
 }
 
+const StyledSearchResultListWrapper = styled.div`
+  padding-bottom: ${spacing.medium};
+  margin-bottom: ${spacing.large};
+  border: 1px solid ${colors.brand.greyLight};
+  ${mq.range({ from: breakpoints.desktop })} {
+    padding: ${spacing.medium};
+  }
+`;
+
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
-  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(
-    movedResourceQuery,
-    {
-      variables: { resourceId: resource.id },
-    },
-  );
+  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(movedResourceQuery, {
+    variables: { resourceId: resource.id },
+  });
 
-  const convertResourceToResult = (
-    resource: GQLMovedResourcePage_ResourceFragment,
-  ) => {
-    const resultId = isLearningpath
-      ? resource.learningpath?.id
-      : resource.article?.id;
+  const convertResourceToResult = (resource: GQLMovedResourcePage_ResourceFragment) => {
+    const resultId = isLearningpath ? resource.learningpath?.id : resource.article?.id;
     if (!resultId) return [];
     return [
       {
         title: resource.name,
-        url: resource.path ?? '',
-        contentType: resource.resourceTypes
-          ?.map((type) => contentTypeMapping[type.id])
-          .find((t) => t),
-        type: resource.resourceTypes?.find(
-          (type) => !contentTypeMapping[type.id],
-        )?.name,
+        url: resource.path ?? "",
+        contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
+        type: resource.resourceTypes?.find((type) => !contentTypeMapping[type.id])?.name,
         subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
           url: path,
-          title: breadcrumbs[0] ?? '',
+          title: breadcrumbs[0] ?? "",
           breadcrumb: breadcrumbs,
         })),
         ...(isLearningpath
           ? {
               id: resultId,
-              ingress: resource?.learningpath?.description ?? '',
+              ingress: resource?.learningpath?.description ?? "",
               metaImage: {
                 url: resource.learningpath?.coverphoto?.url,
-                alt: '',
+                alt: "",
               },
             }
           : {
               id: resultId,
-              ingress: resource?.article?.metaDescription ?? '',
+              ingress: resource?.article?.metaDescription ?? "",
               metaImage: {
                 url: resource.article?.metaImage?.url,
                 alt: resource.article?.metaImage?.alt,
@@ -88,19 +85,16 @@ const MovedResourcePage = ({ resource }: Props) => {
     return <DefaultErrorMessage />;
   }
 
-  const results = resultsWithContentTypeBadgeAndImage(
-    convertResourceToResult(resource),
-    t,
-  );
+  const results = resultsWithContentTypeBadgeAndImage(convertResourceToResult(resource), t);
 
   return (
     <>
-      <HelmetWithTracker title={t('htmlTitles.movedResourcePage')} />
+      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
       <OneColumn>
-        <h1>{t('movedResourcePage.title')}</h1>
-        <div className="c-search-result">
+        <h1>{t("movedResourcePage.title")}</h1>
+        <StyledSearchResultListWrapper>
           <SearchResultList results={results} />
-        </div>
+        </StyledSearchResultListWrapper>
       </OneColumn>
     </>
   );

@@ -6,5 +6,5 @@
  *
  */
 
-export { default as Status } from './Status';
-export { default as RedirectExternal } from './RedirectExternal';
+export { default as Status } from "./Status";
+export { default as RedirectExternal } from "./RedirectExternal";

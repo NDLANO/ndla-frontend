@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:20.9.0-alpine3.18 as builder
+FROM node:20.11-alpine3.18 as builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -15,7 +15,7 @@ WORKDIR $APP_PATH
 RUN yarn install --immutable
 
 # Copy necessary source files for server and client build
-COPY babel.config.js tsconfig.json .eslintrc.js postcss.config.js $APP_PATH/
+COPY babel.config.cjs tsconfig.json .eslintrc.cjs postcss.config.cjs $APP_PATH/
 COPY webpack $APP_PATH/webpack
 COPY scripts $APP_PATH/scripts
 
@@ -26,7 +26,7 @@ COPY public $APP_PATH/public
 RUN yarn run build
 
 ### Run stage
-FROM node:20.9.0-alpine3.18
+FROM node:20.11-alpine3.18
 
 RUN apk add py-pip jq && pip install awscli
 COPY run-ndla-frontend.sh /

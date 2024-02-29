@@ -6,20 +6,20 @@
  *
  */
 
-import { Fragment } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { spacing } from '@ndla/core';
-import SafeLink from '@ndla/safelink';
+import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import SafeLink from "@ndla/safelink";
 
 const ComponentRoot = styled.ul`
-  margin-bottom: ${spacing.medium};
+  padding: 0 0 ${spacing.medium} 0;
   list-style: none;
 `;
 
 const SubComponentRoot = styled.li`
-  margin: 0;
+  padding: 0;
 `;
 
 const LinkElement = styled.span`
@@ -62,51 +62,29 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
       {subjects.map((subject, index) => (
         <Fragment key={`${set}-${index}`}>
           <LinkElement>
-            {subject.path ? (
-              <SafeLink to={subject.path}>{subject.name}</SafeLink>
-            ) : (
-              <span>{subject.name}</span>
-            )}
+            {subject.path ? <SafeLink to={subject.path}>{subject.name}</SafeLink> : <span>{subject.name}</span>}
 
-            {index < subjects.length - 2 && ','}
+            {index < subjects.length - 2 && ","}
           </LinkElement>
-          {index === subjects.length - 2 && (
-            <Conjunction>{t('article.conjunction')}</Conjunction>
-          )}
+          {index === subjects.length - 2 && <Conjunction>{t("article.conjunction")}</Conjunction>}
         </Fragment>
       ))}
     </SubComponentRoot>
   );
 };
 
-const SubjectLinks = ({
-  buildsOn,
-  connectedTo,
-  leadsTo,
-}: SubjectLinksProps) => {
+const SubjectLinks = ({ buildsOn, connectedTo, leadsTo }: SubjectLinksProps) => {
   const { t } = useTranslation();
   return (
     <ComponentRoot>
       {connectedTo.length > 0 ? (
-        <SubjectLinkSet
-          set="connectedTo"
-          subjects={connectedTo}
-          title={t('subjectFrontPage.connectedTo')}
-        />
+        <SubjectLinkSet set="connectedTo" subjects={connectedTo} title={t("subjectFrontPage.connectedTo")} />
       ) : null}
       {buildsOn.length > 0 ? (
-        <SubjectLinkSet
-          set="buildsOn"
-          subjects={buildsOn}
-          title={t('subjectFrontPage.buildsOn')}
-        />
+        <SubjectLinkSet set="buildsOn" subjects={buildsOn} title={t("subjectFrontPage.buildsOn")} />
       ) : null}
       {leadsTo.length > 0 ? (
-        <SubjectLinkSet
-          set="leadsTo"
-          subjects={leadsTo}
-          title={t('subjectFrontPage.leadsTo')}
-        />
+        <SubjectLinkSet set="leadsTo" subjects={leadsTo} title={t("subjectFrontPage.leadsTo")} />
       ) : null}
     </ComponentRoot>
   );

@@ -5,15 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useTranslation } from 'react-i18next';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, spacing, misc } from '@ndla/core';
-import { Locked } from '@ndla/icons/common';
-import SafeLink from '@ndla/safelink';
-import { Text } from '@ndla/typography';
-import { formatDateTime } from '../../../../util/formatDate';
-import { toArenaTopic } from '../utils';
+import { useTranslation } from "react-i18next";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, spacing, misc } from "@ndla/core";
+import { Locked } from "@ndla/icons/common";
+import SafeLink from "@ndla/safelink";
+import { Text } from "@ndla/typography";
+import { formatDateTime } from "../../../../util/formatDate";
+import { toArenaTopic } from "../utils";
 
 interface Props {
   id: number;
@@ -36,7 +36,7 @@ const StyledSafelink = styled(SafeLink)`
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
-    [data-name='hover'] {
+    [data-name="hover"] {
       text-decoration: none;
     }
   }
@@ -80,12 +80,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   return (
     <StyledSafelink css={TopicCardCSS} to={toArenaTopic(id)}>
       <div>
-        <StyledHeader
-          element="label"
-          textStyle="label-small"
-          margin="none"
-          data-name="hover"
-        >
+        <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}
         </StyledHeader>
         <StyledText element="p" textStyle="meta-text-small" margin="none">
@@ -101,7 +96,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
               {count}
             </Text>
             <StyledText textStyle="meta-text-small" margin="none">
-              {t('myNdla.arena.topic.responses', { count })}
+              {t("myNdla.arena.topic.responses", { count })}
             </StyledText>
           </>
         )}

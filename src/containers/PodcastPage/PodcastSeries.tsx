@@ -6,12 +6,12 @@
  *
  */
 
-import { Link } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { colors, spacing } from '@ndla/core';
-import { Heading, Text } from '@ndla/typography';
-import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from '../../graphqlTypes';
+import { Link } from "react-router-dom";
+import { gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Heading, Text } from "@ndla/typography";
+import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
 const StyledCoverPhoto = styled.img`
   width: auto;
@@ -47,12 +47,7 @@ const StyledDescription = styled(Text)`
   overflow: hidden;
 `;
 
-const PodcastSeries = ({
-  coverPhoto,
-  description,
-  title,
-  id,
-}: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
+const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
     <FlexWrapper>
       <ImageWrapper>

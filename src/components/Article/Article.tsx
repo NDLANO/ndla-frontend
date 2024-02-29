@@ -6,32 +6,25 @@
  *
  */
 
-import { ReactElement, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
-import { gql } from '@apollo/client';
-import { extractEmbedMetas } from '@ndla/article-converter';
-import { webpageReferenceApa7CopyString } from '@ndla/licenses';
-import { ConceptMetaData } from '@ndla/types-embed';
-import {
-  Article as UIArticle,
-  ContentTypeBadge,
-  getMastheadHeight,
-} from '@ndla/ui';
-import FavoriteButton from './FavoritesButton';
-import NotionsContent from './NotionsContent';
-import config from '../../config';
-import { MastheadHeightPx } from '../../constants';
-import {
-  GQLArticleConceptEmbedsQuery,
-  GQLArticle_ArticleFragment,
-  GQLResourceEmbedInput,
-} from '../../graphqlTypes';
-import { useGraphQuery } from '../../util/runQueries';
-import { TransformedBaseArticle } from '../../util/transformArticle';
-import CompetenceGoals from '../CompetenceGoals';
-import LicenseBox from '../license/LicenseBox';
-import AddResourceToFolderModal from '../MyNdla/AddResourceToFolderModal';
+import parse from "html-react-parser";
+import { ReactElement, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { gql } from "@apollo/client";
+import { extractEmbedMetas } from "@ndla/article-converter";
+import { webpageReferenceApa7CopyString } from "@ndla/licenses";
+import { ConceptMetaData } from "@ndla/types-embed";
+import { Article as UIArticle, ContentTypeBadge, getMastheadHeight } from "@ndla/ui";
+import FavoriteButton from "./FavoritesButton";
+import NotionsContent from "./NotionsContent";
+import config from "../../config";
+import { MastheadHeightPx } from "../../constants";
+import { GQLArticleConceptEmbedsQuery, GQLArticle_ArticleFragment, GQLResourceEmbedInput } from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
+import { TransformedBaseArticle } from "../../util/transformArticle";
+import CompetenceGoals from "../CompetenceGoals";
+import LicenseBox from "../license/LicenseBox";
+import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
 interface Props {
   id?: string;
@@ -81,14 +74,12 @@ const Article = ({
   isPlainArticle,
   isOembed = false,
   showFavoriteButton,
-  myNdlaResourceType = 'article',
+  myNdlaResourceType = "article",
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
 
-  const [day, month, year] = article.published
-    .split('.')
-    .map((s) => parseInt(s));
+  const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
   const copyText = webpageReferenceApa7CopyString(
     article.title,
@@ -97,28 +88,25 @@ const Article = ({
     `${config.ndlaFrontendDomain}/article/${article.id}`,
     article.copyright,
     i18n.language,
-    '',
+    "",
     (id: string) => t(id),
   );
 
   const conceptInputs: GQLResourceEmbedInput[] | undefined = useMemo(() => {
     return article.conceptIds?.map((id) => ({
       id: id.toString(),
-      type: 'concept',
-      conceptType: 'notion',
+      type: "concept",
+      conceptType: "notion",
     }));
   }, [article.conceptIds]);
 
-  const { data } = useGraphQuery<GQLArticleConceptEmbedsQuery>(
-    articleConceptEmbeds,
-    {
-      variables: { resources: conceptInputs },
-      skip:
-        typeof window === 'undefined' || // only fetch on client. ssr: false does not work.
-        !conceptInputs?.length ||
-        isPlainArticle,
-    },
-  );
+  const { data } = useGraphQuery<GQLArticleConceptEmbedsQuery>(articleConceptEmbeds, {
+    variables: { resources: conceptInputs },
+    skip:
+      typeof window === "undefined" || // only fetch on client. ssr: false does not work.
+      !conceptInputs?.length ||
+      isPlainArticle,
+  });
 
   const conceptNotions = useMemo(() => {
     if (!data?.resourceEmbeds?.content) {
@@ -129,7 +117,7 @@ const Article = ({
 
   const notions = useMemo(() => {
     if (
-      config.ndlaEnvironment === 'prod' ||
+      config.ndlaEnvironment === "prod" ||
       isPlainArticle ||
       (!conceptNotions.length && !article?.relatedContent?.length)
     ) {
@@ -142,12 +130,7 @@ const Article = ({
         metadata={data?.resourceEmbeds.meta}
       />
     );
-  }, [
-    article.relatedContent,
-    conceptNotions,
-    data?.resourceEmbeds.meta,
-    isPlainArticle,
-  ]);
+  }, [article.relatedContent, conceptNotions, data?.resourceEmbeds.meta, isPlainArticle]);
 
   const location = useLocation();
 
@@ -161,12 +144,11 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition =
-          absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
 
         window.scrollTo({
           top: scrollPosition,
-          behavior: 'smooth',
+          behavior: "smooth",
         });
       }, 400);
     }
@@ -176,12 +158,11 @@ const Article = ({
     return children || null;
   }
 
-  const icon = contentType ? (
-    <ContentTypeBadge type={contentType} background size="large" />
-  ) : null;
+  const icon = contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null;
 
   const art = {
     ...article,
+    title: parse(article.htmlTitle!),
     introduction: article.introduction!,
     copyright: {
       ...article.copyright,
@@ -204,18 +185,10 @@ const Article = ({
         id={id ?? article.id.toString()}
         article={art}
         icon={icon}
-        licenseBox={
-          <LicenseBox
-            article={article}
-            copyText={copyText}
-            printUrl={printUrl}
-          />
-        }
+        licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} />}
         messages={messages}
         competenceGoals={
-          !isTopicArticle &&
-          article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith('K'))
-            .length ? (
+          !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
             <CompetenceGoals
               codes={article.grepCodes}
               subjectId={subjectId}
@@ -224,9 +197,9 @@ const Article = ({
             />
           ) : undefined
         }
-        lang={art.language === 'nb' ? 'no' : art.language}
+        lang={art.language === "nb" ? "no" : art.language}
         notions={notions}
-        modifier={isResourceArticle ? resourceType : modifier ?? 'clean'}
+        modifier={isResourceArticle ? resourceType : modifier ?? "clean"}
         heartButton={
           path &&
           config.feideEnabled &&

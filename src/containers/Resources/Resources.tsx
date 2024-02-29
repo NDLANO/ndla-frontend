@@ -6,28 +6,25 @@
  *
  */
 
-import sortBy from 'lodash/sortBy';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { gql } from '@apollo/client';
-import { ResourcesWrapper, ResourceGroup } from '@ndla/ui';
-import { getResourceGroups, sortResourceTypes } from './getResourceGroups';
-import ResourcesTopicTitle from './ResourcesTopicTitle';
-import FavoriteButton from '../../components/Article/FavoritesButton';
-import { ResourceAttributes } from '../../components/MyNdla/AddResourceToFolder';
-import AddResourceToFolderModal from '../../components/MyNdla/AddResourceToFolderModal';
-import {
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from '../../constants';
+import sortBy from "lodash/sortBy";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { ResourcesWrapper, ResourceGroup } from "@ndla/ui";
+import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import ResourcesTopicTitle from "./ResourcesTopicTitle";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
   GQLResources_ResourceFragment,
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
-} from '../../graphqlTypes';
-import { HeadingType } from '../../interfaces';
-import { useIsNdlaFilm, useUrnIds } from '../../routeHelpers';
-import { contentTypeMapping } from '../../util/getContentType';
+} from "../../graphqlTypes";
+import { HeadingType } from "../../interfaces";
+import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
   topic: GQLResources_TopicFragment;
@@ -36,12 +33,7 @@ interface Props {
   subHeadingType: HeadingType;
 }
 
-const Resources = ({
-  topic,
-  resourceTypes,
-  headingType,
-  subHeadingType,
-}: Props) => {
+const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
@@ -49,32 +41,26 @@ const Resources = ({
 
   const isGrouped = useMemo(
     () =>
-      topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
-      TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+      topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
     [topic?.metadata?.customFields],
   );
 
-  const { coreResources, supplementaryResources, sortedResources } =
-    useMemo(() => {
-      const core = topic.coreResources ?? [];
-      const supp = (topic.supplementaryResources ?? [])
-        .map((r) => ({ ...r, additional: true }))
-        .filter((r) => !topic.coreResources?.find((c) => c.id === r.id));
+  const { coreResources, supplementaryResources, sortedResources } = useMemo(() => {
+    const core = topic.coreResources ?? [];
+    const supp = (topic.supplementaryResources ?? [])
+      .map((r) => ({ ...r, additional: true }))
+      .filter((r) => !topic.coreResources?.find((c) => c.id === r.id));
 
-      return {
-        coreResources: core,
-        supplementaryResources: supp,
-        sortedResources: sortBy(core.concat(supp), (res) => res.rank),
-      };
-    }, [topic.coreResources, topic.supplementaryResources]);
+    return {
+      coreResources: core,
+      supplementaryResources: supp,
+      sortedResources: sortBy(core.concat(supp), (res) => res.rank),
+    };
+  }, [topic.coreResources, topic.supplementaryResources]);
 
   const { groupedResources, ungroupedResources } = useMemo(() => {
     if (isGrouped) {
-      const resourceGroups = getResourceGroups(
-        resourceTypes ?? [],
-        supplementaryResources,
-        coreResources,
-      );
+      const resourceGroups = getResourceGroups(resourceTypes ?? [], supplementaryResources, coreResources);
 
       const groupedResources = resourceGroups.map((type) => ({
         ...type,
@@ -83,7 +69,7 @@ const Resources = ({
           active: !!resourceId && res.id.endsWith(resourceId),
         })),
         contentType: contentTypeMapping[type.id],
-        noContentLabel: t('resource.noCoreResourcesAvailable', {
+        noContentLabel: t("resource.noCoreResourcesAvailable", {
           name: type.name.toLowerCase(),
         }),
       }));
@@ -97,32 +83,20 @@ const Resources = ({
         ...res,
         active: !!resourceId && res.id.endsWith(resourceId),
         contentTypeName: firstResourceType?.name,
-        contentType: firstResourceType
-          ? contentTypeMapping[firstResourceType.id]
-          : undefined,
+        contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined,
       };
     });
     return { groupedResources: [], ungroupedResources };
-  }, [
-    coreResources,
-    isGrouped,
-    resourceId,
-    resourceTypes,
-    sortedResources,
-    supplementaryResources,
-    t,
-  ]);
+  }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources, t]);
 
   useEffect(() => {
-    const showAdditional = window.localStorage.getItem(
-      'showAdditionalResources',
-    );
-    setShowAdditionalResources(showAdditional === 'true');
+    const showAdditional = window.localStorage.getItem("showAdditionalResources");
+    setShowAdditionalResources(showAdditional === "true");
   }, []);
 
   const toggleAdditionalResources = useCallback(() => {
     setShowAdditionalResources((prev) => {
-      window?.localStorage.setItem('showAdditionalResources', `${!prev}`);
+      window?.localStorage.setItem("showAdditionalResources", `${!prev}`);
       return !prev;
     });
   }, []);
@@ -136,7 +110,7 @@ const Resources = ({
       header={
         <ResourcesTopicTitle
           heading={headingType}
-          title={t('resource.label')}
+          title={t("resource.label")}
           subTitle={topic.name}
           toggleAdditionalResources={toggleAdditionalResources}
           showAdditionalResources={showAdditionalResources}
@@ -151,9 +125,7 @@ const Resources = ({
           showAdditionalResources={showAdditionalResources}
           toggleAdditionalResources={toggleAdditionalResources}
           invertedStyle={ndlaFilm}
-          heartButton={(p) => (
-            <AddResource resources={ungroupedResources} path={p} />
-          )}
+          heartButton={(p) => <AddResource resources={ungroupedResources} path={p} />}
         />
       ) : (
         groupedResources.map((type) => (
@@ -166,9 +138,7 @@ const Resources = ({
             toggleAdditionalResources={toggleAdditionalResources}
             contentType={type.contentType}
             invertedStyle={ndlaFilm}
-            heartButton={(p) => (
-              <AddResource resources={type.resources ?? []} path={p} />
-            )}
+            heartButton={(p) => <AddResource resources={type.resources ?? []} path={p} />}
           />
         ))
       )}
@@ -184,7 +154,7 @@ interface AddResourceProps {
 const AddResource = ({ resources, path }: AddResourceProps) => {
   const resource: ResourceAttributes | undefined = useMemo(() => {
     const res = resources?.find((r) => r.path === path);
-    const [, resourceType, articleIdString] = res?.contentUri?.split(':') ?? [];
+    const [, resourceType, articleIdString] = res?.contentUri?.split(":") ?? [];
     const articleId = articleIdString ? parseInt(articleIdString) : undefined;
     if (!resourceType || !articleId || !path) return undefined;
 

@@ -6,23 +6,17 @@
  *
  */
 
-import { KeyboardEvent, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { colors, misc, spacing } from '@ndla/core';
-import { ArrowDropDownRounded } from '@ndla/icons/common';
-import { SafeLinkButton } from '@ndla/safelink';
-import FolderResource from './FolderResource';
-import {
-  GQLFolder,
-  GQLFolderResourceMetaSearchQuery,
-} from '../../../graphqlTypes';
-import {
-  previewLink,
-  sharedFolderLinkInternal,
-} from '../../MyNdla/Folders/util';
+import { KeyboardEvent, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { colors, misc, spacing } from "@ndla/core";
+import { ArrowDropDownRounded } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
+import FolderResource from "./FolderResource";
+import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import { previewLink, sharedFolderLinkInternal } from "../../MyNdla/Folders/util";
 
 export const StyledUl = styled.ul`
   list-style: none;
@@ -35,14 +29,14 @@ export const StyledUl = styled.ul`
 export const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  padding: 0;
 `;
 
 interface LinkProps {
   level?: number;
 }
 
-const forwardLink = (p: string) => p !== 'level';
+const forwardLink = (p: string) => p !== "level";
 
 const folderLinkOptions = { shouldForwardProp: forwardLink };
 
@@ -79,14 +73,14 @@ const StyledArrow = styled(ArrowDropDownRounded)`
   color: ${colors.text.primary};
 `;
 
-const FolderNavigation = styled('div', folderLinkOptions)<LinkProps>`
+const FolderNavigation = styled("div", folderLinkOptions)<LinkProps>`
   padding-left: calc(${(p) => p.level} * ${spacing.small});
 `;
 
 const FolderNavigationContent = styled.div`
   display: flex;
   align-content: center;
-  &[data-selected='true'] {
+  &[data-selected="true"] {
     background: ${colors.brand.light};
     border-radius: ${misc.borderRadius};
     &:hover {
@@ -109,17 +103,11 @@ const arrowOpenCss = css`
 `;
 
 const containsFolder = (folder: GQLFolder, targetId: string): boolean => {
-  return (
-    folder.id === targetId ||
-    !!folder.subfolders.find((subfolder) => containsFolder(subfolder, targetId))
-  );
+  return folder.id === targetId || !!folder.subfolders.find((subfolder) => containsFolder(subfolder, targetId));
 };
 
 const containsResource = (folder: GQLFolder): boolean => {
-  return (
-    folder.resources.length > 0 ||
-    !!folder.subfolders.find((subfolder) => containsResource(subfolder))
-  );
+  return folder.resources.length > 0 || !!folder.subfolders.find((subfolder) => containsResource(subfolder));
 };
 
 interface Props {
@@ -128,31 +116,17 @@ interface Props {
   onClose?: () => void;
   defaultOpenFolder: string;
   setFocus: (id: string) => void;
-  meta: Record<
-    string,
-    GQLFolderResourceMetaSearchQuery['folderResourceMetaSearch'][0]
-  >;
+  meta: Record<string, GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0]>;
   root?: boolean;
   subfolderKey?: string;
 }
 
-const Folder = ({
-  folder,
-  meta,
-  setFocus,
-  defaultOpenFolder,
-  root,
-  level,
-  onClose,
-  subfolderKey,
-}: Props) => {
+const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClose, subfolderKey }: Props) => {
   const { name, subfolders, resources, status } = folder;
   const { folderId: rootFolderId, resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
 
-  const [isOpen, setIsOpen] = useState(
-    containsFolder(folder, defaultOpenFolder) || !!root,
-  );
+  const [isOpen, setIsOpen] = useState(containsFolder(folder, defaultOpenFolder) || !!root);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const isEmpty = useMemo(() => !containsResource(folder), []);
@@ -161,23 +135,19 @@ const Folder = ({
     return null;
   }
 
-  const preview = status === 'private';
+  const preview = status === "private";
 
-  const handleKeydown = (
-    e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
-  ) => {
-    if (e.key === 'ArrowLeft') {
+  const handleKeydown = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (e.key === "ArrowLeft") {
       setIsOpen(false);
-    } else if (e.key === 'ArrowRight') {
+    } else if (e.key === "ArrowRight") {
       setIsOpen(true);
     }
   };
 
-  const handleLinkClick = (
-    e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>,
-  ) => {
+  const handleLinkClick = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     handleKeydown(e);
-    if (e.key === ' ' || e.key === 'Enter') {
+    if (e.key === " " || e.key === "Enter") {
       (e.target as HTMLElement | undefined)?.click();
       onClose?.();
       e.preventDefault();
@@ -187,9 +157,7 @@ const Folder = ({
   const rootSelected = !resourceId && !subfolderId;
   const subfolderSelected = !resourceId && subfolderKey === subfolderId;
 
-  const toggleButtonAriaLabel = isOpen
-    ? t('myNdla.folder.close')
-    : t('myNdla.folder.open');
+  const toggleButtonAriaLabel = isOpen ? t("myNdla.folder.close") : t("myNdla.folder.open");
 
   return (
     <StyledLi role="none" data-list-item>
@@ -211,11 +179,7 @@ const Folder = ({
                   <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
                 </ToggleOpenButton>
                 <FolderLink
-                  to={
-                    preview
-                      ? previewLink(folder.id)
-                      : sharedFolderLinkInternal(folder.id)
-                  }
+                  to={preview ? previewLink(folder.id) : sharedFolderLinkInternal(folder.id)}
                   aria-owns={`folder-sublist-${folder.id}`}
                   id={`shared-${folder.id}`}
                   tabIndex={-1}
@@ -256,9 +220,7 @@ const Folder = ({
                 to={
                   preview
                     ? `${previewLink(rootFolderId as string)}/${subfolderKey}`
-                    : `${sharedFolderLinkInternal(
-                        rootFolderId as string,
-                      )}/${subfolderKey}`
+                    : `${sharedFolderLinkInternal(rootFolderId as string)}/${subfolderKey}`
                 }
                 aria-owns={`folder-sublist-${folder.id}`}
                 id={`shared-${folder.id}`}
@@ -280,11 +242,7 @@ const Folder = ({
       )}
 
       {isOpen && (
-        <StyledUl
-          role="group"
-          data-list
-          aria-owns={`folder-sublist-${folder.id}`}
-        >
+        <StyledUl role="group" data-list aria-owns={`folder-sublist-${folder.id}`}>
           {resources.map((resource, i) => (
             <FolderResource
               setFocus={setFocus}

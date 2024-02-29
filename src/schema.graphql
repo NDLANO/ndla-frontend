@@ -23,6 +23,35 @@ type ArenaCategory {
   topics: [ArenaTopic!]
 }
 
+type ArenaCategoryV2 {
+  description: String!
+  id: Int!
+  isFollowing: Boolean!
+  postCount: Int!
+  title: String!
+  topicCount: Int!
+  topics: [ArenaTopicV2!]
+  visible: Boolean!
+}
+
+type ArenaFlag {
+  created: String!
+  flagger: ArenaUserV2
+  id: Int!
+  isResolved: Boolean!
+  reason: String!
+  resolved: String
+}
+
+type ArenaNewPostNotificationV2 {
+  id: Int!
+  isRead: Boolean!
+  notificationTime: String!
+  post: ArenaPostV2!
+  topicId: Int!
+  topicTitle: String!
+}
+
 type ArenaNotification {
   bodyShort: String!
   datetimeISO: String!
@@ -52,6 +81,17 @@ type ArenaPost {
   user: ArenaUser!
 }
 
+type ArenaPostV2 {
+  content: String!
+  contentAsHTML: String
+  created: String!
+  flags: [ArenaFlag!]
+  id: Int!
+  owner: ArenaUserV2
+  topicId: Int!
+  updated: String!
+}
+
 type ArenaTopic {
   breadcrumbs: [ArenaBreadcrumb!]!
   categoryId: Int!
@@ -59,11 +99,25 @@ type ArenaTopic {
   id: Int!
   isFollowing: Boolean
   locked: Boolean!
+  pinned: Boolean!
   postCount: Int!
   posts: [ArenaPost!]!
   slug: String!
   timestamp: String!
   title: String!
+}
+
+type ArenaTopicV2 {
+  categoryId: Int!
+  created: String!
+  id: Int!
+  isFollowing: Boolean!
+  isLocked: Boolean!
+  isPinned: Boolean!
+  postCount: Int!
+  posts: PaginatedPosts
+  title: String!
+  updated: String!
 }
 
 type ArenaUser {
@@ -74,6 +128,21 @@ type ArenaUser {
   profilePicture: String
   slug: String!
   username: String!
+}
+
+type ArenaUserV2 {
+  displayName: String!
+  groups: [String!]!
+  id: Int!
+  location: String!
+  username: String!
+}
+
+input ArenaUserV2Input {
+  arenaEnabled: Boolean
+  arenaGroups: [String!]
+  favoriteSubjects: [String!]
+  shareName: Boolean
 }
 
 type Article {
@@ -88,6 +157,8 @@ type Article {
   created: String!
   crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
   grepCodes: [String!]
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String!
@@ -743,6 +814,8 @@ type Manuscript {
 
 type Meta {
   availability: String
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String
@@ -787,12 +860,7 @@ type MovieTheme {
 }
 
 type Mutation {
-  addFolder(
-    description: String
-    name: String!
-    parentId: String
-    status: String
-  ): Folder!
+  addFolder(description: String, name: String!, parentId: String, status: String): Folder!
   addFolderResource(
     folderId: String!
     path: String!
@@ -801,15 +869,34 @@ type Mutation {
     tags: [String!]
   ): FolderResource!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
+  deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
+  deletePostV2(postId: Int!): Int!
   deleteTopic(topicId: Int!): Int!
+  deleteTopicV2(topicId: Int!): Int!
+  followCategory(categoryId: Int!): ArenaCategoryV2!
+  followTopic(topicId: Int!): ArenaTopicV2!
+  markAllNotificationsAsRead: Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
+  markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
+  newArenaCategory(description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
+  newArenaTopicV2(
+    categoryId: Int!
+    content: String!
+    isLocked: Boolean
+    isPinned: Boolean
+    title: String!
+  ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
+  newFlagV2(postId: Int!, reason: String!): Int!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
+  replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
+  resolveFlag(flagId: Int!): ArenaFlag!
+  sortArenaCategories(sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   subscribeToTopic(topicId: Int!): Int!
@@ -821,20 +908,18 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
+  unfollowCategory(categoryId: Int!): ArenaCategoryV2!
+  unfollowTopic(topicId: Int!): ArenaTopicV2!
   unsubscribeFromTopic(topicId: Int!): Int!
-  updateFolder(
-    description: String
-    id: String!
-    name: String
-    status: String
-  ): Folder!
+  updateArenaCategory(categoryId: Int!, description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
+  updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updatePersonalData(
-    favoriteSubjects: [String]
-    shareName: Boolean
-  ): MyNdlaPersonalData!
+  updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
+  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
+  updatePostV2(content: String!, postId: Int!): ArenaPostV2!
+  updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
 type MyNdlaGroup {
@@ -846,6 +931,7 @@ type MyNdlaGroup {
 
 type MyNdlaPersonalData {
   arenaEnabled: Boolean!
+  arenaGroups: [String!]!
   displayName: String!
   email: String!
   favoriteSubjects: [String!]!
@@ -877,6 +963,34 @@ type NewFolderResource {
 
 type Owner {
   name: String!
+}
+
+type PaginatedArenaNewPostNotificationV2 {
+  items: [ArenaNewPostNotificationV2!]!
+  page: Int!
+  pageSize: Int!
+  totalCount: Int!
+}
+
+type PaginatedArenaUsers {
+  items: [ArenaUserV2!]!
+  page: Int!
+  pageSize: Int!
+  totalCount: Int!
+}
+
+type PaginatedPosts {
+  items: [ArenaPostV2!]!
+  page: Int!
+  pageSize: Int!
+  totalCount: Int!
+}
+
+type PaginatedTopics {
+  items: [ArenaTopicV2!]!
+  page: Int!
+  pageSize: Int!
+  totalCount: Int!
 }
 
 type PodcastLicense {
@@ -959,14 +1073,23 @@ type Query {
   aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
+  arenaAllFlags(page: Int, pageSize: Int): PaginatedPosts!
   arenaCategories: [ArenaCategory!]!
+  arenaCategoriesV2(filterFollowed: Boolean): [ArenaCategoryV2!]!
   arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
+  arenaCategoryV2(categoryId: Int!, page: Int, pageSize: Int): ArenaCategoryV2
   arenaEnabledOrgs: ConfigMetaStringList
   arenaNotifications: [ArenaNotification!]!
+  arenaNotificationsV2(page: Int, pageSize: Int): PaginatedArenaNewPostNotificationV2!
+  arenaPostInContext(pageSize: Int, postId: Int!): ArenaTopicV2
   arenaRecentTopics: [ArenaTopic!]!
+  arenaRecentTopicsV2(page: Int, pageSize: Int): PaginatedTopics!
   arenaTopic(page: Int, topicId: Int!): ArenaTopic
+  arenaTopicV2(page: Int, pageSize: Int, topicId: Int!): ArenaTopicV2
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
+  arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
   arenaUser(username: String!): ArenaUser
+  arenaUserV2(username: String!): ArenaUserV2
   article(
     absoluteUrl: Boolean
     convertEmbeds: Boolean
@@ -998,17 +1121,9 @@ type Query {
   coreElements(codes: [String], language: String): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
-  folder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): Folder!
-  folderResourceMeta(
-    resource: FolderResourceMetaSearchInput!
-  ): FolderResourceMeta
-  folderResourceMetaSearch(
-    resources: [FolderResourceMetaSearchInput!]!
-  ): [FolderResourceMeta!]!
+  folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
+  folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
+  folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
   frontpage: FrontpageMenu
   frontpageSearch(query: String): FrontpageSearch
@@ -1028,15 +1143,12 @@ type Query {
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
   learningpath(pathId: String!): Learningpath
+  listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
-  podcastSeriesSearch(
-    fallback: Boolean
-    page: Int!
-    pageSize: Int!
-  ): PodcastSeriesSearch
+  podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
@@ -1076,18 +1188,10 @@ type Query {
     sort: String
     subjects: String
   ): SearchWithoutPagination
-  sharedFolder(
-    id: String!
-    includeResources: Boolean
-    includeSubfolders: Boolean
-  ): SharedFolder!
+  sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
-  subjects(
-    filterVisible: Boolean
-    metadataFilterKey: String
-    metadataFilterValue: String
-  ): [Subject!]
+  subjects(filterVisible: Boolean, metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1352,11 +1456,7 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(
-    convertEmbeds: Boolean
-    showVisualElement: String
-    subjectId: String
-  ): Article
+  article(convertEmbeds: Boolean, showVisualElement: String, subjectId: String): Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String

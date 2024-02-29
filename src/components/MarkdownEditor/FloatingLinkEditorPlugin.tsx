@@ -21,26 +21,19 @@ import {
   RangeSelection,
   LexicalCommand,
   createCommand,
-} from 'lexical';
-import {
-  Dispatch,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { createPortal } from 'react-dom';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { mergeRegister, $findMatchingParent } from '@lexical/utils';
-import { ButtonV2 } from '@ndla/button';
-import { colors, misc, shadows, spacing } from '@ndla/core';
-import { FieldErrorMessage, FormControl, InputV3, Label } from '@ndla/forms';
-import { getSelectedNode } from './EditorToolbar';
+  LexicalNode,
+} from "lexical";
+import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { mergeRegister, $findMatchingParent } from "@lexical/utils";
+import { ButtonV2 } from "@ndla/button";
+import { colors, misc, shadows, spacing, stackOrder } from "@ndla/core";
+import { FieldErrorMessage, FormControl, InputV3, Label } from "@ndla/forms";
+import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
 const HORIZONTAL_OFFSET = 5;
@@ -49,24 +42,38 @@ export const ADD_LINK_COMMAND: LexicalCommand<null> = createCommand();
 
 const FloatingContainer = styled.div`
   position: absolute;
-  z-index: 1000;
+  z-index: ${stackOrder.popover};
   display: none;
-  align-items: center;
+  align-items: end;
   gap: ${spacing.small};
   background-color: ${colors.white};
   border: 1px solid ${colors.brand.greyLight};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.small};
   box-shadow: ${shadows.levitate1};
-  &[data-visible='true'] {
+  &[data-visible="true"] {
     display: flex;
+    flex-direction: column;
+    transform: translate(0, 40px);
+  }
+`;
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: ${spacing.small};
+  > button {
+    flex: 1;
   }
 `;
 
-const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
+const StyledFieldErrorMessage = styled(FieldErrorMessage)`
+  &[data-disabled="true"] {
+    color: ${colors.black};
+  }
 `;
 
 export const setFloatingElemPositionForLinkEditor = (
@@ -79,8 +86,8 @@ export const setFloatingElemPositionForLinkEditor = (
   const scrollerElem = anchorElem.parentElement;
 
   if (targetRect === null || !scrollerElem) {
-    floatingElem.style.opacity = '0';
-    floatingElem.style.transform = 'translate(-10000px, -10000px)';
+    floatingElem.style.opacity = "0";
+    floatingElem.style.transform = "translate(-10000px, -10000px)";
     return;
   }
 
@@ -102,7 +109,7 @@ export const setFloatingElemPositionForLinkEditor = (
   top -= anchorElementRect.top;
   left -= anchorElementRect.left;
 
-  floatingElem.style.opacity = '1';
+  floatingElem.style.opacity = "1";
   floatingElem.style.transform = `translate(${left}px, ${top}px)`;
 };
 
@@ -111,17 +118,18 @@ interface FloatingLinkEditorProps {
   isLink: boolean;
   setIsLink: Dispatch<boolean>;
   anchorElement: HTMLElement;
+  editorIsFocused?: boolean;
 }
 
 type LexicalSelection = RangeSelection | GridSelection | NodeSelection | null;
 
-const SUPPORTED_URL_PROTOCOLS = ['http:', 'https:'];
+const SUPPORTED_URL_PROTOCOLS = ["http:", "https:"];
 
 const sanitizeUrl = (url: string) => {
   try {
     const parsedUrl = new URL(url);
     if (!SUPPORTED_URL_PROTOCOLS.includes(parsedUrl.protocol)) {
-      return 'about:blank';
+      return "about:blank";
     }
   } catch {
     return url;
@@ -129,7 +137,7 @@ const sanitizeUrl = (url: string) => {
   return url;
 };
 
-const VALID_URL_PROTOCOLS = ['http:', 'https:'];
+const VALID_URL_PROTOCOLS = ["http:", "https:", "mailto:"];
 
 const validateUrl = (url: string) => {
   try {
@@ -140,46 +148,79 @@ const validateUrl = (url: string) => {
   }
 };
 
-const FloatingLinkEditor = ({
-  editor,
-  isLink,
-  setIsLink,
-  anchorElement,
-}: FloatingLinkEditorProps) => {
+const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIsFocused }: FloatingLinkEditorProps) => {
   const { t } = useTranslation();
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [editedLinkUrl, setEditedLinkUrl] = useState('');
+  const [linkText, setLinkText] = useState("");
+  const [linkUrl, setLinkUrl] = useState("");
+  const [editedLinkElement, setEditedLinkElement] = useState<LexicalNode | null>(null);
+  const [editedLinkText, setEditedLinkText] = useState("");
+  const [editedLinkUrl, setEditedLinkUrl] = useState("");
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
-  const [isLinkEditMode, setIsLinkEditMode] = useState(false);
-  const error = useMemo(() => {
-    if (editedLinkUrl === '') {
-      return t('markdownEditor.link.error.empty');
+  const [open, setOpen] = useState(false);
+
+  const urlError = useMemo(() => {
+    if (editedLinkUrl === "") {
+      return t("markdownEditor.link.error.url.empty");
     } else if (!validateUrl(editedLinkUrl)) {
-      return t('markdownEditor.link.error.invalid');
+      return t("markdownEditor.link.error.url.invalid");
     } else return undefined;
   }, [editedLinkUrl, t]);
-  const isDirty = editedLinkUrl !== linkUrl;
+
+  const textError = useMemo(() => {
+    if (editedLinkText === "") {
+      return t("markdownEditor.link.error.text.empty");
+    } else return undefined;
+  }, [editedLinkText, t]);
+
+  const isDirty = useMemo(() => {
+    return editedLinkUrl !== linkUrl || editedLinkText !== linkText;
+  }, [editedLinkUrl, editedLinkText, linkUrl, linkText]);
+
+  const closeLinkWindow = () => {
+    setEditedLinkText("");
+    setEditedLinkUrl("");
+    setLinkText("");
+    setLinkUrl("");
+    setEditedLinkElement(null);
+    setLastSelection(null);
+    setOpen(false);
+  };
 
   const updateLinkEditor = useCallback(() => {
+    if (!editorIsFocused) {
+      return;
+    }
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
       const node = getSelectedNode(selection);
       const linkParent = $findMatchingParent(node, $isLinkNode);
 
-      let linkUrl = undefined;
+      let linkNode = undefined;
       if (linkParent) {
-        linkUrl = linkParent.getURL();
+        linkNode = linkParent;
       } else if ($isLinkNode(node)) {
-        linkUrl = node.getURL();
+        linkNode = node;
       }
 
-      setLinkUrl(linkUrl ?? '');
+      let linkUrl = undefined,
+        linkText = undefined;
+      if (linkNode) {
+        linkUrl = linkNode.getURL();
+        linkText = linkNode.getFirstChild()?.getTextContent();
+        setEditedLinkElement(linkNode);
+      }
+
+      setLinkUrl(linkUrl ?? "");
+      setLinkText(linkText ?? "");
       if (!selection.is(lastSelection)) {
-        setIsLinkEditMode(linkUrl);
+        setOpen(linkUrl);
         if (linkUrl) {
           setEditedLinkUrl(linkUrl);
+        }
+        if (linkText) {
+          setEditedLinkText(linkText);
         }
       }
     }
@@ -199,32 +240,26 @@ const FloatingLinkEditor = ({
       rootElement?.contains(nativeSelection.anchorNode) &&
       editor.isEditable()
     ) {
-      const domRect =
-        nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
+      const domRect = nativeSelection.focusNode?.parentElement?.getBoundingClientRect();
       if (domRect) {
         domRect.y += 40;
-        setFloatingElemPositionForLinkEditor(
-          domRect,
-          editorElem,
-          anchorElement,
-        );
+        setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElement);
       }
       setLastSelection(selection);
-    } else if (
-      !activeElement ||
-      !activeElement.hasAttribute('data-link-input')
-    ) {
+    } else if (!activeElement || !activeElement.hasAttribute("data-link-input")) {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElement);
       }
       setLastSelection(null);
-      setIsLinkEditMode(false);
-      setEditedLinkUrl('');
-      setLinkUrl('');
+      setOpen(false);
+      setEditedLinkUrl("");
+      setEditedLinkText("");
+      setLinkUrl("");
+      setLinkText("");
     }
 
     return true;
-  }, [anchorElement, editor, lastSelection]);
+  }, [anchorElement, editor, lastSelection, editorIsFocused]);
 
   useEffect(() => {
     const scrollerElem = anchorElement.parentElement;
@@ -235,17 +270,17 @@ const FloatingLinkEditor = ({
       });
     };
 
-    window.addEventListener('resize', update);
+    window.addEventListener("resize", update);
 
     if (scrollerElem) {
-      scrollerElem.addEventListener('scroll', update);
+      scrollerElem.addEventListener("scroll", update);
     }
 
     return () => {
-      window.removeEventListener('resize', update);
+      window.removeEventListener("resize", update);
 
       if (scrollerElem) {
-        scrollerElem.removeEventListener('scroll', update);
+        scrollerElem.removeEventListener("scroll", update);
       }
     };
   }, [anchorElement.parentElement, editor, updateLinkEditor]);
@@ -261,10 +296,14 @@ const FloatingLinkEditor = ({
       editor.registerCommand(
         ADD_LINK_COMMAND,
         (_) => {
+          const selection = $getSelection();
           setLastSelection(null);
-          setEditedLinkUrl('');
-          setLinkUrl('');
-          setIsLinkEditMode(true);
+          setEditedLinkElement(null);
+          setEditedLinkUrl("");
+          setEditedLinkText(selection?.getTextContent() ?? "");
+          setLinkUrl("");
+          setLinkText("");
+          setOpen(true);
           return true;
         },
         COMMAND_PRIORITY_LOW,
@@ -293,34 +332,95 @@ const FloatingLinkEditor = ({
   }, [editor, updateLinkEditor, setIsLink, isLink]);
 
   const monitorInputInteraction = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
+      event.stopPropagation();
       event.preventDefault();
       handleLinkSubmission();
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       event.preventDefault();
-      setIsLinkEditMode(false);
+      setOpen(false);
       editor.focus();
     }
   };
 
   const handleLinkSubmission = () => {
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(editedLinkUrl));
-    setLastSelection(null);
-    setEditedLinkUrl('');
-    setLinkUrl('');
-    setIsLinkEditMode(false);
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const parent = getSelectedNode(selection).getParent();
+        let linkElement = editedLinkElement;
+        if (parent && $isAutoLinkNode(parent)) {
+          const linkNode = $createLinkNode(parent.getURL(), {
+            rel: parent.__rel,
+            target: parent.__target,
+            title: parent.__title,
+          });
+          parent.replace(linkNode, true);
+          linkElement = linkNode;
+          setEditedLinkElement(linkNode);
+        }
+        if (linkElement) {
+          linkElement.setURL(sanitizeUrl(editedLinkUrl));
+          linkElement.getFirstChild().setTextContent(editedLinkText);
+          setTimeout(() => editor.focus());
+        } else {
+          selection.removeText();
+          selection.insertRawText(editedLinkText);
+          toggleLink(sanitizeUrl(editedLinkUrl));
+        }
+      }
+    });
+    editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
+    closeLinkWindow();
   };
 
-  return isLinkEditMode ? (
-    <FloatingContainer ref={editorRef} data-visible={!!isLinkEditMode}>
-      <FormControl id="url" isRequired isInvalid={!!error}>
-        <Label margin="none" textStyle="label-small">
-          {t('markdownEditor.link.url')}
-        </Label>
-        <InputWrapper>
+  const handleLinkDeletion = () => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        const node = getSelectedNode(selection);
+        toggleLink(null);
+        let validUrl = false;
+        try {
+          new URL(node.getTextContent());
+          validUrl = true;
+        } catch (_) {
+          validUrl = false;
+        }
+        if (validUrl) {
+          node.remove();
+        }
+      }
+    });
+    closeLinkWindow();
+  };
+
+  return open ? (
+    <FloatingContainer ref={editorRef} data-visible={!!open}>
+      <InputWrapper>
+        <FormControl id="text" isRequired isInvalid={!!textError}>
+          <Label margin="none" textStyle="label-small">
+            {t("markdownEditor.link.text")}
+          </Label>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
+            autoFocus={!linkUrl}
+            name="text"
+            value={editedLinkText}
+            onChange={(event) => {
+              setEditedLinkText(event.currentTarget.value);
+            }}
+            onKeyDown={(event) => {
+              monitorInputInteraction(event);
+            }}
+          />
+          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
+        </FormControl>
+        <FormControl id="url" isRequired isInvalid={!!urlError}>
+          <Label margin="none" textStyle="label-small">
+            {t("markdownEditor.link.url")}
+          </Label>
+          <InputV3
             name="url"
             ref={inputRef}
             data-link-input=""
@@ -332,24 +432,27 @@ const FloatingLinkEditor = ({
               monitorInputInteraction(event);
             }}
           />
-          <ButtonV2
-            onClick={handleLinkSubmission}
-            disabled={!isDirty || !!error}
-          >
-            {t('save')}
-          </ButtonV2>
-        </InputWrapper>
-        <FieldErrorMessage>{error}</FieldErrorMessage>
-      </FormControl>
+          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
+        </FormControl>
+      </InputWrapper>
+      <ButtonWrapper>
+        <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
+          {t("myNdla.resource.remove")}
+        </ButtonV2>
+        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!urlError}>
+          {t("save")}
+        </ButtonV2>
+      </ButtonWrapper>
     </FloatingContainer>
   ) : null;
 };
 
 interface Props {
   anchorElement: HTMLElement;
+  editorIsFocused: boolean;
 }
 
-export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
+export const FloatingLinkEditorPlugin = ({ anchorElement, editorIsFocused }: Props) => {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
   const [isLink, setIsLink] = useState(false);
@@ -386,7 +489,7 @@ export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
             const node = getSelectedNode(selection);
             const linkNode = $findMatchingParent(node, $isLinkNode);
             if ($isLinkNode(linkNode) && (payload.metaKey || payload.ctrlKey)) {
-              window.open(linkNode.getURL(), '_blank');
+              window.open(linkNode.getURL(), "_blank");
               return true;
             }
           }
@@ -403,6 +506,7 @@ export const FloatingLinkEditorPlugin = ({ anchorElement }: Props) => {
       isLink={isLink}
       anchorElement={anchorElement}
       setIsLink={setIsLink}
+      editorIsFocused={editorIsFocused}
     />,
     anchorElement,
   );

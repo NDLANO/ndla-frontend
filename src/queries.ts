@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {

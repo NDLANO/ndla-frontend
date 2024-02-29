@@ -6,4 +6,4 @@
  *
  */
 
-export type MenuType = 'programme' | 'about' | 'subject';
+export type MenuType = "programme" | "about" | "subject";

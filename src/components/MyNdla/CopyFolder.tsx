@@ -6,20 +6,17 @@
  *
  */
 
-import { useContext, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { ButtonV2 as Button, LoadingButton } from '@ndla/button';
-import { InformationOutline, WarningOutline } from '@ndla/icons/common';
-import { Folder, MessageBox, useSnack } from '@ndla/ui';
-import { AddResourceContainer, ButtonRow } from './AddResourceToFolder';
-import FolderSelect from './FolderSelect';
-import {
-  useCopySharedFolderMutation,
-  useFolders,
-} from '../../containers/MyNdla/folderMutations';
-import { GQLFolder } from '../../graphqlTypes';
-import { getTotalCountForFolder } from '../../util/folderHelpers';
-import { AuthContext } from '../AuthenticationContext';
+import { useContext, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
+import { InformationOutline, WarningOutline } from "@ndla/icons/common";
+import { Folder, MessageBox, useSnack } from "@ndla/ui";
+import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
+import FolderSelect from "./FolderSelect";
+import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
+import { GQLFolder } from "../../graphqlTypes";
+import { getTotalCountForFolder } from "../../util/folderHelpers";
+import { AuthContext } from "../AuthenticationContext";
 
 interface Props {
   folder: GQLFolder;
@@ -27,9 +24,7 @@ interface Props {
 }
 
 const CopyFolder = ({ folder, onClose }: Props) => {
-  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
 
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -42,14 +37,13 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     await copySharedFolderMutation.copySharedFolder({
       variables: {
         folderId: folder.id,
-        destinationFolderId:
-          selectedFolderId === 'folders' ? undefined : selectedFolderId,
+        destinationFolderId: selectedFolderId === "folders" ? undefined : selectedFolderId,
       },
     });
     onClose();
     addSnack({
-      content: t('myNdla.sharedFolder.folderCopied'),
-      id: 'sharedFolderCopied',
+      content: t("myNdla.sharedFolder.folderCopied"),
+      id: "sharedFolderCopied",
     });
   };
 
@@ -57,7 +51,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     <AddResourceContainer>
       <Folder
         id={folder.id.toString()}
-        title={folder.name ?? ''}
+        title={folder.name ?? ""}
         link={`/folder/${folder.id}`}
         isShared={true}
         subFolders={folderCount.folders}
@@ -66,7 +60,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       {examLock ? (
         <MessageBox>
           <InformationOutline />
-          {t('myNdla.examLockInfo')}
+          {t("myNdla.examLockInfo")}
         </MessageBox>
       ) : (
         <>
@@ -78,12 +72,12 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           />
           <MessageBox>
             <InformationOutline />
-            {t('myNdla.copyFolderDisclaimer')}
+            {t("myNdla.copyFolderDisclaimer")}
           </MessageBox>
           {copySharedFolderMutation.error && (
             <MessageBox type="danger">
               <WarningOutline />
-              {t('errorMessage.description')}
+              {t("errorMessage.description")}
             </MessageBox>
           )}
         </>
@@ -99,7 +93,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             e.preventDefault();
           }}
         >
-          {t('cancel')}
+          {t("cancel")}
         </Button>
         <LoadingButton
           loading={copySharedFolderMutation.loading}
@@ -113,7 +107,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           }}
           onClick={onSave}
         >
-          {t('myNdla.resource.save')}
+          {t("myNdla.resource.save")}
         </LoadingButton>
       </ButtonRow>
     </AddResourceContainer>
