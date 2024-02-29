@@ -15,6 +15,7 @@ import { breakpoints, mq, spacing } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from "@ndla/modal";
+import { LanguageSelector } from "@ndla/ui";
 import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
@@ -25,6 +26,7 @@ import {
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
+import { supportedLanguages } from "../../../i18n";
 import { useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
@@ -37,6 +39,13 @@ const MainMenu = styled.div`
   height: 100%;
   max-height: 100%;
   overflow-y: hidden;
+`;
+
+const MenuLanguageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 `;
 
 const DrawerContainer = styled.nav`
@@ -61,6 +70,14 @@ const DrawerButton = styled(ButtonV2)`
     span {
       display: none;
     }
+  }
+`;
+
+const LanguageSelectWrapper = styled.div`
+  margin-top: ${spacing.medium};
+  margin-left: ${spacing.small};
+  ${mq.range({ from: breakpoints.desktop })} {
+    display: none;
   }
 `;
 
@@ -94,7 +111,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const ndlaFilm = useIsNdlaFilm();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery);
 
@@ -184,34 +201,43 @@ const MastheadDrawer = ({ subject }: Props) => {
               </ButtonV2>
             </ModalCloseButton>
           </HeadWrapper>
-          <DrawerContainer aria-label={t("myNdla.mainMenu")}>
-            <DrawerProvider>
-              <DefaultMenu
-                dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article.slug}-dynamic` : undefined}
-                onClose={close}
-                onCloseMenuPortion={onCloseMenuPortion}
-                setActiveMenu={setType}
-                setFrontpageMenu={setFrontpageMenu}
-                dynamicMenus={(frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]}
-                subject={subject}
-                type={type}
-                closeSubMenu={closeSubMenu}
-              />
-              {type && (
-                <DrawerContent
+          <MenuLanguageContainer>
+            <DrawerContainer aria-label={t("myNdla.mainMenu")}>
+              <DrawerProvider>
+                <DefaultMenu
+                  dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article.slug}-dynamic` : undefined}
                   onClose={close}
-                  type={type}
-                  menuItems={frontpageMenu}
-                  topicPath={topicPath}
-                  subject={subject}
-                  setFrontpageMenu={_setFrontpageMenu}
-                  setTopicPathIds={setTopicPath}
                   onCloseMenuPortion={onCloseMenuPortion}
-                  programmes={programmesQuery.data?.programmes ?? []}
+                  setActiveMenu={setType}
+                  setFrontpageMenu={setFrontpageMenu}
+                  dynamicMenus={
+                    (frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]
+                  }
+                  subject={subject}
+                  type={type}
+                  closeSubMenu={closeSubMenu}
                 />
-              )}
-            </DrawerProvider>
-          </DrawerContainer>
+                {type && (
+                  <DrawerContent
+                    onClose={close}
+                    type={type}
+                    menuItems={frontpageMenu}
+                    topicPath={topicPath}
+                    subject={subject}
+                    setFrontpageMenu={_setFrontpageMenu}
+                    setTopicPathIds={setTopicPath}
+                    onCloseMenuPortion={onCloseMenuPortion}
+                    programmes={programmesQuery.data?.programmes ?? []}
+                  />
+                )}
+              </DrawerProvider>
+            </DrawerContainer>
+            {!type && (
+              <LanguageSelectWrapper>
+                <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+              </LanguageSelectWrapper>
+            )}
+          </MenuLanguageContainer>
         </MainMenu>
       </Drawer>
     </Modal>
