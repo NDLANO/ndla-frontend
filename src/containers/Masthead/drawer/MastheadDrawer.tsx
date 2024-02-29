@@ -76,9 +76,6 @@ const DrawerButton = styled(ButtonV2)`
 const LanguageSelectWrapper = styled.div`
   margin-top: ${spacing.medium};
   margin-left: ${spacing.small};
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
 `;
 
 interface Props {
