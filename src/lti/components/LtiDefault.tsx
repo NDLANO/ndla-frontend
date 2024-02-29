@@ -37,14 +37,8 @@ const LtiDefault = ({ item }: Props) => {
         setOpen(false);
         setEmbedCode("");
       } else {
-        if (typeof item.url === "string") {
-          const oembed = await fetchArticleOembed(`${config.ndlaFrontendDomain}${item.url}`);
-          setEmbedCode(oembed.html);
-        } else {
-          setEmbedCode(
-            `<iframe src="${item.url.href}" frameborder="0" allowFullscreen="" aria-label="${item.url.href}" />`,
-          );
-        }
+        const oembed = await fetchArticleOembed(`${config.ndlaFrontendDomain}${item.url}`);
+        setEmbedCode(oembed.html);
         setOpen(true);
       }
     },

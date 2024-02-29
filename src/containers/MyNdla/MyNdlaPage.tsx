@@ -138,7 +138,25 @@ const MyNdlaPage = () => {
             language: i18n.language,
           }}
         />
-        {allFolderResources && allFolderResources.length > 0 && (
+        {!!recentArenaTopicsQuery.data?.items?.length && (
+          <SectionWrapper>
+            <Heading element="h2" headingStyle="h2" margin="small">
+              {t("myNdla.myPage.recentArenaPosts.title")}
+            </Heading>
+            <StyledResourceList>
+              {recentArenaTopicsQuery.data?.items?.map((topic) => (
+                <li key={topic.id}>
+                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
+                </li>
+              ))}
+            </StyledResourceList>
+            <StyledSafeLink to="arena">
+              {t("myNdla.myPage.recentArenaPosts.link")}
+              <ForwardArrow />
+            </StyledSafeLink>
+          </SectionWrapper>
+        )}
+        {allFolderResources && allFolderResources?.length > 0 && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentFavourites.title")}
@@ -168,24 +186,6 @@ const MyNdlaPage = () => {
             </StyledResourceList>
             <StyledSafeLink to="folders">
               {t("myNdla.myPage.recentFavourites.link")}
-              <ForwardArrow />
-            </StyledSafeLink>
-          </SectionWrapper>
-        )}
-        {!!recentArenaTopicsQuery.data?.items?.length && (
-          <SectionWrapper>
-            <Heading element="h2" headingStyle="h2" margin="small">
-              {t("myNdla.myPage.recentArenaPosts.title")}
-            </Heading>
-            <StyledResourceList>
-              {recentArenaTopicsQuery.data?.items?.map((topic) => (
-                <li key={topic.id}>
-                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
-                </li>
-              ))}
-            </StyledResourceList>
-            <StyledSafeLink to="arena">
-              {t("myNdla.myPage.recentArenaPosts.link")}
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>

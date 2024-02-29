@@ -50,6 +50,10 @@ const StyledCardWrapper = styled.div`
 
   &[data-visible="false"] {
     background-color: ${colors.brand.greyLight};
+    &:hover,
+    &:focus-within {
+      background-color: ${colors.brand.greyLight};
+    }
   }
 
   &:hover,

@@ -178,6 +178,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     oldNdlaUrl: "//red.ndla.no/node/168554",
     requiredLibraries: [],
     title: "Politiske skillelinjer",
+    htmlTitle: "Politiske skillelinjer",
     updated: "2018-01-09T18:43:48Z",
     published: "2018-01-09T18:43:48Z",
     supportedLanguages: ["nb"],

@@ -53,6 +53,9 @@ const messages = {
     },
   },
   myNdla: {
+    sharedFolder: {
+      learningpathUnsupportedTitle: "Learning paths are not supported",
+    },
     arena: {
       notification: {
         description:

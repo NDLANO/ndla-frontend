@@ -15,12 +15,13 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
 import { Pencil, TrashCanOutline } from "@ndla/icons/action";
-import { ReportOutlined } from "@ndla/icons/common";
+import { ReportOutlined, Locked } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { Text, Heading } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
 import FlagPostModalContent from "./FlagPostModalContent";
+import LockModal from "./LockModal";
 import {
   useArenaDeletePost,
   useArenaDeleteTopic,
@@ -187,11 +188,13 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
 
   const menu = useMemo(() => {
     const isOwnPost = compareUsernames(user?.username, owner?.username);
+    const disableModification = topic?.isLocked && !user?.isModerator;
 
     const update: MenuItemProps = {
       icon: <Pencil />,
       text: t("myNdla.arena.posts.dropdownMenu.edit"),
       type: "primary",
+      disabled: disableModification,
       onClick: () => setIsEditing(true),
     };
 
@@ -200,6 +203,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
       type: "danger",
       text: t("myNdla.arena.posts.dropdownMenu.delete"),
       isModal: true,
+      disabled: disableModification,
       modalContent: (close, skipAutoFocus) => (
         <DeleteModalContent
           onClose={close}
@@ -222,9 +226,19 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
       modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,
     };
 
+    const lockUnlock: MenuItemProps = {
+      icon: <Locked />,
+      text: topic?.isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked"),
+      type: "danger",
+      isModal: true,
+      modalContent: (close) => <LockModal topic={topic} post={post} onClose={close} />,
+    };
+
     const menuItems: MenuItemProps[] = [];
     if (user?.isModerator) {
       menuItems.push(deleteItem);
+      if (type === "topic" && !config.enableNodeBB) menuItems.push(lockUnlock);
+
       menuItems.push(update);
       menuItems.push(report);
     } else if (isOwnPost) {
@@ -235,7 +249,19 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
     }
 
     return <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} />;
-  }, [t, user, type, postId, owner?.username, isMainPost, deletePostCallback, deleteTopicCallback]);
+  }, [
+    user?.username,
+    user?.isModerator,
+    owner?.username,
+    topic,
+    t,
+    type,
+    isMainPost,
+    deleteTopicCallback,
+    deletePostCallback,
+    postId,
+    post,
+  ]);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>) => {
@@ -275,7 +301,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
             {menu}
             {postTime}
           </FlexLine>
-          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying}>
+          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
             {t("myNdla.arena.new.post")}
           </ButtonV2>
         </>
@@ -298,6 +324,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
             id={postId}
             type={type}
             initialTitle={topic?.title}
+            initialLocked={topic?.isLocked}
             initialContent={post.content}
             onAbort={() => setIsEditing(false)}
             onSave={async (values) => {
@@ -307,6 +334,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
                     topicId,
                     title: values.title ?? "",
                     content: values.content ?? "",
+                    isLocked: values.locked ?? false,
                   },
                 });
               } else {

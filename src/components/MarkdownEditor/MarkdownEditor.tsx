@@ -21,6 +21,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { colors, misc, spacing } from "@ndla/core";
 import { useFormControl } from "@ndla/forms";
+import { AutoLink } from "./AutoLinkPlugin";
 import { editorTheme } from "./editorTheme";
 import { EditorToolbar } from "./EditorToolbar";
 import { FloatingLinkEditorPlugin } from "./FloatingLinkEditorPlugin";
@@ -149,6 +150,7 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValu
         ) : (
           ""
         )}
+        <AutoLink />
         <ListPlugin />
         <LinkPlugin />
         <MarkdownPlugin />

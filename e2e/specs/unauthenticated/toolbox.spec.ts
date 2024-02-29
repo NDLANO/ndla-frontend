@@ -18,7 +18,7 @@ test("shows students", async ({ page }) => {
     page,
     operation: [
       {
-        names: ["myNdlaData", "alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
+        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
         fixture: "toolbox",
       },
       {
@@ -45,7 +45,7 @@ test("shows teachers", async ({ page }) => {
     page,
     operation: [
       {
-        names: ["myNdlaData", "alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
+        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
         fixture: "toolbox",
       },
       {
