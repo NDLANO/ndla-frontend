@@ -59,7 +59,7 @@ export const NewCategoryPage = () => {
       });
 
       if (category.data?.newArenaCategory.id) {
-        navigate(myNdlaRoutes.toMyNdlaArenaCategory(category.data?.newArenaCategory.id));
+        navigate(myNdlaRoutes.myNdlaArenaCategory(category.data?.newArenaCategory.id));
       }
     },
     [newCategoryMutation, navigate],

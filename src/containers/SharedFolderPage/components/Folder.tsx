@@ -179,7 +179,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                   <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
                 </ToggleOpenButton>
                 <FolderLink
-                  to={preview ? myNdlaRoutes.toMyNdlaFolderPreview(folder.id) : myNdlaRoutes.toMyNdlaFolder(folder.id)}
+                  to={preview ? myNdlaRoutes.myNdlaFolderPreview(folder.id) : myNdlaRoutes.myNdlaFolder(folder.id)}
                   aria-owns={`folder-sublist-${folder.id}`}
                   id={`shared-${folder.id}`}
                   tabIndex={-1}
@@ -219,8 +219,8 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
               <FolderLink
                 to={
                   preview
-                    ? `${myNdlaRoutes.toMyNdlaFolderPreview(rootFolderId as string)}/${subfolderKey}`
-                    : `${myNdlaRoutes.toMyNdlaFolder(rootFolderId as string)}/${subfolderKey}`
+                    ? `${myNdlaRoutes.myNdlaFolderPreview(rootFolderId as string)}/${subfolderKey}`
+                    : `${myNdlaRoutes.myNdlaFolder(rootFolderId as string)}/${subfolderKey}`
                 }
                 aria-owns={`folder-sublist-${folder.id}`}
                 id={`shared-${folder.id}`}

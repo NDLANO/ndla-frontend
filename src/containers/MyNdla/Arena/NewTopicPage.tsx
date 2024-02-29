@@ -61,18 +61,18 @@ export const NewTopicPage = () => {
       const data = topic?.data;
 
       if (data && "newArenaTopicV2" in data && data.newArenaTopicV2?.id) {
-        navigate(myNdlaRoutes.toMyNdlaArenaTopic(data.newArenaTopicV2?.id));
+        navigate(myNdlaRoutes.myNdlaArenaTopic(data.newArenaTopicV2?.id));
       }
 
       if (data && "newArenaTopic" in data && data.newArenaTopic?.id) {
-        navigate(myNdlaRoutes.toMyNdlaArenaTopic(data.newArenaTopic?.id));
+        navigate(myNdlaRoutes.myNdlaArenaTopic(data.newArenaTopic?.id));
       }
     },
     [arenaTopicMutation, categoryId, navigate],
   );
 
   const onAbort = useCallback(() => {
-    navigate(categoryId ? myNdlaRoutes.toMyNdlaArenaCategory(Number(categoryId)) : myNdlaRoutes.myNdlaArena);
+    navigate(categoryId ? myNdlaRoutes.myNdlaArenaCategory(Number(categoryId)) : myNdlaRoutes.myNdlaArena);
   }, [categoryId, navigate]);
 
   return (

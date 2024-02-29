@@ -70,7 +70,7 @@ const UserList = ({ loading, users }: Props) => {
     <>
       {users?.items.map((user) => {
         return (
-          <SafeLink to={myNdlaRoutes.toMyNdlaArenaUser(user.username)} key={`btn-${user.id}`}>
+          <SafeLink to={myNdlaRoutes.myNdlaArenaUser(user.username)} key={`btn-${user.id}`}>
             <StyledRow>
               <Cell>{user.username}</Cell>
               <Cell>{user.displayName}</Cell>

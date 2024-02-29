@@ -97,7 +97,7 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
-        <SafeLinkButton to={myNdlaRoutes.toMyNdlaArenaTopic(topicId)}>
+        <SafeLinkButton to={myNdlaRoutes.myNdlaArenaTopic(topicId)}>
           {t("myNdla.arena.admin.flags.goToTopic")}
         </SafeLinkButton>
       </FlexLine>

@@ -89,7 +89,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         <Folder
           id={folder.id}
           isShared={folder.status === "shared"}
-          link={myNdlaRoutes.toMyNdlaFolder(folder.id)}
+          link={myNdlaRoutes.myNdlaFolder(folder.id)}
           title={folder.name}
           type={type}
           menu={menu}

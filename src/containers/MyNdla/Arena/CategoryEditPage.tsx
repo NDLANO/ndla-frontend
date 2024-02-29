@@ -64,20 +64,20 @@ const CategoryEditPage = () => {
       });
 
       if (category.data?.updateArenaCategory.id) {
-        navigate(myNdlaRoutes.toMyNdlaArenaCategory(category.data?.updateArenaCategory.id));
+        navigate(myNdlaRoutes.myNdlaArenaCategory(category.data?.updateArenaCategory.id));
       }
     },
     [updateCategory, categoryId, navigate],
   );
 
   const onAbort = useCallback(() => {
-    if (categoryId) navigate(myNdlaRoutes.toMyNdlaArenaCategory(Number(categoryId)));
+    if (categoryId) navigate(myNdlaRoutes.myNdlaArenaCategory(Number(categoryId)));
     else navigate(myNdlaRoutes.myNdlaArena);
   }, [categoryId, navigate]);
 
   if (loading || !authContextLoaded) return <Spinner />;
   if (!categoryId) return <Navigate to={myNdlaRoutes.myNdlaArena} />;
-  if (!user?.isModerator) return <Navigate to={myNdlaRoutes.toMyNdlaArenaCategory(Number(categoryId))} />;
+  if (!user?.isModerator) return <Navigate to={myNdlaRoutes.myNdlaArenaCategory(Number(categoryId))} />;
 
   return (
     <MyNdlaPageWrapper>

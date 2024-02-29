@@ -84,7 +84,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     await deleteFolder({ variables: { id: selectedFolder.id } });
 
     if (selectedFolder?.id === folderId) {
-      navigate(myNdlaRoutes.toMyNdlaFolder(selectedFolder?.parentId ?? ""), {
+      navigate(myNdlaRoutes.myNdlaFolder(selectedFolder?.parentId ?? ""), {
         replace: true,
       });
     }
@@ -164,10 +164,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: myNdlaRoutes.toMyNdlaFolder(selectedFolder.id),
+      link: myNdlaRoutes.myNdlaFolder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(myNdlaRoutes.toMyNdlaFolder(selectedFolder.id));
+        navigate(myNdlaRoutes.myNdlaFolder(selectedFolder.id));
       },
     };
 

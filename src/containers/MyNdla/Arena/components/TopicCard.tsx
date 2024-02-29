@@ -78,7 +78,7 @@ const LockedIconCSS = css`
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
-    <StyledSafelink css={TopicCardCSS} to={myNdlaRoutes.toMyNdlaArenaTopic(id)}>
+    <StyledSafelink css={TopicCardCSS} to={myNdlaRoutes.myNdlaArenaTopic(id)}>
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}

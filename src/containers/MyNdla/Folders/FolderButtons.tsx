@@ -80,7 +80,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     await deleteFolder({ variables: { id: selectedFolder.id } });
     if (selectedFolder.id === folderId) {
-      navigate(myNdlaRoutes.toMyNdlaFolder(selectedFolder?.parentId ?? ""), {
+      navigate(myNdlaRoutes.myNdlaFolder(selectedFolder?.parentId ?? ""), {
         replace: true,
       });
     }
@@ -247,7 +247,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={myNdlaRoutes.toMyNdlaFolder(selectedFolder.id)}
+        to={myNdlaRoutes.myNdlaFolder(selectedFolder.id)}
         aria-label={t("myNdla.folder.sharing.button.goTo")}
         title={t("myNdla.folder.sharing.button.goTo")}
       >

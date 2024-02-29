@@ -74,7 +74,7 @@ const ArenaSingleFlagPage = () => {
         </Heading>
         <Text element="p" margin="small">
           {t("myNdla.arena.admin.flags.inThread")}{" "}
-          <SafeLink to={myNdlaRoutes.toMyNdlaArenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
+          <SafeLink to={myNdlaRoutes.myNdlaArenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
         </Text>
         <FlaggedPostCard post={flaggedPost} topic={topic} />
         <Heading element="h2" headingStyle="h2" margin="small">

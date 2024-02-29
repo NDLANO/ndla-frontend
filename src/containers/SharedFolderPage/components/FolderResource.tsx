@@ -99,8 +99,8 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
       isLearningPathOrCase
         ? resource.path
         : preview
-          ? `${myNdlaRoutes.toMyNdlaFolderPreview(rootFolderId ?? "")}/${parentId}/${resource.id}`
-          : `${myNdlaRoutes.toMyNdlaFolder(rootFolderId ?? "")}/${parentId}/${resource.id}`,
+          ? `${myNdlaRoutes.myNdlaFolderPreview(rootFolderId ?? "")}/${parentId}/${resource.id}`
+          : `${myNdlaRoutes.myNdlaFolder(rootFolderId ?? "")}/${parentId}/${resource.id}`,
     [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId, preview],
   );
 

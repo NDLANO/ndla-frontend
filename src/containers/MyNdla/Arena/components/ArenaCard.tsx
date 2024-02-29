@@ -171,7 +171,7 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
         <Forum data-hover-icon="" css={iconCss} />
         <SpacingContainer>
           <div>
-            <StyledSafeLink to={myNdlaRoutes.toMyNdlaArenaCategory(id)}>
+            <StyledSafeLink to={myNdlaRoutes.myNdlaArenaCategory(id)}>
               <StyledHeader element="p" textStyle="label-small" margin="none" data-name="hover">
                 {title}
               </StyledHeader>

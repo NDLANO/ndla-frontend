@@ -161,7 +161,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
         id: "arenaTopicDeleted",
       });
       if (topic?.categoryId) {
-        navigate(myNdlaRoutes.toMyNdlaArenaCategory(topic.categoryId));
+        navigate(myNdlaRoutes.myNdlaArenaCategory(topic.categoryId));
       } else {
         navigate(myNdlaRoutes.myNdlaArena);
       }

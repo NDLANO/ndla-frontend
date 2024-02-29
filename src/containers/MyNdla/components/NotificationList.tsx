@@ -135,7 +135,7 @@ const NotificationList = ({ notifications, close }: Props) => {
               <StyledLink
                 variant="stripped"
                 data-not-viewed={!notification.isRead}
-                to={myNdlaRoutes.toMyNdlaArenaTopic(notification.topicId)}
+                to={myNdlaRoutes.myNdlaArenaTopic(notification.topicId)}
                 onClick={() => close?.()}
               >
                 <Notification>

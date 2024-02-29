@@ -79,7 +79,7 @@ const Users = () => {
       acc[key] = searchQuery[key];
       return acc;
     }, {});
-    navigate(myNdlaRoutes.toMyNdlaAdminUsers(`?${stringify(newSearchQuery)}`));
+    navigate(myNdlaRoutes.myNdlaAdminUsers(`?${stringify(newSearchQuery)}`));
   };
 
   return (
@@ -89,7 +89,7 @@ const Users = () => {
           placeholder={t("myNdla.arena.admin.users.search")}
           onChange={(e) => {
             setQueryString(e.target.value);
-            navigate(myNdlaRoutes.toMyNdlaAdminUsers("?page=1")); // Reset page number when searching
+            navigate(myNdlaRoutes.myNdlaAdminUsers("?page=1")); // Reset page number when searching
           }}
         />
         <StyledHeaderRow>
