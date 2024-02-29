@@ -9,8 +9,8 @@
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
-import SafeLinkButton from "@ndla/safelink";
+import { breakpoints, colors, mq, spacing, fonts } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { myNdlaRoutes } from "../../../routeHelpers";
 
@@ -72,7 +72,14 @@ const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: 
   const linkTo = to ?? `${myNdlaRoutes.myNdla}${id ? `/${id}` : ""}`;
 
   return (
-    <StyledSafeLink aria-current={selected ? "page" : undefined} to={linkTo} reloadDocument={!!to} onClick={onClick}>
+    <StyledSafeLink
+      colorTheme="lighter"
+      variant="ghost"
+      aria-current={selected ? "page" : undefined}
+      to={linkTo}
+      reloadDocument={!!to}
+      onClick={onClick}
+    >
       <IconWrapper>{selectedIcon}</IconWrapper>
       <LongText textStyle="meta-text-small" margin="none" data-current={selected}>
         {name}
