@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
 import SafeLinkButton from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { MyNdla } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 
 const StyledSafeLink = styled(SafeLinkButton)`
   color: ${colors.brand.primary};
@@ -65,9 +65,11 @@ interface Props {
 
 const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: Props) => {
   const location = useLocation();
-  const selected = id ? location.pathname.startsWith(`${MyNdla}/${id}`) : location.pathname === MyNdla;
+  const selected = id
+    ? location.pathname.startsWith(`${myNdlaRoutes.myNdla}/${id}`)
+    : location.pathname === myNdlaRoutes.myNdla;
   const selectedIcon = selected ? iconFilled ?? icon : icon;
-  const linkTo = to ?? `${MyNdla}${id ? `/${id}` : ""}`;
+  const linkTo = to ?? `${myNdlaRoutes.myNdla}${id ? `/${id}` : ""}`;
 
   return (
     <StyledSafeLink aria-current={selected ? "page" : undefined} to={linkTo} reloadDocument={!!to} onClick={onClick}>

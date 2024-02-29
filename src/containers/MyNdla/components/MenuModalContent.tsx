@@ -19,7 +19,7 @@ import { Text } from "@ndla/typography";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { MyNdlaNotifications } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { ViewType, buttonCss } from "../Folders/FoldersPage";
 import { OutletContext, menuLinks } from "../MyNdlaLayout";
@@ -157,7 +157,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
       <SafeLinkButton
         variant="ghost"
         colorTheme="lighter"
-        to={MyNdlaNotifications}
+        to={myNdlaRoutes.myNdlaNotifications}
         onClick={() => setIsOpen(false)}
         css={buttonCss}
       >

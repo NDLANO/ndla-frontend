@@ -19,7 +19,7 @@ import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import config from "../../config";
-import { MyNdla, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { myNdlaRoutes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
@@ -48,7 +48,7 @@ const Layout = () => {
   const ndlaFilm = useIsNdlaFilm();
   const frontpage = !!matchPath("/", pathname);
   const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
-  const noPaddingBottom = !!matchPath(`${MyNdla}/*`, pathname) || frontpage;
+  const noPaddingBottom = !!matchPath(`${myNdlaRoutes.myNdla}/*`, pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {

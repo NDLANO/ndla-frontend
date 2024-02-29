@@ -197,39 +197,20 @@ export const useTypedParams = <TParams extends TypedParams>() => {
   return useParams() as TParams;
 };
 
-export const MyNdla = "/minndla";
-export const MyNdlaArena = `${MyNdla}/arena`;
-export const MyNdlaFolders = `${MyNdla}/folders`;
-export const MyNdlaSubjects = `${MyNdla}/subjects`;
-export const MyNdlaTags = `${MyNdla}/tags`;
-export const MyNdlaNotifications = `${MyNdlaArena}/notifications`;
-export const MyNdlaAdmin = `${MyNdla}/admin`;
-export const MyNdlaAdminFlags = `${MyNdlaAdmin}/flags`;
-
-export const toMyNdlaArenaCategory = (categoryId: number) => {
-  return `${MyNdlaArena}/category/${categoryId}`;
-};
-
-export const toMyNdlaArenaTopic = (topicId?: number) => {
-  return `${MyNdlaArena}/topic/${topicId}`;
-};
-
-export const toMyNdlaArenaUser = (username: String) => {
-  return `${MyNdlaArena}/user/${username}`;
-};
-
-export const toMyNdlaFolder = (folderId: String) => {
-  return `${MyNdlaFolders}/${folderId}`;
-};
-
-export const toMyNdlaFolderPreview = (folderId: String) => {
-  return `${MyNdlaFolders}/preview/${folderId}`;
-};
-
-export const toMyNdlaAdminUsers = (params: String) => {
-  return `${MyNdlaAdmin}/users${params}`;
-};
-
-export const toMyNdlaAdminFlagsWithParams = (params: String) => {
-  return `${MyNdlaAdminFlags}${params}`;
+export const myNdlaRoutes = {
+  myNdla: "/minndla",
+  myNdlaArena: "/minndla/arena",
+  myNdlaFolders: "/minndla/folders",
+  myNdlaSubjects: "/minndla/subjects",
+  myNdlaTags: "/minndla/tags",
+  myNdlaNotifications: "/minndla/arena/notifications",
+  myNdlaAdmin: "/minndla/admin",
+  myNdlaAdminFlags: "/minndla/admin/flags",
+  toMyNdlaArenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
+  toMyNdlaArenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
+  toMyNdlaArenaUser: (username: String) => `/minndla/arena/user/${username}`,
+  toMyNdlaFolder: (folderId: String) => `/minndla/folders/${folderId}`,
+  toMyNdlaFolderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
+  toMyNdlaAdminUsers: (params: String) => `/minndla/admin/users${params}`,
+  toMyNdlaAdminFlagsWithParams: (params: String) => `/minndla/admin/flags${params}`,
 };

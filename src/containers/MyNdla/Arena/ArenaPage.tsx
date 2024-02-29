@@ -21,7 +21,7 @@ import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { MyNdla } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
@@ -57,7 +57,7 @@ const ArenaPage = () => {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled) return <Navigate to={MyNdla} />;
+  if (!user?.arenaEnabled) return <Navigate to={myNdlaRoutes.myNdla} />;
 
   return (
     <MyNdlaPageWrapper>

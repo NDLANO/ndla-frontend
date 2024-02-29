@@ -33,7 +33,7 @@ import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
-import { MyNdlaArena, toMyNdlaArenaCategory } from "../../../../routeHelpers";
+import { myNdlaRoutes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
@@ -160,9 +160,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
         id: "arenaTopicDeleted",
       });
       if (topic?.categoryId) {
-        navigate(toMyNdlaArenaCategory(topic.categoryId));
+        navigate(myNdlaRoutes.toMyNdlaArenaCategory(topic.categoryId));
       } else {
-        navigate(MyNdlaArena);
+        navigate(myNdlaRoutes.myNdlaArena);
       }
     },
     [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],

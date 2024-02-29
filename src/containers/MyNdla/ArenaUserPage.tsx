@@ -20,7 +20,7 @@ import MyContactArea from "./components/MyContactArea";
 import MyNdlaBreadcrumb from "./components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { MyNdla } from "../../routeHelpers";
+import { myNdlaRoutes } from "../../routeHelpers";
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -50,7 +50,7 @@ const ArenaUserPage = () => {
   }
 
   if (!user?.arenaEnabled) {
-    return <Navigate to={MyNdla} />;
+    return <Navigate to={myNdlaRoutes.myNdla} />;
   }
 
   return (

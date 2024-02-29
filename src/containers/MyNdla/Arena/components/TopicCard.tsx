@@ -12,7 +12,7 @@ import { colors, spacing, misc } from "@ndla/core";
 import { Locked } from "@ndla/icons/common";
 import SafeLink from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { toMyNdlaArenaTopic } from "../../../../routeHelpers";
+import { myNdlaRoutes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 
 interface Props {
@@ -78,7 +78,7 @@ const LockedIconCSS = css`
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
-    <StyledSafelink css={TopicCardCSS} to={toMyNdlaArenaTopic(id)}>
+    <StyledSafelink css={TopicCardCSS} to={myNdlaRoutes.toMyNdlaArenaTopic(id)}>
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}

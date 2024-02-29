@@ -19,7 +19,7 @@ import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { MyNdlaArena, toMyNdlaArenaCategory } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useEditArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -64,20 +64,20 @@ const CategoryEditPage = () => {
       });
 
       if (category.data?.updateArenaCategory.id) {
-        navigate(toMyNdlaArenaCategory(category.data?.updateArenaCategory.id));
+        navigate(myNdlaRoutes.toMyNdlaArenaCategory(category.data?.updateArenaCategory.id));
       }
     },
     [updateCategory, categoryId, navigate],
   );
 
   const onAbort = useCallback(() => {
-    if (categoryId) navigate(toMyNdlaArenaCategory(Number(categoryId)));
-    else navigate(MyNdlaArena);
+    if (categoryId) navigate(myNdlaRoutes.toMyNdlaArenaCategory(Number(categoryId)));
+    else navigate(myNdlaRoutes.myNdlaArena);
   }, [categoryId, navigate]);
 
   if (loading || !authContextLoaded) return <Spinner />;
-  if (!categoryId) return <Navigate to={MyNdlaArena} />;
-  if (!user?.isModerator) return <Navigate to={toMyNdlaArenaCategory(Number(categoryId))} />;
+  if (!categoryId) return <Navigate to={myNdlaRoutes.myNdlaArena} />;
+  if (!user?.isModerator) return <Navigate to={myNdlaRoutes.toMyNdlaArenaCategory(Number(categoryId))} />;
 
   return (
     <MyNdlaPageWrapper>

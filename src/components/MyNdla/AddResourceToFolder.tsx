@@ -27,7 +27,7 @@ import {
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
-import { toMyNdlaFolder, MyNdlaTags } from "../../routeHelpers";
+import { myNdlaRoutes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -90,7 +90,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
     <StyledResourceAddedSnack>
       <StyledResource>
         {t("myNdla.resource.addedToFolder")}
-        <StyledSafeLink to={toMyNdlaFolder(folder.id)}>"{folder.name}"</StyledSafeLink>
+        <StyledSafeLink to={myNdlaRoutes.toMyNdlaFolder(folder.id)}>"{folder.name}"</StyledSafeLink>
       </StyledResource>
     </StyledResourceAddedSnack>
   );
@@ -177,7 +177,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     <AddResourceContainer>
       <ListResource
         id={resource.id.toString()}
-        tagLinkPrefix={MyNdlaTags}
+        tagLinkPrefix={myNdlaRoutes.myNdlaTags}
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}

@@ -21,7 +21,7 @@ import { copyFolderSharingLink, isStudent } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import config from "../../../config";
 import { GQLFolder } from "../../../graphqlTypes";
-import { toMyNdlaFolder } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import { useAddFolderMutation, useDeleteFolderMutation, useUpdateFolderStatusMutation } from "../folderMutations";
@@ -84,7 +84,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     await deleteFolder({ variables: { id: selectedFolder.id } });
 
     if (selectedFolder?.id === folderId) {
-      navigate(toMyNdlaFolder(selectedFolder?.parentId ?? ""), {
+      navigate(myNdlaRoutes.toMyNdlaFolder(selectedFolder?.parentId ?? ""), {
         replace: true,
       });
     }
@@ -164,10 +164,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: toMyNdlaFolder(selectedFolder.id),
+      link: myNdlaRoutes.toMyNdlaFolder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(toMyNdlaFolder(selectedFolder.id));
+        navigate(myNdlaRoutes.toMyNdlaFolder(selectedFolder.id));
       },
     };
 

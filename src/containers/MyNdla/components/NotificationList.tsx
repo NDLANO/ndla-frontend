@@ -17,7 +17,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
 import { DateFNSLocales } from "../../../i18n";
-import { toMyNdlaArenaTopic } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { useArenaMarkNotificationsAsRead } from "../Arena/components/temporaryNodebbHooks";
 import { capitalizeFirstLetter } from "../Arena/utils";
 
@@ -135,7 +135,7 @@ const NotificationList = ({ notifications, close }: Props) => {
               <StyledLink
                 variant="stripped"
                 data-not-viewed={!notification.isRead}
-                to={toMyNdlaArenaTopic(notification.topicId)}
+                to={myNdlaRoutes.toMyNdlaArenaTopic(notification.topicId)}
                 onClick={() => close?.()}
               >
                 <Notification>

@@ -16,7 +16,7 @@ import { FeideText, LogOut } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
 import { UserInfo } from "../../containers/MyNdla/components/UserInfo";
-import { MyNdla, useIsNdlaFilm } from "../../routeHelpers";
+import { myNdlaRoutes, useIsNdlaFilm } from "../../routeHelpers";
 import { constructNewPath, toHref } from "../../util/urlHelper";
 import { AuthContext } from "../AuthenticationContext";
 import { useBaseName } from "../BaseNameContext";
@@ -79,7 +79,7 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         colorTheme="light"
         shape="pill"
         inverted={ndlaFilm}
-        to={MyNdla}
+        to={myNdlaRoutes.myNdla}
         aria-label={t("myNdla.myNDLA")}
       >
         {children}

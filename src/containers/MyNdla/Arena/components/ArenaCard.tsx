@@ -17,7 +17,7 @@ import SafeLink from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
-import { toMyNdlaArenaCategory } from "../../../../routeHelpers";
+import { myNdlaRoutes } from "../../../../routeHelpers";
 import DragHandle from "../../Folders/DragHandle";
 
 interface Props {
@@ -167,7 +167,7 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
         <Forum data-hover-icon="" css={iconCss} />
         <SpacingContainer>
           <div>
-            <StyledSafeLink to={toMyNdlaArenaCategory(id)}>
+            <StyledSafeLink to={myNdlaRoutes.toMyNdlaArenaCategory(id)}>
               <StyledHeader element="p" textStyle="label-small" margin="none" data-name="hover">
                 {title}
               </StyledHeader>

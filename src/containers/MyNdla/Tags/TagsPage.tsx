@@ -22,7 +22,7 @@ import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddR
 import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
-import { MyNdlaTags } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
@@ -87,7 +87,7 @@ const TagsPage = () => {
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
-      navigate(MyNdlaTags);
+      navigate(myNdlaRoutes.myNdlaTags);
     }
   }, [resources, previousResources, tag, navigate]);
 
@@ -154,7 +154,7 @@ const Resources = ({ resources }: ResourcesProps) => {
           return (
             <Resource
               id={resource.id}
-              tagLinkPrefix={MyNdlaTags}
+              tagLinkPrefix={myNdlaRoutes.myNdlaTags}
               isLoading={loading}
               key={resource.id}
               link={resource.path}

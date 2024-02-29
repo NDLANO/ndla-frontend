@@ -17,7 +17,7 @@ import { Heading } from "@ndla/typography";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { toMyNdlaArenaCategory, MyNdlaArena } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useCreateArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -59,13 +59,13 @@ export const NewCategoryPage = () => {
       });
 
       if (category.data?.newArenaCategory.id) {
-        navigate(toMyNdlaArenaCategory(category.data?.newArenaCategory.id));
+        navigate(myNdlaRoutes.toMyNdlaArenaCategory(category.data?.newArenaCategory.id));
       }
     },
     [newCategoryMutation, navigate],
   );
 
-  const onAbort = useCallback(() => navigate(MyNdlaArena), [navigate]);
+  const onAbort = useCallback(() => navigate(myNdlaRoutes.myNdlaArena), [navigate]);
 
   return (
     <MyNdlaPageWrapper>

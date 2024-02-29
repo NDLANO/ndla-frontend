@@ -17,7 +17,7 @@ import { Heading, Text } from "@ndla/typography";
 import Flags from "./FlagCard";
 import FlaggedPostCard from "./FlaggedPostCard";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { toMyNdlaArenaTopic } from "../../../../routeHelpers";
+import { myNdlaRoutes } from "../../../../routeHelpers";
 import { useArenaPostInContext } from "../../arenaQueries";
 import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../../components/MyNdlaPageWrapper";
@@ -74,7 +74,7 @@ const ArenaSingleFlagPage = () => {
         </Heading>
         <Text element="p" margin="small">
           {t("myNdla.arena.admin.flags.inThread")}{" "}
-          <SafeLink to={toMyNdlaArenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
+          <SafeLink to={myNdlaRoutes.toMyNdlaArenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
         </Text>
         <FlaggedPostCard post={flaggedPost} topic={topic} />
         <Heading element="h2" headingStyle="h2" margin="small">

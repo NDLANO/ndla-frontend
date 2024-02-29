@@ -16,7 +16,7 @@ import { ArrowDropDownRounded } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import FolderResource from "./FolderResource";
 import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
-import { toMyNdlaFolderPreview, toMyNdlaFolder } from "../../../routeHelpers";
+import { myNdlaRoutes } from "../../../routeHelpers";
 
 export const StyledUl = styled.ul`
   list-style: none;
@@ -179,7 +179,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                   <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
                 </ToggleOpenButton>
                 <FolderLink
-                  to={preview ? toMyNdlaFolderPreview(folder.id) : toMyNdlaFolder(folder.id)}
+                  to={preview ? myNdlaRoutes.toMyNdlaFolderPreview(folder.id) : myNdlaRoutes.toMyNdlaFolder(folder.id)}
                   aria-owns={`folder-sublist-${folder.id}`}
                   id={`shared-${folder.id}`}
                   tabIndex={-1}
@@ -219,8 +219,8 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
               <FolderLink
                 to={
                   preview
-                    ? `${toMyNdlaFolderPreview(rootFolderId as string)}/${subfolderKey}`
-                    : `${toMyNdlaFolder(rootFolderId as string)}/${subfolderKey}`
+                    ? `${myNdlaRoutes.toMyNdlaFolderPreview(rootFolderId as string)}/${subfolderKey}`
+                    : `${myNdlaRoutes.toMyNdlaFolder(rootFolderId as string)}/${subfolderKey}`
                 }
                 aria-owns={`folder-sublist-${folder.id}`}
                 id={`shared-${folder.id}`}

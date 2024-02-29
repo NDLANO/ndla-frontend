@@ -14,7 +14,7 @@ import { Text } from "@ndla/typography";
 import { Cell } from "./Users";
 import { isArenaModerator } from "../../../../components/AuthenticationContext";
 import { GQLArenaUserV2Fragment, GQLPaginatedArenaUsers } from "../../../../graphqlTypes";
-import { toMyNdlaArenaUser } from "../../../../routeHelpers";
+import { myNdlaRoutes } from "../../../../routeHelpers";
 
 interface Props {
   loading: boolean;
@@ -70,7 +70,7 @@ const UserList = ({ loading, users }: Props) => {
     <>
       {users?.items.map((user) => {
         return (
-          <SafeLink to={toMyNdlaArenaUser(user.username)} key={`btn-${user.id}`}>
+          <SafeLink to={myNdlaRoutes.toMyNdlaArenaUser(user.username)} key={`btn-${user.id}`}>
             <StyledRow>
               <Cell>{user.username}</Cell>
               <Cell>{user.displayName}</Cell>
