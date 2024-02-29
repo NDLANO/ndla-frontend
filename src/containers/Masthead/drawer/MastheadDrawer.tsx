@@ -234,7 +234,13 @@ const MastheadDrawer = ({ subject }: Props) => {
             </DrawerContainer>
             {!type && (
               <LanguageSelectWrapper>
-                <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+                <LanguageSelector
+                  locales={supportedLanguages}
+                  onSelect={(lang) => {
+                    setOpen(false);
+                    setTimeout(() => i18n.changeLanguage(lang), 0);
+                  }}
+                />
               </LanguageSelectWrapper>
             )}
           </MenuLanguageContainer>
