@@ -196,6 +196,7 @@ type ArticleMetaData {
   concepts: [ConceptLicense!]
   copyText: String
   footnotes: [FootNote!]
+  fragments: [FragmentLicense!]
   glosses: [GlossLicense!]
   h5ps: [H5pLicense!]
   images: [ImageLicense!]
@@ -551,6 +552,11 @@ type FootNote {
   year: String!
 }
 
+type FragmentLicense {
+  copyright: Copyright!
+  title: String
+}
+
 type FrontPageResources {
   results: [FrontpageSearchResult!]!
   suggestions: [SuggestionResult!]!
@@ -560,6 +566,7 @@ type FrontPageResources {
 type FrontpageMenu {
   article: Article!
   articleId: Int!
+  hideLevel: Boolean
   menu: [FrontpageMenu]
 }
 

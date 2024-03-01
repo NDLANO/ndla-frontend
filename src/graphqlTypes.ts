@@ -233,6 +233,7 @@ export type GQLArticleMetaData = {
   concepts?: Maybe<Array<GQLConceptLicense>>;
   copyText?: Maybe<Scalars["String"]["output"]>;
   footnotes?: Maybe<Array<GQLFootNote>>;
+  fragments?: Maybe<Array<GQLFragmentLicense>>;
   glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
@@ -628,6 +629,12 @@ export type GQLFootNote = {
   year: Scalars["String"]["output"];
 };
 
+export type GQLFragmentLicense = {
+  __typename?: "FragmentLicense";
+  copyright: GQLCopyright;
+  title?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type GQLFrontPageResources = {
   __typename?: "FrontPageResources";
   results: Array<GQLFrontpageSearchResult>;
@@ -639,6 +646,7 @@ export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
+  hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
@@ -2418,6 +2426,11 @@ export type GQLLicenseBox_ArticleFragment = {
     audios?: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
     podcasts?: Array<{ __typename?: "PodcastLicense" } & GQLPodcastLicenseList_PodcastLicenseFragment>;
     images?: Array<{ __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment>;
+    fragments?: Array<{
+      __typename?: "FragmentLicense";
+      title?: string;
+      copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
+    }>;
   };
 };
 
