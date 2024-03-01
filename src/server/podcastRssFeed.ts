@@ -9,7 +9,6 @@
 import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client/core";
 import config from "../config";
 import { GQLPodcastSeriesQuery } from "../graphqlTypes";
-import { copyrightInfoFragment } from "../queries";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -147,7 +146,24 @@ const podcastSeriesQuery = gql`
           }
         }
         copyright {
-        ...CopyrightInfo
+          license {
+            license
+            url
+            description
+          }
+          creators {
+            name
+            type
+          }
+          processors {
+            name
+            type
+          }
+          rightsholders {
+            name
+            type
+          }
+          origin
         }
         tags {
           tags
@@ -155,7 +171,6 @@ const podcastSeriesQuery = gql`
       }
       hasRSS
     }
-    ${copyrightInfoFragment}
   }
 `;
 

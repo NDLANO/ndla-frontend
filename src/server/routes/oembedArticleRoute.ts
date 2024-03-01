@@ -9,12 +9,12 @@
 import express from "express";
 import { PathMatch } from "react-router-dom";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
 import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
-import { embedOembedQuery } from "../../queries";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
@@ -85,6 +85,30 @@ const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
     return data.resourceEmbed.meta.images?.[0]?.title ?? "";
   }
 };
+
+const embedOembedQuery = gql`
+  query embedOembed($id: String!, $type: String!) {
+    resourceEmbed(id: $id, type: $type) {
+      meta {
+        images {
+          title
+        }
+        concepts {
+          title
+        }
+        audios {
+          title
+        }
+        podcasts {
+          title
+        }
+        brightcoves {
+          title
+        }
+      }
+    }
+  }
+`;
 
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
   const client = getApolloClient(lang);
