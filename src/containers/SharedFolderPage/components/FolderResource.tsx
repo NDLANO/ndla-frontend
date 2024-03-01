@@ -16,6 +16,7 @@ import { Launch } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { ContentTypeBadge } from "@ndla/ui";
 import { GQLFolderResource, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import { contentTypeMapping, resourceEmbedTypeMapping } from "../../../util/getContentType";
 
 interface StyledProps {
@@ -98,8 +99,8 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
       isLearningPathOrCase
         ? resource.path
         : preview
-          ? `/minndla/folders/preview/${rootFolderId}/${parentId}/${resource.id}`
-          : `/folder/${rootFolderId}/${parentId}/${resource.id}`,
+          ? `${routes.myNdla.folderPreview(rootFolderId ?? "")}/${parentId}/${resource.id}`
+          : `${routes.myNdla.folder(rootFolderId ?? "")}/${parentId}/${resource.id}`,
     [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId, preview],
   );
 
