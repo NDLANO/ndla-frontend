@@ -87,7 +87,7 @@ const ArenaPage = () => {
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
         {t("myNdla.arena.bottomText")}
-        <SafeLink to="mailto:moderator@ndla.no">{t("myNdla.arena.moderatorEmail")}</SafeLink>
+        <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
     </MyNdlaPageWrapper>
   );
