@@ -104,7 +104,7 @@ const FlaggedPosts = () => {
       acc[key] = searchQuery[key];
       return acc;
     }, {});
-    navigate(routes.myNdla.adminFlagsWithParams(`?${stringify(newSearchQuery)}`));
+    navigate(routes.myNdla.adminFlags + `?${stringify(newSearchQuery)}`);
   };
 
   if (loading) return <Spinner />;

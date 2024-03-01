@@ -84,7 +84,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     await deleteFolder({ variables: { id: selectedFolder.id } });
 
     if (selectedFolder?.id === folderId) {
-      navigate(routes.myNdla.folder(selectedFolder?.parentId ?? ""), {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
         replace: true,
       });
     }

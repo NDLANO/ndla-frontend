@@ -207,12 +207,11 @@ export const routes = {
     notifications: "/minndla/arena/notifications",
     admin: "/minndla/admin",
     adminFlags: "/minndla/admin/flags",
+    adminUsers: "/minndla/admin/users",
     arenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
     arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
     arenaUser: (username: String) => `/minndla/arena/user/${username}`,
     folder: (folderId: String) => `/minndla/folders/${folderId}`,
     folderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
-    adminUsers: (params: String) => `/minndla/admin/users${params}`,
-    adminFlagsWithParams: (params: String) => `/minndla/admin/flags${params}`,
   },
 };
