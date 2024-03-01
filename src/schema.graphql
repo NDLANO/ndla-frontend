@@ -560,6 +560,7 @@ type FrontPageResources {
 type FrontpageMenu {
   article: Article!
   articleId: Int!
+  hideLevel: Boolean
   menu: [FrontpageMenu]
 }
 
@@ -1152,6 +1153,7 @@ type Query {
   programme(path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
+  resourceByPath(path: String!): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]

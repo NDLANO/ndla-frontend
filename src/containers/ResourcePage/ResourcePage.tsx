@@ -7,15 +7,14 @@
  */
 
 import { useLocation } from "react-router-dom";
+import { ContextResourcePage } from "./ContextResourcePage";
 import { ResourceIdsPage } from "./ResourceIdsPage";
 
 const ResourcePage = () => {
   const location = useLocation();
-  // if (location.pathname.startsWith("/ressurs")) {
-  //   return null;
-  // }
-  console.log("heisann");
-
+  if (location.pathname.startsWith("/ressurs")) {
+    return <ContextResourcePage />;
+  }
   return <ResourceIdsPage />;
 };
 

@@ -82,7 +82,6 @@ export const ResourceIdsPage = () => {
       resourceId,
       convertEmbeds: true,
     },
-    skip: true,
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 

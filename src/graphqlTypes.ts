@@ -639,6 +639,7 @@ export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
+  hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
@@ -1434,6 +1435,7 @@ export type GQLQuery = {
   programme?: Maybe<GQLProgrammePage>;
   programmes?: Maybe<Array<GQLProgrammePage>>;
   resource?: Maybe<GQLResource>;
+  resourceByPath?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
@@ -1653,6 +1655,10 @@ export type GQLQueryResourceArgs = {
   id: Scalars["String"]["input"];
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
   topicId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLQueryResourceByPathArgs = {
+  path: Scalars["String"]["input"];
 };
 
 export type GQLQueryResourceEmbedArgs = {
