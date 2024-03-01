@@ -105,7 +105,7 @@ const renderRoute = async (req: Request, index: string, htmlTemplate: string, re
       .replace("<!--TITLE-->", helmetContext?.helmet.title.toString() ?? "")
       .replace("<!--META-->", helmetContext?.helmet.meta.toString() ?? "")
       .replace("<!--LINK-->", helmetContext?.helmet.link.toString() ?? "")
-      .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment)
+      .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment)
       .replace("<!--SCRIPT-->", helmetContext?.helmet.script.toString() ?? "")
       .replace("<!--STYLES-->", styles ?? "")
       .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
