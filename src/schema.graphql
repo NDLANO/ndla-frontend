@@ -99,6 +99,7 @@ type ArenaTopic {
   id: Int!
   isFollowing: Boolean
   locked: Boolean!
+  pinned: Boolean!
   postCount: Int!
   posts: [ArenaPost!]!
   slug: String!
@@ -111,6 +112,8 @@ type ArenaTopicV2 {
   created: String!
   id: Int!
   isFollowing: Boolean!
+  isLocked: Boolean!
+  isPinned: Boolean!
   postCount: Int!
   posts: PaginatedPosts
   title: String!
@@ -154,6 +157,8 @@ type Article {
   created: String!
   crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
   grepCodes: [String!]
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String!
@@ -809,6 +814,8 @@ type Manuscript {
 
 type Meta {
   availability: String
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String
@@ -877,7 +884,13 @@ type Mutation {
   markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
   newArenaCategory(description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
-  newArenaTopicV2(categoryId: Int!, content: String!, title: String!): ArenaTopicV2!
+  newArenaTopicV2(
+    categoryId: Int!
+    content: String!
+    isLocked: Boolean
+    isPinned: Boolean
+    title: String!
+  ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
@@ -906,7 +919,7 @@ type Mutation {
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateTopicV2(content: String!, title: String!, topicId: Int!): ArenaTopicV2!
+  updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
 type MyNdlaGroup {

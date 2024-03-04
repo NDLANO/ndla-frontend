@@ -116,6 +116,12 @@ export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) =>
         } catch (e) {
           route.abort();
         }
+      } else {
+        const bodyOpNames = `[${bodyOperationNames.sort()}]`;
+        const availableOpNames = `[${operation.map((op) => `[${op.names}]`)}]`;
+        console.error(
+          `[ERROR] Operationname array does not match any results. Update mock array and rerecord test. Operationname: ${bodyOpNames}. Available values: ${availableOpNames}`,
+        );
       }
     }
   });

@@ -20,6 +20,7 @@ expect.addSnapshotSerializer(createSerializer());
 
 jest.mock("../../../config", () => ({
   zendeskWidgetKey: "123",
+  runtimeType: "unittest",
 }));
 
 test("ErrorPage renderers correctly", () => {

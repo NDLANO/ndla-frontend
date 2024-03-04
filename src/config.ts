@@ -7,6 +7,8 @@
  */
 import { LocaleType } from "./interfaces";
 
+type RuntimeType = "unittest" | "development" | "production";
+
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
 export function getEnvironmentVariabel(key: string, fallback?: string): string | undefined;
@@ -110,6 +112,7 @@ export type ConfigType = {
   arenaModeratorGroup: string;
   arenaAdminGroup: string;
   enableNodeBB: boolean;
+  runtimeType: RuntimeType;
 };
 
 const config: ConfigType = {
@@ -139,6 +142,7 @@ const config: ConfigType = {
   arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
   arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
   enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
+  runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
 };
 
 export function getUniversalConfig() {

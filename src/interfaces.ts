@@ -15,7 +15,6 @@ export type InitialProps = {
   isOembed?: string;
   status?: "success" | "error";
   loading?: boolean;
-  resCookie?: string;
   basename?: string;
   locale?: LocaleType;
   ltiData?: LtiData;
@@ -24,7 +23,6 @@ export type InitialProps = {
 export interface WindowData {
   apolloState: NormalizedCacheObject;
   config: ConfigType;
-  resCookie?: string;
   initialProps: InitialProps;
   ltiData?: LtiData;
   serverPath?: string;
@@ -120,5 +118,5 @@ export type LtiData = {
 export type LtiItem = {
   id: string | number;
   title?: string;
-  url: string | { href: string };
+  url: string;
 };

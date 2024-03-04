@@ -9,8 +9,9 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { CheckboxItem } from "@ndla/forms";
+import { CheckboxItem, FormControl, Label } from "@ndla/forms";
 import { Heading } from "@ndla/typography";
+import { useSnack } from "@ndla/ui";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import { useUpdateOtherUser } from "../../arenaMutations";
@@ -37,7 +38,14 @@ const SettingsWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
+`;
+
 const UserProfileAdministration = ({ userToAdmin }: Props) => {
+  const { addSnack } = useSnack();
   const { t } = useTranslation();
   const { user: currentUser } = useContext(AuthContext);
   const isModerator = isArenaModerator(userToAdmin?.groups);
@@ -51,24 +59,38 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
         {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
       </Heading>
       <SettingsWrapper>
-        <CheckboxItem
-          disabled={userToAdmin.id === currentUser.id}
-          label={t(`myNdla.arena.admin.users.selectAdministrator`, {
-            user: userToAdmin.displayName,
-          })}
-          checked={isModerator}
-          onChange={() => {
-            if (!userToAdmin.id || !userToAdmin.groups) return;
-            updateUser({
-              variables: {
-                userId: userToAdmin.id,
-                user: {
-                  arenaGroups: getNewGroups(!isModerator, userToAdmin?.groups),
-                },
-              },
-            });
-          }}
-        />
+        <FormControl id="adminForm">
+          <CheckboxWrapper>
+            <CheckboxItem
+              disabled={userToAdmin.id === currentUser.id}
+              checked={isModerator}
+              onCheckedChange={async () => {
+                if (!userToAdmin.id || !userToAdmin.groups) return;
+                const newGroups = getNewGroups(!isModerator, userToAdmin?.groups);
+                const becameAdmin = newGroups.includes(config.arenaAdminGroup);
+                await updateUser({
+                  variables: {
+                    userId: userToAdmin.id,
+                    user: {
+                      arenaGroups: newGroups,
+                    },
+                  },
+                });
+                addSnack({
+                  content: becameAdmin
+                    ? t("myNdla.arena.admin.users.becameAdmin", { user: userToAdmin?.displayName })
+                    : t("myNdla.arena.admin.users.becameNormalUser", { user: userToAdmin?.displayName }),
+                  id: "updatedAdminStatus",
+                });
+              }}
+            />
+            <Label textStyle="label-small" margin="none">
+              {t(`myNdla.arena.admin.users.selectAdministrator`, {
+                user: userToAdmin.displayName,
+              })}
+            </Label>
+          </CheckboxWrapper>
+        </FormControl>
       </SettingsWrapper>
     </>
   );
