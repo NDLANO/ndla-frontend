@@ -7,7 +7,10 @@
  */
 
 import { resourceData1, resourceData2, resourceTypes } from "./mockResources";
+import { GQLResource } from "../../../graphqlTypes";
 import { getResourceGroups, sortResourceTypes } from "../getResourceGroups";
+
+type ResourceData = Pick<GQLResource, "id" | "resourceTypes" | "name" | "contentUri">;
 
 test("get core resources grouped by types", () => {
   const groups = getResourceGroups(resourceTypes, [], resourceData1);
@@ -25,20 +28,26 @@ test("resources types sort order", () => {
   const types = sortResourceTypes(resourceTypes);
 
   expect(types.length).toBe(7);
-  expect(types[0].id).toBe("urn:resourcetype:learningPath");
-  expect(types[1].id).toBe("urn:resourcetype:subjectMaterial");
-  expect(types[2].id).toBe("urn:resourcetype:tasksAndActivities");
-  expect(types[3].id).toBe("urn:resourcetype:reviewResource");
-  expect(types[4].id).toBe("urn:resourcetype:SourceMaterial");
-  expect(types[5].id).toBe("urn:resourcetype:externalResource");
-  expect(types[6].id).toBe("urn:resourcetype:concept");
+  expect(types[0]?.id).toBe("urn:resourcetype:learningPath");
+  expect(types[1]?.id).toBe("urn:resourcetype:subjectMaterial");
+  expect(types[2]?.id).toBe("urn:resourcetype:tasksAndActivities");
+  expect(types[3]?.id).toBe("urn:resourcetype:reviewResource");
+  expect(types[4]?.id).toBe("urn:resourcetype:SourceMaterial");
+  expect(types[5]?.id).toBe("urn:resourcetype:externalResource");
+  expect(types[6]?.id).toBe("urn:resourcetype:concept");
 
   expect(types).toMatchSnapshot();
 });
 
 test("filter out duplicates", () => {
-  const dupe = resourceData2[0];
+  const dupe = resourceData2[0]!;
   const groups = getResourceGroups(resourceTypes, resourceData2, [...resourceData1, dupe]);
   const type = groups.find((group) => group.id === "urn:resourcetype:subjectMaterial");
-  expect(type.resources.reduce((acc, resource) => (resource.id === dupe.id ? [...acc, dupe] : acc), []).length).toBe(1);
+  const reduced = type?.resources?.reduce<ResourceData[]>((acc, resource) => {
+    if (resource.id === dupe.id) {
+      return acc.concat(dupe);
+    }
+    return acc;
+  }, []);
+  expect(reduced?.length).toBe(1);
 });

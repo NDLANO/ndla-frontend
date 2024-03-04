@@ -6,9 +6,10 @@
  *
  */
 
-import { ltiRoute, parseAndValidateParameters } from "../ltiRoute";
+import { Request } from "express";
+import { ltiRender, parseAndValidateParameters } from "../ltiRender";
 
-test("ltiRoute 200 OK ", async () => {
+test("ltiRender 200 OK ", async () => {
   const body = {
     lti_message_type: "basic-lti-launch-request",
     lti_version: "LTI-1p0",
@@ -17,7 +18,7 @@ test("ltiRoute 200 OK ", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRoute({
+  const response = await ltiRender({
     params: {
       lang: "nb",
       articleId: "26050",
@@ -28,17 +29,17 @@ test("ltiRoute 200 OK ", async () => {
     headers: {
       "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
     },
-  });
+  } as any as Request);
 
   expect(response.status).toBe(200);
 });
 
-test("ltiRoute 200 OK only required params", async () => {
+test("ltiRender 200 OK only required params", async () => {
   const body = {
     lti_message_type: "basic-lti-launch-request",
     lti_version: "LTI-1p0",
   };
-  const response = await ltiRoute({
+  const response = await ltiRender({
     params: {
       lang: "nb",
       articleId: "26050",
@@ -49,12 +50,12 @@ test("ltiRoute 200 OK only required params", async () => {
     headers: {
       "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
     },
-  });
+  } as any as Request);
 
   expect(response.status).toBe(200);
 });
 
-test("ltiRoute 400 BAD REQUEST", async () => {
+test("ltiRender 400 BAD REQUEST", async () => {
   const body = {
     lti_message_type: "basic-lti-launch-request",
     launch_presentation_return_url: "http://ndla-api/some-return-url",
@@ -62,7 +63,7 @@ test("ltiRoute 400 BAD REQUEST", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRoute({
+  const response = await ltiRender({
     params: {
       lang: "nb",
       articleId: "26050",
@@ -73,12 +74,12 @@ test("ltiRoute 400 BAD REQUEST", async () => {
     headers: {
       "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
     },
-  });
+  } as any as Request);
 
   expect(response).toMatchSnapshot();
 });
 
-test("ltiRoute 400 BAD REQUEST wrong values", async () => {
+test("ltiRender 400 BAD REQUEST wrong values", async () => {
   const body = {
     lti_message_type: "basic-lti-launch-request",
     lti_version: "wrong version",
@@ -87,7 +88,7 @@ test("ltiRoute 400 BAD REQUEST wrong values", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRoute({
+  const response = await ltiRender({
     params: {
       lang: "nb",
       articleId: "26050",
@@ -98,7 +99,7 @@ test("ltiRoute 400 BAD REQUEST wrong values", async () => {
     headers: {
       "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
     },
-  });
+  } as any as Request);
 
   expect(response).toMatchSnapshot();
 });

@@ -16,7 +16,7 @@ interface Feide extends TokenSet {
 }
 
 const locationOrigin = (() => {
-  if (config.runtimeType === "unittest") {
+  if (config.runtimeType === "test") {
     return "http://ndla-frontend";
   }
 

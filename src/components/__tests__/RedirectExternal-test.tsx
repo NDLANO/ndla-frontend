@@ -16,7 +16,7 @@ test("External redirect for static router", () => {
   const context = {};
   render(
     <RedirectContext.Provider value={context}>
-      <StaticRouter>
+      <StaticRouter location="">
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
     </RedirectContext.Provider>,
@@ -43,17 +43,17 @@ test("External redirect for static router with basename", () => {
 });
 
 test("External redirect for (memory/dom) router", () => {
-  const context = {};
-  const replace = jest.fn();
+  // @ts-ignore
   delete window.location;
+  const replace = vi.fn();
+  //@ts-ignore
   window.location = { replace };
 
   render(
-    <MemoryRouter basename="nb" context={context} initialEntries={["/nb"]}>
+    <MemoryRouter basename="nb" initialEntries={["/nb"]}>
       <RedirectExternal to="https://google.com/" />
     </MemoryRouter>,
   );
 
-  expect(context).toEqual({});
   expect(replace).toHaveBeenCalledWith("https://google.com/");
 });

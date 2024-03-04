@@ -7,7 +7,7 @@
  */
 import { LocaleType } from "./interfaces";
 
-type RuntimeType = "unittest" | "development" | "production";
+type RuntimeType = "test" | "development" | "production";
 
 export function getEnvironmentVariabel(key: string, fallback: string): string;
 export function getEnvironmentVariabel(key: string, fallback: boolean): boolean;
@@ -78,7 +78,7 @@ export const feideDomain = (ndlaEnvironment: string): string => {
 };
 
 const logglyApiKey = (): string | undefined => {
-  if (process.env.NODE_ENV === "unittest") {
+  if (process.env.NODE_ENV === "test") {
     return "";
   }
   return getEnvironmentVariabel("LOGGLY_API_KEY");
@@ -150,7 +150,7 @@ const getServerSideConfig = (): ConfigType => {
 };
 
 export function getUniversalConfig() {
-  if (typeof window === "undefined" || process.env.NODE_ENV === "unittest") {
+  if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
     return getServerSideConfig();
   }
 

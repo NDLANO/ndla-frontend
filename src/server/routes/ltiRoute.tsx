@@ -29,7 +29,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
 //@ts-ignore
 const assets = require(process.env.ASSETS_MANIFEST);
 
-if (config.runtimeType === "unittest") {
+if (config.runtimeType === "test") {
   HelmetProvider.canUseDOM = false;
 }
 

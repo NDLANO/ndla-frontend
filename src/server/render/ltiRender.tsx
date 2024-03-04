@@ -23,7 +23,7 @@ const bodyFields: Record<string, { required: boolean; value?: any }> = {
   launch_presentation_width: { required: false },
 };
 
-function parseAndValidateParameters(body: any) {
+export function parseAndValidateParameters(body: any) {
   let validBody = true;
   const errorMessages: { field: string; message: string }[] = [];
   Object.keys(bodyFields).forEach((key) => {

@@ -1,15 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ltiRoute 400 BAD REQUEST 1`] = `
+exports[`ltiRender 400 BAD REQUEST 1`] = `
 {
-  "data": "Bad request. Field lti_version with error: Missing required field.",
+  "data": {
+    "htmlContent": "Bad request. Field lti_version with error: Missing required field.",
+  },
   "status": 400,
 }
 `;
 
-exports[`ltiRoute 400 BAD REQUEST wrong values 1`] = `
+exports[`ltiRender 400 BAD REQUEST wrong values 1`] = `
 {
-  "data": "Bad request. Field lti_version with error: Value should be one of LTI-1p0,LTI-2p0.",
+  "data": {
+    "htmlContent": "Bad request. Field lti_version with error: Value should be one of LTI-1p0,LTI-2p0.",
+  },
   "status": 400,
 }
 `;

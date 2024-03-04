@@ -6,6 +6,7 @@
  *
  */
 
+import { Request } from "express";
 import nock from "nock";
 import { oembedArticleRoute } from "../oembedArticleRoute";
 
@@ -24,7 +25,7 @@ test("oembedArticleRoute success", async () => {
     query: {
       url: validArticleUrl1,
     },
-  });
+  } as any as Request);
 
   expect(response).toMatchSnapshot();
 
@@ -32,7 +33,7 @@ test("oembedArticleRoute success", async () => {
     query: {
       url: validArticleUrl2,
     },
-  });
+  } as any as Request);
 
   expect(response2).toMatchSnapshot();
   expect(nock.pendingMocks()).toStrictEqual([]);
@@ -43,7 +44,7 @@ test("oembedArticleRoute invalid url", async () => {
     query: {
       url: unvalidArticleUrl,
     },
-  });
+  } as any as Request);
 
   expect(response).toMatchSnapshot();
 });

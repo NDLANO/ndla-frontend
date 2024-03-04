@@ -19,7 +19,7 @@ import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs }
 export const fetch = createFetch;
 
 const apiBaseUrl = (() => {
-  if (config.runtimeType === "unittest") {
+  if (config.runtimeType === "test") {
     return "http://ndla-api";
   }
 

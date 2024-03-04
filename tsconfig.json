@@ -31,11 +31,10 @@
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },
-    "types": ["@emotion/react", "@emotion/styled", "jest", "node"],
+    "types": ["@emotion/react", "@emotion/styled", "vitest/globals", "node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["**/*-test.*"]
+  "include": ["src/**/*"]
 }
