@@ -9751,16 +9751,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-unfetch@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "isomorphic-unfetch@npm:3.0.0"
-  dependencies:
-    node-fetch: "npm:^2.2.0"
-    unfetch: "npm:^4.0.0"
-  checksum: 10c0/5596da49476559e9e91cec80899e6d0a8c1c0fe61f0e7383943a4389001e9d7c69674d187d7f39522a460cb907c597f1513c63dbadb6ec3ca92f3cda66b08d04
-  languageName: node
-  linkType: hard
-
 "isomorphic-ws@npm:5.0.0, isomorphic-ws@npm:^5.0.0":
   version: 5.0.0
   resolution: "isomorphic-ws@npm:5.0.0"
@@ -10772,12 +10762,10 @@ __metadata:
     helmet: "npm:^7.0.0"
     html-react-parser: "npm:^4.2.2"
     i18next: "npm:^23.5.1"
-    isomorphic-unfetch: "npm:^3.0.0"
     jsdom: "npm:^22.1.0"
     lexical: "npm:^0.12.4"
     lodash: "npm:^4.17.21"
     nock: "npm:^14.0.0-beta.5"
-    node-fetch: "npm:^2.6.7"
     openid-client: "npm:^5.6.1"
     postcss: "npm:^8.4.18"
     postcss-import: "npm:^15.1.0"
@@ -10844,7 +10832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.9, node-fetch@npm:^2.2.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
+"node-fetch@npm:2.6.9, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.7":
   version: 2.6.9
   resolution: "node-fetch@npm:2.6.9"
   dependencies:
@@ -14162,13 +14150,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10c0/fb4147129abc097a8c7098bb7a29e1026c09c281967efb044041d403985423d09d2b8241e8635b7860f05d8c75565946d8dcc839a3b42804509a3ee56d958716
-  languageName: node
-  linkType: hard
-
-"unfetch@npm:^4.0.0":
-  version: 4.1.0
-  resolution: "unfetch@npm:4.1.0"
-  checksum: 10c0/36ac46e654648acb227a739b30afd303121985613ae043b794d9daf39fb2888b5d013927e5803e6ea28d154ae1dabfa0dfd8cbcb91d839f765ec03979848e06c
   languageName: node
   linkType: hard
 

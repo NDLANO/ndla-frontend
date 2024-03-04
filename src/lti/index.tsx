@@ -6,7 +6,6 @@
  *
  */
 
-import "isomorphic-unfetch";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";

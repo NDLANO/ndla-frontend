@@ -10,7 +10,6 @@ import fs from "fs/promises";
 import { join } from "path";
 import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
-import fetch from "node-fetch";
 import { matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
 import { ViteDevServer } from "vite";
