@@ -16,6 +16,7 @@ type AvatarProps = {
   myProfile?: boolean;
   displayName: string | undefined;
   profilePicture: string | undefined;
+  rest?: Record<string, any>;
 };
 
 const StyledAvatarContainer = styled.div`
@@ -56,12 +57,12 @@ export const getFirstLastInitials = (userName: string | undefined) => {
     .join("");
 };
 
-const Avatar = ({ myProfile, displayName, profilePicture }: AvatarProps) => {
+const Avatar = ({ myProfile, displayName, profilePicture, ...rest }: AvatarProps) => {
   const { t } = useTranslation();
   const initials = useMemo(() => getFirstLastInitials(displayName), [displayName]);
 
   return (
-    <StyledAvatarContainer data-myprofile={myProfile}>
+    <StyledAvatarContainer data-myprofile={myProfile} {...rest}>
       {profilePicture ? (
         <UserPersonalPicture src={profilePicture} alt={t("myNdla.userPictureAltText")} />
       ) : (

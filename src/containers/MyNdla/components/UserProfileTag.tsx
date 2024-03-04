@@ -16,6 +16,7 @@ import { Text } from "@ndla/typography";
 import Avatar from "./Avatar";
 import { isArenaModerator } from "../../../components/AuthenticationContext";
 import { GQLArenaUserV2 } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import { useArenaUser } from "../Arena/components/temporaryNodebbHooks";
 
 type UserProfileTagProps = {
@@ -73,7 +74,7 @@ const ModeratorTag = styled(Text)`
 `;
 
 const TagContainer = ({ username, children }: { children: ReactNode; username: string | undefined }) => {
-  const link = username ? `/minndla/arena/user/${username}` : null;
+  const link = username ? routes.myNdla.arenaUser(username) : null;
   if (!link) {
     return <UserProfileTagContainerNoLink>{children}</UserProfileTagContainerNoLink>;
   }
@@ -85,11 +86,12 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
   const { arenaUser } = useArenaUser(user?.username); // TODO: Delete this hook and use user directly when nodebb dies
   const { t } = useTranslation();
 
+  const profilePicture = undefined;
   const displayName = user?.displayName ? user.displayName : t("user.deletedUser");
 
   return (
     <TagContainer username={user?.username}>
-      <Avatar displayName={displayName} profilePicture={undefined} />
+      <Avatar aria-hidden={!profilePicture} displayName={displayName} profilePicture={profilePicture} />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name textStyle="meta-text-large" margin="none" data-name="hover">

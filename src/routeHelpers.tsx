@@ -196,3 +196,22 @@ export type TypedParams = Record<string, string | undefined>;
 export const useTypedParams = <TParams extends TypedParams>() => {
   return useParams() as TParams;
 };
+
+export const routes = {
+  myNdla: {
+    root: "/minndla",
+    arena: "/minndla/arena",
+    folders: "/minndla/folders",
+    subjects: "/minndla/subjects",
+    tags: "/minndla/tags",
+    notifications: "/minndla/arena/notifications",
+    admin: "/minndla/admin",
+    adminFlags: "/minndla/admin/flags",
+    adminUsers: "/minndla/admin/users",
+    arenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
+    arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
+    arenaUser: (username: String) => `/minndla/arena/user/${username}`,
+    folder: (folderId: String) => `/minndla/folders/${folderId}`,
+    folderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
+  },
+};

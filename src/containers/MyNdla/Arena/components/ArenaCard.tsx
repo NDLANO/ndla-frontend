@@ -17,8 +17,8 @@ import SafeLink from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
+import { routes } from "../../../../routeHelpers";
 import DragHandle from "../../Folders/DragHandle";
-import { toArenaCategory } from "../utils";
 
 interface Props {
   id: number;
@@ -50,6 +50,10 @@ const StyledCardWrapper = styled.div`
 
   &[data-visible="false"] {
     background-color: ${colors.brand.greyLight};
+    &:hover,
+    &:focus-within {
+      background-color: ${colors.brand.greyLight};
+    }
   }
 
   &:hover,
@@ -167,7 +171,7 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
         <Forum data-hover-icon="" css={iconCss} />
         <SpacingContainer>
           <div>
-            <StyledSafeLink to={toArenaCategory(id)}>
+            <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
               <StyledHeader element="p" textStyle="label-small" margin="none" data-name="hover">
                 {title}
               </StyledHeader>
@@ -179,11 +183,11 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
           <RightSideContainer>
             {isEditing && user.isModerator && <DeleteCategoryModal categoryId={id} />}
             {count !== undefined && (
-              <StyledCountContainer>
-                <Text element="p" textStyle="content-alt" margin="none">
+              <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
+                <Text aria-hidden element="p" textStyle="content-alt" margin="none">
                   {count}
                 </Text>
-                <Text textStyle="meta-text-small" margin="none">
+                <Text aria-hidden textStyle="meta-text-small" margin="none">
                   {t("myNdla.arena.category.posts", { count })}
                 </Text>
               </StyledCountContainer>

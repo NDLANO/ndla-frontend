@@ -32,9 +32,10 @@ const DesktopButtonContainer = styled.div`
 `;
 
 const UserAvatar = ({ userName, showProfileButton }: UserAvatarProps) => {
+  const profilePicture = undefined;
   return (
     <UserAvatarContainer>
-      <Avatar displayName={userName} myProfile profilePicture={undefined} />
+      <Avatar aria-hidden={!profilePicture} displayName={userName} myProfile profilePicture={profilePicture} />
       {showProfileButton && (
         <DesktopButtonContainer>
           <EditProfilePicture />
