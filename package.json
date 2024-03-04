@@ -20,12 +20,12 @@
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true NODE_OPTIONS='--preserve-symlinks' yarn start",
-    "start-prod": "cross-env NODE_ENV=production node build/server.mjs | bunyan",
+    "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
     "vercel-build": "npm run build",
-    "vercel-start": "cross-env NODE_ENV=production NOW=true node build/server | bunyan",
+    "vercel-start": "cross-env NODE_ENV=production NOW=true node build/server",
     "generate-gql:server": "graphql-codegen --config codegen.server.ts && prettier --write src/graphqlTypes.ts src/schema.graphql",
     "generate-gql:local": "graphql-codegen --config codegen.local.ts && prettier --write src/graphqlTypes.ts src/schema.graphql",
     "check-translations": "vitest --run src/messages/__tests__/"
@@ -50,7 +50,6 @@
     "@playwright/test": "^1.41.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "14.0.0",
-    "@types/bunyan": "^1.8.8",
     "@types/express": "^4.17.11",
     "@types/lodash": "^4.14.180",
     "@types/node": "^20.9.0",
@@ -108,7 +107,6 @@
     "@ndla/typography": "^0.4.13",
     "@ndla/ui": "^50.10.3",
     "@ndla/util": "^4.0.4",
-    "bunyan": "^1.8.15",
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "express": "^4.17.1",
@@ -129,7 +127,8 @@
     "react-i18next": "^13.3.0",
     "react-router-dom": "^6.3.0",
     "serialize-javascript": "^6.0.0",
-    "source-map-support": "^0.5.9"
+    "source-map-support": "^0.5.9",
+    "winston": "^3.12.0"
   },
   "repository": {
     "type": "git",

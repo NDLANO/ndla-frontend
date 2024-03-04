@@ -8,15 +8,13 @@
 
 // N.B! don't import this on the client!
 
-import { createLogger } from "bunyan";
+import { createLogger, transports, format } from "winston";
 import "source-map-support/register";
 
-const log = createLogger({ name: "ndla-frontend" });
-
-// Not used.
-// log.logAndReturnValue = (level, msg, value) => {
-//   log[level](msg, value);
-//   return value;
-// };
+const log = createLogger({
+  defaultMeta: { service: "ndla-frontend" },
+  format: format.combine(format.timestamp(), format.errors({ stack: true }), format.json()),
+  transports: [new transports.Console()],
+});
 
 export default log;
