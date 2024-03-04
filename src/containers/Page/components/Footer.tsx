@@ -6,6 +6,7 @@
  *
  */
 
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -14,7 +15,7 @@ import { colors, spacing, stackOrder } from "@ndla/core";
 import { Facebook, HelpCircleOutline, Instagram, LinkedIn, EmailOutline, Youtube } from "@ndla/icons/common";
 import { Footer, FooterText, EditorName, LanguageSelector } from "@ndla/ui";
 import config from "../../../config";
-import { supportedLanguages } from "../../../i18n";
+import { constructNewPath } from "../../../util/urlHelper";
 
 const FooterTextWrapper = styled.div`
   p:first-of-type {
@@ -22,6 +23,18 @@ const FooterTextWrapper = styled.div`
   }
   p:last-of-type {
     margin-top: 0;
+  }
+`;
+
+const LanguageLinkWrappers = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: ${spacing.small};
+  a {
+    color: ${colors.white};
+    &:hover {
+      color: ${colors.white};
+    }
   }
 `;
 
@@ -128,6 +141,10 @@ const FooterWrapper = () => {
     height: 20px;
   `;
 
+  const onChangeLanguage = useCallback((lang: string) => {
+    window.location.href = constructNewPath(window.location.pathname, lang);
+  }, []);
+
   return (
     <>
       {config.zendeskWidgetKey && (
@@ -146,19 +163,29 @@ const FooterWrapper = () => {
         languageSelector={
           <LanguageSelector
             inverted
-            locales={supportedLanguages}
-            onSelect={i18n.changeLanguage}
+            locales={["nb", "nn"]}
+            onSelect={onChangeLanguage}
             triggerId="languageSelectorFooter"
           />
         }
         privacyLinks={privacyLinks}
       >
-        <FooterTextWrapper>
-          <FooterText>
-            <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
-          </FooterText>
-          <FooterText>{t("footer.info")}</FooterText>
-        </FooterTextWrapper>
+        <>
+          <LanguageLinkWrappers>
+            <a href="/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466" rel="noopener noreferrer">
+              Українська
+            </a>
+            <a href="/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c" rel="noopener noreferrer">
+              Davvisámegiella
+            </a>
+          </LanguageLinkWrappers>
+          <FooterTextWrapper>
+            <FooterText>
+              <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
+            </FooterText>
+            <FooterText>{t("footer.info")}</FooterText>
+          </FooterTextWrapper>
+        </>
       </Footer>
     </>
   );

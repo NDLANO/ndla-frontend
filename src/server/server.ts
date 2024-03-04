@@ -25,8 +25,8 @@ import {
   iframeEmbedRoute,
 } from "./routes";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
-import config, { getDefaultLocale } from "../config";
-import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
+import config from "../config";
+import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH, UKR_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
 import { OK, INTERNAL_SERVER_ERROR, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, BAD_REQUEST, GONE } from "../statusCodes";
@@ -94,27 +94,15 @@ app.get("/film", ndlaMiddleware, (_req: Request, res: Response, _next: NextFunct
 });
 
 app.get("/ukr", ndlaMiddleware, (_req: Request, res: Response, _next: NextFunction) => {
-  res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
   res.redirect(`/en${UKR_PAGE_PATH}`);
 });
-
-const getLang = (paramLang?: string, cookieLang?: string | null): string | undefined => {
-  if (paramLang) {
-    return paramLang;
-  }
-  if (!paramLang && cookieLang && cookieLang !== getDefaultLocale()) {
-    return cookieLang;
-  }
-  return undefined;
-};
 
 app.get("/:lang?/login", async (req: Request, res: Response) => {
   const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === "string" ? req.query.state : "";
   res.setHeader("Cache-Control", "private");
-  const lang = getLang(req.params.lang, getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ""));
-  const redirect = constructNewPath(state, lang);
+  const redirect = constructNewPath(state, req.params.lang);
 
   if (feideToken && isAccessTokenValid(feideToken)) {
     return res.redirect(state);
@@ -148,12 +136,7 @@ app.get("/login/success", async (req: Request, res: Response) => {
       encode: String,
       domain: `.${config.feideDomain}`,
     });
-    const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
     //workaround to ensure language cookie is set before redirecting to state path
-    if (!languageCookie) {
-      const { basename } = getLocaleInfoFromPath(state);
-      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : getDefaultLocale());
-    }
     return res.redirect(state);
   } catch (e) {
     return await sendInternalServerError(res);
