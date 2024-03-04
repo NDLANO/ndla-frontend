@@ -150,6 +150,10 @@ const iframeArticleTemplateHtml = isProduction
   ? await fs.readFile(join(process.cwd(), "build", "public", "iframe-article.html"), "utf-8")
   : "";
 
+const errorTemplateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "error.html"), "utf-8")
+  : "";
+
 const defaultRoute = async (req: Request) => renderRoute(req, "index.html", templateHtml, "default");
 const ltiRoute = async (req: Request) => renderRoute(req, "lti.html", ltiTemplateHtml, "lti");
 const iframeEmbedRoute = async (req: Request) =>
@@ -203,7 +207,7 @@ app.get(
   (req, res, next) => handleRequest(req, res, next, defaultRoute),
 );
 
-const errorRoute = async (req: Request) => renderRoute(req, "index.html", templateHtml, "error");
+const errorRoute = async (req: Request) => renderRoute(req, "error.html", errorTemplateHtml, "error");
 
 async function sendInternalServerError(req: Request, res: Response) {
   if (res.getHeader("Content-Type") === "application/json") {

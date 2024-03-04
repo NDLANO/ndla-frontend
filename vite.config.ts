@@ -35,7 +35,7 @@ export default defineConfig(() => {
       outDir: "build/public",
       sourcemap: true,
       rollupOptions: {
-        input: ["index.html", "lti.html", "iframe-article.html", "iframe-embed.html"],
+        input: ["index.html", "lti.html", "iframe-article.html", "iframe-embed.html", "error.html"],
       },
     },
     resolve: {

@@ -7,6 +7,7 @@
  */
 
 import PostResizeMessage from "./PostResizeMessage";
+import Scripts from "../components/Scripts/Scripts";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
 import ResourceEmbed, { StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 
@@ -20,6 +21,7 @@ const EmbedIframePage = ({ embedId, embedType }: Props) => {
   if (embedId && supportedEmbedTypes.some((t) => t === embedType)) {
     return (
       <>
+        <Scripts />
         <PostResizeMessage />
         <ResourceEmbed noBackground id={embedId} type={embedType as StandaloneEmbed} isOembed />
       </>

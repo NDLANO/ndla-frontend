@@ -30,6 +30,7 @@ import "../style/index.css";
 import { LtiIframePage } from "./LtiIframePage";
 import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
+import Scripts from "../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { initializeI18n, isValidLocale } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
@@ -59,6 +60,7 @@ root.render(
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
           <MemoryRouter initialEntries={["/lti"]} basename="/">
+            <Scripts />
             <Routes>
               <Route path="lti" element={<LtiProvider />} />
               <Route path="article-iframe" element={<LtiIframePage />}>
