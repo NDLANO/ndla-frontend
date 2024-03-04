@@ -34,7 +34,7 @@ function buildLicenseTabList(
   const oembed = article.oembed;
   const concepts = article.metaData?.concepts || [];
   const glosses = article.metaData?.glosses || [];
-  const fragments = article.metaData?.fragments || [];
+  const textblocks = article.metaData?.textblocks || [];
   const tabs = [];
   const articleTexts: TextItem[] = [
     {
@@ -44,11 +44,11 @@ function buildLicenseTabList(
       copyText,
     },
   ];
-  if (fragments.length > 0) {
-    fragments.forEach((fragment) => {
+  if (textblocks.length > 0) {
+    textblocks.forEach((textblock) => {
       articleTexts.push({
-        title: fragment.title || "",
-        copyright: fragment.copyright,
+        title: textblock.title || "",
+        copyright: textblock.copyright,
       });
     });
   }
@@ -172,7 +172,7 @@ LicenseBox.fragments = {
         images {
           ...ImageLicenseList_ImageLicense
         }
-        fragments {
+        textblocks {
           title
           copyright {
             ...TextLicenseList_Copyright

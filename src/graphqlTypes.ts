@@ -233,11 +233,11 @@ export type GQLArticleMetaData = {
   concepts?: Maybe<Array<GQLConceptLicense>>;
   copyText?: Maybe<Scalars["String"]["output"]>;
   footnotes?: Maybe<Array<GQLFootNote>>;
-  fragments?: Maybe<Array<GQLFragmentLicense>>;
   glosses?: Maybe<Array<GQLGlossLicense>>;
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
+  textblocks?: Maybe<Array<GQLTextblockLicense>>;
 };
 
 export type GQLArticleRequiredLibrary = {
@@ -627,12 +627,6 @@ export type GQLFootNote = {
   title: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
   year: Scalars["String"]["output"];
-};
-
-export type GQLFragmentLicense = {
-  __typename?: "FragmentLicense";
-  copyright: GQLCopyright;
-  title?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLFrontPageResources = {
@@ -2029,6 +2023,12 @@ export type GQLTaxonomyMetadata = {
   visible: Scalars["Boolean"]["output"];
 };
 
+export type GQLTextblockLicense = {
+  __typename?: "TextblockLicense";
+  copyright: GQLCopyright;
+  title?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type GQLTitle = {
   __typename?: "Title";
   language: Scalars["String"]["output"];
@@ -2426,8 +2426,8 @@ export type GQLLicenseBox_ArticleFragment = {
     audios?: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
     podcasts?: Array<{ __typename?: "PodcastLicense" } & GQLPodcastLicenseList_PodcastLicenseFragment>;
     images?: Array<{ __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment>;
-    fragments?: Array<{
-      __typename?: "FragmentLicense";
+    textblocks?: Array<{
+      __typename?: "TextblockLicense";
       title?: string;
       copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
     }>;

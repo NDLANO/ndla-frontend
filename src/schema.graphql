@@ -196,11 +196,11 @@ type ArticleMetaData {
   concepts: [ConceptLicense!]
   copyText: String
   footnotes: [FootNote!]
-  fragments: [FragmentLicense!]
   glosses: [GlossLicense!]
   h5ps: [H5pLicense!]
   images: [ImageLicense!]
   podcasts: [PodcastLicense!]
+  textblocks: [TextblockLicense!]
 }
 
 type ArticleRequiredLibrary {
@@ -550,11 +550,6 @@ type FootNote {
   title: String!
   url: String
   year: String!
-}
-
-type FragmentLicense {
-  copyright: Copyright!
-  title: String
 }
 
 type FrontPageResources {
@@ -1454,6 +1449,11 @@ type TaxonomyMetadata {
   customFields: StringRecord!
   grepCodes: [String!]!
   visible: Boolean!
+}
+
+type TextblockLicense {
+  copyright: Copyright!
+  title: String
 }
 
 type Title {
