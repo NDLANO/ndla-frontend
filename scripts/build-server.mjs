@@ -16,7 +16,7 @@ await esbuild.build({
   target: "esnext",
   sourcemap: true,
   sourcesContent: false,
-  external: ["dtrace-provider", "vite"],
+  external: ["vite"],
   outfile: "build/server.mjs",
   // Vite automatically handles SSR env variables, covering most of our application.
   // However, we also need to define it here to cover the small portion of our backend that runs outside of Vite.
