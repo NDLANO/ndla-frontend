@@ -43,7 +43,7 @@ To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 ### Unit tests
 
-Test framework: [Jest](https://github.com/facebook/jest)
+Test framework: [Vitest](https://github.com/vitest-dev/vitest/)
 
 ```yarn
 yarn test
