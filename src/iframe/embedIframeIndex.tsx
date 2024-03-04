@@ -33,8 +33,19 @@ import "@fontsource/source-serif-pro/700.css";
 import EmbedIframePageContainer from "./EmbedIframePageContainer";
 import { EmotionCacheKey } from "../constants";
 import { initializeI18n } from "../i18n";
-import { EmbedInitialProps } from "../server/routes/iframeEmbedRoute";
+import { LocaleType, LtiData } from "../interfaces";
 import { createApolloClient } from "../util/apiHelpers";
+
+type EmbedInitialProps = {
+  embedId?: string;
+  embedType?: string;
+  isOembed?: string;
+  status?: "success" | "error";
+  loading?: boolean;
+  basename?: string;
+  locale?: LocaleType;
+  ltiData?: LtiData;
+};
 
 const { config, initialProps } = window.DATA;
 
