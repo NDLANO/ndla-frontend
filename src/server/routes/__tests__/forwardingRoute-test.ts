@@ -10,6 +10,17 @@ import { NextFunction, Request, Response } from "express";
 import nock from "nock";
 import { forwardingRoute } from "../forwardingRoute";
 
+vi.mock("../../../config", () => {
+  return {
+    default: {
+      isNdlaProdEnvironment: true,
+      learningPathDomain: "https://stier.test.ndla.no",
+      getEnvironmentVariabel: () => {},
+      runtimeType: "test",
+    },
+  };
+});
+
 function prepareNock(status: number, nodeId = "1337", contentUri = "urn:article:233", subjectId = "subject:3") {
   if (status === 200) {
     nock("http://ndla-api")
