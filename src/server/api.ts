@@ -26,19 +26,19 @@ import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
 
-// router.get("/robots.txt", (req, res) => {
-//   // Using ndla.no robots.txt
-//   if (req.hostname === "ndla.no") {
-//     res.sendFile("robots.txt", { root: PublicDir });
-//   } else {
-//     res.type("text/plain");
-//     res.send("User-agent: *\nDisallow: /");
-//   }
-// });
+router.get("/robots.txt", (req, res) => {
+  // Using ndla.no robots.txt
+  if (req.hostname === "ndla.no") {
+    res.sendFile("robots.txt", { root: "public/static" });
+  } else {
+    res.type("text/plain");
+    res.send("User-agent: *\nDisallow: /");
+  }
+});
 
-// router.get("/.well-known/security.txt", (_, res) => {
-//   res.sendFile(`security.txt`, { root: PublicDir });
-// });
+router.get("/.well-known/security.txt", (_, res) => {
+  res.sendFile(`security.txt`, { root: "public/static" });
+});
 
 router.get("/health", (_, res) => {
   res.status(OK).json({ status: OK, text: "Health check ok" });
