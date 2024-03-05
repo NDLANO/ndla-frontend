@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     /* Full property definition at https://aka.ms/tsconfig.json */
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["es2019", "esnext.asynciterable", "dom"],
+    "target": "ES2017",
+    "module": "ES2022",
+    "lib": ["es2022", "esnext.asynciterable", "dom"],
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
     "sourceMap": true,
     "outDir": "build",
     "noEmit": false,
     "noLib": false,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -26,22 +26,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
 
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "baseUrl": "src",
     "paths": {
       "*": ["node_modules/*", "src/types/*"]
     },
-    "types": [
-      "@emotion/react",
-      "@emotion/styled",
-      "jest",
-      "node",
-      "webpack-env"
-    ],
+    "types": ["@emotion/react", "@emotion/styled", "vitest/globals", "node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["**/*-test.*"]
+  "include": ["src/**/*"]
 }

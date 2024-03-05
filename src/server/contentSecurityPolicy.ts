@@ -7,7 +7,6 @@
  */
 import config from "../config";
 
-const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
@@ -32,10 +31,13 @@ const connectSrc = (() => {
     return [
       ...defaultConnectSrc,
       "https://devtools.apollodata.com/graphql",
-      `http://localhost:${hmrPort}`,
-      `ws://localhost:${hmrPort}`,
+      "http://localhost:3001",
+      "ws://localhost:3001",
       "http://localhost:3100",
       "http://localhost:4000",
+      "http://localhost",
+      "http://localhost:24678",
+      "ws://localhost:24678",
     ];
   }
   // Temp for testing xapi
@@ -104,7 +106,7 @@ const scriptSrc = (() => {
     "https://app-script.monsido.com",
   ];
   if (config.runtimeType === "development") {
-    return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
+    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -185,7 +187,13 @@ const frameSrc = (() => {
     "jeopardylabs.com",
   ];
   if (config.runtimeType === "development") {
-    return [...defaultFrameSrc, `http://localhost:${hmrPort}`, "http://localhost:3000"];
+    return [
+      ...defaultFrameSrc,
+      "http://localhost:3001",
+      "ws://localhost:3001",
+      "http://localhost:3000",
+      "http://localhost:3100",
+    ];
   }
   return defaultFrameSrc;
 })();
