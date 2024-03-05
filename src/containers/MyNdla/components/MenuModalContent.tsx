@@ -134,7 +134,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
+      menuLinks(t, location, user).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
         if (shownForUser && !shownForUser(user)) {
           return null;
         }
