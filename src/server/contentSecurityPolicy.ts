@@ -7,7 +7,6 @@
  */
 import config from "../config";
 
-// const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
