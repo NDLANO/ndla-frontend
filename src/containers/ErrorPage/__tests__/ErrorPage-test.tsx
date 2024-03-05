@@ -16,6 +16,15 @@ import ErrorPage from "../ErrorPage";
 
 HelmetProvider.canUseDOM = false;
 
+vi.mock("../../../config.ts", () => {
+  return {
+    default: {
+      zendeskWidgetKey: "123",
+      runtimeType: "test",
+    },
+  };
+});
+
 test("ErrorPage renderers correctly", () => {
   const i18n = initializeI18n(i18nInstance, "nb");
   const { asFragment } = render(
