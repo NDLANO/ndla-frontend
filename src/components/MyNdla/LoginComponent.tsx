@@ -11,8 +11,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { mq, breakpoints, fonts, spacing } from "@ndla/core";
-import { Feide } from "@ndla/icons/common";
+import { mq, breakpoints, spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
 import SafeLink, { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
@@ -23,18 +22,6 @@ const LoginComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
-`;
-
-const FeideRow = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  align-items: center;
-  font-weight: ${fonts.weight.semibold};
-  svg {
-    color: #204598;
-    width: 30px;
-    height: 30px;
-  }
 `;
 
 const BottomRow = styled.div`
@@ -55,13 +42,6 @@ const TitleRow = styled.div`
   ${mq.range({ until: breakpoints.tablet })} {
     grid-template-columns: 70% 30%;
   }
-`;
-
-const StyledImage = styled.img`
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  width: 100%;
-  border-radius: 50%;
 `;
 
 const ContentWrapper = styled.div`
@@ -86,7 +66,6 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <Heading headingStyle="h2" element="h1">
             <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
           </Heading>
-          <StyledImage src="/static/my-ndla-login.png" alt={t("myNdla.myPage.imageAlt")} />
         </TitleRow>
       )}
       {content}
@@ -99,10 +78,6 @@ const LoginComponent = ({ masthead, content }: Props) => {
         </Text>
       </ContentWrapper>
       <BottomRow>
-        <FeideRow>
-          <Feide />
-          Feide
-        </FeideRow>
         <ButtonRow>
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
