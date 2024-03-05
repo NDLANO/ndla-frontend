@@ -26,8 +26,7 @@ const LoginComponentContainer = styled.div`
 
 const BottomRow = styled.div`
   display: flex;
-  gap: ${spacing.small};
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 const ButtonRow = styled.div`
