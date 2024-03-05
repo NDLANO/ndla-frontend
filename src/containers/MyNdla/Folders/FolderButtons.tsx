@@ -262,18 +262,20 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
   const previewFolderButton =
     selectedFolder && isFolderShared ? (
-      <SafeLinkButton
-        key="previewFolder"
-        css={buttonCss}
-        variant="ghost"
-        colorTheme="lighter"
-        to={routes.myNdla.folder(selectedFolder.id)}
-        aria-label={t("myNdla.folder.sharing.button.goTo")}
-        title={t("myNdla.folder.sharing.button.goTo")}
-      >
-        <ShareArrow css={iconCss} />
-        {t("myNdla.folder.sharing.button.goTo")}
-      </SafeLinkButton>
+      <StyledListItem key="previewFolder">
+        <SafeLinkButton
+          key="previewFolder"
+          css={buttonCss}
+          variant="ghost"
+          colorTheme="lighter"
+          to={routes.myNdla.folder(selectedFolder.id)}
+          aria-label={t("myNdla.folder.sharing.button.goTo")}
+          title={t("myNdla.folder.sharing.button.goTo")}
+        >
+          <ShareArrow css={iconCss} />
+          {t("myNdla.folder.sharing.button.goTo")}
+        </SafeLinkButton>
+      </StyledListItem>
     ) : null;
 
   if (!showShareFolder) {
