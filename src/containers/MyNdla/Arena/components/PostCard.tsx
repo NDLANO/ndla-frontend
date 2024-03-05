@@ -34,11 +34,12 @@ import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
+import { routes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import UserProfileTag from "../../components/UserProfileTag";
-import { capitalizeFirstLetter, toArena, toArenaCategory } from "../utils";
+import { capitalizeFirstLetter } from "../utils";
 
 interface Props {
   onFollowChange: (value: boolean) => void;
@@ -160,9 +161,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
         id: "arenaTopicDeleted",
       });
       if (topic?.categoryId) {
-        navigate(toArenaCategory(topic.categoryId));
+        navigate(routes.myNdla.arenaCategory(topic.categoryId));
       } else {
-        navigate(toArena());
+        navigate(routes.myNdla.arena);
       }
     },
     [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],

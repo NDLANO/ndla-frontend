@@ -11,18 +11,15 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ZendeskButton } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
-import { Facebook, HelpCircleOutline, Instagram, LinkedIn, EmailOutline, Youtube } from "@ndla/icons/common";
-import { Footer, FooterText, EditorName, LanguageSelector } from "@ndla/ui";
+import { FacebookFilled, HelpCircleOutline, Instagram, LinkedIn, Email, Youtube } from "@ndla/icons/common";
+import { Footer, FooterText, EditorName } from "@ndla/ui";
 import config from "../../../config";
-import { supportedLanguages } from "../../../i18n";
 
 const FooterTextWrapper = styled.div`
-  p:first-of-type {
-    margin-bottom: 0;
+  p {
+    margin: 0;
   }
-  p:last-of-type {
-    margin-top: 0;
-  }
+  padding-top: ${spacing.normal};
 `;
 
 const FooterWrapper = () => {
@@ -33,7 +30,7 @@ const FooterWrapper = () => {
     {
       to: "https://www.facebook.com/ndla.no",
       text: t("footer.socialMediaLinks.facebook"),
-      icon: <Facebook />,
+      icon: <FacebookFilled />,
     },
     {
       to: "https://instagram.com/ndla_no/",
@@ -53,7 +50,7 @@ const FooterWrapper = () => {
     {
       to: "https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea",
       text: t("footer.socialMediaLinks.newsletter"),
-      icon: <EmailOutline />,
+      icon: <Email />,
     },
   ];
 
@@ -143,21 +140,13 @@ const FooterWrapper = () => {
         //@ts-ignore Wrongly typed as an array with a single element in frontend-packages.
         commonLinks={commonLinks}
         links={links}
-        languageSelector={
-          <LanguageSelector
-            inverted
-            locales={supportedLanguages}
-            onSelect={i18n.changeLanguage}
-            triggerId="languageSelectorFooter"
-          />
-        }
         privacyLinks={privacyLinks}
       >
         <FooterTextWrapper>
+          <FooterText>{t("footer.info")}</FooterText>
           <FooterText>
             <EditorName title={t("footer.editorInChief")} name="Sigurd Trageton" />
           </FooterText>
-          <FooterText>{t("footer.info")}</FooterText>
         </FooterTextWrapper>
       </Footer>
     </>

@@ -19,9 +19,10 @@ import FolderDeleteModal from "./FolderDeleteModal";
 import FolderEditModal from "./FolderEditModal";
 import FolderShareModal from "./FolderShareModal";
 import { buttonCss, iconCss } from "./FoldersPage";
-import { isStudent, copyFolderSharingLink, sharedFolderLinkInternal } from "./util";
+import { isStudent, copyFolderSharingLink } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import { useUserAgent } from "../../../UserAgentContext";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../folderMutations";
 import { OutletContext } from "../MyNdlaLayout";
@@ -79,7 +80,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
     await deleteFolder({ variables: { id: selectedFolder.id } });
     if (selectedFolder.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder.parentId ?? ""}`, {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
         replace: true,
       });
     }
@@ -246,7 +247,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         css={buttonCss}
         variant="ghost"
         colorTheme="lighter"
-        to={sharedFolderLinkInternal(selectedFolder.id)}
+        to={routes.myNdla.folder(selectedFolder.id)}
         aria-label={t("myNdla.folder.sharing.button.goTo")}
         title={t("myNdla.folder.sharing.button.goTo")}
       >
