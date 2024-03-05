@@ -14,6 +14,7 @@ await esbuild.build({
   format: "esm",
   platform: "node",
   target: "esnext",
+  ignoreAnnotations: true,
   sourcemap: true,
   sourcesContent: false,
   external: ["vite"],
