@@ -4631,7 +4631,14 @@ export type GQLPodcastSeriesQuery = {
         introduction: string;
         image?: { __typename?: "ImageMetaInformation"; imageUrl: string };
       };
-      copyright: { __typename?: "Copyright" } & GQLCopyrightInfoFragment;
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        license: { __typename?: "License"; license: string; url?: string; description?: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
       tags: { __typename?: "Tags"; tags: Array<string> };
     }>;
   };

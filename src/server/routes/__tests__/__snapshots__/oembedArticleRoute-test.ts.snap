@@ -1,0 +1,36 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`oembedArticleRoute invalid url 1`] = `
+{
+  "data": "Bad request. Invalid url.",
+  "status": 400,
+}
+`;
+
+exports[`oembedArticleRoute success 1`] = `
+{
+  "data": {
+    "height": 480,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
+    "title": "Resource title",
+    "type": "rich",
+    "version": "1.0",
+    "width": 854,
+  },
+  "status": 200,
+}
+`;
+
+exports[`oembedArticleRoute success 2`] = `
+{
+  "data": {
+    "height": 480,
+    "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
+    "title": "Resource title",
+    "type": "rich",
+    "version": "1.0",
+    "width": 854,
+  },
+  "status": 200,
+}
+`;
