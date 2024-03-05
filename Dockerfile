@@ -36,4 +36,4 @@ COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
 
-CMD ["/run-ndla-frontend.sh", "node build/server.mjs '|' bunyan"]
+CMD ["/run-ndla-frontend.sh", "node build/server.mjs"]

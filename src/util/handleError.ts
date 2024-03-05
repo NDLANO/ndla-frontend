@@ -15,7 +15,7 @@ let log: any | undefined;
 
 // import.meta.env is only available when ran within vite. `handleError` can be called from the root server.
 // This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
-// All in all, this ensures that bunyan is only imported on the server during production builds.
+// All in all, this ensures that winston is only imported on the server during production builds.
 if (config.runtimeType === "production" && import.meta.env.SSR) {
   const logger = await import("./logger");
   log = logger.default;
