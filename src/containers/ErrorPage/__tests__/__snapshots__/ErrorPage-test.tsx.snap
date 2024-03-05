@@ -766,7 +766,6 @@ exports[`ErrorPage renderers correctly 1`] = `
             <a
               aria-label="Nasjonal digital læringsarena"
               href="/"
-              tabindex="0"
               title="Nasjonal digital læringsarena"
             >
               <svg
@@ -833,7 +832,6 @@ exports[`ErrorPage renderers correctly 1`] = `
           >
             <a
               href="/"
-              tabindex="0"
             >
               Gå til forsiden
             </a>

@@ -9,6 +9,7 @@
 import { renderToString } from "react-dom/server";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
+import { StaticRouter } from "react-router-dom/server";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { RedirectInfo } from "../../components/RedirectContext";
@@ -27,8 +28,10 @@ export const errorRender: RenderFunc = async (req) => {
     <I18nextProvider i18n={i18nInstance}>
       <MissingRouterContext.Provider value={true}>
         <HelmetProvider context={helmetContext}>
-          <Scripts />
-          <ErrorPage />
+          <StaticRouter location={req.url}>
+            <Scripts />
+            <ErrorPage />
+          </StaticRouter>
         </HelmetProvider>
       </MissingRouterContext.Provider>
     </I18nextProvider>

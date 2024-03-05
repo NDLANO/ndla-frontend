@@ -6,10 +6,12 @@
  *
  */
 
+import "../../style/index.css";
 import { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
+import { BrowserRouter } from "react-router-dom";
 import ErrorReporter from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
@@ -56,11 +58,13 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 renderOrHydrate(
   document.getElementById("root")!,
   <I18nextProvider i18n={i18n}>
-    <MissingRouterContext.Provider value={true}>
-      <HelmetProvider>
-        <Scripts />
-        <ErrorPage />
-      </HelmetProvider>
-    </MissingRouterContext.Provider>
+    <BrowserRouter>
+      <MissingRouterContext.Provider value={true}>
+        <HelmetProvider>
+          <Scripts />
+          <ErrorPage />
+        </HelmetProvider>
+      </MissingRouterContext.Provider>
+    </BrowserRouter>
   </I18nextProvider>,
 );
