@@ -15,7 +15,7 @@ interface RenderLocationReturn {
   location: string;
 }
 
-interface RenderDataReturn {
+export interface RenderDataReturn {
   status: number;
   data: {
     htmlContent: string;

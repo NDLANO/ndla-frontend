@@ -16,7 +16,7 @@ import { ViteDevServer } from "vite";
 import { getCookie } from "@ndla/util";
 import api from "./api";
 import contentSecurityPolicy from "./contentSecurityPolicy";
-import { RootRenderFunc, sendResponse } from "./serverHelpers";
+import { RenderDataReturn, RootRenderFunc, sendResponse } from "./serverHelpers";
 import config from "../config";
 import { NOT_FOUND_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
@@ -78,6 +78,48 @@ app.use(
 
 app.use(api);
 
+const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
+const favicons = `
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-${faviconEnvironment}-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-${faviconEnvironment}-16x16.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-${faviconEnvironment}.png" />
+`;
+
+const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
+  const { helmetContext, htmlContent, styles, data } = renderData;
+  const meta = `
+  ${helmetContext?.helmet.title.toString() ?? ""}
+  ${helmetContext?.helmet.meta.toString() ?? ""}
+  ${helmetContext?.helmet.link.toString() ?? ""}
+  ${favicons}
+  ${helmetContext?.helmet.script.toString() ?? ""}
+  ${styles ?? ""}
+  `;
+
+  const serializedData = serialize({
+    ...data,
+    config: {
+      ...data?.config,
+      isClient: true,
+    },
+  });
+
+  const bodyContent = `
+  <div id="root">${htmlContent}</div>
+  <script type="text/javascript">
+    window.DATA = ${serializedData}
+  </script>
+  `;
+
+  const html = template
+    .replace('data-html-attributes=""', helmetContext?.helmet.htmlAttributes.toString() ?? "")
+    .replace("<!--HEAD-->", meta)
+    .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
+    .replace("<!--BODY-->", bodyContent);
+
+  return html;
+};
+
 const renderRoute = async (req: Request, index: string, htmlTemplate: string, renderer: string) => {
   const url = req.originalUrl.replace(base, "");
   let template = htmlTemplate;
@@ -98,27 +140,7 @@ const renderRoute = async (req: Request, index: string, htmlTemplate: string, re
       data: { Location: response.location },
     };
   } else {
-    const { helmetContext, htmlContent, styles, data } = response.data;
-    const html = template
-      .replace('data-html-attributes=""', helmetContext?.helmet.htmlAttributes.toString() ?? "")
-      .replace("<!--TITLE-->", helmetContext?.helmet.title.toString() ?? "")
-      .replace("<!--META-->", helmetContext?.helmet.meta.toString() ?? "")
-      .replace("<!--LINK-->", helmetContext?.helmet.link.toString() ?? "")
-      .replaceAll("__ENVIRONMENT__", config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment)
-      .replace("<!--SCRIPT-->", helmetContext?.helmet.script.toString() ?? "")
-      .replace("<!--STYLES-->", styles ?? "")
-      .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
-      .replace("REPLACE_ME", htmlContent)
-      .replace(
-        "<!--DATA-->",
-        serialize({
-          ...data,
-          config: {
-            ...data?.config,
-            isClient: true,
-          },
-        }),
-      );
+    const html = prepareTemplate(template, response.data);
     return { status: response.status, data: html };
   }
 };
