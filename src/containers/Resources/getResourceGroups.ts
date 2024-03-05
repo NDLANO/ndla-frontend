@@ -11,7 +11,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
 } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
 
@@ -21,7 +21,7 @@ export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
   [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: 4,
   [RESOURCE_TYPE_SOURCE_MATERIAL]: 5,
-  [RESOURCE_TYPE_EXTERNAL_LEARNING_RESOURCES]: 6,
+  [RESOURCE_TYPE_CONCEPT]: 6,
 };
 
 type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes">;

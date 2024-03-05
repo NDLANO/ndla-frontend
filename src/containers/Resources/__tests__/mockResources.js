@@ -125,10 +125,6 @@ export const resourceTypes = [
     name: "Kildemateriale",
   },
   {
-    id: "urn:resourcetype:externalResource",
-    name: "Ekstern læringsressurs",
-  },
-  {
     id: "urn:resourcetype:subjectMaterial",
     name: "Fagstoff",
     subtypes: [
@@ -151,5 +147,5 @@ export const resourceTypes = [
     name: "Vurderingsressurs",
   },
   { id: "urn:resourcetype:learningPath", name: "Læringssti" },
-  { id: "urn:resourcetype:concept", name: "Begrep" },
+  { id: "urn:resourcetype:concept", name: "Forklaring" },
 ];
