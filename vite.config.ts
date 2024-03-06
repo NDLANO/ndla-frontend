@@ -39,7 +39,17 @@ export default defineConfig(() => {
       },
     },
     resolve: {
-      preserveSymlinks: true,
+      dedupe: [
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-dialog",
+        "react-router",
+        "react-router-dom",
+        "react-helmet-async",
+        "i18next",
+        "react-i18next",
+        "@emotion/react",
+        "@emotion/styled",
+      ],
     },
   };
 });

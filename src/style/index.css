@@ -6,7 +6,7 @@
  *
  */
 
-@import "../../node_modules/@ndla/ui/lib/all.css";
+@import url("@ndla/ui/lib/all.css");
 
 .c-topic-resource__item--hidden {
   display: none;
