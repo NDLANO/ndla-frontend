@@ -4449,55 +4449,6 @@ export type GQLCopyrightInfoFragment = {
   rightsholders: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
 };
 
-export type GQLFrontpageSearchQueryVariables = Exact<{
-  query?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLFrontpageSearchQuery = {
-  __typename?: "Query";
-  frontpageSearch?: {
-    __typename?: "FrontpageSearch";
-    topicResources: {
-      __typename?: "FrontPageResources";
-      totalCount: number;
-      results: Array<{
-        __typename?: "FrontpageSearchResult";
-        id: string;
-        name: string;
-        path: string;
-        subject: string;
-        resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; name: string }>;
-      }>;
-      suggestions: Array<{
-        __typename?: "SuggestionResult";
-        suggestions: Array<{
-          __typename?: "SearchSuggestion";
-          options: Array<{ __typename?: "SuggestOption"; text: string; score: number }>;
-        }>;
-      }>;
-    };
-    learningResources: {
-      __typename?: "FrontPageResources";
-      totalCount: number;
-      results: Array<{
-        __typename?: "FrontpageSearchResult";
-        id: string;
-        name: string;
-        path: string;
-        subject: string;
-        resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; name: string }>;
-      }>;
-      suggestions: Array<{
-        __typename?: "SuggestionResult";
-        suggestions: Array<{
-          __typename?: "SearchSuggestion";
-          options: Array<{ __typename?: "SuggestOption"; text: string; score: number }>;
-        }>;
-      }>;
-    };
-  };
-};
-
 export type GQLSubjectInfoFragment = {
   __typename?: "Subject";
   id: string;
