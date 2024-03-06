@@ -259,15 +259,6 @@ export const searchPageQuery = gql`
   ${subjectInfoFragment}
 `;
 
-export const subjectsQuery = gql`
-  query subjects {
-    subjects(filterVisible: true) {
-      ...SubjectInfo
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
