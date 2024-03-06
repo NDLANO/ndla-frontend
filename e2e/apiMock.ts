@@ -7,7 +7,7 @@
  */
 
 import { readFile, writeFile, mkdir } from "fs/promises";
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/isEqual.js";
 import { Page } from "@playwright/test";
 const mockDir = "e2e/apiMocks/";
 

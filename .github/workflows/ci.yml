@@ -54,7 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEFAULT_TIMEOUT: 5000
-      JEST_TIMEOUT: 15000
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v3

@@ -11,7 +11,15 @@ import { ApolloError } from "@apollo/client";
 import ErrorReporter from "@ndla/error-reporter";
 import config from "../config";
 
-const log = process.env.BUILD_TARGET === "server" ? require("./logger").default : undefined;
+let log: any | undefined;
+
+// import.meta.env is only available when ran within vite. `handleError` can be called from the root server.
+// This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
+// All in all, this ensures that winston is only imported on the server during production builds.
+if (config.runtimeType === "production" && import.meta.env.SSR) {
+  const logger = await import("./logger");
+  log = logger.default;
+}
 
 type UnknownGQLError = {
   status?: number;
@@ -45,10 +53,10 @@ export const isAccessDeniedError = (error: ApolloError | undefined | null): bool
 };
 
 const handleError = (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
-  if (config.runtimeType === "production" && process.env.BUILD_TARGET === "client") {
+  if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
-  } else if (config.runtimeType === "production" && process.env.BUILD_TARGET === "server") {
-    log.error(error);
+  } else if (config.runtimeType === "production" && !config.isClient) {
+    log?.error(error);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`iframeArticleRoute 200 OK 1`] = `
-{
-  "data": "<!doctype html><html lang="en"><body><div class="o-container"><div><p>success</p></div></div></body></html>",
-  "status": 200,
-}
-`;

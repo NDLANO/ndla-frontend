@@ -5,7 +5,7 @@
       "use": "@vercel/static"
     },
     {
-      "src": "build/server.js",
+      "src": "build/server.mjs",
       "use": "@vercel/node"
     }
   ],
@@ -20,7 +20,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/build/server.js"
+      "destination": "/build/server.mjs"
     }
   ],
   "headers": [
