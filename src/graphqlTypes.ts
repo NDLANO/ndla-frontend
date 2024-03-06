@@ -4475,13 +4475,6 @@ export type GQLSearchPageQuery = {
   }>;
 };
 
-export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLSubjectsQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
-};
-
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars["String"]["input"];
 }>;
