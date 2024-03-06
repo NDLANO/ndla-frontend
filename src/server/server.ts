@@ -150,7 +150,11 @@ type RouteFunc = (req: Request) => Promise<{ data: any; status: number }>;
 const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
   try {
     const { data, status } = await route(req);
-    sendResponse(res, data, status);
+    if (status === INTERNAL_SERVER_ERROR) {
+      sendInternalServerError(req, res);
+    } else {
+      sendResponse(res, data, status);
+    }
   } catch (err) {
     next(err);
   }
