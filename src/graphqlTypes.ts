@@ -237,6 +237,7 @@ export type GQLArticleMetaData = {
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
+  textblocks?: Maybe<Array<GQLTextblockLicense>>;
 };
 
 export type GQLArticleRequiredLibrary = {
@@ -639,6 +640,7 @@ export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
+  hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
@@ -2021,6 +2023,12 @@ export type GQLTaxonomyMetadata = {
   visible: Scalars["Boolean"]["output"];
 };
 
+export type GQLTextblockLicense = {
+  __typename?: "TextblockLicense";
+  copyright: GQLCopyright;
+  title?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type GQLTitle = {
   __typename?: "Title";
   language: Scalars["String"]["output"];
@@ -2418,6 +2426,11 @@ export type GQLLicenseBox_ArticleFragment = {
     audios?: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
     podcasts?: Array<{ __typename?: "PodcastLicense" } & GQLPodcastLicenseList_PodcastLicenseFragment>;
     images?: Array<{ __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment>;
+    textblocks?: Array<{
+      __typename?: "TextblockLicense";
+      title?: string;
+      copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
+    }>;
   };
 };
 
