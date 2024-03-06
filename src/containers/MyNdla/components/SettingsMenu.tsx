@@ -46,7 +46,13 @@ const StyledDrawer = styled(Drawer)`
   }
 `;
 
-const StyledUl = styled.ul`
+const StyledListItem = styled.li`
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledList = styled.ul`
   padding: 0;
   list-style: none;
 `;
@@ -55,7 +61,7 @@ const StyledModalBody = styled(ModalBody)`
   padding: 0 0 ${spacing.large} 0px;
 `;
 
-const StyledLi = styled.li`
+const StyledListItemMobile = styled.li`
   border-bottom: 1px solid ${colors.brand.neutral7};
   padding: 0;
 `;
@@ -170,9 +176,9 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
           </ModalHeader>
           <StyledModalBody>
             {!!menuItems?.length && (
-              <StyledUl>
+              <StyledList>
                 {menuItems.map((item) => (
-                  <StyledLi key={item.text}>
+                  <StyledListItemMobile key={item.text}>
                     <Item
                       keepOpen={item.keepOpen}
                       handleDialogItemOpenChange={handleDialogItemOpenChange}
@@ -197,9 +203,9 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                         {item.text}
                       </ButtonV2>
                     </Item>
-                  </StyledLi>
+                  </StyledListItemMobile>
                 ))}
-              </StyledUl>
+              </StyledList>
             )}
           </StyledModalBody>
         </StyledDrawer>
@@ -238,57 +244,59 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
           }
         }}
       >
-        {menuItems?.map((item) => (
-          <Item
-            key={item.text}
-            handleDialogItemOpenChange={handleDialogItemOpenChange}
-            isModal={item.isModal}
-            modalContent={item.modalContent}
-            keepOpen={item.keepOpen}
-            modality={item.modality}
-            setSkipAutoFocus={() => setSkipAutoFocus(true)}
-          >
-            <DropdownItem
-              asChild
-              onSelect={(e) => {
-                if (!item.onClick) {
-                  e.preventDefault();
-                }
-              }}
+        <StyledList>
+          {menuItems?.map((item) => (
+            <Item
+              key={item.text}
+              handleDialogItemOpenChange={handleDialogItemOpenChange}
+              isModal={item.isModal}
+              modalContent={item.modalContent}
+              keepOpen={item.keepOpen}
+              modality={item.modality}
+              setSkipAutoFocus={() => setSkipAutoFocus(true)}
             >
-              {item.link ? (
-                <SafeLinkButton
-                  tabIndex={-1}
-                  role="menuitem"
-                  key={item.text}
-                  css={linkCss}
-                  variant="ghost"
-                  colorTheme="lighter"
-                  to={item.link}
-                  aria-label={item.text}
-                >
-                  {item.icon}
-                  {item.text}
-                </SafeLinkButton>
-              ) : (
-                <ItemButton
-                  colorTheme={item.type === "danger" ? "danger" : "light"}
-                  disabled={item.disabled}
-                  shape="sharp"
-                  variant="ghost"
-                  size="small"
-                  fontWeight="normal"
-                  data-type={item.type}
-                  onClick={item.onClick}
-                  ref={item.ref}
-                >
-                  {item.icon}
-                  {item.text}
-                </ItemButton>
-              )}
-            </DropdownItem>
-          </Item>
-        ))}
+              <DropdownItem
+                asChild
+                onSelect={(e) => {
+                  if (!item.onClick) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                {item.link ? (
+                  <SafeLinkButton
+                    tabIndex={-1}
+                    role="menuitem"
+                    key={item.text}
+                    css={linkCss}
+                    variant="ghost"
+                    colorTheme="lighter"
+                    to={item.link}
+                    aria-label={item.text}
+                  >
+                    {item.icon}
+                    {item.text}
+                  </SafeLinkButton>
+                ) : (
+                  <ItemButton
+                    colorTheme={item.type === "danger" ? "danger" : "light"}
+                    disabled={item.disabled}
+                    shape="sharp"
+                    variant="ghost"
+                    size="small"
+                    fontWeight="normal"
+                    data-type={item.type}
+                    onClick={item.onClick}
+                    ref={item.ref}
+                  >
+                    {item.icon}
+                    {item.text}
+                  </ItemButton>
+                )}
+              </DropdownItem>
+            </Item>
+          ))}
+        </StyledList>
       </StyledDropdownContent>
     </DropdownMenu>
   );
@@ -325,12 +333,14 @@ const Item = ({
   );
 
   if (!isModal || !modalContent) {
-    return children;
+    return <StyledListItem>{children}</StyledListItem>;
   }
 
   return (
     <Modal open={open} onOpenChange={onOpenChange} modal={modality}>
-      <ModalTrigger>{children}</ModalTrigger>
+      <ModalTrigger>
+        <StyledListItem>{children}</StyledListItem>
+      </ModalTrigger>
       {modalContent(close, setSkipAutoFocus)}
     </Modal>
   );

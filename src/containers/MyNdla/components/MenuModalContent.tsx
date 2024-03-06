@@ -61,9 +61,12 @@ const MenuItems = styled.ul`
   background: ${colors.background.lightBlue};
 `;
 
-const ToolMenu = styled.div`
-  display: flex;
-  flex-direction: column;
+const ToolMenu = styled.ul`
+  list-style: none;
+  > li {
+    display: flex;
+    flex-direction: column;
+  }
 
   padding: unset;
   margin: unset;
@@ -154,19 +157,21 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
 
   const notificationLink = useMemo(
     () => (
-      <SafeLinkButton
-        variant="ghost"
-        colorTheme="lighter"
-        to={routes.myNdla.notifications}
-        onClick={() => setIsOpen(false)}
-        css={buttonCss}
-      >
-        <BellIcon
-          amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
-          left={true}
-        />
-        {t("myNdla.arena.notification.title")}
-      </SafeLinkButton>
+      <MenuItem>
+        <SafeLinkButton
+          variant="ghost"
+          colorTheme="lighter"
+          to={routes.myNdla.notifications}
+          onClick={() => setIsOpen(false)}
+          css={buttonCss}
+        >
+          <BellIcon
+            amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
+            left={true}
+          />
+          {t("myNdla.arena.notification.title")}
+        </SafeLinkButton>
+      </MenuItem>
     ),
     [notifications, setIsOpen, t],
   );

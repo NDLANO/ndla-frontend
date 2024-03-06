@@ -46,6 +46,11 @@ const StyledUl = styled.ul`
   gap: ${spacing.small};
 `;
 
+const StyledListItem = styled.li`
+  margin: 0;
+  padding: 0;
+`;
+
 const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { loading, subjects } = useSubjects();
@@ -68,10 +73,12 @@ const FavoriteSubjectsPage = () => {
 
   const allSubjects = useMemo(
     () => (
-      <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
-        {t("subjectsPage.allSubjects")}
-        <Forward css={iconCss} />
-      </SafeLinkButton>
+      <StyledListItem key="allSubjects">
+        <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
+          {t("subjectsPage.allSubjects")}
+          <Forward css={iconCss} />
+        </SafeLinkButton>
+      </StyledListItem>
     ),
     [t],
   );
