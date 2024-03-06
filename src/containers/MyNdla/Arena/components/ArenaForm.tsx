@@ -89,7 +89,7 @@ interface ArenaFormProps {
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
-  id?: number;
+  id?: number | string;
 }
 
 export interface ArenaFormValues {
