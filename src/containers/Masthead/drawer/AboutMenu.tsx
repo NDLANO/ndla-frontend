@@ -34,22 +34,18 @@ interface NewAboutMenuProps extends Props {
   onClose: () => void;
 }
 const checkIfNoCurrent: (
-  structure: GQLAboutMenu_FrontpageMenuFragment[],
   parentSlug: String | undefined,
   slug: String | undefined,
-) => boolean = (structure, parentSlug, slug) => {
+  structure?: GQLAboutMenu_FrontpageMenuFragment[],
+) => boolean = (parentSlug, slug, structure) => {
   if (parentSlug === slug) return true;
-  for (const item of structure) {
-    if (item.article.slug === parentSlug) {
-      if (item.menu && item.menu.some((subItem) => subItem.article.slug === slug)) {
-        return true;
-      }
-    }
-    if (item.menu && checkIfNoCurrent(item.menu, parentSlug, slug)) {
-      return true;
-    }
-  }
-  return false;
+  return (
+    structure?.some(
+      (item) =>
+        (item.article.slug === parentSlug && item?.menu?.some((subItem) => subItem.article.slug === slug)) ||
+        checkIfNoCurrent(parentSlug, slug, item.menu),
+    ) ?? false
+  );
 };
 
 function hasHideLevelDeep(items: GQLAboutMenu_FrontpageMenuFragment[]): boolean {
