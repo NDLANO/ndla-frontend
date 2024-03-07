@@ -16,7 +16,7 @@ import H5pLicenseList from "./H5pLicenseList";
 import ImageLicenseList from "./ImageLicenseList";
 import OembedItem from "./OembedItem";
 import PodcastLicenseList from "./PodcastLicenseList";
-import TextLicenseList from "./TextLicenseList";
+import TextLicenseList, { TextItem } from "./TextLicenseList";
 import VideoLicenseList from "./VideoLicenseList";
 import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 
@@ -34,7 +34,25 @@ function buildLicenseTabList(
   const oembed = article.oembed;
   const concepts = article.metaData?.concepts || [];
   const glosses = article.metaData?.glosses || [];
+  const textblocks = article.metaData?.textblocks || [];
   const tabs = [];
+  const articleTexts: TextItem[] = [
+    {
+      title: article.title,
+      copyright: article.copyright,
+      updated: article.published,
+      copyText,
+    },
+  ];
+  if (textblocks.length > 0) {
+    textblocks.forEach((textblock) => {
+      articleTexts.push({
+        title: textblock.title || "",
+        copyright: textblock.copyright,
+      });
+    });
+  }
+
   if (images.length > 0) {
     tabs.push({
       title: t("license.tabs.images"),
@@ -45,19 +63,7 @@ function buildLicenseTabList(
   tabs.push({
     title: t("license.tabs.text"),
     id: "text",
-    content: (
-      <TextLicenseList
-        printUrl={printUrl}
-        texts={[
-          {
-            title: article.title,
-            copyright: article.copyright,
-            updated: article.published,
-            copyText,
-          },
-        ]}
-      />
-    ),
+    content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
   });
 
   if (audios.length > 0) {
@@ -165,6 +171,12 @@ LicenseBox.fragments = {
         }
         images {
           ...ImageLicenseList_ImageLicense
+        }
+        textblocks {
+          title
+          copyright {
+            ...TextLicenseList_Copyright
+          }
         }
       }
     }

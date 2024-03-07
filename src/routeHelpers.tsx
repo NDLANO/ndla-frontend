@@ -198,6 +198,7 @@ export const useTypedParams = <TParams extends TypedParams>() => {
 };
 
 export const routes = {
+  folder: (folderId: string) => `/folder/${folderId}`,
   myNdla: {
     root: "/minndla",
     arena: "/minndla/arena",

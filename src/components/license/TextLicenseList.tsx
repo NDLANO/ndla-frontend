@@ -42,11 +42,13 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
       metaType: metaTypes.other,
     });
   }
-  items.push({
-    label: t("article.lastUpdated"),
-    description: text.updated,
-    metaType: metaTypes.other,
-  });
+  if (text.updated) {
+    items.push({
+      label: t("article.lastUpdated"),
+      description: text.updated,
+      metaType: metaTypes.other,
+    });
+  }
 
   if (text.copyright.origin) {
     items.push({
@@ -91,9 +93,9 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   );
 };
 
-interface TextItem {
+export interface TextItem {
   copyright: GQLTextLicenseList_CopyrightFragment;
-  updated: string;
+  updated?: string;
   copyText?: string;
   title?: string;
 }

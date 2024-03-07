@@ -237,6 +237,7 @@ export type GQLArticleMetaData = {
   h5ps?: Maybe<Array<GQLH5pLicense>>;
   images?: Maybe<Array<GQLImageLicense>>;
   podcasts?: Maybe<Array<GQLPodcastLicense>>;
+  textblocks?: Maybe<Array<GQLTextblockLicense>>;
 };
 
 export type GQLArticleRequiredLibrary = {
@@ -639,6 +640,7 @@ export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
+  hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
 };
 
@@ -2021,6 +2023,12 @@ export type GQLTaxonomyMetadata = {
   visible: Scalars["Boolean"]["output"];
 };
 
+export type GQLTextblockLicense = {
+  __typename?: "TextblockLicense";
+  copyright: GQLCopyright;
+  title?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type GQLTitle = {
   __typename?: "Title";
   language: Scalars["String"]["output"];
@@ -2418,6 +2426,11 @@ export type GQLLicenseBox_ArticleFragment = {
     audios?: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
     podcasts?: Array<{ __typename?: "PodcastLicense" } & GQLPodcastLicenseList_PodcastLicenseFragment>;
     images?: Array<{ __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment>;
+    textblocks?: Array<{
+      __typename?: "TextblockLicense";
+      title?: string;
+      copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
+    }>;
   };
 };
 
@@ -4449,55 +4462,6 @@ export type GQLCopyrightInfoFragment = {
   rightsholders: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
 };
 
-export type GQLFrontpageSearchQueryVariables = Exact<{
-  query?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLFrontpageSearchQuery = {
-  __typename?: "Query";
-  frontpageSearch?: {
-    __typename?: "FrontpageSearch";
-    topicResources: {
-      __typename?: "FrontPageResources";
-      totalCount: number;
-      results: Array<{
-        __typename?: "FrontpageSearchResult";
-        id: string;
-        name: string;
-        path: string;
-        subject: string;
-        resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; name: string }>;
-      }>;
-      suggestions: Array<{
-        __typename?: "SuggestionResult";
-        suggestions: Array<{
-          __typename?: "SearchSuggestion";
-          options: Array<{ __typename?: "SuggestOption"; text: string; score: number }>;
-        }>;
-      }>;
-    };
-    learningResources: {
-      __typename?: "FrontPageResources";
-      totalCount: number;
-      results: Array<{
-        __typename?: "FrontpageSearchResult";
-        id: string;
-        name: string;
-        path: string;
-        subject: string;
-        resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; name: string }>;
-      }>;
-      suggestions: Array<{
-        __typename?: "SuggestionResult";
-        suggestions: Array<{
-          __typename?: "SearchSuggestion";
-          options: Array<{ __typename?: "SuggestOption"; text: string; score: number }>;
-        }>;
-      }>;
-    };
-  };
-};
-
 export type GQLSubjectInfoFragment = {
   __typename?: "Subject";
   id: string;
@@ -4522,13 +4486,6 @@ export type GQLSearchPageQuery = {
     name: string;
     subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
   }>;
-};
-
-export type GQLSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLSubjectsQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
 };
 
 export type GQLMovedResourceQueryVariables = Exact<{
@@ -4631,7 +4588,14 @@ export type GQLPodcastSeriesQuery = {
         introduction: string;
         image?: { __typename?: "ImageMetaInformation"; imageUrl: string };
       };
-      copyright: { __typename?: "Copyright" } & GQLCopyrightInfoFragment;
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        license: { __typename?: "License"; license: string; url?: string; description?: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
       tags: { __typename?: "Tags"; tags: Array<string> };
     }>;
   };

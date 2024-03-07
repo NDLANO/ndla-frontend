@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet-async";
 import { PageContainer } from "@ndla/ui";
 import IframePage from "./IframePage";
 import { BaseNameProvider } from "../components/BaseNameContext";
+import Scripts from "../components/Scripts/Scripts";
 import { isValidLocale } from "../i18n";
 import { LocaleType } from "../interfaces";
 
@@ -25,6 +26,7 @@ const IframePageContainer = ({ basename, status, taxonomyId, articleId, isOembed
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
       <PageContainer>
+        <Scripts />
         <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }} />
         <IframePage status={status} taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
       </PageContainer>
