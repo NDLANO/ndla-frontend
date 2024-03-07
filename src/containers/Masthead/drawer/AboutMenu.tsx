@@ -60,30 +60,18 @@ function hasHideLevelDeep(items: GQLAboutMenu_FrontpageMenuFragment[]): boolean 
   });
 }
 
+const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] =>
+  items
+    .filter((item) => !item.hideLevel)
+    .map((item) => ({
+      ...item,
+      menu: item.menu ? filterMenuItems(item.menu) : undefined,
+    }));
+
 const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) => {
   const hasHideLevel = hasHideLevelDeep(items);
   if (!hasHideLevel) return items;
-  const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] => {
-    const filteredItems = items
-      .filter((item) => {
-        const shouldInclude = !item.hideLevel;
-        return shouldInclude;
-      })
-      .map((item) => {
-        const newItem = {
-          ...item,
-          menu: item.menu ? filterMenuItems(item.menu) : [],
-        };
-        if (newItem.menu && newItem.menu.length === 0) {
-          const { menu, ...emptyItem } = newItem;
-          return emptyItem;
-        }
-        return newItem;
-      });
-    return filteredItems;
-  };
-  const filteredMenuItems = filterMenuItems(items);
-  return filteredMenuItems.filter((item) => item.menu && item.menu.length > 0);
+  return filterMenuItems(items).filter((item) => item.menu?.length);
 };
 
 export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menuItems }: NewAboutMenuProps) => {
