@@ -48,17 +48,8 @@ const checkIfNoCurrent: (
   );
 };
 
-function hasHideLevelDeep(items: GQLAboutMenu_FrontpageMenuFragment[]): boolean {
-  if (items.some((item) => item.hideLevel)) {
-    return true;
-  }
-  return items.some((item): boolean => {
-    if (Array.isArray(item.menu)) {
-      return hasHideLevelDeep(item.menu);
-    }
-    return false;
-  });
-}
+const hasHideLevelDeep = (items?: GQLAboutMenu_FrontpageMenuFragment[]): boolean =>
+  items?.some((item) => item.hideLevel || hasHideLevelDeep(item.menu)) ?? false;
 
 const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] =>
   items
@@ -194,7 +185,7 @@ const NewAboutMenuPortion = ({
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  current={checkIfNoCurrent(unfilteredMenuItems, link.article.slug, slug)}
+                  current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
                   to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
