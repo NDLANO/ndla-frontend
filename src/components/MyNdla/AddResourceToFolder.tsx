@@ -16,7 +16,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { ListResource, MessageBox, TagSelector, useSnack } from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
 import {

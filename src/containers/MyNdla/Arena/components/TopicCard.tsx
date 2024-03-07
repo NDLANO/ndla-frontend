@@ -10,7 +10,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Locked } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { routes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
