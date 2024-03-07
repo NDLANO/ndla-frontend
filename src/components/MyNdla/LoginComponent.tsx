@@ -14,7 +14,7 @@ import { ButtonV2 } from "@ndla/button";
 import { mq, breakpoints, fonts, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
 import { ModalCloseButton } from "@ndla/modal";
-import SafeLink, { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";

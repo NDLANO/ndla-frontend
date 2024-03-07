@@ -11,7 +11,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-sans-pro/400-italic.css";

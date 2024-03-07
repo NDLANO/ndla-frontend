@@ -11,7 +11,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
-import SafeLink, { SafeLinkProps } from "@ndla/safelink";
+import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
