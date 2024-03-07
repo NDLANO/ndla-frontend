@@ -25,7 +25,6 @@ import LockModal from "./LockModal";
 import {
   useArenaDeletePost,
   useArenaDeleteTopic,
-  useArenaReplyToTopicMutation,
   useArenaUpdatePost,
   useArenaUpdateTopic,
 } from "./temporaryNodebbHooks";
@@ -47,6 +46,7 @@ interface Props {
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
   isMainPost: boolean;
+  createReply: (data: Partial<ArenaFormValues>) => void;
 }
 
 const PostWrapper = styled.div`
@@ -129,7 +129,7 @@ export const compareUsernames = (userUsername: string | undefined, postUsername:
   return userUsername === postUsername;
 };
 
-const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createReply }: Props) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML, owner } = post;
@@ -142,7 +142,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const { user } = useContext(AuthContext);
-  const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
   const { updatePost } = useArenaUpdatePost(topicId);
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
@@ -262,24 +261,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
     postId,
     post,
   ]);
-
-  const createReply = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
-      const newReply = await replyToTopic({
-        variables: { topicId, content: data.content ?? "" },
-      });
-
-      // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
-      if (!newReply.data) return;
-      if ("replyToTopic" in newReply.data) {
-        setFocusId(newReply.data.replyToTopic.id);
-      }
-      if ("replyToTopicV2" in newReply.data) {
-        setFocusId(newReply.data.replyToTopicV2.id);
-      }
-    },
-    [replyToTopic, topicId, setFocusId],
-  );
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
