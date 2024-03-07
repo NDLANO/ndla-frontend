@@ -21,12 +21,12 @@ import { toHref } from "../../util/urlHelper";
 const LoginComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.normal};
 `;
 
 const BottomRow = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-top: ${spacing.normal};
 `;
 
 const ButtonRow = styled.div`
@@ -46,7 +46,6 @@ const TitleRow = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.small};
 `;
 
 interface Props {
@@ -69,6 +68,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
       )}
       {content}
       <ContentWrapper>
+        <Text textStyle="ingress">{t("myNdla.myPage.loginIngress")}</Text>
         <Text textStyle="meta-text-medium">
           {t("myNdla.myPage.loginText")}
           <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
