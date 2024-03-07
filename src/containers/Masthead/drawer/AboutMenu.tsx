@@ -87,7 +87,6 @@ const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) =
     return filteredItems;
   };
   const filteredMenuItems = filterMenuItems(items);
-  console.log("filteredMenuItems2", filteredMenuItems);
   return filteredMenuItems.filter((item) => item.menu && item.menu.length > 0);
 };
 
