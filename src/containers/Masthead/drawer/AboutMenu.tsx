@@ -52,7 +52,21 @@ const checkIfNoCurrent: (
   return false;
 };
 
+function hasHideLevelDeep(items: GQLAboutMenu_FrontpageMenuFragment[]): boolean {
+  if (items.some((item) => item.hideLevel)) {
+    return true;
+  }
+  return items.some((item): boolean => {
+    if (Array.isArray(item.menu)) {
+      return hasHideLevelDeep(item.menu);
+    }
+    return false;
+  });
+}
+
 const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) => {
+  const hasHideLevel = hasHideLevelDeep(items);
+  if (!hasHideLevel) return items;
   const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] => {
     const filteredItems = items
       .filter((item) => {
@@ -73,6 +87,7 @@ const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) =
     return filteredItems;
   };
   const filteredMenuItems = filterMenuItems(items);
+  console.log("filteredMenuItems2", filteredMenuItems);
   return filteredMenuItems.filter((item) => item.menu && item.menu.length > 0);
 };
 
