@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
-import { Copy, TrashCanOutline } from "@ndla/icons/action";
+import { Copy } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
 import Tooltip from "@ndla/tooltip";
@@ -147,21 +147,6 @@ export const FolderShareModalContent = ({
       );
     }
   }, [folder.id, onUpdate, t, type]);
-  const unShareButton = useMemo(
-    () =>
-      type === "shared" ? (
-        <ButtonV2
-          shape="pill"
-          variant={selectors?.isMobile ? "outline" : "ghost"}
-          colorTheme="danger"
-          onClick={onUpdate}
-        >
-          {t("myNdla.folder.sharing.button.unShare")}
-          {!selectors?.isMobile && <TrashCanOutline />}
-        </ButtonV2>
-      ) : null,
-    [selectors?.isMobile, onUpdate, t, type],
-  );
 
   return (
     <ModalContent>
@@ -205,7 +190,6 @@ export const FolderShareModalContent = ({
         <StyledButtonRow>
           {!selectors?.isMobile ? (
             <>
-              {unShareButton}
               <StyledSpacing />
               {cancelButton}
               {modalButton}
@@ -213,7 +197,6 @@ export const FolderShareModalContent = ({
           ) : (
             <>
               {modalButton}
-              {unShareButton}
               {cancelButton}
             </>
           )}

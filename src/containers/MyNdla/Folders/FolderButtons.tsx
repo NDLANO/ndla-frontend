@@ -135,39 +135,31 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
   const unShareButton =
     selectedFolder && isFolderShared ? (
-      <FolderShareModal
-        key="unShareFolderButton"
-        type="unShare"
-        folder={selectedFolder}
-        onUpdateStatus={async (close) => {
-          updateFolderStatus({
-            variables: {
-              folderId: selectedFolder.id,
-              status: "private",
-            },
-          }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
-          close();
-          addSnack({
-            id: "sharingDeleted",
-            content: t("myNdla.folder.sharing.unShare"),
-          });
-          setIsOpen(false);
-        }}
-      >
-        <StyledListItem key="unShareFolderButton">
-          <ButtonV2
-            css={buttonCss}
-            variant="ghost"
-            colorTheme="lighter"
-            ref={unShareRef}
-            aria-label={t("myNdla.folder.sharing.button.unShare")}
-            title={t("myNdla.folder.sharing.button.unShare")}
-          >
-            <Cross css={iconCss} />
-            {t("myNdla.folder.sharing.button.unShare")}
-          </ButtonV2>
-        </StyledListItem>
-      </FolderShareModal>
+      <StyledListItem key="unShareFolderButton">
+        <ButtonV2
+          css={buttonCss}
+          variant="ghost"
+          colorTheme="lighter"
+          ref={unShareRef}
+          aria-label={t("myNdla.folder.sharing.button.unShare")}
+          title={t("myNdla.folder.sharing.button.unShare")}
+          onClick={async () => {
+            updateFolderStatus({
+              variables: {
+                folderId: selectedFolder.id,
+                status: "private",
+              },
+            }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
+            addSnack({
+              id: "sharingDeleted",
+              content: t("myNdla.folder.sharing.unShare"),
+            });
+          }}
+        >
+          <Cross css={iconCss} />
+          {t("myNdla.folder.sharing.button.unShare")}
+        </ButtonV2>
+      </StyledListItem>
     ) : null;
 
   const shareButton =
