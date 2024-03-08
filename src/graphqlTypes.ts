@@ -629,34 +629,12 @@ export type GQLFootNote = {
   year: Scalars["String"]["output"];
 };
 
-export type GQLFrontPageResources = {
-  __typename?: "FrontPageResources";
-  results: Array<GQLFrontpageSearchResult>;
-  suggestions: Array<GQLSuggestionResult>;
-  totalCount: Scalars["Int"]["output"];
-};
-
 export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
   hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
-};
-
-export type GQLFrontpageSearch = {
-  __typename?: "FrontpageSearch";
-  learningResources: GQLFrontPageResources;
-  topicResources: GQLFrontPageResources;
-};
-
-export type GQLFrontpageSearchResult = {
-  __typename?: "FrontpageSearchResult";
-  id: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  path: Scalars["String"]["output"];
-  resourceTypes: Array<GQLSearchContextResourceTypes>;
-  subject: Scalars["String"]["output"];
 };
 
 export type GQLGloss = {
@@ -1376,11 +1354,11 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
 export type GQLProgrammePage = {
   __typename?: "ProgrammePage";
   contentUri?: Maybe<Scalars["String"]["output"]>;
-  desktopImage?: Maybe<GQLMetaImage>;
+  desktopImage?: Maybe<Scalars["String"]["output"]>;
   grades?: Maybe<Array<GQLGrade>>;
   id: Scalars["String"]["output"];
   metaDescription?: Maybe<Scalars["String"]["output"]>;
-  mobileImage?: Maybe<GQLMetaImage>;
+  mobileImage?: Maybe<Scalars["String"]["output"]>;
   title: GQLTitle;
   url: Scalars["String"]["output"];
 };
@@ -1423,7 +1401,6 @@ export type GQLQuery = {
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpageMenu>;
-  frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
@@ -1591,10 +1568,6 @@ export type GQLQueryFolderResourceMetaSearchArgs = {
 export type GQLQueryFoldersArgs = {
   includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
   includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-export type GQLQueryFrontpageSearchArgs = {
-  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryGroupSearchArgs = {
@@ -1832,12 +1805,10 @@ export type GQLSearchContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
   contextType: Scalars["String"]["output"];
-  id: Scalars["String"]["output"];
   isActive: Scalars["Boolean"]["output"];
   isPrimary: Scalars["Boolean"]["output"];
   isVisible: Scalars["Boolean"]["output"];
   language: Scalars["String"]["output"];
-  learningResourceType: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   publicId: Scalars["String"]["output"];
@@ -1846,15 +1817,6 @@ export type GQLSearchContext = {
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
-  subject: Scalars["String"]["output"];
-  subjectId: Scalars["String"]["output"];
-};
-
-export type GQLSearchContextFilter = {
-  __typename?: "SearchContextFilter";
-  id: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  relevance: Scalars["String"]["output"];
 };
 
 export type GQLSearchContextResourceTypes = {
@@ -2506,7 +2468,12 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   menu?: Array<
     {
       __typename?: "FrontpageMenu";
-      menu?: Array<{ __typename?: "FrontpageMenu" } & GQLFrontpageMenuFragmentFragment>;
+      menu?: Array<
+        {
+          __typename?: "FrontpageMenu";
+          menu?: Array<{ __typename?: "FrontpageMenu" } & GQLFrontpageMenuFragmentFragment>;
+        } & GQLFrontpageMenuFragmentFragment
+      >;
     } & GQLFrontpageMenuFragmentFragment
   >;
 } & GQLFrontpageMenuFragmentFragment;
@@ -4260,10 +4227,10 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
 export type GQLProgrammeFragmentFragment = {
   __typename?: "ProgrammePage";
   id: string;
+  desktopImage?: string;
+  mobileImage?: string;
   url: string;
   title: { __typename?: "Title"; title: string; language: string };
-  desktopImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  mobileImage?: { __typename?: "MetaImage"; url: string; alt: string };
 };
 
 export type GQLFrontpageDataQueryVariables = Exact<{ [key: string]: never }>;

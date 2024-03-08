@@ -60,12 +60,8 @@ interface ProgrammeQueryResult {
     title: string;
   };
   metaDescription?: string;
-  desktopImage?: {
-    url: string;
-  };
-  mobileImage?: {
-    url: string;
-  };
+  desktopImage?: string;
+  mobileImage?: string;
   grades?: GradeResult[];
 }
 
@@ -119,7 +115,7 @@ const ProgrammeContainer = ({ programme, grade }: Props) => {
   const grades = mapGradesData(programme.grades || []);
   const socialMediaTitle = `${programme.title.title} - ${grade}`;
   const metaDescription = programme.metaDescription;
-  const image = programme.desktopImage?.url || "";
+  const image = programme.desktopImage || "";
   const pageTitle = getDocumentTitle(programme.title.title, grade, t);
   const { trackPageView } = useTracker();
 

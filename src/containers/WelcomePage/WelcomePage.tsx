@@ -68,14 +68,8 @@ export const programmeFragment = gql`
       title
       language
     }
-    desktopImage {
-      url
-      alt
-    }
-    mobileImage {
-      url
-      alt
-    }
+    desktopImage
+    mobileImage
     url
   }
 `;
@@ -113,12 +107,12 @@ const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
       id: p.id,
       title: p.title,
       wideImage: {
-        src: p.desktopImage?.url || "",
-        alt: p.desktopImage?.alt || "",
+        src: p.desktopImage || "",
+        alt: "",
       },
       narrowImage: {
-        src: p.mobileImage?.url || "",
-        alt: p.mobileImage?.alt || "",
+        src: p.mobileImage || "",
+        alt: "",
       },
       url: `${PROGRAMME_PATH}${p.url}` || "",
     };

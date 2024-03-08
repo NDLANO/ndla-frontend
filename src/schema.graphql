@@ -552,30 +552,11 @@ type FootNote {
   year: String!
 }
 
-type FrontPageResources {
-  results: [FrontpageSearchResult!]!
-  suggestions: [SuggestionResult!]!
-  totalCount: Int!
-}
-
 type FrontpageMenu {
   article: Article!
   articleId: Int!
   hideLevel: Boolean
   menu: [FrontpageMenu]
-}
-
-type FrontpageSearch {
-  learningResources: FrontPageResources!
-  topicResources: FrontPageResources!
-}
-
-type FrontpageSearchResult {
-  id: String!
-  name: String!
-  path: String!
-  resourceTypes: [SearchContextResourceTypes!]!
-  subject: String!
 }
 
 type Gloss {
@@ -1062,11 +1043,11 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
 
 type ProgrammePage {
   contentUri: String
-  desktopImage: MetaImage
+  desktopImage: String
   grades: [Grade!]
   id: String!
   metaDescription: String
-  mobileImage: MetaImage
+  mobileImage: String
   title: Title!
   url: String!
 }
@@ -1128,7 +1109,6 @@ type Query {
   folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
   frontpage: FrontpageMenu
-  frontpageSearch(query: String): FrontpageSearch
   groupSearch(
     aggregatePaths: [String!]
     contextTypes: String
@@ -1279,12 +1259,10 @@ type SearchContext {
   breadcrumbs: [String!]!
   contextId: String!
   contextType: String!
-  id: String!
   isActive: Boolean!
   isPrimary: Boolean!
   isVisible: Boolean!
   language: String!
-  learningResourceType: String!
   parentIds: [String!]!
   path: String!
   publicId: String!
@@ -1293,14 +1271,6 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
-  subject: String!
-  subjectId: String!
-}
-
-type SearchContextFilter {
-  id: String!
-  name: String!
-  relevance: String!
 }
 
 type SearchContextResourceTypes {
