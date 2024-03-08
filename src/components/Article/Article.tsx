@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, Suspense, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -22,7 +22,7 @@ import { MastheadHeightPx } from "../../constants";
 import { GQLArticleConceptEmbedsQuery, GQLArticle_ArticleFragment, GQLResourceEmbedInput } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { TransformedBaseArticle } from "../../util/transformArticle";
-import CompetenceGoals from "../CompetenceGoals";
+import CompetenceGoals, { CompetenceGoalsButton } from "../CompetenceGoals";
 import LicenseBox from "../license/LicenseBox";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
@@ -189,12 +189,14 @@ const Article = ({
         messages={messages}
         competenceGoals={
           !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
-            <CompetenceGoals
-              codes={article.grepCodes}
-              subjectId={subjectId}
-              supportedLanguages={article.supportedLanguages}
-              isOembed={isOembed}
-            />
+            <Suspense fallback={<CompetenceGoalsButton disabled />}>
+              <CompetenceGoals
+                codes={article.grepCodes}
+                subjectId={subjectId}
+                supportedLanguages={article.supportedLanguages}
+                isOembed={isOembed}
+              />
+            </Suspense>
           ) : undefined
         }
         lang={art.language === "nb" ? "no" : art.language}
