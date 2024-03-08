@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { mq, breakpoints, spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
-import SafeLink, { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";

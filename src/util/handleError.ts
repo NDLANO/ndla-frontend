@@ -8,7 +8,7 @@
 
 import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import config from "../config";
 
 let log: any | undefined;

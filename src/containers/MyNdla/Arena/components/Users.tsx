@@ -13,7 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { InputV3 } from "@ndla/forms";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";

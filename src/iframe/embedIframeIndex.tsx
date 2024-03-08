@@ -15,7 +15,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
