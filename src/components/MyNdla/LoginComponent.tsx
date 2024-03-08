@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode } from "react";
 import parse from "html-react-parser";
+import { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
