@@ -49,6 +49,10 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `;
 
+const StyledSafelink = styled(SafeLink)`
+  margin-left: ${spacing.xsmall};
+`;
+
 interface Props {
   masthead?: boolean;
   content?: ReactNode;
@@ -72,9 +76,9 @@ const LoginComponent = ({ masthead, content }: Props) => {
         <Text textStyle="ingress">{parse(t("myNdla.myPage.loginIngress"))}</Text>
         <Text textStyle="meta-text-medium">
           {t("myNdla.myPage.loginText")}
-          <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
+          <StyledSafelink target="_blank" to="https://ndla.no/article/personvernerklaering">
             {t("myNdla.myPage.loginTextLink")}
-          </SafeLink>
+          </StyledSafelink>
         </Text>
       </ContentWrapper>
       <BottomRow>
