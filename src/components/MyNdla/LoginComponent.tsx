@@ -7,6 +7,7 @@
  */
 
 import { ReactNode } from "react";
+import parse from "html-react-parser";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -68,7 +69,7 @@ const LoginComponent = ({ masthead, content }: Props) => {
       )}
       {content}
       <ContentWrapper>
-        <Text textStyle="ingress">{t("myNdla.myPage.loginIngress")}</Text>
+        <Text textStyle="ingress">{parse(t("myNdla.myPage.loginIngress"))}</Text>
         <Text textStyle="meta-text-medium">
           {t("myNdla.myPage.loginText")}
           <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
