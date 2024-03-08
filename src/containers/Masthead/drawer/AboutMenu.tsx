@@ -33,31 +33,64 @@ interface NewAboutMenuProps extends Props {
   setMenu: Dispatch<SetStateAction<GQLAboutMenu_FrontpageMenuFragment[]>>;
   onClose: () => void;
 }
+const checkIfNoCurrent: (
+  parentSlug: String | undefined,
+  slug: String | undefined,
+  structure?: GQLAboutMenu_FrontpageMenuFragment[],
+) => boolean = (parentSlug, slug, structure) => {
+  if (parentSlug === slug) return true;
+  return (
+    structure?.some(
+      (item) =>
+        (item.article.slug === parentSlug && item?.menu?.some((subItem) => subItem.article.slug === slug)) ||
+        checkIfNoCurrent(parentSlug, slug, item.menu),
+    ) ?? false
+  );
+};
+
+const hasHideLevelDeep = (items?: GQLAboutMenu_FrontpageMenuFragment[]): boolean =>
+  items?.some((item) => item.hideLevel || hasHideLevelDeep(item.menu)) ?? false;
+
+const filterMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]): GQLAboutMenu_FrontpageMenuFragment[] =>
+  items
+    .filter((item) => !item.hideLevel)
+    .map((item) => ({
+      ...item,
+      menu: item.menu ? filterMenuItems(item.menu) : undefined,
+    }));
+
+const filterAndReduceMenuItems = (items: GQLAboutMenu_FrontpageMenuFragment[]) => {
+  const hasHideLevel = hasHideLevelDeep(items);
+  if (!hasHideLevel) return items;
+  return filterMenuItems(items).filter((item) => item.menu?.length);
+};
 
 export const AboutMenu = ({ onCloseMenuPortion, onClose, setMenu: _setMenu, menuItems }: NewAboutMenuProps) => {
+  const filteredMenuItems = filterAndReduceMenuItems(menuItems);
   const setMenu = useCallback(
     (value: GQLAboutMenu_FrontpageMenuFragment) => {
-      const newMenu = findBreadcrumb(menuItems, value.article.slug);
+      const newMenu = findBreadcrumb(filteredMenuItems, value.article.slug);
       _setMenu(newMenu as GQLDrawerContent_FrontpageMenuFragment[]);
     },
-    [menuItems, _setMenu],
+    [filteredMenuItems, _setMenu],
   );
-
-  return menuItems.map((item, index) => (
+  return filteredMenuItems.map((item, index) => (
     <NewAboutMenuPortion
+      unfilteredMenuItems={menuItems}
       key={item.article.id}
       setMenu={setMenu}
       item={item}
       onClose={onClose}
       onGoBack={onCloseMenuPortion}
-      nextItem={menuItems[index + 1]}
-      lastPortion={index === menuItems.length - 1}
+      nextItem={filteredMenuItems[index + 1]}
+      lastPortion={index === filteredMenuItems.length - 1}
       homeButton
     />
   ));
 };
 
 interface NewAboutMenuPortionProps {
+  unfilteredMenuItems: GQLAboutMenu_FrontpageMenuFragment[];
   item: GQLAboutMenu_FrontpageMenuFragment;
   onGoBack: () => void;
   onClose: () => void;
@@ -68,6 +101,7 @@ interface NewAboutMenuPortionProps {
 }
 
 const NewAboutMenuPortion = ({
+  unfilteredMenuItems,
   item,
   onGoBack,
   onClose,
@@ -140,14 +174,18 @@ const NewAboutMenuPortion = ({
             active={!selected}
           />
           {item.menu?.map((link) => {
-            if (!link.menu?.length) {
+            const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
+            if (link.hideLevel) {
+              return null;
+            }
+            if (!link.menu?.length || allSublevelsHidden) {
               return (
                 <DrawerMenuItem
                   key={link.article.slug}
                   id={link.article.slug!}
                   type="link"
                   onClose={onClose}
-                  current={link.article.slug === slug}
+                  current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
                   to={toAbout(link.article.slug)}
                 >
                   {link.article.title}
@@ -180,6 +218,7 @@ const PortionWrapper = styled.div`
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {
     articleId
+    hideLevel
     article {
       id
       title
@@ -198,6 +237,9 @@ AboutMenu.fragments = {
           ...AboutMenu
           menu {
             ...AboutMenu
+            menu {
+              ...AboutMenu
+            }
           }
         }
       }

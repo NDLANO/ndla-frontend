@@ -2625,6 +2625,7 @@ export type GQLMastheadSearch_SubjectFragment = { __typename?: "Subject"; id: st
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
   articleId: number;
+  hideLevel?: boolean;
   article: { __typename?: "Article"; id: number; title: string; slug?: string };
 };
 
@@ -2636,7 +2637,12 @@ export type GQLAboutMenu_FrontpageMenuFragment = {
       menu?: Array<
         {
           __typename?: "FrontpageMenu";
-          menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutMenuFragment>;
+          menu?: Array<
+            {
+              __typename?: "FrontpageMenu";
+              menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutMenuFragment>;
+            } & GQLAboutMenuFragment
+          >;
         } & GQLAboutMenuFragment
       >;
     } & GQLAboutMenuFragment
