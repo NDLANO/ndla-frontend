@@ -24,7 +24,7 @@ import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useAddFolderMutation, useDeleteFolderMutation, useUpdateFolderStatusMutation } from "../folderMutations";
+import { useAddFolderMutation, useDeleteFolderMutation } from "../folderMutations";
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -40,7 +40,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const { folderId } = useParams();
   const navigate = useNavigate();
 
-  const { updateFolderStatus } = useUpdateFolderStatusMutation();
   const { deleteFolder } = useDeleteFolderMutation();
   const { addFolder } = useAddFolderMutation();
 
@@ -154,10 +153,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
           folder={selectedFolder}
           onClose={close}
           onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-          onUpdateStatus={async (close) => {
-            close();
-            unShareRef.current?.click();
-          }}
         />
       ),
     };
@@ -188,26 +183,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       text: t("myNdla.folder.sharing.button.unShare"),
       isModal: true,
       ref: unShareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="unShare"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: "private",
-              },
-            });
-            close();
-            addSnack({
-              id: "sharingDeleted",
-              content: t("myNdla.folder.sharing.unShare"),
-            });
-          }}
-        />
-      ),
+      modalContent: (close) => <FolderShareModalContent type="unShare" folder={selectedFolder} onClose={close} />,
     };
 
     const share: MenuItemProps = {
@@ -215,26 +191,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       text: t("myNdla.folder.sharing.share"),
       isModal: true,
       ref: shareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="private"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            await updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: "shared",
-              },
-            });
-            close();
-            addSnack({
-              id: "folderShared",
-              content: t("myNdla.folder.sharing.header.shared"),
-            });
-          }}
-        />
-      ),
+      modalContent: (close) => <FolderShareModalContent type="private" folder={selectedFolder} onClose={close} />,
     };
 
     const deleteOpt: MenuItemProps = {
@@ -273,7 +230,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     return actions.concat(editFolder, share, deleteOpt);
   }, [
-    updateFolderStatus,
     onFolderUpdated,
     onDeleteFolder,
     selectedFolder,
