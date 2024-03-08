@@ -112,7 +112,7 @@
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.0.0",
-    "html-react-parser": "^4.2.2",
+    "html-react-parser": "^5.1.8",
     "i18next": "^23.5.1",
     "lexical": "^0.12.4",
     "lodash": "^4.17.21",
