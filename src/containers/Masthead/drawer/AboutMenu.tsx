@@ -84,7 +84,7 @@ const NewAboutMenuPortion = ({
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
 
   useEffect(() => {
-    if (!selected && shouldCloseLevel) {
+    if (shouldCloseLevel) {
       onGoBack();
       setLevelClosed();
     }
