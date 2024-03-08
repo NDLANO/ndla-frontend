@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, createRef, useEffect, useContext, Suspense } from "react";
+import { useState, createRef, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
@@ -29,7 +29,7 @@ import {
 import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
-import CompetenceGoals, { CompetenceGoalsButton } from "../../components/CompetenceGoals";
+import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
   SKIP_TO_CONTENT_ID,
@@ -177,9 +177,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <ArticleHeaderWrapper
             competenceGoals={
               subject.grepCodes?.length ? (
-                <Suspense fallback={<CompetenceGoalsButton disabled />}>
-                  <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
-                </Suspense>
+                <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
               ) : undefined
             }
           >
