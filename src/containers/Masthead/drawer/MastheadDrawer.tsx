@@ -102,7 +102,7 @@ const mastheadProgrammeQuery = gql`
 
 const MastheadDrawer = ({ subject }: Props) => {
   const [open, setOpen] = useState(false);
-  const [frontpageMenu, _setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
+  const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
   const { subjectId, topicList, programme, slug } = useUrnIds();
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
@@ -128,7 +128,7 @@ const MastheadDrawer = ({ subject }: Props) => {
       const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType("about");
-      _setFrontpageMenu((menuItems ?? []) as GQLDrawerContent_FrontpageMenuFragment[]);
+      setFrontpageMenu((menuItems.length > 0 ? menuItems : [crumb[0]]) as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
       setType(undefined);
     }
@@ -140,8 +140,8 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [programme, prevProgramme]);
 
-  const setFrontpageMenu = useCallback((menu: GQLDrawerContent_FrontpageMenuFragment) => {
-    _setFrontpageMenu([menu]);
+  const handleUpdateFrontpageMenu = useCallback((menu: GQLDrawerContent_FrontpageMenuFragment) => {
+    setFrontpageMenu([menu]);
     setType("about");
   }, []);
 
@@ -149,14 +149,14 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const closeSubMenu = useCallback(() => {
     setTopicPath([]);
-    _setFrontpageMenu([]);
+    setFrontpageMenu([]);
     setType(undefined);
   }, []);
 
   const onCloseMenuPortion = useCallback(() => {
     if (type === "about") {
       const slicedMenu = frontpageMenu?.slice(0, frontpageMenu?.length - 1);
-      _setFrontpageMenu(slicedMenu);
+      setFrontpageMenu(slicedMenu);
       if (!slicedMenu?.length) {
         setType(undefined);
       }
@@ -206,7 +206,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                   onClose={close}
                   onCloseMenuPortion={onCloseMenuPortion}
                   setActiveMenu={setType}
-                  setFrontpageMenu={setFrontpageMenu}
+                  setFrontpageMenu={handleUpdateFrontpageMenu}
                   dynamicMenus={
                     (frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]
                   }
@@ -221,7 +221,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                     menuItems={frontpageMenu}
                     topicPath={topicPath}
                     subject={subject}
-                    setFrontpageMenu={_setFrontpageMenu}
+                    setFrontpageMenu={setFrontpageMenu}
                     setTopicPathIds={setTopicPath}
                     onCloseMenuPortion={onCloseMenuPortion}
                     programmes={programmesQuery.data?.programmes ?? []}

@@ -14,7 +14,7 @@ import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
-import Tooltip from "@ndla/tooltip";
+import { Tooltip } from "@ndla/tooltip";
 import { useSnack } from "@ndla/ui";
 import FolderAndResourceCount from "./FolderAndResourceCount";
 import { sharedFolderLink } from "./util";

@@ -12,7 +12,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";

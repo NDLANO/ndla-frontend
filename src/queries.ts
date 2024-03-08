@@ -223,53 +223,6 @@ export const copyrightInfoFragment = gql`
   }
 `;
 
-export const frontpageSearchQuery = gql`
-  query FrontpageSearch($query: String) {
-    frontpageSearch(query: $query) {
-      topicResources {
-        results {
-          id
-          name
-          path
-          resourceTypes {
-            name
-          }
-          subject
-        }
-        totalCount
-        suggestions {
-          suggestions {
-            options {
-              text
-              score
-            }
-          }
-        }
-      }
-      learningResources {
-        results {
-          id
-          name
-          path
-          resourceTypes {
-            name
-          }
-          subject
-        }
-        totalCount
-        suggestions {
-          suggestions {
-            options {
-              text
-              score
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 export const subjectInfoFragment = gql`
   fragment SubjectInfo on Subject {
     id
@@ -301,15 +254,6 @@ export const searchPageQuery = gql`
         id
         name
       }
-    }
-  }
-  ${subjectInfoFragment}
-`;
-
-export const subjectsQuery = gql`
-  query subjects {
-    subjects(filterVisible: true) {
-      ...SubjectInfo
     }
   }
   ${subjectInfoFragment}

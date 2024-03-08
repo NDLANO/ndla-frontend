@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { ForwardArrow } from "@ndla/icons/action";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import { CampaignBlock, ListResource } from "@ndla/ui";

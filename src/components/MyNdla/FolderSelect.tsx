@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { IFolderData, IResource } from "@ndla/types-backend/myndla-api";
 import { TreeStructure } from "@ndla/ui";
 import { ComboboxContainer } from "./AddResourceToFolder";
 import NewFolder from "./NewFolder";
@@ -71,12 +72,12 @@ const FolderSelect = ({
     <ComboboxContainer>
       <TreeStructure
         loading={loading}
-        folders={structureFolders}
+        folders={structureFolders as IFolderData[]}
         label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
         type="picker"
-        targetResource={storedResource}
+        targetResource={storedResource as IResource | undefined}
         newFolderInput={({ parentId, onClose, onCreate }) => (
           <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
         )}

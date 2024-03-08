@@ -28,8 +28,8 @@ test.beforeEach(async ({ page }) => {
 
 test("contains content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
-  await expect(page.getByRole("navigation").getByRole("listitem")).toHaveCount(4);
-  await expect(page.getByRole("navigation").getByRole("listitem").getByRole("link")).toHaveCount(3);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(4);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(3);
 
   const heading = page.getByRole("heading").getByText("Muntlig eksamen MIK 1");
   expect(heading).toBeDefined();

@@ -30,8 +30,7 @@ import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
-// @ts-ignore
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";

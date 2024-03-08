@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { Cell } from "./Users";
 import { isArenaModerator } from "../../../../components/AuthenticationContext";

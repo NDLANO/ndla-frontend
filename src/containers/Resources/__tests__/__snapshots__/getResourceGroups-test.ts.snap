@@ -285,12 +285,14 @@ exports[`resources types sort order 1`] = `
     "name": "Kildemateriale",
   },
   {
-    "id": "urn:resourcetype:externalResource",
-    "name": "Ekstern læringsressurs",
-  },
-  {
     "id": "urn:resourcetype:concept",
-    "name": "Begrep",
+    "name": "Forklaring",
+    "subtypes": [
+      {
+        "id": "urn:resourcetype:conceptArticle",
+        "name": "Forklaringsartikkel",
+      },
+    ],
   },
 ]
 `;
