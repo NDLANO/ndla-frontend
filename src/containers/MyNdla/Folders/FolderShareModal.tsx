@@ -25,9 +25,7 @@ import { useUserAgent } from "../../../UserAgentContext";
 const StyledModalBody = styled(ModalBody)`
   display: flex;
   flex-flow: column;
-  gap: ${spacing.nsmall};
-  padding-top: 0px;
-  padding-bottom: ${spacing.normal};
+  gap: ${spacing.normal};
 `;
 
 const GapWrapper = styled.div`
