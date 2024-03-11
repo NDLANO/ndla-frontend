@@ -8,6 +8,7 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
@@ -17,6 +18,7 @@ import TopicVisualElementContent from "./TopicVisualElementContent";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
@@ -26,6 +28,7 @@ import {
 } from "../../../graphqlTypes";
 import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
+import { getTopicPathV2 } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -58,6 +61,11 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
   const { trackPageView } = useTracker();
   const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
+
+  const topicPath = useMemo(() => {
+    if (!topic?.path) return [];
+    return getTopicPathV2(topic.path, topic.contexts);
+  }, [topic]);
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
@@ -108,40 +116,53 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
     return null;
   }
 
-  const path = topic?.path || "";
-  const topicPath = path
-    ?.split("/")
-    .slice(2)
-    .map((id) => `urn:${id}`);
-
   const subTopics = topic?.subtopics?.map((subtopic) => {
     return {
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath, subtopic.id),
+      url: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
 
+  const pageTitle = htmlTitle([topic.name, subject?.name].filter((e) => !!e).join(" - "), [
+    t("htmlTitles.titleTemplate"),
+  ]);
+
   return (
-    <UITopic
-      visualElement={visualElement}
-      visualElementEmbedMeta={embedMeta}
-      id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-      onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
-      showContent={showContent}
-      title={article.title}
-      introduction={article.introduction}
-      resources={resources}
-      subTopics={subTopics}
-      metaImage={article.metaImage}
-      isLoading={false}
-      invertedStyle={ndlaFilm}
-      isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-    >
-      <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
-    </UITopic>
+    <>
+      {urnTopicId === topicId && (
+        <>
+          <Helmet>
+            <title>{pageTitle}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={pageTitle}
+            description={topic.meta?.metaDescription}
+            imageUrl={topic.meta?.metaImage?.url}
+            trackableContent={{ supportedLanguages: topic.supportedLanguages }}
+          />
+        </>
+      )}
+      <UITopic
+        visualElement={visualElement}
+        visualElementEmbedMeta={embedMeta}
+        id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
+        onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
+        showContent={showContent}
+        title={article.title}
+        introduction={article.introduction}
+        resources={resources}
+        subTopics={subTopics}
+        metaImage={article.metaImage}
+        isLoading={false}
+        invertedStyle={ndlaFilm}
+        isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
+      >
+        <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
+      </UITopic>
+    </>
   );
 };
 
@@ -150,14 +171,11 @@ export const topicFragments = {
     fragment Topic_Subject on Subject {
       id
       name
-      allTopics {
-        id
-        name
-      }
     }
   `,
   topic: gql`
     fragment Topic_Topic on Topic {
+      id
       path
       name
       relevanceId
@@ -165,6 +183,18 @@ export const topicFragments = {
         id
         name
         relevanceId
+      }
+      meta {
+        metaDescription
+        metaImage {
+          url
+        }
+      }
+      supportedLanguages
+      contexts {
+        breadcrumbs
+        parentIds
+        path
       }
       article(convertEmbeds: $convertEmbeds) {
         metaImage {

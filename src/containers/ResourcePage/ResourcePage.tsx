@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -17,7 +17,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPath } from "../../util/getTopicPath";
+import { getTopicPathV2 } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
@@ -34,11 +34,6 @@ const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) =>
 const resourcePageQuery = gql`
   query resourcePage($topicId: String!, $subjectId: String!, $resourceId: String!, $convertEmbeds: Boolean) {
     subject(id: $subjectId) {
-      topics(all: true) {
-        parentId
-        ...LearningpathPage_TopicPath
-        ...ArticlePage_TopicPath
-      }
       ...LearningpathPage_Subject
       ...ArticlePage_Subject
     }
@@ -53,6 +48,11 @@ const resourcePageQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       relevanceId
       paths
+      contexts {
+        breadcrumbs
+        parentIds
+        path
+      }
       ...MovedResourcePage_Resource
       ...ArticlePage_Resource
       ...LearningpathPage_Resource
@@ -63,12 +63,10 @@ const resourcePageQuery = gql`
   ${articlePageFragments.resource}
   ${articlePageFragments.resourceType}
   ${articlePageFragments.subject}
-  ${articlePageFragments.topicPath}
   ${learningpathPageFragments.topic}
   ${learningpathPageFragments.resourceType}
   ${learningpathPageFragments.resource}
   ${learningpathPageFragments.subject}
-  ${learningpathPageFragments.topicPath}
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
@@ -83,6 +81,11 @@ const ResourcePage = () => {
     },
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
+
+  const topicPath = useMemo(() => {
+    if (!data?.resource?.path) return [];
+    return getTopicPathV2(data.resource.path, data.resource.contexts);
+  }, [data?.resource]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -120,13 +123,13 @@ const ResourcePage = () => {
     }
   }
 
-  const { subject, resource, topic } = data;
+  const { resource } = data;
   const relevanceId = resource.relevanceId;
   const relevance =
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t("searchPage.searchFilterMessages.supplementaryRelevance")
       : t("searchPage.searchFilterMessages.coreRelevance");
-  const topicPath = subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
+
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage

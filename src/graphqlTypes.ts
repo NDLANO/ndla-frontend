@@ -629,34 +629,12 @@ export type GQLFootNote = {
   year: Scalars["String"]["output"];
 };
 
-export type GQLFrontPageResources = {
-  __typename?: "FrontPageResources";
-  results: Array<GQLFrontpageSearchResult>;
-  suggestions: Array<GQLSuggestionResult>;
-  totalCount: Scalars["Int"]["output"];
-};
-
 export type GQLFrontpageMenu = {
   __typename?: "FrontpageMenu";
   article: GQLArticle;
   articleId: Scalars["Int"]["output"];
   hideLevel?: Maybe<Scalars["Boolean"]["output"]>;
   menu?: Maybe<Array<Maybe<GQLFrontpageMenu>>>;
-};
-
-export type GQLFrontpageSearch = {
-  __typename?: "FrontpageSearch";
-  learningResources: GQLFrontPageResources;
-  topicResources: GQLFrontPageResources;
-};
-
-export type GQLFrontpageSearchResult = {
-  __typename?: "FrontpageSearchResult";
-  id: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  path: Scalars["String"]["output"];
-  resourceTypes: Array<GQLSearchContextResourceTypes>;
-  subject: Scalars["String"]["output"];
 };
 
 export type GQLGloss = {
@@ -1423,7 +1401,6 @@ export type GQLQuery = {
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: Array<GQLFolder>;
   frontpage?: Maybe<GQLFrontpageMenu>;
-  frontpageSearch?: Maybe<GQLFrontpageSearch>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
   learningpath?: Maybe<GQLLearningpath>;
@@ -1591,10 +1568,6 @@ export type GQLQueryFolderResourceMetaSearchArgs = {
 export type GQLQueryFoldersArgs = {
   includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
   includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
-
-export type GQLQueryFrontpageSearchArgs = {
-  query?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryGroupSearchArgs = {
@@ -1832,12 +1805,10 @@ export type GQLSearchContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
   contextType: Scalars["String"]["output"];
-  id: Scalars["String"]["output"];
   isActive: Scalars["Boolean"]["output"];
   isPrimary: Scalars["Boolean"]["output"];
   isVisible: Scalars["Boolean"]["output"];
   language: Scalars["String"]["output"];
-  learningResourceType: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   publicId: Scalars["String"]["output"];
@@ -1846,15 +1817,6 @@ export type GQLSearchContext = {
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
-  subject: Scalars["String"]["output"];
-  subjectId: Scalars["String"]["output"];
-};
-
-export type GQLSearchContextFilter = {
-  __typename?: "SearchContextFilter";
-  id: Scalars["String"]["output"];
-  name: Scalars["String"]["output"];
-  relevance: Scalars["String"]["output"];
 };
 
 export type GQLSearchContextResourceTypes = {
@@ -2248,13 +2210,6 @@ export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
 
-export type GQLLastLearningpathStepInfo_TopicPathFragment = {
-  __typename?: "Topic";
-  id: string;
-  name: string;
-  path: string;
-};
-
 export type GQLLearningpath_TopicFragment = { __typename?: "Topic" } & GQLLastLearningpathStepInfo_TopicFragment &
   GQLLearningpathEmbed_TopicFragment;
 
@@ -2278,10 +2233,6 @@ export type GQLLearningpath_LearningpathStepFragment = {
 } & GQLLearningpathEmbed_LearningpathStepFragment;
 
 export type GQLLearningpath_ResourceFragment = { __typename?: "Resource"; path: string };
-
-export type GQLLearningpath_TopicPathFragment = {
-  __typename?: "Topic";
-} & GQLLastLearningpathStepInfo_TopicPathFragment;
 
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
@@ -2506,7 +2457,12 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   menu?: Array<
     {
       __typename?: "FrontpageMenu";
-      menu?: Array<{ __typename?: "FrontpageMenu" } & GQLFrontpageMenuFragmentFragment>;
+      menu?: Array<
+        {
+          __typename?: "FrontpageMenu";
+          menu?: Array<{ __typename?: "FrontpageMenu" } & GQLFrontpageMenuFragmentFragment>;
+        } & GQLFrontpageMenuFragmentFragment
+      >;
     } & GQLFrontpageMenuFragmentFragment
   >;
 } & GQLFrontpageMenuFragmentFragment;
@@ -2540,8 +2496,6 @@ export type GQLArticlePage_ResourceFragment = {
 };
 
 export type GQLArticlePage_TopicFragment = { __typename?: "Topic"; path: string } & GQLResources_TopicFragment;
-
-export type GQLArticlePage_TopicPathFragment = { __typename?: "Topic"; id: string; name: string };
 
 export type GQLArticleHero_SubjectFragment = { __typename?: "Subject"; id: string };
 
@@ -2608,8 +2562,6 @@ export type GQLLearningpathPage_ResourceFragment = {
     learningsteps: Array<{ __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 } & GQLLearningpath_ResourceFragment;
-
-export type GQLLearningpathPage_TopicPathFragment = { __typename?: "Topic" } & GQLLearningpath_TopicPathFragment;
 
 export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars["String"]["input"];
@@ -3981,14 +3933,7 @@ export type GQLResourcePageQueryVariables = Exact<{
 
 export type GQLResourcePageQuery = {
   __typename?: "Query";
-  subject?: {
-    __typename?: "Subject";
-    topics?: Array<
-      { __typename?: "Topic"; parentId?: string } & GQLLearningpathPage_TopicPathFragment &
-        GQLArticlePage_TopicPathFragment
-    >;
-  } & GQLLearningpathPage_SubjectFragment &
-    GQLArticlePage_SubjectFragment;
+  subject?: { __typename?: "Subject" } & GQLLearningpathPage_SubjectFragment & GQLArticlePage_SubjectFragment;
   resourceTypes?: Array<
     { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
       GQLLearningpathPage_ResourceTypeDefinitionFragment
@@ -3998,6 +3943,12 @@ export type GQLResourcePageQuery = {
     __typename?: "Resource";
     relevanceId?: string;
     paths: Array<string>;
+    contexts: Array<{
+      __typename?: "TaxonomyContext";
+      breadcrumbs: Array<string>;
+      parentIds: Array<string>;
+      path: string;
+    }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
     GQLLearningpathPage_ResourceFragment;
@@ -4051,15 +4002,9 @@ export type GQLSharedResourceArticleContainer_ArticleFragment = {
 
 export type GQLSubjectContainer_SubjectFragment = {
   __typename?: "Subject";
+  supportedLanguages: Array<string>;
   grepCodes?: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  topics?: Array<{ __typename?: "Topic"; id: string; supportedLanguages: Array<string> }>;
-  allTopics?: Array<{
-    __typename?: "Topic";
-    id: string;
-    name: string;
-    meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
-  }>;
   subjectpage?: {
     __typename?: "SubjectPage";
     metaDescription?: string;
@@ -4116,19 +4061,23 @@ export type GQLSubjectPageContent_SubjectFragment = {
   topics?: Array<{ __typename?: "Topic"; name: string; id: string; availability?: string; relevanceId?: string }>;
 } & GQLTopicWrapper_SubjectFragment;
 
-export type GQLTopic_SubjectFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  allTopics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
-};
+export type GQLTopic_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
 export type GQLTopic_TopicFragment = {
   __typename?: "Topic";
+  id: string;
   path: string;
   name: string;
   relevanceId?: string;
+  supportedLanguages: Array<string>;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string; relevanceId?: string }>;
+  meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
+  contexts: Array<{
+    __typename?: "TaxonomyContext";
+    breadcrumbs: Array<string>;
+    parentIds: Array<string>;
+    path: string;
+  }>;
   article?: {
     __typename?: "Article";
     revisionDate?: string;
