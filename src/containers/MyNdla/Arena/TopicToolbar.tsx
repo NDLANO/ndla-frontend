@@ -10,12 +10,28 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Plus } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
+import SettingsMenu from "../components/SettingsMenu";
 import { buttonCss, iconCss } from "../Folders/FoldersPage";
 
 const StyledListItem = styled.li`
   margin: 0;
   padding: 0;
 `;
+
+export const TopicActions = () => {
+  const { t } = useTranslation();
+  return (
+    <SettingsMenu
+      menuItems={[
+        {
+          icon: <Plus />,
+          text: t("myNdla.arena.admin.category.form.newCategory"),
+          link: "category/new",
+        },
+      ]}
+    ></SettingsMenu>
+  );
+};
 
 export const TopicButtons = () => {
   const { t } = useTranslation();
