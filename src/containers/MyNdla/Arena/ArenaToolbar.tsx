@@ -22,6 +22,7 @@ export const PostActions = () => {
   const { t } = useTranslation();
   return (
     <SettingsMenu
+      showSingle
       menuItems={[
         {
           icon: <Plus />,
@@ -49,6 +50,7 @@ export const TopicActions = () => {
   const { t } = useTranslation();
   return (
     <SettingsMenu
+      showSingle
       menuItems={[
         {
           icon: <Plus />,
