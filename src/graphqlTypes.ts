@@ -4115,18 +4115,6 @@ export type GQLTopicWrapper_SubjectFragment = { __typename?: "Subject" } & GQLTo
 export type GQLToolboxSubjectContainer_SubjectFragment = {
   __typename?: "Subject";
   topics?: Array<{ __typename?: "Topic"; name: string; id: string }>;
-  allTopics?: Array<{
-    __typename?: "Topic";
-    id: string;
-    name: string;
-    meta?: {
-      __typename?: "Meta";
-      metaDescription?: string;
-      introduction?: string;
-      title: string;
-      metaImage?: { __typename?: "MetaImage"; url: string };
-    };
-  }>;
   subjectpage?: {
     __typename?: "SubjectPage";
     metaDescription?: string;
@@ -4167,12 +4155,7 @@ export type GQLToolboxTopicContainer_SubjectFragment = {
   __typename?: "Subject";
 } & GQLToolboxTopicWrapper_SubjectFragment;
 
-export type GQLToolboxTopicWrapper_SubjectFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  allTopics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
-};
+export type GQLToolboxTopicWrapper_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
 export type GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -4185,6 +4168,19 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   id: string;
   name: string;
   path: string;
+  contexts: Array<{
+    __typename?: "TaxonomyContext";
+    breadcrumbs: Array<string>;
+    parentIds: Array<string>;
+    path: string;
+  }>;
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    introduction?: string;
+    title: string;
+    metaImage?: { __typename?: "MetaImage"; url: string };
+  };
   article?: {
     __typename?: "Article";
     title: string;

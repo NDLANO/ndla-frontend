@@ -9,12 +9,14 @@
 import parse from "html-react-parser";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import { Topic } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
@@ -93,18 +95,34 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
   });
 
   return (
-    <Topic
-      id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
-      frame={subTopics?.length === 0}
-      isLoading={loading}
-      subTopics={subTopics}
-      title={topic.article.title}
-      introduction={parse(topic.article.introduction ?? "")}
-      metaImage={topic.article.metaImage}
-      visualElementEmbedMeta={embedMeta}
-      visualElement={visualElement}
-      resources={resources}
-    />
+    <>
+      {topic.id === topicList[topicList.length - 1] && (
+        <>
+          <Helmet>
+            <title>{htmlTitle(topic.name ?? topic.meta?.title, [subject.name, t("htmlTitles.titleTemplate")])}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={htmlTitle(topic.name ?? topic.meta?.title, [subject.name])}
+            description={
+              topic.meta?.metaDescription ?? topic.meta?.introduction ?? t("frontpageMultidisciplinarySubject.text")
+            }
+            imageUrl={topic.meta?.metaImage?.url}
+          />
+        </>
+      )}
+      <Topic
+        id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
+        frame={subTopics?.length === 0}
+        isLoading={loading}
+        subTopics={subTopics}
+        title={topic.article.title}
+        introduction={parse(topic.article.introduction ?? "")}
+        metaImage={topic.article.metaImage}
+        visualElementEmbedMeta={embedMeta}
+        visualElement={visualElement}
+        resources={resources}
+      />
+    </>
   );
 };
 
@@ -113,10 +131,6 @@ export const toolboxTopicWrapperFragments = {
     fragment ToolboxTopicWrapper_Subject on Subject {
       id
       name
-      allTopics {
-        id
-        name
-      }
     }
   `,
   resourceType: gql`
@@ -130,6 +144,19 @@ export const toolboxTopicWrapperFragments = {
       id
       name
       path
+      contexts {
+        breadcrumbs
+        parentIds
+        path
+      }
+      meta {
+        metaDescription
+        introduction
+        title
+        metaImage {
+          url
+        }
+      }
       article(convertEmbeds: $convertEmbeds) {
         title
         introduction
