@@ -18,6 +18,33 @@ const StyledListItem = styled.li`
   padding: 0;
 `;
 
+export const PostActions = () => {
+  const { t } = useTranslation();
+  return (
+    <SettingsMenu
+      menuItems={[
+        {
+          icon: <Plus />,
+          text: t("myNdla.arena.new.topic"),
+          link: "topic/new",
+        },
+      ]}
+    ></SettingsMenu>
+  );
+};
+
+export const PostButtons = () => {
+  const { t } = useTranslation();
+  return (
+    <StyledListItem key="newTopic">
+      <SafeLinkButton colorTheme="lighter" css={buttonCss} to="topic/new" variant="ghost">
+        <Plus css={iconCss} />
+        {t("myNdla.arena.new.topic")}
+      </SafeLinkButton>
+    </StyledListItem>
+  );
+};
+
 export const TopicActions = () => {
   const { t } = useTranslation();
   return (
