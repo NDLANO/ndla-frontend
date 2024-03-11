@@ -21,6 +21,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { colors, misc, spacing } from "@ndla/core";
 import { useFormControl } from "@ndla/forms";
+import { AutoLink } from "./AutoLinkPlugin";
 import { editorTheme } from "./editorTheme";
 import { EditorToolbar } from "./EditorToolbar";
 import { FloatingLinkEditorPlugin } from "./FloatingLinkEditorPlugin";
@@ -85,7 +86,7 @@ interface Props {
   name: string;
 }
 
-export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Props, _) => {
+const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Props, _) => {
   const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
   const props = useFormControl({});
   const [editorFocused, setEditorFocused] = useState(false);
@@ -149,6 +150,7 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValu
         ) : (
           ""
         )}
+        <AutoLink />
         <ListPlugin />
         <LinkPlugin />
         <MarkdownPlugin />
@@ -158,3 +160,5 @@ export const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValu
     </StyledEditorContainer>
   );
 });
+
+export default MarkdownEditor;

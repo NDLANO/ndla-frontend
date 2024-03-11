@@ -6,12 +6,16 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
-import { GQLFrontpageSearch, GQLSubjectInfoFragment } from "../graphqlTypes";
+import { GQLSubjectInfoFragment } from "../graphqlTypes";
 import { toSubject } from "../routeHelpers";
 
-export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment[]) => {
+export const searchSubjects = <
+  T extends Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "path">,
+>(
+  query?: string,
+  subjects?: T[],
+) => {
   const trimmedQuery = query?.trim().toLowerCase();
   if (!trimmedQuery || trimmedQuery?.length < 2) {
     return [];
@@ -34,66 +38,4 @@ export const searchSubjects = (query?: string, subjects?: GQLSubjectInfoFragment
       img: { url: subject.subjectpage?.banner?.desktopUrl ?? "" },
     };
   });
-};
-
-interface SearchResult {
-  frontpageSearch?: GQLFrontpageSearch;
-  subjects?: GQLSubjectInfoFragment[];
-}
-
-export const frontPageSearchSuggestion = (searchResult: SearchResult) => {
-  if (!searchResult.frontpageSearch) {
-    return;
-  }
-
-  const { learningResources, topicResources } = searchResult.frontpageSearch;
-
-  if (!learningResources?.suggestions || !topicResources?.suggestions) {
-    return;
-  }
-
-  const suggestions = learningResources.suggestions
-    ?.concat(topicResources.suggestions)
-    .map((s) => s.suggestions?.[0]?.options?.[0])
-    .filter((s) => !!s)
-    .sort((a, b) => b?.score! - a?.score!);
-  return suggestions[0]?.text;
-};
-
-export const mapSearchToFrontPageStructure = (data: SearchResult, t: TFunction, query: string) => {
-  const subjectHits = searchSubjects(query, data.subjects);
-  const subjects = {
-    title: t("searchPage.label.subjects"),
-    contentType: "results-frontpage",
-    resources: subjectHits,
-  };
-
-  if (!data.frontpageSearch && subjectHits?.length === 0) {
-    return [];
-  }
-  if (!data.frontpageSearch) {
-    return [subjects];
-  }
-
-  const {
-    frontpageSearch: { learningResources, topicResources },
-  } = data;
-
-  const topics = {
-    title: `${t("subjectPage.tabs.topics")}:`,
-    contentType: "results-frontpage",
-    resources: topicResources?.results,
-    totalCount: topicResources?.totalCount,
-  };
-  const resource = {
-    title: `${t("resource.label")}:`,
-    contentType: "results-frontpage",
-    resources: learningResources?.results,
-    totalCount: learningResources?.totalCount,
-  };
-
-  const subjectsToAdd = subjectHits?.length ? [subjects] : [];
-  const topicsToAdd = topics.totalCount ? [topics] : [];
-  const resourceToAdd = resource.totalCount ? [resource] : [];
-  return [...subjectsToAdd, ...topicsToAdd, ...resourceToAdd];
 };

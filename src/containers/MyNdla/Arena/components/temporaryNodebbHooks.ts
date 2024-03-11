@@ -43,7 +43,11 @@ export const useArenaCategory = (categoryId: string | undefined) => {
         title: nodebbArenaCategory?.name,
         visible: true,
         topics: nodebbArenaCategory?.topics?.map((topic) => {
-          return { ...topic, created: topic.timestamp };
+          return {
+            ...topic,
+            created: topic.timestamp,
+            isLocked: topic.locked,
+          };
         }),
       },
     };
@@ -150,6 +154,7 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
             } as GQLArenaPostV2Fragment;
           }),
         },
+        isLocked: nodebbArenaTopic?.locked,
       } as GQLArenaTopicV2Fragment & {
         posts: GQLPaginatedPostsFragment & {
           items: (GQLArenaPostV2Fragment & { deleted?: boolean })[];

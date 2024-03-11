@@ -27,11 +27,14 @@ const ToolbarContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.ul`
+  list-style: none;
   display: none;
   flex-direction: row;
   gap: ${spacing.xxsmall};
   flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
 
   ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
@@ -50,7 +53,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
 
   max-width: ${MY_NDLA_CONTENT_WIDTH}px;
 

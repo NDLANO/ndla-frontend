@@ -14,7 +14,7 @@ interface ExternalIds {
   externalIds: string[];
 }
 
-async function findNBNodeId(nodeId: string, lang: string) {
+async function findNBNodeId(nodeId: string, lang?: string) {
   // We only need to lookup nodeId if lang is nn. Taxonomy should handle other langs
   if (lang !== "nn") {
     return nodeId;
@@ -51,23 +51,27 @@ async function resolve(path: string) {
   return resolveJsonOrRejectWithError<Resolve>(response);
 }
 
+export const forwardPath = async (forwardNodeId: string, lang?: string) => {
+  const nodeId = await findNBNodeId(forwardNodeId, lang); // taxonomy lookup doesn't handle nn
+
+  const lookupUrl = `ndla.no/node/${nodeId}`;
+  const data = await lookup(lookupUrl);
+
+  const resource = await resolve(data!.path);
+
+  const languagePrefix = lang && lang !== "nb" ? lang : ""; // send urls with nb to root/default lang
+
+  if (isLearningPathResource(resource!)) {
+    return getLearningPathUrlFromResource(resource!, languagePrefix);
+  } else {
+    return `${languagePrefix ? `/${languagePrefix}` : ""}${data!.path}`;
+  }
+};
+
 export async function forwardingRoute(req: Request, res: Response, next: NextFunction) {
-  const { lang } = req.params;
-
   try {
-    const nodeId = await findNBNodeId(req.params.nodeId!, lang!); // taxonomy lookup doesn't handle nn
-
-    const lookupUrl = `ndla.no/node/${nodeId}`;
-    const data = await lookup(lookupUrl);
-
-    const resource = await resolve(data!.path);
-
-    const languagePrefix = lang && lang !== "nb" ? lang : ""; // send urls with nb to root/default lang
-    if (isLearningPathResource(resource!)) {
-      res.redirect(301, getLearningPathUrlFromResource(resource!, languagePrefix));
-    } else {
-      res.redirect(301, `${languagePrefix ? `/${languagePrefix}` : ""}${data!.path}`);
-    }
+    const path = await forwardPath(req.params.nodeId!, req.params.lang);
+    res.redirect(301, path);
   } catch (e) {
     next();
   }

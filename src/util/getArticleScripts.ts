@@ -6,6 +6,7 @@
  *
  */
 
+import config from "../config";
 import { GQLArticle } from "../graphqlTypes";
 
 export interface Scripts {
@@ -22,7 +23,7 @@ export function getArticleScripts(article: Pick<GQLArticle, "requiredLibraries" 
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.content.indexOf("<math") > -1 && process.env.BUILD_TARGET === "client") {
+  if (article && article.content.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
         chtml: {

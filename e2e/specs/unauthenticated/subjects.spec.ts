@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
     page,
     operation: [
       {
-        names: ["myNdlaData", "alerts", "frontpageData", "mastheadProgramme", "mastheadFrontpage"],
+        names: ["alerts", "frontpageData", "mastheadProgramme", "mastheadFrontpage"],
         fixture: "subjects_frontpage",
       },
       {
@@ -24,6 +24,10 @@ test.beforeEach(async ({ page }) => {
       {
         names: ["mastHead", "subjectPageTest"],
         fixture: "subjects_masthead",
+      },
+      {
+        names: ["competenceGoals"],
+        fixture: "subjects_competencegoals",
       },
     ],
   });

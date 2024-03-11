@@ -15,7 +15,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
@@ -33,8 +33,19 @@ import "@fontsource/source-serif-pro/700.css";
 import EmbedIframePageContainer from "./EmbedIframePageContainer";
 import { EmotionCacheKey } from "../constants";
 import { initializeI18n } from "../i18n";
-import { EmbedInitialProps } from "../server/routes/iframeEmbedRoute";
+import { LocaleType, LtiData } from "../interfaces";
 import { createApolloClient } from "../util/apiHelpers";
+
+type EmbedInitialProps = {
+  embedId?: string;
+  embedType?: string;
+  isOembed?: string;
+  status?: "success" | "error";
+  loading?: boolean;
+  basename?: string;
+  locale?: LocaleType;
+  ltiData?: LtiData;
+};
 
 const { config, initialProps } = window.DATA;
 
@@ -77,7 +88,3 @@ renderOrHydrate(
     </I18nextProvider>
   </HelmetProvider>,
 );
-
-if (module.hot) {
-  module.hot.accept();
-}

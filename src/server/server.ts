@@ -6,35 +6,28 @@
  *
  */
 
-import express, { Request, Response, NextFunction } from "express";
+import fs from "fs/promises";
+import { join } from "path";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
-import fetch from "node-fetch";
 import { matchPath } from "react-router-dom";
+import serialize from "serialize-javascript";
+import { ViteDevServer } from "vite";
 import { getCookie } from "@ndla/util";
+import api from "./api";
 import contentSecurityPolicy from "./contentSecurityPolicy";
-import { generateOauthData } from "./helpers/oauthHelper";
-import { getFeideToken, getRedirectUrl, feideLogout } from "./helpers/openidHelper";
-import ltiConfig from "./ltiConfig";
-import {
-  defaultRoute,
-  errorRoute,
-  oembedArticleRoute,
-  iframeArticleRoute,
-  forwardingRoute,
-  ltiRoute,
-  iframeEmbedRoute,
-} from "./routes";
-import { podcastFeedRoute } from "./routes/podcastFeedRoute";
-import config, { getDefaultLocale } from "../config";
-import { FILM_PAGE_PATH, NOT_FOUND_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
+import { RenderDataReturn, RootRenderFunc, sendResponse } from "./serverHelpers";
+import config from "../config";
+import { NOT_FOUND_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
-import { OK, INTERNAL_SERVER_ERROR, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, BAD_REQUEST, GONE } from "../statusCodes";
+import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
-import { constructNewPath } from "../util/urlHelper";
 
-// @ts-ignore
+const base = "/";
+const isProduction = config.runtimeType === "production";
+
 global.fetch = fetch;
 const app = express();
 const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];
@@ -42,16 +35,28 @@ const allowedBodyContentTypes = ["application/json", "application/x-www-form-url
 app.disable("x-powered-by");
 app.enable("trust proxy");
 
-const PublicDir = process.env.PUBLIC_DIR ?? "";
+let vite: ViteDevServer | undefined;
+if (!isProduction) {
+  const { createServer } = await import("vite");
+  vite = await createServer({
+    server: { middlewareMode: true },
+    appType: "custom",
+    base,
+  });
+  app.use(vite.middlewares);
+} else {
+  const sirv = (await import("sirv")).default;
+  app.use(base, sirv("./build/public", { extensions: [] }));
+}
 
-const ndlaMiddleware = [
-  express.static(PublicDir, {
-    maxAge: 1000 * 60 * 60 * 24 * 365, // One year
-  }),
-  express.urlencoded({ extended: true }),
+app.use(express.urlencoded({ extended: true }));
+app.use(
   express.json({
     type: (req) => allowedBodyContentTypes.includes(req.headers["content-type"] ?? ""),
   }),
+);
+
+app.use(
   helmet({
     crossOriginEmbedderPolicy: false,
     referrerPolicy: {
@@ -63,239 +68,153 @@ const ndlaMiddleware = [
     },
     contentSecurityPolicy,
     frameguard:
-      process.env.NODE_ENV === "development"
+      config.runtimeType === "development"
         ? {
             action: "sameorigin",
           }
         : { action: "deny" },
   }),
-];
-
-app.get("/robots.txt", (req: Request, res: Response) => {
-  // Using ndla.no robots.txt
-  if (req.hostname === "ndla.no") {
-    res.sendFile("robots.txt", { root: PublicDir });
-  } else {
-    res.type("text/plain");
-    res.send("User-agent: *\nDisallow: /");
-  }
-});
-
-app.get("/.well-known/security.txt", (_req: Request, res: Response) => {
-  res.sendFile(`security.txt`, { root: PublicDir });
-});
-
-app.get("/health", ndlaMiddleware, (_req: Request, res: Response) => {
-  res.status(OK).json({ status: OK, text: "Health check ok" });
-});
-
-app.get("/film", ndlaMiddleware, (_req: Request, res: Response, _next: NextFunction) => {
-  res.redirect(FILM_PAGE_PATH);
-});
-
-app.get("/ukr", ndlaMiddleware, (_req: Request, res: Response, _next: NextFunction) => {
-  res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
-  res.redirect(`/en${UKR_PAGE_PATH}`);
-});
-
-const getLang = (paramLang?: string, cookieLang?: string | null): string | undefined => {
-  if (paramLang) {
-    return paramLang;
-  }
-  if (!paramLang && cookieLang && cookieLang !== getDefaultLocale()) {
-    return cookieLang;
-  }
-  return undefined;
-};
-
-app.get("/:lang?/login", async (req: Request, res: Response) => {
-  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = typeof req.query.state === "string" ? req.query.state : "";
-  res.setHeader("Cache-Control", "private");
-  const lang = getLang(req.params.lang, getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ""));
-  const redirect = constructNewPath(state, lang);
-
-  if (feideToken && isAccessTokenValid(feideToken)) {
-    return res.redirect(state);
-  }
-  try {
-    const { verifier, url } = await getRedirectUrl(req, redirect);
-    res.cookie("PKCE_code", verifier, { httpOnly: true });
-    return res.redirect(url);
-  } catch (e) {
-    return await sendInternalServerError(res);
-  }
-});
-
-app.get("/login/success", async (req: Request, res: Response) => {
-  const code = typeof req.query.code === "string" ? req.query.code : undefined;
-  const state = typeof req.query.state === "string" ? req.query.state : "/";
-  res.setHeader("Cache-Control", "private");
-  const verifier = getCookie("PKCE_code", req.headers.cookie ?? "");
-  if (!code || !verifier) {
-    return await sendInternalServerError(res);
-  }
-
-  try {
-    const token = await getFeideToken(req, verifier, code);
-    const feideCookie = {
-      ...token,
-      ndla_expires_at: (token.expires_at ?? 0) * 1000,
-    };
-    res.cookie("feide_auth", JSON.stringify(feideCookie), {
-      expires: new Date(feideCookie.ndla_expires_at),
-      encode: String,
-      domain: `.${config.feideDomain}`,
-    });
-    const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
-    //workaround to ensure language cookie is set before redirecting to state path
-    if (!languageCookie) {
-      const { basename } = getLocaleInfoFromPath(state);
-      res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : getDefaultLocale());
-    }
-    return res.redirect(state);
-  } catch (e) {
-    return await sendInternalServerError(res);
-  }
-});
-
-app.get("/:lang?/logout", async (req: Request, res: Response) => {
-  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = typeof req.query.state === "string" ? req.query.state : "/";
-  const redirect = constructNewPath(state, req.params.lang);
-  res.setHeader("Cache-Control", "private");
-
-  if (!feideToken?.["id_token"] || typeof state !== "string") {
-    return sendInternalServerError(res);
-  }
-  try {
-    const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
-    return res.redirect(logoutUri);
-  } catch (_) {
-    return await sendInternalServerError(res);
-  }
-});
-
-app.get("/logout/session", (req: Request, res: Response) => {
-  res.clearCookie("feide_auth", { domain: `.${config.feideDomain}` });
-  const state = typeof req.query.state === "string" ? req.query.state : "/";
-  const { basepath, basename } = getLocaleInfoFromPath(state);
-  const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
-  const redirect = wasPrivateRoute ? constructNewPath("/", basename) : state;
-  res.setHeader("Cache-Control", "private");
-  return res.redirect(redirect);
-});
-
-app.get("/:lang?/subjects/:path(*)", ndlaMiddleware, (req: Request, res: Response, _next: NextFunction) => {
-  const { lang, path } = req.params;
-  res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
-});
-
-export async function sendInternalServerError(res: Response) {
-  if (res.getHeader("Content-Type") === "application/json") {
-    res.status(INTERNAL_SERVER_ERROR).json("Internal server error");
-  } else {
-    const { data } = await errorRoute();
-    res.status(INTERNAL_SERVER_ERROR).send(data);
-  }
-}
-
-function sendResponse(res: Response, data: any, status = OK) {
-  if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
-    res.writeHead(status, data);
-    res.end();
-  } else if (status === GONE) {
-    res.status(status).send(data);
-  } else if (res.getHeader("Content-Type") === "application/json") {
-    res.status(status).json(data);
-  } else {
-    res.status(status).send(data);
-  }
-}
-
-type RouteFunc = (req: Request) => any;
-
-async function handleRequest(req: Request, res: Response, route: RouteFunc) {
-  try {
-    const { data, status } = await route(req);
-    sendResponse(res, data, status);
-  } catch (err) {
-    handleError(err);
-    await sendInternalServerError(res);
-  }
-}
-
-app.get("/static/*", ndlaMiddleware);
-
-const iframArticleCallback = async (req: Request, res: Response) => {
-  res.removeHeader("X-Frame-Options");
-  handleRequest(req, res, iframeArticleRoute);
-};
-
-const iframeEmbedCallback = async (req: Request, res: Response) => {
-  res.removeHeader("X-Frame-Options");
-  handleRequest(req, res, iframeEmbedRoute);
-};
-
-app.get("/embed-iframe/:lang?/:embedType/:embedId", ndlaMiddleware, iframeEmbedCallback);
-
-app.get("/article-iframe/:lang?/article/:articleId", ndlaMiddleware, iframArticleCallback);
-app.get("/article-iframe/:lang?/:taxonomyId/:articleId", ndlaMiddleware, iframArticleCallback);
-app.post("/article-iframe/:lang?/article/:articleId", ndlaMiddleware, iframArticleCallback);
-app.post("/article-iframe/:lang?/:taxonomyId/:articleId", ndlaMiddleware, iframArticleCallback);
-
-app.get("/oembed", ndlaMiddleware, async (req: Request, res: Response) => {
-  res.setHeader("Content-Type", "application/json");
-  handleRequest(req, res, oembedArticleRoute);
-});
-
-app.get("/lti/config.xml", ndlaMiddleware, async (_req: Request, res: Response) => {
-  res.removeHeader("X-Frame-Options");
-  res.setHeader("Content-Type", "application/xml");
-  res.send(ltiConfig());
-});
-
-app.get("/utdanningsprogram-sitemap.txt", ndlaMiddleware, async (_req: Request, res: Response) => {
-  sendResponse(res, undefined, 410);
-});
-
-app.get("/podkast/:seriesId/feed.xml", ndlaMiddleware, podcastFeedRoute);
-app.get("/podkast/:seriesId_:seriesTitle/feed.xml", ndlaMiddleware, podcastFeedRoute);
-
-app.post("/lti/oauth", ndlaMiddleware, async (req: Request, res: Response) => {
-  const { body, query } = req;
-  if (!body || !query.url || typeof query.url !== "string") {
-    res.send(BAD_REQUEST);
-    return;
-  }
-  res.setHeader("Cache-Control", "private");
-  res.send(JSON.stringify(generateOauthData(query.url, body)));
-});
-
-app.post("/lti", ndlaMiddleware, async (req: Request, res: Response) => {
-  res.removeHeader("X-Frame-Options");
-  handleRequest(req, res, ltiRoute);
-});
-
-app.get("/lti", ndlaMiddleware, async (req: Request, res: Response) => {
-  res.removeHeader("X-Frame-Options");
-  handleRequest(req, res, ltiRoute);
-});
-
-/** Handle different paths to a node in old ndla. */
-["node", "printpdf", "easyreader", "contentbrowser/node", "print", "aktualitet", "oppgave", "fagstoff"].forEach(
-  (path) => {
-    app.get(`/:lang?/${path}/:nodeId`, async (req, res, next) => forwardingRoute(req, res, next));
-    app.get(`/:lang?/${path}/:nodeId/*`, async (req, res, next) => forwardingRoute(req, res, next));
-  },
 );
 
-app.get("/favicon.ico", ndlaMiddleware);
+app.use(api);
+
+const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
+const favicons = `
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-${faviconEnvironment}-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-${faviconEnvironment}-16x16.png" />
+  <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-${faviconEnvironment}.png" />
+`;
+
+const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
+  const { helmetContext, htmlContent, styles, data } = renderData;
+  const meta = `
+  ${helmetContext?.helmet.title.toString() ?? ""}
+  ${helmetContext?.helmet.meta.toString() ?? ""}
+  ${helmetContext?.helmet.link.toString() ?? ""}
+  ${favicons}
+  ${helmetContext?.helmet.script.toString() ?? ""}
+  ${styles ?? ""}
+  `;
+
+  const serializedData = serialize({
+    ...data,
+    config: {
+      ...data?.config,
+      isClient: true,
+    },
+  });
+
+  const bodyContent = `
+  <div id="root">${htmlContent}</div>
+  <script type="text/javascript">
+    window.DATA = ${serializedData}
+  </script>
+  `;
+
+  const html = template
+    .replace('data-html-attributes=""', helmetContext?.helmet.htmlAttributes.toString() ?? "")
+    .replace("<!--HEAD-->", meta)
+    .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
+    .replace("<!--BODY-->", bodyContent);
+
+  return html;
+};
+
+const renderRoute = async (req: Request, index: string, htmlTemplate: string, renderer: string) => {
+  const url = req.originalUrl.replace(base, "");
+  let template = htmlTemplate;
+  let render: RootRenderFunc;
+  if (!isProduction) {
+    // Always read fresh template in development
+    template = await fs.readFile(index, "utf-8");
+    template = await vite!.transformIndexHtml(url, template);
+    render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
+  } else {
+    render = (await import(`../../build/server/server.render.js`)).default;
+  }
+
+  const response = await render(req, renderer);
+  if ("location" in response) {
+    return {
+      status: response.status,
+      data: { Location: response.location },
+    };
+  } else {
+    const html = prepareTemplate(template, response.data);
+    return { status: response.status, data: html };
+  }
+};
+
+type RouteFunc = (req: Request) => Promise<{ data: any; status: number }>;
+
+const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
+  try {
+    const { data, status } = await route(req);
+    if (status === INTERNAL_SERVER_ERROR) {
+      sendInternalServerError(req, res);
+    } else {
+      sendResponse(res, data, status);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+const templateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "index.html"), "utf-8")
+  : "";
+
+const ltiTemplateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "lti.html"), "utf-8")
+  : "";
+
+const iframeEmbedTemplateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "iframe-embed.html"), "utf-8")
+  : "";
+
+const iframeArticleTemplateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "iframe-article.html"), "utf-8")
+  : "";
+
+const errorTemplateHtml = isProduction
+  ? await fs.readFile(join(process.cwd(), "build", "public", "error.html"), "utf-8")
+  : "";
+
+const defaultRoute = async (req: Request) => renderRoute(req, "index.html", templateHtml, "default");
+const ltiRoute = async (req: Request) => renderRoute(req, "lti.html", ltiTemplateHtml, "lti");
+const iframeEmbedRoute = async (req: Request) =>
+  renderRoute(req, "iframe-embed.html", iframeEmbedTemplateHtml, "iframeEmbed");
+const iframeArticleRoute = async (req: Request) =>
+  renderRoute(req, "iframe-article.html", iframeArticleTemplateHtml, "iframeArticle");
+
+app.get("/embed-iframe/:lang?/:embedType/:embedId", async (req, res, next) => {
+  res.removeHeader("X-Frame-Options");
+  handleRequest(req, res, next, iframeEmbedRoute);
+});
+
+const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
+  res.removeHeader("X-Frame-Options");
+  handleRequest(req, res, next, iframeArticleRoute);
+};
+
+app.get("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
+app.get("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
+app.post("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
+app.post("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
+
+app.post("/lti", async (req, res, next) => {
+  res.removeHeader("X-Frame-Options");
+  handleRequest(req, res, next, ltiRoute);
+});
+
+app.get("/lti", async (req, res, next) => {
+  res.removeHeader("X-Frame-Options");
+  handleRequest(req, res, next, ltiRoute);
+});
+
 app.get(
   "/*",
-  (req: Request, res: Response, next: NextFunction) => {
+  (req, res, next) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
     const isPrivate = privateRoutes.some((r) => matchPath(r, path));
@@ -311,15 +230,28 @@ app.get(
       next();
     }
   },
-  ndlaMiddleware,
-  (req: Request, res: Response) => {
-    handleRequest(req, res, defaultRoute);
-  },
+  (req, res, next) => handleRequest(req, res, next, defaultRoute),
 );
 
-app.get("/*/search/apachesolr_search*", (_req: Request, res: Response, _next: NextFunction) => {
-  sendResponse(res, undefined, 410);
-});
+const errorRoute = async (req: Request) => renderRoute(req, "error.html", errorTemplateHtml, "error");
+
+async function sendInternalServerError(req: Request, res: Response) {
+  if (res.getHeader("Content-Type") === "application/json") {
+    res.status(INTERNAL_SERVER_ERROR).json("Internal server error");
+  } else {
+    const { data } = await errorRoute(req);
+    res.status(INTERNAL_SERVER_ERROR).send(data);
+  }
+}
+
+const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
+  vite?.ssrFixStacktrace(err);
+  handleError(err);
+  sendInternalServerError(req, res);
+};
+
+app.use(errorHandler);
+
 app.get("/*", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });

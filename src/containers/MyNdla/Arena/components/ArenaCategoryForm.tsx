@@ -45,6 +45,12 @@ const StyledInput = styled(InputV3)`
   background: ${colors.white};
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  align-items: center;
+`;
+
 interface ArenaFormProps {
   initialTitle?: string;
   initialDescription?: string;
@@ -62,14 +68,7 @@ export interface ArenaCategory {
 
 const titleMaxLength = 64;
 
-const ArenaCategoryForm = ({
-  onSave,
-  onAbort,
-  initialTitle,
-  initialDescription,
-  initialVisible,
-  id,
-}: ArenaFormProps) => {
+const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, initialVisible }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { formState, trigger, control, handleSubmit, setValue } = useForm({
@@ -86,10 +85,8 @@ const ArenaCategoryForm = ({
   }, [trigger]);
 
   useEffect(() => {
-    id
-      ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
-      : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
-  }, [id]);
+    setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+  }, []);
 
   const onSubmit = async (data: INewCategory) => {
     await onSave({
@@ -135,7 +132,7 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl id={id ? `editor-${id}` : "editor"} isRequired isInvalid={!!fieldState.error?.message}>
+          <FormControl id="editor" isRequired isInvalid={!!fieldState.error?.message}>
             <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.description")}</StyledLabel>
             <StyledInput {...field} />
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -149,18 +146,22 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl id={id ? `editor-${id}` : "editor"} isInvalid={!!fieldState.error?.message}>
-            <CheckboxItem
-              checked={field.value}
-              label={t("myNdla.arena.admin.category.form.visible")}
-              onChange={() => {
-                setValue("visible", !field.value, {
-                  shouldDirty: true,
-                  shouldTouch: true,
-                  shouldValidate: true,
-                });
-              }}
-            />
+          <FormControl id="visible" isInvalid={!!fieldState.error?.message}>
+            <CheckboxWrapper>
+              <CheckboxItem
+                checked={field.value}
+                onCheckedChange={() => {
+                  setValue("visible", !field.value, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  });
+                }}
+              />
+              <Label margin="none" textStyle="label-small">
+                {t("myNdla.arena.admin.category.form.visible")}
+              </Label>
+            </CheckboxWrapper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
         )}

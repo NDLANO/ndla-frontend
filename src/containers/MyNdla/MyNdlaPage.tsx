@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { ForwardArrow } from "@ndla/icons/action";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import { CampaignBlock, ListResource } from "@ndla/ui";
@@ -24,6 +24,7 @@ import TitleWrapper from "./components/TitleWrapper";
 import { useFolderResourceMetaSearch, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { routes } from "../../routeHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 const StyledPageContentContainer = styled.div`
@@ -137,7 +138,25 @@ const MyNdlaPage = () => {
             language: i18n.language,
           }}
         />
-        {allFolderResources && allFolderResources.length > 0 && (
+        {!!recentArenaTopicsQuery.data?.items?.length && (
+          <SectionWrapper>
+            <Heading element="h2" headingStyle="h2" margin="small">
+              {t("myNdla.myPage.recentArenaPosts.title")}
+            </Heading>
+            <StyledResourceList>
+              {recentArenaTopicsQuery.data?.items?.map((topic) => (
+                <li key={topic.id}>
+                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
+                </li>
+              ))}
+            </StyledResourceList>
+            <StyledSafeLink to="arena">
+              {t("myNdla.myPage.recentArenaPosts.link")}
+              <ForwardArrow />
+            </StyledSafeLink>
+          </SectionWrapper>
+        )}
+        {allFolderResources && allFolderResources?.length > 0 && (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentFavourites.title")}
@@ -149,7 +168,7 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix="/minndla/tags"
+                      tagLinkPrefix={routes.myNdla.tags}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}
@@ -167,24 +186,6 @@ const MyNdlaPage = () => {
             </StyledResourceList>
             <StyledSafeLink to="folders">
               {t("myNdla.myPage.recentFavourites.link")}
-              <ForwardArrow />
-            </StyledSafeLink>
-          </SectionWrapper>
-        )}
-        {!!recentArenaTopicsQuery.data?.items?.length && (
-          <SectionWrapper>
-            <Heading element="h2" headingStyle="h2" margin="small">
-              {t("myNdla.myPage.recentArenaPosts.title")}
-            </Heading>
-            <StyledResourceList>
-              {recentArenaTopicsQuery.data?.items?.map((topic) => (
-                <li key={topic.id}>
-                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
-                </li>
-              ))}
-            </StyledResourceList>
-            <StyledSafeLink to="arena">
-              {t("myNdla.myPage.recentArenaPosts.link")}
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>

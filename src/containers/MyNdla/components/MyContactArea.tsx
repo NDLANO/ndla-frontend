@@ -73,7 +73,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
         {user.displayName}
       </Heading>
       <UserInfoContainer>
-        <UserWorkPlaceText element="h2" headingStyle="list-title" margin="none">
+        <UserWorkPlaceText element="p" headingStyle="list-title" margin="none">
           {user.primaryOrg}
         </UserWorkPlaceText>
       </UserInfoContainer>

@@ -160,6 +160,9 @@ AboutPageFooter.fragments = {
         ...FrontpageMenuFragment
         menu {
           ...FrontpageMenuFragment
+          menu {
+            ...FrontpageMenuFragment
+          }
         }
       }
     }

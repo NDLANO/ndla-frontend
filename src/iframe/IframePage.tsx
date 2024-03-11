@@ -12,31 +12,31 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { OneColumn, ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
+import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
 import NotFound from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
+import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { useGraphQuery } from "../util/runQueries";
-
-if (process.env.NODE_ENV !== "production") {
-  // Can't require in production because of multiple asses emit to the same filename..
-  require("../style/index.css"); // eslint-disable-line global-require
-}
+import "../style/index.css";
 
 const Error = () => {
   const { t } = useTranslation();
   return (
-    <OneColumn cssModifier="clear">
-      <ErrorMessage
-        illustration={{
-          url: "/static/oops.gif",
-          altText: t("errorMessage.title"),
-        }}
-        messages={{
-          title: t("errorMessage.title"),
-          description: t("errorMessage.description"),
-        }}
-      />
-    </OneColumn>
+    <Status code={INTERNAL_SERVER_ERROR}>
+      <OneColumn cssModifier="clear">
+        <ErrorMessage
+          illustration={{
+            url: "/static/oops.gif",
+            altText: t("errorMessage.title"),
+          }}
+          messages={{
+            title: t("errorMessage.title"),
+            description: t("errorMessage.description"),
+          }}
+        />
+      </OneColumn>
+    </Status>
   );
 };
 

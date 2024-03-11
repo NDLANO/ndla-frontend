@@ -9,17 +9,18 @@
 import { TokenSet, TokenSetParameters } from "openid-client";
 import { getCookie } from "@ndla/util";
 import { resolveJsonOrRejectWithError } from "./apiHelpers";
+import config from "../config";
 
 interface Feide extends TokenSet {
   url?: string;
 }
 
 const locationOrigin = (() => {
-  if (process.env.NODE_ENV === "unittest") {
+  if (config.runtimeType === "test") {
     return "http://ndla-frontend";
   }
 
-  if (process.env.BUILD_TARGET === "server") {
+  if (!config.isClient) {
     return "";
   }
   if (typeof window === "undefined") {

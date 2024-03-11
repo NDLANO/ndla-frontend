@@ -7,7 +7,6 @@
  */
 import config from "../config";
 
-const hmrPort = parseInt(process.env.PORT as string, 10) + 1;
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
@@ -28,14 +27,17 @@ const connectSrc = (() => {
     "https://*.dataporten.no",
     "https://*.clarity.ms",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return [
       ...defaultConnectSrc,
       "https://devtools.apollodata.com/graphql",
-      `http://localhost:${hmrPort}`,
-      `ws://localhost:${hmrPort}`,
+      "http://localhost:3001",
+      "ws://localhost:3001",
       "http://localhost:3100",
       "http://localhost:4000",
+      "http://localhost",
+      "http://localhost:24678",
+      "ws://localhost:24678",
     ];
   }
   // Temp for testing xapi
@@ -103,8 +105,8 @@ const scriptSrc = (() => {
     "https://*.clarity.ms",
     "https://app-script.monsido.com",
   ];
-  if (process.env.NODE_ENV === "development") {
-    return [...defaultScriptSrc, `http://localhost:${hmrPort}`];
+  if (config.runtimeType === "development") {
+    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -184,8 +186,14 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
   ];
-  if (process.env.NODE_ENV === "development") {
-    return [...defaultFrameSrc, `http://localhost:${hmrPort}`, "http://localhost:3000"];
+  if (config.runtimeType === "development") {
+    return [
+      ...defaultFrameSrc,
+      "http://localhost:3001",
+      "ws://localhost:3001",
+      "http://localhost:3000",
+      "http://localhost:3100",
+    ];
   }
   return defaultFrameSrc;
 })();
@@ -199,7 +207,7 @@ const fontSrc = (() => {
     "https://*.clarity.ms",
     "cdn.jsdelivr.net",
   ];
-  if (process.env.NODE_ENV === "development") {
+  if (config.runtimeType === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
   }
   return defaultFontSrc;
@@ -209,7 +217,7 @@ const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", "https://tall.ndla.no"],
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: process.env.NODE_ENV === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
     frameAncestors: null,

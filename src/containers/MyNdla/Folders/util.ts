@@ -95,10 +95,6 @@ export const makeDndTranslations = (
 
 export const sharedFolderLink = (id: string) => `${config.ndlaFrontendDomain}/folder/${id}`;
 
-export const sharedFolderLinkInternal = (id: string) => `/folder/${id}`;
-
-export const previewLink = (id: string) => `/minndla/folders/preview/${id}`;
-
 export const copyFolderSharingLink = (id: string) => window.navigator.clipboard.writeText(sharedFolderLink(id));
 
 export interface withRole {

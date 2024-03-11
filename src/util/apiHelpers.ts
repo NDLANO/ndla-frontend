@@ -6,7 +6,7 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client";
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
@@ -18,15 +18,12 @@ import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs }
 
 export const fetch = createFetch;
 
-const __SERVER__ = process.env.BUILD_TARGET === "server"; //eslint-disable-line
-const __CLIENT__ = process.env.BUILD_TARGET === "client"; //eslint-disable-line
-
 const apiBaseUrl = (() => {
-  if (process.env.NODE_ENV === "unittest") {
+  if (config.runtimeType === "test") {
     return "http://ndla-api";
   }
 
-  const NDLA_API_URL = __SERVER__ ? config.ndlaApiUrl : window.DATA.config.ndlaApiUrl;
+  const NDLA_API_URL = !config.isClient ? config.ndlaApiUrl : window.DATA.config.ndlaApiUrl;
 
   return NDLA_API_URL;
 })();
@@ -185,7 +182,7 @@ const typePolicies: TypePolicies = {
 
 function getCache() {
   const cache = new InMemoryCache({ possibleTypes, typePolicies });
-  if (__CLIENT__) {
+  if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }
 
@@ -202,7 +199,7 @@ export const createApolloClient = (language = "nb", versionHash?: string) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: string) => {
-  const cookieString = __CLIENT__ ? document.cookie : "";
+  const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
@@ -222,7 +219,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (process.env.BUILD_TARGET === "server" || extensions?.status !== 404) {
+          if (!config.isClient || extensions?.status !== 404) {
             handleError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
           }
         });
