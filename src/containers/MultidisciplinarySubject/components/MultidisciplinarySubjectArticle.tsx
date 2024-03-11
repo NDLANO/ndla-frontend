@@ -24,7 +24,7 @@ import {
 } from "../../../graphqlTypes";
 import { removeUrn, toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPathV2 } from "../../../util/getTopicPath";
+import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -53,7 +53,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
-  const topicPath = useMemo(() => getTopicPathV2(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;

@@ -17,7 +17,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPathV2 } from "../../util/getTopicPath";
+import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
@@ -84,7 +84,7 @@ const ResourcePage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return getTopicPathV2(data.resource.path, data.resource.contexts);
+    return getTopicPath(data.resource.path, data.resource.contexts);
   }, [data?.resource]);
 
   if (loading) {

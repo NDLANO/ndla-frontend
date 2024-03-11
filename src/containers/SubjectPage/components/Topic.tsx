@@ -28,7 +28,7 @@ import {
 } from "../../../graphqlTypes";
 import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPathV2 } from "../../../util/getTopicPath";
+import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -64,7 +64,7 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
-    return getTopicPathV2(topic.path, topic.contexts);
+    return getTopicPath(topic.path, topic.contexts);
   }, [topic]);
 
   useEffect(() => {
