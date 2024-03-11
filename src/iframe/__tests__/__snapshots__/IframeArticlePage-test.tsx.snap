@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
@@ -248,7 +248,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-4[data-learningPath="true"] {
+.emotion-4[data-learning-path="true"] {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -299,7 +299,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 .emotion-14 {
   border: 1px solid #ceddea;
-  border-radius: 2px;
 }
 
 .emotion-14[data-state="open"] {
@@ -455,6 +454,20 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #595959;
 }
 
+.emotion-36 {
+  width: 120px;
+  margin: 0;
+  position: relative;
+}
+
+.emotion-36 a {
+  box-shadow: none;
+}
+
+.emotion-38 {
+  fill: #20588f;
+}
+
 <div
     class="o-wrapper"
   >
@@ -464,7 +477,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           class="c-article c-article--clean c-article--iframe"
         >
           <section
-            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
+            class="u-10/12 u-push-1/12"
           >
             <div
               class="c-article__header"
@@ -497,7 +510,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             </div>
           </section>
           <section
-            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
+            class="u-10/12 u-push-1/12"
           >
             <section>
               <p
@@ -508,14 +521,14 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             </section>
           </section>
           <section
-            class="u-4/6@desktop u-push-1/6@desktop u-10/12@tablet u-push-1/12@tablet"
+            class="u-10/12 u-push-1/12"
           >
             <div
               class="emotion-2 emotion-3"
             >
               <div
                 class="emotion-4 emotion-5"
-                data-learningpath="false"
+                data-learning-path="false"
               >
                 <div
                   class="emotion-6 emotion-7"
@@ -626,7 +639,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                 </div>
                 <div
-                  class="c-logo"
+                  class="emotion-36 emotion-37"
                 >
                   <a
                     aria-label="NDLA"
@@ -634,7 +647,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     title="NDLA"
                   >
                     <svg
-                      class="c-logo__graphic"
+                      class="emotion-38 emotion-39"
                       fill="#000000"
                       fill-rule="evenodd"
                       viewBox="0 0 376 152"

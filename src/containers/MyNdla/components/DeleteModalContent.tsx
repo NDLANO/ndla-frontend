@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
+import { Text } from "@ndla/typography";
 
 interface Props {
   onDelete: () => void;
@@ -35,7 +36,7 @@ const DeleteModalContent = ({ onDelete, onClose, title, description, removeText 
         <ModalCloseButton />
       </ModalHeader>
       <ModalBody>
-        <p>{description}</p>
+        <Text>{description}</Text>
         <StyledButtonRow>
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>

@@ -7,7 +7,7 @@
  */
 
 import { readFile, writeFile, mkdir } from "fs/promises";
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/isEqual.js";
 import { Page } from "@playwright/test";
 const mockDir = "e2e/apiMocks/";
 
@@ -120,6 +120,12 @@ export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) =>
         } catch (e) {
           route.abort();
         }
+      } else {
+        const bodyOpNames = `[${bodyOperationNames.sort()}]`;
+        const availableOpNames = `[${operation.map((op) => `[${op.names}]`)}]`;
+        console.error(
+          `[ERROR] Operationname array does not match any results. Update mock array and rerecord test. Operationname: ${bodyOpNames}. Available values: ${availableOpNames}`,
+        );
       }
     }
   });

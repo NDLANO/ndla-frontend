@@ -87,7 +87,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
-    skip: typeof window === "undefined",
+    skip: typeof window === "undefined" || !isAccessTokenValid(),
   });
 
   useEffect(() => {

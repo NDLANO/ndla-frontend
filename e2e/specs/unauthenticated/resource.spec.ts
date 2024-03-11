@@ -14,8 +14,12 @@ test.beforeEach(async ({ page }) => {
     page,
     operation: [
       {
-        names: ["myNdlaData", "resourcePage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
+        names: ["resourcePage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
         fixture: "resource",
+      },
+      {
+        names: ["folderResourceMeta", "folderResourceMeta", "folderResourceMeta"],
+        fixture: "resource_folderResource",
       },
     ],
   });
@@ -24,8 +28,8 @@ test.beforeEach(async ({ page }) => {
 
 test("contains content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
-  await expect(page.getByRole("navigation").getByRole("listitem")).toHaveCount(4);
-  await expect(page.getByRole("navigation").getByRole("listitem").getByRole("link")).toHaveCount(3);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(4);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(3);
 
   const heading = page.getByRole("heading").getByText("Muntlig eksamen MIK 1");
   expect(heading).toBeDefined();

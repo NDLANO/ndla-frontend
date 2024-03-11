@@ -16,11 +16,11 @@ interface Feide extends TokenSet {
 }
 
 const locationOrigin = (() => {
-  if (config.runtimeType === "unittest") {
+  if (config.runtimeType === "test") {
     return "http://ndla-frontend";
   }
 
-  if (process.env.BUILD_TARGET === "server") {
+  if (!config.isClient) {
     return "";
   }
   if (typeof window === "undefined") {

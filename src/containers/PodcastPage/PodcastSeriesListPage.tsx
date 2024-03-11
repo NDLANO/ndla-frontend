@@ -14,7 +14,7 @@ import { gql, useApolloClient } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";

@@ -19,7 +19,7 @@ What's in the box?
 - React
 - GraphQL
 - Express
-- Webpack + Babel (ES6)
+- Vite + Babel (ES6)
 
 ### Dependencies
 
@@ -43,7 +43,7 @@ To use a different api set the `NDLA_ENVIRONMENT` environment variable.
 
 ### Unit tests
 
-Test framework: [Jest](https://github.com/facebook/jest)
+Test framework: [Vitest](https://github.com/vitest-dev/vitest/)
 
 ```yarn
 yarn test
@@ -53,20 +53,22 @@ yarn test
 
 [Playwright](https://playwright.dev/) is used for end to end testing.
 
-```
-$ yarn e2e
+To install browsers used in testing run `yarn playwright install` before any of the below commands.
+
+```yarn
+yarn e2e
 ```
 
 To circumvent api call flakiness all request are mocked when the tests are run on ci. Use the following command to record new mocks when api-calls change:
 
-```
-$ yarn e2e:record
+```yarn
+yarn e2e:record
 ```
 
 Playwright tests can also be run in headless mode with mocked API calls.
 
-```
-$ yarn e2e:headless
+```yarn
+yarn e2e:headless
 ```
 
 ### Code style
@@ -98,7 +100,7 @@ The [eslint-plugin-graphql](https://github.com/apollographql/eslint-plugin-graph
 Make sure you have an running instance of the GraphQL enpoint with your latest changes
 
 ```yarn
-yarn get-gql-schema-local
+yarn generate-gql:server
 ```
 
 ### TypeScript
@@ -106,7 +108,7 @@ yarn get-gql-schema-local
 [GraphQL code generator](https://www.graphql-code-generator.com/) is used to generate TypeScript types from the local GraphQL schema and queries.
 
 ```yarn
-yarn generate-gql-types
+yarn generate-gql:local
 ```
 
 The configuration is found in `codegen.yml`.

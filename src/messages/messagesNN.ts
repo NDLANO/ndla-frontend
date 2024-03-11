@@ -53,6 +53,9 @@ const messages = {
     },
   },
   myNdla: {
+    sharedFolder: {
+      learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
+    },
     arena: {
       notification: {
         description:

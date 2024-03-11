@@ -9,16 +9,16 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
+import { IFolder } from "@ndla/types-backend/myndla-api";
 import { FolderInput } from "@ndla/ui";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
-import { GQLFolder } from "../../graphqlTypes";
 import useValidationTranslation from "../../util/useValidationTranslation";
 
 interface Props {
   parentId: string;
   onClose?: () => void;
   initialValue?: string;
-  onCreate?: (folder: GQLFolder, parentId: string) => void;
+  onCreate?: (folder: IFolder, parentId: string) => void;
 }
 
 const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
@@ -46,8 +46,9 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
         name,
       },
     });
-    if (res.data?.addFolder) {
-      onCreate?.({ ...res.data.addFolder, subfolders: [] }, parentId);
+    const createdFolder = res.data?.addFolder as IFolder | undefined;
+    if (createdFolder) {
+      onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
       onClose?.();
     }
   };

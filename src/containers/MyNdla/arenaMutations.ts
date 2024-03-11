@@ -105,8 +105,8 @@ export const useUpdatePostV2 = (
 };
 
 const updateTopicMutationV2 = gql`
-  mutation UpdateTopicV2($topicId: Int!, $content: String!, $title: String!) {
-    updateTopicV2(topicId: $topicId, content: $content, title: $title) {
+  mutation UpdateTopicV2($topicId: Int!, $content: String!, $title: String!, $isLocked: Boolean, $isPinned: Boolean) {
+    updateTopicV2(topicId: $topicId, content: $content, title: $title, isLocked: $isLocked, isPinned: $isPinned) {
       ...ArenaTopicV2
     }
   }
@@ -159,8 +159,8 @@ export const useDeleteTopicV2 = (
 };
 
 const newArenaTopicMutationV2 = gql`
-  mutation NewArenaTopicV2($categoryId: Int!, $content: String!, $title: String!) {
-    newArenaTopicV2(categoryId: $categoryId, content: $content, title: $title) {
+  mutation NewArenaTopicV2($categoryId: Int!, $content: String!, $title: String!, $isLocked: Boolean) {
+    newArenaTopicV2(categoryId: $categoryId, content: $content, title: $title, isLocked: $isLocked) {
       ...ArenaTopicV2
     }
   }

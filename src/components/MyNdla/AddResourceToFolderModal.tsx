@@ -14,6 +14,7 @@ import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import LoginModalContent from "./LoginModalContent";
 import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
 interface Props {
@@ -27,7 +28,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
   const { meta, loading } = useFolderResourceMeta(resource, {
-    skip: !resource,
+    skip: !resource || !open,
   });
 
   const close = useCallback(() => setOpen(false), []);
@@ -53,7 +54,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
               <ListResource
                 isLoading={loading}
                 id={resource.id.toString()}
-                tagLinkPrefix="/minndla/tags"
+                tagLinkPrefix={routes.myNdla.tags}
                 link={resource.path}
                 title={meta?.title ?? ""}
                 resourceImage={{

@@ -157,6 +157,8 @@ type Article {
   created: String!
   crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
   grepCodes: [String!]
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String!
@@ -198,6 +200,7 @@ type ArticleMetaData {
   h5ps: [H5pLicense!]
   images: [ImageLicense!]
   podcasts: [PodcastLicense!]
+  textblocks: [TextblockLicense!]
 }
 
 type ArticleRequiredLibrary {
@@ -558,6 +561,7 @@ type FrontPageResources {
 type FrontpageMenu {
   article: Article!
   articleId: Int!
+  hideLevel: Boolean
   menu: [FrontpageMenu]
 }
 
@@ -812,6 +816,8 @@ type Manuscript {
 
 type Meta {
   availability: String
+  htmlIntroduction: String
+  htmlTitle: String!
   id: Int!
   introduction: String
   language: String
@@ -1443,6 +1449,11 @@ type TaxonomyMetadata {
   customFields: StringRecord!
   grepCodes: [String!]!
   visible: Boolean!
+}
+
+type TextblockLicense {
+  copyright: Copyright!
+  title: String
 }
 
 type Title {

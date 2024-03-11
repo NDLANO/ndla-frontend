@@ -17,10 +17,11 @@ import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
 import { FolderFormValues } from "./FolderForm";
 import { FolderShareModalContent } from "./FolderShareModal";
-import { copyFolderSharingLink, isStudent, sharedFolderLinkInternal } from "./util";
+import { copyFolderSharingLink, isStudent } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import config from "../../../config";
 import { GQLFolder } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import { useAddFolderMutation, useDeleteFolderMutation, useUpdateFolderStatusMutation } from "../folderMutations";
@@ -83,7 +84,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     await deleteFolder({ variables: { id: selectedFolder.id } });
 
     if (selectedFolder?.id === folderId) {
-      navigate(`/minndla/folders/${selectedFolder.parentId}`, {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
         replace: true,
       });
     }
@@ -163,10 +164,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: sharedFolderLinkInternal(selectedFolder.id),
+      link: routes.folder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(sharedFolderLinkInternal(selectedFolder.id));
+        navigate(routes.folder(selectedFolder.id));
       },
     };
 

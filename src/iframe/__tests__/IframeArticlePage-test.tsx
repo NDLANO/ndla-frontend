@@ -10,7 +10,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, Translation } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server.js";
 import { MockedProvider } from "@apollo/client/testing";
-import { createSerializer } from "@emotion/jest";
 import { render } from "@testing-library/react";
 import { i18nInstance } from "@ndla/ui";
 import { initializeI18n } from "../../i18n";
@@ -20,13 +19,11 @@ import IframePageContainer from "../IframePageContainer";
 window._mtm = [];
 HelmetProvider.canUseDOM = false;
 
-expect.addSnapshotSerializer(createSerializer());
-
 // Mock IntersectionObserver
 class IntersectionObserver {
-  observe = jest.fn();
-  disconnect = jest.fn();
-  unobserve = jest.fn();
+  observe = vi.fn();
+  disconnect = vi.fn();
+  unobserve = vi.fn();
 }
 
 Object.defineProperty(window, "IntersectionObserver", {
@@ -178,6 +175,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     oldNdlaUrl: "//red.ndla.no/node/168554",
     requiredLibraries: [],
     title: "Politiske skillelinjer",
+    htmlTitle: "Politiske skillelinjer",
     updated: "2018-01-09T18:43:48Z",
     published: "2018-01-09T18:43:48Z",
     supportedLanguages: ["nb"],

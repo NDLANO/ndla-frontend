@@ -6,26 +6,43 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { spacing, spacingUnit, mq, breakpoints } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useSnack } from "@ndla/ui";
+import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import DeletedPostCard from "./components/DeletedPostCard";
 import PostCard from "./components/PostCard";
 import {
   useArenaTopic,
   useArenaCategory,
   useArenaFollowTopicMutation,
+  useArenaReplyToTopicMutation,
   useArenaUnfollowTopicMutation,
 } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
+  ${mq.range({ from: breakpoints.tablet })} {
+    margin-left: ${spacing.xlarge};
+  }
+`;
+
+const StyledReplyButton = styled(ButtonV2)`
+  float: right;
+  &[hidden] {
+    display: none;
+  }
+`;
 
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
@@ -50,6 +67,7 @@ const PostCardWrapper = styled.li`
 `;
 
 const PostsPage = () => {
+  const [isReplying, setIsReplying] = useState(false);
   const { t } = useTranslation();
   const { topicId } = useParams();
   const { addSnack } = useSnack();
@@ -58,12 +76,14 @@ const PostsPage = () => {
   const postPage = 1;
   const postPageSize = 100;
   const { arenaTopic, loading, error } = useArenaTopic(topicId, postPage, postPageSize);
+  const replyToRef = useRef<HTMLButtonElement | null>(null);
 
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
+  const { replyToTopic } = useArenaReplyToTopicMutation(Number(topicId));
   const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
 
   useEffect(() => {
@@ -73,6 +93,24 @@ const PostsPage = () => {
       dimensions: getAllDimensions({ user }),
     });
   }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
+
+  const createReply = useCallback(
+    async (data: Partial<ArenaFormValues>) => {
+      const newReply = await replyToTopic({
+        variables: { topicId: Number(topicId), content: data.content ?? "" },
+      });
+
+      // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
+      if (!newReply.data) return;
+      if ("replyToTopic" in newReply.data) {
+        setFocusId(newReply.data.replyToTopic.id);
+      }
+      if ("replyToTopicV2" in newReply.data) {
+        setFocusId(newReply.data.replyToTopicV2.id);
+      }
+    },
+    [replyToTopic, topicId, setFocusId],
+  );
 
   const onFollowChange = useCallback(() => {
     if (!arenaTopic) return;
@@ -100,10 +138,10 @@ const PostsPage = () => {
 
   useEffect(() => {
     if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
-      if (document.referrer.includes("/minndla")) {
+      if (document.referrer.includes(routes.myNdla.root)) {
         navigate(-1);
       } else {
-        navigate("/minndla/arena");
+        navigate(routes.myNdla.arena);
       }
       addSnack({
         content: t("myNdla.arena.topic.isDeleted"),
@@ -114,7 +152,7 @@ const PostsPage = () => {
 
   if (loading) return <Spinner />;
   if (authContextLoaded && !user?.arenaEnabled) {
-    return <Navigate to="/minndla" />;
+    return <Navigate to={routes.myNdla.root} />;
   }
 
   return (
@@ -151,12 +189,37 @@ const PostsPage = () => {
                   onFollowChange={onFollowChange}
                   setFocusId={setFocusId}
                   isMainPost={isMainPost}
+                  createReply={createReply}
                 />
               )}
             </PostCardWrapper>
           );
         })}
       </ListWrapper>
+      <StyledReplyButton
+        aria-expanded={isReplying}
+        ref={replyToRef}
+        onClick={() => setIsReplying(true)}
+        hidden={isReplying || !!arenaTopic?.isLocked}
+      >
+        {t("myNdla.arena.new.post")}
+      </StyledReplyButton>
+      {isReplying && (
+        <StyledArenaFormWrapper>
+          <ArenaForm
+            id={`bottom${topicId ? `-${topicId}` : ""}`}
+            onAbort={async () => {
+              setIsReplying(false);
+              setTimeout(() => replyToRef.current?.focus(), 1);
+            }}
+            type="post"
+            onSave={async (values) => {
+              await createReply(values);
+              setIsReplying(false);
+            }}
+          />
+        </StyledArenaFormWrapper>
+      )}
     </MyNdlaPageWrapper>
   );
 };
