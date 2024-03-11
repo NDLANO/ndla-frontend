@@ -6,25 +6,12 @@
  *
  */
 
-import {
-  GQLArticle,
-  GQLSubject,
-  GQLTopic,
-  GQLLearningpathStep,
-  GQLMyNdlaPersonalDataFragmentFragment,
-} from "../graphqlTypes";
+import { GQLArticle, GQLLearningpathStep, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 
-type DimensionKeys = "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "13" | "14" | "16" | "17" | "18" | "19" | "20";
+type DimensionKeys = "10" | "13" | "14" | "16" | "17" | "18" | "19" | "20";
 type DimensionType = Record<DimensionKeys, string | number | undefined>;
 
 export const getDimensionsCodes = {
-  "3": "CustDimOverordnet",
-  "4": "CustDimInnholdstype",
-  "5": "CustDimFag",
-  "6": "CustDimHovedemne",
-  "7": "CustDimEmne",
-  "8": "CustDimFagartikkel",
-  "9": "CustDimForfatter",
   "10": "CustDimKjerneelement",
   "13": "CustDimStiLengde",
   "14": "CustDimStiSteg",
@@ -54,33 +41,21 @@ type RequiredLearningpath = {
 
 interface Props {
   article?: Pick<GQLArticle, "title" | "grepCodes" | "copyright">;
-  subject?: Pick<GQLSubject, "name">;
-  topicPath?: (Pick<GQLTopic, "name"> | undefined)[];
   learningpath?: RequiredLearningpath;
-  relevance?: string;
   learningstep?: Pick<GQLLearningpathStep, "seqNo">;
   filter?: string;
   user?: GQLMyNdlaPersonalDataFragmentFragment;
 }
 
-export const getAllDimensions = (props: Props, contentTypeLabel?: string, isArticle: boolean = false) => {
-  const { article, relevance, subject, topicPath, learningpath, learningstep, filter, user } = props;
-  const rightsholders = article?.copyright.rightsholders;
-  const authors = article?.copyright.creators || rightsholders;
-
+export const getAllDimensions = ({ article, learningpath, learningstep, filter, user }: Props) => {
   const dimensions: DimensionType = {
-    "3": relevance,
-    "4": contentTypeLabel,
-    "5": subject?.name,
-    "6": topicPath?.[0]?.name,
-    "7": topicPath && topicPath[1] ? topicPath[topicPath.length - 1]?.name : undefined,
-    "8": isArticle && article ? article.title : undefined,
-    "9": authors?.map((author) => author?.name).join(", "),
     "10": getGrepCodeOfType("KE", article?.grepCodes),
     "13": learningpath?.learningsteps?.length,
     "14": learningstep ? learningstep.seqNo + 1 : undefined,
     "16": user?.organization,
-    "17": user?.groups.find((g) => g.isPrimarySchool)?.displayName,
+    // This is disabled for now.
+    // "17": user?.groups.find((g) => g.isPrimarySchool)?.displayName,
+    "17": undefined,
     "18": user?.role,
     "19": filter,
     "20": getGrepCodeOfType("KM", article?.grepCodes),

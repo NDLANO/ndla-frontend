@@ -62,21 +62,11 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
-    const topicPath = topic.path
-      ?.split("/")
-      .slice(2)
-      .map((t) => subject.allTopics?.find((topic) => topic.id.replace("urn:", "") === t));
-    const dimensions = getAllDimensions(
-      {
-        subject,
-        topicPath,
-        article: topic.article,
-        filter: subject.name,
-        user,
-      },
-      undefined,
-      true,
-    );
+    const dimensions = getAllDimensions({
+      article: topic.article,
+      filter: subject.name,
+      user,
+    });
 
     trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
