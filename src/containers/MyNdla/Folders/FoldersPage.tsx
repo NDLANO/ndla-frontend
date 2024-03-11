@@ -10,7 +10,6 @@ import isEqual from "lodash/isEqual";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { FileDocumentOutline } from "@ndla/icons/common";
@@ -70,11 +69,6 @@ export const BlockWrapper = styled.ul`
   &[data-no-padding="true"] {
     padding: 0;
   }
-`;
-
-export const iconCss = css`
-  width: 20px;
-  height: 20px;
 `;
 
 export const ListItem = styled.li`

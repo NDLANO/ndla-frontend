@@ -21,8 +21,7 @@ import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
-import { buttonCss } from "../components/toolbarStyles";
-import { iconCss } from "../Folders/FoldersPage";
+import { buttonCss, iconCss } from "../components/toolbarStyles";
 import { useSubjects } from "../subjectQueries";
 
 const StyledSubjectLink = styled(SubjectLink)`

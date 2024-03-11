@@ -17,3 +17,8 @@ export const buttonCss = css`
     font-weight: ${fonts.weight.normal};
   }
 `;
+
+export const iconCss = css`
+  width: 20px;
+  height: 20px;
+`;

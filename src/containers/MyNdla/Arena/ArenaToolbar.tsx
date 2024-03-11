@@ -11,8 +11,7 @@ import styled from "@emotion/styled";
 import { Plus } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
 import SettingsMenu from "../components/SettingsMenu";
-import { buttonCss } from "../components/toolbarStyles";
-import { iconCss } from "../Folders/FoldersPage";
+import { buttonCss, iconCss } from "../components/toolbarStyles";
 
 const StyledListItem = styled.li`
   margin: 0;
