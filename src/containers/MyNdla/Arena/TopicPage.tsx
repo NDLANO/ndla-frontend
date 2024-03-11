@@ -18,6 +18,7 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
+import { PostActions, PostButtons } from "./PostToolbar";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
@@ -88,7 +89,7 @@ const TopicPage = () => {
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
       <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb
