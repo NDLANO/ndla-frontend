@@ -49,7 +49,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const previewRef = useRef<HTMLButtonElement | null>(null);
 
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
   const { deleteFolder } = useDeleteFolderMutation();
@@ -121,7 +120,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
                 folderId: selectedFolder.id,
                 status: "private",
               },
-            }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
+            });
             addSnack({
               id: "sharingDeleted",
               content: t("myNdla.folder.sharing.unShare"),
@@ -135,7 +134,12 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     ) : null;
 
   const shareButton = selectedFolder ? (
-    <FolderShareModal key="shareFolderButton" type="private" folder={selectedFolder}>
+    <FolderShareModal
+      key="shareFolderButton"
+      type="private"
+      folder={selectedFolder}
+      setRef={() => setTimeout(() => shareRef.current?.focus(), 0)}
+    >
       <StyledListItem key="shareFolderButton">
         <ButtonV2
           css={buttonCss}
@@ -151,7 +155,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
                   folderId: selectedFolder.id,
                   status: "shared",
                 },
-              }).then(() => setTimeout(() => previewRef.current?.focus(), 0));
+              });
             !isFolderShared &&
               addSnack({
                 id: "folderShared",

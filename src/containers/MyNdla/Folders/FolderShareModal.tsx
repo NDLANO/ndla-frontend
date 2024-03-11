@@ -95,6 +95,7 @@ interface BaseProps {
   folder: GQLFolder;
   type: "shared" | "private" | "unShare";
   onCopyText?: () => void;
+  setRef?: () => void;
 }
 
 interface FolderShareModalContentProps extends BaseProps {
@@ -105,18 +106,30 @@ interface FolderShareModalProps extends BaseProps {
   children: ReactNode;
 }
 
-export const FolderShareModalContent = ({ onClose, type, folder, onCopyText }: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({
+  onClose,
+  type,
+  folder,
+  onCopyText,
+  setRef,
+}: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const selectors = useUserAgent();
   const cancelButton = useMemo(
     () =>
       !(type === "shared" && selectors?.isMobile) ? (
-        <ButtonV2 shape="pill" onClick={onClose}>
+        <ButtonV2
+          shape="pill"
+          onClick={() => {
+            onClose();
+            setRef?.();
+          }}
+        >
           {t("finished")}
         </ButtonV2>
       ) : null,
-    [selectors?.isMobile, onClose, t, type],
+    [selectors?.isMobile, onClose, t, type, setRef],
   );
 
   return (
@@ -170,14 +183,14 @@ export const FolderShareModalContent = ({ onClose, type, folder, onCopyText }: F
   );
 };
 
-const FolderShareModal = ({ children, type, folder, onCopyText }: FolderShareModalProps) => {
+const FolderShareModal = ({ children, type, folder, onCopyText, setRef }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
   const close = useCallback(() => setOpen(false), []);
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>{children}</ModalTrigger>
-      <FolderShareModalContent onClose={close} type={type} folder={folder} onCopyText={onCopyText} />
+      <FolderShareModalContent onClose={close} type={type} folder={folder} onCopyText={onCopyText} setRef={setRef} />
     </Modal>
   );
 };
