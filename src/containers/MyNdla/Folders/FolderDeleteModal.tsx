@@ -11,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import { ButtonV2 } from "@ndla/button";
 import { TrashCanOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import { buttonCss, iconCss } from "./FoldersPage";
+import { iconCss } from "./FoldersPage";
 import DeleteModalContent from "../components/DeleteModalContent";
+import { buttonCss } from "../components/toolbarStyles";
 
 interface Props {
   onDelete: () => void;

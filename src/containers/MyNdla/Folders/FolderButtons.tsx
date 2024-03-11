@@ -19,12 +19,13 @@ import FolderCreateModal from "./FolderCreateModal";
 import FolderDeleteModal from "./FolderDeleteModal";
 import FolderEditModal from "./FolderEditModal";
 import FolderShareModal from "./FolderShareModal";
-import { buttonCss, iconCss } from "./FoldersPage";
+import { iconCss } from "./FoldersPage";
 import { isStudent, copyFolderSharingLink } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { useUserAgent } from "../../../UserAgentContext";
+import { buttonCss } from "../components/toolbarStyles";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../folderMutations";
 import { OutletContext } from "../MyNdlaLayout";
 
