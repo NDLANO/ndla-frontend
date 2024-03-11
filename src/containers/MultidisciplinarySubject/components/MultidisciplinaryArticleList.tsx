@@ -6,10 +6,12 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
+import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
 
 const ListWrapper = styled.div`
   display: grid;
@@ -29,18 +31,19 @@ const ListWrapper = styled.div`
 `;
 
 export type ListProps = {
-  items: ListItemProps[];
+  topics: GQLMultidisciplinaryArticleList_TopicFragment[];
   totalCount: number;
+  subjects: string[];
 };
 
-const MultidisciplinaryArticleList = ({ items, totalCount }: ListProps) => (
+const MultidisciplinaryArticleList = ({ topics, totalCount, subjects }: ListProps) => (
   <>
     <Heading headingStyle="default" element="h2">
       {totalCount} caser
     </Heading>
     <ListWrapper>
-      {items.map((item) => (
-        <ListItem key={item.title} {...item} />
+      {topics.map((topic) => (
+        <ListItem key={topic.name} topic={topic} subjects={subjects} />
       ))}
     </ListWrapper>
   </>
@@ -81,22 +84,18 @@ const Subject = styled.span`
 `;
 
 interface ListItemProps {
-  title: string;
-  introduction: string;
-  url: string;
-  image?: string;
-  imageAlt?: string;
-  subjects?: string[];
+  topic: GQLMultidisciplinaryArticleList_TopicFragment;
+  subjects: string[];
 }
 
-const ListItem = ({ title, introduction, url, image, imageAlt = "", subjects = [] }: ListItemProps) => (
+const ListItem = ({ topic, subjects }: ListItemProps) => (
   <div>
-    <SafeLink to={url}>
-      {image && <Image src={image} alt={imageAlt} />}
+    <SafeLink to={topic.path ?? ""}>
+      {!!topic.meta?.metaImage && <Image src={topic.meta.metaImage.url} alt={topic.meta.metaImage.alt} />}
       <TextWrapper>
-        <Title>{title}</Title>
-        <Introduction textStyle="meta-text-small">{introduction}</Introduction>
-        {subjects.length && (
+        <Title>{topic.name}</Title>
+        <Introduction textStyle="meta-text-small">{topic.meta?.metaDescription ?? ""}</Introduction>
+        {!!subjects.length && (
           <Subjects textStyle="meta-text-small" margin="none">
             {subjects.map((subject) => (
               <Subject key={subject}>{subject}</Subject>
@@ -107,5 +106,22 @@ const ListItem = ({ title, introduction, url, image, imageAlt = "", subjects = [
     </SafeLink>
   </div>
 );
+
+MultidisciplinaryArticleList.fragments = {
+  topic: gql`
+    fragment MultidisciplinaryArticleList_Topic on Topic {
+      name
+      id
+      path
+      meta {
+        metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+    }
+  `,
+};
 
 export default MultidisciplinaryArticleList;

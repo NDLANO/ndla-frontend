@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction } from "react";
 import { gql } from "@apollo/client";
 import { Spinner } from "@ndla/icons";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
+import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import MultidisciplinaryTopic, { multidisciplinaryTopicFragments } from "./MultidisciplinaryTopic";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
@@ -27,15 +28,25 @@ interface Props {
   setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   disableNav?: boolean;
   index: number;
+  showSubtopics?: boolean;
 }
 
 const multidisciplinaryTopicWrapperQuery = gql`
-  query multidisciplinaryTopicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
+  query multidisciplinaryTopicWrapper(
+    $topicId: String!
+    $subjectId: String
+    $convertEmbeds: Boolean
+    $showSubtopics: Boolean!
+  ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
+      subtopics @skip(if: $showSubtopics) {
+        ...MultidisciplinaryArticleList_Topic
+      }
       ...MultidisciplinaryTopic_Topic
     }
   }
+  ${MultidisciplinaryArticleList.fragments.topic}
   ${multidisciplinaryTopicFragments.topic}
 `;
 
@@ -47,6 +58,7 @@ const MultidisciplinaryTopicWrapper = ({
   setCrumbs,
   index,
   disableNav,
+  showSubtopics,
 }: Props) => {
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinaryTopicWrapperQuery,
@@ -56,6 +68,7 @@ const MultidisciplinaryTopicWrapper = ({
       topicId,
       subjectId,
       convertEmbeds: true,
+      showSubtopics: !!showSubtopics,
     },
     onCompleted: (data) => {
       const topic = data.topic;
@@ -79,14 +92,23 @@ const MultidisciplinaryTopicWrapper = ({
   }
 
   return (
-    <MultidisciplinaryTopic
-      topic={data.topic}
-      topicId={topicId}
-      subjectId={subjectId}
-      subTopicId={subTopicId}
-      subject={subject}
-      disableNav={disableNav}
-    />
+    <>
+      <MultidisciplinaryTopic
+        topic={data.topic}
+        topicId={topicId}
+        subjectId={subjectId}
+        subTopicId={subTopicId}
+        subject={subject}
+        disableNav={disableNav}
+      />
+      {showSubtopics && (
+        <MultidisciplinaryArticleList
+          topics={data.topic?.subtopics ?? []}
+          subjects={[subject.name]}
+          totalCount={data.topic?.subtopics?.length ?? 0}
+        />
+      )}
+    </>
   );
 };
 

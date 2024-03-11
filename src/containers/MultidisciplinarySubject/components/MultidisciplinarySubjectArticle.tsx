@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
+import { OneColumn } from "@ndla/ui";
 import Article from "../../../components/Article";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
@@ -22,9 +22,9 @@ import {
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { removeUrn, toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
+import { getTopicPathV2 } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -53,10 +53,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
-  const topicCrumbs = useMemo(
-    () => getTopicPath(subject.id, topic.id, subject.allTopics),
-    [subject.allTopics, subject.id, topic.id],
-  );
+  const topicPath = useMemo(() => getTopicPathV2(topic.path, topic.contexts), [topic.contexts, topic.path]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -71,31 +68,12 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
     });
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
-  const breadCrumbs: SimpleBreadcrumbItem[] = useMemo(
-    () =>
-      [
-        {
-          name: t("breadcrumb.toFrontpage"),
-          to: "/",
-        },
-        {
-          name: subject.name,
-          to: removeUrn(subject.id),
-        },
-        ...topicCrumbs.map((topic) => ({
-          name: topic.name,
-          to: `/${removeUrn(topic.id)}`,
-        })),
-      ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-        crumbs.push({
-          name: crumb.name,
-          to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
-        });
-
-        return crumbs;
-      }, []),
-    [subject.id, subject.name, t, topicCrumbs],
-  );
+  const breadCrumbs = useMemo(() => {
+    return toBreadcrumbItems(
+      t("breadcrumb.toFrontpage"),
+      topicPath.concat({ name: topic.name, id: `/${removeUrn(topic.id)}` }),
+    );
+  }, [t, topic.id, topic.name, topicPath]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -155,6 +133,11 @@ export const multidisciplinarySubjectArticleFragments = {
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
       id
+      contexts {
+        breadcrumbs
+        parentIds
+        path
+      }
       article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
         created
         updated
@@ -174,11 +157,6 @@ export const multidisciplinarySubjectArticleFragments = {
       name
       id
       path
-      allTopics {
-        id
-        name
-        parentId
-      }
       subjectpage {
         about {
           title

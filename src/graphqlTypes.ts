@@ -2733,27 +2733,31 @@ export type GQLMultidisciplinarySubjectPageQuery = {
     __typename?: "Subject";
     subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
     topics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
-    allTopics?: Array<{
-      __typename?: "Topic";
-      name: string;
-      id: string;
-      parentId?: string;
-      path: string;
-      meta?: {
-        __typename?: "Meta";
-        title: string;
-        introduction?: string;
-        metaDescription?: string;
-        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-      };
-    }>;
   } & GQLMultidisciplinaryTopicWrapper_SubjectFragment;
+};
+
+export type GQLMultidisciplinaryArticleList_TopicFragment = {
+  __typename?: "Topic";
+  name: string;
+  id: string;
+  path: string;
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
 };
 
 export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: "Topic";
   path: string;
   id: string;
+  contexts: Array<{
+    __typename?: "TaxonomyContext";
+    breadcrumbs: Array<string>;
+    parentIds: Array<string>;
+    path: string;
+  }>;
   article?: {
     __typename?: "Article";
     created: string;
@@ -2767,7 +2771,6 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   name: string;
   id: string;
   path: string;
-  allTopics?: Array<{ __typename?: "Topic"; id: string; name: string; parentId?: string }>;
   subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
 };
 
@@ -2779,6 +2782,13 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   __typename?: "Topic";
   path: string;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
+  meta?: {
+    __typename?: "Meta";
+    title: string;
+    metaDescription?: string;
+    introduction?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string };
+  };
   article?: {
     __typename?: "Article";
     metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
@@ -2790,22 +2800,22 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   } & GQLArticleContents_ArticleFragment;
 } & GQLResources_TopicFragment;
 
-export type GQLMultidisciplinaryTopic_SubjectFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  allTopics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
-};
+export type GQLMultidisciplinaryTopic_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
 export type GQLMultidisciplinaryTopicWrapperQueryVariables = Exact<{
   topicId: Scalars["String"]["input"];
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
   convertEmbeds?: InputMaybe<Scalars["Boolean"]["input"]>;
+  showSubtopics: Scalars["Boolean"]["input"];
 }>;
 
 export type GQLMultidisciplinaryTopicWrapperQuery = {
   __typename?: "Query";
-  topic?: { __typename?: "Topic"; id: string } & GQLMultidisciplinaryTopic_TopicFragment;
+  topic?: {
+    __typename?: "Topic";
+    id: string;
+    subtopics?: Array<{ __typename?: "Topic" } & GQLMultidisciplinaryArticleList_TopicFragment>;
+  } & GQLMultidisciplinaryTopic_TopicFragment;
 };
 
 export type GQLMultidisciplinaryTopicWrapper_SubjectFragment = {
