@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
@@ -14,6 +14,7 @@ import { colors, spacing } from "@ndla/core";
 import { SafeLinkButton } from "@ndla/safelink";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
+import { AuthContext } from "../../../components/AuthenticationContext";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 
@@ -41,8 +42,9 @@ const ShowAllLink = styled(SafeLinkButton)`
 `;
 
 const NotificationPopover = () => {
-  const { notifications } = useTemporaryArenaNotifications();
+  const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const [open, setOpen] = useState(false);
   return (
     <Root open={open} onOpenChange={setOpen}>
