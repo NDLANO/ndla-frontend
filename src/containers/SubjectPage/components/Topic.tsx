@@ -61,21 +61,11 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
-      const topicPath = topic?.path
-        ?.split("/")
-        .slice(2)
-        .map((t) => subject?.allTopics?.find((topic) => topic.id.replace("urn:", "") === t));
-      const dimensions = getAllDimensions(
-        {
-          subject,
-          topicPath,
-          article: topic.article,
-          filter: subject?.name,
-          user,
-        },
-        undefined,
-        true,
-      );
+      const dimensions = getAllDimensions({
+        article: topic.article,
+        filter: subject?.name,
+        user,
+      });
       trackPageView({ dimensions, title: getDocumentTitle({ t, topic }) });
     }
   }, [authContextLoaded, loading, showResources, subject, t, topic, trackPageView, user]);
