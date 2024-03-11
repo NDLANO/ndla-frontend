@@ -41,6 +41,7 @@ const messages = {
     podcasts: "Podkaster",
     pageInfo: "Side {{page}} av {{lastPage}}",
     noResults: "...Ingen episoder",
+    subtitle: "Lytt og lær!",
   },
   myndla: {
     campaignBlock: {
