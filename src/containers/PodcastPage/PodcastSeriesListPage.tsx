@@ -35,11 +35,6 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const TitleWrapper = styled.div`
-  display: flex;
-  margin-top: ${spacing.normal};
-`;
-
 const StyledPageNumber = styled.span`
   margin: 0 ${spacing.small};
 `;
@@ -119,26 +114,22 @@ const PodcastSeriesListPage = () => {
     <>
       <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
       <OneColumn>
-        <TitleWrapper>
-          <Heading element="h1" headingStyle="h1-resource">
-            {t("podcastPage.podcasts")}
-          </Heading>
-        </TitleWrapper>
-        <div>
-          {results?.length && results.length > 0 ? (
-            <>
-              <Heading element="h2" headingStyle="h2">
-                {t("podcastPage.subtitle")}
-              </Heading>
-              {results.map((series) => {
-                return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
-              })}
-              <StyledPageNumber>{t("podcastPage.pageInfo", { page, lastPage })}</StyledPageNumber>
-            </>
-          ) : (
-            <NoResult>{t("podcastPage.noResults")}</NoResult>
-          )}
-        </div>
+        <Heading element="h1" headingStyle="h1-resource" margin="xlarge">
+          {t("podcastPage.podcasts")}
+        </Heading>
+        {results?.length && results.length > 0 ? (
+          <>
+            <Heading element="h2" headingStyle="h2">
+              {t("podcastPage.subtitle")}
+            </Heading>
+            {results.map((series) => {
+              return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
+            })}
+            <StyledPageNumber>{t("podcastPage.pageInfo", { page, lastPage })}</StyledPageNumber>
+          </>
+        ) : (
+          <NoResult>{t("podcastPage.noResults")}</NoResult>
+        )}
         <Pager
           page={getPage(searchObject)}
           lastPage={lastPage}
