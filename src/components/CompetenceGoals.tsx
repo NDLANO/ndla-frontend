@@ -6,11 +6,10 @@
  *
  */
 
-import { forwardRef } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSuspenseQuery } from "@apollo/client";
 import styled from "@emotion/styled";
-import { ButtonProps, ButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { FooterHeaderIcon } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
@@ -19,6 +18,7 @@ import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../g
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
 import handleError from "../util/handleError";
+import { useGraphQuery } from "../util/runQueries";
 
 interface Props {
   supportedLanguages?: string[];
@@ -185,13 +185,16 @@ const groupCoreElements = (
 };
 
 const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
+  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const { t, i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
-  const { error, data } = useSuspenseQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
+  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
     variables: { codes, language },
     skip: typeof window === "undefined",
   });
+
+  useEffect(() => setCompetenceGoalsLoading(loading), [loading, setCompetenceGoalsLoading]);
 
   if (error) {
     handleError(error);
@@ -224,7 +227,16 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     <>
       <Modal>
         <ModalTrigger>
-          <CompetenceGoalsButton />
+          <ButtonV2
+            aria-busy={competenceGoalsLoading}
+            size="xsmall"
+            colorTheme="light"
+            shape="pill"
+            disabled={competenceGoalsLoading}
+          >
+            <FooterHeaderIcon />
+            <CompetenceBadgeText>{t("competenceGoals.showCompetenceGoals")}</CompetenceBadgeText>
+          </ButtonV2>
         </ModalTrigger>
         <ModalContent size="full">
           <ModalHeader>
@@ -244,23 +256,5 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     </>
   );
 };
-
-export const CompetenceGoalsButton = forwardRef<HTMLButtonElement, ButtonProps>(({ disabled, ...rest }, ref) => {
-  const { t } = useTranslation();
-  return (
-    <ButtonV2
-      aria-busy={disabled}
-      size="xsmall"
-      colorTheme="light"
-      shape="pill"
-      disabled={disabled}
-      {...rest}
-      ref={ref}
-    >
-      <FooterHeaderIcon />
-      <CompetenceBadgeText>{t("competenceGoals.showCompetenceGoals")}</CompetenceBadgeText>
-    </ButtonV2>
-  );
-});
 
 export default CompetenceGoals;
