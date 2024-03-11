@@ -17,10 +17,6 @@ test.beforeEach(async ({ page }) => {
         names: ["resourcePage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
         fixture: "resource",
       },
-      {
-        names: ["folderResourceMeta", "folderResourceMeta", "folderResourceMeta"],
-        fixture: "resource_folderResource",
-      },
     ],
   });
   await page.goto("/subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e/topic:2:117982/resource:1:117868?disableSSR=true");
