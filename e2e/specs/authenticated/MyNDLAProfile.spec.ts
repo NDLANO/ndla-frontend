@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
     operation: [
       {
         fixture: "minndla_profile_myndladata",
-        names: ["myNdlaData"],
+        names: ["myNdlaData", "mastheadFrontpage"],
       },
       {
         fixture: "minndla_profile_notifications",
