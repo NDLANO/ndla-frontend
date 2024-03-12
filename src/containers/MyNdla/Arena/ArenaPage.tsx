@@ -42,7 +42,7 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const ArenaPage = () => {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
     <MyNdlaPageWrapper>
@@ -72,7 +72,7 @@ const ArenaPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t("myNdla.arena.category.title")}
         </Heading>
-        {user.isModerator && (
+        {user?.isModerator && (
           <ModeratorButtonWrapper>
             <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
@@ -81,7 +81,7 @@ const ArenaPage = () => {
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
-      {loading ? (
+      {loading || !user ? (
         <Spinner />
       ) : (
         <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />

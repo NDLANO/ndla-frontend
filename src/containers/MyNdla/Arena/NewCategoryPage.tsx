@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -38,7 +38,7 @@ export const NewCategoryPage = () => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const newCategoryMutation = useCreateArenaCategory();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
@@ -66,6 +66,8 @@ export const NewCategoryPage = () => {
   );
 
   const onAbort = useCallback(() => navigate(routes.myNdla.arena), [navigate]);
+
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>
