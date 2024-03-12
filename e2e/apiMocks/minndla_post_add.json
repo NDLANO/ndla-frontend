@@ -1,2 +1,0 @@
-[{"data":{"replyToTopicV2":{"__typename":"ArenaPostV2","content":"Test kommentar!!!","contentAsHTML":"<p>Test kommentar!!!</p>\n","id":38,"created":"2024-02-07T11:57:34.053Z","updated":"2024-02-07T11:57:34.053Z","topicId":7,"owner":{"displayName":"Anne LærerVGS Haugen","id":2,"groups":[],"location":"Lerk VGS","username":"anne_laerervgs@testusers.feide.no","__typename":"ArenaUserV2"},"flags":null}}}
-]

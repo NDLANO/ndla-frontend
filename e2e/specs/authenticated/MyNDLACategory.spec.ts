@@ -14,15 +14,15 @@ test.beforeEach(async ({ page }) => {
     page,
     operation: [
       {
-        fixture: "minndla_category_myndladata",
-        names: ["myNdlaData", "arenaPage2"],
+        fixture: "minndla_category_categories",
+        names: ["arenaPage2", "mastheadFrontpage", "myNdlaData"],
       },
       {
         fixture: "minndla_category_notifications",
         names: ["arenaNotificationsV2"],
       },
       {
-        fixture: "minndla_category_topics",
+        fixture: "minndla_category_category",
         names: ["arenaCategoryV2"],
       },
     ],
@@ -39,5 +39,7 @@ test("has categories and is working link", async ({ page }) => {
   const linkHeading = (await link.textContent()) ?? "";
   await link.click();
   await page.waitForURL("/minndla/arena/category/*");
-  await expect(page.getByRole("main").getByRole("heading", { name: linkHeading })).toHaveText(linkHeading);
+  await expect(page.getByRole("main").getByRole("heading", { name: linkHeading })).toHaveText(linkHeading, {
+    useInnerText: true,
+  });
 });

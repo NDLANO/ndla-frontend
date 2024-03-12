@@ -7,39 +7,39 @@
  */
 
 import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { mockGraphqlRoute } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await mockGraphqlRoute({
     page,
     operation: [
       {
-        fixture: "minndla_topic_myndladata",
-        names: ["myNdlaData", "arenaCategoryV2"],
+        fixture: "minndla_topic_category",
+        names: ["arenaCategoryV2", "mastheadFrontpage", "myNdlaData"],
       },
       {
-        fixture: "minndla_topic_notifications",
+        fixture: "minndla_topic_notification",
         names: ["arenaNotificationsV2"],
       },
       {
-        fixture: "minndla_topic_post",
-        names: ["arenaNotifications", "arenaTopicByIdV2"],
-      },
-      {
-        fixture: "minndla_topic_newPost",
+        fixture: "minndla_topic_new_topic",
         names: ["NewArenaTopicV2"],
       },
       {
-        fixture: "minndla_topic_post_loaded",
-        names: ["arenaCategoryV2", "arenaTopicByIdV2", "arenaNotifications"],
+        fixture: "minndla_topic_topic",
+        names: ["arenaTopicByIdV2"],
       },
       {
-        fixture: "minndla_topic_post_data_create",
+        fixture: "minndla_topic_category_topic",
         names: ["arenaCategoryV2", "arenaTopicByIdV2"],
       },
       {
-        fixture: "minndla_topic_post_loaded_new",
-        names: ["arenaTopicByIdV2"],
+        fixture: "minndla_topic_user_notification",
+        names: ["ArenaUserV2", "arenaNotificationsV2"],
+      },
+      {
+        fixture: "minndla_topic_delete",
+        names: ["DeleteTopicV2"],
       },
     ],
   });
@@ -58,7 +58,7 @@ test("can open post in topic", async ({ page }) => {
   await expect(page.getByRole("main").getByRole("heading", { name: linkHeading })).toHaveText(linkHeading);
 });
 
-test("can create topic", async ({ page }) => {
+test("can create and delete topic", async ({ page }) => {
   await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeInViewport();
   await page.getByRole("link", { name: "Nytt innlegg" }).click();
   await page.waitForURL("/minndla/arena/category/1/topic/new");
@@ -75,6 +75,12 @@ test("can create topic", async ({ page }) => {
   await page.waitForURL("/minndla/arena/topic/*");
   await expect(page.getByRole("heading", { name: tittel })).toHaveText(tittel);
   await expect(page.getByText(content)).toBeInViewport();
+  await page.getByRole("main").getByRole("listitem").last().getByRole("button").first().click();
+  await page.getByRole("menuitem", { name: "Slett innlegget" }).click();
+
+  await expect(page.getByRole("dialog")).toBeInViewport();
+  await page.getByRole("dialog").getByRole("button", { name: "Slett innlegg" }).click();
+  await page.waitForURL("/minndla/arena/category/*");
 });
 
 test("can cancel when creating topic", async ({ page }) => {

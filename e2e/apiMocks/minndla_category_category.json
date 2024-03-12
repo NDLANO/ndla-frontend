@@ -1,0 +1,2 @@
+[{"data":{"arenaCategoryV2":{"__typename":"ArenaCategoryV2","id":10,"title":"dette er en ny kategori","description":"tut tut","topicCount":1,"postCount":8,"visible":false,"topics":[{"__typename":"ArenaTopicV2","id":55,"postCount":6,"created":"2024-02-20T12:41:52.471Z","updated":"2024-02-20T12:41:52.471Z","title":"sfsfsef","isFollowing":false,"categoryId":10,"isLocked":false}]}}}
+]
