@@ -164,10 +164,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
-      link: routes.myNdla.folder(selectedFolder.id),
+      link: routes.folder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(routes.myNdla.folder(selectedFolder.id));
+        navigate(routes.folder(selectedFolder.id));
       },
     };
 

@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import MyPreferences from "./components/MyPreferences";
@@ -85,7 +85,7 @@ const MyProfilePage = () => {
             primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
           }}
         />
-        <MyPreferences user={user} />
+        {user && <MyPreferences user={user} />}
         <InfoContainer>
           {user && (
             <InfoPart title={t("myNdla.myPage.feide")}>

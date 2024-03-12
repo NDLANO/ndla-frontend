@@ -6,15 +6,13 @@
  *
  */
 
-@import '~@ndla/core/scss/core';
-@import '~@ndla/ui/src/main';
-@import '~@ndla/core/scss/utilities';
+@import url("@ndla/ui/lib/all.css");
 
 .c-topic-resource__item--hidden {
   display: none;
 }
 
-mjx-container.MathJax[jax='CHTML'][display='true'] {
+mjx-container.MathJax[jax="CHTML"][display="true"] {
   display: inline-flex !important;
   overflow-x: hidden;
   overflow-y: hidden;

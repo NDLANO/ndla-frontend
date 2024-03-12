@@ -13,7 +13,7 @@ import { useBaseName } from "./BaseNameContext";
 import config from "../config";
 import { preferredLocales, isValidLocale } from "../i18n";
 
-export const getCanonicalUrl = (location: Location) => {
+export const getCanonicalUrl = (location: Pick<Location, "pathname">) => {
   if (!location.pathname.includes("article-iframe")) {
     return `${config.ndlaFrontendDomain}${location.pathname}`;
   }
@@ -24,7 +24,7 @@ export const getCanonicalUrl = (location: Location) => {
   return `${config.ndlaFrontendDomain}${paths.join("/")}`;
 };
 
-export const getAlternateUrl = (location: Location, alternateLanguage: string) => {
+export const getAlternateUrl = (location: Pick<Location, "pathname">, alternateLanguage: string) => {
   if (!location.pathname.includes("article-iframe")) {
     return `${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`;
   }
@@ -46,7 +46,7 @@ export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   return trackableContent.supportedLanguages.filter((language) => isValidLocale(language));
 };
 
-export const getOgUrl = (location: Location, basename: string) => {
+export const getOgUrl = (location: Pick<Location, "pathname">, basename: string) => {
   const ogBaseName = basename === "" ? "" : `/${basename}`;
   return `${config.ndlaFrontendDomain}${ogBaseName}${location.pathname}`;
 };

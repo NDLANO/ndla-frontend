@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import Avatar from "./Avatar";
 import { isArenaModerator } from "../../../components/AuthenticationContext";
@@ -86,11 +86,12 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
   const { arenaUser } = useArenaUser(user?.username); // TODO: Delete this hook and use user directly when nodebb dies
   const { t } = useTranslation();
 
+  const profilePicture = undefined;
   const displayName = user?.displayName ? user.displayName : t("user.deletedUser");
 
   return (
     <TagContainer username={user?.username}>
-      <Avatar displayName={displayName} profilePicture={undefined} />
+      <Avatar aria-hidden={!profilePicture} displayName={displayName} profilePicture={profilePicture} />
       <UserInformationContainer>
         <NameAndTagContainer>
           <Name textStyle="meta-text-large" margin="none" data-name="hover">

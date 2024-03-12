@@ -6,22 +6,25 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
+
+import { Spinner } from "@ndla/icons";
 import { InformationOutline } from "@ndla/icons/common";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
-import { MarkdownEditor } from "../../../../components/MarkdownEditor/MarkdownEditor";
 import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../Folders/FolderForm";
 import { iconCss } from "../../Folders/FoldersPage";
+
+const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
 export const ArenaFormWrapper = styled.div`
   display: flex;
@@ -86,7 +89,7 @@ interface ArenaFormProps {
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
-  id?: number;
+  id?: number | string;
 }
 
 export interface ArenaFormValues {
@@ -185,15 +188,17 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
             <StyledLabel textStyle="label-small" onClick={() => document.getElementById("field-editor")?.focus()}>
               {type === "post" ? t("myNdla.arena.new.post") : t("myNdla.arena.topic.topicContent")}
             </StyledLabel>
-            <MarkdownEditor
-              setContentWritten={(val) => {
-                setValue("content", val, {
-                  shouldDirty: true,
-                });
-              }}
-              initialValue={initialContent ?? ""}
-              {...field}
-            />
+            <Suspense fallback={<Spinner />}>
+              <MarkdownEditor
+                setContentWritten={(val) => {
+                  setValue("content", val, {
+                    shouldDirty: true,
+                  });
+                }}
+                initialValue={initialContent ?? ""}
+                {...field}
+              />
+            </Suspense>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
         )}

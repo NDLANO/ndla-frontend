@@ -10,7 +10,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Locked } from "@ndla/icons/common";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { routes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
@@ -75,6 +75,12 @@ const LockedIconCSS = css`
   color: ${colors.brand.primary};
 `;
 
+const CountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
@@ -91,14 +97,14 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
         {locked ? (
           <Locked css={LockedIconCSS} />
         ) : (
-          <>
-            <Text element="p" textStyle="content-alt" margin="none">
+          <CountContainer aria-label={`${count} ${t("myNdla.arena.topic.responses")}`}>
+            <Text element="p" textStyle="content-alt" margin="none" aria-hidden>
               {count}
             </Text>
-            <StyledText textStyle="meta-text-small" margin="none">
-              {t("myNdla.arena.topic.responses", { count })}
+            <StyledText textStyle="meta-text-small" margin="none" aria-hidden>
+              {t("myNdla.arena.topic.responses")}
             </StyledText>
-          </>
+          </CountContainer>
         )}
       </StyledCountContainer>
     </StyledSafelink>

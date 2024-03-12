@@ -54,7 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEFAULT_TIMEOUT: 5000
-      JEST_TIMEOUT: 15000
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v3
@@ -64,7 +63,7 @@ jobs:
       - name: 'Enable yarn v4'
         run: |
           corepack enable
-          yarn set version 4.1.0
+          yarn set version 4.1.1
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)

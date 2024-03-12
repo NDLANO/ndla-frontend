@@ -6,13 +6,12 @@
  *
  */
 
-import "isomorphic-unfetch";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import ErrorReporter from "@ndla/error-reporter";
+import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-sans-pro/400-italic.css";
@@ -31,6 +30,7 @@ import "../style/index.css";
 import { LtiIframePage } from "./LtiIframePage";
 import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
+import Scripts from "../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { initializeI18n, isValidLocale } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
@@ -60,6 +60,7 @@ root.render(
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
           <MemoryRouter initialEntries={["/lti"]} basename="/">
+            <Scripts />
             <Routes>
               <Route path="lti" element={<LtiProvider />} />
               <Route path="article-iframe" element={<LtiIframePage />}>
@@ -75,7 +76,3 @@ root.render(
     </LtiContextProvider>
   </HelmetProvider>,
 );
-
-if (module.hot) {
-  module.hot.accept();
-}

@@ -28,7 +28,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
   const { meta, loading } = useFolderResourceMeta(resource, {
-    skip: !resource,
+    skip: !resource || !open,
   });
 
   const close = useCallback(() => setOpen(false), []);

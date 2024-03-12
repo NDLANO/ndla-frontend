@@ -13,7 +13,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Heart, HeartOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";

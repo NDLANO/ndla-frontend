@@ -58,11 +58,7 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
   useEffect(() => {
     if (propArticle && authContextLoaded) {
       const contentType = getContentTypeFromResourceTypes(meta?.resourceTypes);
-      const dimensions = getAllDimensions(
-        { article: propArticle, user },
-        meta?.resourceTypes && contentType?.label,
-        true,
-      );
+      const dimensions = getAllDimensions({ article: propArticle, user });
       trackPageView({
         dimensions,
         title: getDocumentTitle(propArticle.title, contentType?.label, t),

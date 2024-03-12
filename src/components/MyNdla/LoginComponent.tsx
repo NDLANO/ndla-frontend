@@ -6,15 +6,15 @@
  *
  */
 
+import parse from "html-react-parser";
 import { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { mq, breakpoints, fonts, spacing } from "@ndla/core";
-import { Feide } from "@ndla/icons/common";
+import { mq, breakpoints, spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
-import SafeLink, { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
@@ -22,25 +22,12 @@ import { toHref } from "../../util/urlHelper";
 const LoginComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.normal};
-`;
-
-const FeideRow = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  align-items: center;
-  font-weight: ${fonts.weight.semibold};
-  svg {
-    color: #204598;
-    width: 30px;
-    height: 30px;
-  }
 `;
 
 const BottomRow = styled.div`
   display: flex;
-  gap: ${spacing.small};
-  justify-content: space-between;
+  justify-content: flex-end;
+  margin-top: ${spacing.normal};
 `;
 
 const ButtonRow = styled.div`
@@ -57,17 +44,13 @@ const TitleRow = styled.div`
   }
 `;
 
-const StyledImage = styled.img`
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  width: 100%;
-  border-radius: 50%;
-`;
-
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.small};
+`;
+
+const StyledSafelink = styled(SafeLink)`
+  margin-left: ${spacing.xsmall};
 `;
 
 interface Props {
@@ -86,23 +69,19 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <Heading headingStyle="h2" element="h1">
             <Trans t={t} i18nKey="myNdla.myPage.loginWelcome" />
           </Heading>
-          <StyledImage src="/static/my-ndla-login.png" alt={t("myNdla.myPage.imageAlt")} />
         </TitleRow>
       )}
       {content}
       <ContentWrapper>
+        <Text textStyle="ingress">{parse(t("myNdla.myPage.loginIngress"))}</Text>
         <Text textStyle="meta-text-medium">
           {t("myNdla.myPage.loginText")}
-          <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
+          <StyledSafelink target="_blank" to="https://ndla.no/article/personvernerklaering">
             {t("myNdla.myPage.loginTextLink")}
-          </SafeLink>
+          </StyledSafelink>
         </Text>
       </ContentWrapper>
       <BottomRow>
-        <FeideRow>
-          <Feide />
-          Feide
-        </FeideRow>
         <ButtonRow>
           <ModalCloseButton>
             <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>

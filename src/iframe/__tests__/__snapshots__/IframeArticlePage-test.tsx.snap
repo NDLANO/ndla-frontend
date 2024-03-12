@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
@@ -248,7 +248,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-4[data-learningPath="true"] {
+.emotion-4[data-learning-path="true"] {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -299,7 +299,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 .emotion-14 {
   border: 1px solid #ceddea;
-  border-radius: 4px;
 }
 
 .emotion-14[data-state="open"] {
@@ -529,7 +528,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             >
               <div
                 class="emotion-4 emotion-5"
-                data-learningpath="false"
+                data-learning-path="false"
               >
                 <div
                   class="emotion-6 emotion-7"

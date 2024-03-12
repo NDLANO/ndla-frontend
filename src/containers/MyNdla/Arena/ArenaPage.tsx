@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import SortableArenaCards from "./components/SortableArenaCards";
@@ -88,6 +88,7 @@ const ArenaPage = () => {
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
         {t("myNdla.arena.bottomText")}
+        <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
     </MyNdlaPageWrapper>
   );
