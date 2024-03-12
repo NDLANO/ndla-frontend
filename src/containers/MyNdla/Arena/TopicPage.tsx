@@ -83,7 +83,7 @@ const TopicPage = () => {
   }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading || !authContextLoaded) return <Spinner />;
-  if (!authenticated || !user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
 
   return (
