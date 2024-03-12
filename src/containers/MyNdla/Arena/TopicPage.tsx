@@ -72,7 +72,7 @@ const TopicPage = () => {
   const { trackPageView } = useTracker();
 
   const { loading, arenaCategory } = useArenaCategory(categoryId);
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
@@ -83,7 +83,7 @@ const TopicPage = () => {
   }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   if (loading || !authContextLoaded) return <Spinner />;
-  if (!user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
+  if (!authenticated || !user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
 
   return (
@@ -98,7 +98,7 @@ const TopicPage = () => {
       <HeaderWrapper>
         <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
           {arenaCategory?.title}
-          {user.isModerator && !arenaCategory?.visible && (
+          {user?.isModerator && !arenaCategory?.visible && (
             <StyledEye
               title={t("myNdla.arena.admin.category.notVisible")}
               aria-label={t("myNdla.arena.admin.category.notVisible")}
@@ -115,7 +115,7 @@ const TopicPage = () => {
           {t("myNdla.arena.posts.title")}
         </Heading>
         <ButtonContainer>
-          {user.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+          {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
           <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
         </ButtonContainer>
       </StyledContainer>
