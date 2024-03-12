@@ -28,7 +28,6 @@ import {
   GQLLearningpathStep,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems, toLearningPath } from "../../routeHelpers";
-import { getArticleProps } from "../../util/getArticleProps";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -65,25 +64,17 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const articleProps = getArticleProps(data.resource);
-    const { resource, subject, topicPath, relevance } = data;
+    const { resource, subject } = data;
     const learningpath = resource?.learningpath;
     const firstStep = learningpath?.learningsteps?.[0];
     const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
     const learningstep = currentStep || firstStep;
-    const dimensions = getAllDimensions(
-      {
-        subject,
-        relevance,
-        topicPath,
-        learningpath,
-        learningstep,
-        filter: subject?.name,
-        user,
-      },
-      articleProps.label,
-      false,
-    );
+    const dimensions = getAllDimensions({
+      learningpath,
+      learningstep,
+      filter: subject?.name,
+      user,
+    });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 

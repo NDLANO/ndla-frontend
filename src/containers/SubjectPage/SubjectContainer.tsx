@@ -90,10 +90,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   useEffect(() => {
     if (!authContextLoaded) return;
     if (!loading && !!subject.topics?.length && topicIds.length === 0) {
-      const topicPath = topicIds.map((id) => subject.allTopics?.find((t) => t.id === id));
       const dimensions = getAllDimensions({
-        subject,
-        topicPath,
         filter: subject.name,
         user,
       });

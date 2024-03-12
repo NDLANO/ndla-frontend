@@ -85,7 +85,7 @@ const MyProfilePage = () => {
             primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
           }}
         />
-        <MyPreferences user={user} />
+        {user && <MyPreferences user={user} />}
         <InfoContainer>
           {user && (
             <InfoPart title={t("myNdla.myPage.feide")}>

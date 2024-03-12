@@ -60,21 +60,11 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
-    const topicPath = topic.path
-      ?.split("/")
-      .slice(2)
-      .map((id) => subject.allTopics?.find((t) => t.id.replace("urn:", "") === id));
-    const dimensions = getAllDimensions(
-      {
-        subject,
-        topicPath,
-        article: topic.article,
-        filter: subject.name,
-        user,
-      },
-      undefined,
-      true,
-    );
+    const dimensions = getAllDimensions({
+      article: topic.article,
+      filter: subject.name,
+      user,
+    });
     trackPageView({
       dimensions,
       title: htmlTitle(topic.name || "", [t("htmlTitles.titleTemplate")]),
