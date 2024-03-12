@@ -6,13 +6,17 @@
  *
  */
 
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import FlaggedPosts from "./FlaggedPosts";
+import { AuthContext } from "../../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
+import { routes } from "../../../../routeHelpers";
 import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../../components/MyNdlaPageWrapper";
 
@@ -25,6 +29,10 @@ const StyledCardContainer = styled.div`
 
 const ArenaFlagPage = () => {
   const { t } = useTranslation();
+  const { authContextLoaded, authenticated, user } = useContext(AuthContext);
+
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled || !user?.isModerator))
+    return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>
