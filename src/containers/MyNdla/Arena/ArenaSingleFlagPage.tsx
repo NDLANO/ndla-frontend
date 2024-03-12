@@ -15,14 +15,14 @@ import { Spinner } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import Flags from "./FlagCard";
-import FlaggedPostCard from "./FlaggedPostCard";
-import { AuthContext } from "../../../../components/AuthenticationContext";
-import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { routes } from "../../../../routeHelpers";
-import { useArenaPostInContext } from "../../arenaQueries";
-import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../../components/MyNdlaPageWrapper";
+import Flags from "./components/FlagCard";
+import FlaggedPostCard from "./components/FlaggedPostCard";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
+import { useArenaPostInContext } from "../arenaQueries";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledCardContainer = styled.ul`
   display: flex;

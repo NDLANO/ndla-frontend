@@ -13,12 +13,12 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import Users from "./Users";
-import { AuthContext } from "../../../../components/AuthenticationContext";
-import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { routes } from "../../../../routeHelpers";
-import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../../components/MyNdlaPageWrapper";
+import FlaggedPosts from "./components/FlaggedPosts";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledCardContainer = styled.div`
   display: flex;
@@ -40,20 +40,20 @@ const ArenaFlagPage = () => {
       <MyNdlaBreadcrumb
         breadcrumbs={[
           {
-            name: t("myNdla.arena.admin.users.title"),
+            name: t("myNdla.arena.admin.flags.title"),
             id: `flags`,
           },
         ]}
         page="admin"
       />
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
-        {t("myNdla.arena.admin.users.title")}
+        {t("myNdla.arena.admin.flags.title")}
       </Heading>
       <Text element="p" textStyle="content-alt">
-        {t("myNdla.arena.admin.users.description")}
+        {t("myNdla.arena.admin.flags.description")}
       </Text>
       <StyledCardContainer>
-        <Users />
+        <FlaggedPosts />
       </StyledCardContainer>
     </MyNdlaPageWrapper>
   );
