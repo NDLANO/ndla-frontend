@@ -24,7 +24,6 @@ import { isStudent, copyFolderSharingLink } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
-import { useUserAgent } from "../../../UserAgentContext";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../folderMutations";
 import { OutletContext } from "../MyNdlaLayout";
 
@@ -45,7 +44,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { addSnack } = useSnack();
   const { examLock, user } = useContext(AuthContext);
   const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
-  const userAgent = useUserAgent();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -120,7 +118,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
                 folderId: selectedFolder.id,
                 status: "private",
               },
-            });
+            }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
             addSnack({
               id: "sharingDeleted",
               content: t("myNdla.folder.sharing.unShare"),
@@ -136,7 +134,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const shareButton = selectedFolder ? (
     <FolderShareModal
       key="shareFolderButton"
-      type="private"
       folder={selectedFolder}
       setRef={() => setTimeout(() => shareRef.current?.focus(), 0)}
     >
@@ -164,7 +161,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           }}
         >
           <Share css={iconCss} />
-          {userAgent?.isMobile ? t("myNdla.folder.sharing.share") : t("myNdla.folder.sharing.button.shareShort")}
+          {t("myNdla.folder.sharing.button.shareShort")}
         </ButtonV2>
       </StyledListItem>
     </FolderShareModal>

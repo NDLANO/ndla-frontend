@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -20,7 +20,6 @@ import FolderAndResourceCount from "./FolderAndResourceCount";
 import { sharedFolderLink } from "./util";
 import { GQLFolder } from "../../../graphqlTypes";
 import { toFolderPreview } from "../../../routeHelpers";
-import { useUserAgent } from "../../../UserAgentContext";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -93,7 +92,6 @@ const StyledButtonRow = styled.div`
 
 interface BaseProps {
   folder: GQLFolder;
-  type: "shared" | "private" | "unShare";
   onCopyText?: () => void;
   setRef?: () => void;
 }
@@ -106,34 +104,12 @@ interface FolderShareModalProps extends BaseProps {
   children: ReactNode;
 }
 
-export const FolderShareModalContent = ({
-  onClose,
-  type,
-  folder,
-  onCopyText,
-  setRef,
-}: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
-  const selectors = useUserAgent();
-  const cancelButton = useMemo(
-    () =>
-      !(type === "shared" && selectors?.isMobile) ? (
-        <ButtonV2
-          shape="pill"
-          onClick={() => {
-            onClose();
-            setRef?.();
-          }}
-        >
-          {t("finished")}
-        </ButtonV2>
-      ) : null,
-    [selectors?.isMobile, onClose, t, type, setRef],
-  );
 
   return (
-    <ModalContent>
+    <ModalContent onCloseAutoFocus={setRef}>
       <ModalHeader>
         <ModalTitle>{t("myNdla.folder.sharing.header.shared")}</ModalTitle>
         <ModalCloseButton title={t("myNdla.folder.closeModal")} />
@@ -176,21 +152,28 @@ export const FolderShareModalContent = ({
           <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)} variant="outline">
             {t("myNdla.folder.sharing.button.preview")}
           </SafeLinkButton>
-          {cancelButton}
+          <ButtonV2
+            shape="pill"
+            onClick={() => {
+              onClose();
+              setRef?.();
+            }}
+          >
+            {t("finished")}
+          </ButtonV2>
         </StyledButtonRow>
       </StyledModalBody>
     </ModalContent>
   );
 };
 
-const FolderShareModal = ({ children, type, folder, onCopyText, setRef }: FolderShareModalProps) => {
+const FolderShareModal = ({ children, folder, onCopyText, setRef }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
-  const close = useCallback(() => setOpen(false), []);
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>{children}</ModalTrigger>
-      <FolderShareModalContent onClose={close} type={type} folder={folder} onCopyText={onCopyText} setRef={setRef} />
+      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} setRef={setRef} />
     </Modal>
   );
 };
