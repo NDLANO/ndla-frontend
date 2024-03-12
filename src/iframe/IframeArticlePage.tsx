@@ -61,8 +61,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
 
   useEffect(() => {
     if (propArticle?.id) return;
-    const articleProps = getArticleProps(resource?.id ? resource : undefined);
-    const dimensions = getAllDimensions({ article: propArticle }, articleProps.label, true);
+    const dimensions = getAllDimensions({ article: propArticle });
     trackPageView({
       dimensions,
       title: getDocumentTitle({ article: propArticle }),

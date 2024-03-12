@@ -18,7 +18,7 @@ import { useUpdatePersonalData } from "../../../MyNdla/userMutations";
 import { isStudent } from "../../Folders/util";
 
 type MyPreferencesProps = {
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment;
 };
 
 const PreferenceContainer = styled.div`
@@ -103,10 +103,10 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
     <PreferenceContainer>
       <DisclaimerContainer>
         <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-          {t(`myNdla.myProfile.disclaimerTitle.${user?.role}`)}
+          {t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}
         </Heading>
         <Text element="p" textStyle="content-alt" margin="none">
-          {t(`myNdla.myProfile.disclaimerText.${user?.role}`)}
+          {t(`myNdla.myProfile.disclaimerText.${user.role}`)}
         </Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
@@ -123,7 +123,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             <FormControl id="nameControl">
               <StyledRadioButtonGroup
                 onValueChange={setUserPref}
-                defaultValue={user?.shareName ? "showName" : "dontShowName"}
+                defaultValue={user.shareName ? "showName" : "dontShowName"}
                 asChild
               >
                 <Fieldset>

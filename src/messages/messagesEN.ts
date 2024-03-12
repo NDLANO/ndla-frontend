@@ -41,6 +41,7 @@ const messages = {
     podcasts: "Podcasts",
     pageInfo: "Page {{page}} of {{lastPage}}",
     noResults: "...No episodes",
+    subtitle: "Listen and learn!",
   },
   myndla: {
     campaignBlock: {
