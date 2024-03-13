@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { Cross, Pencil, Plus } from "@ndla/icons/action";
@@ -48,7 +48,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const previewRef = useRef<HTMLButtonElement | null>(null);
 
   const isFolderShared = selectedFolder?.status !== "private";
 
@@ -144,20 +143,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       ),
     };
 
-    // const shareLink: MenuItemProps = {
-    //   icon: <Share />,
-    //   text: t("myNdla.folder.sharing.button.shareShort"),
-    //   ref: previewRef,
-    //   isModal: true,
-    //   keepOpen: true,
-    //   modalContent: (close) => (
-    //     <FolderShareModalContent
-    //       folder={selectedFolder}
-    //       onClose={close}
-    //       onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-    //     />
-    //   ),
-    // };
     const share: MenuItemProps = {
       icon: <Share />,
       text: t("myNdla.folder.sharing.button.shareShort"),
@@ -185,8 +170,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
           }
         : undefined,
     };
-    // previewRef.current?.click();
-    // () => setTimeout(() => shareRef.current?.focus(), 0)
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
