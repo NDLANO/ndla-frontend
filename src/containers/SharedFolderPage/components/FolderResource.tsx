@@ -64,9 +64,6 @@ const ListElement = styled.li`
 
 const StyledSpan = styled.span`
   flex: 1;
-  [data-error="true"] {
-    color: ${colors.support.red};
-  }
 `;
 
 const isLastStyle = css`
@@ -144,9 +141,7 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
         to={link}
       >
         <ContentTypeBadge type={contentType!} border={false} />
-        <StyledSpan data-error={!meta?.title}>
-          {meta?.title ? meta?.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-        </StyledSpan>
+        <StyledSpan>{meta?.title}</StyledSpan>
         {(resource.resourceType === "learningpath" || resource.resourceType === "multidisciplinary") && (
           <Launch height={"24px"} width={"24px"} />
         )}
