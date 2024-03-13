@@ -40,6 +40,7 @@ const messages = {
     podcasts: "Podkasttat",
     pageInfo: "Siidu {{page}} eret {{lastPage}}",
     noResults: "...Eai leat oasit",
+    subtitle: "Guldal ja oahpa!",
   },
   myndla: {
     campaignBlock: {

@@ -94,11 +94,8 @@ const AuthenticationContext = ({ children }: Props) => {
     const isValid = isAccessTokenValid();
     setAuthenticated(isValid);
 
-    if (!myNdlaData.data) return;
-
-    const { personalData, examLockStatus } = myNdlaData.data;
-
-    if (isValid && personalData !== undefined) {
+    if (!!myNdlaData.data && isValid && myNdlaData.data.personalData !== undefined) {
+      const { personalData, examLockStatus } = myNdlaData.data;
       if (personalData?.role === "student") {
         setExamLock(examLockStatus?.value === true);
       }

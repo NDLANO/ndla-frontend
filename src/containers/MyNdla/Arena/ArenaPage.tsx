@@ -14,13 +14,14 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
@@ -41,7 +42,7 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const ArenaPage = () => {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled) return <Navigate to="/minndla" />;
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
     <MyNdlaPageWrapper>
@@ -71,7 +72,7 @@ const ArenaPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t("myNdla.arena.category.title")}
         </Heading>
-        {user.isModerator && (
+        {user?.isModerator && (
           <ModeratorButtonWrapper>
             <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
@@ -80,13 +81,14 @@ const ArenaPage = () => {
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
-      {loading ? (
+      {loading || !user ? (
         <Spinner />
       ) : (
         <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
         {t("myNdla.arena.bottomText")}
+        <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
     </MyNdlaPageWrapper>
   );

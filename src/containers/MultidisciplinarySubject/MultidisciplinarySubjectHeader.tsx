@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing, stackOrder } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { HomeBreadcrumb, SimpleBreadcrumbItem } from "@ndla/ui";
 import {

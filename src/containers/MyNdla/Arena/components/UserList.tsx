@@ -9,11 +9,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { Cell } from "./Users";
 import { isArenaModerator } from "../../../../components/AuthenticationContext";
 import { GQLArenaUserV2Fragment, GQLPaginatedArenaUsers } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
 
 interface Props {
   loading: boolean;
@@ -69,7 +70,7 @@ const UserList = ({ loading, users }: Props) => {
     <>
       {users?.items.map((user) => {
         return (
-          <SafeLink to={`/minndla/arena/user/${user.username}`} key={`btn-${user.id}`}>
+          <SafeLink to={routes.myNdla.arenaUser(user.username)} key={`btn-${user.id}`}>
             <StyledRow>
               <Cell>{user.username}</Cell>
               <Cell>{user.displayName}</Cell>

@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import Icon from "@ndla/icons";
+import { Icon } from "@ndla/icons";
 import { Heading } from "@ndla/typography";
 
 interface Props {

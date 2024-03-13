@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 
 const ComponentRoot = styled.ul`
   padding: 0 0 ${spacing.medium} 0;

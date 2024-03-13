@@ -12,18 +12,19 @@ import { SnackbarProvider } from "@ndla/ui";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
+import Scripts from "./components/Scripts/Scripts";
 import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
+import ArenaFlagPage from "./containers/MyNdla/Arena/ArenaFlagPage";
 import ArenaNotificationPage from "./containers/MyNdla/Arena/ArenaNotificationsPage";
 import ArenaPage from "./containers/MyNdla/Arena/ArenaPage";
+import ArenaSingleFlagPage from "./containers/MyNdla/Arena/ArenaSingleFlagPage";
+import ArenaUserListPage from "./containers/MyNdla/Arena/ArenaUserListPage";
 import CategoryEditPage from "./containers/MyNdla/Arena/CategoryEditPage";
-import ArenaFlagPage from "./containers/MyNdla/Arena/components/ArenaFlagPage";
-import ArenaSingleFlagPage from "./containers/MyNdla/Arena/components/ArenaSingleFlagPage";
-import ArenaUserListPage from "./containers/MyNdla/Arena/components/ArenaUserListPage";
 import NewCategoryPage from "./containers/MyNdla/Arena/NewCategoryPage";
 import { NewTopicPage } from "./containers/MyNdla/Arena/NewTopicPage";
 import PostsPage from "./containers/MyNdla/Arena/PostsPage";
@@ -98,6 +99,7 @@ const AppRoutes = ({ base }: AppProps) => {
       <BaseNameProvider value={base}>
         <AuthenticationContext>
           <SnackbarProvider>
+            <Scripts />
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />

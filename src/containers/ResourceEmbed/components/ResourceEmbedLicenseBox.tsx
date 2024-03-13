@@ -10,7 +10,7 @@ import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import Tabs from "@ndla/tabs";
+import { Tabs } from "@ndla/tabs";
 import AudioLicenseList from "../../../components/license/AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "../../../components/license/ConceptLicenseList";
 import H5pLicenseList from "../../../components/license/H5pLicenseList";

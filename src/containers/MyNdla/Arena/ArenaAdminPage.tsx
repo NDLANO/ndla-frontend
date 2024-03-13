@@ -6,14 +6,18 @@
  *
  */
 
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { ProfilePersonOutlined, WarningOutline } from "@ndla/icons/common";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import AdminNavLink from "./components/AdminNavLink";
+import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledCardContainer = styled.ul`
@@ -25,6 +29,11 @@ const StyledCardContainer = styled.ul`
 
 const ArenaAdminPage = () => {
   const { t } = useTranslation();
+  const { authContextLoaded, authenticated, user } = useContext(AuthContext);
+
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled || !user?.isModerator))
+    return <Navigate to={routes.myNdla.root} />;
+
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.arenaAdminPage")} />

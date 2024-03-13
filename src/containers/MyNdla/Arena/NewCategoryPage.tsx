@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -16,8 +16,8 @@ import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { Heading } from "@ndla/typography";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
-import { toArena, toArenaCategory } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useCreateArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -38,7 +38,7 @@ export const NewCategoryPage = () => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const newCategoryMutation = useCreateArenaCategory();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
@@ -59,13 +59,15 @@ export const NewCategoryPage = () => {
       });
 
       if (category.data?.newArenaCategory.id) {
-        navigate(toArenaCategory(category.data?.newArenaCategory.id));
+        navigate(routes.myNdla.arenaCategory(category.data?.newArenaCategory.id));
       }
     },
     [newCategoryMutation, navigate],
   );
 
-  const onAbort = useCallback(() => navigate(toArena()), [navigate]);
+  const onAbort = useCallback(() => navigate(routes.myNdla.arena), [navigate]);
+
+  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

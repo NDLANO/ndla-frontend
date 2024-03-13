@@ -8,7 +8,7 @@
 
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
-import SafeLink from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 
 const ListWrapper = styled.div`

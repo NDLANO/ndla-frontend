@@ -125,11 +125,7 @@ const ProgrammeContainer = ({ programme, grade }: Props) => {
 
   useEffect(() => {
     if (!authContextLoaded) return;
-    const dimensions = getAllDimensions(
-      { subject: { name: `${programme.title.title} - ${grade}` }, user },
-      undefined,
-      false,
-    );
+    const dimensions = getAllDimensions({ user });
     trackPageView({
       dimensions,
       title: getDocumentTitle(programme.title.title, grade, t),

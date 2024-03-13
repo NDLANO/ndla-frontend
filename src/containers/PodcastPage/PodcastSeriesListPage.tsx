@@ -14,8 +14,9 @@ import { gql, useApolloClient } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import Pager from "@ndla/pager";
+import { Pager } from "@ndla/pager";
 import { HelmetWithTracker } from "@ndla/tracker";
+import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
@@ -34,16 +35,7 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const StyledTitle = styled.div`
-  display: flex;
-  margin-top: ${spacing.small};
-  align-items: baseline;
-  h1 {
-    margin-bottom: 0;
-  }
-`;
-
-const StyledTitlePageInfo = styled.span`
+const StyledPageNumber = styled.span`
   margin: 0 ${spacing.small};
 `;
 
@@ -114,28 +106,29 @@ const PodcastSeriesListPage = () => {
     return <DefaultErrorMessage />;
   }
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
       <OneColumn>
-        <StyledTitle>
-          <h1>{t("podcastPage.podcasts")}</h1>
-          {(!!data || !!previousData) && (
-            <StyledTitlePageInfo>{t("podcastPage.pageInfo", { page, lastPage })}</StyledTitlePageInfo>
-          )}
-        </StyledTitle>
-        {loading ? (
-          <Spinner />
+        <Heading element="h1" headingStyle="h1-resource" margin="xlarge">
+          {t("podcastPage.podcasts")}
+        </Heading>
+        {results?.length && results.length > 0 ? (
+          <>
+            <Heading element="h2" headingStyle="h2">
+              {t("podcastPage.subtitle")}
+            </Heading>
+            {results.map((series) => {
+              return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
+            })}
+            <StyledPageNumber>{t("podcastPage.pageInfo", { page, lastPage })}</StyledPageNumber>
+          </>
         ) : (
-          <div>
-            {results?.length ? (
-              results.map((series) => {
-                return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
-              })
-            ) : (
-              <NoResult>{t("podcastPage.noResults")}</NoResult>
-            )}
-          </div>
+          <NoResult>{t("podcastPage.noResults")}</NoResult>
         )}
         <Pager
           page={getPage(searchObject)}

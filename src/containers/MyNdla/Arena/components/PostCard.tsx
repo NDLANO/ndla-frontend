@@ -25,7 +25,6 @@ import LockModal from "./LockModal";
 import {
   useArenaDeletePost,
   useArenaDeleteTopic,
-  useArenaReplyToTopicMutation,
   useArenaUpdatePost,
   useArenaUpdateTopic,
 } from "./temporaryNodebbHooks";
@@ -34,12 +33,13 @@ import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
+import { routes } from "../../../../routeHelpers";
 import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import UserProfileTag from "../../components/UserProfileTag";
-import { capitalizeFirstLetter, toArena, toArenaCategory } from "../utils";
+import { capitalizeFirstLetter } from "../utils";
 
 interface Props {
   onFollowChange: (value: boolean) => void;
@@ -47,6 +47,7 @@ interface Props {
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
   isMainPost: boolean;
+  createReply: (data: Partial<ArenaFormValues>) => void;
 }
 
 const PostWrapper = styled.div`
@@ -127,7 +128,7 @@ export const compareUsernames = (userUsername: string | undefined, postUsername:
   return userUsername === postUsername;
 };
 
-const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props) => {
+const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createReply }: Props) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML, owner } = post;
@@ -140,7 +141,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
   const navigate = useNavigate();
   const { addSnack } = useSnack();
   const { user } = useContext(AuthContext);
-  const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
   const { updatePost } = useArenaUpdatePost(topicId);
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
@@ -160,9 +160,9 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
         id: "arenaTopicDeleted",
       });
       if (topic?.categoryId) {
-        navigate(toArenaCategory(topic.categoryId));
+        navigate(routes.myNdla.arenaCategory(topic.categoryId));
       } else {
-        navigate(toArena());
+        navigate(routes.myNdla.arena);
       }
     },
     [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],
@@ -261,24 +261,6 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost }: Props
     postId,
     post,
   ]);
-
-  const createReply = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
-      const newReply = await replyToTopic({
-        variables: { topicId, content: data.content ?? "" },
-      });
-
-      // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
-      if (!newReply.data) return;
-      if ("replyToTopic" in newReply.data) {
-        setFocusId(newReply.data.replyToTopic.id);
-      }
-      if ("replyToTopicV2" in newReply.data) {
-        setFocusId(newReply.data.replyToTopicV2.id);
-      }
-    },
-    [replyToTopic, topicId, setFocusId],
-  );
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
