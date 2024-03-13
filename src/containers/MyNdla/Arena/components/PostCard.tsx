@@ -34,6 +34,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
 import { routes } from "../../../../routeHelpers";
+import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
@@ -71,9 +72,7 @@ const PostCardWrapper = styled.div`
 const PostHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column-reverse;
-  }
+  flex-wrap: wrap;
 `;
 
 const StyledSwitch = styled(Switch)`
@@ -146,6 +145,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
+  const selectors = useUserAgent();
 
   const type = isMainPost ? "topic" : "post";
 
@@ -268,15 +268,18 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
     roundingMethod: "floor",
   });
 
-  const postTime = (
-    <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-    </TimestampText>
+  const postTime = useMemo(
+    () => (
+      <TimestampText element="span" textStyle="content-alt" margin="none">
+        <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+      </TimestampText>
+    ),
+    [created, language, timeDistance],
   );
 
-  const options = (isMainPost: Boolean) => {
-    if (isMainPost) {
-      return (
+  const options = useMemo(
+    () =>
+      isMainPost ? (
         <>
           <FlexLine>
             {menu}
@@ -286,16 +289,45 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
             {t("myNdla.arena.new.post")}
           </ButtonV2>
         </>
-      );
-    } else {
-      return (
+      ) : (
         <>
           {postTime}
           {menu}
         </>
-      );
-    }
-  };
+      ),
+    [menu, isMainPost, t, postTime, replyToRef, setIsReplying, isReplying, topic?.isLocked],
+  );
+
+  const followSwitch = useMemo(
+    () =>
+      isMainPost ? (
+        <StyledSwitch
+          onChange={onFollowChange}
+          checked={!!topic?.isFollowing}
+          label={t("myNdla.arena.posts.notify")}
+          id={t("myNdla.arena.posts.notify")}
+        />
+      ) : null,
+    [onFollowChange, topic?.isFollowing, isMainPost, t],
+  );
+
+  const profileTag = useMemo(() => <UserProfileTag user={post.owner} />, [post.owner]);
+
+  const header = useMemo(
+    () =>
+      selectors?.isMobile ? (
+        <>
+          {followSwitch}
+          {profileTag}
+        </>
+      ) : (
+        <>
+          {profileTag}
+          {followSwitch}
+        </>
+      ),
+    [followSwitch, profileTag, selectors?.isMobile],
+  );
 
   return (
     <PostWrapper>
@@ -328,17 +360,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
           />
         ) : (
           <>
-            <PostHeader>
-              <UserProfileTag user={post.owner} />
-              {isMainPost && (
-                <StyledSwitch
-                  onChange={onFollowChange}
-                  checked={!!topic?.isFollowing}
-                  label={t("myNdla.arena.posts.notify")}
-                  id={t("myNdla.arena.posts.notify")}
-                />
-              )}
-            </PostHeader>
+            <PostHeader>{header}</PostHeader>
             <ContentWrapper>
               {isMainPost && (
                 <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
@@ -349,7 +371,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
                 {parse(contentAsHTML!)}
               </Content>
             </ContentWrapper>
-            <FlexLine>{options(isMainPost)}</FlexLine>
+            <FlexLine>{options}</FlexLine>
           </>
         )}
       </PostCardWrapper>
