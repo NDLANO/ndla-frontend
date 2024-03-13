@@ -30,6 +30,7 @@ export interface MenuItemProps {
   modalContent?: (close: VoidFunction, setSkipAutoFocus: VoidFunction) => ReactNode;
   modality?: boolean;
   link?: string;
+  openOnLaunch?: boolean;
 }
 
 interface Props {
@@ -186,6 +187,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                       modalContent={item.modalContent}
                       modality={item.modality}
                       setSkipAutoFocus={() => setSkipAutoFocus(true)}
+                      openOnLaunch={item.openOnLaunch}
                     >
                       <ButtonV2
                         fontWeight="normal"
@@ -193,10 +195,14 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                         colorTheme={item.type}
                         ref={item.ref}
                         onClick={(e) => {
-                          if (item.onClick) {
-                            close();
-                            item.onClick(e);
+                          if (item.openOnLaunch) {
+                            setHasOpenModal(true);
                           }
+                          item.onClick?.(e);
+                          // if (item.onClick) {
+                          //   close();
+                          //   item.onClick(e);
+                          // }
                         }}
                       >
                         {item.icon}
@@ -306,6 +312,7 @@ interface ItemProps extends Pick<MenuItemProps, "isModal" | "modalContent" | "ke
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
   setSkipAutoFocus: VoidFunction;
+  openOnLaunch?: boolean;
 }
 
 const Item = ({
@@ -316,8 +323,10 @@ const Item = ({
   keepOpen,
   children,
   isModal,
+  openOnLaunch = false,
 }: ItemProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(openOnLaunch);
+  console.log("open", open);
 
   const close = useCallback(() => {
     handleDialogItemOpenChange?.(false, keepOpen);
@@ -333,6 +342,7 @@ const Item = ({
   );
 
   if (!isModal || !modalContent) {
+    console.log("isModal", isModal);
     return <StyledListItem>{children}</StyledListItem>;
   }
 

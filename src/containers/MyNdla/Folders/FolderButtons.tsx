@@ -136,6 +136,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       key="shareFolderButton"
       folder={selectedFolder}
       setRef={() => setTimeout(() => shareRef.current?.focus(), 0)}
+      onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
     >
       <StyledListItem key="shareFolderButton">
         <ButtonV2

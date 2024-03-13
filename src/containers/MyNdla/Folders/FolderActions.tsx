@@ -49,6 +49,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
   const previewRef = useRef<HTMLButtonElement | null>(null);
+
   const isFolderShared = selectedFolder?.status !== "private";
 
   const onFolderUpdated = useCallback(() => {
@@ -163,6 +164,8 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       text: t("myNdla.folder.sharing.button.shareShort"),
       ref: shareRef,
       isModal: true,
+      openOnLaunch: true,
+      keepOpen: true,
       modalContent: (close) => (
         <FolderShareModalContent
           folder={selectedFolder}
@@ -171,6 +174,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
         />
       ),
       onClick: () => {
+        // e?.preventDefault();
         !isFolderShared &&
           updateFolderStatus({
             variables: {
@@ -185,6 +189,8 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
           });
       },
     };
+    // previewRef.current?.click();
+    // () => setTimeout(() => shareRef.current?.focus(), 0)
 
     const previewFolder: MenuItemProps = {
       icon: <ShareArrow />,
