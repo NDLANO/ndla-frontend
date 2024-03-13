@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { Cross, Pencil, Plus } from "@ndla/icons/action";
@@ -158,14 +158,11 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     //     />
     //   ),
     // };
-
     const share: MenuItemProps = {
       icon: <Share />,
       text: t("myNdla.folder.sharing.button.shareShort"),
       ref: shareRef,
       isModal: true,
-      openOnLaunch: true,
-      keepOpen: true,
       modalContent: (close) => (
         <FolderShareModalContent
           folder={selectedFolder}
@@ -173,21 +170,20 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
           onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
         />
       ),
-      onClick: () => {
-        // e?.preventDefault();
-        !isFolderShared &&
-          updateFolderStatus({
-            variables: {
-              folderId: selectedFolder.id,
-              status: "shared",
-            },
-          });
-        !isFolderShared &&
-          addSnack({
-            id: "folderShared",
-            content: t("myNdla.folder.sharing.header.shared"),
-          });
-      },
+      onClick: !isFolderShared
+        ? () => {
+            updateFolderStatus({
+              variables: {
+                folderId: selectedFolder.id,
+                status: "shared",
+              },
+            });
+            addSnack({
+              id: "folderShared",
+              content: t("myNdla.folder.sharing.header.shared"),
+            });
+          }
+        : undefined,
     };
     // previewRef.current?.click();
     // () => setTimeout(() => shareRef.current?.focus(), 0)
