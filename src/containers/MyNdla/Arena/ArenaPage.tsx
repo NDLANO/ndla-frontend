@@ -57,7 +57,7 @@ const ArenaPage = () => {
     return <Spinner />;
   }
 
-  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
     <MyNdlaPageWrapper>

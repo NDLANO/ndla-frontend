@@ -43,11 +43,11 @@ const ArenaSingleFlagPage = () => {
   });
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (loading) return <Spinner />;
+  if (loading || !authContextLoaded) return <Spinner />;
 
   const flaggedPost = topic?.posts?.items[0];
 
-  if (authContextLoaded && (!authenticated || !user?.arenaEnabled || !user?.isModerator))
+  if (!authenticated || (user && !(user.arenaEnabled || user.isModerator)))
     return <Navigate to={routes.myNdla.arena} />;
 
   if (!postId || !topic || !flaggedPost) return <Navigate to={"/404"} replace />;
