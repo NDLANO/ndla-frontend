@@ -150,8 +150,8 @@ const PostsPage = () => {
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
-  if (loading) return <Spinner />;
-  if (authContextLoaded && (!authenticated || !user?.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
+  if (loading || !authContextLoaded) return <Spinner />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
 import { ProfilePersonOutlined, WarningOutline } from "@ndla/icons/common";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -31,8 +32,9 @@ const ArenaAdminPage = () => {
   const { t } = useTranslation();
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (authContextLoaded && (!authenticated || !user?.arenaEnabled || !user?.isModerator))
-    return <Navigate to={routes.myNdla.root} />;
+  if (!authContextLoaded) return <Spinner />;
+
+  if (!authenticated || (user && !(user.arenaEnabled || user.isModerator))) return <Navigate to={routes.myNdla.root} />;
 
   return (
     <MyNdlaPageWrapper>

@@ -77,7 +77,7 @@ const CategoryEditPage = () => {
 
   if (loading || !authContextLoaded) return <Spinner />;
   if (!categoryId) return <Navigate to={routes.myNdla.arena} />;
-  if (!user?.isModerator || !user.arenaEnabled)
+  if (user && !(user.isModerator || user.arenaEnabled))
     return <Navigate to={routes.myNdla.arenaCategory(Number(categoryId))} />;
 
   return (
