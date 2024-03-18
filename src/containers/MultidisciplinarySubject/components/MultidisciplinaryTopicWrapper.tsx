@@ -35,8 +35,8 @@ const multidisciplinaryTopicWrapperQuery = gql`
   query multidisciplinaryTopicWrapper(
     $topicId: String!
     $subjectId: String
-    $convertEmbeds: Boolean
     $showSubtopics: Boolean!
+    $transformArgs: TransformedArticleContentInput
   ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
@@ -67,8 +67,10 @@ const MultidisciplinaryTopicWrapper = ({
     variables: {
       topicId,
       subjectId,
-      convertEmbeds: true,
       showSubtopics: !!showSubtopics,
+      transformArgs: {
+        subjectId,
+      },
     },
     onCompleted: (data) => {
       const topic = data.topic;

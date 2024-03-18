@@ -25,13 +25,17 @@ import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
 const multidisciplinarySubjectArticlePageQuery = gql`
-  query multidisciplinarySubjectArticlePage($topicId: String!, $subjectId: String!, $convertEmbeds: Boolean) {
+  query multidisciplinarySubjectArticlePage(
+    $topicId: String!
+    $subjectId: String!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     subject(id: $subjectId) {
       ...MultidisciplinarySubjectArticle_Subject
     }
     topic(id: $topicId, subjectId: $subjectId) {
       id
-      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
+      article {
         metaDescription
         tags
         metaImage {
@@ -60,7 +64,10 @@ const MultidisciplinarySubjectArticlePage = () => {
     variables: {
       topicId: topicId!,
       subjectId: subjectId!,
-      convertEmbeds: true,
+      transformArgs: {
+        subjectId: subjectId!,
+        showVisualElement: "true",
+      },
     },
   });
 

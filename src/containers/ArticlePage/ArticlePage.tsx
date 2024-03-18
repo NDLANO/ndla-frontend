@@ -185,6 +185,7 @@ const ArticlePage = ({
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
+          oembed={resource.oembed}
           {...getArticleProps(resource, topic)}
         />
         {topic && (
@@ -235,7 +236,8 @@ export const articlePageFragments = {
       name
       path
       contentUri
-      article(subjectId: $subjectId, convertEmbeds: $convertEmbeds) {
+      oembed
+      article {
         created
         updated
         metaDescription

@@ -25,16 +25,17 @@ function buildLicenseTabList(
   t: TFunction,
   copyText?: string,
   printUrl?: string,
+  oembed?: string | undefined,
 ) {
-  const images = article.metaData?.images || [];
-  const audios = article.metaData?.audios || [];
-  const podcasts = article.metaData?.podcasts || [];
-  const brightcove = article.metaData?.brightcoves || [];
-  const h5ps = article.metaData?.h5ps || [];
-  const oembed = article.oembed;
-  const concepts = article.metaData?.concepts || [];
-  const glosses = article.metaData?.glosses || [];
-  const textblocks = article.metaData?.textblocks || [];
+  const metaData = article.transformedContent?.metaData;
+  const images = metaData?.images || [];
+  const audios = metaData?.audios || [];
+  const podcasts = metaData?.podcasts || [];
+  const brightcove = metaData?.brightcoves || [];
+  const h5ps = metaData?.h5ps || [];
+  const concepts = metaData?.concepts || [];
+  const glosses = metaData?.glosses || [];
+  const textblocks = metaData?.textblocks || [];
   const tabs = [];
   const articleTexts: TextItem[] = [
     {
@@ -130,11 +131,12 @@ function buildLicenseTabList(
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
   copyText?: string;
+  oembed: string | undefined;
   printUrl?: string;
 }
-const LicenseBox = ({ article, copyText, printUrl }: Props) => {
+const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, t, copyText, printUrl);
+  const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
   return <Tabs tabs={tabs} />;
 };
 
@@ -144,38 +146,40 @@ LicenseBox.fragments = {
       id
       title
       htmlTitle
-      oembed
       published
       copyright {
         ...TextLicenseList_Copyright
       }
-      metaData {
-        copyText
-        concepts {
-          ...ConceptLicenseList_ConceptLicense
-        }
-        glosses {
-          ...GlossLicenseList_GlossLicense
-        }
-        h5ps {
-          ...H5pLicenseList_H5pLicense
-        }
-        brightcoves {
-          ...VideoLicenseList_BrightcoveLicense
-        }
-        audios {
-          ...AudioLicenseList_AudioLicense
-        }
-        podcasts {
-          ...PodcastLicenseList_PodcastLicense
-        }
-        images {
-          ...ImageLicenseList_ImageLicense
-        }
-        textblocks {
-          title
-          copyright {
-            ...TextLicenseList_Copyright
+
+      transformedContent(transformArgs: $transformArgs) {
+        metaData {
+          copyText
+          concepts {
+            ...ConceptLicenseList_ConceptLicense
+          }
+          glosses {
+            ...GlossLicenseList_GlossLicense
+          }
+          h5ps {
+            ...H5pLicenseList_H5pLicense
+          }
+          brightcoves {
+            ...VideoLicenseList_BrightcoveLicense
+          }
+          audios {
+            ...AudioLicenseList_AudioLicense
+          }
+          podcasts {
+            ...PodcastLicenseList_PodcastLicense
+          }
+          images {
+            ...ImageLicenseList_ImageLicense
+          }
+          textblocks {
+            title
+            copyright {
+              ...TextLicenseList_Copyright
+            }
           }
         }
       }

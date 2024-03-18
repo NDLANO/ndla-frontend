@@ -113,6 +113,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isTopicArticle={article.articleType === "topic-article"}
           isPlainArticle
           isOembed
+          oembed={resource?.oembed}
           modifier="clean iframe"
           {...articleProps}
         >
@@ -144,6 +145,7 @@ export const iframeArticlePageFragments = {
     fragment IframeArticlePage_Resource on Resource {
       id
       path
+      oembed
       resourceTypes {
         id
         name

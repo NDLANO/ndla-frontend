@@ -22,18 +22,10 @@ import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 const sharedResourceArticlePageQuery = gql`
   query sharedResourceArticlePage(
     $articleId: String!
-    $isOembed: String
-    $path: String
-    $showVisualElement: String
-    $convertEmbeds: Boolean
+    $subjectId: String
+    $transformArgs: TransformedArticleContentInput
   ) {
-    article(
-      id: $articleId
-      isOembed: $isOembed
-      path: $path
-      showVisualElement: $showVisualElement
-      convertEmbeds: $convertEmbeds
-    ) {
+    article(id: $articleId) {
       ...SharedResourceArticleContainer_Article
     }
   }
@@ -53,10 +45,11 @@ const SharedArticle = ({ resource, meta, title }: Props) => {
   >(sharedResourceArticlePageQuery, {
     variables: {
       articleId: `${resource.resourceId}`,
-      isOembed: "false",
-      path: resource.path,
-      showVisualElement: "true",
-      convertEmbeds: true,
+      transformArgs: {
+        showVisualElement: "true",
+        path: resource.path,
+        isOembed: "false",
+      },
     },
   });
 

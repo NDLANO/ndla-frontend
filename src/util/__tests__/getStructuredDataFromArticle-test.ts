@@ -49,39 +49,43 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
     ],
   },
   title: "Article title",
-  metaData: {},
+  transformedContent: {
+    metaData: {},
+  },
 });
 
 const getArticleWithImage = (): GQLStructuredArticleDataFragment => ({
   ...getBaseArticle(),
-  metaData: {
-    images: [
-      {
-        title: "Image title",
-        src: "http://image.url",
-        copyright: {
-          license: { license: "COPYRIGHTED" },
-          creators: [
-            {
-              type: "artist",
-              name: "Kunstner Kunstnersen",
-            },
-          ],
-          processors: [],
-          rightsholders: [
-            {
-              type: "rightsholder",
-              name: "Rettighetshaver",
-            },
-            {
-              type: "publisher",
-              name: "Rettighetshaver2",
-            },
-          ],
-          processed: false,
+  transformedContent: {
+    metaData: {
+      images: [
+        {
+          title: "Image title",
+          src: "http://image.url",
+          copyright: {
+            license: { license: "COPYRIGHTED" },
+            creators: [
+              {
+                type: "artist",
+                name: "Kunstner Kunstnersen",
+              },
+            ],
+            processors: [],
+            rightsholders: [
+              {
+                type: "rightsholder",
+                name: "Rettighetshaver",
+              },
+              {
+                type: "publisher",
+                name: "Rettighetshaver2",
+              },
+            ],
+            processed: false,
+          },
         },
-      },
-    ],
+      ],
+    },
   },
 });
 
@@ -106,8 +110,8 @@ test("util/getStructuredDataFromArticle article with image should return image s
   const structuredData = getStructuredDataFromArticle(articleWithImage, "nb")["@graph"];
 
   expect(structuredData.length).toBe(2);
-  expect(structuredData[1]?.name).toBe(articleWithImage.metaData?.images?.[0]?.title);
-  expect(structuredData[1]?.contentUrl).toBe(articleWithImage.metaData?.images?.[0]?.src);
+  expect(structuredData[1]?.name).toBe(articleWithImage.transformedContent?.metaData?.images?.[0]?.title);
+  expect(structuredData[1]?.contentUrl).toBe(articleWithImage.transformedContent?.metaData?.images?.[0]?.src);
   expect(structuredData[1]?.["@type"]).toBe("ImageObject");
   expect(structuredData[1]?.creditText).toBe("Rettighetshaver, Rettighetshaver2");
   expect(structuredData[1]?.copyrightNotice).toBe("Rettighetshaver, Rettighetshaver2");
@@ -115,7 +119,7 @@ test("util/getStructuredDataFromArticle article with image should return image s
 
 test("util/getStructuredDataFromArticle article with video should return video structured data", () => {
   const article = getBaseArticle();
-  article.metaData!.brightcoves = [
+  article.transformedContent!.metaData!.brightcoves = [
     {
       title: "Video title",
       src: "http://video.url",
@@ -126,8 +130,8 @@ test("util/getStructuredDataFromArticle article with video should return video s
   const structuredData = getStructuredDataFromArticle(article, "nb")["@graph"];
 
   expect(structuredData.length).toBe(2);
-  expect(structuredData[1]?.name).toBe(article.metaData?.brightcoves?.[0]?.title);
-  expect(structuredData[1]?.embedUrl).toBe(article.metaData?.brightcoves?.[0]?.src);
+  expect(structuredData[1]?.name).toBe(article.transformedContent?.metaData?.brightcoves?.[0]?.title);
+  expect(structuredData[1]?.embedUrl).toBe(article.transformedContent?.metaData?.brightcoves?.[0]?.src);
   expect(structuredData[1]?.["@type"]).toBe("VideoObject");
 });
 

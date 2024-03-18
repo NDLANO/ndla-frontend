@@ -19,8 +19,8 @@ import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 const aboutPageQuery = gql`
-  query aboutPage($slug: String!) {
-    article(id: $slug, convertEmbeds: true) {
+  query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
+    article(id: $slug) {
       ...AboutPage_Article
     }
     frontpage {

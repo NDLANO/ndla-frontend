@@ -162,13 +162,11 @@ type Article {
   id: Int!
   introduction: String
   language: String!
-  metaData: ArticleMetaData
   metaDescription: String!
   metaImage: MetaImage
-  oembed: String
   oldNdlaUrl: String
   published: String!
-  relatedContent: [RelatedContent!]
+  relatedContent(subjectId: String): [RelatedContent!]
   requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
   revisionDate: String
@@ -176,9 +174,8 @@ type Article {
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
+  transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
-  visualElement: VisualElement
-  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -1073,16 +1070,7 @@ type Query {
   arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
   arenaUser(username: String!): ArenaUser
   arenaUserV2(username: String!): ArenaUserV2
-  article(
-    absoluteUrl: Boolean
-    convertEmbeds: Boolean
-    draftConcept: Boolean
-    id: String!
-    isOembed: String
-    path: String
-    showVisualElement: String
-    subjectId: String
-  ): Article
+  article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1190,7 +1178,7 @@ type RelatedContent {
 }
 
 type Resource implements TaxonomyEntity & WithArticle {
-  article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
+  article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
@@ -1201,6 +1189,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
+  oembed: String
   parents: [Topic!]
   path: String!
   paths: [String!]!
@@ -1433,7 +1422,7 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(convertEmbeds: Boolean, showVisualElement: String, subjectId: String): Article
+  article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
@@ -1445,6 +1434,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
+  oembed: String
   parent: String
   parentId: String
   path: String!
@@ -1461,6 +1451,23 @@ type Topic implements TaxonomyEntity & WithArticle {
 type Transcription {
   pinyin: String
   traditional: String
+}
+
+type TransformedArticleContent {
+  content: String!
+  metaData: ArticleMetaData
+  visualElement: VisualElement
+  visualElementEmbed: ResourceEmbed
+}
+
+input TransformedArticleContentInput {
+  absoluteUrl: Boolean
+  draftConcept: Boolean
+  isOembed: String
+  path: String
+  previewH5p: Boolean
+  showVisualElement: String
+  subjectId: String
 }
 
 type UpdatedFolder {
