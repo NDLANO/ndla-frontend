@@ -88,18 +88,16 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const about = subject.subjectpage?.about;
 
   useEffect(() => {
-    if (!authContextLoaded) return;
-    if (!loading && !!subject.topics?.length && topicIds.length === 0) {
-      const dimensions = getAllDimensions({
-        filter: subject.name,
-        user,
-      });
-      trackPageView({
-        dimensions,
-        title: htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]),
-      });
-    }
-  }, [authContextLoaded, loading, subject, t, topicIds, trackPageView, user]);
+    if (!authContextLoaded || loading || topicIds.length) return;
+    const dimensions = getAllDimensions({
+      filter: subject.name,
+      user,
+    });
+    trackPageView({
+      dimensions,
+      title: htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]),
+    });
+  }, [authContextLoaded, loading, subject, t, topicIds.length, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
@@ -130,23 +128,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 
   const moveBannerUp = !topicIds?.length;
 
-  const topicPath = topicIds?.map((t) => subject.allTopics?.find((topic) => topic.id === t));
-
-  const topicTitle = topicPath?.[topicPath.length - 1]?.name;
-  const subjectTitle = subject.name;
-  const title = [topicTitle, subjectTitle].filter((e) => !!e).join(" - ");
-  const socialMediaMetadata = {
-    title,
-    description: topicPath?.[topicPath.length - 1]?.meta?.metaDescription || subject.subjectpage?.metaDescription,
-    image: topicPath?.[topicPath.length - 1]?.meta?.metaImage || about?.visualElement,
-  };
-
-  const pageTitle = htmlTitle(socialMediaMetadata.title, [t("htmlTitles.titleTemplate")]);
-
-  const topicsOnPage =
-    (topicIds.length > 0 ? subject.topics?.filter((topic) => topicIds.includes(topic.id)) : subject.topics) || [];
-
-  const supportedLanguages = topicsOnPage[topicsOnPage.length - 1]?.supportedLanguages;
+  const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
 
   const customFields = subject?.metadata.customFields || {};
 
@@ -157,7 +139,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   return (
     <main>
       <Helmet>
-        <title>{pageTitle}</title>
+        {!topicIds.length && <title>{pageTitle}</title>}
         {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
           customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
           <meta name="robots" content="noindex, nofollow" />
@@ -165,12 +147,14 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       </Helmet>
       <OneColumn>
         <LayoutItem layout="extend">
-          <SocialMediaMetadata
-            title={socialMediaMetadata.title}
-            description={socialMediaMetadata.description}
-            imageUrl={socialMediaMetadata.image?.url}
-            trackableContent={{ supportedLanguages }}
-          />
+          {!topicIds.length && (
+            <SocialMediaMetadata
+              title={subject.name}
+              description={subject.subjectpage?.metaDescription}
+              imageUrl={about?.visualElement.url}
+              trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+            />
+          )}
           <ArticleHeaderWrapper
             competenceGoals={
               subject.grepCodes?.length ? (
@@ -222,24 +206,11 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 export const subjectContainerFragments = {
   subject: gql`
     fragment SubjectContainer_Subject on Subject {
+      supportedLanguages
       metadata {
         customFields
       }
       grepCodes
-      topics {
-        id
-        supportedLanguages
-      }
-      allTopics {
-        id
-        name
-        meta {
-          metaDescription
-          metaImage {
-            url
-          }
-        }
-      }
       subjectpage {
         metaDescription
         about {
