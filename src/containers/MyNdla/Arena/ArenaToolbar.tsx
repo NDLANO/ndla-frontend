@@ -7,11 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { useOutletContext } from "react-router";
 import styled from "@emotion/styled";
 import { Plus } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
 import SettingsMenu from "../components/SettingsMenu";
 import { buttonCss, iconCss } from "../components/toolbarStyles";
+import { OutletContext } from "../MyNdlaLayout";
 
 const StyledListItem = styled.li`
   margin: 0;
@@ -20,6 +22,7 @@ const StyledListItem = styled.li`
 
 export const PostActions = () => {
   const { t } = useTranslation();
+
   return (
     <SettingsMenu
       showSingle
@@ -35,10 +38,20 @@ export const PostActions = () => {
 };
 
 export const PostButtons = () => {
+  const { setIsOpen } = useOutletContext<OutletContext>();
   const { t } = useTranslation();
+
   return (
     <StyledListItem key="newTopic">
-      <SafeLinkButton colorTheme="lighter" css={buttonCss} to="topic/new" variant="ghost">
+      <SafeLinkButton
+        colorTheme="lighter"
+        css={buttonCss}
+        to="topic/new"
+        variant="ghost"
+        onClick={() => {
+          setIsOpen(false);
+        }}
+      >
         <Plus css={iconCss} />
         {t("myNdla.arena.new.topic")}
       </SafeLinkButton>
@@ -48,6 +61,7 @@ export const PostButtons = () => {
 
 export const TopicActions = () => {
   const { t } = useTranslation();
+
   return (
     <SettingsMenu
       showSingle
@@ -63,10 +77,21 @@ export const TopicActions = () => {
 };
 
 export const TopicButtons = () => {
+  const { setIsOpen } = useOutletContext<OutletContext>();
   const { t } = useTranslation();
+
   return (
     <StyledListItem key="newTopic">
-      <SafeLinkButton colorTheme="lighter" css={buttonCss} to="category/new" variant="ghost">
+      <SafeLinkButton
+        key="newTopic"
+        colorTheme="lighter"
+        css={buttonCss}
+        to="category/new"
+        variant="ghost"
+        onClick={() => {
+          setIsOpen(false);
+        }}
+      >
         <Plus css={iconCss} />
         {t("myNdla.arena.admin.category.form.newCategory")}
       </SafeLinkButton>
