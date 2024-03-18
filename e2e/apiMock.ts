@@ -88,8 +88,9 @@ export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) =>
       const text = await resp.text();
 
       const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
-
-      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
+      const match = operation
+        .filter((op) => isEqual(new Set(bodyOperationNames.sort()), new Set(op.names.sort())))
+        .pop();
 
       if (match) {
         await mkdir(mockDir, { recursive: true });
@@ -99,12 +100,16 @@ export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) =>
         return route.fulfill({
           body: text,
         });
+      } else {
+        console.error("Did not find: ", bodyOperationNames.sort());
       }
     } else {
       const body = await route.request().postDataJSON();
       const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
 
-      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
+      const match = operation
+        .filter((op) => isEqual(new Set(bodyOperationNames.sort()), new Set(op.names.sort())))
+        .pop();
 
       if (match) {
         try {
