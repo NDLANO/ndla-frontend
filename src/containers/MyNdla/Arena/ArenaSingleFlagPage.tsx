@@ -6,6 +6,7 @@
  *
  */
 
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -14,13 +15,14 @@ import { Spinner } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import Flags from "./FlagCard";
-import FlaggedPostCard from "./FlaggedPostCard";
-import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { routes } from "../../../../routeHelpers";
-import { useArenaPostInContext } from "../../arenaQueries";
-import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../../components/MyNdlaPageWrapper";
+import Flags from "./components/FlagCard";
+import FlaggedPostCard from "./components/FlaggedPostCard";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
+import { useArenaPostInContext } from "../arenaQueries";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledCardContainer = styled.ul`
   display: flex;
@@ -39,10 +41,14 @@ const ArenaSingleFlagPage = () => {
     },
     skip: !Number(postId),
   });
+  const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (loading) return <Spinner />;
+  if (loading || !authContextLoaded) return <Spinner />;
 
   const flaggedPost = topic?.posts?.items[0];
+
+  if (!authenticated || (user && !(user.arenaEnabled || user.isModerator)))
+    return <Navigate to={routes.myNdla.arena} />;
 
   if (!postId || !topic || !flaggedPost) return <Navigate to={"/404"} replace />;
 

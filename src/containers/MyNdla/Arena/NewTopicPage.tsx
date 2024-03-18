@@ -8,9 +8,10 @@
 
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
@@ -38,7 +39,7 @@ export const NewTopicPage = () => {
   const navigate = useNavigate();
   const arenaTopicMutation = useArenaCreateTopic(categoryId);
   const { loading, arenaCategory } = useArenaCategory(categoryId);
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
@@ -74,6 +75,9 @@ export const NewTopicPage = () => {
   const onAbort = useCallback(() => {
     navigate(categoryId ? routes.myNdla.arenaCategory(Number(categoryId)) : routes.myNdla.arena);
   }, [categoryId, navigate]);
+
+  if (!authContextLoaded) return <Spinner />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

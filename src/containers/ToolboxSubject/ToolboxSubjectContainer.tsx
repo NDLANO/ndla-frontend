@@ -85,10 +85,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   useEffect(() => {
     if (!authContextLoaded) return;
     if (subject && topicList.length === 0) {
-      const topicPath = topicList.map((id) => subject.allTopics?.find((t) => t.id === id));
       const dimensions = getAllDimensions({
-        subject,
-        topicPath,
         filter: subject.name,
         user,
       });

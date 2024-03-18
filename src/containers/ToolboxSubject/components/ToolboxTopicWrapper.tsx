@@ -47,10 +47,7 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
 
   useEffect(() => {
     if (authContextLoaded && topic && index === topicList.length - 1) {
-      const topicPath = topicList.map((t) => subject.allTopics?.find((topic) => topic.id === t));
       const dimensions = getAllDimensions({
-        subject,
-        topicPath,
         filter: subject.name,
         article: topic.article,
         user,
