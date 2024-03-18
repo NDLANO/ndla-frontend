@@ -128,7 +128,16 @@ const renderRoute = async (req: Request, index: string, htmlTemplate: string, re
     // Always read fresh template in development
     template = await fs.readFile(index, "utf-8");
     template = await vite!.transformIndexHtml(url, template);
-    render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
+
+    try {
+      render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
+    } catch (e) {
+      vite?.ssrFixStacktrace(e as Error);
+      return {
+        status: INTERNAL_SERVER_ERROR,
+        data: "Failed to parse server-side render function. You probably have some syntax errors somewhere.",
+      };
+    }
   } else {
     render = (await import(`../../build/server/server.render.js`)).default;
   }
