@@ -181,7 +181,6 @@ const DraggableResource = ({
           tags={resource.tags}
           resourceTypes={resourceMeta?.resourceTypes ?? []}
           title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-          isAvailable={!!resourceMeta}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />
