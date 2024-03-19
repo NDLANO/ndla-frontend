@@ -6,7 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useEffect, createRef, useState, useMemo, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
@@ -33,49 +32,6 @@ const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
 `;
 
-const getSocialMediaMetaData = (
-  { subject, topicList, t }: Pick<Props, "subject" | "topicList"> & { t: TFunction },
-  selectedTopics?: string[],
-) => {
-  const topics = selectedTopics ?? getInitialSelectedTopics(topicList, subject);
-
-  const selectedMetadata = [...(subject.allTopics ?? [])].reverse().find((t) => topics.includes(t.id));
-
-  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name;
-  const hasSelectedTitle = !!selectedTitle;
-  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
-    hasSelectedTitle ? subjectTitle : undefined,
-  ]);
-
-  return {
-    title,
-    description:
-      selectedMetadata?.meta?.metaDescription ||
-      selectedMetadata?.meta?.introduction ||
-      subject.subjectpage?.about?.description ||
-      subject.subjectpage?.metaDescription ||
-      t("frontpageMultidisciplinarySubject.text"),
-    image: selectedMetadata?.meta?.metaImage || subject.subjectpage?.about?.visualElement,
-  };
-};
-
-const getInitialSelectedTopics = (
-  topicList: string[],
-  subject: GQLToolboxSubjectContainer_SubjectFragment,
-): string[] => {
-  let initialSelectedTopics: string[] = [];
-  topicList.forEach((topicId) => {
-    const alreadySelected = initialSelectedTopics.find((topic) => topic === topicId);
-    if (!alreadySelected) {
-      const exist = subject?.allTopics?.find((topic) => topic.id === topicId);
-      if (exist) initialSelectedTopics = [exist.id, ...initialSelectedTopics];
-    }
-  });
-
-  return initialSelectedTopics;
-};
-
 const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -83,21 +39,16 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const selectedTopics = topicList;
 
   useEffect(() => {
-    if (!authContextLoaded) return;
-    if (subject && topicList.length === 0) {
-      const topicPath = topicList.map((id) => subject.allTopics?.find((t) => t.id === id));
-      const dimensions = getAllDimensions({
-        subject,
-        topicPath,
-        filter: subject.name,
-        user,
-      });
-      trackPageView({
-        dimensions,
-        title: getSocialMediaMetaData({ topicList, subject, t }).title,
-      });
-    }
-  }, [authContextLoaded, subject, t, topicList, trackPageView, user]);
+    if (!authContextLoaded || !!topicList.length || !subject) return;
+    const dimensions = getAllDimensions({
+      filter: subject.name,
+      user,
+    });
+    trackPageView({
+      dimensions,
+      title: htmlTitle(subject.name),
+    });
+  }, [authContextLoaded, subject, topicList, trackPageView, user]);
 
   const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
 
@@ -162,18 +113,24 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
     return null;
   }
 
-  const socialMediaMetaData = getSocialMediaMetaData({ subject, topicList, t }, selectedTopics);
-
   return (
     <>
-      <Helmet>
-        <title>{htmlTitle(socialMediaMetaData.title, [t("htmlTitles.titleTemplate")])}</title>
-      </Helmet>
-      <SocialMediaMetadata
-        title={socialMediaMetaData.title}
-        description={socialMediaMetaData.description}
-        imageUrl={socialMediaMetaData.image?.url}
-      />
+      {!topicList.length && (
+        <>
+          <Helmet>
+            <title>{htmlTitle(subject.name, [t("htmlTitles.titleTemplate")])}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={htmlTitle(subject.name)}
+            description={
+              subject.subjectpage?.about?.description ??
+              subject.subjectpage?.metaDescription ??
+              t("frontpageMultidisciplinarySubject.text")
+            }
+            imageUrl={subject.subjectpage?.about?.visualElement.url}
+          />
+        </>
+      )}
       <OneColumn>
         <BreadcrumbWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
@@ -210,18 +167,6 @@ export const toolboxSubjectContainerFragments = {
       topics {
         name
         id
-      }
-      allTopics {
-        id
-        name
-        meta {
-          metaDescription
-          introduction
-          title
-          metaImage {
-            url
-          }
-        }
       }
       subjectpage {
         about {

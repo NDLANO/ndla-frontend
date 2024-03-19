@@ -24,18 +24,17 @@ import {
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_SubjectFragment,
   GQLLearningpathPage_TopicFragment,
-  GQLLearningpathPage_TopicPathFragment,
   GQLLearningpathStep,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems, toLearningPath } from "../../routeHelpers";
-import { getArticleProps } from "../../util/getArticleProps";
+import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: GQLLearningpathPage_TopicPathFragment[];
+  topicPath: TopicPath[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;
@@ -65,25 +64,17 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const articleProps = getArticleProps(data.resource);
-    const { resource, subject, topicPath, relevance } = data;
+    const { resource, subject } = data;
     const learningpath = resource?.learningpath;
     const firstStep = learningpath?.learningsteps?.[0];
     const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
     const learningstep = currentStep || firstStep;
-    const dimensions = getAllDimensions(
-      {
-        subject,
-        relevance,
-        topicPath,
-        learningpath,
-        learningstep,
-        filter: subject?.name,
-        user,
-      },
-      articleProps.label,
-      false,
-    );
+    const dimensions = getAllDimensions({
+      learningpath,
+      learningstep,
+      filter: subject?.name,
+      user,
+    });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 
@@ -125,7 +116,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   const breadcrumbItems =
     subject && topicPath
       ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          subject,
           ...topicPath,
           { name: learningpath.title, id: `${learningpath.id}` },
         ])
@@ -226,12 +216,6 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.learningpathStep}
     ${Learningpath.fragments.learningpath}
     ${Learningpath.fragments.resource}
-  `,
-  topicPath: gql`
-    fragment LearningpathPage_TopicPath on Topic {
-      ...Learningpath_TopicPath
-    }
-    ${Learningpath.fragments.topicPath}
   `,
 };
 

@@ -7,6 +7,7 @@
  */
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
@@ -16,6 +17,7 @@ import { Topic as UITopic } from "@ndla/ui";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
@@ -62,21 +64,11 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
-    const topicPath = topic.path
-      ?.split("/")
-      .slice(2)
-      .map((t) => subject.allTopics?.find((topic) => topic.id.replace("urn:", "") === t));
-    const dimensions = getAllDimensions(
-      {
-        subject,
-        topicPath,
-        article: topic.article,
-        filter: subject.name,
-        user,
-      },
-      undefined,
-      true,
-    );
+    const dimensions = getAllDimensions({
+      article: topic.article,
+      filter: subject.name,
+      user,
+    });
 
     trackPageView({ dimensions, title: getDocumentTitle(topic.name, t) });
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
@@ -121,21 +113,35 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }
 
   return (
-    <UITopic
-      id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
-      title={article.title}
-      introduction={article.introduction}
-      metaImage={article.metaImage}
-      visualElementEmbedMeta={embedMeta}
-      visualElement={visualElement}
-      onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
-      showContent={showContent}
-      subTopics={!disableNav ? subTopics : undefined}
-      isLoading={false}
-      invertedStyle={ndlaFilm}
-    >
-      <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
-    </UITopic>
+    <>
+      {topicId === topicList[topicList.length - 1] && (
+        <>
+          <Helmet>
+            <title>{htmlTitle(topic.name ?? topic.meta?.title, [subject.name, t("htmlTitles.titleTemplate")])}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={htmlTitle(topic.name ?? topic.meta?.title, [subject.name, t("htmlTitles.titleTemplate")])}
+            description={topic.meta?.metaDescription ?? topic.meta?.introduction}
+            imageUrl={topic.meta?.metaImage?.url}
+          />
+        </>
+      )}
+      <UITopic
+        id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
+        title={article.title}
+        introduction={article.introduction}
+        metaImage={article.metaImage}
+        visualElementEmbedMeta={embedMeta}
+        visualElement={visualElement}
+        onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
+        showContent={showContent}
+        subTopics={!disableNav ? subTopics : undefined}
+        isLoading={false}
+        invertedStyle={ndlaFilm}
+      >
+        <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
+      </UITopic>
+    </>
   );
 };
 
@@ -146,6 +152,14 @@ export const multidisciplinaryTopicFragments = {
       subtopics {
         id
         name
+      }
+      meta {
+        title
+        metaDescription
+        introduction
+        metaImage {
+          url
+        }
       }
       article(convertEmbeds: $convertEmbeds) {
         metaImage {
@@ -170,10 +184,6 @@ export const multidisciplinaryTopicFragments = {
     fragment MultidisciplinaryTopic_Subject on Subject {
       id
       name
-      allTopics {
-        id
-        name
-      }
     }
   `,
 };

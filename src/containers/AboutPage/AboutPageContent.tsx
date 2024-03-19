@@ -112,7 +112,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   useEffect(() => {
     if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions({ article: _article, user }, undefined, true);
+      const dimensions = getAllDimensions({ article: _article, user });
       trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);

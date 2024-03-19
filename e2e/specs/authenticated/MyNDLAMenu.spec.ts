@@ -39,7 +39,7 @@ test.beforeEach(async ({ page }) => {
       },
       {
         fixture: "myndla_menu_masthead",
-        names: ["mastheadFrontpage", "myNdlaData", "recentlyUsed"],
+        names: ["mastheadFrontpage", "mastheadProgramme", "alerts", "myNdlaData", "recentlyUsed"],
       },
     ],
   });

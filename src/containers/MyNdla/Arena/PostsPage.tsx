@@ -80,7 +80,7 @@ const PostsPage = () => {
 
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
   const { replyToTopic } = useArenaReplyToTopicMutation(Number(topicId));
@@ -150,10 +150,8 @@ const PostsPage = () => {
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
-  if (loading) return <Spinner />;
-  if (authContextLoaded && !user?.arenaEnabled) {
-    return <Navigate to={routes.myNdla.root} />;
-  }
+  if (loading || !authContextLoaded) return <Spinner />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

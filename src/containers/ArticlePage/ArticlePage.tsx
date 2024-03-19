@@ -29,13 +29,13 @@ import {
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
-  GQLArticlePage_TopicPathFragment,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType, isHeroContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -45,7 +45,7 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
-  topicPath: GQLArticlePage_TopicPathFragment[];
+  topicPath: TopicPath[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
@@ -60,10 +60,10 @@ const converterComponents: DynamicComponents = {
 
 const ArticlePage = ({
   resource,
+  topicPath,
   topic,
   resourceTypes,
   subject,
-  topicPath,
   errors,
   skipToContentId,
   loading,
@@ -75,18 +75,11 @@ const ArticlePage = ({
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
-      const articleProps = getArticleProps(resource);
-      const dimensions = getAllDimensions(
-        {
-          article: resource?.article,
-          subject,
-          topicPath,
-          filter: subject?.name,
-          user,
-        },
-        articleProps.label,
-        true,
-      );
+      const dimensions = getAllDimensions({
+        article: resource?.article,
+        filter: subject?.name,
+        user,
+      });
       trackPageView({
         dimensions,
         title: getDocumentTitle(t, resource, subject),
@@ -145,7 +138,7 @@ const ArticlePage = ({
   const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [subject, ...topicPath, resource]);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
 
   return (
     <main>
@@ -264,12 +257,6 @@ export const articlePageFragments = {
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-  `,
-  topicPath: gql`
-    fragment ArticlePage_TopicPath on Topic {
-      id
-      name
-    }
   `,
 };
 

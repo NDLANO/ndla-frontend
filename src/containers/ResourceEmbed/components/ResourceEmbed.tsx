@@ -170,7 +170,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
 
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
-    const dimensions = getAllDimensions({ user }, properties.type, false);
+    const dimensions = getAllDimensions({ user });
     const title = getDocumentTitle(folder?.name, properties.title, properties.type, t);
     trackPageView({ dimensions, title });
   }, [authContextLoaded, properties, t, trackPageView, user, folder]);

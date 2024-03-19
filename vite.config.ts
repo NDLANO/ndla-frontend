@@ -42,6 +42,9 @@ export default defineConfig(() => {
       dedupe: [
         "@radix-ui/react-dropdown-menu",
         "@radix-ui/react-dialog",
+        "@radix-ui/react-tooltip",
+        "@radix-ui/react-accordion",
+        "@radix-ui/react-menu",
         "react-router",
         "react-router-dom",
         "react-helmet-async",
