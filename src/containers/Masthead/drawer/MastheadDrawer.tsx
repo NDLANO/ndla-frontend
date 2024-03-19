@@ -110,9 +110,13 @@ const MastheadDrawer = ({ subject }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   const { t, i18n } = useTranslation();
 
-  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery);
+  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
+    skip: typeof window === "undefined",
+  });
 
-  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery);
+  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery, {
+    skip: typeof window === "undefined",
+  });
 
   useEffect(() => {
     if (prevProgramme && !programme && type === "programme") {
