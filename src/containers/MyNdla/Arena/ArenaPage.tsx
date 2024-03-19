@@ -62,8 +62,8 @@ const ArenaPage = () => {
 
   return (
     <MyNdlaPageWrapper
-      buttons={user.isModerator && <TopicButtons />}
-      dropDownMenu={user.isModerator && <TopicActions />}
+      buttons={user?.isModerator && <TopicButtons />}
+      dropDownMenu={user?.isModerator && <TopicActions />}
     >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
