@@ -195,8 +195,8 @@ export const sortResourceTypes = <T extends Record<string, any>>(array: T[], val
     "tasks-and-activities",
     "learning-path",
     "assessment-resources",
-    "external-learning-resources",
     "source-material",
+    "concept",
   ];
   return array.sort((a, b) => sortedResourceTypes.indexOf(a[value]) - sortedResourceTypes.indexOf(b[value]));
 };

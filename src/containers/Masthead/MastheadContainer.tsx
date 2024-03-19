@@ -80,7 +80,7 @@ const MastheadContainer = () => {
     variables: {
       subjectId: subjectId!,
     },
-    skip: !subjectId,
+    skip: !subjectId || typeof window === "undefined",
   });
 
   const data = subjectId ? freshData ?? previousData : undefined;
