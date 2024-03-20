@@ -24,7 +24,6 @@ import {
   GQLFolderResourceMetaSearchQuery,
   GQLSharedResourceArticleContainer_ArticleFragment,
 } from "../../../graphqlTypes";
-import { getArticleProps } from "../../../util/getArticleProps";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { getContentTypeFromResourceTypes } from "../../../util/getContentType";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
@@ -97,7 +96,6 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
         id={SKIP_TO_CONTENT_ID}
         oembed={undefined}
         article={article}
-        {...getArticleProps(undefined, undefined)}
         contentType={contentType?.contentType}
         label={contentType?.label || ""}
       />

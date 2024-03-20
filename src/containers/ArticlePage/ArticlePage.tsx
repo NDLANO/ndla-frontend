@@ -186,7 +186,7 @@ const ArticlePage = ({
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
           oembed={article.oembed}
-          {...getArticleProps(resource, topic)}
+          {...getArticleProps(resource)}
         />
         {topic && (
           <LayoutItem layout="extend">
@@ -236,6 +236,7 @@ export const articlePageFragments = {
       name
       path
       contentUri
+      relevanceId
       article {
         created
         updated

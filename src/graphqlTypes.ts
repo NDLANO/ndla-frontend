@@ -2221,8 +2221,7 @@ export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
 
-export type GQLLearningpath_TopicFragment = { __typename?: "Topic" } & GQLLastLearningpathStepInfo_TopicFragment &
-  GQLLearningpathEmbed_TopicFragment;
+export type GQLLearningpath_TopicFragment = { __typename?: "Topic" } & GQLLastLearningpathStepInfo_TopicFragment;
 
 export type GQLLearningpath_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -2277,11 +2276,6 @@ export type GQLLearningpathEmbed_ArticleFragment = {
 } & GQLStructuredArticleDataFragment &
   GQLArticle_ArticleFragment;
 
-export type GQLLearningpathEmbed_TopicFragment = {
-  __typename?: "Topic";
-  supplementaryResources?: Array<{ __typename?: "Resource"; id: string }>;
-};
-
 export type GQLLearningpathEmbed_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
   resource?: {
@@ -2309,6 +2303,7 @@ export type GQLLearningpathStepQuery = {
     __typename?: "Resource";
     id: string;
     path: string;
+    relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
@@ -2502,6 +2497,7 @@ export type GQLArticlePage_ResourceFragment = {
   name: string;
   path: string;
   contentUri?: string;
+  relevanceId?: string;
   article?: {
     __typename?: "Article";
     created: string;
@@ -4293,6 +4289,7 @@ export type GQLIframeArticlePage_ResourceFragment = {
   __typename?: "Resource";
   id: string;
   path: string;
+  relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
