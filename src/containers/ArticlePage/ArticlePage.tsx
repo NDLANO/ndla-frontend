@@ -71,7 +71,6 @@ const ArticlePage = ({
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const subjectPageUrl = config.ndlaFrontendDomain;
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
@@ -135,32 +134,24 @@ const ArticlePage = ({
   const contentType = resource ? getContentType(resource) : undefined;
   const resourceType = contentType && isHeroContentType(contentType) ? contentType : undefined;
 
-  const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
-  const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
+  const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
 
   return (
     <main>
-      <ArticleHero
-        subject={subject}
-        resourceType={resourceType}
-        metaImage={article.metaImage}
-        breadcrumbItems={breadcrumbItems}
-      />
+      <ArticleHero resourceType={resourceType} metaImage={article.metaImage} breadcrumbItems={breadcrumbItems} />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {copyPageUrlLink && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
-            title={article.title}
-          />
-        )}
+        <link
+          rel="alternate"
+          type="application/json+oembed"
+          href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}${resource.path}`}
+          title={article.title}
+        />
         {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
@@ -226,9 +217,7 @@ export const articlePageFragments = {
           title
         }
       }
-      ...ArticleHero_Subject
     }
-    ${ArticleHero.fragments.subject}
   `,
   resource: gql`
     fragment ArticlePage_Resource on Resource {
@@ -256,7 +245,6 @@ export const articlePageFragments = {
   `,
   topic: gql`
     fragment ArticlePage_Topic on Topic {
-      path
       ...Resources_Topic
     }
     ${Resources.fragments.topic}

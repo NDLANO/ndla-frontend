@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
 import { Hero, HeroContent, HeroContentType, HomeBreadcrumb, NdlaFilmHero, OneColumn } from "@ndla/ui";
-import { GQLArticleHero_MetaImageFragment, GQLArticleHero_SubjectFragment } from "../../../graphqlTypes";
+import { GQLArticleHero_MetaImageFragment } from "../../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../../interfaces";
 import { useIsNdlaFilm } from "../../../routeHelpers";
 
@@ -52,7 +52,6 @@ const HeroBackground = styled.div`
 `;
 
 interface Props {
-  subject?: GQLArticleHero_SubjectFragment;
   resourceType?: HeroContentType;
   metaImage?: GQLArticleHero_MetaImageFragment;
   breadcrumbItems: BreadcrumbType[];
@@ -62,7 +61,7 @@ const StyledSection = styled.section`
   z-index: ${stackOrder.offsetSingle};
 `;
 
-const ArticleHero = ({ resourceType, metaImage, subject, breadcrumbItems }: Props) => {
+const ArticleHero = ({ resourceType, metaImage, breadcrumbItems }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
   return (
     <WrapperComponent ndlaFilm={ndlaFilm} resourceType={resourceType} metaImage={metaImage}>
@@ -74,7 +73,7 @@ const ArticleHero = ({ resourceType, metaImage, subject, breadcrumbItems }: Prop
       <OneColumn>
         <HeroContent data-image={!!(ndlaFilm && metaImage?.url)}>
           <StyledSection>
-            {subject && <HomeBreadcrumb light={ndlaFilm ? true : undefined} items={breadcrumbItems} />}
+            {<HomeBreadcrumb light={ndlaFilm ? true : undefined} items={breadcrumbItems} />}
           </StyledSection>
         </HeroContent>
       </OneColumn>
@@ -83,11 +82,6 @@ const ArticleHero = ({ resourceType, metaImage, subject, breadcrumbItems }: Prop
 };
 
 ArticleHero.fragments = {
-  subject: gql`
-    fragment ArticleHero_Subject on Subject {
-      id
-    }
-  `,
   metaImage: gql`
     fragment ArticleHero_MetaImage on MetaImage {
       url
