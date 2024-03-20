@@ -193,7 +193,10 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                         colorTheme={item.type}
                         ref={item.ref}
                         onClick={(e) => {
-                          if (item.onClick) {
+                          if (item.onClick && item.modalContent) {
+                            item.onClick(e);
+                          }
+                          if (item.onClick && !item.modalContent) {
                             item.onClick(e);
                             close();
                           }
