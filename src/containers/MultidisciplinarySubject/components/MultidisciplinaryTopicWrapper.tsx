@@ -40,7 +40,7 @@ const multidisciplinaryTopicWrapperQuery = gql`
   ) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
-      subtopics @skip(if: $showSubtopics) {
+      subtopics @include(if: $showSubtopics) {
         ...MultidisciplinaryArticleList_Topic
       }
       ...MultidisciplinaryTopic_Topic
