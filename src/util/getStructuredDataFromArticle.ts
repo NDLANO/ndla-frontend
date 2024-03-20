@@ -286,18 +286,20 @@ export const structuredArticleDataFragment = gql`
       id
       title
     }
-    metaData {
-      images {
-        ...StructuredArticleData_ImageLicense
-      }
-      audios {
-        ...StructuredArticleData_AudioLicense
-      }
-      podcasts {
-        ...StructuredArticleData_PodcastLicense
-      }
-      brightcoves {
-        ...StructuredArticleData_BrightcoveLicense
+    transformedContent(transformArgs: $transformArgs) {
+      metaData {
+        images {
+          ...StructuredArticleData_ImageLicense
+        }
+        audios {
+          ...StructuredArticleData_AudioLicense
+        }
+        podcasts {
+          ...StructuredArticleData_PodcastLicense
+        }
+        brightcoves {
+          ...StructuredArticleData_BrightcoveLicense
+        }
       }
     }
   }
@@ -345,13 +347,13 @@ const getStructuredDataFromArticle = (
   const crumbs = getBreadcrumbs(breadcrumbItems);
   const structuredData = crumbs ? [articleData, crumbs] : [articleData];
 
-  const metaData = article.metaData;
+  const metaData = article.transformedContent?.metaData;
   const images = metaData?.images?.map((i) => ({ data: i, type: IMAGE_TYPE }));
   const audios = metaData?.audios?.map((a) => ({ data: a, type: AUDIO_TYPE }));
 
   const mediaElements: Mediaelements[] = [...(images ?? []), ...(audios ?? [])];
-  const podcasts = article.metaData?.podcasts || [];
-  const videos = article.metaData?.brightcoves || [];
+  const podcasts = article.transformedContent?.metaData?.podcasts || [];
+  const videos = article.transformedContent?.metaData?.brightcoves || [];
 
   const mediaData = createMediaData(mediaElements, language);
   const podcastData = createPodcastData(podcasts);

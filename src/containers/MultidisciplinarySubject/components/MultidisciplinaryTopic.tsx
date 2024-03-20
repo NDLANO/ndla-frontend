@@ -74,15 +74,20 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed.content);
+    if (!topic.article?.transformedContent?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(topic.article.transformedContent.visualElementEmbed.content);
     return embedMeta;
-  }, [topic?.article?.visualElementEmbed?.content]);
+  }, [topic?.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
-  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
 
   const topicPath = topic.path
     ?.split("/")
@@ -133,13 +138,21 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
         metaImage={article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
-        onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
+        onToggleShowContent={
+          topic.article?.transformedContent?.content !== "" ? () => setShowContent(!showContent) : undefined
+        }
         showContent={showContent}
         subTopics={!disableNav ? subTopics : undefined}
         isLoading={false}
         invertedStyle={ndlaFilm}
       >
-        <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
+        <ArticleContents
+          article={article}
+          scripts={scripts}
+          modifier="in-topic"
+          oembed={article.oembed}
+          showIngress={false}
+        />
       </UITopic>
     </>
   );
@@ -161,15 +174,18 @@ export const multidisciplinaryTopicFragments = {
           url
         }
       }
-      article(convertEmbeds: $convertEmbeds) {
+      article {
+        oembed
         metaImage {
           url
           alt
         }
-        visualElementEmbed {
-          content
-          meta {
-            ...TopicVisualElementContent_Meta
+        transformedContent(transformArgs: $transformArgs) {
+          visualElementEmbed {
+            content
+            meta {
+              ...TopicVisualElementContent_Meta
+            }
           }
         }
         ...ArticleContents_Article

@@ -26,20 +26,8 @@ interface MatchParams extends TypedParams {
 }
 
 const plainArticlePageQuery = gql`
-  query plainArticlePage(
-    $articleId: String!
-    $isOembed: String
-    $path: String
-    $showVisualElement: String
-    $convertEmbeds: Boolean
-  ) {
-    article(
-      id: $articleId
-      isOembed: $isOembed
-      path: $path
-      showVisualElement: $showVisualElement
-      convertEmbeds: $convertEmbeds
-    ) {
+  query plainArticlePage($articleId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+    article(id: $articleId) {
       ...PlainArticleContainer_Article
     }
   }
@@ -55,10 +43,11 @@ const PlainArticlePage = () => {
     {
       variables: {
         articleId,
-        isOembed: "false",
-        path: pathname,
-        showVisualElement: "true",
-        convertEmbeds: true,
+        transformArgs: {
+          showVisualElement: "true",
+          path: pathname,
+          isOembed: "false",
+        },
       },
     },
   );

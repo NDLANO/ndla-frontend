@@ -44,6 +44,7 @@ interface Props {
   myNdlaResourceType?: string;
   path?: string;
   contentTransformed?: boolean;
+  oembed: string | undefined;
 }
 
 const articleConceptEmbeds = gql`
@@ -75,6 +76,7 @@ const Article = ({
   isOembed = false,
   showFavoriteButton,
   myNdlaResourceType = "article",
+  oembed,
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
@@ -138,7 +140,7 @@ const Article = ({
   // We use query-params instead of the regular fragments since
   // the article doesn't exist on initial page load (At least without SSR).
   useEffect(() => {
-    if (location.hash && article.content) {
+    if (location.hash && article?.transformedContent?.content) {
       setTimeout(() => {
         const element = document.getElementById(location.hash.slice(1));
         const elementTop = element?.getBoundingClientRect().top ?? 0;
@@ -152,7 +154,7 @@ const Article = ({
         });
       }, 400);
     }
-  }, [article.content, location]);
+  }, [article?.transformedContent?.content, location]);
 
   if (!article) {
     return children || null;
@@ -162,6 +164,7 @@ const Article = ({
 
   const art = {
     ...article,
+    content: article.transformedContent?.content ?? "",
     title: parse(article.htmlTitle!),
     introduction: article.introduction!,
     copyright: {
@@ -172,7 +175,7 @@ const Article = ({
       processors: article.copyright.processors ?? [],
       processed: article.copyright.processed ?? false,
     },
-    footNotes: article.metaData?.footnotes ?? [],
+    footNotes: article.transformedContent?.metaData?.footnotes ?? [],
   };
 
   const messages = {
@@ -185,7 +188,7 @@ const Article = ({
         id={id ?? article.id.toString()}
         article={art}
         icon={icon}
-        licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} />}
+        licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
         messages={messages}
         competenceGoals={
           !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
@@ -227,7 +230,6 @@ Article.fragments = {
   article: gql`
     fragment Article_Article on Article {
       id
-      content
       created
       updated
       supportedLanguages
@@ -235,19 +237,22 @@ Article.fragments = {
       oldNdlaUrl
       introduction
       conceptIds
-      metaData {
-        copyText
-        footnotes {
-          ref
-          title
-          year
-          authors
-          edition
-          publisher
-          url
+      transformedContent(transformArgs: $transformArgs) {
+        content
+        metaData {
+          copyText
+          footnotes {
+            ref
+            title
+            year
+            authors
+            edition
+            publisher
+            url
+          }
         }
       }
-      relatedContent {
+      relatedContent(subjectId: $subjectId) {
         title
         url
       }
