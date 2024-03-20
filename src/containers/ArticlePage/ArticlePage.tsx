@@ -185,7 +185,7 @@ const ArticlePage = ({
           printUrl={printUrl}
           subjectId={subject?.id}
           showFavoriteButton={config.feideEnabled}
-          oembed={resource.oembed}
+          oembed={article.oembed}
           {...getArticleProps(resource, topic)}
         />
         {topic && (
@@ -236,11 +236,11 @@ export const articlePageFragments = {
       name
       path
       contentUri
-      oembed
       article {
         created
         updated
         metaDescription
+        oembed
         metaImage {
           ...ArticleHero_MetaImage
         }

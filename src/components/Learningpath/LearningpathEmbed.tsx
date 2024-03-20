@@ -177,7 +177,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
         isPlainArticle
         id={skipToContentId}
         article={article}
-        oembed={data?.resource?.oembed}
+        oembed={data?.article?.oembed}
         {...getArticleProps(resource, topic)}
       >
         {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
@@ -248,12 +248,12 @@ const learningpathStepQuery = gql`
     $transformArgs: TransformedArticleContentInput
   ) {
     article(id: $articleId) {
+      oembed
       ...LearningpathEmbed_Article
     }
     resource(id: $resourceId) @include(if: $includeResource) {
       id
       path
-      oembed
       resourceTypes {
         id
         name

@@ -195,6 +195,7 @@ export type GQLArticle = {
   language: Scalars["String"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
+  oembed?: Maybe<Scalars["String"]["output"]>;
   oldNdlaUrl?: Maybe<Scalars["String"]["output"]>;
   published: Scalars["String"]["output"];
   relatedContent?: Maybe<Array<GQLRelatedContent>>;
@@ -1729,7 +1730,6 @@ export type GQLResource = GQLTaxonomyEntity &
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
-    oembed?: Maybe<Scalars["String"]["output"]>;
     parents?: Maybe<Array<GQLTopic>>;
     path: Scalars["String"]["output"];
     paths: Array<Scalars["String"]["output"]>;
@@ -2006,7 +2006,6 @@ export type GQLTopic = GQLTaxonomyEntity &
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
-    oembed?: Maybe<Scalars["String"]["output"]>;
     parent?: Maybe<Scalars["String"]["output"]>;
     parentId?: Maybe<Scalars["String"]["output"]>;
     path: Scalars["String"]["output"];
@@ -2305,12 +2304,11 @@ export type GQLLearningpathStepQueryVariables = Exact<{
 
 export type GQLLearningpathStepQuery = {
   __typename?: "Query";
-  article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
+  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
   resource?: {
     __typename?: "Resource";
     id: string;
     path: string;
-    oembed?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
@@ -2504,12 +2502,12 @@ export type GQLArticlePage_ResourceFragment = {
   name: string;
   path: string;
   contentUri?: string;
-  oembed?: string;
   article?: {
     __typename?: "Article";
     created: string;
     updated: string;
     metaDescription: string;
+    oembed?: string;
     tags?: Array<string>;
     metaImage?: { __typename?: "MetaImage" } & GQLArticleHero_MetaImageFragment;
   } & GQLStructuredArticleDataFragment &
@@ -2774,7 +2772,6 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: "Topic";
   path: string;
   id: string;
-  oembed?: string;
   contexts: Array<{
     __typename?: "TaxonomyContext";
     breadcrumbs: Array<string>;
@@ -2785,6 +2782,7 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
     __typename?: "Article";
     created: string;
     updated: string;
+    oembed?: string;
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
   } & GQLArticle_ArticleFragment;
 } & GQLResources_TopicFragment;
@@ -2804,7 +2802,6 @@ export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = 
 export type GQLMultidisciplinaryTopic_TopicFragment = {
   __typename?: "Topic";
   path: string;
-  oembed?: string;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
   meta?: {
     __typename?: "Meta";
@@ -2815,6 +2812,7 @@ export type GQLMultidisciplinaryTopic_TopicFragment = {
   };
   article?: {
     __typename?: "Article";
+    oembed?: string;
     metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
     transformedContent: {
       __typename?: "TransformedArticleContent";
@@ -4103,7 +4101,6 @@ export type GQLTopic_TopicFragment = {
   path: string;
   name: string;
   relevanceId?: string;
-  oembed?: string;
   supportedLanguages: Array<string>;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string; relevanceId?: string }>;
   meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
@@ -4115,6 +4112,7 @@ export type GQLTopic_TopicFragment = {
   }>;
   article?: {
     __typename?: "Article";
+    oembed?: string;
     revisionDate?: string;
     metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
     transformedContent: {
@@ -4285,6 +4283,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   created: string;
   updated: string;
   metaDescription: string;
+  oembed?: string;
   tags?: Array<string>;
   metaImage?: { __typename?: "MetaImage"; url: string };
 } & GQLArticle_ArticleFragment &
@@ -4294,7 +4293,6 @@ export type GQLIframeArticlePage_ResourceFragment = {
   __typename?: "Resource";
   id: string;
   path: string;
-  oembed?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 

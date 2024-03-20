@@ -119,7 +119,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           isResourceArticle={false}
           showFavoriteButton={config.feideEnabled}
           path={topic.path}
-          oembed={topic.oembed}
+          oembed={article.oembed}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
@@ -134,7 +134,6 @@ export const multidisciplinarySubjectArticleFragments = {
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
       id
-      oembed
       contexts {
         breadcrumbs
         parentIds
@@ -143,6 +142,7 @@ export const multidisciplinarySubjectArticleFragments = {
       article {
         created
         updated
+        oembed
         crossSubjectTopics(subjectId: $subjectId) {
           title
           path

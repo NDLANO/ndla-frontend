@@ -150,7 +150,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
           article={article}
           scripts={scripts}
           modifier="in-topic"
-          oembed={topic.oembed}
+          oembed={article.oembed}
           showIngress={false}
         />
       </UITopic>
@@ -162,7 +162,6 @@ export const multidisciplinaryTopicFragments = {
   topic: gql`
     fragment MultidisciplinaryTopic_Topic on Topic {
       path
-      oembed
       subtopics {
         id
         name
@@ -176,6 +175,7 @@ export const multidisciplinaryTopicFragments = {
         }
       }
       article {
+        oembed
         metaImage {
           url
           alt

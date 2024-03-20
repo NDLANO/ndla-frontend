@@ -172,7 +172,7 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
           scripts={scripts}
           modifier="in-topic"
           showIngress={false}
-          oembed={topic.oembed}
+          oembed={article.oembed}
         />
       </UITopic>
     </>
@@ -192,7 +192,6 @@ export const topicFragments = {
       path
       name
       relevanceId
-      oembed
       subtopics {
         id
         name
@@ -211,6 +210,7 @@ export const topicFragments = {
         path
       }
       article {
+        oembed
         metaImage {
           url
           alt

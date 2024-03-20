@@ -164,6 +164,7 @@ type Article {
   language: String!
   metaDescription: String!
   metaImage: MetaImage
+  oembed: String
   oldNdlaUrl: String
   published: String!
   relatedContent(subjectId: String): [RelatedContent!]
@@ -1189,7 +1190,6 @@ type Resource implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
-  oembed: String
   parents: [Topic!]
   path: String!
   paths: [String!]!
@@ -1434,7 +1434,6 @@ type Topic implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
-  oembed: String
   parent: String
   parentId: String
   path: String!
