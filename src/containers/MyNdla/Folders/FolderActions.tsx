@@ -40,15 +40,16 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const { folderId } = useParams();
   const navigate = useNavigate();
 
-  const { updateFolderStatus } = useUpdateFolderStatusMutation();
   const { deleteFolder } = useDeleteFolderMutation();
   const { addFolder } = useAddFolderMutation();
+  const { updateFolderStatus } = useUpdateFolderStatusMutation();
 
   const { user, examLock } = useContext(AuthContext);
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const previewRef = useRef<HTMLButtonElement | null>(null);
+
+  const isFolderShared = selectedFolder?.status !== "private";
 
   const onFolderUpdated = useCallback(() => {
     addSnack({ id: "folderUpdated", content: t("myNdla.folder.updated") });
@@ -142,24 +143,32 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       ),
     };
 
-    const shareLink: MenuItemProps = {
+    const share: MenuItemProps = {
       icon: <Share />,
       text: t("myNdla.folder.sharing.button.shareShort"),
-      ref: previewRef,
+      ref: shareRef,
       isModal: true,
-      keepOpen: true,
       modalContent: (close) => (
         <FolderShareModalContent
-          type="shared"
           folder={selectedFolder}
           onClose={close}
           onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-          onUpdateStatus={async (close) => {
-            close();
-            unShareRef.current?.click();
-          }}
         />
       ),
+      onClick: !isFolderShared
+        ? () => {
+            updateFolderStatus({
+              variables: {
+                folderId: selectedFolder.id,
+                status: "shared",
+              },
+            });
+            addSnack({
+              id: "folderShared",
+              content: t("myNdla.folder.sharing.header.shared"),
+            });
+          }
+        : undefined,
     };
 
     const previewFolder: MenuItemProps = {
@@ -186,55 +195,19 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const unShare: MenuItemProps = {
       icon: <Cross />,
       text: t("myNdla.folder.sharing.button.unShare"),
-      isModal: true,
       ref: unShareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="unShare"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: "private",
-              },
-            });
-            close();
-            addSnack({
-              id: "sharingDeleted",
-              content: t("myNdla.folder.sharing.unShare"),
-            });
-          }}
-        />
-      ),
-    };
-
-    const share: MenuItemProps = {
-      icon: <Share />,
-      text: t("myNdla.folder.sharing.share"),
-      isModal: true,
-      ref: shareRef,
-      modalContent: (close) => (
-        <FolderShareModalContent
-          type="private"
-          folder={selectedFolder}
-          onClose={close}
-          onUpdateStatus={async (close) => {
-            await updateFolderStatus({
-              variables: {
-                folderId: selectedFolder.id,
-                status: "shared",
-              },
-            });
-            close();
-            addSnack({
-              id: "folderShared",
-              content: t("myNdla.folder.sharing.header.shared"),
-            });
-          }}
-        />
-      ),
+      onClick: () => {
+        updateFolderStatus({
+          variables: {
+            folderId: selectedFolder.id,
+            status: "private",
+          },
+        });
+        addSnack({
+          id: "sharingDeleted",
+          content: t("myNdla.folder.sharing.unShare"),
+        });
+      },
     };
 
     const deleteOpt: MenuItemProps = {
@@ -268,22 +241,23 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     }
 
     if (selectedFolder.status === "shared") {
-      return actions.concat(editFolder, shareLink, previewFolder, copyLink, unShare, deleteOpt);
+      return actions.concat(editFolder, share, previewFolder, copyLink, unShare, deleteOpt);
     }
 
     return actions.concat(editFolder, share, deleteOpt);
   }, [
-    updateFolderStatus,
     onFolderUpdated,
     onDeleteFolder,
     selectedFolder,
     onFolderAdded,
     inToolbar,
+    updateFolderStatus,
     examLock,
     addSnack,
     navigate,
     user,
     t,
+    isFolderShared,
   ]);
 
   return <SettingsMenu menuItems={actionItems} modalHeader={t("myNdla.tools")} />;

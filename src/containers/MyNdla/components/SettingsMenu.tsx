@@ -194,8 +194,10 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                         ref={item.ref}
                         onClick={(e) => {
                           if (item.onClick) {
-                            close();
                             item.onClick(e);
+                            if (!item.modalContent) {
+                              close();
+                            }
                           }
                         }}
                       >
@@ -258,7 +260,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
               <DropdownItem
                 asChild
                 onSelect={(e) => {
-                  if (!item.onClick) {
+                  if (!item.onClick || (!!item.onClick && !!item.modalContent)) {
                     e.preventDefault();
                   }
                 }}
