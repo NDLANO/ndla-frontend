@@ -81,7 +81,7 @@ export const programmeFragment = gql`
 `;
 
 const frontpageQuery = gql`
-  query frontpageData {
+  query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
       ...ProgrammeFragment
     }
@@ -89,13 +89,15 @@ const frontpageQuery = gql`
       articleId
       article {
         id
-        content
         introduction
         created
         updated
         published
-        metaData {
-          copyText
+        transformedContent(transformArgs: $transformArgs) {
+          content
+          metaData {
+            copyText
+          }
         }
         ...LicenseBox_Article
         ...StructuredArticleData
@@ -199,7 +201,9 @@ const WelcomePage = () => {
         <ProgrammeWrapper data-testid="programme-list">
           <Programmes programmes={programmes} loading={fpQuery.loading} />
         </ProgrammeWrapper>
-        {article && <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={article} />}
+        {article && (
+          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={{ ...article, ...article.transformedContent }} />
+        )}
       </StyledMain>
     </>
   );

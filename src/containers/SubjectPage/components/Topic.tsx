@@ -79,15 +79,20 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
   }, [authContextLoaded, loading, showResources, subject, t, topic, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed.content);
+    if (!topic.article?.transformedContent?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(topic.article.transformedContent?.visualElementEmbed.content);
     return embedMeta;
-  }, [topic?.article?.visualElementEmbed?.content]);
+  }, [topic?.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
-  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
 
   useEffect(() => {
     setShowContent(false);
@@ -149,7 +154,9 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
         id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-        onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
+        onToggleShowContent={
+          topic.article?.transformedContent?.content !== "" ? () => setShowContent(!showContent) : undefined
+        }
         showContent={showContent}
         title={article.title}
         introduction={article.introduction}
@@ -160,7 +167,13 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
         invertedStyle={ndlaFilm}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       >
-        <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
+        <ArticleContents
+          article={article}
+          scripts={scripts}
+          modifier="in-topic"
+          showIngress={false}
+          oembed={article.oembed}
+        />
       </UITopic>
     </>
   );
@@ -196,15 +209,18 @@ export const topicFragments = {
         parentIds
         path
       }
-      article(convertEmbeds: $convertEmbeds) {
+      article {
+        oembed
         metaImage {
           url
           alt
         }
-        visualElementEmbed {
-          content
-          meta {
-            ...TopicVisualElementContent_Meta
+        transformedContent(transformArgs: $transformArgs) {
+          visualElementEmbed {
+            content
+            meta {
+              ...TopicVisualElementContent_Meta
+            }
           }
         }
         revisionDate

@@ -29,7 +29,7 @@ export type MoviesByType = {
 };
 
 const filmFrontPageQuery = gql`
-  query filmFrontPage($subjectId: String!) {
+  query filmFrontPage($subjectId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       ...FilmFrontpage_FilmFrontpage
     }
@@ -49,7 +49,7 @@ const NdlaFilm = () => {
   const { t, i18n } = useTranslation();
 
   const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20" },
+    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
   });
 
   const [searchAllMovies, { data: allMovies }] = useLazyQuery<GQLSearchWithoutPaginationQuery>(searchFilmQuery, {

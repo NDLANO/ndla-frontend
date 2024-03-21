@@ -26,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 
 test("film page has content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
-  await expect(page.locator("span", { hasText: "Still Alice" })).toBeVisible();
+  await expect(page.locator("span", { hasText: "Chef Flynn" }).first()).toBeVisible();
   const subjects = page.locator("div", {
     has: page.getByRole("heading", { name: "EMNER I FILM" }),
   });
