@@ -14,6 +14,8 @@ import { Copy } from "@ndla/icons/action";
 import { InformationOutline } from "@ndla/icons/common";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { MessageBox, OneColumn } from "@ndla/ui";
+import FavoriteButton from "../../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
 import CopyFolderModal from "../../../components/MyNdla/CopyFolderModal";
 import { GQLFolder } from "../../../graphqlTypes";
 import ErrorPage from "../../ErrorPage";
@@ -27,6 +29,12 @@ const StyledOneColumn = styled(OneColumn)`
   ${mq.range({ from: breakpoints.tablet })} {
     padding-bottom: 200px;
   }
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledDescription = styled.p`
@@ -49,7 +57,12 @@ const FolderMeta = ({ folder, title }: Props) => {
           </MessageBox>
         ) : null}
         <HelmetWithTracker title={t("htmlTitles.sharedFolderPage", { name: title })} />
-        <h1>{folder.name}</h1>
+        <TitleContainer>
+          <h1>{folder.name}</h1>
+          <AddResourceToFolderModal resource={{ id: folder.id, path: `/folder/${folder.id}`, resourceType: "folder" }}>
+            <FavoriteButton path={`/folder/${folder.id}`} />
+          </AddResourceToFolderModal>
+        </TitleContainer>
         <StyledDescription>{folder.description || t("myNdla.sharedFolder.description.all")}</StyledDescription>
 
         <CopyFolderModal folder={folder}>
