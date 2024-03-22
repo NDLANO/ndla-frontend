@@ -55,6 +55,7 @@ const messages = {
   myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
+      folderUnsupportedTitle: "Delte mapper støttes ikke",
     },
     arena: {
       notification: {
