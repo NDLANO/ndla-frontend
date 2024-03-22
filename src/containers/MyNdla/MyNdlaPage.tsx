@@ -132,7 +132,7 @@ const MyNdlaPage = () => {
         {!authenticated && (
           <Modal>
             <ModalTrigger>
-              <LoginButton aria-label={t(".myNdla.myPage.loginPitchButton")}>
+              <LoginButton aria-label={t("myNdla.myPage.loginPitchButton")}>
                 {t("myNdla.myPage.loginPitchButton")}
                 <Feide />
               </LoginButton>
