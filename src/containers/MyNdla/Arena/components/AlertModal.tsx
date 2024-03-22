@@ -106,7 +106,7 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
         <ModalBody>
           <ModalHeader>
             <ModalTitle>{t(`myNdla.arena.cancel.title.${type}`)}</ModalTitle>
-            <ModalCloseButton title={t("myNdla.folder.closeModal")} />
+            <ModalCloseButton title={t("modal.closeModal")} />
           </ModalHeader>
           <StyledWarningText margin="none" textStyle="meta-text-medium">
             {t(`myNdla.arena.cancel.content.${type}`)}

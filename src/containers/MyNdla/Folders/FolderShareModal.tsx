@@ -112,7 +112,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
     <ModalContent onCloseAutoFocus={setRef}>
       <ModalHeader>
         <ModalTitle>{t("myNdla.folder.sharing.header.shared")}</ModalTitle>
-        <ModalCloseButton title={t("myNdla.folder.closeModal")} />
+        <ModalCloseButton title={t("modal.closeModal")} />
       </ModalHeader>
       <StyledModalBody>
         <GapWrapper>
