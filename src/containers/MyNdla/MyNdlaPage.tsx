@@ -141,10 +141,7 @@ const MyNdlaPage = () => {
           </Modal>
         )}
         <StyledCampaignBlock
-          title={{
-            title: t("myndla.campaignBlock.title"),
-            language: i18n.language,
-          }}
+          title={t("myndla.campaignBlock.title")}
           headingLevel="h2"
           image={{
             src: "/static/ndla-ai.png",
@@ -155,14 +152,13 @@ const MyNdlaPage = () => {
             url: authenticated ? `https://ai.ndla.no/${aiLang}` : undefined,
             text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
           }}
-          description={{
-            text: !authenticated
+          description={
+            !authenticated
               ? t("myndla.campaignBlock.ingressUnauthenticated")
               : isStudent(user)
                 ? t("myndla.campaignBlock.ingressStudent")
-                : t("myndla.campaignBlock.ingress"),
-            language: i18n.language,
-          }}
+                : t("myndla.campaignBlock.ingress")
+          }
         />
         {!!recentArenaTopicsQuery.data?.items?.length && (
           <SectionWrapper>
