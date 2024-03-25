@@ -2493,7 +2493,7 @@ export type GQLArticlePage_SubjectFragment = {
   __typename?: "Subject";
   name: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
 } & GQLArticleHero_SubjectFragment;
 
 export type GQLArticlePage_ResourceFragment = {
@@ -2563,7 +2563,7 @@ export type GQLLearningpathPage_SubjectFragment = {
   __typename?: "Subject";
   id: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
 } & GQLLearningpath_SubjectFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
@@ -2751,7 +2751,11 @@ export type GQLMultidisciplinarySubjectPageQuery = {
   __typename?: "Query";
   subject?: {
     __typename?: "Subject";
-    subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+    subjectpage?: {
+      __typename?: "SubjectPage";
+      id: number;
+      about?: { __typename?: "SubjectPageAbout"; title: string };
+    };
     topics?: Array<{ __typename?: "Topic"; id: string; name: string }>;
   } & GQLMultidisciplinaryTopicWrapper_SubjectFragment;
 };
@@ -2792,7 +2796,7 @@ export type GQLMultidisciplinarySubjectArticle_SubjectFragment = {
   name: string;
   id: string;
   path: string;
-  subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
 };
 
 export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
@@ -4039,6 +4043,7 @@ export type GQLSubjectContainer_SubjectFragment = {
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: {
     __typename?: "SubjectPage";
+    id: number;
     metaDescription?: string;
     about?: {
       __typename?: "SubjectPageAbout";
@@ -4153,6 +4158,7 @@ export type GQLToolboxSubjectContainer_SubjectFragment = {
   topics?: Array<{ __typename?: "Topic"; name: string; id: string }>;
   subjectpage?: {
     __typename?: "SubjectPage";
+    id: number;
     metaDescription?: string;
     about?: {
       __typename?: "SubjectPageAbout";
@@ -4464,6 +4470,7 @@ export type GQLSubjectInfoFragment = {
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: {
     __typename?: "SubjectPage";
+    id: number;
     about?: { __typename?: "SubjectPageAbout"; title: string };
     banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   };
