@@ -145,6 +145,15 @@ const typePolicies: TypePolicies = {
       },
     },
   },
+  SubjectPage: {
+    fields: {
+      about: {
+        merge(existing, incoming) {
+          return existing ? existing : incoming;
+        },
+      },
+    },
+  },
   SearchContext: {
     keyFields: ["path"],
   },
