@@ -222,6 +222,7 @@ export const articlePageFragments = {
         customFields
       }
       subjectpage {
+        id
         about {
           title
         }
