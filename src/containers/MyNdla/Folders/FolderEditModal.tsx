@@ -13,8 +13,8 @@ import { ButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm from "./FolderForm";
-import { buttonCss, iconCss } from "./FoldersPage";
 import { GQLFolder } from "../../../graphqlTypes";
+import { buttonCss, iconCss } from "../components/toolbarStyles";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../folderMutations";
 
 interface Props {

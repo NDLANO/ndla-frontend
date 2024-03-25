@@ -10,9 +10,8 @@ import isEqual from "lodash/isEqual";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { breakpoints, fonts, mq, spacing } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { FileDocumentOutline } from "@ndla/icons/common";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import FolderActions from "./FolderActions";
@@ -70,21 +69,6 @@ export const BlockWrapper = styled.ul`
   &[data-no-padding="true"] {
     padding: 0;
   }
-`;
-
-export const buttonCss = css`
-  display: flex;
-  justify-content: flex-start;
-  white-space: nowrap;
-
-  ${mq.range({ until: breakpoints.tablet })} {
-    font-weight: ${fonts.weight.normal};
-  }
-`;
-
-export const iconCss = css`
-  width: 20px;
-  height: 20px;
 `;
 
 export const ListItem = styled.li`

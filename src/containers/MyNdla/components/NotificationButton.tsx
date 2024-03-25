@@ -12,8 +12,8 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Bell } from "@ndla/icons/common";
+import { iconCss } from "./toolbarStyles";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
-import { iconCss } from "../Folders/FoldersPage";
 
 const NotificationCounter = styled.div`
   position: relative;
