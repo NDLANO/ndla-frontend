@@ -32,7 +32,12 @@ const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) =>
 };
 
 const resourcePageQuery = gql`
-  query resourcePage($topicId: String!, $subjectId: String!, $resourceId: String!, $convertEmbeds: Boolean) {
+  query resourcePage(
+    $topicId: String!
+    $subjectId: String!
+    $resourceId: String!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     subject(id: $subjectId) {
       ...LearningpathPage_Subject
       ...ArticlePage_Subject
@@ -77,7 +82,9 @@ const ResourcePage = () => {
       subjectId,
       topicId,
       resourceId,
-      convertEmbeds: true,
+      transformArgs: {
+        subjectId,
+      },
     },
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);

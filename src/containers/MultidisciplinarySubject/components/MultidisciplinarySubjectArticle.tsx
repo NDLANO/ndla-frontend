@@ -119,6 +119,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           isResourceArticle={false}
           showFavoriteButton={config.feideEnabled}
           path={topic.path}
+          oembed={article.oembed}
         />
         <div ref={resourcesRef}>
           <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
@@ -138,9 +139,10 @@ export const multidisciplinarySubjectArticleFragments = {
         parentIds
         path
       }
-      article(showVisualElement: "true", convertEmbeds: $convertEmbeds) {
+      article {
         created
         updated
+        oembed
         crossSubjectTopics(subjectId: $subjectId) {
           title
           path

@@ -205,7 +205,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
           <AccordionRoot type="single" collapsible>
             {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
               <AccordionItem value="rulesForUse">
-                <StyledAccordionHeader>
+                <StyledAccordionHeader headingLevel="h2">
                   <Text element="span" textStyle="button" margin="none">
                     {t("article.useContent")}
                   </Text>

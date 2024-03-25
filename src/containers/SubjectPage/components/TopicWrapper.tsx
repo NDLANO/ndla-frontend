@@ -31,7 +31,7 @@ type Props = {
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
+  query topicWrapper($topicId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -52,7 +52,9 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       variables: {
         topicId,
         subjectId,
-        convertEmbeds: true,
+        transformArgs: {
+          subjectId,
+        },
       },
       onCompleted: (data) => {
         const topic = data.topic;
