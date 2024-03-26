@@ -151,6 +151,7 @@ const DraggableResource = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
   return (
     <DraggableListItem
       key={`resource-${resource.id}`}
@@ -179,7 +180,7 @@ const DraggableResource = ({
           link={resource.path}
           tags={resource.tags}
           resourceTypes={resourceMeta?.resourceTypes ?? []}
-          title={resourceMeta?.title ?? ""}
+          title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />
