@@ -26,4 +26,8 @@ test("contains content", async ({ page }) => {
   const heading = page.getByRole("heading").getByText("Introduksjon");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
+
+  const menuIntro = page.getByRole("heading").getByText("Sirkulasjonssystemet");
+  expect(menuIntro).toBeDefined();
+  await expect(menuIntro).toBeVisible();
 });
