@@ -180,6 +180,7 @@ export const learningpathPageFragments = {
         customFields
       }
       subjectpage {
+        id
         about {
           title
         }

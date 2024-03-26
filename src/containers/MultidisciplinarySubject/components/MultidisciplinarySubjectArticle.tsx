@@ -160,6 +160,7 @@ export const multidisciplinarySubjectArticleFragments = {
       id
       path
       subjectpage {
+        id
         about {
           title
         }
