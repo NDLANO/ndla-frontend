@@ -55,6 +55,7 @@ export const resourceEmbedTypeMapping: Record<string, string> = {
   image: "image",
   video: "video",
   audio: "audio",
+  folder: "folder",
 };
 
 interface ResourceType {
