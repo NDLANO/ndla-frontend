@@ -81,8 +81,8 @@ const StyledDescription = styled.p`
 `;
 
 const LoginButton = styled(ButtonV2)`
-  align-self: flex-start;
-  margin-block: ${spacing.large};
+  align-self: center;
+  margin-block: ${spacing.normal} ${spacing.large};
 `;
 
 const StyledCampaignBlock = styled(CampaignBlock)`
