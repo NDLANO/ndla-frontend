@@ -29,7 +29,7 @@ const router = express.Router();
 router.get("/robots.txt", (req, res) => {
   // Using ndla.no robots.txt
   if (req.hostname === "ndla.no") {
-    res.sendFile("robots.txt", { root: "public/static" });
+    res.sendFile("robots.txt", { root: "build/public/static" });
   } else {
     res.type("text/plain");
     res.send("User-agent: *\nDisallow: /");
@@ -37,7 +37,7 @@ router.get("/robots.txt", (req, res) => {
 });
 
 router.get("/.well-known/security.txt", (_, res) => {
-  res.sendFile(`security.txt`, { root: "public/static" });
+  res.sendFile(`security.txt`, { root: "build/public/static" });
 });
 
 router.get("/health", (_, res) => {
