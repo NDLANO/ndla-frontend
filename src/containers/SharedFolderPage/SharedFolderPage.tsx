@@ -7,7 +7,7 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -164,17 +164,6 @@ const SharedFolderPage = () => {
   );
 
   const close = useCallback(() => setOpen(false), []);
-  const selectedResource = resources.find((res) => res.id === resourceId);
-
-  const unsupportedResource: ReactNode | null = useMemo(() => {
-    if (selectedResource?.resourceType === "learningpath" || selectedResource?.resourceType === "multidisciplinary") {
-      return <SharedLearningpathWarning />;
-    } else if (selectedResource?.resourceType === "folder") {
-      return <SharedFolderWarning />;
-    } else {
-      return null;
-    }
-  }, [selectedResource]);
 
   if (loading) {
     return <Spinner />;
@@ -188,6 +177,7 @@ const SharedFolderPage = () => {
 
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
+  const selectedResource = resources.find((res) => res.id === resourceId);
   const articleMeta = keyedData[`${selectedResource?.resourceType}-${selectedResource?.resourceId}`];
   const selectedFolder = !subfolderId ? folder : subFolder;
 
@@ -239,8 +229,10 @@ const SharedFolderPage = () => {
       </Sidebar>
       <StyledSection>
         {selectedResource ? (
-          unsupportedResource ? (
-            unsupportedResource
+          selectedResource.resourceType === "learningpath" ||
+          selectedResource.resourceType === "multidisciplinary" ||
+          selectedResource.resourceType === "folder" ? (
+            <UnsupportedResourceWarning />
           ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
             <ResourceEmbed
               id={selectedResource.resourceId}
@@ -272,9 +264,9 @@ const SharedFolderPage = () => {
   );
 };
 
-const SharedFolderWarning = () => {
+const UnsupportedResourceWarning = () => {
   const { t } = useTranslation();
-  const errorTitle = `${t("myNdla.sharedFolder.folderUnsupportedTitle")} - ${t(
+  const errorTitle = `${t("myNdla.sharedFolder.resourceUnsupportedTitle")} - ${t(
     "myNdla.folder.sharing.sharedFolder",
   )} - ${t("htmlTitles.titleTemplate")}`;
 
@@ -285,33 +277,8 @@ const SharedFolderWarning = () => {
       </Helmet>
       <ErrorMessage
         messages={{
-          title: t("myNdla.sharedFolder.folderUnsupportedTitle"),
-          description: t("myNdla.sharedFolder.folderUnsupported"),
-        }}
-        illustration={{
-          url: "/static/oops.gif",
-          altText: t("errorMessage.title"),
-        }}
-      />
-    </OneColumn>
-  );
-};
-
-const SharedLearningpathWarning = () => {
-  const { t } = useTranslation();
-  const errorTitle = `${t("myNdla.sharedFolder.learningpathUnsupportedTitle")} - ${t(
-    "myNdla.folder.sharing.sharedFolder",
-  )} - ${t("htmlTitles.titleTemplate")}`;
-
-  return (
-    <OneColumn>
-      <Helmet>
-        <title>{errorTitle}</title>
-      </Helmet>
-      <ErrorMessage
-        messages={{
-          title: t("myNdla.sharedFolder.learningpathUnsupportedTitle"),
-          description: t("myNdla.sharedFolder.learningpathUnsupported"),
+          title: t("myNdla.sharedFolder.resourceUnsupportedTitle"),
+          description: t("myNdla.sharedFolder.resourceUnsupported"),
         }}
         illustration={{
           url: "/static/oops.gif",
