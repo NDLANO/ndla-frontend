@@ -54,10 +54,6 @@ const messages = {
     },
   },
   myNdla: {
-    sharedFolder: {
-      learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
-      folderUnsupportedTitle: "Delte mapper støttast ikkje",
-    },
     arena: {
       notification: {
         description:
