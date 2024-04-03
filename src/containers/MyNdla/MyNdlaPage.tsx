@@ -81,8 +81,8 @@ const StyledDescription = styled.p`
 `;
 
 const LoginButton = styled(ButtonV2)`
-  align-self: flex-start;
-  margin-block: ${spacing.large};
+  align-self: center;
+  margin-block: ${spacing.normal} ${spacing.large};
 `;
 
 const StyledCampaignBlock = styled(CampaignBlock)`
@@ -184,7 +184,9 @@ const MyNdlaPage = () => {
               <Heading element="h2" headingStyle="h2" margin="small">
                 {t("myNdla.favoriteSubjects.title")}
               </Heading>
-              <Text>{t("myNdla.myPage.favouriteSubjects.noFavorites")}</Text>
+              <Text margin="none" textStyle="content-alt">
+                {t("myNdla.myPage.favouriteSubjects.noFavorites")}
+              </Text>
               <StyledSafeLink to="/subjects">
                 {t("myNdla.myPage.favouriteSubjects.search")}
                 <ForwardArrow />
@@ -194,7 +196,9 @@ const MyNdlaPage = () => {
               <Heading element="h2" headingStyle="h2" margin="small">
                 {t("myNdla.myPage.recentFavourites.title")}
               </Heading>
-              <Text>{t("myNdla.myPage.recentFavourites.unauthorized")}</Text>
+              <Text margin="none" textStyle="content-alt">
+                {t("myNdla.myPage.recentFavourites.unauthorized")}
+              </Text>
               <StyledSafeLink to="/search">
                 {t("myNdla.myPage.recentFavourites.search")}
                 <ForwardArrow />
