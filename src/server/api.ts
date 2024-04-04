@@ -19,6 +19,7 @@ import { sendResponse } from "./serverHelpers";
 import config from "../config";
 import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
+import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
@@ -132,7 +133,7 @@ router.get("/logout/session", (req, res) => {
   const state = typeof req.query.state === "string" ? req.query.state : "/";
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
-  const redirect = wasPrivateRoute ? constructNewPath("/", basename) : state;
+  const redirect = wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : state;
   res.setHeader("Cache-Control", "private");
   return res.redirect(redirect);
 });
