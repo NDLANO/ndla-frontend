@@ -25,6 +25,10 @@ const ToolbarContainer = styled.div`
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: flex;
   }
+
+  &[data-visible="false"] {
+    display: none !important;
+  }
 `;
 
 const ButtonContainer = styled.ul`
@@ -73,7 +77,7 @@ interface Props {
 const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons }: Props) => {
   const { user } = useContext(AuthContext);
   return (
-    <ToolbarContainer>
+    <ToolbarContainer data-visible={!!buttons || !!dropDownMenu || !!user?.arenaEnabled}>
       <Wrapper>
         <div>
           <ButtonContainer>{buttons}</ButtonContainer>
