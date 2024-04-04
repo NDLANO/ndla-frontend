@@ -43,7 +43,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-eslint/eslint-plugin": "^3.20.1",
-    "@ndla/scripts": "^2.1.1",
+    "@ndla/scripts": "^2.1.2",
     "@ndla/types-backend": "^0.2.67",
     "@ndla/types-embed": "^4.1.3",
     "@ndla/types-taxonomy": "^1.0.22",

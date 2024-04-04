@@ -3279,9 +3279,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/scripts@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@ndla/scripts@npm:2.1.1"
+"@ndla/scripts@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@ndla/scripts@npm:2.1.2"
   dependencies:
     cross-spawn: "npm:^7.0.3"
     cross-spawn-promise: "npm:^0.10.2"
@@ -3290,7 +3290,7 @@ __metadata:
     vercel: "npm:^33.6.2"
   bin:
     ndla-scripts: src/index.js
-  checksum: 10c0/705391d748b238b0bf447f149a31cc7669b1aace934718c181d8eb2cba92f52aca2470c9a2cc2b1d690c2927c561aab9173fb18ad39d3c89e83b298c6cb9ce34
+  checksum: 10c0/4b95468a7f7696e119a32f908853347cfe4239cb8177876a7355987786df30fbf8be99049fa0f171503aafdbe5bac3454d9e85ff66fa229188b62fd4d13aed70
   languageName: node
   linkType: hard
 
@@ -10833,7 +10833,7 @@ __metadata:
     "@ndla/modal": "npm:^5.0.38"
     "@ndla/pager": "npm:^3.0.3"
     "@ndla/safelink": "npm:^5.0.3"
-    "@ndla/scripts": "npm:^2.1.1"
+    "@ndla/scripts": "npm:^2.1.2"
     "@ndla/select": "npm:^3.3.13"
     "@ndla/tabs": "npm:^4.0.3"
     "@ndla/tracker": "npm:^5.0.6"
