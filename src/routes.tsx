@@ -6,6 +6,8 @@
  *
  */
 
+import { MINNDLA } from "./constants";
+
 export const privateRoutes = [
   "minndla/folders",
   "minndla/folders/preview/:folderId",
@@ -73,7 +75,7 @@ export const routes = [
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
-  "minndla",
+  MINNDLA,
   ...privateRoutes,
 ];
 

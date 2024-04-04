@@ -14,6 +14,7 @@ import {
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
+  MINNDLA,
 } from "./constants";
 import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
@@ -200,7 +201,7 @@ export const useTypedParams = <TParams extends TypedParams>() => {
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
   myNdla: {
-    root: "/minndla",
+    root: `/${MINNDLA}`,
     arena: "/minndla/arena",
     folders: "/minndla/folders",
     subjects: "/minndla/subjects",

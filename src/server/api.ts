@@ -17,7 +17,7 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config from "../config";
-import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
+import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH, MINNDLA } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
@@ -131,6 +131,7 @@ router.get("/logout/session", (req, res) => {
   res.clearCookie("feide_auth", { domain: `.${config.feideDomain}` });
   const state = typeof req.query.state === "string" ? req.query.state : "/";
   const { basepath, basename } = getLocaleInfoFromPath(state);
+  privateRoutes.unshift(MINNDLA);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
   const redirect = wasPrivateRoute ? constructNewPath("/", basename) : state;
   res.setHeader("Cache-Control", "private");

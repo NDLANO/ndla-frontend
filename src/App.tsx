@@ -15,6 +15,7 @@ import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
 import Scripts from "./components/Scripts/Scripts";
 import config from "./config";
+import { MINNDLA } from "./constants";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
@@ -149,7 +150,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route path="h5p/:h5pId" element={<H5pPage />} />
                 <Route
-                  path="minndla"
+                  path={MINNDLA}
                   element={
                     <NoSSR fallback={null}>
                       <MyNdlaLayout />
