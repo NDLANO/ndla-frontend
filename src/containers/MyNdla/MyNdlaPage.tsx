@@ -51,6 +51,7 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+  margin-bottom: ${spacing.large};
 `;
 
 const StyledSafeLink = styled(SafeLink)`
