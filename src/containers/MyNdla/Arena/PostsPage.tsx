@@ -153,24 +153,15 @@ const PostsPage = () => {
   if (loading || !authContextLoaded) return <Spinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
+  const parentCrumbs =
+    arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
+  const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
+
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
       <BreadcrumbWrapper>
-        <MyNdlaBreadcrumb
-          breadcrumbs={
-            topicId
-              ? [
-                  {
-                    name: arenaCategory?.title ?? "",
-                    id: `category/${arenaTopic?.categoryId}`,
-                  },
-                  { name: arenaTopic?.title ?? "", id: topicId },
-                ]
-              : []
-          }
-          page={"arena"}
-        />
+        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
       <ListWrapper>
         {arenaTopic?.posts?.items?.map((post, postIdx) => {

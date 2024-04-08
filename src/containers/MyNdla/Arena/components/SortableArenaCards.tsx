@@ -28,14 +28,16 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import ArenaCard from "./ArenaCard";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
-import { GQLArenaCategoryV2Fragment } from "../../../../graphqlTypes";
+import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import { useArenaSortCategories } from "../../arenaMutations";
 import { makeDndTranslations } from "../../Folders/util";
 
 interface Props {
-  categories: GQLArenaCategoryV2Fragment[];
+  categories: (GQLTopiclessArenaCategoryV2 | GQLArenaCategoryV2Fragment)[];
   isEditing: boolean;
-  user: MyNDLAUserType;
+  user: MyNDLAUserType | undefined;
+  categoryParentId?: number;
+  refetchCategories: (() => void) | undefined;
 }
 
 const StyledCardContainer = styled.ul`
@@ -45,7 +47,7 @@ const StyledCardContainer = styled.ul`
   padding: ${spacing.normal} 0;
 `;
 
-const SortableArenaCards = ({ categories, isEditing, user }: Props) => {
+const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, categoryParentId }: Props) => {
   const client = useApolloClient();
   const [sortedCategories, setSortedCategories] = useState(
     categories.map((cat) => ({ ...cat, id: cat.id.toString() })),
@@ -60,13 +62,27 @@ const SortableArenaCards = ({ categories, isEditing, user }: Props) => {
     const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
       return newOrder.map((id) => existing.find((ef) => ef.__ref === `ArenaCategoryV2:${id}`)!);
     };
+    const subcategoryModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
+      return newOrder.map((id) => existing.find((ef) => ef.__ref === `TopiclessArenaCategoryV2:${id}`)!);
+    };
 
-    client.cache.modify({
-      id: client.cache.identify({
-        __ref: `ROOT_QUERY`,
-      }),
-      fields: { arenaCategoriesV2: sortCacheModifierFunction },
-    });
+    if (categoryParentId) {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `ArenaCategoryV2:${categoryParentId}`,
+        }),
+        fields: {
+          subcategories: subcategoryModifierFunction,
+        },
+      });
+    } else {
+      client.cache.modify({
+        id: client.cache.identify({
+          __ref: `ROOT_QUERY`,
+        }),
+        fields: { arenaCategoriesV2: sortCacheModifierFunction },
+      });
+    }
   };
 
   const onDragEnd = (event: DragEndEvent) => {
@@ -91,7 +107,7 @@ const SortableArenaCards = ({ categories, isEditing, user }: Props) => {
     // Update cache before sorting happens to make GUI feel snappy
     updateCache(sortedIds);
 
-    return sortCategories({ variables: { categoryIds: sortedIds } });
+    return sortCategories({ variables: { categoryIds: sortedIds, parentId: categoryParentId } });
   };
 
   const sensors = useSensors(
@@ -117,6 +133,7 @@ const SortableArenaCards = ({ categories, isEditing, user }: Props) => {
         >
           {categories?.map((category, categoryIndex) => (
             <ArenaCard
+              refetchCategories={refetchCategories}
               key={`category-${category.id}`}
               id={category.id}
               title={category.title}

@@ -25,10 +25,11 @@ interface Props {
   title: string;
   subText: string;
   count?: number;
-  user: MyNDLAUserType;
+  user: MyNDLAUserType | undefined;
   visible: boolean;
   isEditing: boolean;
   index: number;
+  refetchCategories: (() => void) | undefined;
 }
 
 const StyledCardWrapper = styled.div`
@@ -141,7 +142,7 @@ const ArenaCardWrapper = styled.li`
   padding: 0;
 `;
 
-const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing }: Props) => {
+const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing, refetchCategories }: Props) => {
   const { t } = useTranslation();
 
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
@@ -181,7 +182,9 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing 
             </StyledDescriptionText>
           </div>
           <RightSideContainer>
-            {isEditing && user.isModerator && <DeleteCategoryModal categoryId={id} />}
+            {isEditing && user?.isModerator && (
+              <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
+            )}
             {count !== undefined && (
               <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
                 <Text aria-hidden element="p" textStyle="content-alt" margin="none">
