@@ -243,19 +243,22 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
 
       {isOpen && (
         <StyledUl role="group" data-list aria-owns={`folder-sublist-${folder.id}`}>
-          {resources.map((resource, i) => (
-            <FolderResource
-              setFocus={setFocus}
-              level={level}
-              onClose={onClose}
-              key={resource.id}
-              parentId={folder.id}
-              isLast={i === resources.length - 1}
-              meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
-              resource={resource}
-              preview={preview}
-            />
-          ))}
+          {resources.map(
+            (resource, i) =>
+              meta[`${resource.resourceType}-${resource.resourceId}`] && (
+                <FolderResource
+                  setFocus={setFocus}
+                  level={level}
+                  onClose={onClose}
+                  key={resource.id}
+                  parentId={folder.id}
+                  isLast={i === resources.length - 1}
+                  meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
+                  resource={resource}
+                  preview={preview}
+                />
+              ),
+          )}
           {subfolders.map((subfolder) => (
             <Folder
               onClose={onClose}
