@@ -222,7 +222,7 @@ const MyNdlaPage = () => {
                       isLoading={loading}
                       key={res.id}
                       link={res.path}
-                      title={meta?.title ?? ""}
+                      title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                       resourceImage={{
                         src: meta?.metaImage?.url ?? "",
                         alt: "",
