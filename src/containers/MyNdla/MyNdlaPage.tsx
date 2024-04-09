@@ -10,11 +10,14 @@ import keyBy from "lodash/keyBy";
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { ForwardArrow } from "@ndla/icons/action";
+import { Feide } from "@ndla/icons/common";
+import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
+import { Heading, Text } from "@ndla/typography";
 import { CampaignBlock, ListResource } from "@ndla/ui";
 import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";
@@ -24,6 +27,7 @@ import TitleWrapper from "./components/TitleWrapper";
 import { useFolderResourceMetaSearch, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { AuthContext } from "../../components/AuthenticationContext";
+import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -47,6 +51,7 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
+  margin-bottom: ${spacing.large};
 `;
 
 const StyledSafeLink = styled(SafeLink)`
@@ -76,13 +81,18 @@ const StyledDescription = styled.p`
   ${fonts.sizes("24px")};
 `;
 
+const LoginButton = styled(ButtonV2)`
+  align-self: center;
+  margin-block: ${spacing.normal} ${spacing.large};
+`;
+
 const StyledCampaignBlock = styled(CampaignBlock)`
   max-width: 100%;
   margin-bottom: ${spacing.normal};
 `;
 
 const MyNdlaPage = () => {
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { allFolderResources } = useRecentlyUsedResources();
@@ -117,12 +127,22 @@ const MyNdlaPage = () => {
         <TitleWrapper>
           <MyNdlaTitle title={t("myNdla.myNDLA")} />
         </TitleWrapper>
-        <StyledDescription>{t("myNdla.myPage.welcome")}</StyledDescription>
+        <StyledDescription>
+          {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
+        </StyledDescription>
+        {!authenticated && (
+          <Modal>
+            <ModalTrigger>
+              <LoginButton aria-label={t("myNdla.myPage.loginPitchButton")}>
+                {t("myNdla.myPage.loginPitchButton")}
+                <Feide />
+              </LoginButton>
+            </ModalTrigger>
+            <LoginModalContent masthead />
+          </Modal>
+        )}
         <StyledCampaignBlock
-          title={{
-            title: t("myndla.campaignBlock.title"),
-            language: i18n.language,
-          }}
+          title={t("myndla.campaignBlock.title")}
           headingLevel="h2"
           image={{
             src: "/static/ndla-ai.png",
@@ -130,13 +150,16 @@ const MyNdlaPage = () => {
           }}
           imageSide="left"
           url={{
-            url: `https://ai.ndla.no/${aiLang}`,
-            text: t("myndla.campaignBlock.linkText"),
+            url: authenticated ? `https://ai.ndla.no/${aiLang}` : undefined,
+            text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
           }}
-          description={{
-            text: isStudent(user) ? t("myndla.campaignBlock.ingressStudent") : t("myndla.campaignBlock.ingress"),
-            language: i18n.language,
-          }}
+          description={
+            !authenticated
+              ? t("myndla.campaignBlock.ingressUnauthenticated")
+              : isStudent(user)
+                ? t("myndla.campaignBlock.ingressStudent")
+                : t("myndla.campaignBlock.ingress")
+          }
         />
         {!!recentArenaTopicsQuery.data?.items?.length && (
           <SectionWrapper>
@@ -156,7 +179,34 @@ const MyNdlaPage = () => {
             </StyledSafeLink>
           </SectionWrapper>
         )}
-        {allFolderResources && allFolderResources?.length > 0 && (
+        {!authenticated ? (
+          <>
+            <SectionWrapper>
+              <Heading element="h2" headingStyle="h2" margin="small">
+                {t("myNdla.favoriteSubjects.title")}
+              </Heading>
+              <Text margin="none" textStyle="content-alt">
+                {t("myNdla.myPage.favouriteSubjects.noFavorites")}
+              </Text>
+              <StyledSafeLink to="/subjects">
+                {t("myNdla.myPage.favouriteSubjects.search")}
+                <ForwardArrow />
+              </StyledSafeLink>
+            </SectionWrapper>
+            <SectionWrapper>
+              <Heading element="h2" headingStyle="h2" margin="small">
+                {t("myNdla.myPage.recentFavourites.title")}
+              </Heading>
+              <Text margin="none" textStyle="content-alt">
+                {t("myNdla.myPage.recentFavourites.unauthorized")}
+              </Text>
+              <StyledSafeLink to="/search">
+                {t("myNdla.myPage.recentFavourites.search")}
+                <ForwardArrow />
+              </StyledSafeLink>
+            </SectionWrapper>
+          </>
+        ) : !!allFolderResources && allFolderResources?.length > 0 ? (
           <SectionWrapper>
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentFavourites.title")}
@@ -189,7 +239,7 @@ const MyNdlaPage = () => {
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>
-        )}
+        ) : null}
       </StyledPageContentContainer>
     </MyNdlaPageWrapper>
   );

@@ -102,8 +102,8 @@ const SocialMediaMetadata = ({
       {description && <meta name="twitter:description" content={description} />}
       {audioUrl && <meta property="og:audio" content={audioUrl} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
-      {imageUrl && <meta name="twitter:image:src" content={imageUrl} />}
-      {!imageUrl ? <meta name="twitter:image:src" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
+      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+      {!imageUrl ? <meta name="twitter:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
       {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
       <meta property="og:site_name" content="ndla.no" />
     </Helmet>

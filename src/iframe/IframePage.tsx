@@ -50,19 +50,11 @@ interface Props {
 const iframePageQuery = gql`
   query iframePage(
     $articleId: String!
-    $isOembed: String
-    $path: String
+    $subjectId: String
     $taxonomyId: String!
-    $showVisualElement: String
-    $convertEmbeds: Boolean
+    $transformArgs: TransformedArticleContentInput
   ) {
-    article(
-      id: $articleId
-      isOembed: $isOembed
-      path: $path
-      showVisualElement: $showVisualElement
-      convertEmbeds: $convertEmbeds
-    ) {
+    article(id: $articleId) {
       ...IframeArticlePage_Article
     }
     articleResource(taxonomyId: $taxonomyId, articleId: $articleId) {
@@ -79,11 +71,12 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
   const { loading, data, error } = useGraphQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
     variables: {
       articleId: articleId!,
-      isOembed,
-      path: location.pathname,
       taxonomyId: taxonomyId || "",
-      showVisualElement: "true",
-      convertEmbeds: true,
+      transformArgs: {
+        showVisualElement: "true",
+        path: location.pathname,
+        isOembed,
+      },
     },
     skip: !articleId,
   });

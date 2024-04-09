@@ -21,8 +21,8 @@ import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { iconCss } from "../../components/toolbarStyles";
 import { FieldLength } from "../../Folders/FolderForm";
-import { iconCss } from "../../Folders/FoldersPage";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 

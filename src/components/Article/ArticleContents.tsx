@@ -25,10 +25,11 @@ interface Props {
   article: TransformedBaseArticle<GQLArticleContents_ArticleFragment>;
   modifier: "clean" | "in-topic";
   showIngress: boolean;
+  oembed: string | undefined;
   scripts?: Scripts[];
 }
 
-const ArticleContents = ({ article, modifier = "clean", showIngress = true, scripts }: Props) => {
+const ArticleContents = ({ article, modifier = "clean", showIngress = true, scripts, oembed }: Props) => {
   return (
     <ArticleWrapper modifier={modifier}>
       {scripts?.map((script) => (
@@ -41,13 +42,15 @@ const ArticleContents = ({ article, modifier = "clean", showIngress = true, scri
           </ArticleHeaderWrapper>
         </LayoutItem>
       )}
-      <LayoutItem layout="extend">{article.content}</LayoutItem>
+      <LayoutItem layout="extend">{article.transformedContent.content}</LayoutItem>
       <LayoutItem layout="extend">
-        {article.metaData?.footnotes?.length ? <ArticleFootNotes footNotes={article.metaData?.footnotes} /> : undefined}
+        {article.transformedContent?.metaData?.footnotes?.length ? (
+          <ArticleFootNotes footNotes={article.transformedContent.metaData?.footnotes} />
+        ) : undefined}
       </LayoutItem>
       <LayoutItem layout="extend">
         <ArticleByline
-          licenseBox={<LicenseBox article={article} />}
+          licenseBox={<LicenseBox article={article} oembed={oembed} />}
           {...{
             authors: article.copyright?.creators,
             published: article.published,
@@ -63,19 +66,21 @@ ArticleContents.fragments = {
   article: gql`
     fragment ArticleContents_Article on Article {
       id
-      content
       created
       updated
       introduction
-      metaData {
-        footnotes {
-          ref
-          authors
-          edition
-          publisher
-          year
-          url
-          title
+      transformedContent(transformArgs: $transformArgs) {
+        content
+        metaData {
+          footnotes {
+            ref
+            authors
+            edition
+            publisher
+            year
+            url
+            title
+          }
         }
       }
       ...LicenseBox_Article

@@ -169,6 +169,7 @@ export const toolboxSubjectContainerFragments = {
         id
       }
       subjectpage {
+        id
         about {
           title
           description

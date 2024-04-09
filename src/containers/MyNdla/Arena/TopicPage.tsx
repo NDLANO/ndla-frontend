@@ -16,6 +16,7 @@ import { Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
+import { PostActions, PostButtons } from "./ArenaToolbar";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -24,6 +25,7 @@ import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
 const BreadcrumbWrapper = styled.div`
   padding-top: ${spacing.normal};
 `;
@@ -87,7 +89,7 @@ const TopicPage = () => {
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
       <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb

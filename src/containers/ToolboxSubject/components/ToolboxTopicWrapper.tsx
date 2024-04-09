@@ -59,15 +59,20 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
   }, [authContextLoaded, index, subject, t, topic, topicList, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed?.content);
+    if (!topic.article?.transformedContent?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(topic.article.transformedContent.visualElementEmbed?.content);
     return embedMeta;
-  }, [topic?.article?.visualElementEmbed?.content]);
+  }, [topic.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
-  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
@@ -157,7 +162,7 @@ export const toolboxTopicWrapperFragments = {
           url
         }
       }
-      article(convertEmbeds: $convertEmbeds) {
+      article {
         title
         introduction
         copyright {
@@ -181,10 +186,12 @@ export const toolboxTopicWrapperFragments = {
           alt
           url
         }
-        visualElementEmbed {
-          content
-          meta {
-            ...TopicVisualElementContent_Meta
+        transformedContent(transformArgs: $transformArgs) {
+          visualElementEmbed {
+            content
+            meta {
+              ...TopicVisualElementContent_Meta
+            }
           }
         }
       }

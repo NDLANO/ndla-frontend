@@ -9,6 +9,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SnackbarProvider } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
@@ -147,43 +148,53 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="concept/:conceptId" element={<ConceptPage />} />
                 <Route path="audio/:audioId" element={<AudioPage />} />
                 <Route path="h5p/:h5pId" element={<H5pPage />} />
-                <Route path="minndla" element={<PrivateRoute element={<MyNdlaLayout />} />}>
+                <Route
+                  path="minndla"
+                  element={
+                    <NoSSR fallback={null}>
+                      <MyNdlaLayout />
+                    </NoSSR>
+                  }
+                >
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
-                    <Route index element={<FoldersPage />} />
+                    <Route index element={<PrivateRoute element={<FoldersPage />} />} />
                     <Route path="preview/:folderId">
-                      <Route index element={<PreviewFoldersPage />} />
-                      <Route path=":subfolderId" element={<PreviewFoldersPage />} />
-                      <Route path=":subfolderId/:resourceId" element={<PreviewFoldersPage />} />
+                      <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
+                      <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
+                      <Route
+                        path=":subfolderId/:resourceId"
+                        element={<PrivateRoute element={<PreviewFoldersPage />} />}
+                      />
                     </Route>
-                    <Route path=":folderId" element={<FoldersPage />} />
+                    <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
                   <Route path="arena">
-                    <Route index element={<ArenaPage />} />
-                    <Route path="category/new" element={<NewCategoryPage />} />
+                    <Route index element={<PrivateRoute element={<ArenaPage />} />} />
+                    <Route path="category/new" element={<PrivateRoute element={<NewCategoryPage />} />} />
                     <Route path="category/:categoryId">
-                      <Route index element={<TopicPage />} />
-                      <Route path="edit" element={<CategoryEditPage />} />
-                      <Route path="topic/new" element={<NewTopicPage />} />
+                      <Route index element={<PrivateRoute element={<TopicPage />} />} />
+                      <Route path="edit" element={<PrivateRoute element={<CategoryEditPage />} />} />
+                      <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
                     </Route>
-                    <Route path="topic/:topicId" element={<PostsPage />} />
-                    <Route path="notifications" element={<ArenaNotificationPage />} />
-                    <Route path="user/:username" element={<ArenaUserPage />} />
+                    <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
+                    <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
+                    <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
                   </Route>
                   <Route path="admin">
-                    <Route index element={<ArenaAdminPage />} />
-                    <Route path="users" element={<ArenaUserListPage />} />
+                    <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
+                    <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
                     <Route path="flags">
-                      <Route index element={<ArenaFlagPage />} />
-                      <Route path=":postId" element={<ArenaSingleFlagPage />} />
+                      <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
+                      <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
                   <Route path="tags">
-                    <Route index element={<TagsPage />} />
-                    <Route path=":tag" element={<TagsPage />} />
+                    <Route index element={<PrivateRoute element={<TagsPage />} />} />
+                    <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
                   </Route>
-                  <Route path="subjects" element={<FavoriteSubjectsPage />} />
-                  <Route path="profile" element={<MyProfilePage />} />
+                  <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
+                  <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 

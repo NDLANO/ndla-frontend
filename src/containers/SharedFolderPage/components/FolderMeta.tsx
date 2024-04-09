@@ -44,7 +44,7 @@ const FolderMeta = ({ folder, title }: Props) => {
       <StyledOneColumn>
         {folder.status !== "shared" ? (
           <MessageBox>
-            <InformationOutline ariaHidden />
+            <InformationOutline />
             {t("myNdla.folder.sharing.previewInformation")}
           </MessageBox>
         ) : null}

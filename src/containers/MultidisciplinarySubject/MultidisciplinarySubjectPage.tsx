@@ -37,6 +37,7 @@ const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
     subject(id: $subjectId) {
       subjectpage {
+        id
         about {
           title
         }

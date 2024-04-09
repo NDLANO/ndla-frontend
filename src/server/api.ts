@@ -19,6 +19,7 @@ import { sendResponse } from "./serverHelpers";
 import config from "../config";
 import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
+import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
@@ -29,7 +30,7 @@ const router = express.Router();
 router.get("/robots.txt", (req, res) => {
   // Using ndla.no robots.txt
   if (req.hostname === "ndla.no") {
-    res.sendFile("robots.txt", { root: "public/static" });
+    res.sendFile("robots.txt", { root: "build/public/static" });
   } else {
     res.type("text/plain");
     res.send("User-agent: *\nDisallow: /");
@@ -37,7 +38,7 @@ router.get("/robots.txt", (req, res) => {
 });
 
 router.get("/.well-known/security.txt", (_, res) => {
-  res.sendFile(`security.txt`, { root: "public/static" });
+  res.sendFile(`security.txt`, { root: "build/public/static" });
 });
 
 router.get("/health", (_, res) => {
@@ -132,7 +133,7 @@ router.get("/logout/session", (req, res) => {
   const state = typeof req.query.state === "string" ? req.query.state : "/";
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
-  const redirect = wasPrivateRoute ? constructNewPath("/", basename) : state;
+  const redirect = wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : state;
   res.setHeader("Cache-Control", "private");
   return res.redirect(redirect);
 });

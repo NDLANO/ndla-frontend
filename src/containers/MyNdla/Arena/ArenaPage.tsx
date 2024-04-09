@@ -17,6 +17,7 @@ import { Spinner } from "@ndla/icons";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
+import { TopicActions, TopicButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -60,7 +61,10 @@ const ArenaPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper
+      buttons={user?.isModerator && <TopicButtons />}
+      dropDownMenu={user?.isModerator && <TopicActions />}
+    >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
         {t("myNdla.arena.title")}

@@ -168,8 +168,14 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         <HomeBreadcrumb items={crumbs} />
         <FrontpageArticle
           id={SKIP_TO_CONTENT_ID}
-          article={article}
-          licenseBox={<LicenseBox article={article} copyText={article?.metaData?.copyText} />}
+          article={{ ...article, ...article.transformedContent }}
+          licenseBox={
+            <LicenseBox
+              article={article}
+              copyText={article?.transformedContent?.metaData?.copyText}
+              oembed={undefined}
+            />
+          }
         />
       </StyledMain>
       <AboutPageFooter frontpage={frontpage} />
@@ -181,14 +187,16 @@ export const aboutPageFragments = {
   article: gql`
     fragment AboutPage_Article on Article {
       id
-      content
       introduction
       created
       updated
       slug
       published
-      metaData {
-        copyText
+      transformedContent(transformArgs: $transformArgs) {
+        content
+        metaData {
+          copyText
+        }
       }
       ...LicenseBox_Article
       ...StructuredArticleData

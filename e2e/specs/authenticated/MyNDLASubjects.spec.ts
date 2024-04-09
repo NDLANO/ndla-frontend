@@ -15,11 +15,12 @@ test.beforeEach(async ({ page }) => {
     operation: [
       {
         fixture: "minndla_subjects_mydata",
-        names: ["allSubjects", "mastheadFrontpage", "myNdlaData"],
+        names: ["myNdlaData"],
       },
+      { fixture: "minndla_subjects_allSubjects", names: ["allSubjects"] },
       {
         fixture: "minndla_subjects_mydata",
-        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "myNdlaData", "allSubjects"],
+        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "myNdlaData"],
       },
       {
         fixture: "minndla_subjects_subjects",
