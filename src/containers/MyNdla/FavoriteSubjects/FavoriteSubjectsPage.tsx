@@ -22,7 +22,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
 import { buttonCss, iconCss } from "../components/toolbarStyles";
-import { useSubjects } from "../subjectQueries";
+import { useFavouriteSubjects } from "../folderMutations";
 
 const StyledSubjectLink = styled(SubjectLink)`
   border: 1px solid ${colors.brand.neutral7};
@@ -53,15 +53,12 @@ const StyledListItem = styled.li`
 
 const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
-  const { loading, subjects } = useSubjects();
   const { user, authContextLoaded } = useContext(AuthContext);
+  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects ?? [], {
+    skip: !user?.favoriteSubjects.length,
+  });
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
-
-  const favoriteSubjects = useMemo(() => {
-    if (loading || !subjects || !user?.favoriteSubjects) return [];
-    return subjects.filter((s) => user.favoriteSubjects.includes(s.id));
-  }, [loading, user?.favoriteSubjects, subjects]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -99,7 +96,7 @@ const FavoriteSubjectsPage = () => {
     [t, navigate],
   );
 
-  if (loading) {
+  if (favouriteSubjectsQuery.loading) {
     return <Spinner />;
   }
 
@@ -108,13 +105,13 @@ const FavoriteSubjectsPage = () => {
       <Wrapper>
         <HelmetWithTracker title={t("myNdla.favoriteSubjects.title")} />
         <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
-        {loading ? (
+        {favouriteSubjectsQuery.loading ? (
           <Spinner />
-        ) : !favoriteSubjects?.length ? (
+        ) : !favouriteSubjectsQuery.data?.subjects?.length ? (
           <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
         ) : (
           <StyledUl>
-            {favoriteSubjects.map((subject) => (
+            {favouriteSubjectsQuery.data.subjects.map((subject) => (
               <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
           </StyledUl>

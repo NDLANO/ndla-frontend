@@ -1689,6 +1689,7 @@ export type GQLQuerySubjectpageArgs = {
 
 export type GQLQuerySubjectsArgs = {
   filterVisible?: InputMaybe<Scalars["Boolean"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
   metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -3539,6 +3540,15 @@ export type GQLRecentlyUsedQuery = {
     resourceType: string;
     created: string;
   }>;
+};
+
+export type GQLFavouriteSubjectsQueryVariables = Exact<{
+  ids: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
+}>;
+
+export type GQLFavouriteSubjectsQuery = {
+  __typename?: "Query";
+  subjects?: Array<{ __typename?: "Subject"; id: string; name: string; path: string }>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{

@@ -24,16 +24,18 @@ import TopicCard from "./Arena/components/TopicCard";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";
-import { useFolderResourceMetaSearch, useRecentlyUsedResources } from "./folderMutations";
+import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
+import SubjectLink from "../AllSubjectsPage/SubjectLink";
 
 const StyledPageContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.large};
 `;
 
 const StyledResourceList = styled.ul`
@@ -51,7 +53,6 @@ const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  margin-bottom: ${spacing.large};
 `;
 
 const StyledSafeLink = styled(SafeLink)`
@@ -76,11 +77,6 @@ const ListItem = styled.li`
   margin: 0;
 `;
 
-const StyledDescription = styled.p`
-  line-height: 1.5;
-  ${fonts.sizes("24px")};
-`;
-
 const LoginButton = styled(ButtonV2)`
   align-self: center;
   margin-block: ${spacing.normal} ${spacing.large};
@@ -88,13 +84,32 @@ const LoginButton = styled(ButtonV2)`
 
 const StyledCampaignBlock = styled(CampaignBlock)`
   max-width: 100%;
-  margin-bottom: ${spacing.normal};
+`;
+
+const StyledText = styled(Text)`
+  font-weight: ${fonts.weight.normal};
+`;
+
+const StyledUl = styled.ul`
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+const StyledSubjectLink = styled(SubjectLink)`
+  padding: 0;
+  border-radius: 2px;
+  width: 100%;
 `;
 
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
+  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.slice(0, 4) ?? [], {
+    skip: !user?.favoriteSubjects.length,
+  });
   const { allFolderResources } = useRecentlyUsedResources();
   const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
@@ -124,12 +139,14 @@ const MyNdlaPage = () => {
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
         <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
-        <TitleWrapper>
-          <MyNdlaTitle title={t("myNdla.myNDLA")} />
-        </TitleWrapper>
-        <StyledDescription>
-          {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
-        </StyledDescription>
+        <div>
+          <TitleWrapper>
+            <MyNdlaTitle title={t("myNdla.myNDLA")} />
+          </TitleWrapper>
+          <StyledText margin="small" textStyle="label-large">
+            {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
+          </StyledText>
+        </div>
         {!authenticated && (
           <Modal>
             <ModalTrigger>
@@ -175,6 +192,23 @@ const MyNdlaPage = () => {
             </StyledResourceList>
             <StyledSafeLink to="arena">
               {t("myNdla.myPage.recentArenaPosts.link")}
+              <ForwardArrow />
+            </StyledSafeLink>
+          </SectionWrapper>
+        )}
+        {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
+          <SectionWrapper>
+            <Heading element="h2" headingStyle="h2" margin="none">
+              {t("myNdla.favoriteSubjects.title")}
+            </Heading>
+            <StyledUl>
+              {recentFavouriteSubjectsQuery.data?.subjects.map((subject) => (
+                <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
+              ))}
+            </StyledUl>
+
+            <StyledSafeLink to={routes.myNdla.subjects}>
+              {t("myNdla.myPage.favouriteSubjects.viewAll")}
               <ForwardArrow />
             </StyledSafeLink>
           </SectionWrapper>
