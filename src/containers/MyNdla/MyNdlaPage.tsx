@@ -110,7 +110,7 @@ const MyNdlaPage = () => {
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
-  const { allFolderResources } = useRecentlyUsedResources();
+  const { allFolderResources } = useRecentlyUsedResources(!authenticated);
   const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({

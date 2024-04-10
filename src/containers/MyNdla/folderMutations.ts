@@ -422,12 +422,13 @@ export const recentlyUsedQuery = gql`
   }
 `;
 
-export const useRecentlyUsedResources = () => {
+export const useRecentlyUsedResources = (skip?: boolean) => {
   const { cache } = useApolloClient();
   const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
     onCompleted: () => {
       cache.gc();
     },
+    skip: skip,
   });
 
   return { allFolderResources: data?.allFolderResources, ...rest };
