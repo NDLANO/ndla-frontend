@@ -10,7 +10,7 @@ Disallow: */article-iframe/*
 
 # Min NDLA
 Disallow: *login*
-Disallow: *minndla*
+Disallow: *logout*
 
 # status.ndla.no
 Disallow: /history/
