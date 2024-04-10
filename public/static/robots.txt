@@ -7,6 +7,7 @@ Disallow: /lti/
 Disallow: /search
 Disallow: /*/search*
 Disallow: */article-iframe/*
+Disallow: */embed-iframe/*
 
 # Min NDLA
 Disallow: *login*
