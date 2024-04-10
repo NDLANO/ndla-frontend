@@ -17,7 +17,7 @@ test.beforeEach(async ({ page }) => {
         fixture: "minndla_subjects_mydata",
         names: ["myNdlaData"],
       },
-      { fixture: "minndla_subjects_allSubjects", names: ["allSubjects"] },
+      { fixture: "minndla_subjects_favouriteSubjects", names: ["favouriteSubjects"] },
       {
         fixture: "minndla_subjects_mydata",
         names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "myNdlaData"],

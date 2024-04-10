@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
       },
       {
         fixture: "minndla_home_data",
-        names: ["folderResourceMetaSearch", "arenaRecentTopicsV2", "arenaNotificationsV2"],
+        names: ["folderResourceMetaSearch", "arenaRecentTopicsV2", "arenaNotificationsV2", "favouriteSubjects"],
       },
       {
         fixture: "minndla_home_folder",
