@@ -6,27 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["mastheadFrontpage", "mastheadProgramme", "frontpageData", "alerts"],
-        fixture: "frontpage_languageselector",
-      },
-      {
-        names: ["mastheadFrontpage", "frontpageData", "alerts"],
-        fixture: "frontpage",
-      },
-      {
-        names: ["mastheadProgramme"],
-        fixture: "frontpage_programme",
-      },
-    ],
-  });
   await page.goto("/?disableSSR=true");
 });
 

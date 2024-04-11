@@ -6,129 +6,97 @@
  *
  */
 
-import { readFile, writeFile, mkdir } from "fs/promises";
-import isEqual from "lodash/isEqual.js";
-import { Page } from "@playwright/test";
+import { readFile, writeFile } from "fs/promises";
+import { Page, test as Ptest, TestInfo } from "@playwright/test";
+
 const mockDir = "e2e/apiMocks/";
 
-interface MockRoute {
-  page: Page;
-  path: string | RegExp;
-  fixture: string;
-  overrideValue?: string | ((value: string) => string);
-  status?: number;
-  overrideRoute?: boolean;
-}
+const apiTestRegex = "https://api.test.ndla.no/.*";
 
-const skipHttpMethods = ["POST", "PATCH", "PUT", "DELETE"];
+interface ExtendParams {
+  harCheckpoint: () => Promise<void>;
+}
+const regex = new RegExp(`^(${apiTestRegex})$`);
+
+const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
+  const [_dir, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
+  return `${mockDir}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
+};
 
 /**
- *  Method for capturing and mocking calls that are not graphql calls.
- *  We only per now capture get methods.
- *
+ * Extending the playwright test object with a checkpoint function.
+ * The checkpoint function helps us differentiate between subsequent
+ * requests, and allows us to more easily mock recurring calls.
  */
-export const mockRoute = async ({ page, path, fixture, overrideValue, overrideRoute, status = 200 }: MockRoute) => {
-  if (overrideRoute) {
-    await page.unroute(path);
-  }
+export const test = Ptest.extend<ExtendParams>({
+  harCheckpoint: [
+    async ({ context, page }, use) => {
+      let checkpointIndex = 0;
 
-  return await page.route(path, async (route) => {
-    if (process.env.RECORD_FIXTURES === "true") {
-      const text = skipHttpMethods.includes(route.request().method()) ? "" : await (await route.fetch()).text();
-      const override = overrideValue
-        ? typeof overrideValue === "string"
-          ? overrideValue
-          : overrideValue(text)
-        : undefined;
-      await mkdir(mockDir, { recursive: true });
-      await writeFile(`${mockDir}${fixture}.json`, override ?? text, {
-        flag: "w",
+      // Appending the checkpoint index to the request headers
+      // Only appended for the stored headers in the HAR file
+      await context.route(
+        regex,
+        async (route, request) =>
+          await route.fallback({
+            headers: {
+              ...request.headers(),
+              "X-Playwright-Checkpoint": `${checkpointIndex}`,
+            },
+          }),
+      );
+
+      // Appending the checkpoint index to the request headers
+      if (process.env.RECORD_FIXTURES === "true") {
+        await page.setExtraHTTPHeaders({
+          "X-Playwright-Checkpoint": `${checkpointIndex}`,
+        });
+      }
+
+      // Appending the new checkpoint index to the request headers
+      await use(async () => {
+        checkpointIndex += 1;
+        process.env.RECORD_FIXTURES !== "true" &&
+          (await page.setExtraHTTPHeaders({
+            "X-Playwright-Checkpoint": `${checkpointIndex}`,
+          }));
       });
-      return route.fulfill({ body: text, status });
-    } else {
-      try {
-        const res = await readFile(`${mockDir}${fixture}.json`, "utf8");
-        return route.fulfill({ body: res, status });
-      } catch (e) {
-        route.abort();
-      }
-    }
-  });
-};
+    },
+    { auto: true, scope: "test" },
+  ],
+  page: async ({ page }, use, testInfo) => {
+    // Creating the API mocking for the wanted API's
+    await page.routeFromHAR(mockFile(testInfo), {
+      update: process.env.RECORD_FIXTURES === "true",
+      updateMode: "minimal",
+      url: regex,
+      updateContent: "embed",
+    });
 
-interface GraphqlMockRoute {
-  page: Page;
-  operation: {
-    names: string[];
-    fixture: string;
-  }[];
-  overrideRoute?: boolean;
-}
+    await use(page);
 
-interface GQLBody {
-  operationName: string;
-  variables: Record<string, string>;
-  query: string;
-}
+    await page.close();
+  },
+  context: async ({ context }, use, testInfo) => {
+    await use(context);
+    await context.close();
 
-/**
- * Method for capturing multiple graphql calls.
- * Graphql calls comes in batches of operations
- * and this method accepts an object with an array of
- * batches GQL operations and fixture name. The call is
- * only recorded/mocked if the batched operation names
- * match the gql body operation names
- *
- */
-export const mockGraphqlRoute = async ({ page, operation }: GraphqlMockRoute) => {
-  return await page.route("**/graphql-api/graphql", async (route) => {
+    // Removing sensitive data from the HAR file after saving. Har files are saved on close.
     if (process.env.RECORD_FIXTURES === "true") {
-      const body: GQLBody[] | GQLBody = await route.request().postDataJSON();
-      const resp = await route.fetch();
-      const text = await resp.text();
-
-      const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
-
-      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
-
-      if (match) {
-        await mkdir(mockDir, { recursive: true });
-        await writeFile(`${mockDir}${match.fixture}.json`, text, {
-          flag: "w",
-        });
-        return route.fulfill({
-          body: text,
-        });
-      }
-    } else {
-      const body = await route.request().postDataJSON();
-      const bodyOperationNames = Array.isArray(body) ? body.map((b) => b.operationName) : [body.operationName];
-
-      const match = operation.filter((op) => isEqual(bodyOperationNames.sort(), op.names.sort())).pop();
-
-      if (match) {
-        try {
-          const res = await readFile(`${mockDir}${match.fixture}.json`, "utf-8");
-          return route.fulfill({
-            contentType: "application/json",
-            body: res,
-          });
-        } catch (e) {
-          route.abort();
-        }
-      } else {
-        const bodyOpNames = `[${bodyOperationNames.sort()}]`;
-        const availableOpNames = `[${operation.map((op) => `[${op.names}]`)}]`;
-        console.error(
-          `[ERROR] Operationname array does not match any results. Update mock array and rerecord test. Operationname: ${bodyOpNames}. Available values: ${availableOpNames}`,
-        );
-      }
+      await removeSensitiveData(mockFile(testInfo));
     }
-  });
-};
+  },
+});
 
 export const mockWaitResponse = async (page: Page, url: string) => {
   if (process.env.RECORD_FIXTURES === "true") {
     await page.waitForResponse(url);
   }
+};
+
+// Method to remove sensitive data from the HAR file
+// Currently only working to write har file as a single line
+const removeSensitiveData = async (fileName: string) => {
+  const data = JSON.parse(await readFile(fileName, "utf8"));
+  await writeFile(fileName, JSON.stringify(data), "utf8");
 };

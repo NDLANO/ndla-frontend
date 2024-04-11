@@ -6,28 +6,14 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
 test("shows students", async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
-        fixture: "toolbox",
-      },
-      {
-        names: ["toolboxSubjectPage", "mastHead"],
-        fixture: "toolbox_subject_students",
-      },
-    ],
-  });
-
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("menuitem", { name: "Verktøykassa - for elever" }).click();
   await mockWaitResponse(page, "**/graphql-api/*");
@@ -41,20 +27,6 @@ test("shows students", async ({ page }) => {
 });
 
 test("shows teachers", async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["alerts", "mastheadFrontpage", "mastheadProgramme", "frontpageData"],
-        fixture: "toolbox",
-      },
-      {
-        names: ["toolboxSubjectPage", "mastHead"],
-        fixture: "toolbox_subject_teachers",
-      },
-    ],
-  });
-
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("menuitem", { name: "Verktøykassa - for lærere" }).click();
   await mockWaitResponse(page, "**/graphql-api/*");

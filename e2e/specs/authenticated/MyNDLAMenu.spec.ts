@@ -6,43 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        fixture: "minndla_menu_myndladata",
-        names: ["arenaNotificationsV2", "arenaRecentTopicsV2", "folderResourceMetaSearch"],
-      },
-      {
-        fixture: "arena_notifications",
-        names: ["arenaNotificationsV2"],
-      },
-      {
-        fixture: "minndla_menu_folder",
-        names: ["foldersPage"],
-      },
-      {
-        fixture: "minndla_menu_subjects",
-        names: ["allSubjects"],
-      },
-      {
-        names: ["myNdlaData", "recentlyUsed"],
-        fixture: "minndla_menu_recentlyused",
-      },
-      {
-        names: ["arenaNotificationsV2", "foldersPage"],
-        fixture: "minndla_menu_folders",
-      },
-      {
-        fixture: "myndla_menu_masthead",
-        names: ["mastheadFrontpage", "mastheadProgramme", "alerts", "myNdlaData", "recentlyUsed"],
-      },
-    ],
-  });
   await page.goto("/minndla");
 });
 
