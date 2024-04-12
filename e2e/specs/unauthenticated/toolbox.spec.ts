@@ -21,9 +21,9 @@ test("shows students", async ({ page }) => {
 
   await expect(page.getByTestId("nav-box-item")).toHaveCount(16);
 
-  const links = await page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link").all();
+  const links = page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link");
 
-  expect(links.length).toEqual(16);
+  await expect(links).toHaveCount(16);
 });
 
 test("shows teachers", async ({ page }) => {
@@ -34,7 +34,7 @@ test("shows teachers", async ({ page }) => {
 
   await expect(page.getByTestId("nav-box-item")).toHaveCount(13);
 
-  const links = await page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link").all();
+  const links = page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link");
 
-  expect(links.length).toEqual(13);
+  await expect(links).toHaveCount(13);
 });
