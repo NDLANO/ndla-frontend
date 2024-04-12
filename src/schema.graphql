@@ -1162,7 +1162,7 @@ type Query {
   sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
-  subjects(filterVisible: Boolean, metadataFilterKey: String, metadataFilterValue: String): [Subject!]
+  subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }

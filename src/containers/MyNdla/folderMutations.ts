@@ -21,6 +21,8 @@ import {
   GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
+  GQLFavouriteSubjectsQuery,
+  GQLFavouriteSubjectsQueryVariables,
   GQLFolder,
   GQLFolderResourceMetaQuery,
   GQLFolderResourceMetaSearchInput,
@@ -420,15 +422,37 @@ export const recentlyUsedQuery = gql`
   }
 `;
 
-export const useRecentlyUsedResources = () => {
+export const useRecentlyUsedResources = (skip?: boolean) => {
   const { cache } = useApolloClient();
   const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
     onCompleted: () => {
       cache.gc();
     },
+    skip: skip,
   });
 
   return { allFolderResources: data?.allFolderResources, ...rest };
+};
+
+export const favouriteSubjects = gql`
+  query favouriteSubjects($ids: [String!]!) {
+    subjects(ids: $ids) {
+      id
+      name
+      path
+    }
+  }
+`;
+
+export const useFavouriteSubjects = (
+  ids: string[],
+  options?: Omit<QueryHookOptions<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
+) => {
+  const queryResult = useGraphQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
+    variables: { ids },
+    ...options,
+  });
+  return queryResult;
 };
 
 export const useAddFolderMutation = () => {

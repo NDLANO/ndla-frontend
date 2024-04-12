@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
     operation: [
       {
         fixture: "minndla_menu_myndladata",
-        names: ["arenaNotificationsV2", "arenaRecentTopicsV2", "folderResourceMetaSearch"],
+        names: ["arenaNotificationsV2", "arenaRecentTopicsV2", "favouriteSubjects", "folderResourceMetaSearch"],
       },
       {
         fixture: "arena_notifications",
@@ -27,7 +27,7 @@ test.beforeEach(async ({ page }) => {
       },
       {
         fixture: "minndla_menu_subjects",
-        names: ["allSubjects"],
+        names: ["favouriteSubjects"],
       },
       {
         names: ["myNdlaData", "recentlyUsed"],
