@@ -23,6 +23,7 @@ import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
 import { buttonCss, iconCss } from "../components/toolbarStyles";
 import { useFavouriteSubjects } from "../folderMutations";
+import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
 const StyledSubjectLink = styled(SubjectLink)`
   border: 1px solid ${colors.brand.neutral7};
@@ -59,6 +60,10 @@ const FavoriteSubjectsPage = () => {
   });
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
+
+  const sortedSubjects = useMemo(() => {
+    return sortSubjectsByRecentlyFavourited(favouriteSubjectsQuery.data?.subjects ?? [], user?.favoriteSubjects ?? []);
+  }, [favouriteSubjectsQuery.data?.subjects, user?.favoriteSubjects]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -111,7 +116,7 @@ const FavoriteSubjectsPage = () => {
           <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
         ) : (
           <StyledUl>
-            {favouriteSubjectsQuery.data.subjects.map((subject) => (
+            {sortedSubjects.map((subject) => (
               <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
           </StyledUl>

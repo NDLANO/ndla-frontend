@@ -7,7 +7,7 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -26,6 +26,7 @@ import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";
 import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
+import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
@@ -123,6 +124,13 @@ const MyNdlaPage = () => {
     },
   );
 
+  const sortedSubjects = useMemo(() => {
+    return sortSubjectsByRecentlyFavourited(
+      recentFavouriteSubjectsQuery.data?.subjects ?? [],
+      user?.favoriteSubjects ?? [],
+    );
+  }, [recentFavouriteSubjectsQuery.data?.subjects, user?.favoriteSubjects]);
+
   useEffect(() => {
     if (!authContextLoaded) return;
     trackPageView({
@@ -202,7 +210,7 @@ const MyNdlaPage = () => {
               {t("myNdla.favoriteSubjects.title")}
             </Heading>
             <StyledUl>
-              {recentFavouriteSubjectsQuery.data?.subjects.map((subject) => (
+              {sortedSubjects.map((subject) => (
                 <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
               ))}
             </StyledUl>
