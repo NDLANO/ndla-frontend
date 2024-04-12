@@ -7,6 +7,7 @@
  */
 
 @import url("@ndla/ui/lib/all.css");
+@layer reset, base, tokens, recipes, utilities;
 
 .c-topic-resource__item--hidden {
   display: none;

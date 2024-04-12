@@ -12,12 +12,11 @@ import { useState, useRef, useEffect, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useLazyQuery } from "@apollo/client";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Drawer, Modal, ModalTrigger } from "@ndla/modal";
+import { Button, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { SearchField, SearchResultSleeve, SearchFieldForm } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -40,45 +39,54 @@ interface Props {
   subject?: GQLMastheadSearch_SubjectFragment;
 }
 
-const StyledButton = styled(ButtonV2)`
-  padding: ${spacing.small} ${spacing.normal};
-  gap: ${spacing.medium};
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+const StyledButton = styled(Button, {
+  base: {
+    paddingY: "small",
+    paddingX: "normal",
+    fontWeight: "semibold",
+    gap: "medium",
+    "& svg": {
+      width: "normal",
+      height: "normal",
+    },
+    desktopDown: {
+      borderRadius: "full",
+      background: "transparent",
+      borderColor: "transparent",
+      padding: "xsmall",
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    border-radius: 100%;
-    background: transparent;
-    border-color: transparent;
-    padding: ${spacing.xsmall};
-    span {
-      display: none;
-    }
-  }
-`;
+const StyledCloseButton = styled(IconButton, {
+  base: {
+    marginTop: "xsmall",
+  },
+});
 
-const StyledCloseButton = styled(IconButtonV2)`
-  margin-top: ${spacing.xsmall};
-`;
+const SearchWrapper = styled("div", {
+  base: {
+    width: "full",
+    padding: "normal",
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    desktop: {
+      width: "60%",
+    },
+  },
+});
 
-const SearchWrapper = styled.div`
-  width: 100%;
-  padding: ${spacing.normal} ${spacing.normal};
-  display: flex;
-  align-items: flex-start;
-  gap: ${spacing.xsmall};
-  ${mq.range({ from: breakpoints.desktop })} {
-    width: 60%;
-  }
-`;
-
-const StyledDrawer = styled(Drawer)`
-  background-color: ${colors.brand.greyLightest};
-  display: flex;
-  justify-content: center;
-`;
+const StyledDrawer = styled(Drawer, {
+  base: {
+    backgroundColor: "brand.greyLightest",
+    display: "flex",
+    justifyContent: "center",
+  },
+});
 
 const MastheadSearch = ({ subject }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -191,7 +199,6 @@ const MastheadSearch = ({ subject }: Props) => {
           colorTheme={ndlaFilm ? "primary" : "greyLighter"}
           aria-label={t("masthead.menu.search")}
           title={t("masthead.menu.search")}
-          fontWeight="normal"
         >
           <span>{t("masthead.menu.search")}</span>
           <Search />
