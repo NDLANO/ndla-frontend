@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
@@ -42,12 +41,6 @@ const StyledParagraph = styled.p`
   margin: 0;
 `;
 
-const FieldInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-`;
-
 export interface FolderFormValues {
   name: string;
   description?: string;
@@ -66,29 +59,13 @@ const nameMaxLength = 64;
 const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const {
-    control,
-    trigger,
-    handleSubmit,
-    formState: { isValid, isDirty, errors },
-  } = useForm({
-    defaultValues: toFormValues(folder, t),
-    reValidateMode: "onChange",
-    mode: "all",
-  });
+  const { control, handleSubmit } = useForm({ defaultValues: toFormValues(folder, t) });
 
-  // Validate on mount.
-  useEffect(() => {
-    trigger();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onSubmit = (values: FolderFormValues) => onSave(values);
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSave)} noValidate>
       <Controller
-        name="name"
         control={control}
+        name="name"
         rules={{
           required: validationT({ type: "required", field: "name" }),
           maxLength: {
@@ -107,16 +84,14 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
             return true;
           },
         }}
-        render={({ field }) => (
-          <FormControl id="name" isRequired isInvalid={!!errors.name?.message}>
+        render={({ field, fieldState }) => (
+          <FormControl id="name" isInvalid={!!fieldState.error?.message}>
             <Label textStyle="label-small" margin="none">
               {t("validation.fields.name")}
             </Label>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <InputV3 {...field} />
-            <FieldInfoWrapper>
-              <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
-              <FieldErrorMessage>{errors.name?.message}</FieldErrorMessage>
-            </FieldInfoWrapper>
+            <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
           </FormControl>
         )}
       />
@@ -133,16 +108,14 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
             }),
           },
         }}
-        render={({ field }) => (
-          <FormControl id="description" isInvalid={!!errors.description?.message}>
+        render={({ field, fieldState }) => (
+          <FormControl id="description" isInvalid={!!fieldState.error?.message}>
             <Label textStyle="label-small" margin="none">
               {t("validation.fields.description")}
             </Label>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <TextAreaV3 {...field} />
-            <FieldInfoWrapper>
-              <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
-              <FieldErrorMessage>{errors.description?.message}</FieldErrorMessage>
-            </FieldInfoWrapper>
+            <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
           </FormControl>
         )}
       />
@@ -151,7 +124,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         <ModalCloseButton>
           <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
         </ModalCloseButton>
-        <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={!isValid || !isDirty || loading}>
+        <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={loading}>
           {t("save")}
         </LoadingButton>
       </ButtonRow>

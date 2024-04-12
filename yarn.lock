@@ -3126,12 +3126,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.5.2":
-  version: 6.5.2
-  resolution: "@ndla/article-converter@npm:6.5.2"
+"@ndla/article-converter@npm:^6.5.3":
+  version: 6.5.3
+  resolution: "@ndla/article-converter@npm:6.5.3"
   dependencies:
     "@ndla/code": "npm:^5.0.55"
-    "@ndla/ui": "npm:^50.14.2"
+    "@ndla/ui": "npm:^50.14.3"
     html-react-parser: "npm:^5.1.8"
     lodash: "npm:^4.17.20"
   peerDependencies:
@@ -3142,7 +3142,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/3331c156d5d8e17745d494ef8468e4a5a753b5509c0d0a90c6377a436ab196c2fbc01623b4879f7bfa82b65cb4ce4de3c5856cfc3a7dc7d2461fca2c02d3982e
+  checksum: 10c0/c31d2af4d3b69de9febcef4db8015dec82d27069abb8ecc07de0aa8eb461e6ab99d040294fb48c9b1b87648c7fc612e43fd35b7414b05ce324ee6bab660105df
   languageName: node
   linkType: hard
 
@@ -3234,13 +3234,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/forms@npm:^7.0.13":
-  version: 7.0.13
-  resolution: "@ndla/forms@npm:7.0.13"
+"@ndla/forms@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "@ndla/forms@npm:7.1.0"
   dependencies:
     "@ndla/core": "npm:^4.5.3"
     "@ndla/icons": "npm:^6.1.1"
-    "@ndla/pager": "npm:^3.0.5"
+    "@ndla/pager": "npm:^3.0.6"
     "@ndla/typography": "npm:^0.4.17"
     "@ndla/util": "npm:^4.0.4"
     "@radix-ui/react-checkbox": "npm:^1.0.4"
@@ -3251,7 +3251,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
-  checksum: 10c0/09dcebff55599a099bc5ed699307744991f0a6f24b7de01b52ddba2b086c2f1b8750e96435da66d932b2b2e02128632bf000ddefdb4f436a369bfba5360c732c
+  checksum: 10c0/dae600e1410c0dcf5e08df0da32f8cbbdc2c2936e67b6a100c6b9f7d0eaed84b2890016227283b042a80159d6a3091bfeba0f1254c87887fb90392d8631b0220
   languageName: node
   linkType: hard
 
@@ -3322,23 +3322,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/pager@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "@ndla/pager@npm:3.0.5"
+"@ndla/pager@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "@ndla/pager@npm:3.0.6"
   dependencies:
     "@ndla/core": "npm:^4.5.3"
-    "@ndla/safelink": "npm:^5.0.5"
+    "@ndla/safelink": "npm:^5.1.0"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
-  checksum: 10c0/a60c4b84af1af1296516543ec0ef056f9e3a11beea1445b2a1153a7631b06c385e4e1754c6cdf2663aea56281f0c0677d6750e20f2b9777799478a7409178760
+  checksum: 10c0/aafc43411b297a1c973cafd4aa3ee4194d02fde142d3da19d4e05d93aa76ba5d69053467add6c06ee41f51348e74116363a17c9879cfb8adcd0f3cdc1d5073c2
   languageName: node
   linkType: hard
 
-"@ndla/safelink@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "@ndla/safelink@npm:5.0.5"
+"@ndla/safelink@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@ndla/safelink@npm:5.1.0"
   dependencies:
     "@ndla/button": "npm:^12.0.43"
     "@ndla/icons": "npm:^6.1.1"
@@ -3347,7 +3347,7 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 16.8.0"
     react-router-dom: ^6.3.0
-  checksum: 10c0/3e77f9d4118e3eb1dff51984fc39ab0a5b6c092d114596b0e60c2e845af03d1607f99e534d01089902ad67271f602f4b2ac0eb6ed67ab86beeb5219f7d8f6e2b
+  checksum: 10c0/d3044b4a0230678e70ba6cadc99ff65b74de0a0ff6ef68061aff912cd727be43738f0474366a19fd791bb333476b60d625d837cbc5fa7b4334f6098b887f45d0
   languageName: node
   linkType: hard
 
@@ -3475,22 +3475,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.14.2":
-  version: 50.14.2
-  resolution: "@ndla/ui@npm:50.14.2"
+"@ndla/ui@npm:^50.14.3":
+  version: 50.14.3
+  resolution: "@ndla/ui@npm:50.14.3"
   dependencies:
     "@ndla/accordion": "npm:^3.0.40"
     "@ndla/button": "npm:^12.0.43"
     "@ndla/carousel": "npm:^4.0.41"
     "@ndla/core": "npm:^4.5.3"
     "@ndla/dropdown-menu": "npm:^1.0.34"
-    "@ndla/forms": "npm:^7.0.13"
+    "@ndla/forms": "npm:^7.1.0"
     "@ndla/hooks": "npm:^2.1.5"
     "@ndla/icons": "npm:^6.1.1"
     "@ndla/licenses": "npm:^7.2.5"
     "@ndla/modal": "npm:^5.0.40"
     "@ndla/notion": "npm:^6.0.41"
-    "@ndla/safelink": "npm:^5.0.5"
+    "@ndla/safelink": "npm:^5.1.0"
     "@ndla/select": "npm:^3.3.15"
     "@ndla/switch": "npm:^1.1.40"
     "@ndla/tabs": "npm:^4.0.3"
@@ -3515,7 +3515,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/4a6784f377055ab411685f79a74092da5e03ebbc4c26a3521342d59737eef721efaa95e190e5cbf8442d79be80cbe69010be4259278b59d3ec7f9ccfab20e66b
+  checksum: 10c0/536b84c624e54f4a85a88d772036d54f1ce7234116616071e08c4a4b1620f83a3560168bd0ce84f102364255b1f1813a698ef3c0a18687e7fc557868f513ceb3
   languageName: node
   linkType: hard
 
@@ -10909,17 +10909,17 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.5.2"
+    "@ndla/article-converter": "npm:^6.5.3"
     "@ndla/button": "npm:^12.0.43"
     "@ndla/core": "npm:^4.5.3"
     "@ndla/dropdown-menu": "npm:^1.0.34"
     "@ndla/error-reporter": "npm:^2.0.0"
-    "@ndla/forms": "npm:^7.0.13"
+    "@ndla/forms": "npm:^7.1.0"
     "@ndla/icons": "npm:^6.1.1"
     "@ndla/licenses": "npm:^7.2.5"
     "@ndla/modal": "npm:^5.0.40"
-    "@ndla/pager": "npm:^3.0.5"
-    "@ndla/safelink": "npm:^5.0.5"
+    "@ndla/pager": "npm:^3.0.6"
+    "@ndla/safelink": "npm:^5.1.0"
     "@ndla/scripts": "npm:^2.1.2"
     "@ndla/select": "npm:^3.3.15"
     "@ndla/tabs": "npm:^4.0.3"
@@ -10928,7 +10928,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.1.4"
     "@ndla/types-taxonomy": "npm:^1.0.22"
     "@ndla/typography": "npm:^0.4.17"
-    "@ndla/ui": "npm:^50.14.2"
+    "@ndla/ui": "npm:^50.14.3"
     "@ndla/util": "npm:^4.0.4"
     "@playwright/test": "npm:^1.43.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
@@ -10967,7 +10967,7 @@ __metadata:
     react-device-detect: "npm:^2.2.3"
     react-dom: "npm:^18.2.0"
     react-helmet-async: "npm:^1.3.0"
-    react-hook-form: "npm:^7.49.3"
+    react-hook-form: "npm:^7.51.3"
     react-i18next: "npm:^13.3.0"
     react-router-dom: "npm:^6.3.0"
     serialize-javascript: "npm:^6.0.0"
@@ -12492,12 +12492,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.49.3":
-  version: 7.49.3
-  resolution: "react-hook-form@npm:7.49.3"
+"react-hook-form@npm:^7.51.3":
+  version: 7.51.3
+  resolution: "react-hook-form@npm:7.51.3"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18
-  checksum: 10c0/f8e5b2dcc3d97c820b4fbac262d7e914d74f385f26f34da31b8efc6c0f32ba995f2a2330bdfd3d8b7c8b56a52349a0cbc0c0dbe9053b3971e5e0c78003dfb7f0
+  checksum: 10c0/dd7dfc8514df19a13b7647b3faebdcb1329723afb52454626496eeaa657323d42bab12dc85e6b77d758a166c6427fa87f13c5bd9f5f78666c682e8263117e297
   languageName: node
   linkType: hard
 
