@@ -92,6 +92,7 @@ const TopicPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
   const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
+  const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;
 
   return (
     <MyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
@@ -114,7 +115,7 @@ const TopicPage = () => {
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
       </Text>
-      {(arenaCategory.subcategories || user?.isModerator) && (
+      {showCategories && (
         <>
           <StyledContainer>
             <Heading element="h2" headingStyle="h2" margin="none">
