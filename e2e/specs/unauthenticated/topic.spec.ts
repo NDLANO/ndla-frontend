@@ -27,7 +27,7 @@ test("contains article header and introduction", async ({ page }) => {
     .getByRole("link", { name: "Idéskaping og mediedesign" })
     .click();
   await mockWaitResponse(page, "**/graphql-api/*");
-  expect(page.getByRole("heading", { name: "Idéskaping og mediedesign" })).toBeDefined();
+  await expect(page.getByRole("heading", { name: "Idéskaping og mediedesign" })).toBeVisible();
 });
 
 test("show have functioning language box", async ({ page }) => {
@@ -44,6 +44,6 @@ test("show have functioning language box", async ({ page }) => {
 
   await mockWaitResponse(page, "**/graphql-api/*");
 
-  expect(page.getByRole("heading", { name: "Tverrfaglige medieoppdrag" })).toBeDefined();
-  expect(page.getByRole("button", { name: "Vis hele emnebeskrivelsen" })).toBeDefined();
+  await expect(page.getByRole("heading", { name: "Tverrfaglige medieoppdrag" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Vis hele emnebeskrivelsen" })).toBeVisible();
 });
