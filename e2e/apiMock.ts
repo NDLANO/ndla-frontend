@@ -11,7 +11,7 @@ import { Page, test as Ptest, TestInfo } from "@playwright/test";
 
 const mockDir = "e2e/apiMocks/";
 
-const apiTestRegex = "https://api.test.ndla.no/.*";
+const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
 
 interface ExtendParams {
   harCheckpoint: () => Promise<void>;
