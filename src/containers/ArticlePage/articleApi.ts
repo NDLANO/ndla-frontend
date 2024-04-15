@@ -8,12 +8,14 @@
 
 import { IArticleV2 } from "@ndla/types-backend/article-api";
 import { OembedResponse } from "../../interfaces";
-import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from "../../util/apiHelpers";
+import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 
 export const fetchArticle = (id: string | number, locale: string): Promise<IArticleV2> =>
-  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(resolveJsonOrRejectWithError);
+  fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(
+    (r) => resolveJsonOrRejectWithError(r) as Promise<IArticleV2>,
+  );
 
 export const fetchArticleOembed = (url: string): Promise<OembedResponse> =>
-  fetch(`/oembed?url=${url}`).then(resolveJsonOrRejectWithError);
+  fetch(`/oembed?url=${url}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<OembedResponse>);
