@@ -16,7 +16,7 @@
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --ext .js,.jsx,.ts,.tsx --max-warnings=0 src e2e",
     "format": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --write",
     "format-check": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --check",
-    "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'tsx src/index.js'",
+    "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'tsx src/index.ts'",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true NODE_OPTIONS='--preserve-symlinks' yarn start",
