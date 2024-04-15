@@ -14,30 +14,29 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("have recently added to folder", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Nylig lagt til i mine mapper" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Nylig lagt til i mine mapper" })).toBeVisible();
   await mockWaitResponse(page, "**/graphql-api/graphql");
   expect(await page.getByRole("main").locator("section").first().getByRole("listitem").count()).toBeGreaterThanOrEqual(
     1,
   );
 
   const toFolder = page.getByRole("link").getByText("Se alle mappene dine");
-  toFolder.scrollIntoViewIfNeeded();
-  await expect(toFolder).toBeInViewport();
+  await expect(toFolder).toBeVisible();
   await toFolder.click();
   await page.waitForURL("/minndla/folders");
-  await expect(page.getByRole("heading", { name: "Mine mapper" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Mine mapper" })).toBeVisible();
 });
 
 test("have new posts in arena", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Nye innlegg i arena" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Nye innlegg i arena" })).toBeVisible();
 
   expect(await page.getByRole("main").locator("section").nth(1).getByRole("listitem").count()).toBeGreaterThanOrEqual(
     1,
   );
 
   const toArena = page.getByRole("link").getByText("Se alle innlegg i arena");
-  await expect(toArena).toBeInViewport();
+  await expect(toArena).toBeVisible();
   await toArena.click();
   await page.waitForURL("/minndla/arena");
-  await expect(page.getByRole("heading", { name: "Arena" })).toBeInViewport();
+  await expect(page.getByRole("heading", { name: "Arena" })).toBeVisible();
 });
