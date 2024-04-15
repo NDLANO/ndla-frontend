@@ -17,7 +17,7 @@ test("shows students", async ({ page }) => {
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("menuitem", { name: "Verktøykassa - for elever" }).click();
   await mockWaitResponse(page, "**/graphql-api/*");
-  expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
 
   await expect(page.getByTestId("nav-box-item")).toHaveCount(16);
 
@@ -30,7 +30,7 @@ test("shows teachers", async ({ page }) => {
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("menuitem", { name: "Verktøykassa - for lærere" }).click();
   await mockWaitResponse(page, "**/graphql-api/*");
-  expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
 
   await expect(page.getByTestId("nav-box-item")).toHaveCount(13);
 
