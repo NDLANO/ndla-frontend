@@ -6,11 +6,14 @@
  *
  */
 
+import { IArticleV2 } from "@ndla/types-backend/article-api";
+import { OembedResponse } from "../../interfaces";
 import { resolveJsonOrRejectWithError, apiResourceUrl, fetch } from "../../util/apiHelpers";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 
-export const fetchArticle = (id, locale) =>
+export const fetchArticle = (id: string | number, locale: string): Promise<IArticleV2> =>
   fetch(`${baseUrl}/${id}?lang=${locale}&fallback=true`).then(resolveJsonOrRejectWithError);
 
-export const fetchArticleOembed = (url) => fetch(`/oembed?url=${url}`).then(resolveJsonOrRejectWithError);
+export const fetchArticleOembed = (url: string): Promise<OembedResponse> =>
+  fetch(`/oembed?url=${url}`).then(resolveJsonOrRejectWithError);

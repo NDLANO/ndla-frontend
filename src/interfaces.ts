@@ -120,3 +120,12 @@ export type LtiItem = {
   title?: string;
   url: string;
 };
+
+export interface OembedResponse {
+  type: string;
+  version: string;
+  height: number;
+  width: number;
+  title: string;
+  html: string;
+}
