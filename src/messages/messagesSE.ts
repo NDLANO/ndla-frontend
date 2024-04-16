@@ -50,11 +50,14 @@ const messages = {
         "Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!",
       ingress:
         "Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.",
+      ingressUnauthenticated:
+        "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
     },
   },
   myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
+      resourceRemovedTitle: "Ressurs ikke tilgjengelig",
     },
     arena: {
       notification: {

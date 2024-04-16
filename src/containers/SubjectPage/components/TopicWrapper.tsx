@@ -17,6 +17,7 @@ import {
   GQLTopicWrapper_SubjectFragment,
 } from "../../../graphqlTypes";
 import { removeUrn } from "../../../routeHelpers";
+import { getTopicPath } from "../../../util/getTopicPath";
 import handleError, { isAccessDeniedError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
@@ -25,13 +26,12 @@ type Props = {
   subjectId: string;
   subTopicId?: string;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
-  index: number;
   showResources: boolean;
   subject: GQLTopicWrapper_SubjectFragment;
 };
 
 const topicWrapperQuery = gql`
-  query topicWrapper($topicId: String!, $subjectId: String, $convertEmbeds: Boolean) {
+  query topicWrapper($topicId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
     topic(id: $topicId, subjectId: $subjectId) {
       id
       ...Topic_Topic
@@ -44,7 +44,7 @@ const topicWrapperQuery = gql`
   ${topicFragments.resourceType}
 `;
 
-const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject, index }: Props) => {
+const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject }: Props) => {
   const navigate = useNavigate();
   const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
     topicWrapperQuery,
@@ -52,17 +52,21 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       variables: {
         topicId,
         subjectId,
-        convertEmbeds: true,
+        transformArgs: {
+          subjectId,
+        },
       },
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          setBreadCrumb((crumbs) =>
-            crumbs.slice(0, index).concat({
-              to: `/${removeUrn(topic.id)}`,
-              name: topic.name,
-            }),
-          );
+          const topicPath = getTopicPath(topic.path, topic.contexts);
+          const newCrumbs = topicPath
+            .map((tp) => ({
+              to: `/${removeUrn(tp.id)}`,
+              name: tp.name,
+            }))
+            .slice(1);
+          setBreadCrumb(newCrumbs.concat({ to: topic.id, name: topic.name }));
         }
       },
     },

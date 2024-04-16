@@ -26,6 +26,7 @@ import {
   ProfilePersonOutlined,
   AdminPanelSettings,
   AdminPanelSettingsFilled,
+  LogIn,
 } from "@ndla/icons/common";
 import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
 import { Folder } from "@ndla/icons/editor";
@@ -141,7 +142,7 @@ const MyNdlaLayout = () => {
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location).map(({ name, shortName, id, icon, to, iconFilled, shownForUser }) => {
+      menuLinks(t, location, user).map(({ name, shortName, id, icon, to, iconFilled, shownForUser }) => {
         if (shownForUser && !shownForUser(user)) {
           return null;
         }
@@ -185,7 +186,7 @@ const MyNdlaLayout = () => {
 
 export default MyNdlaLayout;
 
-export const menuLinks = (t: TFunction, location: Location) => [
+export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined) => [
   {
     id: "",
     name: t("myNdla.myNDLA"),
@@ -238,9 +239,9 @@ export const menuLinks = (t: TFunction, location: Location) => [
   },
   {
     id: "logout-path",
-    name: t("user.buttonLogOut"),
-    shortName: t("user.buttonLogOut"),
-    icon: <LogOut />,
-    to: `/logout?state=${toHref(location)}`,
+    name: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
+    shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
+    icon: user ? <LogOut /> : <LogIn />,
+    to: user ? `/logout?state=${toHref(location)}` : `/login?state=${toHref(location)}`,
   },
 ];

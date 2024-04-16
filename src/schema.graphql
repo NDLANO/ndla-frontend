@@ -162,13 +162,12 @@ type Article {
   id: Int!
   introduction: String
   language: String!
-  metaData: ArticleMetaData
   metaDescription: String!
   metaImage: MetaImage
   oembed: String
   oldNdlaUrl: String
   published: String!
-  relatedContent: [RelatedContent!]
+  relatedContent(subjectId: String): [RelatedContent!]
   requiredLibraries: [ArticleRequiredLibrary!]
   revision: Int!
   revisionDate: String
@@ -176,9 +175,8 @@ type Article {
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
+  transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
-  visualElement: VisualElement
-  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -552,30 +550,11 @@ type FootNote {
   year: String!
 }
 
-type FrontPageResources {
-  results: [FrontpageSearchResult!]!
-  suggestions: [SuggestionResult!]!
-  totalCount: Int!
-}
-
 type FrontpageMenu {
   article: Article!
   articleId: Int!
   hideLevel: Boolean
   menu: [FrontpageMenu]
-}
-
-type FrontpageSearch {
-  learningResources: FrontPageResources!
-  topicResources: FrontPageResources!
-}
-
-type FrontpageSearchResult {
-  id: String!
-  name: String!
-  path: String!
-  resourceTypes: [SearchContextResourceTypes!]!
-  subject: String!
 }
 
 type Gloss {
@@ -1092,16 +1071,7 @@ type Query {
   arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
   arenaUser(username: String!): ArenaUser
   arenaUserV2(username: String!): ArenaUserV2
-  article(
-    absoluteUrl: Boolean
-    convertEmbeds: Boolean
-    draftConcept: Boolean
-    id: String!
-    isOembed: String
-    path: String
-    showVisualElement: String
-    subjectId: String
-  ): Article
+  article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1128,7 +1098,6 @@ type Query {
   folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
   frontpage: FrontpageMenu
-  frontpageSearch(query: String): FrontpageSearch
   groupSearch(
     aggregatePaths: [String!]
     contextTypes: String
@@ -1193,7 +1162,7 @@ type Query {
   sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
   subjectpage(id: Int!): SubjectPage
-  subjects(filterVisible: Boolean, metadataFilterKey: String, metadataFilterValue: String): [Subject!]
+  subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1210,7 +1179,7 @@ type RelatedContent {
 }
 
 type Resource implements TaxonomyEntity & WithArticle {
-  article(convertEmbeds: Boolean, isOembed: String, subjectId: String): Article
+  article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
@@ -1279,12 +1248,10 @@ type SearchContext {
   breadcrumbs: [String!]!
   contextId: String!
   contextType: String!
-  id: String!
   isActive: Boolean!
   isPrimary: Boolean!
   isVisible: Boolean!
   language: String!
-  learningResourceType: String!
   parentIds: [String!]!
   path: String!
   publicId: String!
@@ -1293,14 +1260,6 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
-  subject: String!
-  subjectId: String!
-}
-
-type SearchContextFilter {
-  id: String!
-  name: String!
-  relevance: String!
 }
 
 type SearchContextResourceTypes {
@@ -1463,7 +1422,7 @@ type Title {
 
 type Topic implements TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
-  article(convertEmbeds: Boolean, showVisualElement: String, subjectId: String): Article
+  article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
@@ -1491,6 +1450,23 @@ type Topic implements TaxonomyEntity & WithArticle {
 type Transcription {
   pinyin: String
   traditional: String
+}
+
+type TransformedArticleContent {
+  content: String!
+  metaData: ArticleMetaData
+  visualElement: VisualElement
+  visualElementEmbed: ResourceEmbed
+}
+
+input TransformedArticleContentInput {
+  absoluteUrl: Boolean
+  draftConcept: Boolean
+  isOembed: String
+  path: String
+  previewH5p: Boolean
+  showVisualElement: String
+  subjectId: String
 }
 
 type UpdatedFolder {

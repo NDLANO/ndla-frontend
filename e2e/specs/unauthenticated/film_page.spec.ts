@@ -6,27 +6,16 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  const filmpage = mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["filmFrontPage", "alerts", "mastHead", "mastheadFrontpage", "mastheadProgramme"],
-        fixture: "filmpage",
-      },
-    ],
-  });
-
   await page.goto("/subject:20?disableSSR=true");
-  await Promise.allSettled([filmpage]);
 });
 
 test("film page has content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
-  await expect(page.locator("span", { hasText: "Still Alice" })).toBeVisible();
+  await expect(page.locator("span", { hasText: "Chef Flynn" }).first()).toBeVisible();
   const subjects = page.locator("div", {
     has: page.getByRole("heading", { name: "EMNER I FILM" }),
   });

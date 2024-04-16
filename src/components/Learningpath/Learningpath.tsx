@@ -35,11 +35,11 @@ import {
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
-  GQLLearningpath_TopicPathFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
 import { toLearningPath, useIsNdlaFilm } from "../../routeHelpers";
 import { getContentType } from "../../util/getContentType";
+import { TopicPath } from "../../util/getTopicPath";
 import FavoriteButton from "../Article/FavoritesButton";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
@@ -49,7 +49,7 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   topic?: GQLLearningpath_TopicFragment;
-  topicPath?: GQLLearningpath_TopicPathFragment[];
+  topicPath?: TopicPath[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;
@@ -263,12 +263,6 @@ Learningpath.fragments = {
     fragment Learningpath_Resource on Resource {
       path
     }
-  `,
-  topicPath: gql`
-    fragment Learningpath_TopicPath on Topic {
-      ...LastLearningpathStepInfo_TopicPath
-    }
-    ${LastLearningpathStepInfo.fragments.topicPath}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

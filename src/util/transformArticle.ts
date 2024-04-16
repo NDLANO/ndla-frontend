@@ -28,12 +28,12 @@ function getContent(content: string, { path, isOembed, subject, components, arti
 
 export type BaseArticle = Pick<
   GQLArticle,
-  "content" | "introduction" | "metaData" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
+  "transformedContent" | "introduction" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
 >;
 
-export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "content" | "introduction"> & {
-  content: ReactNode;
+export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent" | "introduction"> & {
   introduction: ReactNode;
+  transformedContent: Omit<T["transformedContent"], "content"> & { content: JSX.Element };
 };
 export const transformArticle = <T extends BaseArticle>(
   article: T,
@@ -41,11 +41,15 @@ export const transformArticle = <T extends BaseArticle>(
   options?: TransformOptions,
 ): TransformedBaseArticle<T> => {
   const updatedOptions = options?.articleLanguage === "nb" ? { ...options, articleLanguage: "no" } : options;
-  const content = getContent(article.content, updatedOptions ?? {});
-  const footNotes = article?.metaData?.footnotes ?? [];
+  const content = getContent(article.transformedContent.content, updatedOptions ?? {});
+  const footNotes = article?.transformedContent?.metaData?.footnotes ?? [];
+  //@ts-ignore
   return {
     ...article,
-    content,
+    transformedContent: {
+      ...article.transformedContent,
+      content,
+    },
     introduction: transform(article.introduction ?? "", {}),
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),

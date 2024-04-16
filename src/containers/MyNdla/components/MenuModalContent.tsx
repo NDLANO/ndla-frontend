@@ -18,10 +18,11 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
+import { buttonCss } from "./toolbarStyles";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
-import { ViewType, buttonCss } from "../Folders/FoldersPage";
+import { ViewType } from "../Folders/FoldersPage";
 import { OutletContext, menuLinks } from "../MyNdlaLayout";
 
 const MenuItem = styled.li`
@@ -134,7 +135,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
+      menuLinks(t, location, user).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
         if (shownForUser && !shownForUser(user)) {
           return null;
         }

@@ -50,7 +50,6 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
               subjectId={subject.id}
               setBreadCrumb={setBreadCrumb}
               subTopicId={topicIds[index + 1]}
-              index={index}
               showResources={!topicIds[index + 1]}
               subject={subject}
             />

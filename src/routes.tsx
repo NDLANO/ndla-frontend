@@ -7,7 +7,6 @@
  */
 
 export const privateRoutes = [
-  "minndla",
   "minndla/folders",
   "minndla/folders/preview/:folderId",
   "minndla/folders/preview/:folderId/:subFolderId",
@@ -74,6 +73,7 @@ export const routes = [
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
+  "minndla",
   ...privateRoutes,
 ];
 
