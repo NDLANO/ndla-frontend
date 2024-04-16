@@ -6,27 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        fixture: "minndla_category_categories",
-        names: ["arenaPage2", "mastheadFrontpage", "myNdlaData"],
-      },
-      {
-        fixture: "minndla_category_notifications",
-        names: ["arenaNotificationsV2"],
-      },
-      {
-        fixture: "minndla_category_category",
-        names: ["arenaCategoryV2"],
-      },
-    ],
-  });
   await page.goto("/minndla/arena");
 });
 

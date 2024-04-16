@@ -6,39 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        fixture: "minndla_post_topics",
-        names: ["arenaNotificationsV2", "arenaTopicByIdV2", "mastheadFrontpage", "myNdlaData"],
-      },
-      {
-        fixture: "minndla_post_category",
-        names: ["ArenaUserV2", "ArenaUserV2", "arenaCategoryV2", "arenaNotificationsV2"],
-      },
-      {
-        fixture: "minndla_post_reply",
-        names: ["ReplyToTopicV2"],
-      },
-      {
-        fixture: "minndla_post_topic",
-        names: ["arenaTopicByIdV2"],
-      },
-      {
-        fixture: "minndla_post_update",
-        names: ["UpdatePostV2"],
-      },
-      {
-        fixture: "minndla_post_delete",
-        names: ["DeletePostV2"],
-      },
-    ],
-  });
   await page.goto("/minndla/arena/topic/7");
 });
 
