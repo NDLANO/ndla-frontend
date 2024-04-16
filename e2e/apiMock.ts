@@ -68,7 +68,7 @@ export const test = Ptest.extend<ExtendParams>({
     // Creating the API mocking for the wanted API's
     await page.routeFromHAR(mockFile(testInfo), {
       update: process.env.RECORD_FIXTURES === "true",
-      updateMode: "minimal",
+      updateMode: "full",
       url: regex,
       updateContent: "embed",
     });

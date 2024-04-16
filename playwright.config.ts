@@ -43,7 +43,7 @@ export default defineConfig({
       testMatch: "e2e/specs/authenticated/*.spec.ts",
       dependencies: ["setup"],
       use: {
-        permissions: ['clipboard-read', 'clipboard-write'],
+        permissions: ["clipboard-read", "clipboard-write"],
         storageState: STORAGE_STATE,
       },
     },
