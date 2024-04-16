@@ -6,28 +6,8 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
-
-test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["searchPage", "alerts", "mastheadFrontpage", "mastheadProgramme"],
-        fixture: "search",
-      },
-      {
-        names: ["GroupSearch"],
-        fixture: "search_group_search",
-      },
-      {
-        names: ["searchPage"],
-        fixture: "search_lti",
-      },
-    ],
-  });
-});
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test("contains search bar", async ({ page }) => {
   await page.goto("/search/?disableSSR=true");

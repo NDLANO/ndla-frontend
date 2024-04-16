@@ -18,6 +18,8 @@ import { HorizontalMenu } from "@ndla/icons/contentType";
 import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
 
+import { buttonCss } from "./toolbarStyles";
+
 export interface MenuItemProps {
   icon?: ReactNode;
   text?: string;
@@ -35,6 +37,7 @@ export interface MenuItemProps {
 interface Props {
   menuItems?: MenuItemProps[];
   modalHeader?: string;
+  showSingle?: boolean;
 }
 
 const StyledDrawer = styled(Drawer)`
@@ -121,7 +124,7 @@ export const linkCss = css`
   ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
 `;
 
-const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
+const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
   const [skipAutoFocus, setSkipAutoFocus] = useState(false);
@@ -194,8 +197,10 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
                         ref={item.ref}
                         onClick={(e) => {
                           if (item.onClick) {
-                            close();
                             item.onClick(e);
+                            if (!item.modalContent) {
+                              close();
+                            }
                           }
                         }}
                       >
@@ -210,6 +215,52 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
           </StyledModalBody>
         </StyledDrawer>
       </Modal>
+    );
+  }
+
+  if (showSingle && menuItems && menuItems.length === 1) {
+    return (
+      <StyledList>
+        {menuItems.map((item) => (
+          <Item
+            key={item.text}
+            handleDialogItemOpenChange={handleDialogItemOpenChange}
+            isModal={item.isModal}
+            modalContent={item.modalContent}
+            keepOpen={item.keepOpen}
+            modality={item.modality}
+            setSkipAutoFocus={() => setSkipAutoFocus(true)}
+          >
+            {item.link ? (
+              <SafeLinkButton
+                tabIndex={-1}
+                key={item.text}
+                css={buttonCss}
+                variant="ghost"
+                colorTheme="lighter"
+                to={item.link}
+                aria-label={item.text}
+              >
+                {item.icon}
+                {item.text}
+              </SafeLinkButton>
+            ) : (
+              <ButtonV2
+                css={buttonCss}
+                colorTheme={item.type === "danger" ? "danger" : "light"}
+                disabled={item.disabled}
+                variant="ghost"
+                data-type={item.type}
+                onClick={item.onClick}
+                ref={item.ref}
+              >
+                {item.icon}
+                {item.text}
+              </ButtonV2>
+            )}
+          </Item>
+        ))}
+      </StyledList>
     );
   }
 
@@ -258,7 +309,7 @@ const SettingsMenu = ({ menuItems, modalHeader }: Props) => {
               <DropdownItem
                 asChild
                 onSelect={(e) => {
-                  if (!item.onClick) {
+                  if (!item.onClick || (!!item.onClick && !!item.modalContent)) {
                     e.preventDefault();
                   }
                 }}

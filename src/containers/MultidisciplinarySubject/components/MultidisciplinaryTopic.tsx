@@ -7,6 +7,7 @@
  */
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
@@ -16,6 +17,7 @@ import { Topic as UITopic } from "@ndla/ui";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
@@ -72,15 +74,20 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const embedMeta = useMemo(() => {
-    if (!topic.article?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(topic.article.visualElementEmbed.content);
+    if (!topic.article?.transformedContent?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(topic.article.transformedContent.visualElementEmbed.content);
     return embedMeta;
-  }, [topic?.article?.visualElementEmbed?.content]);
+  }, [topic?.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.visualElementEmbed?.meta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} metadata={topic.article?.visualElementEmbed?.meta} />;
-  }, [embedMeta, topic.article?.visualElementEmbed?.meta]);
+    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
+    return (
+      <TopicVisualElementContent
+        embed={embedMeta}
+        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
+      />
+    );
+  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
 
   const topicPath = topic.path
     ?.split("/")
@@ -111,21 +118,43 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }
 
   return (
-    <UITopic
-      id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
-      title={article.title}
-      introduction={article.introduction}
-      metaImage={article.metaImage}
-      visualElementEmbedMeta={embedMeta}
-      visualElement={visualElement}
-      onToggleShowContent={topic.article?.content !== "" ? () => setShowContent(!showContent) : undefined}
-      showContent={showContent}
-      subTopics={!disableNav ? subTopics : undefined}
-      isLoading={false}
-      invertedStyle={ndlaFilm}
-    >
-      <ArticleContents article={article} scripts={scripts} modifier="in-topic" showIngress={false} />
-    </UITopic>
+    <>
+      {topicId === topicList[topicList.length - 1] && (
+        <>
+          <Helmet>
+            <title>{htmlTitle(topic.name ?? topic.meta?.title, [subject.name, t("htmlTitles.titleTemplate")])}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={htmlTitle(topic.name ?? topic.meta?.title, [subject.name, t("htmlTitles.titleTemplate")])}
+            description={topic.meta?.metaDescription ?? topic.meta?.introduction}
+            imageUrl={topic.meta?.metaImage?.url}
+          />
+        </>
+      )}
+      <UITopic
+        id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
+        title={article.title}
+        introduction={article.introduction}
+        metaImage={article.metaImage}
+        visualElementEmbedMeta={embedMeta}
+        visualElement={visualElement}
+        onToggleShowContent={
+          topic.article?.transformedContent?.content !== "" ? () => setShowContent(!showContent) : undefined
+        }
+        showContent={showContent}
+        subTopics={!disableNav ? subTopics : undefined}
+        isLoading={false}
+        invertedStyle={ndlaFilm}
+      >
+        <ArticleContents
+          article={article}
+          scripts={scripts}
+          modifier="in-topic"
+          oembed={article.oembed}
+          showIngress={false}
+        />
+      </UITopic>
+    </>
   );
 };
 
@@ -137,15 +166,26 @@ export const multidisciplinaryTopicFragments = {
         id
         name
       }
-      article(convertEmbeds: $convertEmbeds) {
+      meta {
+        title
+        metaDescription
+        introduction
+        metaImage {
+          url
+        }
+      }
+      article {
+        oembed
         metaImage {
           url
           alt
         }
-        visualElementEmbed {
-          content
-          meta {
-            ...TopicVisualElementContent_Meta
+        transformedContent(transformArgs: $transformArgs) {
+          visualElementEmbed {
+            content
+            meta {
+              ...TopicVisualElementContent_Meta
+            }
           }
         }
         ...ArticleContents_Article
@@ -160,10 +200,6 @@ export const multidisciplinaryTopicFragments = {
     fragment MultidisciplinaryTopic_Subject on Subject {
       id
       name
-      allTopics {
-        id
-        name
-      }
     }
   `,
 };

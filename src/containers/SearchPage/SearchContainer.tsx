@@ -99,7 +99,7 @@ const SearchContainer = ({
         coreElements={coreElements}
         loading={loading}
       />
-      {subjectItems && subjectItems?.length > 0 && <SearchSubjectResult items={subjectItems} />}
+      {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
       <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (
         <>

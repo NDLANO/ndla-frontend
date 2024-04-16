@@ -13,7 +13,7 @@ import { useBaseName } from "../../components/BaseNameContext";
 import { constructNewPath, toHref } from "../../util/urlHelper";
 
 interface Props {
-  element: ReactElement;
+  element: ReactElement | null;
 }
 
 const ClientPrivateRoute = ({ element }: Props) => {

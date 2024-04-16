@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -32,13 +32,13 @@ const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) =>
 };
 
 const resourcePageQuery = gql`
-  query resourcePage($topicId: String!, $subjectId: String!, $resourceId: String!, $convertEmbeds: Boolean) {
+  query resourcePage(
+    $topicId: String!
+    $subjectId: String!
+    $resourceId: String!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     subject(id: $subjectId) {
-      topics(all: true) {
-        parentId
-        ...LearningpathPage_TopicPath
-        ...ArticlePage_TopicPath
-      }
       ...LearningpathPage_Subject
       ...ArticlePage_Subject
     }
@@ -53,6 +53,11 @@ const resourcePageQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       relevanceId
       paths
+      contexts {
+        breadcrumbs
+        parentIds
+        path
+      }
       ...MovedResourcePage_Resource
       ...ArticlePage_Resource
       ...LearningpathPage_Resource
@@ -63,12 +68,10 @@ const resourcePageQuery = gql`
   ${articlePageFragments.resource}
   ${articlePageFragments.resourceType}
   ${articlePageFragments.subject}
-  ${articlePageFragments.topicPath}
   ${learningpathPageFragments.topic}
   ${learningpathPageFragments.resourceType}
   ${learningpathPageFragments.resource}
   ${learningpathPageFragments.subject}
-  ${learningpathPageFragments.topicPath}
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
@@ -79,10 +82,17 @@ const ResourcePage = () => {
       subjectId,
       topicId,
       resourceId,
-      convertEmbeds: true,
+      transformArgs: {
+        subjectId,
+      },
     },
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
+
+  const topicPath = useMemo(() => {
+    if (!data?.resource?.path) return [];
+    return getTopicPath(data.resource.path, data.resource.contexts);
+  }, [data?.resource]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -120,13 +130,13 @@ const ResourcePage = () => {
     }
   }
 
-  const { subject, resource, topic } = data;
+  const { resource } = data;
   const relevanceId = resource.relevanceId;
   const relevance =
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t("searchPage.searchFilterMessages.supplementaryRelevance")
       : t("searchPage.searchFilterMessages.coreRelevance");
-  const topicPath = subject && topic ? getTopicPath(subject.id, topic.id, subject.topics) : [];
+
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage

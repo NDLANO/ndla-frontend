@@ -6,14 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute, mockWaitResponse } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test, mockWaitResponse } from "../../apiMock";
 
 test("topic contains content", async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [{ names: ["iframePage"], fixture: "iframeTopic" }],
-  });
   await page.goto("/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true");
   await mockWaitResponse(page, "**/graphql-api/*");
   const heading = page.getByRole("heading").getByText("Samfunnsfaglige tenkemåter");
@@ -22,10 +18,6 @@ test("topic contains content", async ({ page }) => {
 });
 
 test("resource contains content", async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [{ names: ["iframePage"], fixture: "iframeResource" }],
-  });
   await page.goto("/article-iframe/nb/urn:resource:1:124037/3?disableSSR=true");
   await mockWaitResponse(page, "**/graphql-api/*");
   const heading = page.getByRole("heading").getByText("Meninger og kunnskap om samfunnet").first();
@@ -34,10 +26,6 @@ test("resource contains content", async ({ page }) => {
 });
 
 test("oembed contains content", async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [{ names: ["iframePage"], fixture: "iframeOembed" }],
-  });
   await page.goto("/article-iframe/nb/article/4?disableSSR=true");
   await mockWaitResponse(page, "**/graphql-api/*");
   const heading = page.getByRole("heading").getByText("Medier og informasjonskilder");

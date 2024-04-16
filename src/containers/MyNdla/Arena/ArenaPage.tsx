@@ -17,6 +17,7 @@ import { Spinner } from "@ndla/icons";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
+import { TopicActions, TopicButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -42,7 +43,7 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -57,10 +58,13 @@ const ArenaPage = () => {
     return <Spinner />;
   }
 
-  if (!user?.arenaEnabled) return <Navigate to={routes.myNdla.root} />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper
+      buttons={user?.isModerator && <TopicButtons />}
+      dropDownMenu={user?.isModerator && <TopicActions />}
+    >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
       <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
         {t("myNdla.arena.title")}
@@ -72,7 +76,7 @@ const ArenaPage = () => {
         <Heading element="h2" headingStyle="h2" margin="none">
           {t("myNdla.arena.category.title")}
         </Heading>
-        {user.isModerator && (
+        {user?.isModerator && (
           <ModeratorButtonWrapper>
             <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
@@ -81,7 +85,7 @@ const ArenaPage = () => {
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
-      {loading ? (
+      {loading || !user ? (
         <Spinner />
       ) : (
         <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />
