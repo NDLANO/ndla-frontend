@@ -13,13 +13,14 @@ import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
-  GQLLastLearningpathStepInfo_TopicPathFragment,
 } from "../../graphqlTypes";
+import { toTopic } from "../../routeHelpers";
+import { TopicPath } from "../../util/getTopicPath";
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
   subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: GQLLastLearningpathStepInfo_TopicPathFragment[];
+  topicPath?: TopicPath[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
@@ -39,7 +40,11 @@ const LastLearningpathStepInfo = ({
   if (!isLastStep) {
     return null;
   }
-  const topicWithPath = topicPath && topic ? topicPath.find((path) => path.id === topic.id) : undefined;
+
+  const path =
+    !!topicPath && topicPath.length > 1
+      ? toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((tp) => tp.id))
+      : undefined;
 
   const showResources =
     topic &&
@@ -57,10 +62,12 @@ const LastLearningpathStepInfo = ({
         }
       }
       topic={
-        topicWithPath && {
-          url: topicWithPath.path,
-          name: topicWithPath.name,
-        }
+        !!topicPath && !!path
+          ? {
+              url: path,
+              name: topicPath[topicPath.length - 1]!.name,
+            }
+          : undefined
       }
     >
       {showResources && topic && (
@@ -89,13 +96,6 @@ LastLearningpathStepInfo.fragments = {
       ...Resources_ResourceTypeDefinition
     }
     ${Resources.fragments.resourceType}
-  `,
-  topicPath: gql`
-    fragment LastLearningpathStepInfo_TopicPath on Topic {
-      id
-      name
-      path
-    }
   `,
 };
 

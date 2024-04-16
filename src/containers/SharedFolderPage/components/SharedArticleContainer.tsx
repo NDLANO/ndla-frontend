@@ -95,6 +95,7 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
       <Article
         contentTransformed
         id={SKIP_TO_CONTENT_ID}
+        oembed={undefined}
         article={article}
         {...getArticleProps(undefined, undefined)}
         contentType={contentType?.contentType}

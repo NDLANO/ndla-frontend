@@ -17,13 +17,16 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(article: Pick<GQLArticle, "requiredLibraries" | "content">, locale = "nb") {
+export function getArticleScripts(
+  article: Pick<GQLArticle, "requiredLibraries" | "transformedContent">,
+  locale = "nb",
+) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.content.indexOf("<math") > -1 && config.isClient) {
+  if (article && article.transformedContent?.content.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
         chtml: {
@@ -59,7 +62,7 @@ export function getArticleScripts(article: Pick<GQLArticle, "requiredLibraries" 
     });
   }
 
-  if (article && article.content.indexOf('data-resource="h5p"') > -1) {
+  if (article && article.transformedContent?.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
       src: "https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js",
       type: "text/javascript",

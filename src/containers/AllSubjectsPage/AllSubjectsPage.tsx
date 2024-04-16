@@ -12,6 +12,7 @@ import { parse, stringify } from "query-string";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
+import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Select } from "@ndla/select";
@@ -26,7 +27,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import TabFilter from "../../components/TabFilter";
 import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from "../../constants";
 import { useUserAgent } from "../../UserAgentContext";
-import { useSubjects } from "../MyNdla/subjectQueries";
+import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
@@ -86,12 +87,26 @@ const SelectWrapper = styled.div`
   margin: ${spacing.normal} 0 ${spacing.small};
 `;
 
+const allSubjectsQuery = gql`
+  query allSubjects {
+    subjects(filterVisible: true) {
+      id
+      name
+      metadata {
+        customFields
+      }
+    }
+  }
+`;
+
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const selectors = useUserAgent();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+
+  const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
   useEffect(() => {
     if (window.location && window.location.hash) {
@@ -110,8 +125,6 @@ const AllSubjectsPage = () => {
     }
   }, []);
 
-  const { error, loading, subjects } = useSubjects();
-
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter || ACTIVE_SUBJECTS);
   const setFilter = (value: string) => {
@@ -125,7 +138,10 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
-  const sortedSubjects = useMemo(() => sortBy(subjects, (s) => s.name), [subjects]);
+  const sortedSubjects = useMemo(
+    () => sortBy(subjectsQuery.data?.subjects, (s) => s.name),
+    [subjectsQuery.data?.subjects],
+  );
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
@@ -133,8 +149,8 @@ const AllSubjectsPage = () => {
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
-  if (loading) return <ContentPlaceholder />;
-  if (error)
+  if (subjectsQuery.loading) return <ContentPlaceholder />;
+  if (subjectsQuery.error)
     return (
       <ErrorMessage
         illustration={{

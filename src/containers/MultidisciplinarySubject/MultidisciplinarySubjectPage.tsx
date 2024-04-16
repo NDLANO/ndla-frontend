@@ -21,7 +21,6 @@ import {
   OneColumn,
   SimpleBreadcrumbItem,
 } from "@ndla/ui";
-import MultidisciplinaryArticleList from "./components/MultidisciplinaryArticleList";
 import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -38,6 +37,7 @@ const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
     subject(id: $subjectId) {
       subjectpage {
+        id
         about {
           title
         }
@@ -45,21 +45,6 @@ const multidisciplinarySubjectPageQuery = gql`
       topics {
         id
         name
-      }
-      allTopics {
-        name
-        id
-        parentId
-        path
-        meta {
-          title
-          introduction
-          metaDescription
-          metaImage {
-            url
-            alt
-          }
-        }
       }
       ...MultidisciplinaryTopicWrapper_Subject
     }
@@ -109,6 +94,7 @@ const Header = styled.div`
   justify-content: space-between;
   margin: 32px 0px;
 `;
+const selectionLimit = 2;
 
 const MultidisciplinarySubjectPage = () => {
   const { t } = useTranslation();
@@ -179,56 +165,19 @@ const MultidisciplinarySubjectPage = () => {
       };
     }) ?? [];
 
-  const selectionLimit = 2;
-  const isNotLastTopic = selectedTopics.length < selectionLimit;
-  const selectedSubject = subject.topics?.find((t) => t.id === selectedTopics[0])!;
-
-  const cards = isNotLastTopic
-    ? []
-    : subject.allTopics
-        ?.filter((topic) => {
-          const selectedId = selectedTopics[selectedTopics.length - 1];
-          return topic.parentId === selectedId;
-        })
-        .map((topic) => ({
-          title: topic.name,
-          topicId: topic.id,
-          introduction: topic.meta?.metaDescription ?? "",
-          image: topic.meta?.metaImage?.url,
-          imageAlt: topic.meta?.metaImage?.alt,
-          subjects: isNotLastTopic ? undefined : [selectedSubject?.name],
-          url: topic.path ?? "",
-          ...topic,
-        })) || [];
-
-  const selectedMetadata = [...(subject.allTopics ?? [])].reverse().find((t) => selectedTopics.includes(t.id));
-
-  const selectedTitle = selectedMetadata?.name || selectedMetadata?.meta?.title;
-  const subjectTitle = subject.name;
-  const hasSelectedTitle = !!selectedTitle;
-  const title = htmlTitle(hasSelectedTitle ? selectedTitle : subjectTitle, [
-    hasSelectedTitle ? subjectTitle : undefined,
-  ]);
-
-  const socialMediaMetaData = {
-    title,
-    description:
-      selectedMetadata?.meta?.metaDescription ||
-      selectedMetadata?.meta?.introduction ||
-      t("frontpageMultidisciplinarySubject.text"),
-    image: selectedMetadata?.meta?.metaImage,
-  };
-
   return (
     <>
-      <Helmet>
-        <title>{htmlTitle(socialMediaMetaData.title, [t("htmlTitles.titleTemplate")])}</title>
-      </Helmet>
-      <SocialMediaMetadata
-        title={socialMediaMetaData.title}
-        description={socialMediaMetaData.description}
-        imageUrl={socialMediaMetaData.image?.url}
-      />
+      {!selectedTopics.length && (
+        <>
+          <Helmet>
+            <title>{htmlTitle(subject.name, [t("htmlTitles.titleTemplate")])}</title>
+          </Helmet>
+          <SocialMediaMetadata
+            title={htmlTitle(subject.name)}
+            description={t("frontpageMultidisciplinarySubject.text")}
+          />
+        </>
+      )}
       <main>
         <StyledWrapper>
           <StyledBackground>
@@ -263,10 +212,10 @@ const MultidisciplinarySubjectPage = () => {
                     subjectId={subject.id}
                     subTopicId={selectedTopics[index + 1]}
                     subject={subject}
+                    showSubtopics={index >= selectionLimit - 1}
                   />
                 </div>
               ))}
-              {isNotLastTopic || <MultidisciplinaryArticleList items={cards} totalCount={cards.length} />}
             </LayoutItem>
           </OneColumn>
         </StyledWrapper>

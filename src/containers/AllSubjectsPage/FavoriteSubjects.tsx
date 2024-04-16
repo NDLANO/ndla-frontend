@@ -12,6 +12,7 @@ import { Heading } from "@ndla/typography";
 import { Subject } from "./interfaces";
 import { GridList } from "./SubjectCategory";
 import SubjectLink from "./SubjectLink";
+import { sortSubjectsByRecentlyFavourited } from "../MyNdla/myNdlaUtils";
 
 interface Props {
   subjects: Subject[];
@@ -20,7 +21,10 @@ interface Props {
 
 const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   const { t } = useTranslation();
-  const mappedFavorites = useMemo(() => subjects.filter((s) => favorites.includes(s.id)), [subjects, favorites]);
+
+  const mappedFavorites = useMemo(() => {
+    return sortSubjectsByRecentlyFavourited(subjects, favorites);
+  }, [favorites, subjects]);
 
   return (
     <div>

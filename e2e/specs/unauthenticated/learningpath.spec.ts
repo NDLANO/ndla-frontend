@@ -6,19 +6,10 @@
  *
  */
 
-import { test, expect } from "@playwright/test";
-import { mockGraphqlRoute } from "../../apiMock";
+import { expect } from "@playwright/test";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await mockGraphqlRoute({
-    page,
-    operation: [
-      {
-        names: ["plainLearningpathPage", "alerts", "mastheadFrontpage", "mastheadProgramme"],
-        fixture: "learningpath",
-      },
-    ],
-  });
   await page.goto("/learningpaths/8/?disableSSR=true");
 });
 
@@ -26,4 +17,8 @@ test("contains content", async ({ page }) => {
   const heading = page.getByRole("heading").getByText("Introduksjon");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
+
+  const menuIntro = page.getByRole("heading").getByText("Sirkulasjonssystemet");
+  expect(menuIntro).toBeDefined();
+  await expect(menuIntro).toBeVisible();
 });

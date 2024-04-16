@@ -96,9 +96,13 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
     {
       variables: {
         articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
-        path: location.pathname,
         resourceId: taxId ?? "",
         includeResource: !!taxId,
+        subjectId,
+        transformArgs: {
+          path: location.pathname,
+          subjectId,
+        },
       },
       skip: !!learningpathStep.resource?.article || (!learningpathStep.embedUrl && !learningpathStep.resource),
     },
@@ -173,6 +177,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
         isPlainArticle
         id={skipToContentId}
         article={article}
+        oembed={data?.article?.oembed}
         {...getArticleProps(resource, topic)}
       >
         {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
@@ -214,7 +219,7 @@ LearningpathEmbed.fragments = {
       resource {
         id
         path
-        article(convertEmbeds: $convertEmbeds) {
+        article {
           ...LearningpathEmbed_Article
         }
       }
@@ -235,8 +240,15 @@ LearningpathEmbed.fragments = {
 };
 
 const learningpathStepQuery = gql`
-  query learningpathStep($articleId: String!, $path: String, $resourceId: String!, $includeResource: Boolean!) {
-    article(id: $articleId, path: $path, convertEmbeds: true) {
+  query learningpathStep(
+    $articleId: String!
+    $resourceId: String!
+    $includeResource: Boolean!
+    $subjectId: String
+    $transformArgs: TransformedArticleContentInput
+  ) {
+    article(id: $articleId) {
+      oembed
       ...LearningpathEmbed_Article
     }
     resource(id: $resourceId) @include(if: $includeResource) {

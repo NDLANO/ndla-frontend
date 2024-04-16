@@ -42,13 +42,15 @@ export const useArenaCategory = (categoryId: string | undefined) => {
         ...nodebbArenaCategory,
         title: nodebbArenaCategory?.name,
         visible: true,
-        topics: nodebbArenaCategory?.topics?.map((topic) => {
-          return {
-            ...topic,
-            created: topic.timestamp,
-            isLocked: topic.locked,
-          };
-        }),
+        topics: nodebbArenaCategory?.topics
+          ?.filter(({ deleted }) => !deleted)
+          .map((topic) => {
+            return {
+              ...topic,
+              created: topic.timestamp,
+              isLocked: topic.locked,
+            };
+          }),
       },
     };
 

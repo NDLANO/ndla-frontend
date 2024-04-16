@@ -232,6 +232,7 @@ export const subjectInfoFragment = gql`
       customFields
     }
     subjectpage {
+      id
       about {
         title
       }
