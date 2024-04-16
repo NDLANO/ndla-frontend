@@ -6,42 +6,42 @@
  *
  */
 
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { defineConfig } from '@playwright/test';
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+import { defineConfig } from "@playwright/test";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const STORAGE_STATE = join(__dirname, 'e2e/.auth/teacher.json');
+export const STORAGE_STATE = join(__dirname, "e2e/.auth/teacher.json");
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: "./e2e",
   fullyParallel: true,
   maxFailures: process.env.CI ? 10 : undefined,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: 2,
-  reporter: 'html',
+  reporter: "html",
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    baseURL: "http://localhost:3000",
+    trace: "on-first-retry",
     viewport: {
       width: 2560,
       height: 1440,
     },
   },
   projects: [
-    { name: 'setup', testMatch: 'e2e/auth.setup.ts' },
+    { name: "setup", testMatch: "e2e/auth.setup.ts" },
     {
-      name: 'NDLA specs',
-      testMatch: 'e2e/specs/unauthenticated/*.spec.ts',
+      name: "NDLA specs",
+      testMatch: "e2e/specs/unauthenticated/*.spec.ts",
     },
     {
-      name: 'MyNdla specs',
-      testMatch: 'e2e/specs/authenticated/*.spec.ts',
-      dependencies: ['setup'],
+      name: "MyNdla specs",
+      testMatch: "e2e/specs/authenticated/*.spec.ts",
+      dependencies: ["setup"],
       use: {
         storageState: STORAGE_STATE,
       },
@@ -51,7 +51,7 @@ export default defineConfig({
   // Automatically run against prod-build on CI for speed and accuracy.
   webServer: process.env.CI
     ? {
-        command: 'cross-env NODE_ENV=production node build/server.mjs',
+        command: "cross-env NODE_ENV=production node build/server.mjs",
         port: 3000,
       }
     : undefined,
