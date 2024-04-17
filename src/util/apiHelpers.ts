@@ -11,12 +11,9 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
-import { default as createFetch } from "./fetch";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
-
-export const fetch = createFetch;
 
 const apiBaseUrl = (() => {
   if (config.runtimeType === "test") {
@@ -242,7 +239,6 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     headersLink,
     new BatchHttpLink({
       uri,
-      fetch: createFetch,
     }),
   ]);
 };
@@ -261,8 +257,8 @@ export const fetchWithAuthorization = async (url: string, forceAuth: boolean, co
   }
 
   const contentType = config?.headers ? config?.headers["Content-Type"] : "text/plain";
-  const extraHeaders = contentType ? { "Content-Type": contentType } : {};
-  const cacheControl = { "Cache-Control": "no-cache" };
+  const extraHeaders: HeadersInit = contentType ? { "Content-Type": contentType } : {};
+  const cacheControl: HeadersInit = { "Cache-Control": "no-cache" };
 
   return fetch(url, {
     ...config,
