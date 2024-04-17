@@ -2486,6 +2486,18 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAllSubjectsQuery = {
+  __typename?: "Query";
+  subjects?: Array<{
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
+};
+
 export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -3779,20 +3791,6 @@ export type GQLArenaNotificationsQueryVariables = Exact<{ [key: string]: never }
 export type GQLArenaNotificationsQuery = {
   __typename?: "Query";
   arenaNotifications: Array<{ __typename?: "ArenaNotification" } & GQLArenaNotificationFragment>;
-};
-
-export type GQLMySubjectsSubjectFragmentFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
-export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAllSubjectsQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLMySubjectsSubjectFragmentFragment>;
 };
 
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
