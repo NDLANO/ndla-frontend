@@ -7,7 +7,7 @@
  */
 
 import { $getRoot, EditorState } from "lexical";
-import { forwardRef, useState } from "react";
+import { ComponentProps, forwardRef, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { $generateNodesFromDOM } from "@lexical/html";
 import { $convertToMarkdownString } from "@lexical/markdown";
@@ -27,6 +27,7 @@ import { EditorToolbar } from "./EditorToolbar";
 import { FloatingLinkEditorPlugin } from "./FloatingLinkEditorPlugin";
 import { MarkdownPlugin, PLAYGROUND_TRANSFORMERS } from "./MarkdownPlugin";
 import { editorNodes } from "./nodes";
+import { RefPlugin } from "./RefPlugin";
 
 const onError = (error: any) => {
   console.error(error);
@@ -80,15 +81,15 @@ const StyledContentEditable = styled(ContentEditable)`
   }
 `;
 
-interface Props {
+interface Props extends ComponentProps<"div"> {
   setContentWritten: (data: string) => void;
   initialValue: string;
   name: string;
 }
 
-const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Props, _) => {
-  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | undefined>(undefined);
-  const props = useFormControl({});
+const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, initialValue, ...rest }, ref) => {
+  const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
+  const props = useFormControl(rest);
   const [editorFocused, setEditorFocused] = useState(false);
   const initialConfig: InitialConfigType = {
     namespace: "MyEditor",
@@ -101,12 +102,6 @@ const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Pr
       $getRoot().select().insertNodes(nodes);
       setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
     },
-  };
-
-  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
-    if (_floatingAnchorElem !== null) {
-      setFloatingAnchorElem(_floatingAnchorElem);
-    }
   };
 
   /**
@@ -127,15 +122,26 @@ const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Pr
         <InnerEditorContainer>
           <RichTextPlugin
             contentEditable={
-              <EditableWrapper ref={onRef}>
+              <EditableWrapper ref={floatingAnchorElem}>
                 <StyledContentEditable
-                  name={name}
                   role="textbox"
-                  onFocus={() => {
+                  ariaActiveDescendant={props["aria-activedescendant"]}
+                  ariaAutoComplete={props["aria-autocomplete"]}
+                  ariaControls={props["aria-controls"]}
+                  ariaDescribedBy={props["aria-describedby"]}
+                  ariaExpanded={props["aria-expanded"]}
+                  ariaLabel={props["aria-label"]}
+                  ariaLabelledBy={props["aria-labelledby"]}
+                  ariaMultiline={props["aria-multiline"]}
+                  ariaOwns={props["aria-owns"]}
+                  ariaRequired={props["aria-required"]}
+                  onFocus={(e) => {
                     setEditorFocused(true);
+                    rest.onFocus?.(e);
                   }}
-                  onBlur={() => {
+                  onBlur={(e) => {
                     setEditorFocused(false);
+                    rest.onBlur?.(e);
                   }}
                   {...props}
                 />
@@ -145,11 +151,12 @@ const MarkdownEditor = forwardRef(({ name, setContentWritten, initialValue }: Pr
             ErrorBoundary={LexicalErrorBoundary}
           />
         </InnerEditorContainer>
-        {floatingAnchorElem ? (
-          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem} editorIsFocused={editorFocused} />
+        {floatingAnchorElem.current ? (
+          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem.current} editorIsFocused={editorFocused} />
         ) : (
           ""
         )}
+        <RefPlugin ref={ref} />
         <AutoLink />
         <ListPlugin />
         <LinkPlugin />
