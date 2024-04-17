@@ -183,12 +183,12 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                   <Label textStyle="label-small" margin="none">
                     {t("myNdla.arena.flag.reason")}
                   </Label>
+                  <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   <StyledTextArea {...field} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
                   <FieldInfoWrapper>
                     <StyledText element="p" textStyle="meta-text-medium" margin="none">
                       {`${field.value.length}/${MAXIMUM_LENGTH_TEXTFIELD}`}
                     </StyledText>
-                    <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   </FieldInfoWrapper>
                 </FormControl>
               )}
