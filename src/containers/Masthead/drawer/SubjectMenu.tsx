@@ -61,7 +61,10 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
-    const [roots, rest] = partition(subject?.allTopics?.filter((t) => !!t.parentId), (t) => t.parentId === subject?.id);
+    const [roots, rest] = partition(
+      subject?.allTopics?.filter((t) => !!t.parentId),
+      (t) => t.parentId === subject?.id,
+    );
     return roots.map((r) => groupTopics(r, rest));
   }, [subject?.allTopics, subject?.id]);
 
