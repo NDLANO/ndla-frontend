@@ -10,6 +10,7 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
+import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Folder, MessageBox, useSnack } from "@ndla/ui";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import FolderSelect from "./FolderSelect";
@@ -48,69 +49,77 @@ const CopyFolder = ({ folder, onClose }: Props) => {
   };
 
   return (
-    <AddResourceContainer>
-      <Folder
-        id={folder.id.toString()}
-        title={folder.name ?? ""}
-        link={`/folder/${folder.id}`}
-        isShared={true}
-        subFolders={folderCount.folders}
-        subResources={folderCount.resources}
-      />
-      {examLock ? (
-        <MessageBox>
-          <InformationOutline />
-          {t("myNdla.examLockInfo")}
-        </MessageBox>
-      ) : (
-        <>
-          <FolderSelect
-            folders={folders}
-            loading={loading}
-            selectedFolderId={selectedFolderId}
-            setSelectedFolderId={setSelectedFolderId}
+    <ModalContent>
+      <ModalHeader>
+        <ModalTitle>{t("myNdla.resource.copyToMyNdla")}</ModalTitle>
+        <ModalCloseButton title={t("modal.closeModal")} />
+      </ModalHeader>
+      <ModalBody>
+        <AddResourceContainer>
+          <Folder
+            id={folder.id.toString()}
+            title={folder.name ?? ""}
+            link={`/folder/${folder.id}`}
+            isShared={true}
+            subFolders={folderCount.folders}
+            subResources={folderCount.resources}
           />
-          <MessageBox>
-            <InformationOutline />
-            {t("myNdla.copyFolderDisclaimer")}
-          </MessageBox>
-          {copySharedFolderMutation.error && (
-            <MessageBox type="danger">
-              <WarningOutline />
-              {t("errorMessage.description")}
+          {examLock ? (
+            <MessageBox>
+              <InformationOutline />
+              {t("myNdla.examLockInfo")}
             </MessageBox>
+          ) : (
+            <>
+              <FolderSelect
+                folders={folders}
+                loading={loading}
+                selectedFolderId={selectedFolderId}
+                setSelectedFolderId={setSelectedFolderId}
+              />
+              <MessageBox>
+                <InformationOutline />
+                {t("myNdla.copyFolderDisclaimer")}
+              </MessageBox>
+              {copySharedFolderMutation.error && (
+                <MessageBox type="danger">
+                  <WarningOutline />
+                  {t("errorMessage.description")}
+                </MessageBox>
+              )}
+            </>
           )}
-        </>
-      )}
-      <ButtonRow>
-        <Button
-          variant="outline"
-          onClick={onClose}
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onMouseUp={(e) => {
-            e.preventDefault();
-          }}
-        >
-          {t("cancel")}
-        </Button>
-        <LoadingButton
-          loading={copySharedFolderMutation.loading}
-          colorTheme="light"
-          disabled={examLock || copySharedFolderMutation.loading}
-          onMouseDown={(e) => {
-            e.preventDefault();
-          }}
-          onMouseUp={(e) => {
-            e.preventDefault();
-          }}
-          onClick={onSave}
-        >
-          {t("myNdla.resource.save")}
-        </LoadingButton>
-      </ButtonRow>
-    </AddResourceContainer>
+          <ButtonRow>
+            <Button
+              variant="outline"
+              onClick={onClose}
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+              }}
+            >
+              {t("cancel")}
+            </Button>
+            <LoadingButton
+              loading={copySharedFolderMutation.loading}
+              colorTheme="light"
+              disabled={examLock || copySharedFolderMutation.loading}
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
+              onMouseUp={(e) => {
+                e.preventDefault();
+              }}
+              onClick={onSave}
+            >
+              {t("myNdla.resource.save")}
+            </LoadingButton>
+          </ButtonRow>
+        </AddResourceContainer>
+      </ModalBody>
+    </ModalContent>
   );
 };
 

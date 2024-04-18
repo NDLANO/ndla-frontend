@@ -214,5 +214,6 @@ export const routes = {
     arenaUser: (username: String) => `/minndla/arena/user/${username}`,
     folder: (folderId: String) => `/minndla/folders/${folderId}`,
     folderPreview: (folderId: String) => `/minndla/folders/preview/${folderId}`,
+    folderShared: (folderId: String) => `/minndla/folders/shared/${folderId}`,
   },
 };

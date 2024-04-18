@@ -32,6 +32,7 @@ import PostsPage from "./containers/MyNdla/Arena/PostsPage";
 import TopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
+import FolderSharedPage from "./containers/MyNdla/Folders/FolderSharedPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
@@ -54,6 +55,7 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
+import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -168,6 +170,22 @@ const AppRoutes = ({ base }: AppProps) => {
                       />
                     </Route>
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
+                    {config.sharedFolderRedesign ? (
+                      <Route path="shared/:folderId">
+                        <Route index element={<FolderSharedPage />} />
+                        <Route path=":subfolderId/:resourceId" element={<FolderSharedPage />} />
+                        <Route path=":subfolderId" element={<FolderSharedPage />} />
+                      </Route>
+                    ) : (
+                      <Route path="shared/:folderId">
+                        <Route index element={<PrivateRoute element={<FolderSharedPage />} />} />
+                        <Route
+                          path=":subfolderId/:resourceId"
+                          element={<PrivateRoute element={<FolderSharedPage />} />}
+                        />
+                        <Route path=":subfolderId" element={<PrivateRoute element={<FolderSharedPage />} />} />
+                      </Route>
+                    )}
                   </Route>
                   <Route path="arena">
                     <Route index element={<PrivateRoute element={<ArenaPage />} />} />
@@ -198,11 +216,19 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                <Route path="folder/:folderId">
-                  <Route index element={<SharedFolderPage />} />
-                  <Route path=":subfolderId" element={<SharedFolderPage />} />
-                  <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                </Route>
+                {!config.sharedFolderRedesign ? (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPage />} />
+                    <Route path=":subfolderId" element={<SharedFolderPage />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
+                  </Route>
+                ) : (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPageV2 />} />
+                    <Route path=":subfolderId" element={<SharedFolderPageV2 />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPageV2 />} />
+                  </Route>
+                )}
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />
