@@ -14,6 +14,7 @@ import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { FileDocumentOutline } from "@ndla/icons/common";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading } from "@ndla/typography";
 import FolderActions from "./FolderActions";
 import { ResourceCountContainer } from "./FolderAndResourceCount";
 import FolderButtons from "./FolderButtons";
@@ -28,6 +29,7 @@ import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
+import MyTags from "../Tags/MyTags";
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -214,6 +216,10 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
+        <Heading element="h2" headingStyle="h2" margin="small">
+          Mapper andre har delt
+        </Heading>
+        <MyTags />
       </FoldersPageContainer>
     </MyNdlaPageWrapper>
   );
