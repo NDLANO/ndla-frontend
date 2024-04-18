@@ -229,6 +229,7 @@ const contentSecurityPolicy = {
       "https://tagmanager.google.com",
       "*.twitter.com",
       "*.twimg.com",
+      "cdn.jsdelivr.net",
     ],
     fontSrc: fontSrc,
     imgSrc: [
