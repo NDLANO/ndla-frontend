@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ZendeskButton } from "@ndla/button";
 import { colors, spacing, stackOrder } from "@ndla/core";
@@ -20,6 +19,34 @@ const FooterTextWrapper = styled.div`
     margin: 0;
   }
   padding-top: ${spacing.normal};
+`;
+
+const ZendeskWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+`;
+
+const StyledZendesk = styled(ZendeskButton)`
+  border-color: ${colors.brand.secondary};
+  position: absolute;
+  right: ${spacing.large};
+  // Heigth of button is 40px, so this is to center it vertically.
+  top: -20px;
+  z-index: ${stackOrder.trigger};
+
+  &[disabled] {
+    color: ${colors.brand.grey};
+    background-color: white;
+    border-color: ${colors.brand.secondary};
+    cursor: not-allowed;
+  }
+`;
+
+const StyledHelpCircleOutline = styled(HelpCircleOutline)`
+  width: 20px;
+  height: 20px;
 `;
 
 const FooterWrapper = () => {
@@ -97,40 +124,12 @@ const FooterWrapper = () => {
     },
   ];
 
-  const ZendeskWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-  `;
-
-  const StyledZendesk = styled(ZendeskButton)`
-    border-color: ${colors.brand.secondary};
-    position: absolute;
-    right: ${spacing.large};
-    // Heigth of button is 40px, so this is to center it vertically.
-    top: -20px;
-    z-index: ${stackOrder.trigger};
-
-    &[disabled] {
-      color: ${colors.brand.grey};
-      background-color: white;
-      border-color: ${colors.brand.secondary};
-      cursor: not-allowed;
-    }
-  `;
-
-  const IconCSS = css`
-    width: 20px;
-    height: 20px;
-  `;
-
   return (
     <>
       {config.zendeskWidgetKey && (
         <ZendeskWrapper>
           <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
-            <HelpCircleOutline css={IconCSS} />
+            <StyledHelpCircleOutline />
             {t("askNDLA")}
           </StyledZendesk>
         </ZendeskWrapper>

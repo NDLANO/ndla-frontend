@@ -30,20 +30,17 @@ interface Props {
   loading: boolean;
 }
 
+const StyledContentLoader = styled(ContentLoader)`
+  max-width: 75px;
+  min-width: 75px;
+  max-height: 15px;
+`;
+
 const CountLoadingShimmer = () => {
   return (
-    <ContentLoader
-      width={75}
-      height={15}
-      preserveAspectRatio={"none"}
-      css={{
-        maxWidth: "75px",
-        minWidth: "75px",
-        maxHeight: "15px",
-      }}
-    >
+    <StyledContentLoader width={75} height={15} preserveAspectRatio={"none"}>
       <rect x="0" y="3" rx="3" ry="3" width="75" height="15" key="rect-1" />
-    </ContentLoader>
+    </StyledContentLoader>
   );
 };
 
