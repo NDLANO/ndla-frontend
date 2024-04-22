@@ -3126,12 +3126,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^6.5.4":
-  version: 6.5.4
-  resolution: "@ndla/article-converter@npm:6.5.4"
+"@ndla/article-converter@npm:^6.5.5":
+  version: 6.5.5
+  resolution: "@ndla/article-converter@npm:6.5.5"
   dependencies:
     "@ndla/code": "npm:^5.0.56"
-    "@ndla/ui": "npm:^50.15.0"
+    "@ndla/ui": "npm:^50.15.1"
     html-react-parser: "npm:^5.1.8"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -3141,7 +3141,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/02c2d63bfc451f59480969095e0f508de4a4130f5e813c4aad3f7e9a350bd22e7ebade115443d985e4093027d070bed743f0699079f760eadf14b23dbd2a7e49
+  checksum: 10c0/0aefb6026db62e705f6c75d7851796c775d7d32f892c6b9223d7a6a0906b8cbdf4c1f77bfd66d16c0b6daa9a9da92c7eb9d9306508c61d8505f424b5e322a9a7
   languageName: node
   linkType: hard
 
@@ -3474,9 +3474,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^50.15.0":
-  version: 50.15.0
-  resolution: "@ndla/ui@npm:50.15.0"
+"@ndla/ui@npm:^50.15.1":
+  version: 50.15.1
+  resolution: "@ndla/ui@npm:50.15.1"
   dependencies:
     "@ndla/accordion": "npm:^3.0.41"
     "@ndla/button": "npm:^12.0.44"
@@ -3515,7 +3515,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^13.3.0
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/493861c32d63ca215dd7aae545adc8e6b70bb125814ab232ba2eeee6c5070de0f1cc3bf3db10fad3f2240ceb3b48812a9ed1aea0761d998218f06f01afc90375
+  checksum: 10c0/7226b3b00f0fbd8dfbdfaa6d58e0ecce594115af0745dbc85f95a0ea848ea166817791323f17d1a0f17ff8fdc641065261e840f80047ab964b1073001302a154
   languageName: node
   linkType: hard
 
@@ -10916,7 +10916,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^6.5.4"
+    "@ndla/article-converter": "npm:^6.5.5"
     "@ndla/button": "npm:^12.0.44"
     "@ndla/core": "npm:^4.5.4"
     "@ndla/dropdown-menu": "npm:^1.0.35"
@@ -10935,7 +10935,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.1.5"
     "@ndla/types-taxonomy": "npm:^1.0.22"
     "@ndla/typography": "npm:^0.4.18"
-    "@ndla/ui": "npm:^50.15.0"
+    "@ndla/ui": "npm:^50.15.1"
     "@ndla/util": "npm:^4.0.4"
     "@playwright/test": "npm:^1.43.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
