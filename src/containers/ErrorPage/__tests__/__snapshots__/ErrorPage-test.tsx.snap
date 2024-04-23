@@ -228,7 +228,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   height: 20px;
 }
 
-.emotion-23 {
+.emotion-24 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -240,7 +240,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   height: 16px;
 }
 
-.emotion-25 {
+.emotion-26 {
   color: #fff;
   position: relative;
   background: #184673;
@@ -248,14 +248,14 @@ exports[`ErrorPage renderers correctly 1`] = `
   z-index: 0;
 }
 
-.emotion-27 {
+.emotion-28 {
   z-index: 1;
   position: relative;
   padding: 48px 48px 72px;
   max-width: 1196px;
 }
 
-.emotion-29 {
+.emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -270,7 +270,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   gap: 24px;
 }
 
-.emotion-32 {
+.emotion-33 {
   font-weight: 700;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-size: 22px;
@@ -280,157 +280,157 @@ exports[`ErrorPage renderers correctly 1`] = `
   text-align: center;
 }
 
-.emotion-32:where([lang='zh'], .emotion-32[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33:where([lang='zh'], .emotion-33[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-32[data-margin="none"] {
+.emotion-33[data-margin="none"] {
   margin: 0px;
 }
 
-.emotion-32[data-margin="xlarge"] {
+.emotion-33[data-margin="xlarge"] {
   margin: 24px 0 12px 0;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-32[data-margin="xlarge"] {
+  .emotion-33[data-margin="xlarge"] {
     margin-bottom: 24px;
   }
 }
 
-.emotion-32[data-margin="large"] {
+.emotion-33[data-margin="large"] {
   margin-top: 48px;
   margin-bottom: 12px;
 }
 
-.emotion-32[data-margin="small"] {
+.emotion-33[data-margin="small"] {
   margin-top: 24px;
   margin-bottom: 12px;
 }
 
-.emotion-32[data-style="h1"] {
+.emotion-33[data-style="h1"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-32[data-style="h1"]:where([lang='zh'], .emotion-32[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="h1"]:where([lang='zh'], .emotion-33[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-32[data-style="h1"] {
+  .emotion-33[data-style="h1"] {
     font-size: 48px;
     font-size: 2.6666666666666665rem;
     line-height: 60px;
     margin-bottom: 24px;
   }
 
-  .emotion-32[data-style="h1"]:where([lang='zh'], .emotion-32[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-33[data-style="h1"]:where([lang='zh'], .emotion-33[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
 }
 
-.emotion-32[data-style="h1-resource"] {
+.emotion-33[data-style="h1-resource"] {
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-32[data-style="h1-resource"]:where([lang='zh'], .emotion-32[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="h1-resource"]:where([lang='zh'], .emotion-33[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-32[data-style="h1-resource"] {
+  .emotion-33[data-style="h1-resource"] {
     font-size: 38px;
     font-size: 2.111111111111111rem;
     line-height: 48px;
   }
 
-  .emotion-32[data-style="h1-resource"]:where([lang='zh'], .emotion-32[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-33[data-style="h1-resource"]:where([lang='zh'], .emotion-33[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
-.emotion-32[data-style="h2"] {
+.emotion-33[data-style="h2"] {
   font-size: 28px;
   font-size: 1.5555555555555556rem;
   line-height: 36px;
 }
 
-.emotion-32[data-style="h2"]:where([lang='zh'], .emotion-32[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="h2"]:where([lang='zh'], .emotion-33[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-32[data-style="h2"] {
+  .emotion-33[data-style="h2"] {
     font-size: 30px;
     font-size: 1.6666666666666667rem;
     line-height: 38px;
   }
 
-  .emotion-32[data-style="h2"]:where([lang='zh'], .emotion-32[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-33[data-style="h2"]:where([lang='zh'], .emotion-33[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
 }
 
-.emotion-32[data-style="h3"] {
+.emotion-33[data-style="h3"] {
   font-size: 26px;
   font-size: 1.4444444444444444rem;
   line-height: 35px;
 }
 
-.emotion-32[data-style="h3"]:where([lang='zh'], .emotion-32[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="h3"]:where([lang='zh'], .emotion-33[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-32[data-style="h3"] {
+  .emotion-33[data-style="h3"] {
     font-size: 26px;
     font-size: 1.4444444444444444rem;
     line-height: 36px;
   }
 
-  .emotion-32[data-style="h3"]:where([lang='zh'], .emotion-32[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-33[data-style="h3"]:where([lang='zh'], .emotion-33[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
 }
 
-.emotion-32[data-style="h4"] {
+.emotion-33[data-style="h4"] {
   font-size: 22px;
   font-size: 1.2222222222222223rem;
   line-height: 30px;
 }
 
-.emotion-32[data-style="h4"]:where([lang='zh'], .emotion-32[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="h4"]:where([lang='zh'], .emotion-33[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-32[data-style="list-title"] {
+.emotion-33[data-style="list-title"] {
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
 }
 
-.emotion-32[data-style="list-title"]:where([lang='zh'], .emotion-32[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-33[data-style="list-title"]:where([lang='zh'], .emotion-33[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-33 {
+.emotion-34 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -450,7 +450,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-33 {
+  .emotion-34 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -464,12 +464,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-35 {
+.emotion-36 {
   padding-right: 48px;
   padding-top: 24px;
 }
 
-.emotion-37 {
+.emotion-38 {
   font-weight: 700;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-size: 22px;
@@ -478,157 +478,157 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 24px 0 24px 0;
 }
 
-.emotion-37:where([lang='zh'], .emotion-37[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38:where([lang='zh'], .emotion-38[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-37[data-margin="none"] {
+.emotion-38[data-margin="none"] {
   margin: 0px;
 }
 
-.emotion-37[data-margin="xlarge"] {
+.emotion-38[data-margin="xlarge"] {
   margin: 24px 0 12px 0;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-37[data-margin="xlarge"] {
+  .emotion-38[data-margin="xlarge"] {
     margin-bottom: 24px;
   }
 }
 
-.emotion-37[data-margin="large"] {
+.emotion-38[data-margin="large"] {
   margin-top: 48px;
   margin-bottom: 12px;
 }
 
-.emotion-37[data-margin="small"] {
+.emotion-38[data-margin="small"] {
   margin-top: 24px;
   margin-bottom: 12px;
 }
 
-.emotion-37[data-style="h1"] {
+.emotion-38[data-style="h1"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-37[data-style="h1"]:where([lang='zh'], .emotion-37[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="h1"]:where([lang='zh'], .emotion-38[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-37[data-style="h1"] {
+  .emotion-38[data-style="h1"] {
     font-size: 48px;
     font-size: 2.6666666666666665rem;
     line-height: 60px;
     margin-bottom: 24px;
   }
 
-  .emotion-37[data-style="h1"]:where([lang='zh'], .emotion-37[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-38[data-style="h1"]:where([lang='zh'], .emotion-38[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
 }
 
-.emotion-37[data-style="h1-resource"] {
+.emotion-38[data-style="h1-resource"] {
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-37[data-style="h1-resource"]:where([lang='zh'], .emotion-37[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="h1-resource"]:where([lang='zh'], .emotion-38[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-37[data-style="h1-resource"] {
+  .emotion-38[data-style="h1-resource"] {
     font-size: 38px;
     font-size: 2.111111111111111rem;
     line-height: 48px;
   }
 
-  .emotion-37[data-style="h1-resource"]:where([lang='zh'], .emotion-37[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-38[data-style="h1-resource"]:where([lang='zh'], .emotion-38[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
-.emotion-37[data-style="h2"] {
+.emotion-38[data-style="h2"] {
   font-size: 28px;
   font-size: 1.5555555555555556rem;
   line-height: 36px;
 }
 
-.emotion-37[data-style="h2"]:where([lang='zh'], .emotion-37[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="h2"]:where([lang='zh'], .emotion-38[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-37[data-style="h2"] {
+  .emotion-38[data-style="h2"] {
     font-size: 30px;
     font-size: 1.6666666666666667rem;
     line-height: 38px;
   }
 
-  .emotion-37[data-style="h2"]:where([lang='zh'], .emotion-37[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-38[data-style="h2"]:where([lang='zh'], .emotion-38[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
 }
 
-.emotion-37[data-style="h3"] {
+.emotion-38[data-style="h3"] {
   font-size: 26px;
   font-size: 1.4444444444444444rem;
   line-height: 35px;
 }
 
-.emotion-37[data-style="h3"]:where([lang='zh'], .emotion-37[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="h3"]:where([lang='zh'], .emotion-38[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-37[data-style="h3"] {
+  .emotion-38[data-style="h3"] {
     font-size: 26px;
     font-size: 1.4444444444444444rem;
     line-height: 36px;
   }
 
-  .emotion-37[data-style="h3"]:where([lang='zh'], .emotion-37[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-38[data-style="h3"]:where([lang='zh'], .emotion-38[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
 }
 
-.emotion-37[data-style="h4"] {
+.emotion-38[data-style="h4"] {
   font-size: 22px;
   font-size: 1.2222222222222223rem;
   line-height: 30px;
 }
 
-.emotion-37[data-style="h4"]:where([lang='zh'], .emotion-37[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="h4"]:where([lang='zh'], .emotion-38[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-37[data-style="list-title"] {
+.emotion-38[data-style="list-title"] {
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
 }
 
-.emotion-37[data-style="list-title"]:where([lang='zh'], .emotion-37[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-38[data-style="list-title"]:where([lang='zh'], .emotion-38[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-38 {
+.emotion-39 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -641,33 +641,33 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding-top: 12px;
 }
 
-.emotion-40 {
+.emotion-41 {
   margin-right: 12px;
 }
 
-.emotion-40 svg {
+.emotion-41 svg {
   width: 20px;
   height: 20px;
   color: #fff;
 }
 
-.emotion-44 {
+.emotion-45 {
   color: #fff;
   font-size: 18px;
   font-size: 1rem;
   line-height: 29px;
 }
 
-.emotion-44:where([lang='zh'], .emotion-44[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-45:where([lang='zh'], .emotion-45[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-44 svg {
+.emotion-45 svg {
   margin-left: 6px;
 }
 
-.emotion-82 {
+.emotion-83 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -680,19 +680,19 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin-left: 6px;
 }
 
-.emotion-91 {
+.emotion-92 {
   padding-top: 24px;
 }
 
-.emotion-102 {
+.emotion-103 {
   padding-top: 24px;
 }
 
-.emotion-102 p {
+.emotion-103 p {
   margin: 0;
 }
 
-.emotion-104 {
+.emotion-105 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -707,13 +707,13 @@ exports[`ErrorPage renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-104>span {
+.emotion-105>span {
   padding: 6px 0 0;
   text-align: center;
 }
 
 @media (max-width: 48em) {
-  .emotion-104 {
+  .emotion-105 {
     font-size: 18px;
     font-size: 1rem;
     line-height: 29px;
@@ -723,17 +723,17 @@ exports[`ErrorPage renderers correctly 1`] = `
     align-items: start;
   }
 
-  .emotion-104:where([lang='zh'], .emotion-104[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-105:where([lang='zh'], .emotion-105[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(18px * 1.11);
     font-size: calc(1rem * 1.11);
   }
 
-  .emotion-104>span {
+  .emotion-105>span {
     padding: 0;
   }
 }
 
-.emotion-108 {
+.emotion-109 {
   display: block;
   position: absolute;
   top: 0;
@@ -743,7 +743,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   background: #184673;
 }
 
-.emotion-110 {
+.emotion-111 {
   z-index: 10;
 }
 
@@ -849,7 +849,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="emotion-22 emotion-23 emotion-24"
+          class="emotion-22 emotion-23 emotion-24 emotion-25"
           data-icon=""
           data-license="Apache License 2.0"
           data-source="Material Design"
@@ -870,29 +870,29 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
     <footer>
       <div
-        class="emotion-25 emotion-26"
+        class="emotion-26 emotion-27"
       >
         <div
-          class="o-wrapper emotion-27 emotion-28"
+          class="o-wrapper emotion-28 emotion-29"
         >
           <div
-            class="emotion-29 emotion-30"
+            class="emotion-30 emotion-31"
           >
             <span
-              class="emotion-31 emotion-32"
+              class="emotion-32 emotion-33"
               data-margin="none"
               data-style="h2"
             >
               Sammen skaper vi framtidas læring
             </span>
             <div
-              class="emotion-33 emotion-34"
+              class="emotion-34 emotion-35"
             >
               <div
-                class="emotion-35 emotion-36"
+                class="emotion-36 emotion-37"
               >
                 <span
-                  class="emotion-37"
+                  class="emotion-38"
                   data-margin="normal"
                   data-style="list-title"
                 >
@@ -900,15 +900,15 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </span>
                 <nav
                   aria-label="Sosiale medier"
-                  class="emotion-38 emotion-39"
+                  class="emotion-39 emotion-40"
                 >
                   <div>
                     <span
-                      class="emotion-40 emotion-41"
+                      class="emotion-41 emotion-42"
                     >
                       <svg
                         aria-hidden="true"
-                        class="emotion-23 emotion-24"
+                        class="emotion-24 emotion-25"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-source="Material Design"
@@ -925,7 +925,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://www.facebook.com/ndla.no"
                     >
                       NDLA på Facebook
@@ -933,11 +933,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <span
-                      class="emotion-40 emotion-41"
+                      class="emotion-41 emotion-42"
                     >
                       <svg
                         aria-hidden="true"
-                        class="emotion-23 emotion-24"
+                        class="emotion-24 emotion-25"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-name="Instagram"
@@ -953,7 +953,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://instagram.com/ndla_no/"
                     >
                       NDLA på Instagram
@@ -961,11 +961,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <span
-                      class="emotion-40 emotion-41"
+                      class="emotion-41 emotion-42"
                     >
                       <svg
                         aria-hidden="true"
-                        class="emotion-23 emotion-24"
+                        class="emotion-24 emotion-25"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-name="LinkedIn"
@@ -981,7 +981,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://www.linkedin.com/company/ndla/"
                     >
                       NDLA på LinkedIn
@@ -989,11 +989,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <span
-                      class="emotion-40 emotion-41"
+                      class="emotion-41 emotion-42"
                     >
                       <svg
                         aria-hidden="true"
-                        class="emotion-23 emotion-24"
+                        class="emotion-24 emotion-25"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-source="Material Design"
@@ -1023,7 +1023,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     >
                       NDLA på YouTube
@@ -1031,11 +1031,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <span
-                      class="emotion-40 emotion-41"
+                      class="emotion-41 emotion-42"
                     >
                       <svg
                         aria-hidden="true"
-                        class="emotion-23 emotion-24"
+                        class="emotion-24 emotion-25"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-source="Material Design"
@@ -1050,7 +1050,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </span>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
                     >
                       Meld deg på vårt nyhetsbrev
@@ -1059,10 +1059,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </nav>
               </div>
               <div
-                class="emotion-35 emotion-36"
+                class="emotion-36 emotion-37"
               >
                 <span
-                  class="emotion-37"
+                  class="emotion-38"
                   data-margin="normal"
                   data-style="list-title"
                 >
@@ -1070,12 +1070,12 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </span>
                 <nav
                   aria-label="Kontakt"
-                  class="emotion-38 emotion-39"
+                  class="emotion-39 emotion-40"
                 >
                   <div>
                     <a
                       aria-label="Om NDLA"
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.no/about/om-ndla"
                       rel="noopener noreferrer"
                       target=""
@@ -1086,7 +1086,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <div>
                     <a
                       aria-label="About NDLA"
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.no/about/about-us"
                       rel="noopener noreferrer"
                       target=""
@@ -1097,7 +1097,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <div>
                     <a
                       aria-label="Fagblogg"
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://blogg.ndla.no"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -1106,7 +1106,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                     <svg
                       aria-hidden="true"
-                      class="emotion-81 emotion-82 emotion-24"
+                      class="emotion-82 emotion-83 emotion-25"
                       data-icon=""
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1126,7 +1126,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <div>
                     <a
                       aria-label="Tips til elever"
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://blogg.ndla.no/eleverivideregaende/"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -1135,7 +1135,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </a>
                     <svg
                       aria-hidden="true"
-                      class="emotion-81 emotion-82 emotion-24"
+                      class="emotion-82 emotion-83 emotion-25"
                       data-icon=""
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -1155,7 +1155,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <div>
                     <a
                       aria-label="Ledige stillinger"
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.no/about/utlysninger"
                       rel="noopener noreferrer"
                       target=""
@@ -1166,10 +1166,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </nav>
               </div>
               <div
-                class="emotion-91 emotion-92"
+                class="emotion-92 emotion-93"
               >
                 <span
-                  class="emotion-37"
+                  class="emotion-38"
                   data-margin="normal"
                   data-style="list-title"
                 >
@@ -1177,11 +1177,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </span>
                 <nav
                   aria-label="Om nettstedet"
-                  class="emotion-38 emotion-39"
+                  class="emotion-39 emotion-40"
                 >
                   <div>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.no/article/personvernerklaering"
                     >
                       Personvernerklæring
@@ -1189,7 +1189,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://ndla.no/article/erklaering-for-informasjonskapsler"
                     >
                       Erklæring for informasjonskapsler
@@ -1197,7 +1197,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </div>
                   <div>
                     <a
-                      class="emotion-44 emotion-45"
+                      class="emotion-45 emotion-46"
                       href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
                     >
                       Tilgjengelighetserklæring
@@ -1208,15 +1208,15 @@ exports[`ErrorPage renderers correctly 1`] = `
             </div>
           </div>
           <div
-            class="emotion-102 emotion-103"
+            class="emotion-103 emotion-104"
           >
             <p
-              class="emotion-104 emotion-105"
+              class="emotion-105 emotion-106"
             >
               Nettstedet er utarbeidet som åpen kildekode.
             </p>
             <p
-              class="emotion-104 emotion-105"
+              class="emotion-105 emotion-106"
             >
               <span>
                 <strong>
@@ -1228,12 +1228,12 @@ exports[`ErrorPage renderers correctly 1`] = `
           </div>
         </div>
         <div
-          class="emotion-108 emotion-109"
+          class="emotion-109 emotion-110"
         />
       </div>
     </footer>
     <div
-      class="emotion-110 emotion-111"
+      class="emotion-111 emotion-112"
     >
       <button
         class="emotion-21"

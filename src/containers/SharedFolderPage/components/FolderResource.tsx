@@ -9,7 +9,6 @@
 import { MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Launch } from "@ndla/icons/common";
@@ -60,14 +59,13 @@ const StyledSafelinkButton = styled(SafeLinkButton, styledOptions)<StyledProps>`
 
 const ListElement = styled.li`
   margin: 0;
+  &[data-last="true"] {
+    border-bottom: 1px solid ${colors.brand.light};
+  }
 `;
 
 const StyledSpan = styled.span`
   flex: 1;
-`;
-
-const isLastStyle = css`
-  border-bottom: 1px solid ${colors.brand.light};
 `;
 
 const allContentTypes = {
@@ -126,7 +124,7 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
   const contentType = allContentTypes[maybeContentType?.id ?? "default"];
 
   return (
-    <ListElement css={isLast ? isLastStyle : undefined} role="none">
+    <ListElement data-last={isLast} role="none">
       <StyledSafelinkButton
         aria-current={isCurrent ? "page" : undefined}
         tabIndex={-1}
