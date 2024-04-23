@@ -146,6 +146,7 @@ export const iframeArticlePageFragments = {
     fragment IframeArticlePage_Resource on Resource {
       id
       path
+      relevanceId
       resourceTypes {
         id
         name
