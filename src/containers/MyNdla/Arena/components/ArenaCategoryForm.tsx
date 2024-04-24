@@ -16,7 +16,7 @@ import { ButtonV2, LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem, Select } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
-import { INewCategory } from "../../../../../../backend/typescript/types-backend/myndla-api";
+import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
