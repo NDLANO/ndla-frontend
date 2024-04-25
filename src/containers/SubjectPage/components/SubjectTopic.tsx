@@ -7,18 +7,20 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { Topic as UITopic } from "@ndla/ui";
+import { NavigationBox } from "@ndla/ui";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
+import Topic from "../../../components/Topic/Topic";
+import TopicArticle from "../../../components/Topic/TopicArticle";
 import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
@@ -54,12 +56,20 @@ type Props = {
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
 };
 
-const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResources, loading, subject }: Props) => {
+const SubjectTopic = ({
+  topicId,
+  subjectId,
+  subTopicId,
+  topic,
+  resourceTypes,
+  showResources,
+  loading,
+  subject,
+}: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
-  const [showContent, setShowContent] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
 
   const topicPath = useMemo(() => {
@@ -93,10 +103,6 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
       />
     );
   }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
-
-  useEffect(() => {
-    setShowContent(false);
-  }, [topicId]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
@@ -150,31 +156,37 @@ const Topic = ({ topicId, subjectId, subTopicId, topic, resourceTypes, showResou
           />
         </>
       )}
-      <UITopic
+      <Topic
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
         id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-        onToggleShowContent={
-          topic.article?.transformedContent?.content !== "" ? () => setShowContent(!showContent) : undefined
-        }
-        showContent={showContent}
         title={article.title}
         introduction={article.introduction}
-        resources={resources}
-        subTopics={subTopics}
         metaImage={article.metaImage}
         isLoading={false}
-        invertedStyle={ndlaFilm}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       >
-        <ArticleContents
-          article={article}
-          scripts={scripts}
-          modifier="in-topic"
-          showIngress={false}
-          oembed={article.oembed}
-        />
-      </UITopic>
+        {topic.article?.transformedContent?.content !== "" && (
+          <TopicArticle>
+            <ArticleContents
+              article={article}
+              scripts={scripts}
+              modifier="in-topic"
+              showIngress={false}
+              oembed={article.oembed}
+            />
+          </TopicArticle>
+        )}
+        {!!subTopics?.length && (
+          <NavigationBox
+            colorMode="light"
+            heading={t("navigation.topics")}
+            items={subTopics}
+            invertedStyle={ndlaFilm}
+          />
+        )}
+        {resources}
+      </Topic>
     </>
   );
 };
@@ -240,4 +252,4 @@ export const topicFragments = {
   `,
 };
 
-export default Topic;
+export default SubjectTopic;
