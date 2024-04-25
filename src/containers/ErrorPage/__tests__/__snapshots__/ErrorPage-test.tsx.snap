@@ -435,7 +435,10 @@ exports[`ErrorPage renderers correctly 1`] = `
 @media (min-width: 48em) {
   .emotion-29 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: max-content max-content min-content;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
     row-gap: 24px;
   }
 }
@@ -536,7 +539,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-130 {
+.emotion-117 {
   z-index: 10;
 }
 
@@ -1032,53 +1035,11 @@ exports[`ErrorPage renderers correctly 1`] = `
                Sigurd Trageton
             </p>
           </div>
-          <div
-            class="emotion-31 emotion-32"
-          >
-            <span
-              class="emotion-28"
-              data-margin="none"
-              data-style="list-title"
-              id=":r3:"
-            >
-              footer.otherLanguages
-            </span>
-            <nav>
-              <ul
-                class="emotion-34 emotion-35"
-              >
-                <li
-                  class="emotion-36 emotion-37"
-                >
-                  <a
-                    class="emotion-40 emotion-41"
-                    href="/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466"
-                    rel="noopener noreferrer"
-                    target=""
-                  >
-                    Українська
-                  </a>
-                </li>
-                <li
-                  class="emotion-36 emotion-37"
-                >
-                  <a
-                    class="emotion-40 emotion-41"
-                    href="/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c"
-                    rel="noopener noreferrer"
-                    target=""
-                  >
-                    Davvisámegiella
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
         </div>
       </div>
     </footer>
     <div
-      class="emotion-130 emotion-131"
+      class="emotion-117 emotion-118"
     >
       <button
         class="emotion-21"
