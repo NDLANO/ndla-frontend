@@ -214,16 +214,16 @@ const FooterWrapper = () => {
     },
   ];
 
-  const otherLanguages = [
-    {
-      to: "/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466",
-      text: "Українська",
-    },
-    {
-      to: "/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c",
-      text: "Davvisámegiella",
-    },
-  ];
+  // const otherLanguages = [
+  //   {
+  //     to: "/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466",
+  //     text: "Українська",
+  //   },
+  //   {
+  //     to: "/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c",
+  //     text: "Davvisámegiella",
+  //   },
+  // ];
 
   return (
     <footer>
@@ -251,7 +251,7 @@ const FooterWrapper = () => {
               <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
             </Text>
           </FooterTextWrapper>
-          <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} />
+          {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
         </FooterGrid>
       </FooterBlock>
     </footer>
