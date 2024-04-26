@@ -82,21 +82,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const [showReasonField, setShowReasonField] = useState<boolean>(false);
-  const {
-    handleSubmit,
-    getValues,
-    control,
-    setValue,
-    formState: { dirtyFields },
-  } = useForm({
-    defaultValues: {
-      type: "spam",
-      reason: "",
-    },
-    mode: "onChange",
-  });
-
-  const { type } = getValues();
+  const { handleSubmit, control, setValue } = useForm({ defaultValues: { type: "spam", reason: "" } });
 
   const sendReport = async (data: FlagPost) => {
     try {
@@ -158,7 +144,6 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                   onValueChange={(value) => {
                     setValue("type", value, {
                       shouldDirty: true,
-                      shouldValidate: true,
                     });
                     setShowReasonField(value === "other");
                   }}
@@ -198,12 +183,12 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                   <Label textStyle="label-small" margin="none">
                     {t("myNdla.arena.flag.reason")}
                   </Label>
+                  <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   <StyledTextArea {...field} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
                   <FieldInfoWrapper>
                     <StyledText element="p" textStyle="meta-text-medium" margin="none">
                       {`${field.value.length}/${MAXIMUM_LENGTH_TEXTFIELD}`}
                     </StyledText>
-                    <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   </FieldInfoWrapper>
                 </FormControl>
               )}
@@ -213,7 +198,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <ButtonV2 onClick={onClose} variant="outline">
               {t("cancel")}
             </ButtonV2>
-            <LoadingButton colorTheme="primary" type="submit" disabled={type === "other" && !dirtyFields.reason}>
+            <LoadingButton colorTheme="primary" type="submit">
               {t("myNdla.arena.flag.send")}
             </LoadingButton>
           </StyledButtonRow>

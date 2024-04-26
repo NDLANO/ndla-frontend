@@ -6,7 +6,6 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Locked } from "@ndla/icons/common";
@@ -33,20 +32,13 @@ const StyledSafelink = styled(SafeLink)`
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   box-shadow: none;
+  background-color: ${colors.background.lightBlue};
   &:hover,
   &:focus-visible {
     background-color: ${colors.brand.lighter};
     [data-name="hover"] {
       text-decoration: none;
     }
-  }
-`;
-
-const TopicCardCSS = css`
-  background-color: ${colors.background.lightBlue};
-  &:hover,
-  &:focus-visible {
-    background-color: ${colors.brand.lighter};
   }
 `;
 
@@ -69,7 +61,7 @@ const StyledCountContainer = styled.div`
   color: ${colors.text.primary};
 `;
 
-const LockedIconCSS = css`
+const StyledLockedIcon = styled(Locked)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   color: ${colors.brand.primary};
@@ -84,7 +76,7 @@ const CountContainer = styled.div`
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
-    <StyledSafelink css={TopicCardCSS} to={routes.myNdla.arenaTopic(id)} data-testid="arena-topic-card">
+    <StyledSafelink to={routes.myNdla.arenaTopic(id)} data-testid="arena-topic-card">
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}
@@ -95,7 +87,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
       </div>
       <StyledCountContainer>
         {locked ? (
-          <Locked css={LockedIconCSS} />
+          <StyledLockedIcon />
         ) : (
           <CountContainer aria-label={`${count} ${t("myNdla.arena.topic.responses")}`}>
             <Text element="p" textStyle="content-alt" margin="none" aria-hidden>
