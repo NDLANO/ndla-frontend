@@ -3908,6 +3908,33 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammeContainer_ProgrammeFragment = {
+  __typename?: "ProgrammePage";
+  id: string;
+  metaDescription?: string;
+  title: { __typename?: "Title"; title: string };
+  desktopImage?: { __typename?: "MetaImage"; url: string };
+  grades?: Array<{
+    __typename?: "Grade";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string };
+    categories?: Array<{
+      __typename?: "Category";
+      id: string;
+      isProgrammeSubject: boolean;
+      title: { __typename?: "Title"; title: string };
+      subjects?: Array<{
+        __typename?: "Subject";
+        id: string;
+        name: string;
+        path: string;
+        subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+      }>;
+    }>;
+  }>;
+};
+
 export type GQLProgrammePageQueryVariables = Exact<{
   path: Scalars["String"]["input"];
 }>;
@@ -3916,21 +3943,8 @@ export type GQLProgrammePageQuery = {
   __typename?: "Query";
   programme?: {
     __typename?: "ProgrammePage";
-    metaDescription?: string;
-    grades?: Array<{
-      __typename?: "Grade";
-      id: string;
-      url: string;
-      title: { __typename?: "Title"; title: string };
-      categories?: Array<{
-        __typename?: "Category";
-        id: string;
-        isProgrammeSubject: boolean;
-        title: { __typename?: "Title"; title: string };
-        subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
-      }>;
-    }>;
-  } & GQLProgrammeFragmentFragment;
+    grades?: Array<{ __typename?: "Grade"; title: { __typename?: "Title"; title: string } }>;
+  } & GQLProgrammeContainer_ProgrammeFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
