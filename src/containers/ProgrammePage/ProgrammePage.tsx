@@ -10,22 +10,19 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Spinner } from "@ndla/icons";
 import ProgrammeContainer from "./ProgrammeContainer";
-import { RedirectExternal, Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
-import { programmeRedirects } from "../../constants";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
-import { toProgramme, TypedParams, useTypedParams } from "../../routeHelpers";
+import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
-  programme: string;
-  grade?: string;
+  "*": string;
 }
 
 const programmePageQuery = gql`
-  query programmePage($path: String!) {
-    programme(path: $path) {
+  query programmePage($contextId: String) {
+    programme(contextId: $contextId) {
       grades {
         title {
           title
@@ -39,20 +36,18 @@ const programmePageQuery = gql`
 
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
-  const { programme: path, grade: gradeParam } = useTypedParams<MatchParams>();
-  const oldProgramme = programmeRedirects[path] !== undefined;
-  const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
-    variables: { path: path },
-    skip: oldProgramme,
-  });
-
-  if (oldProgramme) {
-    return (
-      <Status code={301}>
-        <RedirectExternal to={toProgramme(encodeURIComponent(programmeRedirects[path] || ""), gradeParam)} />
-      </Status>
-    );
+  const { "*": splat } = useTypedParams<MatchParams>();
+  let name, contextId, path, gradeParam;
+  if (splat.includes("__")) {
+    [path = "", gradeParam] = splat.split("/");
+    [name, contextId] = path.split("__");
+  } else {
+    [name, contextId, gradeParam] = splat.split("/");
   }
+
+  const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
+    variables: { contextId: contextId },
+  });
 
   if (loading) {
     return <Spinner />;

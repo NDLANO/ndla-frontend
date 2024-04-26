@@ -22,6 +22,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
+import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -180,7 +181,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               return (
                 <li key={item.name}>
                   <SafeLinkButton
-                    to={current ? "" : item.name.toLowerCase()}
+                    to={toProgramme(programme.url.slice(1), item.name.toLowerCase())}
                     colorTheme={current ? undefined : "lighter"}
                     shape="pill"
                     aria-current={current}
@@ -212,6 +213,7 @@ ProgrammeContainer.fragments = {
       desktopImage {
         url
       }
+      url
       grades {
         id
         title {
