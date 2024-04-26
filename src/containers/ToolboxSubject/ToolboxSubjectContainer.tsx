@@ -14,10 +14,11 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import { HomeBreadcrumb, NavigationBox, OneColumn, SimpleBreadcrumbItem, SubjectBanner } from "@ndla/ui";
+import { HomeBreadcrumb, NavigationBox, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import SubjectBanner from "../../components/Subject/SubjectBanner";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
 import { removeUrn, toTopic } from "../../routeHelpers";
@@ -163,9 +164,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             />
           </div>
         ))}
-        {subject.subjectpage?.banner && (
-          <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} negativeTopMargin={!topics} />
-        )}
+        {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
       </OneColumn>
     </>
   );
