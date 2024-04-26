@@ -37,12 +37,13 @@ const programmePageQuery = gql`
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { "*": splat } = useTypedParams<MatchParams>();
-  let name, contextId, path, gradeParam;
+  let contextId, path, gradeParam;
   if (splat.includes("__")) {
     [path = "", gradeParam] = splat.split("/");
-    [name, contextId] = path.split("__");
+    contextId = path.split("__")[1];
   } else {
-    [name, contextId, gradeParam] = splat.split("/");
+    contextId = splat.split("/")[0];
+    gradeParam = splat.split("/")[1];
   }
 
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
