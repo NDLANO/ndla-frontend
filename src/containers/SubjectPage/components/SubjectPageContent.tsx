@@ -8,11 +8,12 @@
 
 import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
 import { gql } from "@apollo/client";
-import { NavigationBox, SimpleBreadcrumbItem } from "@ndla/ui";
+import { SimpleBreadcrumbItem } from "@ndla/ui";
 import TopicWrapper from "./TopicWrapper";
+import NavigationBox from "../../../components/NavigationBox";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
 import { GQLSubjectPageContent_SubjectFragment } from "../../../graphqlTypes";
-import { toTopic, useIsNdlaFilm } from "../../../routeHelpers";
+import { toTopic } from "../../../routeHelpers";
 import { scrollToRef } from "../subjectPageHelpers";
 
 interface Props {
@@ -23,7 +24,6 @@ interface Props {
 }
 
 const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) => {
-  const ndlaFilm = useIsNdlaFilm();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -41,7 +41,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
 
   return (
     <>
-      <NavigationBox items={mainTopics || []} invertedStyle={ndlaFilm} listDirection="horizontal" />
+      <NavigationBox items={mainTopics || []} listDirection="horizontal" />
       {topicIds.map((topicId, index) => {
         return (
           <div ref={refs[index]} key={index}>

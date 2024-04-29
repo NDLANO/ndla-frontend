@@ -13,11 +13,11 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { NavigationBox } from "@ndla/ui";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
 import TopicArticle from "../../../components/Topic/TopicArticle";
@@ -28,7 +28,7 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
@@ -70,7 +70,6 @@ const SubjectTopic = ({
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
-  const ndlaFilm = useIsNdlaFilm();
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
@@ -177,14 +176,7 @@ const SubjectTopic = ({
             />
           </TopicArticle>
         )}
-        {!!subTopics?.length && (
-          <NavigationBox
-            colorMode="light"
-            heading={t("navigation.topics")}
-            items={subTopics}
-            invertedStyle={ndlaFilm}
-          />
-        )}
+        {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
         {resources}
       </Topic>
     </>
