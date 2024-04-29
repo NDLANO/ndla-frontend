@@ -28,17 +28,6 @@ interface Props {
   isOembed?: boolean;
 }
 
-// We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
-interface LocalGQLCompetenceGoal extends Omit<GQLCompetenceGoal, "title"> {
-  name: string;
-}
-
-// We do the same as above with 'name' and 'text'
-interface LocalGQLCoreElement extends Omit<GQLCoreElement, "title" | "description"> {
-  name: string;
-  text?: string;
-}
-
 interface ElementType {
   id: string;
   title: string;
@@ -63,8 +52,8 @@ const CompetenceGoalsWrapper = styled.div`
 `;
 
 const getUniqueCurriculums = (
-  competenceGoals: (LocalGQLCompetenceGoal | LocalGQLCoreElement)[],
-): (LocalGQLCompetenceGoal["curriculum"] | LocalGQLCoreElement["curriculum"])[] => {
+  competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
+): (GQLCompetenceGoal["curriculum"] | GQLCoreElement["curriculum"])[] => {
   const curriculums = competenceGoals
     .filter((e) => e.curriculum?.id)
     .map((competenceGoal) => competenceGoal.curriculum);
@@ -80,9 +69,9 @@ const getUniqueCurriculums = (
 };
 
 const getUniqueCompetenceGoalSet = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   curriculumId: string,
-): LocalGQLCompetenceGoal["competenceGoalSet"][] => {
+): GQLCompetenceGoal["competenceGoalSet"][] => {
   const competenceGoalSet = competenceGoals
     .filter((e) => e.competenceGoalSet?.id)
     .filter((e) => e.curriculum?.id === curriculumId)
@@ -99,7 +88,7 @@ const getUniqueCompetenceGoalSet = (
 };
 
 const getUniqueCompetenceGoals = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   competenceGoalSetId: string,
   addUrl: boolean,
   searchUrl: string,
@@ -108,7 +97,7 @@ const getUniqueCompetenceGoals = (
   return competenceGoals
     .filter((competenceGoal) => competenceGoal.competenceGoalSet?.id === competenceGoalSetId)
     .map((competenceGoal) => ({
-      text: competenceGoal.name,
+      text: competenceGoal.title,
       url: addUrl ? searchUrl + competenceGoal.id : "",
       type: goalType,
       id: competenceGoal.id,
@@ -118,7 +107,7 @@ const getUniqueCompetenceGoals = (
 const sortElementsById = (elements: ElementType["groupedCompetenceGoals"]): ElementType["groupedCompetenceGoals"] =>
   elements!.map((e) => ({
     ...e,
-    elements: e.elements.sort((a: any, b: any) => {
+    elements: e.elements?.sort((a: any, b: any) => {
       if (a.id! < b.id!) return -1;
       if (a.id! > b.id!) return 1;
       return 0;
@@ -126,7 +115,7 @@ const sortElementsById = (elements: ElementType["groupedCompetenceGoals"]): Elem
   }));
 
 export const groupCompetenceGoals = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   addUrl: boolean = false,
   goalType: CompetenceGoalsType,
   subjectId?: string,
@@ -143,8 +132,8 @@ export const groupCompetenceGoals = (
   return sortElementsById(curriculumElements);
 };
 
-const groupCoreElements = (
-  coreElements: LocalGQLCoreElement[],
+export const groupCoreElements = (
+  coreElements: GQLCoreElement[],
   subjectId?: string,
 ): ElementType["groupedCoreElementItems"] => {
   const searchUrl = subjectId ? `/search?subjects=${subjectId}&grepCodes=` : "/search?grepCodes=";
@@ -154,8 +143,8 @@ const groupCoreElements = (
       .filter((e) => e.curriculum?.id === curriculum!.id)
       .map((coreElement) => ({
         id: coreElement!.id,
-        title: coreElement!.name,
-        text: coreElement.text!,
+        title: coreElement!.title,
+        text: coreElement.description!,
         url: `${searchUrl}${coreElement.id}`,
       })),
   }));

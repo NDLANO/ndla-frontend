@@ -30,7 +30,7 @@ interface Props {
 
 export interface CompetenceGoalType {
   title: string;
-  elements: {
+  elements?: {
     id: string;
     title: string;
     goals: {
@@ -59,7 +59,16 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
   return (
     <TabWrapper>
       {items.map((item, index) => (
-        <CompetenceItem item={item} key={index} type={type} />
+        <CompetenceItemWrapper key={index}>
+          <hgroup>
+            <StyledHeading element="h2" headingStyle="h2" margin="none">
+              <MenuBook size="normal" />
+              {item.title}
+            </StyledHeading>
+            {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}
+          </hgroup>
+          <CompetenceItem item={item} />
+        </CompetenceItemWrapper>
       ))}
       <span>
         {`${t("competenceGoals.licenseData")} `}
@@ -77,8 +86,8 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
 
 interface CompetenceItemProps {
   item: CompetenceGoalType | CoreElementType;
-  type: CompetenceType;
   isOembed?: boolean;
+  showLinks?: boolean;
 }
 
 const StyledHeading = styled(Heading)`
@@ -124,63 +133,61 @@ const OuterListItem = styled.li`
 
 const ItemWrapper = styled.div`
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: ${spacing.small};
+  &[data-show-links="true"] {
+    grid-template-columns: 3fr 1fr;
+  }
 `;
 
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   text-align: start;
 `;
 
-const CompetenceItem = ({ item, type, isOembed }: CompetenceItemProps) => {
+export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProps) => {
   const { t } = useTranslation();
   return (
-    <CompetenceItemWrapper>
-      <hgroup>
-        <StyledHeading element="h2" headingStyle="h2" margin="none">
-          <MenuBook size="normal" />
-          {item.title}
-        </StyledHeading>
-        {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}
-      </hgroup>
-      <OuterList>
-        {item.elements.map((element) => (
-          <OuterListItem key={element.id}>
-            <Heading element="h3" headingStyle="list-title" margin="none">
-              {element.title}
-            </Heading>
-            {"goals" in element ? (
-              <InnerList>
-                {element.goals.map((goal) => (
-                  <InnerListItem key={goal.id}>
-                    <ItemWrapper>
-                      <Text textStyle="content-alt" margin="none">
-                        {goal.text}
-                      </Text>
+    <OuterList>
+      {item.elements?.map((element) => (
+        <OuterListItem key={element.id}>
+          <Heading element="h3" headingStyle="list-title" margin="none">
+            {element.title}
+          </Heading>
+          {"goals" in element ? (
+            <InnerList>
+              {element.goals.map((goal) => (
+                <InnerListItem key={goal.id}>
+                  <ItemWrapper data-show-links={showLinks}>
+                    <Text textStyle="content-alt" margin="none">
+                      {goal.text}
+                    </Text>
+                    {showLinks && (
                       <StyledSafeLinkButton to={goal.url} target={isOembed ? "_blank" : "_self"} variant="outline">
                         <Search size="normal" />
                         {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
                       </StyledSafeLinkButton>
-                    </ItemWrapper>
-                  </InnerListItem>
-                ))}
-              </InnerList>
-            ) : (
-              <ItemWrapper>
-                <Text textStyle="content-alt" margin="none">
-                  {element.text}
-                </Text>
+                    )}
+                  </ItemWrapper>
+                </InnerListItem>
+              ))}
+            </InnerList>
+          ) : (
+            <ItemWrapper data-show-links={showLinks}>
+              <Text textStyle="content-alt" margin="none">
+                {element.text}
+              </Text>
+              {showLinks && (
                 <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="outline">
                   <Search size="normal" />
                   {t("competenceGoals.competenceGoalResourceSearchText", { code: element.id })}
                 </StyledSafeLinkButton>
-              </ItemWrapper>
-            )}
-          </OuterListItem>
-        ))}
-      </OuterList>
-    </CompetenceItemWrapper>
+              )}
+            </ItemWrapper>
+          )}
+        </OuterListItem>
+      ))}
+    </OuterList>
   );
 };
 
