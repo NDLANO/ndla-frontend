@@ -67,7 +67,7 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
             </StyledHeading>
             {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}
           </hgroup>
-          <CompetenceItem item={item} />
+          <CompetenceItem item={item} showLinks />
         </CompetenceItemWrapper>
       ))}
       <span>
@@ -180,7 +180,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
               {showLinks && (
                 <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="outline">
                   <Search size="normal" />
-                  {t("competenceGoals.competenceGoalResourceSearchText", { code: element.id })}
+                  {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </StyledSafeLinkButton>
               )}
             </ItemWrapper>
