@@ -159,6 +159,9 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<PrivateRoute element={<FoldersPage />} />} />
+                    <Route path="tags">
+                      <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
+                    </Route>
                     <Route path="preview/:folderId">
                       <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
                       <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
@@ -188,10 +191,6 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
-                  </Route>
-                  <Route path="tags">
-                    <Route index element={<PrivateRoute element={<TagsPage />} />} />
-                    <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
                   </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />

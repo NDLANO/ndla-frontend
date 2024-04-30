@@ -216,9 +216,30 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        <Heading element="h2" headingStyle="h2" margin="small">
-          Mapper andre har delt
+        <Heading element="h2" headingStyle="h2" margin="none">
+          {t("myNdla.sharedByOthersFolders")}
         </Heading>
+        <FolderList
+          type={viewType}
+          folders={folders}
+          loading={loading}
+          folderId={folderId}
+          setFocusId={setFocusId}
+          folderRefId={folderRefId}
+        />
+        {!!selectedFolder?.resources.length && (
+          <ResourceCountContainer>
+            <FileDocumentOutline />
+            <span>
+              {t("myNdla.resources", {
+                count: selectedFolder?.resources.length,
+              })}
+            </span>
+          </ResourceCountContainer>
+        )}
+        {selectedFolder && (
+          <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
+        )}
         <MyTags />
       </FoldersPageContainer>
     </MyNdlaPageWrapper>

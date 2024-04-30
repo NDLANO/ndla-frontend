@@ -18,7 +18,6 @@ import {
   BookOutlined,
   Forum,
   ForumOutlined,
-  HashTag,
   Home,
   HomeOutline,
   LogOut,
@@ -207,12 +206,6 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.iconMenu.subjects"),
     icon: <BookOutlined />,
     iconFilled: <Book />,
-  },
-  {
-    id: "tags",
-    name: t("myNdla.myTags"),
-    shortName: t("myNdla.iconMenu.tags"),
-    icon: <HashTag />,
   },
   {
     id: "arena",

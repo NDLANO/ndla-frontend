@@ -6,35 +6,24 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { HashTag, Link } from "@ndla/icons/common";
-import { FolderOutlined } from "@ndla/icons/contentType";
+import { HashTag } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { BlockResource, ListResource, useSnack } from "@ndla/ui";
+import { Heading } from "@ndla/typography";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
-import config from "../../../config";
-import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
-import { GQLFolderResource } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
-import SettingsMenu from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
-import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
-import { BlockWrapper, ViewType } from "../Folders/FoldersPage";
-import ListViewOptions from "../Folders/ListViewOptions";
+import { useFolders } from "../folderMutations";
 
 const StyledUl = styled.ul`
   padding: 0px;
@@ -49,7 +38,7 @@ const StyledLi = styled.li`
   padding: 0;
 `;
 
-const TagsPageContainer = styled.div`
+const MyTagsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
@@ -90,116 +79,22 @@ const MyTags = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
-      <TagsPageContainer>
-        <HelmetWithTracker title={title} />
-        <TitleWrapper>
-          <MyNdlaBreadcrumb page="tags" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
-          <MyNdlaTitle title={tag ? tag : t("myNdla.myTags")} />
-        </TitleWrapper>
-        {!tag && tags.length ? <Tags tags={tags} /> : null}
-        {tag && resources && <Resources resources={resources} />}
-      </TagsPageContainer>
-    </MyNdlaPageWrapper>
+    <MyTagsContainer>
+      <HelmetWithTracker title={title} />
+      <TitleWrapper>
+        <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
+        <Heading element="h2" headingStyle="h2" margin="none">
+          {tag ? tag : t("myNdla.myTags")}
+        </Heading>
+      </TitleWrapper>
+      {!tag && tags.length ? <Tags tags={tags} /> : null}
+    </MyTagsContainer>
   );
 };
 
 interface TagsProps {
   tags: string[];
 }
-
-interface ResourcesProps {
-  resources: GQLFolderResource[];
-}
-
-const Resources = ({ resources }: ResourcesProps) => {
-  const [viewType, _setViewType] = useState<ViewType>(
-    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
-  );
-  const { addSnack } = useSnack();
-  const { examLock } = useContext(AuthContext);
-  const { t } = useTranslation();
-  const { data, loading } = useFolderResourceMetaSearch(
-    resources.map((res) => ({
-      id: res.resourceId,
-      path: res.path,
-      resourceType: res.resourceType,
-    })),
-    { skip: resources.length === 0 },
-  );
-  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
-
-  const setViewType = (type: ViewType) => {
-    _setViewType(type);
-    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
-  };
-
-  const Resource = viewType === "block" ? BlockResource : ListResource;
-  return (
-    <>
-      <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper data-type={viewType}>
-        {resources.map((resource) => {
-          const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-          return (
-            <Resource
-              id={resource.id}
-              tagLinkPrefix={routes.myNdla.tags}
-              isLoading={loading}
-              key={resource.id}
-              link={resource.path}
-              title={meta?.title ?? ""}
-              description={viewType !== "list" ? meta?.description ?? "" : undefined}
-              tags={resource.tags}
-              resourceTypes={meta?.resourceTypes ?? []}
-              resourceImage={{
-                src: meta?.metaImage?.url ?? "",
-                alt: "",
-              }}
-              menu={
-                <SettingsMenu
-                  menuItems={
-                    examLock
-                      ? []
-                      : [
-                          {
-                            icon: <FolderOutlined />,
-                            text: t("myNdla.resource.add"),
-                            isModal: true,
-                            modality: false,
-                            modalContent: (close) => (
-                              <AddResourceToFolderModalContent
-                                resource={{
-                                  id: resource.resourceId,
-                                  resourceType: resource.resourceType,
-                                  path: resource.path,
-                                }}
-                                close={close}
-                              />
-                            ),
-                          },
-                          {
-                            icon: <Link />,
-                            text: t("myNdla.resource.copyLink"),
-                            onClick: () => {
-                              navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-                              addSnack({
-                                content: t("myNdla.resource.linkCopied"),
-                                id: "linkCopied",
-                              });
-                            },
-                          },
-                        ]
-                  }
-                />
-              }
-            />
-          );
-        })}
-      </BlockWrapper>
-    </>
-  );
-};
 
 const Tags = ({ tags }: TagsProps) => {
   const { t } = useTranslation();
@@ -209,7 +104,12 @@ const Tags = ({ tags }: TagsProps) => {
         <StyledUl>
           {tags.map((tag) => (
             <StyledLi key={tag}>
-              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={encodeURIComponent(tag)}>
+              <StyledSafeLinkButton
+                colorTheme="greyLighter"
+                shape="pill"
+                key={tag}
+                to={"tags/" + encodeURIComponent(tag)}
+              >
                 <HashTag />
                 {tag}
               </StyledSafeLinkButton>
@@ -220,5 +120,4 @@ const Tags = ({ tags }: TagsProps) => {
     </>
   );
 };
-
 export default MyTags;
