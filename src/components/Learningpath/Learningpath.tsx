@@ -54,7 +54,6 @@ interface Props {
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
-  onKeyUpEvent: (evt: KeyboardEvent) => void;
   breadcrumbItems: BreadcrumbType[];
 }
 
@@ -67,7 +66,6 @@ const Learningpath = ({
   topicPath,
   resourceTypes,
   skipToContentId,
-  onKeyUpEvent,
   breadcrumbItems,
 }: Props) => {
   const ndlaFilm = useIsNdlaFilm();
@@ -104,13 +102,6 @@ const Learningpath = ({
   };
 
   useEffect(() => updateViewedSteps(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    window.addEventListener("keyup", onKeyUpEvent);
-    updateViewedSteps();
-    return () => {
-      window.removeEventListener("keyup", onKeyUpEvent);
-    };
-  }, [onKeyUpEvent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { innerWidth } = useWindowSize(100);
   const mobileView = innerWidth < 601;
