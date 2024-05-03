@@ -9,6 +9,7 @@
 import fs from "fs/promises";
 import { join } from "path";
 import express, { NextFunction, Request, Response } from "express";
+import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
@@ -48,6 +49,14 @@ if (!isProduction) {
   const sirv = (await import("sirv")).default;
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
+
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: true,
+  excludeRoutes: ["/health"],
+});
+
+app.use(metricsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(

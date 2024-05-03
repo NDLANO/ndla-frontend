@@ -11,7 +11,6 @@ import { useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { withTranslation, WithTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
@@ -39,6 +38,10 @@ const sortAlphabetically = (movies: MoviesByType[], locale: string) =>
 
 const StyledH1 = styled.h1`
   ${utils.visuallyHidden}
+`;
+
+const StyledMovieList = styled.div`
+  margin: ${spacing.xlarge} 0 ${spacing.xxlarge};
 `;
 
 interface Props extends WithTranslation {
@@ -109,12 +112,7 @@ const FilmFrontpage = ({
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={onChangeResourceType}
         />
-        <div
-          ref={movieListRef}
-          css={css`
-            margin: ${spacing.xlarge} 0 ${spacing.xxlarge};
-          `}
-        >
+        <StyledMovieList ref={movieListRef}>
           {showingAll ? (
             <AllMoviesAlphabetically movies={sortAlphabetically(moviesByType, i18n.language)} />
           ) : (
@@ -128,7 +126,7 @@ const FilmFrontpage = ({
               loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
           )}
-        </div>
+        </StyledMovieList>
         {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmFrontpage?.article} />}
       </main>
     </>

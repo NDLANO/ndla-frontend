@@ -9,11 +9,9 @@
 import { useState, useEffect, useMemo, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchHeader as SearchHeaderUI } from "@ndla/ui";
-import { groupCompetenceGoals } from "../../../components/CompetenceGoals";
-import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { LocaleType } from "../../../interfaces";
 import { getSubjectsCategories } from "../../../util/subjects";
-import { SearchCompetenceGoal, SearchCoreElements } from "../SearchInnerPage";
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -21,8 +19,8 @@ interface Props {
   suggestion?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
-  competenceGoals: SearchCompetenceGoal[];
-  coreElements: SearchCoreElements[];
+  competenceGoals: GQLCompetenceGoal[];
+  coreElements: GQLCoreElement[];
   noResults: boolean;
   locale: LocaleType;
   loading: boolean;
@@ -123,8 +121,6 @@ const SearchHeader = ({
     setSearchValue(value);
   };
 
-  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06")?.flatMap((e) => e.elements);
-
   return (
     <SearchHeaderUI
       searchPhrase={query}
@@ -139,8 +135,8 @@ const SearchHeader = ({
       }}
       filters={subjectFilterProps}
       noResults={noResults}
-      competenceGoals={competenceGoalsMetadata}
-      coreElements={coreElements}
+      competenceGoals={[]}
+      coreElements={[]}
       loading={loading}
     />
   );

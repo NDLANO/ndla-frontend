@@ -9,14 +9,17 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { spacingUnit } from "@ndla/core";
+import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { Heading } from "@ndla/typography";
 import { SearchSubjectResult, SearchFilterContent, LanguageSelector } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
 import SearchResults, { ViewType } from "./components/SearchResults";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { groupCompetenceGoals } from "../../components/CompetenceGoals";
+import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
@@ -26,6 +29,14 @@ const StyledLanguageSelector = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: ${spacingUnit * 10}px;
+`;
+
+const StyledHeading = styled(Heading)`
+  font-weight: ${fonts.weight.normal};
+`;
+
+const CompetenceWrapper = styled.div`
+  margin-bottom: ${spacing.normal};
 `;
 
 interface Props {
@@ -85,6 +96,15 @@ const SearchContainer = ({
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
 
+  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
+
+  const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
+    title: element.title,
+    text: element.description ?? "",
+    id: element.id,
+    url: "",
+  }));
+
   return (
     <main>
       <SearchHeader
@@ -99,6 +119,28 @@ const SearchContainer = ({
         coreElements={coreElements}
         loading={loading}
       />
+      {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
+        <CompetenceWrapper>
+          {!!competenceGoalsMetadata?.length && (
+            <>
+              <StyledHeading element="h2" headingStyle="list-title">
+                {t("competenceGoals.competenceGoalItem.title")}
+              </StyledHeading>
+              {competenceGoalsMetadata.map((goal, index) => (
+                <CompetenceItem item={goal} key={index} showLinks={false} />
+              ))}
+            </>
+          )}
+          {!!coreElements?.length && (
+            <>
+              <StyledHeading element="h2" headingStyle="list-title">
+                {t("competenceGoals.competenceTabCorelabel")}
+              </StyledHeading>
+              <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} showLinks={false} />
+            </>
+          )}
+        </CompetenceWrapper>
+      )}
       {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
       <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (

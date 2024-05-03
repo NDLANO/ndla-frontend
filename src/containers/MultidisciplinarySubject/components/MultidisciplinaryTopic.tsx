@@ -6,25 +6,27 @@
  *
  */
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { Topic as UITopic } from "@ndla/ui";
 
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import { NavigationBox } from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
+import Topic from "../../../components/Topic/Topic";
+import TopicArticle from "../../../components/Topic/TopicArticle";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -54,13 +56,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const [showContent, setShowContent] = useState(false);
-  const ndlaFilm = useIsNdlaFilm();
   const { topicList } = useUrnIds();
-
-  useEffect(() => {
-    setShowContent(false);
-  }, [topicId]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -131,29 +127,27 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
           />
         </>
       )}
-      <UITopic
+      <Topic
         id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
         title={article.title}
         introduction={article.introduction}
         metaImage={article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
-        onToggleShowContent={
-          topic.article?.transformedContent?.content !== "" ? () => setShowContent(!showContent) : undefined
-        }
-        showContent={showContent}
-        subTopics={!disableNav ? subTopics : undefined}
         isLoading={false}
-        invertedStyle={ndlaFilm}
       >
-        <ArticleContents
-          article={article}
-          scripts={scripts}
-          modifier="in-topic"
-          oembed={article.oembed}
-          showIngress={false}
-        />
-      </UITopic>
+        <TopicArticle>
+          <ArticleContents
+            article={article}
+            scripts={scripts}
+            modifier="in-topic"
+            oembed={article.oembed}
+            showIngress={false}
+          />
+        </TopicArticle>
+
+        {disableNav ? null : <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
+      </Topic>
     </>
   );
 };

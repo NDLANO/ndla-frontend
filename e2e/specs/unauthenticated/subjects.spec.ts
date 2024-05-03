@@ -19,7 +19,10 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("should have valid breadcrumbs", async ({ page }) => {
-  const breadcrumb = page.getByRole("list").filter({ has: page.locator("svg") });
+  const breadcrumb = page
+    .getByLabel("Brødsmulesti")
+    .getByRole("list")
+    .filter({ has: page.locator("svg") });
   await expect(breadcrumb).toHaveCount(1);
   await expect(breadcrumb.getByRole("link")).toHaveCount(1);
 });

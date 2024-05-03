@@ -8,7 +8,6 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
@@ -22,7 +21,7 @@ const StyledDisplayOptionsContainer = styled.div`
   margin-left: auto;
 `;
 
-const hiddenOnMobileStyle = css`
+const HiddenOnMobileTooltip = styled(Tooltip)`
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -86,7 +85,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           <List />
         </StyledIconButton>
       </Tooltip>
-      <Tooltip tooltip={t("myNdla.shortView")} css={hiddenOnMobileStyle}>
+      <HiddenOnMobileTooltip tooltip={t("myNdla.shortView")}>
         <StyledIconButton
           selected={type === "block"}
           variant="ghost"
@@ -97,7 +96,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         >
           <GridListView />
         </StyledIconButton>
-      </Tooltip>
+      </HiddenOnMobileTooltip>
     </StyledDisplayOptionsContainer>
   );
 };

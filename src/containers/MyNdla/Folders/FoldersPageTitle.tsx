@@ -24,6 +24,11 @@ const TitleRow = styled.div`
   gap: ${spacing.small};
 `;
 
+const StyledContentLoader = styled(ContentLoader)`
+  max-width: 500px;
+  min-width: 500px;
+`;
+
 const IconCSS = css`
   height: ${spacing.large};
   width: ${spacing.large};
@@ -45,7 +50,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
           isLoading={loading}
           fallback={
             !!selectedFolder && (
-              <ContentLoader width={500} height={30} css={{ maxWidth: "500px", minWidth: "500px" }}>
+              <ContentLoader width={500} height={30}>
                 <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
               </ContentLoader>
             )
@@ -57,9 +62,9 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
       <TitleRow>
         <WhileLoading
           fallback={
-            <ContentLoader width={500} height={selectedFolder ? 44 : 28} css={{ maxWidth: "500px", minWidth: "500px" }}>
+            <StyledContentLoader width={500} height={selectedFolder ? 44 : 28}>
               <rect x="0" y="2" rx="3" ry="3" width="300" height={selectedFolder ? "40" : "24"} key="rect-1" />
-            </ContentLoader>
+            </StyledContentLoader>
           }
           isLoading={loading}
         >

@@ -182,7 +182,7 @@ export const groupSearchQuery = gql`
     }
     competenceGoals(codes: $grepCodesList, language: $language) {
       id
-      name: title
+      title
       type
       curriculum {
         id
@@ -196,7 +196,7 @@ export const groupSearchQuery = gql`
     coreElements(codes: $grepCodesList, language: $language) {
       id
       title
-      text: description
+      description
     }
   }
   ${GroupSearchResourceFragment}
@@ -275,7 +275,7 @@ export const competenceGoalsQuery = gql`
   query competenceGoals($codes: [String!], $language: String) {
     competenceGoals(codes: $codes, language: $language) {
       id
-      name: title
+      title
       type
       curriculum {
         id
@@ -288,8 +288,8 @@ export const competenceGoalsQuery = gql`
     }
     coreElements(codes: $codes, language: $language) {
       id
-      name: title
-      text: description
+      title
+      description
       curriculum {
         id
         title

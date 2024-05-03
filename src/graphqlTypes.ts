@@ -2486,6 +2486,18 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAllSubjectsQuery = {
+  __typename?: "Query";
+  subjects?: Array<{
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
+};
+
 export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -3781,20 +3793,6 @@ export type GQLArenaNotificationsQuery = {
   arenaNotifications: Array<{ __typename?: "ArenaNotification" } & GQLArenaNotificationFragment>;
 };
 
-export type GQLMySubjectsSubjectFragmentFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
-export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAllSubjectsQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLMySubjectsSubjectFragmentFragment>;
-};
-
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
 
 export type GQLDeletePersonalDataMutation = { __typename?: "Mutation"; deletePersonalData: boolean };
@@ -3910,6 +3908,33 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammeContainer_ProgrammeFragment = {
+  __typename?: "ProgrammePage";
+  id: string;
+  metaDescription?: string;
+  title: { __typename?: "Title"; title: string };
+  desktopImage?: { __typename?: "MetaImage"; url: string };
+  grades?: Array<{
+    __typename?: "Grade";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string };
+    categories?: Array<{
+      __typename?: "Category";
+      id: string;
+      isProgrammeSubject: boolean;
+      title: { __typename?: "Title"; title: string };
+      subjects?: Array<{
+        __typename?: "Subject";
+        id: string;
+        name: string;
+        path: string;
+        subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+      }>;
+    }>;
+  }>;
+};
+
 export type GQLProgrammePageQueryVariables = Exact<{
   path: Scalars["String"]["input"];
 }>;
@@ -3918,21 +3943,8 @@ export type GQLProgrammePageQuery = {
   __typename?: "Query";
   programme?: {
     __typename?: "ProgrammePage";
-    metaDescription?: string;
-    grades?: Array<{
-      __typename?: "Grade";
-      id: string;
-      url: string;
-      title: { __typename?: "Title"; title: string };
-      categories?: Array<{
-        __typename?: "Category";
-        id: string;
-        isProgrammeSubject: boolean;
-        title: { __typename?: "Title"; title: string };
-        subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
-      }>;
-    }>;
-  } & GQLProgrammeFragmentFragment;
+    grades?: Array<{ __typename?: "Grade"; title: { __typename?: "Title"; title: string } }>;
+  } & GQLProgrammeContainer_ProgrammeFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -4455,12 +4467,12 @@ export type GQLGroupSearchQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; text?: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -4521,16 +4533,16 @@ export type GQLCompetenceGoalsQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{
     __typename?: "CoreElement";
     id: string;
-    name: string;
-    text?: string;
+    title: string;
+    description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
 };
