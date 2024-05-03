@@ -132,6 +132,10 @@ const GradesMenu = styled.ul`
   }
 `;
 
+const MessageBoxWrapper = styled.div`
+  margin-top: ${spacing.normal};
+`;
+
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -193,7 +197,11 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               );
             })}
           </GradesMenu>
-          {grade?.missingProgrammeSubjects && <MessageBox>{t("messageBoxInfo.noContent")}</MessageBox>}
+          {grade?.missingProgrammeSubjects && (
+            <MessageBoxWrapper>
+              <MessageBox>{t("messageBoxInfo.noContent")}</MessageBox>
+            </MessageBoxWrapper>
+          )}
           {grade?.categories?.map((category) => (
             <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
           ))}
