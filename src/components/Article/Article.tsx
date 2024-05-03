@@ -166,7 +166,7 @@ const Article = ({
     ...article,
     content: article.transformedContent?.content ?? "",
     title: parse(article.htmlTitle!),
-    introduction: article.introduction!,
+    introduction: parse(article.htmlIntroduction!),
     copyright: {
       ...article.copyright,
       license: article.copyright.license!,
@@ -236,6 +236,7 @@ Article.fragments = {
       grepCodes
       oldNdlaUrl
       introduction
+      htmlIntroduction
       conceptIds
       transformedContent(transformArgs: $transformArgs) {
         content

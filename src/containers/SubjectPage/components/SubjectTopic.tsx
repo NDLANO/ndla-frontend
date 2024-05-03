@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
@@ -159,8 +160,8 @@ const SubjectTopic = ({
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
         id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
-        title={article.title}
-        introduction={article.introduction}
+        title={parse(article.htmlTitle ?? "")}
+        introduction={parse(article.htmlIntroduction ?? "")}
         metaImage={article.metaImage}
         isLoading={false}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
