@@ -94,6 +94,8 @@ const StyledBackground = styled.div`
 `;
 
 const StyledOneColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   background: ${colors.white};
   width: 90%;
   margin-top: -170px;
@@ -124,7 +126,6 @@ const GradesMenu = styled.ul`
   display: flex;
   gap: ${spacing.small};
   padding-left: 0;
-  margin-bottom: ${spacing.normal};
   li {
     list-style: none;
     padding: 0;

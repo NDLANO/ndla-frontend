@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { Additional, HumanMaleBoard } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
+import { Heading } from "@ndla/typography";
 import { useIsNdlaFilm } from "../routeHelpers";
 
 const StyledWrapper = styled.nav`
@@ -75,6 +75,7 @@ const StyledButtonContentSelected = styled.span`
 `;
 
 const StyledListElementWrapper = styled.div`
+  height: 100%;
   &[data-additional="true"] {
     & > * {
       border: 1px dashed ${colors.brand.dark};
@@ -103,9 +104,8 @@ const StyledSafeLinkButton = styled(SafeLinkButton)`
   align-items: unset;
 `;
 
-const StyledText = styled(Text)`
+const StyledSpan = styled.span`
   align-self: center;
-  flex: 1;
 `;
 
 export type ItemProps = {
@@ -155,9 +155,7 @@ export const NavigationBox = ({ heading, colorMode = "primary", items, listDirec
                     )}
                     {item.isRestrictedResource && <HumanMaleBoard />}
                   </StyledMarksWrapper>
-                  <StyledText element="span" margin="none" textStyle="button">
-                    {item.label}
-                  </StyledText>
+                  <StyledSpan>{item.label}</StyledSpan>
                 </StyledButtonContentText>
                 {item.selected && <StyledButtonContentSelected />}
               </StyledSafeLinkButton>
