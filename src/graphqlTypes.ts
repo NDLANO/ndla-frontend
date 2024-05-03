@@ -4467,12 +4467,12 @@ export type GQLGroupSearchQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; text?: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -4533,16 +4533,16 @@ export type GQLCompetenceGoalsQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{
     __typename?: "CoreElement";
     id: string;
-    name: string;
-    text?: string;
+    title: string;
+    description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
 };
