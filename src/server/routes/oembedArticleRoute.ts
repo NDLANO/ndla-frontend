@@ -173,9 +173,15 @@ export async function oembedArticleRoute(req: express.Request) {
     const typedError = error as { status?: number };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
+    const data: Record<number, string> = {
+      404: "Not found",
+      410: "Gone",
+      500: "Internal server error",
+    };
+
     return {
       status,
-      data: typedError.status === 404 ? "Not found" : "Internal server error",
+      data: data[status] || "Internal server error",
     };
   }
 }
