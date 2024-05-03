@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from "html-react-parser";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
@@ -130,7 +132,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       <Topic
         id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
         title={article.title}
-        introduction={article.introduction}
+        introduction={parse(article.htmlIntroduction ?? "")}
         metaImage={article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
