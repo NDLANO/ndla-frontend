@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { t } from "i18next";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -30,7 +31,7 @@ import NotFound from "../../NotFoundPage/NotFoundPage";
 import SharedFolder from "../../SharedFolderPage/SharedFolder";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useGetSharedFolder, useSharedFolder } from "../folderMutations";
+import { useFolders, useGetSharedFolder, useSaveFolderResourceMutation, useSharedFolder } from "../folderMutations";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   if (!folder) {
@@ -40,17 +41,26 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 
   return folder.resources.concat(subResources);
 };
-
 const FolderSharedPage = () => {
   const { folderId = "", subfolderId } = useParams();
   const { authenticated } = useContext(AuthContext);
   const [viewType, setViewType] = useState<ViewType>("list");
 
-  const { folder, loading, error } = useGetSharedFolder({
+  const { loading: foldersLoading, savedFolders } = useFolders();
+
+  const {
+    folder,
+    loading: sharedFolderLoading,
+    error,
+  } = useGetSharedFolder({
     id: folderId,
     includeResources: true,
     includeSubfolders: true,
   });
+
+  const [showSaveLinkButton, setShowSaveLinkButton] = useState(!savedFolders?.find((folder) => folder.id === folderId));
+
+  const loading = foldersLoading && sharedFolderLoading;
 
   const subFolder = useSharedFolder(subfolderId);
   const selectedFolder = !subfolderId ? folder : subFolder;
@@ -66,9 +76,16 @@ const FolderSharedPage = () => {
         </ButtonV2>
       </CopyFolderModal>
     );
-    const saveLink = <SaveLink folder={selectedFolder} />;
-    return [copyFolder, saveLink];
-  }, [selectedFolder]);
+
+    const saveLink = <SaveLink setShowTrigger={() => setShowSaveLinkButton(false)} folder={selectedFolder} />;
+    const actions = [copyFolder];
+
+    if (showSaveLinkButton) {
+      actions.push(saveLink);
+    }
+
+    return actions;
+  }, [selectedFolder, showSaveLinkButton]);
 
   const menu = useMemo(() => {
     if (!selectedFolder) return [];
@@ -83,10 +100,19 @@ const FolderSharedPage = () => {
       text: t("myNdla.folder.sharing.button.saveLink"),
       isModal: true,
       icon: <Subject />,
-      modalContent: (close) => <SaveLinkContent folder={selectedFolder} onClose={close} />,
+      modalContent: (close) => (
+        <SaveLinkContent setShowTrigger={() => setShowSaveLinkButton(false)} folder={selectedFolder} onClose={close} />
+      ),
     };
-    return <SettingsMenu menuItems={[copyFolder, saveLink]} />;
-  }, [selectedFolder]);
+
+    const actions = [copyFolder];
+
+    if (showSaveLinkButton) {
+      actions.push(saveLink);
+    }
+
+    return <SettingsMenu menuItems={actions} />;
+  }, [selectedFolder, showSaveLinkButton]);
 
   if (!authenticated) {
     return <Navigate to={routes.folder(folderId)} />;
@@ -130,9 +156,10 @@ const ButtonRow = styled.div`
 
 interface SaveLinkProps {
   folder: GQLFolder;
+  setShowTrigger: () => void;
 }
 
-const SaveLink = ({ folder }: SaveLinkProps) => {
+const SaveLink = ({ folder, setShowTrigger }: SaveLinkProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   return (
@@ -143,17 +170,23 @@ const SaveLink = ({ folder }: SaveLinkProps) => {
           {t("myNdla.folder.sharing.button.saveLink")}
         </ButtonV2>
       </ModalTrigger>
-      <SaveLinkContent folder={folder} onClose={() => setOpen(false)} />
+      <SaveLinkContent setShowTrigger={setShowTrigger} folder={folder} onClose={() => setOpen(false)} />
     </Modal>
   );
 };
 
 interface SaveLinkContentProps extends SaveLinkProps {
   onClose: VoidFunction;
+  setShowTrigger: () => void;
 }
 
-const SaveLinkContent = ({ folder: { id, name, subfolders, resources, status }, onClose }: SaveLinkContentProps) => {
-  const onSave = () => {};
+const SaveLinkContent = ({
+  folder: { id, name, subfolders, resources, status, owner },
+  onClose,
+  setShowTrigger,
+}: SaveLinkContentProps) => {
+  const { saveSharedFolder } = useSaveFolderResourceMutation(id);
+  const { authenticated } = useContext(AuthContext);
 
   return (
     <ModalContent>
@@ -173,14 +206,26 @@ const SaveLinkContent = ({ folder: { id, name, subfolders, resources, status }, 
           />
           <MessageBox>
             <InformationOutline />
-            <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
+            <Text margin="none">
+              {t(`myNdla.folder.sharing.save.warning.${authenticated ? "loggedIn" : "loggedOut"}`, {
+                name: owner?.name ?? "",
+              })}
+            </Text>
           </MessageBox>
         </Content>
         <ButtonRow>
           <ButtonV2 variant="outline" onClick={onClose}>
             {t("close")}
           </ButtonV2>
-          <ButtonV2 onClick={onSave}>{t("Save the link")}</ButtonV2>
+          <ButtonV2
+            onClick={() => {
+              saveSharedFolder();
+              onClose();
+              setShowTrigger();
+            }}
+          >
+            {t("Save the link")}
+          </ButtonV2>
         </ButtonRow>
       </ModalBody>
     </ModalContent>

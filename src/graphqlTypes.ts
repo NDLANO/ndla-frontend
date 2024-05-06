@@ -593,6 +593,12 @@ export type GQLFolder = {
   updated: Scalars["String"]["output"];
 };
 
+export type GQLFolderConnection = {
+  __typename?: "FolderConnection";
+  folderId: Scalars["String"]["output"];
+  userId: Scalars["String"]["output"];
+};
+
 export type GQLFolderResource = {
   __typename?: "FolderResource";
   created: Scalars["String"]["output"];
@@ -969,6 +975,7 @@ export type GQLMutation = {
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
+  deleteSharedFolder: Scalars["Int"]["output"];
   deleteTopic: Scalars["Int"]["output"];
   deleteTopicV2: Scalars["Int"]["output"];
   followCategory: GQLArenaCategoryV2;
@@ -984,6 +991,7 @@ export type GQLMutation = {
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
+  saveSharedFolder: Scalars["Int"]["output"];
   sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
@@ -1042,6 +1050,10 @@ export type GQLMutationDeletePostArgs = {
 
 export type GQLMutationDeletePostV2Args = {
   postId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationDeleteSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationDeleteTopicArgs = {
@@ -1111,6 +1123,10 @@ export type GQLMutationReplyToTopicV2Args = {
 
 export type GQLMutationResolveFlagArgs = {
   flagId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationSaveSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationSortArenaCategoriesArgs = {
@@ -1403,9 +1419,10 @@ export type GQLQuery = {
   examLockStatus: GQLConfigMetaBoolean;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
+  folderConnection?: Maybe<GQLFolderConnection>;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
-  folders: Array<GQLFolder>;
+  folders: GQLUserFolder;
   frontpage?: Maybe<GQLFrontpageMenu>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
@@ -1554,6 +1571,10 @@ export type GQLQueryFolderArgs = {
   id: Scalars["String"]["input"];
   includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
   includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+export type GQLQueryFolderConnectionArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLQueryFolderResourceMetaArgs = {
@@ -2069,6 +2090,12 @@ export type GQLUptimeAlert = {
   closable: Scalars["Boolean"]["output"];
   number: Scalars["Int"]["output"];
   title: Scalars["String"]["output"];
+};
+
+export type GQLUserFolder = {
+  __typename?: "UserFolder";
+  folders: Array<GQLFolder>;
+  sharedFolders: Array<GQLFolder>;
 };
 
 export type GQLVideoFolderResourceMeta = GQLFolderResourceMeta & {
@@ -3348,7 +3375,11 @@ export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLFoldersPageQuery = {
   __typename?: "Query";
-  folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+  folders: {
+    __typename?: "UserFolder";
+    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+    sharedFolders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+  };
 };
 
 export type GQLUpdateFolderResourceMutationVariables = Exact<{
@@ -3582,6 +3613,12 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 }>;
 
 export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
+
+export type GQLSaveSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLSaveSharedFolderMutation = { __typename?: "Mutation"; saveSharedFolder: number };
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

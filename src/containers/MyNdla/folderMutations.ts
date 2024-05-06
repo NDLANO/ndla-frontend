@@ -33,12 +33,14 @@ import {
   GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
+  GQLMutationSaveSharedFolderArgs,
   GQLMutationSortFoldersArgs,
   GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
+  GQLSaveSharedFolderMutation,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
@@ -192,7 +194,12 @@ export const sharedFoldersPageQueryFragment = gql`
 export const foldersPageQuery = gql`
   query foldersPage {
     folders(includeSubfolders: true, includeResources: true) {
-      ...FoldersPageQueryFragment
+      folders {
+        ...FoldersPageQueryFragment
+      }
+      sharedFolders {
+        ...FoldersPageQueryFragment
+      }
     }
   }
   ${foldersPageQueryFragment}
@@ -344,6 +351,7 @@ interface UseFolders {
 
 export const useFolders = ({ skip }: UseFolders = {}): {
   folders: GQLFolder[];
+  savedFolders: GQLFolder[];
   loading: boolean;
 } => {
   const { cache } = useApolloClient();
@@ -354,8 +362,11 @@ export const useFolders = ({ skip }: UseFolders = {}): {
     },
   });
 
-  const folders = (data?.folders ?? []) as GQLFolder[];
-  return { folders, loading };
+  return {
+    folders: data?.folders.folders as GQLFolder[],
+    savedFolders: data?.folders.sharedFolders as GQLFolder[],
+    loading,
+  };
 };
 
 export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {
@@ -497,7 +508,7 @@ export const useDeleteFolderMutation = () => {
         const beforeDeletion: GQLFoldersPageQuery | null = client.cache.readQuery({
           query: foldersPageQuery,
         });
-        if (beforeDeletion?.folders?.length === 1) {
+        if (beforeDeletion?.folders?.folders.length === 1) {
           return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
         }
         return [{ query: recentlyUsedQuery }];
@@ -690,4 +701,21 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
     },
   );
   return { deleteFolderResource };
+};
+
+const saveSharedFolderMutation = gql`
+  mutation saveSharedFolder($folderId: String!) {
+    saveSharedFolder(folderId: $folderId)
+  }
+`;
+
+export const useSaveFolderResourceMutation = (folderId: string) => {
+  const [saveSharedFolder] = useMutation<GQLSaveSharedFolderMutation, GQLMutationSaveSharedFolderArgs>(
+    saveSharedFolderMutation,
+    {
+      variables: { folderId },
+    },
+  );
+
+  return { saveSharedFolder };
 };

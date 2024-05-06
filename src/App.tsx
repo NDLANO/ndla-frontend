@@ -170,7 +170,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       />
                     </Route>
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
-                    {config.sharedFolderRedesign ? (
+                    {config.folderRedesign ? (
                       <Route path="shared/:folderId">
                         <Route index element={<FolderSharedPage />} />
                         <Route path=":subfolderId/:resourceId" element={<FolderSharedPage />} />
@@ -216,17 +216,17 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                {!config.sharedFolderRedesign ? (
-                  <Route path="folder/:folderId">
-                    <Route index element={<SharedFolderPage />} />
-                    <Route path=":subfolderId" element={<SharedFolderPage />} />
-                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                  </Route>
-                ) : (
+                {config.folderRedesign ? (
                   <Route path="folder/:folderId">
                     <Route index element={<SharedFolderPageV2 />} />
                     <Route path=":subfolderId" element={<SharedFolderPageV2 />} />
                     <Route path=":subfolderId/:resourceId" element={<SharedFolderPageV2 />} />
+                  </Route>
+                ) : (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPage />} />
+                    <Route path=":subfolderId" element={<SharedFolderPage />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
                   </Route>
                 )}
                 <Route path="404" element={<NotFound />} />

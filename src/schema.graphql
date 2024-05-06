@@ -511,6 +511,11 @@ type Folder {
   updated: String!
 }
 
+type FolderConnection {
+  folderId: String!
+  userId: String!
+}
+
 type FolderResource {
   created: String!
   id: String!
@@ -856,6 +861,7 @@ type Mutation {
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
+  deleteSharedFolder(folderId: String!): Int!
   deleteTopic(topicId: Int!): Int!
   deleteTopicV2(topicId: Int!): Int!
   followCategory(categoryId: Int!): ArenaCategoryV2!
@@ -877,6 +883,7 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
+  saveSharedFolder(folderId: String!): Int!
   sortArenaCategories(sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
@@ -1094,9 +1101,10 @@ type Query {
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
+  folderConnection(folderId: String!): FolderConnection
   folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
   folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
-  folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
+  folders(includeResources: Boolean, includeSubfolders: Boolean): UserFolder!
   frontpage: FrontpageMenu
   groupSearch(
     aggregatePaths: [String!]
@@ -1483,6 +1491,11 @@ type UptimeAlert {
   closable: Boolean!
   number: Int!
   title: String!
+}
+
+type UserFolder {
+  folders: [Folder!]!
+  sharedFolders: [Folder!]!
 }
 
 type VideoFolderResourceMeta implements FolderResourceMeta {
