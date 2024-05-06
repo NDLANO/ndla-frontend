@@ -8,7 +8,6 @@
 import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useState, useRef, useEffect, FormEvent } from "react";
-
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useLazyQuery } from "@apollo/client";

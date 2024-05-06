@@ -37,7 +37,7 @@ const ButtonContainer = styled.ul`
   display: flex;
   gap: ${spacing.xsmall};
   padding: ${spacing.xsmall};
-  border-radius: 12px;
+  border-radius: ${spacing.small};
   background: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.lighter};
   align-self: flex-start;

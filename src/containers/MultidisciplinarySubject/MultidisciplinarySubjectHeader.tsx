@@ -62,7 +62,7 @@ type IllustrationsWrapperProps = {
 const IllustrationsWrapper = styled.div<IllustrationsWrapperProps>`
   display: flex;
   align-items: flex-end;
-  margin-bottom: 24px;
+  margin-bottom: ${spacing.normal};
 `;
 
 type subjects = "climate" | "democracy" | "publicHealth";

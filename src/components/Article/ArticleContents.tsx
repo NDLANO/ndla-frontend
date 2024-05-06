@@ -16,7 +16,6 @@ import {
   ArticleByline,
   ArticleFootNotes,
 } from "@ndla/ui";
-
 import { GQLArticleContents_ArticleFragment } from "../../graphqlTypes";
 import { Scripts } from "../../util/getArticleScripts";
 import { TransformedBaseArticle } from "../../util/transformArticle";

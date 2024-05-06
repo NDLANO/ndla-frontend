@@ -85,7 +85,7 @@ const TopicHeaderOverlay = styled.div`
 const ExpandVisualElementButton = styled.span`
   position: absolute;
   right: -10px;
-  bottom: -4px;
+  bottom: -${spacing.xxsmall};
   transition: all ${animations.durations.fast};
   ${mq.range({ from: breakpoints.mobileWide })} {
     right: 0;

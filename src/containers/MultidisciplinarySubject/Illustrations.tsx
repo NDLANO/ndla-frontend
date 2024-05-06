@@ -7,7 +7,7 @@
  */
 
 import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 
 export const ClimateIllustration = styled.div`
   background-image: url("/static/illustrations/climate.svg");
@@ -36,7 +36,7 @@ export const PublicHealthIllustration = styled.div`
   ${mq.range({ from: breakpoints.tabletWide })} {
     height: 178px;
     background-position: 70% 100%;
-    margin-top: -36px;
+    margin-top: -${spacing.mediumlarge};
   }
   ${mq.range({ from: breakpoints.desktop })} {
     background-position: 65% 100%;
@@ -70,7 +70,7 @@ export const PublicHealthDemocracyIllustration = styled.div`
   background-position: 100% 100%;
   height: 100px;
   flex: 1;
-  margin-top: 16px;
+  margin-top: ${spacing.nsmall};
   ${mq.range({ from: breakpoints.mobileWide })} {
     height: 117px;
   }
@@ -113,7 +113,7 @@ export const PublicHealthClimateIllustration = styled.div`
   background-position: 100% 100%;
   height: 85px;
   flex: 1;
-  margin-top: 16px;
+  margin-top: ${spacing.nsmall};
   ${mq.range({ from: breakpoints.mobileWide })} {
     height: 117px;
   }
@@ -134,7 +134,7 @@ export const PublicHealthDemocracyClimateIllustration = styled.div`
   background-position: 100% 100%;
   height: 58px;
   flex: 1;
-  margin-top: 16px;
+  margin-top: ${spacing.nsmall};
   ${mq.range({ from: breakpoints.mobileWide })} {
     height: 76px;
   }
