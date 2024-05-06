@@ -14,9 +14,10 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { FilmSlideshow, FilmMovieSearch, AllMoviesAlphabetically } from "@ndla/ui";
+import { FilmSlideshow, AllMoviesAlphabetically } from "@ndla/ui";
 
 import AboutNdlaFilm from "./AboutNdlaFilm";
+import FilmMovieSearch, { MovieResourceType } from "./FilmMovieSearch";
 import MovieCategory from "./MovieCategory";
 import { MoviesByType } from "./NdlaFilmFrontpage";
 import Article from "../../components/Article";
@@ -50,7 +51,7 @@ interface Props extends WithTranslation {
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
   subject?: GQLFilmFrontpage_SubjectFragment;
-  resourceTypes: { id: string; name: string }[];
+  resourceTypes: MovieResourceType[];
   onSelectedMovieByType: (resourceId: string) => void;
   skipToContentId?: string;
   loading?: boolean;
