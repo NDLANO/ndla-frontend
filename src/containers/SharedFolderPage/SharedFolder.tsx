@@ -108,9 +108,7 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
 
-  const warningText = authenticated
-    ? t("myNdla.folder.sharing.warning.authenticated")
-    : t("myNdla.folder.sharing.warning.unauthenticated");
+  const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`);
 
   return (
     <div>

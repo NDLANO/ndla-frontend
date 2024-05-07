@@ -7,7 +7,7 @@
  */
 
 import { t } from "i18next";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -42,6 +42,7 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   return folder.resources.concat(subResources);
 };
 const FolderSharedPage = () => {
+  const [showSaveLinkButton, setShowSaveLinkButton] = useState(false);
   const { folderId = "", subfolderId } = useParams();
   const { authenticated } = useContext(AuthContext);
   const [viewType, setViewType] = useState<ViewType>("list");
@@ -57,8 +58,6 @@ const FolderSharedPage = () => {
     includeResources: true,
     includeSubfolders: true,
   });
-
-  const [showSaveLinkButton, setShowSaveLinkButton] = useState(!savedFolders?.find((folder) => folder.id === folderId));
 
   const loading = foldersLoading && sharedFolderLoading;
 
@@ -113,6 +112,11 @@ const FolderSharedPage = () => {
 
     return <SettingsMenu menuItems={actions} />;
   }, [selectedFolder, showSaveLinkButton]);
+
+  useEffect(() => {
+    if (!savedFolders) return;
+    setShowSaveLinkButton(!savedFolders?.some((f) => f.id === (subfolderId ?? folderId)));
+  }, [folderId, savedFolders, subfolderId]);
 
   if (!authenticated) {
     return <Navigate to={routes.folder(folderId)} />;
@@ -181,12 +185,11 @@ interface SaveLinkContentProps extends SaveLinkProps {
 }
 
 const SaveLinkContent = ({
-  folder: { id, name, subfolders, resources, status, owner },
+  folder: { id, name, subfolders, resources, status },
   onClose,
   setShowTrigger,
 }: SaveLinkContentProps) => {
   const { saveSharedFolder } = useSaveFolderResourceMutation(id);
-  const { authenticated } = useContext(AuthContext);
 
   return (
     <ModalContent>
@@ -206,11 +209,7 @@ const SaveLinkContent = ({
           />
           <MessageBox>
             <InformationOutline />
-            <Text margin="none">
-              {t(`myNdla.folder.sharing.save.warning.${authenticated ? "loggedIn" : "loggedOut"}`, {
-                name: owner?.name ?? "",
-              })}
-            </Text>
+            <Text margin="none">{t(`myNdla.folder.sharing.save.warning`)}</Text>
           </MessageBox>
         </Content>
         <ButtonRow>
