@@ -11,6 +11,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts, breakpoints, misc, mq, stackOrder } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
+import { Text } from "@ndla/typography";
 import { makeSrcQueryString } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
 
@@ -35,14 +36,11 @@ interface Props extends ComponentPropsWithoutRef<"a"> {
 }
 
 const StyledMovieTitle = styled.span`
-  ${fonts.sizes("14px", "20px")};
+  ${fonts.size.text.metaText.small}
   font-weight: ${fonts.weight.semibold};
   color: ${colors.white};
-  @media (min-width: ${breakpoints.mobileWide}) {
-    ${fonts.sizes("16px", "22px")};
-  }
-  @media (min-width: ${breakpoints.tablet}) {
-    ${fonts.sizes("18px", "24px")};
+  ${mq.range({ from: breakpoints.tablet })} {
+    ${fonts.size.text.metaText.medium};
   }
 `;
 
@@ -111,15 +109,13 @@ const StyledWrapperDiv = styled.div`
   z-index: ${stackOrder.offsetSingle};
 `;
 
-const StyledMovieTags = styled.span`
-  ${fonts.sizes("14px", "16px")};
+const StyledMovieTags = styled(Text)`
   font-weight: ${fonts.weight.semibold};
   background: ${colors.brand.greyLight};
   padding: ${spacing.xxsmall} ${spacing.xsmall};
   border-radius: ${misc.borderRadius};
   color: ${colors.text.primary};
-  margin-right: ${spacing.xsmall};
-  margin-bottom: ${spacing.xxsmall};
+  margin: 0px ${spacing.xxsmall} ${spacing.xxsmall} 0px;
 `;
 
 const FilmContentCard = ({
@@ -154,7 +150,9 @@ const FilmContentCard = ({
         {movieResourceTypes && !hideTags && (
           <StyledWrapperDiv id={`${id}`} data-content-cards="">
             {Object.keys(resources).map((resourceName) => (
-              <StyledMovieTags key={resourceName}>{resourceName}</StyledMovieTags>
+              <StyledMovieTags element="span" textStyle="meta-text-small" key={resourceName}>
+                {resourceName}
+              </StyledMovieTags>
             ))}
           </StyledWrapperDiv>
         )}
