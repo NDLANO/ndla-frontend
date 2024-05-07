@@ -15,7 +15,7 @@ import { Text } from "@ndla/typography";
 import { makeSrcQueryString } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
 
-export interface MovieType {
+interface MovieType {
   metaImage?: {
     url: string;
   };
