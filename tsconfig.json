@@ -3,7 +3,7 @@
     /* Full property definition at https://aka.ms/tsconfig.json */
     "target": "ES2017",
     "module": "ES2022",
-    "lib": ["es2022", "esnext.asynciterable", "dom"],
+    "lib": ["es2023", "esnext.asynciterable", "dom"],
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
     "sourceMap": true,

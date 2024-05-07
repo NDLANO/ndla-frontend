@@ -14,9 +14,10 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { FilmSlideshow, AllMoviesAlphabetically } from "@ndla/ui";
+import { FilmSlideshow } from "@ndla/ui";
 
 import AboutNdlaFilm from "./AboutNdlaFilm";
+import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
 import FilmMovieSearch, { MovieResourceType } from "./FilmMovieSearch";
 import MovieCategory from "./MovieCategory";
 import { MoviesByType } from "./NdlaFilmFrontpage";
