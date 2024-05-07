@@ -8,12 +8,15 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing, colors } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { Image } from "@ndla/ui";
-import { MoviesByType } from "./NdlaFilmFrontpage";
+import { movieResourceTypes } from "./resourceTypes";
+import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
 
 const IMAGE_WIDTH = 143;
 
@@ -77,10 +80,6 @@ const StyledSafeLink = styled(SafeLink)`
   }
 `;
 
-interface Props {
-  movies: MoviesByType[];
-}
-
 const MovieGroup = styled.section`
   display: flex;
   flex-direction: column;
@@ -89,10 +88,37 @@ const MovieGroup = styled.section`
 
 const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 
-const groupMovies = (movies: MoviesByType[]) => {
+const allMoviesQuery = gql`
+  query allMovies($resourceTypes: String!, $language: String!) {
+    searchWithoutPagination(
+      resourceTypes: $resourceTypes
+      language: $language
+      fallback: "true"
+      subjects: "urn:subject:20"
+      contextTypes: "standard"
+    ) {
+      results {
+        id
+        metaDescription
+        metaImage {
+          url
+        }
+        title
+        contexts {
+          contextType
+          path
+        }
+      }
+    }
+  }
+`;
+
+type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
+
+const groupMovies = (movies: MovieType[]) => {
   const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title));
 
-  const grouped = sortedMovies.reduce<Record<string, MoviesByType[]>>((acc, movie) => {
+  const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
     const firstChar = movie.title[0]?.toUpperCase() ?? "";
     const isLetter = firstChar?.match(LETTER_REGEXP);
     const char = isLetter ? firstChar : "#";
@@ -109,9 +135,19 @@ const groupMovies = (movies: MoviesByType[]) => {
   }));
 };
 
-const AllMoviesAlphabetically = ({ movies }: Props) => {
-  const { t } = useTranslation();
-  const groupedMovies = useMemo(() => groupMovies(movies), [movies]);
+const AllMoviesAlphabetically = () => {
+  const { t, i18n } = useTranslation();
+  const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
+    variables: {
+      resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
+      language: i18n.language,
+    },
+  });
+
+  const groupedMovies = useMemo(() => {
+    if (!allMovies.data?.searchWithoutPagination?.results) return [];
+    return groupMovies(allMovies.data.searchWithoutPagination.results);
+  }, [allMovies.data?.searchWithoutPagination?.results]);
 
   return (
     <StyledWrapper>
@@ -126,7 +162,10 @@ const AllMoviesAlphabetically = ({ movies }: Props) => {
             {letter}
           </LetterHeading>
           {movies.map((movie) => (
-            <StyledSafeLink to={movie.path} key={movie.id}>
+            <StyledSafeLink
+              to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
+              key={movie.id}
+            >
               {!!movie.metaImage?.url && (
                 <MovieImage alt="" lazyLoad fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
               )}
