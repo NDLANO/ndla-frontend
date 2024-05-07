@@ -2156,6 +2156,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
   introduction?: string;
+  htmlIntroduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
   language: string;
@@ -2185,7 +2186,7 @@ export type GQLArticleContents_ArticleFragment = {
   id: number;
   created: string;
   updated: string;
-  introduction?: string;
+  htmlIntroduction?: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2475,6 +2476,7 @@ export type GQLAboutPage_ArticleFragment = {
   __typename?: "Article";
   id: number;
   introduction?: string;
+  htmlIntroduction?: string;
   created: string;
   updated: string;
   slug?: string;
@@ -4285,7 +4287,9 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   article?: {
     __typename?: "Article";
     title: string;
+    htmlTitle: string;
     introduction?: string;
+    htmlIntroduction?: string;
     copyright: {
       __typename?: "Copyright";
       license: { __typename?: "License"; license: string };

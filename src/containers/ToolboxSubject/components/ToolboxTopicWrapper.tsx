@@ -120,8 +120,8 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
         id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
         frame={subTopics?.length === 0}
         isLoading={loading}
-        title={topic.article.title}
-        introduction={parse(topic.article.introduction ?? "")}
+        title={parse(topic.article.htmlTitle ?? "")}
+        introduction={parse(topic.article.htmlIntroduction ?? "")}
         metaImage={topic.article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
@@ -166,7 +166,9 @@ export const toolboxTopicWrapperFragments = {
       }
       article {
         title
+        htmlTitle
         introduction
+        htmlIntroduction
         copyright {
           license {
             license

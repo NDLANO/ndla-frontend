@@ -67,7 +67,7 @@ export type TopicProps = {
     url: string;
     alt: string;
   };
-  title: string;
+  title: ReactNode;
   introduction: ReactNode;
   visualElementEmbedMeta?: EmbedMetaData;
   isLoading?: boolean;
