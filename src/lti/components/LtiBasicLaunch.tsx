@@ -24,7 +24,7 @@ const StyledLinkAsButton = styled("a")`
   cursor: pointer;
   text-decoration: none;
   ${fonts.size.text.metaText.small};
-  font-weight: 700;
+  font-weight: ${fonts.weight.bold};
   transition: all 0.2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   margin-right: 13px;
