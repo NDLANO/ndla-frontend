@@ -22,7 +22,7 @@ const StyledLi = styled.li`
 
 const StyledButton = styled(ButtonV2)<StyledProps>`
   border-width: 1px;
-  border-radius: ${spacing.xsmall};
+  border-radius: 12px;
   border-color: ${colors.brand.dark};
   ${({ selected }) =>
     !selected &&
