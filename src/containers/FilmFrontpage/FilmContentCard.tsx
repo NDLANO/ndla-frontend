@@ -118,6 +118,11 @@ const StyledMovieTags = styled(Text)`
   margin: 0px ${spacing.xxsmall} ${spacing.xxsmall} 0px;
 `;
 
+const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((acc, resourceType) => {
+  acc[resourceType.id] = resourceType.name;
+  return acc;
+}, {});
+
 const FilmContentCard = ({
   movie: { metaImage, resourceTypes, title, id, path },
   hideTags = false,
@@ -128,13 +133,12 @@ const FilmContentCard = ({
 }: Props) => {
   const backgroundImage = metaImage ? `${metaImage.url}?${makeSrcQueryString(600)}` : "";
   const contentTypeId = `${type}-content-type-${id}`;
-  const resources: Record<string, boolean> = {};
-  movieResourceTypes.forEach((movieResourceType) => {
-    const resource = resourceTypes.find((resourceType) => resourceType.id === movieResourceType.id);
-    if (resource) {
-      resources[resource.name] = true;
-    }
-  });
+
+  const resources = resourceTypes.reduce<string[]>((acc, curr) => {
+    const name = mappedResourceTypes[curr.id];
+    if (name) return acc.concat(curr.name);
+    return acc;
+  }, []);
 
   return (
     <StyledSafeLink
@@ -149,9 +153,9 @@ const FilmContentCard = ({
         <StyledImage src={backgroundImage} loading={lazy ? "lazy" : "eager"} alt="" />
         {movieResourceTypes && !hideTags && (
           <StyledWrapperDiv id={`${id}`} data-content-cards="">
-            {Object.keys(resources).map((resourceName) => (
-              <StyledMovieTags element="span" textStyle="meta-text-small" key={resourceName}>
-                {resourceName}
+            {resources.map((resource) => (
+              <StyledMovieTags element="span" textStyle="meta-text-small" key={resource}>
+                {resource}
               </StyledMovieTags>
             ))}
           </StyledWrapperDiv>
