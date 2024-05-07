@@ -34,6 +34,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Episoder",
@@ -125,6 +126,10 @@ const messages = {
         inactive: "Legg til lenke",
       },
     },
+  },
+  collectionPage: {
+    title: `Ressurser på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikke noen ressurser på dette språket enda.",
   },
 };
 

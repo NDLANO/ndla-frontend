@@ -69,3 +69,5 @@ export const programmeRedirects: Record<string, string> = {
   studiespesialisering: "studiespesialisering__7d5badf01ff2",
   "teknologi-og-industrifag": "teknologi-og-industrifag__a920d0b5cbbb",
 };
+
+export const COLLECTION_LANGUAGES = ["nb", "nn", "en", "se", "sma", "ukr"];

@@ -34,6 +34,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
+    collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Episodes",
@@ -125,6 +126,10 @@ const messages = {
         inactive: "Add link",
       },
     },
+  },
+  collectionPage: {
+    title: `Resources in $t(languages.{{language}})`,
+    noSubjects: "We do not have any resources in this language yet.",
   },
 };
 

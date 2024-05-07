@@ -74,6 +74,7 @@ export const routes = [
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
   "minndla",
+  "collection/:collectionLanguage",
   ...privateRoutes,
 ];
 
