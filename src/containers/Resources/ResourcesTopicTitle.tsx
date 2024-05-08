@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { LearningPathQuiz } from "@ndla/icons/contentType";
-import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent, ModalTitle } from "@ndla/modal";
 import { Switch } from "@ndla/switch";
 import { Heading, Text } from "@ndla/typography";
 import { HeadingType } from "../../interfaces";
@@ -30,6 +30,10 @@ const TopicTitleWrapper = styled.header`
   &[data-inverted="true"] {
     color: ${colors.white};
   }
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding-bottom: 0;
 `;
 
 const StyledRow = styled.div`
@@ -61,6 +65,7 @@ const StyledHGroup = styled.hgroup`
 `;
 
 interface Props {
+  headingId: string;
   title?: string;
   subTitle?: string;
   heading: HeadingType;
@@ -70,6 +75,7 @@ interface Props {
   invertedStyle?: boolean;
 }
 const ResourcesTopicTitle = ({
+  headingId,
   title,
   subTitle,
   hasAdditionalResources,
@@ -80,12 +86,10 @@ const ResourcesTopicTitle = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const tooltipId = "popupDialogTooltip";
-
   return (
     <TopicTitleWrapper data-inverted={invertedStyle}>
       <StyledHGroup>
-        <Heading element={heading} headingStyle="list-title" margin="none">
+        <Heading id={headingId} element={heading} headingStyle="list-title" margin="none">
           {title}
         </Heading>
         <Text textStyle="content-alt" margin="none">
@@ -103,12 +107,11 @@ const ResourcesTopicTitle = ({
               data-inverted={invertedStyle}
             />
           </form>
-          <Modal aria-labelledby={tooltipId}>
+          <Modal>
             <ModalTrigger>
               <IconButtonV2
                 colorTheme="light"
                 inverted={invertedStyle}
-                id={tooltipId}
                 aria-label={t("resource.dialogTooltip")}
                 title={t("resource.dialogTooltip")}
               >
@@ -116,10 +119,10 @@ const ResourcesTopicTitle = ({
               </IconButtonV2>
             </ModalTrigger>
             <ModalContent>
-              <ModalHeader>
-                <h1>{t("resource.dialogHeading")}</h1>
+              <StyledModalHeader>
+                <ModalTitle>{t("resource.dialogHeading")}</ModalTitle>
                 <ModalCloseButton title={t("modal.closeModal")} />
-              </ModalHeader>
+              </StyledModalHeader>
               <ModalBody>
                 <hr />
                 <p>{t("resource.dialogText1")}</p>
