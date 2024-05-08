@@ -12,10 +12,11 @@ import styled from "@emotion/styled";
 import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Heading } from "@ndla/typography";
-import { SearchSubjectResult, SearchFilterContent, LanguageSelector } from "@ndla/ui";
+import { SearchFilterContent, LanguageSelector } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
 import SearchResults, { ViewType } from "./components/SearchResults";
+import SearchSubjectResult from "./components/SearchSubjectResult";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
@@ -36,6 +37,12 @@ const StyledHeading = styled(Heading)`
 
 const CompetenceWrapper = styled.div`
   margin-bottom: ${spacing.normal};
+`;
+
+const StyledMain = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
 `;
 
 interface Props {
@@ -103,7 +110,7 @@ const SearchContainer = ({
   }));
 
   return (
-    <main>
+    <StyledMain>
       <SearchHeader
         query={query}
         suggestion={suggestion}
@@ -166,7 +173,7 @@ const SearchContainer = ({
           )}
         </>
       )}
-    </main>
+    </StyledMain>
   );
 };
 
