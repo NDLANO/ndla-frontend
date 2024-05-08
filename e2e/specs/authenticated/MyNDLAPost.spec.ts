@@ -17,7 +17,7 @@ test("has main post and comments", async ({ page }) => {
   const title = (await page.getByRole("main").getByRole("heading").first().textContent()) ?? "";
   await expect(page.getByRole("heading", { name: title })).toBeInViewport();
   await expect(page.locator('li[data-main-post="true"]')).toHaveCount(1);
-  await expect(page.locator('li[data-main-post="false"]')).toHaveCount(2);
+  await expect(page.locator('li[data-main-post="false"]')).toHaveCount(4);
 });
 
 test("can add and delete comment", async ({ page }) => {
@@ -30,7 +30,7 @@ test("can add and delete comment", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql");
 
   const postCard = page.getByRole("main").getByRole("listitem");
-  await expect(postCard.getByText(answer)).toHaveCount(1);
+  await expect(postCard.getByText(answer)).toHaveCount(3);
   await postCard.last().getByRole("button").click();
   await page.getByRole("menuitem", { name: "Slett innlegget" }).click();
 
