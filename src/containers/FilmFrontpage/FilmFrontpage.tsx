@@ -11,13 +11,13 @@ import { useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { withTranslation, WithTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { FilmSlideshow, FilmMovieSearch, AllMoviesAlphabetically } from "@ndla/ui";
+import { FilmSlideshow, AllMoviesAlphabetically } from "@ndla/ui";
 
 import AboutNdlaFilm from "./AboutNdlaFilm";
+import FilmMovieSearch, { MovieResourceType } from "./FilmMovieSearch";
 import MovieCategory from "./MovieCategory";
 import { MoviesByType } from "./NdlaFilmFrontpage";
 import Article from "../../components/Article";
@@ -41,13 +41,17 @@ const StyledH1 = styled.h1`
   ${utils.visuallyHidden}
 `;
 
+const StyledMovieList = styled.div`
+  margin: ${spacing.xlarge} 0 ${spacing.xxlarge};
+`;
+
 interface Props extends WithTranslation {
   filmFrontpage?: GQLFilmFrontpage_FilmFrontpageFragment;
   showingAll?: boolean;
   fetchingMoviesByType?: boolean;
   moviesByType?: MoviesByType[];
   subject?: GQLFilmFrontpage_SubjectFragment;
-  resourceTypes: { id: string; name: string }[];
+  resourceTypes: MovieResourceType[];
   onSelectedMovieByType: (resourceId: string) => void;
   skipToContentId?: string;
   loading?: boolean;
@@ -109,12 +113,7 @@ const FilmFrontpage = ({
           resourceTypeSelected={resourceTypeName}
           onChangeResourceType={onChangeResourceType}
         />
-        <div
-          ref={movieListRef}
-          css={css`
-            margin: ${spacing.xlarge} 0 ${spacing.xxlarge};
-          `}
-        >
+        <StyledMovieList ref={movieListRef}>
           {showingAll ? (
             <AllMoviesAlphabetically movies={sortAlphabetically(moviesByType, i18n.language)} />
           ) : (
@@ -128,7 +127,7 @@ const FilmFrontpage = ({
               loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
           )}
-        </div>
+        </StyledMovieList>
         {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmFrontpage?.article} />}
       </main>
     </>

@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
@@ -16,15 +15,6 @@ import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalCon
 import { Switch } from "@ndla/switch";
 import { Heading, Text } from "@ndla/typography";
 import { HeadingType } from "../../interfaces";
-
-const switchCSS = css`
-  margin-right: ${spacing.xsmall};
-`;
-
-const invertedSwitchCSS = css`
-  margin-right: ${spacing.xsmall};
-  color: #fff;
-`;
 
 const TopicTitleWrapper = styled.header`
   display: flex;
@@ -37,10 +27,9 @@ const TopicTitleWrapper = styled.header`
     flex-direction: column;
     gap: ${spacing.small};
   }
-`;
-
-const invertedTopicTitleWrapperStyle = css`
-  color: #fff;
+  &[data-inverted="true"] {
+    color: ${colors.white};
+  }
 `;
 
 const StyledRow = styled.div`
@@ -52,10 +41,16 @@ const StyledRow = styled.div`
 const StyledSwitch = styled(Switch)`
   border: 2px solid transparent;
   border-radius: ${misc.borderRadius};
+  margin-right: ${spacing.xsmall};
   &:focus,
   &:focus-visible,
   &:focus-within {
     border-color: ${colors.brand.dark};
+  }
+  // Props are forwarded weirdly, so we need to use :has
+  &[data-inverted="true"],
+  &:has([data-inverted="true"]) {
+    color: ${colors.white};
   }
 `;
 
@@ -88,7 +83,7 @@ const ResourcesTopicTitle = ({
   const tooltipId = "popupDialogTooltip";
 
   return (
-    <TopicTitleWrapper css={invertedStyle ? invertedTopicTitleWrapperStyle : undefined}>
+    <TopicTitleWrapper data-inverted={invertedStyle}>
       <StyledHGroup>
         <Heading element={heading} headingStyle="list-title" margin="none">
           {title}
@@ -105,7 +100,7 @@ const ResourcesTopicTitle = ({
               checked={showAdditionalResources}
               label={t("resource.activateAdditionalResources")}
               onChange={toggleAdditionalResources}
-              css={invertedStyle ? invertedSwitchCSS : switchCSS}
+              data-inverted={invertedStyle}
             />
           </form>
           <Modal aria-labelledby={tooltipId}>

@@ -22,7 +22,7 @@ const StyledLi = styled.li`
 
 const StyledButton = styled(ButtonV2)<StyledProps>`
   border-width: 1px;
-  border-radius: ${spacing.xsmall};
+  border-radius: 12px;
   border-color: ${colors.brand.dark};
   ${({ selected }) =>
     !selected &&
@@ -37,7 +37,7 @@ const ButtonContainer = styled.ul`
   display: flex;
   gap: ${spacing.xsmall};
   padding: ${spacing.xsmall};
-  border-radius: 12px;
+  border-radius: ${spacing.small};
   background: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.lighter};
   align-self: flex-start;

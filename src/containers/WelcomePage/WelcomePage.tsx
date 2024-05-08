@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { breakpoints, mq, spacing, utils } from "@ndla/core";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ProgrammeV2, FrontpageArticle, WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
-
 import Programmes from "./Components/Programmes";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";

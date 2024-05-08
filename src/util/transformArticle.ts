@@ -28,10 +28,10 @@ function getContent(content: string, { path, isOembed, subject, components, arti
 
 export type BaseArticle = Pick<
   GQLArticle,
-  "transformedContent" | "introduction" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
+  "transformedContent" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
 >;
 
-export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent" | "introduction"> & {
+export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent"> & {
   introduction: ReactNode;
   transformedContent: Omit<T["transformedContent"], "content"> & { content: JSX.Element };
 };
@@ -50,7 +50,6 @@ export const transformArticle = <T extends BaseArticle>(
       ...article.transformedContent,
       content,
     },
-    introduction: transform(article.introduction ?? "", {}),
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),

@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { gql } from "@apollo/client";
 import {
   ArticleWrapper,
@@ -15,7 +16,6 @@ import {
   ArticleByline,
   ArticleFootNotes,
 } from "@ndla/ui";
-
 import { GQLArticleContents_ArticleFragment } from "../../graphqlTypes";
 import { Scripts } from "../../util/getArticleScripts";
 import { TransformedBaseArticle } from "../../util/transformArticle";
@@ -38,7 +38,7 @@ const ArticleContents = ({ article, modifier = "clean", showIngress = true, scri
       {showIngress && (
         <LayoutItem layout="extend">
           <ArticleHeaderWrapper>
-            <ArticleIntroduction>{article.introduction}</ArticleIntroduction>
+            <ArticleIntroduction>{parse(article.htmlIntroduction ?? "")}</ArticleIntroduction>
           </ArticleHeaderWrapper>
         </LayoutItem>
       )}
@@ -68,7 +68,7 @@ ArticleContents.fragments = {
       id
       created
       updated
-      introduction
+      htmlIntroduction
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {

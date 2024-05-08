@@ -94,7 +94,7 @@ const scriptSrc = (() => {
     "*.cloudfront.net",
     "hlstoken-a.akamaihd.net",
     "vjs.zencdn.net",
-    " *.gallerysites.net",
+    "*.gallerysites.net",
     "ndla.no",
     "*.ndla.no",
     "cdnjs.cloudflare.com",
@@ -185,6 +185,7 @@ const frameSrc = (() => {
     "fb.watch",
     "sketchfab.com",
     "jeopardylabs.com",
+    "*.uio.no",
   ];
   if (config.runtimeType === "development") {
     return [

@@ -2129,6 +2129,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
   introduction?: string;
+  htmlIntroduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
   language: string;
@@ -2158,7 +2159,7 @@ export type GQLArticleContents_ArticleFragment = {
   id: number;
   created: string;
   updated: string;
-  introduction?: string;
+  htmlIntroduction?: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2448,6 +2449,7 @@ export type GQLAboutPage_ArticleFragment = {
   __typename?: "Article";
   id: number;
   introduction?: string;
+  htmlIntroduction?: string;
   created: string;
   updated: string;
   slug?: string;
@@ -3908,6 +3910,33 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammeContainer_ProgrammeFragment = {
+  __typename?: "ProgrammePage";
+  id: string;
+  metaDescription?: string;
+  title: { __typename?: "Title"; title: string };
+  desktopImage?: { __typename?: "MetaImage"; url: string };
+  grades?: Array<{
+    __typename?: "Grade";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string };
+    categories?: Array<{
+      __typename?: "Category";
+      id: string;
+      isProgrammeSubject: boolean;
+      title: { __typename?: "Title"; title: string };
+      subjects?: Array<{
+        __typename?: "Subject";
+        id: string;
+        name: string;
+        path: string;
+        subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+      }>;
+    }>;
+  }>;
+};
+
 export type GQLProgrammePageQueryVariables = Exact<{
   path: Scalars["String"]["input"];
 }>;
@@ -3916,21 +3945,8 @@ export type GQLProgrammePageQuery = {
   __typename?: "Query";
   programme?: {
     __typename?: "ProgrammePage";
-    metaDescription?: string;
-    grades?: Array<{
-      __typename?: "Grade";
-      id: string;
-      url: string;
-      title: { __typename?: "Title"; title: string };
-      categories?: Array<{
-        __typename?: "Category";
-        id: string;
-        isProgrammeSubject: boolean;
-        title: { __typename?: "Title"; title: string };
-        subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
-      }>;
-    }>;
-  } & GQLProgrammeFragmentFragment;
+    grades?: Array<{ __typename?: "Grade"; title: { __typename?: "Title"; title: string } }>;
+  } & GQLProgrammeContainer_ProgrammeFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -4234,7 +4250,9 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   article?: {
     __typename?: "Article";
     title: string;
+    htmlTitle: string;
     introduction?: string;
+    htmlIntroduction?: string;
     copyright: {
       __typename?: "Copyright";
       license: { __typename?: "License"; license: string };
@@ -4453,12 +4471,12 @@ export type GQLGroupSearchQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; text?: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -4519,16 +4537,16 @@ export type GQLCompetenceGoalsQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{
     __typename?: "CoreElement";
     id: string;
-    name: string;
-    text?: string;
+    title: string;
+    description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
 };

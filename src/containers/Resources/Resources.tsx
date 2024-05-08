@@ -10,7 +10,9 @@ import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ResourcesWrapper, ResourceGroup } from "@ndla/ui";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { ResourceGroup } from "@ndla/ui";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourcesTopicTitle from "./ResourcesTopicTitle";
 import FavoriteButton from "../../components/Article/FavoritesButton";
@@ -32,6 +34,11 @@ interface Props {
   headingType: HeadingType;
   subHeadingType: HeadingType;
 }
+
+const StyledSection = styled.section`
+  padding-top: ${spacing.normal};
+  padding-bottom: ${spacing.normal};
+`;
 
 const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const { resourceId } = useUrnIds();
@@ -106,19 +113,16 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
   }
 
   return (
-    <ResourcesWrapper
-      header={
-        <ResourcesTopicTitle
-          heading={headingType}
-          title={t("resource.label")}
-          subTitle={topic.name}
-          toggleAdditionalResources={toggleAdditionalResources}
-          showAdditionalResources={showAdditionalResources}
-          hasAdditionalResources={supplementaryResources.length > 0}
-          invertedStyle={ndlaFilm}
-        />
-      }
-    >
+    <StyledSection>
+      <ResourcesTopicTitle
+        heading={headingType}
+        title={t("resource.label")}
+        subTitle={topic.name}
+        toggleAdditionalResources={toggleAdditionalResources}
+        showAdditionalResources={showAdditionalResources}
+        hasAdditionalResources={supplementaryResources.length > 0}
+        invertedStyle={ndlaFilm}
+      />
       {!isGrouped ? (
         <ResourceGroup
           resources={ungroupedResources}
@@ -142,7 +146,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
           />
         ))
       )}
-    </ResourcesWrapper>
+    </StyledSection>
   );
 };
 

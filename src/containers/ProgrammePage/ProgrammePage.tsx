@@ -14,11 +14,9 @@ import { RedirectExternal, Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { programmeRedirects } from "../../constants";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
-import { subjectInfoFragment } from "../../queries";
 import { toProgramme, TypedParams, useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-import { programmeFragment } from "../WelcomePage/WelcomePage";
 
 interface MatchParams extends TypedParams {
   programme: string;
@@ -28,29 +26,15 @@ interface MatchParams extends TypedParams {
 const programmePageQuery = gql`
   query programmePage($path: String!) {
     programme(path: $path) {
-      ...ProgrammeFragment
-      metaDescription
       grades {
-        id
         title {
           title
         }
-        url
-        categories {
-          id
-          title {
-            title
-          }
-          isProgrammeSubject
-          subjects {
-            ...SubjectInfo
-          }
-        }
       }
+      ...ProgrammeContainer_Programme
     }
   }
-  ${programmeFragment}
-  ${subjectInfoFragment}
+  ${ProgrammeContainer.fragments.programme}
 `;
 
 const ProgrammePage = () => {

@@ -35,12 +35,6 @@ const StyledLabel = styled(Label)`
   margin-bottom: ${spacing.xxsmall};
 `;
 
-const FieldInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-`;
-
 const StyledInput = styled(InputV3)`
   background: ${colors.white};
 `;
@@ -71,18 +65,13 @@ const titleMaxLength = 64;
 const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, initialVisible }: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const { formState, trigger, control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       title: initialTitle ?? "",
       description: initialDescription ?? "",
       visible: initialVisible ?? true,
     },
-    mode: "onChange",
   });
-
-  useEffect(() => {
-    trigger();
-  }, [trigger]);
 
   useEffect(() => {
     setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
@@ -96,10 +85,8 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
     });
   };
 
-  const formIsSubmittable = formState.isValid && formState.isDirty;
-
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)}>
+    <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
       <Controller
         control={control}
         name="title"
@@ -117,11 +104,9 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
         render={({ field, fieldState }) => (
           <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
             <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.title")}</StyledLabel>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <StyledInput {...field} />
-            <FieldInfoWrapper>
-              <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            </FieldInfoWrapper>
+            <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
           </FormControl>
         )}
       />
@@ -134,8 +119,8 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
         render={({ field, fieldState }) => (
           <FormControl id="editor" isRequired isInvalid={!!fieldState.error?.message}>
             <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.description")}</StyledLabel>
-            <StyledInput {...field} />
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <StyledInput {...field} />
           </FormControl>
         )}
       />
@@ -147,6 +132,7 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
         }}
         render={({ field, fieldState }) => (
           <FormControl id="visible" isInvalid={!!fieldState.error?.message}>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <CheckboxWrapper>
               <CheckboxItem
                 checked={field.value}
@@ -154,7 +140,6 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
                   setValue("visible", !field.value, {
                     shouldDirty: true,
                     shouldTouch: true,
-                    shouldValidate: true,
                   });
                 }}
               />
@@ -162,7 +147,6 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
                 {t("myNdla.arena.admin.category.form.visible")}
               </Label>
             </CheckboxWrapper>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
           </FormControl>
         )}
       />
@@ -170,7 +154,7 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
         <ButtonV2 variant="outline" onClick={onAbort}>
           {t("cancel")}
         </ButtonV2>
-        <LoadingButton colorTheme="primary" type="submit" disabled={!formIsSubmittable}>
+        <LoadingButton colorTheme="primary" type="submit">
           {t("myNdla.arena.publish")}
         </LoadingButton>
       </ButtonRow>
