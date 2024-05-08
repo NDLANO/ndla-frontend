@@ -22,7 +22,6 @@ import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
-import { LocaleType } from "../../interfaces";
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -55,7 +54,6 @@ interface Props {
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
   showAll: boolean;
-  locale: LocaleType;
   loading: boolean;
   isLti?: boolean;
 }
@@ -73,7 +71,6 @@ const SearchContainer = ({
   typeFilter,
   searchGroups,
   showAll,
-  locale,
   loading,
   isLti,
   competenceGoals,
@@ -114,7 +111,6 @@ const SearchContainer = ({
         handleSearchParamsChange={handleSearchParamsChange}
         subjects={subjects}
         noResults={sortedFilterButtonItems.length === 0}
-        locale={locale}
         competenceGoals={competenceGoals}
         coreElements={coreElements}
         loading={loading}
