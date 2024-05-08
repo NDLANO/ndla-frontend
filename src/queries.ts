@@ -15,97 +15,6 @@ export const contributorInfoFragment = gql`
   }
 `;
 
-export const searchFilmQuery = gql`
-  fragment SearchFilmArticleSearchResult on ArticleSearchResult {
-    id
-    url
-    metaDescription
-    metaImage {
-      url
-      alt
-    }
-    title
-    contexts {
-      breadcrumbs
-      relevance
-      relevanceId
-      language
-      contextType
-      path
-      resourceTypes {
-        id
-        name
-        language
-      }
-      root
-    }
-    supportedLanguages
-    traits
-  }
-  fragment SearchFilmLearningpathSearchResult on LearningpathSearchResult {
-    id
-    url
-    metaDescription
-    metaImage {
-      url
-      alt
-    }
-    title
-    contexts {
-      breadcrumbs
-      relevance
-      relevanceId
-      language
-      contextType
-      path
-      resourceTypes {
-        id
-        name
-        language
-      }
-      root
-    }
-    supportedLanguages
-    traits
-  }
-  query SearchWithoutPagination(
-    $query: String
-    $contextTypes: String
-    $language: String
-    $ids: [Int!]
-    $resourceTypes: String
-    $contextFilters: String
-    $sort: String
-    $fallback: String
-    $subjects: String
-    $languageFilter: String
-    $relevance: String
-  ) {
-    searchWithoutPagination(
-      query: $query
-      contextTypes: $contextTypes
-      language: $language
-      ids: $ids
-      resourceTypes: $resourceTypes
-      contextFilters: $contextFilters
-      sort: $sort
-      fallback: $fallback
-      subjects: $subjects
-      languageFilter: $languageFilter
-      relevance: $relevance
-    ) {
-      results {
-        ... on ArticleSearchResult {
-          ...SearchFilmArticleSearchResult
-        }
-        ... on LearningpathSearchResult {
-          ...SearchFilmLearningpathSearchResult
-        }
-      }
-    }
-  }
-`;
-
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
@@ -295,23 +204,6 @@ export const competenceGoalsQuery = gql`
         title
       }
     }
-  }
-`;
-
-export const movieFragment = gql`
-  fragment MovieInfo on Movie {
-    id
-    title
-    metaImage {
-      alt
-      url
-    }
-    metaDescription
-    resourceTypes {
-      id
-      name
-    }
-    path
   }
 `;
 

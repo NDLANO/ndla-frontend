@@ -9,7 +9,7 @@
 import { Navigate } from "react-router-dom";
 import SubjectPage from "./SubjectPage";
 import { useUrnIds } from "../../routeHelpers";
-import NdlaFilm from "../FilmFrontpage/NdlaFilmFrontpage";
+import FilmFrontpage from "../FilmFrontpage/FilmFrontpage";
 import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 import MultidisciplinarySubjectPage from "../MultidisciplinarySubject/MultidisciplinarySubjectPage";
 import ToolboxSubjectPage from "../ToolboxSubject/ToolboxSubjectPage";
@@ -27,7 +27,7 @@ const SubjectRouting = () => {
   } else if (subjectType === "toolbox") {
     return <ToolboxSubjectPage />;
   } else if (subjectType === "film" && topicList.length === 0) {
-    return <NdlaFilm />;
+    return <FilmFrontpage />;
   } else if (subjectType === "film") {
     return <SubjectPage />;
   }
