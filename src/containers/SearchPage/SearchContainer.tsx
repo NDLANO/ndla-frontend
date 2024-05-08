@@ -9,14 +9,17 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Heading } from "@ndla/typography";
-import { SearchFilterContent, LanguageSelector } from "@ndla/ui";
+import { LanguageSelector } from "@ndla/ui";
 
+import { SearchFilterContent } from "./components/SearchFilterContent";
 import SearchHeader from "./components/SearchHeader";
-import SearchResults, { ViewType } from "./components/SearchResults";
+import SearchResults from "./components/SearchResults";
 import SearchSubjectResult from "./components/SearchSubjectResult";
+import { ViewType } from "./components/searchTypes";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
@@ -43,6 +46,10 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
+`;
+
+const StyledButton = styled(ButtonV2)`
+  align-self: flex-start;
 `;
 
 interface Props {
@@ -100,6 +107,8 @@ const SearchContainer = ({
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
 
+  const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
+
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
 
   const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
@@ -152,10 +161,14 @@ const SearchContainer = ({
             <SearchFilterContent
               items={sortedFilterButtonItems}
               onFilterToggle={handleFilterToggle}
-              onRemoveAllFilters={handleFilterReset}
               viewType={listViewType}
               onChangeViewType={(viewType) => setListViewType(viewType)}
             />
+          )}
+          {hasSelectedResourceType && (
+            <StyledButton variant="link" onClick={handleFilterReset}>
+              {t(`filterButtons.removeAllFilters`)}
+            </StyledButton>
           )}
           <SearchResults
             showAll={showAll}
