@@ -17,14 +17,11 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import ErrorPage from "../ErrorPage";
-import { useGetSharedFolder, useSharedFolder } from "../MyNdla/folderMutations";
+import { useGetSharedFolder } from "../MyNdla/folderMutations";
 import { ViewType } from "../MyNdla/Folders/FoldersPage";
 import NotFound from "../NotFoundPage/NotFoundPage";
 
-const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
-  if (!folder) {
-    return [];
-  }
+const flattenResources = (folder: GQLFolder): GQLFolderResource[] => {
   const subResources = folder.subfolders.flatMap(flattenResources);
 
   return folder.resources.concat(subResources);
@@ -37,7 +34,7 @@ const FoldersPageContainer = styled.div`
 
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
-  const { folderId = "", subfolderId } = useParams();
+  const { folderId = "" } = useParams();
   const { authenticated } = useContext(AuthContext);
 
   const { folder, loading, error } = useGetSharedFolder({
@@ -45,10 +42,6 @@ const SharedFolderPageV2 = () => {
     includeResources: true,
     includeSubfolders: true,
   });
-
-  const subFolder = useSharedFolder(subfolderId);
-  const selectedFolder = !subfolderId ? folder : subFolder;
-  const resources = flattenResources(folder);
 
   if (authenticated) {
     return <Navigate to={routes.myNdla.folderShared(folderId)} />;
@@ -58,20 +51,17 @@ const SharedFolderPageV2 = () => {
     return <Spinner />;
   } else if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
-  } else if (error || !selectedFolder) {
+  } else if (error || !folder) {
     return <ErrorPage />;
   }
+
+  const resources = flattenResources(folder);
 
   return (
     <main>
       <OneColumn>
         <FoldersPageContainer>
-          <SharedFolder
-            selectedFolder={selectedFolder}
-            resources={resources}
-            viewType={viewType}
-            setViewType={setViewType}
-          />
+          <SharedFolder selectedFolder={folder} resources={resources} viewType={viewType} setViewType={setViewType} />
         </FoldersPageContainer>
       </OneColumn>
     </main>

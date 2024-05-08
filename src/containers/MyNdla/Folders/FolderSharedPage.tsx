@@ -31,19 +31,16 @@ import NotFound from "../../NotFoundPage/NotFoundPage";
 import SharedFolder from "../../SharedFolderPage/SharedFolder";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useFolders, useGetSharedFolder, useSaveFolderResourceMutation, useSharedFolder } from "../folderMutations";
+import { useFolders, useGetSharedFolder, useSaveFolderResourceMutation } from "../folderMutations";
 
-const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
-  if (!folder) {
-    return [];
-  }
+const flattenResources = (folder: GQLFolder): GQLFolderResource[] => {
   const subResources = folder.subfolders.flatMap(flattenResources);
-
   return folder.resources.concat(subResources);
 };
+
 const FolderSharedPage = () => {
   const [showSaveLinkButton, setShowSaveLinkButton] = useState(false);
-  const { folderId = "", subfolderId } = useParams();
+  const { folderId = "" } = useParams();
   const { authenticated } = useContext(AuthContext);
   const [viewType, setViewType] = useState<ViewType>("list");
 
@@ -61,14 +58,10 @@ const FolderSharedPage = () => {
 
   const loading = foldersLoading && sharedFolderLoading;
 
-  const subFolder = useSharedFolder(subfolderId);
-  const selectedFolder = !subfolderId ? folder : subFolder;
-  const resources = flattenResources(folder);
-
   const buttons = useMemo(() => {
-    if (!selectedFolder) return [];
+    if (!folder) return [];
     const copyFolder = (
-      <CopyFolderModal folder={selectedFolder}>
+      <CopyFolderModal folder={folder}>
         <ButtonV2 aria-label={t("myNdla.folder.copy")} variant="ghost">
           <Copy />
           {t("myNdla.folder.copy")}
@@ -76,7 +69,7 @@ const FolderSharedPage = () => {
       </CopyFolderModal>
     );
 
-    const saveLink = <SaveLink setShowTrigger={() => setShowSaveLinkButton(false)} folder={selectedFolder} />;
+    const saveLink = <SaveLink setShowTrigger={() => setShowSaveLinkButton(false)} folder={folder} />;
     const actions = [copyFolder];
 
     if (showSaveLinkButton) {
@@ -84,15 +77,15 @@ const FolderSharedPage = () => {
     }
 
     return actions;
-  }, [selectedFolder, showSaveLinkButton]);
+  }, [folder, showSaveLinkButton]);
 
   const menu = useMemo(() => {
-    if (!selectedFolder) return [];
+    if (!folder) return [];
     const copyFolder: MenuItemProps = {
       text: t("myNdla.folder.copy"),
       isModal: true,
       icon: <Copy />,
-      modalContent: (close) => <CopyFolder folder={selectedFolder} onClose={close} />,
+      modalContent: (close) => <CopyFolder folder={folder} onClose={close} />,
     };
 
     const saveLink: MenuItemProps = {
@@ -100,7 +93,7 @@ const FolderSharedPage = () => {
       isModal: true,
       icon: <Subject />,
       modalContent: (close) => (
-        <SaveLinkContent setShowTrigger={() => setShowSaveLinkButton(false)} folder={selectedFolder} onClose={close} />
+        <SaveLinkContent setShowTrigger={() => setShowSaveLinkButton(false)} folder={folder} onClose={close} />
       ),
     };
 
@@ -111,12 +104,12 @@ const FolderSharedPage = () => {
     }
 
     return <SettingsMenu menuItems={actions} />;
-  }, [selectedFolder, showSaveLinkButton]);
+  }, [folder, showSaveLinkButton]);
 
   useEffect(() => {
     if (!savedFolders) return;
-    setShowSaveLinkButton(!savedFolders?.some((f) => f.id === (subfolderId ?? folderId)));
-  }, [folderId, savedFolders, subfolderId]);
+    setShowSaveLinkButton(!savedFolders?.some((f) => f.id === folderId));
+  }, [folderId, savedFolders]);
 
   if (!authenticated) {
     return <Navigate to={routes.folder(folderId)} />;
@@ -126,18 +119,15 @@ const FolderSharedPage = () => {
     return <Spinner />;
   } else if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
-  } else if (error || !selectedFolder) {
+  } else if (error || !folder) {
     return <ErrorPage />;
   }
 
+  const resources = flattenResources(folder);
+
   return (
     <MyNdlaPageWrapper buttons={buttons} dropDownMenu={menu} viewType={viewType} onViewTypeChange={setViewType}>
-      <SharedFolder
-        selectedFolder={selectedFolder}
-        resources={resources}
-        viewType={viewType}
-        setViewType={setViewType}
-      />
+      <SharedFolder selectedFolder={folder} resources={resources} viewType={viewType} setViewType={setViewType} />
     </MyNdlaPageWrapper>
   );
 };
