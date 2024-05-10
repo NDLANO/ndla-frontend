@@ -15,39 +15,21 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import createEmotionServer from "@emotion/server/create-instance";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { EmotionCacheKey } from "../../constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
-import { LocaleType } from "../../interfaces";
-import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
+import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
 
-function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
-  return abbreviation;
-}
-
 export const defaultRender: RenderFunc = async (req) => {
-  const resCookie = req.headers["cookie"] ?? "";
-
-  const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
-  if (locale !== basename && locale !== "nb" && basename !== "") {
-    return {
-      status: TEMPORARY_REDIRECT,
-      location: `/${locale}${basepath}`,
-    };
-  }
+  const { basename, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
+  const locale = isValidLocale(abbreviation) ? abbreviation : config.defaultLocale;
 
   const userAgent = req.headers["user-agent"];
   const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;

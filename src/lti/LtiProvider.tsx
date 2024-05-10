@@ -10,10 +10,9 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { setCookie } from "@ndla/util";
 
 import { useLtiData } from "../components/LtiContext";
-import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import ErrorBoundary from "../containers/ErrorPage/ErrorBoundary";
 import ErrorPage from "../containers/ErrorPage/ErrorPage";
 import SearchInnerPage from "../containers/SearchPage/SearchInnerPage";
@@ -60,11 +59,6 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
   i18n.on("languageChanged", (lang) => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
-    setCookie({
-      cookieName: STORED_LANGUAGE_COOKIE_KEY,
-      cookieValue: lang,
-      lax: true,
-    });
     document.documentElement.lang = lang;
   });
 

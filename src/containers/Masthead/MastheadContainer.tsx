@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
@@ -25,6 +25,7 @@ import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes"
 import { supportedLanguages } from "../../i18n";
 import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
+import { constructNewPath } from "../../util/urlHelper";
 import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled.span`
@@ -91,6 +92,10 @@ const MastheadContainer = () => {
     number: alert.number,
   }));
 
+  const onChangeLanguage = useCallback((lang: string) => {
+    window.location.href = constructNewPath(window.location.pathname, lang);
+  }, []);
+
   return (
     <ErrorBoundary>
       <Masthead
@@ -110,7 +115,7 @@ const MastheadContainer = () => {
         <ButtonWrapper>
           <MastheadSearch subject={data?.subject} />
           <LanguageSelectWrapper>
-            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={onChangeLanguage} />
           </LanguageSelectWrapper>
           {config.feideEnabled && (
             <FeideLoginButton>

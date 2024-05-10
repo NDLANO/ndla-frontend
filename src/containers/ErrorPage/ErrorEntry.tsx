@@ -15,11 +15,9 @@ import { BrowserRouter } from "react-router-dom";
 import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie, setCookie } from "@ndla/util";
 import ErrorPage from "./ErrorPage";
 import Scripts from "../../components/Scripts/Scripts";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
-import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 
 const { config, serverPath } = window.DATA;
 
@@ -33,18 +31,9 @@ window.errorReporter = ErrorReporter.getInstance({
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 
-const maybeStoredLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
-// Set storedLanguage to a sane value if non-existent
-if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
-  setCookie({
-    cookieName: STORED_LANGUAGE_COOKIE_KEY,
-    cookieValue: abbreviation,
-    lax: true,
-  });
-}
-const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
+const lang = isValidLocale(abbreviation) ? abbreviation : undefined;
 
-const i18n = initializeI18n(i18nInstance, storedLanguage);
+const i18n = initializeI18n(i18nInstance, lang ?? config.defaultLocale);
 
 const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   if (config.disableSSR) {
