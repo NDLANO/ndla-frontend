@@ -25,14 +25,12 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-import { getCookie } from "@ndla/util";
 import "../style/index.css";
 import { LtiIframePage } from "./LtiIframePage";
 import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
 import Scripts from "../components/Scripts/Scripts";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
-import { initializeI18n, isValidLocale } from "../i18n";
+import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 
 const {
@@ -48,10 +46,8 @@ window.errorReporter = ErrorReporter.getInstance({
   ignoreUrls: [],
 });
 
-const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
-const language = isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale;
-const client = createApolloClient(language);
-const i18n = initializeI18n(i18nInstance, language);
+const client = createApolloClient(config.defaultLocale);
+const i18n = initializeI18n(i18nInstance, config.defaultLocale);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(

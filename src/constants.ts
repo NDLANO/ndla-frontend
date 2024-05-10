@@ -24,7 +24,6 @@ export const TOOLBOX_STUDENT_SUBJECT_ID = "urn:subject:1:54b1727c-2d91-4512-901c
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
-export const STORED_LANGUAGE_COOKIE_KEY = "language";
 export const STORED_RESOURCE_VIEW_SETTINGS = "STORED_RESOURCE_VIEW_SETTINGS";
 
 export const PROGRAMME_PATH = "/utdanning";
@@ -70,3 +69,5 @@ export const programmeRedirects: Record<string, string> = {
   studiespesialisering: "studiespesialisering__7d5badf01ff2",
   "teknologi-og-industrifag": "teknologi-og-industrifag__a920d0b5cbbb",
 };
+
+export const COLLECTION_LANGUAGES = ["nb", "nn", "en", "se", "sma", "ukr"];

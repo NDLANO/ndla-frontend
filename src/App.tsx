@@ -18,6 +18,7 @@ import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
+import CollectionPage from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
 import ArenaFlagPage from "./containers/MyNdla/Arena/ArenaFlagPage";
@@ -109,6 +110,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="utdanning/:programme" element={<ProgrammePage />}>
                   <Route path=":grade" element={null} />
                 </Route>
+                <Route path="collection/:collectionLanguage" element={<CollectionPage />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />

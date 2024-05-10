@@ -33,6 +33,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   podcastPage: {
     episodes: "Jearahusat",
@@ -121,6 +122,10 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
+  },
+  collectionPage: {
+    title: `Ressurser på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikke noen ressurser på dette språket enda.",
   },
 };
 
