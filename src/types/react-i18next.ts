@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Callback, FlatNamespace, i18n, KeyPrefix, Namespace, TFunction } from "i18next";
-import { FallbackNs, UseTranslationOptions } from "react-i18next";
+import { FallbackNs } from "react-i18next";
 import { $Tuple } from "react-i18next/helpers";
 import { LocaleType } from "../interfaces";
 
