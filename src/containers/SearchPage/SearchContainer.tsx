@@ -156,7 +156,7 @@ const SearchContainer = ({
       {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
       <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (
-        <>
+        <div>
           {sortedFilterButtonItems.length > 1 && (
             <SearchFilterContent
               items={sortedFilterButtonItems}
@@ -184,7 +184,7 @@ const SearchContainer = ({
               <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
             </StyledLanguageSelector>
           )}
-        </>
+        </div>
       )}
     </StyledMain>
   );
