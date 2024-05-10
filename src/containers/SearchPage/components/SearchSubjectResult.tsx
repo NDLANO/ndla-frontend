@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { mq, breakpoints, spacing, fonts, misc } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
-import { Heading } from "@ndla/typography";
+import { Text } from "@ndla/typography";
 
 interface Props {
   items: {
@@ -53,8 +53,7 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const ItemHeading = styled(Heading)`
-  margin: ${spacing.small} 0px;
+const ItemHeading = styled(Text)`
   font-weight: ${fonts.weight.semibold};
 `;
 
@@ -64,7 +63,7 @@ const SearchSubjectResult = ({ items }: Props) => {
     <Container>
       {items.map((item) => (
         <ItemWrapper key={item.id} style={{ "--background-image": `url(${item.img?.url ?? ""})` } as CSSProperties}>
-          <ItemHeading element="h2" headingStyle="h4">
+          <ItemHeading element="h2" textStyle="label-small" margin="none">
             {item.title}
           </ItemHeading>
           <SafeLink to={item.url}>{t("searchPage.resultType.toSubjectPageLabel")}</SafeLink>
