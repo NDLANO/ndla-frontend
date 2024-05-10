@@ -31,7 +31,7 @@
     "check-translations": "vitest --run src/messages/__tests__/"
   },
   "engines": {
-    "node": ">=20.9.0",
+    "node": ">=20.13.1",
     "npm": ">=9.0.0"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@testing-library/react": "^15.0.2",
     "@types/express": "^4.17.21",
     "@types/lodash": "^4.17.0",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.11",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.2.1",
