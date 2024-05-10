@@ -2584,6 +2584,22 @@ export type GQLArticleHero_SubjectFragment = { __typename?: "Subject"; id: strin
 
 export type GQLArticleHero_MetaImageFragment = { __typename?: "MetaImage"; url: string; alt: string };
 
+export type GQLCollectionPageQueryVariables = Exact<{
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLCollectionPageQuery = {
+  __typename?: "Query";
+  subjectCollection?: Array<{
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    path: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+    subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+  }>;
+};
+
 export type GQLAllMoviesQueryVariables = Exact<{
   resourceTypes: Scalars["String"]["input"];
   language: Scalars["String"]["input"];
