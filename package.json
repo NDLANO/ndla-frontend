@@ -126,7 +126,7 @@
     "react-hook-form": "^7.51.3",
     "react-i18next": "^13.3.0",
     "react-router-dom": "^6.3.0",
-    "serialize-javascript": "^6.0.0",
+    "serialize-javascript": "^6.0.2",
     "source-map-support": "^0.5.9",
     "winston": "^3.12.0"
   },
