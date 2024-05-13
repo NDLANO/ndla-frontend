@@ -57,6 +57,14 @@ interface Props {
   breadcrumbItems: BreadcrumbType[];
 }
 
+const StyledHeroContent = styled(HeroContent)`
+  display: none;
+
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: flex;
+  }
+`;
+
 const Learningpath = ({
   learningpath,
   learningpathStep,
@@ -133,14 +141,6 @@ const Learningpath = ({
       }
     />
   );
-
-  const StyledHeroContent = styled(HeroContent)`
-    display: none;
-
-    ${mq.range({ from: breakpoints.tablet })} {
-      display: flex;
-    }
-  `;
 
   const previousStep = learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningsteps[learningpathStep.seqNo + 1];
