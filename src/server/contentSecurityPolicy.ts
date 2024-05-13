@@ -186,6 +186,7 @@ const frameSrc = (() => {
     "sketchfab.com",
     "jeopardylabs.com",
     "*.uio.no",
+    "geodata.maps.arcgis.com",
   ];
   if (config.runtimeType === "development") {
     return [
