@@ -86,7 +86,7 @@ const MastheadContainer = () => {
 
   const alerts = openAlerts?.map((alert) => ({
     // @ts-ignore Too many changes in frontend-packages just now. Will change Masthead later.
-    content: parse(alert.body) || alert.title,
+    content: alert.body ? parse(alert.body) : alert.title,
     closable: alert.closable,
     number: alert.number,
   }));
