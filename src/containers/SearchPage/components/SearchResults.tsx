@@ -14,27 +14,9 @@ import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Heading, Text } from "@ndla/typography";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { ContentTypeBadge } from "@ndla/ui";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
-
-const { contentTypes } = constants;
-
-interface Props {
-  showAll?: boolean;
-  handleSubFilterClick: (type: string, filterId: string) => void;
-  handleShowMore: (type: string) => void;
-  searchGroups: SearchGroup[];
-  typeFilter: Record<string, TypeFilter>;
-  loading: boolean;
-}
-
-const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>) => {
-  return searchGroups.filter((group) => {
-    const filter = typeFilter[group.type];
-    return (filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
-  });
-};
 
 const Wrapper = styled.section`
   display: flex;
@@ -95,25 +77,6 @@ const SearchResultsList = styled.ul`
   }
 `;
 
-const SearchResults = ({ showAll, handleSubFilterClick, handleShowMore, searchGroups, typeFilter, loading }: Props) => {
-  const filteredGroups = showAll ? searchGroups : filterGroups(searchGroups, typeFilter);
-
-  return (
-    <>
-      {filteredGroups.map((group) => (
-        <SearchResultGroup
-          key={`searchresult-${group.type}`}
-          group={group}
-          handleSubFilterClick={handleSubFilterClick}
-          handleShowMore={handleShowMore}
-          typeFilter={typeFilter}
-          loading={loading}
-        />
-      ))}
-    </>
-  );
-};
-
 interface SearchResultGroupProps {
   group: SearchGroup;
   typeFilter: Record<string, TypeFilter>;
@@ -122,7 +85,7 @@ interface SearchResultGroupProps {
   loading: boolean;
 }
 
-const SearchResultGroup = ({
+export const SearchResultGroup = ({
   group,
   typeFilter,
   handleShowMore,
@@ -209,5 +172,3 @@ const SearchResultGroup = ({
     </Wrapper>
   );
 };
-
-export default SearchResults;

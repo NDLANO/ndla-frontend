@@ -13,10 +13,10 @@ import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Heading } from "@ndla/typography";
-import { LanguageSelector } from "@ndla/ui";
+import { LanguageSelector, constants } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
-import SearchResults from "./components/SearchResults";
+import { SearchResultGroup } from "./components/SearchResults";
 import SearchSubjectResult from "./components/SearchSubjectResult";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
@@ -24,6 +24,8 @@ import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+
+const { contentTypes } = constants;
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -56,6 +58,13 @@ const ItemWrapper = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
 `;
+
+const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>) => {
+  return searchGroups.filter((group) => {
+    const filter = typeFilter[group.type];
+    return (filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+  });
+};
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -110,6 +119,7 @@ const SearchContainer = ({
 
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
+  const filteredSortedSearchGroups = showAll ? sortedSearchGroups : filterGroups(sortedSearchGroups, typeFilter);
 
   const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
 
@@ -181,14 +191,16 @@ const SearchContainer = ({
               {t(`filterButtons.removeAllFilters`)}
             </StyledButton>
           )}
-          <SearchResults
-            showAll={showAll}
-            searchGroups={sortedSearchGroups}
-            typeFilter={typeFilter}
-            handleSubFilterClick={handleSubFilterClick}
-            handleShowMore={handleShowMore}
-            loading={loading}
-          />
+          {filteredSortedSearchGroups.map((group) => (
+            <SearchResultGroup
+              key={`searchresultgroup-${group.type}`}
+              group={group}
+              handleSubFilterClick={handleSubFilterClick}
+              handleShowMore={handleShowMore}
+              loading={loading}
+              typeFilter={typeFilter}
+            />
+          ))}
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
