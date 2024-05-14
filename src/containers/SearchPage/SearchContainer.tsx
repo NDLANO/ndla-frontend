@@ -6,20 +6,18 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { Cross } from "@ndla/icons/action";
 import { Heading } from "@ndla/typography";
 import { LanguageSelector } from "@ndla/ui";
 
-import { SearchFilterContent } from "./components/SearchFilterContent";
 import SearchHeader from "./components/SearchHeader";
 import SearchResults from "./components/SearchResults";
 import SearchSubjectResult from "./components/SearchSubjectResult";
-import { ViewType } from "./components/searchTypes";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
@@ -50,6 +48,13 @@ const StyledMain = styled.main`
 
 const StyledButton = styled(ButtonV2)`
   align-self: flex-start;
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  flex-wrap: wrap;
+  align-items: flex-start;
 `;
 
 interface Props {
@@ -91,7 +96,6 @@ const SearchContainer = ({
   coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [listViewType, setListViewType] = useState<ViewType>("grid");
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -158,12 +162,19 @@ const SearchContainer = ({
       {searchGroups && searchGroups.length > 0 && (
         <div>
           {sortedFilterButtonItems.length > 1 && (
-            <SearchFilterContent
-              items={sortedFilterButtonItems}
-              onFilterToggle={handleFilterToggle}
-              viewType={listViewType}
-              onChangeViewType={(viewType) => setListViewType(viewType)}
-            />
+            <ItemWrapper>
+              {sortedFilterButtonItems.map((item) => (
+                <ButtonV2
+                  key={item.value}
+                  shape="pill"
+                  onClick={() => handleFilterToggle(item.value)}
+                  colorTheme={item.selected ? "primary" : "greyLighter"}
+                >
+                  {item.label}
+                  {item.selected && <Cross />}
+                </ButtonV2>
+              ))}
+            </ItemWrapper>
           )}
           {hasSelectedResourceType && (
             <StyledButton variant="link" onClick={handleFilterReset}>
@@ -176,7 +187,6 @@ const SearchContainer = ({
             typeFilter={typeFilter}
             handleSubFilterClick={handleSubFilterClick}
             handleShowMore={handleShowMore}
-            viewType={listViewType}
             loading={loading}
           />
           {isLti && (
