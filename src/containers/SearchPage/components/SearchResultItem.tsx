@@ -170,7 +170,7 @@ const SearchResultItem = ({ item, type }: Props) => {
         <ContentWrapper>
           {parse(item.ingress)}
           <BreadcrumbText element="span" margin="none" textStyle="meta-text-xsmall">
-            {mainContext?.breadcrumb.join(" > ")}
+            {mainContext?.breadcrumb.join(" › ")}
             &nbsp;
             {item.contexts && item.contexts.length > 1 && (
               <Modal>
@@ -192,7 +192,7 @@ const SearchResultItem = ({ item, type }: Props) => {
                         <ContextListItem key={context.url}>
                           <SafeLink to={context.url}>{item.title}</SafeLink>
                           <BreadcrumbText element="span" margin="none" textStyle="meta-text-small">
-                            {context.breadcrumb.join(" > ")}
+                            {context.breadcrumb.join(" › ")}
                             &nbsp;
                             {context.isAdditional ? (
                               <Additional
