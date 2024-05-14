@@ -9,7 +9,6 @@
 import { KeyboardEvent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
 import { ArrowDropDownRounded } from "@ndla/icons/common";
@@ -52,6 +51,7 @@ const FolderLink = styled(SafeLinkButton)`
   justify-content: center;
   color: ${colors.text.primary};
   border: none;
+  text-align: left;
   &:hover,
   &:active {
     color: ${colors.brand.primary};
@@ -71,6 +71,9 @@ const StyledArrow = styled(ArrowDropDownRounded)`
   height: 30px;
   width: 30px;
   color: ${colors.text.primary};
+  &[data-open="false"] {
+    transform: rotate(-90deg);
+  }
 `;
 
 const FolderNavigation = styled("div", folderLinkOptions)<LinkProps>`
@@ -93,13 +96,9 @@ const ToggleOpenButton = styled.button`
   border: 0;
   background: transparent;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 0;
-`;
-
-const arrowOpenCss = css`
-  transform: rotate(-90deg);
 `;
 
 const containsFolder = (folder: GQLFolder, targetId: string): boolean => {
@@ -176,7 +175,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                     setIsOpen(!isOpen);
                   }}
                 >
-                  <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
+                  <StyledArrow data-open={isOpen} />
                 </ToggleOpenButton>
                 <FolderLink
                   to={preview ? routes.myNdla.folderPreview(folder.id) : routes.folder(folder.id)}
@@ -214,7 +213,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                   setIsOpen(!isOpen);
                 }}
               >
-                <StyledArrow css={!isOpen ? arrowOpenCss : undefined} />
+                <StyledArrow data-open={isOpen} />
               </ToggleOpenButton>
               <FolderLink
                 to={

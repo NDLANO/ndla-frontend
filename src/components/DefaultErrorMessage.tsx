@@ -32,7 +32,7 @@ const DefaultErrorMessage = ({ minimal }: Props) => {
 
   return (
     <>
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <ErrorMessage illustration={illustrations} messages={messages} />
       </OneColumn>
     </>

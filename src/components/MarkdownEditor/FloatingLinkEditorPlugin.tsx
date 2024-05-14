@@ -402,6 +402,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
           <Label margin="none" textStyle="label-small">
             {t("markdownEditor.link.text")}
           </Label>
+          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
           <InputV3
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
@@ -414,12 +415,12 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
         </FormControl>
         <FormControl id="url" isRequired isInvalid={!!urlError}>
           <Label margin="none" textStyle="label-small">
             {t("markdownEditor.link.url")}
           </Label>
+          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
           <InputV3
             name="url"
             ref={inputRef}
@@ -432,7 +433,6 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
         </FormControl>
       </InputWrapper>
       <ButtonWrapper>

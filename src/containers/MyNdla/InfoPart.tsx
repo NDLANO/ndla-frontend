@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { misc, spacing } from "@ndla/core";
 import { Icon } from "@ndla/icons";
 import { Heading } from "@ndla/typography";
 
@@ -22,7 +22,7 @@ const InfoPartWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  max-width: 700px;
+  max-width: ${misc.maxTextWidth};
 `;
 
 const InfoPartHeader = styled.div`

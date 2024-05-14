@@ -81,7 +81,7 @@ const StyledList = styled.ul`
 
 const SelectWrapper = styled.div`
   padding: ${spacing.xsmall};
-  border-radius: 12px;
+  border-radius: ${spacing.small};
   background: ${colors.brand.lightest};
   border: 1px solid ${colors.brand.lighter};
   margin: ${spacing.normal} 0 ${spacing.small};

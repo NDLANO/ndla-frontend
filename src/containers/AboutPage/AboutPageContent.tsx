@@ -188,6 +188,7 @@ export const aboutPageFragments = {
     fragment AboutPage_Article on Article {
       id
       introduction
+      htmlIntroduction
       created
       updated
       slug

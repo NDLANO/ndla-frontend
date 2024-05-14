@@ -17,11 +17,13 @@ test("film page has content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
   await expect(page.locator("span", { hasText: "Chef Flynn" }).first()).toBeVisible();
   const subjects = page.locator("div", {
-    has: page.getByRole("heading", { name: "EMNER I FILM" }),
+    has: page.getByRole("heading", { name: "Emner i film:" }),
+    hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
   });
-  expect((await subjects.getByRole("listitem").all()).length).toEqual(7);
+  await expect(subjects.getByRole("navigation").getByRole("list").getByRole("listitem")).toHaveCount(7);
   const identitet = page.locator("div", {
     has: page.getByRole("heading", { name: "Identitet" }),
+    hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
   });
-  expect((await identitet.getByRole("listitem").all()).length).toEqual(7);
+  await expect(identitet.getByRole("listitem")).toHaveCount(7);
 });

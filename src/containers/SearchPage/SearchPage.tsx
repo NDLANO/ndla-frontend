@@ -68,7 +68,7 @@ const SearchPage = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.searchPage")} />
-      <OneColumn cssModifier="clear-desktop" wide>
+      <OneColumn wide>
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}

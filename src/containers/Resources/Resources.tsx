@@ -7,15 +7,19 @@
  */
 
 import sortBy from "lodash/sortBy";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ResourcesWrapper, ResourceGroup } from "@ndla/ui";
+import styled from "@emotion/styled";
+import { colors, spacing } from "@ndla/core";
+import { Heading } from "@ndla/typography";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import ResourceList from "./ResourceList";
 import ResourcesTopicTitle from "./ResourcesTopicTitle";
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
   GQLResources_ResourceFragment,
@@ -33,11 +37,31 @@ interface Props {
   subHeadingType: HeadingType;
 }
 
+const StyledHeading = styled(Heading)`
+  &[data-inverted="true"] {
+    color: ${colors.white};
+  }
+`;
+
+const StyledNav = styled.nav`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
+  margin-bottom: ${spacing.mediumlarge};
+`;
+
+const StyledSection = styled.section`
+  padding-top: ${spacing.normal};
+  padding-bottom: ${spacing.normal};
+`;
+
 const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
+
+  const resourcesTopicId = useId();
 
   const isGrouped = useMemo(
     () =>
@@ -62,17 +86,16 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
     if (isGrouped) {
       const resourceGroups = getResourceGroups(resourceTypes ?? [], supplementaryResources, coreResources);
 
-      const groupedResources = resourceGroups.map((type) => ({
-        ...type,
-        resources: type?.resources?.map((res) => ({
-          ...res,
-          active: !!resourceId && res.id.endsWith(resourceId),
-        })),
-        contentType: contentTypeMapping[type.id],
-        noContentLabel: t("resource.noCoreResourcesAvailable", {
-          name: type.name.toLowerCase(),
-        }),
-      }));
+      const groupedResources = resourceGroups
+        .map((type) => ({
+          ...type,
+          resources: type?.resources?.map((res) => ({
+            ...res,
+            active: !!resourceId && res.id.endsWith(resourceId),
+          })),
+          contentType: contentTypeMapping[type.id],
+        }))
+        .filter((type) => type.resources?.length);
       return { groupedResources, ungroupedResources: [] };
     }
 
@@ -87,7 +110,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
       };
     });
     return { groupedResources: [], ungroupedResources };
-  }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources, t]);
+  }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources]);
 
   useEffect(() => {
     const showAdditional = window.localStorage.getItem("showAdditionalResources");
@@ -106,43 +129,52 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
   }
 
   return (
-    <ResourcesWrapper
-      header={
-        <ResourcesTopicTitle
-          heading={headingType}
-          title={t("resource.label")}
-          subTitle={topic.name}
-          toggleAdditionalResources={toggleAdditionalResources}
-          showAdditionalResources={showAdditionalResources}
-          hasAdditionalResources={supplementaryResources.length > 0}
-          invertedStyle={ndlaFilm}
-        />
-      }
-    >
+    <StyledSection>
+      <ResourcesTopicTitle
+        headingId={resourcesTopicId}
+        heading={headingType}
+        title={t("resource.label")}
+        subTitle={topic.name}
+        toggleAdditionalResources={toggleAdditionalResources}
+        showAdditionalResources={showAdditionalResources}
+        hasAdditionalResources={supplementaryResources.length > 0}
+        invertedStyle={ndlaFilm}
+      />
       {!isGrouped ? (
-        <ResourceGroup
-          resources={ungroupedResources}
-          showAdditionalResources={showAdditionalResources}
-          toggleAdditionalResources={toggleAdditionalResources}
-          invertedStyle={ndlaFilm}
-          heartButton={(p) => <AddResource resources={ungroupedResources} path={p} />}
-        />
+        <StyledNav aria-labelledby={resourcesTopicId}>
+          <ResourceList
+            resources={ungroupedResources}
+            showAdditionalResources={showAdditionalResources}
+            heartButton={(p) => <AddResource resources={ungroupedResources} path={p} />}
+          />
+        </StyledNav>
       ) : (
         groupedResources.map((type) => (
-          <ResourceGroup
-            key={type.id}
-            headingLevel={subHeadingType}
-            title={type.name}
-            resources={type.resources ?? []}
-            showAdditionalResources={showAdditionalResources}
-            toggleAdditionalResources={toggleAdditionalResources}
-            contentType={type.contentType}
-            invertedStyle={ndlaFilm}
-            heartButton={(p) => <AddResource resources={type.resources ?? []} path={p} />}
-          />
+          <StableId key={type.id}>
+            {(id) => (
+              <StyledNav key={type.id} aria-labelledby={id}>
+                <StyledHeading
+                  id={id}
+                  margin="none"
+                  element={subHeadingType}
+                  headingStyle="list-title"
+                  data-inverted={ndlaFilm}
+                >
+                  {type.name}
+                </StyledHeading>
+                <ResourceList
+                  title={type.name}
+                  showAdditionalResources={showAdditionalResources}
+                  contentType={type.contentType}
+                  resources={type.resources ?? []}
+                  heartButton={(p) => <AddResource resources={type.resources ?? []} path={p} />}
+                />
+              </StyledNav>
+            )}
+          </StableId>
         ))
       )}
-    </ResourcesWrapper>
+    </StyledSection>
   );
 };
 

@@ -14,9 +14,10 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { Topic } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
+import Topic from "../../../components/Topic/Topic";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
@@ -119,14 +120,15 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
         id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
         frame={subTopics?.length === 0}
         isLoading={loading}
-        subTopics={subTopics}
-        title={topic.article.title}
-        introduction={parse(topic.article.introduction ?? "")}
+        title={parse(topic.article.htmlTitle ?? "")}
+        introduction={parse(topic.article.htmlIntroduction ?? "")}
         metaImage={topic.article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
-        resources={resources}
-      />
+      >
+        {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
+        {resources}
+      </Topic>
     </>
   );
 };
@@ -164,7 +166,9 @@ export const toolboxTopicWrapperFragments = {
       }
       article {
         title
+        htmlTitle
         introduction
+        htmlIntroduction
         copyright {
           license {
             license

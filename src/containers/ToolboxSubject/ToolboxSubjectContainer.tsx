@@ -13,10 +13,13 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { useTracker } from "@ndla/tracker";
-import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem, SubjectBanner, ToolboxInfo } from "@ndla/ui";
+import { Heading, Text } from "@ndla/typography";
+import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
+import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import SubjectBanner from "../../components/Subject/SubjectBanner";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
 import { removeUrn, toTopic } from "../../routeHelpers";
@@ -135,11 +138,20 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
         <BreadcrumbWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
         </BreadcrumbWrapper>
-        <ToolboxInfo
+        <Heading
+          element="h1"
+          headingStyle="h1-resource"
           id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
-          topics={topics}
-          title={subject.name}
-          introduction={t("toolboxPage.introduction")}
+          tabIndex={-1}
+        >
+          {subject.name}
+        </Heading>
+        <Text textStyle="ingress">{t("toolboxPage.introduction")}</Text>
+        <NavigationBox
+          items={topics}
+          listDirection="floating"
+          heading={t("topicPage.topics")}
+          colorMode="greyLighter"
         />
         {selectedTopics.map((topic: string, index: number) => (
           <div key={topic} ref={refs[index]}>
@@ -153,9 +165,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             />
           </div>
         ))}
-        {subject.subjectpage?.banner && (
-          <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} negativeTopMargin={!topics} />
-        )}
+        {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
       </OneColumn>
     </>
   );

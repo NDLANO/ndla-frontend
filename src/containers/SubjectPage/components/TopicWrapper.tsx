@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Spinner } from "@ndla/icons";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
-import Topic, { topicFragments } from "./Topic";
+import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -86,7 +86,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
   }
 
   return (
-    <Topic
+    <SubjectTopic
       topic={data.topic}
       resourceTypes={data.resourceTypes}
       topicId={topicId}
