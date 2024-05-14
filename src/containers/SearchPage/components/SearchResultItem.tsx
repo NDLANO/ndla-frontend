@@ -122,6 +122,12 @@ const StyledSafeLink = styled(SafeLink)`
   }
 `;
 
+const LtiWrapper = styled.div`
+  z-index: ${stackOrder.offsetSingle};
+  display: flex;
+  flex-direction: column;
+`;
+
 const ContentTypeText = styled(Text)`
   :not([data-first="true"]) {
     &::before {
@@ -234,6 +240,7 @@ const SearchResultItem = ({ item, type }: Props) => {
             )}
           </BreadcrumbText>
         </ContentWrapper>
+        <LtiWrapper>{item.children}</LtiWrapper>
       </StyledArticle>
     </ListItem>
   );
