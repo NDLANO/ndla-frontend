@@ -64,7 +64,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
     <div>
       <Helmet>
         <title>{`${getDocumentTitle(learningpath, t)}`}</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")])}
