@@ -6,12 +6,14 @@
  *
  */
 
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { fonts, spacing, spacingUnit } from "@ndla/core";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { Cross } from "@ndla/icons/action";
+import { Cross, Grid } from "@ndla/icons/action";
+import { ListCircle } from "@ndla/icons/editor";
 import { Heading } from "@ndla/typography";
 import { LanguageSelector, constants } from "@ndla/ui";
 
@@ -20,6 +22,7 @@ import { SearchResultGroup } from "./components/SearchResults";
 import SearchSubjectResult from "./components/SearchSubjectResult";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { ViewType } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
@@ -57,6 +60,20 @@ const ItemWrapper = styled.div`
   gap: ${spacing.xsmall};
   flex-wrap: wrap;
   align-items: flex-start;
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
 `;
 
 const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>) => {
@@ -105,6 +122,7 @@ const SearchContainer = ({
   coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [viewType, setViewType] = useState<ViewType>("grid");
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -172,19 +190,41 @@ const SearchContainer = ({
       {searchGroups && searchGroups.length > 0 && (
         <div>
           {sortedFilterButtonItems.length > 1 && (
-            <ItemWrapper>
-              {sortedFilterButtonItems.map((item) => (
-                <ButtonV2
-                  key={item.value}
-                  shape="pill"
-                  onClick={() => handleFilterToggle(item.value)}
-                  colorTheme={item.selected ? "primary" : "greyLighter"}
+            <FilterWrapper>
+              <ItemWrapper>
+                {sortedFilterButtonItems.map((item) => (
+                  <ButtonV2
+                    key={item.value}
+                    shape="pill"
+                    onClick={() => handleFilterToggle(item.value)}
+                    colorTheme={item.selected ? "primary" : "greyLighter"}
+                  >
+                    {item.label}
+                    {item.selected && <Cross />}
+                  </ButtonV2>
+                ))}
+              </ItemWrapper>
+              <ButtonWrapper>
+                <IconButtonV2
+                  variant={viewType === "grid" ? "solid" : "ghost"}
+                  onClick={() => setViewType("grid")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.gridView")}
+                  title={t("searchPage.resultType.gridView")}
                 >
-                  {item.label}
-                  {item.selected && <Cross />}
-                </ButtonV2>
-              ))}
-            </ItemWrapper>
+                  <Grid />
+                </IconButtonV2>
+                <IconButtonV2
+                  variant={viewType === "list" ? "solid" : "ghost"}
+                  onClick={() => setViewType("list")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.listView")}
+                  title={t("searchPage.resultType.listView")}
+                >
+                  <ListCircle />
+                </IconButtonV2>
+              </ButtonWrapper>
+            </FilterWrapper>
           )}
           {hasSelectedResourceType && (
             <StyledButton variant="link" onClick={handleFilterReset}>
@@ -199,6 +239,7 @@ const SearchContainer = ({
               handleShowMore={handleShowMore}
               loading={loading}
               typeFilter={typeFilter}
+              viewType={viewType}
             />
           ))}
           {isLti && (

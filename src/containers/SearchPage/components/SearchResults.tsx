@@ -17,6 +17,7 @@ import { Heading, Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
+import { ViewType } from "../searchTypes";
 
 const Wrapper = styled.section`
   display: flex;
@@ -67,22 +68,25 @@ const SearchResultsList = styled.ul`
   padding: 0;
   row-gap: ${spacing.normal};
   grid-template-columns: repeat(1, 1fr);
-  ${mq.range({ from: breakpoints.tablet })} {
-    column-gap: ${spacing.normal};
-    grid-template-columns: repeat(2, 1fr);
-  }
+  &[data-viewtype="grid"] {
+    ${mq.range({ from: breakpoints.tablet })} {
+      column-gap: ${spacing.normal};
+      grid-template-columns: repeat(2, 1fr);
+    }
 
-  ${mq.range({ from: breakpoints.desktop })} {
-    grid-template-columns: repeat(3, 1fr);
+    ${mq.range({ from: breakpoints.desktop })} {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 `;
 
-interface SearchResultGroupProps {
+interface Props {
   group: SearchGroup;
   typeFilter: Record<string, TypeFilter>;
   handleSubFilterClick: (type: string, filterId: string) => void;
   handleShowMore: (type: string) => void;
   loading: boolean;
+  viewType: ViewType;
 }
 
 export const SearchResultGroup = ({
@@ -91,7 +95,8 @@ export const SearchResultGroup = ({
   handleShowMore,
   handleSubFilterClick,
   loading,
-}: SearchResultGroupProps) => {
+  viewType,
+}: Props) => {
   const { t } = useTranslation();
   const headingId = useId();
   const filter = typeFilter[group.type];
@@ -140,7 +145,7 @@ export const SearchResultGroup = ({
           </ButtonV2>
         ))}
       </ButtonsWrapper>
-      <SearchResultsList>
+      <SearchResultsList data-viewtype={viewType}>
         {group.items.slice(0, toCount).map((item) => (
           <SearchResultItem item={item} key={item.id} type={group.type} />
         ))}
