@@ -109,7 +109,7 @@
     "date-fns": "^2.30.0",
     "express": "^4.19.2",
     "express-prom-bundle": "^7.0.0",
-    "graphql": "^16.6.0",
+    "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.0.0",
     "html-react-parser": "^5.1.8",
@@ -126,7 +126,7 @@
     "react-hook-form": "^7.51.3",
     "react-i18next": "^13.3.0",
     "react-router-dom": "^6.3.0",
-    "serialize-javascript": "^6.0.0",
+    "serialize-javascript": "^6.0.2",
     "source-map-support": "^0.5.9",
     "winston": "^3.12.0"
   },
