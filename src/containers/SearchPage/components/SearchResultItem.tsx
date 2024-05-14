@@ -39,6 +39,7 @@ const ImageWrapper = styled.div`
   background-color: var(--bg);
   display: grid;
   grid-template-rows: 1fr auto;
+  width: 100%;
 `;
 
 const StyledImage = styled.img`
@@ -82,7 +83,8 @@ const ContextListItem = styled.li`
 
 const StyledHeading = styled(Heading)`
   color: ${colors.brand.primary};
-  padding: ${spacing.small} ${spacing.normal};
+  width: fit-content;
+  padding: 0px ${spacing.normal};
 `;
 
 const ContentWrapper = styled.div`
@@ -129,6 +131,19 @@ const ContentTypeText = styled(Text)`
   }
 `;
 
+const StyledHeader = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+  align-items: flex-start;
+`;
+
+const StyledArticle = styled.article`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
+`;
+
 const StyledModalButton = styled(ButtonV2)`
   z-index: ${stackOrder.offsetSingle};
   position: relative;
@@ -142,8 +157,8 @@ const SearchResultItem = ({ item, type }: Props) => {
 
   return (
     <ListItem>
-      <article>
-        <header>
+      <StyledArticle>
+        <StyledHeader>
           <ImageWrapper style={{ "--bg": resourceTypeColor(contentType) } as CSSProperties}>
             {item.img ? (
               <StyledImage src={item.img.url} alt={item.img.alt} />
@@ -166,7 +181,7 @@ const SearchResultItem = ({ item, type }: Props) => {
               {item.title}
             </StyledHeading>
           </StyledSafeLink>
-        </header>
+        </StyledHeader>
         <ContentWrapper>
           {parse(item.ingress)}
           <BreadcrumbText element="span" margin="none" textStyle="meta-text-xsmall">
@@ -219,7 +234,7 @@ const SearchResultItem = ({ item, type }: Props) => {
             )}
           </BreadcrumbText>
         </ContentWrapper>
-      </article>
+      </StyledArticle>
     </ListItem>
   );
 };
