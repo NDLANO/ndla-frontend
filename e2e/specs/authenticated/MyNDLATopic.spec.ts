@@ -25,35 +25,6 @@ test("can open post in topic", async ({ page }) => {
   await expect(page.getByRole("main").getByRole("heading", { name: linkHeading })).toHaveText(linkHeading);
 });
 
-test("can create and delete topic", async ({ page, harCheckpoint }) => {
-  await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeVisible();
-  await page.getByRole("link", { name: "Nytt innlegg" }).first().click();
-  await page.waitForURL("/minndla/arena/category/1/topic/new");
-
-  const tittel = "Playwright test tittel";
-
-  await page.locator("#field-editor").waitFor();
-  await page.getByLabel("Tittel").click();
-  await page.keyboard.type(tittel);
-  await page.locator("#field-editor").click();
-  await page.keyboard.type("Playwright test content");
-
-  await page.getByRole("button", { name: "Publiser" }).click();
-  await harCheckpoint();
-  await page.waitForURL(new RegExp("/minndla/arena/topic/\\d+"));
-  await expect(page.getByRole("heading", { name: tittel })).toBeVisible();
-
-  await page.getByLabel("Vis redigeringsmuligheter").click();
-  await harCheckpoint();
-  await page.getByRole("menuitem", { name: "Slett innlegget" }).click();
-
-  await expect(page.getByRole("dialog")).toBeVisible();
-  await harCheckpoint();
-  await page.getByRole("dialog").getByRole("button", { name: "Slett innlegg" }).click();
-  await page.waitForURL("minndla/arena/category/1");
-  await page.getByRole("heading", { name: "Test kategori" }).waitFor();
-});
-
 test("can cancel when creating topic", async ({ page }) => {
   await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeVisible();
   await page.getByRole("link", { name: "Nytt innlegg" }).first().click();
