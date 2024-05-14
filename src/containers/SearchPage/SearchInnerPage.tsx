@@ -271,7 +271,6 @@ const SearchInnerPage = ({
       typeFilter={typeFilter}
       searchGroups={searchGroups}
       showAll={showAll}
-      locale={i18n.language}
       loading={loading}
       isLti={isLti}
       competenceGoals={competenceGoals}

@@ -36,12 +36,6 @@ export interface NDLAWindow {
   errorReporter: any;
 }
 
-export interface License {
-  license: string;
-  description: string;
-  url?: string;
-}
-
 export interface Author {
   name: string;
   type: string;
@@ -54,48 +48,6 @@ export type Breadcrumb = { to: string; name: string };
 export type CompetenceGoalsType = "LK06" | "LK20";
 
 export type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5";
-
-interface ProgrammeMeta {
-  description: Partial<Record<LocaleType, string>>;
-}
-export interface ProgrammeType {
-  name: Record<LocaleType, string>;
-  url: Record<LocaleType, string>;
-  meta?: ProgrammeMeta;
-  image: { url: string };
-  grades: ProgrammeGrade[];
-}
-
-export interface ProgrammeGrade {
-  name: string;
-  categories: GradeCategory[];
-  missingProgrammeSubjects?: boolean;
-}
-
-export interface GradeCategory {
-  name?: Partial<Record<LocaleType, string>>;
-  subjects: { id: string }[];
-}
-
-export type SubjectCategory = {
-  name: Record<LocaleType, string>;
-  subjects: SubjectType[];
-  visible?: boolean;
-};
-
-export type SubjectType = {
-  name: Record<LocaleType, string>;
-  longName: Record<LocaleType, string>;
-  id: string;
-  topicId?: string;
-  hideOnFrontpage?: boolean;
-};
-
-export type TopicType = {
-  name?: Record<LocaleType, string>;
-  id: string;
-  topicId?: string;
-};
 
 export type LtiData = {
   content_item_return_url?: string;
@@ -120,3 +72,12 @@ export type LtiItem = {
   title?: string;
   url: string;
 };
+
+export interface OembedResponse {
+  type: string;
+  version: string;
+  height: number;
+  width: number;
+  title: string;
+  html: string;
+}

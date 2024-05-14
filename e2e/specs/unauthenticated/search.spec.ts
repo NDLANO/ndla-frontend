@@ -13,7 +13,7 @@ test("contains search bar", async ({ page }) => {
   await page.goto("/search/?disableSSR=true");
   await mockWaitResponse(page, "**/graphql-api/*");
 
-  const input = page.getByText("Filtrer på fagSøk");
+  const input = page.getByRole("searchbox");
   expect(input).toBeDefined();
   await expect(input).toBeVisible();
 });
@@ -21,7 +21,7 @@ test("contains search bar", async ({ page }) => {
 test("LTI contains action elements", async ({ page }) => {
   await page.goto("/lti/?disableSSR=true");
 
-  const input = page.getByText("Filtrer på fagSøk");
+  const input = page.getByRole("searchbox");
   expect(input).toBeDefined();
   await expect(input).toBeVisible();
 

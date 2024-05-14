@@ -159,7 +159,7 @@ export async function oembedArticleRoute(req: express.Request) {
       const {
         params: { articleId },
       } = match;
-      const article = await fetchArticle(articleId, lang);
+      const article = await fetchArticle(articleId!, lang);
       const height = req.query.height || 480;
       const width = req.query.width || 854;
       const html = `<iframe aria-label="${article.title.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
@@ -173,9 +173,15 @@ export async function oembedArticleRoute(req: express.Request) {
     const typedError = error as { status?: number };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
+    const data: Record<number, string> = {
+      404: "Not found",
+      410: "Gone",
+      500: "Internal server error",
+    };
+
     return {
       status,
-      data: typedError.status === 404 ? "Not found" : "Internal server error",
+      data: data[status] || "Internal server error",
     };
   }
 }

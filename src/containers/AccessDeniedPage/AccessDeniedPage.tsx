@@ -26,7 +26,7 @@ const AccessDenied = () => {
   return (
     <Status code={statusCode}>
       <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <ErrorResourceAccessDenied
           onAuthenticateClick={() => {
             const route = authenticated ? "logout" : "login";

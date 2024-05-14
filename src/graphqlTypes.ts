@@ -2129,6 +2129,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
   introduction?: string;
+  htmlIntroduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
   language: string;
@@ -2158,7 +2159,7 @@ export type GQLArticleContents_ArticleFragment = {
   id: number;
   created: string;
   updated: string;
-  introduction?: string;
+  htmlIntroduction?: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2448,6 +2449,7 @@ export type GQLAboutPage_ArticleFragment = {
   __typename?: "Article";
   id: number;
   introduction?: string;
+  htmlIntroduction?: string;
   created: string;
   updated: string;
   slug?: string;
@@ -2486,6 +2488,18 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAllSubjectsQuery = {
+  __typename?: "Query";
+  subjects?: Array<{
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
+};
+
 export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -2521,6 +2535,46 @@ export type GQLArticleHero_SubjectFragment = { __typename?: "Subject"; id: strin
 
 export type GQLArticleHero_MetaImageFragment = { __typename?: "MetaImage"; url: string; alt: string };
 
+export type GQLAllMoviesQueryVariables = Exact<{
+  resourceTypes: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLAllMoviesQuery = {
+  __typename?: "Query";
+  searchWithoutPagination?: {
+    __typename?: "SearchWithoutPagination";
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+    >;
+  };
+};
+
+export type GQLFilmContentCard_MovieFragment = {
+  __typename?: "Movie";
+  id: string;
+  title: string;
+  metaDescription: string;
+  path: string;
+  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
+
 export type GQLFilmFrontpage_SubjectFragment = {
   __typename?: "Subject";
   name: string;
@@ -2529,8 +2583,12 @@ export type GQLFilmFrontpage_SubjectFragment = {
 
 export type GQLFilmFrontpage_FilmFrontpageFragment = {
   __typename?: "FilmFrontpage";
-  slideShow: Array<{ __typename?: "Movie" } & GQLMovieInfoFragment>;
-  movieThemes: Array<{ __typename?: "MovieTheme" } & GQLMovieCategory_MovieThemeFragment>;
+  slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
+  movieThemes: Array<{
+    __typename?: "MovieTheme";
+    name: Array<{ __typename?: "Name"; name: string; language: string }>;
+    movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
+  }>;
   about: Array<{
     __typename?: "FilmPageAbout";
     title: string;
@@ -2541,10 +2599,38 @@ export type GQLFilmFrontpage_FilmFrontpageFragment = {
   article?: { __typename?: "Article" } & GQLArticle_ArticleFragment;
 };
 
-export type GQLMovieCategory_MovieThemeFragment = {
-  __typename?: "MovieTheme";
-  name: Array<{ __typename?: "Name"; name: string; language: string }>;
-  movies: Array<{ __typename?: "Movie" } & GQLMovieInfoFragment>;
+export type GQLFilmMovieList_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLResourceTypeMoviesQueryVariables = Exact<{
+  resourceType: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLResourceTypeMoviesQuery = {
+  __typename?: "Query";
+  searchWithoutPagination?: {
+    __typename?: "SearchWithoutPagination";
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+    >;
+  };
 };
 
 export type GQLFilmFrontPageQueryVariables = Exact<{
@@ -3781,20 +3867,6 @@ export type GQLArenaNotificationsQuery = {
   arenaNotifications: Array<{ __typename?: "ArenaNotification" } & GQLArenaNotificationFragment>;
 };
 
-export type GQLMySubjectsSubjectFragmentFragment = {
-  __typename?: "Subject";
-  id: string;
-  name: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
-export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAllSubjectsQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLMySubjectsSubjectFragmentFragment>;
-};
-
 export type GQLDeletePersonalDataMutationVariables = Exact<{ [key: string]: never }>;
 
 export type GQLDeletePersonalDataMutation = { __typename?: "Mutation"; deletePersonalData: boolean };
@@ -3910,6 +3982,33 @@ export type GQLPodcastSeriesPageQuery = {
   };
 };
 
+export type GQLProgrammeContainer_ProgrammeFragment = {
+  __typename?: "ProgrammePage";
+  id: string;
+  metaDescription?: string;
+  title: { __typename?: "Title"; title: string };
+  desktopImage?: { __typename?: "MetaImage"; url: string };
+  grades?: Array<{
+    __typename?: "Grade";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string };
+    categories?: Array<{
+      __typename?: "Category";
+      id: string;
+      isProgrammeSubject: boolean;
+      title: { __typename?: "Title"; title: string };
+      subjects?: Array<{
+        __typename?: "Subject";
+        id: string;
+        name: string;
+        path: string;
+        subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+      }>;
+    }>;
+  }>;
+};
+
 export type GQLProgrammePageQueryVariables = Exact<{
   path: Scalars["String"]["input"];
 }>;
@@ -3918,21 +4017,8 @@ export type GQLProgrammePageQuery = {
   __typename?: "Query";
   programme?: {
     __typename?: "ProgrammePage";
-    metaDescription?: string;
-    grades?: Array<{
-      __typename?: "Grade";
-      id: string;
-      url: string;
-      title: { __typename?: "Title"; title: string };
-      categories?: Array<{
-        __typename?: "Category";
-        id: string;
-        isProgrammeSubject: boolean;
-        title: { __typename?: "Title"; title: string };
-        subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
-      }>;
-    }>;
-  } & GQLProgrammeFragmentFragment;
+    grades?: Array<{ __typename?: "Grade"; title: { __typename?: "Title"; title: string } }>;
+  } & GQLProgrammeContainer_ProgrammeFragment;
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -4236,7 +4322,9 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   article?: {
     __typename?: "Article";
     title: string;
+    htmlTitle: string;
     introduction?: string;
+    htmlIntroduction?: string;
     copyright: {
       __typename?: "Copyright";
       license: { __typename?: "License"; license: string };
@@ -4327,75 +4415,6 @@ export type GQLIframePageQuery = {
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };
 
-export type GQLSearchFilmArticleSearchResultFragment = {
-  __typename?: "ArticleSearchResult";
-  id: number;
-  url: string;
-  metaDescription: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  traits: Array<string>;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{
-    __typename?: "SearchContext";
-    breadcrumbs: Array<string>;
-    relevance: string;
-    relevanceId: string;
-    language: string;
-    contextType: string;
-    path: string;
-    root: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string; language: string }>;
-  }>;
-};
-
-export type GQLSearchFilmLearningpathSearchResultFragment = {
-  __typename?: "LearningpathSearchResult";
-  id: number;
-  url: string;
-  metaDescription: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  traits: Array<string>;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{
-    __typename?: "SearchContext";
-    breadcrumbs: Array<string>;
-    relevance: string;
-    relevanceId: string;
-    language: string;
-    contextType: string;
-    path: string;
-    root: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string; language: string }>;
-  }>;
-};
-
-export type GQLSearchWithoutPaginationQueryVariables = Exact<{
-  query?: InputMaybe<Scalars["String"]["input"]>;
-  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
-  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
-  sort?: InputMaybe<Scalars["String"]["input"]>;
-  fallback?: InputMaybe<Scalars["String"]["input"]>;
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
-  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
-  relevance?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLSearchWithoutPaginationQuery = {
-  __typename?: "Query";
-  searchWithoutPagination?: {
-    __typename?: "SearchWithoutPagination";
-    results: Array<
-      | ({ __typename?: "ArticleSearchResult" } & GQLSearchFilmArticleSearchResultFragment)
-      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchFilmLearningpathSearchResultFragment)
-    >;
-  };
-};
-
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
@@ -4455,12 +4474,12 @@ export type GQLGroupSearchQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; text?: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -4521,28 +4540,18 @@ export type GQLCompetenceGoalsQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{
     __typename?: "CoreElement";
     id: string;
-    name: string;
-    text?: string;
+    title: string;
+    description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
-};
-
-export type GQLMovieInfoFragment = {
-  __typename?: "Movie";
-  id: string;
-  title: string;
-  metaDescription: string;
-  path: string;
-  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
-  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;

@@ -64,7 +64,7 @@ const Layout = () => {
 
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
-  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex" />;
+  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
     <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>

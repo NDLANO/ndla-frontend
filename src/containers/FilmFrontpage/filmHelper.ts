@@ -18,3 +18,5 @@ export const findName = (themeNames: GQLName[], language: string) => {
   }
   return "";
 };
+
+export const ALL_MOVIES_ID = "ALL_MOVIES_ID";

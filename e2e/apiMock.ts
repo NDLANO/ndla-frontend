@@ -23,6 +23,8 @@ const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   return `${mockDir}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 
+const checkpoint = (index: number) => ({ "x-playwright-checkpoint": `${index}` });
+
 /**
  * Extending the playwright test object with a checkpoint function.
  * The checkpoint function helps us differentiate between subsequent
@@ -41,25 +43,20 @@ export const test = Ptest.extend<ExtendParams>({
           await route.fallback({
             headers: {
               ...request.headers(),
-              "X-Playwright-Checkpoint": `${checkpointIndex}`,
+              ...checkpoint(checkpointIndex),
             },
           }),
       );
 
       // Appending the checkpoint index to the request headers
       if (process.env.RECORD_FIXTURES === "true") {
-        await page.setExtraHTTPHeaders({
-          "X-Playwright-Checkpoint": `${checkpointIndex}`,
-        });
+        await page.setExtraHTTPHeaders(checkpoint(checkpointIndex));
       }
 
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
-        process.env.RECORD_FIXTURES !== "true" &&
-          (await page.setExtraHTTPHeaders({
-            "X-Playwright-Checkpoint": `${checkpointIndex}`,
-          }));
+        process.env.RECORD_FIXTURES !== "true" && (await page.setExtraHTTPHeaders(checkpoint(checkpointIndex)));
       });
     },
     { auto: true, scope: "test" },

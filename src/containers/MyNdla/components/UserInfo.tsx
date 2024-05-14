@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { misc, spacing } from "@ndla/core";
 import { Text } from "@ndla/typography";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 
@@ -20,7 +20,7 @@ const StyledComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
-  max-width: 700px;
+  max-width: ${misc.maxTextWidth};
 `;
 
 const ShortInfoDiv = styled.div`

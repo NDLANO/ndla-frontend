@@ -6,17 +6,13 @@
  *
  */
 
-/*  eslint-disable no-console, global-require */
+/*  eslint-disable no-console */
 
 import config from "./config";
 import app from "./server/server";
 
 if (!config.isVercel) {
-  app.listen(config.port, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+  app.listen(config.port, () => {
     console.log(`> Started on port ${config.port}`);
   });
 }

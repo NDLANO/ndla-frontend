@@ -13,7 +13,7 @@ import { ButtonV2 as Button } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { Heading, Text } from "@ndla/typography";
-import { Image } from "@ndla/ui";
+import { Image, OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
@@ -109,7 +109,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <div className="o-wrapper">
+    <OneColumn>
       <StyledAside aria-labelledby={titleId}>
         <div>
           <VisualElement visualElement={aboutNDLAVideo.visualElement} />
@@ -136,7 +136,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
           )}
         </div>
       </StyledAside>
-    </div>
+    </OneColumn>
   );
 };
 

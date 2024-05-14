@@ -6,14 +6,15 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { FooterHeaderIcon } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { CompetenceGoalTab } from "@ndla/ui";
+import { Tabs } from "@ndla/tabs";
+import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
@@ -25,17 +26,6 @@ interface Props {
   subjectId?: string;
   codes?: string[];
   isOembed?: boolean;
-}
-
-// We swap 'title' for 'name' when we fetch CompetenceGoals from GraphQL
-interface LocalGQLCompetenceGoal extends Omit<GQLCompetenceGoal, "title"> {
-  name: string;
-}
-
-// We do the same as above with 'name' and 'text'
-interface LocalGQLCoreElement extends Omit<GQLCoreElement, "title" | "description"> {
-  name: string;
-  text?: string;
 }
 
 interface ElementType {
@@ -61,33 +51,9 @@ const CompetenceGoalsWrapper = styled.div`
   }
 `;
 
-interface CompetenceGoalType {
-  title: string;
-  elements: {
-    id: string;
-    title: string;
-    goals: {
-      id: string;
-      text: string;
-      url: string;
-      type: CompetenceGoalsType;
-    }[];
-  }[];
-}
-
-interface CoreElementType {
-  title: string;
-  elements: {
-    id: string;
-    title: string;
-    text: string;
-    url: string;
-  }[];
-}
-
 const getUniqueCurriculums = (
-  competenceGoals: (LocalGQLCompetenceGoal | LocalGQLCoreElement)[],
-): (LocalGQLCompetenceGoal["curriculum"] | LocalGQLCoreElement["curriculum"])[] => {
+  competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
+): (GQLCompetenceGoal["curriculum"] | GQLCoreElement["curriculum"])[] => {
   const curriculums = competenceGoals
     .filter((e) => e.curriculum?.id)
     .map((competenceGoal) => competenceGoal.curriculum);
@@ -103,9 +69,9 @@ const getUniqueCurriculums = (
 };
 
 const getUniqueCompetenceGoalSet = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   curriculumId: string,
-): LocalGQLCompetenceGoal["competenceGoalSet"][] => {
+): GQLCompetenceGoal["competenceGoalSet"][] => {
   const competenceGoalSet = competenceGoals
     .filter((e) => e.competenceGoalSet?.id)
     .filter((e) => e.curriculum?.id === curriculumId)
@@ -122,7 +88,7 @@ const getUniqueCompetenceGoalSet = (
 };
 
 const getUniqueCompetenceGoals = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   competenceGoalSetId: string,
   addUrl: boolean,
   searchUrl: string,
@@ -131,7 +97,7 @@ const getUniqueCompetenceGoals = (
   return competenceGoals
     .filter((competenceGoal) => competenceGoal.competenceGoalSet?.id === competenceGoalSetId)
     .map((competenceGoal) => ({
-      text: competenceGoal.name,
+      text: competenceGoal.title,
       url: addUrl ? searchUrl + competenceGoal.id : "",
       type: goalType,
       id: competenceGoal.id,
@@ -141,7 +107,7 @@ const getUniqueCompetenceGoals = (
 const sortElementsById = (elements: ElementType["groupedCompetenceGoals"]): ElementType["groupedCompetenceGoals"] =>
   elements!.map((e) => ({
     ...e,
-    elements: e.elements.sort((a: any, b: any) => {
+    elements: e.elements?.sort((a: any, b: any) => {
       if (a.id! < b.id!) return -1;
       if (a.id! > b.id!) return 1;
       return 0;
@@ -149,7 +115,7 @@ const sortElementsById = (elements: ElementType["groupedCompetenceGoals"]): Elem
   }));
 
 export const groupCompetenceGoals = (
-  competenceGoals: LocalGQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoal[],
   addUrl: boolean = false,
   goalType: CompetenceGoalsType,
   subjectId?: string,
@@ -166,8 +132,8 @@ export const groupCompetenceGoals = (
   return sortElementsById(curriculumElements);
 };
 
-const groupCoreElements = (
-  coreElements: LocalGQLCoreElement[],
+export const groupCoreElements = (
+  coreElements: GQLCoreElement[],
   subjectId?: string,
 ): ElementType["groupedCoreElementItems"] => {
   const searchUrl = subjectId ? `/search?subjects=${subjectId}&grepCodes=` : "/search?grepCodes=";
@@ -177,8 +143,8 @@ const groupCoreElements = (
       .filter((e) => e.curriculum?.id === curriculum!.id)
       .map((coreElement) => ({
         id: coreElement!.id,
-        title: coreElement!.name,
-        text: coreElement.text!,
+        title: coreElement!.title,
+        text: coreElement.description!,
         url: `${searchUrl}${coreElement.id}`,
       })),
   }));
@@ -196,32 +162,33 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
 
   useEffect(() => setCompetenceGoalsLoading(loading), [loading, setCompetenceGoalsLoading]);
 
+  const tabs = useMemo(() => {
+    const tabs = [];
+    const lk20Goals = groupCompetenceGoals(data?.competenceGoals ?? [], true, "LK20", subjectId);
+    const lk20Elements = groupCoreElements(data?.coreElements || [], subjectId);
+
+    if (lk20Goals?.length) {
+      tabs.push({
+        id: "competenceGoals",
+        title: t("competenceGoals.competenceTabLK20label"),
+        content: <CompetenceGoalTab items={lk20Goals} type="goal" isOembed={isOembed} />,
+      });
+    }
+    if (lk20Elements?.length) {
+      tabs.push({
+        id: "coreElement",
+        title: t("competenceGoals.competenceTabCorelabel"),
+        content: <CompetenceGoalTab items={lk20Elements} type="element" isOembed={isOembed} />,
+      });
+    }
+
+    return tabs;
+  }, [data?.competenceGoals, data?.coreElements, isOembed, subjectId, t]);
+
   if (error) {
     handleError(error);
     return null;
   }
-
-  const LK20Goals = groupCompetenceGoals(data?.competenceGoals ?? [], true, "LK20", subjectId);
-  const LK20Elements = groupCoreElements(data?.coreElements || [], subjectId);
-
-  const CompetenceGoalsLK20Template: ElementType = {
-    id: "1",
-    title: t("competenceGoals.competenceTabLK20label"),
-    type: "competenceGoals",
-    groupedCompetenceGoals: LK20Goals,
-  };
-
-  const CoreElementsTemplate: ElementType = {
-    id: "2",
-    title: t("competenceGoals.competenceTabCorelabel"),
-    type: "coreElement",
-    groupedCoreElementItems: LK20Elements,
-  };
-
-  const competenceGoalsList: ElementType[] = [
-    ...(LK20Goals?.length ? [CompetenceGoalsLK20Template] : []),
-    ...(LK20Elements?.length ? [CoreElementsTemplate] : []),
-  ];
 
   return (
     <>
@@ -248,7 +215,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
           </ModalHeader>
           <ModalBody>
             <CompetenceGoalsWrapper>
-              <CompetenceGoalTab list={competenceGoalsList} isOembed={isOembed} />
+              <Tabs tabs={tabs} />
             </CompetenceGoalsWrapper>
           </ModalBody>
         </ModalContent>
