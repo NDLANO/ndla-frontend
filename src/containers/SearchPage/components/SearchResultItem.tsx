@@ -66,6 +66,12 @@ const ContentTypeWrapper = styled.div`
   padding: ${spacing.small} ${spacing.normal};
 `;
 
+const ContentTypeTextWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
 const ContextList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -176,11 +182,13 @@ const SearchResultItem = ({ item, type }: Props) => {
             )}
             <ContentTypeWrapper>
               {item.img && <ContentTypeBadge type={contentType} size="small" border={false} />}
-              {labels.map((label, index) => (
-                <ContentTypeText key={label} textStyle="meta-text-xsmall" margin="none" data-first={!index}>
-                  {label}
-                </ContentTypeText>
-              ))}
+              <ContentTypeTextWrapper>
+                {labels.map((label, index) => (
+                  <ContentTypeText key={label} textStyle="meta-text-xsmall" margin="none" data-first={!index}>
+                    {label}
+                  </ContentTypeText>
+                ))}
+              </ContentTypeTextWrapper>
             </ContentTypeWrapper>
           </ImageWrapper>
           <StyledSafeLink to={item.url}>
