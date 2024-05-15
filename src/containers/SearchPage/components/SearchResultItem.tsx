@@ -47,6 +47,7 @@ const StyledImage = styled.img`
   height: 100%;
   object-fit: cover;
   background-color: ${colors.white};
+  overflow: hidden;
 `;
 
 const ContentTypeBadgeWrapper = styled.div`
