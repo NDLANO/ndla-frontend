@@ -9,23 +9,26 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { fonts, spacing, spacingUnit } from "@ndla/core";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { Cross, Grid } from "@ndla/icons/action";
+import { ListCircle } from "@ndla/icons/editor";
 import { Heading } from "@ndla/typography";
-import { LanguageSelector } from "@ndla/ui";
+import { LanguageSelector, constants } from "@ndla/ui";
 
-import { SearchFilterContent } from "./components/SearchFilterContent";
 import SearchHeader from "./components/SearchHeader";
-import SearchResults from "./components/SearchResults";
+import { SearchResultGroup } from "./components/SearchResults";
 import SearchSubjectResult from "./components/SearchSubjectResult";
-import { ViewType } from "./components/searchTypes";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { ViewType } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+
+const { contentTypes } = constants;
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -51,6 +54,34 @@ const StyledMain = styled.main`
 const StyledButton = styled(ButtonV2)`
   align-self: flex-start;
 `;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  flex-wrap: wrap;
+  align-items: flex-start;
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
+const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>) => {
+  return searchGroups.filter((group) => {
+    const filter = typeFilter[group.type];
+    return (filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+  });
+};
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -91,7 +122,7 @@ const SearchContainer = ({
   coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [listViewType, setListViewType] = useState<ViewType>("grid");
+  const [viewType, setViewType] = useState<ViewType>("grid");
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -106,6 +137,7 @@ const SearchContainer = ({
 
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
+  const filteredSortedSearchGroups = showAll ? sortedSearchGroups : filterGroups(sortedSearchGroups, typeFilter);
 
   const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
 
@@ -158,27 +190,58 @@ const SearchContainer = ({
       {searchGroups && searchGroups.length > 0 && (
         <div>
           {sortedFilterButtonItems.length > 1 && (
-            <SearchFilterContent
-              items={sortedFilterButtonItems}
-              onFilterToggle={handleFilterToggle}
-              viewType={listViewType}
-              onChangeViewType={(viewType) => setListViewType(viewType)}
-            />
+            <FilterWrapper>
+              <ItemWrapper>
+                {sortedFilterButtonItems.map((item) => (
+                  <ButtonV2
+                    key={item.value}
+                    shape="pill"
+                    onClick={() => handleFilterToggle(item.value)}
+                    colorTheme={item.selected ? "primary" : "greyLighter"}
+                  >
+                    {item.label}
+                    {item.selected && <Cross />}
+                  </ButtonV2>
+                ))}
+              </ItemWrapper>
+              <ButtonWrapper>
+                <IconButtonV2
+                  variant={viewType === "grid" ? "solid" : "ghost"}
+                  onClick={() => setViewType("grid")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.gridView")}
+                  title={t("searchPage.resultType.gridView")}
+                >
+                  <Grid />
+                </IconButtonV2>
+                <IconButtonV2
+                  variant={viewType === "list" ? "solid" : "ghost"}
+                  onClick={() => setViewType("list")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.listView")}
+                  title={t("searchPage.resultType.listView")}
+                >
+                  <ListCircle />
+                </IconButtonV2>
+              </ButtonWrapper>
+            </FilterWrapper>
           )}
           {hasSelectedResourceType && (
             <StyledButton variant="link" onClick={handleFilterReset}>
               {t(`filterButtons.removeAllFilters`)}
             </StyledButton>
           )}
-          <SearchResults
-            showAll={showAll}
-            searchGroups={sortedSearchGroups}
-            typeFilter={typeFilter}
-            handleSubFilterClick={handleSubFilterClick}
-            handleShowMore={handleShowMore}
-            viewType={listViewType}
-            loading={loading}
-          />
+          {filteredSortedSearchGroups.map((group) => (
+            <SearchResultGroup
+              key={`searchresultgroup-${group.type}`}
+              group={group}
+              handleSubFilterClick={handleSubFilterClick}
+              handleShowMore={handleShowMore}
+              loading={loading}
+              typeFilter={typeFilter}
+              viewType={viewType}
+            />
+          ))}
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
