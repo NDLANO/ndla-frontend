@@ -32,7 +32,7 @@ const StyledContainer = styled.div`
   margin: ${spacing.large} 0 ${spacing.normal};
 `;
 
-const ModeratorButtonWrapper = styled.div`
+export const ModeratorButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,7 +41,7 @@ const ModeratorButtonWrapper = styled.div`
 
 const ArenaPage = () => {
   const { t } = useTranslation();
-  const { loading, arenaCategories } = useArenaCategories();
+  const { loading, arenaCategories, refetch: refetchCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
@@ -88,7 +88,12 @@ const ArenaPage = () => {
       {loading || !user ? (
         <Spinner />
       ) : (
-        <SortableArenaCards isEditing={isEditing} categories={arenaCategories ?? []} user={user} />
+        <SortableArenaCards
+          isEditing={isEditing}
+          categories={arenaCategories ?? []}
+          user={user}
+          refetchCategories={refetchCategories}
+        />
       )}
       <Text element="p" textStyle="meta-text-small" margin="none">
         {t("myNdla.arena.bottomText")}

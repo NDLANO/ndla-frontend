@@ -6,15 +6,20 @@
  *
  */
 
-import { useEffect } from "react";
+import { parse } from "query-string";
+import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2, LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
+import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem, Select } from "@ndla/forms";
+import { Spinner } from "@ndla/icons";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { useArenaCategoriesV2 } from "../../arenaQueries";
 import { FieldLength } from "../../Folders/FolderForm";
 
 const StyledForm = styled.form`
@@ -49,6 +54,7 @@ interface ArenaFormProps {
   initialTitle?: string;
   initialDescription?: string;
   initialVisible?: boolean;
+  initialParentCategoryId?: number;
   onSave: (data: Partial<INewCategory>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
@@ -62,14 +68,45 @@ export interface ArenaCategory {
 
 const titleMaxLength = 64;
 
-const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, initialVisible }: ArenaFormProps) => {
+function getAllCategoryPathAndIds(
+  arenaCategories: (GQLArenaCategoryV2Fragment | GQLTopiclessArenaCategoryV2)[],
+  breadcrumb: string[] = [],
+): { id: number; name: string }[] {
+  return arenaCategories
+    .map((x) => {
+      const newBreadcrumb = [...breadcrumb, x.title];
+      const cur = { id: x.id, name: newBreadcrumb.join(" > ") };
+      const children = getAllCategoryPathAndIds(x.subcategories ?? [], newBreadcrumb);
+      return [cur, ...children];
+    })
+    .flat();
+}
+
+const ArenaCategoryForm = ({
+  onSave,
+  onAbort,
+  initialTitle,
+  initialDescription,
+  initialVisible,
+  initialParentCategoryId,
+}: ArenaFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
+  const { arenaCategories, loading } = useArenaCategoriesV2({});
+  const possibleParents = useMemo(() => {
+    if (loading) return [];
+    return getAllCategoryPathAndIds(arenaCategories ?? []);
+  }, [arenaCategories, loading]);
+  const location = useLocation();
+  const query = parse(location.search);
+  const preselectedParentId = initialParentCategoryId || query["parent-id"];
+
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       title: initialTitle ?? "",
       description: initialDescription ?? "",
       visible: initialVisible ?? true,
+      parentCategoryId: preselectedParentId,
     },
   });
 
@@ -82,8 +119,11 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
       title: data.title,
       description: data.description,
       visible: data.visible,
+      parentCategoryId: data.parentCategoryId,
     });
   };
+
+  if (loading) return <Spinner />;
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -121,6 +161,24 @@ const ArenaCategoryForm = ({ onSave, onAbort, initialTitle, initialDescription, 
             <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.description")}</StyledLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <StyledInput {...field} />
+          </FormControl>
+        )}
+      />
+      <Controller
+        control={control}
+        name={"parentCategoryId"}
+        rules={{ required: false }}
+        render={({ field, fieldState }) => (
+          <FormControl id="parentCategoryId" isInvalid={!!fieldState.error?.message}>
+            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.parentCategoryId")}</StyledLabel>
+            <Select {...field}>
+              <option>{t("myNdla.arena.admin.category.form.noParentCategory")}</option>
+              {possibleParents.map((parent) => (
+                <option value={parent.id} key={parent.id}>
+                  {parent.name}
+                </option>
+              ))}
+            </Select>
           </FormControl>
         )}
       />

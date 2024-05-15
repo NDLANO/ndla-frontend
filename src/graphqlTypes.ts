@@ -32,26 +32,45 @@ export type GQLArenaBreadcrumb = {
 
 export type GQLArenaCategory = {
   __typename?: "ArenaCategory";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  children?: Maybe<Array<GQLArenaCategory>>;
   description: Scalars["String"]["output"];
   disabled: Scalars["Boolean"]["output"];
   htmlDescription: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   name: Scalars["String"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
   postCount: Scalars["Int"]["output"];
   slug: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopic>>;
 };
 
-export type GQLArenaCategoryV2 = {
+export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
   __typename?: "ArenaCategoryV2";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  categoryCount?: Maybe<Scalars["Int"]["output"]>;
   description: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
   postCount: Scalars["Int"]["output"];
+  subcategories?: Maybe<Array<GQLTopiclessArenaCategoryV2>>;
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopicV2>>;
+  visible: Scalars["Boolean"]["output"];
+};
+
+export type GQLArenaCategoryV2Base = {
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  description: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
+  postCount: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
 };
 
@@ -398,6 +417,12 @@ export type GQLCategory = {
   isProgrammeSubject: Scalars["Boolean"]["output"];
   subjects?: Maybe<Array<GQLSubject>>;
   title: GQLTitle;
+};
+
+export type GQLCategoryBreadcrumb = {
+  __typename?: "CategoryBreadcrumb";
+  id: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLCompetenceGoal = {
@@ -1070,6 +1095,7 @@ export type GQLMutationMarkNotificationsAsReadV2Args = {
 
 export type GQLMutationNewArenaCategoryArgs = {
   description: Scalars["String"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
   title: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
 };
@@ -1114,6 +1140,7 @@ export type GQLMutationResolveFlagArgs = {
 };
 
 export type GQLMutationSortArenaCategoriesArgs = {
+  parentId?: InputMaybe<Scalars["Int"]["input"]>;
   sortedIds: Array<Scalars["Int"]["input"]>;
 };
 
@@ -1155,6 +1182,7 @@ export type GQLMutationUnsubscribeFromTopicArgs = {
 export type GQLMutationUpdateArenaCategoryArgs = {
   categoryId: Scalars["Int"]["input"];
   description: Scalars["String"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
   title: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
 };
@@ -2026,6 +2054,21 @@ export type GQLTopicCoreResourcesArgs = {
 
 export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLTopiclessArenaCategoryV2 = GQLArenaCategoryV2Base & {
+  __typename?: "TopiclessArenaCategoryV2";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  categoryCount?: Maybe<Scalars["Int"]["output"]>;
+  description: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
+  postCount: Scalars["Int"]["output"];
+  subcategories?: Maybe<Array<GQLTopiclessArenaCategoryV2>>;
+  title: Scalars["String"]["output"];
+  topicCount: Scalars["Int"]["output"];
+  visible: Scalars["Boolean"]["output"];
 };
 
 export type GQLTranscription = {
@@ -3006,6 +3049,7 @@ export type GQLNewArenaCategoryMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLNewArenaCategoryMutation = {
@@ -3018,6 +3062,7 @@ export type GQLUpdateArenaCategoryMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLUpdateArenaCategoryMutation = {
@@ -3027,6 +3072,7 @@ export type GQLUpdateArenaCategoryMutation = {
 
 export type GQLSortArenaCategoriesMutationVariables = Exact<{
   categoryIds: Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"];
+  parentId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLSortArenaCategoriesMutation = {
@@ -3090,6 +3136,19 @@ export type GQLArenaUserV2Fragment = {
   username: string;
 };
 
+export type GQLTopiclessArenaCategoryV2Fragment = {
+  __typename: "TopiclessArenaCategoryV2";
+  id: number;
+  title: string;
+  description: string;
+  topicCount: number;
+  postCount: number;
+  visible: boolean;
+  isFollowing: boolean;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
+};
+
 export type GQLArenaCategoryV2Fragment = {
   __typename: "ArenaCategoryV2";
   id: number;
@@ -3098,6 +3157,59 @@ export type GQLArenaCategoryV2Fragment = {
   topicCount: number;
   postCount: number;
   visible: boolean;
+  isFollowing: boolean;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
+  subcategories?: Array<
+    {
+      __typename?: "TopiclessArenaCategoryV2";
+      subcategories?: Array<
+        {
+          __typename?: "TopiclessArenaCategoryV2";
+          subcategories?: Array<
+            {
+              __typename?: "TopiclessArenaCategoryV2";
+              subcategories?: Array<
+                {
+                  __typename?: "TopiclessArenaCategoryV2";
+                  subcategories?: Array<
+                    {
+                      __typename?: "TopiclessArenaCategoryV2";
+                      subcategories?: Array<
+                        {
+                          __typename?: "TopiclessArenaCategoryV2";
+                          subcategories?: Array<
+                            {
+                              __typename?: "TopiclessArenaCategoryV2";
+                              subcategories?: Array<
+                                {
+                                  __typename?: "TopiclessArenaCategoryV2";
+                                  subcategories?: Array<
+                                    {
+                                      __typename?: "TopiclessArenaCategoryV2";
+                                      subcategories?: Array<
+                                        {
+                                          __typename?: "TopiclessArenaCategoryV2";
+                                        } & GQLTopiclessArenaCategoryV2Fragment
+                                      >;
+                                    } & GQLTopiclessArenaCategoryV2Fragment
+                                  >;
+                                } & GQLTopiclessArenaCategoryV2Fragment
+                              >;
+                            } & GQLTopiclessArenaCategoryV2Fragment
+                          >;
+                        } & GQLTopiclessArenaCategoryV2Fragment
+                      >;
+                    } & GQLTopiclessArenaCategoryV2Fragment
+                  >;
+                } & GQLTopiclessArenaCategoryV2Fragment
+              >;
+            } & GQLTopiclessArenaCategoryV2Fragment
+          >;
+        } & GQLTopiclessArenaCategoryV2Fragment
+      >;
+    } & GQLTopiclessArenaCategoryV2Fragment
+  >;
 };
 
 export type GQLArenaTopicV2Fragment = {
@@ -3176,6 +3288,7 @@ export type GQLArenaCategoryV2Query = {
   arenaCategoryV2?: {
     __typename?: "ArenaCategoryV2";
     topics?: Array<{ __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment>;
+    subcategories?: Array<{ __typename?: "TopiclessArenaCategoryV2" } & GQLTopiclessArenaCategoryV2Fragment>;
   } & GQLArenaCategoryV2Fragment;
 };
 
@@ -3738,7 +3851,7 @@ export type GQLArenaUserFragment = {
   username: string;
 };
 
-export type GQLArenaCategoriesFragment = {
+export type GQLArenaCategoryChildFragment = {
   __typename: "ArenaCategory";
   description: string;
   disabled: boolean;
@@ -3747,6 +3860,8 @@ export type GQLArenaCategoriesFragment = {
   name: string;
   topicCount: number;
   slug: string;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
 };
 
 export type GQLArenaCategoryFragment = {
@@ -3758,6 +3873,34 @@ export type GQLArenaCategoryFragment = {
   name: string;
   topicCount: number;
   slug: string;
+  parentCategoryId?: number;
+  children?: Array<
+    {
+      __typename?: "ArenaCategory";
+      children?: Array<
+        {
+          __typename?: "ArenaCategory";
+          children?: Array<
+            {
+              __typename?: "ArenaCategory";
+              children?: Array<
+                {
+                  __typename?: "ArenaCategory";
+                  children?: Array<
+                    {
+                      __typename?: "ArenaCategory";
+                      children?: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoryChildFragment>;
+                    } & GQLArenaCategoryChildFragment
+                  >;
+                } & GQLArenaCategoryChildFragment
+              >;
+            } & GQLArenaCategoryChildFragment
+          >;
+        } & GQLArenaCategoryChildFragment
+      >;
+    } & GQLArenaCategoryChildFragment
+  >;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
 };
 
 export type GQLArenaTopicFragment = {
@@ -3797,7 +3940,7 @@ export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLArenaPageQuery = {
   __typename?: "Query";
-  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoriesFragment>;
+  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoryFragment>;
 };
 
 export type GQLArenaCategoryQueryVariables = Exact<{
