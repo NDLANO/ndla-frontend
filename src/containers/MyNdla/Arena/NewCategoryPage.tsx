@@ -56,6 +56,7 @@ export const NewCategoryPage = () => {
           description: values.description ?? "",
           title: values.title ?? "",
           visible: values.visible ?? true,
+          parentCategoryId: Number(values.parentCategoryId),
         },
       });
 

@@ -9,7 +9,6 @@ import { TFunction } from "i18next";
 import { useContext, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
@@ -26,7 +25,7 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathStep,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems, toLearningPath } from "../../routeHelpers";
+import { toBreadcrumbItems } from "../../routeHelpers";
 import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
@@ -51,7 +50,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  const navigate = useNavigate();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
@@ -77,20 +75,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
-
-  const onKeyUpEvent = (evt: KeyboardEvent) => {
-    const steps = data?.resource?.learningpath?.learningsteps;
-    const learningpathStep = stepId ? steps?.find((step) => step.id.toString() === stepId.toString()) : steps?.[0];
-    if (evt.code === "ArrowRight" || evt.code === "ArrowLeft") {
-      const directionValue = evt.code === "ArrowRight" ? 1 : -1;
-      const newSeqNo = (learningpathStep?.seqNo ?? 0) + directionValue;
-      const newLearningpathStep = steps?.find((step) => step.seqNo === newSeqNo);
-      if (newLearningpathStep) {
-        const res = resource.path ? { path: resource.path, id: resource.id } : undefined;
-        navigate(toLearningPath(data.resource!.learningpath!.id.toString(), newLearningpathStep.id.toString(), res));
-      }
-    }
-  };
 
   if (
     !data.resource ||
@@ -140,7 +124,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        onKeyUpEvent={onKeyUpEvent}
         resource={resource}
         resourceTypes={resourceTypes}
         topicPath={topicPath}

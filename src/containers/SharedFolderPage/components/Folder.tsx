@@ -51,6 +51,7 @@ const FolderLink = styled(SafeLinkButton)`
   justify-content: center;
   color: ${colors.text.primary};
   border: none;
+  text-align: left;
   &:hover,
   &:active {
     color: ${colors.brand.primary};
@@ -95,8 +96,8 @@ const ToggleOpenButton = styled.button`
   border: 0;
   background: transparent;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 0;
 `;
 

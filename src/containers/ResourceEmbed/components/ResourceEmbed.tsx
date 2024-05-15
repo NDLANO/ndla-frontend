@@ -197,7 +197,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
         description={properties?.description}
         imageUrl={properties?.imageUrl}
       >
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
       <main>
         <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>

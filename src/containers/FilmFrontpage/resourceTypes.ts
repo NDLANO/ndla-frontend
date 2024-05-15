@@ -5,6 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+export interface MovieResourceType {
+  id: string;
+  name: string;
+}
+
 export const movieResourceTypes = [
   {
     name: "filmfrontpage.resourcetype.documentary",

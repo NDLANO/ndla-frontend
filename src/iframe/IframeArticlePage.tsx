@@ -83,7 +83,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
     <OneColumn>
       <Helmet>
         <title>{getDocumentTitle({ article: propArticle })}</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex, nofollow" />
         {scripts.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}

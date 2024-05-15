@@ -79,24 +79,15 @@ export const NewTopicPage = () => {
   if (!authContextLoaded) return <Spinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
+  const parentCrumbs =
+    arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
+  const crumbs = [...parentCrumbs, { name: t("myNdla.arena.new.topic"), id: "newTopic" }];
+
   return (
     <MyNdlaPageWrapper>
       <PageWrapper>
         <BreadcrumbWrapper>
-          <MyNdlaBreadcrumb
-            breadcrumbs={
-              categoryId
-                ? [
-                    {
-                      name: arenaCategory?.title ?? "",
-                      id: `category/${categoryId}`,
-                    },
-                    { name: t("myNdla.arena.new.topic"), id: "newTopic" },
-                  ]
-                : []
-            }
-            page={"arena"}
-          />
+          <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
         </BreadcrumbWrapper>
         <HelmetWithTracker title={t("htmlTitles.arenaNewTopicPage")} />
         <ArenaFormWrapper>

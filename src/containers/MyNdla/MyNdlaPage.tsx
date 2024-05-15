@@ -6,6 +6,7 @@
  *
  */
 
+import format from "date-fns/format";
 import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -143,6 +144,11 @@ const MyNdlaPage = () => {
 
   const aiLang = i18n.language === "nn" ? "nn" : "";
 
+  const dateString = format(new Date(), "Y-MM-dd HH:mm:ss");
+  const token = btoa(dateString);
+  const aiUrl =
+    user?.organization === "Rogaland fylkeskommune" ? `https://ndlarobot.org/${token}` : `https://ai.ndla.no/${aiLang}`;
+
   return (
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
@@ -175,7 +181,7 @@ const MyNdlaPage = () => {
           }}
           imageSide="left"
           url={{
-            url: authenticated ? `https://ai.ndla.no/${aiLang}` : undefined,
+            url: authenticated ? aiUrl : undefined,
             text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
           }}
           description={

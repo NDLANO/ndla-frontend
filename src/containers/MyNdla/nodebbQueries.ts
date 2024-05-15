@@ -33,9 +33,8 @@ const arenaUserFragment = gql`
     username
   }
 `;
-
-export const arenaCategoriesFragment = gql`
-  fragment ArenaCategories on ArenaCategory {
+export const arenaChildCategoryFragment = gql`
+  fragment ArenaCategoryChild on ArenaCategory {
     __typename
     description
     disabled
@@ -44,10 +43,15 @@ export const arenaCategoriesFragment = gql`
     name
     topicCount
     slug
+    parentCategoryId
+    breadcrumbs {
+      id
+      title
+    }
   }
 `;
 
-export const arenaCategoryFragment = gql`
+export const arenaCategoriesFragment = gql`
   fragment ArenaCategory on ArenaCategory {
     __typename
     description
@@ -57,7 +61,31 @@ export const arenaCategoryFragment = gql`
     name
     topicCount
     slug
+    parentCategoryId
+    children {
+      ...ArenaCategoryChild
+      children {
+        ...ArenaCategoryChild
+        children {
+          ...ArenaCategoryChild
+          children {
+            ...ArenaCategoryChild
+            children {
+              ...ArenaCategoryChild
+              children {
+                ...ArenaCategoryChild
+              }
+            }
+          }
+        }
+      }
+    }
+    breadcrumbs {
+      id
+      title
+    }
   }
+  ${arenaChildCategoryFragment}
 `;
 
 export const arenaTopicFragment = gql`
@@ -105,7 +133,7 @@ export const arenaUserQuery = gql`
 export const arenaCategoriesQuery = gql`
   query arenaPage {
     arenaCategories {
-      ...ArenaCategories
+      ...ArenaCategory
     }
   }
   ${arenaCategoriesFragment}
@@ -121,7 +149,7 @@ export const arenaCategoryQuery = gql`
       topicCount
     }
   }
-  ${arenaCategoryFragment}
+  ${arenaCategoriesFragment}
   ${arenaTopicFragment}
 `;
 
@@ -162,8 +190,8 @@ const arenaRecentTopics = gql`
 `;
 
 export const useArenaCategories = (options: QueryHookOptions<GQLArenaPageQuery, GQLArenaPageQueryVariables>) => {
-  const { data, loading, error } = useGraphQuery(arenaCategoriesQuery, options);
-  return { arenaCategories: data?.arenaCategories, loading, error };
+  const { data, loading, error, refetch } = useGraphQuery(arenaCategoriesQuery, options);
+  return { arenaCategories: data?.arenaCategories, loading, error, refetch };
 };
 
 export const useArenaCategory = (options: QueryHookOptions<GQLArenaCategoryQuery, GQLArenaCategoryQueryVariables>) => {

@@ -13,16 +13,10 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { Heading, Text } from "@ndla/typography";
-import {
-  ContentPlaceholder,
-  HomeBreadcrumb,
-  LayoutItem,
-  NavigationBox,
-  OneColumn,
-  SimpleBreadcrumbItem,
-} from "@ndla/ui";
+import { ContentPlaceholder, HomeBreadcrumb, LayoutItem, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
