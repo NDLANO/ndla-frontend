@@ -13,7 +13,7 @@ import { matchPath, Outlet, useLocation } from "react-router-dom";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Content, PageContainer, useMastheadHeight } from "@ndla/ui";
+import { Content, PageContainer } from "@ndla/ui";
 import FeideFooter from "./components/FeideFooter";
 import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
@@ -22,6 +22,7 @@ import config from "../../config";
 import { routes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
+import { useMastheadHeight } from "../Masthead/components/utils";
 
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};

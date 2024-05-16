@@ -14,9 +14,10 @@ import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { useIntersectionObserver } from "@ndla/hooks";
 import { Forward } from "@ndla/icons/common";
 import { Heading, Text } from "@ndla/typography";
-import { OneColumn, useMastheadHeight } from "@ndla/ui";
+import { OneColumn } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import SubjectLink from "./SubjectLink";
+import { useMastheadHeight } from "../Masthead/components/utils";
 
 const StyledColumn = styled(OneColumn)`
   display: flex;

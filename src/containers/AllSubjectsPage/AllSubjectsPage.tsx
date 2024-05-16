@@ -18,7 +18,7 @@ import { colors, spacing } from "@ndla/core";
 import { Select } from "@ndla/select";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { ErrorMessage, ContentPlaceholder, OneColumn, constants, getMastheadHeight } from "@ndla/ui";
+import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
@@ -28,6 +28,7 @@ import TabFilter from "../../components/TabFilter";
 import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from "../../constants";
 import { useUserAgent } from "../../UserAgentContext";
 import { useGraphQuery } from "../../util/runQueries";
+import { getMastheadHeight } from "../Masthead/components/utils";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 

@@ -16,7 +16,7 @@ import { transform } from "@ndla/article-converter";
 import { colors, spacing } from "@ndla/core";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Text } from "@ndla/typography";
-import { ArticleTitle, getMastheadHeight, OneColumn } from "@ndla/ui";
+import { ArticleTitle, OneColumn } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -30,6 +30,7 @@ import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesP
 import { copyrightInfoFragment } from "../../queries";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
+import { getMastheadHeight } from "../Masthead/components/utils";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLicenseBox";
 
