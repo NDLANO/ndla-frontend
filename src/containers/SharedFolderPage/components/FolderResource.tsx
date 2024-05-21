@@ -81,10 +81,9 @@ interface Props {
   setFocus: (id: string) => void;
   level: number;
   isLast?: boolean;
-  preview?: boolean;
 }
 
-const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onClose, preview }: Props) => {
+const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onClose }: Props) => {
   const { folderId: rootFolderId, subfolderId, resourceId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -93,13 +92,8 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
     [resource.resourceType],
   );
   const link = useMemo(
-    () =>
-      isLearningPathOrCase
-        ? resource.path
-        : preview
-          ? `${routes.myNdla.folderPreview(rootFolderId ?? "")}/${parentId}/${resource.id}`
-          : `${routes.folder(rootFolderId ?? "")}/${parentId}/${resource.id}`,
-    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId, preview],
+    () => (isLearningPathOrCase ? resource.path : `${routes.folder(rootFolderId ?? "")}/${parentId}/${resource.id}`),
+    [isLearningPathOrCase, resource.path, resource.id, rootFolderId, parentId],
   );
 
   const onClick = useCallback(
