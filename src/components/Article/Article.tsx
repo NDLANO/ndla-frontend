@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { extractEmbedMetas } from "@ndla/article-converter";
+import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import { ConceptMetaData } from "@ndla/types-embed";
 import { Article as UIArticle, ContentTypeBadge } from "@ndla/ui";
@@ -19,7 +20,6 @@ import FavoriteButton from "./FavoritesButton";
 import NotionsContent from "./NotionsContent";
 import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
-import { getMastheadHeight } from "../../containers/Masthead/components/utils";
 import { GQLArticleConceptEmbedsQuery, GQLArticle_ArticleFragment, GQLResourceEmbedInput } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { TransformedBaseArticle } from "../../util/transformArticle";
@@ -81,6 +81,7 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
@@ -147,7 +148,7 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - height - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -155,7 +156,7 @@ const Article = ({
         });
       }, 400);
     }
-  }, [article?.transformedContent?.content, location]);
+  }, [article?.transformedContent?.content, location, height]);
 
   if (!article) {
     return children || null;

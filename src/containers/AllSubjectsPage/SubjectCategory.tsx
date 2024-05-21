@@ -11,13 +11,12 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { buttonStyleV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { useIntersectionObserver } from "@ndla/hooks";
+import { useComponentSize, useIntersectionObserver } from "@ndla/hooks";
 import { Forward } from "@ndla/icons/common";
 import { Heading, Text } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import SubjectLink from "./SubjectLink";
-import { useMastheadHeight } from "../Masthead/components/utils";
 
 const StyledColumn = styled(OneColumn)`
   display: flex;
@@ -117,7 +116,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
     rootMargin: "-1px 0px 0px 0px",
     threshold: 1,
   });
-  const { height = 85 } = useMastheadHeight();
+  const { height = 85 } = useComponentSize("masthead");
 
   return (
     <li ref={rootRef} aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>

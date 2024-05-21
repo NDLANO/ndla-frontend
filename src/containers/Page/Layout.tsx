@@ -13,6 +13,7 @@ import { matchPath, Outlet, useLocation } from "react-router-dom";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { useComponentSize } from "@ndla/hooks";
 import { Content, PageContainer } from "@ndla/ui";
 import FeideFooter from "./components/FeideFooter";
 import Footer from "./components/Footer";
@@ -22,7 +23,6 @@ import config from "../../config";
 import { routes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
-import { useMastheadHeight } from "../Masthead/components/utils";
 
 const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
@@ -43,7 +43,7 @@ const StyledPageContainer = styled(PageContainer)`
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  const { height } = useMastheadHeight();
+  const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();

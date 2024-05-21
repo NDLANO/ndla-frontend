@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { useComponentSize } from "@ndla/hooks";
 import { Select } from "@ndla/select";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -28,7 +29,6 @@ import TabFilter from "../../components/TabFilter";
 import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from "../../constants";
 import { useUserAgent } from "../../UserAgentContext";
 import { useGraphQuery } from "../../util/runQueries";
-import { getMastheadHeight } from "../Masthead/components/utils";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
@@ -106,6 +106,7 @@ const AllSubjectsPage = () => {
   const selectors = useUserAgent();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
@@ -116,7 +117,7 @@ const AllSubjectsPage = () => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - height - 20;
 
         window.scrollTo({
           top: scrollPosition,
