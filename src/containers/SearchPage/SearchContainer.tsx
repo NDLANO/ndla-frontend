@@ -9,20 +9,26 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { fonts, spacing, spacingUnit } from "@ndla/core";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { Cross, Grid } from "@ndla/icons/action";
+import { ListCircle } from "@ndla/icons/editor";
 import { Heading } from "@ndla/typography";
-import { SearchSubjectResult, SearchFilterContent, LanguageSelector } from "@ndla/ui";
+import { LanguageSelector, constants } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
-import SearchResults, { ViewType } from "./components/SearchResults";
+import { SearchResultGroup } from "./components/SearchResults";
+import SearchSubjectResult from "./components/SearchSubjectResult";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { ViewType } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
-import { LocaleType } from "../../interfaces";
+
+const { contentTypes } = constants;
 
 const StyledLanguageSelector = styled.div`
   width: 100%;
@@ -38,6 +44,44 @@ const StyledHeading = styled(Heading)`
 const CompetenceWrapper = styled.div`
   margin-bottom: ${spacing.normal};
 `;
+
+const StyledMain = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
+`;
+
+const StyledButton = styled(ButtonV2)`
+  align-self: flex-start;
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  flex-wrap: wrap;
+  align-items: flex-start;
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xxsmall};
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
+const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>, showAll: boolean) => {
+  return searchGroups.filter((group) => {
+    const filter = typeFilter[group.type];
+    return (showAll || filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+  });
+};
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
@@ -55,7 +99,6 @@ interface Props {
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
   showAll: boolean;
-  locale: LocaleType;
   loading: boolean;
   isLti?: boolean;
 }
@@ -73,14 +116,13 @@ const SearchContainer = ({
   typeFilter,
   searchGroups,
   showAll,
-  locale,
   loading,
   isLti,
   competenceGoals,
   coreElements,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [listViewType, setListViewType] = useState<ViewType>("grid");
+  const [viewType, setViewType] = useState<ViewType>("grid");
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
@@ -95,6 +137,9 @@ const SearchContainer = ({
 
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
+  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, typeFilter, showAll);
+
+  const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
 
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
 
@@ -106,7 +151,7 @@ const SearchContainer = ({
   }));
 
   return (
-    <main>
+    <StyledMain>
       <SearchHeader
         query={query}
         suggestion={suggestion}
@@ -114,7 +159,6 @@ const SearchContainer = ({
         handleSearchParamsChange={handleSearchParamsChange}
         subjects={subjects}
         noResults={sortedFilterButtonItems.length === 0}
-        locale={locale}
         competenceGoals={competenceGoals}
         coreElements={coreElements}
         loading={loading}
@@ -144,33 +188,68 @@ const SearchContainer = ({
       {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
       <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
       {searchGroups && searchGroups.length > 0 && (
-        <>
+        <div>
           {sortedFilterButtonItems.length > 1 && (
-            <SearchFilterContent
-              items={sortedFilterButtonItems}
-              onFilterToggle={handleFilterToggle}
-              onRemoveAllFilters={handleFilterReset}
-              viewType={listViewType}
-              onChangeViewType={(viewType) => setListViewType(viewType)}
-            />
+            <FilterWrapper>
+              <ItemWrapper>
+                {sortedFilterButtonItems.map((item) => (
+                  <ButtonV2
+                    key={item.value}
+                    shape="pill"
+                    onClick={() => handleFilterToggle(item.value)}
+                    colorTheme={item.selected ? "primary" : "greyLighter"}
+                  >
+                    {item.label}
+                    {item.selected && <Cross />}
+                  </ButtonV2>
+                ))}
+              </ItemWrapper>
+              <ButtonWrapper>
+                <IconButtonV2
+                  variant={viewType === "grid" ? "solid" : "ghost"}
+                  onClick={() => setViewType("grid")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.gridView")}
+                  title={t("searchPage.resultType.gridView")}
+                >
+                  <Grid />
+                </IconButtonV2>
+                <IconButtonV2
+                  variant={viewType === "list" ? "solid" : "ghost"}
+                  onClick={() => setViewType("list")}
+                  colorTheme="greyLighter"
+                  aria-label={t("searchPage.resultType.listView")}
+                  title={t("searchPage.resultType.listView")}
+                >
+                  <ListCircle />
+                </IconButtonV2>
+              </ButtonWrapper>
+            </FilterWrapper>
           )}
-          <SearchResults
-            showAll={showAll}
-            searchGroups={sortedSearchGroups}
-            typeFilter={typeFilter}
-            handleSubFilterClick={handleSubFilterClick}
-            handleShowMore={handleShowMore}
-            viewType={listViewType}
-            loading={loading}
-          />
+          {hasSelectedResourceType && (
+            <StyledButton variant="link" onClick={handleFilterReset}>
+              {t(`filterButtons.removeAllFilters`)}
+            </StyledButton>
+          )}
+          {filteredSortedSearchGroups.map((group) => (
+            <SearchResultGroup
+              key={`searchresultgroup-${group.type}`}
+              group={group}
+              handleSubFilterClick={handleSubFilterClick}
+              handleShowMore={handleShowMore}
+              loading={loading}
+              typeFilter={typeFilter}
+              viewType={viewType}
+            />
+          ))}
           {isLti && (
             <StyledLanguageSelector>
               <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
             </StyledLanguageSelector>
           )}
-        </>
+        </div>
       )}
-    </main>
+    </StyledMain>
   );
 };
 

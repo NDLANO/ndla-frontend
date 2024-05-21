@@ -14,11 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { Option, Select, SingleValue } from "@ndla/select";
 import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
-
-export interface MovieResourceType {
-  id: string;
-  name: string;
-}
+import { MovieResourceType } from "./resourceTypes";
 
 const StyledHeading = styled(Heading)`
   color: ${colors.white};
