@@ -60,6 +60,7 @@ const CategoryEditPage = () => {
           description: values.description ?? "",
           title: values.title ?? "",
           visible: values.visible ?? true,
+          parentCategoryId: Number(values.parentCategoryId),
         },
       });
 
@@ -109,6 +110,7 @@ const CategoryEditPage = () => {
             initialTitle={arenaCategory?.title}
             initialDescription={arenaCategory?.description}
             initialVisible={arenaCategory?.visible}
+            initialParentCategoryId={arenaCategory?.parentCategoryId}
           />
         </ArenaFormWrapper>
       </PageWrapper>
