@@ -19,6 +19,7 @@ import { HeadingType } from "../../interfaces";
 const TopicTitleWrapper = styled.header`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   margin-top: ${spacing.large};
   padding-bottom: ${spacing.small};
   justify-content: space-between;
@@ -61,6 +62,7 @@ const StyledSwitch = styled(Switch)`
 const StyledHGroup = styled.hgroup`
   display: flex;
   gap: ${spacing.small};
+  flex-wrap: wrap;
   align-items: center;
 `;
 

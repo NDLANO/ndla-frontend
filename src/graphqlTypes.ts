@@ -2286,31 +2286,17 @@ export type GQLLearningpath_LearningpathStepFragment = {
   title: string;
   description?: string;
   license?: { __typename?: "License"; license: string };
-} & GQLLearningpathEmbed_LearningpathStepFragment;
+} & GQLLearningpathEmbed_LearningpathStepFragment &
+  GQLLearningpathMenu_LearningpathStepFragment;
 
-export type GQLLearningpath_ResourceFragment = { __typename?: "Resource"; path: string };
+export type GQLLearningpath_ResourceFragment = {
+  __typename?: "Resource";
+  path: string;
+} & GQLLearningpathMenu_ResourceFragment;
 
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
-  id: number;
-  title: string;
-  lastUpdated: string;
-  copyright: {
-    __typename?: "LearningpathCopyright";
-    license: { __typename?: "License"; license: string };
-    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
-  };
-  learningsteps: Array<{
-    __typename?: "LearningpathStep";
-    title: string;
-    id: number;
-    resource?: {
-      __typename?: "Resource";
-      id: string;
-      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-    };
-  }>;
-};
+} & GQLLearningpathMenu_LearningpathFragment;
 
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
@@ -2357,6 +2343,50 @@ export type GQLLearningpathStepQuery = {
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
+
+export type GQLLearningpathFooter_LearningpathStepFragment = {
+  __typename?: "LearningpathStep";
+  id: number;
+  title: string;
+};
+
+export type GQLLearningpathFooter_LearningpathFragment = { __typename?: "Learningpath"; id: number };
+
+export type GQLLearningpathFooter_ResourceFragment = { __typename?: "Resource"; path: string };
+
+export type GQLLearningpathMenu_LearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  lastUpdated: string;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{
+    __typename?: "LearningpathStep";
+    id: number;
+    title: string;
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    };
+  }>;
+};
+
+export type GQLLearningpathMenu_LearningpathStepFragment = {
+  __typename?: "LearningpathStep";
+  id: number;
+  seqNo: number;
+  showTitle: boolean;
+  title: string;
+  description?: string;
+  license?: { __typename?: "License"; license: string };
+};
+
+export type GQLLearningpathMenu_ResourceFragment = { __typename?: "Resource"; id: string; path: string };
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: "AudioLicense";
@@ -2618,28 +2648,36 @@ export type GQLFilmContentCard_MovieFragment = {
   resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
-export type GQLFilmFrontpage_SubjectFragment = {
-  __typename?: "Subject";
-  name: string;
-  topics?: Array<{ __typename?: "Topic"; id: string; path: string; name: string }>;
-};
+export type GQLFilmFrontPageQueryVariables = Exact<{
+  subjectId: Scalars["String"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
 
-export type GQLFilmFrontpage_FilmFrontpageFragment = {
-  __typename?: "FilmFrontpage";
-  slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
-  movieThemes: Array<{
-    __typename?: "MovieTheme";
-    name: Array<{ __typename?: "Name"; name: string; language: string }>;
-    movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
-  }>;
-  about: Array<{
-    __typename?: "FilmPageAbout";
-    title: string;
-    description: string;
-    language: string;
-    visualElement: { __typename?: "SubjectPageVisualElement"; alt?: string; url: string; type: string };
-  }>;
-  article?: { __typename?: "Article" } & GQLArticle_ArticleFragment;
+export type GQLFilmFrontPageQuery = {
+  __typename?: "Query";
+  filmfrontpage?: {
+    __typename?: "FilmFrontpage";
+    slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
+    movieThemes: Array<{
+      __typename?: "MovieTheme";
+      name: Array<{ __typename?: "Name"; name: string; language: string }>;
+      movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
+    }>;
+    about: Array<{
+      __typename?: "FilmPageAbout";
+      title: string;
+      description: string;
+      language: string;
+      visualElement: { __typename?: "SubjectPageVisualElement"; alt?: string; url: string; type: string };
+    }>;
+    article?: { __typename?: "Article" } & GQLArticle_ArticleFragment;
+  };
+  subject?: {
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    topics?: Array<{ __typename?: "Topic"; id: string; path: string; name: string }>;
+  };
 };
 
 export type GQLFilmMovieList_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
@@ -2674,17 +2712,6 @@ export type GQLResourceTypeMoviesQuery = {
         }
     >;
   };
-};
-
-export type GQLFilmFrontPageQueryVariables = Exact<{
-  subjectId: Scalars["String"]["input"];
-  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
-}>;
-
-export type GQLFilmFrontPageQuery = {
-  __typename?: "Query";
-  filmfrontpage?: { __typename?: "FilmFrontpage" } & GQLFilmFrontpage_FilmFrontpageFragment;
-  subject?: { __typename?: "Subject"; id: string } & GQLFilmFrontpage_SubjectFragment;
 };
 
 export type GQLLearningpathPage_TopicFragment = { __typename?: "Topic" } & GQLLearningpath_TopicFragment;
