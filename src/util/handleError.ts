@@ -46,10 +46,24 @@ export const getErrorStatuses = (unknownError: ApolloError | null | undefined): 
 
 export const AccessDeniedCodes = [401, 403];
 
+export const InternalServerErrorCodes = [500, 503, 504];
+
 export const isAccessDeniedError = (error: ApolloError | undefined | null): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
+};
+
+export const isNotFoundError = (error: ApolloError | undefined | null): boolean => {
+  if (!error) return false;
+  const codes = getErrorStatuses(error);
+  return codes.find((c) => c === 404) !== undefined;
+};
+
+export const isInternalServerError = (error: ApolloError | undefined | null): boolean => {
+  if (!error) return false;
+  const codes = getErrorStatuses(error);
+  return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
 const handleError = (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
