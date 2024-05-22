@@ -26,7 +26,7 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFilmFrontPageQuery, GQLFilmFrontpage_SubjectFragment } from "../../graphqlTypes";
+import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
@@ -82,7 +82,7 @@ const filmFrontPageQuery = gql`
   ${Article.fragments.article}
 `;
 
-const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontpage_SubjectFragment | undefined) =>
+const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
   htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
 
 const FilmFrontpage = () => {
