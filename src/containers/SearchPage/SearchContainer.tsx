@@ -126,7 +126,7 @@ const SearchContainer = ({
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find((group) => group.type === type)?.items?.length) {
+    if (searchGroups.find((group) => group.type === type)?.items?.length || typeFilter[type]?.selected) {
       filterButtonItems.push({
         value: type,
         label: t(`contentTypes.${type}`),
