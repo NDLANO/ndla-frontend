@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
