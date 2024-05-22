@@ -11,6 +11,7 @@ import { gql } from "@apollo/client";
 import { Spinner } from "@ndla/icons";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
+import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -18,7 +19,7 @@ import {
 } from "../../../graphqlTypes";
 import { removeUrn } from "../../../routeHelpers";
 import { getTopicPath } from "../../../util/getTopicPath";
-import handleError, { isAccessDeniedError } from "../../../util/handleError";
+import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
@@ -76,9 +77,9 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
     handleError(error);
     if (isAccessDeniedError(error)) {
       navigate("/403", { replace: true });
-    } else {
+    } else if (isNotFoundError(error)) {
       navigate("/404", { replace: true });
-    }
+    } else return <DefaultErrorMessage />;
   }
 
   if (loading || !data?.topic?.article) {
