@@ -18,6 +18,7 @@ import DeleteModalContent from "../../components/DeleteModalContent";
 
 interface Props {
   categoryId: number;
+  refetchCategories: (() => void) | undefined;
 }
 
 const StyledIconButton = styled(IconButtonV2)`
@@ -27,7 +28,7 @@ const StyledIconButton = styled(IconButtonV2)`
   background-color: transparent;
 `;
 
-const DeleteCategoryModal = ({ categoryId }: Props) => {
+const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { deleteCategory } = useArenaDeleteCategoryMutation();
@@ -50,6 +51,7 @@ const DeleteCategoryModal = ({ categoryId }: Props) => {
               categoryId,
             },
           });
+          refetchCategories && refetchCategories();
           setOpen(false);
           addSnack({
             content: t("myNdla.arena.admin.category.deleteSnack"),

@@ -6,24 +6,27 @@
  *
  */
 
+import parse from "html-react-parser";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
+import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
 import { useWindowSize } from "@ndla/hooks";
+import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { Heading, Text } from "@ndla/typography";
 import {
-  LearningPathWrapper,
   LearningPathMenu,
-  LearningPathContent,
-  LearningPathInformation,
   LearningPathStickySibling,
-  LearningPathMobileStepInfo,
   LearningPathStickyPlaceholder,
   LearningPathSticky,
-  LearningPathMobileHeader,
   constants,
   HomeBreadcrumb,
   HeroContent,
+  OneColumn,
+  LicenseLink,
+  LayoutItem,
+  LearningPathBadge,
 } from "@ndla/ui";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed from "./LearningpathEmbed";
@@ -57,6 +60,58 @@ interface Props {
   breadcrumbItems: BreadcrumbType[];
 }
 
+const StyledHeroContent = styled(HeroContent)`
+  display: none;
+
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: flex;
+  }
+`;
+
+const StyledLearningpathContent = styled.div`
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: flex;
+    border-top: 1px solid ${colors.brand.greyLight};
+    margin-top: ${spacing.small};
+    padding-top: ${spacing.nsmall}px;
+  }
+`;
+
+const StyledOneColumn = styled(OneColumn)`
+  ${mq.range({ from: breakpoints.tablet })} {
+    &[data-inverted="true"] {
+      color: ${colors.white};
+    }
+  }
+`;
+
+const StepInfoText = styled(Text)`
+  white-space: nowrap;
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
+const MobileHeaderWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.small};
+  background: ${colors.brand.lighter};
+  margin: 0 -${spacing.normal} ${spacing.medium};
+  padding: ${spacing.small} ${spacing.normal};
+`;
+
+const LearningPathWrapper = styled.section`
+  max-width: ${1402 + spacingUnit}px;
+  padding: 0 ${spacing.normal};
+  margin: 0 auto;
+
+  &[data-inverted="true"] {
+    ${mq.range({ until: breakpoints.tablet })} {
+      background: #fff;
+    }
+  }
+`;
+
 const Learningpath = ({
   learningpath,
   learningpathStep,
@@ -68,6 +123,7 @@ const Learningpath = ({
   skipToContentId,
   breadcrumbItems,
 }: Props) => {
+  const { t, i18n } = useTranslation();
   const ndlaFilm = useIsNdlaFilm();
   const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
 
@@ -134,36 +190,41 @@ const Learningpath = ({
     />
   );
 
-  const StyledHeroContent = styled(HeroContent)`
-    display: none;
-
-    ${mq.range({ from: breakpoints.tablet })} {
-      display: flex;
-    }
-  `;
-
   const previousStep = learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningsteps[learningpathStep.seqNo + 1];
 
   return (
-    <LearningPathWrapper invertedStyle={ndlaFilm}>
+    <LearningPathWrapper data-inverted={ndlaFilm}>
       <StyledHeroContent>
         <section>
           <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
         </section>
       </StyledHeroContent>
-      <LearningPathContent>
-        {mobileView ? <LearningPathMobileHeader /> : learningPathMenu}
+      <StyledLearningpathContent>
+        {mobileView ? (
+          <MobileHeaderWrapper>
+            <LearningPathBadge size="xx-small" background />
+            <Text margin="none" textStyle="meta-text-small">
+              {t("learningPath.youAreInALearningPath")}
+            </Text>
+          </MobileHeaderWrapper>
+        ) : (
+          learningPathMenu
+        )}
         {learningpathStep && (
           <div data-testid="learningpath-content">
             {learningpathStep.showTitle && (
-              <LearningPathInformation
-                id={skipToContentId}
-                invertedStyle={ndlaFilm}
-                title={learningpathStep.title}
-                description={learningpathStep.description}
-                license={learningpathStep.license}
-              />
+              <StyledOneColumn data-inverted={ndlaFilm}>
+                <LayoutItem layout="center">
+                  <Heading element="h1" headingStyle="h1-resource" margin="large" id={skipToContentId}>
+                    {learningpathStep.title}
+                  </Heading>
+                  <LicenseLink
+                    license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
+                  />
+                  {!!learningpathStep.description && <div>{parse(learningpathStep.description)}</div>}
+                </LayoutItem>
+              </StyledOneColumn>
             )}
             <LearningpathEmbed
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
@@ -183,7 +244,7 @@ const Learningpath = ({
             />
           </div>
         )}
-      </LearningPathContent>
+      </StyledLearningpathContent>
       <LearningPathSticky>
         {mobileView && learningPathMenu}
         {previousStep ? (
@@ -197,7 +258,12 @@ const Learningpath = ({
         ) : (
           <LearningPathStickyPlaceholder />
         )}
-        <LearningPathMobileStepInfo total={learningsteps.length} current={learningpathStep.seqNo + 1} />
+        <StepInfoText textStyle="meta-text-small" margin="none">
+          {t("learningPath.mobileStepInfo", {
+            totalPages: learningsteps.length,
+            currentPage: learningpathStep.seqNo + 1,
+          })}
+        </StepInfoText>
         {nextStep ? (
           <LearningPathStickySibling
             arrow="right"

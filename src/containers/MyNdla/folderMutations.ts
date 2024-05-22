@@ -350,8 +350,8 @@ interface UseFolders {
 }
 
 export const useFolders = ({ skip }: UseFolders = {}): {
+  sharedFolders: GQLFolder[];
   folders: GQLFolder[];
-  savedFolders: GQLFolder[];
   loading: boolean;
 } => {
   const { cache } = useApolloClient();
@@ -362,11 +362,9 @@ export const useFolders = ({ skip }: UseFolders = {}): {
     },
   });
 
-  return {
-    folders: data?.folders.folders as GQLFolder[],
-    savedFolders: data?.folders.sharedFolders as GQLFolder[],
-    loading,
-  };
+  const folders = (data?.folders.folders ?? []) as GQLFolder[];
+  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLFolder[];
+  return { folders, sharedFolders, loading };
 };
 
 export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {
@@ -508,7 +506,7 @@ export const useDeleteFolderMutation = () => {
         const beforeDeletion: GQLFoldersPageQuery | null = client.cache.readQuery({
           query: foldersPageQuery,
         });
-        if (beforeDeletion?.folders?.folders.length === 1) {
+        if (beforeDeletion?.folders.folders?.length === 1) {
           return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
         }
         return [{ query: recentlyUsedQuery }];

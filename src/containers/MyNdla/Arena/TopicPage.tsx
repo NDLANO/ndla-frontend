@@ -6,17 +6,20 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Eye } from "@ndla/icons/editor";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
+import { ModeratorButtonWrapper } from "./ArenaPage";
 import { PostActions, PostButtons } from "./ArenaToolbar";
+import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -73,8 +76,9 @@ const TopicPage = () => {
   const { categoryId } = useParams();
   const { trackPageView } = useTracker();
 
-  const { loading, arenaCategory } = useArenaCategory(categoryId);
+  const { loading, arenaCategory, refetch: refetchCategory } = useArenaCategory(categoryId);
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
@@ -87,15 +91,14 @@ const TopicPage = () => {
   if (loading || !authContextLoaded) return <Spinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
+  const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
+  const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;
 
   return (
     <MyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
       <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <BreadcrumbWrapper>
-        <MyNdlaBreadcrumb
-          breadcrumbs={categoryId ? [{ name: arenaCategory?.title ?? "", id: categoryId }] : []}
-          page={"arena"}
-        />
+        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
       <HeaderWrapper>
         <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
@@ -112,6 +115,36 @@ const TopicPage = () => {
       <Text element="p" textStyle="content-alt" margin="none">
         {arenaCategory?.description}
       </Text>
+      {showCategories && (
+        <>
+          <StyledContainer>
+            <Heading element="h2" headingStyle="h2" margin="none">
+              {t("myNdla.arena.category.subcategory")}
+            </Heading>
+            {user?.isModerator && (
+              <ModeratorButtonWrapper>
+                <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
+                  {isEditing
+                    ? t("myNdla.arena.admin.category.stopEditing")
+                    : t("myNdla.arena.admin.category.startEditing")}
+                </ButtonV2>
+                <SafeLinkButton to={`/minndla/arena/category/new?parent-id=${arenaCategory.id}`}>
+                  {t("myNdla.arena.admin.category.form.newCategory")}
+                </SafeLinkButton>
+              </ModeratorButtonWrapper>
+            )}
+          </StyledContainer>
+          {arenaCategory.subcategories && (
+            <SortableArenaCards
+              isEditing={isEditing}
+              categories={arenaCategory?.subcategories ?? []}
+              user={user}
+              categoryParentId={arenaCategory.id}
+              refetchCategories={refetchCategory}
+            />
+          )}
+        </>
+      )}
       <StyledContainer>
         <Heading element="h2" headingStyle="h2" margin="none">
           {t("myNdla.arena.posts.title")}

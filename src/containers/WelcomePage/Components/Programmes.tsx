@@ -20,7 +20,7 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0;
-  padding-top: 4px;
+  padding-top: ${spacing.xxsmall};
   ${mq.range({ from: breakpoints.desktop })} {
     padding-top: ${spacing.nsmall};
   }
