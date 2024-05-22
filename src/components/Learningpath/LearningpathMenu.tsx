@@ -10,7 +10,7 @@ import { CSSProperties, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { colors, misc, spacing, stackOrder } from "@ndla/core";
+import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
 import { LearningPathRead } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
@@ -70,11 +70,13 @@ const StyledSafeLink = styled(SafeLink)`
     text-decoration: underline;
     text-underline-offset: 5px;
   }
-  &[data-inverted="true"]:not([aria-current="page"]) {
-    color: ${colors.white};
-  }
-  &[data-inverted="true"][aria-current="page"] {
-    color: ${colors.text.primary};
+  ${mq.range({ from: breakpoints.desktop })} {
+    &[data-inverted="true"]:not([aria-current="page"]) {
+      color: ${colors.white};
+    }
+    &[data-inverted="true"][aria-current="page"] {
+      color: ${colors.text.primary};
+    }
   }
 
   &:not([data-last="true"]) {
@@ -125,16 +127,20 @@ const MenuWrapper = styled.div`
   min-width: 300px;
   padding-top: ${spacing.normal};
   padding-right: ${spacing.small};
-  &[data-inverted="true"] {
-    color: ${colors.white};
+  ${mq.range({ from: breakpoints.desktop })} {
+    &[data-inverted="true"] {
+      color: ${colors.white};
+    }
   }
 `;
 
 const LearningpathText = styled(Text)`
   color: ${colors.text.light};
   text-transform: uppercase;
-  &[data-inverted="true"] {
-    color: ${colors.white};
+  ${mq.range({ from: breakpoints.desktop })} {
+    &[data-inverted="true"] {
+      color: ${colors.white};
+    }
   }
 `;
 

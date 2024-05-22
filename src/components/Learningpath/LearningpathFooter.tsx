@@ -123,7 +123,7 @@ const LearningpathFooter = ({
               {t("learningPath.openMenuTooltip")}
             </StyledModalButton>
           </ModalTrigger>
-          <ModalContent>
+          <ModalContent size="full">
             <ModalHeader>
               <ModalCloseButton />
             </ModalHeader>
