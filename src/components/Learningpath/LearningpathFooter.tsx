@@ -6,8 +6,9 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -17,6 +18,7 @@ import { LearningPath } from "@ndla/icons/contentType";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
+import { usePrevious } from "@ndla/util";
 import {
   GQLLearningpathFooter_LearningpathFragment,
   GQLLearningpathFooter_LearningpathStepFragment,
@@ -113,11 +115,20 @@ const LearningpathFooter = ({
   totalSteps,
   currentStep,
 }: Props) => {
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation();
+  const location = useLocation();
+  const previousPath = usePrevious(location.pathname);
+
+  useEffect(() => {
+    if (!previousPath) return;
+    setOpen(false);
+  }, [previousPath]);
+
   return (
     <FooterWrapper>
       {mobileView && (
-        <Modal>
+        <Modal open={open} onOpenChange={setOpen}>
           <ModalTrigger>
             <StyledModalButton size="small">
               <LearningPath />
