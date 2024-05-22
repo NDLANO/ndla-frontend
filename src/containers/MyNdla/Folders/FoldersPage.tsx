@@ -112,7 +112,7 @@ const FoldersPage = () => {
   }, [folderId, selectedFolder?.name, t]);
 
   const folders: GQLFolder[] = useMemo(
-    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders as GQLFolder[]) ?? []),
+    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders],
   );
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
