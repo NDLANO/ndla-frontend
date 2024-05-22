@@ -36,7 +36,7 @@ const ErrorPage = () => {
   return (
     <MissingRouterContext.Provider value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
-        <PageContainer backgroundWide={true} ndlaFilm={false}>
+        <PageContainer backgroundWide={true}>
           <Helmet
             htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
             title="NDLA"
