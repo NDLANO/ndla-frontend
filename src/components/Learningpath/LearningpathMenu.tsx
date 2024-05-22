@@ -49,14 +49,8 @@ const StepperList = styled.ul`
 `;
 
 const StepperListItem = styled.li`
-  position: relative;
-  display: flex;
-  gap: ${spacing.small};
   padding: 0;
   margin: 0;
-  align-items: center;
-  justify-content: flex-start;
-  padding: ${spacing.small} 0px;
   padding-left: ${spacing.small};
   &:has([aria-current="page"]) {
     background-color: ${colors.white};
@@ -65,9 +59,11 @@ const StepperListItem = styled.li`
 
 const StyledSafeLink = styled(SafeLink)`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  position: relative;
   gap: ${spacing.nsmall};
   color: ${colors.brand.primary};
+  padding: ${spacing.small} 0px;
   box-shadow: none;
   &:hover,
   &:focus-within {
@@ -80,22 +76,23 @@ const StyledSafeLink = styled(SafeLink)`
   &[data-inverted="true"][aria-current="page"] {
     color: ${colors.text.primary};
   }
-`;
 
-const ContentTypeBadgeWrapper = styled.div`
-  position: relative;
   &:not([data-last="true"]) {
     &::after {
       content: "";
       top: 50%;
       position: absolute;
-      height: ${spacing.xlarge};
+      height: 100%;
       width: var(--width);
       background-color: var(--color);
-      left: calc(50% - (var(--width) / 2));
+      left: calc((${spacing.mediumlarge} / 2) - (var(--width) / 2));
       z-index: ${stackOrder.offsetSingle};
     }
   }
+`;
+
+const ContentTypeBadgeWrapper = styled.div`
+  position: relative;
 `;
 
 const StyledContentTypeBadge = styled(ContentTypeBadge)`
@@ -139,6 +136,11 @@ const LearningpathText = styled(Text)`
   &[data-inverted="true"] {
     color: ${colors.white};
   }
+`;
+
+const StyledText = styled(Text)`
+  top: 50%;
+  left: 150%;
 `;
 
 const getLineColor = (afterCurrent: boolean, inverted: boolean) => {
@@ -218,14 +220,15 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
                 to={toLearningPath(learningpath.id, step.id, resource)}
                 data-inverted={ndlaFilm}
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
+                data-last={index === learningpath.learningsteps.length - 1}
               >
-                <ContentTypeBadgeWrapper data-last={index === learningpath.learningsteps.length - 1}>
+                <ContentTypeBadgeWrapper>
                   <StyledContentTypeBadge background type={getResourceType(step.resource)} />
                   {viewedSteps[step.id] && <StyledRead size="small" />}
                 </ContentTypeBadgeWrapper>
-                <Text element="span" margin="none" textStyle="meta-text-small">
+                <StyledText element="span" margin="none" textStyle="meta-text-small">
                   {step.title}
-                </Text>
+                </StyledText>
               </StyledSafeLink>
             </StepperListItem>
           ))}

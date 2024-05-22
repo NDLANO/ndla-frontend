@@ -25,14 +25,14 @@ import { toLearningPath } from "../../routeHelpers";
 
 const StepInfoText = styled(Text)`
   white-space: nowrap;
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: none;
   }
 `;
 
 const LinkText = styled.span`
   display: none;
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: block;
   }
 `;
@@ -46,7 +46,7 @@ const FooterWrapper = styled.div`
   ${animations.fadeInBottom()}
   min-height: ${spacing.large};
   max-height: ${spacing.large};
-  ${mq.range({ until: breakpoints.tabletWide })} {
+  ${mq.range({ until: breakpoints.desktop })} {
     position: fixed;
     bottom: env(safe-area-inset-bottom);
     left: 0;
@@ -60,7 +60,7 @@ const LinksWrapper = styled.div`
   grid-template-columns: repeat(3, ${spacing.large});
   align-items: center;
   justify-content: flex-end;
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
     justify-content: space-between;
     width: 100%;

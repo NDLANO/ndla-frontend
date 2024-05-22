@@ -46,13 +46,13 @@ interface Props {
 const StyledHeroContent = styled(HeroContent)`
   display: none;
 
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
   }
 `;
 
 const StyledLearningpathContent = styled.div`
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
     border-top: 1px solid ${colors.brand.greyLight};
     margin-top: ${spacing.small};
@@ -61,7 +61,7 @@ const StyledLearningpathContent = styled.div`
 `;
 
 const StyledOneColumn = styled(OneColumn)`
-  ${mq.range({ from: breakpoints.tabletWide })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     &[data-inverted="true"] {
       color: ${colors.white};
     }
@@ -83,7 +83,7 @@ const LearningPathWrapper = styled.section`
   margin: 0 auto;
 
   &[data-inverted="true"] {
-    ${mq.range({ until: breakpoints.tabletWide })} {
+    ${mq.range({ until: breakpoints.desktop })} {
       background: #fff;
     }
   }
@@ -104,7 +104,7 @@ const Learningpath = ({
   const ndlaFilm = useIsNdlaFilm();
 
   const { innerWidth } = useWindowSize(100);
-  const mobileView = innerWidth < 768;
+  const mobileView = innerWidth < 981;
 
   const learningpathMenu = (
     <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />
