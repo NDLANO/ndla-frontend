@@ -86,7 +86,6 @@ const MastheadContainer = () => {
   const data = subjectId ? freshData ?? previousData : undefined;
 
   const alerts = openAlerts?.map((alert) => ({
-    // @ts-ignore Too many changes in frontend-packages just now. Will change Masthead later.
     content: alert.body ? parse(alert.body) : alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -99,7 +98,6 @@ const MastheadContainer = () => {
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
         onCloseAlert={(id) => closeAlert(id)}
-        // @ts-ignore
         messages={alerts}
       >
         <DrawerWrapper>
