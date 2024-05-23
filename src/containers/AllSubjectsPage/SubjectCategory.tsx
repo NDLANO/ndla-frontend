@@ -28,6 +28,7 @@ const StyledColumn = styled(OneColumn)`
 `;
 
 export const GridList = styled.ul`
+  width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
   ${mq.range({ until: breakpoints.tablet })} {
