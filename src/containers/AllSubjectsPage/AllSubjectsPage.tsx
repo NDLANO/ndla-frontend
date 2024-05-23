@@ -125,7 +125,7 @@ const AllSubjectsPage = () => {
         });
       }, 400);
     }
-  }, []);
+  }, [height]);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter || ACTIVE_SUBJECTS);
