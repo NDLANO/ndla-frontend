@@ -14,9 +14,10 @@ import styled from "@emotion/styled";
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
 import { transform } from "@ndla/article-converter";
 import { colors, spacing } from "@ndla/core";
+import { useComponentSize } from "@ndla/hooks";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Text } from "@ndla/typography";
-import { ArticleTitle, getMastheadHeight, OneColumn } from "@ndla/ui";
+import { ArticleTitle, OneColumn } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -79,6 +80,7 @@ const PodcastSeriesPage = () => {
   } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
@@ -94,7 +96,7 @@ const PodcastSeriesPage = () => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - height - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -102,7 +104,7 @@ const PodcastSeriesPage = () => {
         });
       }, 200);
     }
-  }, [podcastSeries, location]);
+  }, [podcastSeries, location, height]);
 
   const { t } = useTranslation();
 

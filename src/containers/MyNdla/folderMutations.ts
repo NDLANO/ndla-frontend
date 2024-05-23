@@ -192,7 +192,12 @@ export const sharedFoldersPageQueryFragment = gql`
 export const foldersPageQuery = gql`
   query foldersPage {
     folders(includeSubfolders: true, includeResources: true) {
-      ...FoldersPageQueryFragment
+      folders {
+        ...FoldersPageQueryFragment
+      }
+      sharedFolders {
+        ...FoldersPageQueryFragment
+      }
     }
   }
   ${foldersPageQueryFragment}
@@ -343,6 +348,7 @@ interface UseFolders {
 }
 
 export const useFolders = ({ skip }: UseFolders = {}): {
+  sharedFolders: GQLFolder[];
   folders: GQLFolder[];
   loading: boolean;
 } => {
@@ -354,8 +360,9 @@ export const useFolders = ({ skip }: UseFolders = {}): {
     },
   });
 
-  const folders = (data?.folders ?? []) as GQLFolder[];
-  return { folders, loading };
+  const folders = (data?.folders.folders ?? []) as GQLFolder[];
+  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLFolder[];
+  return { folders, sharedFolders, loading };
 };
 
 export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {
@@ -497,7 +504,7 @@ export const useDeleteFolderMutation = () => {
         const beforeDeletion: GQLFoldersPageQuery | null = client.cache.readQuery({
           query: foldersPageQuery,
         });
-        if (beforeDeletion?.folders?.length === 1) {
+        if (beforeDeletion?.folders.folders?.length === 1) {
           return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
         }
         return [{ query: recentlyUsedQuery }];

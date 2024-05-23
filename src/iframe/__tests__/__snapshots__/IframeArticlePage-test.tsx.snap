@@ -23,6 +23,28 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-0 {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 29.75em) {
+  .emotion-0 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.emotion-0::after {
+  content: ""!important;
+  display: block!important;
+  clear: both!important;
+}
+
+.emotion-2 {
   font-weight: 700;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-size: 22px;
@@ -31,157 +53,157 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 24px 0 24px 0;
 }
 
-.emotion-0:where([lang='zh'], .emotion-0[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-0[data-margin="none"] {
+.emotion-2[data-margin="none"] {
   margin: 0px;
 }
 
-.emotion-0[data-margin="xlarge"] {
+.emotion-2[data-margin="xlarge"] {
   margin: 24px 0 12px 0;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-0[data-margin="xlarge"] {
+  .emotion-2[data-margin="xlarge"] {
     margin-bottom: 24px;
   }
 }
 
-.emotion-0[data-margin="large"] {
+.emotion-2[data-margin="large"] {
   margin-top: 48px;
   margin-bottom: 12px;
 }
 
-.emotion-0[data-margin="small"] {
+.emotion-2[data-margin="small"] {
   margin-top: 24px;
   margin-bottom: 12px;
 }
 
-.emotion-0[data-style="h1"] {
+.emotion-2[data-style="h1"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-0[data-style="h1"]:where([lang='zh'], .emotion-0[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="h1"]:where([lang='zh'], .emotion-2[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-0[data-style="h1"] {
+  .emotion-2[data-style="h1"] {
     font-size: 48px;
     font-size: 2.6666666666666665rem;
     line-height: 60px;
     margin-bottom: 24px;
   }
 
-  .emotion-0[data-style="h1"]:where([lang='zh'], .emotion-0[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-2[data-style="h1"]:where([lang='zh'], .emotion-2[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
 }
 
-.emotion-0[data-style="h1-resource"] {
+.emotion-2[data-style="h1-resource"] {
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-0[data-style="h1-resource"]:where([lang='zh'], .emotion-0[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="h1-resource"]:where([lang='zh'], .emotion-2[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-0[data-style="h1-resource"] {
+  .emotion-2[data-style="h1-resource"] {
     font-size: 38px;
     font-size: 2.111111111111111rem;
     line-height: 48px;
   }
 
-  .emotion-0[data-style="h1-resource"]:where([lang='zh'], .emotion-0[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-2[data-style="h1-resource"]:where([lang='zh'], .emotion-2[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
-.emotion-0[data-style="h2"] {
+.emotion-2[data-style="h2"] {
   font-size: 28px;
   font-size: 1.5555555555555556rem;
   line-height: 36px;
 }
 
-.emotion-0[data-style="h2"]:where([lang='zh'], .emotion-0[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="h2"]:where([lang='zh'], .emotion-2[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-0[data-style="h2"] {
+  .emotion-2[data-style="h2"] {
     font-size: 30px;
     font-size: 1.6666666666666667rem;
     line-height: 38px;
   }
 
-  .emotion-0[data-style="h2"]:where([lang='zh'], .emotion-0[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-2[data-style="h2"]:where([lang='zh'], .emotion-2[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
 }
 
-.emotion-0[data-style="h3"] {
+.emotion-2[data-style="h3"] {
   font-size: 26px;
   font-size: 1.4444444444444444rem;
   line-height: 35px;
 }
 
-.emotion-0[data-style="h3"]:where([lang='zh'], .emotion-0[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="h3"]:where([lang='zh'], .emotion-2[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-0[data-style="h3"] {
+  .emotion-2[data-style="h3"] {
     font-size: 26px;
     font-size: 1.4444444444444444rem;
     line-height: 36px;
   }
 
-  .emotion-0[data-style="h3"]:where([lang='zh'], .emotion-0[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-2[data-style="h3"]:where([lang='zh'], .emotion-2[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
 }
 
-.emotion-0[data-style="h4"] {
+.emotion-2[data-style="h4"] {
   font-size: 22px;
   font-size: 1.2222222222222223rem;
   line-height: 30px;
 }
 
-.emotion-0[data-style="h4"]:where([lang='zh'], .emotion-0[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="h4"]:where([lang='zh'], .emotion-2[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-0[data-style="list-title"] {
+.emotion-2[data-style="list-title"] {
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
 }
 
-.emotion-0[data-style="list-title"]:where([lang='zh'], .emotion-0[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-2[data-style="list-title"]:where([lang='zh'], .emotion-2[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-1 {
+.emotion-3 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 400;
   font-size: 20px;
@@ -189,25 +211,29 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 31px;
 }
 
-.emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-3:where([lang='zh'], .emotion-3[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-1 {
+  .emotion-3 {
     font-size: 24px;
     font-size: 1.3333333333333333rem;
     line-height: 35px;
   }
 
-  .emotion-1:where([lang='zh'], .emotion-1[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-3:where([lang='zh'], .emotion-3[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(24px * 1.11);
     font-size: calc(1.3333333333333333rem * 1.11);
   }
 }
 
-.emotion-2 {
+.emotion-4[data-align="center"] {
+  text-align: center;
+}
+
+.emotion-6 {
   margin-top: 24px;
   padding-top: 24px;
   padding-bottom: 6px;
@@ -219,12 +245,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #4d4d4d;
 }
 
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-6:where([lang='zh'], .emotion-6[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-4 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -237,7 +263,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-4 {
+  .emotion-8 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -248,7 +274,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-4[data-learning-path="true"] {
+.emotion-8[data-learning-path="true"] {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -258,7 +284,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-6 {
+.emotion-10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -267,7 +293,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   padding-right: 6px;
 }
 
-.emotion-8 {
+.emotion-12 {
   color: #20588f;
   font-weight: 700;
   -webkit-text-decoration: underline;
@@ -276,17 +302,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   box-shadow: none;
 }
 
-.emotion-8:hover,
-.emotion-8:focus-within {
+.emotion-12:hover,
+.emotion-12:focus-within {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-10 {
+.emotion-14 {
   margin-left: 4px;
 }
 
-.emotion-12 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -297,15 +323,15 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-14 {
+.emotion-18 {
   border: 1px solid #ceddea;
 }
 
-.emotion-14[data-state="open"] {
+.emotion-18[data-state="open"] {
   border-color: #20588f;
 }
 
-.emotion-16 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -313,7 +339,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0;
 }
 
-.emotion-19 {
+.emotion-23 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -346,32 +372,32 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-19[data-state="open"] {
+.emotion-23[data-state="open"] {
   background-color: #deebf6;
   border-bottom: 1px solid #20588f;
 }
 
-.emotion-19:hover,
-.emotion-19:focus-visible {
+.emotion-23:hover,
+.emotion-23:focus-visible {
   -webkit-text-decoration: underline;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.emotion-19:focus-visible {
+.emotion-23:focus-visible {
   outline: 2px solid #20588f;
 }
 
-.emotion-19:where([lang='zh'], .emotion-19[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-23:where([lang='zh'], .emotion-23[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-19[data-background-color="white"][data-state="closed"] {
+.emotion-23[data-background-color="white"][data-state="closed"] {
   background-color: #ffffff;
 }
 
-.emotion-22 {
+.emotion-26 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -388,33 +414,33 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   height: 24px;
 }
 
-.emotion-20[data-state='open']>.emotion-22 {
+.emotion-24[data-state='open']>.emotion-26 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.emotion-24 {
+.emotion-28 {
   overflow: hidden;
 }
 
-.emotion-24[data-state="open"] {
+.emotion-28[data-state="open"] {
   -webkit-animation: animation-0 300ms ease-out;
   animation: animation-0 300ms ease-out;
 }
 
-.emotion-24[data-state="closed"] {
+.emotion-28[data-state="closed"] {
   -webkit-animation: animation-1 300ms ease-out;
   animation: animation-1 300ms ease-out;
 }
 
-.emotion-24[data-disable-animate="true"] {
+.emotion-28[data-disable-animate="true"] {
   -webkit-animation: none;
   animation: none;
 }
 
-.emotion-26 {
+.emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -425,7 +451,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-28 {
+.emotion-32 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -436,7 +462,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-30 {
+.emotion-34 {
   color: #595959;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -445,36 +471,37 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-34:where([lang='zh'], .emotion-34[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
-.emotion-32 {
+.emotion-36 {
   color: #595959;
 }
 
-.emotion-36 {
+.emotion-40 {
   width: 120px;
   margin: 0;
   position: relative;
 }
 
-.emotion-36 a {
+.emotion-40 a {
   box-shadow: none;
 }
 
-.emotion-38 {
+.emotion-42 {
   fill: #20588f;
 }
 
 <div
-    class="o-wrapper"
+    class="emotion-0 emotion-1"
   >
     <main>
       <div>
         <article
           class="c-article c-article--clean c-article--iframe"
+          data-ndla-article=""
         >
           <section
             class="u-10/12 u-push-1/12"
@@ -486,7 +513,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 class="c-article__title"
               >
                 <h1
-                  class="emotion-0"
+                  class="emotion-2"
                   data-margin="normal"
                   data-style="h1-resource"
                   id="54"
@@ -497,7 +524,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </h1>
               </div>
               <div
-                class="emotion-1"
+                class="emotion-3"
                 lang="no"
               >
                 <p>
@@ -514,6 +541,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           >
             <section>
               <p
+                class="emotion-4 emotion-5"
                 lang="no"
               >
                 Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
@@ -524,24 +552,24 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12 u-push-1/12"
           >
             <div
-              class="emotion-2 emotion-3"
+              class="emotion-6 emotion-7"
             >
               <div
-                class="emotion-4 emotion-5"
+                class="emotion-8 emotion-9"
                 data-learning-path="false"
               >
                 <div
-                  class="emotion-6 emotion-7"
+                  class="emotion-10 emotion-11"
                 >
                   <a
-                    class="emotion-8 emotion-9"
+                    class="emotion-12 emotion-13"
                     href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
                     rel="license"
                   >
                     CC BY-SA
                   </a>
                   <span
-                    class="emotion-10 emotion-11"
+                    class="emotion-14 emotion-15"
                   >
                     Skrevet av Someone. 
                   </span>
@@ -551,23 +579,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </div>
               </div>
               <div
-                class="emotion-12 emotion-13"
+                class="emotion-16 emotion-17"
                 data-orientation="vertical"
               >
                 <div
-                  class="emotion-14 emotion-15"
+                  class="emotion-18 emotion-19"
                   data-orientation="vertical"
                   data-state="closed"
                 >
                   <h2
-                    class="emotion-16 emotion-17"
+                    class="emotion-20 emotion-21"
                     data-orientation="vertical"
                     data-state="closed"
                   >
                     <button
                       aria-controls="radix-:r1:"
                       aria-expanded="false"
-                      class="emotion-18 emotion-19 emotion-20"
+                      class="emotion-22 emotion-23 emotion-24"
                       data-background-color="blue"
                       data-orientation="vertical"
                       data-radix-collection-item=""
@@ -578,7 +606,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       Regler for bruk
                       <svg
                         aria-hidden="true"
-                        class="emotion-21 emotion-22 emotion-23"
+                        class="emotion-25 emotion-26 emotion-27"
                         data-icon=""
                         data-license="Apache License 2.0"
                         data-source="Material Design"
@@ -598,7 +626,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </h2>
                   <div
                     aria-labelledby="radix-:r0:"
-                    class="emotion-24 emotion-25"
+                    class="emotion-28 emotion-29"
                     data-orientation="vertical"
                     data-state="closed"
                     hidden=""
@@ -614,16 +642,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
           >
             <div
-              class="emotion-26 emotion-27"
+              class="emotion-30 emotion-31"
             >
               <div
-                class="emotion-28 emotion-29"
+                class="emotion-32 emotion-33"
               >
                 <div
-                  class="emotion-30 emotion-31"
+                  class="emotion-34 emotion-35"
                 >
                   <a
-                    class="emotion-32 emotion-33"
+                    class="emotion-36 emotion-37"
                     href="https://test.ndla.no/subject:1/resource:1"
                     target="_blank"
                   >
@@ -631,7 +659,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                    er hentet fra 
                   <a
-                    class="emotion-32 emotion-33"
+                    class="emotion-36 emotion-37"
                     href="https://ndla.no"
                     target="_blank"
                   >
@@ -639,7 +667,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </a>
                 </div>
                 <div
-                  class="emotion-36 emotion-37"
+                  class="emotion-40 emotion-41"
                 >
                   <a
                     aria-label="NDLA"
@@ -647,7 +675,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     title="NDLA"
                   >
                     <svg
-                      class="emotion-38 emotion-39"
+                      class="emotion-42 emotion-43"
                       fill="#000000"
                       fill-rule="evenodd"
                       viewBox="0 0 376 152"
@@ -687,48 +715,81 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
   .emotion-0 {
-  text-align: center;
-}
-
-.emotion-0 a {
-  color: #20588f;
-}
-
-.emotion-0 h1 {
-  margin-top: 0;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .emotion-2 {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 29.75em) {
+  .emotion-2 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.emotion-2::after {
+  content: ""!important;
+  display: block!important;
+  clear: both!important;
+}
+
+.emotion-4 {
+  text-align: center;
+}
+
+.emotion-4 a {
+  color: #20588f;
+}
+
+.emotion-4 h1 {
+  margin-top: 0;
+}
+
+.emotion-6 {
   margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2 {
+  .emotion-6 {
     margin-top: 48px;
   }
 }
 
-.emotion-4 {
+.emotion-8 {
   margin-bottom: 24px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-4 {
+  .emotion-8 {
     margin-bottom: 48px;
   }
 }
 
 <div
-    class="o-container"
+    class="emotion-0 emotion-1"
   >
     <div
-      class="o-wrapper"
+      class="emotion-2 emotion-3"
     >
       <article
-        class="emotion-0 emotion-1"
+        class="emotion-4 emotion-5"
       >
         <div
-          class="emotion-2 emotion-3"
+          class="emotion-6 emotion-7"
         >
           <img
             alt="Ops, noe gikk galt"
@@ -739,7 +800,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
           Ops, noe gikk galt
         </h1>
         <p
-          class="emotion-4 emotion-5"
+          class="emotion-8 emotion-9"
         >
           Beklager, en feil oppstod.
         </p>
