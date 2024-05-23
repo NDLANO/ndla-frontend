@@ -618,12 +618,6 @@ export type GQLFolder = {
   updated: Scalars["String"]["output"];
 };
 
-export type GQLFolderConnection = {
-  __typename?: "FolderConnection";
-  folderId: Scalars["String"]["output"];
-  userId: Scalars["String"]["output"];
-};
-
 export type GQLFolderResource = {
   __typename?: "FolderResource";
   created: Scalars["String"]["output"];
@@ -1000,7 +994,7 @@ export type GQLMutation = {
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
-  deleteSharedFolder: Scalars["Int"]["output"];
+  deleteSharedFolder: Scalars["String"]["output"];
   deleteTopic: Scalars["Int"]["output"];
   deleteTopicV2: Scalars["Int"]["output"];
   followCategory: GQLArenaCategoryV2;
@@ -1016,7 +1010,7 @@ export type GQLMutation = {
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
-  saveSharedFolder: Scalars["Int"]["output"];
+  saveSharedFolder: Scalars["String"]["output"];
   sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
@@ -1447,7 +1441,6 @@ export type GQLQuery = {
   examLockStatus: GQLConfigMetaBoolean;
   filmfrontpage?: Maybe<GQLFilmFrontpage>;
   folder: GQLFolder;
-  folderConnection?: Maybe<GQLFolderConnection>;
   folderResourceMeta?: Maybe<GQLFolderResourceMeta>;
   folderResourceMetaSearch: Array<GQLFolderResourceMeta>;
   folders: GQLUserFolder;
@@ -1471,6 +1464,7 @@ export type GQLQuery = {
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
   subject?: Maybe<GQLSubject>;
+  subjectCollection?: Maybe<Array<GQLSubject>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
   topic?: Maybe<GQLTopic>;
@@ -1601,10 +1595,6 @@ export type GQLQueryFolderArgs = {
   includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
-export type GQLQueryFolderConnectionArgs = {
-  folderId: Scalars["String"]["input"];
-};
-
 export type GQLQueryFolderResourceMetaArgs = {
   resource: GQLFolderResourceMetaSearchInput;
 };
@@ -1669,6 +1659,7 @@ export type GQLQueryPodcastSeriesSearchArgs = {
 };
 
 export type GQLQueryProgrammeArgs = {
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -1730,6 +1721,10 @@ export type GQLQuerySharedFolderArgs = {
 
 export type GQLQuerySubjectArgs = {
   id: Scalars["String"]["input"];
+};
+
+export type GQLQuerySubjectCollectionArgs = {
+  language: Scalars["String"]["input"];
 };
 
 export type GQLQuerySubjectpageArgs = {
@@ -2314,16 +2309,19 @@ export type GQLLearningpath_LearningpathStepFragment = {
   description?: string;
   license?: { __typename?: "License"; license: string };
 } & GQLLearningpathEmbed_LearningpathStepFragment &
-  GQLLearningpathMenu_LearningpathStepFragment;
+  GQLLearningpathMenu_LearningpathStepFragment &
+  GQLLearningpathFooter_LearningpathStepFragment;
 
 export type GQLLearningpath_ResourceFragment = {
   __typename?: "Resource";
   path: string;
-} & GQLLearningpathMenu_ResourceFragment;
+} & GQLLearningpathMenu_ResourceFragment &
+  GQLLearningpathFooter_ResourceFragment;
 
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
-} & GQLLearningpathMenu_LearningpathFragment;
+} & GQLLearningpathMenu_LearningpathFragment &
+  GQLLearningpathFooter_LearningpathFragment;
 
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
@@ -3832,7 +3830,7 @@ export type GQLSaveSharedFolderMutationVariables = Exact<{
   folderId: Scalars["String"]["input"];
 }>;
 
-export type GQLSaveSharedFolderMutation = { __typename?: "Mutation"; saveSharedFolder: number };
+export type GQLSaveSharedFolderMutation = { __typename?: "Mutation"; saveSharedFolder: string };
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

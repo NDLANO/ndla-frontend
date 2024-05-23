@@ -535,11 +535,6 @@ type Folder {
   updated: String!
 }
 
-type FolderConnection {
-  folderId: String!
-  userId: String!
-}
-
 type FolderResource {
   created: String!
   id: String!
@@ -885,7 +880,7 @@ type Mutation {
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
-  deleteSharedFolder(folderId: String!): Int!
+  deleteSharedFolder(folderId: String!): String!
   deleteTopic(topicId: Int!): Int!
   deleteTopicV2(topicId: Int!): Int!
   followCategory(categoryId: Int!): ArenaCategoryV2!
@@ -907,7 +902,7 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
-  saveSharedFolder(folderId: String!): Int!
+  saveSharedFolder(folderId: String!): String!
   sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
@@ -1131,7 +1126,6 @@ type Query {
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
-  folderConnection(folderId: String!): FolderConnection
   folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
   folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): UserFolder!
@@ -1158,7 +1152,7 @@ type Query {
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
-  programme(path: String): ProgrammePage
+  programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
@@ -1199,6 +1193,7 @@ type Query {
   ): SearchWithoutPagination
   sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
+  subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
