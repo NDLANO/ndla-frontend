@@ -9,7 +9,6 @@
 import keyBy from "lodash/keyBy";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { HumanMaleBoard } from "@ndla/icons/common";
@@ -82,7 +81,6 @@ interface Props {
 
 export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType }: Props) => {
   const { t } = useTranslation();
-  const { folderId: rootFolderId } = useParams();
   const { authenticated } = useContext(AuthContext);
 
   const { data } = useFolderResourceMetaSearch(
@@ -108,7 +106,9 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
 
-  const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`);
+  const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`, {
+    name: selectedFolder.owner?.name ?? t("myNdla.folder.professional"),
+  });
 
   return (
     <div>
@@ -137,16 +137,16 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
       </StyledRow>
       {selectedFolder.subfolders.length > 0 && (
         <BlockWrapper data-type={viewType} data-no-padding={true}>
-          {selectedFolder.subfolders.map(({ id, name, status }) => (
+          {selectedFolder.subfolders.map(({ id, name }) => (
             <ListItem key={`folder-${id}`}>
               <Folder
                 id={id}
                 title={name}
                 type={viewType}
-                link={`${!authenticated ? routes.folder(id) : routes.myNdla.folderShared(rootFolderId ?? "")}/${id}`}
-                isShared={status === "shared"}
+                link={`${!authenticated ? routes.folder(id) : routes.myNdla.folderShared(id)}`}
                 subFolders={foldersCount?.[id]?.folders}
                 subResources={foldersCount?.[id]?.resources}
+                isShared={false}
               />
             </ListItem>
           ))}

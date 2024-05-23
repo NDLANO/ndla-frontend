@@ -44,7 +44,7 @@ const FolderSharedPage = () => {
   const { authenticated } = useContext(AuthContext);
   const [viewType, setViewType] = useState<ViewType>("list");
 
-  const { loading: foldersLoading, savedFolders } = useFolders();
+  const { loading: foldersLoading, sharedFolders } = useFolders();
 
   const {
     folder,
@@ -56,7 +56,7 @@ const FolderSharedPage = () => {
     includeSubfolders: true,
   });
 
-  const loading = foldersLoading && sharedFolderLoading;
+  const loading = foldersLoading || sharedFolderLoading;
 
   const buttons = useMemo(() => {
     if (!folder) return [];
@@ -107,9 +107,9 @@ const FolderSharedPage = () => {
   }, [folder, showSaveLinkButton]);
 
   useEffect(() => {
-    if (!savedFolders) return;
-    setShowSaveLinkButton(!savedFolders?.some((f) => f.id === folderId));
-  }, [folderId, savedFolders]);
+    if (!sharedFolders) return;
+    setShowSaveLinkButton(!sharedFolders?.some((f) => f.id === folderId));
+  }, [folderId, sharedFolders]);
 
   if (!authenticated) {
     return <Navigate to={routes.folder(folderId)} />;
