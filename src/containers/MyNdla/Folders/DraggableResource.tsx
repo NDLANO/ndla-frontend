@@ -19,8 +19,13 @@ import { ViewType } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../../config";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
+import {
+  GQLFolder,
+  GQLFolderResource,
+  GQLFolderResourceMeta,
+  GQLFolderResourceResourceType,
+} from "../../../graphqlTypes";
+import { routes, toArticle } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../folderMutations";
@@ -152,6 +157,26 @@ const DraggableResource = ({
     transition,
   };
 
+  const [resourceType, resourcePath, resourceTitle] = useMemo(() => {
+    let resType: GQLFolderResourceResourceType[] = [];
+
+    if (!resourceMeta) {
+      let resPath = resource.path;
+      if (resource.resourceType === "article") {
+        resPath = toArticle(Number(resource.resourceId), resource, "");
+      }
+      return [resType, resPath, t("myNdla.sharedFolder.resourceRemovedTitle")];
+    }
+
+    if (resourceMeta.resourceTypes) {
+      resType = resourceMeta.resourceTypes;
+    } else {
+      resType = [{ id: resource.resourceType, name: resource.resourceType }];
+    }
+
+    return [resType, resource.path, resourceMeta.title];
+  }, [resource, resourceMeta, t]);
+
   return (
     <DraggableListItem
       key={`resource-${resource.id}`}
@@ -177,10 +202,10 @@ const DraggableResource = ({
             src: resourceMeta?.metaImage?.url ?? "",
             alt: "",
           }}
-          link={resource.path}
+          link={resourcePath}
           tags={resource.tags}
-          resourceTypes={resourceMeta?.resourceTypes ?? []}
-          title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+          resourceTypes={resourceType}
+          title={resourceTitle}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />
