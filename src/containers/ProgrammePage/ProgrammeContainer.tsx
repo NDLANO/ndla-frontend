@@ -16,8 +16,9 @@ import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { MessageBox, NavigationBox } from "@ndla/ui";
+import { MessageBox } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
+import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
@@ -94,6 +95,8 @@ const StyledBackground = styled.div`
 `;
 
 const StyledOneColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   background: ${colors.white};
   width: 90%;
   margin-top: -170px;
@@ -124,11 +127,14 @@ const GradesMenu = styled.ul`
   display: flex;
   gap: ${spacing.small};
   padding-left: 0;
-  margin-bottom: ${spacing.normal};
   li {
     list-style: none;
     padding: 0;
   }
+`;
+
+const MessageBoxWrapper = styled.div`
+  margin-top: ${spacing.normal};
 `;
 
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
@@ -192,7 +198,11 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               );
             })}
           </GradesMenu>
-          {grade?.missingProgrammeSubjects && <MessageBox>{t("messageBoxInfo.noContent")}</MessageBox>}
+          {grade?.missingProgrammeSubjects && (
+            <MessageBoxWrapper>
+              <MessageBox>{t("messageBoxInfo.noContent")}</MessageBox>
+            </MessageBoxWrapper>
+          )}
           {grade?.categories?.map((category) => (
             <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
           ))}

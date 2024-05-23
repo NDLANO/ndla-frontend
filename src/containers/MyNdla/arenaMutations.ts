@@ -178,8 +178,8 @@ export const useCreateArenaTopicV2 = (
 };
 
 const newArenaCategoryMutation = gql`
-  mutation NewArenaCategory($title: String!, $description: String!, $visible: Boolean!) {
-    newArenaCategory(title: $title, description: $description, visible: $visible) {
+  mutation NewArenaCategory($title: String!, $description: String!, $visible: Boolean!, $parentCategoryId: Int) {
+    newArenaCategory(title: $title, description: $description, visible: $visible, parentCategoryId: $parentCategoryId) {
       ...ArenaCategoryV2
     }
   }
@@ -190,15 +190,43 @@ export const useCreateArenaCategory = () => {
   const [createArenaCategory] = useMutation<GQLNewArenaCategoryMutation, GQLNewArenaCategoryMutationVariables>(
     newArenaCategoryMutation,
     {
-      refetchQueries: [{ query: arenaCategoriesV2Query }, { query: arenaCategoryV2Query }],
+      refetchQueries: (q) => {
+        const parentId = q.data?.newArenaCategory.parentCategoryId;
+        const parentQuery = parentId
+          ? [{ query: arenaCategoryV2Query, variables: { categoryId: parentId, page: 1 } }]
+          : [];
+
+        return [
+          {
+            query: arenaCategoriesV2Query,
+            variables: {
+              page: 1,
+              pageSize: 100,
+            },
+          },
+          ...parentQuery,
+        ];
+      },
     },
   );
   return { createArenaCategory };
 };
 
 const updateArenaCategoryMutation = gql`
-  mutation UpdateArenaCategory($categoryId: Int!, $title: String!, $description: String!, $visible: Boolean!) {
-    updateArenaCategory(categoryId: $categoryId, title: $title, description: $description, visible: $visible) {
+  mutation UpdateArenaCategory(
+    $categoryId: Int!
+    $title: String!
+    $description: String!
+    $visible: Boolean!
+    $parentCategoryId: Int
+  ) {
+    updateArenaCategory(
+      categoryId: $categoryId
+      title: $title
+      description: $description
+      visible: $visible
+      parentCategoryId: $parentCategoryId
+    ) {
       ...ArenaCategoryV2
     }
   }
@@ -217,8 +245,8 @@ export const useEditArenaCategory = () => {
 };
 
 const sortArenaCategoriesMutation = gql`
-  mutation SortArenaCategories($categoryIds: [Int!]!) {
-    sortArenaCategories(sortedIds: $categoryIds) {
+  mutation SortArenaCategories($categoryIds: [Int!]!, $parentId: Int) {
+    sortArenaCategories(sortedIds: $categoryIds, parentId: $parentId) {
       ...ArenaCategoryV2
     }
   }
@@ -245,9 +273,6 @@ const deleteArenaCategoryMutation = gql`
 export const useArenaDeleteCategoryMutation = () => {
   const [deleteCategory] = useMutation<GQLDeleteArenaCategoryMutation, GQLDeleteArenaCategoryMutationVariables>(
     deleteArenaCategoryMutation,
-    {
-      refetchQueries: [{ query: arenaCategoriesV2Query }, { query: arenaCategoryV2Query }],
-    },
   );
   return { deleteCategory };
 };

@@ -24,7 +24,7 @@ const Error = () => {
   const { t } = useTranslation();
   return (
     <Status code={INTERNAL_SERVER_ERROR}>
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <ErrorMessage
           illustration={{
             url: "/static/oops.gif",

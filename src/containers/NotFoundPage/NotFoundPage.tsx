@@ -16,7 +16,7 @@ const NotFound = () => {
   return (
     <Status code={404}>
       <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <OneColumn cssModifier="clear">
+      <OneColumn>
         <ErrorMessage
           illustration={{
             url: "/static/not-exist.gif",

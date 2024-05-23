@@ -11,7 +11,7 @@ import { groupCompetenceGoals } from "../CompetenceGoals";
 const competenceGoals = [
   {
     id: "KM2648",
-    name: "carry out basic first aid (KM2648)",
+    title: "carry out basic first aid (KM2648)",
     type: "LK20",
     curriculum: {
       id: "HSF01-03",
@@ -24,7 +24,8 @@ const competenceGoals = [
   },
   {
     id: "KM2647",
-    name: "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
+    title:
+      "discuss and give examples of what each person and society can do to improve their own health and public health (KM2647)",
     type: "LK20",
     curriculum: {
       id: "HSF01-03",
@@ -37,7 +38,8 @@ const competenceGoals = [
   },
   {
     id: "KM1232",
-    name: "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
+    title:
+      "explain present-day changes in spoken Norwegian and reflect on relationships between language, culture and identity (KM1232)",
     type: "LK20",
     curriculum: {
       id: "NOR01-06",

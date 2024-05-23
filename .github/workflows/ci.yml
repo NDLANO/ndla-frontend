@@ -2,7 +2,7 @@ name: CI
 on: [push, pull_request]
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-  AWS_DEFAULT_REGION: 'eu-west-1'
+  AWS_DEFAULT_REGION: "eu-west-1"
   AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
   NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
   CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
@@ -14,26 +14,25 @@ env:
   GH_PR_NUMBER: ${{ github.event.number }}
   GH_PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
   GH_PR_SHA: ${{ github.event.pull_request.head.sha }}
-  NODE_OPTIONS: '--max-old-space-size=4096'
+  NODE_OPTIONS: "--max-old-space-size=4096"
 jobs:
   unit_tests:
-    name: 'Unit tests'
+    name: "Unit tests"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.9'
-      - name: 'Login to ECR repo'
-        run:
-          RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
+          node-version: "20.13.1"
+      - name: "Login to ECR repo"
+        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
           AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
           AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey)
           AWS_SESSION_TOKEN=$(echo $RES | jq -r .Credentials.SessionToken)
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
-      - name: 'Login to dockerhub'
+      - name: "Login to dockerhub"
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-      - name: 'Enable yarn v4'
+      - name: "Enable yarn v4"
         run: |
           corepack enable
           yarn set version berry
@@ -45,12 +44,12 @@ jobs:
             .yarn/cache
             ~/.npm
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: 'Install'
+      - name: "Install"
         run: yarn install --immutable
-      - name: 'Check-all'
+      - name: "Check-all"
         run: yarn check-all
   integration_tests:
-    name: 'Integration tests'
+    name: "Integration tests"
     runs-on: ubuntu-latest
     env:
       DEFAULT_TIMEOUT: 5000
@@ -59,28 +58,27 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '20.9'
-      - name: 'Enable yarn v4'
+          node-version: "20.13.1"
+      - name: "Enable yarn v4"
         run: |
           corepack enable
           yarn set version 4.1.1
-      - name: 'Login to ECR repo'
-        run:
-          RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
+      - name: "Login to ECR repo"
+        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
           AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
           AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey)
           AWS_SESSION_TOKEN=$(echo $RES | jq -r .Credentials.SessionToken)
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
-      - name: 'Login to dockerhub'
+      - name: "Login to dockerhub"
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-      - name: 'Install'
+      - name: "Install"
         run: yarn install --immutable
-      - name: 'Build'
+      - name: "Build"
         run: yarn build
-      - name: 'Deploy vercel build'
+      - name: "Deploy vercel build"
         run: yarn ndla-scripts vercel-github
         continue-on-error: true
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps chromium
-      - name: 'E2E'
+      - name: "E2E"
         run: yarn e2e:headless

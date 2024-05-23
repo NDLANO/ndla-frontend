@@ -9,6 +9,7 @@
 import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { fonts, misc, spacing } from "@ndla/core";
 import config from "../../config";
 import { LtiData, LtiItem } from "../../interfaces";
 
@@ -17,15 +18,13 @@ const StyledLinkAsButton = styled("a")`
   color: white;
   background-color: #20588f;
   border: 2px solid #20588f;
-  border-radius: 4px;
-  padding: 4px 13px;
+  border-radius: ${misc.borderRadius};
+  padding: ${spacing.xxsmall} 13px;
   outline-width: 0;
   cursor: pointer;
   text-decoration: none;
-  font-size: 16px;
-  font-size: 0.88889rem;
-  line-height: 1.625;
-  font-weight: 700;
+  ${fonts.size.text.metaText.small};
+  font-weight: ${fonts.weight.bold};
   transition: all 0.2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
   box-shadow: none;
   margin-right: 13px;

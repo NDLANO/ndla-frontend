@@ -9,6 +9,7 @@
 import fs from "fs/promises";
 import { join } from "path";
 import express, { NextFunction, Request, Response } from "express";
+import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
@@ -48,6 +49,14 @@ if (!isProduction) {
   const sirv = (await import("sirv")).default;
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
+
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: true,
+  excludeRoutes: ["/health"],
+});
+
+app.use(metricsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -244,19 +253,33 @@ app.get(
 
 const errorRoute = async (req: Request) => renderRoute(req, "error.html", errorTemplateHtml, "error");
 
-async function sendInternalServerError(req: Request, res: Response) {
+const getStatusCodeToReturn = (err?: Error): number => {
+  if (err && "status" in err && typeof err.status === "number") {
+    if (err.status >= 400 && err.status < 600) return err.status;
+  }
+  return INTERNAL_SERVER_ERROR;
+};
+
+async function sendInternalServerError(req: Request, res: Response, err?: Error) {
+  const statusCode = getStatusCodeToReturn(err);
   if (res.getHeader("Content-Type") === "application/json") {
-    res.status(INTERNAL_SERVER_ERROR).json("Internal server error");
-  } else {
+    res.status(statusCode).json("Internal server error");
+    return;
+  }
+
+  try {
     const { data } = await errorRoute(req);
-    res.status(INTERNAL_SERVER_ERROR).send(data);
+    res.status(statusCode).send(data);
+  } catch (e) {
+    console.error("Something went wrong when retrieving errorRoute.", e);
+    res.status(statusCode).send("Internal server error");
   }
 }
 
 const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
   vite?.ssrFixStacktrace(err);
   handleError(err);
-  sendInternalServerError(req, res);
+  sendInternalServerError(req, res, err);
 };
 
 app.use(errorHandler);

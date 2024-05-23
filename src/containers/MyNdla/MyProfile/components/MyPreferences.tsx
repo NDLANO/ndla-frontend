@@ -25,7 +25,7 @@ const PreferenceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
-  max-width: 700px;
+  max-width: ${misc.maxTextWidth};
 `;
 
 const DisclaimerContainer = styled.div`

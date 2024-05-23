@@ -32,26 +32,45 @@ export type GQLArenaBreadcrumb = {
 
 export type GQLArenaCategory = {
   __typename?: "ArenaCategory";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  children?: Maybe<Array<GQLArenaCategory>>;
   description: Scalars["String"]["output"];
   disabled: Scalars["Boolean"]["output"];
   htmlDescription: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   name: Scalars["String"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
   postCount: Scalars["Int"]["output"];
   slug: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopic>>;
 };
 
-export type GQLArenaCategoryV2 = {
+export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
   __typename?: "ArenaCategoryV2";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  categoryCount?: Maybe<Scalars["Int"]["output"]>;
   description: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
   postCount: Scalars["Int"]["output"];
+  subcategories?: Maybe<Array<GQLTopiclessArenaCategoryV2>>;
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopicV2>>;
+  visible: Scalars["Boolean"]["output"];
+};
+
+export type GQLArenaCategoryV2Base = {
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  description: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
+  postCount: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
+  topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
 };
 
@@ -398,6 +417,12 @@ export type GQLCategory = {
   isProgrammeSubject: Scalars["Boolean"]["output"];
   subjects?: Maybe<Array<GQLSubject>>;
   title: GQLTitle;
+};
+
+export type GQLCategoryBreadcrumb = {
+  __typename?: "CategoryBreadcrumb";
+  id: Scalars["Int"]["output"];
+  title: Scalars["String"]["output"];
 };
 
 export type GQLCompetenceGoal = {
@@ -1070,6 +1095,7 @@ export type GQLMutationMarkNotificationsAsReadV2Args = {
 
 export type GQLMutationNewArenaCategoryArgs = {
   description: Scalars["String"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
   title: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
 };
@@ -1114,6 +1140,7 @@ export type GQLMutationResolveFlagArgs = {
 };
 
 export type GQLMutationSortArenaCategoriesArgs = {
+  parentId?: InputMaybe<Scalars["Int"]["input"]>;
   sortedIds: Array<Scalars["Int"]["input"]>;
 };
 
@@ -1155,6 +1182,7 @@ export type GQLMutationUnsubscribeFromTopicArgs = {
 export type GQLMutationUpdateArenaCategoryArgs = {
   categoryId: Scalars["Int"]["input"];
   description: Scalars["String"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
   title: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
 };
@@ -2029,6 +2057,21 @@ export type GQLTopicSupplementaryResourcesArgs = {
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLTopiclessArenaCategoryV2 = GQLArenaCategoryV2Base & {
+  __typename?: "TopiclessArenaCategoryV2";
+  breadcrumbs: Array<GQLCategoryBreadcrumb>;
+  categoryCount?: Maybe<Scalars["Int"]["output"]>;
+  description: Scalars["String"]["output"];
+  id: Scalars["Int"]["output"];
+  isFollowing: Scalars["Boolean"]["output"];
+  parentCategoryId?: Maybe<Scalars["Int"]["output"]>;
+  postCount: Scalars["Int"]["output"];
+  subcategories?: Maybe<Array<GQLTopiclessArenaCategoryV2>>;
+  title: Scalars["String"]["output"];
+  topicCount: Scalars["Int"]["output"];
+  visible: Scalars["Boolean"]["output"];
+};
+
 export type GQLTranscription = {
   __typename?: "Transcription";
   pinyin?: Maybe<Scalars["String"]["output"]>;
@@ -2130,6 +2173,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Array<string>;
   oldNdlaUrl?: string;
   introduction?: string;
+  htmlIntroduction?: string;
   conceptIds?: Array<number>;
   revisionDate?: string;
   language: string;
@@ -2159,7 +2203,7 @@ export type GQLArticleContents_ArticleFragment = {
   id: number;
   created: string;
   updated: string;
-  introduction?: string;
+  htmlIntroduction?: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2449,6 +2493,7 @@ export type GQLAboutPage_ArticleFragment = {
   __typename?: "Article";
   id: number;
   introduction?: string;
+  htmlIntroduction?: string;
   created: string;
   updated: string;
   slug?: string;
@@ -2534,6 +2579,46 @@ export type GQLArticleHero_SubjectFragment = { __typename?: "Subject"; id: strin
 
 export type GQLArticleHero_MetaImageFragment = { __typename?: "MetaImage"; url: string; alt: string };
 
+export type GQLAllMoviesQueryVariables = Exact<{
+  resourceTypes: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLAllMoviesQuery = {
+  __typename?: "Query";
+  searchWithoutPagination?: {
+    __typename?: "SearchWithoutPagination";
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+    >;
+  };
+};
+
+export type GQLFilmContentCard_MovieFragment = {
+  __typename?: "Movie";
+  id: string;
+  title: string;
+  metaDescription: string;
+  path: string;
+  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
+
 export type GQLFilmFrontpage_SubjectFragment = {
   __typename?: "Subject";
   name: string;
@@ -2542,8 +2627,12 @@ export type GQLFilmFrontpage_SubjectFragment = {
 
 export type GQLFilmFrontpage_FilmFrontpageFragment = {
   __typename?: "FilmFrontpage";
-  slideShow: Array<{ __typename?: "Movie" } & GQLMovieInfoFragment>;
-  movieThemes: Array<{ __typename?: "MovieTheme" } & GQLMovieCategory_MovieThemeFragment>;
+  slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
+  movieThemes: Array<{
+    __typename?: "MovieTheme";
+    name: Array<{ __typename?: "Name"; name: string; language: string }>;
+    movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
+  }>;
   about: Array<{
     __typename?: "FilmPageAbout";
     title: string;
@@ -2554,10 +2643,38 @@ export type GQLFilmFrontpage_FilmFrontpageFragment = {
   article?: { __typename?: "Article" } & GQLArticle_ArticleFragment;
 };
 
-export type GQLMovieCategory_MovieThemeFragment = {
-  __typename?: "MovieTheme";
-  name: Array<{ __typename?: "Name"; name: string; language: string }>;
-  movies: Array<{ __typename?: "Movie" } & GQLMovieInfoFragment>;
+export type GQLFilmMovieList_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLResourceTypeMoviesQueryVariables = Exact<{
+  resourceType: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLResourceTypeMoviesQuery = {
+  __typename?: "Query";
+  searchWithoutPagination?: {
+    __typename?: "SearchWithoutPagination";
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          id: number;
+          metaDescription: string;
+          title: string;
+          metaImage?: { __typename?: "MetaImage"; url: string };
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+        }
+    >;
+  };
 };
 
 export type GQLFilmFrontPageQueryVariables = Exact<{
@@ -2933,6 +3050,7 @@ export type GQLNewArenaCategoryMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLNewArenaCategoryMutation = {
@@ -2945,6 +3063,7 @@ export type GQLUpdateArenaCategoryMutationVariables = Exact<{
   title: Scalars["String"]["input"];
   description: Scalars["String"]["input"];
   visible: Scalars["Boolean"]["input"];
+  parentCategoryId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLUpdateArenaCategoryMutation = {
@@ -2954,6 +3073,7 @@ export type GQLUpdateArenaCategoryMutation = {
 
 export type GQLSortArenaCategoriesMutationVariables = Exact<{
   categoryIds: Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"];
+  parentId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLSortArenaCategoriesMutation = {
@@ -3017,6 +3137,19 @@ export type GQLArenaUserV2Fragment = {
   username: string;
 };
 
+export type GQLTopiclessArenaCategoryV2Fragment = {
+  __typename: "TopiclessArenaCategoryV2";
+  id: number;
+  title: string;
+  description: string;
+  topicCount: number;
+  postCount: number;
+  visible: boolean;
+  isFollowing: boolean;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
+};
+
 export type GQLArenaCategoryV2Fragment = {
   __typename: "ArenaCategoryV2";
   id: number;
@@ -3025,6 +3158,59 @@ export type GQLArenaCategoryV2Fragment = {
   topicCount: number;
   postCount: number;
   visible: boolean;
+  isFollowing: boolean;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
+  subcategories?: Array<
+    {
+      __typename?: "TopiclessArenaCategoryV2";
+      subcategories?: Array<
+        {
+          __typename?: "TopiclessArenaCategoryV2";
+          subcategories?: Array<
+            {
+              __typename?: "TopiclessArenaCategoryV2";
+              subcategories?: Array<
+                {
+                  __typename?: "TopiclessArenaCategoryV2";
+                  subcategories?: Array<
+                    {
+                      __typename?: "TopiclessArenaCategoryV2";
+                      subcategories?: Array<
+                        {
+                          __typename?: "TopiclessArenaCategoryV2";
+                          subcategories?: Array<
+                            {
+                              __typename?: "TopiclessArenaCategoryV2";
+                              subcategories?: Array<
+                                {
+                                  __typename?: "TopiclessArenaCategoryV2";
+                                  subcategories?: Array<
+                                    {
+                                      __typename?: "TopiclessArenaCategoryV2";
+                                      subcategories?: Array<
+                                        {
+                                          __typename?: "TopiclessArenaCategoryV2";
+                                        } & GQLTopiclessArenaCategoryV2Fragment
+                                      >;
+                                    } & GQLTopiclessArenaCategoryV2Fragment
+                                  >;
+                                } & GQLTopiclessArenaCategoryV2Fragment
+                              >;
+                            } & GQLTopiclessArenaCategoryV2Fragment
+                          >;
+                        } & GQLTopiclessArenaCategoryV2Fragment
+                      >;
+                    } & GQLTopiclessArenaCategoryV2Fragment
+                  >;
+                } & GQLTopiclessArenaCategoryV2Fragment
+              >;
+            } & GQLTopiclessArenaCategoryV2Fragment
+          >;
+        } & GQLTopiclessArenaCategoryV2Fragment
+      >;
+    } & GQLTopiclessArenaCategoryV2Fragment
+  >;
 };
 
 export type GQLArenaTopicV2Fragment = {
@@ -3103,6 +3289,7 @@ export type GQLArenaCategoryV2Query = {
   arenaCategoryV2?: {
     __typename?: "ArenaCategoryV2";
     topics?: Array<{ __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment>;
+    subcategories?: Array<{ __typename?: "TopiclessArenaCategoryV2" } & GQLTopiclessArenaCategoryV2Fragment>;
   } & GQLArenaCategoryV2Fragment;
 };
 
@@ -3665,7 +3852,7 @@ export type GQLArenaUserFragment = {
   username: string;
 };
 
-export type GQLArenaCategoriesFragment = {
+export type GQLArenaCategoryChildFragment = {
   __typename: "ArenaCategory";
   description: string;
   disabled: boolean;
@@ -3674,6 +3861,8 @@ export type GQLArenaCategoriesFragment = {
   name: string;
   topicCount: number;
   slug: string;
+  parentCategoryId?: number;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
 };
 
 export type GQLArenaCategoryFragment = {
@@ -3685,6 +3874,34 @@ export type GQLArenaCategoryFragment = {
   name: string;
   topicCount: number;
   slug: string;
+  parentCategoryId?: number;
+  children?: Array<
+    {
+      __typename?: "ArenaCategory";
+      children?: Array<
+        {
+          __typename?: "ArenaCategory";
+          children?: Array<
+            {
+              __typename?: "ArenaCategory";
+              children?: Array<
+                {
+                  __typename?: "ArenaCategory";
+                  children?: Array<
+                    {
+                      __typename?: "ArenaCategory";
+                      children?: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoryChildFragment>;
+                    } & GQLArenaCategoryChildFragment
+                  >;
+                } & GQLArenaCategoryChildFragment
+              >;
+            } & GQLArenaCategoryChildFragment
+          >;
+        } & GQLArenaCategoryChildFragment
+      >;
+    } & GQLArenaCategoryChildFragment
+  >;
+  breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
 };
 
 export type GQLArenaTopicFragment = {
@@ -3724,7 +3941,7 @@ export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLArenaPageQuery = {
   __typename?: "Query";
-  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoriesFragment>;
+  arenaCategories: Array<{ __typename?: "ArenaCategory" } & GQLArenaCategoryFragment>;
 };
 
 export type GQLArenaCategoryQueryVariables = Exact<{
@@ -4250,7 +4467,9 @@ export type GQLToolboxTopicWrapper_TopicFragment = {
   article?: {
     __typename?: "Article";
     title: string;
+    htmlTitle: string;
     introduction?: string;
+    htmlIntroduction?: string;
     copyright: {
       __typename?: "Copyright";
       license: { __typename?: "License"; license: string };
@@ -4341,75 +4560,6 @@ export type GQLIframePageQuery = {
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };
 
-export type GQLSearchFilmArticleSearchResultFragment = {
-  __typename?: "ArticleSearchResult";
-  id: number;
-  url: string;
-  metaDescription: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  traits: Array<string>;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{
-    __typename?: "SearchContext";
-    breadcrumbs: Array<string>;
-    relevance: string;
-    relevanceId: string;
-    language: string;
-    contextType: string;
-    path: string;
-    root: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string; language: string }>;
-  }>;
-};
-
-export type GQLSearchFilmLearningpathSearchResultFragment = {
-  __typename?: "LearningpathSearchResult";
-  id: number;
-  url: string;
-  metaDescription: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  traits: Array<string>;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{
-    __typename?: "SearchContext";
-    breadcrumbs: Array<string>;
-    relevance: string;
-    relevanceId: string;
-    language: string;
-    contextType: string;
-    path: string;
-    root: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string; language: string }>;
-  }>;
-};
-
-export type GQLSearchWithoutPaginationQueryVariables = Exact<{
-  query?: InputMaybe<Scalars["String"]["input"]>;
-  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
-  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
-  sort?: InputMaybe<Scalars["String"]["input"]>;
-  fallback?: InputMaybe<Scalars["String"]["input"]>;
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
-  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
-  relevance?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLSearchWithoutPaginationQuery = {
-  __typename?: "Query";
-  searchWithoutPagination?: {
-    __typename?: "SearchWithoutPagination";
-    results: Array<
-      | ({ __typename?: "ArticleSearchResult" } & GQLSearchFilmArticleSearchResultFragment)
-      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchFilmLearningpathSearchResultFragment)
-    >;
-  };
-};
-
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
@@ -4469,12 +4619,12 @@ export type GQLGroupSearchQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; text?: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
 export type GQLCopyrightInfoFragment = {
@@ -4535,28 +4685,18 @@ export type GQLCompetenceGoalsQuery = {
   competenceGoals?: Array<{
     __typename?: "CompetenceGoal";
     id: string;
+    title: string;
     type: string;
-    name: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{
     __typename?: "CoreElement";
     id: string;
-    name: string;
-    text?: string;
+    title: string;
+    description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
-};
-
-export type GQLMovieInfoFragment = {
-  __typename?: "Movie";
-  id: string;
-  title: string;
-  metaDescription: string;
-  path: string;
-  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
-  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;

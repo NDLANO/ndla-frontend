@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from "html-react-parser";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
@@ -12,11 +14,10 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import { NavigationBox } from "@ndla/ui";
-
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import { NavigationBox } from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
 import TopicArticle from "../../../components/Topic/TopicArticle";
@@ -130,7 +131,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       <Topic
         id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
         title={article.title}
-        introduction={article.introduction}
+        introduction={parse(article.htmlIntroduction ?? "")}
         metaImage={article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}

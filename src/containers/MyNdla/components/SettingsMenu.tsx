@@ -88,7 +88,7 @@ const DropdownTriggerButton = styled(IconButtonV2)`
     background-color: transparent;
     svg {
       background-color: ${colors.brand.light};
-      border-radius: 50%;
+      border-radius: ${misc.borderRadiusLarge};
     }
   }
 `;
