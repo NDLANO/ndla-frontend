@@ -173,7 +173,6 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
         </script>
       </Helmet>
       <Article
-        contentTransformed
         isPlainArticle
         id={skipToContentId}
         article={article}

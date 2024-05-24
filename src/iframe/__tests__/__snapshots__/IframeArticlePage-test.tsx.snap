@@ -45,6 +45,119 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 .emotion-2 {
+  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
+  background: #fff;
+  margin-top: 48px;
+  margin-right: auto;
+  margin-bottom: 24px;
+  margin-left: auto;
+  overflow-wrap: break-word;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 29px;
+  position: relative;
+}
+
+.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
+.emotion-2 mjx-stretchy-v>mjx-ext>mjx-c {
+  -webkit-transform: scaleY(100) translateY(0.075em);
+  -moz-transform: scaleY(100) translateY(0.075em);
+  -ms-transform: scaleY(100) translateY(0.075em);
+  transform: scaleY(100) translateY(0.075em);
+}
+
+.emotion-2>section>p:not([class]) {
+  margin-bottom: 29px;
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-2 {
+    font-size: 18px;
+    font-size: 1rem;
+    line-height: 29px;
+    padding: 0 24px 24px;
+    margin-bottom: 48px;
+    margin-top: -144px;
+    padding-top: 72px;
+  }
+
+  .emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+    font-size: calc(18px * 1.11);
+    font-size: calc(1rem * 1.11);
+  }
+
+  .emotion-2>section>p:not([class]) {
+    margin-bottom: 35px;
+  }
+}
+
+@media (min-width: 61.3125em) {
+  .emotion-2 {
+    padding-bottom: 48px;
+    margin-bottom: 48px;
+  }
+}
+
+.emotion-2::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.emotion-2 p {
+  margin-top: 0;
+}
+
+.emotion-2 {
+  margin-top: 24px!important;
+  padding: 12px!important;
+  border: none;
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-2 {
+    padding: 0!important;
+  }
+}
+
+.emotion-4 {
+  margin-bottom: 24px;
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-4 {
+    margin-bottom: 48px;
+  }
+}
+
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 24px;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  padding-bottom: 30px;
+}
+
+.emotion-6 h1 {
+  overflow-wrap: anywhere;
+}
+
+.emotion-6 [data-badge] {
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+
+.emotion-8 {
   font-weight: 700;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-size: 22px;
@@ -53,157 +166,157 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 24px 0 24px 0;
 }
 
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8:where([lang='zh'], .emotion-8[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-2[data-margin="none"] {
+.emotion-8[data-margin="none"] {
   margin: 0px;
 }
 
-.emotion-2[data-margin="xlarge"] {
+.emotion-8[data-margin="xlarge"] {
   margin: 24px 0 12px 0;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2[data-margin="xlarge"] {
+  .emotion-8[data-margin="xlarge"] {
     margin-bottom: 24px;
   }
 }
 
-.emotion-2[data-margin="large"] {
+.emotion-8[data-margin="large"] {
   margin-top: 48px;
   margin-bottom: 12px;
 }
 
-.emotion-2[data-margin="small"] {
+.emotion-8[data-margin="small"] {
   margin-top: 24px;
   margin-bottom: 12px;
 }
 
-.emotion-2[data-style="h1"] {
+.emotion-8[data-style="h1"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-2[data-style="h1"]:where([lang='zh'], .emotion-2[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="h1"]:where([lang='zh'], .emotion-8[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2[data-style="h1"] {
+  .emotion-8[data-style="h1"] {
     font-size: 48px;
     font-size: 2.6666666666666665rem;
     line-height: 60px;
     margin-bottom: 24px;
   }
 
-  .emotion-2[data-style="h1"]:where([lang='zh'], .emotion-2[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-8[data-style="h1"]:where([lang='zh'], .emotion-8[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
 }
 
-.emotion-2[data-style="h1-resource"] {
+.emotion-8[data-style="h1-resource"] {
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-2[data-style="h1-resource"]:where([lang='zh'], .emotion-2[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="h1-resource"]:where([lang='zh'], .emotion-8[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2[data-style="h1-resource"] {
+  .emotion-8[data-style="h1-resource"] {
     font-size: 38px;
     font-size: 2.111111111111111rem;
     line-height: 48px;
   }
 
-  .emotion-2[data-style="h1-resource"]:where([lang='zh'], .emotion-2[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-8[data-style="h1-resource"]:where([lang='zh'], .emotion-8[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
-.emotion-2[data-style="h2"] {
+.emotion-8[data-style="h2"] {
   font-size: 28px;
   font-size: 1.5555555555555556rem;
   line-height: 36px;
 }
 
-.emotion-2[data-style="h2"]:where([lang='zh'], .emotion-2[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="h2"]:where([lang='zh'], .emotion-8[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2[data-style="h2"] {
+  .emotion-8[data-style="h2"] {
     font-size: 30px;
     font-size: 1.6666666666666667rem;
     line-height: 38px;
   }
 
-  .emotion-2[data-style="h2"]:where([lang='zh'], .emotion-2[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-8[data-style="h2"]:where([lang='zh'], .emotion-8[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
 }
 
-.emotion-2[data-style="h3"] {
+.emotion-8[data-style="h3"] {
   font-size: 26px;
   font-size: 1.4444444444444444rem;
   line-height: 35px;
 }
 
-.emotion-2[data-style="h3"]:where([lang='zh'], .emotion-2[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="h3"]:where([lang='zh'], .emotion-8[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-2[data-style="h3"] {
+  .emotion-8[data-style="h3"] {
     font-size: 26px;
     font-size: 1.4444444444444444rem;
     line-height: 36px;
   }
 
-  .emotion-2[data-style="h3"]:where([lang='zh'], .emotion-2[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-8[data-style="h3"]:where([lang='zh'], .emotion-8[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
 }
 
-.emotion-2[data-style="h4"] {
+.emotion-8[data-style="h4"] {
   font-size: 22px;
   font-size: 1.2222222222222223rem;
   line-height: 30px;
 }
 
-.emotion-2[data-style="h4"]:where([lang='zh'], .emotion-2[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="h4"]:where([lang='zh'], .emotion-8[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-2[data-style="list-title"] {
+.emotion-8[data-style="list-title"] {
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
 }
 
-.emotion-2[data-style="list-title"]:where([lang='zh'], .emotion-2[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-8[data-style="list-title"]:where([lang='zh'], .emotion-8[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-3 {
+.emotion-9 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 400;
   font-size: 20px;
@@ -211,29 +324,33 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 31px;
 }
 
-.emotion-3:where([lang='zh'], .emotion-3[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-9:where([lang='zh'], .emotion-9[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-3 {
+  .emotion-9 {
     font-size: 24px;
     font-size: 1.3333333333333333rem;
     line-height: 35px;
   }
 
-  .emotion-3:where([lang='zh'], .emotion-3[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-9:where([lang='zh'], .emotion-9[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(24px * 1.11);
     font-size: calc(1.3333333333333333rem * 1.11);
   }
 }
 
-.emotion-4[data-align="center"] {
+.emotion-10 {
+  margin-top: 24px;
+}
+
+.emotion-12[data-align="center"] {
   text-align: center;
 }
 
-.emotion-6 {
+.emotion-14 {
   margin-top: 24px;
   padding-top: 24px;
   padding-bottom: 6px;
@@ -245,12 +362,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #4d4d4d;
 }
 
-.emotion-6:where([lang='zh'], .emotion-6[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-14:where([lang='zh'], .emotion-14[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-8 {
+.emotion-16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -263,7 +380,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-8 {
+  .emotion-16 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -274,7 +391,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-8[data-learning-path="true"] {
+.emotion-16[data-learning-path="true"] {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -284,7 +401,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-10 {
+.emotion-18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -293,7 +410,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   padding-right: 6px;
 }
 
-.emotion-12 {
+.emotion-20 {
   color: #20588f;
   font-weight: 700;
   -webkit-text-decoration: underline;
@@ -302,17 +419,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   box-shadow: none;
 }
 
-.emotion-12:hover,
-.emotion-12:focus-within {
+.emotion-20:hover,
+.emotion-20:focus-within {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-14 {
+.emotion-22 {
   margin-left: 4px;
 }
 
-.emotion-16 {
+.emotion-24 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -323,15 +440,15 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-18 {
+.emotion-26 {
   border: 1px solid #ceddea;
 }
 
-.emotion-18[data-state="open"] {
+.emotion-26[data-state="open"] {
   border-color: #20588f;
 }
 
-.emotion-20 {
+.emotion-28 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -339,7 +456,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0;
 }
 
-.emotion-23 {
+.emotion-31 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -372,32 +489,32 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-23[data-state="open"] {
+.emotion-31[data-state="open"] {
   background-color: #deebf6;
   border-bottom: 1px solid #20588f;
 }
 
-.emotion-23:hover,
-.emotion-23:focus-visible {
+.emotion-31:hover,
+.emotion-31:focus-visible {
   -webkit-text-decoration: underline;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.emotion-23:focus-visible {
+.emotion-31:focus-visible {
   outline: 2px solid #20588f;
 }
 
-.emotion-23:where([lang='zh'], .emotion-23[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-31:where([lang='zh'], .emotion-31[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-23[data-background-color="white"][data-state="closed"] {
+.emotion-31[data-background-color="white"][data-state="closed"] {
   background-color: #ffffff;
 }
 
-.emotion-26 {
+.emotion-34 {
   display: inline-block;
   fill: currentColor;
   vertical-align: middle;
@@ -414,33 +531,33 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   height: 24px;
 }
 
-.emotion-24[data-state='open']>.emotion-26 {
+.emotion-32[data-state='open']>.emotion-34 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.emotion-28 {
+.emotion-36 {
   overflow: hidden;
 }
 
-.emotion-28[data-state="open"] {
+.emotion-36[data-state="open"] {
   -webkit-animation: animation-0 300ms ease-out;
   animation: animation-0 300ms ease-out;
 }
 
-.emotion-28[data-state="closed"] {
+.emotion-36[data-state="closed"] {
   -webkit-animation: animation-1 300ms ease-out;
   animation: animation-1 300ms ease-out;
 }
 
-.emotion-28[data-disable-animate="true"] {
+.emotion-36[data-disable-animate="true"] {
   -webkit-animation: none;
   animation: none;
 }
 
-.emotion-30 {
+.emotion-38 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -451,7 +568,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-32 {
+.emotion-40 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -462,7 +579,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-34 {
+.emotion-42 {
   color: #595959;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -471,26 +588,26 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-34:where([lang='zh'], .emotion-34[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-42:where([lang='zh'], .emotion-42[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
-.emotion-36 {
+.emotion-44 {
   color: #595959;
 }
 
-.emotion-40 {
+.emotion-48 {
   width: 120px;
   margin: 0;
   position: relative;
 }
 
-.emotion-40 a {
+.emotion-48 a {
   box-shadow: none;
 }
 
-.emotion-42 {
+.emotion-50 {
   fill: #20588f;
 }
 
@@ -498,23 +615,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     class="emotion-0 emotion-1"
   >
     <main>
-      <div>
-        <article
-          class="c-article c-article--clean c-article--iframe"
-          data-ndla-article=""
+      <article
+        class="emotion-2 emotion-3"
+        data-ndla-article=""
+      >
+        <section
+          class="u-10/12 u-push-1/12"
         >
-          <section
-            class="u-10/12 u-push-1/12"
+          <div
+            class="emotion-4 emotion-5"
           >
             <div
-              class="c-article__header"
+              class="emotion-6 emotion-7"
             >
-              <div
-                class="c-article__title"
-              >
+              <hgroup>
                 <h1
-                  class="emotion-2"
-                  data-margin="normal"
+                  class="emotion-8"
+                  data-margin="none"
                   data-style="h1-resource"
                   id="54"
                   lang="no"
@@ -522,191 +639,191 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 >
                   Politiske skillelinjer
                 </h1>
-              </div>
-              <div
-                class="emotion-3"
-                lang="no"
-              >
-                <p>
-                  Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-                </p>
-              </div>
-              <div
-                class="c-article__competence"
-              />
+              </hgroup>
             </div>
-          </section>
-          <section
-            class="u-10/12 u-push-1/12"
-          >
-            <section>
-              <p
-                class="emotion-4 emotion-5"
-                lang="no"
-              >
-                Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+            <div
+              class="emotion-9"
+              lang="no"
+            >
+              <p>
+                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
               </p>
-            </section>
+            </div>
+            <div
+              class="emotion-10 emotion-11"
+            />
+          </div>
+        </section>
+        <section
+          class="u-10/12 u-push-1/12"
+        >
+          <section>
+            <p
+              class="emotion-12 emotion-13"
+              lang="no"
+            >
+              Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+            </p>
           </section>
-          <section
-            class="u-10/12 u-push-1/12"
+        </section>
+        <section
+          class="u-10/12 u-push-1/12"
+        >
+          <div
+            class="emotion-14 emotion-15"
           >
             <div
-              class="emotion-6 emotion-7"
+              class="emotion-16 emotion-17"
+              data-learning-path="false"
             >
               <div
-                class="emotion-8 emotion-9"
-                data-learning-path="false"
+                class="emotion-18 emotion-19"
               >
-                <div
-                  class="emotion-10 emotion-11"
+                <a
+                  class="emotion-20 emotion-21"
+                  href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
+                  rel="license"
                 >
-                  <a
-                    class="emotion-12 emotion-13"
-                    href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
-                    rel="license"
-                  >
-                    CC BY-SA
-                  </a>
-                  <span
-                    class="emotion-14 emotion-15"
-                  >
-                    Skrevet av Someone. 
-                  </span>
-                </div>
-                <div>
-                  Sist faglig oppdatert 09.01.2018
-                </div>
+                  CC BY-SA
+                </a>
+                <span
+                  class="emotion-22 emotion-23"
+                >
+                  Skrevet av Someone. 
+                </span>
               </div>
+              <div>
+                Sist faglig oppdatert 09.01.2018
+              </div>
+            </div>
+            <div
+              class="emotion-24 emotion-25"
+              data-orientation="vertical"
+            >
               <div
-                class="emotion-16 emotion-17"
+                class="emotion-26 emotion-27"
                 data-orientation="vertical"
+                data-state="closed"
               >
-                <div
-                  class="emotion-18 emotion-19"
+                <h2
+                  class="emotion-28 emotion-29"
                   data-orientation="vertical"
                   data-state="closed"
                 >
-                  <h2
-                    class="emotion-20 emotion-21"
+                  <button
+                    aria-controls="radix-:r1:"
+                    aria-expanded="false"
+                    class="emotion-30 emotion-31 emotion-32"
+                    data-background-color="blue"
                     data-orientation="vertical"
+                    data-radix-collection-item=""
                     data-state="closed"
+                    id="radix-:r0:"
+                    type="button"
                   >
-                    <button
-                      aria-controls="radix-:r1:"
-                      aria-expanded="false"
-                      class="emotion-22 emotion-23 emotion-24"
-                      data-background-color="blue"
-                      data-orientation="vertical"
-                      data-radix-collection-item=""
-                      data-state="closed"
-                      id="radix-:r0:"
-                      type="button"
-                    >
-                      Regler for bruk
-                      <svg
-                        aria-hidden="true"
-                        class="emotion-25 emotion-26 emotion-27"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="Material Design"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                        />
-                        <path
-                          d="M0 0h24v24H0z"
-                          fill="none"
-                        />
-                      </svg>
-                    </button>
-                  </h2>
-                  <div
-                    aria-labelledby="radix-:r0:"
-                    class="emotion-28 emotion-29"
-                    data-orientation="vertical"
-                    data-state="closed"
-                    hidden=""
-                    id="radix-:r1:"
-                    role="region"
-                    style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-          <section
-            class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
-          >
-            <div
-              class="emotion-30 emotion-31"
-            >
-              <div
-                class="emotion-32 emotion-33"
-              >
-                <div
-                  class="emotion-34 emotion-35"
-                >
-                  <a
-                    class="emotion-36 emotion-37"
-                    href="https://test.ndla.no/subject:1/resource:1"
-                    target="_blank"
-                  >
-                    Ressursen
-                  </a>
-                   er hentet fra 
-                  <a
-                    class="emotion-36 emotion-37"
-                    href="https://ndla.no"
-                    target="_blank"
-                  >
-                    NDLA
-                  </a>
-                </div>
-                <div
-                  class="emotion-40 emotion-41"
-                >
-                  <a
-                    aria-label="NDLA"
-                    href="https://ndla.no"
-                    title="NDLA"
-                  >
+                    Regler for bruk
                     <svg
-                      class="emotion-42 emotion-43"
-                      fill="#000000"
-                      fill-rule="evenodd"
-                      viewBox="0 0 376 152"
-                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      class="emotion-33 emotion-34 emotion-35"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      fill="currentColor"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
                     >
                       <path
-                        d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
-                      />
-                      <rect
-                        height="118"
-                        transform="matrix(-1 0 0 1 490 0)"
-                        width="18"
-                        x="236"
+                        d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
                       />
                       <path
-                        d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
-                      />
-                      <polygon
-                        points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
-                      />
-                      <path
-                        d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
+                        d="M0 0h24v24H0z"
+                        fill="none"
                       />
                     </svg>
-                  </a>
-                </div>
+                  </button>
+                </h2>
+                <div
+                  aria-labelledby="radix-:r0:"
+                  class="emotion-36 emotion-37"
+                  data-orientation="vertical"
+                  data-state="closed"
+                  hidden=""
+                  id="radix-:r1:"
+                  role="region"
+                  style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
+                />
               </div>
             </div>
-          </section>
-        </article>
-      </div>
+          </div>
+        </section>
+        <section
+          class="u-10/12@desktop u-push-1/12@desktop u-10/12@tablet u-push-1/12@tablet"
+        >
+          <div
+            class="emotion-38 emotion-39"
+          >
+            <div
+              class="emotion-40 emotion-41"
+            >
+              <div
+                class="emotion-42 emotion-43"
+              >
+                <a
+                  class="emotion-44 emotion-45"
+                  href="https://test.ndla.no/subject:1/resource:1"
+                  target="_blank"
+                >
+                  Ressursen
+                </a>
+                 er hentet fra 
+                <a
+                  class="emotion-44 emotion-45"
+                  href="https://ndla.no"
+                  target="_blank"
+                >
+                  NDLA
+                </a>
+              </div>
+              <div
+                class="emotion-48 emotion-49"
+              >
+                <a
+                  aria-label="NDLA"
+                  href="https://ndla.no"
+                  title="NDLA"
+                >
+                  <svg
+                    class="emotion-50 emotion-51"
+                    fill="#000000"
+                    fill-rule="evenodd"
+                    viewBox="0 0 376 152"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
+                    />
+                    <rect
+                      height="118"
+                      transform="matrix(-1 0 0 1 490 0)"
+                      width="18"
+                      x="236"
+                    />
+                    <path
+                      d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
+                    />
+                    <polygon
+                      points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
+                    />
+                    <path
+                      d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
     </main>
   </div>
 </DocumentFragment>
