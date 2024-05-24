@@ -25,7 +25,7 @@ import {
   GQLFolderResourceMeta,
   GQLFolderResourceResourceType,
 } from "../../../graphqlTypes";
-import { routes, toArticle } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../folderMutations";
@@ -159,12 +159,9 @@ const DraggableResource = ({
 
   const [resourceType, resourcePath, resourceTitle] = useMemo(() => {
     let resType: GQLFolderResourceResourceType[] = [];
+    let resPath = resource.path;
 
     if (!resourceMeta) {
-      let resPath = resource.path;
-      if (resource.resourceType === "article") {
-        resPath = toArticle(Number(resource.resourceId), resource, "");
-      }
       return [resType, resPath, t("myNdla.sharedFolder.resourceRemovedTitle")];
     }
 
@@ -172,9 +169,12 @@ const DraggableResource = ({
       resType = resourceMeta.resourceTypes;
     } else {
       resType = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
+      if (resource.resourceType === "article") {
+        resPath = `/article/${resource.resourceId}`;
+      }
     }
 
-    return [resType, resource.path, resourceMeta.title];
+    return [resType, resPath, resourceMeta.title];
   }, [resource, resourceMeta, t]);
 
   return (
