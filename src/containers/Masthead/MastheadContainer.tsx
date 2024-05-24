@@ -13,7 +13,8 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
-import { Masthead, LanguageSelector, Logo } from "@ndla/ui";
+import { LanguageSelector, Logo } from "@ndla/ui";
+import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
 import { useAlerts } from "../../components/AlertsContext";
@@ -85,7 +86,6 @@ const MastheadContainer = () => {
   const data = subjectId ? freshData ?? previousData : undefined;
 
   const alerts = openAlerts?.map((alert) => ({
-    // @ts-ignore Too many changes in frontend-packages just now. Will change Masthead later.
     content: alert.body ? parse(alert.body) : alert.title,
     closable: alert.closable,
     number: alert.number,
@@ -98,7 +98,6 @@ const MastheadContainer = () => {
         ndlaFilm={ndlaFilm}
         skipToMainContentId={SKIP_TO_CONTENT_ID}
         onCloseAlert={(id) => closeAlert(id)}
-        // @ts-ignore
         messages={alerts}
       >
         <DrawerWrapper>
