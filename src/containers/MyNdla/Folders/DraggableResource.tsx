@@ -168,7 +168,7 @@ const DraggableResource = ({
       return [resType, resPath, t("myNdla.sharedFolder.resourceRemovedTitle")];
     }
 
-    if (resourceMeta.resourceTypes) {
+    if (resourceMeta.resourceTypes && resourceMeta.resourceTypes.length > 0) {
       resType = resourceMeta.resourceTypes;
     } else {
       resType = [{ id: resource.resourceType, name: resource.resourceType }];
