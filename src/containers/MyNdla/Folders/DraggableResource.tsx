@@ -171,7 +171,7 @@ const DraggableResource = ({
     if (resourceMeta.resourceTypes && resourceMeta.resourceTypes.length > 0) {
       resType = resourceMeta.resourceTypes;
     } else {
-      resType = [{ id: resource.resourceType, name: resource.resourceType }];
+      resType = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
     }
 
     return [resType, resource.path, resourceMeta.title];
