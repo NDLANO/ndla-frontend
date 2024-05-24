@@ -199,7 +199,7 @@ const SaveLinkContent = ({
           />
           <MessageBox>
             <InformationOutline />
-            <Text margin="none">{t(`myNdla.folder.sharing.save.warning`)}</Text>
+            <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
           </MessageBox>
         </Content>
         <ButtonRow>
@@ -213,7 +213,7 @@ const SaveLinkContent = ({
               setShowTrigger();
             }}
           >
-            {t("Save the link")}
+            {t("myNdla.folder.sharing.button.saveLink")}
           </ButtonV2>
         </ButtonRow>
       </ModalBody>

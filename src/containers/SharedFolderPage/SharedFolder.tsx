@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2023-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,7 +10,7 @@ import keyBy from "lodash/keyBy";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { HumanMaleBoard } from "@ndla/icons/common";
 import { Text } from "@ndla/typography";
 import { BlockResource, Folder, ListResource } from "@ndla/ui";
@@ -42,7 +42,7 @@ const SharedFolderInformationWrapper = styled.div`
   gap: ${spacing.nsmall};
   padding: ${spacing.normal};
   border: 2px solid ${colors.brand.neutral7};
-  border-radius: 4px;
+  border-radius: ${misc.borderRadius};
 
   margin: ${spacing.small} 0;
 

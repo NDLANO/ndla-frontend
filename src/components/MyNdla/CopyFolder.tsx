@@ -16,6 +16,7 @@ import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -59,7 +60,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           <Folder
             id={folder.id.toString()}
             title={folder.name ?? ""}
-            link={`/folder/${folder.id}`}
+            link={routes.folder(folder.id)}
             isShared={true}
             subFolders={folderCount.folders}
             subResources={folderCount.resources}
