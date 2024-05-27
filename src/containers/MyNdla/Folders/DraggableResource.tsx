@@ -164,7 +164,7 @@ const DraggableResource = ({
     : [];
 
   const resourcePath =
-    resourceMeta && resourceMeta.resourceTypes.length === 0 && resource.resourceType === "article"
+    !!resourceMeta?.resourceTypes.length && resource.resourceType === "article"
       ? `/article/${resource.resourceId}`
       : resource.path;
 
