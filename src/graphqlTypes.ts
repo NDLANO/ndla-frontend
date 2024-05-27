@@ -2166,19 +2166,6 @@ export type GQLWithArticle = {
   meta?: Maybe<GQLMeta>;
 };
 
-export type GQLArticleConceptEmbedsQueryVariables = Exact<{
-  resources: Array<GQLResourceEmbedInput> | GQLResourceEmbedInput;
-}>;
-
-export type GQLArticleConceptEmbedsQuery = {
-  __typename?: "Query";
-  resourceEmbeds: {
-    __typename?: "ResourceEmbed";
-    content: string;
-    meta: { __typename?: "ResourceMetaData" } & GQLNotionsContent_MetaFragment;
-  };
-};
-
 export type GQLArticle_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2237,10 +2224,6 @@ export type GQLArticleContents_ArticleFragment = {
     };
   };
 } & GQLLicenseBox_ArticleFragment;
-
-export type GQLNotionsContent_MetaFragment = {
-  __typename?: "ResourceMetaData";
-} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename: "MyNdlaPersonalData";
@@ -2303,16 +2286,19 @@ export type GQLLearningpath_LearningpathStepFragment = {
   description?: string;
   license?: { __typename?: "License"; license: string };
 } & GQLLearningpathEmbed_LearningpathStepFragment &
-  GQLLearningpathMenu_LearningpathStepFragment;
+  GQLLearningpathMenu_LearningpathStepFragment &
+  GQLLearningpathFooter_LearningpathStepFragment;
 
 export type GQLLearningpath_ResourceFragment = {
   __typename?: "Resource";
   path: string;
-} & GQLLearningpathMenu_ResourceFragment;
+} & GQLLearningpathMenu_ResourceFragment &
+  GQLLearningpathFooter_ResourceFragment;
 
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
-} & GQLLearningpathMenu_LearningpathFragment;
+} & GQLLearningpathMenu_LearningpathFragment &
+  GQLLearningpathFooter_LearningpathFragment;
 
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";

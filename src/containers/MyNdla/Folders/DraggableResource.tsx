@@ -157,10 +157,11 @@ const DraggableResource = ({
     transition,
   };
 
-  const resourceTypes: GQLFolderResourceResourceType[] =
-    resourceMeta && resourceMeta.resourceTypes.length > 0
+  const resourceTypes: GQLFolderResourceResourceType[] = resourceMeta
+    ? resourceMeta.resourceTypes.length > 0
       ? resourceMeta.resourceTypes
-      : [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
+      : [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }]
+    : [];
 
   const resourcePath =
     resourceMeta && resourceMeta.resourceTypes.length === 0 && resource.resourceType === "article"

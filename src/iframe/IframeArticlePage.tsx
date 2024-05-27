@@ -108,13 +108,12 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           </LayoutItem>
         )}
         <Article
-          contentTransformed
           article={article}
           isTopicArticle={article.articleType === "topic-article"}
           isPlainArticle
           isOembed
           oembed={article?.oembed}
-          modifier="clean iframe"
+          modifier="clean"
           {...articleProps}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
