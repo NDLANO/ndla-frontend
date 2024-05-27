@@ -34,6 +34,10 @@ const StyledUl = styled.ul`
   flex-wrap: wrap;
 `;
 
+const StyledTitleWrapper = styled(TitleWrapper)`
+  padding-top: 0;
+`;
+
 const StyledLi = styled.li`
   padding: 0;
 `;
@@ -81,12 +85,12 @@ const MyTags = () => {
   return (
     <MyTagsContainer>
       <HelmetWithTracker title={title} />
-      <TitleWrapper>
+      <StyledTitleWrapper>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
         <Heading element="h2" headingStyle="h2" margin="none">
           {tag ? tag : t("myNdla.myTags")}
         </Heading>
-      </TitleWrapper>
+      </StyledTitleWrapper>
       {!tag && tags.length ? <Tags tags={tags} /> : null}
     </MyTagsContainer>
   );
