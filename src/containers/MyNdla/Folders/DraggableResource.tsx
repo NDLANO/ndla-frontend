@@ -157,25 +157,15 @@ const DraggableResource = ({
     transition,
   };
 
-  const [resourceTypes, resourcePath, resourceTitle] = useMemo(() => {
-    let resTypes: GQLFolderResourceResourceType[] = [];
-    let resPath = resource.path;
+  const resourceTypes: GQLFolderResourceResourceType[] =
+    resourceMeta && resourceMeta.resourceTypes.length > 0
+      ? resourceMeta.resourceTypes
+      : [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
 
-    if (!resourceMeta) {
-      return [resTypes, resPath, t("myNdla.sharedFolder.resourceRemovedTitle")];
-    }
-
-    if (resourceMeta.resourceTypes && resourceMeta.resourceTypes.length > 0) {
-      resTypes = resourceMeta.resourceTypes;
-    } else {
-      resTypes = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
-      if (resource.resourceType === "article") {
-        resPath = `/article/${resource.resourceId}`;
-      }
-    }
-
-    return [resTypes, resPath, resourceMeta.title];
-  }, [resource, resourceMeta, t]);
+  const resourcePath =
+    resourceMeta && resourceMeta.resourceTypes.length === 0 && resource.resourceType === "article"
+      ? `/article/${resource.resourceId}`
+      : resource.path;
 
   return (
     <DraggableListItem
@@ -205,7 +195,7 @@ const DraggableResource = ({
           link={resourcePath}
           tags={resource.tags}
           resourceTypes={resourceTypes}
-          title={resourceTitle}
+          title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />
