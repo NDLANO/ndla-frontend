@@ -235,19 +235,6 @@ const FoldersPage = () => {
               setFocusId={setFocusId}
               folderRefId={folderRefId}
             />
-            {!!selectedFolder?.resources.length && (
-              <ResourceCountContainer>
-                <FileDocumentOutline />
-                <span>
-                  {t("myNdla.resources", {
-                    count: selectedFolder?.resources.length,
-                  })}
-                </span>
-              </ResourceCountContainer>
-            )}
-            {selectedFolder && (
-              <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
-            )}
           </>
         )}
         <MyTags />
