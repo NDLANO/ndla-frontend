@@ -157,16 +157,23 @@ const DraggableResource = ({
     transition,
   };
 
-  const resourceTypes: GQLFolderResourceResourceType[] = resourceMeta
-    ? resourceMeta.resourceTypes.length > 0
-      ? resourceMeta.resourceTypes
-      : [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }]
-    : [];
+  const [resourceTypes, resourcePath] = useMemo(() => {
+    let resTypes: GQLFolderResourceResourceType[] = [];
+    let resPath = resource.path;
 
-  const resourcePath =
-    !!resourceMeta?.resourceTypes.length && resource.resourceType === "article"
-      ? `/article/${resource.resourceId}`
-      : resource.path;
+    if (!resourceMeta) return [resTypes, resPath];
+
+    resTypes = resourceMeta.resourceTypes;
+
+    if (resourceMeta.resourceTypes.length < 1) {
+      if (resource.resourceType === "article") {
+        resPath = `/article/${resource.resourceId}`;
+      }
+      resTypes = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
+    }
+
+    return [resTypes, resPath];
+  }, [resourceMeta, resource, t]);
 
   return (
     <DraggableListItem
