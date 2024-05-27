@@ -24,6 +24,7 @@ import { TopicPath } from "../../util/getTopicPath";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
+  margin-top: ${spacing.normal};
 `;
 
 const LinksWrapper = styled.div`
