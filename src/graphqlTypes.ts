@@ -994,9 +994,9 @@ export type GQLMutation = {
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
-  deleteSharedFolder: Scalars["String"]["output"];
   deleteTopic: Scalars["Int"]["output"];
   deleteTopicV2: Scalars["Int"]["output"];
+  favoriteSharedFolder: Scalars["String"]["output"];
   followCategory: GQLArenaCategoryV2;
   followTopic: GQLArenaTopicV2;
   markAllNotificationsAsRead: Scalars["Boolean"]["output"];
@@ -1010,12 +1010,12 @@ export type GQLMutation = {
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
-  saveSharedFolder: Scalars["String"]["output"];
   sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   subscribeToTopic: Scalars["Int"]["output"];
   transformArticleContent: Scalars["String"]["output"];
+  unFavoriteSharedFolder: Scalars["String"]["output"];
   unfollowCategory: GQLArenaCategoryV2;
   unfollowTopic: GQLArenaTopicV2;
   unsubscribeFromTopic: Scalars["Int"]["output"];
@@ -1071,16 +1071,16 @@ export type GQLMutationDeletePostV2Args = {
   postId: Scalars["Int"]["input"];
 };
 
-export type GQLMutationDeleteSharedFolderArgs = {
-  folderId: Scalars["String"]["input"];
-};
-
 export type GQLMutationDeleteTopicArgs = {
   topicId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationDeleteTopicV2Args = {
   topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationFavoriteSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationFollowCategoryArgs = {
@@ -1145,10 +1145,6 @@ export type GQLMutationResolveFlagArgs = {
   flagId: Scalars["Int"]["input"];
 };
 
-export type GQLMutationSaveSharedFolderArgs = {
-  folderId: Scalars["String"]["input"];
-};
-
 export type GQLMutationSortArenaCategoriesArgs = {
   parentId?: InputMaybe<Scalars["Int"]["input"]>;
   sortedIds: Array<Scalars["Int"]["input"]>;
@@ -1175,6 +1171,10 @@ export type GQLMutationTransformArticleContentArgs = {
   previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
   subject?: InputMaybe<Scalars["String"]["input"]>;
   visualElement?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationUnFavoriteSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationUnfollowCategoryArgs = {
@@ -3826,11 +3826,11 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 
 export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
 
-export type GQLSaveSharedFolderMutationVariables = Exact<{
+export type GQLFavoriteSharedFolderMutationVariables = Exact<{
   folderId: Scalars["String"]["input"];
 }>;
 
-export type GQLSaveSharedFolderMutation = { __typename?: "Mutation"; saveSharedFolder: string };
+export type GQLFavoriteSharedFolderMutation = { __typename?: "Mutation"; favoriteSharedFolder: string };
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

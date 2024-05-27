@@ -880,9 +880,9 @@ type Mutation {
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
-  deleteSharedFolder(folderId: String!): String!
   deleteTopic(topicId: Int!): Int!
   deleteTopicV2(topicId: Int!): Int!
+  favoriteSharedFolder(folderId: String!): String!
   followCategory(categoryId: Int!): ArenaCategoryV2!
   followTopic(topicId: Int!): ArenaTopicV2!
   markAllNotificationsAsRead: Boolean!
@@ -902,7 +902,6 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
-  saveSharedFolder(folderId: String!): String!
   sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
@@ -915,6 +914,7 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
+  unFavoriteSharedFolder(folderId: String!): String!
   unfollowCategory(categoryId: Int!): ArenaCategoryV2!
   unfollowTopic(topicId: Int!): ArenaTopicV2!
   unsubscribeFromTopic(topicId: Int!): Int!

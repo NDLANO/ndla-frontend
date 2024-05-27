@@ -36,7 +36,6 @@ const OptionsWrapper = styled.div`
 const SharedFolderInformationWrapper = styled.div`
   max-width: 800px;
   display: flex;
-  flex-direction: row;
   background-color: ${colors.brand.greyLightest};
   align-items: center;
   gap: ${spacing.nsmall};
@@ -56,7 +55,6 @@ const StyledRow = styled.div`
   gap: ${spacing.nsmall};
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
 `;
 
 const StyledInformationIcon = styled(HumanMaleBoard)`

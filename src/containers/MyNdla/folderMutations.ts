@@ -21,6 +21,7 @@ import {
   GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
+  GQLFavoriteSharedFolderMutation,
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
   GQLFolder,
@@ -33,14 +34,13 @@ import {
   GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
-  GQLMutationSaveSharedFolderArgs,
+  GQLMutationFavoriteSharedFolderArgs,
   GQLMutationSortFoldersArgs,
   GQLMutationSortResourcesArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
-  GQLSaveSharedFolderMutation,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
@@ -702,13 +702,13 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
 };
 
 const saveSharedFolderMutation = gql`
-  mutation saveSharedFolder($folderId: String!) {
-    saveSharedFolder(folderId: $folderId)
+  mutation favoriteSharedFolder($folderId: String!) {
+    favoriteSharedFolder(folderId: $folderId)
   }
 `;
 
 export const useSaveFolderResourceMutation = (folderId: string) => {
-  const [saveSharedFolder] = useMutation<GQLSaveSharedFolderMutation, GQLMutationSaveSharedFolderArgs>(
+  const [saveSharedFolder] = useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     saveSharedFolderMutation,
     {
       variables: { folderId },

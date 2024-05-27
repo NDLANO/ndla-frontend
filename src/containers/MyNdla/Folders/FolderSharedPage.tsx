@@ -56,6 +56,11 @@ const FolderSharedPage = () => {
     includeSubfolders: true,
   });
 
+  useEffect(() => {
+    if (!sharedFolders) return;
+    setShowSaveLinkButton(!sharedFolders?.some((f) => f.id === folderId));
+  }, [folderId, sharedFolders]);
+
   const loading = foldersLoading || sharedFolderLoading;
 
   const buttons = useMemo(() => {
@@ -69,7 +74,7 @@ const FolderSharedPage = () => {
       </CopyFolderModal>
     );
 
-    const saveLink = <SaveLink setShowTrigger={() => setShowSaveLinkButton(false)} folder={folder} />;
+    const saveLink = <SaveLink hideTrigger={() => setShowSaveLinkButton(false)} folder={folder} />;
     const actions = [copyFolder];
 
     if (showSaveLinkButton) {
@@ -93,7 +98,7 @@ const FolderSharedPage = () => {
       isModal: true,
       icon: <Subject />,
       modalContent: (close) => (
-        <SaveLinkContent setShowTrigger={() => setShowSaveLinkButton(false)} folder={folder} onClose={close} />
+        <SaveLinkContent hideTrigger={() => setShowSaveLinkButton(false)} folder={folder} onClose={close} />
       ),
     };
 
@@ -106,20 +111,19 @@ const FolderSharedPage = () => {
     return <SettingsMenu menuItems={actions} />;
   }, [folder, showSaveLinkButton]);
 
-  useEffect(() => {
-    if (!sharedFolders) return;
-    setShowSaveLinkButton(!sharedFolders?.some((f) => f.id === folderId));
-  }, [folderId, sharedFolders]);
-
   if (!authenticated) {
     return <Navigate to={routes.folder(folderId)} />;
   }
 
   if (loading) {
     return <Spinner />;
-  } else if (error?.graphQLErrors[0]?.extensions?.status === 404) {
+  }
+
+  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
-  } else if (error || !folder) {
+  }
+
+  if (error || !folder) {
     return <ErrorPage />;
   }
 
@@ -150,10 +154,10 @@ const ButtonRow = styled.div`
 
 interface SaveLinkProps {
   folder: GQLFolder;
-  setShowTrigger: () => void;
+  hideTrigger: () => void;
 }
 
-const SaveLink = ({ folder, setShowTrigger }: SaveLinkProps) => {
+const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   return (
@@ -164,22 +168,28 @@ const SaveLink = ({ folder, setShowTrigger }: SaveLinkProps) => {
           {t("myNdla.folder.sharing.button.saveLink")}
         </ButtonV2>
       </ModalTrigger>
-      <SaveLinkContent setShowTrigger={setShowTrigger} folder={folder} onClose={() => setOpen(false)} />
+      <SaveLinkContent hideTrigger={hideTrigger} folder={folder} onClose={() => setOpen(false)} />
     </Modal>
   );
 };
 
 interface SaveLinkContentProps extends SaveLinkProps {
   onClose: VoidFunction;
-  setShowTrigger: () => void;
+  hideTrigger: () => void;
 }
 
 const SaveLinkContent = ({
   folder: { id, name, subfolders, resources, status },
   onClose,
-  setShowTrigger,
+  hideTrigger,
 }: SaveLinkContentProps) => {
   const { saveSharedFolder } = useSaveFolderResourceMutation(id);
+
+  const onSaveLink = () => {
+    saveSharedFolder();
+    onClose();
+    hideTrigger();
+  };
 
   return (
     <ModalContent>
@@ -206,15 +216,7 @@ const SaveLinkContent = ({
           <ButtonV2 variant="outline" onClick={onClose}>
             {t("close")}
           </ButtonV2>
-          <ButtonV2
-            onClick={() => {
-              saveSharedFolder();
-              onClose();
-              setShowTrigger();
-            }}
-          >
-            {t("myNdla.folder.sharing.button.saveLink")}
-          </ButtonV2>
+          <ButtonV2 onClick={onSaveLink}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
         </ButtonRow>
       </ModalBody>
     </ModalContent>
