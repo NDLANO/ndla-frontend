@@ -170,9 +170,6 @@ const AppRoutes = ({ base }: AppProps) => {
                       />
                     </Route>
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
-                    {config.folderRedesign && (
-                      <Route path="shared/:folderId" element={<PrivateRoute element={<FolderSharedPage />} />} />
-                    )}
                   </Route>
                   <Route path="arena">
                     <Route index element={<PrivateRoute element={<ArenaPage />} />} />

@@ -6,16 +6,14 @@
  *
  */
 
-import { useContext, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { OneColumn } from "@ndla/ui";
 import SharedFolder from "./SharedFolder";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
-import { routes } from "../../routeHelpers";
 import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder } from "../MyNdla/folderMutations";
 import { ViewType } from "../MyNdla/Folders/FoldersPage";
@@ -35,7 +33,6 @@ const FoldersPageContainer = styled.div`
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
-  const { authenticated } = useContext(AuthContext);
 
   const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
@@ -43,15 +40,13 @@ const SharedFolderPageV2 = () => {
     includeSubfolders: true,
   });
 
-  if (authenticated) {
-    return <Navigate to={routes.myNdla.folderShared(folderId)} />;
-  }
-
   if (loading) {
     return <Spinner />;
-  } else if (error?.graphQLErrors[0]?.extensions?.status === 404) {
+  }
+  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;
-  } else if (error || !folder) {
+  }
+  if (error || !folder) {
     return <ErrorPage />;
   }
 

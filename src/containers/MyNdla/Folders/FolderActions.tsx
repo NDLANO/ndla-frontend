@@ -176,7 +176,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       link: routes.folder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
-        navigate(routes.myNdla.folderShared(selectedFolder.id));
+        navigate(routes.folder(selectedFolder.id));
       },
     };
 

@@ -229,7 +229,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           css={buttonCss}
           variant="ghost"
           colorTheme="lighter"
-          to={routes.myNdla.folderShared(selectedFolder.id)}
+          to={routes.folder(selectedFolder.id)}
           aria-label={t("myNdla.folder.sharing.button.goTo")}
           title={t("myNdla.folder.sharing.button.goTo")}
         >

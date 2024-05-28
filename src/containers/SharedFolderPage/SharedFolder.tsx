@@ -7,19 +7,25 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { HumanMaleBoard } from "@ndla/icons/common";
+import { Copy } from "@ndla/icons/action";
+import { HumanMaleBoard, InformationOutline } from "@ndla/icons/common";
+import { Subject } from "@ndla/icons/contentType";
+import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
 import { Text } from "@ndla/typography";
-import { BlockResource, Folder, ListResource } from "@ndla/ui";
+import { BlockResource, Folder, ListResource, MessageBox, useSnack } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
+import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
+import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { FolderTotalCount, getTotalCountForFolder } from "../../util/folderHelpers";
-import { useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
+import { useFolderResourceMetaSearch, useSaveFolderResourceMutation } from "../MyNdla/folderMutations";
 import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
 import FoldersPageTitle from "../MyNdla/Folders/FoldersPageTitle";
 import ListViewOptions from "../MyNdla/Folders/ListViewOptions";
@@ -46,7 +52,7 @@ const SharedFolderInformationWrapper = styled.div`
   margin: ${spacing.small} 0;
 
   ${mq.range({ from: breakpoints.mobileWide })} {
-    margin: ${spacing.normal} 0;
+    margin: ${spacing.large} 0;
   }
 `;
 
@@ -68,6 +74,13 @@ const FolderDescription = styled(Text)`
 
 const ListItem = styled.li`
   list-style: none;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  padding: ${spacing.normal} 0;
+  margin-bottom: ${spacing.normal};
+  gap: ${spacing.small};
 `;
 
 interface Props {
@@ -108,6 +121,20 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
     name: selectedFolder.owner?.name ?? t("myNdla.folder.professional"),
   });
 
+  const getResourceMetaTypes = (resource: GQLFolderResource, resourceMeta?: GQLFolderResourceMeta) =>
+    resourceMeta
+      ? resourceMeta?.resourceTypes.length < 1
+        ? [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }]
+        : resourceMeta.resourceTypes
+      : [];
+
+  const getResourceMetaPath = (resource: GQLFolderResource, resourceMeta: any) =>
+    resourceMeta &&
+    resourceMeta?.resourceTypes.length < 1 &&
+    (resource.resourceType === "article" || resource.resourceType === "learningpath")
+      ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
+      : resource.path;
+
   return (
     <div>
       <SocialMediaMetadata
@@ -118,12 +145,23 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
       >
         <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
-      <SharedFolderInformationWrapper>
-        <StyledInformationIcon />
-        <Text margin="none" textStyle="meta-text-medium">
-          {warningText}
-        </Text>
-      </SharedFolderInformationWrapper>
+      <div>
+        <SharedFolderInformationWrapper>
+          <StyledInformationIcon />
+          <Text margin="none" textStyle="meta-text-medium">
+            {warningText}
+          </Text>
+        </SharedFolderInformationWrapper>
+        <ButtonContainer>
+          <CopyFolderModal folder={selectedFolder}>
+            <ButtonV2 variant="ghost">
+              <Copy />
+              {t("myNdla.folder.copy")}
+            </ButtonV2>
+          </CopyFolderModal>
+          <SaveLink folder={selectedFolder} hideTrigger={() => {}} />
+        </ButtonContainer>
+      </div>
       <FoldersPageTitle key={selectedFolder?.id} selectedFolder={selectedFolder} enableBreadcrumb={false} />
       <FolderDescription margin="none" textStyle="content-alt">
         {selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}
@@ -141,7 +179,7 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
                 id={id}
                 title={name}
                 type={viewType}
-                link={`${!authenticated ? routes.folder(id) : routes.myNdla.folderShared(id)}`}
+                link={routes.folder(id)}
                 subFolders={foldersCount?.[id]?.folders}
                 subResources={foldersCount?.[id]?.resources}
                 isShared={false}
@@ -153,6 +191,7 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
       <BlockWrapper data-type={viewType} data-no-padding={true}>
         {selectedFolder.resources.map((resource) => {
           const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+
           return (
             <ListItem key={resource.id}>
               <Resource
@@ -162,9 +201,9 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
                   src: resourceMeta?.metaImage?.url ?? "",
                   alt: "",
                 }}
-                link={resource.path}
+                link={getResourceMetaPath(resource, resourceMeta)}
                 tags={resource.tags}
-                resourceTypes={resourceMeta?.resourceTypes ?? []}
+                resourceTypes={getResourceMetaTypes(resource, resourceMeta)}
                 title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                 description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
               />
@@ -177,3 +216,95 @@ export const SharedFolder = ({ selectedFolder, resources, viewType, setViewType 
 };
 
 export default SharedFolder;
+
+const Content = styled(ModalBody)`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.normal};
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: ${spacing.small};
+  padding-top: ${spacing.large};
+`;
+
+interface SaveLinkProps {
+  folder: GQLFolder;
+  hideTrigger: () => void;
+}
+
+const SaveLink = ({ folder: { id, name, subfolders, resources, status }, hideTrigger }: SaveLinkProps) => {
+  const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+  const { saveSharedFolder } = useSaveFolderResourceMutation(id);
+  const { authenticated } = useContext(AuthContext);
+  const { addSnack } = useSnack();
+
+  const onSaveLink = () => {
+    saveSharedFolder();
+    hideTrigger();
+    setOpen(false);
+    addSnack({
+      content: t("myNdla.folder.sharing.saveLink"),
+      id: "sharedFolderSaved",
+    });
+  };
+
+  return (
+    <Modal open={open} onOpenChange={() => setOpen(!open)}>
+      <ModalTrigger>
+        <ButtonV2 aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="ghost">
+          <Subject />
+          {t("myNdla.folder.sharing.button.saveLink")}
+        </ButtonV2>
+      </ModalTrigger>
+      {authenticated ? (
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{t("myNdla.folder.sharing.save.header")}</ModalTitle>
+            <ModalCloseButton title={t("modal.closeModal")} />
+          </ModalHeader>
+          <ModalBody>
+            <Content>
+              <Folder
+                id={id}
+                title={name}
+                subFolders={subfolders.length}
+                subResources={resources.length}
+                link={routes.folder(id)}
+                isShared={status === "shared"}
+              />
+              <MessageBox>
+                <InformationOutline />
+                <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
+              </MessageBox>
+            </Content>
+            <ButtonRow>
+              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+                {t("close")}
+              </ButtonV2>
+              <ButtonV2 onClick={onSaveLink}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
+            </ButtonRow>
+          </ModalBody>
+        </ModalContent>
+      ) : (
+        <LoginModalContent
+          title={t("myNdla.loginSaveFolderLinkPitch")}
+          content={
+            <Folder
+              id={id.toString()}
+              title={name ?? ""}
+              link={`/folder/${id}`}
+              isShared={true}
+              subFolders={subfolders.length}
+              subResources={resources.length}
+            />
+          }
+        />
+      )}
+    </Modal>
+  );
+};
