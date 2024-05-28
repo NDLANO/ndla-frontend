@@ -13,7 +13,8 @@ import { matchPath, Outlet, useLocation } from "react-router-dom";
 import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Content, PageContainer, useMastheadHeight } from "@ndla/ui";
+import { useComponentSize } from "@ndla/hooks";
+import { Content, PageContainer } from "@ndla/ui";
 import FeideFooter from "./components/FeideFooter";
 import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
@@ -42,7 +43,7 @@ const StyledPageContainer = styled(PageContainer)`
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  const { height } = useMastheadHeight();
+  const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();
@@ -64,7 +65,7 @@ const Layout = () => {
 
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
-  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex" />;
+  const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
     <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>

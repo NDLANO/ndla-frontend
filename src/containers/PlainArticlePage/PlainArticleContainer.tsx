@@ -80,7 +80,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
     <div>
       <Helmet>
         <title>{`${getDocumentTitle(t, article.title)}`}</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex, nofollow" />
         {scripts.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
@@ -98,7 +98,6 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
       />
       <OneColumn>
         <Article
-          contentTransformed
           isPlainArticle
           id={skipToContentId}
           article={article}

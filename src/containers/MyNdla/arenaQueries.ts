@@ -35,6 +35,24 @@ const arenaUserFragment = gql`
   }
 `;
 
+export const topiclessArenaCategoryV2Fragment = gql`
+  fragment TopiclessArenaCategoryV2 on TopiclessArenaCategoryV2 {
+    __typename
+    id
+    title
+    description
+    topicCount
+    postCount
+    visible
+    isFollowing
+    parentCategoryId
+    breadcrumbs {
+      id
+      title
+    }
+  }
+`;
+
 export const arenaCategoryV2Fragment = gql`
   fragment ArenaCategoryV2 on ArenaCategoryV2 {
     __typename
@@ -44,7 +62,44 @@ export const arenaCategoryV2Fragment = gql`
     topicCount
     postCount
     visible
+    isFollowing
+    parentCategoryId
+    breadcrumbs {
+      id
+      title
+    }
+    subcategories {
+      ...TopiclessArenaCategoryV2
+      subcategories {
+        ...TopiclessArenaCategoryV2
+        subcategories {
+          ...TopiclessArenaCategoryV2
+          subcategories {
+            ...TopiclessArenaCategoryV2
+            subcategories {
+              ...TopiclessArenaCategoryV2
+              subcategories {
+                ...TopiclessArenaCategoryV2
+                subcategories {
+                  ...TopiclessArenaCategoryV2
+                  subcategories {
+                    ...TopiclessArenaCategoryV2
+                    subcategories {
+                      ...TopiclessArenaCategoryV2
+                      subcategories {
+                        ...TopiclessArenaCategoryV2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
+  ${topiclessArenaCategoryV2Fragment}
 `;
 
 export const arenaTopicV2Fragment = gql`
@@ -147,8 +202,12 @@ export const arenaCategoryV2Query = gql`
       topics {
         ...ArenaTopicV2
       }
+      subcategories {
+        ...TopiclessArenaCategoryV2
+      }
     }
   }
+  ${topiclessArenaCategoryV2Fragment}
   ${arenaCategoryV2Fragment}
   ${arenaTopicV2Fragment}
 `;
@@ -190,13 +249,13 @@ const arenaRecentTopics = gql`
 `;
 
 export const useArenaCategoriesV2 = (options: QueryHookOptions<GQLArenaPage2Query, GQLArenaPage2QueryVariables>) => {
-  const { data, loading, error } = useGraphQuery(arenaCategoriesV2Query, options);
-  return { arenaCategories: data?.arenaCategoriesV2, loading, error };
+  const { data, loading, error, refetch } = useGraphQuery(arenaCategoriesV2Query, options);
+  return { arenaCategories: data?.arenaCategoriesV2, loading, error, refetch };
 };
 
 export const useArenaCategory = (options: QueryHookOptions<GQLArenaCategoryV2Query, GQLQueryArenaCategoryV2Args>) => {
-  const { data, loading, error } = useGraphQuery(arenaCategoryV2Query, options);
-  return { arenaCategory: data?.arenaCategoryV2, loading, error };
+  const { data, loading, error, refetch } = useGraphQuery(arenaCategoryV2Query, options);
+  return { arenaCategory: data?.arenaCategoryV2, loading, error, refetch };
 };
 
 export const useArenaTopic = (

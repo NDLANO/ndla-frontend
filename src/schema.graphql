@@ -12,25 +12,44 @@ type ArenaBreadcrumb {
 }
 
 type ArenaCategory {
+  breadcrumbs: [CategoryBreadcrumb!]!
+  children: [ArenaCategory!]
   description: String!
   disabled: Boolean!
   htmlDescription: String!
   id: Int!
   name: String!
+  parentCategoryId: Int
   postCount: Int!
   slug: String!
   topicCount: Int!
   topics: [ArenaTopic!]
 }
 
-type ArenaCategoryV2 {
+type ArenaCategoryV2 implements ArenaCategoryV2Base {
+  breadcrumbs: [CategoryBreadcrumb!]!
+  categoryCount: Int
   description: String!
   id: Int!
   isFollowing: Boolean!
+  parentCategoryId: Int
   postCount: Int!
+  subcategories: [TopiclessArenaCategoryV2!]
   title: String!
   topicCount: Int!
   topics: [ArenaTopicV2!]
+  visible: Boolean!
+}
+
+interface ArenaCategoryV2Base {
+  breadcrumbs: [CategoryBreadcrumb!]!
+  description: String!
+  id: Int!
+  isFollowing: Boolean!
+  parentCategoryId: Int
+  postCount: Int!
+  title: String!
+  topicCount: Int!
   visible: Boolean!
 }
 
@@ -337,6 +356,11 @@ type Category {
   isProgrammeSubject: Boolean!
   subjects: [Subject!]
   title: Title!
+}
+
+type CategoryBreadcrumb {
+  id: Int!
+  title: String!
 }
 
 type CompetenceGoal {
@@ -856,6 +880,7 @@ type Mutation {
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
+  deleteSharedFolder(folderId: String!): Int!
   deleteTopic(topicId: Int!): Int!
   deleteTopicV2(topicId: Int!): Int!
   followCategory(categoryId: Int!): ArenaCategoryV2!
@@ -863,7 +888,7 @@ type Mutation {
   markAllNotificationsAsRead: Boolean!
   markNotificationAsRead(topicIds: [Int!]!): [Int!]!
   markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
-  newArenaCategory(description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
+  newArenaCategory(description: String!, parentCategoryId: Int, title: String!, visible: Boolean!): ArenaCategoryV2!
   newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
   newArenaTopicV2(
     categoryId: Int!
@@ -877,7 +902,8 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
-  sortArenaCategories(sortedIds: [Int!]!): [ArenaCategoryV2!]!
+  saveSharedFolder(folderId: String!): Int!
+  sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   subscribeToTopic(topicId: Int!): Int!
@@ -892,7 +918,13 @@ type Mutation {
   unfollowCategory(categoryId: Int!): ArenaCategoryV2!
   unfollowTopic(topicId: Int!): ArenaTopicV2!
   unsubscribeFromTopic(topicId: Int!): Int!
-  updateArenaCategory(categoryId: Int!, description: String!, title: String!, visible: Boolean!): ArenaCategoryV2!
+  updateArenaCategory(
+    categoryId: Int!
+    description: String!
+    parentCategoryId: Int
+    title: String!
+    visible: Boolean!
+  ): ArenaCategoryV2!
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
@@ -1096,7 +1128,7 @@ type Query {
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
   folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
   folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
-  folders(includeResources: Boolean, includeSubfolders: Boolean): [Folder!]!
+  folders(includeResources: Boolean, includeSubfolders: Boolean): UserFolder!
   frontpage: FrontpageMenu
   groupSearch(
     aggregatePaths: [String!]
@@ -1447,6 +1479,20 @@ type Topic implements TaxonomyEntity & WithArticle {
   url: String
 }
 
+type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {
+  breadcrumbs: [CategoryBreadcrumb!]!
+  categoryCount: Int
+  description: String!
+  id: Int!
+  isFollowing: Boolean!
+  parentCategoryId: Int
+  postCount: Int!
+  subcategories: [TopiclessArenaCategoryV2!]
+  title: String!
+  topicCount: Int!
+  visible: Boolean!
+}
+
 type Transcription {
   pinyin: String
   traditional: String
@@ -1483,6 +1529,11 @@ type UptimeAlert {
   closable: Boolean!
   number: Int!
   title: String!
+}
+
+type UserFolder {
+  folders: [Folder!]!
+  sharedFolders: [Folder!]!
 }
 
 type VideoFolderResourceMeta implements FolderResourceMeta {

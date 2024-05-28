@@ -52,7 +52,7 @@ class PostResizeMessage extends Component<Props, State> {
 
   onWatchHeight = () => {
     this.intervalId = setInterval(() => {
-      const container = document.querySelector(".c-article--iframe");
+      const container = document.querySelector("[data-ndla-article]");
       const height = container ? container.scrollHeight + 35 : 0;
       if (this.state.height !== height) {
         this.resizer();
@@ -68,7 +68,7 @@ class PostResizeMessage extends Component<Props, State> {
   };
 
   resizer = (width: number | undefined = undefined) => {
-    const container = document.querySelector(".c-article--iframe");
+    const container = document.querySelector("[data-ndla-article]");
     const height = container ? container.scrollHeight + 35 : 0;
     const newState = width !== undefined ? { width, height } : { height };
     this.setState(newState, () =>

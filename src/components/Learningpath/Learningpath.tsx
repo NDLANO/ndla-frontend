@@ -7,7 +7,6 @@
  */
 
 import parse from "html-react-parser";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
@@ -15,22 +14,11 @@ import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
 import { useWindowSize } from "@ndla/hooks";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading, Text } from "@ndla/typography";
-import {
-  LearningPathMenu,
-  LearningPathStickySibling,
-  LearningPathStickyPlaceholder,
-  LearningPathSticky,
-  constants,
-  HomeBreadcrumb,
-  HeroContent,
-  OneColumn,
-  LicenseLink,
-  LayoutItem,
-  LearningPathBadge,
-} from "@ndla/ui";
+import { HomeBreadcrumb, HeroContent, OneColumn, LicenseLink, LayoutItem, LearningPathBadge } from "@ndla/ui";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed from "./LearningpathEmbed";
-import config from "../../config";
+import LearningpathFooter from "./LearningpathFooter";
+import LearningpathMenu from "./LearningpathMenu";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -40,13 +28,8 @@ import {
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { toLearningPath, useIsNdlaFilm } from "../../routeHelpers";
-import { getContentType } from "../../util/getContentType";
+import { useIsNdlaFilm } from "../../routeHelpers";
 import { TopicPath } from "../../util/getTopicPath";
-import FavoriteButton from "../Article/FavoritesButton";
-import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
-
-const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -63,33 +46,30 @@ interface Props {
 const StyledHeroContent = styled(HeroContent)`
   display: none;
 
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
   }
 `;
 
 const StyledLearningpathContent = styled.div`
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
     border-top: 1px solid ${colors.brand.greyLight};
     margin-top: ${spacing.small};
-    padding-top: ${spacing.nsmall}px;
+    padding-top: ${spacing.nsmall};
   }
 `;
 
 const StyledOneColumn = styled(OneColumn)`
-  ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.desktop })} {
     &[data-inverted="true"] {
       color: ${colors.white};
     }
   }
 `;
 
-const StepInfoText = styled(Text)`
-  white-space: nowrap;
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: none;
-  }
+const LearningPathContent = styled.div`
+  width: 100%;
 `;
 
 const MobileHeaderWrapper = styled.div`
@@ -98,6 +78,7 @@ const MobileHeaderWrapper = styled.div`
   background: ${colors.brand.lighter};
   margin: 0 -${spacing.normal} ${spacing.medium};
   padding: ${spacing.small} ${spacing.normal};
+  align-items: center;
 `;
 
 const LearningPathWrapper = styled.section`
@@ -106,7 +87,7 @@ const LearningPathWrapper = styled.section`
   margin: 0 auto;
 
   &[data-inverted="true"] {
-    ${mq.range({ until: breakpoints.tablet })} {
+    ${mq.range({ until: breakpoints.desktop })} {
       background: #fff;
     }
   }
@@ -125,73 +106,15 @@ const Learningpath = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const ndlaFilm = useIsNdlaFilm();
-  const { id, learningsteps, lastUpdated, copyright, title } = learningpath;
-
-  const lastUpdatedDate = new Date(lastUpdated);
-
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
-    lastUpdatedDate.getMonth() + 1
-  }.${lastUpdatedDate.getFullYear()}`;
-
-  const { contentTypes } = constants;
-
-  const mappedLearningsteps = learningsteps.map((step) => {
-    const type = step.resource ? getContentType(step.resource) : undefined;
-    return {
-      ...step,
-      type: type ?? contentTypes.LEARNING_PATH,
-    };
-  });
-
-  const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${id}`;
-
-  const [viewedSteps, setViewedSteps] = useState({});
-
-  const updateViewedSteps = () => {
-    if (learningpath && learningpathStep && learningpathStep.seqNo !== undefined) {
-      const currentViewedSteps = window.localStorage.getItem(storageKey);
-      const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
-      setViewedSteps(updatedViewedSteps);
-      updatedViewedSteps[learningpathStep.id] = true;
-      window.localStorage.setItem(storageKey, JSON.stringify(updatedViewedSteps));
-    }
-  };
-
-  useEffect(() => updateViewedSteps(), [learningpathStep.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const { innerWidth } = useWindowSize(100);
-  const mobileView = innerWidth < 601;
-  const learningPathMenu = (
-    <LearningPathMenu
-      invertedStyle={ndlaFilm}
-      learningPathId={id}
-      learningsteps={mappedLearningsteps}
-      toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
-      lastUpdated={lastUpdatedString}
-      copyright={copyright}
-      currentIndex={learningpathStep.seqNo}
-      name={title}
-      cookies={viewedSteps}
-      learningPathURL={config.learningPathDomain}
-      heartButton={
-        resource?.path &&
-        config.feideEnabled && (
-          <AddResourceToFolderModal
-            resource={{
-              id: learningpath.id.toString(),
-              path: resource.path,
-              resourceType: "learningpath",
-            }}
-          >
-            <FavoriteButton path={resource.path} />
-          </AddResourceToFolderModal>
-        )
-      }
-    />
-  );
+  const mobileView = innerWidth < 981;
 
-  const previousStep = learningsteps[learningpathStep.seqNo - 1];
-  const nextStep = learningsteps[learningpathStep.seqNo + 1];
+  const learningpathMenu = (
+    <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />
+  );
+  const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
+  const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
   return (
     <LearningPathWrapper data-inverted={ndlaFilm}>
@@ -203,16 +126,16 @@ const Learningpath = ({
       <StyledLearningpathContent>
         {mobileView ? (
           <MobileHeaderWrapper>
-            <LearningPathBadge size="xx-small" background />
+            <LearningPathBadge size="small" background />
             <Text margin="none" textStyle="meta-text-small">
               {t("learningPath.youAreInALearningPath")}
             </Text>
           </MobileHeaderWrapper>
         ) : (
-          learningPathMenu
+          learningpathMenu
         )}
         {learningpathStep && (
-          <div data-testid="learningpath-content">
+          <LearningPathContent data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <StyledOneColumn data-inverted={ndlaFilm}>
                 <LayoutItem layout="center">
@@ -238,44 +161,23 @@ const Learningpath = ({
               topicPath={topicPath}
               resourceTypes={resourceTypes}
               seqNo={learningpathStep.seqNo}
-              numberOfLearningSteps={learningsteps.length - 1}
-              title={title}
+              numberOfLearningSteps={learningpath.learningsteps.length - 1}
+              title={learningpath.title}
               subject={subject}
             />
-          </div>
+          </LearningPathContent>
         )}
       </StyledLearningpathContent>
-      <LearningPathSticky>
-        {mobileView && learningPathMenu}
-        {previousStep ? (
-          <LearningPathStickySibling
-            arrow="left"
-            pathId={learningpath.id}
-            stepId={previousStep.id}
-            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
-            title={previousStep.title}
-          />
-        ) : (
-          <LearningPathStickyPlaceholder />
-        )}
-        <StepInfoText textStyle="meta-text-small" margin="none">
-          {t("learningPath.mobileStepInfo", {
-            totalPages: learningsteps.length,
-            currentPage: learningpathStep.seqNo + 1,
-          })}
-        </StepInfoText>
-        {nextStep ? (
-          <LearningPathStickySibling
-            arrow="right"
-            pathId={learningpath.id}
-            stepId={nextStep.id}
-            toLearningPathUrl={(pathId, stepId) => toLearningPath(pathId, stepId, resource)}
-            title={nextStep.title}
-          />
-        ) : (
-          <LearningPathStickyPlaceholder />
-        )}
-      </LearningPathSticky>
+      <LearningpathFooter
+        resource={resource}
+        mobileView={mobileView}
+        learningPathMenu={learningpathMenu}
+        learningPath={learningpath}
+        totalSteps={learningpath.learningsteps.length}
+        currentStep={learningpathStep.seqNo + 1}
+        previousStep={previousStep}
+        nextStep={nextStep}
+      />
     </LearningPathWrapper>
   );
 };
@@ -313,40 +215,29 @@ Learningpath.fragments = {
         license
       }
       ...LearningpathEmbed_LearningpathStep
+      ...LearningpathMenu_LearningpathStep
+      ...LearningpathFooter_LearningpathStep
     }
+    ${LearningpathMenu.fragments.step}
+    ${LearningpathFooter.fragments.learningpathStep}
     ${LearningpathEmbed.fragments.learningpathStep}
   `,
   resource: gql`
     fragment Learningpath_Resource on Resource {
       path
+      ...LearningpathMenu_Resource
+      ...LearningpathFooter_Resource
     }
+    ${LearningpathMenu.fragments.resource}
+    ${LearningpathFooter.fragments.resource}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {
-      id
-      title
-      lastUpdated
-      copyright {
-        license {
-          license
-        }
-        contributors {
-          type
-          name
-        }
-      }
-      learningsteps {
-        title
-        resource {
-          id
-          resourceTypes {
-            id
-            name
-          }
-        }
-        id
-      }
+      ...LearningpathMenu_Learningpath
+      ...LearningpathFooter_Learningpath
     }
+    ${LearningpathMenu.fragments.learningpath}
+    ${LearningpathFooter.fragments.learningpath}
   `,
 };
 

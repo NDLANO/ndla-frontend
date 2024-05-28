@@ -24,6 +24,7 @@ import { TopicPath } from "../../util/getTopicPath";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
+  margin-top: ${spacing.normal};
 `;
 
 const LinksWrapper = styled.div`
@@ -91,7 +92,7 @@ const LastLearningpathStepInfo = ({
           )}
           {!!linkTopic && (
             <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.subjectHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+              {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
             </Text>
           )}
         </LinksWrapper>

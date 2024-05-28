@@ -70,6 +70,7 @@ export const test = Ptest.extend<ExtendParams>({
       updateContent: "embed",
     });
 
+    await page.goto("/");
     await use(page);
 
     await page.close();

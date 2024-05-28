@@ -15,10 +15,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
+import { useComponentSize } from "@ndla/hooks";
 import { Select } from "@ndla/select";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { ErrorMessage, ContentPlaceholder, OneColumn, constants, getMastheadHeight } from "@ndla/ui";
+import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
@@ -105,6 +106,7 @@ const AllSubjectsPage = () => {
   const selectors = useUserAgent();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
@@ -115,7 +117,7 @@ const AllSubjectsPage = () => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - height - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -123,7 +125,7 @@ const AllSubjectsPage = () => {
         });
       }, 400);
     }
-  }, []);
+  }, [height]);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter || ACTIVE_SUBJECTS);

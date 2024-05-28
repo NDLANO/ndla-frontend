@@ -10,12 +10,15 @@ import { ApolloError, MutationFunctionOptions } from "@apollo/client";
 import config from "../../../../config";
 import {
   Exact,
+  GQLArenaCategoryFragment,
   GQLArenaCategoryV2Fragment,
   GQLArenaNotificationV2Fragment,
   GQLArenaPostV2Fragment,
+  GQLArenaTopicFragment,
   GQLArenaTopicV2Fragment,
   GQLPaginatedNotificationsFragment,
   GQLPaginatedPostsFragment,
+  GQLTopiclessArenaCategoryV2Fragment,
   GQLUpdateTopicV2Mutation,
 } from "../../../../graphqlTypes";
 import * as myndlaMutations from "../../arenaMutations";
@@ -23,9 +26,53 @@ import * as myndlaQueries from "../../arenaQueries";
 import * as nodebbMutations from "../../nodebbMutations";
 import * as nodebbQueries from "../../nodebbQueries";
 
+type ConvertedType =
+  | (GQLArenaCategoryV2Fragment & GQLTopiclessArenaCategoryV2Fragment)
+  | {
+      topics?: GQLArenaTopicV2Fragment[];
+    };
+
+export const convertNodebbCategoryToMyndlaCategory = (
+  nodebbArenaCategory: (GQLArenaCategoryFragment & { topics?: GQLArenaTopicFragment[] }) | undefined,
+): ConvertedType | undefined => {
+  if (!nodebbArenaCategory) return undefined;
+
+  const subcategories: (ConvertedType | undefined)[] | undefined = nodebbArenaCategory?.children?.map((child) => {
+    return convertNodebbCategoryToMyndlaCategory(child);
+  });
+
+  const topics: GQLArenaTopicV2Fragment[] | undefined = nodebbArenaCategory?.topics
+    ?.filter(({ deleted }) => !deleted)
+    ?.map((topic) => {
+      return {
+        ...topic,
+        __typename: "ArenaTopicV2",
+        created: topic.timestamp,
+        isLocked: topic.locked,
+        updated: topic.timestamp,
+      } as GQLArenaTopicV2Fragment;
+    });
+
+  return {
+    ...nodebbArenaCategory,
+    __typename: "ArenaCategoryV2",
+    title: nodebbArenaCategory?.name,
+    visible: true,
+    topicCount: nodebbArenaCategory.topicCount,
+    postCount: 0,
+    isFollowing: false,
+    subcategories,
+    topics,
+  } as GQLArenaCategoryV2Fragment & { topics?: GQLArenaTopicV2Fragment[] };
+};
+
 // NOTE: This file contains hooks that will be removed when nodebb is dead
-export const useArenaCategory = (categoryId: string | undefined) => {
-  const { loading, arenaCategory } = myndlaQueries.useArenaCategory({
+export const useArenaCategory: (categoryId: string | undefined) => {
+  loading: boolean;
+  arenaCategory: (GQLArenaCategoryV2Fragment & { topics?: GQLArenaTopicV2Fragment[] }) | undefined;
+  refetch: () => void;
+} = (categoryId: string | undefined) => {
+  const { loading, arenaCategory, refetch } = myndlaQueries.useArenaCategory({
     variables: { categoryId: Number(categoryId), page: 1 },
     skip: !Number(categoryId) || config.enableNodeBB,
   });
@@ -38,60 +85,50 @@ export const useArenaCategory = (categoryId: string | undefined) => {
   if (config.enableNodeBB)
     return {
       loading: nodebbLoading,
-      arenaCategory: {
-        ...nodebbArenaCategory,
-        title: nodebbArenaCategory?.name,
-        visible: true,
-        topics: nodebbArenaCategory?.topics
-          ?.filter(({ deleted }) => !deleted)
-          .map((topic) => {
-            return {
-              ...topic,
-              created: topic.timestamp,
-              isLocked: topic.locked,
-            };
-          }),
-      },
+      arenaCategory: convertNodebbCategoryToMyndlaCategory(nodebbArenaCategory) as
+        | (GQLArenaCategoryV2Fragment & { topics?: GQLArenaTopicV2Fragment[] })
+        | undefined,
+      refetch: () => {},
     };
 
-  return { loading, arenaCategory };
+  return { loading, arenaCategory, refetch };
 };
 
 export const useArenaCategories: () => {
   loading: boolean;
   error: ApolloError | undefined;
-  arenaCategories: GQLArenaCategoryV2Fragment[] | undefined;
+  arenaCategories: (GQLArenaCategoryV2Fragment & { topics?: GQLArenaTopicV2Fragment })[] | undefined;
+  refetch: () => void;
 } = () => {
   const nodebb = config.enableNodeBB;
   const {
     arenaCategories: nodebbArenaCategories,
     loading: nodebbLoading,
     error: nodebbError,
+    refetch: nodebbRefetch,
   } = nodebbQueries.useArenaCategories({
     skip: !nodebb,
   });
-  const { arenaCategories, loading, error } = myndlaQueries.useArenaCategoriesV2({
+  const { arenaCategories, loading, error, refetch } = myndlaQueries.useArenaCategoriesV2({
     skip: nodebb,
   });
 
-  if (nodebb)
+  if (nodebb) {
     return {
-      arenaCategories: nodebbArenaCategories?.map((cat) => {
-        return {
-          ...cat,
-          title: cat.name,
-          topicCount: undefined,
-          visible: true,
-        };
-      }) as GQLArenaCategoryV2Fragment[] | undefined,
+      arenaCategories: nodebbArenaCategories?.map((cat) => convertNodebbCategoryToMyndlaCategory(cat)) as
+        | GQLArenaCategoryV2Fragment[]
+        | undefined,
       loading: nodebbLoading,
       error: nodebbError,
+      refetch: nodebbRefetch,
     };
+  }
 
   return {
     arenaCategories,
     loading,
     error,
+    refetch,
   };
 };
 
