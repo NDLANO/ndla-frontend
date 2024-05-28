@@ -136,16 +136,6 @@ const SharedFolderPageV2 = () => {
     name: folder?.owner?.name ?? t("myNdla.folder.professional"),
   });
 
-  if (loading) {
-    return <Spinner />;
-  }
-  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
-    return <NotFound />;
-  }
-  if (error || !folder) {
-    return <ErrorPage />;
-  }
-
   const getResourceMetaTypes = (resource: GQLFolderResource, resourceMeta?: GQLFolderResourceMeta) =>
     resourceMeta
       ? resourceMeta?.resourceTypes.length < 1
@@ -159,6 +149,16 @@ const SharedFolderPageV2 = () => {
     (resource.resourceType === "article" || resource.resourceType === "learningpath")
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
+
+  if (loading) {
+    return <Spinner />;
+  }
+  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
+    return <NotFound />;
+  }
+  if (error || !folder) {
+    return <ErrorPage />;
+  }
 
   return (
     <main>
