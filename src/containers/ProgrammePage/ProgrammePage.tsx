@@ -42,8 +42,8 @@ const ProgrammePage = () => {
     [path = "", gradeParam] = splat.split("/");
     contextId = path.split("__")[1];
   } else {
-    contextId = splat.split("/")[0];
-    gradeParam = splat.split("/")[1];
+    contextId = splat.split("/")[1];
+    gradeParam = splat.split("/")[2];
   }
 
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
