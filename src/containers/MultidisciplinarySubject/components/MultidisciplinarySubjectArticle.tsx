@@ -110,7 +110,6 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       <MultidisciplinarySubjectHeader breadcrumbs={breadCrumbs} subjects={subjects} subjectsLinks={subjectLinks} />
       <OneColumn>
         <Article
-          contentTransformed
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}

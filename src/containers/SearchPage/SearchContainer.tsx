@@ -76,10 +76,10 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>) => {
+const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>, showAll: boolean) => {
   return searchGroups.filter((group) => {
     const filter = typeFilter[group.type];
-    return (filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+    return (showAll || filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
   });
 };
 
@@ -126,7 +126,7 @@ const SearchContainer = ({
 
   const filterButtonItems = [];
   for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find((group) => group.type === type)?.items?.length) {
+    if (searchGroups.find((group) => group.type === type)?.items?.length || typeFilter[type]?.selected) {
       filterButtonItems.push({
         value: type,
         label: t(`contentTypes.${type}`),
@@ -137,7 +137,7 @@ const SearchContainer = ({
 
   const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
-  const filteredSortedSearchGroups = showAll ? sortedSearchGroups : filterGroups(sortedSearchGroups, typeFilter);
+  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, typeFilter, showAll);
 
   const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
 

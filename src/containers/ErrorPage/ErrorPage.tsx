@@ -12,11 +12,12 @@ import styled from "@emotion/styled";
 import { ZendeskButton } from "@ndla/button";
 import { stackOrder } from "@ndla/core";
 import { MissingRouterContext } from "@ndla/safelink";
-import { Content, Masthead, Logo, PageContainer } from "@ndla/ui";
+import { Content, Logo, PageContainer } from "@ndla/ui";
 import { Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import Masthead from "../Masthead/components/Masthead";
 import FeideFooter from "../Page/components/FeideFooter";
 import Footer from "../Page/components/Footer";
 
@@ -36,7 +37,7 @@ const ErrorPage = () => {
   return (
     <MissingRouterContext.Provider value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
-        <PageContainer backgroundWide={true} ndlaFilm={false}>
+        <PageContainer backgroundWide={true}>
           <Helmet
             htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
             title="NDLA"

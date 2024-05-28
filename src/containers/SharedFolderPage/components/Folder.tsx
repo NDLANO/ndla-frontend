@@ -121,7 +121,7 @@ interface Props {
 }
 
 const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClose, subfolderKey }: Props) => {
-  const { name, subfolders, resources, status } = folder;
+  const { name, subfolders, resources } = folder;
   const { folderId: rootFolderId, resourceId, subfolderId } = useParams();
   const { t } = useTranslation();
 
@@ -133,8 +133,6 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
   if (isEmpty) {
     return null;
   }
-
-  const preview = status === "private";
 
   const handleKeydown = (e: KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     if (e.key === "ArrowLeft") {
@@ -178,7 +176,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                   <StyledArrow data-open={isOpen} />
                 </ToggleOpenButton>
                 <FolderLink
-                  to={preview ? routes.myNdla.folderPreview(folder.id) : routes.folder(folder.id)}
+                  to={routes.folder(folder.id)}
                   aria-owns={`folder-sublist-${folder.id}`}
                   id={`shared-${folder.id}`}
                   tabIndex={-1}
@@ -216,11 +214,7 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                 <StyledArrow data-open={isOpen} />
               </ToggleOpenButton>
               <FolderLink
-                to={
-                  preview
-                    ? `${routes.myNdla.folderPreview(rootFolderId as string)}/${subfolderKey}`
-                    : `${routes.folder(rootFolderId as string)}/${subfolderKey}`
-                }
+                to={`${routes.folder(rootFolderId as string)}/${subfolderKey}`}
                 aria-owns={`folder-sublist-${folder.id}`}
                 id={`shared-${folder.id}`}
                 tabIndex={-1}
@@ -254,7 +248,6 @@ const Folder = ({ folder, meta, setFocus, defaultOpenFolder, root, level, onClos
                   isLast={i === resources.length - 1}
                   meta={meta[`${resource.resourceType}-${resource.resourceId}`]}
                   resource={resource}
-                  preview={preview}
                 />
               ),
           )}
