@@ -32,7 +32,6 @@ import PostsPage from "./containers/MyNdla/Arena/PostsPage";
 import TopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
-import FolderSharedPage from "./containers/MyNdla/Folders/FolderSharedPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
