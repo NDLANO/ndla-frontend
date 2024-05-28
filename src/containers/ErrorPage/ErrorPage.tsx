@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { ZendeskButton } from "@ndla/button";
 import { stackOrder } from "@ndla/core";
 import { MissingRouterContext } from "@ndla/safelink";
-import { Content, Logo, PageContainer } from "@ndla/ui";
+import { Logo, PageContainer } from "@ndla/ui";
 import { Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
@@ -48,9 +48,9 @@ const ErrorPage = () => {
               <Logo to="/" locale={i18n.language} label={t("logo.altText")} />
             </LogoWrapper>
           </Masthead>
-          <Content>
+          <div>
             <DefaultErrorMessage />
-          </Content>
+          </div>
           <Footer />
           {config.feideEnabled && <FeideFooter />}
           {config.zendeskWidgetKey && (

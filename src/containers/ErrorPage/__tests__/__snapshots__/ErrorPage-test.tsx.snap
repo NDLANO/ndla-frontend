@@ -646,9 +646,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
     </div>
-    <div
-      class="o-content"
-    >
+    <div>
       <div
         class="emotion-12 emotion-13"
       >
