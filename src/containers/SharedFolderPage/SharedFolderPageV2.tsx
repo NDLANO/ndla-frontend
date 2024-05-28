@@ -219,8 +219,7 @@ const SharedFolderPageV2 = () => {
             <BlockWrapper data-type={viewType} data-no-padding={true}>
               {folder.resources.map((resource) => {
                 const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-
-                return (
+                return resourceMeta ? (
                   <ListItem key={resource.id}>
                     <Resource
                       id={resource.id}
@@ -236,7 +235,7 @@ const SharedFolderPageV2 = () => {
                       description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
                     />
                   </ListItem>
-                );
+                ) : null;
               })}
             </BlockWrapper>
           </div>
