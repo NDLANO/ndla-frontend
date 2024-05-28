@@ -7,20 +7,17 @@
  */
 
 import parse from "html-react-parser";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { extractEmbedMetas } from "@ndla/article-converter";
+import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
-import { ConceptMetaData } from "@ndla/types-embed";
-import { Article as UIArticle, ContentTypeBadge, getMastheadHeight } from "@ndla/ui";
+import { ArticleModifier, ContentTypeBadge, Article as UIArticle } from "@ndla/ui";
 import FavoriteButton from "./FavoritesButton";
-import NotionsContent from "./NotionsContent";
 import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
-import { GQLArticleConceptEmbedsQuery, GQLArticle_ArticleFragment, GQLResourceEmbedInput } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
+import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import CompetenceGoals from "../CompetenceGoals";
 import LicenseBox from "../license/LicenseBox";
@@ -34,7 +31,7 @@ interface Props {
   children?: ReactElement;
   contentType?: string;
   label: string;
-  modifier?: string;
+  modifier?: ArticleModifier;
   isResourceArticle?: boolean;
   printUrl?: string;
   subjectId?: string;
@@ -43,21 +40,8 @@ interface Props {
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
-  contentTransformed?: boolean;
   oembed: string | undefined;
 }
-
-const articleConceptEmbeds = gql`
-  query articleConceptEmbeds($resources: [ResourceEmbedInput!]!) {
-    resourceEmbeds(resources: $resources) {
-      content
-      meta {
-        ...NotionsContent_Meta
-      }
-    }
-  }
-  ${NotionsContent.fragments.metadata}
-`;
 
 const Article = ({
   path,
@@ -80,6 +64,7 @@ const Article = ({
   ...rest
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
@@ -94,46 +79,6 @@ const Article = ({
     (id: string) => t(id),
   );
 
-  const conceptInputs: GQLResourceEmbedInput[] | undefined = useMemo(() => {
-    return article.conceptIds?.map((id) => ({
-      id: id.toString(),
-      type: "concept",
-      conceptType: "notion",
-    }));
-  }, [article.conceptIds]);
-
-  const { data } = useGraphQuery<GQLArticleConceptEmbedsQuery>(articleConceptEmbeds, {
-    variables: { resources: conceptInputs },
-    skip:
-      typeof window === "undefined" || // only fetch on client. ssr: false does not work.
-      !conceptInputs?.length ||
-      isPlainArticle,
-  });
-
-  const conceptNotions = useMemo(() => {
-    if (!data?.resourceEmbeds?.content) {
-      return [];
-    }
-    return extractEmbedMetas(data.resourceEmbeds.content);
-  }, [data?.resourceEmbeds.content]);
-
-  const notions = useMemo(() => {
-    if (
-      config.ndlaEnvironment === "prod" ||
-      isPlainArticle ||
-      (!conceptNotions.length && !article?.relatedContent?.length)
-    ) {
-      return null;
-    }
-    return (
-      <NotionsContent
-        embeds={conceptNotions as ConceptMetaData[]}
-        relatedContent={article.relatedContent}
-        metadata={data?.resourceEmbeds.meta}
-      />
-    );
-  }, [article.relatedContent, conceptNotions, data?.resourceEmbeds.meta, isPlainArticle]);
-
   const location = useLocation();
 
   // Scroll to element with ID passed in as a query-parameter.
@@ -146,7 +91,7 @@ const Article = ({
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - (getMastheadHeight() || MastheadHeightPx) - 20;
+        const scrollPosition = absoluteTop - height - 20;
 
         window.scrollTo({
           top: scrollPosition,
@@ -154,7 +99,7 @@ const Article = ({
         });
       }, 400);
     }
-  }, [article?.transformedContent?.content, location]);
+  }, [article?.transformedContent?.content, location, height]);
 
   if (!article) {
     return children || null;
@@ -201,8 +146,7 @@ const Article = ({
           ) : undefined
         }
         lang={art.language === "nb" ? "no" : art.language}
-        notions={notions}
-        modifier={isResourceArticle ? resourceType : modifier ?? "clean"}
+        modifier={isResourceArticle && resourceType ? (resourceType as ArticleModifier) : modifier ?? "clean"}
         heartButton={
           path &&
           config.feideEnabled &&

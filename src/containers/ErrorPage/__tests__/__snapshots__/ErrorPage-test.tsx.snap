@@ -22,7 +22,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 .emotion-2 {
   z-index: 100;
   position: relative;
-  background: white;
+  background: #fff;
   border-bottom: 1px solid #eff0f2;
   min-height: 84px;
   display: -webkit-box;
@@ -37,15 +37,25 @@ exports[`ErrorPage renderers correctly 1`] = `
   -ms-flex-pack: end;
   -webkit-justify-content: flex-end;
   justify-content: flex-end;
+}
+
+.emotion-2[data-fixed="true"] {
   top: 0;
   position: -webkit-sticky;
   position: sticky;
 }
 
 @media print {
-  .emotion-2 {
+  .emotion-2[data-fixed="true"] {
     position: relative;
   }
+}
+
+.emotion-2[data-ndla-film="true"] {
+  background: #0f263b;
+  background-image: linear-gradient(0deg, #0f263b, #091a2a);
+  border: 0;
+  border-bottom: 1px solid #18334c;
 }
 
 .emotion-4 {
@@ -587,6 +597,8 @@ exports[`ErrorPage renderers correctly 1`] = `
   >
     <div
       class="emotion-2 emotion-3"
+      data-fixed="true"
+      data-ndla-film="false"
       id="masthead"
     >
       <div

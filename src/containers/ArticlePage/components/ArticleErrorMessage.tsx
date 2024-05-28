@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { OneColumn, ErrorMessage, ArticleWrapper } from "@ndla/ui";
 import { AccessDeniedCodes } from "../../../util/handleError";
 import AccessDeniedPage from "../../AccessDeniedPage/AccessDeniedPage";
 
@@ -24,7 +24,7 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
 
   return (
     <OneColumn>
-      <article className="c-article--clean">
+      <ArticleWrapper modifier="clean">
         <ErrorMessage
           illustration={{
             url: status === 404 ? "/static/not-exist.gif" : "/static/oops.gif",
@@ -37,7 +37,7 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
           }}
         />
         {children}
-      </article>
+      </ArticleWrapper>
     </OneColumn>
   );
 };

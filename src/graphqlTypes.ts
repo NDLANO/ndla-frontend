@@ -2172,19 +2172,6 @@ export type GQLWithArticle = {
   meta?: Maybe<GQLMeta>;
 };
 
-export type GQLArticleConceptEmbedsQueryVariables = Exact<{
-  resources: Array<GQLResourceEmbedInput> | GQLResourceEmbedInput;
-}>;
-
-export type GQLArticleConceptEmbedsQuery = {
-  __typename?: "Query";
-  resourceEmbeds: {
-    __typename?: "ResourceEmbed";
-    content: string;
-    meta: { __typename?: "ResourceMetaData" } & GQLNotionsContent_MetaFragment;
-  };
-};
-
 export type GQLArticle_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2243,10 +2230,6 @@ export type GQLArticleContents_ArticleFragment = {
     };
   };
 } & GQLLicenseBox_ArticleFragment;
-
-export type GQLNotionsContent_MetaFragment = {
-  __typename?: "ResourceMetaData";
-} & GQLResourceEmbedLicenseBox_MetaFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename: "MyNdlaPersonalData";
