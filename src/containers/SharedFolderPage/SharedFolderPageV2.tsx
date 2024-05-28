@@ -86,6 +86,7 @@ const FolderDescription = styled(Text)`
 `;
 
 const ListItem = styled.li`
+  padding: 0;
   list-style: none;
 `;
 
