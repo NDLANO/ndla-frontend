@@ -52,7 +52,7 @@ if (!isProduction) {
 
 const metricsMiddleware = promBundle({
   includeMethod: true,
-  includePath: true,
+  includePath: false,
   excludeRoutes: ["/health"],
 });
 

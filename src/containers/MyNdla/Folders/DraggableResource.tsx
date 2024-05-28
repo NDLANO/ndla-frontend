@@ -19,7 +19,12 @@ import { ViewType } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../../config";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../graphqlTypes";
+import {
+  GQLFolder,
+  GQLFolderResource,
+  GQLFolderResourceMeta,
+  GQLFolderResourceResourceType,
+} from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
@@ -152,6 +157,24 @@ const DraggableResource = ({
     transition,
   };
 
+  const [resourceTypes, resourcePath] = useMemo(() => {
+    let resTypes: GQLFolderResourceResourceType[] = [];
+    let resPath = resource.path;
+
+    if (!resourceMeta) return [resTypes, resPath];
+
+    resTypes = resourceMeta.resourceTypes;
+
+    if (resourceMeta.resourceTypes.length < 1) {
+      if (resource.resourceType === "article" || resource.resourceType === "learningpath") {
+        resPath = `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`;
+      }
+      resTypes = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
+    }
+
+    return [resTypes, resPath];
+  }, [resourceMeta, resource, t]);
+
   return (
     <DraggableListItem
       key={`resource-${resource.id}`}
@@ -177,10 +200,10 @@ const DraggableResource = ({
             src: resourceMeta?.metaImage?.url ?? "",
             alt: "",
           }}
-          link={resource.path}
+          link={resourcePath}
           tags={resource.tags}
-          resourceTypes={resourceMeta?.resourceTypes ?? []}
-          title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+          resourceTypes={resourceTypes}
+          title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
           menu={menu}
         />

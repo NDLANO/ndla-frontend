@@ -56,7 +56,7 @@ const StyledLearningpathContent = styled.div`
     display: flex;
     border-top: 1px solid ${colors.brand.greyLight};
     margin-top: ${spacing.small};
-    padding-top: ${spacing.nsmall}px;
+    padding-top: ${spacing.nsmall};
   }
 `;
 
@@ -66,6 +66,10 @@ const StyledOneColumn = styled(OneColumn)`
       color: ${colors.white};
     }
   }
+`;
+
+const LearningPathContent = styled.div`
+  width: 100%;
 `;
 
 const MobileHeaderWrapper = styled.div`
@@ -131,7 +135,7 @@ const Learningpath = ({
           learningpathMenu
         )}
         {learningpathStep && (
-          <div data-testid="learningpath-content">
+          <LearningPathContent data-testid="learningpath-content">
             {learningpathStep.showTitle && (
               <StyledOneColumn data-inverted={ndlaFilm}>
                 <LayoutItem layout="center">
@@ -161,7 +165,7 @@ const Learningpath = ({
               title={learningpath.title}
               subject={subject}
             />
-          </div>
+          </LearningPathContent>
         )}
       </StyledLearningpathContent>
       <LearningpathFooter
