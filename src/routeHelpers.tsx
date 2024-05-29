@@ -184,11 +184,7 @@ export function fixEndSlash(link: string) {
 
 export function toProgramme(programmePath: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
-  return `${PROGRAMME_PATH}/${programmePath}${gradeString}`;
-}
-
-export function toProgrammeSubject(programmePath: string, subjectId: string, topicIds: string[]) {
-  return `${toProgramme(programmePath)}${toTopic(subjectId, ...topicIds)}`;
+  return `${PROGRAMME_PATH}${programmePath}${gradeString}`;
 }
 
 export type TypedParams = Record<string, string | undefined>;

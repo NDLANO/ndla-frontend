@@ -187,7 +187,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               return (
                 <li key={item.name}>
                   <SafeLinkButton
-                    to={toProgramme(programme.url.slice(1), item.name.toLowerCase())}
+                    to={toProgramme(programme.url, item.name.toLowerCase())}
                     colorTheme={current ? undefined : "lighter"}
                     shape="pill"
                     aria-current={current}
