@@ -14,7 +14,7 @@ import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm from "./FolderForm";
 import { GQLFolder } from "../../../graphqlTypes";
-import { buttonCss, iconCss } from "../components/toolbarStyles";
+import { buttonCss } from "../components/toolbarStyles";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../folderMutations";
 
 interface Props {
@@ -36,7 +36,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
           aria-label={t("myNdla.folder.edit")}
           title={t("myNdla.folder.edit")}
         >
-          <Pencil css={iconCss} />
+          <Pencil size="nsmall" />
           {t("myNdla.folder.editShort")}
         </ButtonV2>
       </ModalTrigger>

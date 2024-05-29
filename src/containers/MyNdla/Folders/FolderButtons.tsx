@@ -23,7 +23,7 @@ import { isStudent, copyFolderSharingLink } from "./util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
-import { buttonCss, iconCss } from "../components/toolbarStyles";
+import { buttonCss } from "../components/toolbarStyles";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../folderMutations";
 import { OutletContext } from "../MyNdlaLayout";
 
@@ -125,7 +125,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             });
           }}
         >
-          <Cross css={iconCss} />
+          <Cross size="nsmall" />
           {t("myNdla.folder.sharing.button.unShare")}
         </ButtonV2>
       </StyledListItem>
@@ -161,7 +161,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
               });
           }}
         >
-          <Share css={iconCss} />
+          <Share size="nsmall" />
           {t("myNdla.folder.sharing.button.shareShort")}
         </ButtonV2>
       </StyledListItem>
@@ -215,7 +215,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           aria-label={t("myNdla.folder.sharing.button.shareLink")}
           title={t("myNdla.folder.sharing.button.shareLink")}
         >
-          <Copy css={iconCss} />
+          <Copy size="nsmall" />
           {t("myNdla.folder.sharing.button.shareLink")}
         </ButtonV2>
       </StyledListItem>
@@ -233,7 +233,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           aria-label={t("myNdla.folder.sharing.button.goTo")}
           title={t("myNdla.folder.sharing.button.goTo")}
         >
-          <ShareArrow css={iconCss} />
+          <ShareArrow size="nsmall" />
           {t("myNdla.folder.sharing.button.goTo")}
         </SafeLinkButton>
       </StyledListItem>
