@@ -39,6 +39,7 @@ import {
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
+  GQLSharedFolder,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
@@ -196,11 +197,12 @@ export const foldersPageQuery = gql`
         ...FoldersPageQueryFragment
       }
       sharedFolders {
-        ...FoldersPageQueryFragment
+        ...SharedFoldersPageQueryFragment
       }
     }
   }
   ${foldersPageQueryFragment}
+  ${sharedFoldersPageQueryFragment}
 `;
 
 const updateFolderResourceMutation = gql`
@@ -348,8 +350,8 @@ interface UseFolders {
 }
 
 export const useFolders = ({ skip }: UseFolders = {}): {
-  sharedFolders: GQLFolder[];
   folders: GQLFolder[];
+  sharedFolders: GQLSharedFolder[];
   loading: boolean;
 } => {
   const { cache } = useApolloClient();
@@ -361,7 +363,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   });
 
   const folders = (data?.folders.folders ?? []) as GQLFolder[];
-  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLFolder[];
+  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolder[];
   return { folders, sharedFolders, loading };
 };
 

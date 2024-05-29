@@ -994,9 +994,9 @@ export type GQLMutation = {
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
-  deleteSharedFolder: Scalars["Int"]["output"];
   deleteTopic: Scalars["Int"]["output"];
   deleteTopicV2: Scalars["Int"]["output"];
+  favoriteSharedFolder: Scalars["String"]["output"];
   followCategory: GQLArenaCategoryV2;
   followTopic: GQLArenaTopicV2;
   markAllNotificationsAsRead: Scalars["Boolean"]["output"];
@@ -1010,12 +1010,12 @@ export type GQLMutation = {
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
-  saveSharedFolder: Scalars["Int"]["output"];
   sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
   subscribeToTopic: Scalars["Int"]["output"];
   transformArticleContent: Scalars["String"]["output"];
+  unFavoriteSharedFolder: Scalars["String"]["output"];
   unfollowCategory: GQLArenaCategoryV2;
   unfollowTopic: GQLArenaTopicV2;
   unsubscribeFromTopic: Scalars["Int"]["output"];
@@ -1071,16 +1071,16 @@ export type GQLMutationDeletePostV2Args = {
   postId: Scalars["Int"]["input"];
 };
 
-export type GQLMutationDeleteSharedFolderArgs = {
-  folderId: Scalars["String"]["input"];
-};
-
 export type GQLMutationDeleteTopicArgs = {
   topicId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationDeleteTopicV2Args = {
   topicId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationFavoriteSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationFollowCategoryArgs = {
@@ -1145,10 +1145,6 @@ export type GQLMutationResolveFlagArgs = {
   flagId: Scalars["Int"]["input"];
 };
 
-export type GQLMutationSaveSharedFolderArgs = {
-  folderId: Scalars["String"]["input"];
-};
-
 export type GQLMutationSortArenaCategoriesArgs = {
   parentId?: InputMaybe<Scalars["Int"]["input"]>;
   sortedIds: Array<Scalars["Int"]["input"]>;
@@ -1175,6 +1171,10 @@ export type GQLMutationTransformArticleContentArgs = {
   previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
   subject?: InputMaybe<Scalars["String"]["input"]>;
   visualElement?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationUnFavoriteSharedFolderArgs = {
+  folderId: Scalars["String"]["input"];
 };
 
 export type GQLMutationUnfollowCategoryArgs = {
@@ -1464,6 +1464,7 @@ export type GQLQuery = {
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
   subject?: Maybe<GQLSubject>;
+  subjectCollection?: Maybe<Array<GQLSubject>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
   topic?: Maybe<GQLTopic>;
@@ -1658,6 +1659,7 @@ export type GQLQueryPodcastSeriesSearchArgs = {
 };
 
 export type GQLQueryProgrammeArgs = {
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -1719,6 +1721,10 @@ export type GQLQuerySharedFolderArgs = {
 
 export type GQLQuerySubjectArgs = {
   id: Scalars["String"]["input"];
+};
+
+export type GQLQuerySubjectCollectionArgs = {
+  language: Scalars["String"]["input"];
 };
 
 export type GQLQuerySubjectpageArgs = {
@@ -2127,7 +2133,7 @@ export type GQLUptimeAlert = {
 export type GQLUserFolder = {
   __typename?: "UserFolder";
   folders: Array<GQLFolder>;
-  sharedFolders: Array<GQLFolder>;
+  sharedFolders: Array<GQLSharedFolder>;
 };
 
 export type GQLVideoFolderResourceMeta = GQLFolderResourceMeta & {
@@ -3567,7 +3573,7 @@ export type GQLFoldersPageQuery = {
   folders: {
     __typename?: "UserFolder";
     folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
-    sharedFolders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
   };
 };
 
