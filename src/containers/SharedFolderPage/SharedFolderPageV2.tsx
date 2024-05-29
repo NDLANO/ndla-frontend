@@ -97,6 +97,10 @@ const ButtonContainer = styled.div`
   gap: ${spacing.small};
 `;
 
+const containsFolder = (folder: GQLFolder): boolean => {
+  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder) || folder.resources.length > 0);
+};
+
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
@@ -201,19 +205,21 @@ const SharedFolderPageV2 = () => {
             </StyledRow>
             {folder.subfolders.length > 0 && (
               <BlockWrapper data-type={viewType} data-no-padding={true}>
-                {folder.subfolders.map(({ id, name }) => (
-                  <ListItem key={`folder-${id}`}>
-                    <Folder
-                      id={id}
-                      title={name}
-                      type={viewType}
-                      link={routes.folder(id)}
-                      subFolders={foldersCount?.[id]?.folders}
-                      subResources={foldersCount?.[id]?.resources}
-                      isShared={false}
-                    />
-                  </ListItem>
-                ))}
+                {folder.subfolders.map((subFolder) =>
+                  containsFolder(subFolder) ? (
+                    <ListItem key={`folder-${subFolder.id}`}>
+                      <Folder
+                        id={subFolder.id}
+                        title={subFolder.name}
+                        type={viewType}
+                        link={routes.folder(subFolder.id)}
+                        subFolders={foldersCount?.[subFolder.id]?.folders}
+                        subResources={foldersCount?.[subFolder.id]?.resources}
+                        isShared={false}
+                      />
+                    </ListItem>
+                  ) : null,
+                )}
               </BlockWrapper>
             )}
             <BlockWrapper data-type={viewType} data-no-padding={true}>
