@@ -98,9 +98,7 @@ export const useIsNdlaFilm = () => {
   return subjectType === "film";
 };
 
-function toLearningpaths() {
-  return "/learningpaths";
-}
+const LEARNINGPATHS = "/learningpaths";
 
 type Resource = {
   path: string;
@@ -112,12 +110,12 @@ export function toLearningPath(pathId?: string | number, stepId?: string | numbe
     return stepId ? `${resource.path}/${stepId}` : resource.path;
   }
   if (pathId && stepId) {
-    return `${toLearningpaths()}/${pathId}/steps/${stepId}`;
+    return `${LEARNINGPATHS}/${pathId}/steps/${stepId}`;
   }
   if (pathId) {
-    return `${toLearningpaths()}/${pathId}`;
+    return `${LEARNINGPATHS}/${pathId}`;
   }
-  return toLearningpaths();
+  return LEARNINGPATHS;
 }
 
 export function toArticle(articleId: number, resource: Resource, subjectTopicPath: string) {
@@ -130,7 +128,7 @@ export function toArticle(articleId: number, resource: Resource, subjectTopicPat
   return `/article/${articleId}`;
 }
 
-export const toAbout = (slug = "") => `${ABOUT_PATH}${slug}`;
+export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 
 export function toSubject(subjectId: string) {
   return `/${removeUrn(subjectId)}`;
@@ -145,16 +143,6 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
   return t;
 }
-
-export function toFolderPreview(folderId: string) {
-  return `/folder/${folderId}`;
-}
-
-export type SubjectURI = {
-  id?: string;
-  name?: string;
-  to?: string;
-};
 
 export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
   const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
