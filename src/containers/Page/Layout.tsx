@@ -14,7 +14,7 @@ import { css, Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
-import { Content, PageContainer } from "@ndla/ui";
+import { PageContainer } from "@ndla/ui";
 import FeideFooter from "./components/FeideFooter";
 import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
@@ -84,11 +84,11 @@ const Layout = () => {
         {metaChildren}
       </Helmet>
       <Masthead />
-      <Content>
+      <div>
         <BottomPadding data-no-padding={noPaddingBottom}>
           <Outlet />
         </BottomPadding>
-      </Content>
+      </div>
       <Footer />
       {config.feideEnabled && <FeideFooter />}
     </StyledPageContainer>
