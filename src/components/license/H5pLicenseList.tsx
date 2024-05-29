@@ -13,6 +13,13 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { H5PBold } from "@ndla/icons/editor";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { uuid } from "@ndla/util";
+import CopyTextButton from "./CopyTextButton";
+import LicenseDescription from "./LicenseDescription";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
@@ -21,14 +28,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from "@ndla/ui";
-import { uuid } from "@ndla/util";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
-import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
+} from "../MediaList";
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;

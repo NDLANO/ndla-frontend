@@ -16,16 +16,7 @@ import styled from "@emotion/styled";
 import { stackOrder } from "@ndla/core";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import {
-  Image,
-  MediaList,
-  MediaListItem,
-  MediaListItemImage,
-  MediaListItemBody,
-  MediaListItemActions,
-  MediaListItemMeta,
-  ItemType,
-} from "@ndla/ui";
+import { Image } from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
 import LicenseDescription from "./LicenseDescription";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -33,6 +24,15 @@ import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers
 import { MediaListRef } from "./licenseStyles";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
+import {
+  MediaList,
+  MediaListItem,
+  MediaListItemImage,
+  MediaListItemBody,
+  MediaListItemActions,
+  MediaListItemMeta,
+  ItemType,
+} from "../MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);

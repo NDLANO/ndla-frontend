@@ -14,6 +14,13 @@ import { gql } from "@apollo/client";
 import { Podcast } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import CopyTextButton from "./CopyTextButton";
+import LicenseDescription from "./LicenseDescription";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import config from "../../config";
+import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
@@ -22,14 +29,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from "@ndla/ui";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
-import config from "../../config";
-import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
+} from "../MediaList";
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;

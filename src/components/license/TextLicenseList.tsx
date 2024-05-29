@@ -11,14 +11,6 @@ import { gql } from "@apollo/client";
 import { ButtonV2 } from "@ndla/button";
 import { FileDocumentOutline } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
-import {
-  MediaList,
-  MediaListItem,
-  MediaListItemImage,
-  MediaListItemBody,
-  MediaListItemActions,
-  MediaListItemMeta,
-} from "@ndla/ui";
 import type { ItemType } from "@ndla/ui";
 import { printPage } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
@@ -27,6 +19,14 @@ import { licenseListCopyrightFragment } from "./licenseFragments";
 import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef, mediaListIcon } from "./licenseStyles";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
+import {
+  MediaList,
+  MediaListItem,
+  MediaListItemImage,
+  MediaListItemBody,
+  MediaListItemActions,
+  MediaListItemMeta,
+} from "../MediaList";
 
 interface TextLicenseInfoProps {
   text: TextItem;

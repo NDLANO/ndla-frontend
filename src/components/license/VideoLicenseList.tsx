@@ -13,6 +13,13 @@ import { Link, useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { uuid } from "@ndla/util";
+import CopyTextButton from "./CopyTextButton";
+import LicenseDescription from "./LicenseDescription";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef } from "./licenseStyles";
+import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
@@ -21,14 +28,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from "@ndla/ui";
-import { uuid } from "@ndla/util";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef } from "./licenseStyles";
-import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
+} from "../MediaList";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;

@@ -13,15 +13,6 @@ import { Link, useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Concept, Globe } from "@ndla/icons/editor";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
-import {
-  MediaList,
-  MediaListItem,
-  MediaListItemImage,
-  MediaListItemBody,
-  MediaListItemActions,
-  MediaListItemMeta,
-  ItemType,
-} from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
 import LicenseDescription from "./LicenseDescription";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -31,6 +22,15 @@ import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
+import {
+  MediaList,
+  MediaListItem,
+  MediaListItemImage,
+  MediaListItemBody,
+  MediaListItemActions,
+  MediaListItemMeta,
+  ItemType,
+} from "../MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
