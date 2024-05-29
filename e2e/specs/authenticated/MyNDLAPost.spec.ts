@@ -17,7 +17,7 @@ test("has main post and comments", async ({ page }) => {
   const title = (await page.getByRole("main").getByRole("heading").first().textContent()) ?? "";
   await expect(page.getByRole("heading", { name: title })).toBeInViewport();
   await expect(page.locator('li[data-main-post="true"]')).toHaveCount(1);
-  await expect(page.locator('li[data-main-post="false"]')).toHaveCount(4);
+  await expect(page.locator('li[data-main-post="false"]')).toHaveCount(5);
 });
 
 test("can add and delete comment", async ({ page }) => {

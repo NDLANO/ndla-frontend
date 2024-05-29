@@ -11,11 +11,11 @@ import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/minndla/arena/category/1");
+  await page.waitForLoadState("domcontentloaded");
 });
 
 test("can open post in topic", async ({ page }) => {
   await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeVisible();
-
   expect(await page.getByRole("main").getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
 
   const link = page.getByTestId("arena-topic-card").first();
@@ -27,15 +27,19 @@ test("can open post in topic", async ({ page }) => {
 
 test("can cancel when creating topic", async ({ page }) => {
   await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeVisible();
-  await page.getByRole("link", { name: "Nytt innlegg" }).first().click();
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("link", { name: "Nytt innlegg" }).last().click();
   await page.waitForURL("/minndla/arena/category/1/topic/new");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("button", { name: "Avbryt" }).click();
   await page.waitForURL("/minndla/arena/category/1");
 });
 
 test("can cancel and get unsaved edits message when creating topic", async ({ page }) => {
   await expect(page.getByRole("main").filter({ has: page.locator('[data-style="h1-resource"]') })).toBeVisible();
-  await page.getByRole("link", { name: "Nytt innlegg" }).first().click();
+  await page.waitForLoadState("networkidle");
+  await page.getByRole("link", { name: "Nytt innlegg" }).last().click();
+  await page.waitForLoadState("networkidle");
   await page.waitForURL("/minndla/arena/category/1/topic/new");
   await page.getByLabel("Tittel").click();
   await page.keyboard.type("Test test");
