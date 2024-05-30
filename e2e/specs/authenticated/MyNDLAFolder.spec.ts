@@ -99,6 +99,7 @@ test("can drag and drop folders", async ({ page }) => {
 
   await secondItem.hover();
   await page.mouse.down();
+
   await firstItem.hover();
   await page.mouse.up();
 

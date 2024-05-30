@@ -26,7 +26,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
-    trace: "on-first-retry",
+    trace: "on",
     viewport: {
       width: 2560,
       height: 1440,

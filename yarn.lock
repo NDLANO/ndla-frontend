@@ -3609,7 +3609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.44.1":
+"@playwright/test@npm:^1.43.1":
   version: 1.44.1
   resolution: "@playwright/test@npm:1.44.1"
   dependencies:
@@ -10936,7 +10936,7 @@ __metadata:
     "@ndla/typography": "npm:^0.4.20"
     "@ndla/ui": "npm:^53.0.0"
     "@ndla/util": "npm:^4.0.4"
-    "@playwright/test": "npm:^1.44.1"
+    "@playwright/test": "npm:^1.43.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
     "@testing-library/react": "npm:^15.0.2"
     "@types/express": "npm:^4.17.21"
