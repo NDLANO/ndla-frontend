@@ -87,7 +87,7 @@ test("can add and delete folder", async ({ page, harCheckpoint }) => {
   await expect(folderList.getByRole("listitem")).toHaveCount(count);
 });
 
-test("can drag and drop folders", async ({ page }) => {
+test("can drag and drop folders", async ({ page, harCheckpoint }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("list").filter({ has: page.locator('[data-type="list"]') });
   await expect(folderList).toBeVisible();
@@ -102,6 +102,7 @@ test("can drag and drop folders", async ({ page }) => {
 
   await firstItem.hover();
   await page.mouse.up();
+  await harCheckpoint();
 
   const newFolderOrder = await folderList.getByRole("listitem").getByRole("heading").allTextContents();
 
@@ -111,9 +112,10 @@ test("can drag and drop folders", async ({ page }) => {
   await page.mouse.down();
   await firstItem.hover();
   await page.mouse.up();
+  await harCheckpoint();
 
   const oldFolderOrder = await folderList.getByRole("listitem").getByRole("heading").allTextContents();
-
+  await page.waitForLoadState("networkidle");
   expect(initialFolderOrder).toStrictEqual(oldFolderOrder);
 });
 

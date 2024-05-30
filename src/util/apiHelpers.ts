@@ -239,7 +239,7 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
     headersLink,
     new BatchHttpLink({
       uri,
-      batchInterval: 1,
+      batchInterval: 100,
     }),
   ]);
 };
