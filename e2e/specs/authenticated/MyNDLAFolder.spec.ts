@@ -10,7 +10,7 @@ import { expect } from "@playwright/test";
 import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/folders");
+  await page.goto("/minndla/folders", { waitUntil: "domcontentloaded" });
 });
 
 test("can copy sharable link to folder", async ({ page }) => {
