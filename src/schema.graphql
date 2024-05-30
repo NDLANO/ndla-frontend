@@ -880,9 +880,9 @@ type Mutation {
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
-  deleteSharedFolder(folderId: String!): Int!
   deleteTopic(topicId: Int!): Int!
   deleteTopicV2(topicId: Int!): Int!
+  favoriteSharedFolder(folderId: String!): String!
   followCategory(categoryId: Int!): ArenaCategoryV2!
   followTopic(topicId: Int!): ArenaTopicV2!
   markAllNotificationsAsRead: Boolean!
@@ -902,7 +902,6 @@ type Mutation {
   replyToTopic(content: String!, topicId: Int!): ArenaPost!
   replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
-  saveSharedFolder(folderId: String!): Int!
   sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
@@ -915,6 +914,7 @@ type Mutation {
     subject: String
     visualElement: String
   ): String!
+  unFavoriteSharedFolder(folderId: String!): String!
   unfollowCategory(categoryId: Int!): ArenaCategoryV2!
   unfollowTopic(topicId: Int!): ArenaTopicV2!
   unsubscribeFromTopic(topicId: Int!): Int!
@@ -1152,7 +1152,7 @@ type Query {
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
-  programme(path: String): ProgrammePage
+  programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
@@ -1193,6 +1193,7 @@ type Query {
   ): SearchWithoutPagination
   sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
   subject(id: String!): Subject
+  subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
@@ -1533,7 +1534,7 @@ type UptimeAlert {
 
 type UserFolder {
   folders: [Folder!]!
-  sharedFolders: [Folder!]!
+  sharedFolders: [SharedFolder!]!
 }
 
 type VideoFolderResourceMeta implements FolderResourceMeta {

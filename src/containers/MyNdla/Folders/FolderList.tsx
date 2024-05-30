@@ -63,7 +63,14 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId 
       });
     } else {
       client.cache.modify({
-        fields: { folders: sortCacheModifierFunction },
+        fields: {
+          folders: ({ folders, ...rest }) => {
+            return {
+              folders: sortCacheModifierFunction(folders),
+              ...rest,
+            };
+          },
+        },
       });
     }
   };

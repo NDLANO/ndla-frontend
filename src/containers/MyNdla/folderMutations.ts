@@ -39,6 +39,7 @@ import {
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
   GQLRecentlyUsedQuery,
+  GQLSharedFolder,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
@@ -196,11 +197,12 @@ export const foldersPageQuery = gql`
         ...FoldersPageQueryFragment
       }
       sharedFolders {
-        ...FoldersPageQueryFragment
+        ...SharedFoldersPageQueryFragment
       }
     }
   }
   ${foldersPageQueryFragment}
+  ${sharedFoldersPageQueryFragment}
 `;
 
 const updateFolderResourceMutation = gql`
@@ -348,8 +350,8 @@ interface UseFolders {
 }
 
 export const useFolders = ({ skip }: UseFolders = {}): {
-  sharedFolders: GQLFolder[];
   folders: GQLFolder[];
+  sharedFolders: GQLSharedFolder[];
   loading: boolean;
 } => {
   const { cache } = useApolloClient();
@@ -361,7 +363,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   });
 
   const folders = (data?.folders.folders ?? []) as GQLFolder[];
-  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLFolder[];
+  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolder[];
   return { folders, sharedFolders, loading };
 };
 
@@ -385,7 +387,6 @@ export const useFolder = (folderId?: string): GQLFolder | null => {
 
 export const useSharedFolder = (folderId?: string): GQLFolder | null => {
   const { cache } = useApolloClient();
-
   return getFolder(cache, folderId, true);
 };
 
@@ -470,10 +471,16 @@ export const useAddFolderMutation = () => {
       if (!parentId) {
         client.cache.modify({
           fields: {
-            folders: (existingFolders = []) =>
-              existingFolders.concat({
-                __ref: client.cache.identify(newFolder),
-              }),
+            folders: (
+              { folders: existingFolders, ...rest } = { folders: [], sharedFolders: [], __typename: "UserFolder" },
+            ) => {
+              return {
+                folders: existingFolders.concat({
+                  __ref: client.cache.identify(newFolder),
+                }),
+                ...rest,
+              };
+            },
           },
         });
       } else {
@@ -614,13 +621,11 @@ export const useUpdateFolderMutation = () => {
 
 export const useSortFoldersMutation = () => {
   const [sortFolders] = useMutation<GQLSortFoldersMutation, GQLMutationSortFoldersArgs>(sortFoldersMutation);
-
   return { sortFolders };
 };
 
 export const useSortResourcesMutation = () => {
   const [sortResources] = useMutation<boolean, GQLMutationSortResourcesArgs>(sortResourcesMutation);
-
   return { sortResources };
 };
 
