@@ -19,6 +19,7 @@ const MastheadContent = styled.div`
   padding: ${spacing.small} ${spacing.normal};
   font-weight: ${fonts.weight.normal};
   display: flex;
+  width: 100%;
   height: ${misc.mastheadHeight};
   justify-content: space-between;
   gap: ${spacing.xsmall};
@@ -83,7 +84,7 @@ export const Masthead = ({ children, fixed, ndlaFilm, skipToMainContentId, messa
             {message.content}
           </MessageBanner>
         ))}
-        <MastheadContent className="u-1/1">{children}</MastheadContent>
+        <MastheadContent>{children}</MastheadContent>
       </StyledMasthead>
     </>
   );

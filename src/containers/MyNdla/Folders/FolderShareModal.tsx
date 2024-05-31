@@ -19,7 +19,7 @@ import { useSnack } from "@ndla/ui";
 import FolderAndResourceCount from "./FolderAndResourceCount";
 import { sharedFolderLink } from "./util";
 import { GQLFolder } from "../../../graphqlTypes";
-import { toFolderPreview } from "../../../routeHelpers";
+import { routes } from "../../../routeHelpers";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;
@@ -149,7 +149,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
           </Tooltip>
         </GapWrapper>
         <StyledButtonRow>
-          <SafeLinkButton shape="pill" to={toFolderPreview(folder.id)} variant="outline">
+          <SafeLinkButton shape="pill" to={routes.folder(folder.id)} variant="outline">
             {t("myNdla.folder.sharing.button.preview")}
           </SafeLinkButton>
           <ButtonV2

@@ -1534,7 +1534,7 @@ type UptimeAlert {
 
 type UserFolder {
   folders: [Folder!]!
-  sharedFolders: [Folder!]!
+  sharedFolders: [SharedFolder!]!
 }
 
 type VideoFolderResourceMeta implements FolderResourceMeta {
