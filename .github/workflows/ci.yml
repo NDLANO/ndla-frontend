@@ -82,7 +82,3 @@ jobs:
         run: yarn playwright install --with-deps chromium
       - name: "E2E"
         run: yarn e2e:headless
-      - uses: actions/upload-artifact@v4
-        with:
-          name: playwright
-          path: ./playwright-report
