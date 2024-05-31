@@ -55,5 +55,8 @@ export default defineConfig({
         command: "cross-env NODE_ENV=production node build/server.mjs",
         port: 3000,
       }
-    : undefined,
+    : {
+        command: `IS_E2E=true yarn start`,
+        url: "http://localhost:3000",
+      },
 });

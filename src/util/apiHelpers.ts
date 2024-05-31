@@ -6,7 +6,14 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
+import {
+  ApolloClient,
+  ApolloLink,
+  FieldFunctionOptions,
+  InMemoryCache,
+  TypePolicies,
+  createHttpLink,
+} from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
@@ -237,10 +244,11 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
       }
     }),
     headersLink,
-    new BatchHttpLink({
-      uri,
-      batchInterval: 100,
-    }),
+    !config.isE2E
+      ? new BatchHttpLink({
+          uri,
+        })
+      : createHttpLink({ uri }),
   ]);
 };
 

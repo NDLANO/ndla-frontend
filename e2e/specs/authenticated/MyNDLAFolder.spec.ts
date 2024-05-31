@@ -115,7 +115,6 @@ test("can drag and drop folders", async ({ page, harCheckpoint }) => {
   await harCheckpoint();
 
   const oldFolderOrder = await folderList.getByRole("listitem").getByRole("heading").allTextContents();
-  await page.waitForLoadState("networkidle");
   expect(initialFolderOrder).toStrictEqual(oldFolderOrder);
 });
 
