@@ -3809,6 +3809,12 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 
 export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
 
+export type GQLFavoriteSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLFavoriteSharedFolderMutation = { __typename?: "Mutation"; favoriteSharedFolder: string };
+
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
