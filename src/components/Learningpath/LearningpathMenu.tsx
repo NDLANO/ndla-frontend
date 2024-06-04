@@ -242,7 +242,6 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
       </nav>
       <ArticleByline
         authors={learningpath.copyright.contributors}
-        license={learningpath.copyright.license.license}
         published={lastUpdatedString}
         bylineType="learningPath"
       />
