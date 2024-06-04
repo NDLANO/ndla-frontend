@@ -8,8 +8,7 @@
 
 import { ComponentProps, ReactNode } from "react";
 import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, mq, spacing, stackOrder } from "@ndla/core";
-import { Launch } from "@ndla/icons/common";
+import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
 import {
   getLicenseByAbbreviation,
   getResourceTypeNamespace,
@@ -38,14 +37,13 @@ const StyledMediaListItem = styled.li`
   padding: ${spacing.small} 0;
   border-bottom: 1px solid ${colors.brand.tertiary};
   list-style: none;
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: flex;
-    flex-direction: row;
-  }
+  display: flex;
+  flex-direction: column;
 
   &:last-of-type {
     border-bottom: none;
   }
+
   img {
     width: 100%;
   }
@@ -64,9 +62,7 @@ const ImageWrapper = styled.div`
   position: relative;
   align-self: flex-start;
   margin-right: ${spacing.small};
-  ${mq.range({ from: breakpoints.tablet })} {
-    width: 25%;
-  }
+  width: 100%;
   a {
     display: block;
     box-shadow: none;
@@ -80,35 +76,7 @@ const ImageWrapper = styled.div`
   }
 `;
 
-const OpenIndicator = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  right: ${spacing.xsmall};
-  bottom: ${spacing.xsmall};
-  padding: ${spacing.xxsmall};
-  transition: all 50ms ease-in;
-  background-color: ${colors.brand.primary};
-  border-radius: 100%;
-  pointer-events: none;
-  z-index: ${stackOrder.offsetSingle};
-  svg {
-    color: ${colors.white};
-    width: ${spacing.normal};
-    height: ${spacing.normal};
-  }
-`;
-
-export const MediaListItemImage = ({ children, canOpen }: MediaListItemImageProps) => (
-  <ImageWrapper>
-    {canOpen && (
-      <OpenIndicator data-open-indicator>
-        <Launch />
-      </OpenIndicator>
-    )}
-    {children}
-  </ImageWrapper>
-);
+export const MediaListItemImage = ({ children }: MediaListItemImageProps) => <ImageWrapper>{children}</ImageWrapper>;
 
 interface MediaListItemBodyProps {
   children: ReactNode;
@@ -117,9 +85,10 @@ interface MediaListItemBodyProps {
   resourceUrl?: string;
   resourceType?: "video" | "image" | "audio" | "text" | "h5p" | "podcast";
   messages?: {
-    modelPremission?: string;
+    modelPermission?: string;
   };
   title?: string;
+  mediaSourceTitle?: string;
 }
 
 const StyledMediaListItemBody = styled.div`
@@ -133,7 +102,6 @@ const StyledMediaListItemBody = styled.div`
 `;
 
 const BodyTitle = styled(Text)`
-  color: ${colors.brand.primary};
   font-weight: ${fonts.weight.bold};
   margin-bottom: ${spacing.xsmall};
   + p {
@@ -149,6 +117,7 @@ export const MediaListItemBody = ({
   locale,
   resourceUrl = "", // defaults to current page
   resourceType,
+  mediaSourceTitle,
 }: MediaListItemBodyProps) => {
   const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
   const containerProps = isCreativeCommonsLicense(license.rights)
@@ -169,11 +138,12 @@ export const MediaListItemBody = ({
       {/* @ts-ignore */}
       {metaResourceType && <span rel="dct:type" href={metaResourceType} style={hidden} />}
       {title ? (
-        <BodyTitle element="h3" margin="none" textStyle="meta-text-medium">
+        <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
           {title}
+          {` "${mediaSourceTitle}"`}
         </BodyTitle>
       ) : null}
-      <LicenseDescription locale={locale} messages={messages} licenseRights={license.rights} highlightCC />
+      <LicenseDescription locale={locale} messages={messages} licenseRights={license.rights} />
       <SafeLink rel="noopener noreferrer license" target="_blank" to={license.url}>
         {license.linkText}
       </SafeLink>
@@ -256,6 +226,7 @@ function isAttributionItem(item: ItemType): item is ItemTypeWithDescription {
 
 const StyledMediaListItemMeta = styled.ul`
   margin: ${spacing.small} 0;
+  padding: 0;
   list-style: none;
   width: 100%;
   button,

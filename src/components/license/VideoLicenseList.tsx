@@ -9,7 +9,7 @@
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -55,20 +55,6 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   }
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen={shouldShowLink}>
-        {!shouldShowLink ? (
-          <img alt="presentation" src={video.cover} />
-        ) : (
-          <Link
-            to={pageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("embed.goTo", { type: t("embed.type.video") })}
-          >
-            <img alt="presentation" src={video.cover} />
-          </Link>
-        )}
-      </MediaListItemImage>
       <MediaListItemBody
         title={t("license.video.rules")}
         license={video.copyright?.license?.license ?? ""}
@@ -79,6 +65,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
+            <img alt="presentation" src={video.cover} />
             {video.copyright?.license?.license !== "COPYRIGHTED" && video.download && (
               <SafeLinkButton to={video.download} download variant="outline">
                 {t("license.download")}
@@ -89,6 +76,18 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
               copyTitle={t("license.embed")}
               hasCopiedTitle={t("license.embedCopied")}
             />
+            <MediaListItemImage>
+              {shouldShowLink && (
+                <SafeLinkButton
+                  to={pageUrl}
+                  target="_blank"
+                  aria-label={t("embed.goTo", { type: t("embed.type.video") })}
+                  variant="outline"
+                >
+                  {t("license.download")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemImage>
           </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>

@@ -12,9 +12,6 @@ import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
 
 export const MediaListRef = styled.div`
   background: ${colors.white};
-  padding: ${spacing.small} ${spacing.normal};
-  margin-top: ${spacing.small};
-  margin-right: ${spacing.normal};
   width: 100%;
   ${mq.range({ until: breakpoints.tablet })} {
     button,
@@ -22,9 +19,6 @@ export const MediaListRef = styled.div`
       width: 100%;
       margin: ${spacing.xxsmall} 0;
     }
-  }
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding-left: ${spacing.mediumlarge};
   }
 `;
 
