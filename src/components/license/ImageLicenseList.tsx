@@ -13,11 +13,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
-import LicenseIconDescriptionList from "@ndla/notion";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Image } from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
@@ -31,6 +29,7 @@ import {
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
+  MediaListLicense,
 } from "../MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
@@ -96,12 +95,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      {/* <LicenseIconDescriptionList
-        licenseRights={licenseRights}
-        locale={locale}
-        color={color}
-        highlightCC={highlightCC}
-      /> */}
+      <MediaListLicense mediaSource={image} title={t("license.images.rules")} mediaSourceTitle={image.title} />
       <MediaListItemImage canOpen={shouldShowLink}>
         <Image alt={image.altText} src={image.src} />
       </MediaListItemImage>
@@ -121,8 +115,6 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         )}
       </MediaListItemActions>
       <MediaListItemBody
-        title={t("license.images.rules")}
-        mediaSourceTitle={image.title}
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
@@ -154,7 +146,6 @@ interface Props {
 }
 
 const ImageLicenseList = ({ images }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <div>

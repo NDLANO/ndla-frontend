@@ -7,19 +7,23 @@
  */
 
 import { ComponentProps, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
 import {
   getLicenseByAbbreviation,
+  getLicenseRightByAbbreviation,
   getResourceTypeNamespace,
   isCreativeCommonsLicense,
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
-import { LicenseDescription } from "@ndla/notion";
+import { LicenseIconDescriptionList } from "@ndla/notion";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
+import { LicenseLink } from "@ndla/ui";
 import { uuid } from "@ndla/util";
+import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 
 const StyledMediaList = styled.ul`
   padding-left: 0;
@@ -31,6 +35,51 @@ const StyledMediaList = styled.ul`
 export const MediaList = ({ children, ...rest }: ComponentProps<"ul">) => (
   <StyledMediaList {...rest}>{children}</StyledMediaList>
 );
+
+interface MediaSourceProps {
+  mediaSource: GQLImageLicenseList_ImageLicenseFragment;
+  title?: string;
+  mediaSourceTitle?: string;
+}
+
+const MediaLicenseContainer = styled.div`
+  padding-bottom: ${spacing.normal};
+`;
+
+const BodyTitle = styled(Text)`
+  font-weight: ${fonts.weight.bold};
+  padding-bottom: ${spacing.xsmall};
+  + p {
+    margin-top: ${spacing.small};
+  }
+`;
+
+export const MediaListLicense = ({ mediaSource, title, mediaSourceTitle }: MediaSourceProps) => {
+  const { i18n } = useTranslation();
+
+  const license = getLicenseByAbbreviation(mediaSource.copyright.license.license, i18n.language);
+  // @ts-ignore
+  const { description } = getLicenseRightByAbbreviation(license.rights[0], i18n.language);
+
+  return (
+    <MediaLicenseContainer>
+      {title ? (
+        <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
+          {title}
+          {` "${mediaSourceTitle}"`}
+        </BodyTitle>
+      ) : null}
+      <br />
+      <span>
+        Dette bildet har lisens <LicenseLink license={license} asLink={!!license.url.length} />. {description}
+      </span>
+      <LicenseIconDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      <SafeLink rel="noopener noreferrer license" target="_blank" to={license.url}>
+        {license.linkText}
+      </SafeLink>
+    </MediaLicenseContainer>
+  );
+};
 
 const StyledMediaListItem = styled.li`
   margin-bottom: ${spacing.small};
@@ -87,8 +136,6 @@ interface MediaListItemBodyProps {
   messages?: {
     modelPermission?: string;
   };
-  title?: string;
-  mediaSourceTitle?: string;
 }
 
 const StyledMediaListItemBody = styled.div`
@@ -101,23 +148,12 @@ const StyledMediaListItemBody = styled.div`
   }
 `;
 
-const BodyTitle = styled(Text)`
-  font-weight: ${fonts.weight.bold};
-  margin-bottom: ${spacing.xsmall};
-  + p {
-    margin-top: ${spacing.small};
-  }
-`;
-
 export const MediaListItemBody = ({
   children,
   license: licenseAbbreviation,
-  messages,
-  title,
   locale,
   resourceUrl = "", // defaults to current page
   resourceType,
-  mediaSourceTitle,
 }: MediaListItemBodyProps) => {
   const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
   const containerProps = isCreativeCommonsLicense(license.rights)
@@ -137,16 +173,6 @@ export const MediaListItemBody = ({
     <StyledMediaListItemBody {...containerProps}>
       {/* @ts-ignore */}
       {metaResourceType && <span rel="dct:type" href={metaResourceType} style={hidden} />}
-      {title ? (
-        <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
-          {title}
-          {` "${mediaSourceTitle}"`}
-        </BodyTitle>
-      ) : null}
-      <LicenseDescription locale={locale} messages={messages} licenseRights={license.rights} />
-      <SafeLink rel="noopener noreferrer license" target="_blank" to={license.url}>
-        {license.linkText}
-      </SafeLink>
       {children}
     </StyledMediaListItemBody>
   );
@@ -238,6 +264,7 @@ const StyledMediaListItemMeta = styled.ul`
 const StyledMediaListMetaItem = styled.li`
   margin: 0;
   padding: 0;
+  padding-bottom: ${spacing.xsmall};
 `;
 
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
