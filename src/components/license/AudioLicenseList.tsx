@@ -9,25 +9,25 @@
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { AudioDocument } from "@ndla/icons/common";
-import { getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
+import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
-import LicenseDescription from "./LicenseDescription";
+import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import { MediaListRef } from "./licenseStyles";
+import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
+  MediaListLicense,
 } from "../MediaList";
 
 interface AudioLicenseInfoProps {
@@ -69,26 +69,43 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
     });
   }
 
+  const copyText = figureApa7CopyString(
+    audio.title,
+    undefined,
+    audio.src,
+    `${config.ndlaFrontendDomain}/image/${audio.id}`,
+    audio.copyright,
+    audio.copyright.license.license,
+    "",
+    (id: string) => t(id),
+    i18n.language,
+  );
+
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen={shouldShowLink}>
-        {!shouldShowLink ? (
-          <AudioDocument css={mediaListIcon} />
-        ) : (
-          <Link
-            to={pageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("embed.goTo", { type: t("embed.type.audio") })}
-          >
-            <AudioDocument css={mediaListIcon} />
-          </Link>
-        )}
-      </MediaListItemImage>
-
-      <MediaListItemBody
+      <MediaListLicense
+        licenseType={audio.copyright.license.license}
         title={t("license.audio.rules")}
-        license={audio.copyright.license?.license}
+        sourceTitle={audio.title}
+      />
+      <MediaListItemActions>
+        {shouldShowLink && (
+          <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+            {" "}
+            {"Åpne i ny fane"}
+            {/* Legge til i locale */}
+          </SafeLinkButton>
+        )}
+        {audio.copyright.license.license !== "COPYRIGHTED" && (
+          <>
+            <SafeLinkButton to={audio.src} download variant="outline">
+              {t("license.download")}
+            </SafeLinkButton>
+          </>
+        )}
+      </MediaListItemActions>
+      <MediaListItemBody
+        license={audio.copyright.license.license}
         resourceType="audio"
         resourceUrl={audio.src}
         locale={i18n.language}
@@ -98,9 +115,13 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             <MediaListItemMeta items={items} />
             {audio.copyright.license?.license !== "COPYRIGHTED" && (
               <>
-                <SafeLinkButton to={audio.src} download variant="outline">
-                  {t("license.download")}
-                </SafeLinkButton>
+                {copyText && (
+                  <CopyTextButton
+                    stringToCopy={copyText}
+                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    hasCopiedTitle={t("license.hasCopiedTitle")}
+                  />
+                )}
               </>
             )}
           </MediaListRef>
@@ -115,17 +136,13 @@ interface Props {
 }
 
 const AudioLicenseList = ({ audios }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(audios, (audio) => audio.id), [audios]);
   return (
-    <div>
-      <LicenseDescription>{t("license.audio.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((audio) => (
-          <AudioLicenseInfo audio={audio} key={uuid()} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((audio) => (
+        <AudioLicenseInfo audio={audio} key={uuid()} />
+      ))}
+    </MediaList>
   );
 };
 

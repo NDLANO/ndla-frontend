@@ -101,7 +101,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       />
       <Image alt={image.altText} src={image.src} />
       <MediaListItemActions>
-        {image.copyright.license?.license !== "COPYRIGHTED" && (
+        {image.copyright.license.license !== "COPYRIGHTED" && (
           <>
             <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
               {t("license.download")}
