@@ -6,23 +6,39 @@
  *
  */
 import { useTranslation } from "react-i18next";
+import styled from "@emotion/styled";
+import { fonts, spacing } from "@ndla/core";
+import { Text } from "@ndla/typography";
 import CopyTextButton from "./CopyTextButton";
 import LicenseDescription from "./LicenseDescription";
+import { MediaList, MediaListItem } from "../MediaList";
 
 interface Props {
   oembed: string;
 }
+
+const BodyTitle = styled(Text)`
+  font-weight: ${fonts.weight.bold};
+  margin-bottom: 0;
+  + p {
+    margin-top: ${spacing.small};
+  }
+`;
+
 const OembedItem = ({ oembed }: Props) => {
   const { t } = useTranslation();
   return (
-    <div>
-      <LicenseDescription>{t("license.embedlink.description")}</LicenseDescription>
-      <CopyTextButton
-        copyTitle={t("license.embedlink.copyTitle")}
-        hasCopiedTitle={t("license.embedlink.hasCopiedTitle")}
-        stringToCopy={oembed}
-      />
-    </div>
+    <MediaList>
+      <MediaListItem>
+        <BodyTitle>{t("license.tabs.embedlink")}</BodyTitle>
+        <LicenseDescription>{t("license.embedlink.description")}</LicenseDescription>
+        <CopyTextButton
+          copyTitle={t("license.embedlink.copyTitle")}
+          hasCopiedTitle={t("license.embedlink.hasCopiedTitle")}
+          stringToCopy={oembed}
+        />
+      </MediaListItem>
+    </MediaList>
   );
 };
 
