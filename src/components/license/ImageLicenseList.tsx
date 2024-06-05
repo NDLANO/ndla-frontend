@@ -24,7 +24,6 @@ import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
@@ -95,10 +94,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListLicense mediaSource={image} title={t("license.images.rules")} mediaSourceTitle={image.title} />
-      <MediaListItemImage canOpen={shouldShowLink}>
-        <Image alt={image.altText} src={image.src} />
-      </MediaListItemImage>
+      <MediaListLicense
+        licenseType={image.copyright.license.license}
+        title={t("license.images.rules")}
+        sourceTitle={image.title}
+      />
+      <Image alt={image.altText} src={image.src} />
       <MediaListItemActions>
         {image.copyright.license?.license !== "COPYRIGHTED" && (
           <>
@@ -148,13 +149,11 @@ interface Props {
 const ImageLicenseList = ({ images }: Props) => {
   const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
-    <div>
-      <MediaList>
-        {unique.map((image, index) => (
-          <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((image, index) => (
+        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
+      ))}
+    </MediaList>
   );
 };
 

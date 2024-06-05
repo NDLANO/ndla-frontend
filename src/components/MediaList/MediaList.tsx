@@ -23,7 +23,6 @@ import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { LicenseLink } from "@ndla/ui";
 import { uuid } from "@ndla/util";
-import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 
 const StyledMediaList = styled.ul`
   padding-left: 0;
@@ -37,9 +36,9 @@ export const MediaList = ({ children, ...rest }: ComponentProps<"ul">) => (
 );
 
 interface MediaSourceProps {
-  mediaSource: GQLImageLicenseList_ImageLicenseFragment;
+  licenseType: string;
   title?: string;
-  mediaSourceTitle?: string;
+  sourceTitle?: string;
 }
 
 const MediaLicenseContainer = styled.div`
@@ -54,10 +53,10 @@ const BodyTitle = styled(Text)`
   }
 `;
 
-export const MediaListLicense = ({ mediaSource, title, mediaSourceTitle }: MediaSourceProps) => {
+export const MediaListLicense = ({ licenseType, title, sourceTitle }: MediaSourceProps) => {
   const { i18n } = useTranslation();
 
-  const license = getLicenseByAbbreviation(mediaSource.copyright.license.license, i18n.language);
+  const license = getLicenseByAbbreviation(licenseType, i18n.language);
   // @ts-ignore
   const { description } = getLicenseRightByAbbreviation(license.rights[0], i18n.language);
 
@@ -66,7 +65,7 @@ export const MediaListLicense = ({ mediaSource, title, mediaSourceTitle }: Media
       {title ? (
         <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
           {title}
-          {` "${mediaSourceTitle}"`}
+          {` "${sourceTitle}"`}
         </BodyTitle>
       ) : null}
       <br />

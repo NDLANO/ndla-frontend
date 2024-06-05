@@ -11,23 +11,23 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
+import config from "../../config";
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
+  MediaListLicense,
 } from "../MediaList";
 
 interface VideoLicenseInfoProps {
@@ -53,10 +53,48 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
       metaType: metaTypes.title,
     });
   }
+
+  const copyText = figureApa7CopyString(
+    video.title,
+    undefined,
+    video.src,
+    `${config.ndlaFrontendDomain}/image/${video.id}`,
+    video.copyright,
+    video?.copyright?.license.license,
+    "",
+    (id: string) => t(id),
+    i18n.language,
+  );
+
   return (
     <MediaListItem>
-      <MediaListItemBody
+      <MediaListLicense
+        licenseType={video.copyright?.license?.license ?? ""}
         title={t("license.video.rules")}
+        sourceTitle={video.title}
+      />
+      <img alt="presentation" src={video.cover} />
+      <MediaListItemActions>
+        <MediaListRef>
+          {video.copyright?.license?.license !== "COPYRIGHTED" && video.download && (
+            <SafeLinkButton to={video.download} download variant="outline">
+              {t("license.download")}
+            </SafeLinkButton>
+          )}
+          <CopyTextButton
+            stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+              {"Åpne i ny fane"}
+              {/* Legge til i locale */}
+            </SafeLinkButton>
+          )}
+        </MediaListRef>
+      </MediaListItemActions>
+      <MediaListItemBody
         license={video.copyright?.license?.license ?? ""}
         resourceType="video"
         resourceUrl={video.src}
@@ -65,29 +103,17 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            <img alt="presentation" src={video.cover} />
-            {video.copyright?.license?.license !== "COPYRIGHTED" && video.download && (
-              <SafeLinkButton to={video.download} download variant="outline">
-                {t("license.download")}
-              </SafeLinkButton>
+            {video?.copyright?.license?.license !== "COPYRIGHTED" && (
+              <>
+                {copyText && (
+                  <CopyTextButton
+                    stringToCopy={copyText}
+                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    hasCopiedTitle={t("license.hasCopiedTitle")}
+                  />
+                )}
+              </>
             )}
-            <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            <MediaListItemImage>
-              {shouldShowLink && (
-                <SafeLinkButton
-                  to={pageUrl}
-                  target="_blank"
-                  aria-label={t("embed.goTo", { type: t("embed.type.video") })}
-                  variant="outline"
-                >
-                  {t("license.download")}
-                </SafeLinkButton>
-              )}
-            </MediaListItemImage>
           </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
@@ -100,17 +126,13 @@ interface Props {
 }
 
 const VideoLicenseList = ({ videos }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
-    <div>
-      <LicenseDescription>{t("license.video.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((video) => (
-          <VideoLicenseInfo video={video} key={uuid()} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((video) => (
+        <VideoLicenseInfo video={video} key={uuid()} />
+      ))}
+    </MediaList>
   );
 };
 
