@@ -11,23 +11,23 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { H5PBold } from "@ndla/icons/editor";
-import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef } from "./licenseStyles";
+import config from "../../config";
 import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
+  MediaListLicense,
 } from "../MediaList";
 
 interface H5pLicenseInfoProps {
@@ -38,6 +38,13 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const safeCopyright = licenseCopyrightToCopyrightType(h5p.copyright);
+  const pageUrl = useMemo(() => `/h5p/${h5p.id}`, [h5p.id]);
+
+  const shouldShowLink = useMemo(
+    () => pathname !== pageUrl && !isCopyrighted(h5p.copyright?.license.license),
+    [pageUrl, pathname, h5p.copyright?.license.license],
+  );
+
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (h5p.title) {
     items.unshift({
@@ -46,21 +53,43 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
       metaType: metaTypes.title,
     });
   }
+
+  const copyText = figureApa7CopyString(
+    h5p.title,
+    undefined,
+    h5p.src,
+    `${config.ndlaFrontendDomain}/image/${h5p.id}`,
+    h5p.copyright,
+    h5p?.copyright?.license.license,
+    "",
+    (id: string) => t(id),
+    i18n.language,
+  );
+
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen>
-        <a
-          href={pathname.includes("/h5p/") && h5p.src ? h5p.src : `/h5p/${h5p.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={t("embed.goTo", { type: t("embed.type.h5p") })}
-        >
-          <H5PBold css={mediaListIcon} />
-        </a>
-      </MediaListItemImage>
+      <MediaListLicense
+        licenseType={h5p.copyright?.license?.license ?? ""}
+        title={t("license.h5p.rules")}
+        sourceTitle={h5p.title}
+      />
+      <MediaListItemActions>
+        <MediaListRef>
+          <CopyTextButton
+            stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
+              {"Åpne i ny fane"}
+              {/* Legge til i locale */}
+            </SafeLinkButton>
+          )}
+        </MediaListRef>
+      </MediaListItemActions>
       <MediaListItemBody
         license={h5p.copyright?.license?.license ?? ""}
-        title={t("license.h5p.rules")}
         resourceType="h5p"
         resourceUrl={h5p.src}
         locale={i18n.language}
@@ -68,11 +97,17 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
+            {h5p?.copyright?.license?.license !== "COPYRIGHTED" && (
+              <>
+                {copyText && (
+                  <CopyTextButton
+                    stringToCopy={copyText}
+                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    hasCopiedTitle={t("license.hasCopiedTitle")}
+                  />
+                )}
+              </>
+            )}
           </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
@@ -85,17 +120,13 @@ interface Props {
 }
 
 const H5pLicenseList = ({ h5ps }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(h5ps, (h5p) => h5p.id), [h5ps]);
   return (
-    <div>
-      <LicenseDescription>{t("license.h5p.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((h5p) => (
-          <H5pLicenseInfo h5p={h5p} key={uuid()} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((h5p) => (
+        <H5pLicenseInfo h5p={h5p} key={uuid()} />
+      ))}
+    </MediaList>
   );
 };
 
