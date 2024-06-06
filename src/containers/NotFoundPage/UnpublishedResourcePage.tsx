@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -11,10 +11,10 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { OneColumn, ErrorMessage } from "@ndla/ui";
 import { Status } from "../../components";
 
-const NotFound = () => {
+const UnpublishedResource = () => {
   const { t } = useTranslation();
   return (
-    <Status code={404}>
+    <Status code={410}>
       <HelmetWithTracker title={t("htmlTitles.notFound")} />
       <OneColumn>
         <ErrorMessage
@@ -23,8 +23,8 @@ const NotFound = () => {
             altText: t("errorMessage.title"),
           }}
           messages={{
-            title: t(`notFoundPage.title`),
-            description: t(`notFoundPage.errorDescription`),
+            title: t(`unpublishedResourcePage.title`),
+            description: t(`unpublishedResourcePage.errorDescription`),
             goToFrontPage: t("errorMessage.goToFrontPage"),
           }}
         />
@@ -33,6 +33,6 @@ const NotFound = () => {
   );
 };
 
-NotFound.propTypes = {};
+UnpublishedResource.propTypes = {};
 
-export default NotFound;
+export default UnpublishedResource;

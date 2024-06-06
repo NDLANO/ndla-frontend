@@ -20,6 +20,7 @@ import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import UnpublishedResource from "../NotFoundPage/UnpublishedResourcePage";
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -57,6 +58,7 @@ const PlainArticlePage = () => {
   }
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
+    return <UnpublishedResource />;
   }
 
   if (error) {
