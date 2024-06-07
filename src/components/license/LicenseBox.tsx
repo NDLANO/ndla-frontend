@@ -45,6 +45,7 @@ function buildLicenseTabList(
       copyText,
     },
   ];
+
   if (textblocks.length > 0) {
     textblocks.forEach((textblock) => {
       articleTexts.push({
@@ -54,6 +55,12 @@ function buildLicenseTabList(
     });
   }
 
+  tabs.push({
+    title: t("license.tabs.text"),
+    id: "text",
+    content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
+  });
+
   if (images.length > 0) {
     tabs.push({
       title: t("license.tabs.images"),
@@ -61,11 +68,14 @@ function buildLicenseTabList(
       content: <ImageLicenseList images={images} />,
     });
   }
-  tabs.push({
-    title: t("license.tabs.text"),
-    id: "text",
-    content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
-  });
+
+  if (brightcove.length > 0) {
+    tabs.push({
+      title: t("license.tabs.video"),
+      id: "video",
+      content: <VideoLicenseList videos={brightcove} />,
+    });
+  }
 
   if (audios.length > 0) {
     tabs.push({
@@ -80,14 +90,6 @@ function buildLicenseTabList(
       title: t("license.tabs.podcast"),
       id: "podcast",
       content: <PodcastLicenseList podcasts={podcasts} />,
-    });
-  }
-
-  if (brightcove.length > 0) {
-    tabs.push({
-      title: t("license.tabs.video"),
-      id: "video",
-      content: <VideoLicenseList videos={brightcove} />,
     });
   }
 
