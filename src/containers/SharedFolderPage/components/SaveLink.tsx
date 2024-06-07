@@ -48,12 +48,12 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
   const { authenticated } = useContext(AuthContext);
   const { addSnack } = useSnack();
 
-  const onSaveLink = () => {
+  const onSaveLink = (name: string) => {
     saveSharedFolder();
     hideTrigger();
     setOpen(false);
     addSnack({
-      content: t("myNdla.folder.sharing.saveLink"),
+      content: t("myNdla.folder.sharing.savedLink", { name }),
       id: "sharedFolderSaved",
     });
   };
@@ -91,7 +91,7 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
               <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
                 {t("close")}
               </ButtonV2>
-              <ButtonV2 onClick={onSaveLink}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
+              <ButtonV2 onClick={() => onSaveLink(name)}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
             </ButtonRow>
           </ModalBody>
         </ModalContent>
