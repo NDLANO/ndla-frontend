@@ -12,7 +12,7 @@ import styled from "@emotion/styled";
 import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core";
 import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
-import { ResourceTitleLink } from "../../Resource/resourceComponents";
+import { SafeLink } from "@ndla/safelink";
 
 export type LayoutType = "list" | "listLarger" | "block";
 
@@ -71,6 +71,25 @@ const IconWrapper = styled.div`
   svg {
     width: 20px;
     height: 20px;
+  }
+`;
+
+const ResourceTitleLink = styled(SafeLink)`
+  box-shadow: none;
+  color: ${colors.brand.primary};
+  flex: 1;
+  &[data-resource-available="false"] {
+    color: ${colors.brand.grey};
+    font-style: italic;
+  }
+  :after {
+    content: "";
+    position: absolute;
+    z-index: ${stackOrder.offsetSingle};
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 `;
 

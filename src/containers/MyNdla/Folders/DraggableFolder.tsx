@@ -11,7 +11,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
-// import { Folder } from "@ndla/ui";
+//import { Folder } from "@ndla/ui";
 import DragHandle from "./DragHandle";
 import FolderActions from "./FolderActions";
 import { ViewType } from "./FoldersPage";
