@@ -24,11 +24,11 @@ import ListViewOptions from "./ListViewOptions";
 import ResourceList from "./ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
-import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { GQLFolder, GQLFoldersPageQuery, GQLSharedFolderFragmentFragment } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { foldersPageQuery, useFolder } from "../folderMutations";
+import { foldersPageQuery, useFolder, sharedFoldersPageQueryFragment, sharedFolderFragment } from "../folderMutations";
 import MyTags from "../Tags/MyTags";
 
 const FoldersPageContainer = styled.div`
@@ -116,10 +116,10 @@ const FoldersPage = () => {
     [selectedFolder, data?.folders],
   );
 
-  const sharedFolders: GQLFolder[] = useMemo(
-    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as GQLFolder[]) ?? []),
-    [selectedFolder, data?.folders],
-  );
+  // const sharedFolders: GQLFolder[] = useMemo(
+  //   () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as GQLFolder[]) ?? []),
+  //   [selectedFolder, data?.folders.sharedFolders],
+  // );
 
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
@@ -222,14 +222,14 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        {sharedFolders && (
+        {folders && (
           <>
             <Heading element="h2" headingStyle="h2" margin="none">
               {t("myNdla.sharedByOthersFolders")}
             </Heading>
             <FolderList
               type={viewType}
-              folders={sharedFolders}
+              folders={folders}
               loading={loading}
               folderId={folderId}
               setFocusId={setFocusId}
