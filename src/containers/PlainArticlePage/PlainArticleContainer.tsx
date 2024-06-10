@@ -98,7 +98,6 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
       />
       <OneColumn>
         <Article
-          contentTransformed
           isPlainArticle
           id={skipToContentId}
           article={article}

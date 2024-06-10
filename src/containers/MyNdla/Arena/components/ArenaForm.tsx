@@ -21,7 +21,6 @@ import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
-import { iconCss } from "../../components/toolbarStyles";
 import { FieldLength } from "../../Folders/FolderForm";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
@@ -61,7 +60,6 @@ const StyledLabel = styled(Label)`
 `;
 
 const StyledInformationOutline = styled(InformationOutline)`
-  ${iconCss};
   overflow: unset !important;
 `;
 
@@ -216,7 +214,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         />
       )}
       <InformationLabel>
-        <StyledInformationOutline />
+        <StyledInformationOutline size="nsmall" />
         <Text margin="none" textStyle="content">
           {t(`myNdla.arena.warning.${type}`)}
         </Text>

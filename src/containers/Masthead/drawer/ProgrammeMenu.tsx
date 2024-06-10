@@ -37,10 +37,10 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const programmes = useMemo(
     () =>
-      programmesProp.map((prog) => ({
-        ...prog,
-        path: toProgramme(prog.url.slice(1)),
-        name: prog.title.title,
+      programmesProp.map((programme) => ({
+        ...programme,
+        path: toProgramme(programme.url),
+        name: programme.title.title,
       })),
     [programmesProp],
   );

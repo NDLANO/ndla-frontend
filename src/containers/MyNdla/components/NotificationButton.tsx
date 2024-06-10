@@ -12,30 +12,27 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Bell } from "@ndla/icons/common";
-import { iconCss } from "./toolbarStyles";
+import { Text } from "@ndla/typography";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
 
-const NotificationCounter = styled.div`
-  position: relative;
+const NotificationCounter = styled(Text)`
+  position: absolute;
   background: ${colors.support.red};
   color: ${colors.white};
-
-  height: ${spacing.nsmall};
   padding: 0 ${spacing.xxsmall};
-  font-size: ${spacing.small};
   border-radius: 2px;
-
-  right: ${spacing.small};
-  bottom: ${spacing.xsmall};
-
-  &[data-align-left="true"] {
-    right: ${spacing.normal};
+  bottom: 40%;
+  width: fit-content;
+  &[data-left="true"] {
+    right: 50%;
+  }
+  &[data-left="false"] {
+    left: 50%;
   }
 `;
 
 const IconWrapper = styled.div`
-  display: flex;
-  vertical-align: center;
+  position: relative;
 `;
 
 interface Props extends ComponentPropsWithRef<"button"> {
@@ -63,9 +60,9 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <Bell css={iconCss} />
+      <Bell size="nsmall" />
       {amountOfUnreadNotifications !== 0 && (
-        <NotificationCounter data-align-left={left}>
+        <NotificationCounter margin="none" element="div" textStyle="meta-text-xsmall" data-left={!!left}>
           {amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}
         </NotificationCounter>
       )}

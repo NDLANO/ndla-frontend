@@ -54,6 +54,7 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
+import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -106,9 +107,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/:programme" element={<ProgrammePage />}>
-                  <Route path=":grade" element={null} />
-                </Route>
+                <Route path="utdanning/*" element={<ProgrammePage />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
@@ -197,11 +196,15 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                <Route path="folder/:folderId">
-                  <Route index element={<SharedFolderPage />} />
-                  <Route path=":subfolderId" element={<SharedFolderPage />} />
-                  <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                </Route>
+                {config.folderRedesign ? (
+                  <Route path="folder/:folderId" element={<SharedFolderPageV2 />} />
+                ) : (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPage />} />
+                    <Route path=":subfolderId" element={<SharedFolderPage />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
+                  </Route>
+                )}
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />

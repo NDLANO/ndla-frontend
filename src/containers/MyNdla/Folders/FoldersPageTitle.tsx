@@ -7,7 +7,6 @@
  */
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
@@ -29,33 +28,31 @@ const StyledContentLoader = styled(ContentLoader)`
   min-width: 500px;
 `;
 
-const IconCSS = css`
-  height: ${spacing.large};
-  width: ${spacing.large};
-`;
-
 interface Props {
-  loading: boolean;
+  loading?: boolean;
   selectedFolder: GQLFolder | null;
+  enableBreadcrumb?: boolean;
 }
 
-const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
+const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = true }: Props) => {
   const { t } = useTranslation();
 
   return (
     <TitleWrapper>
-      <WhileLoading
-        isLoading={loading}
-        fallback={
-          !!selectedFolder && (
-            <StyledContentLoader width={500} height={30}>
-              <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
-            </StyledContentLoader>
-          )
-        }
-      >
-        <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
-      </WhileLoading>
+      {enableBreadcrumb && (
+        <WhileLoading
+          isLoading={loading}
+          fallback={
+            !!selectedFolder && (
+              <ContentLoader width={500} height={30}>
+                <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
+              </ContentLoader>
+            )
+          }
+        >
+          <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
+        </WhileLoading>
+      )}
       <TitleRow>
         <WhileLoading
           fallback={
@@ -67,9 +64,9 @@ const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
         >
           {selectedFolder ? (
             selectedFolder.status === "shared" ? (
-              <FolderSharedOutlined css={IconCSS} />
+              <FolderSharedOutlined size="large" />
             ) : (
-              <FolderOutlined css={IconCSS} />
+              <FolderOutlined size="large" />
             )
           ) : null}
           <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />

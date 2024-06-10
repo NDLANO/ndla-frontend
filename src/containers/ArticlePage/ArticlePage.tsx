@@ -176,7 +176,6 @@ const ArticlePage = ({
       />
       <OneColumn>
         <Article
-          contentTransformed
           path={resource.path}
           id={skipToContentId}
           article={article}
