@@ -6,7 +6,7 @@
  *
  */
 
-import { Component } from "react";
+import { Component, ReactNode } from "react";
 import { ButtonV2 } from "@ndla/button";
 import { copyTextToClipboard } from "@ndla/util";
 
@@ -14,6 +14,7 @@ interface Props {
   stringToCopy?: string;
   copyTitle: string;
   hasCopiedTitle: string;
+  children?: ReactNode;
 }
 
 interface State {
@@ -49,7 +50,7 @@ class CopyTextButton extends Component<Props, State> {
 
   render() {
     const { hasCopied } = this.state;
-    const { copyTitle, hasCopiedTitle } = this.props;
+    const { copyTitle, hasCopiedTitle, children } = this.props;
     return (
       <span
         ref={(r) => {
@@ -57,6 +58,7 @@ class CopyTextButton extends Component<Props, State> {
         }}
       >
         <ButtonV2 variant="outline" disabled={hasCopied} onClick={this.handleClick}>
+          {children}
           {hasCopied ? hasCopiedTitle : copyTitle}
         </ButtonV2>
       </span>
