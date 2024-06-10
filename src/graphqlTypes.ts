@@ -1812,11 +1812,6 @@ export type GQLResourceType = {
   __typename?: "ResourceType";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
-  resources?: Maybe<Array<GQLResource>>;
-};
-
-export type GQLResourceTypeResourcesArgs = {
-  topicId: Scalars["String"]["input"];
 };
 
 export type GQLResourceTypeDefinition = {
@@ -1855,6 +1850,7 @@ export type GQLSearchContext = {
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLSearchContextResourceTypes = {
@@ -1996,8 +1992,12 @@ export type GQLTags = {
 export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
+  contextId: Scalars["String"]["output"];
+  contextType?: Maybe<Scalars["String"]["output"]>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
+  resourceTypes?: Maybe<Array<GQLResourceType>>;
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxonomyEntity = {

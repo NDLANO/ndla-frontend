@@ -1257,7 +1257,6 @@ type ResourceMetaData {
 type ResourceType {
   id: String!
   name: String!
-  resources(topicId: String!): [Resource!]
 }
 
 type ResourceTypeDefinition {
@@ -1293,6 +1292,7 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
+  url: String
 }
 
 type SearchContextResourceTypes {
@@ -1417,8 +1417,12 @@ type Tags {
 
 type TaxonomyContext {
   breadcrumbs: [String!]!
+  contextId: String!
+  contextType: String
   parentIds: [String!]!
   path: String!
+  resourceTypes: [ResourceType!]
+  url: String
 }
 
 interface TaxonomyEntity {
