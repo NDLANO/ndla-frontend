@@ -12,13 +12,19 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
+import { Download, Launch } from "@ndla/icons/common";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString, COPYRIGHTED } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Image } from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 import {
@@ -42,6 +48,12 @@ export const downloadUrl = (imageSrc: string) => {
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
 }
+
+const LicenseAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  gap: ${spacing.xsmall};
+`;
 
 const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -94,22 +106,36 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListLicense
-        licenseType={image.copyright.license.license}
-        title={t("license.images.rules")}
-        sourceTitle={image.title}
-      />
+      <LicenseAndButtonWrapper>
+        <MediaListLicense
+          licenseType={image.copyright.license.license}
+          title={t("license.images.rules")}
+          sourceTitle={image.title}
+        />
+        {image.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
+          <AddResourceToFolderModal
+            resource={{
+              id: image.id,
+              path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+              resourceType: "image",
+            }}
+          >
+            <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+          </AddResourceToFolderModal>
+        )}
+      </LicenseAndButtonWrapper>
       <Image alt={image.altText} src={image.src} />
       <MediaListItemActions>
-        {image.copyright.license.license !== "COPYRIGHTED" && (
+        {image.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
           <>
             <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
+              <Download />
               {t("license.download")}
             </SafeLinkButton>
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
-                {"Åpne i ny fane"}
-                {/* Legge til i locale */}
+                <Launch />
+                {t("license.openLink")}
               </SafeLinkButton>
             )}
           </>
@@ -124,14 +150,16 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {image.copyright.license?.license !== "COPYRIGHTED" && (
+            {image.copyright.license?.license.toLowerCase() !== COPYRIGHTED && (
               <>
                 {copyText && (
                   <CopyTextButton
                     stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
+                  >
+                    <Copy />
+                  </CopyTextButton>
                 )}
               </>
             )}
