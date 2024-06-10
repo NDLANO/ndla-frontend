@@ -195,7 +195,7 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
         {t("learningPath.youAreInALearningPath")}
       </LearningpathText>
       <HeaderWrapper>
-        <Heading element="h2" headingStyle="h4" margin="none" id={headingId}>
+        <Heading element="h1" headingStyle="h4" margin="none" id={headingId}>
           {learningpath.title}
         </Heading>
         {!!resource?.path && config.feideEnabled && (
@@ -242,7 +242,6 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
       </nav>
       <ArticleByline
         authors={learningpath.copyright.contributors}
-        license={learningpath.copyright.license.license}
         published={lastUpdatedString}
         bylineType="learningPath"
       />

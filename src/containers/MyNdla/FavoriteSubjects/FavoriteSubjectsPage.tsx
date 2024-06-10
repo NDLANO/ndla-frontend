@@ -21,7 +21,7 @@ import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
-import { buttonCss, iconCss } from "../components/toolbarStyles";
+import { buttonCss } from "../components/toolbarStyles";
 import { useFavouriteSubjects } from "../folderMutations";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
@@ -78,7 +78,7 @@ const FavoriteSubjectsPage = () => {
       <StyledListItem key="allSubjects">
         <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
           {t("subjectsPage.allSubjects")}
-          <Forward css={iconCss} />
+          <Forward size="nsmall" />
         </SafeLinkButton>
       </StyledListItem>
     ),
@@ -91,7 +91,7 @@ const FavoriteSubjectsPage = () => {
         menuItems={[
           {
             text: t("subjectsPage.allSubjects"),
-            icon: <Forward css={iconCss} />,
+            icon: <Forward size="nsmall" />,
             onClick: () => navigate("/subjects"),
           },
         ]}

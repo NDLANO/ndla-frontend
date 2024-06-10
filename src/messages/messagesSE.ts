@@ -85,6 +85,9 @@ const messages = {
     concept: "Čilgehus",
     audio: "Jietna",
   },
+  contentTypes: {
+    multidisciplinary: "Fágaidrasttideaddji fáddá",
+  },
   markdownEditor: {
     link: {
       url: "Lenkeadresse",

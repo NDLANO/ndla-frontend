@@ -12,7 +12,7 @@ import { ButtonV2 } from "@ndla/button";
 import { TrashCanOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import DeleteModalContent from "../components/DeleteModalContent";
-import { buttonCss, iconCss } from "../components/toolbarStyles";
+import { buttonCss } from "../components/toolbarStyles";
 
 interface Props {
   onDelete: () => void;
@@ -33,7 +33,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
           aria-label={t("myNdla.folder.delete")}
           title={t("myNdla.folder.delete")}
         >
-          <TrashCanOutline css={iconCss} />
+          <TrashCanOutline size="nsmall" />
           {t("myNdla.folder.deleteShort")}
         </ButtonV2>
       </ModalTrigger>
