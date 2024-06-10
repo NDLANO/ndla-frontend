@@ -93,6 +93,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
           link={routes.myNdla.folder(folder.id)}
           title={folder.name}
           type={type}
+          author={folder.owner?.name}
           isOwner={folder.owner && true}
           menu={menu}
           subFolders={foldersCount[folder.id]?.folders}
