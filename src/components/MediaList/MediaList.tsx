@@ -73,9 +73,6 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle }: MediaSourc
         Dette bildet har lisens <LicenseLink license={license} asLink={!!license.url.length} />. {description}
       </span>
       <LicenseIconDescriptionList licenseRights={license.rights} locale={i18n.language} />
-      <SafeLink rel="noopener noreferrer license" target="_blank" to={license.url}>
-        {license.linkText}
-      </SafeLink>
     </MediaLicenseContainer>
   );
 };
