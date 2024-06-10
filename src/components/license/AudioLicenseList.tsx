@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { COPYRIGHTED, figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -144,7 +145,9 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                     stringToCopy={copyText}
                     copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
+                  >
+                    <Copy />
+                  </CopyTextButton>
                 )}
               </>
             )}
