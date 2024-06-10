@@ -11,13 +11,18 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Download, Launch } from "@ndla/icons/common";
+import { COPYRIGHTED, figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
 import {
@@ -33,6 +38,12 @@ import {
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
 }
+
+const LicenseAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  gap: ${spacing.xsmall};
+`;
 
 const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -83,25 +94,38 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListLicense
-        licenseType={audio.copyright.license.license}
-        title={t("license.audio.rules")}
-        sourceTitle={audio.title}
-      />
-      <MediaListItemActions>
-        {shouldShowLink && (
-          <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
-            {" "}
-            {"Åpne i ny fane"}
-            {/* Legge til i locale */}
-          </SafeLinkButton>
+      <LicenseAndButtonWrapper>
+        <MediaListLicense
+          licenseType={audio.copyright.license.license}
+          title={t("license.audio.rules")}
+          sourceTitle={audio.title}
+        />
+        {audio.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
+          <AddResourceToFolderModal
+            resource={{
+              id: audio.id,
+              path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+              resourceType: "audio",
+            }}
+          >
+            <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+          </AddResourceToFolderModal>
         )}
-        {audio.copyright.license.license !== "COPYRIGHTED" && (
+      </LicenseAndButtonWrapper>
+      <MediaListItemActions>
+        {audio.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
           <>
             <SafeLinkButton to={audio.src} download variant="outline">
+              <Download />
               {t("license.download")}
             </SafeLinkButton>
           </>
+        )}
+        {shouldShowLink && (
+          <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+            <Launch />
+            {t("license.openLink")}
+          </SafeLinkButton>
         )}
       </MediaListItemActions>
       <MediaListItemBody
@@ -113,12 +137,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {audio.copyright.license?.license !== "COPYRIGHTED" && (
+            {audio.copyright.license?.license.toLowerCase() !== COPYRIGHTED && (
               <>
                 {copyText && (
                   <CopyTextButton
                     stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
                   />
                 )}
