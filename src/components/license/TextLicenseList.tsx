@@ -87,7 +87,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
                 {text.copyText && (
                   <CopyTextButton
                     stringToCopy={text.copyText}
-                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
                   />
                 )}
