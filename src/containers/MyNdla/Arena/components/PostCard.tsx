@@ -12,9 +12,9 @@ import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef, use
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
-import { Pencil, TrashCanOutline } from "@ndla/icons/action";
+import { Pencil, Thumb, ThumbFilled, TrashCanOutline } from "@ndla/icons/action";
 import { ReportOutlined, Locked } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { Text, Heading } from "@ndla/typography";
@@ -277,25 +277,43 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
     [created, language, timeDistance],
   );
 
+  const postUpvotes = useMemo(
+    () => (
+      <>
+        <IconButtonV2 aria-label="Like" variant="ghost" colorTheme="light">
+          <Thumb />
+        </IconButtonV2>
+        <TimestampText element="span" textStyle="content-alt" margin="none">
+          <span>0</span>
+        </TimestampText>
+      </>
+    ),
+    [],
+  );
+
   const options = useMemo(
     () =>
       isMainPost ? (
         <>
+          {postTime}
           <FlexLine>
+            {postUpvotes}
             {menu}
-            {postTime}
+            <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
+              {t("myNdla.arena.new.post")}
+            </ButtonV2>
           </FlexLine>
-          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
-            {t("myNdla.arena.new.post")}
-          </ButtonV2>
         </>
       ) : (
         <>
           {postTime}
-          {menu}
+          <FlexLine>
+            {postUpvotes}
+            {menu}
+          </FlexLine>
         </>
       ),
-    [menu, isMainPost, t, postTime, replyToRef, setIsReplying, isReplying, topic?.isLocked],
+    [menu, isMainPost, t, postTime, postUpvotes, replyToRef, setIsReplying, isReplying, topic?.isLocked],
   );
 
   const followSwitch = useMemo(
