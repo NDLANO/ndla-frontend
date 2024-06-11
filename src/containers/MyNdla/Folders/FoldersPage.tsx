@@ -80,6 +80,11 @@ export const ListItem = styled.li`
   padding: 0;
 `;
 
+const StyledHeading = styled(Heading)`
+  margin-top: 0;
+  margin-bottom: ${spacing.xsmall};
+`;
+
 const StyledRow = styled.div`
   margin: ${spacing.small} 0;
   gap: ${spacing.nsmall};
@@ -116,10 +121,10 @@ const FoldersPage = () => {
     [selectedFolder, data?.folders],
   );
 
-  // const sharedFolders: GQLFolder[] = useMemo(
-  //   () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as GQLFolder[]) ?? []),
-  //   [selectedFolder, data?.folders.sharedFolders],
-  // );
+  const sharedFolders: GQLFolder[] = useMemo(
+    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as GQLFolder[]) ?? []),
+    [selectedFolder, data?.folders.sharedFolders],
+  );
 
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
@@ -222,14 +227,14 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        {folders && (
+        {sharedFolders && (
           <>
-            <Heading element="h2" headingStyle="h2" margin="none">
+            <StyledHeading element="h2" headingStyle="h2">
               {t("myNdla.sharedByOthersFolders")}
-            </Heading>
+            </StyledHeading>
             <FolderList
               type={viewType}
-              folders={folders}
+              folders={sharedFolders}
               loading={loading}
               folderId={folderId}
               setFocusId={setFocusId}
