@@ -24,11 +24,11 @@ import ListViewOptions from "./ListViewOptions";
 import ResourceList from "./ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
-import { GQLFolder, GQLFoldersPageQuery, GQLSharedFolderFragmentFragment } from "../../../graphqlTypes";
+import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { foldersPageQuery, useFolder, sharedFoldersPageQueryFragment, sharedFolderFragment } from "../folderMutations";
+import { foldersPageQuery, useFolder } from "../folderMutations";
 import MyTags from "../Tags/MyTags";
 
 const FoldersPageContainer = styled.div`
