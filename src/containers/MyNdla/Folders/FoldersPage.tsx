@@ -120,8 +120,7 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders],
   );
-
-  const sharedFolders: GQLFolder[] = useMemo(
+  const sharedByOthersFolders: GQLFolder[] = useMemo(
     () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders.sharedFolders],
   );
@@ -227,14 +226,14 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        {sharedFolders && (
+        {sharedByOthersFolders && (
           <>
             <StyledHeading element="h2" headingStyle="h2">
               {t("myNdla.sharedByOthersFolders")}
             </StyledHeading>
             <FolderList
               type={viewType}
-              folders={sharedFolders}
+              folders={sharedByOthersFolders}
               loading={loading}
               folderId={folderId}
               setFocusId={setFocusId}

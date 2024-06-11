@@ -48,6 +48,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
+  const unLinkRef = useRef<HTMLButtonElement | null>(null);
 
   const isFolderShared = selectedFolder?.status !== "private";
 
@@ -210,6 +211,24 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       },
     };
 
+    const deleteLink: MenuItemProps = {
+      icon: <Cross />,
+      text: t("myNdla.folder.sharing.button.unSaveLink"),
+      ref: unLinkRef,
+      onClick: () => {
+        updateFolderStatus({
+          variables: {
+            folderId: selectedFolder.id,
+            status: "private",
+          },
+        });
+        addSnack({
+          id: "linkRemoved",
+          content: t("myNdla.folder.sharing.removeLink"),
+        });
+      },
+    };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t("myNdla.folder.deleteShort"),
@@ -238,6 +257,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
     if (isStudent(user)) {
       return actions.concat(editFolder, deleteOpt);
+    }
+
+    if (selectedFolder.id === "SharedFolder") {
+      return actions.concat(deleteLink);
     }
 
     if (selectedFolder.status === "shared") {
