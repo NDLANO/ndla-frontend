@@ -46,6 +46,7 @@ export default defineConfig(() => {
         "@radix-ui/react-accordion",
         "@radix-ui/react-menu",
         "@radix-ui/react-popover",
+        "@radix-ui/react-switch",
         "react-router",
         "react-router-dom",
         "react-helmet-async",

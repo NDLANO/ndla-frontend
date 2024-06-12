@@ -20,7 +20,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
-import { useSaveFolderResourceMutation } from "../../MyNdla/folderMutations";
+import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
 const Content = styled(ModalBody)`
   display: flex;
@@ -44,16 +44,16 @@ interface SaveLinkProps {
 export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, hideTrigger }: SaveLinkProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { saveSharedFolder } = useSaveFolderResourceMutation(id);
+  const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
   const { addSnack } = useSnack();
 
-  const onSaveLink = () => {
-    saveSharedFolder();
+  const onSaveLink = (name: string) => {
+    favoriteSharedFolder();
     hideTrigger();
     setOpen(false);
     addSnack({
-      content: t("myNdla.folder.sharing.saveLink"),
+      content: t("myNdla.folder.sharing.savedLink", { name }),
       id: "sharedFolderSaved",
     });
   };
@@ -91,7 +91,7 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
               <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
                 {t("close")}
               </ButtonV2>
-              <ButtonV2 onClick={onSaveLink}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
+              <ButtonV2 onClick={() => onSaveLink(name)}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
             </ButtonRow>
           </ModalBody>
         </ModalContent>
