@@ -731,13 +731,11 @@ const unFavoriteSharedFolderMutation = gql`
   }
 `;
 
-export const useUnFavoriteSharedFolder = (folderId: string) => {
+export const useUnFavoriteSharedFolder = () => {
   const [unFavoriteSharedFolder] = useMutation<
     GQLUnFavoriteSharedFolderMutation,
     GQLMutationUnFavoriteSharedFolderArgs
-  >(unFavoriteSharedFolderMutation, {
-    variables: { folderId },
-  });
+  >(unFavoriteSharedFolderMutation);
 
   return { unFavoriteSharedFolder };
 };

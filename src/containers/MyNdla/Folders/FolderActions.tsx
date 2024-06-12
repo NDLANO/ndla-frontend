@@ -24,7 +24,12 @@ import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useAddFolderMutation, useDeleteFolderMutation, useUpdateFolderStatusMutation } from "../folderMutations";
+import {
+  useAddFolderMutation,
+  useDeleteFolderMutation,
+  useUpdateFolderStatusMutation,
+  useUnFavoriteSharedFolder,
+} from "../folderMutations";
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -43,6 +48,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const { deleteFolder } = useDeleteFolderMutation();
   const { addFolder } = useAddFolderMutation();
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
+  const { unFavoriteSharedFolder } = useUnFavoriteSharedFolder();
 
   const { user, examLock } = useContext(AuthContext);
 
@@ -216,10 +222,9 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       text: t("myNdla.folder.sharing.button.unSaveLink"),
       ref: unLinkRef,
       onClick: () => {
-        updateFolderStatus({
+        unFavoriteSharedFolder({
           variables: {
             folderId: selectedFolder.id,
-            status: "private",
           },
         });
         addSnack({
@@ -275,6 +280,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     onFolderAdded,
     inToolbar,
     updateFolderStatus,
+    unFavoriteSharedFolder,
     examLock,
     addSnack,
     navigate,
