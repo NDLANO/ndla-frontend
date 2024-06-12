@@ -31,7 +31,7 @@ const OembedItem = ({ oembed }: Props) => {
   return (
     <MediaList>
       <MediaListItem>
-        <BodyTitle>{t("license.tabs.embedlink")}</BodyTitle>
+        <BodyTitle textStyle="meta-text-medium">{t("license.tabs.embedlink")}</BodyTitle>
         <LicenseDescription>{t("license.embedlink.description")}</LicenseDescription>
         <CopyTextButton
           copyTitle={t("license.embedlink.copyTitle")}
