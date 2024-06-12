@@ -11,13 +11,19 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
+import { Download, Launch } from "@ndla/icons/common";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString, COPYRIGHTED } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
 import {
@@ -33,6 +39,12 @@ import {
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
 }
+
+const LicenseAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  gap: ${spacing.xsmall};
+`;
 
 const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -54,6 +66,11 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
     });
   }
 
+  const copyrighted = useMemo(
+    () => video.copyright?.license.license.toLowerCase() !== COPYRIGHTED,
+    [video.copyright?.license.license],
+  );
+
   const copyText = figureApa7CopyString(
     video.title,
     undefined,
@@ -68,32 +85,48 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListLicense
-        licenseType={video.copyright?.license?.license ?? ""}
-        title={t("license.video.rules")}
-        sourceTitle={video.title}
-      />
+      <LicenseAndButtonWrapper>
+        <MediaListLicense
+          licenseType={video.copyright?.license?.license ?? ""}
+          title={t("license.video.rules")}
+          sourceTitle={video.title}
+        />
+        {copyrighted && (
+          <AddResourceToFolderModal
+            resource={{
+              id: video.id,
+              path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+              resourceType: "video",
+            }}
+          >
+            <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+          </AddResourceToFolderModal>
+        )}
+      </LicenseAndButtonWrapper>
       <img alt="presentation" src={video.cover} />
-      <MediaListItemActions>
-        <MediaListRef>
-          {video.copyright?.license?.license !== "COPYRIGHTED" && video.download && (
-            <SafeLinkButton to={video.download} download variant="outline">
-              {t("license.download")}
-            </SafeLinkButton>
-          )}
-          <CopyTextButton
-            stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-            copyTitle={t("license.embed")}
-            hasCopiedTitle={t("license.embedCopied")}
-          />
-          {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
-              {"Åpne i ny fane"}
-              {/* Legge til i locale */}
-            </SafeLinkButton>
-          )}
-        </MediaListRef>
-      </MediaListItemActions>
+      {copyrighted && (
+        <MediaListItemActions>
+          <MediaListRef>
+            {video.download && (
+              <SafeLinkButton to={video.download} download variant="outline">
+                <Download />
+                {t("license.download")}
+              </SafeLinkButton>
+            )}
+            <CopyTextButton
+              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+              copyTitle={t("license.embed")}
+              hasCopiedTitle={t("license.embedCopied")}
+            />
+            {shouldShowLink && (
+              <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+                <Launch />
+                {t("license.openLink")}
+              </SafeLinkButton>
+            )}
+          </MediaListRef>
+        </MediaListItemActions>
+      )}
       <MediaListItemBody
         license={video.copyright?.license?.license ?? ""}
         resourceType="video"
@@ -103,14 +136,16 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {video?.copyright?.license?.license !== "COPYRIGHTED" && (
+            {copyrighted && (
               <>
                 {copyText && (
                   <CopyTextButton
                     stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")} //oppdatere locale
+                    copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
+                  >
+                    <Copy />
+                  </CopyTextButton>
                 )}
               </>
             )}

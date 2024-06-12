@@ -57,8 +57,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle }: MediaSourc
   const { i18n } = useTranslation();
 
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
-  // @ts-ignore
-  const { description } = getLicenseRightByAbbreviation(license.rights[0], i18n.language);
+  const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
   return (
     <MediaLicenseContainer>
