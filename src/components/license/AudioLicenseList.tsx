@@ -97,6 +97,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
           licenseType={audio.copyright.license.license}
           title={t("license.audio.rules")}
           sourceTitle={audio.title}
+          sourceType="audio"
         />
         {!isCopyrighted(audio.copyright.license.license) && (
           <AddResourceToFolderModal

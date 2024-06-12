@@ -39,6 +39,7 @@ interface MediaSourceProps {
   licenseType: string;
   title?: string;
   sourceTitle?: string;
+  sourceType?: string;
 }
 
 const MediaLicenseContainer = styled.div`
@@ -53,8 +54,8 @@ const BodyTitle = styled(Text)`
   }
 `;
 
-export const MediaListLicense = ({ licenseType, title, sourceTitle }: MediaSourceProps) => {
-  const { i18n } = useTranslation();
+export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }: MediaSourceProps) => {
+  const { i18n, t } = useTranslation();
 
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
@@ -69,7 +70,8 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle }: MediaSourc
       ) : null}
       <br />
       <span>
-        Dette bildet har lisens <LicenseLink license={license} asLink={!!license.url.length} />. {description}
+        {t(`license.${sourceType}.firstLine`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
+        {description}
       </span>
       <LicenseIconDescriptionList licenseRights={license.rights} locale={i18n.language} />
     </MediaLicenseContainer>

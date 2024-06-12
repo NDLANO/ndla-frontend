@@ -97,6 +97,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
           licenseType={podcast.copyright.license.license}
           title={t("license.podcast.rules")}
           sourceTitle={podcast.title}
+          sourceType="podcast"
         />
         {!isCopyrighted(podcast.copyright.license.license) && (
           <AddResourceToFolderModal

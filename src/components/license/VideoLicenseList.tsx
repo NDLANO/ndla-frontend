@@ -82,6 +82,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
           licenseType={video.copyright?.license?.license ?? ""}
           title={t("license.video.rules")}
           sourceTitle={video.title}
+          sourceType="video"
         />
         {!isCopyrighted(video.copyright?.license.license) && (
           <AddResourceToFolderModal

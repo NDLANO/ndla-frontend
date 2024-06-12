@@ -71,6 +71,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         licenseType={h5p.copyright?.license?.license ?? ""}
         title={t("license.h5p.rules")}
         sourceTitle={h5p.title}
+        sourceType="h5p"
       />
       {!isCopyrighted(h5p.copyright?.license.license) && (
         <MediaListItemActions>

@@ -102,6 +102,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           licenseType={concept.copyright.license.license}
           title={t(`license.${type}.rules`)}
           sourceTitle={concept.title}
+          sourceType={type}
         />
         {!isCopyrighted(concept.copyright.license.license) && (
           <AddResourceToFolderModal

@@ -71,6 +71,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
         licenseType={text.copyright.license.license}
         title={t("license.text.rules")}
         sourceTitle={text.title}
+        sourceType="text"
       />
       <MediaListItemActions>
         {printUrl && (
