@@ -104,6 +104,11 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
     });
   }
 
+  const copyrighted = useMemo(
+    () => image.copyright.license.license.toLowerCase() !== COPYRIGHTED,
+    [image.copyright.license.license],
+  );
+
   return (
     <MediaListItem>
       <LicenseAndButtonWrapper>
@@ -112,7 +117,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
           title={t("license.images.rules")}
           sourceTitle={image.title}
         />
-        {image.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
+        {copyrighted && (
           <AddResourceToFolderModal
             resource={{
               id: image.id,
@@ -126,12 +131,17 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       </LicenseAndButtonWrapper>
       <Image alt={image.altText} src={image.src} />
       <MediaListItemActions>
-        {image.copyright.license.license.toLowerCase() !== COPYRIGHTED && (
+        {copyrighted && (
           <>
             <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
               <Download />
               {t("license.download")}
             </SafeLinkButton>
+            <CopyTextButton
+              stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+              copyTitle={t("license.embed")}
+              hasCopiedTitle={t("license.embedCopied")}
+            />
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
                 <Launch />
@@ -150,7 +160,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {image.copyright.license?.license.toLowerCase() !== COPYRIGHTED && (
+            {copyrighted && (
               <>
                 {copyText && (
                   <CopyTextButton
