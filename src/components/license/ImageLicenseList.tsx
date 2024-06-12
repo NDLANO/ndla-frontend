@@ -16,7 +16,7 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString, COPYRIGHTED } from "@ndla/licenses";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Image } from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
@@ -104,11 +104,6 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
     });
   }
 
-  const copyrighted = useMemo(
-    () => image.copyright.license.license.toLowerCase() !== COPYRIGHTED,
-    [image.copyright.license.license],
-  );
-
   return (
     <MediaListItem>
       <LicenseAndButtonWrapper>
@@ -117,7 +112,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
           title={t("license.images.rules")}
           sourceTitle={image.title}
         />
-        {copyrighted && (
+        {!isCopyrighted(image.copyright.license.license) && (
           <AddResourceToFolderModal
             resource={{
               id: image.id,
@@ -130,27 +125,29 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         )}
       </LicenseAndButtonWrapper>
       <Image alt={image.altText} src={image.src} />
-      <MediaListItemActions>
-        {copyrighted && (
-          <>
-            <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
-              <Download />
-              {t("license.download")}
-            </SafeLinkButton>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
-                <Launch />
-                {t("license.openLink")}
+      {!isCopyrighted(image.copyright.license.license) && (
+        <MediaListItemActions>
+          {image.src && (
+            <>
+              <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
+                <Download />
+                {t("license.download")}
               </SafeLinkButton>
-            )}
-          </>
-        )}
-      </MediaListItemActions>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+            </>
+          )}
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+              <Launch />
+              {t("license.openLink")}
+            </SafeLinkButton>
+          )}
+        </MediaListItemActions>
+      )}
       <MediaListItemBody
         license={image.copyright.license?.license}
         resourceType="image"
@@ -160,7 +157,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {copyrighted && (
+            {!isCopyrighted(image.copyright.license.license) && (
               <>
                 {copyText && (
                   <CopyTextButton
