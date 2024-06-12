@@ -56,6 +56,11 @@ const resourcePageQuery = gql`
         breadcrumbs
         parentIds
         path
+        crumbs {
+          id
+          name
+          path
+        }
       }
       ...MovedResourcePage_Resource
       ...ArticlePage_Resource

@@ -213,6 +213,11 @@ export const topicFragments = {
         breadcrumbs
         parentIds
         path
+        crumbs {
+          id
+          name
+          path
+        }
       }
       article {
         oembed

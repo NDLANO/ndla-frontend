@@ -137,6 +137,11 @@ export const multidisciplinarySubjectArticleFragments = {
         breadcrumbs
         parentIds
         path
+        crumbs {
+          id
+          name
+          path
+        }
       }
       article {
         created

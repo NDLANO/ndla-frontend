@@ -1768,6 +1768,7 @@ export type GQLResource = GQLTaxonomyEntity &
     availability?: Maybe<Scalars["String"]["output"]>;
     breadcrumbs: Array<Scalars["String"]["output"]>;
     contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
@@ -1910,6 +1911,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   allTopics?: Maybe<Array<GQLTopic>>;
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
   grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
   id: Scalars["String"]["output"];
@@ -1994,15 +1996,27 @@ export type GQLTaxonomyContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
   contextType?: Maybe<Scalars["String"]["output"]>;
+  crumbs?: Maybe<Array<Maybe<GQLTaxonomyCrumb>>>;
+  parentContextIds: Array<Scalars["String"]["output"]>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
+export type GQLTaxonomyCrumb = {
+  __typename?: "TaxonomyCrumb";
+  contextId: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  path: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+};
+
 export type GQLTaxonomyEntity = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
   id: Scalars["String"]["output"];
   language?: Maybe<Scalars["String"]["output"]>;
@@ -2043,6 +2057,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     availability?: Maybe<Scalars["String"]["output"]>;
     breadcrumbs: Array<Scalars["String"]["output"]>;
     contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars["String"]["output"];
@@ -2946,6 +2961,7 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
+    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
   }>;
   article?: {
     __typename?: "Article";
@@ -4277,6 +4293,7 @@ export type GQLResourcePageQuery = {
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
+      crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
     }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
@@ -4405,6 +4422,7 @@ export type GQLTopic_TopicFragment = {
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
+    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
   }>;
   article?: {
     __typename?: "Article";
