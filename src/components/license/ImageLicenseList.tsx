@@ -61,10 +61,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   const pageUrl = useMemo(() => `/image/${image.id}`, [image.id]);
 
-  const shouldShowLink = useMemo(
-    () => pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
-    [pathname, pageUrl, image.copyright.license.license],
-  );
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
@@ -127,19 +124,15 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       <Image alt={image.altText} src={image.src} />
       {!isCopyrighted(image.copyright.license.license) && (
         <MediaListItemActions>
-          {image.src && (
-            <>
-              <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
-                <Download />
-                {t("license.download")}
-              </SafeLinkButton>
-              <CopyTextButton
-                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
-                copyTitle={t("license.embed")}
-                hasCopiedTitle={t("license.embedCopied")}
-              />
-            </>
-          )}
+          <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
+            <Download />
+            {t("license.download")}
+          </SafeLinkButton>
+          <CopyTextButton
+            stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
               <Launch />

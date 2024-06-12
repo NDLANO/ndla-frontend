@@ -15,7 +15,7 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString, COPYRIGHTED } from "@ndla/licenses";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
@@ -51,10 +51,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const { pathname } = useLocation();
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
 
-  const shouldShowLink = useMemo(
-    () => pathname !== pageUrl && !isCopyrighted(video.copyright?.license.license),
-    [pageUrl, pathname, video.copyright?.license.license],
-  );
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
@@ -66,16 +63,11 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
     });
   }
 
-  const copyrighted = useMemo(
-    () => video.copyright?.license.license.toLowerCase() !== COPYRIGHTED,
-    [video.copyright?.license.license],
-  );
-
   const copyText = figureApa7CopyString(
     video.title,
     undefined,
     video.src,
-    `${config.ndlaFrontendDomain}/image/${video.id}`,
+    `${config.ndlaFrontendDomain}/video/${video.id}`,
     video.copyright,
     video?.copyright?.license.license,
     "",
@@ -91,7 +83,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
           title={t("license.video.rules")}
           sourceTitle={video.title}
         />
-        {copyrighted && (
+        {!isCopyrighted(video.copyright?.license.license) && (
           <AddResourceToFolderModal
             resource={{
               id: video.id,
@@ -104,7 +96,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         )}
       </LicenseAndButtonWrapper>
       <img alt="presentation" src={video.cover} />
-      {copyrighted && (
+      {!isCopyrighted(video.copyright?.license.license) && (
         <MediaListItemActions>
           <MediaListRef>
             {video.download && (
@@ -136,7 +128,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {copyrighted && (
+            {!isCopyrighted(video.copyright?.license.license) && (
               <>
                 {copyText && (
                   <CopyTextButton

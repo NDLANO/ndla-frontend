@@ -9,11 +9,12 @@
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { ButtonV2 } from "@ndla/button";
+import { Copy } from "@ndla/icons/action";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { printPage } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
@@ -82,14 +83,16 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {text.copyright.license?.license !== "COPYRIGHTED" && (
+            {!isCopyrighted(text.copyright.license?.license) && (
               <>
                 {text.copyText && (
                   <CopyTextButton
                     stringToCopy={text.copyText}
                     copyTitle={t("license.copyTitle")}
                     hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
+                  >
+                    <Copy />
+                  </CopyTextButton>
                 )}
               </>
             )}

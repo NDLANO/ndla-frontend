@@ -53,11 +53,11 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "unknown") return null;
-
   const pageUrl = `/concept/${concept.id}`;
 
-  const shouldShowLink = pathname !== pageUrl && !isCopyrighted(concept.copyright.license.license);
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
+
+  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "unknown") return null;
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
@@ -118,18 +118,16 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
       {!isCopyrighted(concept.copyright.license.license) && (
         <MediaListItemActions>
           {concept.src && (
-            <>
-              <SafeLinkButton to={downloadUrl(concept.src)} variant="outline">
-                <Download />
-                {t("license.download")}
-              </SafeLinkButton>
-              <CopyTextButton
-                stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
-                copyTitle={t("license.embed")}
-                hasCopiedTitle={t("license.embedCopied")}
-              />
-            </>
+            <SafeLinkButton to={downloadUrl(concept.src)} variant="outline">
+              <Download />
+              {t("license.download")}
+            </SafeLinkButton>
           )}
+          <CopyTextButton
+            stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
               <Launch />

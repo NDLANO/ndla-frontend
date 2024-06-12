@@ -8,6 +8,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts, spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import CopyTextButton from "./CopyTextButton";
 import LicenseDescription from "./LicenseDescription";
@@ -36,7 +37,9 @@ const OembedItem = ({ oembed }: Props) => {
           copyTitle={t("license.embedlink.copyTitle")}
           hasCopiedTitle={t("license.embedlink.hasCopiedTitle")}
           stringToCopy={oembed}
-        />
+        >
+          <Copy />
+        </CopyTextButton>
       </MediaListItem>
     </MediaList>
   );
