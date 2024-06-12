@@ -163,8 +163,8 @@ const typePolicies: TypePolicies = {
   FrontpageMenu: {
     keyFields: ["articleId"],
   },
-  FrontpageSearchResult: {
-    keyFields: ["path"],
+  TaxonomyContext: {
+    keyFields: ["contextId"],
   },
   FolderResourceMeta: {
     keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
