@@ -87,9 +87,11 @@ const MyTags = () => {
       <HelmetWithTracker title={title} />
       <StyledTitleWrapper>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
-        <Heading element="h2" headingStyle="h2" margin="none">
-          {tag ? tag : t("myNdla.myTags")}
-        </Heading>
+        {tags === undefined && (
+          <Heading element="h2" headingStyle="h2" margin="none">
+            {tag ? tag : t("myNdla.myTags")}
+          </Heading>
+        )}
       </StyledTitleWrapper>
       {!tag && tags.length ? <Tags tags={tags} /> : null}
     </MyTagsContainer>
