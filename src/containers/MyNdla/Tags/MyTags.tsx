@@ -87,7 +87,7 @@ const MyTags = () => {
       <HelmetWithTracker title={title} />
       <StyledTitleWrapper>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
-        {tags === undefined && (
+        {tags.length > 0 && (
           <Heading element="h2" headingStyle="h2" margin="none">
             {tag ? tag : t("myNdla.myTags")}
           </Heading>

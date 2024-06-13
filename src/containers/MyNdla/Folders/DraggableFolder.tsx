@@ -77,7 +77,6 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
     [folder, folders, setFocusId, folderRefId],
   );
 
-  console.log(folder.__typename);
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
       <DragHandle
