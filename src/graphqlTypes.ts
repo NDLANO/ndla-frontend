@@ -122,6 +122,8 @@ export type GQLArenaPost = {
   isMainPost: Scalars["Boolean"]["output"];
   timestamp: Scalars["String"]["output"];
   topicId: Scalars["Int"]["output"];
+  upvoted: Scalars["Boolean"]["output"];
+  upvotes: Scalars["Int"]["output"];
   user: GQLArenaUser;
 };
 
@@ -135,6 +137,8 @@ export type GQLArenaPostV2 = {
   owner?: Maybe<GQLArenaUserV2>;
   topicId: Scalars["Int"]["output"];
   updated: Scalars["String"]["output"];
+  upvoted?: Maybe<Scalars["Boolean"]["output"]>;
+  upvotes?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaTopic = {
@@ -987,6 +991,7 @@ export type GQLMutation = {
   __typename?: "Mutation";
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
+  addPostUpvote: Scalars["Int"]["output"];
   copySharedFolder: GQLFolder;
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
@@ -1007,6 +1012,7 @@ export type GQLMutation = {
   newArenaTopicV2: GQLArenaTopicV2;
   newFlag: Scalars["Int"]["output"];
   newFlagV2: Scalars["Int"]["output"];
+  removePostUpvote: Scalars["Int"]["output"];
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
@@ -1043,6 +1049,10 @@ export type GQLMutationAddFolderResourceArgs = {
   resourceId: Scalars["String"]["input"];
   resourceType: Scalars["String"]["input"];
   tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+};
+
+export type GQLMutationAddPostUpvoteArgs = {
+  postId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationCopySharedFolderArgs = {
@@ -1129,6 +1139,10 @@ export type GQLMutationNewFlagArgs = {
 export type GQLMutationNewFlagV2Args = {
   postId: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
+};
+
+export type GQLMutationRemovePostUpvoteArgs = {
+  postId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationReplyToTopicArgs = {
@@ -1855,6 +1869,7 @@ export type GQLSearchContext = {
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLSearchContextResourceTypes = {
@@ -1998,6 +2013,7 @@ export type GQLTaxonomyContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxonomyEntity = {
@@ -3277,6 +3293,8 @@ export type GQLArenaPostV2Fragment = {
   created: string;
   updated: string;
   topicId: number;
+  upvotes?: number;
+  upvoted?: boolean;
   owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
 };
@@ -3968,6 +3986,8 @@ export type GQLArenaPostFragment = {
   timestamp: string;
   topicId: number;
   isMainPost: boolean;
+  upvotes: number;
+  upvoted: boolean;
   deleted: boolean;
   user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
 };

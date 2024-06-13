@@ -183,6 +183,8 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
               contentAsHTML: post.content,
               created: post.timestamp,
               updated: post.timestamp,
+              upvotes: post.upvotes,
+              upvoted: post.upvoted,
               owner: {
                 displayName: post.user.displayName,
                 id: -1,
