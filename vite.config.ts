@@ -30,7 +30,6 @@ export default defineConfig(() => {
       noExternal: ["@apollo/client"],
     },
     build: {
-      target: "es2022",
       assetsDir: "static",
       outDir: "build/public",
       sourcemap: true,
