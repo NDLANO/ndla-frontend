@@ -70,7 +70,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
       ) : null}
       <br />
       <span>
-        {t(`license.${sourceType}.firstLine`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
+        {t(`license.${sourceType}.licenseText`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
         {description}
       </span>
       <LicenseIconDescriptionList licenseRights={license.rights} locale={i18n.language} />
