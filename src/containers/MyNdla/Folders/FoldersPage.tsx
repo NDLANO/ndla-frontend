@@ -226,7 +226,7 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        {sharedByOthersFolders && (
+        {!selectedFolder && sharedByOthersFolders && (
           <>
             <StyledHeading element="h2" headingStyle="h2">
               {t("myNdla.sharedByOthersFolders")}
@@ -241,7 +241,7 @@ const FoldersPage = () => {
             />
           </>
         )}
-        <MyTags />
+        {!selectedFolder && <MyTags />}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>
   );
