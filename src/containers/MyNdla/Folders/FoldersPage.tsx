@@ -228,9 +228,11 @@ const FoldersPage = () => {
         )}
         {!selectedFolder && sharedByOthersFolders && (
           <>
-            <StyledHeading element="h2" headingStyle="h2">
-              {t("myNdla.sharedByOthersFolders")}
-            </StyledHeading>
+            {sharedByOthersFolders.length > 0 && (
+              <StyledHeading element="h2" headingStyle="h2">
+                {t("myNdla.sharedByOthersFolders")}
+              </StyledHeading>
+            )}
             <FolderList
               type={viewType}
               folders={sharedByOthersFolders}
