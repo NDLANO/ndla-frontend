@@ -77,6 +77,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
     [folder, folders, setFocusId, folderRefId],
   );
 
+  console.log(folder.__typename);
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
       <DragHandle
@@ -90,7 +91,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         <Folder
           id={folder.id}
           isShared={folder.status === "shared"}
-          link={routes.myNdla.folder(folder.id)}
+          link={folder.__typename === "Folder" ? routes.myNdla.folder(folder.id) : routes.folder(folder.id)}
           title={folder.name}
           type={type}
           author={folder.owner?.name}
