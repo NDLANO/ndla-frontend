@@ -479,6 +479,16 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
   else return createArenaTopic;
 };
 
+export const useArenaPostUpvote = () => {
+  const upvotePost = nodebbMutations.useUpvotePost();
+  return upvotePost;
+};
+
+export const useArenaPostRemoveUpvote = () => {
+  const removeUpvotePost = nodebbMutations.useRemoveUpvotePost();
+  return removeUpvotePost;
+};
+
 export const useTemporaryArenaNotifications = (skip?: boolean) => {
   const { notifications, loading } = myndlaQueries.useArenaNotifications({
     skip: config.enableNodeBB || skip,

@@ -25,6 +25,8 @@ import LockModal from "./LockModal";
 import {
   useArenaDeletePost,
   useArenaDeleteTopic,
+  useArenaPostRemoveUpvote,
+  useArenaPostUpvote,
   useArenaUpdatePost,
   useArenaUpdateTopic,
 } from "./temporaryNodebbHooks";
@@ -145,6 +147,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
+  const { upvote } = useArenaPostUpvote();
+  const { removeUpvote } = useArenaPostRemoveUpvote();
   const selectors = useUserAgent();
 
   const type = isMainPost ? "topic" : "post";
@@ -280,15 +284,22 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const postUpvotes = useMemo(
     () => (
       <>
-        <IconButtonV2 aria-label="Like" variant="ghost" colorTheme="light">
-          <Thumb />
+        <IconButtonV2
+          aria-label={post.upvoted ? "Remove upvote" : "Upvote"}
+          variant="ghost"
+          colorTheme="light"
+          onClick={() =>
+            post.upvoted ? removeUpvote({ variables: { postId: post.id } }) : upvote({ variables: { postId: post.id } })
+          }
+        >
+          {post.upvoted ? <ThumbFilled /> : <Thumb />}
         </IconButtonV2>
         <TimestampText element="span" textStyle="content-alt" margin="none">
-          <span>0</span>
+          <span>{post.upvotes ?? 0}</span>
         </TimestampText>
       </>
     ),
-    [],
+    [post.id, post.upvoted, post.upvotes, removeUpvote, upvote],
   );
 
   const options = useMemo(

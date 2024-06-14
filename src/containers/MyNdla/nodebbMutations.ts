@@ -15,6 +15,8 @@ import {
   GQLDeleteTopicMutationVariables,
   GQLMarkNotificationAsReadMutation,
   GQLMarkNotificationAsReadMutationVariables,
+  GQLMutationAddPostUpvoteArgs,
+  GQLMutationRemovePostUpvoteArgs,
   GQLMutationSubscribeToTopicArgs,
   GQLMutationUnsubscribeFromTopicArgs,
   GQLNewArenaTopicMutation,
@@ -182,4 +184,26 @@ export const useUnsubscribeFromTopicMutation = () => {
       },
     },
   );
+};
+
+const upvotePost = gql`
+  mutation upvotePost($postId: Int!) {
+    upvotePost(postId: $postId)
+  }
+`;
+
+export const useUpvotePost = () => {
+  const [upvote] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost);
+  return { upvote };
+};
+
+const removeUpvotePost = gql`
+  mutation removeUpvotePost($postId: Int!) {
+    removeUpvotePost(postId: $postId)
+  }
+`;
+
+export const useRemoveUpvotePost = () => {
+  const [removeUpvote] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost);
+  return { removeUpvote };
 };
