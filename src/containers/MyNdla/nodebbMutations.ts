@@ -7,7 +7,7 @@
  */
 
 import { MutationHookOptions, gql, useApolloClient, useMutation } from "@apollo/client";
-import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from "./nodebbQueries";
+import { arenaNotificationQuery, arenaPostFragment, arenaTopicById, arenaTopicFragment } from "./nodebbQueries";
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
@@ -188,22 +188,24 @@ export const useUnsubscribeFromTopicMutation = () => {
 
 const upvotePost = gql`
   mutation upvotePost($postId: Int!) {
-    upvotePost(postId: $postId)
+    addPostUpvote(postId: $postId)
   }
 `;
 
 export const useUpvotePost = () => {
-  const [upvote] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost);
+  const [upvote] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost, { refetchQueries: [arenaTopicById] });
   return { upvote };
 };
 
 const removeUpvotePost = gql`
   mutation removeUpvotePost($postId: Int!) {
-    removeUpvotePost(postId: $postId)
+    removePostUpvote(postId: $postId)
   }
 `;
 
 export const useRemoveUpvotePost = () => {
-  const [removeUpvote] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost);
+  const [removeUpvote] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost, {
+    refetchQueries: [arenaTopicById],
+  });
   return { removeUpvote };
 };
