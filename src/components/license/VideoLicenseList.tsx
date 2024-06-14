@@ -57,7 +57,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (video.title) {
     items.unshift({
-      label: t("license.images.title"),
+      label: t("license.video.title"),
       description: video.title,
       metaType: metaTypes.title,
     });

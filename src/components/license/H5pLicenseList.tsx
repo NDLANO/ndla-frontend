@@ -47,7 +47,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (h5p.title) {
     items.unshift({
-      label: t("license.images.title"),
+      label: t("license.h5p.title"),
       description: h5p.title,
       metaType: metaTypes.title,
     });
