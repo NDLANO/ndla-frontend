@@ -11,7 +11,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
-//import { Folder } from "@ndla/ui";
 import DragHandle from "./DragHandle";
 import FolderActions from "./FolderActions";
 import { ViewType } from "./FoldersPage";
@@ -77,6 +76,8 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
     [folder, folders, setFocusId, folderRefId],
   );
 
+  console.log(folder);
+
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
       <DragHandle
@@ -94,7 +95,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
           title={folder.name}
           type={type}
           author={folder.owner?.name}
-          isOwner={folder.owner && true}
+          isOwner={folder?.__typename === "Folder"}
           menu={menu}
           subFolders={foldersCount[folder.id]?.folders}
           subResources={foldersCount[folder.id]?.resources}
