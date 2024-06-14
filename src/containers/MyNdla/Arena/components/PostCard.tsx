@@ -285,7 +285,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
     () => (
       <>
         <IconButtonV2
-          aria-label={post.upvoted ? "Remove upvote" : "Upvote"}
+          aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+          title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
           variant="ghost"
           colorTheme="light"
           onClick={() =>
@@ -299,7 +300,7 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
         </TimestampText>
       </>
     ),
-    [post.id, post.upvoted, post.upvotes, removeUpvote, upvote],
+    [post.id, post.upvoted, post.upvotes, removeUpvote, t, upvote],
   );
 
   const options = useMemo(
