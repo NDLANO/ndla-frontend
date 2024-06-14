@@ -264,7 +264,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       return actions.concat(editFolder, deleteOpt);
     }
 
-    if (selectedFolder.__typename === "SharedFolder") {
+    if (selectedFolder.__typename !== "Folder") {
       return actions.concat(deleteLink);
     }
 
