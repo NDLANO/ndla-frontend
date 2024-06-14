@@ -16,7 +16,6 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
@@ -52,14 +51,18 @@ const resourcePageQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       relevanceId
       paths
+      contextId
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path
         crumbs {
+          contextId
           id
           name
           path
+          url
         }
       }
       ...MovedResourcePage_Resource
@@ -95,8 +98,8 @@ const ResourcePage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return getTopicPath(data.resource.path, data.resource.contexts);
-  }, [data?.resource]);
+    return data?.resource.contexts.find((context) => context.contextId === data?.resource?.contextId)?.crumbs ?? [];
+  }, [data?.resource?.contextId, data?.resource?.contexts, data?.resource?.path]);
 
   if (loading) {
     return <ContentPlaceholder />;

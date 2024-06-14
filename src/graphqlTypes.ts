@@ -2956,12 +2956,21 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: "Topic";
   path: string;
   id: string;
+  contextId?: string;
   contexts: Array<{
     __typename?: "TaxonomyContext";
+    contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
-    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
+    crumbs?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
   }>;
   article?: {
     __typename?: "Article";
@@ -4288,12 +4297,21 @@ export type GQLResourcePageQuery = {
     __typename?: "Resource";
     relevanceId?: string;
     paths: Array<string>;
+    contextId?: string;
     contexts: Array<{
       __typename?: "TaxonomyContext";
+      contextId: string;
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
-      crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
+      crumbs?: Array<{
+        __typename?: "TaxonomyCrumb";
+        contextId: string;
+        id: string;
+        name: string;
+        path: string;
+        url: string;
+      }>;
     }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
@@ -4415,14 +4433,23 @@ export type GQLTopic_TopicFragment = {
   name: string;
   relevanceId?: string;
   supportedLanguages: Array<string>;
+  contextId?: string;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string; relevanceId?: string }>;
   meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
   contexts: Array<{
     __typename?: "TaxonomyContext";
+    contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
-    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
+    crumbs?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
   }>;
   article?: {
     __typename?: "Article";

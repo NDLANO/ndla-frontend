@@ -15,6 +15,6 @@ export const getTopicPath = (path: string, contexts: TaxonomyContext[]) => {
   // TODO: There's a bug in tax that sometimes returns the resource as a part of the breadcrumb.
   // We work around this by removing the last n elements from the breadcrumb array, where n is the difference between the length of the breadcrumbs and the parentIds.
   return context.breadcrumbs
-    .slice(0, context.breadcrumbs.length - (context.breadcrumbs.length - context.parentIds.length))
-    .map((name, i) => ({ name, id: context.parentIds[i]! }));
+  .slice(0, context.breadcrumbs.length - (context.breadcrumbs.length - context.parentIds.length))
+  .map((name, i) => ({ name, id: context.parentIds[i]! }));
 };

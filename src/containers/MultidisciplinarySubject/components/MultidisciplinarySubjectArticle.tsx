@@ -22,9 +22,8 @@ import {
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from "../../../graphqlTypes";
-import { removeUrn, toBreadcrumbItems } from "../../../routeHelpers";
+import { toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -53,7 +52,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
-  const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [], [topic]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -69,11 +68,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(
-      t("breadcrumb.toFrontpage"),
-      topicPath.concat({ name: topic.name, id: `/${removeUrn(topic.id)}` }),
-    );
-  }, [t, topic.id, topic.name, topicPath]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, topic]);
+  }, [t, topic, topicPath]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -133,14 +129,18 @@ export const multidisciplinarySubjectArticleFragments = {
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
       path
       id
+      contextId
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path
         crumbs {
+          contextId
           id
           name
           path
+          url
         }
       }
       article {

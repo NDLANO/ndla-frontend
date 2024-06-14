@@ -17,6 +17,7 @@ import {
 } from "./constants";
 import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
+import { TopicPath } from "./util/getTopicPath";
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ""}`;
@@ -144,7 +145,7 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
+export function toBreadcrumbItems(rootName: string, paths: (TopicPath | undefined)[]): Breadcrumb[] {
   const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
   const [subject, ...rest] = safePaths;
   if (!subject) return [];
