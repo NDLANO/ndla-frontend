@@ -28,14 +28,13 @@ import {
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { useIsNdlaFilm } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
+import { useIsNdlaFilm, TaxonomyCrumb } from "../../routeHelpers";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TopicPath[];
+  topicPath?: TaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
   resource?: GQLLearningpath_ResourceFragment;

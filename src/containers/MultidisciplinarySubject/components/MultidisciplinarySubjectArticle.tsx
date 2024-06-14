@@ -52,7 +52,10 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const resourcesRef = useRef(null);
-  const topicPath = useMemo(() => topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [], [topic]);
+  const topicPath = useMemo(
+    () => topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [],
+    [topic],
+  );
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;

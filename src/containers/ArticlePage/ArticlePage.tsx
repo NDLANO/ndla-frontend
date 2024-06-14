@@ -30,12 +30,11 @@ import {
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems } from "../../routeHelpers";
+import { toBreadcrumbItems, TaxonomyCrumb } from "../../routeHelpers";
 import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType, isHeroContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -45,7 +44,7 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: TaxonomyCrumb[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];

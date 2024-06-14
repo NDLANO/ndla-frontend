@@ -8,15 +8,15 @@ exports[`breadcrumb items from from subject and topicpath 1`] = `
   },
   {
     "name": "Historie vg2 og vg3",
-    "to": "/subject:9/",
+    "to": "/subject:9",
   },
   {
     "name": "Om Utforskeren ",
-    "to": "/subject:9/topic:1:179373/",
+    "to": "/subject:9/topic:1:179373",
   },
   {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subject:9/topic:1:179373/topic:1:170165/",
+    "to": "/subject:9/topic:1:179373/topic:1:170165",
   },
 ]
 `;
@@ -29,15 +29,15 @@ exports[`breadcrumb items from from subject, topicpath and resouce 1`] = `
   },
   {
     "name": "Historie vg2 og vg3",
-    "to": "/subject:9/",
+    "to": "/subject:9",
   },
   {
     "name": "Om Utforskeren ",
-    "to": "/subject:9/topic:1:179373/",
+    "to": "/subject:9/topic:1:179373",
   },
   {
     "name": "Samfunnsfaglige tenkemåter",
-    "to": "/subject:9/topic:1:179373/topic:1:170165/",
+    "to": "/subject:9/topic:1:179373/topic:1:170165",
   },
   {
     "name": "Utforskeren",
@@ -54,7 +54,7 @@ exports[`breadcrumb items from subject  1`] = `
   },
   {
     "name": "Historie vg2 og vg3",
-    "to": "/subject:9/",
+    "to": "/subject:9",
   },
 ]
 `;

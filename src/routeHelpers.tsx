@@ -15,9 +15,8 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
+import { GQLTaxonomyEntity, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
-import { TopicPath } from "./util/getTopicPath";
 
 export function toSearch(searchString?: string) {
   return `/search?${searchString || ""}`;
@@ -144,22 +143,11 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
   return t;
 }
-
-export function toBreadcrumbItems(rootName: string, paths: (TopicPath | undefined)[]): Breadcrumb[] {
-  const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
-  const [subject, ...rest] = safePaths;
-  if (!subject) return [];
-  // henter longname fra filter og bruk i stedet for første ledd i path
-  const breadcrumbSubject = safePaths[0]!;
-
-  const links = [breadcrumbSubject, ...rest];
-  const breadcrumbs = links
-    .reduce<Breadcrumb[]>((acc, link) => {
-      const prefix = acc.length ? acc[acc.length - 1]?.to : "";
-      const to = `${prefix}/${removeUrn(link.id)}`;
-      return acc.concat([{ to, name: link.name }]);
-    }, [])
-    .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
+export type TaxonomyCrumb = Pick<GQLTaxonomyCrumb | GQLTaxonomyEntity, "id" | "name" | "path">;
+export function toBreadcrumbItems(rootName: string, paths: (TaxonomyCrumb | undefined)[]): Breadcrumb[] {
+  const safePaths = paths.filter((p) => p !== undefined);
+  if (safePaths.length === 0) return [];
+  const breadcrumbs = safePaths.map((crumb) => ({ to: crumb?.path ?? "", name: crumb?.name ?? "" }));
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 
