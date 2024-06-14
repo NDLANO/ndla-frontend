@@ -1420,12 +1420,9 @@ type Tags {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
-  contextType: String
   crumbs: [TaxonomyCrumb]
-  parentContextIds: [String!]!
   parentIds: [String!]!
   path: String!
-  resourceTypes: [ResourceType!]
   url: String
 }
 

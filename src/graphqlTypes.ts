@@ -1995,12 +1995,9 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
-  contextType?: Maybe<Scalars["String"]["output"]>;
   crumbs?: Maybe<Array<Maybe<GQLTaxonomyCrumb>>>;
-  parentContextIds: Array<Scalars["String"]["output"]>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
-  resourceTypes?: Maybe<Array<GQLResourceType>>;
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
