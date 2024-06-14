@@ -183,6 +183,20 @@ const StyledMediaListItemActions = styled.div`
   a {
     margin: 0 ${spacing.small} ${spacing.small} 0;
   }
+  ${mq.range({ until: breakpoints.mobileWide })} {
+    display: flex;
+    flex-direction: column;
+    button,
+    a {
+      margin: 0 0 ${spacing.small} 0;
+    }
+    span {
+      width: 100%;
+      button {
+        width: 100%;
+      }
+    }
+  }
 `;
 
 export const MediaListItemActions = ({ children, ...rest }: ComponentProps<"div">) => (
