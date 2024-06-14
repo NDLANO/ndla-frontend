@@ -7,8 +7,9 @@
  */
 import { GQLTaxonomyContext } from "../graphqlTypes";
 
+export type TaxonomyContext = Pick<GQLTaxonomyContext, "path" | "breadcrumbs" | "parentIds">;
 export type TopicPath = { name: string; id: string };
-export const getTopicPath = (path: string, contexts: GQLTaxonomyContext[]) => {
+export const getTopicPath = (path: string, contexts: TaxonomyContext[]) => {
   const context = contexts.find((c) => path.includes(c.path));
   if (!context) return [];
   // TODO: There's a bug in tax that sometimes returns the resource as a part of the breadcrumb.

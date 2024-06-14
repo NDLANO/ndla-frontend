@@ -58,11 +58,17 @@ export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
     return 0;
   });
 
+export interface ResourceTypeWithResources extends GQLResourceType {
+  id: string;
+  name: string;
+  resources: GQLResource[];
+}
+
 export const getResourceGroups = <T extends GQLResourceLike>(
   resourceTypes: SharedResourceType[],
   supplementaryResources: T[],
   coreResouces: T[],
-): GQLResourceType[] => {
+): ResourceTypeWithResources[] => {
   const groupedResources = groupResourcesByResourceTypes(supplementaryResources, coreResouces);
   const sortedResourceTypes = sortResourceTypes(resourceTypes);
 
