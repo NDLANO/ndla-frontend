@@ -176,8 +176,9 @@ export const MediaListItemBody = ({
 };
 
 const StyledMediaListItemActions = styled.div`
-  margin: ${spacing.small} 0;
-  list-style: none;
+  display: flex;
+  align-items: start;
+  margin: ${spacing.small} 0 0 0;
   width: 100%;
   button,
   a {
@@ -189,6 +190,7 @@ const StyledMediaListItemActions = styled.div`
     button,
     a {
       margin: 0 0 ${spacing.small} 0;
+      width: 100%;
     }
     span {
       width: 100%;

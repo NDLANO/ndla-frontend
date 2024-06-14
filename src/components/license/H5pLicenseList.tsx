@@ -75,19 +75,17 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
       />
       {!isCopyrighted(h5p.copyright?.license.license) && (
         <MediaListItemActions>
-          <MediaListRef>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
-                <Launch />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListRef>
+          <CopyTextButton
+            stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
+              <Launch />
+              {t("license.openLink")}
+            </SafeLinkButton>
+          )}
         </MediaListItemActions>
       )}
       <MediaListItemBody

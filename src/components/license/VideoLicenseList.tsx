@@ -99,25 +99,23 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
       <img alt="presentation" src={video.cover} />
       {!isCopyrighted(video.copyright?.license.license) && (
         <MediaListItemActions>
-          <MediaListRef>
-            {video.download && (
-              <SafeLinkButton to={video.download} download variant="outline">
-                <Download />
-                {t("license.download")}
-              </SafeLinkButton>
-            )}
-            <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
-                <Launch />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListRef>
+          {video.download && (
+            <SafeLinkButton to={video.download} download variant="outline">
+              <Download />
+              {t("license.download")}
+            </SafeLinkButton>
+          )}
+          <CopyTextButton
+            stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+              <Launch />
+              {t("license.openLink")}
+            </SafeLinkButton>
+          )}
         </MediaListItemActions>
       )}
       <MediaListItemBody
