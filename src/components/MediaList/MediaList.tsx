@@ -18,7 +18,7 @@ import {
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
-import { LicenseIconDescriptionList } from "@ndla/notion";
+import { LicenseDescriptionList } from "@ndla/notion";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { LicenseLink } from "@ndla/ui";
@@ -73,7 +73,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
         {t(`license.${sourceType}.licenseText`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
         {description}
       </span>
-      <LicenseIconDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      <LicenseDescriptionList licenseRights={license.rights} locale={i18n.language} />
     </MediaLicenseContainer>
   );
 };
