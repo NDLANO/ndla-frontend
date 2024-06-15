@@ -2310,6 +2310,7 @@ export type GQLLearningpath_LearningpathStepFragment = {
 export type GQLLearningpath_ResourceFragment = {
   __typename?: "Resource";
   path: string;
+  name: string;
 } & GQLLearningpathMenu_ResourceFragment &
   GQLLearningpathFooter_ResourceFragment;
 

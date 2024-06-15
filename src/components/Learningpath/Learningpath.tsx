@@ -224,6 +224,7 @@ Learningpath.fragments = {
   resource: gql`
     fragment Learningpath_Resource on Resource {
       path
+      name
       ...LearningpathMenu_Resource
       ...LearningpathFooter_Resource
     }

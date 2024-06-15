@@ -98,11 +98,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   const breadcrumbItems =
     subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          ...topicPath,
-          { name: learningpath.title, id: `${learningpath.id}` },
-        ])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
+      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
 
   return (
     <div>
