@@ -325,6 +325,10 @@ exports[`ErrorPage renderers correctly 1`] = `
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
+.emotion-34[data-serif="true"] {
+  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
+}
+
 .emotion-34[data-margin="none"] {
   margin: 0px;
 }
