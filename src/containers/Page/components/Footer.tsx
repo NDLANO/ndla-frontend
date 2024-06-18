@@ -121,7 +121,7 @@ const FooterLinkBlock = ({ links, label, className }: FooterLinkBlockProps) => {
               <StyledSafeLink
                 to={link.to}
                 asAnchor={link.asAnchor}
-                target={link.external ? "_blank" : ""}
+                target={link.external ? "_blank" : "_self"}
                 rel="noopener noreferrer"
               >
                 {link.text}

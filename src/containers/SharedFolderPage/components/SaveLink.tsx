@@ -20,7 +20,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
-import { useSaveFolderResourceMutation } from "../../MyNdla/folderMutations";
+import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
 const Content = styled(ModalBody)`
   display: flex;
@@ -44,12 +44,12 @@ interface SaveLinkProps {
 export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, hideTrigger }: SaveLinkProps) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { saveSharedFolder } = useSaveFolderResourceMutation(id);
+  const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
   const { addSnack } = useSnack();
 
   const onSaveLink = (name: string) => {
-    saveSharedFolder();
+    favoriteSharedFolder();
     hideTrigger();
     setOpen(false);
     addSnack({
