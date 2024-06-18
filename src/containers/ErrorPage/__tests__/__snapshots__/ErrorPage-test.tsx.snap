@@ -771,7 +771,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://www.facebook.com/ndla.no"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     NDLA på Facebook
                   </a>
@@ -799,7 +799,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://instagram.com/ndla_no/"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     NDLA på Instagram
                   </a>
@@ -827,7 +827,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://www.linkedin.com/company/ndla/"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     NDLA på LinkedIn
                   </a>
@@ -869,7 +869,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     NDLA på YouTube
                   </a>
@@ -896,7 +896,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Meld deg på vårt nyhetsbrev
                   </a>
@@ -926,7 +926,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.no/about/om-ndla"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Om NDLA
                   </a>
@@ -938,7 +938,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.no/about/about-us"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     About NDLA
                   </a>
@@ -1010,7 +1010,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.no/about/utlysninger"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Ledige stillinger
                   </a>
@@ -1040,7 +1040,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.no/article/personvernerklaering"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Personvernerklæring
                   </a>
@@ -1052,7 +1052,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://ndla.no/article/erklaering-for-informasjonskapsler"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Erklæring for informasjonskapsler
                   </a>
@@ -1064,7 +1064,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     class="emotion-46 emotion-47"
                     href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
                     rel="noopener noreferrer"
-                    target=""
+                    target="_self"
                   >
                     Tilgjengelighetserklæring
                   </a>
