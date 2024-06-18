@@ -60,7 +60,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
     podcast.title,
     undefined,
     podcast.src,
-    `${config.ndlaFrontendDomain}/podcast/${podcast.id}`,
+    `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
     podcast.copyright,
     podcast.copyright.license.license,
     "",
