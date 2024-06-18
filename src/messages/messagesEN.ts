@@ -89,6 +89,9 @@ const messages = {
     concept: "Concept",
     audio: "Audio",
   },
+  contentTypes: {
+    multidisciplinary: "Multidisciplinary case",
+  },
   markdownEditor: {
     link: {
       url: "URL",

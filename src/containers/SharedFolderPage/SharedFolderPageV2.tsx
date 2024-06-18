@@ -9,6 +9,7 @@
 import { t } from "i18next";
 import keyBy from "lodash/keyBy";
 import { useContext, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -169,6 +170,7 @@ const SharedFolderPageV2 = () => {
       <OneColumn>
         <FoldersPageContainer>
           <div>
+            <Helmet title={folder.name} />
             <SocialMediaMetadata
               type="website"
               title={folder.name}

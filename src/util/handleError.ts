@@ -17,8 +17,9 @@ let log: any | undefined;
 // This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
 // All in all, this ensures that winston is only imported on the server during production builds.
 if (config.runtimeType === "production" && import.meta.env.SSR) {
-  const logger = await import("./logger");
-  log = logger.default;
+  import("./logger").then((l) => {
+    log = l.default;
+  });
 }
 
 type UnknownGQLError = {
@@ -66,11 +67,11 @@ export const isInternalServerError = (error: ApolloError | undefined | null): bo
   return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
-const handleError = (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
+const handleError = async (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
   if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
   } else if (config.runtimeType === "production" && !config.isClient) {
-    log?.error(error);
+    await log?.error(error);
   } else {
     console.error(error); // eslint-disable-line no-console
   }
