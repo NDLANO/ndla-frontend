@@ -146,6 +146,21 @@ export const arenaPostV2Fragment = gql`
     flags {
       ...ArenaFlag
     }
+    replies {
+      __typename
+      content
+      contentAsHTML
+      id
+      created
+      updated
+      topicId
+      owner {
+        ...ArenaUserV2
+      }
+      flags {
+        ...ArenaFlag
+      }
+    }
   }
   ${arenaFlagFragment}
   ${arenaUserFragment}

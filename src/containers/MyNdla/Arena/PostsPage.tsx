@@ -6,35 +6,35 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { spacing, spacingUnit, mq, breakpoints } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useSnack } from "@ndla/ui";
-import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
-import DeletedPostCard from "./components/DeletedPostCard";
-import PostCard from "./components/PostCard";
+import { ArenaFormValues } from "./components/ArenaForm";
+import MainPostCard from "./components/MainPostCard";
+import PostList from "./components/PostList";
 import {
   useArenaTopic,
   useArenaCategory,
   useArenaFollowTopicMutation,
-  useArenaReplyToTopicMutation,
   useArenaUnfollowTopicMutation,
+  useArenaReplyToTopicMutation,
 } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { GQLArenaPostV2Fragment, GQLArenaTopicV2 } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-left: ${spacing.xlarge};
-  }
+const BreadcrumbWrapper = styled.div`
+  padding-top: ${spacing.normal};
+  padding-bottom: ${spacing.large};
 `;
 
 const StyledReplyButton = styled(ButtonV2)`
@@ -44,60 +44,30 @@ const StyledReplyButton = styled(ButtonV2)`
   }
 `;
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-  padding-bottom: ${spacing.large};
-`;
-
-const ListWrapper = styled.ul`
-  margin: 0;
-  padding: 0;
-`;
-
-const PostCardWrapper = styled.li`
-  list-style: none;
-  padding: 0;
-  margin-bottom: ${spacing.normal};
-
-  ${mq.range({ from: breakpoints.tablet })} {
-    &[data-main-post="false"] {
-      margin-left: ${spacingUnit * 3}px;
-    }
-  }
-`;
+const POST_PAGE = 1;
+const POST_PAGE_SIZE = 100;
 
 const PostsPage = () => {
-  const [isReplying, setIsReplying] = useState(false);
   const { t } = useTranslation();
   const { topicId } = useParams();
   const { addSnack } = useSnack();
   const navigate = useNavigate();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
-  const postPage = 1;
-  const postPageSize = 100;
-  const { arenaTopic, loading, error } = useArenaTopic(topicId, postPage, postPageSize);
-  const replyToRef = useRef<HTMLButtonElement | null>(null);
+  const [replyingTo, setReplyingTo] = useState<number | undefined>(undefined);
+  const { arenaTopic, loading, error } = useArenaTopic(topicId, POST_PAGE, POST_PAGE_SIZE);
 
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
-  const { replyToTopic } = useArenaReplyToTopicMutation(Number(topicId));
   const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
-
-  useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
-    trackPageView({
-      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
+  const { replyToTopic } = useArenaReplyToTopicMutation(arenaTopic?.id!);
 
   const createReply = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
+    async (data: Partial<ArenaFormValues>, postId?: number) => {
       const newReply = await replyToTopic({
-        variables: { topicId: Number(topicId), content: data.content ?? "" },
+        variables: { topicId: arenaTopic?.id!, content: data.content ?? "", postId: postId },
       });
 
       // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
@@ -109,19 +79,26 @@ const PostsPage = () => {
         setFocusId(newReply.data.replyToTopicV2.id);
       }
     },
-    [replyToTopic, topicId, setFocusId],
+    [replyToTopic, arenaTopic?.id, setFocusId],
   );
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
+    trackPageView({
+      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
 
-  const onFollowChange = useCallback(() => {
+  const onFollowChange = useCallback(async () => {
     if (!arenaTopic) return;
     if (arenaTopic?.isFollowing) {
-      unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
+      await unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
         content: t("myNdla.arena.notification.unsubscribe"),
         id: "myNdla.arena.notification.unsubscribe",
       });
     } else {
-      subscribeToTopic({ variables: { topicId: arenaTopic.id } });
+      await subscribeToTopic({ variables: { topicId: arenaTopic.id } });
       addSnack({
         content: t("myNdla.arena.notification.subscribe"),
         id: "myNdla.arena.notification.subscribe",
@@ -150,12 +127,12 @@ const PostsPage = () => {
     }
   }, [error, arenaTopic, navigate, addSnack, t, loading]);
 
-  if (loading || !authContextLoaded) return <Spinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
-
   const parentCrumbs =
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
+
+  if (loading || !authContextLoaded || !arenaTopic?.posts?.items) return <Spinner />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>
@@ -163,52 +140,30 @@ const PostsPage = () => {
       <BreadcrumbWrapper>
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
-      <ListWrapper>
-        {arenaTopic?.posts?.items?.map((post, postIdx) => {
-          const isMainPost = postIdx === 0 && postPage === 1;
-          return (
-            <PostCardWrapper key={post.id} data-main-post={isMainPost}>
-              {/* @ts-ignore TODO: Delete this when nodebb is gone */}
-              {post.deleted ? (
-                <DeletedPostCard />
-              ) : (
-                <PostCard
-                  post={post}
-                  topic={arenaTopic}
-                  onFollowChange={onFollowChange}
-                  setFocusId={setFocusId}
-                  isMainPost={isMainPost}
-                  createReply={createReply}
-                />
-              )}
-            </PostCardWrapper>
-          );
-        })}
-      </ListWrapper>
+      <MainPostCard
+        post={arenaTopic.posts.items[0]!}
+        topic={arenaTopic}
+        onFollowChange={onFollowChange}
+        setFocusId={setFocusId}
+        setReplyingTo={() => setReplyingTo(arenaTopic.id)}
+        isReplying={!!replyingTo}
+      />
+      <PostList
+        posts={arenaTopic?.posts?.items.slice(1) as GQLArenaPostV2Fragment[]}
+        topic={arenaTopic as GQLArenaTopicV2}
+        setFocusId={setFocusId}
+        createReply={createReply}
+        replyToId={arenaTopic.id}
+        isReplyingTo={replyingTo}
+        setReplyingTo={setReplyingTo}
+      />
       <StyledReplyButton
-        aria-expanded={isReplying}
-        ref={replyToRef}
-        onClick={() => setIsReplying(true)}
-        hidden={isReplying || !!arenaTopic?.isLocked}
+        aria-expanded={!!replyingTo}
+        onClick={() => setReplyingTo(arenaTopic?.id)}
+        hidden={!!replyingTo || !!arenaTopic?.isLocked}
       >
         {t("myNdla.arena.new.post")}
       </StyledReplyButton>
-      {isReplying && (
-        <StyledArenaFormWrapper>
-          <ArenaForm
-            id={`bottom${topicId ? `-${topicId}` : ""}`}
-            onAbort={async () => {
-              setIsReplying(false);
-              setTimeout(() => replyToRef.current?.focus(), 1);
-            }}
-            type="post"
-            onSave={async (values) => {
-              await createReply(values);
-              setIsReplying(false);
-            }}
-          />
-        </StyledArenaFormWrapper>
-      )}
     </MyNdlaPageWrapper>
   );
 };

@@ -120,7 +120,9 @@ export type GQLArenaPost = {
   flagId?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
   isMainPost: Scalars["Boolean"]["output"];
+  replies: Array<GQLArenaPost>;
   timestamp: Scalars["String"]["output"];
+  toPid?: Maybe<Scalars["Int"]["output"]>;
   topicId: Scalars["Int"]["output"];
   user: GQLArenaUser;
 };
@@ -133,6 +135,7 @@ export type GQLArenaPostV2 = {
   flags?: Maybe<Array<GQLArenaFlag>>;
   id: Scalars["Int"]["output"];
   owner?: Maybe<GQLArenaUserV2>;
+  replies: Array<GQLArenaPostV2>;
   topicId: Scalars["Int"]["output"];
   updated: Scalars["String"]["output"];
 };
@@ -1133,11 +1136,13 @@ export type GQLMutationNewFlagV2Args = {
 
 export type GQLMutationReplyToTopicArgs = {
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
   topicId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationReplyToTopicV2Args = {
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
   topicId: Scalars["Int"]["input"];
 };
 
@@ -3028,6 +3033,7 @@ export type GQLNewFlagV2Mutation = { __typename?: "Mutation"; newFlagV2: number 
 export type GQLReplyToTopicV2MutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLReplyToTopicV2Mutation = {
@@ -3281,6 +3287,17 @@ export type GQLArenaPostV2Fragment = {
   topicId: number;
   owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
+  replies: Array<{
+    __typename: "ArenaPostV2";
+    content: string;
+    contentAsHTML?: string;
+    id: number;
+    created: string;
+    updated: string;
+    topicId: number;
+    owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
+    flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
+  }>;
 };
 
 export type GQLPaginatedPostsFragment = {
@@ -3834,6 +3851,7 @@ export type GQLNewFlagMutation = { __typename?: "Mutation"; newFlag: number };
 export type GQLReplyToTopicMutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLReplyToTopicMutation = {
@@ -3969,6 +3987,18 @@ export type GQLArenaTopicFragment = {
   isFollowing?: boolean;
 };
 
+export type GQLArenaRepliesFragment = {
+  __typename: "ArenaPost";
+  content: string;
+  id: number;
+  timestamp: string;
+  topicId: number;
+  isMainPost: boolean;
+  deleted: boolean;
+  toPid?: number;
+  user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+};
+
 export type GQLArenaPostFragment = {
   __typename: "ArenaPost";
   content: string;
@@ -3977,7 +4007,9 @@ export type GQLArenaPostFragment = {
   topicId: number;
   isMainPost: boolean;
   deleted: boolean;
+  toPid?: number;
   user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+  replies: Array<{ __typename?: "ArenaPost" } & GQLArenaRepliesFragment>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{

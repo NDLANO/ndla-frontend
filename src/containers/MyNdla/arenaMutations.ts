@@ -67,8 +67,8 @@ export const useNewFlagMutationV2 = () => {
 };
 
 const replyToTopicV2Mutation = gql`
-  mutation ReplyToTopicV2($topicId: Int!, $content: String!) {
-    replyToTopicV2(topicId: $topicId, content: $content) {
+  mutation ReplyToTopicV2($topicId: Int!, $content: String!, $postId: Int) {
+    replyToTopicV2(topicId: $topicId, content: $content, postId: $postId) {
       ...ArenaPostV2
     }
   }
