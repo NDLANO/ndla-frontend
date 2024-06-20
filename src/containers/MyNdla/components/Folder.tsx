@@ -141,8 +141,8 @@ const IconTextWrapper = styled.div`
   color: ${colors.brand.grey};
   white-space: nowrap;
   svg {
-    width: 13px;
-    height: 13px;
+    width: 16px;
+    height: 16px;
   }
   ${fonts.sizes(16)};
 `;
