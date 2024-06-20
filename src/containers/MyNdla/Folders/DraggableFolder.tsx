@@ -77,13 +77,15 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
-      <DragHandle
-        sortableId={folder.id}
-        disabled={type === "block" || items.length < 2}
-        name={folder.name}
-        type="folder"
-        {...attributes}
-      />
+      {folder.__typename === "Folder" && (
+        <DragHandle
+          sortableId={folder.id}
+          disabled={type === "block" || items.length < 2}
+          name={folder.name}
+          type="folder"
+          {...attributes}
+        />
+      )}
       <DragWrapper>
         <Folder folder={folder} foldersCount={foldersCount} type={type} menu={menu} />
       </DragWrapper>
