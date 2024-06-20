@@ -226,13 +226,11 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
-        {!selectedFolder && sharedByOthersFolders && (
+        {!selectedFolder && sharedByOthersFolders?.length > 0 && (
           <>
-            {sharedByOthersFolders.length > 0 && (
-              <StyledHeading element="h2" headingStyle="h2">
-                {t("myNdla.sharedByOthersFolders")}
-              </StyledHeading>
-            )}
+            <StyledHeading element="h2" headingStyle="h2">
+              {t("myNdla.sharedByOthersFolders")}
+            </StyledHeading>
             <FolderList
               type={viewType}
               folders={sharedByOthersFolders}
