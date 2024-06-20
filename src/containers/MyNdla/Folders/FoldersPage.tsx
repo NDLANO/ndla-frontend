@@ -121,7 +121,7 @@ const FoldersPage = () => {
     [selectedFolder, data?.folders],
   );
   const sharedByOthersFolders: GQLFolder[] = useMemo(
-    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.sharedFolders as unknown as GQLFolder[]) ?? []),
+    () => (!selectedFolder ? (data?.folders.sharedFolders as unknown as GQLFolder[]) ?? [] : []),
     [selectedFolder, data?.folders.sharedFolders],
   );
 
