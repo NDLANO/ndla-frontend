@@ -18,10 +18,9 @@ import {
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
-import { LicenseDescriptionList } from "@ndla/notion";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { LicenseLink } from "@ndla/ui";
+import { LicenseLink, LicenseBylineDescriptionList } from "@ndla/ui";
 import { uuid } from "@ndla/util";
 
 const StyledMediaList = styled.ul`
@@ -73,7 +72,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
         {t(`license.${sourceType}.licenseText`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
         {description}
       </span>
-      <LicenseDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
     </MediaLicenseContainer>
   );
 };
@@ -248,7 +247,7 @@ interface MediaListItemMetaProps {
 
 const ItemText = ({ item }: { item: ItemType }) => {
   if (isOtherWithoutDescription(item)) {
-    return <>{item.label}</>;
+    return item.label;
   }
 
   return (
