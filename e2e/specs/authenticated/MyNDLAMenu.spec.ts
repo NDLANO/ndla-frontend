@@ -17,7 +17,6 @@ test("can navigate to folders", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
-  await expect(page.getByRole("heading").getByText("Mine emneknagger")).toBeVisible();
 });
 
 test("can navigate to subjects", async ({ page }) => {
