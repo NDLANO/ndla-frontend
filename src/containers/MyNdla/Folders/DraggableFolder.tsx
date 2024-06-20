@@ -15,7 +15,6 @@ import DragHandle from "./DragHandle";
 import FolderActions from "./FolderActions";
 import { ViewType } from "./FoldersPage";
 import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
 import { FolderTotalCount } from "../../../util/folderHelpers";
 import { Folder } from "../components/Folder";
 
@@ -86,18 +85,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         {...attributes}
       />
       <DragWrapper>
-        <Folder
-          id={folder.id}
-          isShared={folder.status === "shared"}
-          link={folder.__typename === "Folder" ? routes.myNdla.folder(folder.id) : routes.folder(folder.id)}
-          title={folder.name}
-          type={type}
-          author={folder.owner?.name}
-          isOwner={folder?.__typename === "Folder"}
-          menu={menu}
-          subFolders={foldersCount[folder.id]?.folders}
-          subResources={foldersCount[folder.id]?.resources}
-        />
+        <Folder folder={folder} foldersCount={foldersCount} type={type} menu={menu} />
       </DragWrapper>
     </DraggableListItem>
   );

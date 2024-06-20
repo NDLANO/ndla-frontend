@@ -13,6 +13,9 @@ import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core"
 import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
+import { GQLFolder } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
+import { FolderTotalCount } from "../../../util/folderHelpers";
 
 export type LayoutType = "list" | "listLarger" | "block";
 
@@ -164,17 +167,11 @@ const Count = ({ type, count, layoutType }: IconCountProps) => {
 };
 
 interface Props {
-  id: string;
-  title: string;
-  author?: string;
-  subFolders?: number;
-  subResources?: number;
   description?: string;
-  link: string;
   type?: LayoutType;
   menu?: ReactNode;
-  isShared?: boolean;
-  isOwner?: boolean;
+  folder: GQLFolder;
+  foldersCount: Record<string, FolderTotalCount>;
 }
 
 const getIcon = (isOwner: boolean, isShared?: boolean) => {
@@ -188,53 +185,47 @@ const getIcon = (isOwner: boolean, isShared?: boolean) => {
 };
 
 export const Folder = ({
-  id,
-  link,
-  title,
-  author,
-  subFolders,
-  subResources,
   type = "list",
   menu,
-  isShared,
-  isOwner = true,
+  folder: { id, status, __typename, name, owner },
+  foldersCount,
 }: Props) => {
   const { t } = useTranslation();
-  const Icon = getIcon(isOwner, isShared);
+  const Icon = getIcon(__typename === "Folder", status === "shared");
 
   return (
     <FolderWrapper data-type={type} id={id}>
       <TitleWrapper data-type={type}>
         <IconWrapper
-          aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
+          aria-label={`${status === "shared" ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={link}>
-          <FolderTitle data-title="" title={title}>
-            {title}
+        <ResourceTitleLink to={__typename === "Folder" ? routes.myNdla.folder(id) : routes.folder(id)}>
+          <FolderTitle data-title="" title={name}>
+            {name}
           </FolderTitle>
         </ResourceTitleLink>
       </TitleWrapper>
       <MenuWrapper>
         <CountContainer data-type={type}>
-          {isShared && (
+          {status === "shared" && (
             <IconTextWrapper>
               <Share />
-              {!isOwner ? (
+              {__typename !== "Folder" ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}
-                  {author ? `${author}` : t("myNdla.folder.sharing.sharedByAnonymous")}
+                  {owner ? `${owner?.name}` : t("myNdla.folder.sharing.sharedByAnonymous")}
                 </span>
               ) : (
                 <span aria-hidden>{t("myNdla.folder.sharing.shared")}</span>
               )}
             </IconTextWrapper>
           )}
-          {isOwner && (
+          {__typename === "Folder" && (
             <>
-              <Count layoutType={type} type={"folder"} count={subFolders} />
-              <Count layoutType={type} type={"resource"} count={subResources} />
+              <Count layoutType={type} type={"folder"} count={foldersCount[id]?.folders} />
+              <Count layoutType={type} type={"resource"} count={foldersCount[id]?.resources} />
             </>
           )}
         </CountContainer>
