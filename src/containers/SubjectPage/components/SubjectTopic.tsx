@@ -132,7 +132,7 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });

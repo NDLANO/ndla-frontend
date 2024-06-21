@@ -30,7 +30,7 @@ export default defineConfig(() => {
       noExternal: ["@apollo/client"],
     },
     build: {
-      target: "es2022",
+      target: "es2020",
       assetsDir: "static",
       outDir: "build/public",
       sourcemap: true,
@@ -46,6 +46,7 @@ export default defineConfig(() => {
         "@radix-ui/react-accordion",
         "@radix-ui/react-menu",
         "@radix-ui/react-popover",
+        "@radix-ui/react-switch",
         "react-router",
         "react-router-dom",
         "react-helmet-async",
