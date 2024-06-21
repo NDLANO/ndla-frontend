@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
 import {
+  COPYRIGHTED,
   getLicenseByAbbreviation,
   getLicenseRightByAbbreviation,
   getResourceTypeNamespace,
@@ -55,7 +56,6 @@ const BodyTitle = styled(Text)`
 
 export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }: MediaSourceProps) => {
   const { i18n, t } = useTranslation();
-
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
@@ -69,8 +69,8 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
       ) : null}
       <br />
       <span>
-        {t(`license.${sourceType}.licenseText`)} <LicenseLink license={license} asLink={!!license.url.length} />.{" "}
-        {description}
+        {t(`license.${sourceType}.${license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText"}`)}{" "}
+        <LicenseLink license={license} />. {description}
       </span>
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
     </MediaLicenseContainer>
