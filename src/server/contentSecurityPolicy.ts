@@ -191,6 +191,7 @@ const frameSrc = (() => {
     "norgeskart.no",
     "kartiskolen.no",
     "norgeibilder.no",
+    "video.qbrick.com",
   ];
   if (config.runtimeType === "development") {
     return [
