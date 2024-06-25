@@ -58,10 +58,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
 
   const isFolderShared = selectedFolder?.status !== "private";
 
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
   const onFolderUpdated = useCallback(() => {
     addSnack({ id: "folderUpdated", content: t("myNdla.folder.updated") });
   }, [addSnack, t]);
@@ -224,6 +220,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const deleteLink: MenuItemProps = {
       icon: <Cross />,
       text: t("myNdla.folder.sharing.button.unSaveLink"),
+      type: "danger",
       ref: unLinkRef,
       onClick: async () => {
         await unFavoriteSharedFolder({
@@ -235,7 +232,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
           id: "linkRemoved",
           content: t("myNdla.folder.sharing.removeLink"),
         });
-        refreshPage();
       },
     };
 

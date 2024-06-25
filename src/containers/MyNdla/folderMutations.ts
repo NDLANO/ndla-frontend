@@ -732,10 +732,18 @@ const unFavoriteSharedFolderMutation = gql`
 `;
 
 export const useUnFavoriteSharedFolder = () => {
+  const client = useApolloClient();
   const [unFavoriteSharedFolder] = useMutation<
-    GQLUnFavoriteSharedFolderMutation,
-    GQLMutationUnFavoriteSharedFolderArgs
-  >(unFavoriteSharedFolderMutation);
+  GQLUnFavoriteSharedFolderMutation,
+  GQLMutationUnFavoriteSharedFolderArgs
+  >(unFavoriteSharedFolderMutation,{
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    onCompleted: ({ unFavoriteSharedFolder: id }) => {
+      const normalizedId = client.cache.identify({ id, __typename: "SharedFolder" });
+      client.cache.evict({ id: normalizedId, broadcast: false });
+      client.cache.gc();
+    },
+  });
 
   return { unFavoriteSharedFolder };
 };
