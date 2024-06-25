@@ -114,7 +114,7 @@ const Tags = ({ tags }: TagsProps) => {
                 colorTheme="greyLighter"
                 shape="pill"
                 key={tag}
-                to={"tags/" + encodeURIComponent(tag)}
+                to={routes.myNdla.tag(tag)}
               >
                 <HashTag />
                 {tag}
