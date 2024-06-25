@@ -174,8 +174,8 @@ interface Props {
   foldersCount: Record<string, FolderTotalCount>;
 }
 
-const getIcon = (isOwner: boolean, isShared?: boolean) => {
-  if (!isOwner) {
+const getIcon = (isFolder: boolean, isShared?: boolean) => {
+  if (!isFolder) {
     return Link;
   } else if (isShared) {
     return FolderSharedOutlined;
