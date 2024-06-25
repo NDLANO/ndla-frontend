@@ -21,8 +21,9 @@ import {
 import type { MetaType } from "@ndla/licenses";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { LicenseLink, LicenseBylineDescriptionList } from "@ndla/ui";
+import { LicenseLink } from "@ndla/ui";
 import { uuid } from "@ndla/util";
+import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 
 const StyledMediaList = styled.ul`
   padding-left: 0;
