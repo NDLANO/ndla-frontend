@@ -106,14 +106,15 @@ const ResourcePage = () => {
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
-  }
-
-  if (!data) {
-    return <DefaultErrorMessage />;
+    return <UnpublishedResource />;
   }
 
   if (responseContext?.status === 410) {
     return <UnpublishedResource />;
+  }
+
+  if (!data) {
+    return <DefaultErrorMessage />;
   }
 
   if (!data.resource || !data.resource.path) {
