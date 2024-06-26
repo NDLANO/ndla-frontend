@@ -7,7 +7,7 @@
  */
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { fonts, spacing } from "@ndla/core";
+import { fonts } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import CopyTextButton from "./CopyTextButton";
@@ -21,9 +21,6 @@ interface Props {
 const BodyTitle = styled(Text)`
   font-weight: ${fonts.weight.bold};
   margin-bottom: 0;
-  + p {
-    margin-top: ${spacing.small};
-  }
 `;
 
 const OembedItem = ({ oembed }: Props) => {
