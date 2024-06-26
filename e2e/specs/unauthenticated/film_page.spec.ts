@@ -20,10 +20,10 @@ test("film page has content", async ({ page }) => {
     has: page.getByRole("heading", { name: "Emner i film:" }),
     hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
   });
-  await expect(subjects.getByRole("navigation").getByRole("list").getByRole("listitem")).toHaveCount(7);
+  await expect(subjects.getByRole("navigation").getByRole("list").getByRole("listitem")).toHaveCount(8);
   const identitet = page.locator("div", {
     has: page.getByRole("heading", { name: "Identitet" }),
     hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
   });
-  await expect(identitet.getByRole("listitem")).toHaveCount(7);
+  await expect(identitet.getByRole("listitem")).toHaveCount(8);
 });

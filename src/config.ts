@@ -114,7 +114,6 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   isClient: boolean;
   folderRedesign: boolean;
-  isE2E: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -149,7 +148,6 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     folderRedesign: getEnvironmentVariabel("FOLDER_REDESIGN", false),
-    isE2E: getEnvironmentVariabel("IS_E2E", false) || getEnvironmentVariabel("CI", false),
   };
 };
 
