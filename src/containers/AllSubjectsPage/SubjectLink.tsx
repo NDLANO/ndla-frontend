@@ -97,8 +97,8 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       {authenticated && !isFavorite ? (
         <StyledIconButton
           onClick={setFavorite}
-          aria-label={t("subjectspage.addFavorite")}
-          title={t("subjectspage.addFavorite")}
+          aria-label={t("subjectsPage.addFavorite")}
+          title={t("subjectsPage.addFavorite")}
           variant="ghost"
           size="xsmall"
           colorTheme="lighter"

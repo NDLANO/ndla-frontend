@@ -13,6 +13,7 @@ import { ContentPlaceholder } from "@ndla/ui";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext from "../../components/RedirectContext";
+import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
@@ -20,6 +21,7 @@ import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -38,6 +40,7 @@ const PlainArticlePage = () => {
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
+  const responseContext = useContext(ResponseContext);
   const { loading, data, error } = useGraphQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
     plainArticlePageQuery,
     {
@@ -57,6 +60,11 @@ const PlainArticlePage = () => {
   }
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
+    return <UnpublishedResource />;
+  }
+
+  if (responseContext?.status === 410) {
+    return <UnpublishedResource />;
   }
 
   if (error) {

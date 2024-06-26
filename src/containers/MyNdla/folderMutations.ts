@@ -21,6 +21,7 @@ import {
   GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteFolderResourceMutation,
+  GQLFavoriteSharedFolderMutation,
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
   GQLFolder,
@@ -33,8 +34,10 @@ import {
   GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
+  GQLMutationFavoriteSharedFolderArgs,
   GQLMutationSortFoldersArgs,
   GQLMutationSortResourcesArgs,
+  GQLMutationUnFavoriteSharedFolderArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
@@ -43,6 +46,7 @@ import {
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLSortFoldersMutation,
+  GQLUnFavoriteSharedFolderMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
@@ -702,4 +706,38 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
     },
   );
   return { deleteFolderResource };
+};
+
+const favoriteSharedFolderMutation = gql`
+  mutation favoriteSharedFolder($folderId: String!) {
+    favoriteSharedFolder(folderId: $folderId)
+  }
+`;
+
+export const useFavoriteSharedFolder = (folderId: string) => {
+  const [favoriteSharedFolder] = useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
+    favoriteSharedFolderMutation,
+    {
+      variables: { folderId },
+    },
+  );
+
+  return { favoriteSharedFolder };
+};
+
+const unFavoriteSharedFolderMutation = gql`
+  mutation unFavoriteSharedFolder($folderId: String!) {
+    unFavoriteSharedFolder(folderId: $folderId)
+  }
+`;
+
+export const useUnFavoriteSharedFolder = (folderId: string) => {
+  const [unFavoriteSharedFolder] = useMutation<
+    GQLUnFavoriteSharedFolderMutation,
+    GQLMutationUnFavoriteSharedFolderArgs
+  >(unFavoriteSharedFolderMutation, {
+    variables: { folderId },
+  });
+
+  return { unFavoriteSharedFolder };
 };

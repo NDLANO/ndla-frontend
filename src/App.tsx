@@ -54,6 +54,7 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
+import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -196,11 +197,18 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                <Route path="folder/:folderId">
-                  <Route index element={<SharedFolderPage />} />
-                  <Route path=":subfolderId" element={<SharedFolderPage />} />
-                  <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                </Route>
+                {config.folderRedesign ? (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPageV2 />} />
+                    <Route path="*" element={<SharedFolderPageV2 />} />
+                  </Route>
+                ) : (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPage />} />
+                    <Route path=":subfolderId" element={<SharedFolderPage />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
+                  </Route>
+                )}
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />

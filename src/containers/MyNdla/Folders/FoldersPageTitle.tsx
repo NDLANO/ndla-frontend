@@ -29,27 +29,30 @@ const StyledContentLoader = styled(ContentLoader)`
 `;
 
 interface Props {
-  loading: boolean;
+  loading?: boolean;
   selectedFolder: GQLFolder | null;
+  enableBreadcrumb?: boolean;
 }
 
-const FoldersPageTitle = ({ loading, selectedFolder }: Props) => {
+const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = true }: Props) => {
   const { t } = useTranslation();
 
   return (
     <TitleWrapper>
-      <WhileLoading
-        isLoading={loading}
-        fallback={
-          !!selectedFolder && (
-            <StyledContentLoader width={500} height={30}>
-              <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
-            </StyledContentLoader>
-          )
-        }
-      >
-        <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
-      </WhileLoading>
+      {enableBreadcrumb && (
+        <WhileLoading
+          isLoading={loading}
+          fallback={
+            !!selectedFolder && (
+              <ContentLoader width={500} height={30}>
+                <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
+              </ContentLoader>
+            )
+          }
+        >
+          <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
+        </WhileLoading>
+      )}
       <TitleRow>
         <WhileLoading
           fallback={

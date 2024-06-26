@@ -6,13 +6,12 @@
  *
  */
 
-import { GQLTaxonomyContext } from "../../graphqlTypes";
-import { getTopicPath } from "../getTopicPath";
+import { getTopicPath, TaxonomyContext } from "../getTopicPath";
 
 describe("getTopicPath", () => {
   it("handles a regular resource path", () => {
     const path = "/subject:1/topic:1/resource:1";
-    const taxonomContexts: GQLTaxonomyContext[] = [
+    const taxonomContexts: TaxonomyContext[] = [
       {
         parentIds: ["urn:subject:1", "urn:topic:1"],
         breadcrumbs: ["Idéutvikling og mediedesign", "Idéutvikling"],
@@ -32,7 +31,7 @@ describe("getTopicPath", () => {
   });
   it("handles nested topics", () => {
     const path = "/subject:1/topic:1/topic:2/resource:1";
-    const taxonomContexts: GQLTaxonomyContext[] = [
+    const taxonomContexts: TaxonomyContext[] = [
       {
         parentIds: ["urn:subject:1", "urn:topic:1", "urn:topic:3"],
         breadcrumbs: ["Idéutvikling og mediedesign", "Idéutvikling", "Mediebransjen"],
@@ -53,7 +52,7 @@ describe("getTopicPath", () => {
   });
   it("handles paths ending in a topic", () => {
     const path = "/subject:1/topic:1/topic:2/";
-    const taxonomContexts: GQLTaxonomyContext[] = [
+    const taxonomContexts: TaxonomyContext[] = [
       {
         parentIds: ["urn:subject:1", "urn:topic:1"],
         breadcrumbs: ["Idéutvikling og mediedesign", "Idéutvikling"],
@@ -73,7 +72,7 @@ describe("getTopicPath", () => {
   });
   it("returns nothing if no match is found", () => {
     const path = "/subject:1/topic:1/topic:5/";
-    const taxonomContexts: GQLTaxonomyContext[] = [
+    const taxonomContexts: TaxonomyContext[] = [
       {
         parentIds: ["urn:subject:1", "urn:topic:1"],
         breadcrumbs: ["Idéutvikling og mediedesign", "Idéutvikling"],
@@ -91,7 +90,7 @@ describe("getTopicPath", () => {
 
   it("handles learningpaths with a step", () => {
     const path = "/subject:1/topic:1/resource:1/77";
-    const taxonomContexts: GQLTaxonomyContext[] = [
+    const taxonomContexts: TaxonomyContext[] = [
       {
         parentIds: ["urn:subject:1", "urn:topic:1"],
         breadcrumbs: ["Idéutvikling og mediedesign", "Idéutvikling"],

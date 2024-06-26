@@ -1855,6 +1855,7 @@ export type GQLSearchContext = {
   resourceTypes: Array<GQLSearchContextResourceTypes>;
   root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLSearchContextResourceTypes = {
@@ -1998,6 +1999,7 @@ export type GQLTaxonomyContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLTaxonomyEntity = {
@@ -3808,6 +3810,18 @@ export type GQLDeleteFolderResourceMutationVariables = Exact<{
 }>;
 
 export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
+
+export type GQLFavoriteSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLFavoriteSharedFolderMutation = { __typename?: "Mutation"; favoriteSharedFolder: string };
+
+export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

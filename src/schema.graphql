@@ -1293,6 +1293,7 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
+  url: String
 }
 
 type SearchContextResourceTypes {
@@ -1419,6 +1420,7 @@ type TaxonomyContext {
   breadcrumbs: [String!]!
   parentIds: [String!]!
   path: String!
+  url: String
 }
 
 interface TaxonomyEntity {
