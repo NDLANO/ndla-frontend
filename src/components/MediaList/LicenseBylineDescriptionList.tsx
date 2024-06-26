@@ -27,7 +27,7 @@ const StyledListItem = styled.li`
 
 const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescriptionListProps) => (
   <StyledList>
-    {/* Filter away the CC-rights description since it isn't showed in the list anymore */}
+    {/* Filter away the CC-rights description since it is now shown in MediaListLicense*/}
     {licenseRights
       .filter((right) => right !== "cc")
       .map((licenseRight) => {
