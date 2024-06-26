@@ -278,7 +278,7 @@ async function sendInternalServerError(req: Request, res: Response, err?: Error)
 
 const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
   vite?.ssrFixStacktrace(err);
-  handleError(err);
+  handleError(err, undefined, req);
   sendInternalServerError(req, res, err);
 };
 
