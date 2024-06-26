@@ -52,7 +52,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
 
   if (text.copyright.origin) {
     items.push({
-      label: t("license.source"),
+      label: t("source"),
       description: text.copyright.origin,
       metaType: metaTypes.other,
     });

@@ -64,7 +64,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (concept.title) {
     items.unshift({
-      label: t(`license.${type}.title`),
+      label: t(`title`),
       description: concept.title,
       metaType: metaTypes.title,
     });

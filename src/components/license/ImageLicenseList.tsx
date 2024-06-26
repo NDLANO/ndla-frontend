@@ -80,7 +80,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   if (image.title) {
     items.unshift({
-      label: t("license.images.title"),
+      label: t("title"),
       description: image.title,
       metaType: metaTypes.title,
     });
@@ -88,7 +88,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   if (image.copyright.origin) {
     items.push({
-      label: t("license.images.source"),
+      label: t("source"),
       description: image.copyright.origin,
       metaType: metaTypes.other,
     });
