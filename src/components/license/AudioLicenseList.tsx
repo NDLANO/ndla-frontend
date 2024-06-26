@@ -54,6 +54,8 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
+  if (audio.copyright?.license?.license === undefined || audio.copyright.license.license === "") return null;
+
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 

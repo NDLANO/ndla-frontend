@@ -63,6 +63,8 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
+  if (image.copyright?.license?.license === undefined || image.copyright.license.license === "") return null;
+
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 

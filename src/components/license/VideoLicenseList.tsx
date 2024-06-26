@@ -53,6 +53,8 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
+  if (video.copyright?.license?.license === undefined || video.copyright.license.license === "") return null;
+
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (video.title) {

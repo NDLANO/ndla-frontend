@@ -57,14 +57,14 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
-  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "unknown") return null;
+  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "") return null;
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (concept.title) {
     items.unshift({
-      label: t(`title`),
+      label: t("title"),
       description: concept.title,
       metaType: metaTypes.title,
     });

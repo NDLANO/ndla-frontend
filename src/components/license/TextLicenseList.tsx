@@ -34,6 +34,9 @@ interface TextLicenseInfoProps {
 const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
+
+  if (text.copyright?.license?.license === undefined || text.copyright.license.license === "") return null;
+
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (text.title) {
     items.unshift({

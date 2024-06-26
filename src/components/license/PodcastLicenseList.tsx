@@ -53,6 +53,8 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
+  if (podcast.copyright?.license?.license === undefined || podcast.copyright.license.license === "") return null;
+
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
 
