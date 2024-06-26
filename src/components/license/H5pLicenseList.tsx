@@ -97,18 +97,14 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(h5p.copyright?.license.license) && (
-              <>
-                {copyText && (
-                  <CopyTextButton
-                    stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")}
-                    hasCopiedTitle={t("license.hasCopiedTitle")}
-                  >
-                    <Copy />
-                  </CopyTextButton>
-                )}
-              </>
+            {!isCopyrighted(h5p.copyright?.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <Copy />
+              </CopyTextButton>
             )}
           </MediaListRef>
         </MediaListItemActions>

@@ -134,18 +134,14 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(audio.copyright.license.license) && (
-              <>
-                {copyText && (
-                  <CopyTextButton
-                    stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")}
-                    hasCopiedTitle={t("license.hasCopiedTitle")}
-                  >
-                    <Copy />
-                  </CopyTextButton>
-                )}
-              </>
+            {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <Copy />
+              </CopyTextButton>
             )}
           </MediaListRef>
         </MediaListItemActions>

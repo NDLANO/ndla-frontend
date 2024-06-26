@@ -139,7 +139,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {copyText && !isCopyrighted(podcast.copyright.license.license) && (
+            {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
               <CopyTextButton
                 stringToCopy={copyText}
                 copyTitle={t("license.copyTitle")}

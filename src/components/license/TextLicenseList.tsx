@@ -84,18 +84,14 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(text.copyright.license?.license) && (
-              <>
-                {text.copyText && (
-                  <CopyTextButton
-                    stringToCopy={text.copyText}
-                    copyTitle={t("license.copyTitle")}
-                    hasCopiedTitle={t("license.hasCopiedTitle")}
-                  >
-                    <Copy />
-                  </CopyTextButton>
-                )}
-              </>
+            {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
+              <CopyTextButton
+                stringToCopy={text.copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <Copy />
+              </CopyTextButton>
             )}
           </MediaListRef>
         </MediaListItemActions>
