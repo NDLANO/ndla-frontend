@@ -96,7 +96,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
           </AddResourceToFolderModal>
         )}
       </LicenseAndButtonWrapper>
-      <img alt="presentation" src={video.cover} />
+      <img alt={video.title} src={video.cover} />
       {!isCopyrighted(video.copyright?.license.license) && (
         <MediaListItemActions>
           {video.download && (
