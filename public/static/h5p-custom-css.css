@@ -30,7 +30,7 @@
   border-color: #94949E;
 }
 
-.h5p-content .h5p-actions {
+.h5p-content ul.h5p-actions {
   border-bottom-color: #94949E;
   border-bottom-width: 2px;
   border-bottom-left-radius: 4px;
