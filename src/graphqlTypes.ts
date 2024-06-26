@@ -3277,7 +3277,7 @@ export type GQLArenaFlagFragment = {
   flagger?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
 };
 
-export type GQLArenaPostV2Fragment = {
+export type GQLArenaPostReplyLessFragment = {
   __typename: "ArenaPostV2";
   content: string;
   contentAsHTML?: string;
@@ -3287,18 +3287,12 @@ export type GQLArenaPostV2Fragment = {
   topicId: number;
   owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
-  replies: Array<{
-    __typename: "ArenaPostV2";
-    content: string;
-    contentAsHTML?: string;
-    id: number;
-    created: string;
-    updated: string;
-    topicId: number;
-    owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
-    flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
-  }>;
 };
+
+export type GQLArenaPostV2Fragment = {
+  __typename?: "ArenaPostV2";
+  replies: Array<{ __typename?: "ArenaPostV2" } & GQLArenaPostReplyLessFragment>;
+} & GQLArenaPostReplyLessFragment;
 
 export type GQLPaginatedPostsFragment = {
   __typename: "PaginatedPosts";
@@ -3385,7 +3379,7 @@ export type GQLArenaNotificationV2Fragment = {
   topicTitle: string;
   notificationTime: string;
   isRead: boolean;
-  post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment;
+  post: { __typename?: "ArenaPostV2" } & GQLArenaPostReplyLessFragment;
 };
 
 export type GQLPaginatedNotificationsFragment = {

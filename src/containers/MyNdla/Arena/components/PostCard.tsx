@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
-import { Back } from "@ndla/icons/common";
+import { Reply } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
@@ -147,7 +147,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
         {postTime}
         <div>
           <IconButtonV2 variant="ghost" colorTheme="light" size="small" aria-label="Svar" onClick={setIsReplying}>
-            <Back />
+            <Reply />
           </IconButtonV2>
           {menu}
         </div>

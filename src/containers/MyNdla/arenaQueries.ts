@@ -131,8 +131,8 @@ export const arenaFlagFragment = gql`
   ${arenaUserFragment}
 `;
 
-export const arenaPostV2Fragment = gql`
-  fragment ArenaPostV2 on ArenaPostV2 {
+const postV2Fragment = gql`
+  fragment ArenaPostReplyLess on ArenaPostV2 {
     __typename
     content
     contentAsHTML
@@ -146,24 +146,19 @@ export const arenaPostV2Fragment = gql`
     flags {
       ...ArenaFlag
     }
-    replies {
-      __typename
-      content
-      contentAsHTML
-      id
-      created
-      updated
-      topicId
-      owner {
-        ...ArenaUserV2
-      }
-      flags {
-        ...ArenaFlag
-      }
-    }
   }
   ${arenaFlagFragment}
   ${arenaUserFragment}
+`;
+
+export const arenaPostV2Fragment = gql`
+  fragment ArenaPostV2 on ArenaPostV2 {
+    ...ArenaPostReplyLess
+    replies {
+      ...ArenaPostReplyLess
+    }
+  }
+  ${postV2Fragment}
 `;
 
 export const arenaPaginatedPostsV2Fragment = gql`
@@ -289,10 +284,10 @@ const arenaNotificationFragment = gql`
     notificationTime
     isRead
     post {
-      ...ArenaPostV2
+      ...ArenaPostReplyLess
     }
   }
-  ${arenaPostV2Fragment}
+  ${postV2Fragment}
 `;
 
 const arenaPaginatedNotificationsFragment = gql`

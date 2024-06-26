@@ -39,10 +39,12 @@ const calculateNextPostId = (
   const index = posts?.findIndex(({ id }) => id === post.id) ?? 0;
   const previousPostId = posts?.[index - 1]?.id;
   const nextPostId = posts?.[index + 1]?.id;
-  if (!previousPostId || !nextPostId) {
-    return rootPosts?.items.find(({ replies }) => replies.find((replyPost) => replyPost.id === post.id))?.id;
+  if (previousPostId || nextPostId) {
+    return nextPostId ?? previousPostId;
   }
-  return nextPostId ?? previousPostId;
+  return rootPosts?.items.find(({ replies }) => {
+    return replies?.find(({ id }) => id === post.id);
+  })?.id;
 };
 
 interface Props {
