@@ -110,12 +110,7 @@ const Tags = ({ tags }: TagsProps) => {
         <StyledUl>
           {tags.map((tag) => (
             <StyledLi key={tag}>
-              <StyledSafeLinkButton
-                colorTheme="greyLighter"
-                shape="pill"
-                key={tag}
-                to={routes.myNdla.tag(tag)}
-              >
+              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
                 <HashTag />
                 {tag}
               </StyledSafeLinkButton>
