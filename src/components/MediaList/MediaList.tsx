@@ -50,9 +50,6 @@ const MediaLicenseContainer = styled.div`
 const BodyTitle = styled(Text)`
   font-weight: ${fonts.weight.bold};
   padding-bottom: ${spacing.xsmall};
-  + p {
-    margin-top: ${spacing.small};
-  }
 `;
 
 export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }: MediaSourceProps) => {
