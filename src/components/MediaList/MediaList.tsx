@@ -61,8 +61,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
     <MediaLicenseContainer>
       {title ? (
         <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
-          {title}
-          {` "${sourceTitle}"`}
+          {`${title} "${sourceTitle}"`}
         </BodyTitle>
       ) : null}
       <br />
@@ -249,9 +248,9 @@ const ItemText = ({ item }: { item: ItemType }) => {
   }
 
   return (
-    <>
+    <span>
       {item.label}: <HandleLink text={item.description}>{item.description}</HandleLink>
-    </>
+    </span>
   );
 };
 
