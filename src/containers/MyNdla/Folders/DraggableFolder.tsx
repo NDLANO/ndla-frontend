@@ -26,6 +26,7 @@ interface Props {
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
+  isFolder: boolean;
 }
 
 export const DraggableListItem = styled.li`
@@ -48,7 +49,7 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId }: Props) => {
+const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId, isFolder }: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
     id: folder.id,
     data: {
@@ -70,6 +71,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         selectedFolder={folder}
         setFocusId={setFocusId}
         folderRefId={folderRefId}
+        isFolder={folder.__typename === "Folder"}
       />
     ),
     [folder, folders, setFocusId, folderRefId],
@@ -77,7 +79,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
-      {folder.__typename === "Folder" && (
+      {isFolder && (
         <DragHandle
           sortableId={folder.id}
           disabled={type === "block" || items.length < 2}

@@ -175,7 +175,9 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
+    () => (
+      <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar isFolder />
+    ),
     [selectedFolder, folders, setFocusId],
   );
 

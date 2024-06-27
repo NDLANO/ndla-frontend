@@ -108,6 +108,7 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId 
                   folders={folders}
                   setFocusId={setFocusId}
                   folderRefId={folderRefId}
+                  isFolder={folder.__typename === "Folder"}
                 />
               ))}
             </SortableContext>
