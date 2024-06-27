@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { DynamicComponents } from "@ndla/article-converter";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { CreatedBy } from "@ndla/ui";
@@ -33,7 +32,6 @@ import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../
 import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
-import AddEmbedToFolder from "../MyNdla/AddEmbedToFolder";
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -64,10 +62,6 @@ const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefin
     return [undefined, url];
   }
   return [undefined, undefined];
-};
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
 };
 
 interface Props {
@@ -118,7 +112,6 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
       transformArticle(article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
-        components: converterComponents,
         articleLanguage: article.language,
       }),
       getArticleScripts(article, i18n.language),

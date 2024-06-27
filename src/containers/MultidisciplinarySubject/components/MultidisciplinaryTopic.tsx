@@ -12,11 +12,10 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
+import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import { NavigationBox } from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
@@ -47,10 +46,6 @@ interface Props {
 
 const getDocumentTitle = (name: string, t: TFunction) => {
   return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
-};
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
 };
 
 const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject, disableNav }: Props) => {
@@ -104,7 +99,6 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       transformArticle(topic.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
         subject: subjectId,
-        components: converterComponents,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
