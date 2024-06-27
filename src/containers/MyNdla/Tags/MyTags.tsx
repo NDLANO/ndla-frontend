@@ -93,30 +93,22 @@ const MyTags = () => {
           </Heading>
         )}
       </StyledTitleWrapper>
-      {!tag && tags.length ? <Tags tags={tags} /> : null}
+      {!tag && tags.length ? (
+        <nav aria-label={t("myNdla.myTags")}>
+          <StyledUl>
+            {tags.map((tag) => (
+              <StyledLi key={tag}>
+                <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
+                  <HashTag />
+                  {tag}
+                </StyledSafeLinkButton>
+              </StyledLi>
+            ))}
+          </StyledUl>
+        </nav>
+      ) : null}
     </MyTagsContainer>
   );
 };
 
-interface TagsProps {
-  tags: string[];
-}
-
-const Tags = ({ tags }: TagsProps) => {
-  const { t } = useTranslation();
-  return (
-    <nav aria-label={t("myNdla.myTags")}>
-      <StyledUl>
-        {tags.map((tag) => (
-          <StyledLi key={tag}>
-            <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
-              <HashTag />
-              {tag}
-            </StyledSafeLinkButton>
-          </StyledLi>
-        ))}
-      </StyledUl>
-    </nav>
-  );
-};
 export default MyTags;
