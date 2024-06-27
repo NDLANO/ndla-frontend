@@ -122,6 +122,34 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     }
   }, [selectedFolder, deleteFolder, folderRefId, setFocusId, addSnack, folderId, inToolbar, navigate, folders, t]);
 
+  const onUnFavoriteSharedFolder = useCallback(async () => {
+    if (!selectedFolder) return;
+
+    await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
+
+    if (selectedFolder?.id === folderId) {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+        replace: true,
+      });
+    }
+
+    const previousFolderId = folders.indexOf(selectedFolder) - 1;
+    const nextFolderId = folders.indexOf(selectedFolder) + 1;
+    if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
+      setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
+    } else if (folderRefId) {
+      setTimeout(
+        () =>
+          (
+            document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ?? document.getElementById(folderRefId)
+          )?.focus({ preventScroll: true }),
+        1,
+      );
+    } else if (inToolbar) {
+      document.getElementById("titleAnnouncer")?.focus();
+    }
+  }, [unFavoriteSharedFolder, selectedFolder, folderRefId, setFocusId, folderId, inToolbar, navigate, folders]);
+
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
 
@@ -224,11 +252,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       type: "danger",
       ref: unLinkRef,
       onClick: async () => {
-        await unFavoriteSharedFolder({
-          variables: {
-            folderId: selectedFolder.id,
-          },
-        });
+        await onUnFavoriteSharedFolder();
         addSnack({
           id: "linkRemoved",
           content: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
@@ -282,7 +306,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     onFolderAdded,
     inToolbar,
     updateFolderStatus,
-    unFavoriteSharedFolder,
+    onUnFavoriteSharedFolder,
     examLock,
     addSnack,
     navigate,
