@@ -261,12 +261,12 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       actions.push(addFolderButton);
     }
 
-    if (isStudent(user)) {
-      return actions.concat(editFolder, deleteOpt);
-    }
-
     if (selectedFolder.__typename !== "Folder") {
       return actions.concat(deleteLink);
+    }
+
+    if (isStudent(user)) {
+      return actions.concat(editFolder, deleteOpt);
     }
 
     if (selectedFolder.status === "shared") {

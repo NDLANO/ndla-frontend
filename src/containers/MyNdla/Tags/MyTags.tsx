@@ -105,20 +105,18 @@ interface TagsProps {
 const Tags = ({ tags }: TagsProps) => {
   const { t } = useTranslation();
   return (
-    <>
-      <nav aria-label={t("myNdla.myTags")}>
-        <StyledUl>
-          {tags.map((tag) => (
-            <StyledLi key={tag}>
-              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
-                <HashTag />
-                {tag}
-              </StyledSafeLinkButton>
-            </StyledLi>
-          ))}
-        </StyledUl>
-      </nav>
-    </>
+    <nav aria-label={t("myNdla.myTags")}>
+      <StyledUl>
+        {tags.map((tag) => (
+          <StyledLi key={tag}>
+            <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
+              <HashTag />
+              {tag}
+            </StyledSafeLinkButton>
+          </StyledLi>
+        ))}
+      </StyledUl>
+    </nav>
   );
 };
 export default MyTags;

@@ -120,8 +120,8 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders],
   );
-  const sharedByOthersFolders: GQLFolder[] = useMemo(
-    () => (!selectedFolder ? (data?.folders.sharedFolders as unknown as GQLFolder[]) ?? [] : []),
+  const sharedByOthersFolders = useMemo(
+    () => (!selectedFolder ? data?.folders.sharedFolders ?? [] : []),
     [selectedFolder, data?.folders.sharedFolders],
   );
 
@@ -233,7 +233,7 @@ const FoldersPage = () => {
             </StyledHeading>
             <FolderList
               type={viewType}
-              folders={sharedByOthersFolders}
+              folders={sharedByOthersFolders as unknown as GQLFolder[]}
               loading={loading}
               folderId={folderId}
               setFocusId={setFocusId}
