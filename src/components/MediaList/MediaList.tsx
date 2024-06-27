@@ -6,7 +6,7 @@
  *
  */
 
-import { ComponentProps, ReactNode } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
@@ -22,19 +22,14 @@ import type { MetaType } from "@ndla/licenses";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { LicenseLink } from "@ndla/ui";
-import { uuid } from "@ndla/util";
 import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 
-const StyledMediaList = styled.ul`
+export const MediaList = styled.ul`
   padding-left: 0;
   display: flex;
   flex-direction: column;
   margin: ${spacing.normal} 0;
 `;
-
-export const MediaList = ({ children, ...rest }: ComponentProps<"ul">) => (
-  <StyledMediaList {...rest}>{children}</StyledMediaList>
-);
 
 interface MediaSourceProps {
   licenseType: string;
@@ -57,6 +52,8 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
+  const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
+
   return (
     <MediaLicenseContainer>
       {title ? (
@@ -66,15 +63,16 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
       ) : null}
       <br />
       <span>
-        {`${t(`license.${sourceType}.${license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText"}`)} `}
-        <LicenseLink license={license} />. {description}
+        {`${t(`license.${sourceType}.${licenseRightsText}`)} `}
+        <LicenseLink license={license} />
+        {`. ${description}`}
       </span>
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
     </MediaLicenseContainer>
   );
 };
 
-const StyledMediaListItem = styled.li`
+export const MediaListItem = styled.li`
   margin-bottom: ${spacing.small};
   padding: ${spacing.small} 0;
   border-bottom: 1px solid ${colors.brand.tertiary};
@@ -90,10 +88,6 @@ const StyledMediaListItem = styled.li`
     width: 100%;
   }
 `;
-
-export const MediaListItem = ({ children, ...rest }: ComponentProps<"li">) => (
-  <StyledMediaListItem {...rest}>{children}</StyledMediaListItem>
-);
 
 interface MediaListItemImageProps {
   children: ReactNode;
@@ -126,9 +120,6 @@ interface MediaListItemBodyProps {
   locale: string;
   resourceUrl?: string;
   resourceType?: "video" | "image" | "audio" | "text" | "h5p" | "podcast";
-  messages?: {
-    modelPermission?: string;
-  };
 }
 
 const StyledMediaListItemBody = styled.div`
@@ -139,6 +130,10 @@ const StyledMediaListItemBody = styled.div`
   ${mq.range({ from: breakpoints.desktop })} {
     max-width: 75%;
   }
+`;
+
+const StyledSpan = styled.span`
+  display: "none";
 `;
 
 export const MediaListItemBody = ({
@@ -158,20 +153,17 @@ export const MediaListItemBody = ({
     : {};
 
   const metaResourceType = getResourceTypeNamespace(resourceType);
-  const hidden = {
-    display: "none",
-  };
 
   return (
     <StyledMediaListItemBody {...containerProps}>
       {/* @ts-ignore */}
-      {metaResourceType && <span rel="dct:type" href={metaResourceType} style={hidden} />}
+      {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
     </StyledMediaListItemBody>
   );
 };
 
-const StyledMediaListItemActions = styled.div`
+export const MediaListItemActions = styled.div`
   display: flex;
   align-items: start;
   margin: ${spacing.small} 0 0 0;
@@ -197,21 +189,17 @@ const StyledMediaListItemActions = styled.div`
   }
 `;
 
-export const MediaListItemActions = ({ children, ...rest }: ComponentProps<"div">) => (
-  <StyledMediaListItemActions {...rest}>{children}</StyledMediaListItemActions>
-);
-
-const isLink = (text: string) => text.startsWith("http") || text.startsWith("https");
+const isLink = (url: string) => url.startsWith("http") || url.startsWith("https");
 
 interface HandleLinkProps {
-  text: string;
+  url: string;
   children: ReactNode;
 }
 
-export const HandleLink = ({ text, children }: HandleLinkProps) => {
-  if (isLink(text)) {
+export const HandleLink = ({ url, children }: HandleLinkProps) => {
+  if (isLink(url)) {
     return (
-      <SafeLink to={text} target="_blank" rel="noopener noreferrer">
+      <SafeLink to={url} target="_blank" rel="noopener noreferrer">
         {children}
       </SafeLink>
     );
@@ -221,7 +209,7 @@ export const HandleLink = ({ text, children }: HandleLinkProps) => {
 
 const attributionTypes = [metaTypes.author, metaTypes.copyrightHolder, metaTypes.contributor];
 
-export type ItemType = ItemTypeWithDescription | DescriptionLessItemType;
+export type ItemType = ItemTypeWithDescription | DescriptionlessItemType;
 
 interface ItemTypeWithDescription {
   label: string;
@@ -229,12 +217,12 @@ interface ItemTypeWithDescription {
   metaType: Omit<MetaType, "otherWithoutDescription">;
 }
 
-interface DescriptionLessItemType {
+interface DescriptionlessItemType {
   label: string;
   metaType: "otherWithoutDescription";
 }
 
-function isOtherWithoutDescription(item: ItemType): item is DescriptionLessItemType {
+function isOtherWithoutDescription(item: ItemType): item is DescriptionlessItemType {
   return item.metaType === metaTypes.otherWithoutDescription;
 }
 
@@ -249,7 +237,7 @@ const ItemText = ({ item }: { item: ItemType }) => {
 
   return (
     <span>
-      {item.label}: <HandleLink text={item.description}>{item.description}</HandleLink>
+      {item.label}: <HandleLink url={item.description}>{item.description}</HandleLink>
     </span>
   );
 };
@@ -283,7 +271,7 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   return (
     <StyledMediaListItemMeta property="cc:attributionName" content={attributionMeta}>
       {items.map((item) => (
-        <StyledMediaListMetaItem key={uuid()}>
+        <StyledMediaListMetaItem key={item.label}>
           <ItemText item={item} />
         </StyledMediaListMetaItem>
       ))}
