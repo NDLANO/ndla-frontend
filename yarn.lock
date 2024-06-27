@@ -370,7 +370,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.1.6, @babel/parser@npm:^7.14.0, @babel/parser@npm:^7.16.8, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.24.0, @babel/parser@npm:^7.24.5, @babel/parser@npm:^7.3.2":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.1.6, @babel/parser@npm:^7.14.0, @babel/parser@npm:^7.16.8, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.24.0, @babel/parser@npm:^7.3.2":
+  version: 7.24.0
+  resolution: "@babel/parser@npm:7.24.0"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 10c0/77593d0b9de9906823c4d653bb6cda1c7593837598516330f655f70cba6224a37def7dbe5b4dad0038482d407d8d209eb8be5f48ca9a13357d769f829c5adb8e
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.24.5":
   version: 7.24.5
   resolution: "@babel/parser@npm:7.24.5"
   bin:
@@ -3128,11 +3137,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^8.0.7":
-  version: 8.0.7
-  resolution: "@ndla/article-converter@npm:8.0.7"
+"@ndla/article-converter@npm:^8.0.8":
+  version: 8.0.8
+  resolution: "@ndla/article-converter@npm:8.0.8"
   dependencies:
-    "@ndla/ui": "npm:^54.0.5"
+    "@ndla/ui": "npm:^54.0.6"
     html-react-parser: "npm:^5.1.8"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -3142,7 +3151,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/2147a23f2f1ff83d7cf574f1525d2eeadfb8387dbab36b3a48cc4565f9082f1a387a47f155994ae5eab9e902a981041d923fdddfedba76c5fa48abf399b14456
+  checksum: 10c0/814ae52ffdfefc232eb5ba005665b68862c7724bcd4271bba4683ff3e76a293b06984b9296b01297e6460cdb20b386741e4a1d1752a8e077d75c090ab46d4fa2
   languageName: node
   linkType: hard
 
@@ -3456,9 +3465,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^54.0.5":
-  version: 54.0.5
-  resolution: "@ndla/ui@npm:54.0.5"
+"@ndla/ui@npm:^54.0.6":
+  version: 54.0.6
+  resolution: "@ndla/ui@npm:54.0.6"
   dependencies:
     "@ndla/accordion": "npm:^4.0.5"
     "@ndla/button": "npm:^13.0.5"
@@ -3492,7 +3501,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/ffc64775b9f9cce435e00beaedfbbfbab75ee18d4ac4dbb83c3e2e54dc14d61fdfa4211732af3f98c68b0994b1028182998ef6b6158c42ab21ea3d23af694e46
+  checksum: 10c0/c44645ffeb616a40f0eb3da3287ccbffd20a637b648aca351de81bab306cbbe3cb21a879f07a71ca089e4fef3d4def04b616f4d0537795deb61d640bdba79601
   languageName: node
   linkType: hard
 
@@ -4838,12 +4847,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.12.12":
-  version: 20.12.12
-  resolution: "@types/node@npm:20.12.12"
+"@types/node@npm:*":
+  version: 20.9.3
+  resolution: "@types/node@npm:20.9.3"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/f374b763c744e8f16e4f38cf6e2c0eef31781ec9228c9e43a6f267880fea420fab0a238b59f10a7cb3444e49547c5e3785787e371fc242307310995b21988812
+  checksum: 10c0/0f61809f00241d0f1db23f8d938ef287138754819150d026e57d2246fec0330ba4b771781ff0d2ed1ea0dd42953850424b495956ff89d06d0bf3995d53da75b1
   languageName: node
   linkType: hard
 
@@ -4851,6 +4860,15 @@ __metadata:
   version: 14.18.33
   resolution: "@types/node@npm:14.18.33"
   checksum: 10c0/10cfbb5f66ff7117e9f4cf36d2cafb05c5a0c90d12af03f439a0aca4d3992897698c49aec4a4c591e3260a8356335a4fb0fbfb46980f60a17fe0cd2a0327b5b5
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.12.12":
+  version: 20.12.12
+  resolution: "@types/node@npm:20.12.12"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10c0/f374b763c744e8f16e4f38cf6e2c0eef31781ec9228c9e43a6f267880fea420fab0a238b59f10a7cb3444e49547c5e3785787e371fc242307310995b21988812
   languageName: node
   linkType: hard
 
@@ -10914,7 +10932,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^8.0.7"
+    "@ndla/article-converter": "npm:^8.0.8"
     "@ndla/button": "npm:^13.0.5"
     "@ndla/carousel": "npm:^4.0.48"
     "@ndla/core": "npm:^5.0.1"
@@ -10935,7 +10953,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.1.8"
     "@ndla/types-taxonomy": "npm:^1.0.26"
     "@ndla/typography": "npm:^0.4.22"
-    "@ndla/ui": "npm:^54.0.5"
+    "@ndla/ui": "npm:^54.0.6"
     "@ndla/util": "npm:^4.0.4"
     "@playwright/test": "npm:^1.43.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
