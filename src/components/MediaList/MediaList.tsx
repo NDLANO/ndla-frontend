@@ -66,7 +66,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
       ) : null}
       <br />
       <span>
-        {t(`license.${sourceType}.${license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText"}`)}{" "}
+        {`${t(`license.${sourceType}.${license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText"}`)} `}
         <LicenseLink license={license} />. {description}
       </span>
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
