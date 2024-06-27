@@ -231,7 +231,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
         });
         addSnack({
           id: "linkRemoved",
-          content: t("myNdla.folder.sharing.removeLink"),
+          content: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
         });
       },
     };

@@ -172,6 +172,7 @@ interface Props {
   menu?: ReactNode;
   folder: GQLFolder;
   foldersCount: Record<string, FolderTotalCount>;
+  isFolder: boolean;
 }
 
 const getIcon = (isFolder: boolean, isShared?: boolean) => {
@@ -184,14 +185,9 @@ const getIcon = (isFolder: boolean, isShared?: boolean) => {
   }
 };
 
-export const Folder = ({
-  type = "list",
-  menu,
-  folder: { id, status, __typename, name, owner },
-  foldersCount,
-}: Props) => {
+export const Folder = ({ type = "list", menu, folder: { id, status, name, owner }, foldersCount, isFolder }: Props) => {
   const { t } = useTranslation();
-  const Icon = getIcon(__typename === "Folder", status === "shared");
+  const Icon = getIcon(isFolder, status === "shared");
 
   return (
     <FolderWrapper data-type={type} id={id}>
@@ -201,7 +197,7 @@ export const Folder = ({
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={__typename === "Folder" ? routes.myNdla.folder(id) : routes.folder(id)}>
+        <ResourceTitleLink to={isFolder ? routes.myNdla.folder(id) : routes.folder(id)}>
           <FolderTitle data-title="" title={name}>
             {name}
           </FolderTitle>
@@ -212,7 +208,7 @@ export const Folder = ({
           {status === "shared" && (
             <IconTextWrapper>
               <Share />
-              {__typename !== "Folder" ? (
+              {!isFolder ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}
                   {owner ? `${owner?.name}` : t("myNdla.folder.sharing.sharedByAnonymous")}
@@ -222,7 +218,7 @@ export const Folder = ({
               )}
             </IconTextWrapper>
           )}
-          {__typename === "Folder" && (
+          {isFolder && (
             <>
               <Count layoutType={type} type={"folder"} count={foldersCount[id]?.folders} />
               <Count layoutType={type} type={"resource"} count={foldersCount[id]?.resources} />

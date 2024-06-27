@@ -71,10 +71,10 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         selectedFolder={folder}
         setFocusId={setFocusId}
         folderRefId={folderRefId}
-        isFolder={folder.__typename === "Folder"}
+        isFolder={isFolder}
       />
     ),
-    [folder, folders, setFocusId, folderRefId],
+    [folder, folders, setFocusId, folderRefId, isFolder],
   );
 
   return (
@@ -89,7 +89,13 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         />
       )}
       <DragWrapper>
-        <Folder folder={folder} foldersCount={foldersCount} type={type} menu={menu} />
+        <Folder
+          folder={folder}
+          foldersCount={foldersCount}
+          type={type}
+          menu={menu}
+          isFolder={folder.__typename === "Folder"}
+        />
       </DragWrapper>
     </DraggableListItem>
   );
