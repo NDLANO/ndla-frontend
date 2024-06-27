@@ -44,8 +44,6 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
-  if (h5p.copyright?.license?.license === undefined || h5p.copyright.license.license === "") return null;
-
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (h5p.title) {
     items.unshift({

@@ -57,8 +57,6 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
-  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "") return null;
-
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
@@ -69,14 +67,14 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
       metaType: metaTypes.title,
     });
   }
-  if (concept.copyright.origin) {
+  if (concept.copyright?.origin) {
     items.push({
       label: t("source"),
       description: concept.copyright.origin,
       metaType: metaTypes.other,
     });
   }
-  if (concept.copyright.processed === true) {
+  if (concept.copyright?.processed === true) {
     items.push({
       label: t("license.processed"),
       metaType: metaTypes.otherWithoutDescription,
@@ -89,7 +87,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
     concept.src,
     `${config.ndlaFrontendDomain}/concept/${concept.id}`,
     concept.copyright,
-    concept.copyright.license.license,
+    concept.copyright?.license?.license,
     "",
     (id: string) => t(id),
     i18n.language,
@@ -99,12 +97,12 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
     <MediaListItem>
       <LicenseAndButtonWrapper>
         <MediaListLicense
-          licenseType={concept.copyright.license.license}
+          licenseType={concept.copyright?.license?.license ?? ""}
           title={t(`license.${type}.rules`)}
           sourceTitle={concept.title}
           sourceType={type}
         />
-        {!isCopyrighted(concept.copyright.license.license) && (
+        {!isCopyrighted(concept.copyright?.license?.license) && (
           <AddResourceToFolderModal
             resource={{
               id: concept.id,
@@ -116,7 +114,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           </AddResourceToFolderModal>
         )}
       </LicenseAndButtonWrapper>
-      {!isCopyrighted(concept.copyright.license.license) && (
+      {!isCopyrighted(concept.copyright?.license?.license) && (
         <MediaListItemActions>
           {concept.src && (
             <SafeLinkButton to={downloadUrl(concept.src)} variant="outline">
@@ -137,11 +135,15 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           )}
         </MediaListItemActions>
       )}
-      <MediaListItemBody license={concept.copyright.license.license} resourceUrl={concept.src} locale={i18n.language}>
+      <MediaListItemBody
+        license={concept.copyright?.license?.license ?? ""}
+        resourceUrl={concept.src}
+        locale={i18n.language}
+      >
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(concept.copyright.license.license) && !!copyText && (
+            {!isCopyrighted(concept.copyright?.license?.license) && !!copyText && (
               <CopyTextButton
                 stringToCopy={copyText}
                 copyTitle={t("license.copyTitle")}
