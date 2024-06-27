@@ -51,6 +51,10 @@ import {
   GQLUpdatePostV2MutationVariables,
   GQLUpdateTopicV2Mutation,
   GQLUpdateTopicV2MutationVariables,
+  GQLRemoveUpvotePostV2Mutation,
+  GQLRemoveUpvotePostV2MutationVariables,
+  GQLUpvotePostV2Mutation,
+  GQLUpvotePostV2MutationVariables,
 } from "../../graphqlTypes";
 
 const newFlagMutationV2 = gql`
@@ -400,5 +404,42 @@ export const useUnsubscribeFromTopicMutation = () => {
         },
       });
     },
+  });
+};
+
+const upvotePostMutation = gql`
+  mutation upvotePostV2($postId: Int!) {
+    addPostUpvoteV2(postId: $postId)
+  }
+  ${arenaPostV2Fragment}
+`;
+
+export const useUpvotePostV2 = () => {
+  const { cache } = useApolloClient();
+  return useMutation<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>(upvotePostMutation, {
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.addPostUpvoteV2,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes + 1,
+        },
+      });
+    },
+  });
+};
+
+const removeUpvotePostMutation = gql`
+  mutation removeUpvotePostV2($postId: Int!) {
+    removePostUpvoteV2(postId: $postId)
+  }
+  ${arenaPostV2Fragment}
+`;
+
+export const useRemoveUpvotePostV2 = () => {
+  return useMutation<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>(removeUpvotePostMutation, {
+    refetchQueries: [{ query: arenaCategoriesV2Query }],
   });
 };

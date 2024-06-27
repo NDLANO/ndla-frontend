@@ -120,7 +120,9 @@ export type GQLArenaPost = {
   flagId?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
   isMainPost: Scalars["Boolean"]["output"];
+  replies: Array<GQLArenaPost>;
   timestamp: Scalars["String"]["output"];
+  toPid?: Maybe<Scalars["Int"]["output"]>;
   topicId: Scalars["Int"]["output"];
   upvoted: Scalars["Boolean"]["output"];
   upvotes: Scalars["Int"]["output"];
@@ -135,10 +137,11 @@ export type GQLArenaPostV2 = {
   flags?: Maybe<Array<GQLArenaFlag>>;
   id: Scalars["Int"]["output"];
   owner?: Maybe<GQLArenaUserV2>;
+  replies: Array<GQLArenaPostV2>;
   topicId: Scalars["Int"]["output"];
   updated: Scalars["String"]["output"];
-  upvoted?: Maybe<Scalars["Boolean"]["output"]>;
-  upvotes?: Maybe<Scalars["Int"]["output"]>;
+  upvoted: Scalars["Boolean"]["output"];
+  upvotes: Scalars["Int"]["output"];
 };
 
 export type GQLArenaTopic = {
@@ -992,6 +995,7 @@ export type GQLMutation = {
   addFolder: GQLFolder;
   addFolderResource: GQLFolderResource;
   addPostUpvote: Scalars["Int"]["output"];
+  addPostUpvoteV2: Scalars["Int"]["output"];
   copySharedFolder: GQLFolder;
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
@@ -1013,6 +1017,7 @@ export type GQLMutation = {
   newFlag: Scalars["Int"]["output"];
   newFlagV2: Scalars["Int"]["output"];
   removePostUpvote: Scalars["Int"]["output"];
+  removePostUpvoteV2: Scalars["Int"]["output"];
   replyToTopic: GQLArenaPost;
   replyToTopicV2: GQLArenaPostV2;
   resolveFlag: GQLArenaFlag;
@@ -1052,6 +1057,10 @@ export type GQLMutationAddFolderResourceArgs = {
 };
 
 export type GQLMutationAddPostUpvoteArgs = {
+  postId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationAddPostUpvoteV2Args = {
   postId: Scalars["Int"]["input"];
 };
 
@@ -1145,13 +1154,19 @@ export type GQLMutationRemovePostUpvoteArgs = {
   postId: Scalars["Int"]["input"];
 };
 
+export type GQLMutationRemovePostUpvoteV2Args = {
+  postId: Scalars["Int"]["input"];
+};
+
 export type GQLMutationReplyToTopicArgs = {
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
   topicId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationReplyToTopicV2Args = {
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
   topicId: Scalars["Int"]["input"];
 };
 
@@ -3178,6 +3193,18 @@ export type GQLUnfollowTopicMutation = {
   unfollowTopic: { __typename?: "ArenaTopicV2" } & GQLArenaTopicV2Fragment;
 };
 
+export type GQLUpvotePostV2MutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+}>;
+
+export type GQLUpvotePostV2Mutation = { __typename?: "Mutation"; addPostUpvoteV2: number };
+
+export type GQLRemoveUpvotePostV2MutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+}>;
+
+export type GQLRemoveUpvotePostV2Mutation = { __typename?: "Mutation"; removePostUpvoteV2: number };
+
 export type GQLArenaUserV2Fragment = {
   __typename?: "ArenaUserV2";
   displayName: string;
@@ -3293,8 +3320,8 @@ export type GQLArenaPostV2Fragment = {
   created: string;
   updated: string;
   topicId: number;
-  upvotes?: number;
-  upvoted?: boolean;
+  upvotes: number;
+  upvoted: boolean;
   owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
 };
@@ -3908,6 +3935,18 @@ export type GQLUnsubscribeFromTopicMutationVariables = Exact<{
 }>;
 
 export type GQLUnsubscribeFromTopicMutation = { __typename?: "Mutation"; unsubscribeFromTopic: number };
+
+export type GQLUpvotePostMutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+}>;
+
+export type GQLUpvotePostMutation = { __typename?: "Mutation"; addPostUpvote: number };
+
+export type GQLRemoveUpvotePostMutationVariables = Exact<{
+  postId: Scalars["Int"]["input"];
+}>;
+
+export type GQLRemoveUpvotePostMutation = { __typename?: "Mutation"; removePostUpvote: number };
 
 export type GQLArenaUserFragment = {
   __typename?: "ArenaUser";

@@ -193,8 +193,21 @@ const upvotePost = gql`
 `;
 
 export const useUpvotePost = () => {
-  const [upvote] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost, { refetchQueries: [arenaTopicById] });
-  return { upvote };
+  const { cache } = useApolloClient();
+  return useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost, {
+    refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes + 1,
+        },
+      });
+    },
+  });
 };
 
 const removeUpvotePost = gql`
@@ -204,8 +217,19 @@ const removeUpvotePost = gql`
 `;
 
 export const useRemoveUpvotePost = () => {
-  const [removeUpvote] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost, {
+  const { cache } = useApolloClient();
+  return useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost, {
     refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes - 1,
+        },
+      });
+    },
   });
-  return { removeUpvote };
 };

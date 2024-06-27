@@ -480,13 +480,19 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
 };
 
 export const useArenaPostUpvote = () => {
-  const upvotePost = nodebbMutations.useUpvotePost();
-  return upvotePost;
+  const upvotePost = myndlaMutations.useUpvotePostV2();
+  const upvoteNodeBBPost = nodebbMutations.useUpvotePost();
+
+  if (config.enableNodeBB) return upvoteNodeBBPost;
+  else return upvotePost;
 };
 
 export const useArenaPostRemoveUpvote = () => {
-  const removeUpvotePost = nodebbMutations.useRemoveUpvotePost();
-  return removeUpvotePost;
+  const removeUpvotePost = myndlaMutations.useRemoveUpvotePostV2();
+  const removeUpvoteNodeBBPost = nodebbMutations.useRemoveUpvotePost();
+
+  if (config.enableNodeBB) return removeUpvoteNodeBBPost;
+  else return removeUpvotePost;
 };
 
 export const useTemporaryArenaNotifications = (skip?: boolean) => {
@@ -515,6 +521,8 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
             created: notification.datetimeISO,
             topicId: notification.topicId,
             updated: notification.datetimeISO,
+            upvotes: 0,
+            upvoted: false,
             owner: {
               __typename: "ArenaUserV2",
               id: notification.user.id,
