@@ -125,7 +125,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             hasCopiedTitle={t("license.embedCopied")}
           />
           {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline" rel="noopener noreferrer">
               <Launch />
               {t("license.openLink")}
             </SafeLinkButton>

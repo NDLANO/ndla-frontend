@@ -120,7 +120,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             {t("license.download")}
           </SafeLinkButton>
           {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" variant="outline">
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline" rel="noopener noreferrer">
               <Launch />
               {t("license.openLink")}
             </SafeLinkButton>
