@@ -45,7 +45,8 @@ function buildLicenseTabList(
       copyText,
     },
   ];
-  if (textblocks.length > 0) {
+
+  if (textblocks.length > 0 && !textblocks.every((textblock) => !textblock.copyright?.license.license)) {
     textblocks.forEach((textblock) => {
       articleTexts.push({
         title: textblock.title || "",
@@ -54,36 +55,21 @@ function buildLicenseTabList(
     });
   }
 
-  if (images.length > 0) {
-    tabs.push({
-      title: t("license.tabs.images"),
-      id: "images",
-      content: <ImageLicenseList images={images} />,
-    });
-  }
   tabs.push({
     title: t("license.tabs.text"),
     id: "text",
     content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
   });
 
-  if (audios.length > 0) {
+  if (images.length > 0 && !images.every((image) => !image.copyright?.license.license)) {
     tabs.push({
-      title: t("license.tabs.audio"),
-      id: "audio",
-      content: <AudioLicenseList audios={audios} />,
+      title: t("license.tabs.images"),
+      id: "images",
+      content: <ImageLicenseList images={images} />,
     });
   }
 
-  if (podcasts.length > 0) {
-    tabs.push({
-      title: t("license.tabs.podcast"),
-      id: "podcast",
-      content: <PodcastLicenseList podcasts={podcasts} />,
-    });
-  }
-
-  if (brightcove.length > 0) {
+  if (brightcove.length > 0 && !brightcove.every((bright) => !bright.copyright?.license.license)) {
     tabs.push({
       title: t("license.tabs.video"),
       id: "video",
@@ -91,7 +77,23 @@ function buildLicenseTabList(
     });
   }
 
-  if (h5ps.length) {
+  if (audios.length > 0 && !audios.every((audio) => !audio.copyright?.license.license)) {
+    tabs.push({
+      title: t("license.tabs.audio"),
+      id: "audio",
+      content: <AudioLicenseList audios={audios} />,
+    });
+  }
+
+  if (podcasts.length > 0 && !podcasts.every((podcast) => !podcast.copyright?.license.license)) {
+    tabs.push({
+      title: t("license.tabs.podcast"),
+      id: "podcast",
+      content: <PodcastLicenseList podcasts={podcasts} />,
+    });
+  }
+
+  if (h5ps.length > 0 && !h5ps.every((h5p) => !h5p.copyright?.license.license)) {
     tabs.push({
       title: t("license.tabs.h5p"),
       id: "h5p",
@@ -99,9 +101,7 @@ function buildLicenseTabList(
     });
   }
 
-  if (
-    concepts.some((concept) => concept.copyright?.license?.license && concept.copyright.license.license !== "unknown")
-  ) {
+  if (concepts.length > 0 && !concepts.every((concept) => !concept.copyright?.license?.license)) {
     tabs.push({
       title: t("license.tabs.concept"),
       id: "concept",
@@ -109,7 +109,7 @@ function buildLicenseTabList(
     });
   }
 
-  if (glosses.length) {
+  if (glosses.length > 0 && !glosses.every((gloss) => !gloss.copyright?.license?.license)) {
     tabs.push({
       title: t("license.tabs.gloss"),
       id: "gloss",

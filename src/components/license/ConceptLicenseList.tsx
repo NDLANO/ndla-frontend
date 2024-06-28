@@ -7,100 +7,151 @@
  */
 
 import uniqBy from "lodash/uniqBy";
-import { ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Concept, Globe } from "@ndla/icons/editor";
-import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
-import {
-  MediaList,
-  MediaListItem,
-  MediaListItemImage,
-  MediaListItemBody,
-  MediaListItemActions,
-  MediaListItemMeta,
-  ItemType,
-} from "@ndla/ui";
+import styled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
+import { Download, Launch } from "@ndla/icons/common";
+import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
+import { downloadUrl } from "./ImageLicenseList";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
+import { MediaListRef } from "./licenseStyles";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
+import {
+  MediaList,
+  MediaListItem,
+  MediaListItemBody,
+  MediaListItemActions,
+  MediaListItemMeta,
+  ItemType,
+  MediaListLicense,
+} from "../MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
-  icon: ReactNode;
   type: "gloss" | "concept";
 }
 
-const ConceptLicenseInfo = ({ concept, icon, type }: ConceptLicenseInfoProps) => {
+const LicenseAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  gap: ${spacing.xsmall};
+`;
+
+const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  if (concept.copyright?.license?.license === undefined || concept.copyright.license.license === "unknown") return null;
 
   const pageUrl = `/concept/${concept.id}`;
 
-  const shouldShowLink = pathname !== pageUrl && !isCopyrighted(concept.copyright.license.license);
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (concept.title) {
     items.unshift({
-      label: t(`license.${type}.title`),
+      label: t("title"),
       description: concept.title,
       metaType: metaTypes.title,
     });
   }
-  if (concept.copyright.origin) {
+  if (concept.copyright?.origin) {
     items.push({
       label: t("source"),
       description: concept.copyright.origin,
       metaType: metaTypes.other,
     });
   }
-  if (concept.copyright.processed === true) {
+  if (concept.copyright?.processed === true) {
     items.push({
       label: t("license.processed"),
       metaType: metaTypes.otherWithoutDescription,
     });
   }
 
+  const copyText = figureApa7CopyString(
+    concept.title,
+    undefined,
+    concept.src,
+    `${config.ndlaFrontendDomain}/concept/${concept.id}`,
+    concept.copyright,
+    concept.copyright?.license?.license,
+    "",
+    (id: string) => t(id),
+    i18n.language,
+  );
+
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen={shouldShowLink}>
-        {!shouldShowLink ? (
-          icon
-        ) : (
-          <Link
-            to={pageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("embed.goTo", { type: t(`embed.type.${type}`) })}
+      <LicenseAndButtonWrapper>
+        <MediaListLicense
+          licenseType={concept.copyright?.license?.license ?? ""}
+          title={t(`license.${type}.rules`)}
+          sourceTitle={concept.title}
+          sourceType={type}
+        />
+        {!isCopyrighted(concept.copyright?.license?.license) && (
+          <AddResourceToFolderModal
+            resource={{
+              id: concept.id,
+              path: `${config.ndlaFrontendDomain}/concept/${concept.id}`,
+              resourceType: "concept",
+            }}
           >
-            {icon}
-          </Link>
+            <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+          </AddResourceToFolderModal>
         )}
-      </MediaListItemImage>
+      </LicenseAndButtonWrapper>
+      {!isCopyrighted(concept.copyright?.license?.license) && (
+        <MediaListItemActions>
+          {concept.src && (
+            <SafeLinkButton to={downloadUrl(concept.src)} variant="outline">
+              <Download />
+              {t("license.download")}
+            </SafeLinkButton>
+          )}
+          <CopyTextButton
+            stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
+              <Launch />
+              {t("license.openLink")}
+            </SafeLinkButton>
+          )}
+        </MediaListItemActions>
+      )}
       <MediaListItemBody
-        license={concept.copyright.license.license}
-        title={t(`license.${type}.rules`)}
+        license={concept.copyright?.license?.license ?? ""}
         resourceUrl={concept.src}
         locale={i18n.language}
       >
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            <CopyTextButton
-              stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
+            {!isCopyrighted(concept.copyright?.license?.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <Copy />
+              </CopyTextButton>
+            )}
           </MediaListRef>
         </MediaListItemActions>
       </MediaListItemBody>
@@ -113,17 +164,13 @@ interface Props {
 }
 
 const ConceptLicenseList = ({ concepts }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(concepts, (concept) => concept.id), [concepts]);
   return (
-    <div>
-      <LicenseDescription>{t("license.concept.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((concept, index) => (
-          <ConceptLicenseInfo type="concept" concept={concept} key={index} icon={<Concept css={mediaListIcon} />} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((concept, index) => (
+        <ConceptLicenseInfo type="concept" concept={concept} key={index} />
+      ))}
+    </MediaList>
   );
 };
 
@@ -132,18 +179,14 @@ interface GlossLicenseListProps {
 }
 
 export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(glosses, (gloss) => gloss.id), [glosses]);
 
   return (
-    <div>
-      <LicenseDescription>{t("license.gloss.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((gloss, index) => (
-          <ConceptLicenseInfo type="gloss" concept={gloss} key={index} icon={<Globe css={mediaListIcon} />} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((gloss, index) => (
+        <ConceptLicenseInfo type="gloss" concept={gloss} key={index} />
+      ))}
+    </MediaList>
   );
 };
 
