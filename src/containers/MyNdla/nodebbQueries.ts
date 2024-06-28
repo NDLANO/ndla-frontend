@@ -117,6 +117,8 @@ export const arenaPostFragment = gql`
       username
       location
     }
+    upvotes
+    upvoted
     deleted
   }
 `;

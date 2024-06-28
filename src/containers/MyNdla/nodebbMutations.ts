@@ -7,7 +7,7 @@
  */
 
 import { MutationHookOptions, gql, useApolloClient, useMutation } from "@apollo/client";
-import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from "./nodebbQueries";
+import { arenaNotificationQuery, arenaPostFragment, arenaTopicById, arenaTopicFragment } from "./nodebbQueries";
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
@@ -15,6 +15,8 @@ import {
   GQLDeleteTopicMutationVariables,
   GQLMarkNotificationAsReadMutation,
   GQLMarkNotificationAsReadMutationVariables,
+  GQLMutationAddPostUpvoteArgs,
+  GQLMutationRemovePostUpvoteArgs,
   GQLMutationSubscribeToTopicArgs,
   GQLMutationUnsubscribeFromTopicArgs,
   GQLNewArenaTopicMutation,
@@ -182,4 +184,52 @@ export const useUnsubscribeFromTopicMutation = () => {
       },
     },
   );
+};
+
+const upvotePost = gql`
+  mutation upvotePost($postId: Int!) {
+    addPostUpvote(postId: $postId)
+  }
+`;
+
+export const useUpvotePost = () => {
+  const { cache } = useApolloClient();
+  return useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost, {
+    refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes + 1,
+        },
+      });
+    },
+  });
+};
+
+const removeUpvotePost = gql`
+  mutation removeUpvotePost($postId: Int!) {
+    removePostUpvote(postId: $postId)
+  }
+`;
+
+export const useRemoveUpvotePost = () => {
+  const { cache } = useApolloClient();
+  return useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost, {
+    refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes - 1,
+        },
+      });
+    },
+  });
 };

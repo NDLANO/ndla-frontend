@@ -140,6 +140,8 @@ export const arenaPostV2Fragment = gql`
     created
     updated
     topicId
+    upvotes
+    upvoted
     owner {
       ...ArenaUserV2
     }

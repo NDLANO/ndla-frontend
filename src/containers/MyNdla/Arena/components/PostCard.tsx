@@ -12,9 +12,9 @@ import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef, use
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import { ButtonV2, IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
-import { Pencil, TrashCanOutline } from "@ndla/icons/action";
+import { Pencil, Thumb, ThumbFilled, TrashCanOutline } from "@ndla/icons/action";
 import { ReportOutlined, Locked } from "@ndla/icons/common";
 import { Switch } from "@ndla/switch";
 import { Text, Heading } from "@ndla/typography";
@@ -25,6 +25,8 @@ import LockModal from "./LockModal";
 import {
   useArenaDeletePost,
   useArenaDeleteTopic,
+  useArenaPostRemoveUpvote,
+  useArenaPostUpvote,
   useArenaUpdatePost,
   useArenaUpdateTopic,
 } from "./temporaryNodebbHooks";
@@ -145,6 +147,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
+  const [upvote] = useArenaPostUpvote(topicId);
+  const [removeUpvote] = useArenaPostRemoveUpvote(topicId);
   const selectors = useUserAgent();
 
   const type = isMainPost ? "topic" : "post";
@@ -277,25 +281,61 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
     [created, language, timeDistance],
   );
 
+  const postUpvotes = useMemo(
+    () => (
+      <>
+        {post.owner?.id !== user?.id && (
+          <IconButtonV2
+            aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            variant="ghost"
+            colorTheme="light"
+            onClick={() =>
+              post.upvoted
+                ? removeUpvote({ variables: { postId: post.id } })
+                : upvote({ variables: { postId: post.id } })
+            }
+          >
+            {post.upvoted ? <ThumbFilled /> : <Thumb />}
+          </IconButtonV2>
+        )}
+        <TimestampText
+          element="span"
+          textStyle="content-alt"
+          margin="none"
+          aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+          title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+        >
+          <span aria-hidden>{post.upvotes ?? 0}</span>
+        </TimestampText>
+      </>
+    ),
+    [post.id, post.owner?.id, post.upvoted, post.upvotes, removeUpvote, t, upvote, user?.id],
+  );
+
   const options = useMemo(
     () =>
       isMainPost ? (
         <>
+          {postTime}
           <FlexLine>
+            {postUpvotes}
             {menu}
-            {postTime}
+            <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
+              {t("myNdla.arena.new.post")}
+            </ButtonV2>
           </FlexLine>
-          <ButtonV2 ref={replyToRef} onClick={() => setIsReplying(true)} disabled={isReplying || topic?.isLocked}>
-            {t("myNdla.arena.new.post")}
-          </ButtonV2>
         </>
       ) : (
         <>
           {postTime}
-          {menu}
+          <FlexLine>
+            {postUpvotes}
+            {menu}
+          </FlexLine>
         </>
       ),
-    [menu, isMainPost, t, postTime, replyToRef, setIsReplying, isReplying, topic?.isLocked],
+    [menu, isMainPost, t, postTime, postUpvotes, replyToRef, setIsReplying, isReplying, topic?.isLocked],
   );
 
   const followSwitch = useMemo(

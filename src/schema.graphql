@@ -95,8 +95,12 @@ type ArenaPost {
   flagId: Int
   id: Int!
   isMainPost: Boolean!
+  replies: [ArenaPost!]!
   timestamp: String!
+  toPid: Int
   topicId: Int!
+  upvoted: Boolean!
+  upvotes: Int!
   user: ArenaUser!
 }
 
@@ -107,8 +111,11 @@ type ArenaPostV2 {
   flags: [ArenaFlag!]
   id: Int!
   owner: ArenaUserV2
+  replies: [ArenaPostV2!]!
   topicId: Int!
   updated: String!
+  upvoted: Boolean!
+  upvotes: Int!
 }
 
 type ArenaTopic {
@@ -873,6 +880,8 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): FolderResource!
+  addPostUpvote(postId: Int!): Int!
+  addPostUpvoteV2(postId: Int!): Int!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
@@ -899,8 +908,10 @@ type Mutation {
   ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
-  replyToTopic(content: String!, topicId: Int!): ArenaPost!
-  replyToTopicV2(content: String!, topicId: Int!): ArenaPostV2!
+  removePostUpvote(postId: Int!): Int!
+  removePostUpvoteV2(postId: Int!): Int!
+  replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
+  replyToTopicV2(content: String!, postId: Int, topicId: Int!): ArenaPostV2!
   resolveFlag(flagId: Int!): ArenaFlag!
   sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
