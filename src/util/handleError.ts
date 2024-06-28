@@ -6,6 +6,7 @@
  *
  */
 
+import { Request } from "express";
 import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
 import { ErrorReporter } from "@ndla/error-reporter";
@@ -67,11 +68,29 @@ export const isInternalServerError = (error: ApolloError | undefined | null): bo
   return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
-const handleError = async (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
+const getErrorLog = (
+  error: ApolloError | Error | string | unknown,
+  request?: Request,
+): ApolloError | Error | string | unknown => {
+  if (typeof error === "object") {
+    const errWithPath = error as { requestPath?: string } & object;
+    errWithPath.requestPath = request?.path;
+    return errWithPath;
+  }
+
+  return error;
+};
+
+const handleError = async (
+  error: ApolloError | Error | string | unknown,
+  info?: ErrorInfo | { clientTime: Date },
+  request?: Request,
+) => {
   if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
   } else if (config.runtimeType === "production" && !config.isClient) {
-    await log?.error(error);
+    const err = getErrorLog(error, request);
+    await log?.error(err);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

@@ -198,7 +198,10 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="about/:slug" element={<AboutPage />} />
 
                 {config.folderRedesign ? (
-                  <Route path="folder/:folderId" element={<SharedFolderPageV2 />} />
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPageV2 />} />
+                    <Route path="*" element={<SharedFolderPageV2 />} />
+                  </Route>
                 ) : (
                   <Route path="folder/:folderId">
                     <Route index element={<SharedFolderPage />} />

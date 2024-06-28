@@ -3405,24 +3405,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^0.2.84":
-  version: 0.2.84
-  resolution: "@ndla/types-backend@npm:0.2.84"
-  checksum: 10c0/d1f21bd34934be1a4b7b75dd8a54c63c95b00f6613e7f51080220aeb280554b95f2fccea9b11dc8f6cbb1f766e9cf6ea393b4173546cd1ada84d450e41ce3735
+"@ndla/types-backend@npm:^0.2.86":
+  version: 0.2.86
+  resolution: "@ndla/types-backend@npm:0.2.86"
+  checksum: 10c0/96125abec7d8aed87d9048266db7953e8c56b1bc873da654faf8303e9f33e0b6dbc34c997de0c4a6bfa8691786f61a7220dec4b26880733e8e00327f09a57cfb
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^4.1.7":
-  version: 4.1.7
-  resolution: "@ndla/types-embed@npm:4.1.7"
-  checksum: 10c0/15fe52ad9e3146f178bce0c766f4e100bbe9424263eb33020f3b23b058e99d193ba6cedc0e8376cc2f69a9eb35646d183efffb19206b34410eb152a3fc4409fa
+"@ndla/types-embed@npm:^4.1.8":
+  version: 4.1.8
+  resolution: "@ndla/types-embed@npm:4.1.8"
+  checksum: 10c0/5206dc55316fac5857307a4d61d497197e5bf5903c0422c84eeb1a224ba6a7a58b86f5a66b15e9e85c8e2f557e311848ddc44dde83c49ecd277de9ad9b2ba0e6
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.25":
-  version: 1.0.25
-  resolution: "@ndla/types-taxonomy@npm:1.0.25"
-  checksum: 10c0/f9a754e2db61379c511846bc994c72c97885fdc8edeaf38f8c4c60e9e26eb10ed141bd68feff1483c285658a6c42f50fd2debed031f3c20491330bc1a546f003
+"@ndla/types-taxonomy@npm:^1.0.26":
+  version: 1.0.26
+  resolution: "@ndla/types-taxonomy@npm:1.0.26"
+  checksum: 10c0/6d50a6a80aff8140b6fbcccfdf9a05372100a9b57fde5b6a338ea13ac9eb4b0d28dbc9d1dca0058a64211561d35d1ccec3321b9b7ef935fed2fd9df6a7c8f7e1
   languageName: node
   linkType: hard
 
@@ -10913,9 +10913,9 @@ __metadata:
     "@ndla/switch": "npm:^1.1.44"
     "@ndla/tabs": "npm:^4.0.8"
     "@ndla/tracker": "npm:^5.0.6"
-    "@ndla/types-backend": "npm:^0.2.84"
-    "@ndla/types-embed": "npm:^4.1.7"
-    "@ndla/types-taxonomy": "npm:^1.0.25"
+    "@ndla/types-backend": "npm:^0.2.86"
+    "@ndla/types-embed": "npm:^4.1.8"
+    "@ndla/types-taxonomy": "npm:^1.0.26"
     "@ndla/typography": "npm:^0.4.22"
     "@ndla/ui": "npm:^55.0.0-alpha.0"
     "@ndla/util": "npm:^4.0.4"
