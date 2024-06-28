@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
-import { DynamicComponents, transform } from "@ndla/article-converter";
+import { transform } from "@ndla/article-converter";
 import { colors, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -22,7 +22,6 @@ import { CreatedBy } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import ResourceEmbedWrapper from "./ResourceEmbedWrapper";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import {
@@ -61,10 +60,6 @@ interface MetaProperies {
   imageUrl?: string;
   type: StandaloneEmbed | "gloss" | "podcast";
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
@@ -162,11 +157,10 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
     }
     return transform(data.resourceEmbed.content, {
       frontendDomain: "",
-      components: isOembed ? undefined : converterComponents,
       path: pathname,
       renderContext: "embed",
     });
-  }, [data?.resourceEmbed.content, isOembed, pathname]);
+  }, [data?.resourceEmbed.content, pathname]);
 
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
