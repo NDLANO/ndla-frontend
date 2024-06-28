@@ -76,7 +76,7 @@ const CountContainer = styled.div`
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
-    <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
+    <StyledSafelink to={routes.myNdla.arenaTopic(id)} data-testid="arena-topic-card">
       <div>
         <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
           {title}
