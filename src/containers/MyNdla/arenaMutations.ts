@@ -411,35 +411,25 @@ const upvotePostMutation = gql`
   mutation upvotePostV2($postId: Int!) {
     addPostUpvoteV2(postId: $postId)
   }
-  ${arenaPostV2Fragment}
 `;
 
-export const useUpvotePostV2 = () => {
-  const { cache } = useApolloClient();
-  return useMutation<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>(upvotePostMutation, {
-    onCompleted: (data) => {
-      cache.modify({
-        id: cache.identify({
-          __typename: "ArenaPostV2",
-          id: data.addPostUpvoteV2,
-        }),
-        fields: {
-          upvotes: (existingUpvotes) => existingUpvotes + 1,
-        },
-      });
-    },
-  });
+export const useUpvotePostV2 = (
+  options: MutationHookOptions<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>,
+) => {
+  return useMutation<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>(upvotePostMutation, options);
 };
 
 const removeUpvotePostMutation = gql`
   mutation removeUpvotePostV2($postId: Int!) {
     removePostUpvoteV2(postId: $postId)
   }
-  ${arenaPostV2Fragment}
 `;
 
-export const useRemoveUpvotePostV2 = () => {
-  return useMutation<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>(removeUpvotePostMutation, {
-    refetchQueries: [{ query: arenaCategoriesV2Query }],
-  });
+export const useRemoveUpvotePostV2 = (
+  options: MutationHookOptions<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>,
+) => {
+  return useMutation<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>(
+    removeUpvotePostMutation,
+    options,
+  );
 };

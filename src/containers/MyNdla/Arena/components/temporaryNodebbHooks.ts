@@ -479,16 +479,30 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
   else return createArenaTopic;
 };
 
-export const useArenaPostUpvote = () => {
-  const upvotePost = myndlaMutations.useUpvotePostV2();
+export const useArenaPostUpvote = (topicId: number) => {
+  const upvotePost = myndlaMutations.useUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
   const upvoteNodeBBPost = nodebbMutations.useUpvotePost();
 
   if (config.enableNodeBB) return upvoteNodeBBPost;
   else return upvotePost;
 };
 
-export const useArenaPostRemoveUpvote = () => {
-  const removeUpvotePost = myndlaMutations.useRemoveUpvotePostV2();
+export const useArenaPostRemoveUpvote = (topicId: number) => {
+  const removeUpvotePost = myndlaMutations.useRemoveUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
   const removeUpvoteNodeBBPost = nodebbMutations.useRemoveUpvotePost();
 
   if (config.enableNodeBB) return removeUpvoteNodeBBPost;

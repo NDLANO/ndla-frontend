@@ -147,8 +147,8 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
-  const [upvote] = useArenaPostUpvote();
-  const [removeUpvote] = useArenaPostRemoveUpvote();
+  const [upvote] = useArenaPostUpvote(topicId);
+  const [removeUpvote] = useArenaPostRemoveUpvote(topicId);
   const selectors = useUserAgent();
 
   const type = isMainPost ? "topic" : "post";
