@@ -284,23 +284,27 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
   const postUpvotes = useMemo(
     () => (
       <>
-        <IconButtonV2
-          aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-          title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-          variant="ghost"
-          colorTheme="light"
-          onClick={() =>
-            post.upvoted ? removeUpvote({ variables: { postId: post.id } }) : upvote({ variables: { postId: post.id } })
-          }
-        >
-          {post.upvoted ? <ThumbFilled /> : <Thumb />}
-        </IconButtonV2>
+        {post.owner?.id !== user?.id && (
+          <IconButtonV2
+            aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            variant="ghost"
+            colorTheme="light"
+            onClick={() =>
+              post.upvoted
+                ? removeUpvote({ variables: { postId: post.id } })
+                : upvote({ variables: { postId: post.id } })
+            }
+          >
+            {post.upvoted ? <ThumbFilled /> : <Thumb />}
+          </IconButtonV2>
+        )}
         <TimestampText element="span" textStyle="content-alt" margin="none">
           <span>{post.upvotes ?? 0}</span>
         </TimestampText>
       </>
     ),
-    [post.id, post.upvoted, post.upvotes, removeUpvote, t, upvote],
+    [post.id, post.owner?.id, post.upvoted, post.upvotes, removeUpvote, t, upvote, user?.id],
   );
 
   const options = useMemo(
