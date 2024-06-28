@@ -14,6 +14,7 @@ import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { FileDocumentOutline } from "@ndla/icons/common";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { Heading } from "@ndla/typography";
 import FolderActions from "./FolderActions";
 import { ResourceCountContainer } from "./FolderAndResourceCount";
 import FolderButtons from "./FolderButtons";
@@ -28,6 +29,7 @@ import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
+import MyTags from "../Tags/MyTags";
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -78,6 +80,11 @@ export const ListItem = styled.li`
   padding: 0;
 `;
 
+const StyledHeading = styled(Heading)`
+  margin-top: 0;
+  margin-bottom: ${spacing.xsmall};
+`;
+
 const StyledRow = styled.div`
   margin: ${spacing.small} 0;
   gap: ${spacing.nsmall};
@@ -113,6 +120,11 @@ const FoldersPage = () => {
     () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
     [selectedFolder, data?.folders],
   );
+  const sharedByOthersFolders = useMemo(
+    () => (!selectedFolder ? data?.folders.sharedFolders ?? [] : []),
+    [selectedFolder, data?.folders.sharedFolders],
+  );
+
   const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
@@ -163,7 +175,9 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
+    () => (
+      <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar isFolder />
+    ),
     [selectedFolder, folders, setFocusId],
   );
 
@@ -214,6 +228,22 @@ const FoldersPage = () => {
         {selectedFolder && (
           <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
         )}
+        {!selectedFolder && sharedByOthersFolders?.length > 0 && (
+          <>
+            <StyledHeading element="h2" headingStyle="h2">
+              {t("myNdla.sharedByOthersFolders")}
+            </StyledHeading>
+            <FolderList
+              type={viewType}
+              folders={sharedByOthersFolders as unknown as GQLFolder[]}
+              loading={loading}
+              folderId={folderId}
+              setFocusId={setFocusId}
+              folderRefId={folderRefId}
+            />
+          </>
+        )}
+        {!selectedFolder && <MyTags />}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>
   );

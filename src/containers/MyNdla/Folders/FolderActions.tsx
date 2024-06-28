@@ -24,7 +24,12 @@ import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import DeleteModalContent from "../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useAddFolderMutation, useDeleteFolderMutation, useUpdateFolderStatusMutation } from "../folderMutations";
+import {
+  useAddFolderMutation,
+  useDeleteFolderMutation,
+  useUpdateFolderStatusMutation,
+  useUnFavoriteSharedFolder,
+} from "../folderMutations";
 
 interface Props {
   selectedFolder: GQLFolder | null;
@@ -32,9 +37,10 @@ interface Props {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   inToolbar?: boolean;
   folders: GQLFolder[];
+  isFolder: boolean;
 }
 
-const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false, folderRefId }: Props) => {
+const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false, folderRefId, isFolder }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { folderId } = useParams();
@@ -43,11 +49,13 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const { deleteFolder } = useDeleteFolderMutation();
   const { addFolder } = useAddFolderMutation();
   const { updateFolderStatus } = useUpdateFolderStatusMutation();
+  const { unFavoriteSharedFolder } = useUnFavoriteSharedFolder();
 
   const { user, examLock } = useContext(AuthContext);
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
+  const unLinkRef = useRef<HTMLButtonElement | null>(null);
 
   const isFolderShared = selectedFolder?.status !== "private";
 
@@ -113,6 +121,34 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       document.getElementById("titleAnnouncer")?.focus();
     }
   }, [selectedFolder, deleteFolder, folderRefId, setFocusId, addSnack, folderId, inToolbar, navigate, folders, t]);
+
+  const onUnFavoriteSharedFolder = useCallback(async () => {
+    if (!selectedFolder) return;
+
+    await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
+
+    if (selectedFolder?.id === folderId) {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+        replace: true,
+      });
+    }
+
+    const previousFolderId = folders.indexOf(selectedFolder) - 1;
+    const nextFolderId = folders.indexOf(selectedFolder) + 1;
+    if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
+      setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
+    } else if (folderRefId) {
+      setTimeout(
+        () =>
+          (
+            document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ?? document.getElementById(folderRefId)
+          )?.focus({ preventScroll: true }),
+        1,
+      );
+    } else if (inToolbar) {
+      document.getElementById("titleAnnouncer")?.focus();
+    }
+  }, [unFavoriteSharedFolder, selectedFolder, folderRefId, setFocusId, folderId, inToolbar, navigate, folders]);
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
@@ -210,6 +246,20 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       },
     };
 
+    const deleteLink: MenuItemProps = {
+      icon: <Cross />,
+      text: t("myNdla.folder.sharing.button.unSaveLink"),
+      type: "danger",
+      ref: unLinkRef,
+      onClick: async () => {
+        await onUnFavoriteSharedFolder();
+        addSnack({
+          id: "linkRemoved",
+          content: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
+        });
+      },
+    };
+
     const deleteOpt: MenuItemProps = {
       icon: <DeleteForever />,
       text: t("myNdla.folder.deleteShort"),
@@ -236,6 +286,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       actions.push(addFolderButton);
     }
 
+    if (!isFolder) {
+      return actions.concat(deleteLink);
+    }
+
     if (isStudent(user)) {
       return actions.concat(editFolder, deleteOpt);
     }
@@ -252,12 +306,14 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     onFolderAdded,
     inToolbar,
     updateFolderStatus,
+    onUnFavoriteSharedFolder,
     examLock,
     addSnack,
     navigate,
     user,
     t,
     isFolderShared,
+    isFolder,
   ]);
 
   return <SettingsMenu menuItems={actionItems} modalHeader={t("myNdla.tools")} />;
