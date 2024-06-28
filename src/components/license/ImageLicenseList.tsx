@@ -10,29 +10,32 @@ import uniqBy from "lodash/uniqBy";
 import queryString from "query-string";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { stackOrder } from "@ndla/core";
+import { spacing } from "@ndla/core";
+import { Copy } from "@ndla/icons/action";
+import { Download, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { Image } from "@ndla/ui";
+import CopyTextButton from "./CopyTextButton";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { MediaListRef } from "./licenseStyles";
+import FavoriteButton from "../../components/Article/FavoritesButton";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import config from "../../config";
+import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 import {
-  Image,
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from "@ndla/ui";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef } from "./licenseStyles";
-import config from "../../config";
-import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
+  MediaListLicense,
+} from "../MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -42,15 +45,15 @@ export const downloadUrl = (imageSrc: string) => {
   })}`;
 };
 
-const StyledLink = styled(Link)`
-  ::before {
-    z-index: ${stackOrder.offsetSingle};
-  }
-`;
-
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
 }
+
+const LicenseAndButtonWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  gap: ${spacing.xsmall};
+`;
 
 const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -58,10 +61,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   const pageUrl = useMemo(() => `/image/${image.id}`, [image.id]);
 
-  const shouldShowLink = useMemo(
-    () => pathname !== pageUrl && !isCopyrighted(image.copyright.license.license),
-    [pathname, pageUrl, image.copyright.license.license],
-  );
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
@@ -80,7 +80,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   if (image.title) {
     items.unshift({
-      label: t("license.images.title"),
+      label: t("title"),
       description: image.title,
       metaType: metaTypes.title,
     });
@@ -88,7 +88,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   if (image.copyright.origin) {
     items.push({
-      label: t("license.images.source"),
+      label: t("source"),
       description: image.copyright.origin,
       metaType: metaTypes.other,
     });
@@ -103,22 +103,46 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen={shouldShowLink}>
-        {!shouldShowLink ? (
-          <Image alt={image.altText} src={image.src} />
-        ) : (
-          <StyledLink
-            to={pageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("embed.goTo", { type: t("embed.type.image") })}
+      <LicenseAndButtonWrapper>
+        <MediaListLicense
+          licenseType={image.copyright.license.license}
+          title={t("license.images.rules")}
+          sourceTitle={image.title}
+          sourceType="images"
+        />
+        {!isCopyrighted(image.copyright.license.license) && (
+          <AddResourceToFolderModal
+            resource={{
+              id: image.id,
+              path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+              resourceType: "image",
+            }}
           >
-            <Image alt={image.altText} src={image.src} />
-          </StyledLink>
+            <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+          </AddResourceToFolderModal>
         )}
-      </MediaListItemImage>
+      </LicenseAndButtonWrapper>
+      <Image alt={image.altText} src={image.src} />
+      {!isCopyrighted(image.copyright.license.license) && (
+        <MediaListItemActions>
+          <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
+            <Download />
+            {t("license.download")}
+          </SafeLinkButton>
+          <CopyTextButton
+            stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+            copyTitle={t("license.embed")}
+            hasCopiedTitle={t("license.embedCopied")}
+          />
+          {shouldShowLink && (
+            <SafeLinkButton to={pageUrl} target="_blank" variant="outline" rel="noopener noreferrer">
+              <Launch />
+              {t("license.openLink")}
+            </SafeLinkButton>
+          )}
+        </MediaListItemActions>
+      )}
       <MediaListItemBody
-        title={t("license.images.rules")}
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
@@ -127,19 +151,14 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListRef>
             <MediaListItemMeta items={items} />
-            {image.copyright.license?.license !== "COPYRIGHTED" && (
-              <>
-                {copyText && (
-                  <CopyTextButton
-                    stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")}
-                    hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
-                )}
-                <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
-                  {t("license.download")}
-                </SafeLinkButton>
-              </>
+            {!isCopyrighted(image.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <Copy />
+              </CopyTextButton>
             )}
           </MediaListRef>
         </MediaListItemActions>
@@ -153,17 +172,13 @@ interface Props {
 }
 
 const ImageLicenseList = ({ images }: Props) => {
-  const { t } = useTranslation();
   const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
-    <div>
-      <LicenseDescription>{t("license.images.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((image, index) => (
-          <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((image, index) => (
+        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
+      ))}
+    </MediaList>
   );
 };
 

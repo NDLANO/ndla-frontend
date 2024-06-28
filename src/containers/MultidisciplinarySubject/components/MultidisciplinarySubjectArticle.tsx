@@ -10,12 +10,10 @@ import { useRef, useMemo, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import Article from "../../../components/Article";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
@@ -43,10 +41,6 @@ interface Props {
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -81,7 +75,6 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       transformArticle(topic.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
-        components: converterComponents,
         articleLanguage: topic.article.language,
       }),
       getArticleScripts(topic.article, i18n.language),

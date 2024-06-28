@@ -12,14 +12,12 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { DynamicComponents } from "@ndla/article-converter";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { useTracker } from "@ndla/tracker";
 import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
-import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -99,10 +97,6 @@ const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_Frontpa
 
 const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
-
 const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -120,7 +114,6 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
       path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
-      components: converterComponents,
     });
     return [
       {
