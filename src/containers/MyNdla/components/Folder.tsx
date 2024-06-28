@@ -187,13 +187,14 @@ const getIcon = (isFolder: boolean, isShared?: boolean) => {
 
 export const Folder = ({ type = "list", menu, folder: { id, status, name, owner }, foldersCount, isFolder }: Props) => {
   const { t } = useTranslation();
-  const Icon = getIcon(isFolder, status === "shared");
+  const isShared = status === "shared";
+  const Icon = getIcon(isFolder, isShared);
 
   return (
     <FolderWrapper data-type={type} id={id}>
       <TitleWrapper data-type={type}>
         <IconWrapper
-          aria-label={`${status === "shared" ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
+          aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
         >
           <Icon />
         </IconWrapper>
@@ -205,7 +206,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
       </TitleWrapper>
       <MenuWrapper>
         <CountContainer data-type={type}>
-          {status === "shared" && (
+          {isShared && (
             <IconTextWrapper>
               <Share />
               {!isFolder ? (
