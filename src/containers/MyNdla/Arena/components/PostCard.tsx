@@ -299,8 +299,14 @@ const PostCard = ({ topic, post, onFollowChange, setFocusId, isMainPost, createR
             {post.upvoted ? <ThumbFilled /> : <Thumb />}
           </IconButtonV2>
         )}
-        <TimestampText element="span" textStyle="content-alt" margin="none">
-          <span>{post.upvotes ?? 0}</span>
+        <TimestampText
+          element="span"
+          textStyle="content-alt"
+          margin="none"
+          aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+          title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+        >
+          <span aria-hidden>{post.upvotes ?? 0}</span>
         </TimestampText>
       </>
     ),
