@@ -19,6 +19,7 @@ import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
@@ -71,24 +72,27 @@ export const defaultRender: RenderFunc = async (req) => {
   const client = createApolloClient(locale, versionHash);
   const cache = createCache({ key: EmotionCacheKey });
   const i18n = initializeI18n(i18nInstance, locale);
-  const context: RedirectInfo = {};
+  const redirectContext: RedirectInfo = {};
+  const responseContext: ResponseInfo = {};
   // @ts-ignore
   const helmetContext: FilledContext = {};
 
   const Page = (
-    <RedirectContext.Provider value={context}>
+    <RedirectContext.Provider value={redirectContext}>
       <HelmetProvider context={helmetContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <CacheProvider value={cache}>
-              <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App key={locale} />
-                  </StaticRouter>
-                </UserAgentProvider>
-              </VersionHashProvider>
-            </CacheProvider>
+            <ResponseContext.Provider value={responseContext}>
+              <CacheProvider value={cache}>
+                <VersionHashProvider value={versionHash}>
+                  <UserAgentProvider value={userAgentSelectors}>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App key={locale} />
+                    </StaticRouter>
+                  </UserAgentProvider>
+                </VersionHashProvider>
+              </CacheProvider>
+            </ResponseContext.Provider>
           </ApolloProvider>
         </I18nextProvider>
       </HelmetProvider>
@@ -98,10 +102,10 @@ export const defaultRender: RenderFunc = async (req) => {
   const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
   const html = await renderToStringWithData(Page);
 
-  if (context.url) {
+  if (redirectContext.url) {
     return {
-      status: context.status || MOVED_PERMANENTLY,
-      location: context.url,
+      status: redirectContext.status || MOVED_PERMANENTLY,
+      location: redirectContext.url,
     };
   }
 
@@ -110,12 +114,13 @@ export const defaultRender: RenderFunc = async (req) => {
   const apolloState = client.extract();
 
   return {
-    status: context.status ?? OK,
+    status: redirectContext.status ?? OK,
     data: {
       styles,
       helmetContext,
       htmlContent: html,
       data: {
+        serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,
         apolloState,
