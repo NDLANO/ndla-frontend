@@ -8,23 +8,18 @@
 
 import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
-import { Reply, Thumb, ThumbFilled } from "@ndla/icons/action";
+import { Reply } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import {
-  useArenaDeletePost,
-  useArenaPostRemoveUpvote,
-  useArenaPostUpvote,
-  useArenaUpdatePost,
-} from "./temporaryNodebbHooks";
-import { AuthContext } from "../../../../components/AuthenticationContext";
+import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
+import VotePost from "./VotePost";
 import config from "../../../../config";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -61,7 +56,7 @@ export const ContentWrapper = styled.div`
 
 export const FlexLine = styled.div`
   display: flex;
-  gap: ${spacing.normal};
+  gap: ${spacing.nsmall};
   justify-content: space-between;
 `;
 
@@ -75,12 +70,6 @@ export const Content = styled(Text)`
     padding-left: ${spacing.normal};
   }
   word-break: break-word;
-`;
-
-export const UpvoteWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.small};
 `;
 
 export const compareUsernames = (userUsername?: string, postUsername?: string) => {
@@ -111,9 +100,6 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
   } = useTranslation();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
-  const { upvotePost } = useArenaPostUpvote(topicId);
-  const { removeUpvotePost } = useArenaPostRemoveUpvote(topicId);
-  const { user } = useContext(AuthContext);
 
   const deletePostCallback = useCallback(
     async (close: VoidFunction, skipAutoFocus: VoidFunction) => {
@@ -128,6 +114,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
     },
     [deletePost, postId, addSnack, t, setFocusId, nextPostId],
   );
+
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
     locale: DateFNSLocales[language],
@@ -142,37 +129,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
     ),
     [created, language, timeDistance],
   );
-  const postUpvotes = useMemo(
-    () => (
-      <UpvoteWrapper>
-        {post.owner?.id !== user?.id && (
-          <IconButtonV2
-            aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-            title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-            variant="ghost"
-            colorTheme="light"
-            onClick={() =>
-              post.upvoted
-                ? removeUpvotePost({ variables: { postId: post.id } })
-                : upvotePost({ variables: { postId: post.id } })
-            }
-          >
-            {post.upvoted ? <ThumbFilled /> : <Thumb />}
-          </IconButtonV2>
-        )}
-        <TimestampText
-          element="span"
-          textStyle="content-alt"
-          margin="none"
-          aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
-          title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
-        >
-          <span aria-hidden>{post.upvotes ?? 0}</span>
-        </TimestampText>
-      </UpvoteWrapper>
-    ),
-    [post.id, post.owner?.id, post.upvoted, post.upvotes, removeUpvotePost, t, upvotePost, user?.id],
-  );
+  const postUpvotes = useMemo(() => <VotePost post={post} />, [post]);
 
   const menu = useMemo(
     () => (

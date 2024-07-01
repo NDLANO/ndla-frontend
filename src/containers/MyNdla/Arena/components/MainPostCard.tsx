@@ -22,6 +22,7 @@ import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine, TimestampText } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
+import VotePost from "./VotePost";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -157,7 +158,11 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
               </Content>
             </ContentWrapper>
             <FlexLine>
+              <TimestampText element="span" textStyle="content-alt" margin="none">
+                <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+              </TimestampText>
               <FlexLine>
+                <VotePost post={post} />
                 <PostAction
                   topic={topic}
                   post={post}
@@ -166,13 +171,10 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                   setIsEditing={setIsEditing}
                   onDelete={deleteTopicCallback}
                 />
-                <TimestampText element="span" textStyle="content-alt" margin="none">
-                  <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-                </TimestampText>
+                <ButtonV2 ref={replyToRef} onClick={setReplyingTo} disabled={isReplying || topic?.isLocked}>
+                  {t("myNdla.arena.new.post")}
+                </ButtonV2>
               </FlexLine>
-              <ButtonV2 ref={replyToRef} onClick={setReplyingTo} disabled={isReplying || topic?.isLocked}>
-                {t("myNdla.arena.new.post")}
-              </ButtonV2>
             </FlexLine>
           </>
         )}
