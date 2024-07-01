@@ -33,11 +33,11 @@ import TopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
+import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
 import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
-import TagsPage from "./containers/MyNdla/Tags/TagsPage";
 import NotFound from "./containers/NotFoundPage/NotFoundPage";
 import Layout from "./containers/Page/Layout";
 import PlainArticlePage from "./containers/PlainArticlePage/PlainArticlePage";
@@ -158,9 +158,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<PrivateRoute element={<FoldersPage />} />} />
-                    <Route path="tags">
-                      <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
-                    </Route>
+                    <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path="preview/:folderId">
                       <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
                       <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />

@@ -12,10 +12,13 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/icons";
 import { FileDocumentOutline, Link } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { BlockResource, ListResource, useSnack } from "@ndla/ui";
+import { BlockWrapper, ViewType } from "./FoldersPage";
+import ListViewOptions from "./ListViewOptions";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../../config";
@@ -29,11 +32,9 @@ import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
-import SettingsMenu from "../components/SettingsMenu";
+import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
 import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
-import { BlockWrapper, ViewType } from "../Folders/FoldersPage";
-import ListViewOptions from "../Folders/ListViewOptions";
 
 const TagsPageContainer = styled.div`
   display: flex;
@@ -48,10 +49,10 @@ const CountWrapper = styled.div`
   gap: ${spacing.small};
 `;
 
-const TagsPage = () => {
+const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const { folders } = useFolders();
+  const { folders, loading } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
   const title = useMemo(() => (tag ? t("htmlTitles.myTagPage", { tag }) : t("htmlTitles.myTagsPage")), [t, tag]);
@@ -67,11 +68,15 @@ const TagsPage = () => {
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
-      navigate(routes.myNdla.tags);
+      navigate(routes.myNdla.folders);
     }
   }, [resources, previousResources, tag, navigate]);
 
-  if (tag && tags && !tags.includes(tag)) {
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!tag || !tags.includes(tag)) {
     return <NotFoundPage />;
   }
 
@@ -116,6 +121,41 @@ const Resources = ({ resources }: ResourcesProps) => {
   };
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
+
+  const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
+    if (examLock) return [];
+
+    return [
+      {
+        icon: <FolderOutlined />,
+        text: t("myNdla.resource.add"),
+        isModal: true,
+        modality: false,
+        modalContent: (close) => (
+          <AddResourceToFolderModalContent
+            resource={{
+              id: resource.resourceId,
+              resourceType: resource.resourceType,
+              path: resource.path,
+            }}
+            close={close}
+          />
+        ),
+      },
+      {
+        icon: <Link />,
+        text: t("myNdla.resource.copyLink"),
+        onClick: () => {
+          navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
+          addSnack({
+            content: t("myNdla.resource.linkCopied"),
+            id: "linkCopied",
+          });
+        },
+      },
+    ];
+  };
+
   return (
     <>
       <CountWrapper>
@@ -141,43 +181,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 src: meta?.metaImage?.url ?? "",
                 alt: "",
               }}
-              menu={
-                <SettingsMenu
-                  menuItems={
-                    examLock
-                      ? []
-                      : [
-                          {
-                            icon: <FolderOutlined />,
-                            text: t("myNdla.resource.add"),
-                            isModal: true,
-                            modality: false,
-                            modalContent: (close) => (
-                              <AddResourceToFolderModalContent
-                                resource={{
-                                  id: resource.resourceId,
-                                  resourceType: resource.resourceType,
-                                  path: resource.path,
-                                }}
-                                close={close}
-                              />
-                            ),
-                          },
-                          {
-                            icon: <Link />,
-                            text: t("myNdla.resource.copyLink"),
-                            onClick: () => {
-                              navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-                              addSnack({
-                                content: t("myNdla.resource.linkCopied"),
-                                id: "linkCopied",
-                              });
-                            },
-                          },
-                        ]
-                  }
-                />
-              }
+              menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
             />
           );
         })}
@@ -186,4 +190,4 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
 };
 
-export default TagsPage;
+export default FoldersTagsPage;

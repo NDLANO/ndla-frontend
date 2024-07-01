@@ -188,7 +188,6 @@ export const routes = {
     arena: "/minndla/arena",
     folders: "/minndla/folders",
     subjects: "/minndla/subjects",
-    tags: "/minndla/tags",
     notifications: "/minndla/arena/notifications",
     admin: "/minndla/admin",
     adminFlags: "/minndla/admin/flags",
@@ -197,6 +196,7 @@ export const routes = {
     arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
     arenaUser: (username: String) => `/minndla/arena/user/${username}`,
     folder: (folderId: String) => `/minndla/folders/${folderId}`,
-    tag: (tag: string) => `/minndla/folders/tags/${encodeURIComponent(tag)}`,
+    tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
+    tags: "/minndla/folders/tag",
   },
 };
