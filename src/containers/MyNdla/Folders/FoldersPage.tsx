@@ -22,6 +22,7 @@ import FolderList from "./FolderList";
 import FoldersPageTitle from "./FoldersPageTitle";
 import ListViewOptions from "./ListViewOptions";
 import ResourceList from "./ResourceList";
+import TagsList from "./TagsList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
@@ -29,7 +30,6 @@ import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
-import MyTags from "../Tags/MyTags";
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -243,7 +243,14 @@ const FoldersPage = () => {
             />
           </>
         )}
-        {!selectedFolder && <MyTags />}
+        {!selectedFolder && (
+          <>
+            <StyledHeading element="h2" headingStyle="h2">
+              {t("htmlTitles.myTagsPage")}
+            </StyledHeading>
+            <TagsList />
+          </>
+        )}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>
   );
