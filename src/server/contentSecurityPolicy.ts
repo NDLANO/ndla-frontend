@@ -213,6 +213,7 @@ const fontSrc = (() => {
     "cdnjs.cloudflare.com",
     "https://*.clarity.ms",
     "cdn.jsdelivr.net",
+    "*.fontshare.com",
   ];
   if (config.runtimeType === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
@@ -237,6 +238,7 @@ const contentSecurityPolicy = {
       "*.twitter.com",
       "*.twimg.com",
       "cdn.jsdelivr.net",
+      "*.fontshare.com",
     ],
     fontSrc: fontSrc,
     imgSrc: [
