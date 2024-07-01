@@ -8,17 +8,23 @@
 
 import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
-import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
-import { Reply } from "@ndla/icons/action";
+import { Reply, Thumb, ThumbFilled } from "@ndla/icons/action";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
+import {
+  useArenaDeletePost,
+  useArenaPostRemoveUpvote,
+  useArenaPostUpvote,
+  useArenaUpdatePost,
+} from "./temporaryNodebbHooks";
+import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -71,6 +77,12 @@ export const Content = styled(Text)`
   word-break: break-word;
 `;
 
+export const UpvoteWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${spacing.small};
+`;
+
 export const compareUsernames = (userUsername?: string, postUsername?: string) => {
   if (!userUsername || !postUsername) return false;
 
@@ -99,6 +111,9 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
   } = useTranslation();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
+  const { upvotePost } = useArenaPostUpvote(topicId);
+  const { removeUpvotePost } = useArenaPostRemoveUpvote(topicId);
+  const { user } = useContext(AuthContext);
 
   const deletePostCallback = useCallback(
     async (close: VoidFunction, skipAutoFocus: VoidFunction) => {
@@ -127,6 +142,37 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
     ),
     [created, language, timeDistance],
   );
+  const postUpvotes = useMemo(
+    () => (
+      <UpvoteWrapper>
+        {post.owner?.id !== user?.id && (
+          <IconButtonV2
+            aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+            variant="ghost"
+            colorTheme="light"
+            onClick={() =>
+              post.upvoted
+                ? removeUpvotePost({ variables: { postId: post.id } })
+                : upvotePost({ variables: { postId: post.id } })
+            }
+          >
+            {post.upvoted ? <ThumbFilled /> : <Thumb />}
+          </IconButtonV2>
+        )}
+        <TimestampText
+          element="span"
+          textStyle="content-alt"
+          margin="none"
+          aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+          title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+        >
+          <span aria-hidden>{post.upvotes ?? 0}</span>
+        </TimestampText>
+      </UpvoteWrapper>
+    ),
+    [post.id, post.owner?.id, post.upvoted, post.upvotes, removeUpvotePost, t, upvotePost, user?.id],
+  );
 
   const menu = useMemo(
     () => (
@@ -143,17 +189,18 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
 
   const options = useMemo(
     () => (
-      <>
+      <FlexLine>
         {postTime}
-        <div>
+        <FlexLine>
+          {postUpvotes}
           <IconButtonV2 variant="ghost" colorTheme="light" size="small" aria-label="Svar" onClick={setIsReplying}>
             <Reply />
           </IconButtonV2>
           {menu}
-        </div>
-      </>
+        </FlexLine>
+      </FlexLine>
     ),
-    [menu, postTime, setIsReplying],
+    [menu, postTime, setIsReplying, postUpvotes],
   );
 
   return (
@@ -182,7 +229,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
                 {parse(contentAsHTML!)}
               </Content>
             </ContentWrapper>
-            <FlexLine>{options}</FlexLine>
+            {options}
           </>
         )}
       </PostCardWrapper>

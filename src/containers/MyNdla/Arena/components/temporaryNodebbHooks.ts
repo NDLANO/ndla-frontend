@@ -156,6 +156,8 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
       contentAsHTML: post.content,
       created: post.timestamp,
       updated: post.timestamp,
+      upvotes: post.upvotes,
+      upvoted: post.upvoted,
       owner: {
         displayName: post.user.displayName,
         id: -1,
@@ -169,6 +171,8 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
         contentAsHTML: reply.content,
         created: reply.timestamp,
         updated: reply.timestamp,
+        upvotes: post.upvotes,
+        upvoted: post.upvoted,
         owner: {
           displayName: reply.user.displayName,
           id: -1,
@@ -498,6 +502,36 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
   else return createArenaTopic;
 };
 
+export const useArenaPostUpvote = (topicId: number) => {
+  const upvotePost = myndlaMutations.useUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+  const upvoteNodeBBPost = nodebbMutations.useUpvotePost();
+
+  if (config.enableNodeBB) return upvoteNodeBBPost;
+  else return upvotePost;
+};
+
+export const useArenaPostRemoveUpvote = (topicId: number) => {
+  const removeUpvotePost = myndlaMutations.useRemoveUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+  const removeUpvoteNodeBBPost = nodebbMutations.useRemoveUpvotePost();
+
+  if (config.enableNodeBB) return removeUpvoteNodeBBPost;
+  else return removeUpvotePost;
+};
+
 export const useTemporaryArenaNotifications = (skip?: boolean) => {
   const { notifications, loading } = myndlaQueries.useArenaNotifications({
     skip: config.enableNodeBB || skip,
@@ -524,6 +558,8 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
             created: notification.datetimeISO,
             topicId: notification.topicId,
             updated: notification.datetimeISO,
+            upvotes: 0,
+            upvoted: false,
             owner: {
               __typename: "ArenaUserV2",
               id: notification.user.id,

@@ -197,5 +197,6 @@ export const routes = {
     arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
     arenaUser: (username: String) => `/minndla/arena/user/${username}`,
     folder: (folderId: String) => `/minndla/folders/${folderId}`,
+    tag: (tag: string) => `/minndla/folders/tags/${encodeURIComponent(tag)}`,
   },
 };

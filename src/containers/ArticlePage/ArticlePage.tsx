@@ -12,7 +12,6 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn, LayoutItem, constants } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
@@ -20,7 +19,6 @@ import ArticleHero from "./components/ArticleHero";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -53,10 +51,6 @@ interface Props {
   loading?: boolean;
   skipToContentId?: string;
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const ArticlePage = ({
   resource,
@@ -93,7 +87,6 @@ const ArticlePage = ({
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
-        components: converterComponents,
         articleLanguage: resource.article.language,
       }),
       getArticleScripts(resource.article, i18n.language),

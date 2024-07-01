@@ -16,16 +16,12 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "folders" | "tags" | "subjects" | "arena" | "admin";
+type PageType = "folders" | "subjects" | "arena" | "admin";
 
 const types = {
   folders: {
     to: routes.myNdla.folders,
     name: "myNdla.myFolders",
-  },
-  tags: {
-    to: routes.myNdla.tags,
-    name: "myNdla.myTags",
   },
   subjects: {
     to: routes.myNdla.subjects,

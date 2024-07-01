@@ -12,9 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileDocumentOutline, HashTag, Link } from "@ndla/icons/common";
+import { FileDocumentOutline, Link } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
-import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { BlockResource, ListResource, useSnack } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -36,30 +35,11 @@ import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
 import { BlockWrapper, ViewType } from "../Folders/FoldersPage";
 import ListViewOptions from "../Folders/ListViewOptions";
 
-const StyledUl = styled.ul`
-  padding: 0px;
-  margin: ${spacing.small} 0;
-  list-style: none;
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
-
-const StyledLi = styled.li`
-  padding: 0;
-`;
-
 const TagsPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.xsmall};
   flex: 1;
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  width: fit-content;
-  display: flex;
-  align-items: center;
 `;
 
 const CountWrapper = styled.div`
@@ -100,19 +80,14 @@ const TagsPage = () => {
       <TagsPageContainer>
         <HelmetWithTracker title={title} />
         <TitleWrapper>
-          <MyNdlaBreadcrumb page="tags" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
+          <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
           <MyNdlaTitle title={tag ? tag : t("myNdla.myTags")} />
         </TitleWrapper>
-        {!tag && tags.length ? <Tags tags={tags} /> : null}
         {tag && resources && <Resources resources={resources} />}
       </TagsPageContainer>
     </MyNdlaPageWrapper>
   );
 };
-
-interface TagsProps {
-  tags: string[];
-}
 
 interface ResourcesProps {
   resources: GQLFolderResource[];
@@ -207,30 +182,6 @@ const Resources = ({ resources }: ResourcesProps) => {
           );
         })}
       </BlockWrapper>
-    </>
-  );
-};
-
-const Tags = ({ tags }: TagsProps) => {
-  const { t } = useTranslation();
-  return (
-    <>
-      <CountWrapper>
-        <HashTag />
-        <span>{t("myNdla.tags", { count: tags.length })}</span>
-      </CountWrapper>
-      <nav aria-label={t("myNdla.myTags")}>
-        <StyledUl>
-          {tags.map((tag) => (
-            <StyledLi key={tag}>
-              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={encodeURIComponent(tag)}>
-                <HashTag />
-                {tag}
-              </StyledSafeLinkButton>
-            </StyledLi>
-          ))}
-        </StyledUl>
-      </nav>
     </>
   );
 };

@@ -140,6 +140,8 @@ const postV2Fragment = gql`
     created
     updated
     topicId
+    upvotes
+    upvoted
     owner {
       ...ArenaUserV2
     }

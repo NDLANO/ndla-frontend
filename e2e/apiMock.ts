@@ -12,11 +12,12 @@ import { Page, test as Ptest, TestInfo } from "@playwright/test";
 const mockDir = "e2e/apiMocks/";
 
 const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
+const localhostGraphqlRegex = "http://localhost:4000/graphql-api/graphql";
 
 interface ExtendParams {
   harCheckpoint: () => Promise<void>;
 }
-const regex = new RegExp(`^(${apiTestRegex})$`);
+const regex = new RegExp(`^(${apiTestRegex}|${localhostGraphqlRegex})$`);
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
   const [_dir, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
