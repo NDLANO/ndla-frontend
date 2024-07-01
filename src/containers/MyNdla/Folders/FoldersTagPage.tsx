@@ -32,7 +32,7 @@ import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
-import SettingsMenu from "../components/SettingsMenu";
+import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
 import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
 
@@ -122,43 +122,39 @@ const Resources = ({ resources }: ResourcesProps) => {
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
 
-  const createMenu = (resource: GQLFolderResource) => (
-    <SettingsMenu
-      menuItems={
-        examLock
-          ? []
-          : [
-              {
-                icon: <FolderOutlined />,
-                text: t("myNdla.resource.add"),
-                isModal: true,
-                modality: false,
-                modalContent: (close) => (
-                  <AddResourceToFolderModalContent
-                    resource={{
-                      id: resource.resourceId,
-                      resourceType: resource.resourceType,
-                      path: resource.path,
-                    }}
-                    close={close}
-                  />
-                ),
-              },
-              {
-                icon: <Link />,
-                text: t("myNdla.resource.copyLink"),
-                onClick: () => {
-                  navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-                  addSnack({
-                    content: t("myNdla.resource.linkCopied"),
-                    id: "linkCopied",
-                  });
-                },
-              },
-            ]
-      }
-    />
-  );
+  const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
+    if (examLock) return [];
+
+    return [
+      {
+        icon: <FolderOutlined />,
+        text: t("myNdla.resource.add"),
+        isModal: true,
+        modality: false,
+        modalContent: (close) => (
+          <AddResourceToFolderModalContent
+            resource={{
+              id: resource.resourceId,
+              resourceType: resource.resourceType,
+              path: resource.path,
+            }}
+            close={close}
+          />
+        ),
+      },
+      {
+        icon: <Link />,
+        text: t("myNdla.resource.copyLink"),
+        onClick: () => {
+          navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
+          addSnack({
+            content: t("myNdla.resource.linkCopied"),
+            id: "linkCopied",
+          });
+        },
+      },
+    ];
+  };
 
   return (
     <>
@@ -185,7 +181,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 src: meta?.metaImage?.url ?? "",
                 alt: "",
               }}
-              menu={createMenu(resource)}
+              menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
             />
           );
         })}

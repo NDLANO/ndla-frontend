@@ -269,7 +269,7 @@ const FoldersPage = () => {
             <StyledHeading element="h2" headingStyle="h2" id="tags-header">
               {t("htmlTitles.myTagsPage")}
             </StyledHeading>
-            <nav aria-label={t("myNdla.myTags")} aria-labelledby="tags-header">
+            <nav aria-labelledby="tags-header">
               <StyledUl>
                 {tags?.map((tag) => (
                   <StyledLi key={tag}>
