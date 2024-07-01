@@ -75,6 +75,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                   setFocusId={setFocusId}
                   nextPostId={calculateNextPostId(posts, post, topic.posts) ?? topic.id}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}
+                  isRoot={hasReplies}
                 />
               )}
               {hasReplies && (

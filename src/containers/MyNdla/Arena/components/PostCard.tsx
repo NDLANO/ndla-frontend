@@ -88,9 +88,10 @@ interface Props {
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
   setIsReplying: VoidFunction;
   nextPostId: number;
+  isRoot?: boolean;
 }
 
-const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
+const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const { addSnack } = useSnack();
@@ -144,20 +145,34 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying }: Props) => {
     [post, setFocusId, deletePostCallback],
   );
 
+  const replyButton = useMemo(
+    () =>
+      isRoot ? (
+        <IconButtonV2
+          variant="ghost"
+          colorTheme="light"
+          size="small"
+          aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+          onClick={setIsReplying}
+        >
+          <Reply />
+        </IconButtonV2>
+      ) : null,
+    [setIsReplying, isRoot, t, post.owner?.username],
+  );
+
   const options = useMemo(
     () => (
       <FlexLine>
         {postTime}
         <FlexLine>
           {postUpvotes}
-          <IconButtonV2 variant="ghost" colorTheme="light" size="small" aria-label="Svar" onClick={setIsReplying}>
-            <Reply />
-          </IconButtonV2>
+          {replyButton}
           {menu}
         </FlexLine>
       </FlexLine>
     ),
-    [menu, postTime, setIsReplying, postUpvotes],
+    [menu, postTime, postUpvotes, replyButton],
   );
 
   return (
