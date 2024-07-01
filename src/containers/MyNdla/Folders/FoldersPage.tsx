@@ -12,7 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { FileDocumentOutline } from "@ndla/icons/common";
+import { FileDocumentOutline, HashTag } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import FolderActions from "./FolderActions";
@@ -22,10 +23,11 @@ import FolderList from "./FolderList";
 import FoldersPageTitle from "./FoldersPageTitle";
 import ListViewOptions from "./ListViewOptions";
 import ResourceList from "./ResourceList";
-import TagsList from "./TagsList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
+import { getAllTags } from "../../../util/folderHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -95,6 +97,23 @@ const StyledRow = styled.div`
 
 const StyledEm = styled.em`
   white-space: pre-wrap;
+`;
+
+const StyledUl = styled.ul`
+  list-style: none;
+  display: flex;
+  gap: ${spacing.small};
+  flex-wrap: wrap;
+`;
+
+const StyledLi = styled.li`
+  padding: 0;
+`;
+
+const StyledSafeLinkButton = styled(SafeLinkButton)`
+  width: fit-content;
+  display: flex;
+  align-items: center;
 `;
 
 export type ViewType = "list" | "block" | "listLarger";
@@ -186,6 +205,8 @@ const FoldersPage = () => {
     [selectedFolder, setFocusId],
   );
 
+  const tags = useMemo(() => getAllTags(folders), [folders]);
+
   return (
     <MyNdlaPageWrapper
       dropDownMenu={dropDownMenu}
@@ -243,14 +264,25 @@ const FoldersPage = () => {
             />
           </>
         )}
-        {!selectedFolder && (
+        {!selectedFolder && tags.length ? (
           <>
-            <StyledHeading element="h2" headingStyle="h2">
+            <StyledHeading element="h2" headingStyle="h2" id="tags-header">
               {t("htmlTitles.myTagsPage")}
             </StyledHeading>
-            <TagsList />
+            <nav aria-label={t("myNdla.myTags")} aria-labelledby="tags-header">
+              <StyledUl>
+                {tags?.map((tag) => (
+                  <StyledLi key={tag}>
+                    <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
+                      <HashTag />
+                      {tag}
+                    </StyledSafeLinkButton>
+                  </StyledLi>
+                ))}
+              </StyledUl>
+            </nav>
           </>
-        )}
+        ) : null}
       </FoldersPageContainer>
     </MyNdlaPageWrapper>
   );
