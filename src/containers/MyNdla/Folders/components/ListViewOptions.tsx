@@ -13,7 +13,7 @@ import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { FourlineHamburger, GridListView, List } from "@ndla/icons/action";
 import { Tooltip } from "@ndla/tooltip";
-import { ViewType } from "./FoldersPage";
+import { ViewType } from "../FoldersPage";
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;

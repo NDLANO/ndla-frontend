@@ -12,9 +12,9 @@ import { spacing } from "@ndla/core";
 import { FileDocumentOutline, Share } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { ContentLoader } from "@ndla/ui";
-import WhileLoading from "../../../components/WhileLoading";
-import { GQLFolder } from "../../../graphqlTypes";
-import { getTotalCountForFolder } from "../../../util/folderHelpers";
+import WhileLoading from "../../../../components/WhileLoading";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { getTotalCountForFolder } from "../../../../util/folderHelpers";
 
 export const ResourceCountContainer = styled.div`
   display: flex;

@@ -16,14 +16,14 @@ import { FileDocumentOutline, HashTag } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import FolderActions from "./FolderActions";
-import { ResourceCountContainer } from "./FolderAndResourceCount";
-import FolderButtons from "./FolderButtons";
-import FolderList from "./FolderList";
-import FoldersPageTitle from "./FoldersPageTitle";
-import ListViewOptions from "./ListViewOptions";
-import ResourceList from "./ResourceList";
+import FolderActions from "./components/FolderActions";
+import { ResourceCountContainer } from "./components/FolderAndResourceCount";
+import FolderButtons from "./components/FolderButtons";
+import FolderList from "./components/FolderList";
+import ListViewOptions from "./components/ListViewOptions";
+import ResourceList from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
@@ -194,9 +194,7 @@ const FoldersPage = () => {
   }, []);
 
   const dropDownMenu = useMemo(
-    () => (
-      <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar isFolder />
-    ),
+    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
     [selectedFolder, folders, setFocusId],
   );
 
@@ -261,6 +259,7 @@ const FoldersPage = () => {
               folderId={folderId}
               setFocusId={setFocusId}
               folderRefId={folderRefId}
+              isFavorited={true}
             />
           </>
         )}

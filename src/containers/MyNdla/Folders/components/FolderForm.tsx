@@ -14,8 +14,9 @@ import { ButtonV2, LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { ModalCloseButton } from "@ndla/modal";
-import { GQLFolder } from "../../../graphqlTypes";
-import useValidationTranslation from "../../../util/useValidationTranslation";
+import { GQLFolder } from "../../../../graphqlTypes";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
+import FieldLength from "../../components/FieldLength";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
@@ -130,20 +131,6 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
       </ButtonRow>
     </StyledForm>
   );
-};
-
-interface FieldLengthProps {
-  value: number;
-  maxLength: number;
-}
-
-const StyledSpan = styled.span`
-  display: block;
-  text-align: right;
-`;
-// TODO Update component to be more UU friendly
-export const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
-  return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
 };
 
 export default FolderForm;

@@ -10,18 +10,17 @@ import isEqual from "lodash/isEqual";
 import keyBy from "lodash/keyBy";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient } from "@apollo/client";
-import { Reference } from "@apollo/client/cache";
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { useApolloClient, Reference } from "@apollo/client";
+import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
+import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
+import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import DraggableResource from "./DraggableResource";
-import { BlockWrapper, ViewType } from "./FoldersPage";
-import { makeDndSortFunction, makeDndTranslations } from "./util";
-import { GQLFolder } from "../../../graphqlTypes";
-import { useFolderResourceMetaSearch, useSortResourcesMutation } from "../folderMutations";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
+import { ViewType, BlockWrapper } from "../FoldersPage";
+import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 interface Props {
   selectedFolder: GQLFolder;

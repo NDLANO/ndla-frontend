@@ -17,9 +17,9 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Tooltip } from "@ndla/tooltip";
 import { useSnack } from "@ndla/ui";
 import FolderAndResourceCount from "./FolderAndResourceCount";
-import { sharedFolderLink } from "./util";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import { sharedFolderLink } from "../util";
 
 const StyledModalBody = styled(ModalBody)`
   display: flex;

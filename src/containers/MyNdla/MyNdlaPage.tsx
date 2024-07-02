@@ -19,7 +19,7 @@ import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
-import { CampaignBlock, ListResource } from "@ndla/ui";
+import { CampaignBlock } from "@ndla/ui";
 import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
@@ -29,6 +29,7 @@ import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResou
 import { isStudent } from "./Folders/util";
 import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
+import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
