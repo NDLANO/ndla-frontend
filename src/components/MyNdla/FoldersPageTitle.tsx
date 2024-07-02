@@ -11,11 +11,11 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
 import { ContentLoader } from "@ndla/ui";
-import WhileLoading from "../../../../components/WhileLoading";
-import { GQLFolder } from "../../../../graphqlTypes";
-import MyNdlaBreadcrumb from "../../components/MyNdlaBreadcrumb";
-import MyNdlaTitle from "../../components/MyNdlaTitle";
-import TitleWrapper from "../../components/TitleWrapper";
+import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";
+import MyNdlaTitle from "../../containers/MyNdla/components/MyNdlaTitle";
+import TitleWrapper from "../../containers/MyNdla/components/TitleWrapper";
+import { GQLFolder } from "../../graphqlTypes";
+import WhileLoading from "../WhileLoading";
 
 const TitleRow = styled.div`
   display: flex;

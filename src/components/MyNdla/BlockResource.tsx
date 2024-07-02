@@ -21,7 +21,7 @@ import {
   ResourceTypeList,
   CompressedTagList,
 } from "./resourceComponents";
-import { contentTypeMapping, resourceEmbedTypeMapping } from "../../../../util/getContentType";
+import { contentTypeMapping, resourceEmbedTypeMapping } from "../../util/getContentType";
 
 const BlockElementWrapper = styled.div`
   display: flex;

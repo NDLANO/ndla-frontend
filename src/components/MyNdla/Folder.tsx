@@ -13,9 +13,9 @@ import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core"
 import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
-import { GQLFolder } from "../../../../graphqlTypes";
-import { routes } from "../../../../routeHelpers";
-import { FolderTotalCount } from "../../../../util/folderHelpers";
+import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
+import { FolderTotalCount } from "../../util/folderHelpers";
 
 export type LayoutType = "list" | "listLarger" | "block";
 

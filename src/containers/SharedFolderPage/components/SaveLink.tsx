@@ -17,11 +17,11 @@ import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, 
 import { Text } from "@ndla/typography";
 import { useSnack, MessageBox } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { GQLFolder } from "../../../graphqlTypes";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
-import { Folder } from "../../MyNdla/Folders/components/Folder";
 
 const Content = styled(ModalBody)`
   display: flex;

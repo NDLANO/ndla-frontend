@@ -21,7 +21,7 @@ import {
   CompressedTagList,
   ResourceTitleLink,
 } from "./resourceComponents";
-import { resourceEmbedTypeMapping, contentTypeMapping } from "../../../../util/getContentType";
+import { resourceEmbedTypeMapping, contentTypeMapping } from "../../util/getContentType";
 
 const ListResourceWrapper = styled.div`
   flex: 1;

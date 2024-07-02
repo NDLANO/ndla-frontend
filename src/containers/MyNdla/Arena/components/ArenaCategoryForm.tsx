@@ -20,7 +20,7 @@ import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
-import { FieldLength } from "../../Folders/components/FolderForm";
+import FieldLength from "../../components/FieldLength";
 
 const StyledForm = styled.form`
   display: flex;

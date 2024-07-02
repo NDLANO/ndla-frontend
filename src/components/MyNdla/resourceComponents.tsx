@@ -16,7 +16,7 @@ import { DropdownTrigger, DropdownContent, DropdownItem, DropdownMenu } from "@n
 import { HashTag } from "@ndla/icons/common";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { resourceTypeColor } from "@ndla/ui";
-import { resourceEmbedTypeMapping } from "../../../../util/getContentType";
+import { resourceEmbedTypeMapping } from "../../util/getContentType";
 
 export interface ResourceImageProps {
   alt: string;

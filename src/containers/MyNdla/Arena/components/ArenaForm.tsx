@@ -20,7 +20,7 @@ import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
-import { FieldLength } from "../../Folders/components/FolderForm";
+import FieldLength from "../../components/FieldLength";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 

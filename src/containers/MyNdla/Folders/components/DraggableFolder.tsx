@@ -11,11 +11,11 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
-import DragHandle from "./DragHandle";
-import { Folder } from "./Folder";
 import FolderActions from "./FolderActions";
+import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
+import DragHandle from "../../components/DragHandle";
 import { ViewType } from "../FoldersPage";
 
 interface Props {
