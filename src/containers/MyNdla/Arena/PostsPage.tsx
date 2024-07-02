@@ -81,14 +81,6 @@ const PostsPage = () => {
     [replyToTopic, arenaTopic?.id, setFocusId],
   );
 
-  useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
-    trackPageView({
-      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
-
   const onFollowChange = useCallback(async () => {
     if (!arenaTopic) return;
     if (arenaTopic?.isFollowing) {
@@ -105,6 +97,14 @@ const PostsPage = () => {
       });
     }
   }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
+
+  useEffect(() => {
+    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
+    trackPageView({
+      title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
+      dimensions: getAllDimensions({ user }),
+    });
+  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {

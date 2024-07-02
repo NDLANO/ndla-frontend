@@ -66,7 +66,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
     if (isReplyingTo === replyToId) {
       formRef?.current?.scrollIntoView();
     }
-  }, [formRef, replyToId, isReplyingTo]);
+  }, [replyToId, isReplyingTo]);
 
   return (
     <>
