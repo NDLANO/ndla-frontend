@@ -3057,6 +3057,7 @@ export type GQLNewFlagV2Mutation = { __typename?: "Mutation"; newFlagV2: number 
 export type GQLReplyToTopicV2MutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLReplyToTopicV2Mutation = {
@@ -3312,7 +3313,7 @@ export type GQLArenaFlagFragment = {
   flagger?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
 };
 
-export type GQLArenaPostV2Fragment = {
+export type GQLArenaPostV2DataFragment = {
   __typename: "ArenaPostV2";
   content: string;
   contentAsHTML?: string;
@@ -3325,6 +3326,11 @@ export type GQLArenaPostV2Fragment = {
   owner?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
   flags?: Array<{ __typename?: "ArenaFlag" } & GQLArenaFlagFragment>;
 };
+
+export type GQLArenaPostV2Fragment = {
+  __typename?: "ArenaPostV2";
+  replies: Array<{ __typename?: "ArenaPostV2" } & GQLArenaPostV2DataFragment>;
+} & GQLArenaPostV2DataFragment;
 
 export type GQLPaginatedPostsFragment = {
   __typename: "PaginatedPosts";
@@ -3411,7 +3417,7 @@ export type GQLArenaNotificationV2Fragment = {
   topicTitle: string;
   notificationTime: string;
   isRead: boolean;
-  post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2Fragment;
+  post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2DataFragment;
 };
 
 export type GQLPaginatedNotificationsFragment = {
@@ -3877,6 +3883,7 @@ export type GQLNewFlagMutation = { __typename?: "Mutation"; newFlag: number };
 export type GQLReplyToTopicMutationVariables = Exact<{
   topicId: Scalars["Int"]["input"];
   content: Scalars["String"]["input"];
+  postId?: InputMaybe<Scalars["Int"]["input"]>;
 }>;
 
 export type GQLReplyToTopicMutation = {
@@ -4024,6 +4031,18 @@ export type GQLArenaTopicFragment = {
   isFollowing?: boolean;
 };
 
+export type GQLArenaRepliesFragment = {
+  __typename: "ArenaPost";
+  content: string;
+  id: number;
+  timestamp: string;
+  topicId: number;
+  isMainPost: boolean;
+  deleted: boolean;
+  toPid?: number;
+  user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+};
+
 export type GQLArenaPostFragment = {
   __typename: "ArenaPost";
   content: string;
@@ -4034,7 +4053,9 @@ export type GQLArenaPostFragment = {
   upvotes: number;
   upvoted: boolean;
   deleted: boolean;
+  toPid?: number;
   user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+  replies: Array<{ __typename?: "ArenaPost" } & GQLArenaRepliesFragment>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
