@@ -19,8 +19,7 @@ import {
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
 } from "../../graphqlTypes";
-import { toTopic } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
+import { toTopic, TaxonomyCrumb } from "../../routeHelpers";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
@@ -43,7 +42,7 @@ const StyledHGroup = styled.div`
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
   subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TopicPath[];
+  topicPath?: TaxonomyCrumb[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;

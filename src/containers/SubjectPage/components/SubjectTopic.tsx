@@ -30,7 +30,6 @@ import {
 } from "../../../graphqlTypes";
 import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -69,7 +68,7 @@ const SubjectTopic = ({
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
-    return getTopicPath(topic.path, topic.contexts);
+    return topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [];
   }, [topic]);
 
   useEffect(() => {
@@ -203,10 +202,19 @@ export const topicFragments = {
         }
       }
       supportedLanguages
+      contextId
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path
+        crumbs {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       article {
         oembed

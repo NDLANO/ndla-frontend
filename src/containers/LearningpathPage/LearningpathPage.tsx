@@ -25,15 +25,14 @@ import {
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathStep,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
+import { toBreadcrumbItems, TaxonomyCrumb } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: TaxonomyCrumb[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;
@@ -99,11 +98,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   const breadcrumbItems =
     subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          ...topicPath,
-          { name: learningpath.title, id: `${learningpath.id}` },
-        ])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
+      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
 
   return (
     <div>

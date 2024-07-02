@@ -1797,6 +1797,7 @@ export type GQLResource = GQLTaxonomyEntity &
     availability?: Maybe<Scalars["String"]["output"]>;
     breadcrumbs: Array<Scalars["String"]["output"]>;
     contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
@@ -1841,11 +1842,6 @@ export type GQLResourceType = {
   __typename?: "ResourceType";
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
-  resources?: Maybe<Array<GQLResource>>;
-};
-
-export type GQLResourceTypeResourcesArgs = {
-  topicId: Scalars["String"]["input"];
 };
 
 export type GQLResourceTypeDefinition = {
@@ -1944,6 +1940,7 @@ export type GQLSubject = GQLTaxonomyEntity & {
   allTopics?: Maybe<Array<GQLTopic>>;
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
   grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
   id: Scalars["String"]["output"];
@@ -2026,14 +2023,26 @@ export type GQLTags = {
 export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
+  contextId: Scalars["String"]["output"];
+  crumbs?: Maybe<Array<Maybe<GQLTaxonomyCrumb>>>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
+export type GQLTaxonomyCrumb = {
+  __typename?: "TaxonomyCrumb";
+  contextId: Scalars["String"]["output"];
+  id: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+  path: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+};
+
 export type GQLTaxonomyEntity = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
   id: Scalars["String"]["output"];
   language?: Maybe<Scalars["String"]["output"]>;
@@ -2074,6 +2083,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     availability?: Maybe<Scalars["String"]["output"]>;
     breadcrumbs: Array<Scalars["String"]["output"]>;
     contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
     coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars["String"]["output"];
@@ -2329,6 +2339,7 @@ export type GQLLearningpath_LearningpathStepFragment = {
 export type GQLLearningpath_ResourceFragment = {
   __typename?: "Resource";
   path: string;
+  name: string;
 } & GQLLearningpathMenu_ResourceFragment &
   GQLLearningpathFooter_ResourceFragment;
 
@@ -2972,11 +2983,21 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   __typename?: "Topic";
   path: string;
   id: string;
+  contextId?: string;
   contexts: Array<{
     __typename?: "TaxonomyContext";
+    contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
+    crumbs?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
   }>;
   article?: {
     __typename?: "Article";
@@ -4331,11 +4352,21 @@ export type GQLResourcePageQuery = {
     __typename?: "Resource";
     relevanceId?: string;
     paths: Array<string>;
+    contextId?: string;
     contexts: Array<{
       __typename?: "TaxonomyContext";
+      contextId: string;
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
+      crumbs?: Array<{
+        __typename?: "TaxonomyCrumb";
+        contextId: string;
+        id: string;
+        name: string;
+        path: string;
+        url: string;
+      }>;
     }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
@@ -4457,13 +4488,23 @@ export type GQLTopic_TopicFragment = {
   name: string;
   relevanceId?: string;
   supportedLanguages: Array<string>;
+  contextId?: string;
   subtopics?: Array<{ __typename?: "Topic"; id: string; name: string; relevanceId?: string }>;
   meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
   contexts: Array<{
     __typename?: "TaxonomyContext";
+    contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
+    crumbs?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
   }>;
   article?: {
     __typename?: "Article";
