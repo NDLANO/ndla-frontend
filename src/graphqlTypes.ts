@@ -3313,7 +3313,7 @@ export type GQLArenaFlagFragment = {
   flagger?: { __typename?: "ArenaUserV2" } & GQLArenaUserV2Fragment;
 };
 
-export type GQLArenaPostReplyLessFragment = {
+export type GQLArenaPostV2DataFragment = {
   __typename: "ArenaPostV2";
   content: string;
   contentAsHTML?: string;
@@ -3329,8 +3329,8 @@ export type GQLArenaPostReplyLessFragment = {
 
 export type GQLArenaPostV2Fragment = {
   __typename?: "ArenaPostV2";
-  replies: Array<{ __typename?: "ArenaPostV2" } & GQLArenaPostReplyLessFragment>;
-} & GQLArenaPostReplyLessFragment;
+  replies: Array<{ __typename?: "ArenaPostV2" } & GQLArenaPostV2DataFragment>;
+} & GQLArenaPostV2DataFragment;
 
 export type GQLPaginatedPostsFragment = {
   __typename: "PaginatedPosts";
@@ -3417,7 +3417,7 @@ export type GQLArenaNotificationV2Fragment = {
   topicTitle: string;
   notificationTime: string;
   isRead: boolean;
-  post: { __typename?: "ArenaPostV2" } & GQLArenaPostReplyLessFragment;
+  post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2DataFragment;
 };
 
 export type GQLPaginatedNotificationsFragment = {

@@ -20,7 +20,6 @@ import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
-import config from "../../../../config";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
 import { formatDateTime } from "../../../../util/formatDate";
@@ -72,17 +71,6 @@ export const Content = styled(Text)`
   word-break: break-word;
 `;
 
-export const compareUsernames = (userUsername?: string, postUsername?: string) => {
-  if (!userUsername || !postUsername) return false;
-
-  if (config.enableNodeBB) {
-    // Nodebb usernames cannot contain every character so we need to replace them :^)
-    const nodebbUsername = userUsername?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-");
-    return nodebbUsername === postUsername;
-  }
-
-  return userUsername === postUsername;
-};
 interface Props {
   post: Omit<GQLArenaPostV2Fragment, "replies">;
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
@@ -95,10 +83,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const { addSnack } = useSnack();
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
 
@@ -118,17 +103,17 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
-    locale: DateFNSLocales[language],
+    locale: DateFNSLocales[i18n.language],
     roundingMethod: "floor",
   });
 
   const postTime = useMemo(
     () => (
       <TimestampText element="span" textStyle="content-alt" margin="none">
-        <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+        <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
       </TimestampText>
     ),
-    [created, language, timeDistance],
+    [created, i18n.language, timeDistance],
   );
   const postUpvotes = useMemo(() => <VotePost post={post} />, [post]);
 

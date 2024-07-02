@@ -13,11 +13,10 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { misc, spacing, mq, colors } from "@ndla/core";
+import { misc, spacing, mq, colors, breakpoints } from "@ndla/core";
 import { Switch } from "@ndla/switch";
 import { Heading } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
-import { breakpoints } from "@ndla/util";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine, TimestampText } from "./PostCard";
@@ -61,10 +60,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const replyToRef = useRef<HTMLButtonElement | null>(null);
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const { addSnack } = useSnack();
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
@@ -89,7 +85,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
   );
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
-    locale: DateFNSLocales[language],
+    locale: DateFNSLocales[i18n.language],
     roundingMethod: "floor",
   });
 
@@ -159,7 +155,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
             </ContentWrapper>
             <FlexLine>
               <TimestampText element="span" textStyle="content-alt" margin="none">
-                <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+                <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
               </TimestampText>
               <FlexLine>
                 <VotePost post={post} />

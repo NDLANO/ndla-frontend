@@ -12,7 +12,7 @@ import { breakpoints, mq, spacing } from "@ndla/core";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
 import DeletedPostCard from "./DeletedPostCard";
 import PostCard from "./PostCard";
-import { GQLArenaPostV2Fragment, GQLArenaTopicV2, GQLPaginatedPosts } from "../../../../graphqlTypes";
+import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 
 const StyledOl = styled.ol`
   list-style: none;
@@ -24,7 +24,7 @@ const StyledOl = styled.ol`
   }
 `;
 
-export const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
+const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
   margin-bottom: ${spacing.normal};
   ${mq.range({ from: breakpoints.tablet })} {
     margin-left: ${spacing.xlarge};
@@ -34,7 +34,7 @@ export const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
 const calculateNextPostId = (
   posts: GQLArenaPostV2Fragment[] | Omit<GQLArenaPostV2Fragment, "replies">[],
   post: GQLArenaPostV2Fragment | Omit<GQLArenaPostV2Fragment, "replies">,
-  rootPosts?: GQLPaginatedPosts,
+  rootPosts?: GQLArenaTopicByIdV2Query["arenaTopicV2"],
 ) => {
   const index = posts?.findIndex(({ id }) => id === post.id) ?? 0;
   const previousPostId = posts?.[index - 1]?.id;
@@ -42,14 +42,14 @@ const calculateNextPostId = (
   if (previousPostId || nextPostId) {
     return nextPostId ?? previousPostId;
   }
-  return rootPosts?.items.find(({ replies }) => {
+  return rootPosts?.posts?.items.find(({ replies }) => {
     return replies?.find(({ id }) => id === post.id);
   })?.id;
 };
 
 interface Props {
   posts: GQLArenaPostV2Fragment[] | Omit<GQLArenaPostV2Fragment, "replies">[];
-  topic: GQLArenaTopicV2;
+  topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
   setReplyingTo: Dispatch<SetStateAction<number | undefined>>;
   createReply: (values: Partial<ArenaFormValues>, postId?: number) => Promise<void>;
@@ -73,7 +73,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                 <PostCard
                   post={post}
                   setFocusId={setFocusId}
-                  nextPostId={calculateNextPostId(posts, post, topic.posts) ?? topic.id}
+                  nextPostId={calculateNextPostId(posts, post, topic) ?? topic?.id ?? 0}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}
                   isRoot={hasReplies}
                 />
@@ -102,7 +102,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
               setReplyingTo(undefined);
             }}
             onSave={async (values) => {
-              replyToId === topic.id ? await createReply(values) : await createReply(values, replyToId);
+              await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
               setIsReplyingChild(undefined);
               setReplyingTo(undefined);
             }}

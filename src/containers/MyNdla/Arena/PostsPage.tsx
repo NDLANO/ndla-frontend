@@ -26,7 +26,6 @@ import {
   useArenaReplyToTopicMutation,
 } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { GQLArenaPostV2Fragment, GQLArenaTopicV2 } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -81,6 +80,7 @@ const PostsPage = () => {
     },
     [replyToTopic, arenaTopic?.id, setFocusId],
   );
+
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
@@ -132,7 +132,7 @@ const PostsPage = () => {
   const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
 
   if (loading || !authContextLoaded || !arenaTopic?.posts?.items) return <Spinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
+  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
     <MyNdlaPageWrapper>
@@ -141,7 +141,7 @@ const PostsPage = () => {
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
       <MainPostCard
-        post={arenaTopic.posts.items[0]!}
+        post={arenaTopic?.posts?.items[0]!}
         topic={arenaTopic}
         onFollowChange={onFollowChange}
         setFocusId={setFocusId}
@@ -149,8 +149,8 @@ const PostsPage = () => {
         isReplying={!!replyingTo}
       />
       <PostList
-        posts={arenaTopic?.posts?.items.slice(1) as GQLArenaPostV2Fragment[]}
-        topic={arenaTopic as GQLArenaTopicV2}
+        posts={arenaTopic?.posts?.items.slice(1)}
+        topic={arenaTopic}
         setFocusId={setFocusId}
         createReply={createReply}
         replyToId={arenaTopic.id}

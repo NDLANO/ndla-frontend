@@ -12,12 +12,23 @@ import { Pencil, TrashCanOutline } from "@ndla/icons/action";
 import { ReportOutlined, Locked } from "@ndla/icons/common";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
-import { compareUsernames } from "./PostCard";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+
+export const compareUsernames = (userUsername?: string, postUsername?: string) => {
+  if (!userUsername || !postUsername) return false;
+
+  if (config.enableNodeBB) {
+    // Nodebb usernames cannot contain every character so we need to replace them :^)
+    const nodebbUsername = userUsername?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-");
+    return nodebbUsername === postUsername;
+  }
+
+  return userUsername === postUsername;
+};
 
 interface PostActionProps {
   post: GQLArenaPostV2Fragment | Omit<GQLArenaPostV2Fragment, "replies">;
