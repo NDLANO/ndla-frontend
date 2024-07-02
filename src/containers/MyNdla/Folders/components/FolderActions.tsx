@@ -17,19 +17,19 @@ import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
 import { FolderFormValues } from "./FolderForm";
 import { FolderShareModalContent } from "./FolderShareModal";
-import { copyFolderSharingLink, isStudent } from "./util";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import config from "../../../config";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import DeleteModalContent from "../components/DeleteModalContent";
-import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
+import { AuthContext } from "../../../../components/AuthenticationContext";
+import config from "../../../../config";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import DeleteModalContent from "../../components/DeleteModalContent";
+import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
   useUnFavoriteSharedFolder,
-} from "../folderMutations";
+} from "../../folderMutations";
+import { copyFolderSharingLink, isStudent } from "../util";
 
 interface Props {
   selectedFolder: GQLFolder | null;

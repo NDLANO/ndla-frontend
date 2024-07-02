@@ -14,9 +14,9 @@ import { breakpoints, mq } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm, { FolderFormValues } from "./FolderForm";
-import { GQLFolder } from "../../../graphqlTypes";
-import { buttonCss } from "../components/toolbarStyles";
-import { useAddFolderMutation, useFolders } from "../folderMutations";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { buttonCss } from "../../components/toolbarStyles";
+import { useAddFolderMutation, useFolders } from "../../folderMutations";
 
 const AddButton = styled(ButtonV2)`
   ${mq.range({ until: breakpoints.tablet })} {

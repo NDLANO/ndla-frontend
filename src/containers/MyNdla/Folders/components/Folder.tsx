@@ -13,9 +13,9 @@ import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core"
 import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import { FolderTotalCount } from "../../../util/folderHelpers";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import { FolderTotalCount } from "../../../../util/folderHelpers";
 
 export type LayoutType = "list" | "listLarger" | "block";
 
@@ -171,7 +171,7 @@ interface Props {
   type?: LayoutType;
   menu?: ReactNode;
   folder: GQLFolder;
-  foldersCount: Record<string, FolderTotalCount>;
+  foldersCount: FolderTotalCount;
   isFolder: boolean;
 }
 
@@ -221,8 +221,8 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
           )}
           {isFolder && (
             <>
-              <Count layoutType={type} type={"folder"} count={foldersCount[id]?.folders} />
-              <Count layoutType={type} type={"resource"} count={foldersCount[id]?.resources} />
+              <Count layoutType={type} type={"folder"} count={foldersCount.folders} />
+              <Count layoutType={type} type={"resource"} count={foldersCount?.resources} />
             </>
           )}
         </CountContainer>

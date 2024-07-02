@@ -15,12 +15,13 @@ import { InformationOutline } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
 import { Text } from "@ndla/typography";
-import { useSnack, Folder, MessageBox } from "@ndla/ui";
+import { useSnack, MessageBox } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
+import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
+import { Folder } from "../../MyNdla/Folders/components/Folder";
 
 const Content = styled(ModalBody)`
   display: flex;
@@ -41,7 +42,8 @@ interface SaveLinkProps {
   hideTrigger: () => void;
 }
 
-export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, hideTrigger }: SaveLinkProps) => {
+export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
+  const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
@@ -74,14 +76,7 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
           </ModalHeader>
           <ModalBody>
             <Content>
-              <Folder
-                id={id}
-                title={name}
-                subFolders={subfolders.length}
-                subResources={resources.length}
-                link={routes.folder(id)}
-                isShared={status === "shared"}
-              />
+              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} isFolder />
               <MessageBox>
                 <InformationOutline />
                 <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -98,16 +93,7 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={
-            <Folder
-              id={id.toString()}
-              title={name ?? ""}
-              link={`/folder/${id}`}
-              isShared={true}
-              subFolders={subfolders.length}
-              subResources={resources.length}
-            />
-          }
+          content={<Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} isFolder />}
         />
       )}
     </Modal>

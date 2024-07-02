@@ -13,7 +13,6 @@ import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
-
 import { Spinner } from "@ndla/icons";
 import { InformationOutline } from "@ndla/icons/common";
 import { Text } from "@ndla/typography";
@@ -21,7 +20,7 @@ import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
-import { FieldLength } from "../../Folders/FolderForm";
+import { FieldLength } from "../../Folders/components/FolderForm";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 

@@ -9,10 +9,10 @@
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import { ListResource } from "@ndla/ui";
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import LoginModalContent from "./LoginModalContent";
 import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
+import ListResource from "../../containers/MyNdla/Folders/components/ListResource";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";

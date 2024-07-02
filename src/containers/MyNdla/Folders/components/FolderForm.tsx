@@ -14,8 +14,8 @@ import { ButtonV2, LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { ModalCloseButton } from "@ndla/modal";
-import { GQLFolder } from "../../../graphqlTypes";
-import useValidationTranslation from "../../../util/useValidationTranslation";
+import { GQLFolder } from "../../../../graphqlTypes";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;

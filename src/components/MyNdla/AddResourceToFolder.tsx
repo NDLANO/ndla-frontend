@@ -17,7 +17,7 @@ import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
-import { ListResource, MessageBox, TagSelector, useSnack } from "@ndla/ui";
+import { MessageBox, TagSelector, useSnack } from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
 import {
   useAddResourceToFolderMutation,
@@ -26,6 +26,7 @@ import {
   useFolders,
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
+import ListResource from "../../containers/MyNdla/Folders/components/ListResource";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";

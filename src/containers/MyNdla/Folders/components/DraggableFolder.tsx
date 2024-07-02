@@ -12,17 +12,17 @@ import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
 import DragHandle from "./DragHandle";
+import { Folder } from "./Folder";
 import FolderActions from "./FolderActions";
-import { ViewType } from "./FoldersPage";
-import { GQLFolder } from "../../../graphqlTypes";
-import { FolderTotalCount } from "../../../util/folderHelpers";
-import { Folder } from "../components/Folder";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { FolderTotalCount } from "../../../../util/folderHelpers";
+import { ViewType } from "../FoldersPage";
 
 interface Props {
   folder: GQLFolder;
   index: number;
   type: ViewType;
-  foldersCount: Record<string, FolderTotalCount>;
+  foldersCount: FolderTotalCount;
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;

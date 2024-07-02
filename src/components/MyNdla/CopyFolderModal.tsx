@@ -9,9 +9,9 @@
 import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import { Folder } from "@ndla/ui";
 import CopyFolder from "./CopyFolder";
 import LoginModalContent from "./LoginModalContent";
+import { Folder } from "../../containers/MyNdla/Folders/components/Folder";
 import { GQLFolder } from "../../graphqlTypes";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
@@ -38,18 +38,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginCopyFolderPitch")}
-          content={
-            folder && (
-              <Folder
-                id={folder.id.toString()}
-                title={folder.name ?? ""}
-                link={`/folder/${folder.id}`}
-                isShared={true}
-                subFolders={folderCount.folders}
-                subResources={folderCount.resources}
-              />
-            )
-          }
+          content={folder && <Folder folder={folder} foldersCount={folderCount} isFolder type="list" />}
         />
       )}
     </Modal>

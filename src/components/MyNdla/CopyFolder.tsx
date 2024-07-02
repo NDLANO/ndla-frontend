@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Folder, MessageBox, useSnack } from "@ndla/ui";
+import { MessageBox, useSnack } from "@ndla/ui";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
+import { Folder } from "../../containers/MyNdla/Folders/components/Folder";
 import { GQLFolder } from "../../graphqlTypes";
-import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -57,14 +57,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       </ModalHeader>
       <ModalBody>
         <AddResourceContainer>
-          <Folder
-            id={folder.id.toString()}
-            title={folder.name ?? ""}
-            link={routes.folder(folder.id)}
-            isShared={true}
-            subFolders={folderCount.folders}
-            subResources={folderCount.resources}
-          />
+          <Folder folder={folder} type="list" foldersCount={folderCount} isFolder />
           {examLock ? (
             <MessageBox>
               <InformationOutline />
