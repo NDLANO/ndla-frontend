@@ -204,12 +204,7 @@ const SharedFolderPageV2 = () => {
                 {folder.subfolders.map((subFolder) =>
                   containsFolder(subFolder) ? (
                     <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder
-                        folder={subFolder}
-                        type={viewType}
-                        foldersCount={getTotalCountForFolder(subFolder)}
-                        isFolder
-                      />
+                      <Folder folder={subFolder} type={viewType} foldersCount={getTotalCountForFolder(subFolder)} />
                     </ListItem>
                   ) : null,
                 )}

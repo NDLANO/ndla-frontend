@@ -28,9 +28,10 @@ interface Props {
   folderId: string | undefined;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
+  isFavorited?: boolean;
 }
 
-const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId }: Props) => {
+const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -99,7 +100,7 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId 
                   folders={folders}
                   setFocusId={setFocusId}
                   folderRefId={folderRefId}
-                  isFolder={folder.__typename === "Folder"}
+                  isFavorited={isFavorited}
                 />
               ))}
             </SortableContext>

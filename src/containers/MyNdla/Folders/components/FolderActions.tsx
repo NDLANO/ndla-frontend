@@ -37,10 +37,10 @@ interface Props {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   inToolbar?: boolean;
   folders: GQLFolder[];
-  isFolder: boolean;
+  isFavorited?: boolean;
 }
 
-const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false, folderRefId, isFolder }: Props) => {
+const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const { addSnack } = useSnack();
   const { folderId } = useParams();
@@ -286,7 +286,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       actions.push(addFolderButton);
     }
 
-    if (!isFolder) {
+    if (!isFavorited) {
       return actions.concat(deleteLink);
     }
 
@@ -313,7 +313,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     user,
     t,
     isFolderShared,
-    isFolder,
+    isFavorited,
   ]);
 
   return <SettingsMenu menuItems={actionItems} modalHeader={t("myNdla.tools")} />;

@@ -76,7 +76,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
           </ModalHeader>
           <ModalBody>
             <Content>
-              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} isFolder />
+              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} />
               <MessageBox>
                 <InformationOutline />
                 <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -93,7 +93,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={<Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} isFolder />}
+          content={<Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} />}
         />
       )}
     </Modal>

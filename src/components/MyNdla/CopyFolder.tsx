@@ -57,7 +57,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       </ModalHeader>
       <ModalBody>
         <AddResourceContainer>
-          <Folder folder={folder} type="list" foldersCount={folderCount} isFolder />
+          <Folder folder={folder} foldersCount={folderCount} />
           {examLock ? (
             <MessageBox>
               <InformationOutline />

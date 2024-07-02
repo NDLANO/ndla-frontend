@@ -172,11 +172,11 @@ interface Props {
   menu?: ReactNode;
   folder: GQLFolder;
   foldersCount: FolderTotalCount;
-  isFolder: boolean;
+  isFavorited?: boolean;
 }
 
-const getIcon = (isFolder: boolean, isShared?: boolean) => {
-  if (!isFolder) {
+const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
+  if (!isFavorited) {
     return Link;
   } else if (isShared) {
     return FolderSharedOutlined;
@@ -185,10 +185,16 @@ const getIcon = (isFolder: boolean, isShared?: boolean) => {
   }
 };
 
-export const Folder = ({ type = "list", menu, folder: { id, status, name, owner }, foldersCount, isFolder }: Props) => {
+export const Folder = ({
+  type = "list",
+  menu,
+  folder: { id, status, name, owner },
+  foldersCount,
+  isFavorited,
+}: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
-  const Icon = getIcon(isFolder, isShared);
+  const Icon = getIcon(isFavorited, isShared);
 
   return (
     <FolderWrapper data-type={type} id={id}>
@@ -198,7 +204,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={isFolder ? routes.myNdla.folder(id) : routes.folder(id)}>
+        <ResourceTitleLink to={isFavorited ? routes.myNdla.folder(id) : routes.folder(id)}>
           <FolderTitle data-title="" title={name}>
             {name}
           </FolderTitle>
@@ -209,7 +215,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
           {isShared && (
             <IconTextWrapper>
               <Share />
-              {!isFolder ? (
+              {!isFavorited ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}
                   {owner ? `${owner?.name}` : t("myNdla.folder.sharing.sharedByAnonymous")}
@@ -219,7 +225,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
               )}
             </IconTextWrapper>
           )}
-          {isFolder && (
+          {isFavorited && (
             <>
               <Count layoutType={type} type={"folder"} count={foldersCount.folders} />
               <Count layoutType={type} type={"resource"} count={foldersCount?.resources} />
