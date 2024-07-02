@@ -88,7 +88,7 @@ const DraggableFolder = ({
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
-      {isFavorited && (
+      {!isFavorited && (
         <DragHandle
           sortableId={folder.id}
           disabled={type === "block" || items.length < 2}

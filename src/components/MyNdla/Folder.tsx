@@ -176,7 +176,7 @@ interface Props {
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
-  if (!isFavorited) {
+  if (isFavorited) {
     return Link;
   } else if (isShared) {
     return FolderSharedOutlined;
@@ -204,7 +204,7 @@ export const Folder = ({
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={isFavorited ? routes.myNdla.folder(id) : routes.folder(id)}>
+        <ResourceTitleLink to={!isFavorited ? routes.myNdla.folder(id) : routes.folder(id)}>
           <FolderTitle data-title="" title={name}>
             {name}
           </FolderTitle>
@@ -215,7 +215,7 @@ export const Folder = ({
           {isShared && (
             <IconTextWrapper>
               <Share />
-              {!isFavorited ? (
+              {isFavorited ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}
                   {owner ? `${owner?.name}` : t("myNdla.folder.sharing.sharedByAnonymous")}
@@ -225,7 +225,7 @@ export const Folder = ({
               )}
             </IconTextWrapper>
           )}
-          {isFavorited && (
+          {!isFavorited && (
             <>
               <Count layoutType={type} type={"folder"} count={foldersCount.folders} />
               <Count layoutType={type} type={"resource"} count={foldersCount?.resources} />

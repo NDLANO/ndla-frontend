@@ -286,7 +286,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       actions.push(addFolderButton);
     }
 
-    if (!isFavorited) {
+    if (isFavorited) {
       return actions.concat(deleteLink);
     }
 
