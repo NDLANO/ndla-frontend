@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
@@ -60,6 +60,14 @@ interface Props {
 const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplyingTo, setReplyingTo }: Props) => {
   const [isReplyingChild, setIsReplyingChild] = useState<number | undefined>(undefined);
 
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isReplyingTo === replyToId) {
+      formRef?.current?.scrollIntoView();
+    }
+  }, [formRef, replyToId, isReplyingTo]);
+
   return (
     <>
       <StyledOl>
@@ -94,7 +102,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
         })}
       </StyledOl>
       {isReplyingTo === replyToId && (
-        <StyledArenaFormWrapper>
+        <StyledArenaFormWrapper ref={formRef}>
           <ArenaForm
             type="post"
             onAbort={() => {
