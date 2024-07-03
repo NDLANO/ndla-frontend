@@ -7,13 +7,28 @@
  */
 
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq } from "@ndla/core";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 
-export const buttonCss = css`
+const buttonCss = css`
   display: flex;
   justify-content: flex-start;
   white-space: nowrap;
   ${mq.range({ until: breakpoints.tablet })} {
     font-weight: ${fonts.weight.normal};
   }
+`;
+
+export const StyledSafeLinkButton = styled(SafeLinkButton)`
+  ${buttonCss};
+`;
+
+export const StyledButton = styled(ButtonV2)`
+  ${buttonCss};
+`;
+
+export const StyledSafeLink = styled(SafeLink)`
+  ${buttonCss};
 `;

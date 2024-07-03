@@ -33,7 +33,8 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
   onClose?: () => void;
 }
 
-const commonStyle = css`
+const clickableDrawerStyling = css`
+  ${fonts.sizes("18px", "32px")};
   width: 100%;
   padding: ${spacing.xsmall} ${spacing.small};
   margin: 0 ${spacing.small};
@@ -50,37 +51,24 @@ const commonStyle = css`
   &:hover {
     text-decoration: underline;
   }
+
+  &[data-bold="true"] {
+    font-weight: ${fonts.weight.bold};
+    ${fonts.sizes("24px", "32px")};
+  }
+
+  &[data-active="true"] {
+    background-color: ${colors.brand.primary};
+    color: ${colors.white};
+  }
 `;
 
-const boldItemStyle = css`
-  font-weight: ${fonts.weight.bold};
-  ${fonts.sizes("24px", "32px")};
-  ${commonStyle};
+const StyledButton = styled(ButtonV2)`
+  ${clickableDrawerStyling}
 `;
 
-const normalItemStyle = css`
-  ${fonts.sizes("18px", "32px")};
-  ${commonStyle};
-`;
-
-interface StyledButtonProps {
-  active?: boolean;
-}
-
-const activeStyle = css`
-  background-color: ${colors.brand.primary};
-  color: ${colors.white};
-`;
-
-const shouldForwardProp = (prop: string) => prop !== "active";
-
-const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
-  ${(p) =>
-    p.active &&
-    css`
-      background-color: ${colors.brand.primary};
-      color: ${colors.white};
-    `}
+const StyledSafelink = styled(SafeLink)`
+  ${clickableDrawerStyling}
 `;
 
 const TextWrapper = styled.div`
@@ -98,7 +86,6 @@ const CurrentIndicator = styled.span`
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
 const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
-  const style = bold ? boldItemStyle : normalItemStyle;
   if (specificProps.type === "button") {
     return (
       <DrawerListItem role="none" data-list-item>
@@ -110,7 +97,8 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
           aria-expanded={!!active}
           id={id}
           onClick={() => specificProps.onClick(!!active)}
-          css={[style, active ? activeStyle : []]}
+          data-bold={bold}
+          data-active={active}
         >
           <TextWrapper>
             {children}
@@ -122,20 +110,21 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
   } else {
     return (
       <DrawerListItem role="none" data-list-item>
-        <SafeLink
+        <StyledSafelink
           tabIndex={-1}
           role="menuitem"
           id={id}
           aria-current={current ? "page" : undefined}
           to={specificProps.to}
           onClick={specificProps.onClose}
-          css={[style, active ? activeStyle : []]}
+          data-bold={bold}
+          data-active={active}
         >
           <TextWrapper>
             {children}
             {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
           </TextWrapper>
-        </SafeLink>
+        </StyledSafelink>
       </DrawerListItem>
     );
   }

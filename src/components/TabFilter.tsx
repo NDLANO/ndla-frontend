@@ -7,30 +7,23 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-
-interface StyledProps {
-  selected: boolean;
-}
 
 const StyledLi = styled.li`
   padding: 0;
 `;
 
-const StyledButton = styled(ButtonV2)<StyledProps>`
+const StyledButton = styled(ButtonV2)`
   border-width: 1px;
   border-radius: 12px;
   border-color: ${colors.brand.dark};
-  ${({ selected }) =>
-    !selected &&
-    css`
-      background: ${colors.white};
-      color: ${colors.brand.dark};
-      border-color: ${colors.brand.light};
-    `};
+  :not(:hover, :focus)[aria-current="false"] {
+    background: ${colors.white};
+    color: ${colors.brand.dark};
+    border-color: ${colors.brand.light};
+  }
 `;
 
 const ButtonContainer = styled.ul`
@@ -67,7 +60,6 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
             role="listitem"
             fontWeight="bold"
             aria-current={selectedValue === value}
-            selected={selectedValue === value}
             variant={selectedValue === value ? undefined : "outline"}
             onClick={() => onChange(value)}
           >

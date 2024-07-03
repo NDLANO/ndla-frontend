@@ -9,16 +9,15 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm, { FolderFormValues } from "./FolderForm";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { buttonCss } from "../../components/toolbarStyles";
+import { StyledButton } from "../../components/toolbarStyles";
 import { useAddFolderMutation, useFolders } from "../../folderMutations";
 
-const AddButton = styled(ButtonV2)`
+const AddButton = styled(StyledButton)`
   ${mq.range({ until: breakpoints.tablet })} {
     flex: 1;
   }
@@ -51,7 +50,6 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <AddButton
-          css={buttonCss}
           variant="ghost"
           colorTheme="lighter"
           aria-label={t("myNdla.newFolder")}
