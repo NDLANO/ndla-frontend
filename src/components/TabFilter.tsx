@@ -19,7 +19,7 @@ const StyledButton = styled(ButtonV2)`
   border-width: 1px;
   border-radius: 12px;
   border-color: ${colors.brand.dark};
-  &[aria-current="false"] {
+  :not(:hover, :focus)[aria-current="false"] {
     background: ${colors.white};
     color: ${colors.brand.dark};
     border-color: ${colors.brand.light};
