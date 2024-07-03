@@ -114,7 +114,7 @@ const Topic = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper data-frame={frame} data-inverted={inverted}>
       <TopicIntroductionWrapper>
         <div>
           <HeadingWrapper>

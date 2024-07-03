@@ -19,7 +19,7 @@ const StyledButton = styled(ButtonV2)`
   border-width: 1px;
   border-radius: 12px;
   border-color: ${colors.brand.dark};
-  &[data-selected="false"] {
+  &[aria-current="false"] {
     background: ${colors.white};
     color: ${colors.brand.dark};
     border-color: ${colors.brand.light};
@@ -60,7 +60,6 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
             role="listitem"
             fontWeight="bold"
             aria-current={selectedValue === value}
-            data-selected={selectedValue === value}
             variant={selectedValue === value ? undefined : "outline"}
             onClick={() => onChange(value)}
           >

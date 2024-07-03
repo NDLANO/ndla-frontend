@@ -6,11 +6,10 @@
  *
  */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
-import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
@@ -40,21 +39,12 @@ const StyledPageContainer = styled(PageContainer)`
   }
 `;
 
-interface GlobalProps {
-  height: number;
-}
-
-const StyledGlobal = styled(Global)<GlobalProps>`
-  html {
-    scroll-padding-top: ${({ height }) => (height ? `${height}px` : "unset")};
-  }
-`;
-
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
+  const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
   const ndlaFilm = useIsNdlaFilm();
   const frontpage = !!matchPath("/", pathname);
@@ -73,6 +63,14 @@ const Layout = () => {
     }
   }, [params, pathname, prevPathname]);
 
+  useEffect(() => {
+    if (!htmlRef.current) {
+      htmlRef.current = document.querySelector("html");
+    } else {
+      htmlRef.current.style.scrollPaddingTop = `${height}px`;
+    }
+  }, [height]);
+
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
@@ -80,7 +78,6 @@ const Layout = () => {
   return (
     <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>
       <TitleAnnouncer />
-      <StyledGlobal height={height} styles={undefined} />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
         meta={[{ name: "description", content: t("meta.description") }]}
