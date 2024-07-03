@@ -9,7 +9,6 @@
 import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2, ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
@@ -17,8 +16,7 @@ import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@n
 import { HorizontalMenu } from "@ndla/icons/contentType";
 import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
-
-import { buttonCss } from "./toolbarStyles";
+import { StyledButton, StyledSafeLinkButton } from "./toolbarStyles";
 
 export interface MenuItemProps {
   icon?: ReactNode;
@@ -114,7 +112,7 @@ const ItemButton = styled(ButtonV2)`
   }
 `;
 
-export const linkCss = css`
+const StyledSafelinkItem = styled(SafeLinkButton)`
   color: ${colors.text.primary};
   padding: ${spacing.xxsmall} ${spacing.xsmall};
   display: flex;
@@ -232,10 +230,9 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
             setSkipAutoFocus={() => setSkipAutoFocus(true)}
           >
             {item.link ? (
-              <SafeLinkButton
+              <StyledSafeLinkButton
                 tabIndex={-1}
                 key={item.text}
-                css={buttonCss}
                 variant="ghost"
                 colorTheme="lighter"
                 to={item.link}
@@ -243,10 +240,9 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               >
                 {item.icon}
                 {item.text}
-              </SafeLinkButton>
+              </StyledSafeLinkButton>
             ) : (
-              <ButtonV2
-                css={buttonCss}
+              <StyledButton
                 colorTheme={item.type === "danger" ? "danger" : "light"}
                 disabled={item.disabled}
                 variant="ghost"
@@ -256,7 +252,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               >
                 {item.icon}
                 {item.text}
-              </ButtonV2>
+              </StyledButton>
             )}
           </Item>
         ))}
@@ -315,11 +311,10 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                 }}
               >
                 {item.link ? (
-                  <SafeLinkButton
+                  <StyledSafelinkItem
                     tabIndex={-1}
                     role="menuitem"
                     key={item.text}
-                    css={linkCss}
                     variant="ghost"
                     colorTheme="lighter"
                     to={item.link}
@@ -327,7 +322,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                   >
                     {item.icon}
                     {item.text}
-                  </SafeLinkButton>
+                  </StyledSafelinkItem>
                 ) : (
                   <ItemButton
                     colorTheme={item.type === "danger" ? "danger" : "light"}

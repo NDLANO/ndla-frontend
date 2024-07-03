@@ -6,9 +6,8 @@
  *
  */
 
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
+import { breakpoints, colors, mq, spacing } from "@ndla/core";
 
 export const MediaListRef = styled.div`
   background: ${colors.white};
@@ -20,11 +19,4 @@ export const MediaListRef = styled.div`
       margin: ${spacing.xxsmall} 0;
     }
   }
-`;
-
-export const mediaListIcon = css`
-  color: ${colors.brand.primary};
-  width: ${spacingUnit * 3}px;
-  height: auto;
-  margin: ${spacing.normal};
 `;

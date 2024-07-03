@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
-import { css, Global } from "@emotion/react";
+import { Global } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
@@ -37,6 +37,16 @@ const StyledPageContainer = styled(PageContainer)`
   }
   &[data-frontpage="true"] {
     background-color: ${colors.background.lightBlue};
+  }
+`;
+
+interface GlobalProps {
+  height: number;
+}
+
+const StyledGlobal = styled(Global)<GlobalProps>`
+  html {
+    scroll-padding-top: ${({ height }) => (height ? `${height}px` : "unset")};
   }
 `;
 
@@ -70,13 +80,7 @@ const Layout = () => {
   return (
     <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>
       <TitleAnnouncer />
-      <Global
-        styles={css`
-          html {
-            scroll-padding-top: ${height ? `${height}px` : undefined};
-          }
-        `}
-      />
+      <StyledGlobal height={height} styles={undefined} />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
         meta={[{ name: "description", content: t("meta.description") }]}

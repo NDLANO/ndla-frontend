@@ -9,12 +9,11 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm from "./FolderForm";
 import { GQLFolder } from "../../../graphqlTypes";
-import { buttonCss } from "../components/toolbarStyles";
+import { StyledButton } from "../components/toolbarStyles";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../folderMutations";
 
 interface Props {
@@ -29,8 +28,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
-          css={buttonCss}
+        <StyledButton
           variant="ghost"
           colorTheme="lighter"
           aria-label={t("myNdla.folder.edit")}
@@ -38,7 +36,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
         >
           <Pencil size="nsmall" />
           {t("myNdla.folder.editShort")}
-        </ButtonV2>
+        </StyledButton>
       </ModalTrigger>
       <EditFolderModalContent folder={folder} onClose={() => setOpen(false)} onSaved={onSaved} />
     </Modal>
