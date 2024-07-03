@@ -8,7 +8,6 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Additional } from "@ndla/icons/common";
@@ -22,23 +21,23 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-`;
 
-const frameStyle = css`
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    padding: 40px 40px;
-    border: 2px solid ${colors.brand.neutral7};
+  &[data-frame="true"] {
+    ${mq.range({ from: breakpoints.tabletWide })} {
+      padding: 40px 40px;
+      border: 2px solid ${colors.brand.neutral7};
+    }
+    ${mq.range({ from: breakpoints.desktop })} {
+      padding: 40px 80px;
+    }
+    ${mq.range({ from: "1180px" })} {
+      padding: 60px 160px;
+    }
   }
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: 40px 80px;
-  }
-  ${mq.range({ from: "1180px" })} {
-    padding: 60px 160px;
-  }
-`;
 
-const _invertedStyle = css`
-  color: ${colors.white};
+  &[data-inverted="true"] {
+    color: ${colors.white};
+  }
 `;
 
 const TopicIntroductionWrapper = styled.div`
@@ -92,10 +91,9 @@ const Topic = ({
   const { t } = useTranslation();
   const inverted = useIsNdlaFilm();
 
-  const wrapperStyle = [frame ? frameStyle : undefined, inverted ? _invertedStyle : undefined];
   if (isLoading) {
     return (
-      <Wrapper css={wrapperStyle}>
+      <Wrapper data-frame={frame} data-inverted={inverted}>
         <ContentLoader width={800} height={880}>
           <rect x="0" y="0" rx="3" ry="3" width="500" height="60" />
           <rect x="0" y="100" rx="3" ry="3" width="500" height="25" />
@@ -116,7 +114,7 @@ const Topic = ({
   }
 
   return (
-    <Wrapper css={wrapperStyle}>
+    <Wrapper data-frame={frame} data-inverted={inverted}>
       <TopicIntroductionWrapper>
         <div>
           <HeadingWrapper>
