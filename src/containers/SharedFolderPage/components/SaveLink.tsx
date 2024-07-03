@@ -20,6 +20,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { GQLFolder } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
@@ -76,7 +77,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
           </ModalHeader>
           <ModalBody>
             <Content>
-              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} />
+              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} link={routes.folder(folder.id)} />
               <MessageBox>
                 <InformationOutline />
                 <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -93,7 +94,9 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={<Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} />}
+          content={
+            <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} link={routes.folder(folder.id)} />
+          }
         />
       )}
     </Modal>

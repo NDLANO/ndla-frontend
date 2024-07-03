@@ -22,7 +22,7 @@ interface Props {
   folder: GQLFolder;
   index: number;
   type: ViewType;
-  foldersCount: FolderTotalCount;
+  foldersCount?: FolderTotalCount;
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;

@@ -171,8 +171,9 @@ interface Props {
   type?: LayoutType;
   menu?: ReactNode;
   folder: GQLFolder;
-  foldersCount: FolderTotalCount;
+  foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
+  link?: string;
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -191,10 +192,12 @@ export const Folder = ({
   folder: { id, status, name, owner },
   foldersCount,
   isFavorited,
+  link,
 }: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
   const Icon = getIcon(isFavorited, isShared);
+  const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
     <FolderWrapper data-type={type} id={id}>
@@ -204,7 +207,7 @@ export const Folder = ({
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={!isFavorited ? routes.myNdla.folder(id) : routes.folder(id)}>
+        <ResourceTitleLink to={link ?? defaultLink}>
           <FolderTitle data-title="" title={name}>
             {name}
           </FolderTitle>
@@ -227,7 +230,7 @@ export const Folder = ({
           )}
           {!isFavorited && (
             <>
-              <Count layoutType={type} type={"folder"} count={foldersCount.folders} />
+              <Count layoutType={type} type={"folder"} count={foldersCount?.folders} />
               <Count layoutType={type} type={"resource"} count={foldersCount?.resources} />
             </>
           )}

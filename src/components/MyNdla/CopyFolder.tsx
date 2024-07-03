@@ -17,6 +17,7 @@ import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -57,7 +58,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       </ModalHeader>
       <ModalBody>
         <AddResourceContainer>
-          <Folder folder={folder} foldersCount={folderCount} />
+          <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
           {examLock ? (
             <MessageBox>
               <InformationOutline />

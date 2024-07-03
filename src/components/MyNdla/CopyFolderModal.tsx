@@ -13,6 +13,7 @@ import CopyFolder from "./CopyFolder";
 import { Folder } from "./Folder";
 import LoginModalContent from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -38,7 +39,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginCopyFolderPitch")}
-          content={folder && <Folder folder={folder} foldersCount={folderCount} />}
+          content={folder && <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />}
         />
       )}
     </Modal>

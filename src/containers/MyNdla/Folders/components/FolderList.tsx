@@ -16,7 +16,7 @@ import { Spinner } from "@ndla/icons";
 import DraggableFolder from "./DraggableFolder";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { getTotalCountForFolder } from "../../../../util/folderHelpers";
+import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { useSortFoldersMutation } from "../../folderMutations";
 import { BlockWrapper, ViewType } from "../FoldersPage";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
@@ -40,6 +40,15 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId,
   useEffect(() => {
     setSortedFolders(folders);
   }, [folders]);
+
+  const foldersCount = useMemo(
+    () =>
+      folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
+        acc[curr.id] = getTotalCountForFolder(curr);
+        return acc;
+      }, {}),
+    [folders],
+  );
 
   const updateCache = (newOrder: string[]) => {
     const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
@@ -95,7 +104,7 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId,
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}
-                  foldersCount={getTotalCountForFolder(folder)}
+                  foldersCount={foldersCount?.[folder.id]}
                   type={type}
                   folders={folders}
                   setFocusId={setFocusId}
