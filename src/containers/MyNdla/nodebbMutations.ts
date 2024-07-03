@@ -43,8 +43,8 @@ export const useNewFlagMutation = () => {
 };
 
 const replyToTopicMutation = gql`
-  mutation ReplyToTopic($topicId: Int!, $content: String!) {
-    replyToTopic(topicId: $topicId, content: $content) {
+  mutation ReplyToTopic($topicId: Int!, $content: String!, $postId: Int) {
+    replyToTopic(topicId: $topicId, content: $content, postId: $postId) {
       ...ArenaPost
     }
   }
@@ -186,7 +186,7 @@ export const useUnsubscribeFromTopicMutation = () => {
   );
 };
 
-const upvotePost = gql`
+const upvotePostMutation = gql`
   mutation upvotePost($postId: Int!) {
     addPostUpvote(postId: $postId)
   }
@@ -194,7 +194,7 @@ const upvotePost = gql`
 
 export const useUpvotePost = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLMutationAddPostUpvoteArgs>(upvotePost, {
+  const [upvotePost] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePostMutation, {
     refetchQueries: [arenaTopicById],
     onCompleted: (data) => {
       cache.modify({
@@ -208,9 +208,11 @@ export const useUpvotePost = () => {
       });
     },
   });
+
+  return { upvotePost };
 };
 
-const removeUpvotePost = gql`
+const removeUpvotePostMutation = gql`
   mutation removeUpvotePost($postId: Int!) {
     removePostUpvote(postId: $postId)
   }
@@ -218,7 +220,7 @@ const removeUpvotePost = gql`
 
 export const useRemoveUpvotePost = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePost, {
+  const [removeUpvotePost] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePostMutation, {
     refetchQueries: [arenaTopicById],
     onCompleted: (data) => {
       cache.modify({
@@ -232,4 +234,5 @@ export const useRemoveUpvotePost = () => {
       });
     },
   });
+  return { removeUpvotePost };
 };
