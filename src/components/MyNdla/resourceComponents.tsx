@@ -8,13 +8,13 @@
 
 import { HTMLAttributes, ReactNode, useMemo, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { colors, stackOrder, spacing, fonts } from "@ndla/core";
 import { DropdownTrigger, DropdownContent, DropdownItem, DropdownMenu } from "@ndla/dropdown-menu";
 import { HashTag } from "@ndla/icons/common";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { Text } from "@ndla/typography";
 import { resourceTypeColor } from "@ndla/ui";
 import { resourceEmbedTypeMapping } from "../../util/getContentType";
 
@@ -46,7 +46,7 @@ const StyledTrigger = styled(IconButtonV2)`
   margin: 0px ${spacing.xsmall};
 `;
 
-export const resourceHeadingStyle = css`
+export const ResourceHeading = styled(Text)`
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;

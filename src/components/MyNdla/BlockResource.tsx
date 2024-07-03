@@ -17,9 +17,9 @@ import {
   ContentIconWrapper,
   LoaderProps,
   ResourceTitleLink,
-  resourceHeadingStyle,
   ResourceTypeList,
   CompressedTagList,
+  ResourceHeading,
 } from "./resourceComponents";
 import { contentTypeMapping, resourceEmbedTypeMapping } from "../../util/getContentType";
 
@@ -192,9 +192,9 @@ const BlockResource = ({
               to={link}
               data-resource-available={contentType !== MISSING}
             >
-              <Text element="span" textStyle="label-small" css={resourceHeadingStyle}>
+              <ResourceHeading element="span" textStyle="label-small">
                 {title}
-              </Text>
+              </ResourceHeading>
             </ResourceTitleLink>
           </ResourceTypeAndTitleLoader>
           <ResourceTypeList resourceTypes={resourceTypes} />

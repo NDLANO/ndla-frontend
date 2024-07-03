@@ -16,10 +16,10 @@ import {
   ResourceImageProps,
   ContentIconWrapper,
   LoaderProps,
-  resourceHeadingStyle,
   ResourceTypeList,
   CompressedTagList,
   ResourceTitleLink,
+  ResourceHeading,
 } from "./resourceComponents";
 import { resourceEmbedTypeMapping, contentTypeMapping } from "../../util/getContentType";
 
@@ -254,9 +254,9 @@ const ListResource = ({
             target={targetBlank ? "_blank" : undefined}
             data-resource-available={contentType !== MISSING}
           >
-            <Text element="span" textStyle="label-small" css={resourceHeadingStyle} title={title}>
+            <ResourceHeading element="span" textStyle="label-small" title={title}>
               {title}
-            </Text>
+            </ResourceHeading>
           </ResourceTitleLink>
           <ResourceTypeList resourceTypes={resourceTypes} />
         </TypeAndTitleLoader>
