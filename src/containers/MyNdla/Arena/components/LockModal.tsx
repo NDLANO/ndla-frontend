@@ -17,7 +17,7 @@ import { useUpdateTopicV2 } from "../../arenaMutations";
 
 interface Props {
   topic: GQLArenaTopicV2Fragment | undefined;
-  post: GQLArenaPostV2Fragment | undefined;
+  post: Omit<GQLArenaPostV2Fragment, "replies"> | GQLArenaPostV2Fragment | undefined;
   onClose?: (e?: Event) => void;
 }
 
