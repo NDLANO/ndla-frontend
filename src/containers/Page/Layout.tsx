@@ -14,11 +14,9 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { PageContainer } from "@ndla/ui";
-import FeideFooter from "./components/FeideFooter";
 import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
-import config from "../../config";
 import { routes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
@@ -91,7 +89,6 @@ const Layout = () => {
         </BottomPadding>
       </div>
       <Footer />
-      {config.feideEnabled && <FeideFooter />}
     </StyledPageContainer>
   );
 };

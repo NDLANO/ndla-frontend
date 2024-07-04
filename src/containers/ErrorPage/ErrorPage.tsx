@@ -18,7 +18,6 @@ import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
-import FeideFooter from "../Page/components/FeideFooter";
 import Footer from "../Page/components/Footer";
 
 const ZendeskWrapper = styled.div`
@@ -52,7 +51,6 @@ const ErrorPage = () => {
             <DefaultErrorMessage />
           </div>
           <Footer />
-          {config.feideEnabled && <FeideFooter />}
           {config.zendeskWidgetKey && (
             <ZendeskWrapper>
               <ZendeskButton locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
