@@ -16,7 +16,7 @@ import { FeideText, LogOut } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
 import { UserInfo } from "../../containers/MyNdla/components/UserInfo";
-import { routes, useIsNdlaFilm } from "../../routeHelpers";
+import { routes } from "../../routeHelpers";
 import { constructNewPath, toHref } from "../../util/urlHelper";
 import { AuthContext } from "../AuthenticationContext";
 import { useBaseName } from "../BaseNameContext";
@@ -70,7 +70,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
   const { t } = useTranslation();
   const { authenticated, user } = useContext(AuthContext);
   const basename = useBaseName();
-  const ndlaFilm = useIsNdlaFilm();
 
   if (authenticated && !footer) {
     return (
@@ -78,7 +77,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         variant="ghost"
         colorTheme="light"
         shape="pill"
-        inverted={ndlaFilm}
         to={routes.myNdla.root}
         aria-label={t("myNdla.myNDLA")}
       >
@@ -94,7 +92,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
           <LoginButton
             variant={footer ? "outline" : "ghost"}
             colorTheme={footer ? "greyLighter" : "lighter"}
-            inverted={!footer && ndlaFilm}
             shape={footer ? "normal" : "pill"}
             aria-label={t("user.buttonLogIn")}
             title={t("user.buttonLogIn")}

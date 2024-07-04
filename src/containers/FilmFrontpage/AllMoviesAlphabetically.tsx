@@ -53,10 +53,6 @@ const MovieImage = styled(Image)`
   }
 `;
 
-const MovieTitle = styled(Heading)`
-  color: ${colors.white};
-`;
-
 const MovieDescription = styled(Text)`
   color: ${colors.brand.greyLighter};
   margin: 0;
@@ -68,7 +64,7 @@ const MovieDescription = styled(Text)`
 `;
 
 const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.white};
+  color: ${colors.black};
   box-shadow: none;
   display: flex;
   gap: ${spacing.small};
@@ -170,9 +166,9 @@ const AllMoviesAlphabetically = () => {
                 <MovieImage alt="" lazyLoad fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
               )}
               <MovieTextWrapper>
-                <MovieTitle element="h3" headingStyle="h3" margin="none" data-title>
+                <Heading element="h3" headingStyle="h3" margin="none" data-title>
                   {movie.title}
-                </MovieTitle>
+                </Heading>
                 <MovieDescription margin="none" textStyle="content-alt">
                   {movie.metaDescription}
                 </MovieDescription>

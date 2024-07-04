@@ -15,7 +15,6 @@ import { EmbedMetaData } from "@ndla/types-embed";
 import { Text, Heading } from "@ndla/typography";
 import { ContentLoader } from "@ndla/ui";
 import TopicMetaImage from "./TopicMetaImage";
-import { useIsNdlaFilm } from "../../routeHelpers";
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,10 +32,6 @@ const Wrapper = styled.div`
     ${mq.range({ from: "1180px" })} {
       padding: 60px 160px;
     }
-  }
-
-  &[data-inverted="true"] {
-    color: ${colors.white};
   }
 `;
 
@@ -89,11 +84,10 @@ const Topic = ({
   visualElement,
 }: TopicProps) => {
   const { t } = useTranslation();
-  const inverted = useIsNdlaFilm();
 
   if (isLoading) {
     return (
-      <Wrapper data-frame={frame} data-inverted={inverted}>
+      <Wrapper data-frame={frame}>
         <ContentLoader width={800} height={880}>
           <rect x="0" y="0" rx="3" ry="3" width="500" height="60" />
           <rect x="0" y="100" rx="3" ry="3" width="500" height="25" />
@@ -114,7 +108,7 @@ const Topic = ({
   }
 
   return (
-    <Wrapper data-frame={frame} data-inverted={inverted}>
+    <Wrapper data-frame={frame}>
       <TopicIntroductionWrapper>
         <div>
           <HeadingWrapper>

@@ -38,7 +38,6 @@ interface Props extends ComponentPropsWithoutRef<"a"> {
 const StyledMovieTitle = styled.span`
   ${fonts.size.text.metaText.small}
   font-weight: ${fonts.weight.semibold};
-  color: ${colors.white};
   ${mq.range({ from: breakpoints.tablet })} {
     ${fonts.size.text.metaText.medium};
   }
@@ -61,7 +60,7 @@ const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  color: ${colors.white};
+  color: ${colors.black};
   box-shadow: none;
   &:hover,
   &:focus-within,

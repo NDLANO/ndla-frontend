@@ -11,7 +11,7 @@ import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { Heading } from "@ndla/typography";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
@@ -27,7 +27,7 @@ import {
   GQLResources_TopicFragment,
 } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
@@ -36,12 +36,6 @@ interface Props {
   headingType: HeadingType;
   subHeadingType: HeadingType;
 }
-
-const StyledHeading = styled(Heading)`
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
-`;
 
 const StyledNav = styled.nav`
   display: flex;
@@ -58,7 +52,6 @@ const StyledSection = styled.section`
 const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
-  const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
 
   const resourcesTopicId = useId();
@@ -138,7 +131,6 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
         toggleAdditionalResources={toggleAdditionalResources}
         showAdditionalResources={showAdditionalResources}
         hasAdditionalResources={supplementaryResources.length > 0}
-        invertedStyle={ndlaFilm}
       />
       {!isGrouped ? (
         <StyledNav aria-labelledby={resourcesTopicId}>
@@ -153,15 +145,9 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
           <StableId key={type.id}>
             {(id) => (
               <StyledNav key={type.id} aria-labelledby={id}>
-                <StyledHeading
-                  id={id}
-                  margin="none"
-                  element={subHeadingType}
-                  headingStyle="list-title"
-                  data-inverted={ndlaFilm}
-                >
+                <Heading id={id} margin="none" element={subHeadingType} headingStyle="list-title">
                   {type.name}
-                </StyledHeading>
+                </Heading>
                 <ResourceList
                   title={type.name}
                   showAdditionalResources={showAdditionalResources}

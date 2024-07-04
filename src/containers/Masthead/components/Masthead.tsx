@@ -46,13 +46,6 @@ const StyledMasthead = styled.div`
       position: relative;
     }
   }
-
-  &[data-ndla-film="true"] {
-    background: ${colors.ndlaFilm.filmColorLight};
-    background-image: linear-gradient(0deg, ${colors.ndlaFilm.filmColorLight}, ${colors.ndlaFilm.filmColor});
-    border: 0;
-    border-bottom: 1px solid #18334c;
-  }
 `;
 
 interface Alert {
@@ -64,17 +57,16 @@ interface Alert {
 interface Props {
   children?: ReactNode;
   fixed?: boolean;
-  ndlaFilm?: boolean;
   skipToMainContentId?: string;
   messages?: Alert[];
   onCloseAlert?: (id: number) => void;
 }
 
-export const Masthead = ({ children, fixed, ndlaFilm, skipToMainContentId, messages, onCloseAlert }: Props) => {
+export const Masthead = ({ children, fixed, skipToMainContentId, messages, onCloseAlert }: Props) => {
   return (
     <>
       {skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
-      <StyledMasthead data-fixed={!!fixed} data-ndla-film={!!ndlaFilm} id="masthead">
+      <StyledMasthead data-fixed={!!fixed} id="masthead">
         {messages?.map((message) => (
           <MessageBanner
             key={message.number}

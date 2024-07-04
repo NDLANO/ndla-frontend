@@ -28,9 +28,6 @@ const TopicTitleWrapper = styled.header`
     flex-direction: column;
     gap: ${spacing.small};
   }
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -51,11 +48,6 @@ const StyledSwitch = styled(Switch)`
   &:focus-visible,
   &:focus-within {
     border-color: ${colors.brand.dark};
-  }
-  // Props are forwarded weirdly, so we need to use :has
-  &[data-inverted="true"],
-  &:has([data-inverted="true"]) {
-    color: ${colors.white};
   }
 `;
 
@@ -84,12 +76,11 @@ const ResourcesTopicTitle = ({
   toggleAdditionalResources,
   showAdditionalResources,
   heading,
-  invertedStyle = false,
 }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <TopicTitleWrapper data-inverted={invertedStyle}>
+    <TopicTitleWrapper>
       <StyledHGroup>
         <Heading id={headingId} element={heading} headingStyle="list-title" margin="none">
           {title}
@@ -106,14 +97,12 @@ const ResourcesTopicTitle = ({
               checked={showAdditionalResources}
               label={t("resource.activateAdditionalResources")}
               onChange={toggleAdditionalResources}
-              data-inverted={invertedStyle}
             />
           </form>
           <Modal>
             <ModalTrigger>
               <IconButtonV2
                 colorTheme="light"
-                inverted={invertedStyle}
                 aria-label={t("resource.dialogTooltip")}
                 title={t("resource.dialogTooltip")}
               >

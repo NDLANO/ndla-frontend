@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { ChevronDown } from "@ndla/icons/common";
-import { useIsNdlaFilm } from "../../routeHelpers";
 
 interface Props {
   children?: ReactNode;
@@ -58,7 +57,6 @@ const TopicArticle = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
   const id = useId();
-  const ndlaFilm = useIsNdlaFilm();
   return (
     <TopicArticleWrapper>
       <ToggleButton
@@ -66,7 +64,6 @@ const TopicArticle = ({ children }: Props) => {
         onClick={() => setExpanded((val) => !val)}
         aria-expanded={expanded}
         aria-controls={id}
-        inverted={ndlaFilm}
       >
         {t(`navigation.${expanded ? "showShorterDescription" : "showLongerDescription"}`)}
         <ChevronDown />

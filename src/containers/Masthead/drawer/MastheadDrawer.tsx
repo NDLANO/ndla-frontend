@@ -27,7 +27,7 @@ import {
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
-import { useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { useUrnIds } from "../../../routeHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
@@ -107,7 +107,6 @@ const MastheadDrawer = ({ subject }: Props) => {
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
-  const ndlaFilm = useIsNdlaFilm();
   const { t, i18n } = useTranslation();
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
@@ -181,7 +180,6 @@ const MastheadDrawer = ({ subject }: Props) => {
       <ModalTrigger>
         <DrawerButton
           aria-haspopup="menu"
-          inverted={ndlaFilm}
           shape="pill"
           variant="outline"
           data-testid="masthead-menu-button"

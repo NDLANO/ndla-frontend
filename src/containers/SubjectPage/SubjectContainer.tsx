@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -50,12 +50,6 @@ type Props = {
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
-`;
-
-const StyledHeading = styled(Heading)`
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
 `;
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
@@ -161,18 +155,17 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             }
           >
             <BreadcrumbWrapper>
-              <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
+              <HomeBreadcrumb items={breadCrumbs} />
             </BreadcrumbWrapper>
-            <StyledHeading
+            <Heading
               element="h1"
               margin="xlarge"
               headingStyle="h1-resource"
-              data-inverted={ndlaFilm}
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}
             >
               {subject.name}
-            </StyledHeading>
+            </Heading>
             <SubjectLinks
               buildsOn={subject.subjectpage?.buildsOn ?? []}
               connectedTo={subject.subjectpage?.connectedTo ?? []}

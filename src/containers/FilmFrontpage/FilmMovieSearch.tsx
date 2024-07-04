@@ -17,7 +17,6 @@ import { OneColumn } from "@ndla/ui";
 import { MovieResourceType } from "./resourceTypes";
 
 const StyledHeading = styled(Heading)`
-  color: ${colors.white};
   flex: 1;
   text-align: center;
 `;
@@ -53,12 +52,11 @@ const StyledUl = styled.ul`
 const StyledListItem = styled.li`
   margin: 0px;
   padding: 0px;
-  a {
-    color: ${colors.white};
-    &:hover,
-    &:focus-within {
-      color: ${colors.brand.light};
-    }
+  color: ${colors.black};
+
+  a,
+  a:hover {
+    color: ${colors.text.light};
   }
 `;
 
@@ -122,7 +120,7 @@ const FilmMovieSearch = ({
             {topics.map((topic) => (
               <StyledListItem key={topic.id}>
                 <SafeLink to={topic.path} key={topic.id}>
-                  <span>{topic.name}</span>
+                  {topic.name}
                 </SafeLink>
               </StyledListItem>
             ))}
@@ -133,7 +131,6 @@ const FilmMovieSearch = ({
         options={options}
         value={selectedOption}
         onChange={onChange}
-        colorTheme="white"
         placeholder={t("ndlaFilm.search.chooseCategory")}
         prefix={`${t("ndlaFilm.search.chooseCategory")} `}
       />

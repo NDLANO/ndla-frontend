@@ -19,7 +19,7 @@ import Footer from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import config from "../../config";
-import { routes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { routes, useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
@@ -31,9 +31,6 @@ const BottomPadding = styled.div`
 `;
 
 const StyledPageContainer = styled(PageContainer)`
-  &[data-film="true"] {
-    background-color: ${colors.ndlaFilm.filmColor};
-  }
   &[data-frontpage="true"] {
     background-color: ${colors.background.lightBlue};
   }
@@ -46,7 +43,6 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const ndlaFilm = useIsNdlaFilm();
   const frontpage = !!matchPath("/", pathname);
   const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
   const noPaddingBottom = !!matchPath(`${routes.myNdla.root}/*`, pathname) || frontpage;
@@ -76,7 +72,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>
+    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage}>
       <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}

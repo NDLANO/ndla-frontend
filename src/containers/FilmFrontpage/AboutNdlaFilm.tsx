@@ -19,8 +19,6 @@ import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled.aside`
-  background: ${colors.brand.dark};
-  color: ${colors.white};
   display: flex;
   padding: ${spacing.normal} ${spacing.normal} ${spacing.medium};
   > div {
@@ -29,17 +27,15 @@ const StyledAside = styled.aside`
     h2 {
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: #fff;
       margin: 0 0 ${spacing.small} 0;
     }
   }
-  button {
-    color: #fff;
-    &:hover,
-    &:focus {
-      color: ${colors.brand.light};
-    }
+  button,
+  button:hover,
+  button:focus {
+    color: ${colors.text.light};
   }
+
   ${mq.range({ until: breakpoints.tablet })} {
     flex-direction: column;
     > div {
