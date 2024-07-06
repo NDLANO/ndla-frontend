@@ -29,7 +29,6 @@ import ListResource from "../../components/MyNdla/ListResource";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getTotalCountForFolder } from "../../util/folderHelpers";
 import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
@@ -204,12 +203,7 @@ const SharedFolderPageV2 = () => {
                 {folder.subfolders.map((subFolder) =>
                   containsFolder(subFolder) ? (
                     <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder
-                        folder={subFolder}
-                        type={viewType}
-                        foldersCount={getTotalCountForFolder(subFolder)}
-                        link={routes.folder(subFolder.id)}
-                      />
+                      <Folder folder={subFolder} type={viewType} link={routes.folder(subFolder.id)} />
                     </ListItem>
                   ) : null,
                 )}

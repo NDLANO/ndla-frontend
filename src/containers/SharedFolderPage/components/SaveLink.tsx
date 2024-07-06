@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -61,6 +61,8 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
     });
   };
 
+  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
+
   return (
     <Modal open={open} onOpenChange={() => setOpen(!open)}>
       <ModalTrigger>
@@ -77,7 +79,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
           </ModalHeader>
           <ModalBody>
             <Content>
-              <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} link={routes.folder(folder.id)} />
+              <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
               <MessageBox>
                 <InformationOutline />
                 <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -94,9 +96,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={
-            <Folder folder={folder} foldersCount={getTotalCountForFolder(folder)} link={routes.folder(folder.id)} />
-          }
+          content={<Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />}
         />
       )}
     </Modal>
