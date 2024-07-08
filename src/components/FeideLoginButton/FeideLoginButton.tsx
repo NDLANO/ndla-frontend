@@ -8,28 +8,16 @@
 
 import { ReactNode, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 as Button, ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { FeideText, LogOut } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { ButtonV2 } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
-import { UserInfo } from "../../containers/MyNdla/components/UserInfo";
 import { routes } from "../../routeHelpers";
-import { constructNewPath, toHref } from "../../util/urlHelper";
 import { AuthContext } from "../AuthenticationContext";
-import { useBaseName } from "../BaseNameContext";
 import LoginModalContent from "../MyNdla/LoginModalContent";
 
-const FeideFooterButton = styled(Button)`
-  padding: ${spacing.xsmall} ${spacing.small};
-  background: none;
-  color: ${colors.white};
-  border: 2px solid ${colors.brand.grey};
-`;
-
-const LoginButton = styled(Button)`
+const LoginButton = styled(ButtonV2)`
   white-space: nowrap;
 `;
 
@@ -43,35 +31,16 @@ const StyledLink = styled(SafeLinkButton)`
   }
 `;
 
-const StyledHeading = styled.h1`
-  margin: ${spacing.small} 0 0;
-  svg {
-    width: 82px;
-    height: 28px;
-    color: #000000;
-  }
-`;
-
-const StyledButton = styled(ButtonV2)`
-  display: flex;
-  margin-top: ${spacing.normal};
-`;
-
-const StyledLogOut = styled(LogOut)`
-  color: ${colors.white};
-`;
 interface Props {
   footer?: boolean;
   children?: ReactNode;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
-  const location = useLocation();
+const FeideLoginButton = ({ children }: Props) => {
   const { t } = useTranslation();
-  const { authenticated, user } = useContext(AuthContext);
-  const basename = useBaseName();
+  const { authenticated } = useContext(AuthContext);
 
-  if (authenticated && !footer) {
+  if (authenticated) {
     return (
       <StyledLink
         variant="ghost"
@@ -85,49 +54,20 @@ const FeideLoginButton = ({ footer, children }: Props) => {
     );
   }
 
-  if (!authenticated) {
-    return (
-      <Modal>
-        <ModalTrigger>
-          <LoginButton
-            variant={footer ? "outline" : "ghost"}
-            colorTheme={footer ? "greyLighter" : "lighter"}
-            shape={footer ? "normal" : "pill"}
-            aria-label={t("user.buttonLogIn")}
-            title={t("user.buttonLogIn")}
-          >
-            {children}
-          </LoginButton>
-        </ModalTrigger>
-        <LoginModalContent masthead />
-      </Modal>
-    );
-  }
-
   return (
-    <Modal aria-label={t("user.modal.isAuth")}>
+    <Modal>
       <ModalTrigger>
-        <FeideFooterButton>{children}</FeideFooterButton>
+        <LoginButton
+          variant={"ghost"}
+          colorTheme={"lighter"}
+          shape={"pill"}
+          aria-label={t("user.buttonLogIn")}
+          title={t("user.buttonLogIn")}
+        >
+          {children}
+        </LoginButton>
       </ModalTrigger>
-      <ModalContent position="top">
-        <ModalHeader>
-          <StyledHeading aria-label="Feide">
-            <FeideText aria-hidden />
-          </StyledHeading>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          {user && <UserInfo user={user} />}
-          <StyledButton
-            onClick={() => {
-              window.location.href = constructNewPath(`/logout?state=${toHref(location)}`, basename);
-            }}
-          >
-            {t("user.buttonLogOut")}
-            <StyledLogOut />
-          </StyledButton>
-        </ModalBody>
-      </ModalContent>
+      <LoginModalContent masthead />
     </Modal>
   );
 };
