@@ -13,7 +13,9 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
-import { LanguageSelector, Logo } from "@ndla/ui";
+import { NdlaLogoText } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { LanguageSelector } from "@ndla/ui";
 import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
@@ -52,12 +54,8 @@ const ButtonWrapper = styled.div`
 const DrawerWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
+  gap: ${spacing.small};
   flex: 1;
-`;
-
-const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const mastheadQuery = gql`
@@ -71,7 +69,6 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
@@ -95,12 +92,12 @@ const MastheadContainer = () => {
       <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer subject={data?.subject} />
-        </DrawerWrapper>
-        <LogoWrapper>
-          <Logo to="/" locale={locale} label="NDLA" />
-        </LogoWrapper>
-        <ButtonWrapper>
           <MastheadSearch subject={data?.subject} />
+        </DrawerWrapper>
+        <SafeLink to="/" aria-label="NDLA" title="NDLA">
+          <NdlaLogoText />
+        </SafeLink>
+        <ButtonWrapper>
           <LanguageSelectWrapper>
             <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
           </LanguageSelectWrapper>

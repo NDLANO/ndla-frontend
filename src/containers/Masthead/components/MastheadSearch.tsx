@@ -11,12 +11,10 @@ import { useState, useRef, useEffect, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useLazyQuery } from "@apollo/client";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
-import { Drawer, Modal, ModalTrigger } from "@ndla/modal";
+import { Button, DialogCloseTrigger, DialogContent, DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { SearchField, SearchResultSleeve, SearchFieldForm } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -39,48 +37,44 @@ interface Props {
   subject?: GQLMastheadSearch_SubjectFragment;
 }
 
-const StyledButton = styled(ButtonV2)`
-  padding: ${spacing.small} ${spacing.normal};
-  gap: ${spacing.medium};
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+const StyledButton = styled(Button, {
+  base: {
+    mobileWideDown: {
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    border-radius: 100%;
-    background: transparent;
-    border-color: transparent;
-    padding: ${spacing.xsmall};
-    span {
-      display: none;
-    }
-  }
-`;
+const SearchWrapper = styled("div", {
+  base: {
+    width: "100%",
+    paddingBlock: "medium",
+    paddingInline: "medium",
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "3xsmall",
+    desktop: {
+      width: "60%",
+    },
+  },
+});
 
-const StyledCloseButton = styled(IconButtonV2)`
-  margin-top: ${spacing.xsmall};
-`;
-
-const SearchWrapper = styled.div`
-  width: 100%;
-  padding: ${spacing.normal} ${spacing.normal};
-  display: flex;
-  align-items: flex-start;
-  gap: ${spacing.xsmall};
-  ${mq.range({ from: breakpoints.desktop })} {
-    width: 60%;
-  }
-`;
-
-const StyledDrawer = styled(Drawer)`
-  background-color: ${colors.brand.greyLightest};
-  display: flex;
-  justify-content: center;
-`;
+const StyledDialogContent = styled(
+  DialogContent,
+  {
+    base: {
+      display: "flex",
+      justifyContent: "center",
+      height: "unset",
+    },
+  },
+  { forwardCssProp: true },
+);
 
 const MastheadSearch = ({ subject }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [dialogState, setDialogState] = useState({ open: false });
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -99,15 +93,15 @@ const MastheadSearch = ({ subject }: Props) => {
         evt.key === "/" &&
         !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
-        !isOpen
+        !dialogState.open
       ) {
         evt.preventDefault();
-        setIsOpen(true);
+        setDialogState({ open: true });
       }
     };
     window.addEventListener("keydown", onSlashPressed);
     return () => window.removeEventListener("keydown", onSlashPressed);
-  }, [isOpen]);
+  }, [dialogState.open]);
 
   const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
     GQLGroupSearchQuery,
@@ -145,7 +139,7 @@ const MastheadSearch = ({ subject }: Props) => {
   };
 
   const onNavigate = () => {
-    setIsOpen(false);
+    setDialogState({ open: false });
     setQuery("");
   };
 
@@ -177,31 +171,20 @@ const MastheadSearch = ({ subject }: Props) => {
     evt.preventDefault();
 
     navigate({ pathname: "/search", search: `?${searchString}` });
-    setIsOpen(false);
+    setDialogState({ open: false });
   };
 
   const filters = subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen}>
-      <ModalTrigger>
-        <StyledButton
-          colorTheme="greyLighter"
-          aria-label={t("masthead.menu.search")}
-          title={t("masthead.menu.search")}
-          fontWeight="normal"
-        >
+    <DialogRoot open={dialogState.open} variant="drawer" position="top" size="xsmall" onOpenChange={setDialogState}>
+      <DialogTrigger asChild>
+        <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <span>{t("masthead.menu.search")}</span>
           <Search />
         </StyledButton>
-      </ModalTrigger>
-      <StyledDrawer
-        aria-label={t("searchPage.searchFieldPlaceholder")}
-        position="top"
-        expands
-        size="small"
-        animationDuration={200}
-      >
+      </DialogTrigger>
+      <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
         <SearchWrapper>
           {!error ? (
             <SearchFieldForm onSubmit={onSearch}>
@@ -226,18 +209,14 @@ const MastheadSearch = ({ subject }: Props) => {
               )}
             </SearchFieldForm>
           ) : null}
-          <StyledCloseButton
-            aria-label={t("close")}
-            title={t("close")}
-            variant="ghost"
-            colorTheme="light"
-            onClick={() => setIsOpen(false)}
-          >
-            <Cross />
-          </StyledCloseButton>
+          <DialogCloseTrigger asChild>
+            <IconButton aria-label={t("close")} title={t("close")} variant="clear">
+              <Cross />
+            </IconButton>
+          </DialogCloseTrigger>
         </SearchWrapper>
-      </StyledDrawer>
-    </Modal>
+      </StyledDialogContent>
+    </DialogRoot>
   );
 };
 
