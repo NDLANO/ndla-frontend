@@ -55,7 +55,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
           aria-label={t("myNdla.newFolder")}
           title={t("myNdla.newFolder")}
         >
-          <Plus size="nsmall" />
+          <Plus size="small" />
           <span>{t("myNdla.newFolderShort")}</span>
         </AddButton>
       </ModalTrigger>

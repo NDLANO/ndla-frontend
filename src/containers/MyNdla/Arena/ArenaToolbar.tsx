@@ -50,7 +50,7 @@ export const PostButtons = () => {
           setIsOpen(false);
         }}
       >
-        <Plus size="nsmall" />
+        <Plus size="small" />
         {t("myNdla.arena.new.topic")}
       </StyledSafeLinkButton>
     </StyledListItem>
@@ -89,7 +89,7 @@ export const TopicButtons = () => {
           setIsOpen(false);
         }}
       >
-        <Plus size="nsmall" />
+        <Plus size="small" />
         {t("myNdla.arena.admin.category.form.newCategory")}
       </StyledSafeLinkButton>
     </StyledListItem>

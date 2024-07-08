@@ -149,7 +149,7 @@ const LearningpathFooter = ({
             to={toLearningPath(learningPath.id, previousStep.id, resource)}
             aria-label={t("learningPath.previousArrow")}
           >
-            <Back size="normal" />
+            <Back />
             <LinkText>{previousStep.title}</LinkText>
           </StyledSafeLink>
         ) : (
@@ -164,7 +164,7 @@ const LearningpathFooter = ({
             aria-label={t("learningPath.nextArrow")}
           >
             <LinkText>{nextStep.title}</LinkText>
-            <Forward size="normal" />
+            <Forward />
           </StyledSafeLink>
         ) : (
           <div />

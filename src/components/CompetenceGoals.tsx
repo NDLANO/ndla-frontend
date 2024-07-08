@@ -208,7 +208,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
         <ModalContent size="full">
           <ModalHeader>
             <ModalTitle>
-              <FooterHeaderIcon size="normal" style={{ marginRight: "20px" }} />
+              <FooterHeaderIcon style={{ marginRight: "20px" }} />
               {t("competenceGoals.modalText")}
             </ModalTitle>
             <ModalCloseButton />

@@ -122,7 +122,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             });
           }}
         >
-          <Cross size="nsmall" />
+          <Cross size="small" />
           {t("myNdla.folder.sharing.button.unShare")}
         </StyledButton>
       </StyledListItem>
@@ -157,7 +157,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
               });
           }}
         >
-          <Share size="nsmall" />
+          <Share size="small" />
           {t("myNdla.folder.sharing.button.shareShort")}
         </StyledButton>
       </StyledListItem>
@@ -210,7 +210,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           aria-label={t("myNdla.folder.sharing.button.shareLink")}
           title={t("myNdla.folder.sharing.button.shareLink")}
         >
-          <Copy size="nsmall" />
+          <Copy size="small" />
           {t("myNdla.folder.sharing.button.shareLink")}
         </StyledButton>
       </StyledListItem>
@@ -227,7 +227,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           aria-label={t("myNdla.folder.sharing.button.goTo")}
           title={t("myNdla.folder.sharing.button.goTo")}
         >
-          <ShareArrow size="nsmall" />
+          <ShareArrow size="small" />
           {t("myNdla.folder.sharing.button.goTo")}
         </StyledSafeLinkButton>
       </StyledListItem>

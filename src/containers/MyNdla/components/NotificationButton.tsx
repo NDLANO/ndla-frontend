@@ -60,7 +60,7 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <Bell size="nsmall" />
+      <Bell size="small" />
       {amountOfUnreadNotifications !== 0 && (
         <NotificationCounter margin="none" element="div" textStyle="meta-text-xsmall" data-left={!!left}>
           {amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}

@@ -31,7 +31,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
           aria-label={t("myNdla.folder.delete")}
           title={t("myNdla.folder.delete")}
         >
-          <TrashCanOutline size="nsmall" />
+          <TrashCanOutline size="small" />
           {t("myNdla.folder.deleteShort")}
         </StyledButton>
       </ModalTrigger>

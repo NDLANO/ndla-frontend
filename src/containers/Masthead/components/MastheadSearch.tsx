@@ -61,17 +61,13 @@ const SearchWrapper = styled("div", {
   },
 });
 
-const StyledDialogContent = styled(
-  DialogContent,
-  {
-    base: {
-      display: "flex",
-      justifyContent: "center",
-      height: "unset",
-    },
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    height: "unset",
   },
-  { forwardCssProp: true },
-);
+});
 
 const MastheadSearch = ({ subject }: Props) => {
   const [dialogState, setDialogState] = useState({ open: false });
