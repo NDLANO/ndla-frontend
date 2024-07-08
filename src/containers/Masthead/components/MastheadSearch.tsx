@@ -29,7 +29,7 @@ import {
   GQLMastheadSearch_SubjectFragment,
 } from "../../../graphqlTypes";
 import { groupSearchQuery } from "../../../queries";
-import { toSearch, useIsNdlaFilm } from "../../../routeHelpers";
+import { toSearch } from "../../../routeHelpers";
 import { contentTypeMapping } from "../../../util/getContentType";
 import { searchResultToLinkProps } from "../../SearchPage/searchHelpers";
 
@@ -81,7 +81,6 @@ const StyledDrawer = styled(Drawer)`
 
 const MastheadSearch = ({ subject }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const ndlaFilm = useIsNdlaFilm();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -187,7 +186,7 @@ const MastheadSearch = ({ subject }: Props) => {
     <Modal open={isOpen} onOpenChange={setIsOpen}>
       <ModalTrigger>
         <StyledButton
-          colorTheme={ndlaFilm ? "primary" : "greyLighter"}
+          colorTheme="greyLighter"
           aria-label={t("masthead.menu.search")}
           title={t("masthead.menu.search")}
           fontWeight="normal"

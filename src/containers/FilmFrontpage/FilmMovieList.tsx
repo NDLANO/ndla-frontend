@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
 import { Carousel } from "@ndla/carousel";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import { Heading } from "@ndla/typography";
 import FilmContentCard from "./FilmContentCard";
@@ -31,7 +31,6 @@ const StyledSection = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
-  color: ${colors.white};
   margin: ${spacing.xsmall} 0;
   margin-left: ${spacing.normal};
   margin-right: ${spacing.normal};

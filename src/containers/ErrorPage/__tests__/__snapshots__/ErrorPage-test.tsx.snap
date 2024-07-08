@@ -51,13 +51,6 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-2[data-ndla-film="true"] {
-  background: #0f263b;
-  background-image: linear-gradient(0deg, #0f263b, #091a2a);
-  border: 0;
-  border-bottom: 1px solid #18334c;
-}
-
 .emotion-4 {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -603,7 +596,6 @@ exports[`ErrorPage renderers correctly 1`] = `
     <div
       class="emotion-2 emotion-3"
       data-fixed="true"
-      data-ndla-film="false"
       id="masthead"
     >
       <div

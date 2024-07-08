@@ -13,7 +13,7 @@ import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLinkButton } from "@ndla/safelink";
-import { routes, useIsNdlaFilm } from "../../routeHelpers";
+import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import LoginModalContent from "../MyNdla/LoginModalContent";
 
@@ -36,10 +36,9 @@ interface Props {
   children?: ReactNode;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
+const FeideLoginButton = ({ children }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const ndlaFilm = useIsNdlaFilm();
 
   if (authenticated) {
     return (
@@ -47,7 +46,6 @@ const FeideLoginButton = ({ footer, children }: Props) => {
         variant="ghost"
         colorTheme="light"
         shape="pill"
-        inverted={ndlaFilm}
         to={routes.myNdla.root}
         aria-label={t("myNdla.myNDLA")}
       >
@@ -60,10 +58,9 @@ const FeideLoginButton = ({ footer, children }: Props) => {
     <Modal>
       <ModalTrigger>
         <LoginButton
-          variant={footer ? "outline" : "ghost"}
-          colorTheme={footer ? "greyLighter" : "lighter"}
-          inverted={!footer && ndlaFilm}
-          shape={footer ? "normal" : "pill"}
+          variant={"ghost"}
+          colorTheme={"lighter"}
+          shape={"pill"}
           aria-label={t("user.buttonLogIn")}
           title={t("user.buttonLogIn")}
         >
