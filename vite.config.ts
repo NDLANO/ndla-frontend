@@ -19,7 +19,6 @@ export default defineConfig(() => {
     },
     plugins: [
       react({
-        jsxImportSource: "@emotion/react",
         babel: {
           configFile: "./babel.config.cjs",
         },
@@ -55,6 +54,7 @@ export default defineConfig(() => {
         "react-i18next",
         "@emotion/react",
         "@emotion/styled",
+        "@ark-ui/react",
       ],
     },
   };
