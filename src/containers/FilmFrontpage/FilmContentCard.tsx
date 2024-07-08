@@ -41,6 +41,7 @@ const StyledMovieTitle = styled.span`
   ${mq.range({ from: breakpoints.tablet })} {
     ${fonts.size.text.metaText.medium};
   }
+  color: ${colors.text.primary};
 `;
 
 const ImageWrapper = styled.div`
