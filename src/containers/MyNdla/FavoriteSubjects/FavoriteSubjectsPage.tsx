@@ -77,7 +77,7 @@ const FavoriteSubjectsPage = () => {
       <StyledListItem key="allSubjects">
         <StyledSafeLinkButton variant="ghost" colorTheme="lighter" to="/subjects">
           {t("subjectsPage.allSubjects")}
-          <Forward size="nsmall" />
+          <Forward size="small" />
         </StyledSafeLinkButton>
       </StyledListItem>
     ),
@@ -90,7 +90,7 @@ const FavoriteSubjectsPage = () => {
         menuItems={[
           {
             text: t("subjectsPage.allSubjects"),
-            icon: <Forward size="nsmall" />,
+            icon: <Forward size="small" />,
             onClick: () => navigate("/subjects"),
           },
         ]}

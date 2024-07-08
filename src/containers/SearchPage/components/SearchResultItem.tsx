@@ -227,14 +227,12 @@ const SearchResultItem = ({ item, type }: Props) => {
                             {context.isAdditional ? (
                               <Additional
                                 color={colors.brand.dark}
-                                size="normal"
                                 aria-hidden={false}
                                 aria-label={t("resource.tooltipAdditionalTopic")}
                               />
                             ) : (
                               <Core
                                 color={colors.brand.primary}
-                                size="normal"
                                 aria-hidden={false}
                                 aria-label={t("resource.tooltipCoreTopic")}
                               />

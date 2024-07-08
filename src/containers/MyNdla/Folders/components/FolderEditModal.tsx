@@ -34,7 +34,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
           aria-label={t("myNdla.folder.edit")}
           title={t("myNdla.folder.edit")}
         >
-          <Pencil size="nsmall" />
+          <Pencil size="small" />
           {t("myNdla.folder.editShort")}
         </StyledButton>
       </ModalTrigger>

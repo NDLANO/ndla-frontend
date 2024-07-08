@@ -62,7 +62,7 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
         <CompetenceItemWrapper key={index}>
           <hgroup>
             <StyledHeading element="h2" headingStyle="h2" margin="none">
-              <MenuBook size="normal" />
+              <MenuBook />
               {item.title}
             </StyledHeading>
             {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}
@@ -164,7 +164,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
                     </Text>
                     {showLinks && (
                       <StyledSafeLinkButton to={goal.url} target={isOembed ? "_blank" : "_self"} variant="outline">
-                        <Search size="normal" />
+                        <Search />
                         {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
                       </StyledSafeLinkButton>
                     )}
@@ -179,7 +179,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
               </Text>
               {showLinks && (
                 <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="outline">
-                  <Search size="normal" />
+                  <Search />
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </StyledSafeLinkButton>
               )}

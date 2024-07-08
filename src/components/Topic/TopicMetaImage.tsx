@@ -160,7 +160,7 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
             />
             <TopicHeaderOverlay data-overlay="" />
             <ExpandVisualElementButton data-indicator="">
-              {VisualElementIcon && <VisualElementIcon size="normal" />}
+              {VisualElementIcon && <VisualElementIcon />}
             </ExpandVisualElementButton>
           </VisualElementButton>
         </ModalTrigger>

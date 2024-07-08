@@ -62,13 +62,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
           }
           isLoading={loading}
         >
-          {selectedFolder ? (
-            selectedFolder.status === "shared" ? (
-              <FolderSharedOutlined size="large" />
-            ) : (
-              <FolderOutlined size="large" />
-            )
-          ) : null}
+          {selectedFolder ? selectedFolder.status === "shared" ? <FolderSharedOutlined /> : <FolderOutlined /> : null}
           <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />
         </WhileLoading>
       </TitleRow>

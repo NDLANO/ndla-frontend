@@ -213,7 +213,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         />
       )}
       <InformationLabel>
-        <StyledInformationOutline size="nsmall" />
+        <StyledInformationOutline size="small" />
         <Text margin="none" textStyle="content">
           {t(`myNdla.arena.warning.${type}`)}
         </Text>
