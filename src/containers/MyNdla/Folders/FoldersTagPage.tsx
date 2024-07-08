@@ -16,11 +16,13 @@ import { Spinner } from "@ndla/icons";
 import { FileDocumentOutline, Link } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { BlockResource, ListResource, useSnack } from "@ndla/ui";
-import { BlockWrapper, ViewType } from "./FoldersPage";
-import ListViewOptions from "./ListViewOptions";
+import { useSnack } from "@ndla/ui";
+import ListViewOptions from "./components/ListViewOptions";
+import { ViewType, BlockWrapper } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
+import BlockResource from "../../../components/MyNdla/BlockResource";
+import ListResource from "../../../components/MyNdla/ListResource";
 import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
@@ -34,7 +36,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
-import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
+import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
 const TagsPageContainer = styled.div`
   display: flex;

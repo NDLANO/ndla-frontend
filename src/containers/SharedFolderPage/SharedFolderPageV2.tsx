@@ -8,7 +8,7 @@
 
 import { t } from "i18next";
 import keyBy from "lodash/keyBy";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -18,19 +18,21 @@ import { Spinner } from "@ndla/icons";
 import { Copy } from "@ndla/icons/action";
 import { HumanMaleBoard } from "@ndla/icons/common";
 import { Text } from "@ndla/typography";
-import { BlockResource, Folder, ListResource, OneColumn } from "@ndla/ui";
+import { OneColumn } from "@ndla/ui";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
+import BlockResource from "../../components/MyNdla/BlockResource";
 import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
+import { Folder } from "../../components/MyNdla/Folder";
+import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
+import ListResource from "../../components/MyNdla/ListResource";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { FolderTotalCount, getTotalCountForFolder } from "../../util/folderHelpers";
 import ErrorPage from "../ErrorPage";
-import { useFolderResourceMetaSearch, useGetSharedFolder } from "../MyNdla/folderMutations";
+import { useGetSharedFolder, useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
+import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
-import FoldersPageTitle from "../MyNdla/Folders/FoldersPageTitle";
-import ListViewOptions from "../MyNdla/Folders/ListViewOptions";
 import NotFound from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
@@ -123,15 +125,6 @@ const SharedFolderPageV2 = () => {
     { skip: !folder || folder?.resources?.length === 0 },
   );
 
-  const foldersCount = useMemo(
-    () =>
-      folder?.subfolders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
-        acc[curr.id] = getTotalCountForFolder(curr);
-        return acc;
-      }, {}),
-    [folder?.subfolders],
-  );
-
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
@@ -210,15 +203,7 @@ const SharedFolderPageV2 = () => {
                 {folder.subfolders.map((subFolder) =>
                   containsFolder(subFolder) ? (
                     <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder
-                        id={subFolder.id}
-                        title={subFolder.name}
-                        type={viewType}
-                        link={routes.folder(subFolder.id)}
-                        subFolders={foldersCount?.[subFolder.id]?.folders}
-                        subResources={foldersCount?.[subFolder.id]?.resources}
-                        isShared={false}
-                      />
+                      <Folder folder={subFolder} type={viewType} link={routes.folder(subFolder.id)} />
                     </ListItem>
                   ) : null,
                 )}

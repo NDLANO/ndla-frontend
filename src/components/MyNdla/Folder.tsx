@@ -13,9 +13,9 @@ import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core"
 import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
 import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import { FolderTotalCount } from "../../../util/folderHelpers";
+import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
+import { FolderTotalCount } from "../../util/folderHelpers";
 
 export type LayoutType = "list" | "listLarger" | "block";
 
@@ -171,12 +171,13 @@ interface Props {
   type?: LayoutType;
   menu?: ReactNode;
   folder: GQLFolder;
-  foldersCount: Record<string, FolderTotalCount>;
-  isFolder: boolean;
+  foldersCount?: FolderTotalCount;
+  isFavorited?: boolean;
+  link?: string;
 }
 
-const getIcon = (isFolder: boolean, isShared?: boolean) => {
-  if (!isFolder) {
+const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
+  if (isFavorited) {
     return Link;
   } else if (isShared) {
     return FolderSharedOutlined;
@@ -185,10 +186,18 @@ const getIcon = (isFolder: boolean, isShared?: boolean) => {
   }
 };
 
-export const Folder = ({ type = "list", menu, folder: { id, status, name, owner }, foldersCount, isFolder }: Props) => {
+export const Folder = ({
+  type = "list",
+  menu,
+  folder: { id, status, name, owner },
+  foldersCount,
+  isFavorited,
+  link,
+}: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
-  const Icon = getIcon(isFolder, isShared);
+  const Icon = getIcon(isFavorited, isShared);
+  const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
     <FolderWrapper data-type={type} id={id}>
@@ -198,7 +207,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
         >
           <Icon />
         </IconWrapper>
-        <ResourceTitleLink to={isFolder ? routes.myNdla.folder(id) : routes.folder(id)}>
+        <ResourceTitleLink to={link ?? defaultLink}>
           <FolderTitle data-title="" title={name}>
             {name}
           </FolderTitle>
@@ -209,7 +218,7 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
           {isShared && (
             <IconTextWrapper>
               <Share />
-              {!isFolder ? (
+              {isFavorited ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}
                   {owner ? `${owner?.name}` : t("myNdla.folder.sharing.sharedByAnonymous")}
@@ -219,10 +228,10 @@ export const Folder = ({ type = "list", menu, folder: { id, status, name, owner 
               )}
             </IconTextWrapper>
           )}
-          {isFolder && (
+          {!isFavorited && (
             <>
-              <Count layoutType={type} type={"folder"} count={foldersCount[id]?.folders} />
-              <Count layoutType={type} type={"resource"} count={foldersCount[id]?.resources} />
+              <Count layoutType={type} type={"folder"} count={foldersCount?.folders} />
+              <Count layoutType={type} type={"resource"} count={foldersCount?.resources} />
             </>
           )}
         </CountContainer>

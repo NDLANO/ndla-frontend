@@ -18,7 +18,7 @@ import { Text } from "@ndla/typography";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { routes } from "../../../../routeHelpers";
-import DragHandle from "../../Folders/DragHandle";
+import DragHandle from "../../components/DragHandle";
 
 interface Props {
   id: number;

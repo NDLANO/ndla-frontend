@@ -17,13 +17,13 @@ import FolderCreateModal from "./FolderCreateModal";
 import FolderDeleteModal from "./FolderDeleteModal";
 import FolderEditModal from "./FolderEditModal";
 import FolderShareModal from "./FolderShareModal";
-import { isStudent, copyFolderSharingLink } from "./util";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import { StyledButton, StyledSafeLinkButton } from "../components/toolbarStyles";
-import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../folderMutations";
-import { OutletContext } from "../MyNdlaLayout";
+import { AuthContext } from "../../../../components/AuthenticationContext";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import { StyledButton, StyledSafeLinkButton } from "../../components/toolbarStyles";
+import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../../folderMutations";
+import { OutletContext } from "../../MyNdlaLayout";
+import { isStudent, copyFolderSharingLink } from "../util";
 
 interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;

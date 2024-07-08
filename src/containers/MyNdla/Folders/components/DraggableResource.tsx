@@ -12,23 +12,25 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { DeleteForever, Link } from "@ndla/icons/editor";
-import { BlockResource, ListResource, useSnack } from "@ndla/ui";
+import { useSnack } from "@ndla/ui";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
-import DragHandle from "./DragHandle";
-import { ViewType } from "./FoldersPage";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
-import config from "../../../config";
+import { AuthContext } from "../../../../components/AuthenticationContext";
+import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
+import BlockResource from "../../../../components/MyNdla/BlockResource";
+import ListResource from "../../../../components/MyNdla/ListResource";
+import config from "../../../../config";
 import {
   GQLFolder,
   GQLFolderResource,
   GQLFolderResourceMeta,
   GQLFolderResourceResourceType,
-} from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import DeleteModalContent from "../components/DeleteModalContent";
-import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useDeleteFolderResourceMutation } from "../folderMutations";
+} from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import DeleteModalContent from "../../components/DeleteModalContent";
+import DragHandle from "../../components/DragHandle";
+import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+import { useDeleteFolderResourceMutation } from "../../folderMutations";
+import { ViewType } from "../FoldersPage";
 
 interface Props {
   resource: GQLFolderResource;

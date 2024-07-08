@@ -10,8 +10,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TrashCanOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import DeleteModalContent from "../components/DeleteModalContent";
-import { StyledButton } from "../components/toolbarStyles";
+import DeleteModalContent from "../../components/DeleteModalContent";
+import { StyledButton } from "../../components/toolbarStyles";
 
 interface Props {
   onDelete: () => void;

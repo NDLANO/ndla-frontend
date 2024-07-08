@@ -12,9 +12,9 @@ import { useApolloClient } from "@apollo/client";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import FolderForm from "./FolderForm";
-import { GQLFolder } from "../../../graphqlTypes";
-import { StyledButton } from "../components/toolbarStyles";
-import { useUpdateFolderMutation, useFolders, getFolder } from "../folderMutations";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { StyledButton } from "../../components/toolbarStyles";
+import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMutations";
 
 interface Props {
   folder?: GQLFolder;

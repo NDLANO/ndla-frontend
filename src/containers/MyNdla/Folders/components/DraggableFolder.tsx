@@ -11,22 +11,22 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
-import DragHandle from "./DragHandle";
 import FolderActions from "./FolderActions";
-import { ViewType } from "./FoldersPage";
-import { GQLFolder } from "../../../graphqlTypes";
-import { FolderTotalCount } from "../../../util/folderHelpers";
-import { Folder } from "../components/Folder";
+import { Folder } from "../../../../components/MyNdla/Folder";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { FolderTotalCount } from "../../../../util/folderHelpers";
+import DragHandle from "../../components/DragHandle";
+import { ViewType } from "../FoldersPage";
 
 interface Props {
   folder: GQLFolder;
   index: number;
   type: ViewType;
-  foldersCount: Record<string, FolderTotalCount>;
+  foldersCount?: FolderTotalCount;
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
-  isFolder: boolean;
+  isFavorited?: boolean;
 }
 
 export const DraggableListItem = styled.li`
@@ -49,7 +49,16 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId, isFolder }: Props) => {
+const DraggableFolder = ({
+  index,
+  folder,
+  type,
+  foldersCount,
+  folders,
+  setFocusId,
+  folderRefId,
+  isFavorited,
+}: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
     id: folder.id,
     data: {
@@ -71,15 +80,15 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         selectedFolder={folder}
         setFocusId={setFocusId}
         folderRefId={folderRefId}
-        isFolder={isFolder}
+        isFavorited={isFavorited}
       />
     ),
-    [folder, folders, setFocusId, folderRefId, isFolder],
+    [folder, folders, setFocusId, folderRefId, isFavorited],
   );
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
-      {isFolder && (
+      {!isFavorited && (
         <DragHandle
           sortableId={folder.id}
           disabled={type === "block" || items.length < 2}
@@ -89,13 +98,7 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         />
       )}
       <DragWrapper>
-        <Folder
-          folder={folder}
-          foldersCount={foldersCount}
-          type={type}
-          menu={menu}
-          isFolder={folder.__typename === "Folder"}
-        />
+        <Folder folder={folder} foldersCount={foldersCount} type={type} menu={menu} isFavorited={isFavorited} />
       </DragWrapper>
     </DraggableListItem>
   );
