@@ -43,17 +43,17 @@ const StyledButton = styled(Button, {
     textAlign: "start",
     boxShadow: "none",
     cursor: "pointer",
-    "&:last-of-type": {
+    _lastOfType: {
       margin: "xsmall small",
     },
-    "&:hover": {
+    _hover: {
       textDecoration: "underline",
     },
-    "&:[data-bold='true']": {
+    "&[data-bold='true']": {
       fontWeight: "bold",
       textStyle: "label.medium",
     },
-    "&:[data-active='true']": {
+    "&[data-active='true']": {
       backgroundColor: "surface.brand.1",
       color: "white",
     },
