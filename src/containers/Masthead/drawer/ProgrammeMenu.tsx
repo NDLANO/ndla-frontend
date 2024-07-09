@@ -9,8 +9,8 @@
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { fonts, spacing } from "@ndla/core";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
@@ -25,11 +25,16 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
-const StyledTitle = styled.h1`
-  margin: 0px;
-  ${fonts.sizes("20px", "24px")};
-  padding: ${spacing.normal} 0 ${spacing.normal} 40px;
-`;
+const StyledTitle = styled(
+  Heading,
+  {
+    base: {
+      margin: "0px",
+      padding: "normal 0px normal medium",
+    },
+  },
+  { baseComponent: true },
+);
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
@@ -62,7 +67,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
   return (
     <DrawerPortion>
       <BackButton title={t("masthead.menu.goToMainMenu")} homeButton onGoBack={onCloseMenuPortion} />
-      <StyledTitle aria-hidden={true}>{t("masthead.menuOptions.programme")}</StyledTitle>
+      <StyledTitle aria-hidden={true} textStyle="heading.small" asChild consumeCss>
+        <h1>{t("masthead.menuOptions.programme")}</h1>
+      </StyledTitle>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem

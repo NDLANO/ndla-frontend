@@ -9,12 +9,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
-import { breakpoints, mq, spacing } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { LanguageSelector } from "@ndla/ui";
 import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
@@ -32,51 +32,63 @@ import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
 
-const MainMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100%;
-  max-height: 100%;
-  overflow-y: hidden;
-`;
+const MainMenu = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    flex: "1",
+    height: "100%",
+    maxHeight: "100%",
+    overflowY: "hidden",
+  },
+});
 
-const MenuLanguageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+const MenuLanguageContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+  },
+});
 
-const DrawerContainer = styled.nav`
-  display: flex;
-  flex: 1;
-  height: 100%;
-  max-height: 100%;
-  overflow-y: hidden;
-`;
+const DrawerContainer = styled("nav", {
+  base: {
+    display: "flex",
+    flex: "1",
+    height: "100%",
+    maxHeight: "100%",
+    overflowY: "hidden",
+  },
+});
 
-const HeadWrapper = styled.div`
-  padding-top: 22px;
-  padding-left: ${spacing.small};
-  padding-bottom: 22px;
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding-left: ${spacing.normal};
-  }
-`;
+const HeadWrapper = styled("div", {
+  base: {
+    paddingTop: "normal",
+    paddingLeft: "small",
+    paddingBottom: "normal",
+    tablet: {
+      paddingLeft: "normal",
+    },
+  },
+});
 
-const DrawerButton = styled(ButtonV2)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    span {
-      display: none;
-    }
-  }
-`;
+const DrawerButton = styled(Button, {
+  base: {
+    mobileToTablet: {
+      "& > span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-const LanguageSelectWrapper = styled.div`
-  margin-top: ${spacing.medium};
-  margin-left: ${spacing.small};
-`;
+const LanguageSelectWrapper = styled("div", {
+  base: {
+    marginTop: "medium",
+    marginLeft: "small",
+  },
+});
 
 interface Props {
   subject?: GQLMastheadDrawer_SubjectFragment;
@@ -180,8 +192,7 @@ const MastheadDrawer = ({ subject }: Props) => {
       <ModalTrigger>
         <DrawerButton
           aria-haspopup="menu"
-          shape="pill"
-          variant="outline"
+          variant="secondary"
           data-testid="masthead-menu-button"
           aria-label={t("masthead.menu.title")}
           title={t("masthead.menu.title")}

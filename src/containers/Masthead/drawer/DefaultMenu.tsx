@@ -9,10 +9,9 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
 import { IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Back, Home } from "@ndla/icons/common";
+import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
 import { MenuType } from "./drawerMenuTypes";
@@ -29,29 +28,34 @@ import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment 
 import { removeUrn } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 
-const StyledCollapsedMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 100px;
-  min-width: 100px;
-  align-items: center;
-  gap: ${spacing.normal};
-  padding-top: ${spacing.small};
-  border-top: 1px solid ${colors.brand.neutral7};
-  border-right: 1px solid ${colors.brand.neutral7};
-  flex: 1;
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
-  }
-`;
+const StyledCollapsedMenu = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "100px",
+    maxHeight: "100px",
+    alignItems: "center",
+    gap: "normal",
+    paddingTop: "small",
+    border: "1px 1px 0 0",
+    borderStyle: "solid",
+    borderColor: "surface.brand.1",
 
-const StyledDrawerPortion = styled(DrawerPortion)`
-  ${mq.range({ from: breakpoints.tablet })} {
-    min-width: 300px;
-    max-width: 300px;
-  }
-`;
+    flex: "1",
+    mobileToTablet: {
+      display: "none",
+    },
+  },
+});
 
+const StyledDrawerPortion = styled(DrawerPortion, {
+  base: {
+    tablet: {
+      minWidth: "300px",
+      maxWidth: "300px",
+    },
+  },
+});
 const multiDiscUrl = `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
 const studentToolboxUrl = `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
 const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
@@ -86,9 +90,9 @@ const DefaultMenu = ({
 
   const onRightClick = useCallback(
     (id: string | undefined) => {
-      const strippedId = id?.replace("header-", "");
-      if (validMenus.includes(strippedId as MenuType)) {
-        setActiveMenu(strippedId as MenuType);
+      const strippedId = id?.replace("header-", "") as MenuType;
+      if (validMenus.includes(strippedId)) {
+        setActiveMenu(strippedId);
       } else if (id?.endsWith("-dynamic")) {
         setFrontpageMenu(dynamicMenus.find((menu) => menu.article.slug === strippedId?.replace("-dynamic", ""))!);
       }

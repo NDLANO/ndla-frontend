@@ -7,12 +7,10 @@
  */
 
 import { ReactNode, useState } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, fonts, spacing } from "@ndla/core";
 import { ForwardArrow, RightArrow } from "@ndla/icons/action";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Button } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
@@ -39,50 +37,40 @@ interface LinkProps extends BaseProps {
 
 type Props = ButtonProps | LinkProps;
 
-const headerSpacing = `${spacing.small} ${spacing.nsmall} ${spacing.small} ${spacing.normal}`;
+const StyledButton = styled(Button, {
+  base: {
+    display: "flex",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
+    textDecoration: "none",
+    padding: "small small small normal",
+    color: "black",
+    fontWeight: "bold",
+    border: "0",
+    "& > svg": {
+      minWidth: "normal",
+      minHeight: "normal",
+      width: "normal",
+      height: "normal",
+    },
+    borderBottom: "1px solid gray",
+    borderRadius: "0",
+    "&:hover, &:focus": {
+      border: "0",
+      borderBottom: "1px solid gray",
+    },
+  },
+});
 
-const rowHeaderWrapperStyles = css`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  text-decoration: none;
-  padding: ${headerSpacing};
-  color: ${colors.brand.primary};
-  ${fonts.sizes("20px", "24px")};
-  font-weight: ${fonts.weight.semibold};
-  background-color: #f7fafd;
-  border: 0px;
-  svg {
-    min-width: 24px;
-    min-height: 24px;
-    width: 24px;
-    height: 24px;
-  }
-  border-bottom: 1px solid ${colors.brand.neutral7};
-  border-radius: 0px;
-  &:hover,
-  &:focus {
-    border: 0px;
-    border-bottom: 1px solid ${colors.brand.neutral7};
-  }
-`;
-
-const StyledButton = styled(ButtonV2)`
-  ${rowHeaderWrapperStyles};
-  text-align: start;
-`;
-
-const StyledLink = styled(SafeLinkButton)`
-  ${rowHeaderWrapperStyles};
-`;
-
-const IconTitleWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-  justify-content: center;
-`;
+const IconTitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) => {
   const [expanded, setExpanded] = useState(false);
@@ -103,7 +91,6 @@ const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) =
           role="menuitem"
           aria-expanded={expanded}
           aria-current={current ? "page" : undefined}
-          colorTheme="light"
           onClick={() => {
             setExpanded(true);
             rest.onClick();
@@ -118,17 +105,19 @@ const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) =
   } else {
     return (
       <DrawerListItem role="none" data-list-item>
-        <StyledLink
-          aria-current={current ? "page" : undefined}
-          tabIndex={-1}
-          role="menuitem"
-          to={rest.to}
-          onClick={rest.onClose}
-          id={`header-${id}`}
-        >
-          {contents}
-          <ForwardArrow />
-        </StyledLink>
+        <StyledButton asChild>
+          <SafeLink
+            aria-current={current ? "page" : undefined}
+            tabIndex={-1}
+            role="menuitem"
+            to={rest.to}
+            onClick={rest.onClose}
+            id={`header-${id}`}
+          >
+            {contents}
+            <ForwardArrow />
+          </SafeLink>
+        </StyledButton>
       </DrawerListItem>
     );
   }

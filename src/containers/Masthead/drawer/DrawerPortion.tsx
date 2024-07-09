@@ -6,59 +6,50 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledDiv = styled.div`
-  display: none;
-  flex-direction: column;
-  border-right: 1px solid ${colors.brand.neutral7};
-  border-top: 1px solid ${colors.brand.neutral7};
-  min-width: 300px;
-  ${mq.range({ until: breakpoints.tablet })} {
-    :nth-last-of-type(-n + 1) {
-      display: flex;
-      flex: 1;
-    }
-  }
-  ${mq.range({ from: breakpoints.tablet })} {
-    :nth-last-of-type(-n + 2) {
-      display: flex;
-      max-width: 450px;
-    }
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    :nth-last-of-type(-n + 3) {
-      display: flex;
-      max-width: 450px;
-    }
-  }
-`;
-const DrawerPortion = ({ children, ...rest }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
-  return <StyledDiv {...rest}>{children}</StyledDiv>;
-};
+const DrawerPortion = styled("div", {
+  base: {
+    display: "none",
+    flexDirection: "column",
+    border: "1px 1px 0 0",
+    borderStyle: "solid",
+    borderColor: "surface.brand.1",
+    minWidth: "300px",
+    tabletDown: {
+      "&:nth-last-of-type(-n + 1)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+    tabletToDesktop: {
+      "&:nth-last-of-type(-n + 2)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+    desktop: {
+      "&:nth-last-of-type(-n + 3)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+  },
+});
 
-const StyledDrawerList = styled.ul`
-  padding: 0;
-  overflow-y: auto;
-`;
+export const DrawerList = styled("ul", {
+  base: {
+    padding: "0",
+    overflowY: "auto",
+  },
+});
 
-export const DrawerList = ({
-  children,
-  ...rest
-}: DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>) => {
-  return (
-    <StyledDrawerList role="menubar" aria-orientation="vertical" {...rest}>
-      {children}
-    </StyledDrawerList>
-  );
-};
-
-export const DrawerListItem = styled.li`
-  padding: 0;
-  list-style: none;
-  display: flex;
-`;
+export const DrawerListItem = styled("li", {
+  base: {
+    padding: "0",
+    listStyle: "none",
+    display: "flex",
+  },
+});
 
 export default DrawerPortion;
