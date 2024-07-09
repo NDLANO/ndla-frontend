@@ -91,6 +91,7 @@ const DropdownTriggerButton = styled(IconButtonV2)`
   }
 `;
 
+// TODO: Needs special handling
 const ItemButton = styled(ButtonV2)`
   display: flex;
   align-items: center;

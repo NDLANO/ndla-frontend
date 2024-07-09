@@ -12,11 +12,11 @@ import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Copy } from "@ndla/icons/action";
 import { HumanMaleBoard } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import { SaveLink } from "./components/SaveLink";
@@ -181,10 +181,10 @@ const SharedFolderPageV2 = () => {
               </SharedFolderInformationWrapper>
               <ButtonContainer>
                 <CopyFolderModal folder={folder}>
-                  <ButtonV2 variant="ghost">
+                  <Button variant="tertiary">
                     <Copy />
                     {t("myNdla.folder.copy")}
-                  </ButtonV2>
+                  </Button>
                 </CopyFolderModal>
                 <SaveLink folder={folder} hideTrigger={() => {}} />
               </ButtonContainer>

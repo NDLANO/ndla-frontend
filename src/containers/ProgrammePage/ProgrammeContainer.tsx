@@ -186,6 +186,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               const current = item.name.toLowerCase() === selectedGrade;
               return (
                 <li key={item.name}>
+                  {/* TODO: Update when SafeLinkButton using new button component is implemented */}
                   <SafeLinkButton
                     to={toProgramme(programme.url, item.name.toLowerCase())}
                     colorTheme={current ? undefined : "lighter"}

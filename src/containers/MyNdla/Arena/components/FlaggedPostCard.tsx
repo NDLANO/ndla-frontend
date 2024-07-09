@@ -97,6 +97,7 @@ const PostCard = ({ topic, post }: Props) => {
       </ContentWrapper>
       <FlexLine>
         <FlexLine>{postTime}</FlexLine>
+        {/* TODO: Update when SafeLinkButton using new button component is implemented */}
         <SafeLinkButton to={routes.myNdla.arenaTopic(topicId)}>
           {t("myNdla.arena.admin.flags.goToTopic")}
         </SafeLinkButton>

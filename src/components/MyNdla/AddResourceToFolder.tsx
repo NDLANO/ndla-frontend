@@ -13,9 +13,10 @@ import uniq from "lodash/uniq";
 import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { MessageBox, TagSelector, useSnack } from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
@@ -231,7 +232,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       )}
       <ButtonRow>
         <Button
-          variant="outline"
+          variant="secondary"
           onClick={onClose}
           onMouseDown={(e) => {
             e.preventDefault();
@@ -242,6 +243,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("cancel")}
         </Button>
+        {/* TODO: Update when LoadingButton using new button component is implemented */}
         <LoadingButton
           loading={addResourceLoading}
           colorTheme="light"

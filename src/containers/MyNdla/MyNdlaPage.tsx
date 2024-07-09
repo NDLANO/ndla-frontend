@@ -11,11 +11,11 @@ import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, spacing } from "@ndla/core";
 import { ForwardArrow } from "@ndla/icons/action";
 import { Feide } from "@ndla/icons/common";
 import { Modal, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -80,7 +80,7 @@ const ListItem = styled.li`
   margin: 0;
 `;
 
-const LoginButton = styled(ButtonV2)`
+const LoginButton = styled(Button)`
   align-self: center;
   margin-block: ${spacing.normal} ${spacing.large};
 `;
@@ -165,7 +165,7 @@ const MyNdlaPage = () => {
         {!authenticated && (
           <Modal>
             <ModalTrigger>
-              <LoginButton aria-label={t("myNdla.myPage.loginPitchButton")}>
+              <LoginButton variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
                 {t("myNdla.myPage.loginPitchButton")}
                 <Feide />
               </LoginButton>

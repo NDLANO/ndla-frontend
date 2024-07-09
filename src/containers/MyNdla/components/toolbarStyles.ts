@@ -20,11 +20,11 @@ const buttonCss = css`
     font-weight: ${fonts.weight.normal};
   }
 `;
-
+// TODO: Update when SafeLinkButton using new button component is implemented
 export const StyledSafeLinkButton = styled(SafeLinkButton)`
   ${buttonCss};
 `;
-
+// TODO: Delete when SettingsMenu is updated
 export const StyledButton = styled(ButtonV2)`
   ${buttonCss};
 `;

@@ -80,6 +80,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
             copyTitle={t("license.embed")}
             hasCopiedTitle={t("license.embedCopied")}
           />
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
               <Launch />

@@ -8,9 +8,10 @@
 
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { MessageBox, useSnack } from "@ndla/ui";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import { Folder } from "./Folder";
@@ -86,7 +87,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           )}
           <ButtonRow>
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={onClose}
               onMouseDown={(e) => {
                 e.preventDefault();
@@ -97,6 +98,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             >
               {t("cancel")}
             </Button>
+            {/* TODO: Update when LoadingButton using new button component is implemented */}
             <LoadingButton
               loading={copySharedFolderMutation.loading}
               colorTheme="light"

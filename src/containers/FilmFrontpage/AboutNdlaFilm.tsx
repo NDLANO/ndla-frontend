@@ -9,9 +9,9 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 as Button } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
 import { Image, OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";

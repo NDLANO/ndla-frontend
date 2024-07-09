@@ -12,8 +12,8 @@ import { Dispatch, SetStateAction, useState, useRef, useCallback, useMemo } from
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { misc, spacing, mq, colors, breakpoints } from "@ndla/core";
+import { Button } from "@ndla/primitives";
 import { Switch } from "@ndla/switch";
 import { Heading } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
@@ -167,9 +167,15 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                   setIsEditing={setIsEditing}
                   onDelete={deleteTopicCallback}
                 />
-                <ButtonV2 ref={replyToRef} onClick={setReplyingTo} disabled={isReplying || topic?.isLocked}>
+                <Button
+                  variant="primary"
+                  // TODO: Do we want size="small" here?
+                  ref={replyToRef}
+                  onClick={setReplyingTo}
+                  disabled={isReplying || topic?.isLocked}
+                >
                   {t("myNdla.arena.new.post")}
-                </ButtonV2>
+                </Button>
               </FlexLine>
             </FlexLine>
           </>

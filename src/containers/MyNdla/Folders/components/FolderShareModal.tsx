@@ -13,6 +13,7 @@ import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Tooltip } from "@ndla/tooltip";
 import { useSnack } from "@ndla/ui";
@@ -43,6 +44,7 @@ const FolderName = styled.span`
   border-radius: ${misc.borderRadius};
 `;
 
+// TODO: this should be IconButton ?
 const CopyLinkButton = styled(ButtonV2)`
   padding: ${spacing.small};
   color: ${colors.text.primary};
@@ -149,18 +151,19 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
           </Tooltip>
         </GapWrapper>
         <StyledButtonRow>
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton shape="pill" to={routes.folder(folder.id)} variant="outline">
             {t("myNdla.folder.sharing.button.preview")}
           </SafeLinkButton>
-          <ButtonV2
-            shape="pill"
+          <Button
+            variant="primary"
             onClick={() => {
               onClose();
               setRef?.();
             }}
           >
             {t("finished")}
-          </ButtonV2>
+          </Button>
         </StyledButtonRow>
       </StyledModalBody>
     </ModalContent>

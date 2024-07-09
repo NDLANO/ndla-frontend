@@ -116,6 +116,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
       </LicenseAndButtonWrapper>
       {!isCopyrighted(concept.copyright?.license?.license) && (
         <MediaListItemActions>
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {concept.src && (
             <SafeLinkButton to={downloadUrl(concept.src)} variant="outline">
               <Download />
@@ -127,6 +128,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
             copyTitle={t("license.embed")}
             hasCopiedTitle={t("license.embedCopied")}
           />
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
               <Launch />

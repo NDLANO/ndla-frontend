@@ -125,6 +125,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       <Image alt={image.altText} src={image.src} />
       {!isCopyrighted(image.copyright.license.license) && (
         <MediaListItemActions>
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
             <Download />
             {t("license.download")}

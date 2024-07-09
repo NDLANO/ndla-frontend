@@ -11,9 +11,9 @@ import { ReactNode } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { mq, breakpoints, spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { routes } from "../../routeHelpers";
@@ -84,8 +84,9 @@ const LoginComponent = ({ masthead, content }: Props) => {
       <BottomRow>
         <ButtonRow>
           <ModalCloseButton>
-            <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+            <Button variant="secondary">{t("cancel")}</Button>
           </ModalCloseButton>
+          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
             {t("user.buttonLogIn")}
           </SafeLinkButton>
