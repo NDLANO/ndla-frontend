@@ -597,6 +597,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           >
             <a
               aria-label="Nasjonal digital læringsarena"
+              class=""
               href="/"
               title="Nasjonal digital læringsarena"
             >
@@ -661,6 +662,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             class="emotion-17 emotion-18"
           >
             <a
+              class=""
               href="/"
             >
               Gå til forsiden
@@ -680,7 +682,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium emotion-23"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-23"
             data-icon=""
             data-license="Apache License 2.0"
             data-source="Material Design"
@@ -731,7 +733,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-source="Material Design"
@@ -760,7 +762,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-name="Instagram"
@@ -787,7 +789,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-name="LinkedIn"
@@ -814,7 +816,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-source="Material Design"
@@ -855,7 +857,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-source="Material Design"
@@ -932,7 +934,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-source="Material Design"
@@ -961,7 +963,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-source="Material Design"
