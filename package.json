@@ -48,7 +48,7 @@
     "@ndla/types-backend": "^0.2.88",
     "@ndla/types-embed": "^4.1.8",
     "@ndla/types-taxonomy": "^1.0.26",
-    "@pandacss/dev": "^0.41.0",
+    "@pandacss/dev": "^0.42.0",
     "@playwright/test": "^1.43.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.2",
