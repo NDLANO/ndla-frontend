@@ -243,7 +243,6 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("cancel")}
         </Button>
-        {/* TODO: Update when LoadingButton using new button component is implemented */}
         <LoadingButton
           loading={addResourceLoading}
           colorTheme="light"

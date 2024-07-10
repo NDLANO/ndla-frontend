@@ -126,7 +126,6 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         <ModalCloseButton>
           <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
-        {/* TODO: Update when LoadingButton using new button component is implemented */}
         <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={loading}>
           {t("save")}
         </LoadingButton>

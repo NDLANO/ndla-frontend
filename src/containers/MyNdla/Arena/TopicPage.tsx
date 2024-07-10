@@ -128,7 +128,6 @@ const TopicPage = () => {
                     ? t("myNdla.arena.admin.category.stopEditing")
                     : t("myNdla.arena.admin.category.startEditing")}
                 </Button>
-                {/* TODO: Update when SafeLinkButton using new button component is implemented */}
                 <SafeLinkButton to={`/minndla/arena/category/new?parent-id=${arenaCategory.id}`}>
                   {t("myNdla.arena.admin.category.form.newCategory")}
                 </SafeLinkButton>
@@ -151,7 +150,6 @@ const TopicPage = () => {
           {t("myNdla.arena.posts.title")}
         </Heading>
         <ButtonContainer>
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
           <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
         </ButtonContainer>

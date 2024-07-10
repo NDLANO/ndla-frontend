@@ -20,7 +20,7 @@ const buttonCss = css`
     font-weight: ${fonts.weight.normal};
   }
 `;
-// TODO: Update when SafeLinkButton using new button component is implemented
+
 export const StyledSafeLinkButton = styled(SafeLinkButton)`
   ${buttonCss};
 `;

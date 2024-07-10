@@ -220,7 +220,6 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
       </InformationLabel>
       <ButtonRow>
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
-        {/* TODO: Update when LoadingButton using new button component is implemented */}
         <LoadingButton colorTheme="primary" type="submit">
           {t("myNdla.arena.publish")}
         </LoadingButton>

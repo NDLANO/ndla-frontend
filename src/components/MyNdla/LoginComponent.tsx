@@ -86,7 +86,6 @@ const LoginComponent = ({ masthead, content }: Props) => {
           <ModalCloseButton>
             <Button variant="secondary">{t("cancel")}</Button>
           </ModalCloseButton>
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
             {t("user.buttonLogIn")}
           </SafeLinkButton>

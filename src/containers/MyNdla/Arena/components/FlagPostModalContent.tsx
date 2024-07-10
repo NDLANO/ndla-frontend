@@ -199,7 +199,6 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <Button variant="secondary" onClick={onClose}>
               {t("cancel")}
             </Button>
-            {/* TODO: Update when LoadingButton using new button component is implemented */}
             <LoadingButton colorTheme="primary" type="submit">
               {t("myNdla.arena.flag.send")}
             </LoadingButton>

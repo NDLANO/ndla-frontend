@@ -98,7 +98,6 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             >
               {t("cancel")}
             </Button>
-            {/* TODO: Update when LoadingButton using new button component is implemented */}
             <LoadingButton
               loading={copySharedFolderMutation.loading}
               colorTheme="light"

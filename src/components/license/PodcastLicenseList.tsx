@@ -113,7 +113,6 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
       </LicenseAndButtonWrapper>
       {!isCopyrighted(podcast.copyright.license.license) && (
         <MediaListItemActions>
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton to={podcast.src} download variant="outline">
             <Download />
             {t("license.download")}

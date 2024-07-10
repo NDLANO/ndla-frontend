@@ -99,7 +99,6 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
       <img alt={video.title} src={video.cover} />
       {!isCopyrighted(video.copyright?.license.license) && (
         <MediaListItemActions>
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {video.download && (
             <SafeLinkButton to={video.download} download variant="outline">
               <Download />
@@ -111,7 +110,6 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             copyTitle={t("license.embed")}
             hasCopiedTitle={t("license.embedCopied")}
           />
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" variant="outline" rel="noopener noreferrer">
               <Launch />

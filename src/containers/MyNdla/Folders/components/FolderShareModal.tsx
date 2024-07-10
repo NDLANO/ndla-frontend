@@ -151,7 +151,6 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
           </Tooltip>
         </GapWrapper>
         <StyledButtonRow>
-          {/* TODO: Update when SafeLinkButton using new button component is implemented */}
           <SafeLinkButton shape="pill" to={routes.folder(folder.id)} variant="outline">
             {t("myNdla.folder.sharing.button.preview")}
           </SafeLinkButton>
