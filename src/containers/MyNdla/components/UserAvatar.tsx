@@ -36,6 +36,7 @@ const UserAvatar = ({ userName, showProfileButton }: UserAvatarProps) => {
   return (
     <UserAvatarContainer>
       <Avatar aria-hidden={!profilePicture} displayName={userName} myProfile profilePicture={profilePicture} />
+      {/* TODO: Will never be visible */}
       {showProfileButton && (
         <DesktopButtonContainer>
           <EditProfilePicture />

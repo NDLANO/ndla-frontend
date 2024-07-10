@@ -54,6 +54,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
   return (
     <ButtonContainer aria-label={t("subjectsPage.filterSubjects")}>
+      {/* TODO: Should probably not be buttons */}
       {options.map(({ value, label }) => (
         <StyledLi role="none" key={value}>
           <StyledButton

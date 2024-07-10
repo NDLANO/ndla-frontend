@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import FolderForm from "./FolderForm";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { StyledButton } from "../../components/toolbarStyles";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMutations";
 
 interface Props {
@@ -28,15 +28,10 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <StyledButton
-          variant="ghost"
-          colorTheme="lighter"
-          aria-label={t("myNdla.folder.edit")}
-          title={t("myNdla.folder.edit")}
-        >
+        <Button variant="tertiary" aria-label={t("myNdla.folder.edit")} title={t("myNdla.folder.edit")}>
           <Pencil size="small" />
           {t("myNdla.folder.editShort")}
-        </StyledButton>
+        </Button>
       </ModalTrigger>
       <EditFolderModalContent folder={folder} onClose={() => setOpen(false)} onSaved={onSaved} />
     </Modal>

@@ -8,9 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
 import { Copy } from "@ndla/icons/action";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -76,9 +76,9 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
       />
       <MediaListItemActions>
         {printUrl && (
-          <ButtonV2 variant="outline" onClick={() => printPage(printUrl)}>
+          <Button variant="secondary" size="small" onClick={() => printPage(printUrl)}>
             {t("article.printPage")}
-          </ButtonV2>
+          </Button>
         )}
       </MediaListItemActions>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>

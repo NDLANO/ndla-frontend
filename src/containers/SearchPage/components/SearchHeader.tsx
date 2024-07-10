@@ -15,6 +15,7 @@ import { InputContainer, InputV3 } from "@ndla/forms";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import SubjectFilter from "./SubjectFilter";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
@@ -172,12 +173,14 @@ const SearchHeader = ({
                 {t("searchPage.resultType.showingSearchPhrase")} <b>&ldquo;{query}&rdquo;</b>
               </Text>
             )}
+
             {suggestion && (
               <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.resultType.searchPhraseSuggestion")}{" "}
-                <ButtonV2 variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
+                {t("searchPage.resultType.searchPhraseSuggestion")}
+                {/* TODO: Check if we should include an option for link variant to remove all padding */}
+                <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
                   [{suggestion}]
-                </ButtonV2>
+                </Button>
               </Text>
             )}
           </div>
@@ -186,6 +189,7 @@ const SearchHeader = ({
       </div>
       {!!grepElements.length && (
         <FiltersWrapper>
+          {/* TODO: Probably needs special handling */}
           {grepElements.map((grep) => (
             <ButtonV2 key={grep.id} shape="pill" onClick={() => onGrepRemove(grep.id)}>
               {grep.id}
@@ -197,10 +201,10 @@ const SearchHeader = ({
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <FiltersWrapper>
           <ModalTrigger>
-            <ButtonV2 colorTheme="greyLighter" shape="pill">
+            <Button variant="secondary">
               {t("searchPage.searchFilterMessages.noValuesButtonText")}
               <Plus />
-            </ButtonV2>
+            </Button>
           </ModalTrigger>
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
             <ButtonV2 key={subject.id} shape="pill" onClick={() => onToggleSubject(subject.id)}>

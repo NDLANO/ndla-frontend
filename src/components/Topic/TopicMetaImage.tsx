@@ -45,7 +45,7 @@ const TopicHeaderVisualElementWrapper = styled.div`
     max-height: 200px;
   }
 `;
-
+// TODO: Needs special handling
 const VisualElementButton = styled(ButtonV2)`
   color: ${colors.brand.secondary};
   overflow: hidden;

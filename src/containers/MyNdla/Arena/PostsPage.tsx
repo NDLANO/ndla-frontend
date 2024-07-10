@@ -10,9 +10,9 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { Button } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useSnack } from "@ndla/ui";
 import { ArenaFormValues } from "./components/ArenaForm";
@@ -36,7 +36,7 @@ const BreadcrumbWrapper = styled.div`
   padding-bottom: ${spacing.large};
 `;
 
-const StyledReplyButton = styled(ButtonV2)`
+const StyledReplyButton = styled(Button)`
   float: right;
   &[hidden] {
     display: none;

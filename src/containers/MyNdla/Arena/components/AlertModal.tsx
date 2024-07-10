@@ -12,9 +12,9 @@ import { FormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { ButtonRow } from "../../../../components/MyNdla/AddResourceToFolder";
 import { supportedLanguages } from "../../../../i18n";
@@ -98,9 +98,9 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2 variant="outline" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
+        <Button variant="secondary" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
           {t("cancel")}
-        </ButtonV2>
+        </Button>
       </ModalTrigger>
       <ModalContent>
         <ModalBody>
@@ -112,12 +112,12 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
             {t(`myNdla.arena.cancel.content.${type}`)}
           </StyledWarningText>
           <ButtonRow>
-            <ButtonV2 variant="outline" onClick={onCancel}>
+            <Button variant="secondary" onClick={onCancel}>
               {t(`myNdla.arena.cancel.continue.${type}`)}
-            </ButtonV2>
-            <ButtonV2 colorTheme="danger" onClick={onWillContinue}>
+            </Button>
+            <Button variant="danger" onClick={onWillContinue}>
               {t(`myNdla.arena.cancel.cancel.${type}`)}
-            </ButtonV2>
+            </Button>
           </ButtonRow>
         </ModalBody>
       </ModalContent>

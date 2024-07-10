@@ -7,7 +7,7 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
+import { Button } from "@ndla/primitives";
 import config from "../../config";
 import { LtiData, LtiItem } from "../../interfaces";
 import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";
@@ -122,7 +122,10 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
           value={postData[key] instanceof Object ? JSON.stringify(postData[key]) : postData[key]}
         />
       ))}
-      <ButtonV2 type="submit">{t("lti.embed")}</ButtonV2>
+      {/* TODO: Needs verification */}
+      <Button variant="primary" type="submit">
+        {t("lti.embed")}
+      </Button>
     </form>
   );
 };

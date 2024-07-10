@@ -8,20 +8,12 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
 import { Plus } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import FolderForm, { FolderFormValues } from "./FolderForm";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { StyledButton } from "../../components/toolbarStyles";
 import { useAddFolderMutation, useFolders } from "../../folderMutations";
-
-const AddButton = styled(StyledButton)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex: 1;
-  }
-`;
 
 interface Props {
   onSaved: (folder?: GQLFolder) => void;
@@ -49,15 +41,10 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <AddButton
-          variant="ghost"
-          colorTheme="lighter"
-          aria-label={t("myNdla.newFolder")}
-          title={t("myNdla.newFolder")}
-        >
+        <Button variant="tertiary" aria-label={t("myNdla.newFolder")} title={t("myNdla.newFolder")}>
           <Plus size="small" />
           <span>{t("myNdla.newFolderShort")}</span>
-        </AddButton>
+        </Button>
       </ModalTrigger>
       <CreateModalContent
         onClose={onModalClose}

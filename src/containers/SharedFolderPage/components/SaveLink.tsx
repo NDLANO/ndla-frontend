@@ -9,11 +9,11 @@
 import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useSnack, MessageBox } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -66,10 +66,10 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
   return (
     <Modal open={open} onOpenChange={() => setOpen(!open)}>
       <ModalTrigger>
-        <ButtonV2 aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="ghost">
+        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
           <Subject />
           {t("myNdla.folder.sharing.button.saveLink")}
-        </ButtonV2>
+        </Button>
       </ModalTrigger>
       {authenticated ? (
         <ModalContent>
@@ -86,10 +86,12 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
               </MessageBox>
             </Content>
             <ButtonRow>
-              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("close")}
-              </ButtonV2>
-              <ButtonV2 onClick={() => onSaveLink(name)}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
+              </Button>
+              <Button variant="primary" onClick={() => onSaveLink(name)}>
+                {t("myNdla.folder.sharing.button.saveLink")}
+              </Button>
             </ButtonRow>
           </ModalBody>
         </ModalContent>

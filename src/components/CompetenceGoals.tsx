@@ -9,10 +9,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { FooterHeaderIcon } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Tabs } from "@ndla/tabs";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
@@ -35,10 +35,6 @@ interface ElementType {
   groupedCompetenceGoals?: CompetenceGoalType[];
   groupedCoreElementItems?: CoreElementType[];
 }
-
-const CompetenceBadgeText = styled.span`
-  padding: 0 5px;
-`;
 
 const CompetenceGoalsWrapper = styled.div`
   height: 100%;
@@ -194,16 +190,9 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     <>
       <Modal>
         <ModalTrigger>
-          <ButtonV2
-            aria-busy={competenceGoalsLoading}
-            size="xsmall"
-            colorTheme="light"
-            shape="pill"
-            disabled={competenceGoalsLoading}
-          >
-            <FooterHeaderIcon />
-            <CompetenceBadgeText>{t("competenceGoals.showCompetenceGoals")}</CompetenceBadgeText>
-          </ButtonV2>
+          <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+            {t("competenceGoals.showCompetenceGoals")}
+          </Button>
         </ModalTrigger>
         <ModalContent size="full">
           <ModalHeader>

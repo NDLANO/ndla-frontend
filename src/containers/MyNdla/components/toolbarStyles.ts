@@ -24,7 +24,7 @@ const buttonCss = css`
 export const StyledSafeLinkButton = styled(SafeLinkButton)`
   ${buttonCss};
 `;
-
+// TODO: Delete when SettingsMenu is updated
 export const StyledButton = styled(ButtonV2)`
   ${buttonCss};
 `;

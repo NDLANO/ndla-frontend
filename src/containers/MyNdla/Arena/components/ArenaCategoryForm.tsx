@@ -12,10 +12,11 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem, Select } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
+import { Button } from "@ndla/primitives";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -209,9 +210,9 @@ const ArenaCategoryForm = ({
         )}
       />
       <ButtonRow>
-        <ButtonV2 variant="outline" onClick={onAbort}>
+        <Button variant="secondary" onClick={onAbort}>
           {t("cancel")}
-        </ButtonV2>
+        </Button>
         <LoadingButton colorTheme="primary" type="submit">
           {t("myNdla.arena.publish")}
         </LoadingButton>

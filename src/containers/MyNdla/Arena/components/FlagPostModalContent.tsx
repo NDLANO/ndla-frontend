@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import {
   FormControl,
@@ -23,6 +23,7 @@ import {
   Legend,
 } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
@@ -195,9 +196,9 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             />
           )}
           <StyledButtonRow>
-            <ButtonV2 onClick={onClose} variant="outline">
+            <Button variant="secondary" onClick={onClose}>
               {t("cancel")}
-            </ButtonV2>
+            </Button>
             <LoadingButton colorTheme="primary" type="submit">
               {t("myNdla.arena.flag.send")}
             </LoadingButton>

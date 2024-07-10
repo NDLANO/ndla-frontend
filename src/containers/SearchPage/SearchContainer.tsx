@@ -14,6 +14,7 @@ import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Cross, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
+import { Button } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { LanguageSelector, constants } from "@ndla/ui";
 
@@ -49,10 +50,6 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
-`;
-
-const StyledButton = styled(ButtonV2)`
-  align-self: flex-start;
 `;
 
 const ItemWrapper = styled.div`
@@ -192,6 +189,7 @@ const SearchContainer = ({
           {sortedFilterButtonItems.length > 1 && (
             <FilterWrapper>
               <ItemWrapper>
+                {/* TODO: Should probably not be button */}
                 {sortedFilterButtonItems.map((item) => (
                   <ButtonV2
                     key={item.value}
@@ -226,10 +224,11 @@ const SearchContainer = ({
               </ButtonWrapper>
             </FilterWrapper>
           )}
+          {/* TODO: Check if we should include an option for link variant to remove all padding */}
           {hasSelectedResourceType && (
-            <StyledButton variant="link" onClick={handleFilterReset}>
+            <Button variant="link" onClick={handleFilterReset}>
               {t(`filterButtons.removeAllFilters`)}
-            </StyledButton>
+            </Button>
           )}
           {filteredSortedSearchGroups.map((group) => (
             <SearchResultGroup

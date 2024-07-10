@@ -8,9 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 
 interface Props {
@@ -39,11 +39,11 @@ const DeleteModalContent = ({ onDelete, onClose, title, description, removeText 
         <Text>{description}</Text>
         <StyledButtonRow>
           <ModalCloseButton>
-            <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+            <Button variant="secondary">{t("cancel")}</Button>
           </ModalCloseButton>
-          <ButtonV2 colorTheme="danger" variant="outline" onClick={onDelete}>
+          <Button variant="danger" onClick={onDelete}>
             {removeText}
-          </ButtonV2>
+          </Button>
         </StyledButtonRow>
       </ModalBody>
     </ModalContent>
