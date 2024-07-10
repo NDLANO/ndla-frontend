@@ -34,6 +34,10 @@ interface FolderButtonProps {
 const StyledListItem = styled.li`
   margin: 0;
   padding: 0;
+
+  button {
+    margin-right: auto;
+  }
 `;
 
 const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
@@ -104,7 +108,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const unShareButton =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="unShareFolderButton">
-        {/* TODO: This breaks mobile view, needs fix */}
         <Button
           variant="tertiary"
           ref={unShareRef}
@@ -137,7 +140,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
     >
       <StyledListItem key="shareFolderButton">
-        {/* TODO: This breaks mobile view, needs fix */}
         <Button
           variant="tertiary"
           ref={shareRef}
@@ -196,7 +198,6 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const copySharedFolderLink =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="copySharedLink">
-        {/* TODO: This breaks mobile view, needs fix */}
         <Button
           key="copySharedLink"
           variant="tertiary"

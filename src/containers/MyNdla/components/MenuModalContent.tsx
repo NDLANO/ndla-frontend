@@ -71,10 +71,8 @@ const ToolMenu = styled.ul`
   padding: unset;
   margin: unset;
 
-  button,
-  a {
+  li {
     border-top: 0.5px solid ${colors.brand.greyLighter};
-    padding: ${spacing.small} ${spacing.normal};
     &:last-child {
       border-bottom: 0.5px solid ${colors.brand.greyLighter};
     }
