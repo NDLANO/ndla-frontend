@@ -10,10 +10,10 @@ import parse from "html-react-parser";
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing, stackOrder } from "@ndla/core";
 import { Additional, Core } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { ContentTypeBadge, resourceTypeColor } from "@ndla/ui";
@@ -157,7 +157,7 @@ const StyledArticle = styled.article`
   gap: ${spacing.small};
 `;
 
-const StyledModalButton = styled(ButtonV2)`
+const StyledModalButton = styled(Button)`
   z-index: ${stackOrder.offsetSingle};
   position: relative;
 `;
@@ -205,7 +205,8 @@ const SearchResultItem = ({ item, type }: Props) => {
             {item.contexts && item.contexts.length > 1 && (
               <Modal>
                 <ModalTrigger>
-                  <StyledModalButton variant="link">
+                  {/* TODO: Needs to fix styling */}
+                  <StyledModalButton variant="link" size="small">
                     {t("searchPage.contextModal.button", {
                       count: item.contexts.length - 1,
                     })}
