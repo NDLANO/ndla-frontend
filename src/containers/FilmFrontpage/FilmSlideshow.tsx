@@ -13,8 +13,8 @@ import { IconButtonV2 } from "@ndla/button";
 import { Carousel } from "@ndla/carousel";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Image } from "@ndla/ui";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
