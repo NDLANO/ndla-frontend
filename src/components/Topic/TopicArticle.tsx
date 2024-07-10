@@ -19,7 +19,9 @@ interface Props {
 
 const ToggleButton = styled(Button, {
   base: {
-    "&[aria-expanded='true']": { "& svg": { transform: "rotate(180deg)" } },
+    _expanded: {
+      "& svg": { transform: "rotate(180deg)" },
+    },
   },
 });
 
