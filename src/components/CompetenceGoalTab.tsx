@@ -163,7 +163,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
                       {goal.text}
                     </Text>
                     {showLinks && (
-                      <StyledSafeLinkButton to={goal.url} target={isOembed ? "_blank" : "_self"} variant="outline">
+                      <StyledSafeLinkButton to={goal.url} target={isOembed ? "_blank" : "_self"} variant="secondary">
                         <Search />
                         {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
                       </StyledSafeLinkButton>
@@ -178,7 +178,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
                 {element.text}
               </Text>
               {showLinks && (
-                <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="outline">
+                <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="secondary">
                   <Search />
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </StyledSafeLinkButton>

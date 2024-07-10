@@ -111,14 +111,13 @@ const AboutPageFooter = ({ frontpage }: Props) => {
       </Heading>
       <StyledNav aria-labelledby="aboutNavTitle">
         <StyledList>
+          {/* TODO: change according to design */}
           {menu?.map((menuItem) => (
             <li key={menuItem.article.slug}>
               {isRoot ? (
                 <StyledSafeLinkButton
                   to={toAbout(menuItem.article.slug)}
-                  variant="ghost"
-                  colorTheme="light"
-                  shape="sharp"
+                  variant="secondary"
                   aria-current={menuItem.article.slug === slug ? "page" : false}
                 >
                   {menuItem.article.title}
@@ -127,8 +126,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
               ) : (
                 <StyledSubSafeLinkButton
                   to={toAbout(menuItem.article.slug)}
-                  variant="ghost"
-                  colorTheme="light"
+                  variant="secondary"
                   aria-current={menuItem.article.slug === slug ? "page" : false}
                 >
                   {menuItem.article.title}

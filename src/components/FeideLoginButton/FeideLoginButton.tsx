@@ -38,13 +38,7 @@ const FeideLoginButton = ({ children }: Props) => {
 
   if (authenticated) {
     return (
-      <StyledLink
-        variant="ghost"
-        colorTheme="light"
-        shape="pill"
-        to={routes.myNdla.root}
-        aria-label={t("myNdla.myNDLA")}
-      >
+      <StyledLink variant="tertiary" to={routes.myNdla.root} aria-label={t("myNdla.myNDLA")}>
         {children}
       </StyledLink>
     );

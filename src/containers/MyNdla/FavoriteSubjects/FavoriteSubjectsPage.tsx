@@ -13,6 +13,7 @@ import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Forward } from "@ndla/icons/common";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -20,7 +21,6 @@ import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
-import { StyledSafeLinkButton } from "../components/toolbarStyles";
 import { useFavouriteSubjects } from "../folderMutations";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
@@ -75,10 +75,10 @@ const FavoriteSubjectsPage = () => {
   const allSubjects = useMemo(
     () => (
       <StyledListItem key="allSubjects">
-        <StyledSafeLinkButton variant="ghost" colorTheme="lighter" to="/subjects">
+        <SafeLinkButton variant="tertiary" to="/subjects">
           {t("subjectsPage.allSubjects")}
           <Forward size="small" />
-        </StyledSafeLinkButton>
+        </SafeLinkButton>
       </StyledListItem>
     ),
     [t],

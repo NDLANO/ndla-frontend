@@ -203,11 +203,7 @@ export const CompressedTagList = ({ tags, tagLinkPrefix }: CompressedTagListProp
           <DropdownContent showArrow>
             {remainingTags.map((tag, i) => (
               <DropdownItem key={`tag-${i}`}>
-                <SafeLinkButton
-                  to={`${tagLinkPrefix ?? ""}/${encodeURIComponent(tag)}`}
-                  variant="ghost"
-                  colorTheme="light"
-                >
+                <SafeLinkButton to={`${tagLinkPrefix ?? ""}/${encodeURIComponent(tag)}`} variant="tertiary">
                   <HashTag />
                   {tag}
                 </SafeLinkButton>

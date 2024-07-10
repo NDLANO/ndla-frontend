@@ -14,10 +14,10 @@ import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { FourlineHamburger, List } from "@ndla/icons/action";
 import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
+import { SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
-import { StyledSafeLinkButton } from "./toolbarStyles";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
@@ -156,18 +156,13 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
   const notificationLink = useMemo(
     () => (
       <MenuItem>
-        <StyledSafeLinkButton
-          variant="ghost"
-          colorTheme="lighter"
-          to={routes.myNdla.notifications}
-          onClick={() => setIsOpen(false)}
-        >
+        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setIsOpen(false)}>
           <BellIcon
             amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
             left={true}
           />
           {t("myNdla.arena.notification.title")}
-        </StyledSafeLinkButton>
+        </SafeLinkButton>
       </MenuItem>
     ),
     [notifications, setIsOpen, t],

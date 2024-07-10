@@ -9,21 +9,15 @@
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing, fonts } from "@ndla/core";
+import { breakpoints, mq, fonts } from "@ndla/core";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { routes } from "../../../routeHelpers";
 
 const StyledSafeLink = styled(SafeLinkButton)`
-  color: ${colors.brand.primary};
-  width: 100%;
   display: flex;
   align-self: center;
   justify-content: flex-start;
-  svg {
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-  }
 
   ${mq.range({ until: breakpoints.desktop })} {
     flex-direction: column;
@@ -73,8 +67,7 @@ const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: 
 
   return (
     <StyledSafeLink
-      colorTheme="lighter"
-      variant="ghost"
+      variant="tertiary"
       aria-current={selected ? "page" : undefined}
       to={linkTo}
       reloadDocument={!!to}

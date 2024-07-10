@@ -89,7 +89,6 @@ const StyledListElementWrapper = styled.div`
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   display: flex;
   flex: 1;
-  width: 100%;
   height: 100%;
   text-align: left;
   padding-left: ${spacing.xxsmall};
@@ -136,9 +135,8 @@ export const NavigationBox = ({ heading, colorMode = "primary", items, listDirec
             >
               <StyledSafeLinkButton
                 to={item.url ?? ""}
-                colorTheme={item.selected ? "darker" : colorMode}
-                size="medium"
-                shape="sharp"
+                // TODO: Fix handling of active safeLinkButton according to design
+                variant={item.selected ? "secondary" : "primary"}
               >
                 <StyledButtonContentText>
                   <StyledMarksWrapper>
