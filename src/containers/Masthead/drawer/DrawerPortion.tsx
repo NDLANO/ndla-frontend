@@ -8,6 +8,7 @@
 
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { HTMLAttributes } from "react";
 
 const DrawerPortion = styled("div", {
   base: {
@@ -39,7 +40,7 @@ const DrawerPortion = styled("div", {
   },
 });
 
-export const DrawerList = styled("ul", {
+export const StyledDrawerList = styled("ul", {
   base: {
     padding: "0",
     overflowY: "auto",
@@ -47,6 +48,14 @@ export const DrawerList = styled("ul", {
     flexDirection: "column",
   },
 });
+
+export const DrawerList = ({ children, ...rest }: HTMLAttributes<HTMLUListElement>) => {
+  return (
+    <StyledDrawerList role="menubar" aria-orientation="vertical" {...rest}>
+      {children}
+    </StyledDrawerList>
+  );
+};
 
 export const DrawerListItem = styled("li", {
   base: {

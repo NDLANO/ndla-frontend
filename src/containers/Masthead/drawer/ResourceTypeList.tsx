@@ -25,7 +25,7 @@ const ResourceTypeList = ({ name, id, children }: Props) => {
     <DrawerListItem role="none" id={`li-${id}`} data-resource-group>
       <StyledResourceTypeList id={id} role="group" aria-labelledby={`header-${id}`}>
         <DrawerListItem role="none">
-          <StyledHeading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+          <StyledHeading id={`header-${id}`} textStyle="label.medium" fontWeight="bold" asChild consumeCss>
             <span>{name}</span>
           </StyledHeading>
         </DrawerListItem>

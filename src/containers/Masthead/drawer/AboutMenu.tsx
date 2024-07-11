@@ -9,7 +9,6 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
 import { SafeLink } from "@ndla/safelink";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
@@ -23,6 +22,7 @@ import {
 } from "../../../graphqlTypes";
 import { toAbout, useTypedParams } from "../../../routeHelpers";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   onCloseMenuPortion: () => void;
@@ -172,7 +172,7 @@ const NewAboutMenuPortion = ({
                 role="menuitem"
                 to={toAbout(item.article.slug)}
                 onClick={onClose}
-                id={item.article.slug}
+                id={`header-${item.article.slug}`}
                 data-active={!selected}
               >
                 {item.article.title}
@@ -216,10 +216,9 @@ const NewAboutMenuPortion = ({
   );
 };
 
-const PortionWrapper = styled.div`
-  display: flex;
-  flex: 1;
-`;
+const PortionWrapper = styled("div", {
+  base: { display: "flex", flex: 1 },
+});
 
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {

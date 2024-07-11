@@ -61,7 +61,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
   );
 
   const active = useMemo(() => topicPath[topicPath.length - 1]?.id === topic.id, [topic, topicPath]);
-
+  console.log(active);
   useArrowNavigation(active, {
     initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
     onRightKeyPressed: arrowAddTopic,

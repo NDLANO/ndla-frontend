@@ -116,7 +116,14 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerListItem role="none" data-list-item>
               <DrawerHeader textStyle="heading.medium" asChild consumeCss>
-                <SafeLink aria-current={path === location.pathname} id={subject.id} to={path} onClick={onClose}>
+                <SafeLink
+                  aria-current={path === location.pathname}
+                  id={`header-${subject.id}`}
+                  to={path}
+                  onClick={onClose}
+                  tabIndex={-1}
+                  role="menuitem"
+                >
                   {subject.name}
                 </SafeLink>
               </DrawerHeader>

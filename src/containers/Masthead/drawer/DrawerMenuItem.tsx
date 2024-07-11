@@ -39,7 +39,7 @@ export const StyledButton = styled(Button, {
     cursor: "pointer",
     textStyle: "label.medium",
     fontWeight: "light",
-    alignItems: "start",
+    alignItems: "center",
     textAlign: "start",
     justifyContent: "start",
   },

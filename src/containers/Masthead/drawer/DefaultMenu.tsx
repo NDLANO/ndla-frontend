@@ -71,9 +71,9 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
 
   const onRightClick = useCallback(
     (id: string | undefined) => {
-      const strippedId = id?.replace("header-", "") as MenuType;
-      if (validMenus.includes(strippedId)) {
-        setActiveMenu(strippedId);
+      const strippedId = id?.replace("header-", "");
+      if (validMenus.includes(strippedId as MenuType)) {
+        setActiveMenu(strippedId as MenuType);
       } else if (id?.endsWith("-dynamic")) {
         setFrontpageMenu(dynamicMenus.find((menu) => menu.article.slug === strippedId?.replace("-dynamic", ""))!);
       }
@@ -84,6 +84,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
   useArrowNavigation(!type, {
     initialFocused: `header-${dynamicId ?? type ?? previousType ?? "programme"}`,
     onRightKeyPressed: onRightClick,
+    multilevel: true,
   });
 
   if (type) {
@@ -99,7 +100,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
     <StyledDrawerPortion>
       <DrawerList>
         <DrawerListItem>
-          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+          <DrawerHeader textStyle="label.large" fontWeight="bold" tabIndex={-1} asChild consumeCss>
             <span>Fag og Utdanningsprogram</span>
           </DrawerHeader>
         </DrawerListItem>
@@ -133,7 +134,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
           {t("masthead.menuOptions.multidisciplinarySubjects")}
         </DrawerMenuItem>
         <DrawerListItem>
-          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+          <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
             <span>Tips og råd</span>
           </DrawerHeader>
         </DrawerListItem>
@@ -144,7 +145,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
           {t("masthead.menuOptions.toolboxTeachers")}
         </DrawerMenuItem>
         <DrawerListItem>
-          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+          <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
             <span>Om oss</span>
           </DrawerHeader>
         </DrawerListItem>
