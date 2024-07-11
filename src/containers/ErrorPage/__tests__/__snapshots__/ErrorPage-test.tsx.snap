@@ -15,334 +15,6 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-1 {
-  position: relative;
-}
-
-.emotion-2 {
-  position: absolute;
-  right: 48px;
-  top: -24px;
-  z-index: 10;
-}
-
-.emotion-3 {
-  width: 20px;
-  height: 20px;
-}
-
-.emotion-4 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 48px;
-  color: #fff;
-  z-index: 1;
-  padding: 48px 48px 72px;
-  background: #184673;
-}
-
-@media (min-width: 81.3125em) {
-  .emotion-4 {
-    padding: 48px 170px 72px;
-  }
-}
-
-.emotion-4>* {
-  max-width: 1100px;
-}
-
-.emotion-6 {
-  font-weight: 700;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-  margin: 24px 0 24px 0;
-}
-
-.emotion-6:where([lang='zh'], .emotion-6[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-6[data-serif="true"] {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-}
-
-.emotion-6[data-margin="none"] {
-  margin: 0px;
-}
-
-.emotion-6[data-margin="xlarge"] {
-  margin: 24px 0 12px 0;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6[data-margin="xlarge"] {
-    margin-bottom: 24px;
-  }
-}
-
-.emotion-6[data-margin="large"] {
-  margin-top: 48px;
-  margin-bottom: 12px;
-}
-
-.emotion-6[data-margin="small"] {
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-
-.emotion-6[data-style="h1"] {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-6[data-style="h1"]:where([lang='zh'], .emotion-6[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6[data-style="h1"] {
-    font-size: 48px;
-    font-size: 2.6666666666666665rem;
-    line-height: 60px;
-    margin-bottom: 24px;
-  }
-
-  .emotion-6[data-style="h1"]:where([lang='zh'], .emotion-6[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(48px * 1.11);
-    font-size: calc(2.6666666666666665rem * 1.11);
-  }
-}
-
-.emotion-6[data-style="h1-resource"] {
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-6[data-style="h1-resource"]:where([lang='zh'], .emotion-6[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6[data-style="h1-resource"] {
-    font-size: 38px;
-    font-size: 2.111111111111111rem;
-    line-height: 48px;
-  }
-
-  .emotion-6[data-style="h1-resource"]:where([lang='zh'], .emotion-6[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(38px * 1.11);
-    font-size: calc(2.111111111111111rem * 1.11);
-  }
-}
-
-.emotion-6[data-style="h2"] {
-  font-size: 28px;
-  font-size: 1.5555555555555556rem;
-  line-height: 36px;
-}
-
-.emotion-6[data-style="h2"]:where([lang='zh'], .emotion-6[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(28px * 1.11);
-  font-size: calc(1.5555555555555556rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6[data-style="h2"] {
-    font-size: 30px;
-    font-size: 1.6666666666666667rem;
-    line-height: 38px;
-  }
-
-  .emotion-6[data-style="h2"]:where([lang='zh'], .emotion-6[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(30px * 1.11);
-    font-size: calc(1.6666666666666667rem * 1.11);
-  }
-}
-
-.emotion-6[data-style="h3"] {
-  font-size: 26px;
-  font-size: 1.4444444444444444rem;
-  line-height: 35px;
-}
-
-.emotion-6[data-style="h3"]:where([lang='zh'], .emotion-6[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(26px * 1.11);
-  font-size: calc(1.4444444444444444rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6[data-style="h3"] {
-    font-size: 26px;
-    font-size: 1.4444444444444444rem;
-    line-height: 36px;
-  }
-
-  .emotion-6[data-style="h3"]:where([lang='zh'], .emotion-6[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(26px * 1.11);
-    font-size: calc(1.4444444444444444rem * 1.11);
-  }
-}
-
-.emotion-6[data-style="h4"] {
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-}
-
-.emotion-6[data-style="h4"]:where([lang='zh'], .emotion-6[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-6[data-style="list-title"] {
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-  text-transform: uppercase;
-}
-
-.emotion-6[data-style="list-title"]:where([lang='zh'], .emotion-6[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
-}
-
-.emotion-7 {
-  width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 24px;
-}
-
-@media (min-width: 48em) {
-  .emotion-7 {
-    display: grid;
-    grid-template-columns: max-content max-content min-content;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    row-gap: 24px;
-  }
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.emotion-10 {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.emotion-11 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  gap: 6px;
-  padding: 0px;
-}
-
-.emotion-11 svg {
-  width: 20px;
-  height: 20px;
-}
-
-.emotion-12 {
-  color: white;
-  box-shadow: none;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-
-.emotion-12:hover,
-.emotion-12:focus,
-.emotion-12:active {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-21 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 6px;
-  justify-self: center;
-}
-
-.emotion-43 {
-  grid-column: span 2;
-}
-
-@media (min-width: 48em) {
-  .emotion-43 {
-    -webkit-align-self: flex-end;
-    -ms-flex-item-align: flex-end;
-    align-self: flex-end;
-  }
-}
-
-.emotion-44 {
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 400;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-  margin: 0px;
-}
-
-.emotion-44:where([lang='zh'], .emotion-44[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
-}
-
-.emotion-46 {
   z-index: 10;
 }
 
@@ -437,405 +109,457 @@ exports[`ErrorPage renderers correctly 1`] = `
         </article>
       </div>
     </div>
-    <footer>
-      <div
-        class="emotion-1"
+    <footer
+      class="pos_relative bg_primary c_text.onAction"
+    >
+      <button
+        class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24 pos_absolute right_xxlarge top_-medium z_docked"
+        id="zendesk"
+        type="button"
       >
-        <button
-          class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24 emotion-2"
-          id="zendesk"
-          type="button"
+        <svg
+          aria-hidden="true"
+          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+          data-icon=""
+          data-license="Apache License 2.0"
+          data-source="Material Design"
+          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 24 24"
         >
-          <svg
-            aria-hidden="true"
-            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-3"
-            data-icon=""
-            data-license="Apache License 2.0"
-            data-source="Material Design"
-            preserveAspectRatio="xMidYMid meet"
-            viewBox="0 0 24 24"
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+          <path
+            d="M11 18h2v-2h-2zm1-16a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16m0-14a4 4 0 0 0-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.8-3 5h2c0-2.3 3-2.5 3-5a4 4 0 0 0-4-4"
+          />
+        </svg>
+        Spør NDLA
+      </button>
+      <div
+        class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default max-w_1150px"
+      >
+        <svg
+          class="c_icon.onAction flex-sh_0"
+          height="383"
+          viewBox="0 0 260.29 611.89"
+          width="163"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g
+            fill="currentColor"
           >
-            <path
-              d="M0 0h24v24H0z"
-              fill="none"
-            />
-            <path
-              d="M11 18h2v-2h-2zm1-16a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16m0-14a4 4 0 0 0-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.8-3 5h2c0-2.3 3-2.5 3-5a4 4 0 0 0-4-4"
-            />
-          </svg>
-          Spør NDLA
-        </button>
-      </div>
-      <div
-        class="emotion-4 emotion-5"
-      >
-        <span
-          class="emotion-6"
-          data-margin="none"
-          data-style="h2"
-        >
-          Sammen skaper vi framtidas læring
-        </span>
+            <g>
+              <rect
+                height="280"
+                width="52"
+                x=".29"
+              />
+              <polygon
+                points="97.44 39.5 52.29 66 191.29 279.77 191.41 280 260.29 280 260.29 0 208.02 0 208.02 209.54 97.44 39.5"
+              />
+            </g>
+            <g>
+              <g>
+                <path
+                  d="M5.77,365.65H1.34v-32.9h4.43l17.94,27.3h-1.22v-27.3h4.43v32.9h-4.43l-17.94-27.3h1.22v27.3Z"
+                />
+                <path
+                  d="M40.02,366.2c-2.35,0-4.2-.62-5.54-1.87-1.34-1.24-2.01-2.87-2.01-4.87s.72-3.66,2.17-4.89c1.45-1.23,3.46-1.95,6.06-2.16l6.96-.55v-.64c0-1.24-.23-2.24-.68-2.98-.45-.74-1.07-1.27-1.85-1.59-.78-.32-1.67-.48-2.67-.48-1.78,0-3.16.37-4.13,1.11-.98.74-1.47,1.8-1.47,3.16h-3.71c0-1.55.39-2.9,1.18-4.05.78-1.15,1.89-2.05,3.32-2.68,1.43-.64,3.1-.96,4.99-.96s3.44.33,4.81.98c1.37.65,2.44,1.64,3.21,2.96.77,1.32,1.15,2.98,1.15,4.98v13.97h-3.61l-.45-3.59c-.57,1.27-1.56,2.28-2.96,3.03-1.4.74-2.99,1.11-4.77,1.11ZM41.24,362.87c2.02,0,3.6-.61,4.75-1.84,1.14-1.23,1.72-2.89,1.72-4.98v-1.18l-5.65.46c-1.87.18-3.22.62-4.04,1.32-.83.7-1.24,1.59-1.24,2.68,0,1.18.4,2.07,1.2,2.66.8.59,1.89.89,3.28.89Z"
+                />
+                <path
+                  d="M55.66,359.19h4.07c0,1.12.41,2.01,1.22,2.66.81.65,1.91.98,3.3.98,1.51,0,2.67-.3,3.48-.89.81-.59,1.22-1.39,1.22-2.39,0-.73-.22-1.33-.66-1.82-.44-.49-1.23-.88-2.37-1.18l-3.89-.91c-1.96-.49-3.41-1.23-4.36-2.23-.95-1-1.42-2.32-1.42-3.96,0-1.37.35-2.55,1.06-3.55.71-1,1.69-1.77,2.94-2.32,1.25-.55,2.69-.82,4.32-.82s3.03.29,4.23.86c1.19.58,2.12,1.38,2.8,2.41.68,1.03,1.03,2.26,1.06,3.69h-4.07c-.03-1.15-.41-2.05-1.13-2.68s-1.73-.96-3.03-.96-2.35.29-3.07.87c-.72.58-1.08,1.36-1.08,2.37,0,1.49,1.08,2.5,3.25,3.05l3.89.96c1.87.42,3.27,1.11,4.2,2.07.93.96,1.4,2.25,1.4,3.89,0,1.4-.38,2.62-1.13,3.66-.75,1.05-1.79,1.85-3.1,2.41-1.31.56-2.85.84-4.63.84-2.59,0-4.65-.64-6.19-1.91-1.54-1.27-2.3-2.97-2.3-5.1Z"
+                />
+                <path
+                  d="M71.88,375.75l.72-3.87c.42.12.78.21,1.08.25.3.05.62.07.95.07,1.02,0,1.75-.3,2.19-.91.44-.61.66-1.53.66-2.78v-25.12h4.25v25.53c0,2.21-.59,3.97-1.76,5.28-1.17,1.3-2.83,1.96-4.97,1.96-.54,0-1.04-.03-1.49-.09-.45-.06-.99-.17-1.63-.32ZM79.61,338.12c-.78,0-1.45-.28-1.99-.84-.54-.56-.81-1.22-.81-1.98s.27-1.46.81-2c.54-.55,1.2-.82,1.99-.82s1.41.27,1.97.82c.56.55.84,1.21.84,2s-.28,1.42-.84,1.98c-.56.56-1.21.84-1.97.84Z"
+                />
+                <path
+                  d="M86.2,354.5c0-2.28.5-4.29,1.49-6.05.99-1.76,2.36-3.14,4.09-4.14s3.71-1.5,5.94-1.5,4.2.5,5.92,1.5,3.07,2.38,4.07,4.14c.99,1.76,1.49,3.78,1.49,6.05s-.5,4.29-1.49,6.05-2.35,3.14-4.07,4.14-3.69,1.5-5.92,1.5-4.21-.5-5.94-1.5-3.1-2.38-4.09-4.14-1.49-3.78-1.49-6.05ZM90.5,354.5c0,1.55.31,2.91.93,4.09.62,1.18,1.47,2.11,2.55,2.78,1.08.67,2.33,1,3.75,1s2.67-.33,3.75-1c1.08-.67,1.94-1.59,2.55-2.78.62-1.18.93-2.55.93-4.09s-.31-2.95-.93-4.12c-.62-1.17-1.47-2.08-2.55-2.75s-2.33-1-3.75-1-2.67.33-3.75,1-1.94,1.58-2.55,2.75c-.62,1.17-.93,2.54-.93,4.12Z"
+                />
+                <path
+                  d="M117.93,365.65h-4.25v-22.25h3.84l.45,3.41c.69-1.27,1.69-2.27,3.01-2.98,1.31-.71,2.75-1.07,4.32-1.07,2.89,0,5.03.83,6.42,2.5,1.39,1.67,2.08,3.93,2.08,6.78v13.6h-4.25v-12.65c0-2.24-.48-3.86-1.45-4.85-.96-.99-2.26-1.48-3.89-1.48-1.99,0-3.53.65-4.63,1.96-1.1,1.3-1.65,3.05-1.65,5.23v11.78Z"
+                />
+                <path
+                  d="M145.9,366.2c-2.35,0-4.2-.62-5.54-1.87-1.34-1.24-2.01-2.87-2.01-4.87s.72-3.66,2.17-4.89c1.45-1.23,3.46-1.95,6.06-2.16l6.96-.55v-.64c0-1.24-.23-2.24-.68-2.98-.45-.74-1.07-1.27-1.85-1.59-.78-.32-1.67-.48-2.67-.48-1.78,0-3.16.37-4.13,1.11-.98.74-1.47,1.8-1.47,3.16h-3.71c0-1.55.39-2.9,1.18-4.05.78-1.15,1.89-2.05,3.32-2.68,1.43-.64,3.1-.96,4.99-.96s3.44.33,4.81.98c1.37.65,2.44,1.64,3.21,2.96.77,1.32,1.15,2.98,1.15,4.98v13.97h-3.61l-.45-3.59c-.57,1.27-1.56,2.28-2.96,3.03-1.4.74-2.99,1.11-4.77,1.11ZM147.12,362.87c2.02,0,3.6-.61,4.75-1.84,1.14-1.23,1.72-2.89,1.72-4.98v-1.18l-5.65.46c-1.87.18-3.22.62-4.04,1.32-.83.7-1.24,1.59-1.24,2.68,0,1.18.4,2.07,1.2,2.66.8.59,1.89.89,3.28.89Z"
+                />
+                <path
+                  d="M167.68,365.65h-4.25v-33.49h4.25v33.49Z"
+                />
+              </g>
+              <g>
+                <path
+                  d="M11.45,465.7c-2.13,0-3.97-.49-5.5-1.48s-2.71-2.36-3.54-4.12c-.83-1.76-1.24-3.76-1.24-6.01s.42-4.3,1.26-6.07c.84-1.77,2.04-3.18,3.61-4.21,1.56-1.03,3.43-1.55,5.59-1.55,1.71,0,3.24.36,4.58,1.07,1.34.71,2.38,1.77,3.13,3.16v-14.83h4.19v33.49h-3.79l-.36-4.05c-.72,1.49-1.78,2.62-3.18,3.41-1.4.79-2.98,1.18-4.76,1.18ZM12.3,461.83c1.44,0,2.68-.33,3.72-1,1.04-.67,1.84-1.59,2.41-2.78.57-1.18.86-2.55.86-4.1s-.29-2.9-.86-4.07c-.57-1.17-1.38-2.08-2.41-2.75-1.04-.67-2.28-1-3.72-1s-2.68.34-3.7,1.02c-1.02.68-1.8,1.61-2.34,2.78-.54,1.17-.81,2.51-.81,4.03s.27,2.91.81,4.1c.54,1.18,1.32,2.11,2.34,2.78,1.02.67,2.25,1,3.7,1Z"
+                />
+                <path
+                  d="M31.51,437.62c-.75,0-1.41-.28-1.96-.84s-.83-1.22-.83-1.98.28-1.46.83-2,1.21-.82,1.96-.82,1.44.27,1.98.82c.54.55.81,1.21.81,2s-.27,1.42-.81,1.98c-.54.56-1.2.84-1.98.84ZM29.43,465.15v-22.25h4.24v22.25h-4.24Z"
+                />
+                <path
+                  d="M38.18,453.46c0-2.09.42-3.98,1.26-5.67.84-1.68,2.04-3.03,3.61-4.03,1.56-1,3.41-1.5,5.55-1.5,1.98,0,3.68.48,5.09,1.43,1.41.96,2.42,2.28,3.02,3.98l-.54.59.45-5.37h3.79v21.34c0,2.34-.45,4.36-1.35,6.07-.9,1.71-2.18,3.04-3.83,3.98-1.65.94-3.61,1.41-5.86,1.41-3.01,0-5.47-.8-7.39-2.41-1.92-1.61-3.1-3.82-3.52-6.64h4.24c.27,1.64.99,2.91,2.16,3.82,1.17.91,2.67,1.37,4.51,1.37,2.07,0,3.73-.63,4.98-1.89,1.25-1.26,1.87-2.95,1.87-5.07v-6.28l.54.59c-.57,1.67-1.61,2.98-3.11,3.94-1.5.96-3.25,1.43-5.23,1.43-2.1,0-3.92-.49-5.46-1.48-1.53-.99-2.71-2.31-3.54-3.98-.83-1.67-1.24-3.55-1.24-5.64ZM42.42,453.37c0,1.4.28,2.65.83,3.78.56,1.12,1.34,2.02,2.34,2.68,1.01.67,2.19,1,3.54,1,1.44,0,2.67-.32,3.7-.96,1.02-.64,1.81-1.52,2.37-2.64.56-1.12.83-2.41.83-3.87s-.27-2.73-.81-3.82-1.32-1.96-2.34-2.59c-1.02-.64-2.25-.96-3.7-.96s-2.62.33-3.63,1c-1.01.67-1.78,1.55-2.32,2.66-.54,1.11-.81,2.34-.81,3.71Z"
+                />
+                <path
+                  d="M68.39,437.62c-.75,0-1.41-.28-1.96-.84-.56-.56-.83-1.22-.83-1.98s.28-1.46.83-2c.56-.55,1.21-.82,1.96-.82s1.44.27,1.98.82c.54.55.81,1.21.81,2s-.27,1.42-.81,1.98c-.54.56-1.2.84-1.98.84ZM66.31,465.15v-22.25h4.24v22.25h-4.24Z"
+                />
+                <path
+                  d="M74.11,442.9h12.8v3.59h-12.8v-3.59ZM86.73,461.42l.54,3.55c-1.14.46-2.36.68-3.65.68s-2.39-.25-3.29-.75c-.9-.5-1.59-1.25-2.07-2.25-.48-1-.72-2.24-.72-3.73v-22.98h4.24v22.39c0,1.27.26,2.18.79,2.71.53.53,1.21.8,2.05.8.66,0,1.37-.14,2.12-.41Z"
+                />
+                <path
+                  d="M97.6,465.7c-2.34,0-4.19-.62-5.52-1.87-1.34-1.24-2.01-2.87-2.01-4.87s.72-3.66,2.16-4.89c1.44-1.23,3.46-1.95,6.04-2.16l6.94-.55v-.64c0-1.24-.23-2.24-.68-2.98-.45-.74-1.07-1.27-1.85-1.59-.78-.32-1.67-.48-2.66-.48-1.77,0-3.15.37-4.12,1.11-.98.74-1.47,1.8-1.47,3.16h-3.7c0-1.55.39-2.9,1.17-4.05.78-1.15,1.89-2.05,3.31-2.68,1.43-.64,3.09-.96,4.98-.96s3.43.33,4.8.98c1.37.65,2.43,1.64,3.2,2.96.77,1.32,1.15,2.98,1.15,4.98v13.97h-3.61l-.45-3.59c-.57,1.27-1.56,2.28-2.95,3.03-1.4.74-2.98,1.11-4.76,1.11ZM98.82,462.37c2.01,0,3.59-.61,4.73-1.84,1.14-1.23,1.71-2.89,1.71-4.98v-1.18l-5.64.46c-1.86.18-3.21.62-4.04,1.32-.83.7-1.24,1.59-1.24,2.68,0,1.18.4,2.07,1.19,2.66.8.59,1.89.89,3.27.89Z"
+                />
+                <path
+                  d="M119.33,465.15h-4.24v-33.49h4.24v33.49Z"
+                />
+              </g>
+              <g>
+                <path
+                  d="M5.94,564.15H1.7v-33.49h4.24v33.49Z"
+                />
+                <path
+                  d="M10.85,557.92c0-2.21.74-3.88,2.23-4.98,1.49-1.11,3.43-1.68,5.84-1.71l7.08-.18v-1.32c0-1.64-.47-2.89-1.42-3.75-.95-.86-2.25-1.3-3.9-1.3s-3.05.38-4.01,1.14c-.96.76-1.44,1.81-1.44,3.14h-3.7c0-1.55.38-2.9,1.15-4.05.77-1.15,1.86-2.05,3.27-2.68,1.41-.64,3.02-.96,4.82-.96,1.92,0,3.55.38,4.89,1.14,1.34.76,2.29,1.77,2.86,3.05l-.86,13.88c-.69,1.64-1.83,2.94-3.43,3.91-1.59.97-3.46,1.46-5.59,1.46-2.5,0-4.42-.62-5.77-1.87-1.35-1.24-2.03-2.88-2.03-4.91ZM15.13,557.69c0,1.21.42,2.13,1.26,2.75.84.62,1.95.93,3.34.93,1.92,0,3.46-.56,4.6-1.68,1.14-1.12,1.71-2.59,1.71-4.41v-1.37l-6.09.18c-1.65.03-2.87.33-3.65.91-.78.58-1.17,1.47-1.17,2.68ZM46.96,553.82l-18.89.04.09-2.82h14.56c0-1.82-.55-3.31-1.65-4.46-1.1-1.15-2.59-1.73-4.49-1.73-1.44,0-2.67.33-3.67,1-1.01.67-1.78,1.58-2.32,2.73-.54,1.15-.81,2.5-.81,4.05,0,2.58.59,4.64,1.78,6.19,1.19,1.55,2.95,2.32,5.3,2.32,1.68,0,3.05-.34,4.1-1.02,1.05-.68,1.73-1.65,2.03-2.89h4.01c-.54,2.37-1.7,4.2-3.47,5.51-1.77,1.3-4.03,1.96-6.76,1.96-2.1,0-3.97-.49-5.59-1.46-1.62-.97-2.89-2.33-3.79-4.09-.9-1.76-1.35-3.79-1.35-6.1s.44-4.39,1.33-6.17c.89-1.77,2.12-3.15,3.7-4.14,1.58-.99,3.42-1.48,5.52-1.48s3.97.46,5.52,1.39c1.55.93,2.74,2.21,3.58,3.87.84,1.65,1.26,3.56,1.26,5.71v1.59Z"
+                />
+                <path
+                  d="M64.1,541.72v3.91h-1.89c-2.01,0-3.6.58-4.76,1.75-1.16,1.17-1.74,2.83-1.74,4.98v11.78h-4.24v-22.2h3.97l.36,4.46h-.41c.3-1.46,1.02-2.65,2.16-3.57,1.14-.92,2.57-1.39,4.28-1.39.39,0,.76.02,1.1.07.35.05.73.11,1.15.21Z"
+                />
+                <path
+                  d="M69.91,536.62c-.75,0-1.41-.28-1.96-.84s-.83-1.22-.83-1.98.28-1.46.83-2,1.21-.82,1.96-.82,1.44.27,1.98.82c.54.55.81,1.21.81,2s-.27,1.42-.81,1.98c-.54.56-1.2.84-1.98.84ZM67.84,564.15v-22.25h4.24v22.25h-4.24Z"
+                />
+                <path
+                  d="M82.22,564.15h-4.24v-22.25h3.83l.45,3.41c.69-1.27,1.69-2.27,3-2.98,1.31-.71,2.74-1.07,4.31-1.07,2.89,0,5.02.83,6.4,2.5,1.38,1.67,2.07,3.93,2.07,6.78v13.6h-4.24v-12.65c0-2.24-.48-3.86-1.44-4.85-.96-.99-2.25-1.48-3.88-1.48-1.98,0-3.52.65-4.62,1.96-1.1,1.3-1.65,3.05-1.65,5.23v11.78Z"
+                />
+                <path
+                  d="M102.28,552.46c0-2.09.42-3.98,1.26-5.67.84-1.68,2.04-3.03,3.61-4.03,1.56-1,3.41-1.5,5.55-1.5,1.98,0,3.68.48,5.09,1.43,1.41.96,2.42,2.28,3.02,3.98l-.54.59.45-5.37h3.79v21.34c0,2.34-.45,4.36-1.35,6.07-.9,1.71-2.18,3.04-3.83,3.98-1.65.94-3.61,1.41-5.86,1.41-3.01,0-5.47-.8-7.39-2.41-1.92-1.61-3.1-3.82-3.52-6.64h4.24c.27,1.64.99,2.91,2.16,3.82,1.17.91,2.67,1.37,4.51,1.37,2.07,0,3.73-.63,4.98-1.89,1.25-1.26,1.87-2.95,1.87-5.07v-6.28l.54.59c-.57,1.67-1.61,2.98-3.11,3.94-1.5.96-3.25,1.43-5.23,1.43-2.1,0-3.92-.49-5.46-1.48-1.53-.99-2.71-2.31-3.54-3.98-.83-1.67-1.24-3.55-1.24-5.64ZM106.52,552.37c0,1.4.28,2.65.83,3.78.56,1.12,1.34,2.02,2.34,2.68,1.01.67,2.19,1,3.54,1,1.44,0,2.67-.32,3.7-.96,1.02-.64,1.81-1.52,2.37-2.64.56-1.12.83-2.41.83-3.87s-.27-2.73-.81-3.82-1.32-1.96-2.34-2.59c-1.02-.64-2.25-.96-3.7-.96s-2.62.33-3.63,1c-1.01.67-1.78,1.55-2.32,2.66-.54,1.11-.81,2.34-.81,3.71Z"
+                />
+                <path
+                  d="M128.61,557.69h4.06c0,1.12.41,2.01,1.22,2.66s1.91.98,3.29.98c1.5,0,2.66-.3,3.47-.89.81-.59,1.22-1.39,1.22-2.39,0-.73-.22-1.33-.65-1.82-.44-.49-1.23-.88-2.37-1.18l-3.88-.91c-1.95-.49-3.4-1.23-4.35-2.23s-1.42-2.32-1.42-3.96c0-1.37.35-2.55,1.06-3.55.71-1,1.68-1.77,2.93-2.32,1.25-.55,2.68-.82,4.31-.82s3.03.29,4.22.86c1.19.58,2.12,1.38,2.79,2.41s1.03,2.26,1.06,3.69h-4.06c-.03-1.15-.41-2.05-1.13-2.68s-1.73-.96-3.02-.96-2.34.29-3.07.87-1.08,1.36-1.08,2.37c0,1.49,1.08,2.5,3.25,3.05l3.88.96c1.86.42,3.26,1.11,4.19,2.07.93.96,1.4,2.25,1.4,3.89,0,1.4-.38,2.62-1.13,3.66-.75,1.05-1.78,1.85-3.09,2.41-1.31.56-2.85.84-4.62.84-2.59,0-4.64-.64-6.18-1.91-1.53-1.27-2.3-2.97-2.3-5.1Z"
+                />
+                <path
+                  d="M156.83,564.7c-2.34,0-4.19-.62-5.52-1.87-1.34-1.24-2.01-2.87-2.01-4.87s.72-3.66,2.16-4.89c1.44-1.23,3.46-1.95,6.04-2.16l6.94-.55v-.64c0-1.24-.23-2.24-.68-2.98-.45-.74-1.07-1.27-1.85-1.59-.78-.32-1.67-.48-2.66-.48-1.77,0-3.15.37-4.12,1.11-.98.74-1.47,1.8-1.47,3.16h-3.7c0-1.55.39-2.9,1.17-4.05.78-1.15,1.89-2.05,3.31-2.68,1.43-.64,3.09-.96,4.98-.96s3.43.33,4.8.98c1.37.65,2.43,1.64,3.2,2.96.77,1.32,1.15,2.98,1.15,4.98v13.97h-3.61l-.45-3.59c-.57,1.27-1.56,2.28-2.95,3.03-1.4.74-2.98,1.11-4.76,1.11ZM158.05,561.37c2.01,0,3.59-.61,4.73-1.84,1.14-1.23,1.71-2.89,1.71-4.98v-1.18l-5.64.46c-1.86.18-3.21.62-4.04,1.32-.83.7-1.24,1.59-1.24,2.68,0,1.18.4,2.07,1.19,2.66.8.59,1.89.89,3.27.89Z"
+                />
+                <path
+                  d="M186.86,541.72v3.91h-1.89c-2.01,0-3.6.58-4.76,1.75-1.16,1.17-1.74,2.83-1.74,4.98v11.78h-4.24v-22.2h3.97l.36,4.46h-.41c.3-1.46,1.02-2.65,2.16-3.57,1.14-.92,2.57-1.39,4.28-1.39.39,0,.76.02,1.1.07.35.05.73.11,1.15.21Z"
+                />
+                <path
+                  d="M199.3,564.7c-2.13,0-4.03-.49-5.68-1.48-1.65-.99-2.95-2.35-3.88-4.09s-1.4-3.77-1.4-6.07.46-4.38,1.38-6.14c.92-1.76,2.18-3.14,3.79-4.14,1.61-1,3.48-1.5,5.61-1.5s3.93.46,5.48,1.37c1.55.91,2.75,2.18,3.61,3.82.86,1.64,1.29,3.56,1.29,5.78v1.59l-18.89.04.09-2.87h14.56c0-1.85-.56-3.34-1.67-4.46-1.11-1.12-2.6-1.68-4.46-1.68-1.41,0-2.62.31-3.63.93-1.01.62-1.77,1.53-2.3,2.73-.53,1.2-.79,2.63-.79,4.3,0,2.67.6,4.72,1.8,6.17,1.2,1.44,2.93,2.16,5.18,2.16,1.65,0,3.01-.33,4.06-1,1.05-.67,1.76-1.64,2.12-2.91h3.97c-.54,2.37-1.7,4.2-3.47,5.51-1.77,1.3-4.03,1.96-6.76,1.96Z"
+                />
+                <path
+                  d="M218.24,564.15h-4.24v-22.25h3.83l.45,3.41c.69-1.27,1.69-2.27,3-2.98,1.31-.71,2.74-1.07,4.31-1.07,2.89,0,5.02.83,6.4,2.5,1.38,1.67,2.07,3.93,2.07,6.78v13.6h-4.24v-12.65c0-2.24-.48-3.86-1.44-4.85-.96-.99-2.25-1.48-3.88-1.48-1.98,0-3.52.65-4.62,1.96-1.1,1.3-1.65,3.05-1.65,5.23v11.78Z"
+                />
+                <path
+                  d="M246.14,564.7c-2.34,0-4.19-.62-5.52-1.87-1.34-1.24-2.01-2.87-2.01-4.87s.72-3.66,2.16-4.89c1.44-1.23,3.46-1.95,6.04-2.16l6.94-.55v-.64c0-1.24-.23-2.24-.68-2.98-.45-.74-1.07-1.27-1.85-1.59-.78-.32-1.67-.48-2.66-.48-1.77,0-3.15.37-4.12,1.11-.98.74-1.47,1.8-1.47,3.16h-3.7c0-1.55.39-2.9,1.17-4.05.78-1.15,1.89-2.05,3.31-2.68,1.43-.64,3.09-.96,4.98-.96s3.43.33,4.8.98c1.37.65,2.43,1.64,3.2,2.96.77,1.32,1.15,2.98,1.15,4.98v13.97h-3.61l-.45-3.59c-.57,1.27-1.56,2.28-2.95,3.03-1.4.74-2.98,1.11-4.76,1.11ZM247.36,561.37c2.01,0,3.59-.61,4.73-1.84,1.14-1.23,1.71-2.89,1.71-4.98v-1.18l-5.64.46c-1.86.18-3.21.62-4.04,1.32-.83.7-1.24,1.59-1.24,2.68,0,1.18.4,2.07,1.19,2.66.8.59,1.89.89,3.27.89Z"
+                />
+              </g>
+              <g>
+                <line
+                  x1=".65"
+                  x2="259.96"
+                  y1="407.52"
+                  y2="389.39"
+                />
+                <rect
+                  height="8.7"
+                  transform="translate(-27.46 10.05) rotate(-4)"
+                  width="259.94"
+                  x=".34"
+                  y="394.11"
+                />
+              </g>
+              <g>
+                <line
+                  x1=".65"
+                  x2="259.96"
+                  y1="607.55"
+                  y2="589.42"
+                />
+                <rect
+                  height="8.7"
+                  transform="translate(-41.4 10.54) rotate(-4)"
+                  width="259.94"
+                  x=".34"
+                  y="594.14"
+                />
+              </g>
+              <g>
+                <line
+                  x1=".3"
+                  x2="259.61"
+                  y1="496.88"
+                  y2="515.01"
+                />
+                <rect
+                  height="259.94"
+                  transform="translate(-383.82 600.29) rotate(-86)"
+                  width="8.7"
+                  x="125.61"
+                  y="375.98"
+                />
+              </g>
+            </g>
+          </g>
+        </svg>
         <div
-          class="emotion-7"
+          class="d_flex flex-d_column jc_space-between gap_xxlarge ps_xxsmall desktop:ps_4xlarge"
         >
-          <div
-            class="emotion-8"
+          <span
+            class="textStyle_heading.small desktopDown:ta_center"
           >
-            <span
-              class="emotion-6"
-              data-margin="none"
-              data-style="list-title"
-              id=":r0:"
+            Sammen skaper vi framtidas læring
+          </span>
+          <div
+            class="d_grid jc_space-between grid-tc_repeat(3,_auto) rg_medium cg_xlarge desktopDown:grid-tc_repeat(2,_1fr) tabletDown:d_flex tabletDown:flex-d_column tabletDown:gap_medium"
+          >
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
             >
-              Sosiale medier
-            </span>
-            <nav>
-              <ul
-                class="emotion-10"
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r0:"
               >
-                <li
-                  class="emotion-11"
+                Kontakt
+              </span>
+              <nav
+                aria-labelledby=":r0:"
+              >
+                <ul
+                  class="d_flex flex-d_column gap_3xsmall"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="none"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      clip-rule="evenodd"
-                      d="M22 12.06a10 10 0 1 0-11.56 9.88v-6.99H7.9v-2.89h2.54v-2.2c0-2.5 1.49-3.9 3.77-3.9 1.1 0 2.24.2 2.24.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v6.98A10 10 0 0 0 22 12.06"
-                      fill="currentColor"
-                      fill-rule="evenodd"
-                    />
-                  </svg>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/about/om-ndla"
+                      rel="noopener noreferrer"
+                    >
+                      Om NDLA
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/about/about-us"
+                      rel="noopener noreferrer"
+                    >
+                      About NDLA
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/about/utlysninger"
+                      rel="noopener noreferrer"
+                    >
+                      Ledige stillinger
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r1:"
+              >
+                Om nettstedet
+              </span>
+              <nav
+                aria-labelledby=":r1:"
+              >
+                <ul
+                  class="d_flex flex-d_column gap_3xsmall"
+                >
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/article/personvernerklaering"
+                      rel="noopener noreferrer"
+                    >
+                      Personvernerklæring
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/article/erklaering-for-informasjonskapsler"
+                      rel="noopener noreferrer"
+                    >
+                      Erklæring for informasjonskapsler
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
+                      rel="noopener noreferrer"
+                    >
+                      Tilgjengelighetserklæring
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div />
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r2:"
+              >
+                Følg oss
+              </span>
+              <nav
+                aria-labelledby=":r2:"
+              >
+                <ul
+                  class="d_flex flex-d_row gap_3xsmall flex-wrap_wrap"
+                >
                   <a
-                    class="emotion-12"
+                    aria-label="NDLA på Facebook"
+                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                     href="https://www.facebook.com/ndla.no"
-                    rel="noopener noreferrer"
-                    target="_self"
+                    title="NDLA på Facebook"
                   >
-                    NDLA på Facebook
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-name="Instagram"
-                    data-source="Material Design Icons"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8c0 2 1.6 3.6 3.6 3.6h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6c0-2-1.6-3.6-3.6-3.6zm9.7 1.5a1.3 1.3 0 0 1 1.2 1.3A1.3 1.3 0 0 1 17.2 8 1.3 1.3 0 0 1 16 6.7a1.3 1.3 0 0 1 1.3-1.2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3"
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                      data-icon=""
+                      data-license="SIL Open Font License 1.1"
+                      data-source="Material Community Icons"
                       fill="currentColor"
-                    />
-                  </svg>
-                  <a
-                    class="emotion-12"
-                    href="https://instagram.com/ndla_no/"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    NDLA på Instagram
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-name="LinkedIn"
-                    data-source="Material Design Icons"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.3 3.3 0 0 0-3.3-3.3c-.8 0-1.8.6-2.3 1.3v-1h-2.8v8.3H13v-5c0-.7.6-1.3 1.4-1.3a1.4 1.4 0 0 1 1.4 1.4v4.9h2.8M6.9 8.5A1.7 1.7 0 0 0 8.6 7c0-1-.8-1.7-1.7-1.7A1.7 1.7 0 0 0 5.2 7c0 1 .8 1.7 1.7 1.7m1.4 9.9v-8.4H5.5v8.4z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <a
-                    class="emotion-12"
-                    href="https://www.linkedin.com/company/ndla/"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    NDLA på LinkedIn
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 256 256"
-                    xml:space="preserve"
-                  >
-                    <defs>
-                      <clippath
-                        clipPathUnits="userSpaceOnUse"
-                        id="a"
-                      >
-                        <path
-                          d="M0 192h192V0H0Z"
-                        />
-                      </clippath>
-                    </defs>
-                    <g
-                      clip-path="url(#a)"
-                      transform="matrix(1.33333 0 0 -1.33333 0 256)"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
                     >
                       <path
-                        d="M78 69.8v52.4L124 96Zm102.3 68.8a22 22 0 0 1-15.5 15.7C151 158 96 158 96 158s-55 0-68.8-3.7a22 22 0 0 1-15.5-15.7C8 124.8 8 96 8 96s0-28.8 3.7-42.6a22 22 0 0 1 15.5-15.7C41 34 96 34 96 34s55 0 68.8 3.7a22 22 0 0 1 15.5 15.7C184 67.2 184 96 184 96s0 28.8-3.7 42.6"
+                        d="M17 2v4h-2c-.7 0-1 .8-1 1.5V10h3v4h-3v8h-4v-8H7v-4h3V6a4 4 0 0 1 4-4z"
                       />
-                    </g>
-                  </svg>
+                    </svg>
+                  </a>
                   <a
-                    class="emotion-12"
+                    aria-label="NDLA på Instagram"
+                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                    href="https://instagram.com/ndla_no/"
+                    title="NDLA på Instagram"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-name="Instagram"
+                      data-source="Material Design Icons"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8c0 2 1.6 3.6 3.6 3.6h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6c0-2-1.6-3.6-3.6-3.6zm9.7 1.5a1.3 1.3 0 0 1 1.2 1.3A1.3 1.3 0 0 1 17.2 8 1.3 1.3 0 0 1 16 6.7a1.3 1.3 0 0 1 1.3-1.2M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    aria-label="NDLA på LinkedIn"
+                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                    href="https://www.linkedin.com/company/ndla/"
+                    title="NDLA på LinkedIn"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-name="LinkedIn"
+                      data-source="Material Design Icons"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.3 3.3 0 0 0-3.3-3.3c-.8 0-1.8.6-2.3 1.3v-1h-2.8v8.3H13v-5c0-.7.6-1.3 1.4-1.3a1.4 1.4 0 0 1 1.4 1.4v4.9h2.8M6.9 8.5A1.7 1.7 0 0 0 8.6 7c0-1-.8-1.7-1.7-1.7A1.7 1.7 0 0 0 5.2 7c0 1 .8 1.7 1.7 1.7m1.4 9.9v-8.4H5.5v8.4z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </a>
+                  <a
+                    aria-label="NDLA på YouTube"
+                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                     href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
-                    rel="noopener noreferrer"
-                    target="_self"
+                    title="NDLA på YouTube"
                   >
-                    NDLA på YouTube
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 256 256"
+                      xml:space="preserve"
+                    >
+                      <defs>
+                        <clippath
+                          clipPathUnits="userSpaceOnUse"
+                          id="a"
+                        >
+                          <path
+                            d="M0 192h192V0H0Z"
+                          />
+                        </clippath>
+                      </defs>
+                      <g
+                        clip-path="url(#a)"
+                        transform="matrix(1.33333 0 0 -1.33333 0 256)"
+                      >
+                        <path
+                          d="M78 69.8v52.4L124 96Zm102.3 68.8a22 22 0 0 1-15.5 15.7C151 158 96 158 96 158s-55 0-68.8-3.7a22 22 0 0 1-15.5-15.7C8 124.8 8 96 8 96s0-28.8 3.7-42.6a22 22 0 0 1 15.5-15.7C41 34 96 34 96 34s55 0 68.8 3.7a22 22 0 0 1 15.5 15.7C184 67.2 184 96 184 96s0 28.8-3.7 42.6"
+                        />
+                      </g>
+                    </svg>
                   </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    fill="none"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M4 20c-.55 0-1.02-.2-1.41-.59-.4-.39-.59-.86-.59-1.41V6c0-.55.2-1.02.59-1.41C2.98 4.19 3.45 4 4 4h16c.55 0 1.02.2 1.41.59.4.39.59.86.59 1.41v12c0 .55-.2 1.02-.59 1.41-.39.4-.86.59-1.41.59zm8-7 8-5V6l-8 5-8-5v2z"
-                      fill="currentColor"
-                    />
-                  </svg>
                   <a
-                    class="emotion-12"
+                    class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none w_100%"
                     href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
-                    rel="noopener noreferrer"
-                    target="_self"
                   >
-                    Meld deg på vårt nyhetsbrev
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div
-            class="emotion-21"
-          >
-            <span
-              class="emotion-6"
-              data-margin="none"
-              data-style="list-title"
-              id=":r1:"
-            >
-              Kontakt
-            </span>
-            <nav>
-              <ul
-                class="emotion-10"
-              >
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://ndla.no/about/om-ndla"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    Om NDLA
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://ndla.no/about/about-us"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    About NDLA
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://blogg.ndla.no"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Fagblogg
-                  </a>
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M0 0h24v24H0z"
+                    Meld deg på vårt nyhetsbrev 
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-source="Material Design"
                       fill="none"
-                    />
-                    <path
-                      d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3z"
-                    />
-                  </svg>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://blogg.ndla.no/eleverivideregaende/"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Tips til elever
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M4 20c-.55 0-1.02-.2-1.41-.59-.4-.39-.59-.86-.59-1.41V6c0-.55.2-1.02.59-1.41C2.98 4.19 3.45 4 4 4h16c.55 0 1.02.2 1.41.59.4.39.59.86.59 1.41v12c0 .55-.2 1.02-.59 1.41-.39.4-.86.59-1.41.59zm8-7 8-5V6l-8 5-8-5v2z"
+                        fill="currentColor"
+                      />
+                    </svg>
                   </a>
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                    data-icon=""
-                    data-license="Apache License 2.0"
-                    data-source="Material Design"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
-                    />
-                    <path
-                      d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-7h-2zM14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3z"
-                    />
-                  </svg>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://ndla.no/about/utlysninger"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    Ledige stillinger
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div
-            class="emotion-8"
-          >
-            <span
-              class="emotion-6"
-              data-margin="none"
-              data-style="list-title"
-              id=":r2:"
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="tabletWide:as_flex-end desktop:grid-c_span_2"
             >
-              Om nettstedet
-            </span>
-            <nav>
-              <ul
-                class="emotion-10"
+              <p
+                class="textStyle_body.large"
               >
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://ndla.no/article/personvernerklaering"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    Personvernerklæring
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://ndla.no/article/erklaering-for-informasjonskapsler"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    Erklæring for informasjonskapsler
-                  </a>
-                </li>
-                <li
-                  class="emotion-11"
-                >
-                  <a
-                    class="emotion-12"
-                    href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
-                    rel="noopener noreferrer"
-                    target="_self"
-                  >
-                    Tilgjengelighetserklæring
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <div
-            class="emotion-43"
-          >
-            <p
-              class="emotion-44"
-            >
-              Nettstedet er utarbeidet som åpen kildekode.
-            </p>
-            <p
-              class="emotion-44"
-            >
-              <strong>
-                Ansvarlig redaktør:
-              </strong>
-               Sigurd Trageton
-            </p>
+                Nettstedet er utarbeidet som åpen kildekode.
+              </p>
+              <p
+                class="textStyle_body.large"
+              >
+                <strong>
+                  Ansvarlig redaktør:
+                </strong>
+                 Sigurd Trageton
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </footer>
     <div
-      class="emotion-46"
+      class="emotion-1"
     >
       <button
         class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
