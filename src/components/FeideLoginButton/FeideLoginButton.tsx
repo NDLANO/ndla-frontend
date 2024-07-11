@@ -8,24 +8,12 @@
 
 import { ReactNode, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import LoginModalContent from "../MyNdla/LoginModalContent";
-
-const StyledLink = styled(SafeLinkButton)`
-  display: flex;
-  gap: ${spacing.small};
-  white-space: nowrap;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
 
 interface Props {
   footer?: boolean;
@@ -38,9 +26,9 @@ const FeideLoginButton = ({ children }: Props) => {
 
   if (authenticated) {
     return (
-      <StyledLink variant="tertiary" to={routes.myNdla.root} aria-label={t("myNdla.myNDLA")}>
+      <SafeLinkButton variant="tertiary" to={routes.myNdla.root} aria-label={t("myNdla.myNDLA")}>
         {children}
-      </StyledLink>
+      </SafeLinkButton>
     );
   }
 

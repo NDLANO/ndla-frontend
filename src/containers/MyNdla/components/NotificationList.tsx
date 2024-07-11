@@ -41,7 +41,6 @@ const StyledDot = styled(HelpCircleDual)`
 const StyledLink = styled(SafeLinkButton)`
   display: flex;
   justify-content: space-between;
-  padding: ${spacing.small};
 
   &[data-not-viewed="true"] {
     background-color: ${colors.background.lightBlue};
