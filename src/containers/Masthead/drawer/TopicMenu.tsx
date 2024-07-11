@@ -13,7 +13,7 @@ import { gql } from "@apollo/client";
 import { SafeLink } from "@ndla/safelink";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
-import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerMenuItem, { StyledButton } from "./DrawerMenuItem";
 import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
@@ -61,7 +61,6 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
   );
 
   const active = useMemo(() => topicPath[topicPath.length - 1]?.id === topic.id, [topic, topicPath]);
-  console.log(active);
   useArrowNavigation(active, {
     initialFocused: active ? `header-${topic.id}` : topicPath[level]?.id,
     onRightKeyPressed: arrowAddTopic,
@@ -106,17 +105,19 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
       <BackButton title={topicPath[level - 2]?.name ?? subject.name} onGoBack={onCloseMenuPortion} />
       <DrawerList id={`list-${topic.id}`}>
         <DrawerListItem role="none" data-list-item>
-          <DrawerHeader textStyle="heading.medium" asChild consumeCss>
-            <SafeLink
-              aria-current={location.pathname === topic.path ? "page" : undefined}
-              tabIndex={-1}
-              role="menuitem"
-              to={topic.path}
-              onClick={onClose}
-              id={`header-${topic.id}`}
-            >
-              {topic.name}
-            </SafeLink>
+          <DrawerHeader textStyle="heading.medium" asChild>
+            <StyledButton variant="link" asChild consumeCss>
+              <SafeLink
+                aria-current={location.pathname === topic.path ? "page" : undefined}
+                tabIndex={-1}
+                role="menuitem"
+                to={topic.path}
+                onClick={onClose}
+                id={`header-${topic.id}`}
+              >
+                {topic.name}
+              </SafeLink>
+            </StyledButton>
           </DrawerHeader>
         </DrawerListItem>
         {topic.subtopics.map((t) => (

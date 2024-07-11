@@ -6,9 +6,9 @@
  *
  */
 
+import { HTMLAttributes } from "react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HTMLAttributes } from "react";
 
 const DrawerPortion = styled("div", {
   base: {
@@ -67,17 +67,14 @@ export const DrawerListItem = styled("li", {
 
 export const DrawerHeader = styled(Heading, {
   base: {
-    paddingLeft: "small",
-    color: "black",
+    color: "text.default",
     textDecoration: "none",
     textStyle: "label.large",
     fontWeight: "bold",
-    textAlign: "start",
-    display: "flex",
     justifyContent: "start",
     alignItems: "center",
-    paddingBottom: "small",
-    paddingTop: "small",
+    padding: "small",
+    width: "100%",
   },
 });
 

@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "reac
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
@@ -22,7 +23,6 @@ import {
 } from "../../../graphqlTypes";
 import { toAbout, useTypedParams } from "../../../routeHelpers";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
-import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   onCloseMenuPortion: () => void;
