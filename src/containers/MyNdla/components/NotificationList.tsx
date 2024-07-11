@@ -40,17 +40,7 @@ const StyledDot = styled(HelpCircleDual)`
 
 const StyledLink = styled(SafeLinkButton)`
   display: flex;
-  border: solid 1px ${colors.brand.greyLight};
-  border-radius: ${spacing.xxsmall};
   justify-content: space-between;
-  padding: ${spacing.small};
-  gap: ${spacing.small};
-
-  &:hover {
-    background-color: ${colors.brand.lighter};
-    border: solid 1px ${colors.brand.light};
-    color: ${colors.text.primary};
-  }
 
   &[data-not-viewed="true"] {
     background-color: ${colors.background.lightBlue};
@@ -133,7 +123,7 @@ const NotificationList = ({ notifications, close }: Props) => {
           return (
             <StyledLi key={index}>
               <StyledLink
-                variant="stripped"
+                variant="secondary"
                 data-not-viewed={!notification.isRead}
                 to={routes.myNdla.arenaTopic(notification.topicId)}
                 onClick={() => close?.()}

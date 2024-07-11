@@ -17,8 +17,8 @@ import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Image } from "@ndla/ui";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -125,7 +125,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       <Image alt={image.altText} src={image.src} />
       {!isCopyrighted(image.copyright.license.license) && (
         <MediaListItemActions>
-          <SafeLinkButton to={downloadUrl(image.src)} variant="outline" download>
+          <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
             <Download />
             {t("license.download")}
           </SafeLinkButton>
@@ -135,7 +135,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             hasCopiedTitle={t("license.embedCopied")}
           />
           {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" variant="outline" rel="noopener noreferrer">
+            <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
               <Launch />
               {t("license.openLink")}
             </SafeLinkButton>

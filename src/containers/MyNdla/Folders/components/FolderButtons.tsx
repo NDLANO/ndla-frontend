@@ -13,6 +13,7 @@ import styled from "@emotion/styled";
 import { Cross, Copy } from "@ndla/icons/action";
 import { Share, ShareArrow } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import FolderCreateModal from "./FolderCreateModal";
 import FolderDeleteModal from "./FolderDeleteModal";
@@ -21,7 +22,6 @@ import FolderShareModal from "./FolderShareModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { StyledSafeLinkButton } from "../../components/toolbarStyles";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../../folderMutations";
 import { OutletContext } from "../../MyNdlaLayout";
 import { isStudent, copyFolderSharingLink } from "../util";
@@ -34,10 +34,6 @@ interface FolderButtonProps {
 const StyledListItem = styled.li`
   margin: 0;
   padding: 0;
-
-  button {
-    margin-right: auto;
-  }
 `;
 
 const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
@@ -221,17 +217,16 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const previewFolderButton =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="previewFolder">
-        <StyledSafeLinkButton
+        <SafeLinkButton
           key="previewFolder"
-          variant="ghost"
-          colorTheme="lighter"
+          variant="tertiary"
           to={routes.folder(selectedFolder.id)}
           aria-label={t("myNdla.folder.sharing.button.goTo")}
           title={t("myNdla.folder.sharing.button.goTo")}
         >
           <ShareArrow size="small" />
           {t("myNdla.folder.sharing.button.goTo")}
-        </StyledSafeLinkButton>
+        </SafeLinkButton>
       </StyledListItem>
     ) : null;
 

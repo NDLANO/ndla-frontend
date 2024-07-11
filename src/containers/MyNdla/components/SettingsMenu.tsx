@@ -10,19 +10,19 @@ import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from 
 import { isMobile, isTablet } from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2, ButtonV2 } from "@ndla/button";
-import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
+import { IconButtonV2 } from "@ndla/button";
+import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@ndla/dropdown-menu";
 import { HorizontalMenu } from "@ndla/icons/contentType";
 import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { StyledButton, StyledSafeLinkButton } from "./toolbarStyles";
 
 export interface MenuItemProps {
   icon?: ReactNode;
   text?: string;
   disabled?: boolean;
-  type?: "danger" | "primary";
+  type?: "danger" | "tertiary";
   isModal?: boolean;
   onClick?: (e?: MouseEvent<HTMLElement>) => void;
   keepOpen?: boolean;
@@ -91,36 +91,14 @@ const DropdownTriggerButton = styled(IconButtonV2)`
   }
 `;
 
-// TODO: Needs special handling
-const ItemButton = styled(ButtonV2)`
+const StyledSafeLinkItem = styled(SafeLinkButton)`
   display: flex;
-  align-items: center;
-  color: ${colors.text.primary};
-  ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
   justify-content: flex-start;
-  &[data-type="danger"] {
-    color: ${colors.support.red};
-    &:hover,
-    &:focus-within,
-    &:focus,
-    &:focus-visible {
-      color: ${colors.white};
-    }
-  }
-
-  &[data-type="primary"] {
-    color: ${colors.brand.primary};
-  }
 `;
 
-const StyledSafelinkItem = styled(SafeLinkButton)`
-  color: ${colors.text.primary};
-  padding: ${spacing.xxsmall} ${spacing.xsmall};
+const StyledButtonItem = styled(Button)`
   display: flex;
   justify-content: flex-start;
-  font-weight: normal;
-  min-height: 32px;
-  ${fonts.sizes(spacing.nsmall, spacing.nsmall)}
 `;
 
 const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
@@ -189,10 +167,9 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                       modality={item.modality}
                       setSkipAutoFocus={() => setSkipAutoFocus(true)}
                     >
-                      <ButtonV2
-                        fontWeight="normal"
-                        variant="ghost"
-                        colorTheme={item.type}
+                      <Button
+                        variant={item.type ?? "tertiary"}
+                        size="small"
                         ref={item.ref}
                         onClick={(e) => {
                           if (item.onClick) {
@@ -205,7 +182,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                       >
                         {item.icon}
                         {item.text}
-                      </ButtonV2>
+                      </Button>
                     </Item>
                   </StyledListItemMobile>
                 ))}
@@ -231,29 +208,27 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
             setSkipAutoFocus={() => setSkipAutoFocus(true)}
           >
             {item.link ? (
-              <StyledSafeLinkButton
+              <StyledSafeLinkItem
                 tabIndex={-1}
                 key={item.text}
-                variant="ghost"
-                colorTheme="lighter"
+                variant="tertiary"
                 to={item.link}
                 aria-label={item.text}
               >
                 {item.icon}
                 {item.text}
-              </StyledSafeLinkButton>
+              </StyledSafeLinkItem>
             ) : (
-              <StyledButton
-                colorTheme={item.type === "danger" ? "danger" : "light"}
+              <StyledButtonItem
                 disabled={item.disabled}
-                variant="ghost"
+                variant={item.type ?? "tertiary"}
                 data-type={item.type}
                 onClick={item.onClick}
                 ref={item.ref}
               >
                 {item.icon}
                 {item.text}
-              </StyledButton>
+              </StyledButtonItem>
             )}
           </Item>
         ))}
@@ -312,33 +287,30 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                 }}
               >
                 {item.link ? (
-                  <StyledSafelinkItem
+                  <StyledSafeLinkItem
                     tabIndex={-1}
                     role="menuitem"
                     key={item.text}
-                    variant="ghost"
-                    colorTheme="lighter"
+                    variant="tertiary"
+                    size="small"
                     to={item.link}
                     aria-label={item.text}
                   >
                     {item.icon}
                     {item.text}
-                  </StyledSafelinkItem>
+                  </StyledSafeLinkItem>
                 ) : (
-                  <ItemButton
-                    colorTheme={item.type === "danger" ? "danger" : "light"}
+                  <StyledButtonItem
                     disabled={item.disabled}
-                    shape="sharp"
-                    variant="ghost"
+                    variant={item.type ?? "tertiary"}
                     size="small"
-                    fontWeight="normal"
                     data-type={item.type}
                     onClick={item.onClick}
                     ref={item.ref}
                   >
                     {item.icon}
                     {item.text}
-                  </ItemButton>
+                  </StyledButtonItem>
                 )}
               </DropdownItem>
             </Item>

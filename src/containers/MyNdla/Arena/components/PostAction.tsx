@@ -50,7 +50,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const update: MenuItemProps = {
     icon: <Pencil />,
     text: t("myNdla.arena.posts.dropdownMenu.edit"),
-    type: "primary",
+    type: "tertiary",
     disabled: disableModification,
     onClick: () => setIsEditing(true),
   };
@@ -75,7 +75,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const report: MenuItemProps = {
     icon: <ReportOutlined />,
     text: t("myNdla.arena.posts.dropdownMenu.report"),
-    type: "primary",
+    type: "tertiary",
     isModal: true,
     modality: false,
     modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,

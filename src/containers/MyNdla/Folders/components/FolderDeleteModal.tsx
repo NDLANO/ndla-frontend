@@ -25,7 +25,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <Button variant="tertiary" aria-label={t("myNdla.folder.delete")} title={t("myNdla.folder.delete")}>
+        <Button variant="danger" aria-label={t("myNdla.folder.delete")} title={t("myNdla.folder.delete")}>
           <TrashCanOutline size="small" />
           {t("myNdla.folder.deleteShort")}
         </Button>
