@@ -91,10 +91,9 @@ const DropdownTriggerButton = styled(IconButtonV2)`
   }
 `;
 
-const StyledSafelinkItem = styled(SafeLinkButton)`
+const StyledSafeLinkItem = styled(SafeLinkButton)`
   display: flex;
   justify-content: flex-start;
-  max-width: fit-content;
 `;
 
 const StyledButtonItem = styled(Button)`
@@ -209,7 +208,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
             setSkipAutoFocus={() => setSkipAutoFocus(true)}
           >
             {item.link ? (
-              <StyledSafelinkItem
+              <StyledSafeLinkItem
                 tabIndex={-1}
                 key={item.text}
                 variant="tertiary"
@@ -218,7 +217,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               >
                 {item.icon}
                 {item.text}
-              </StyledSafelinkItem>
+              </StyledSafeLinkItem>
             ) : (
               <StyledButtonItem
                 disabled={item.disabled}
@@ -288,7 +287,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                 }}
               >
                 {item.link ? (
-                  <StyledSafelinkItem
+                  <StyledSafeLinkItem
                     tabIndex={-1}
                     role="menuitem"
                     key={item.text}
@@ -299,7 +298,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
                   >
                     {item.icon}
                     {item.text}
-                  </StyledSafelinkItem>
+                  </StyledSafeLinkItem>
                 ) : (
                   <StyledButtonItem
                     disabled={item.disabled}

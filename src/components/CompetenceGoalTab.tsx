@@ -10,8 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { MenuBook } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
-import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { CompetenceGoalsType } from "../interfaces";
 
@@ -141,8 +140,10 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  text-align: start;
+const CoreElementWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProps) => {
@@ -163,27 +164,25 @@ export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProp
                       {goal.text}
                     </Text>
                     {showLinks && (
-                      <StyledSafeLinkButton to={goal.url} target={isOembed ? "_blank" : "_self"} variant="secondary">
-                        <Search />
+                      <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
                         {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
-                      </StyledSafeLinkButton>
+                      </SafeLink>
                     )}
                   </ItemWrapper>
                 </InnerListItem>
               ))}
             </InnerList>
           ) : (
-            <ItemWrapper data-show-links={showLinks}>
+            <CoreElementWrapper>
               <Text textStyle="content-alt" margin="none">
                 {element.text}
               </Text>
               {showLinks && (
-                <StyledSafeLinkButton to={element.url} target={isOembed ? "_blank" : "_self"} variant="secondary">
-                  <Search />
+                <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
-                </StyledSafeLinkButton>
+                </SafeLink>
               )}
-            </ItemWrapper>
+            </CoreElementWrapper>
           )}
         </OuterListItem>
       ))}
