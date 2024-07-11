@@ -11,11 +11,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { InputContainer, InputV3 } from "@ndla/forms";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, IconButton } from "@ndla/primitives";
+import { Button, IconButton, Input, InputContainer } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import SubjectFilter from "./SubjectFilter";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
@@ -43,10 +42,6 @@ const Wrapper = styled.div`
   ${mq.range({ from: breakpoints.tablet })} {
     margin-top: ${spacing.large};
   }
-`;
-
-const StyledInputContainer = styled(InputContainer)`
-  background: transparent;
 `;
 
 const FiltersWrapper = styled.div`
@@ -130,8 +125,8 @@ const SearchHeader = ({
     <Wrapper>
       <form action="/search/" onSubmit={handleSearchSubmit}>
         <StyledSearchWrapper>
-          <StyledInputContainer>
-            <InputV3
+          <InputContainer>
+            <Input
               ref={inputRef}
               type="search"
               autoComplete="off"
@@ -154,7 +149,7 @@ const SearchHeader = ({
                 <Cross />
               </IconButton>
             )}
-          </StyledInputContainer>
+          </InputContainer>
           <IconButton
             variant="primary"
             type="submit"
