@@ -6,16 +6,18 @@
  *
  */
 
+import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 const DrawerPortion = styled("div", {
   base: {
-    display: "none",
+    display: "flex",
     flexDirection: "column",
-    border: "1px 1px 0 0",
-    borderStyle: "solid",
-    borderColor: "surface.brand.1",
     minWidth: "300px",
+    maxWidth: "400px",
+    paddingLeft: "small",
+    paddingRight: "small",
+    borderLeft: "1px solid gray",
     tabletDown: {
       "&:nth-last-of-type(-n + 1)": {
         display: "flex",
@@ -41,6 +43,8 @@ export const DrawerList = styled("ul", {
   base: {
     padding: "0",
     overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
@@ -49,6 +53,22 @@ export const DrawerListItem = styled("li", {
     padding: "0",
     listStyle: "none",
     display: "flex",
+  },
+});
+
+export const DrawerHeader = styled(Heading, {
+  base: {
+    paddingLeft: "small",
+    color: "black",
+    textDecoration: "none",
+    textStyle: "label.large",
+    fontWeight: "bold",
+    textAlign: "start",
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+    paddingBottom: "small",
+    paddingTop: "small",
   },
 });
 

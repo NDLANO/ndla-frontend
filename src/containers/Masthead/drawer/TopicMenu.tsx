@@ -8,18 +8,13 @@
 
 import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Bookmark, Class } from "@ndla/icons/action";
-import { ContentTypeBadge } from "@ndla/ui";
+import { SafeLink } from "@ndla/safelink";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
-import DrawerRowHeader from "./DrawerRowHeader";
+import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
@@ -29,7 +24,6 @@ import {
   GQLTopicMenuResourcesQueryVariables,
   GQLTopicMenu_SubjectFragment,
 } from "../../../graphqlTypes";
-import { contentTypeMapping } from "../../../util/getContentType";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getResourceGroups, sortResourceTypes } from "../../Resources/getResourceGroups";
 
@@ -44,18 +38,9 @@ interface Props {
   removeTopic: (index: number) => void;
 }
 
-const StyledResourceSpan = styled.span`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
-
 const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, addTopic, level, removeTopic }: Props) => {
-  const { t } = useTranslation();
-  const parentIsTopic = topic.parentId?.startsWith("urn:subject");
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
-  const Icon = parentIsTopic ? Class : Bookmark;
 
   const { data } = useGraphQuery<GQLTopicMenuResourcesQuery, GQLTopicMenuResourcesQueryVariables>(resourceQuery, {
     variables: { topicId: topic.id, subjectId: subject.id },
@@ -120,21 +105,26 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     <DrawerPortion>
       <BackButton title={topicPath[level - 2]?.name ?? subject.name} onGoBack={onCloseMenuPortion} />
       <DrawerList id={`list-${topic.id}`}>
-        <DrawerRowHeader
-          id={topic.id}
-          icon={<Icon />}
-          type="link"
-          current={location.pathname === topic.path}
-          to={topic.path}
-          title={topic.name}
-          onClose={onClose}
-        />
+        <DrawerListItem role="none" data-list-item>
+          <DrawerHeader textStyle="heading.medium" asChild consumeCss>
+            <SafeLink
+              aria-current={location.pathname === topic.path ? "page" : undefined}
+              tabIndex={-1}
+              role="menuitem"
+              to={topic.path}
+              onClick={onClose}
+              id={`header-${topic.id}`}
+            >
+              {topic.name}
+            </SafeLink>
+          </DrawerHeader>
+        </DrawerListItem>
         {topic.subtopics.map((t) => (
           <DrawerMenuItem
             id={t.id}
             key={t.id}
-            current={t.path === location.pathname}
             type="button"
+            current={t.path === location.pathname}
             active={levelId === t.id}
             onClick={(expanded) => (expanded ? removeTopic(level) : addTopic(t, level))}
           >
@@ -159,7 +149,6 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
               </ResourceTypeList>
             ))
           : sortedResources.map((res) => {
-              const type = res.resourceTypes[0] ? contentTypeMapping[res.resourceTypes[0]?.id]! : "subject-material";
               return (
                 <DrawerMenuItem
                   id={`${topic.id}-${res.id}`}
@@ -169,10 +158,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                   onClose={onClose}
                   key={res.id}
                 >
-                  <StyledResourceSpan aria-label={`${res.name}, ${t(`contentTypes.${type}`)}`}>
-                    <ContentTypeBadge type={type} border={false} />
-                    {res.name}
-                  </StyledResourceSpan>
+                  {res.name}
                 </DrawerMenuItem>
               );
             })}

@@ -10,11 +10,11 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "reac
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import { SafeLink } from "@ndla/safelink";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
-import DrawerRowHeader from "./DrawerRowHeader";
+import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import {
   GQLAboutMenuFragment,
@@ -165,14 +165,20 @@ const NewAboutMenuPortion = ({
       <DrawerPortion>
         <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
         <DrawerList id={`list-${item.article.slug}`}>
-          <DrawerRowHeader
-            id={item.article.slug}
-            title={item.article.title}
-            type="link"
-            to={toAbout(item.article.slug)}
-            onClose={onClose}
-            active={!selected}
-          />
+          <DrawerListItem role="none" data-list-item>
+            <DrawerHeader asChild consumeCss>
+              <SafeLink
+                tabIndex={-1}
+                role="menuitem"
+                to={toAbout(item.article.slug)}
+                onClick={onClose}
+                id={item.article.slug}
+                data-active={!selected}
+              >
+                {item.article.title}
+              </SafeLink>
+            </DrawerHeader>
+          </DrawerListItem>
           {item.menu?.map((link) => {
             const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
             if (link.hideLevel) {

@@ -11,13 +11,12 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { MenuBook } from "@ndla/icons/action";
+import { SafeLink } from "@ndla/safelink";
 import { ContentLoader } from "@ndla/ui";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
-import DrawerRowHeader from "./DrawerRowHeader";
+import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
@@ -115,15 +114,14 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
         <BackButton onGoBack={onCloseMenuPortion} title={t("masthead.menu.goToMainMenu")} homeButton />
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
-            <DrawerRowHeader
-              current={path === location.pathname}
-              id={subject.id}
-              icon={<MenuBook />}
-              title={subject.name}
-              type="link"
-              to={path}
-              onClose={onClose}
-            />
+            <DrawerListItem role="none" data-list-item>
+              <DrawerHeader textStyle="heading.medium" asChild consumeCss>
+                <SafeLink aria-current={path === location.pathname} id={subject.id} to={path} onClick={onClose}>
+                  {subject.name}
+                </SafeLink>
+              </DrawerHeader>
+            </DrawerListItem>
+
             {groupedTopics.map((t) => (
               <DrawerMenuItem
                 id={t.id}

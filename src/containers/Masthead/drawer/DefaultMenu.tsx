@@ -9,13 +9,13 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { IconButtonV2 } from "@ndla/button";
-import { Back, Home } from "@ndla/icons/common";
+import { Back } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
 import { MenuType } from "./drawerMenuTypes";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import DrawerRowHeader from "./DrawerRowHeader";
 import useArrowNavigation from "./useArrowNavigation";
 import {
@@ -30,18 +30,9 @@ import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: "100px",
-    maxHeight: "100px",
-    alignItems: "center",
-    gap: "normal",
+    paddingLeft: "large",
+    paddingRight: "large",
     paddingTop: "small",
-    border: "1px 1px 0 0",
-    borderStyle: "solid",
-    borderColor: "surface.brand.1",
-
-    flex: "1",
     mobileToTablet: {
       display: "none",
     },
@@ -68,22 +59,12 @@ interface Props {
   dynamicId?: string;
   subject?: GQLDefaultMenu_SubjectFragment;
   type?: MenuType;
-  closeSubMenu: () => void;
   onCloseMenuPortion: () => void;
 }
 
 const validMenus: MenuType[] = ["subject", "programme", "about"];
 
-const DefaultMenu = ({
-  onClose,
-  setActiveMenu,
-  subject,
-  type,
-  setFrontpageMenu,
-  dynamicMenus,
-  closeSubMenu,
-  dynamicId,
-}: Props) => {
+const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
   const { setShouldCloseLevel } = useDrawerContext();
@@ -108,31 +89,26 @@ const DefaultMenu = ({
   if (type) {
     return (
       <StyledCollapsedMenu>
-        <IconButtonV2 onClick={setShouldCloseLevel} aria-label="Go back" colorTheme="light">
+        <IconButton onClick={setShouldCloseLevel} aria-label="Go back" variant="secondary">
           <Back />
-        </IconButtonV2>
-        <IconButtonV2 onClick={closeSubMenu} aria-label="Home" colorTheme="light">
-          <Home />
-        </IconButtonV2>
+        </IconButton>
       </StyledCollapsedMenu>
     );
   }
   return (
     <StyledDrawerPortion>
       <DrawerList>
+        <DrawerListItem>
+          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+            <span>Fag og Utdanningsprogram</span>
+          </DrawerHeader>
+        </DrawerListItem>
         <DrawerRowHeader
           ownsId="programme-menu"
           id="programme"
           type="button"
           title={t("masthead.menuOptions.programme")}
           onClick={() => setActiveMenu("programme")}
-        />
-        <DrawerRowHeader
-          type="link"
-          id="subjects"
-          to="/subjects"
-          title={t("masthead.menuOptions.subjects")}
-          onClose={onClose}
         />
         {subject && (
           <DrawerRowHeader
@@ -143,6 +119,35 @@ const DefaultMenu = ({
             onClick={() => setActiveMenu("subject")}
           />
         )}
+        <DrawerRowHeader
+          type="link"
+          id="subjects"
+          to="/subjects"
+          title={t("masthead.menuOptions.subjects")}
+          onClose={onClose}
+        />
+        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
+          {t("masthead.menuOptions.film")}
+        </DrawerMenuItem>
+        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
+          {t("masthead.menuOptions.multidisciplinarySubjects")}
+        </DrawerMenuItem>
+        <DrawerListItem>
+          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+            <span>Tips og råd</span>
+          </DrawerHeader>
+        </DrawerListItem>
+        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
+          {t("masthead.menuOptions.toolboxStudents")}
+        </DrawerMenuItem>
+        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
+          {t("masthead.menuOptions.toolboxTeachers")}
+        </DrawerMenuItem>
+        <DrawerListItem>
+          <DrawerHeader textStyle="label.large" fontWeight="bold" asChild consumeCss>
+            <span>Om oss</span>
+          </DrawerHeader>
+        </DrawerListItem>
         {dynamicMenus.map((menu) => (
           <DrawerRowHeader
             key={menu.article.slug}
@@ -153,18 +158,6 @@ const DefaultMenu = ({
             onClick={() => setFrontpageMenu(menu)}
           />
         ))}
-        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
-          {t("masthead.menuOptions.multidisciplinarySubjects")}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
-          {t("masthead.menuOptions.toolboxStudents")}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
-          {t("masthead.menuOptions.toolboxTeachers")}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
-          {t("masthead.menuOptions.film")}
-        </DrawerMenuItem>
       </DrawerList>
     </StyledDrawerPortion>
   );

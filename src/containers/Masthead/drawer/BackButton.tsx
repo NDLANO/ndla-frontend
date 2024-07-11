@@ -22,7 +22,6 @@ const StyledButton = styled(Button, {
     gap: "small",
     borderBottom: "1px solid gray",
     justifyContent: "flex-start",
-    padding: "small normal",
     tablet: {
       display: "none",
     },

@@ -7,6 +7,7 @@
  */
 
 import { ReactNode } from "react";
+import { RightArrow } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
 import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -31,55 +32,23 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
   onClose?: () => void;
 }
 
-const StyledButton = styled(Button, {
-  base: {
-    width: "100%",
-    padding: "xsmall small",
-    margin: "0 small",
-    backgroundColor: "transparent",
-    border: "0px",
-    borderRadius: "xxsmall",
-    color: "black",
-    textAlign: "start",
-    boxShadow: "none",
-    cursor: "pointer",
-    _lastOfType: {
-      margin: "xsmall small",
-    },
-    _hover: {
-      textDecoration: "underline",
-    },
-    "&[data-bold='true']": {
-      fontWeight: "bold",
-      textStyle: "label.medium",
-    },
-    "&[data-active='true']": {
-      backgroundColor: "surface.brand.1",
-      color: "white",
-    },
-  },
-});
-
-const TextWrapper = styled("div", {
+export const StyledButton = styled(Button, {
   base: {
     display: "flex",
-    flex: "1",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "xsmall",
-  },
-});
-
-const CurrentIndicator = styled("span", {
-  base: {
-    color: "currentColor",
+    width: "100%",
+    cursor: "pointer",
+    textStyle: "label.medium",
+    fontWeight: "light",
+    alignItems: "start",
+    textAlign: "start",
+    justifyContent: "start",
   },
 });
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
-const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) =>
-  specificProps.type === "button" ? (
+const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
+  return specificProps.type === "button" ? (
     <DrawerListItem role="none" data-list-item>
       <StyledButton
         tabIndex={-1}
@@ -89,33 +58,29 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
         aria-expanded={!!active}
         id={id}
         onClick={() => specificProps.onClick(!!active)}
-        data-bold={bold}
-        data-active={active}
+        variant="tertiary"
+        size="small"
       >
-        <TextWrapper>
-          {children}
-          {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
-        </TextWrapper>
+        {children}
+        <RightArrow />
       </StyledButton>
     </DrawerListItem>
   ) : (
     <DrawerListItem role="none" data-list-item>
-      <SafeLink
-        tabIndex={-1}
-        role="menuitem"
-        id={id}
-        aria-current={current ? "page" : undefined}
-        to={specificProps.to}
-        onClick={specificProps.onClose}
-        data-bold={bold}
-        data-active={active}
-      >
-        <TextWrapper>
+      <StyledButton variant="link" size="small" asChild consumeCss>
+        <SafeLink
+          tabIndex={-1}
+          role="menuitem"
+          id={id}
+          aria-current={current ? "page" : undefined}
+          to={specificProps.to}
+          onClick={specificProps.onClose}
+        >
           {children}
-          {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
-        </TextWrapper>
-      </SafeLink>
+        </SafeLink>
+      </StyledButton>
     </DrawerListItem>
   );
+};
 
 export default DrawerMenuItem;

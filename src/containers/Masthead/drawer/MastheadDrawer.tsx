@@ -9,7 +9,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
 import { Cross } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalTrigger } from "@ndla/modal";
@@ -36,9 +35,7 @@ const MainMenu = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    flex: "1",
-    height: "100%",
-    maxHeight: "100%",
+    alignSelf: "stretch",
     overflowY: "hidden",
   },
 });
@@ -64,11 +61,11 @@ const DrawerContainer = styled("nav", {
 
 const HeadWrapper = styled("div", {
   base: {
-    paddingTop: "normal",
+    paddingTop: "medium",
     paddingLeft: "small",
-    paddingBottom: "normal",
+    paddingBottom: "medium",
     tablet: {
-      paddingLeft: "normal",
+      paddingLeft: "medium",
     },
   },
 });
@@ -87,6 +84,12 @@ const LanguageSelectWrapper = styled("div", {
   base: {
     marginTop: "medium",
     marginLeft: "small",
+  },
+});
+
+const StyledDrawer = styled(Drawer, {
+  base: {
+    display: "flex",
   },
 });
 
@@ -162,12 +165,6 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const closeSubMenu = useCallback(() => {
-    setTopicPath([]);
-    setFrontpageMenu([]);
-    setType(undefined);
-  }, []);
-
   const onCloseMenuPortion = useCallback(() => {
     if (type === "about") {
       const slicedMenu = frontpageMenu?.slice(0, frontpageMenu?.length - 1);
@@ -201,14 +198,20 @@ const MastheadDrawer = ({ subject }: Props) => {
           <span>{t("masthead.menu.button")}</span>
         </DrawerButton>
       </ModalTrigger>
-      <Drawer expands position="left" size="xsmall" animationDuration={100} aria-label={t("masthead.menu.modalLabel")}>
+      <StyledDrawer
+        expands
+        position="left"
+        size="xsmall"
+        animationDuration={100}
+        aria-label={t("masthead.menu.modalLabel")}
+      >
         <MainMenu>
           <HeadWrapper>
             <ModalCloseButton>
-              <ButtonV2 variant="outline" shape="pill">
+              <Button variant="tertiary">
                 <Cross />
                 {t("close")}
-              </ButtonV2>
+              </Button>
             </ModalCloseButton>
           </HeadWrapper>
           <MenuLanguageContainer>
@@ -225,7 +228,6 @@ const MastheadDrawer = ({ subject }: Props) => {
                   }
                   subject={subject}
                   type={type}
-                  closeSubMenu={closeSubMenu}
                 />
                 {type && (
                   <DrawerContent
@@ -255,7 +257,7 @@ const MastheadDrawer = ({ subject }: Props) => {
             )}
           </MenuLanguageContainer>
         </MainMenu>
-      </Drawer>
+      </StyledDrawer>
     </Modal>
   );
 };
