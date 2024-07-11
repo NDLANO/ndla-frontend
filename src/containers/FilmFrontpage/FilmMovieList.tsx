@@ -8,10 +8,10 @@
 
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Carousel } from "@ndla/carousel";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
@@ -49,14 +49,16 @@ const FilmMovieList = ({ name, movies = [], slideBackwardsLabel, slideForwardsLa
     )}
     <Carousel
       leftButton={
-        <IconButtonV2 aria-label={slideBackwardsLabel}>
+        // TODO: Not sure if this is correct according to the design
+        <IconButton variant="primary" aria-label={slideBackwardsLabel}>
           <ChevronLeft />
-        </IconButtonV2>
+        </IconButton>
       }
       rightButton={
-        <IconButtonV2 aria-label={slideForwardsLabel}>
+        // TODO: Not sure if this is correct according to the design
+        <IconButton variant="primary" aria-label={slideForwardsLabel}>
           <ChevronRight />
-        </IconButtonV2>
+        </IconButton>
       }
       items={movies.map((movie) => (
         <FilmContentCard key={movie.id} movie={movie} type="list" lazy />

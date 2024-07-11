@@ -9,10 +9,10 @@
 import { HTMLAttributes, ReactNode, useMemo, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, stackOrder, spacing, fonts } from "@ndla/core";
 import { DropdownTrigger, DropdownContent, DropdownItem, DropdownMenu } from "@ndla/dropdown-menu";
 import { HashTag } from "@ndla/icons/common";
+import { IconButton } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { resourceTypeColor } from "@ndla/ui";
@@ -40,10 +40,6 @@ export const ResourceTitleLink = styled(SafeLink)`
     bottom: 0;
     left: 0;
   }
-`;
-
-const StyledTrigger = styled(IconButtonV2)`
-  margin: 0px ${spacing.xsmall};
 `;
 
 export const ResourceHeading = styled(Text)`
@@ -191,14 +187,10 @@ export const CompressedTagList = ({ tags, tagLinkPrefix }: CompressedTagListProp
       {remainingTags.length > 0 && (
         <DropdownMenu>
           <DropdownTrigger>
-            <StyledTrigger
-              size="xsmall"
-              variant="ghost"
-              colorTheme="light"
-              aria-label={t("myNdla.moreTags", { count: remainingTags.length })}
-            >
+            {/* TODO: Not sure about how this should look */}
+            <IconButton variant="clear" aria-label={t("myNdla.moreTags", { count: remainingTags.length })}>
               {<TagCounterWrapper>{`+${remainingTags.length}`}</TagCounterWrapper>}
-            </StyledTrigger>
+            </IconButton>
           </DropdownTrigger>
           <DropdownContent showArrow>
             {remainingTags.map((tag, i) => (

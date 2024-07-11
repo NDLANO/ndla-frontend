@@ -9,13 +9,13 @@
 import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { InputContainer, InputV3 } from "@ndla/forms";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, IconButton } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import SubjectFilter from "./SubjectFilter";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
@@ -65,6 +65,11 @@ const StyledModalHeader = styled(ModalHeader)`
   width: 100%;
   max-width: 1040px;
   padding: 0px;
+`;
+
+const StyledSearchWrapper = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
 `;
 
 const SearchHeader = ({
@@ -124,41 +129,41 @@ const SearchHeader = ({
   return (
     <Wrapper>
       <form action="/search/" onSubmit={handleSearchSubmit}>
-        <StyledInputContainer>
-          <InputV3
-            ref={inputRef}
-            type="search"
-            autoComplete="off"
-            id="search"
-            name="search"
-            placeholder={t("searchPage.searchFieldPlaceholder")}
-            value={searchValue}
-            onChange={(e) => onSearchValueChange(e.target.value)}
-          />
-          {searchValue && (
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="greyLighter"
-              aria-label={t("welcomePage.resetSearch")}
-              value={t("welcomePage.resetSearch")}
-              onClick={() => {
-                onSearchValueChange("");
-                inputRef.current?.focus();
-              }}
-            >
-              <Cross />
-            </IconButtonV2>
-          )}
-          <IconButtonV2
-            variant="ghost"
-            colorTheme="light"
+        <StyledSearchWrapper>
+          <StyledInputContainer>
+            <InputV3
+              ref={inputRef}
+              type="search"
+              autoComplete="off"
+              id="search"
+              name="search"
+              placeholder={t("searchPage.searchFieldPlaceholder")}
+              value={searchValue}
+              onChange={(e) => onSearchValueChange(e.target.value)}
+            />
+            {searchValue && (
+              <IconButton
+                variant="clear"
+                aria-label={t("welcomePage.resetSearch")}
+                value={t("welcomePage.resetSearch")}
+                onClick={() => {
+                  onSearchValueChange("");
+                  inputRef.current?.focus();
+                }}
+              >
+                <Cross />
+              </IconButton>
+            )}
+          </StyledInputContainer>
+          <IconButton
+            variant="primary"
             type="submit"
             aria-label={t("searchPage.search")}
             title={t("searchPage.search")}
           >
             <Search />
-          </IconButtonV2>
-        </StyledInputContainer>
+          </IconButton>
+        </StyledSearchWrapper>
       </form>
       <div aria-live="assertive">
         {!loading && query && (

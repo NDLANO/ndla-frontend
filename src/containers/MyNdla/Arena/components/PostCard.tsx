@@ -11,9 +11,9 @@ import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, spacing, misc } from "@ndla/core";
 import { Reply } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
@@ -133,15 +133,13 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
   const replyButton = useMemo(
     () =>
       isRoot ? (
-        <IconButtonV2
-          variant="ghost"
-          colorTheme="light"
-          size="small"
+        <IconButton
+          variant="tertiary"
           aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
           onClick={setIsReplying}
         >
           <Reply />
-        </IconButtonV2>
+        </IconButton>
       ) : null,
     [setIsReplying, isRoot, t, post.owner?.username],
   );

@@ -9,10 +9,10 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Heart, HeartOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
@@ -28,9 +28,8 @@ const SubjectLinkWrapper = styled.li`
   gap: ${spacing.xsmall};
 `;
 
-const StyledIconButton = styled(IconButtonV2)`
-  min-height: 40px;
-  min-width: 40px;
+const StyledIconButton = styled(IconButton)`
+  border-radius: 100%;
 `;
 
 const SubjectSafeLink = styled(SafeLink)`
@@ -99,9 +98,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           onClick={setFavorite}
           aria-label={t("subjectsPage.addFavorite")}
           title={t("subjectsPage.addFavorite")}
-          variant="ghost"
-          size="xsmall"
-          colorTheme="lighter"
+          variant="tertiary"
         >
           {isFavorite ? <Heart /> : <HeartOutline />}
         </StyledIconButton>
@@ -111,9 +108,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
             <StyledIconButton
               aria-label={t("subjectsPage.removeFavorite")}
               title={t("subjectsPage.removeFavorite")}
-              variant="ghost"
-              size="xsmall"
-              colorTheme="lighter"
+              variant="tertiary"
             >
               <Heart />
             </StyledIconButton>
@@ -133,9 +128,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
             <StyledIconButton
               aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
-              variant="ghost"
-              size="xsmall"
-              colorTheme="lighter"
+              variant="tertiary"
             >
               <HeartOutline />
             </StyledIconButton>

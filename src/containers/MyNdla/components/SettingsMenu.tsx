@@ -10,12 +10,11 @@ import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from 
 import { isMobile, isTablet } from "react-device-detect";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@ndla/dropdown-menu";
 import { HorizontalMenu } from "@ndla/icons/contentType";
 import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, IconButton } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 
 export interface MenuItemProps {
@@ -73,24 +72,6 @@ const StyledDropdownContent = styled(DropdownContent)`
   }
 `;
 
-const DropdownTriggerButton = styled(IconButtonV2)`
-  min-width: 44px;
-  min-height: 44px;
-  margin: 0;
-  padding: 0;
-  &:hover,
-  &:focus,
-  &:focus-visible,
-  &:focus-within {
-    border-color: transparent;
-    background-color: transparent;
-    svg {
-      background-color: ${colors.brand.light};
-      border-radius: ${misc.borderRadiusLarge};
-    }
-  }
-`;
-
 const StyledSafeLinkItem = styled(SafeLinkButton)`
   display: flex;
   justify-content: flex-start;
@@ -123,16 +104,15 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
     return (
       <Modal open={open} onOpenChange={setOpen}>
         <ModalTrigger>
-          <IconButtonV2
+          <IconButton
             title={title}
             aria-label={title}
-            colorTheme="light"
-            variant="ghost"
+            variant="tertiary"
             disabled={!menuItems?.length}
             ref={dropdownTriggerRef}
           >
             <HorizontalMenu />
-          </IconButtonV2>
+          </IconButton>
         </ModalTrigger>
         <StyledDrawer
           expands
@@ -239,16 +219,15 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownTrigger>
-        <DropdownTriggerButton
+        <IconButton
           title={title}
           aria-label={title}
-          colorTheme="light"
-          variant="ghost"
+          variant="tertiary"
           disabled={!menuItems?.length}
           ref={dropdownTriggerRef}
         >
           <HorizontalMenu />
-        </DropdownTriggerButton>
+        </IconButton>
       </DropdownTrigger>
       <StyledDropdownContent
         showArrow

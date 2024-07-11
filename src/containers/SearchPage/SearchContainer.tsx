@@ -9,12 +9,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Cross, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
-import { Button } from "@ndla/primitives";
+import { Button, IconButton } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { LanguageSelector, constants } from "@ndla/ui";
 
@@ -203,24 +203,24 @@ const SearchContainer = ({
                 ))}
               </ItemWrapper>
               <ButtonWrapper>
-                <IconButtonV2
-                  variant={viewType === "grid" ? "solid" : "ghost"}
+                <IconButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "grid" ? "primary" : "secondary"}
                   onClick={() => setViewType("grid")}
-                  colorTheme="greyLighter"
                   aria-label={t("searchPage.resultType.gridView")}
                   title={t("searchPage.resultType.gridView")}
                 >
                   <Grid />
-                </IconButtonV2>
-                <IconButtonV2
-                  variant={viewType === "list" ? "solid" : "ghost"}
+                </IconButton>
+                <IconButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "list" ? "primary" : "secondary"}
                   onClick={() => setViewType("list")}
-                  colorTheme="greyLighter"
                   aria-label={t("searchPage.resultType.listView")}
                   title={t("searchPage.resultType.listView")}
                 >
                   <ListCircle />
-                </IconButtonV2>
+                </IconButton>
               </ButtonWrapper>
             </FilterWrapper>
           )}

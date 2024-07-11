@@ -10,12 +10,12 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { FieldErrorMessage, FieldHelper, FormControl, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { IFolder } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { useUserAgent } from "../../UserAgentContext";
@@ -35,7 +35,6 @@ const StyledSpinner = styled(Spinner)`
 const Row = styled.div`
   display: flex;
   align-items: center;
-  gap: ${spacing.xxsmall};
   padding-right: ${spacing.xsmall};
 `;
 
@@ -132,21 +131,13 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           {!loading ? (
             <>
               {!error && (
-                <IconButtonV2
-                  variant={"ghost"}
-                  colorTheme="light"
-                  tabIndex={0}
-                  aria-label={t("save")}
-                  title={t("save")}
-                  size="small"
-                  onClick={onSave}
-                >
+                <IconButton variant="tertiary" tabIndex={0} aria-label={t("save")} title={t("save")} onClick={onSave}>
                   <Done />
-                </IconButtonV2>
+                </IconButton>
               )}
-              <IconButtonV2 aria-label={t("close")} title={t("close")} size="small" variant="ghost" onClick={onClose}>
+              <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
                 <Cross />
-              </IconButtonV2>
+              </IconButton>
             </>
           ) : (
             <FieldHelper>
