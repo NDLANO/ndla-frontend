@@ -31,8 +31,7 @@ import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister, $findMatchingParent } from "@lexical/utils";
 import { colors, misc, shadows, spacing, stackOrder } from "@ndla/core";
-import { FieldErrorMessage, FormControl, InputV3, Label } from "@ndla/forms";
-import { Button } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
@@ -398,12 +397,10 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
       <InputWrapper>
-        <FormControl id="text" isRequired isInvalid={!!textError}>
-          <Label margin="none" textStyle="label-small">
-            {t("markdownEditor.link.text")}
-          </Label>
+        <FieldRoot required invalid={!!textError}>
+          <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
           <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
-          <InputV3
+          <FieldInput
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
             name="text"
@@ -415,13 +412,11 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-        </FormControl>
-        <FormControl id="url" isRequired isInvalid={!!urlError}>
-          <Label margin="none" textStyle="label-small">
-            {t("markdownEditor.link.url")}
-          </Label>
+        </FieldRoot>
+        <FieldRoot required invalid={!!urlError}>
+          <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
           <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
-          <InputV3
+          <FieldInput
             name="url"
             ref={inputRef}
             data-link-input=""
@@ -433,7 +428,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-        </FormControl>
+        </FieldRoot>
       </InputWrapper>
       <ButtonWrapper>
         <Button variant="secondary" onClick={handleLinkDeletion} disabled={!editedLinkElement}>

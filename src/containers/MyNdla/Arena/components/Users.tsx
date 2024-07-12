@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
-import { InputV3 } from "@ndla/forms";
 import { Pager } from "@ndla/pager";
+import { Input } from "@ndla/primitives";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
@@ -39,7 +39,7 @@ type SearchObject = {
   page: string;
 };
 
-const SearchInput = styled(InputV3)`
+const SearchInput = styled(Input)`
   width: 35%;
 `;
 

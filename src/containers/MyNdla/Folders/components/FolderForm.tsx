@@ -12,9 +12,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { ModalCloseButton } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { GQLFolder } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -87,14 +86,12 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="name" isInvalid={!!fieldState.error?.message}>
-            <Label textStyle="label-small" margin="none">
-              {t("validation.fields.name")}
-            </Label>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("validation.fields.name")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <InputV3 {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
-          </FormControl>
+          </FieldRoot>
         )}
       />
       <Controller
@@ -111,14 +108,12 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="description" isInvalid={!!fieldState.error?.message}>
-            <Label textStyle="label-small" margin="none">
-              {t("validation.fields.description")}
-            </Label>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("validation.fields.description")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <TextAreaV3 {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
-          </FormControl>
+          </FieldRoot>
         )}
       />
       <StyledParagraph>{t("myNdla.folder.sharedWarning")}</StyledParagraph>

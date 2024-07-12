@@ -11,11 +11,18 @@ import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FieldErrorMessage, FieldHelper, FormControl, InputContainer, InputV3, Label } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import {
+  IconButton,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  InputContainer,
+} from "@ndla/primitives";
 import { IFolder } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { useUserAgent } from "../../UserAgentContext";
@@ -30,12 +37,6 @@ interface Props {
 
 const StyledSpinner = styled(Spinner)`
   margin: ${spacing.small};
-`;
-
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: ${spacing.xsmall};
 `;
 
 const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
@@ -101,11 +102,11 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
   }, [name, validationT, siblingNames]);
 
   return (
-    <FormControl id="folder-name" isRequired isInvalid={!!error}>
-      <Label visuallyHidden>{t("treeStructure.newFolder.folderName")}</Label>
+    <FieldRoot required invalid={!!error}>
+      <FieldLabel srOnly>{t("treeStructure.newFolder.folderName")}</FieldLabel>
       <FieldErrorMessage>{error}</FieldErrorMessage>
       <InputContainer>
-        <InputV3
+        <FieldInput
           autoComplete="off"
           disabled={loading}
           ref={inputRef}
@@ -127,26 +128,24 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
             }
           }}
         />
-        <Row>
-          {!loading ? (
-            <>
-              {!error && (
-                <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
-                  <Done />
-                </IconButton>
-              )}
-              <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
-                <Cross />
+        {!loading ? (
+          <>
+            {!error && (
+              <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
+                <Done />
               </IconButton>
-            </>
-          ) : (
-            <FieldHelper>
-              <StyledSpinner size="normal" aria-label={t("loading")} />
-            </FieldHelper>
-          )}
-        </Row>
+            )}
+            <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
+              <Cross />
+            </IconButton>
+          </>
+        ) : (
+          <FieldHelper>
+            <StyledSpinner size="normal" aria-label={t("loading")} />
+          </FieldHelper>
+        )}
       </InputContainer>
-    </FormControl>
+    </FieldRoot>
   );
 };
 
