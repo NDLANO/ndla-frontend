@@ -69,7 +69,7 @@ export const defaultRender: RenderFunc = async (req) => {
     };
   }
 
-  const client = createApolloClient(locale, versionHash);
+  const client = createApolloClient(locale, versionHash, req.path);
   const cache = createCache({ key: EmotionCacheKey });
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
