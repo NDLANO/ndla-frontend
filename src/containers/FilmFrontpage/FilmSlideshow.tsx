@@ -115,14 +115,12 @@ const FilmSlideshow = ({ slideshow }: Props) => {
       <CarouselContainer>
         <Carousel
           leftButton={
-            // TODO: Not sure if this is correct according to the design
-            <SlideshowButton variant="primary" aria-label={t("ndlaFilm.slideBackwardsLabel")}>
+            <SlideshowButton variant="secondary" aria-label={t("ndlaFilm.slideBackwardsLabel")}>
               <ChevronLeft />
             </SlideshowButton>
           }
           rightButton={
-            // TODO: Not sure if this is correct according to the design
-            <SlideshowButton variant="primary" aria-label={t("ndlaFilm.slideForwardsLabel")}>
+            <SlideshowButton variant="secondary" aria-label={t("ndlaFilm.slideForwardsLabel")}>
               <ChevronRight />
             </SlideshowButton>
           }

@@ -49,14 +49,12 @@ const FilmMovieList = ({ name, movies = [], slideBackwardsLabel, slideForwardsLa
     )}
     <Carousel
       leftButton={
-        // TODO: Not sure if this is correct according to the design
-        <IconButton variant="primary" aria-label={slideBackwardsLabel}>
+        <IconButton variant="secondary" aria-label={slideBackwardsLabel}>
           <ChevronLeft />
         </IconButton>
       }
       rightButton={
-        // TODO: Not sure if this is correct according to the design
-        <IconButton variant="primary" aria-label={slideForwardsLabel}>
+        <IconButton variant="secondary" aria-label={slideForwardsLabel}>
           <ChevronRight />
         </IconButton>
       }
