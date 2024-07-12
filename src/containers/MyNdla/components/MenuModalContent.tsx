@@ -10,10 +10,10 @@ import { ReactNode, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useOutletContext } from "react-router-dom";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { FourlineHamburger, List } from "@ndla/icons/action";
 import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import NavigationLink from "./NavigationLink";
@@ -95,18 +95,10 @@ const ViewButtonWrapper = styled.div`
   padding-left: ${spacing.small};
 `;
 
-const ViewButton = styled(IconButtonV2)`
+const ViewButton = styled(Button)`
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
-
-  background-color: transparent;
-  color: ${colors.brand.primary};
-  border-radius: ${spacing.xxsmall};
-  border-color: ${colors.brand.light};
-
-  &[aria-current="true"] {
-    background-color: ${colors.brand.lightest};
-  }
 `;
 
 const CloseWrapper = styled.div`
@@ -211,6 +203,8 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
             </StyledText>
             <ViewButtonWrapper>
               <ViewButton
+                // TODO: Fix handling of active according to design
+                variant={viewType === "list" ? "primary" : "secondary"}
                 aria-label={t("myNdla.listView")}
                 aria-current={viewType === "list"}
                 onClick={() => onViewTypeChange?.("list")}
@@ -221,6 +215,8 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
                 </Text>
               </ViewButton>
               <ViewButton
+                // TODO: Fix handling of active according to design
+                variant={viewType === "listLarger" ? "primary" : "secondary"}
                 aria-label={t("myNdla.detailView")}
                 aria-current={viewType === "listLarger"}
                 onClick={() => onViewTypeChange?.("listLarger")}

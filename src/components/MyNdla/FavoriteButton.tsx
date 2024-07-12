@@ -14,22 +14,19 @@ import { styled } from "@ndla/styled-system/jsx";
 
 const StyledFavoriteButton = styled(IconButton, { base: { borderRadius: "100%" } });
 
-export interface Props extends Omit<IconButtonProps, "aria-label"> {
+export interface Props extends Omit<IconButtonProps, "children"> {
   isFavorite?: boolean;
 }
 
-const FavoriteButton = forwardRef<HTMLButtonElement, Props>(({ isFavorite, onClick }, ref) => {
+const FavoriteButton = forwardRef<HTMLButtonElement, Props>(({ isFavorite, variant = "tertiary", ...props }, ref) => {
   const { t } = useTranslation();
   const labelModifier = isFavorite ? "added" : "add";
   const Icon = isFavorite ? Heart : HeartOutline;
+  const ariaLabel = props["aria-label"] || t(`myNdla.resource.${labelModifier}ToMyNdla`);
+  const title = props["title"] || t(`myNdla.resource.${labelModifier}ToMyNdla`);
+
   return (
-    <StyledFavoriteButton
-      variant="tertiary"
-      ref={ref}
-      onClick={onClick}
-      aria-label={t(`myNdla.resource.${labelModifier}ToMyNdla`)}
-      title={t(`myNdla.resource.${labelModifier}ToMyNdla`)}
-    >
+    <StyledFavoriteButton variant={variant} ref={ref} {...props} aria-label={ariaLabel} title={title}>
       <Icon />
     </StyledFavoriteButton>
   );

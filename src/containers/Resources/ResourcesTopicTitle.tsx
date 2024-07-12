@@ -8,10 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { LearningPathQuiz } from "@ndla/icons/contentType";
 import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent, ModalTitle } from "@ndla/modal";
+import { IconButton } from "@ndla/primitives";
 import { Switch } from "@ndla/switch";
 import { Heading, Text } from "@ndla/typography";
 import { HeadingType } from "../../interfaces";
@@ -101,13 +101,13 @@ const ResourcesTopicTitle = ({
           </form>
           <Modal>
             <ModalTrigger>
-              <IconButtonV2
-                colorTheme="light"
+              <IconButton
+                variant="secondary"
                 aria-label={t("resource.dialogTooltip")}
                 title={t("resource.dialogTooltip")}
               >
                 <LearningPathQuiz />
-              </IconButtonV2>
+              </IconButton>
             </ModalTrigger>
             <ModalContent>
               <StyledModalHeader>

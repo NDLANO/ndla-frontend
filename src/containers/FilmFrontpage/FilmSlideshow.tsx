@@ -7,13 +7,13 @@
  */
 
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { Carousel } from "@ndla/carousel";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
-import { Image } from "@ndla/primitives";
+import { IconButton, Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
@@ -80,8 +80,8 @@ const CarouselContainer = styled.div`
   }
 `;
 
-const SlideshowButton = styled(IconButtonV2)`
-  margin-top: ${spacing.normal};
+const SlideshowButton = styled(IconButton)`
+  margin-top: ${spacing.nsmall};
 `;
 
 const StyledFilmContentCard = styled(FilmContentCard)`
@@ -95,6 +95,7 @@ const StyledFilmContentCard = styled(FilmContentCard)`
 
 const FilmSlideshow = ({ slideshow }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment>(slideshow[0]!);
+  const { t } = useTranslation();
 
   return (
     <section>
@@ -114,12 +115,12 @@ const FilmSlideshow = ({ slideshow }: Props) => {
       <CarouselContainer>
         <Carousel
           leftButton={
-            <SlideshowButton aria-label="">
+            <SlideshowButton variant="secondary" aria-label={t("ndlaFilm.slideBackwardsLabel")}>
               <ChevronLeft />
             </SlideshowButton>
           }
           rightButton={
-            <SlideshowButton aria-label="">
+            <SlideshowButton variant="secondary" aria-label={t("ndlaFilm.slideForwardsLabel")}>
               <ChevronRight />
             </SlideshowButton>
           }
