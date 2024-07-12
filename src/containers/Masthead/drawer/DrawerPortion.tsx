@@ -37,6 +37,9 @@ const DrawerPortion = styled("div", {
         flex: "1",
       },
     },
+    _first: {
+      borderLeft: "none",
+    },
   },
 });
 

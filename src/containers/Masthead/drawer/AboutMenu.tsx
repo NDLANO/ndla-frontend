@@ -13,7 +13,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
-import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerMenuItem, { StyledButton } from "./DrawerMenuItem";
 import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import {
@@ -166,17 +166,19 @@ const NewAboutMenuPortion = ({
         <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
         <DrawerList id={`list-${item.article.slug}`}>
           <DrawerListItem role="none" data-list-item>
-            <DrawerHeader asChild consumeCss>
-              <SafeLink
-                tabIndex={-1}
-                role="menuitem"
-                to={toAbout(item.article.slug)}
-                onClick={onClose}
-                id={`header-${item.article.slug}`}
-                data-active={!selected}
-              >
-                {item.article.title}
-              </SafeLink>
+            <DrawerHeader textStyle="heading.medium" asChild>
+              <StyledButton variant="link" asChild consumeCss>
+                <SafeLink
+                  tabIndex={-1}
+                  role="menuitem"
+                  to={toAbout(item.article.slug)}
+                  onClick={onClose}
+                  id={`header-${item.article.slug}`}
+                  data-active={!selected}
+                >
+                  {item.article.title}
+                </SafeLink>
+              </StyledButton>
             </DrawerHeader>
           </DrawerListItem>
           {item.menu?.map((link) => {
