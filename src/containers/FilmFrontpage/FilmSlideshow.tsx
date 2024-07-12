@@ -81,7 +81,7 @@ const CarouselContainer = styled.div`
 `;
 
 const SlideshowButton = styled(IconButton)`
-  margin-top: ${spacing.normal};
+  margin-top: ${spacing.nsmall};
 `;
 
 const StyledFilmContentCard = styled(FilmContentCard)`

@@ -131,7 +131,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           {!loading ? (
             <>
               {!error && (
-                <IconButton variant="tertiary" tabIndex={0} aria-label={t("save")} title={t("save")} onClick={onSave}>
+                <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
                   <Done />
                 </IconButton>
               )}
