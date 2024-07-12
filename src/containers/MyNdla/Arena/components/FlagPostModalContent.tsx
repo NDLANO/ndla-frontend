@@ -12,17 +12,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import {
-  FormControl,
-  Label,
-  RadioButtonGroup,
-  FieldErrorMessage,
-  RadioButtonItem,
-  Fieldset,
-  Legend,
-} from "@ndla/forms";
+import { FormControl, Label, RadioButtonGroup, RadioButtonItem, Fieldset, Legend } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
-import { Button, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import { Button, FieldLabel, FieldRoot, FieldTextArea, FieldErrorMessage } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";

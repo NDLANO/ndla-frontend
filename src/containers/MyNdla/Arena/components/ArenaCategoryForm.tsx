@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, Label, Select } from "@ndla/forms";
+import { CheckboxItem, FormControl, Label, Select, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
@@ -40,6 +40,11 @@ const CheckboxWrapper = styled.div`
   display: flex;
   gap: ${spacing.small};
   align-items: center;
+`;
+
+const StyledLabel = styled(Label)`
+  margin: 0;
+  margin-bottom: ${spacing.xxsmall};
 `;
 
 interface ArenaFormProps {
@@ -161,8 +166,8 @@ const ArenaCategoryForm = ({
         name={"parentCategoryId"}
         rules={{ required: false }}
         render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldLabel>{t("myNdla.arena.admin.category.form.parentCategoryId")}</FieldLabel>
+          <FormControl id="parentCategoryId" isInvalid={!!fieldState.error?.message}>
+            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.parentCategoryId")}</StyledLabel>
             <Select {...field}>
               <option>{t("myNdla.arena.admin.category.form.noParentCategory")}</option>
               {possibleParents.map((parent) => (
@@ -171,7 +176,7 @@ const ArenaCategoryForm = ({
                 </option>
               ))}
             </Select>
-          </FieldRoot>
+          </FormControl>
         )}
       />
       <Controller
@@ -181,8 +186,8 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+          <FormControl id="visible" isInvalid={!!fieldState.error?.message}>
+            <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
             <CheckboxWrapper>
               <CheckboxItem
                 checked={field.value}
@@ -197,7 +202,7 @@ const ArenaCategoryForm = ({
                 {t("myNdla.arena.admin.category.form.visible")}
               </Label>
             </CheckboxWrapper>
-          </FieldRoot>
+          </FormControl>
         )}
       />
       <ButtonRow>
