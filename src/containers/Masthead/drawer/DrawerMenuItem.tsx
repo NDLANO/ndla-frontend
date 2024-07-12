@@ -42,6 +42,10 @@ export const StyledButton = styled(Button, {
     alignItems: "center",
     textAlign: "start",
     justifyContent: "start",
+    "&[data-current='true']": {
+      background: "surface.actionSubtle.hover",
+      border: "none",
+    },
   },
 });
 
@@ -60,6 +64,7 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
         onClick={() => specificProps.onClick(!!active)}
         variant="tertiary"
         size="small"
+        data-current={!!active}
       >
         {children}
         <RightArrow />

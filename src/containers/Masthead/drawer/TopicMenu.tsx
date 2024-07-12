@@ -120,6 +120,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             </StyledButton>
           </DrawerHeader>
         </DrawerListItem>
+        {/**TODO: Emner heading, må spørre Hedvig */}
         {topic.subtopics.map((t) => (
           <DrawerMenuItem
             id={t.id}

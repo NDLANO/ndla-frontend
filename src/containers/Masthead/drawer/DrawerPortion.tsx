@@ -71,13 +71,15 @@ export const DrawerListItem = styled("li", {
 export const DrawerHeader = styled(Heading, {
   base: {
     color: "text.default",
-    textDecoration: "none",
     textStyle: "label.large",
     fontWeight: "bold",
     justifyContent: "start",
     alignItems: "center",
     padding: "small",
     width: "100%",
+    _hover: {
+      textDecoration: "none",
+    },
   },
 });
 
