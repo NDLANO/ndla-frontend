@@ -48,7 +48,7 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
     };
   }
 
-  const client = createApolloClient(locale);
+  const client = createApolloClient(locale, undefined, req.path);
   const cache = createCache({ key: EmotionCacheKey });
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
