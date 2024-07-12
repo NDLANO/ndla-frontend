@@ -10,13 +10,12 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, misc, spacing } from "@ndla/core";
-import { Heart, HeartOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
+import FavoriteButton from "../../components/MyNdla/FavoriteButton";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
@@ -26,10 +25,6 @@ const SubjectLinkWrapper = styled.li`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const StyledIconButton = styled(IconButton)`
-  border-radius: 100%;
 `;
 
 const SubjectSafeLink = styled(SafeLink)`
@@ -94,24 +89,20 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
   return (
     <SubjectLinkWrapper className={className}>
       {authenticated && !isFavorite ? (
-        <StyledIconButton
+        <FavoriteButton
           onClick={setFavorite}
           aria-label={t("subjectsPage.addFavorite")}
           title={t("subjectsPage.addFavorite")}
-          variant="tertiary"
-        >
-          {isFavorite ? <Heart /> : <HeartOutline />}
-        </StyledIconButton>
+          isFavorite={false}
+        />
       ) : authenticated ? (
         <Modal open={showDeleteModal} onOpenChange={setShowDeleteModal}>
           <ModalTrigger>
-            <StyledIconButton
+            <FavoriteButton
               aria-label={t("subjectsPage.removeFavorite")}
               title={t("subjectsPage.removeFavorite")}
-              variant="tertiary"
-            >
-              <Heart />
-            </StyledIconButton>
+              isFavorite
+            />
           </ModalTrigger>
           <DeleteModalContent
             onDelete={removeFavorite}
@@ -125,13 +116,12 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       ) : (
         <Modal>
           <ModalTrigger>
-            <StyledIconButton
+            <FavoriteButton
               aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               variant="tertiary"
-            >
-              <HeartOutline />
-            </StyledIconButton>
+              isFavorite={false}
+            />
           </ModalTrigger>
           <LoginModalContent
             title={t("subjectsPage.subjectFavoritePitch")}
