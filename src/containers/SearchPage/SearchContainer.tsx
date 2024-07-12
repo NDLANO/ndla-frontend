@@ -16,7 +16,7 @@ import { Cross, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
 import { Button, IconButton } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
-import { LanguageSelector, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
 import { SearchResultGroup } from "./components/SearchResults";
@@ -26,8 +26,10 @@ import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchI
 import { ViewType } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 
 const { contentTypes } = constants;
 
@@ -243,7 +245,10 @@ const SearchContainer = ({
           ))}
           {isLti && (
             <StyledLanguageSelector>
-              <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+              <LanguageSelector
+                items={supportedLanguages}
+                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              />
             </StyledLanguageSelector>
           )}
         </div>
