@@ -30,8 +30,8 @@ import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
   base: {
-    paddingLeft: "large",
-    paddingRight: "large",
+    paddingLeft: "medium",
+    paddingRight: "medium",
     paddingTop: "small",
     mobileToTablet: {
       display: "none",

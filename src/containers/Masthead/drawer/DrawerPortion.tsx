@@ -12,9 +12,9 @@ import { styled } from "@ndla/styled-system/jsx";
 
 const DrawerPortion = styled("div", {
   base: {
-    display: "flex",
+    display: "none",
     flexDirection: "column",
-    minWidth: "300px",
+    minWidth: "250px",
     maxWidth: "400px",
     paddingLeft: "small",
     paddingRight: "small",
