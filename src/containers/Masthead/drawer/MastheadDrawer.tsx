@@ -55,7 +55,6 @@ const DrawerContainer = styled("nav", {
     flex: "1",
     height: "100%",
     maxHeight: "100%",
-    overflowY: "hidden",
   },
 });
 

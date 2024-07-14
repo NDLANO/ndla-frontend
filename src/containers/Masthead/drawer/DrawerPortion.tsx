@@ -17,7 +17,8 @@ const DrawerPortion = styled("div", {
     minWidth: "250px",
     maxWidth: "400px",
     paddingLeft: "small",
-    paddingRight: "small",
+    overflowY: "hidden",
+    paddingBottom: "medium",
     borderLeft: "1px solid gray",
     tabletDown: {
       "&:nth-last-of-type(-n + 1)": {
@@ -46,7 +47,7 @@ const DrawerPortion = styled("div", {
 export const StyledDrawerList = styled("ul", {
   base: {
     padding: "0",
-    overflowY: "auto",
+    overflowY: "hidden",
     display: "flex",
     flexDirection: "column",
   },
