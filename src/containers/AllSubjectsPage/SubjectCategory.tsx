@@ -38,7 +38,6 @@ const StickyHeading = styled("div", {
     position: "sticky",
     // TODO: this syntax does not work, needs fix
     top: "calc(var(--height)+token(spacing.small))",
-    //TODO: Specific design for mobile??
   },
 });
 
@@ -56,7 +55,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
 
   return (
     <li ref={rootRef} aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
-      <StickyHeading ref={stickyRef} css={{ "--height": `${height}` }}>
+      <StickyHeading ref={stickyRef} css={{ "--height": `${height}px` }}>
         <div>
           <Heading asChild consumeCss textStyle="title.medium" id={`subject-header-${label}`}>
             <h2>{label.toUpperCase()}</h2>

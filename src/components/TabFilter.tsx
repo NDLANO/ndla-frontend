@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { Done } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -36,10 +37,11 @@ interface Props {
 }
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
+  const { t } = useTranslation();
   return (
     <fieldset>
       <StyledLegend>
-        <Text textStyle="title.small">Hvilket fag vil du vise?</Text>
+        <Text textStyle="title.small">{t("subjectsPage.tabFilter")}</Text>
       </StyledLegend>
       <StyledCheckboxGroup defaultValue={selectedValue} onValueChange={(v) => onChange(v)}>
         {options.map((item) => (
