@@ -272,7 +272,8 @@ const FoldersPage = () => {
               <StyledUl>
                 {tags?.map((tag) => (
                   <StyledLi key={tag}>
-                    <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={routes.myNdla.tag(tag)}>
+                    {/* TODO: This should be updated according to design */}
+                    <StyledSafeLinkButton variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
                       <HashTag />
                       {tag}
                     </StyledSafeLinkButton>

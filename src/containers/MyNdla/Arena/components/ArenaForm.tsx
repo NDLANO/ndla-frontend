@@ -12,9 +12,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem } from "@ndla/forms";
+import { CheckboxItem, FormControl, Label, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
 import { Spinner } from "@ndla/icons";
 import { InformationOutline } from "@ndla/icons/common";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -60,10 +61,6 @@ const StyledLabel = styled(Label)`
 
 const StyledInformationOutline = styled(InformationOutline)`
   overflow: unset !important;
-`;
-
-const StyledInput = styled(InputV3)`
-  background: ${colors.white};
 `;
 
 const CheckboxWrapper = styled.div`
@@ -140,12 +137,12 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
             },
           }}
           render={({ field, fieldState }) => (
-            <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
-              <StyledLabel textStyle="label-small">{t("title")}</StyledLabel>
+            <FieldRoot required invalid={!!fieldState.error?.message}>
+              <FieldLabel>{t("title")}</FieldLabel>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-              <StyledInput {...field} />
+              <FieldInput {...field} />
               <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
-            </FormControl>
+            </FieldRoot>
           )}
         />
       )}
@@ -171,7 +168,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
             <StyledLabel textStyle="label-small" onClick={() => document.getElementById("field-editor")?.focus()}>
               {type === "post" ? t("myNdla.arena.new.post") : t("myNdla.arena.topic.topicContent")}
             </StyledLabel>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
             <Suspense fallback={<Spinner />}>
               <MarkdownEditor
                 setContentWritten={(val) => {
@@ -193,7 +190,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           rules={{ required: false }}
           render={({ field, fieldState }) => (
             <FormControl id="locked" isInvalid={!!fieldState.error?.message}>
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+              <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
               <CheckboxWrapper>
                 <CheckboxItem
                   checked={field.value}

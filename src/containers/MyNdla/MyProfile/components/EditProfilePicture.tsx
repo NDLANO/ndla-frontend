@@ -9,16 +9,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { Icon } from "@ndla/icons";
 import { Pencil } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-
-const StyledChangeAvatarButton = styled(ButtonV2)`
-  gap: ${spacing.xsmall};
-  white-space: nowrap;
-`;
+import { Button } from "@ndla/primitives";
 
 const StyledPencilSvg = styled(Icon)`
   width: 20px;
@@ -34,10 +28,10 @@ const EditProfilePicture = () => {
   return (
     <Modal open={showModal} onOpenChange={setShowModal}>
       <ModalTrigger>
-        <StyledChangeAvatarButton colorTheme="primary" onClick={() => setShowModal(!showModal)}>
+        <Button variant="primary" size="small" onClick={() => setShowModal(!showModal)}>
           <PencilIcon />
           {t("myNdla.myProfile.editButtonText")}
-        </StyledChangeAvatarButton>
+        </Button>
       </ModalTrigger>
     </Modal>
   );

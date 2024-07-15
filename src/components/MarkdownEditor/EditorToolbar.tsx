@@ -33,9 +33,9 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
-import { IconButtonV2 } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { Bold, Italic, Link, ListCircle, ListNumbered } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
 
@@ -47,22 +47,6 @@ const ButtonRow = styled.div`
   border-top-right-radius: ${misc.borderRadius};
   border-bottom: 1px solid ${colors.brand.grey};
   padding: ${spacing.small};
-`;
-
-const StyledButton = styled(IconButtonV2)`
-  color: ${colors.text.primary};
-  border-radius: ${misc.borderRadius};
-  &[data-active="true"] {
-    background: ${colors.brand.neutral7};
-  }
-  &[disabled] {
-    background: ${colors.brand.greyLighter};
-  }
-  &:focus-visible {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: ${colors.brand.primary};
-  }
 `;
 
 export const getSelectedNode = (selection: RangeSelection): TextNode | ElementNode => {
@@ -220,57 +204,51 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
   return (
     <ButtonRow>
-      <StyledButton
-        variant="ghost"
-        colorTheme="greyLighter"
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={isBold ? "primary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
-        data-active={isBold}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
       >
         <Bold />
-      </StyledButton>
-
-      <StyledButton
-        variant="ghost"
-        colorTheme="greyLighter"
+      </IconButton>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={isItalic ? "primary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
-        data-active={isItalic}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
       >
         <Italic />
-      </StyledButton>
-      <StyledButton
-        variant="ghost"
-        colorTheme="greyLighter"
-        data-active={isUnorderedList}
+      </IconButton>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={isUnorderedList ? "primary" : "tertiary"}
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
       >
         <ListCircle />
-      </StyledButton>
-      <StyledButton
-        variant="ghost"
-        colorTheme="greyLighter"
-        data-active={isNumberedList}
+      </IconButton>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={isNumberedList ? "primary" : "tertiary"}
         onClick={formatNumberedList}
         aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
       >
         <ListNumbered />
-      </StyledButton>
-      <StyledButton
-        variant="ghost"
-        colorTheme="greyLighter"
-        data-active={isLink}
+      </IconButton>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={isLink ? "primary" : "tertiary"}
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
       >
         <Link />
-      </StyledButton>
+      </IconButton>
     </ButtonRow>
   );
 };

@@ -11,8 +11,8 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
 import { Back } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn, CreatedBy, constants, LayoutItem } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
@@ -101,10 +101,11 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <main>
         {!!ltiData && (
           <LayoutItem layout="center">
-            <ButtonV2 variant="link" onClick={() => navigate(-1)}>
+            {/* TODO: Needs verification */}
+            <Button variant="link" onClick={() => navigate(-1)}>
               <Back />
               {t("lti.goBack")}
-            </ButtonV2>
+            </Button>
           </LayoutItem>
         )}
         <Article

@@ -720,7 +720,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     Sitere eller gjenbruke?
                     <svg
                       aria-hidden="true"
-                      class="d_inline-block fill_currentcolor v-align_middle leading_1em shrink_0 w_medium h_medium emotion-34 emotion-35"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-34 emotion-35"
                       data-icon=""
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -785,6 +785,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               >
                 <a
                   aria-label="NDLA"
+                  class=""
                   href="https://ndla.no"
                   title="NDLA"
                 >

@@ -9,10 +9,9 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ZendeskButton } from "@ndla/button";
 import { stackOrder } from "@ndla/core";
 import { MissingRouterContext } from "@ndla/safelink";
-import { Logo, PageContainer } from "@ndla/ui";
+import { Logo, PageContainer, ZendeskButton } from "@ndla/ui";
 import { Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";

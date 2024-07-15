@@ -81,7 +81,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
             hasCopiedTitle={t("license.embedCopied")}
           />
           {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="outline">
+            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
               <Launch />
               {t("license.openLink")}
             </SafeLinkButton>

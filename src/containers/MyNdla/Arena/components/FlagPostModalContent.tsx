@@ -10,24 +10,17 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import {
-  FormControl,
-  Label,
-  TextAreaV3,
-  RadioButtonGroup,
-  FieldErrorMessage,
-  RadioButtonItem,
-  Fieldset,
-  Legend,
-} from "@ndla/forms";
+import { FormControl, Label, RadioButtonGroup, RadioButtonItem, Fieldset, Legend } from "@ndla/forms";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
+import { Button, FieldLabel, FieldRoot, FieldTextArea, FieldErrorMessage } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
 import handleError from "../../../../util/handleError";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
+import FieldLength from "../../components/FieldLength";
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
@@ -38,24 +31,14 @@ const StyledButtonRow = styled.div`
   gap: ${spacing.small};
 `;
 
-const StyledText = styled(Text)`
-  margin-left: auto;
-`;
-
 const StyledModalBody = styled(ModalBody)`
   display: flex;
   flex-flow: column;
   gap: ${spacing.nsmall};
 `;
 
-const StyledTextArea = styled(TextAreaV3)`
+const StyledTextArea = styled(FieldTextArea)`
   min-height: 74px;
-`;
-
-const FieldInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
 `;
 
 const RadioButtonWrapper = styled.div`
@@ -179,25 +162,19 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                 },
               }}
               render={({ field, fieldState }) => (
-                <FormControl id="reason" isInvalid={!!fieldState.error?.message}>
-                  <Label textStyle="label-small" margin="none">
-                    {t("myNdla.arena.flag.reason")}
-                  </Label>
+                <FieldRoot invalid={!!fieldState.error?.message}>
+                  <FieldLabel>{t("myNdla.arena.flag.reason")}</FieldLabel>
                   <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   <StyledTextArea {...field} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
-                  <FieldInfoWrapper>
-                    <StyledText element="p" textStyle="meta-text-medium" margin="none">
-                      {`${field.value.length}/${MAXIMUM_LENGTH_TEXTFIELD}`}
-                    </StyledText>
-                  </FieldInfoWrapper>
-                </FormControl>
+                  <FieldLength value={field.value.length ?? 0} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
+                </FieldRoot>
               )}
             />
           )}
           <StyledButtonRow>
-            <ButtonV2 onClick={onClose} variant="outline">
+            <Button variant="secondary" onClick={onClose}>
               {t("cancel")}
-            </ButtonV2>
+            </Button>
             <LoadingButton colorTheme="primary" type="submit">
               {t("myNdla.arena.flag.send")}
             </LoadingButton>

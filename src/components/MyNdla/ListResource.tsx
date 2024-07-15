@@ -10,8 +10,9 @@
 import { ReactNode, useMemo } from "react";
 import styled from "@emotion/styled";
 import { spacing, colors, breakpoints, mq, stackOrder } from "@ndla/core";
+import { Image } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
-import { ContentTypeBadge, ContentLoader, Image } from "@ndla/ui";
+import { ContentTypeBadge, ContentLoader } from "@ndla/ui";
 import {
   ResourceImageProps,
   ContentIconWrapper,

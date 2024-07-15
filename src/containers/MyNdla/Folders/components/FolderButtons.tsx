@@ -12,6 +12,8 @@ import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Cross, Copy } from "@ndla/icons/action";
 import { Share, ShareArrow } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import FolderCreateModal from "./FolderCreateModal";
 import FolderDeleteModal from "./FolderDeleteModal";
@@ -20,7 +22,6 @@ import FolderShareModal from "./FolderShareModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { StyledButton, StyledSafeLinkButton } from "../../components/toolbarStyles";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../../folderMutations";
 import { OutletContext } from "../../MyNdlaLayout";
 import { isStudent, copyFolderSharingLink } from "../util";
@@ -103,9 +104,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const unShareButton =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="unShareFolderButton">
-        <StyledButton
-          variant="ghost"
-          colorTheme="lighter"
+        <Button
+          variant="tertiary"
           ref={unShareRef}
           aria-label={t("myNdla.folder.sharing.button.unShare")}
           title={t("myNdla.folder.sharing.button.unShare")}
@@ -124,7 +124,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         >
           <Cross size="small" />
           {t("myNdla.folder.sharing.button.unShare")}
-        </StyledButton>
+        </Button>
       </StyledListItem>
     ) : null;
 
@@ -136,9 +136,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
     >
       <StyledListItem key="shareFolderButton">
-        <StyledButton
-          variant="ghost"
-          colorTheme="lighter"
+        <Button
+          variant="tertiary"
           ref={shareRef}
           aria-label={t("myNdla.folder.sharing.share")}
           title={t("myNdla.folder.sharing.share")}
@@ -159,7 +158,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         >
           <Share size="small" />
           {t("myNdla.folder.sharing.button.shareShort")}
-        </StyledButton>
+        </Button>
       </StyledListItem>
     </FolderShareModal>
   ) : null;
@@ -195,10 +194,9 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const copySharedFolderLink =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="copySharedLink">
-        <StyledButton
+        <Button
           key="copySharedLink"
-          variant="ghost"
-          colorTheme="lighter"
+          variant="tertiary"
           onClick={() => {
             copyFolderSharingLink(selectedFolder.id);
             addSnack({
@@ -212,24 +210,23 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         >
           <Copy size="small" />
           {t("myNdla.folder.sharing.button.shareLink")}
-        </StyledButton>
+        </Button>
       </StyledListItem>
     ) : null;
 
   const previewFolderButton =
     selectedFolder && isFolderShared ? (
       <StyledListItem key="previewFolder">
-        <StyledSafeLinkButton
+        <SafeLinkButton
           key="previewFolder"
-          variant="ghost"
-          colorTheme="lighter"
+          variant="tertiary"
           to={routes.folder(selectedFolder.id)}
           aria-label={t("myNdla.folder.sharing.button.goTo")}
           title={t("myNdla.folder.sharing.button.goTo")}
         >
           <ShareArrow size="small" />
           {t("myNdla.folder.sharing.button.goTo")}
-        </StyledSafeLinkButton>
+        </SafeLinkButton>
       </StyledListItem>
     ) : null;
 

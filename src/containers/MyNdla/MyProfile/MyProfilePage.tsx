@@ -9,9 +9,9 @@
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -110,9 +110,7 @@ const MyProfilePage = () => {
           </Heading>
           <Modal>
             <ModalTrigger>
-              <ButtonV2 colorTheme="danger" variant="outline">
-                {t("myNdla.myPage.deleteAccount")}
-              </ButtonV2>
+              <Button variant="danger">{t("myNdla.myPage.deleteAccount")}</Button>
             </ModalTrigger>
             <ModalContent>
               <ModalHeader>
@@ -123,11 +121,11 @@ const MyProfilePage = () => {
                 <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
                 <ButtonRow>
                   <ModalCloseButton>
-                    <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+                    <Button variant="secondary">{t("cancel")}</Button>
                   </ModalCloseButton>
-                  <ButtonV2 colorTheme="danger" variant="outline" onClick={onDeleteAccount}>
+                  <Button variant="danger" onClick={onDeleteAccount}>
                     {t("myNdla.myPage.confirmDeleteAccountButton")}
-                  </ButtonV2>
+                  </Button>
                 </ButtonRow>
               </ModalBody>
             </ModalContent>

@@ -9,12 +9,11 @@
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ZendeskButton } from "@ndla/button";
-import { breakpoints, colors, mq, spacing, stackOrder } from "@ndla/core";
+import { breakpoints, mq, spacing, stackOrder } from "@ndla/core";
 import { FacebookFilled, HelpCircleOutline, Instagram, LinkedIn, Email, Youtube, Launch } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
-import { FooterBlock } from "@ndla/ui";
+import { FooterBlock, ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
 
 const FooterTextWrapper = styled.div`
@@ -42,19 +41,11 @@ const FooterGrid = styled.div`
 `;
 
 const StyledZendesk = styled(ZendeskButton)`
-  border-color: ${colors.brand.secondary};
   position: absolute;
   right: ${spacing.large};
-  // Heigth of button is 40px, so this is to center it vertically.
-  top: -20px;
+  // Heigth of button is 48px, so this is to center it vertically.
+  top: -${spacing.normal};
   z-index: ${stackOrder.trigger};
-
-  &[disabled] {
-    color: ${colors.brand.grey};
-    background-color: white;
-    border-color: ${colors.brand.secondary};
-    cursor: not-allowed;
-  }
 `;
 
 const StyledHelpCircleOutline = styled(HelpCircleOutline)`

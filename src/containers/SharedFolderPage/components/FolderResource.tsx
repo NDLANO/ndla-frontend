@@ -128,8 +128,7 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
         role="treeitem"
         target={resource.resourceType === "learningpath" ? "_blank" : undefined}
         onClick={onClick}
-        variant={isCurrent ? "solid" : "ghost"}
-        colorTheme="light"
+        variant="primary"
         to={link}
       >
         <ContentTypeBadge type={contentType!} border={false} />

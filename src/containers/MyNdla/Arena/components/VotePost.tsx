@@ -9,9 +9,9 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ThumbFilled, Thumb } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useArenaPostUpvote, useArenaPostRemoveUpvote } from "./temporaryNodebbHooks";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -41,11 +41,10 @@ const VotePost = ({ post }: Props) => {
 
   return (
     <UpvoteWrapper>
-      <IconButtonV2
+      <IconButton
         aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
         title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-        variant={isOwner ? "stripped" : "ghost"}
-        colorTheme="light"
+        variant="tertiary"
         onClick={() =>
           post.upvoted
             ? removeUpvotePost({ variables: { postId: post.id } })
@@ -54,7 +53,7 @@ const VotePost = ({ post }: Props) => {
         disabled={isOwner}
       >
         {post.upvoted || isOwner ? <ThumbFilled /> : <Thumb />}
-      </IconButtonV2>
+      </IconButton>
 
       <AmountOfUpvotes
         element="span"

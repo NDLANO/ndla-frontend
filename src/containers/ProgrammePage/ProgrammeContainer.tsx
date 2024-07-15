@@ -188,8 +188,8 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
                 <li key={item.name}>
                   <SafeLinkButton
                     to={toProgramme(programme.url, item.name.toLowerCase())}
-                    colorTheme={current ? undefined : "lighter"}
-                    shape="pill"
+                    // TODO: Fix handling of active safeLinkButton according to design
+                    variant={current ? "primary" : "secondary"}
                     aria-current={current}
                   >
                     {item.name}

@@ -6,7 +6,6 @@
  *
  */
 
-import { Request } from "express";
 import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
 import { ErrorReporter } from "@ndla/error-reporter";
@@ -70,27 +69,60 @@ export const isInternalServerError = (error: ApolloError | undefined | null): bo
 
 const getErrorLog = (
   error: ApolloError | Error | string | unknown,
-  request?: Request,
+  extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
   if (typeof error === "object") {
     const errWithPath = error as { requestPath?: string } & object;
-    errWithPath.requestPath = request?.path;
-    return errWithPath;
+    return { ...errWithPath, ...extraContext };
+  }
+
+  if (typeof error === "string") {
+    return { message: error, ...extraContext };
   }
 
   return error;
 };
 
+export type LogLevel = "error" | "warn" | "info";
+const unreachable = (parameter: never): never => {
+  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
+};
+
+const logServerError = async (
+  error: ApolloError | Error | string | unknown,
+  requestPath: string | undefined,
+  loglevel: LogLevel | undefined,
+  extraContext: Record<string, unknown>,
+) => {
+  const ctx = { ...extraContext, requestPath };
+  const err = getErrorLog(error, ctx);
+  switch (loglevel) {
+    case "info":
+      await log?.info(err);
+      break;
+    case "warn":
+      await log?.warn(err);
+      break;
+    case "error":
+    case undefined:
+      await log?.error(err);
+      break;
+    default:
+      unreachable(loglevel);
+  }
+};
+
 const handleError = async (
   error: ApolloError | Error | string | unknown,
   info?: ErrorInfo | { clientTime: Date },
-  request?: Request,
+  requestPath?: string,
+  loglevel?: LogLevel,
+  extraContext: Record<string, unknown> = {},
 ) => {
   if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
   } else if (config.runtimeType === "production" && !config.isClient) {
-    const err = getErrorLog(error, request);
-    await log?.error(err);
+    await logServerError(error, requestPath, loglevel, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

@@ -8,28 +8,12 @@
 
 import { ReactNode, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import LoginModalContent from "../MyNdla/LoginModalContent";
-
-const LoginButton = styled(ButtonV2)`
-  white-space: nowrap;
-`;
-
-const StyledLink = styled(SafeLinkButton)`
-  display: flex;
-  gap: ${spacing.small};
-  white-space: nowrap;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
 
 interface Props {
   footer?: boolean;
@@ -42,30 +26,18 @@ const FeideLoginButton = ({ children }: Props) => {
 
   if (authenticated) {
     return (
-      <StyledLink
-        variant="ghost"
-        colorTheme="light"
-        shape="pill"
-        to={routes.myNdla.root}
-        aria-label={t("myNdla.myNDLA")}
-      >
+      <SafeLinkButton variant="tertiary" to={routes.myNdla.root} aria-label={t("myNdla.myNDLA")}>
         {children}
-      </StyledLink>
+      </SafeLinkButton>
     );
   }
 
   return (
     <Modal>
       <ModalTrigger>
-        <LoginButton
-          variant={"ghost"}
-          colorTheme={"lighter"}
-          shape={"pill"}
-          aria-label={t("user.buttonLogIn")}
-          title={t("user.buttonLogIn")}
-        >
+        <Button variant="tertiary" aria-label={t("user.buttonLogIn")} title={t("user.buttonLogIn")}>
           {children}
-        </LoginButton>
+        </Button>
       </ModalTrigger>
       <LoginModalContent masthead />
     </Modal>

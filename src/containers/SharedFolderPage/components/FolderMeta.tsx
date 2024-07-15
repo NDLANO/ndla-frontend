@@ -8,10 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { InformationOutline } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { MessageBox, OneColumn } from "@ndla/ui";
 import CopyFolderModal from "../../../components/MyNdla/CopyFolderModal";
@@ -53,10 +53,11 @@ const FolderMeta = ({ folder, title }: Props) => {
         <StyledDescription>{folder.description || t("myNdla.sharedFolder.description.all")}</StyledDescription>
 
         <CopyFolderModal folder={folder}>
-          <ButtonV2 colorTheme="light">
+          {/* TODO: verify this */}
+          <Button variant="secondary">
             <Copy />
             {t("myNdla.folder.copy")}
-          </ButtonV2>
+          </Button>
         </CopyFolderModal>
       </StyledOneColumn>
     </main>

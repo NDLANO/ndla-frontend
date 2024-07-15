@@ -10,9 +10,9 @@ import { formatDistanceStrict } from "date-fns";
 import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing, colors, fonts } from "@ndla/core";
 import { HelpCircleDual, KeyboardReturn } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
@@ -40,17 +40,7 @@ const StyledDot = styled(HelpCircleDual)`
 
 const StyledLink = styled(SafeLinkButton)`
   display: flex;
-  border: solid 1px ${colors.brand.greyLight};
-  border-radius: ${spacing.xxsmall};
   justify-content: space-between;
-  padding: ${spacing.small};
-  gap: ${spacing.small};
-
-  &:hover {
-    background-color: ${colors.brand.lighter};
-    border: solid 1px ${colors.brand.light};
-    color: ${colors.text.primary};
-  }
 
   &[data-not-viewed="true"] {
     background-color: ${colors.background.lightBlue};
@@ -123,17 +113,17 @@ const NotificationList = ({ notifications, close }: Props) => {
             {t("myNdla.arena.notification.title")}
           </Heading>
         )}
-
-        <ButtonV2 variant="link" fontWeight="light" onClick={markAllRead}>
+        {/* TODO: Check if we should include an option for link variant to remove all padding */}
+        <Button variant="link" onClick={markAllRead}>
           {t("myNdla.arena.notification.markAll")}
-        </ButtonV2>
+        </Button>
       </TitleWrapper>
       <StyledList>
         {notifcationsToShow?.map((notification, index) => {
           return (
             <StyledLi key={index}>
               <StyledLink
-                variant="stripped"
+                variant="secondary"
                 data-not-viewed={!notification.isRead}
                 to={routes.myNdla.arenaTopic(notification.topicId)}
                 onClick={() => close?.()}

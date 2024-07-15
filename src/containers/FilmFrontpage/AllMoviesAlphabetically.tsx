@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing, colors } from "@ndla/core";
+import { Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
-import { Image } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -163,7 +163,7 @@ const AllMoviesAlphabetically = () => {
               key={movie.id}
             >
               {!!movie.metaImage?.url && (
-                <MovieImage alt="" lazyLoad fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
+                <MovieImage alt="" loading="lazy" fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
               )}
               <MovieTextWrapper>
                 <Heading element="h3" headingStyle="h3" margin="none" data-title>

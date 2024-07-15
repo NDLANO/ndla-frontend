@@ -33,11 +33,6 @@ const StyledArrow = styled(Arrow)`
 const ShowAllLink = styled(SafeLinkButton)`
   margin-top: ${spacing.small};
   width: 100%;
-  &:focus-visible {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: ${colors.black};
-  }
 `;
 
 const NotificationPopover = () => {
@@ -53,7 +48,7 @@ const NotificationPopover = () => {
         <StyledContent align="end">
           <StyledArrow />
           <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
-          <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)} fontWeight="bold">
+          <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
             {t("myNdla.arena.notification.showAll")}
           </ShowAllLink>
         </StyledContent>
