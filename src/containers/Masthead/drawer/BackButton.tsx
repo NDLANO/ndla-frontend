@@ -20,7 +20,6 @@ const StyledButton = styled(Button, {
   base: {
     display: "flex",
     gap: "small",
-    borderBottom: "1px solid gray",
     justifyContent: "flex-start",
     tablet: {
       display: "none",

@@ -9,6 +9,7 @@
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
+import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
@@ -16,6 +17,12 @@ import DrawerPortion, { DrawerHeader, DrawerList } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLProgrammeMenu_ProgrammePageFragment } from "../../../graphqlTypes";
 import { toProgramme, useUrnIds } from "../../../routeHelpers";
+
+const StyledDrawerHeader = styled(DrawerHeader, {
+  base: {
+    paddingBlock: "small",
+  },
+});
 
 interface Props {
   programmes: GQLProgrammeMenu_ProgrammePageFragment[];
@@ -54,9 +61,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
   return (
     <DrawerPortion>
       <BackButton title={t("masthead.menu.goToMainMenu")} homeButton onGoBack={onCloseMenuPortion} />
-      <DrawerHeader aria-hidden={true} textStyle="heading.medium" asChild consumeCss>
-        <h1>{t("masthead.menuOptions.programme")}</h1>
-      </DrawerHeader>
+      <StyledDrawerHeader aria-hidden={true} textStyle="title.medium" fontWeight="bold">
+        {t("masthead.menuOptions.programme")}
+      </StyledDrawerHeader>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem

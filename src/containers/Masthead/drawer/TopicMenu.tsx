@@ -10,11 +10,10 @@ import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { SafeLink } from "@ndla/safelink";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
-import DrawerMenuItem, { StyledButton } from "./DrawerMenuItem";
-import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
@@ -105,20 +104,17 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
       <BackButton title={topicPath[level - 2]?.name ?? subject.name} onGoBack={onCloseMenuPortion} />
       <DrawerList id={`list-${topic.id}`}>
         <DrawerListItem role="none" data-list-item>
-          <DrawerHeader textStyle="heading.medium" asChild>
-            <StyledButton variant="link" asChild consumeCss>
-              <SafeLink
-                aria-current={location.pathname === topic.path ? "page" : undefined}
-                tabIndex={-1}
-                role="menuitem"
-                to={topic.path}
-                onClick={onClose}
-                id={`header-${topic.id}`}
-              >
-                {topic.name}
-              </SafeLink>
-            </StyledButton>
-          </DrawerHeader>
+          <DrawerHeaderLink
+            variant="link"
+            aria-current={location.pathname === topic.path ? "page" : undefined}
+            tabIndex={-1}
+            role="menuitem"
+            to={topic.path}
+            onClick={onClose}
+            id={`header-${topic.id}`}
+          >
+            {topic.name}
+          </DrawerHeaderLink>
         </DrawerListItem>
         {/**TODO: Emner heading, må spørre Hedvig */}
         {topic.subtopics.map((t) => (

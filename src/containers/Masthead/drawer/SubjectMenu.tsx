@@ -11,12 +11,11 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { SafeLink } from "@ndla/safelink";
 import { ContentLoader } from "@ndla/ui";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
-import DrawerMenuItem, { StyledButton } from "./DrawerMenuItem";
-import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
@@ -115,20 +114,17 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerListItem role="none" data-list-item>
-              <DrawerHeader textStyle="heading.medium" asChild>
-                <StyledButton variant="link" asChild consumeCss>
-                  <SafeLink
-                    aria-current={path === location.pathname}
-                    id={`header-${subject.id}`}
-                    to={path}
-                    onClick={onClose}
-                    tabIndex={-1}
-                    role="menuitem"
-                  >
-                    {subject.name}
-                  </SafeLink>
-                </StyledButton>
-              </DrawerHeader>
+              <DrawerHeaderLink
+                variant="link"
+                aria-current={path === location.pathname}
+                id={`header-${subject.id}`}
+                to={path}
+                onClick={onClose}
+                tabIndex={-1}
+                role="menuitem"
+              >
+                {subject.name}
+              </DrawerHeaderLink>
             </DrawerListItem>
 
             {groupedTopics.map((t) => (

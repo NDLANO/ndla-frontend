@@ -8,8 +8,7 @@
 
 import { ReactNode, useState } from "react";
 import { RightArrow } from "@ndla/icons/action";
-import { SafeLink } from "@ndla/safelink";
-import { StyledButton } from "./DrawerMenuItem";
+import { StyledButton, StyledSafeLink } from "./DrawerMenuItem";
 import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
@@ -64,18 +63,18 @@ const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) =
   } else {
     return (
       <DrawerListItem role="none" data-list-item>
-        <StyledButton variant="link" size="small" asChild consumeCss>
-          <SafeLink
-            aria-current={current ? "page" : undefined}
-            tabIndex={-1}
-            role="menuitem"
-            to={rest.to}
-            onClick={rest.onClose}
-            id={`header-${id}`}
-          >
-            {title}
-          </SafeLink>
-        </StyledButton>
+        <StyledSafeLink
+          aria-current={current ? "page" : undefined}
+          tabIndex={-1}
+          role="menuitem"
+          to={rest.to}
+          onClick={rest.onClose}
+          id={`header-${id}`}
+          variant="link"
+          size="small"
+        >
+          {title}
+        </StyledSafeLink>
       </DrawerListItem>
     );
   }

@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Cross } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
-import { Drawer, Modal, ModalCloseButton, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LanguageSelector } from "@ndla/ui";
 import DefaultMenu from "./DefaultMenu";
@@ -35,8 +34,6 @@ const MainMenu = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    alignSelf: "stretch",
-    overflowY: "hidden",
   },
 });
 
@@ -45,7 +42,9 @@ const MenuLanguageContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    height: "100%",
+    "&[data-default-menu='true']": {
+      height: "100%",
+    },
   },
 });
 
@@ -53,18 +52,17 @@ const DrawerContainer = styled("nav", {
   base: {
     display: "flex",
     flex: "1",
-    height: "100%",
-    maxHeight: "100%",
   },
 });
 
 const HeadWrapper = styled("div", {
   base: {
-    paddingTop: "medium",
-    paddingLeft: "small",
-    paddingBottom: "medium",
+    display: "flex",
+    justifyContent: "flex-start",
+    paddingBlock: "medium",
+    paddingInlineStart: "small",
     tablet: {
-      paddingLeft: "medium",
+      paddingInlineStart: "medium",
     },
   },
 });
@@ -81,14 +79,15 @@ const DrawerButton = styled(Button, {
 
 const LanguageSelectWrapper = styled("div", {
   base: {
-    marginTop: "medium",
-    marginLeft: "small",
+    paddingTop: "medium",
+    paddingLeft: "small",
   },
 });
 
-const StyledDrawer = styled(Drawer, {
+const StyledDrawer = styled(DialogContent, {
   base: {
     display: "flex",
+    width: "max-content",
   },
 });
 
@@ -184,11 +183,17 @@ const MastheadDrawer = ({ subject }: Props) => {
   }, [frontpageMenu, topicPath, type]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot
+      variant="drawer"
+      position="left"
+      size="medium"
+      open={open}
+      onOpenChange={() => setOpen((prev) => !prev)}
+    >
+      <DialogTrigger asChild>
         <DrawerButton
           aria-haspopup="menu"
-          variant="secondary"
+          variant="tertiary"
           data-testid="masthead-menu-button"
           aria-label={t("masthead.menu.title")}
           title={t("masthead.menu.title")}
@@ -196,24 +201,18 @@ const MastheadDrawer = ({ subject }: Props) => {
           <Menu />
           <span>{t("masthead.menu.button")}</span>
         </DrawerButton>
-      </ModalTrigger>
-      <StyledDrawer
-        expands
-        position="left"
-        size="xsmall"
-        animationDuration={100}
-        aria-label={t("masthead.menu.modalLabel")}
-      >
+      </DialogTrigger>
+      <StyledDrawer aria-label={t("masthead.menu.modalLabel")}>
         <MainMenu>
           <HeadWrapper>
-            <ModalCloseButton>
+            <DialogCloseTrigger asChild>
               <Button variant="tertiary">
                 <Cross />
                 {t("close")}
               </Button>
-            </ModalCloseButton>
+            </DialogCloseTrigger>
           </HeadWrapper>
-          <MenuLanguageContainer>
+          <MenuLanguageContainer data-default-menu={!!type}>
             <DrawerContainer aria-label={t("myNdla.mainMenu")}>
               <DrawerProvider>
                 <DefaultMenu
@@ -257,7 +256,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           </MenuLanguageContainer>
         </MainMenu>
       </StyledDrawer>
-    </Modal>
+    </DialogRoot>
   );
 };
 

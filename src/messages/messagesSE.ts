@@ -34,6 +34,12 @@ const messages = {
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "Om oss",
+    subjectAndProgramme: "Fag og utdanningsprogram",
+    tipsAndAdvice: "Tips og råd",
+    goBack: "Gå tilbake",
+  },
   podcastPage: {
     episodes: "Jearahusat",
     podcast: "Podkast",

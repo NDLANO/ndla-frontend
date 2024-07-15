@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 import { RightArrow } from "@ndla/icons/action";
 import { Button } from "@ndla/primitives";
-import { SafeLink, SafeLinkProps } from "@ndla/safelink";
+import { SafeLinkButton, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
 
@@ -35,17 +35,26 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
 export const StyledButton = styled(Button, {
   base: {
     display: "flex",
-    width: "100%",
-    cursor: "pointer",
     textStyle: "label.medium",
     fontWeight: "light",
-    alignItems: "center",
+    color: "text.default",
     textAlign: "start",
-    justifyContent: "start",
-    "&[data-current='true']": {
-      background: "surface.actionSubtle.hover",
+    paddingInline: "small",
+    "&[data-current-selected='true']": {
+      background: "surface.selected",
       border: "none",
     },
+  },
+});
+
+export const StyledSafeLink = styled(SafeLinkButton, {
+  base: {
+    textStyle: "text.link",
+    fontWeight: "light",
+    paddingInline: "small",
+    paddingBlock: "3xsmall",
+    textAlign: "start",
+    textUnderlineOffset: "var(--spacing-4xsmall)",
   },
 });
 
@@ -64,7 +73,7 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
         onClick={() => specificProps.onClick(!!active)}
         variant="tertiary"
         size="small"
-        data-current={!!active}
+        data-current-selected={!!active}
       >
         {children}
         <RightArrow />
@@ -72,18 +81,18 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
     </DrawerListItem>
   ) : (
     <DrawerListItem role="none" data-list-item>
-      <StyledButton variant="link" size="small" asChild consumeCss>
-        <SafeLink
-          tabIndex={-1}
-          role="menuitem"
-          id={id}
-          aria-current={current ? "page" : undefined}
-          to={specificProps.to}
-          onClick={specificProps.onClose}
-        >
-          {children}
-        </SafeLink>
-      </StyledButton>
+      <StyledSafeLink
+        tabIndex={-1}
+        role="menuitem"
+        id={id}
+        aria-current={current ? "page" : undefined}
+        to={specificProps.to.toString()}
+        onClick={specificProps.onClose}
+        variant="link"
+        size="small"
+      >
+        {children}
+      </StyledSafeLink>
     </DrawerListItem>
   );
 };

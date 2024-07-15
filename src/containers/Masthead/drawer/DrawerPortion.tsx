@@ -8,18 +8,21 @@
 
 import { HTMLAttributes } from "react";
 import { Heading } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 
 const DrawerPortion = styled("div", {
   base: {
     display: "none",
     flexDirection: "column",
-    minWidth: "250px",
-    maxWidth: "400px",
-    paddingLeft: "small",
-    overflowY: "hidden",
-    paddingBottom: "medium",
-    borderLeft: "1px solid gray",
+    minWidth: "surface.xsmall",
+    maxWidth: "surface.small",
+    paddingInline: "medium",
+    paddingBlockStart: "xlarge",
+    paddingBlockEnd: "medium",
+    borderLeft: "1px solid ",
+    borderTop: "1px solid ",
+    borderColor: "stroke.subtle",
     tabletDown: {
       "&:nth-last-of-type(-n + 1)": {
         display: "flex",
@@ -46,10 +49,9 @@ const DrawerPortion = styled("div", {
 
 export const StyledDrawerList = styled("ul", {
   base: {
-    padding: "0",
-    overflowY: "hidden",
     display: "flex",
     flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -63,7 +65,6 @@ export const DrawerList = ({ children, ...rest }: HTMLAttributes<HTMLUListElemen
 
 export const DrawerListItem = styled("li", {
   base: {
-    padding: "0",
     listStyle: "none",
     display: "flex",
   },
@@ -71,16 +72,21 @@ export const DrawerListItem = styled("li", {
 
 export const DrawerHeader = styled(Heading, {
   base: {
+    textAlign: "start",
     color: "text.default",
-    textStyle: "label.large",
+    paddingInline: "small",
+    paddingBlockStart: "small",
+  },
+});
+
+export const DrawerHeaderLink = styled(SafeLinkButton, {
+  base: {
+    textAlign: "start",
+    color: "text.default",
+    textStyle: "title.medium",
     fontWeight: "bold",
-    justifyContent: "start",
-    alignItems: "center",
-    padding: "small",
-    width: "100%",
-    _hover: {
-      textDecoration: "none",
-    },
+    paddingInline: "small",
+    paddingBlockEnd: "small",
   },
 });
 

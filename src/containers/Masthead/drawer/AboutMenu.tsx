@@ -9,12 +9,10 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
-import DrawerMenuItem, { StyledButton } from "./DrawerMenuItem";
-import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
+import DrawerMenuItem from "./DrawerMenuItem";
+import DrawerPortion, { DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import {
   GQLAboutMenuFragment,
@@ -161,66 +159,57 @@ const NewAboutMenuPortion = ({
   }
 
   return (
-    <PortionWrapper>
-      <DrawerPortion>
-        <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
-        <DrawerList id={`list-${item.article.slug}`}>
-          <DrawerListItem role="none" data-list-item>
-            <DrawerHeader textStyle="heading.medium" asChild>
-              <StyledButton variant="link" asChild consumeCss>
-                <SafeLink
-                  tabIndex={-1}
-                  role="menuitem"
-                  to={toAbout(item.article.slug)}
-                  onClick={onClose}
-                  id={`header-${item.article.slug}`}
-                  data-active={!selected}
-                >
-                  {item.article.title}
-                </SafeLink>
-              </StyledButton>
-            </DrawerHeader>
-          </DrawerListItem>
-          {item.menu?.map((link) => {
-            const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
-            if (link.hideLevel) {
-              return null;
-            }
-            if (!link.menu?.length || allSublevelsHidden) {
-              return (
-                <DrawerMenuItem
-                  key={link.article.slug}
-                  id={link.article.slug!}
-                  type="link"
-                  onClose={onClose}
-                  current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
-                  to={toAbout(link.article.slug)}
-                >
-                  {link.article.title}
-                </DrawerMenuItem>
-              );
-            }
+    <DrawerPortion>
+      <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
+      <DrawerList id={`list-${item.article.slug}`}>
+        <DrawerListItem role="none" data-list-item>
+          <DrawerHeaderLink
+            tabIndex={-1}
+            role="menuitem"
+            to={toAbout(item.article.slug)}
+            onClick={onClose}
+            id={`header-${item.article.slug}`}
+            data-active={!selected}
+            variant="link"
+          >
+            {item.article.title}
+          </DrawerHeaderLink>
+        </DrawerListItem>
+        {item.menu?.map((link) => {
+          const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
+          if (link.hideLevel) {
+            return null;
+          }
+          if (!link.menu?.length || allSublevelsHidden) {
             return (
               <DrawerMenuItem
-                id={link.article.slug!}
                 key={link.article.slug}
-                active={nextItem?.article.slug === link.article.slug}
-                type="button"
-                onClick={() => onGoRight(link.article.slug)}
+                id={link.article.slug!}
+                type="link"
+                onClose={onClose}
+                current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
+                to={toAbout(link.article.slug)}
               >
                 {link.article.title}
               </DrawerMenuItem>
             );
-          })}
-        </DrawerList>
-      </DrawerPortion>
-    </PortionWrapper>
+          }
+          return (
+            <DrawerMenuItem
+              id={link.article.slug!}
+              key={link.article.slug}
+              active={nextItem?.article.slug === link.article.slug}
+              type="button"
+              onClick={() => onGoRight(link.article.slug)}
+            >
+              {link.article.title}
+            </DrawerMenuItem>
+          );
+        })}
+      </DrawerList>
+    </DrawerPortion>
   );
 };
-
-const PortionWrapper = styled("div", {
-  base: { display: "flex", flex: 1 },
-});
 
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {

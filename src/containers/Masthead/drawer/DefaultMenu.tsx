@@ -30,10 +30,11 @@ import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
   base: {
-    paddingLeft: "medium",
-    paddingRight: "medium",
-    paddingTop: "small",
-    mobileToTablet: {
+    paddingInline: "medium",
+    paddingBlockStart: "xxlarge",
+    borderTop: "1px solid",
+    borderColor: "stroke.subtle",
+    tabletDown: {
       display: "none",
     },
   },
@@ -42,11 +43,12 @@ const StyledCollapsedMenu = styled("div", {
 const StyledDrawerPortion = styled(DrawerPortion, {
   base: {
     tablet: {
-      minWidth: "300px",
-      maxWidth: "300px",
+      minWidth: "surface.xsmall",
+      maxWidth: "surface.small",
     },
   },
 });
+
 const multiDiscUrl = `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
 const studentToolboxUrl = `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
 const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
@@ -90,7 +92,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
   if (type) {
     return (
       <StyledCollapsedMenu>
-        <IconButton onClick={setShouldCloseLevel} aria-label="Go back" variant="secondary">
+        <IconButton onClick={setShouldCloseLevel} aria-label={t("menu.goBack")} variant="secondary">
           <Back />
         </IconButton>
       </StyledCollapsedMenu>
@@ -101,7 +103,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
       <DrawerList>
         <DrawerListItem>
           <DrawerHeader textStyle="label.large" fontWeight="bold" tabIndex={-1} asChild consumeCss>
-            <span>Fag og Utdanningsprogram</span>
+            <span>{t("menu.subjectAndProgramme")}</span>
           </DrawerHeader>
         </DrawerListItem>
         <DrawerRowHeader
@@ -135,7 +137,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
         </DrawerMenuItem>
         <DrawerListItem>
           <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
-            <span>Tips og råd</span>
+            <span>{t("menu.tipsAndAdvice")}</span>
           </DrawerHeader>
         </DrawerListItem>
         <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
@@ -146,7 +148,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
         </DrawerMenuItem>
         <DrawerListItem>
           <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
-            <span>Om oss</span>
+            <span>{t("menu.about")}</span>
           </DrawerHeader>
         </DrawerListItem>
         {dynamicMenus.map((menu) => (

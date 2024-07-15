@@ -35,6 +35,12 @@ const messages = {
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "About us",
+    subjectAndProgramme: "Courses and programmes",
+    tipsAndAdvice: "Tools and advices",
+    goBack: "Go back",
+  },
   podcastPage: {
     episodes: "Episodes",
     podcast: "Podcast",
