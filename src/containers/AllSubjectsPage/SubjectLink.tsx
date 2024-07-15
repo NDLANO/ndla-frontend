@@ -8,11 +8,11 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
+import emotionStyled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
-// TODO: Should update SafeLink styling according to design
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -22,18 +22,23 @@ import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
-const SubjectLinkWrapper = styled.li`
+const SubjectLinkWrapper = emotionStyled.li`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
 `;
 
-const ModalSubjectContainer = styled.div`
+const ModalSubjectContainer = emotionStyled.div`
   margin-top: ${spacing.normal};
   padding: ${spacing.small};
   border: 1px solid ${colors.brand.neutral7};
   border-radius: ${misc.borderRadius};
 `;
+
+// TODO: Remove/update this custom SafeLink styling?
+const StyledSafeLink = styled(SafeLink, {
+  base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
+});
 
 interface Props {
   subject: Subject;
@@ -128,7 +133,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           />
         </Modal>
       )}
-      <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
+      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };
