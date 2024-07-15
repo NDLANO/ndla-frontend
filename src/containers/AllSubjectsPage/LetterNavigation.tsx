@@ -34,6 +34,7 @@ const StyledLetter = styled("a", {
     outline: "none",
     borderRadius: 0,
     boxShadowColor: "stroke.default",
+    // TODO: Box shadow looks weird in Chrome mobile emulation
     boxShadow: "0px 2px -0px 0px var(--shadow-color)",
     _hover: {
       borderRadius: "xsmall",

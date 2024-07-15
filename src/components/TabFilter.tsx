@@ -6,38 +6,23 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { Done } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledLi = styled.li`
-  padding: 0;
-`;
+const StyledLegend = styled("legend", { base: { marginBlock: "small" } });
 
-const StyledButton = styled(ButtonV2)`
-  border-width: 1px;
-  border-radius: 12px;
-  border-color: ${colors.brand.dark};
-  :not(:hover, :focus)[aria-current="false"] {
-    background: ${colors.white};
-    color: ${colors.brand.dark};
-    border-color: ${colors.brand.light};
-  }
-`;
-
-const ButtonContainer = styled.ul`
-  display: flex;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  border-radius: ${spacing.small};
-  background: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.lighter};
-  align-self: flex-start;
-  margin: ${spacing.normal} 0 ${spacing.small};
-  list-style: none;
-  flex-wrap: wrap;
-`;
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+});
 
 interface Option {
   value: string;
@@ -45,30 +30,31 @@ interface Option {
 }
 
 interface Props {
-  value: string;
-  onChange: (value: string) => void;
+  value: string[];
+  onChange: (value: string[]) => void;
   options: Option[];
 }
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
-  const { t } = useTranslation();
   return (
-    <ButtonContainer aria-label={t("subjectsPage.filterSubjects")}>
-      {/* TODO: Should probably not be buttons */}
-      {options.map(({ value, label }) => (
-        <StyledLi role="none" key={value}>
-          <StyledButton
-            role="listitem"
-            fontWeight="bold"
-            aria-current={selectedValue === value}
-            variant={selectedValue === value ? undefined : "outline"}
-            onClick={() => onChange(value)}
-          >
-            {label}
-          </StyledButton>
-        </StyledLi>
-      ))}
-    </ButtonContainer>
+    <fieldset>
+      <StyledLegend>
+        <Text textStyle="title.small">Hvilket fag vil du vise?</Text>
+      </StyledLegend>
+      <StyledCheckboxGroup defaultValue={selectedValue} onValueChange={(v) => onChange(v)}>
+        {options.map((item) => (
+          <CheckboxRoot key={item.value} value={item.value} variant="chip">
+            <CheckboxControl>
+              <CheckboxIndicator asChild>
+                <Done />
+              </CheckboxIndicator>
+            </CheckboxControl>
+            <CheckboxLabel>{item.label}</CheckboxLabel>
+            <CheckboxHiddenInput />
+          </CheckboxRoot>
+        ))}
+      </StyledCheckboxGroup>
+    </fieldset>
   );
 };
 
