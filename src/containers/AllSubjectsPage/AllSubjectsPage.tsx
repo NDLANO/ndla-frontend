@@ -16,9 +16,9 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
+import { Heading } from "@ndla/primitives";
 import { Select } from "@ndla/select";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
 import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
@@ -73,6 +73,7 @@ const StyledMain = styled.main`
 const StyledColumn = styled(OneColumn)`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.medium};
 `;
 
 const StyledList = styled.ul`
@@ -171,7 +172,7 @@ const AllSubjectsPage = () => {
     <StyledMain>
       <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
       <StyledColumn wide>
-        <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
+        <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
           {t("subjectsPage.allSubjects")}
         </Heading>
         {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
@@ -191,12 +192,12 @@ const AllSubjectsPage = () => {
           <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
         )}
         <LetterNavigation activeLetters={letters} />
+        <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
+          {groupedSubjects.map(({ label, subjects }) => (
+            <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
+          ))}
+        </StyledList>
       </StyledColumn>
-      <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
-        {groupedSubjects.map(({ label, subjects }) => (
-          <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
-        ))}
-      </StyledList>
     </StyledMain>
   );
 };

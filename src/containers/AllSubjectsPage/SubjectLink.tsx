@@ -9,8 +9,9 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { colors, fonts, misc, spacing } from "@ndla/core";
+import { colors, misc, spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
+// TODO: Should update SafeLink styling according to design
 import { SafeLink } from "@ndla/safelink";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
@@ -25,15 +26,6 @@ const SubjectLinkWrapper = styled.li`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const SubjectSafeLink = styled(SafeLink)`
-  font-weight: ${fonts.weight.semibold};
-  box-shadow: none;
-  :hover {
-    box-shadow: ${misc.textLinkBoxShadow};
-  }
-  color: ${colors.brand.primary};
 `;
 
 const ModalSubjectContainer = styled.div`
@@ -129,14 +121,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
                 <ModalSubjectContainer>
-                  <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
+                  <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
                 </ModalSubjectContainer>
               </>
             }
           />
         </Modal>
       )}
-      <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
+      <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
     </SubjectLinkWrapper>
   );
 };

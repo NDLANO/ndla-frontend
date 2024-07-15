@@ -17,7 +17,7 @@ const LetterNavigationWrapper = styled("ul", {
     listStyle: "none",
     flexWrap: "wrap",
     flex: 1,
-    gap: "xsmall",
+    gap: "xxsmall",
     tabletWideDown: {
       gap: "medium",
     },
@@ -25,10 +25,9 @@ const LetterNavigationWrapper = styled("ul", {
 });
 
 const StyledLetter = styled("a", {
-  // TODO: could we reuse more styles from button?
   base: {
-    height: "34px", // value for this?
-    width: "34px", // value for this?
+    height: 17,
+    width: 17,
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
