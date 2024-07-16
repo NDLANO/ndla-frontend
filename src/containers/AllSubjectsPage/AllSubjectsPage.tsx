@@ -13,10 +13,11 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
+import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
@@ -65,20 +66,20 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
-const StyledMain = styled.main`
-  padding-top: ${spacing.large};
-`;
+const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
 
-const StyledColumn = styled(OneColumn)`
+const StyledColumn = emotionStyled(OneColumn)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.medium};
 `;
 
-const StyledList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+    padding: 0,
+  },
+});
 
 const allSubjectsQuery = gql`
   query allSubjects {

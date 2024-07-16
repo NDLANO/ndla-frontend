@@ -16,7 +16,7 @@ export const GridList = styled("ul", {
   base: {
     width: "100%",
     display: "grid",
-    gridTemplateColumns: "50% 50%",
+    gridTemplateColumns: "repeat(2,1fr)",
     gap: "small",
     marginBlock: "xsmall",
     tabletDown: {
