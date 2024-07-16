@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Heading } from "@ndla/typography";
+import { Heading } from "@ndla/primitives";
 import { Subject } from "./interfaces";
 import { GridList } from "./SubjectCategory";
 import SubjectLink from "./SubjectLink";
@@ -28,8 +28,8 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
 
   return (
     <div>
-      <Heading element="h2" headingStyle="list-title">
-        {t("subjectsPage.myFavoriteSubjects")}
+      <Heading textStyle="title.medium" consumeCss asChild>
+        <h2>{t("subjectsPage.myFavoriteSubjects")}</h2>
       </Heading>
       <GridList>
         {mappedFavorites.map((subject) => (

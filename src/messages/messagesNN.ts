@@ -43,6 +43,7 @@ const messages = {
     noResults: "...Ingen episoder",
     subtitle: "Lytt og lær!",
   },
+  subjectsPage: { tabFilter: "Kva fag vil du visa?" },
   myndla: {
     campaignBlock: {
       title: "Prøv praterobotane våre",

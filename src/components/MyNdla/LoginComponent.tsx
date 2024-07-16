@@ -22,6 +22,7 @@ import { toHref } from "../../util/urlHelper";
 const LoginComponentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const BottomRow = styled.div`
