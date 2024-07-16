@@ -43,7 +43,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
       <StyledLegend>
         <Text textStyle="title.small">{t("subjectsPage.tabFilter")}</Text>
       </StyledLegend>
-      <StyledCheckboxGroup defaultValue={selectedValue} onValueChange={(v) => onChange(v)}>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)}>
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>

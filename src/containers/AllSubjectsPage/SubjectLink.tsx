@@ -28,7 +28,7 @@ const SubjectLinkWrapper = styled("li", {
   },
 });
 
-const ModalSubjectContainer = styled("div", {
+const SafeLinkWrapper = styled("div", {
   base: {
     marginBlock: "small",
     padding: "small",
@@ -49,6 +49,7 @@ interface Props {
   className?: string;
 }
 
+// TODO: Needs to be refactored to use new components
 const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
   const { addSnack } = useSnack();
@@ -128,9 +129,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
             content={
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
-                <ModalSubjectContainer>
-                  <SafeLink to={toSubject(subject.id)}>{subject.name}</SafeLink>
-                </ModalSubjectContainer>
+                <SafeLinkWrapper>
+                  <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+                </SafeLinkWrapper>
               </>
             }
           />

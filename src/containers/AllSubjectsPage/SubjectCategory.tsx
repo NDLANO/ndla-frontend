@@ -52,18 +52,16 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           <h2>{label.toUpperCase()}</h2>
         </Heading>
       </LetterHeader>
-      <div>
-        <GridList
-          id={`subject-${label}`}
-          aria-label={t("subjectsPage.subjectGroup", {
-            category: label,
-          })}
-        >
-          {subjects.map((subject) => (
-            <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
-          ))}
-        </GridList>
-      </div>
+      <GridList
+        id={`subject-${label}`}
+        aria-label={t("subjectsPage.subjectGroup", {
+          category: label,
+        })}
+      >
+        {subjects.map((subject) => (
+          <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
+        ))}
+      </GridList>
     </li>
   );
 };
