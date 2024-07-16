@@ -27,13 +27,14 @@ const LetterNavigationWrapper = styled("ul", {
 // TODO: Consider to create as a styled variant of SafeLinkIconButton
 const StyledLetter = styled("a", {
   base: {
-    height: 17,
-    width: 17,
+    // TODO: Consider making this spacing.large
+    height: "17",
+    width: "17",
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
     outline: "none",
-    borderRadius: 0,
+    borderRadius: "0px",
     boxShadowColor: "stroke.default",
     // TODO: Box shadow looks weird in Chrome mobile emulation
     boxShadow: "0px 2px -0px 0px var(--shadow-color)",
