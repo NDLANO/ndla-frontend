@@ -9,13 +9,12 @@
 import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import { parse, stringify } from "query-string";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import emotionStyled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { useComponentSize } from "@ndla/hooks";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -26,7 +25,7 @@ import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import TabFilter from "../../components/TabFilter";
-import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from "../../constants";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
@@ -100,26 +99,8 @@ const AllSubjectsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
-
-  useEffect(() => {
-    if (window.location && window.location.hash) {
-      setTimeout(() => {
-        const element = document.getElementById(window.location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 400);
-    }
-  }, [height]);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string[]>(convertToArray(parse(location.search).filter) || [ACTIVE_SUBJECTS]);
