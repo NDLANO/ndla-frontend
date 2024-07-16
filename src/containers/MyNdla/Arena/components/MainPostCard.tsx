@@ -11,10 +11,7 @@ import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { misc, spacing, mq, colors, breakpoints } from "@ndla/core";
-import { Button } from "@ndla/primitives";
-import { Switch } from "@ndla/switch";
+import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
@@ -31,26 +28,10 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-const StyledSwitch = styled(Switch)`
-  align-self: flex-start;
-  border: 2px solid transparent;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.xsmall};
-  ${mq.range({ until: breakpoints.desktop })} {
-    align-self: flex-end;
-    margin-bottom: ${spacing.small};
-  }
-  &:focus,
-  &:focus-visible,
-  &:focus-within {
-    border-color: ${colors.brand.dark};
-  }
-`;
-
 interface Props {
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   post: Omit<GQLArenaPostV2Fragment, "replies">;
-  onFollowChange: (value: boolean) => Promise<void>;
+  onFollowChange: () => Promise<void>;
   setFocusId: Dispatch<SetStateAction<number | undefined>>;
   setReplyingTo: VoidFunction;
   isReplying: boolean;
@@ -91,12 +72,13 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
 
   const followSwitch = useMemo(
     () => (
-      <StyledSwitch
-        onChange={onFollowChange}
-        checked={!!topic?.isFollowing}
-        label={t("myNdla.arena.posts.notify")}
-        id={t("myNdla.arena.posts.notify")}
-      />
+      <SwitchRoot checked={!!topic?.isFollowing} onCheckedChange={onFollowChange}>
+        <SwitchLabel>{t("myNdla.arena.posts.notify")}</SwitchLabel>
+        <SwitchControl>
+          <SwitchThumb />
+        </SwitchControl>
+        <SwitchHiddenInput />
+      </SwitchRoot>
     ),
     [onFollowChange, topic?.isFollowing, t],
   );

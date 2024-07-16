@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { formatDistanceStrict } from "date-fns";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
-import { Switch } from "@ndla/switch";
+import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { GQLArenaFlagFragment } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -45,22 +46,6 @@ const FlagContentWrapper = styled.div`
   margin: ${spacing.normal} 0;
 `;
 
-const StyledSwitch = styled(Switch)`
-  align-self: flex-start;
-  border: 2px solid transparent;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.xsmall};
-  ${mq.range({ until: breakpoints.desktop })} {
-    align-self: flex-end;
-    margin-bottom: ${spacing.small};
-  }
-  &:focus,
-  &:focus-visible,
-  &:focus-within {
-    border-color: ${colors.brand.dark};
-  }
-`;
-
 const TimestampText = styled(Text)`
   align-self: center;
 `;
@@ -93,16 +78,19 @@ const FlagCard = ({ flag }: Props) => {
   const { t } = useTranslation();
   const [toggleFlagResolution] = useResolveFlagMutation();
 
+  const toggleChecked = () => toggleFlagResolution({ variables: { flagId: flag.id } });
+
   return (
     <FlagCardWrapper key={flag.id}>
       <FlagHeader>
         <UserProfileTag user={flag.flagger} />
-        <StyledSwitch
-          onChange={() => toggleFlagResolution({ variables: { flagId: flag.id } })}
-          checked={flag.isResolved}
-          label={t("myNdla.arena.admin.flags.status.resolved")}
-          id={t("myNdla.arena.posts.flags.status")}
-        />
+        <SwitchRoot checked={flag.isResolved} onCheckedChange={toggleChecked}>
+          <SwitchLabel>{t("myNdla.arena.admin.flags.status.resolved")}</SwitchLabel>
+          <SwitchControl>
+            <SwitchThumb />
+          </SwitchControl>
+          <SwitchHiddenInput />
+        </SwitchRoot>
       </FlagHeader>
       <FlagContentWrapper>{flag.reason}</FlagContentWrapper>
       <FlexLine>

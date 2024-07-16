@@ -8,11 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { LearningPathQuiz } from "@ndla/icons/contentType";
 import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent, ModalTitle } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
-import { Switch } from "@ndla/switch";
+import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
 import { HeadingType } from "../../interfaces";
 
@@ -38,17 +37,6 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const StyledSwitch = styled(Switch)`
-  border: 2px solid transparent;
-  border-radius: ${misc.borderRadius};
-  margin-right: ${spacing.xsmall};
-  &:focus,
-  &:focus-visible,
-  &:focus-within {
-    border-color: ${colors.brand.dark};
-  }
 `;
 
 const StyledHGroup = styled.hgroup`
@@ -92,12 +80,13 @@ const ResourcesTopicTitle = ({
       {hasAdditionalResources && (
         <StyledRow>
           <form>
-            <StyledSwitch
-              id="toggleAdditionID"
-              checked={showAdditionalResources}
-              label={t("resource.activateAdditionalResources")}
-              onChange={toggleAdditionalResources}
-            />
+            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
           </form>
           <Modal>
             <ModalTrigger>
