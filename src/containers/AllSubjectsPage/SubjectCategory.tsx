@@ -55,7 +55,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       <GridList
         id={`subject-${label}`}
         aria-label={t("subjectsPage.subjectGroup", {
-          category: label,
+          category: label === "#" ? t("labels.other") : label,
         })}
       >
         {subjects.map((subject) => (

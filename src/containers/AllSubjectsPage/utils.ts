@@ -10,6 +10,7 @@ import groupBy from "lodash/groupBy";
 import { GQLSubject } from "../../graphqlTypes";
 
 export const subjectLetters = [
+  "#",
   "A",
   "B",
   "C",
