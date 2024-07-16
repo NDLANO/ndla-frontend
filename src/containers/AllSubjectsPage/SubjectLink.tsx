@@ -30,7 +30,6 @@ const SubjectLinkWrapper = styled("li", {
 
 const SafeLinkWrapper = styled("div", {
   base: {
-    marginBlock: "small",
     padding: "small",
     border: "1px solid",
     borderColor: "stroke.subtle",
