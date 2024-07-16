@@ -14,8 +14,9 @@ import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { CursorClick, ExpandTwoArrows } from "@ndla/icons/action";
 import { PlayCircleFilled } from "@ndla/icons/common";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Image, getCrop, getFocalPoint } from "@ndla/ui";
+import { getCrop, getFocalPoint } from "@ndla/ui";
 
 interface Props {
   visualElementEmbedMeta: EmbedMetaData;
