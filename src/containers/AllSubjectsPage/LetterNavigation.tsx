@@ -24,6 +24,7 @@ const LetterNavigationWrapper = styled("ul", {
   },
 });
 
+// TODO: Consider to create as a styled variant of SafeLinkIconButton
 const StyledLetter = styled("a", {
   base: {
     height: 17,
