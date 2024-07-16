@@ -38,7 +38,7 @@ const messages = {
   menu: {
     about: "About us",
     subjectAndProgramme: "Courses and programmes",
-    tipsAndAdvice: "Tools and advices",
+    tipsAndAdvice: "Tools and advice",
     goBack: "Go back",
   },
   podcastPage: {

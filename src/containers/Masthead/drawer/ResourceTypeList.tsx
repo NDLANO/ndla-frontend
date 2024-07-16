@@ -11,8 +11,20 @@ import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
 
-const StyledResourceTypeList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
-const StyledHeading = styled(Heading, { base: { paddingInlineStart: "small", paddingBlockStart: "small" } });
+const StyledResourceTypeList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    paddingInlineStart: "small",
+    paddingBlockStart: "small",
+  },
+});
 
 interface Props {
   id: string;

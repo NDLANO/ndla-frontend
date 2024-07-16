@@ -11,7 +11,7 @@ import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 
-const DrawerPortion = styled("div", {
+export const DrawerPortion = styled("div", {
   base: {
     display: "none",
     flexDirection: "column",
@@ -20,8 +20,8 @@ const DrawerPortion = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xlarge",
     paddingBlockEnd: "medium",
-    borderLeft: "1px solid ",
-    borderTop: "1px solid ",
+    borderInlineStart: "1px solid ",
+    borderBlockStart: "1px solid ",
     borderColor: "stroke.subtle",
     tabletDown: {
       "&:nth-last-of-type(-n + 1)": {
@@ -89,5 +89,3 @@ export const DrawerHeaderLink = styled(SafeLinkButton, {
     paddingBlockEnd: "small",
   },
 });
-
-export default DrawerPortion;

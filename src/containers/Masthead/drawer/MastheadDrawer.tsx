@@ -18,6 +18,7 @@ import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
 import { MenuType } from "./drawerMenuTypes";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLMastheadDrawer_SubjectFragment,
@@ -182,6 +183,20 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [frontpageMenu, topicPath, type]);
 
+  const getHeaderElement = () => {
+    if (!type) {
+      return document.getElementById("header-programme");
+    } else if (type === "about") {
+      const articleTitle = frontpageMenu[frontpageMenu.length - 1]?.article.slug;
+      return document.getElementById(`header-${articleTitle}`);
+    } else if (type !== "subject" || !topicPath.length) {
+      const links = document.getElementsByTagName("a");
+      return links.item(0)?.href.endsWith(SKIP_TO_CONTENT_ID) ? links.item(1) : links.item(0);
+    } else {
+      return document.getElementById(`header-${topicPath[topicPath.length - 1]}`);
+    }
+  };
+
   return (
     <DialogRoot
       variant="drawer"
@@ -189,6 +204,8 @@ const MastheadDrawer = ({ subject }: Props) => {
       size="medium"
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
+      onEscapeKeyDown={close}
+      initialFocusEl={getHeaderElement}
     >
       <DialogTrigger asChild>
         <DrawerButton

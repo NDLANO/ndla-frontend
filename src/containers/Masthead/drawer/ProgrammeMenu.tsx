@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerHeader, DrawerList } from "./DrawerPortion";
+import { DrawerPortion, DrawerHeader, DrawerList } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLProgrammeMenu_ProgrammePageFragment } from "../../../graphqlTypes";
 import { toProgramme, useUrnIds } from "../../../routeHelpers";

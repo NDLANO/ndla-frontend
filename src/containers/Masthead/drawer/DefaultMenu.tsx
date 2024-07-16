@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
 import { MenuType } from "./drawerMenuTypes";
-import DrawerPortion, { DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
+import { DrawerPortion, DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import DrawerRowHeader from "./DrawerRowHeader";
 import useArrowNavigation from "./useArrowNavigation";
 import {

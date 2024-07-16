@@ -15,7 +15,7 @@ import { ContentLoader } from "@ndla/ui";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
+import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
