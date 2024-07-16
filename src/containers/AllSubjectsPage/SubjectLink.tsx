@@ -8,8 +8,6 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import emotionStyled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,18 +20,17 @@ import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
-const SubjectLinkWrapper = emotionStyled.li`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const SubjectLinkWrapper = styled("li", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
 
-const ModalSubjectContainer = emotionStyled.div`
-  margin-top: ${spacing.normal};
-  padding: ${spacing.small};
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-`;
+const ModalSubjectContainer = styled("div", {
+  base: {
+    marginBlock: "small",
+    padding: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    borderRadius: "xsmall",
+  },
+});
 
 // TODO: Remove/update this custom SafeLink styling?
 const StyledSafeLink = styled(SafeLink, {
