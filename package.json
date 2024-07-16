@@ -106,7 +106,6 @@
     "@ndla/safelink": "^6.0.1-alpha.0",
     "@ndla/select": "^5.0.6-alpha.0",
     "@ndla/styled-system": "^0.0.8",
-    "@ndla/switch": "^1.1.44",
     "@ndla/tabs": "^4.0.8",
     "@ndla/tracker": "^5.0.7",
     "@ndla/typography": "^0.4.23",
