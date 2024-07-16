@@ -6,9 +6,7 @@
  *
  */
 
-import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useComponentSize } from "@ndla/hooks";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Subject } from "./interfaces";
@@ -28,16 +26,13 @@ export const GridList = styled("ul", {
   },
 });
 
-const StickyHeading = styled("div", {
+const LetterHeader = styled("div", {
   base: {
     background: "surface.brand.1.subtle",
     borderRadius: "xsmall",
     borderColor: "stroke.subtle",
     border: "1px solid",
     padding: "xsmall",
-    position: "sticky",
-    // TODO: this syntax does not work, needs fix
-    top: "calc(var(--height)+token(spacing.small))",
   },
 });
 
@@ -48,25 +43,20 @@ interface Props {
 }
 
 const SubjectCategory = ({ label, subjects, favorites }: Props) => {
-  const rootRef = useRef<HTMLLIElement>(null);
   const { t } = useTranslation();
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const { height = 85 } = useComponentSize("masthead");
 
   return (
-    <li ref={rootRef} aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
-      <StickyHeading ref={stickyRef} css={{ "--height": `${height}px` }}>
-        <div>
-          <Heading asChild consumeCss textStyle="title.medium" id={`subject-header-${label}`}>
-            <h2>{label.toUpperCase()}</h2>
-          </Heading>
-        </div>
-      </StickyHeading>
+    <li aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
+      <LetterHeader id={`subject-header-${label}`}>
+        <Heading asChild consumeCss textStyle="title.medium">
+          <h2>{label.toUpperCase()}</h2>
+        </Heading>
+      </LetterHeader>
       <div>
         <GridList
           id={`subject-${label}`}
           aria-label={t("subjectsPage.subjectGroup", {
-            category: label === "#" ? t("labels.other") : label,
+            category: label,
           })}
         >
           {subjects.map((subject) => (

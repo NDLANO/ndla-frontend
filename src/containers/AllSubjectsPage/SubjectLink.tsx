@@ -20,7 +20,13 @@ import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
-const SubjectLinkWrapper = styled("li", { base: { display: "flex", alignItems: "center", gap: "xsmall" } });
+const SubjectLinkWrapper = styled("li", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
 const ModalSubjectContainer = styled("div", {
   base: {
