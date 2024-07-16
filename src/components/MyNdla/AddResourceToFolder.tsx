@@ -12,13 +12,36 @@ import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
-import { Button } from "@ndla/primitives";
+import { Cross } from "@ndla/icons/action";
+import { ChevronDown, InformationOutline } from "@ndla/icons/common";
+import { Done } from "@ndla/icons/editor";
+import {
+  Button,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  IconButton,
+  Input,
+  InputContainer,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { MessageBox, TagSelector, useSnack } from "@ndla/ui";
+import { HStack } from "@ndla/styled-system/jsx";
+import {
+  MessageBox,
+  TagSelectorClearTrigger,
+  TagSelectorControl,
+  TagSelectorInput,
+  TagSelectorLabel,
+  TagSelectorRoot,
+  TagSelectorTrigger,
+  useSnack,
+  useTagSelectorTranslations,
+} from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
 import ListResource from "./ListResource";
 import {
@@ -58,6 +81,12 @@ export const AddResourceContainer = styled.div`
 `;
 
 export const ComboboxContainer = styled.div`
+  display: flex;
+  max-height: 320px;
+  overflow: hidden;
+`;
+
+const StyledComboboxContent = styled(ComboboxContent)`
   display: flex;
   max-height: 320px;
   overflow: hidden;
@@ -104,18 +133,22 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<GQLFolderResource | undefined>(undefined);
+  const [allTags, setAllTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const { addSnack } = useSnack();
+  const tagSelectorTranslations = useTagSelectorTranslations();
 
   useEffect(() => {
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
+      const newTags = uniq(compact(getAllTags(folders)));
+      setAllTags(newTags ?? []);
+      setTags(newTags ?? []);
       setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
     }
   }, [folders, loading, resource.path, storedResource]);
@@ -173,6 +206,11 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     onClose();
   };
 
+  const onInputValueChange = (e: ComboboxInputValueChangeDetails) => {
+    const filtered = allTags.filter((item) => item.toLowerCase().includes(e.inputValue.toLowerCase()));
+    setTags(filtered);
+  };
+
   const noFolderSelected = selectedFolderId === "folders";
 
   return (
@@ -214,20 +252,45 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
               </MessageBox>
             )}
           </StyledInfoMessages>
-          <ComboboxContainer>
-            <TagSelector
-              label={t("myNdla.myTags")}
-              selected={selectedTags}
-              tags={tags}
-              onChange={(tags) => {
-                setSelectedTags(tags);
-              }}
-              onCreateTag={(tag) => {
-                setTags((prev) => prev.concat(tag));
-                setSelectedTags((prev) => uniq(prev.concat(tag)));
-              }}
-            />
-          </ComboboxContainer>
+          <TagSelectorRoot
+            value={selectedTags}
+            items={allTags}
+            onInputValueChange={onInputValueChange}
+            onValueChange={(details) => setSelectedTags(details.value)}
+            translations={tagSelectorTranslations}
+          >
+            <TagSelectorLabel>{t("myNdla.myTags")}</TagSelectorLabel>
+            <HStack gap="4xsmall">
+              <TagSelectorControl asChild>
+                <InputContainer>
+                  <TagSelectorInput asChild>
+                    <Input placeholder={t("tagSelector.placeholder")} />
+                  </TagSelectorInput>
+
+                  <TagSelectorClearTrigger asChild>
+                    <IconButton variant="clear">
+                      <Cross />
+                    </IconButton>
+                  </TagSelectorClearTrigger>
+                </InputContainer>
+              </TagSelectorControl>
+              <TagSelectorTrigger asChild>
+                <IconButton variant="secondary">
+                  <ChevronDown />
+                </IconButton>
+              </TagSelectorTrigger>
+            </HStack>
+            <StyledComboboxContent>
+              {tags.map((item) => (
+                <ComboboxItem key={item} item={item}>
+                  <ComboboxItemText>{item}</ComboboxItemText>
+                  <ComboboxItemIndicator>
+                    <Done />
+                  </ComboboxItemIndicator>
+                </ComboboxItem>
+              ))}
+            </StyledComboboxContent>
+          </TagSelectorRoot>
         </>
       )}
       <ButtonRow>
