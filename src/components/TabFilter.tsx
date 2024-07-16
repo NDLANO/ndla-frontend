@@ -19,11 +19,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-const StyledLegend = styled("legend", { base: { marginBlock: "small" } });
-
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
 });
+const StyledText = styled(Text, { base: { marginBlock: "small" } });
 
 interface Option {
   value: string;
@@ -39,11 +38,11 @@ interface Props {
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
   return (
-    <fieldset>
-      <StyledLegend>
-        <Text textStyle="title.small">{t("subjectsPage.tabFilter")}</Text>
-      </StyledLegend>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)}>
+    <div>
+      <StyledText textStyle="title.small" id="tab-filter-label">
+        {t("subjectsPage.tabFilter")}
+      </StyledText>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby="tab-filter-label">
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>
@@ -56,7 +55,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
           </CheckboxRoot>
         ))}
       </StyledCheckboxGroup>
-    </fieldset>
+    </div>
   );
 };
 
