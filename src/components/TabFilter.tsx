@@ -6,6 +6,7 @@
  *
  */
 
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Done } from "@ndla/icons/editor";
 import {
@@ -37,12 +38,13 @@ interface Props {
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
+  const tabFilterLabelId = useId();
   return (
     <div>
-      <StyledText textStyle="title.small" id="tab-filter-label">
+      <StyledText textStyle="title.small" id={tabFilterLabelId}>
         {t("subjectsPage.tabFilter")}
       </StyledText>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby="tab-filter-label">
+      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby={tabFilterLabelId}>
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>

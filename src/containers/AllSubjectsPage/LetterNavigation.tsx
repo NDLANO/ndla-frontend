@@ -37,6 +37,9 @@ const StyledLetter = styled("a", {
     boxShadowColor: "stroke.default",
     // TODO: Box shadow looks weird in Chrome mobile emulation
     boxShadow: "0px 2px -0px 0px var(--shadow-color)",
+    transitionProperty: "all",
+    transitionDuration: "fast",
+    transitionTimingFunction: "ease-in-out",
     _hover: {
       borderRadius: "xsmall",
       boxShadow: "0 0 0 1px var(--shadow-color)",
@@ -62,12 +65,6 @@ const StyledLetter = styled("a", {
   },
 });
 
-const StyledLi = styled("li", {
-  base: {
-    padding: 0,
-  },
-});
-
 interface Props {
   activeLetters: string[];
 }
@@ -79,7 +76,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
       {subjectLetters.map((letter) => {
         const enabled = activeLetters.includes(letter);
         return (
-          <StyledLi key={letter}>
+          <li key={letter}>
             <StyledLetter
               href={enabled ? `#subject-header-${letter}` : undefined}
               aria-disabled={!enabled}
@@ -90,7 +87,7 @@ const LetterNavigation = ({ activeLetters }: Props) => {
                 {letter}
               </Text>
             </StyledLetter>
-          </StyledLi>
+          </li>
         );
       })}
     </LetterNavigationWrapper>
