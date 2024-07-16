@@ -146,8 +146,9 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setAllTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
-      setTags((tags) => uniq(compact(tags.concat(_storedResource?.tags ?? []))));
+      const newTags = uniq(compact(getAllTags(folders)));
+      setAllTags(newTags ?? []);
+      setTags(newTags ?? []);
       setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
     }
   }, [folders, loading, resource.path, storedResource]);
@@ -253,7 +254,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           </StyledInfoMessages>
           <TagSelectorRoot
             value={selectedTags}
-            items={tags}
+            items={allTags}
             onInputValueChange={onInputValueChange}
             onValueChange={(details) => setSelectedTags(details.value)}
             translations={tagSelectorTranslations}
@@ -263,7 +264,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
               <TagSelectorControl asChild>
                 <InputContainer>
                   <TagSelectorInput asChild>
-                    <Input placeholder="Søk etter emneknagger" />
+                    <Input placeholder={t("tagSelector.placeholder")} />
                   </TagSelectorInput>
 
                   <TagSelectorClearTrigger asChild>
