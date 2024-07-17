@@ -2,27 +2,7 @@
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
-  @keyframes animation-0 {
-  from {
-    height: 0;
-  }
-
-  to {
-    height: var(--radix-accordion-content-height);
-  }
-}
-
-@keyframes animation-1 {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-
-  to {
-    height: 0;
-  }
-}
-
-.emotion-0 {
+  .emotion-0 {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
@@ -357,191 +337,292 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-15 {
-  margin-top: 24px;
-  padding-top: 24px;
+.emotion-15 [data-tab-trigger] {
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.emotion-15 [data-tab-list] {
+  position: relative;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger] {
+  font-size: 12px;
+  font-size: 0.6666666666666666rem;
+  line-height: 2;
+  padding: 0 24px;
+  color: #20588f;
+  font-weight: 600;
+  background-color: #ceddea;
+  z-index: 0;
+  position: relative;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger]:where([lang='zh'], .emotion-15[data-variant="rounded"] [data-tab-trigger][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(12px * 1.11);
+  font-size: calc(0.6666666666666666rem * 1.11);
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger][data-state="active"] {
+  cursor: default;
+  background-color: #deebf6;
+  border-bottom: none;
+  z-index: 1;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger]:not(:last-of-type) {
+  border-right: 1px solid #a5bcd3;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger]:first-of-type {
+  border-top-left-radius: 4px;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger]:last-of-type {
+  border-top-right-radius: 4px;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger][data-state="inactive"]:hover {
+  color: #444;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-trigger][data-disabled] {
+  background-color: #e8e3e3;
+  color: #777777;
+  cursor: not-allowed;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-panel] {
+  background-color: #deebf6;
+  border-radius: 0px 10px 10px 10px;
+  padding: 16px;
+  position: relative;
+}
+
+.emotion-15[data-variant="rounded"] [data-tab-panel]:focus-visible,
+.emotion-15[data-variant="rounded"] [data-tab-trigger]:focus-visible {
+  z-index: 2;
+  box-shadow: 0 0 0 2px #20588f;
+}
+
+.emotion-15[data-variant="underlined"] [data-tab-list]:after {
+  border-bottom: 1px solid #20588f;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  content: "";
+  width: 100%;
+  z-index: 0;
+}
+
+.emotion-15[data-variant="underlined"] [data-tab-trigger] {
+  font-weight: 700;
+  border-bottom: 5px solid transparent;
+  background-color: transparent;
+  color: inherit;
+  padding: 6px 16px;
+}
+
+.emotion-15[data-variant="underlined"] [data-tab-trigger]:hover {
+  color: #20588f;
+}
+
+.emotion-15[data-variant="underlined"] [data-tab-trigger][data-state="active"] {
+  cursor: default;
+  color: #20588f;
+  border-bottom-color: #20588f;
+}
+
+.emotion-15[data-variant="underlined"] [data-tab-trigger][data-disabled] {
+  color: #777777;
+  cursor: not-allowed;
+}
+
+.emotion-17 {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.emotion-19 {
+  padding-left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 24px 0;
+}
+
+.emotion-20 {
+  margin-bottom: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #a5bcd3;
+  list-style: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-20:last-of-type {
+  border-bottom: none;
+}
+
+.emotion-20 img {
+  width: 100%;
+}
+
+.emotion-21 {
+  padding-bottom: 24px;
+}
+
+.emotion-22 {
+  font-weight: 700;
   padding-bottom: 6px;
-  border-top: 1px solid #e8e3e3;
+}
+
+.emotion-23 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 24px;
+  margin: 0px;
+}
+
+.emotion-23:where([lang='zh'], .emotion-23[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(18px * 1.11);
+  font-size: calc(1rem * 1.11);
+}
+
+.emotion-24 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  list-style-type: disc;
+}
+
+.emotion-25 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  margin: 12px 0 0 0;
+  width: 100%;
+}
+
+.emotion-25 button,
+.emotion-25 a {
+  margin: 0 12px 12px 0;
+}
+
+@media (max-width: 29.75em) {
+  .emotion-25 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .emotion-25 button,
+  .emotion-25 a {
+    margin: 0 0 12px 0;
+    width: 100%;
+  }
+
+  .emotion-25 span {
+    width: 100%;
+  }
+
+  .emotion-25 span button {
+    width: 100%;
+  }
+}
+
+.emotion-26 {
   font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 24px;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  color: #4d4d4d;
 }
 
-.emotion-15:where([lang='zh'], .emotion-15[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-26:where([lang='zh'], .emotion-26[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-17 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  width: 100%;
-  padding-bottom: 36px;
-}
-
-@media (max-width: 48em) {
-  .emotion-17 {
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-flex-direction: column-reverse;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse;
-    gap: 6px;
+@media (min-width: 37.5625em) {
+  .emotion-26 {
+    max-width: 70%;
   }
 }
 
-.emotion-17[data-learning-path="true"] {
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex-direction: column-reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-  gap: 6px;
-}
-
-.emotion-19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-  padding-right: 6px;
-}
-
-.emotion-21 {
-  margin-left: 4px;
-}
-
-.emotion-23 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.emotion-25 {
-  border: 1px solid #ceddea;
-}
-
-.emotion-25[data-state="open"] {
-  border-color: #20588f;
+@media (min-width: 61.3125em) {
+  .emotion-26 {
+    max-width: 75%;
+  }
 }
 
 .emotion-27 {
   display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  margin: 0;
+  display: -webkit-"none";
+  display: -ms-"none"box;
+  display: "none";
+}
+
+.emotion-29 {
+  background: #fff;
+  width: 100%;
+}
+
+@media (max-width: 37.5625em) {
+  .emotion-29 button,
+  .emotion-29 a {
+    width: 100%;
+    margin: 4px 0;
+  }
 }
 
 .emotion-30 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: transparent;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 24px;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  color: #20588f;
-  font-weight: 600;
-  -webkit-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-  background-color: #F0F6FB;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 29px;
-  font-weight: 600;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
 }
 
-.emotion-30[data-state="open"] {
-  background-color: #deebf6;
-  border-bottom: 1px solid #20588f;
+.emotion-30 button,
+.emotion-30 a {
+  margin: 0 12px 12px 0;
 }
 
-.emotion-30:hover,
-.emotion-30:focus-visible {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.emotion-30:focus-visible {
-  outline: 2px solid #20588f;
-}
-
-.emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
-.emotion-30[data-background-color="white"][data-state="closed"] {
-  background-color: #ffffff;
-}
-
-.emotion-32 {
-  color: #20588f;
-  -webkit-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-31[data-state='open']>.emotion-32 {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-
-.emotion-34 {
-  overflow: hidden;
-}
-
-.emotion-34[data-state="open"] {
-  -webkit-animation: animation-0 300ms ease-out;
-  animation: animation-0 300ms ease-out;
-}
-
-.emotion-34[data-state="closed"] {
-  -webkit-animation: animation-1 300ms ease-out;
-  animation: animation-1 300ms ease-out;
-}
-
-.emotion-34[data-disable-animate="true"] {
-  -webkit-animation: none;
-  animation: none;
+.emotion-31 {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 6px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-36 {
+  .emotion-34 {
     position: relative!important;
     width: 83.333%;
     right: auto!important;
@@ -608,21 +689,18 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           class="emotion-4"
         >
           <div
-            class="emotion-15 emotion-16"
+            class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
           >
             <div
-              class="emotion-17 emotion-18"
-              data-learning-path="false"
+              class="d_flex flex-d_column-reverse gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium tabletWide:flex-d_row"
             >
               <div
-                class="emotion-19 emotion-20"
+                class="d_flex gap_xsmall"
               >
                 <span>
                   by-sa
                 </span>
-                <span
-                  class="emotion-21 emotion-22"
-                >
+                <span>
                   Skrevet av Someone. 
                 </span>
               </div>
@@ -631,67 +709,233 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-23 emotion-24"
+              class="d_flex flex-d_column gap_3xsmall pbs_xxlarge"
               data-orientation="vertical"
+              data-part="root"
+              data-scope="accordion"
+              dir="ltr"
+              id="accordion::r0:"
             >
               <div
-                class="emotion-25 emotion-26"
+                class="w_100%"
                 data-orientation="vertical"
+                data-part="item"
+                data-scope="accordion"
                 data-state="closed"
+                dir="ltr"
+                id="collapsible:accordion::r0::item:rulesForUse"
               >
-                <h2
-                  class="emotion-27 emotion-28"
+                <button
+                  aria-controls="accordion::r0::content:rulesForUse"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg-c_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_2px_var(--shadow-color)"
                   data-orientation="vertical"
+                  data-ownedby="accordion::r0:"
+                  data-part="item-trigger"
+                  data-scope="accordion"
                   data-state="closed"
+                  dir="ltr"
+                  id="accordion::r0::trigger:rulesForUse"
+                  type="button"
                 >
-                  <button
-                    aria-controls="radix-:r1:"
-                    aria-expanded="false"
-                    class="emotion-29 emotion-30 emotion-31"
-                    data-background-color="blue"
-                    data-orientation="vertical"
-                    data-radix-collection-item=""
-                    data-state="closed"
-                    id="radix-:r0:"
-                    type="button"
+                  <h2
+                    class="textStyle_label.medium fw_bold"
                   >
                     Sitere eller gjenbruke?
-                    <svg
-                      aria-hidden="true"
-                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-32 emotion-33"
-                      data-icon=""
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </svg>
-                  </button>
-                </h2>
+                  </h2>
+                  <svg
+                    aria-hidden="true"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg)"
+                    data-icon=""
+                    data-license="Apache License 2.0"
+                    data-orientation="vertical"
+                    data-part="item-indicator"
+                    data-scope="accordion"
+                    data-source="Material Design"
+                    data-state="closed"
+                    dir="ltr"
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
+                    />
+                    <path
+                      d="M0 0h24v24H0z"
+                      fill="none"
+                    />
+                  </svg>
+                </button>
                 <div
-                  aria-labelledby="radix-:r0:"
-                  class="emotion-34 emotion-35"
+                  aria-labelledby="accordion::r0::trigger:rulesForUse"
+                  class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in closed:anim_collapse-out bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
                   data-orientation="vertical"
+                  data-part="item-content"
+                  data-scope="accordion"
                   data-state="closed"
+                  dir="ltr"
                   hidden=""
-                  id="radix-:r1:"
+                  id="accordion::r0::content:rulesForUse"
                   role="region"
-                  style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-                />
+                  style="--height: 0px; --width: 0px;"
+                >
+                  <div
+                    class="emotion-15 emotion-16"
+                    data-orientation="horizontal"
+                    data-variant="underlined"
+                    dir="ltr"
+                  >
+                    <div
+                      aria-orientation="horizontal"
+                      class="emotion-17 emotion-18"
+                      data-orientation="horizontal"
+                      data-tab-list=""
+                      role="tablist"
+                      style="outline: none;"
+                      tabindex="0"
+                    >
+                      <button
+                        aria-controls="radix-:r2:-content-text"
+                        aria-selected="true"
+                        data-orientation="horizontal"
+                        data-radix-collection-item=""
+                        data-state="active"
+                        data-tab-trigger=""
+                        id="radix-:r2:-trigger-text"
+                        role="tab"
+                        tabindex="-1"
+                        type="button"
+                      >
+                        Tekst
+                      </button>
+                    </div>
+                    <div
+                      aria-labelledby="radix-:r2:-trigger-text"
+                      data-orientation="horizontal"
+                      data-state="active"
+                      data-tab-panel=""
+                      id="radix-:r2:-content-text"
+                      role="tabpanel"
+                      style="animation-duration: 0s;"
+                      tabindex="0"
+                    >
+                      <ul
+                        class="emotion-19"
+                      >
+                        <li
+                          class="emotion-20"
+                        >
+                          <div
+                            class="emotion-21"
+                          >
+                            <label
+                              class="emotion-22 emotion-23"
+                            >
+                              Regler for bruk av teksten "Politiske skillelinjer"
+                            </label>
+                            <br />
+                            <span>
+                              Denne teksten har lisensen 
+                              <span>
+                                by-sa
+                              </span>
+                              . 
+                            </span>
+                            <ul
+                              class="emotion-24"
+                            />
+                          </div>
+                          <div
+                            class="emotion-25"
+                          />
+                          <div
+                            about=""
+                            class="emotion-26"
+                          >
+                            <span
+                              class="emotion-27"
+                              href="http://purl.org/dc/dcmitype/Text"
+                              rel="dct:type"
+                            />
+                            <div
+                              class="emotion-25"
+                            >
+                              <div
+                                class="emotion-29"
+                              >
+                                <ul
+                                  class="emotion-30"
+                                  content="Opphaver: Forfatter Someone"
+                                  property="cc:attributionName"
+                                >
+                                  <li
+                                    class="emotion-31"
+                                  >
+                                    <span>
+                                      Tittel: 
+                                      <span>
+                                        Politiske skillelinjer
+                                      </span>
+                                    </span>
+                                  </li>
+                                  <li
+                                    class="emotion-31"
+                                  >
+                                    <span>
+                                      Opphaver: 
+                                      <span>
+                                        Forfatter Someone
+                                      </span>
+                                    </span>
+                                  </li>
+                                  <li
+                                    class="emotion-31"
+                                  >
+                                    <span>
+                                      Sist faglig oppdatert: 
+                                      <span>
+                                        09.01.2018
+                                      </span>
+                                    </span>
+                                  </li>
+                                </ul>
+                                <span>
+                                  <button
+                                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                                      data-icon=""
+                                      data-license="Apache License 2.0"
+                                      data-source="Material Design"
+                                      preserveAspectRatio="xMidYMid meet"
+                                      viewBox="0 96 960 960"
+                                    >
+                                      <path
+                                        d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18zm0-60h440V235H300zm0 0V235z"
+                                      />
+                                    </svg>
+                                    Kopier kildehenvisning
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </section>
         <section
-          class="emotion-36"
+          class="emotion-34"
         >
           <div
             class="d_flex ai_center gap_xsmall jc_flex-end"
