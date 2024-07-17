@@ -15,9 +15,10 @@ import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from 
 import { transform } from "@ndla/article-converter";
 import { colors, spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
+import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Text } from "@ndla/typography";
-import { ArticleTitle, OneColumn } from "@ndla/ui";
+import { ContentTypeBadgeNew, OneColumn } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -38,10 +39,12 @@ interface RouteParams extends TypedParams {
   id: string;
 }
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled.hgroup`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.small};
   margin-top: ${spacing.normal};
+  margin-block: ${spacing.normal};
 `;
 
 const StyledAccordionHeader = styled(AccordionHeader)`
@@ -203,9 +206,10 @@ const PodcastSeriesPage = () => {
       />
       <OneColumn>
         <TitleWrapper>
-          <ArticleTitle label={t("podcastPage.podcast")} id={SKIP_TO_CONTENT_ID}>
+          <ContentTypeBadgeNew contentType="podcast" />
+          <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
             {podcastSeries.title.title}
-          </ArticleTitle>
+          </Heading>
         </TitleWrapper>
         <SeriesDescription>
           <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText} />
