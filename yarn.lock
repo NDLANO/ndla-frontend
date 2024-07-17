@@ -3593,20 +3593,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/tabs@npm:^4.0.8":
-  version: 4.0.8
-  resolution: "@ndla/tabs@npm:4.0.8"
-  dependencies:
-    "@ndla/core": "npm:^5.0.1"
-    "@radix-ui/react-tabs": "npm:^1.0.4"
-  peerDependencies:
-    "@emotion/react": ^11.10.4
-    react: ">= 16.8.0"
-    react-dom: ">= 16.8.0"
-  checksum: 10c0/419ee9e93cc7ad6a25c8f326e9e950804a34ca150a04de1a8f338a8f7d4565fd9d7a47d65b8628d70434f2f1f752787aca880e0c594dc9bd928f7b213ac5dccb
-  languageName: node
-  linkType: hard
-
 "@ndla/tooltip@npm:^8.0.1":
   version: 8.0.1
   resolution: "@ndla/tooltip@npm:8.0.1"
@@ -4609,33 +4595,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/3af6ea4891e6fa8091e666802adffe7718b3cd390a10fa9229a5f40f8efded9f3918ea01b046103d93923d41cc32119505ebb6bde76cad07a87b6cf4f2119347
-  languageName: node
-  linkType: hard
-
-"@radix-ui/react-tabs@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "@radix-ui/react-tabs@npm:1.0.4"
-  dependencies:
-    "@babel/runtime": "npm:^7.13.10"
-    "@radix-ui/primitive": "npm:1.0.1"
-    "@radix-ui/react-context": "npm:1.0.1"
-    "@radix-ui/react-direction": "npm:1.0.1"
-    "@radix-ui/react-id": "npm:1.0.1"
-    "@radix-ui/react-presence": "npm:1.0.1"
-    "@radix-ui/react-primitive": "npm:1.0.3"
-    "@radix-ui/react-roving-focus": "npm:1.0.4"
-    "@radix-ui/react-use-controllable-state": "npm:1.0.1"
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-  checksum: 10c0/79699a921f5c2e890e0e496a751d9c2a7c4017eff8e52f094389e993263332881353bdd27b8cc123c906b36743e803eec7f32fdbb4d413328cba0a37d6413339
   languageName: node
   linkType: hard
 
@@ -12514,7 +12473,6 @@ __metadata:
     "@ndla/scripts": "npm:^2.1.2"
     "@ndla/select": "npm:^5.0.6-alpha.0"
     "@ndla/styled-system": "npm:^0.0.8"
-    "@ndla/tabs": "npm:^4.0.8"
     "@ndla/tracker": "npm:^5.0.7"
     "@ndla/types-backend": "npm:^0.2.88"
     "@ndla/types-embed": "npm:^4.1.8"
