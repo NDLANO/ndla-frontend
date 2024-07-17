@@ -16,15 +16,7 @@ import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import {
-  constants,
-  ArticleHeaderWrapper,
-  OneColumn,
-  LayoutItem,
-  MessageBox,
-  SimpleBreadcrumbItem,
-  HomeBreadcrumb,
-} from "@ndla/ui";
+import { constants, OneColumn, LayoutItem, MessageBox, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -50,6 +42,13 @@ type Props = {
 
 const BreadcrumbWrapper = styled.div`
   margin-top: ${spacing.mediumlarge};
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${spacing.xsmall};
 `;
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
@@ -147,13 +146,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               trackableContent={{ supportedLanguages: subject.supportedLanguages }}
             />
           )}
-          <ArticleHeaderWrapper
-            competenceGoals={
-              subject.grepCodes?.length ? (
-                <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
-              ) : undefined
-            }
-          >
+          <HeaderWrapper>
             <BreadcrumbWrapper>
               <HomeBreadcrumb items={breadCrumbs} />
             </BreadcrumbWrapper>
@@ -171,7 +164,8 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               connectedTo={subject.subjectpage?.connectedTo ?? []}
               leadsTo={subject.subjectpage?.leadsTo ?? []}
             />
-          </ArticleHeaderWrapper>
+            {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
+          </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox>
               <InformationOutline />
