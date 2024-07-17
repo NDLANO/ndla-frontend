@@ -15,17 +15,18 @@ import { breakpoints, mq, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { LanguageSelector } from "@ndla/ui";
 import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
 import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import ErrorBoundary from "../ErrorPage/ErrorBoundary";
@@ -36,8 +37,7 @@ const FeideLoginLabel = styled.span`
   }
 `;
 
-const LanguageSelectWrapper = styled.div`
-  margin-left: ${spacing.xxsmall};
+const StyledLanguageSelector = styled(LanguageSelector)`
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
   }
@@ -98,9 +98,10 @@ const MastheadContainer = () => {
           <NdlaLogoText />
         </SafeLink>
         <ButtonWrapper>
-          <LanguageSelectWrapper>
-            <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
-          </LanguageSelectWrapper>
+          <StyledLanguageSelector
+            items={supportedLanguages}
+            onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+          />
           {config.feideEnabled && (
             <FeideLoginButton>
               <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
