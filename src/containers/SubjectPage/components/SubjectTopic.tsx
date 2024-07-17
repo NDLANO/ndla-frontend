@@ -162,13 +162,7 @@ const SubjectTopic = ({
       >
         {topic.article?.transformedContent?.content !== "" && (
           <TopicArticle>
-            <ArticleContents
-              article={article}
-              scripts={scripts}
-              modifier="in-topic"
-              showIngress={false}
-              oembed={article.oembed}
-            />
+            <ArticleContents article={article} scripts={scripts} modifier="in-topic" oembed={article.oembed} />
           </TopicArticle>
         )}
         {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
