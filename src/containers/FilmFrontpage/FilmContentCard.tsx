@@ -10,9 +10,9 @@ import { ComponentPropsWithoutRef } from "react";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts, breakpoints, misc, mq, stackOrder } from "@ndla/core";
+import { makeSrcQueryString } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { makeSrcQueryString } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {

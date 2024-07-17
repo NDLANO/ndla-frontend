@@ -48,6 +48,7 @@ const messages = {
     noResults: "...Eai leat oasit",
     subtitle: "Guldal ja oahpa!",
   },
+  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
   myndla: {
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",

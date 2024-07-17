@@ -49,6 +49,7 @@ const messages = {
     noResults: "...No episodes",
     subtitle: "Listen and learn!",
   },
+  subjectsPage: { tabFilter: "Which subjects would you like to show?" },
   myndla: {
     campaignBlock: {
       title: "Try our chatbot",

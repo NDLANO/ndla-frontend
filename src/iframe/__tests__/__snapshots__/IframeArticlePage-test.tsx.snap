@@ -357,15 +357,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-14[data-align="center"] {
-  text-align: center;
-}
-
-.emotion-14:has(span[dir="rtl"]) {
-  direction: rtl;
-}
-
-.emotion-17 {
+.emotion-15 {
   margin-top: 24px;
   padding-top: 24px;
   padding-bottom: 6px;
@@ -377,12 +369,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   color: #4d4d4d;
 }
 
-.emotion-17:where([lang='zh'], .emotion-17[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-15:where([lang='zh'], .emotion-15[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-19 {
+.emotion-17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -395,7 +387,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 }
 
 @media (max-width: 48em) {
-  .emotion-19 {
+  .emotion-17 {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -406,7 +398,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-19[data-learning-path="true"] {
+.emotion-17[data-learning-path="true"] {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
@@ -416,7 +408,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-21 {
+.emotion-19 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -425,11 +417,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   padding-right: 6px;
 }
 
-.emotion-23 {
+.emotion-21 {
   margin-left: 4px;
 }
 
-.emotion-25 {
+.emotion-23 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -440,15 +432,15 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   gap: 12px;
 }
 
-.emotion-27 {
+.emotion-25 {
   border: 1px solid #ceddea;
 }
 
-.emotion-27[data-state="open"] {
+.emotion-25[data-state="open"] {
   border-color: #20588f;
 }
 
-.emotion-29 {
+.emotion-27 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -456,7 +448,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0;
 }
 
-.emotion-32 {
+.emotion-30 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -489,32 +481,32 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   font-weight: 600;
 }
 
-.emotion-32[data-state="open"] {
+.emotion-30[data-state="open"] {
   background-color: #deebf6;
   border-bottom: 1px solid #20588f;
 }
 
-.emotion-32:hover,
-.emotion-32:focus-visible {
+.emotion-30:hover,
+.emotion-30:focus-visible {
   -webkit-text-decoration: underline;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-.emotion-32:focus-visible {
+.emotion-30:focus-visible {
   outline: 2px solid #20588f;
 }
 
-.emotion-32:where([lang='zh'], .emotion-32[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-30:where([lang='zh'], .emotion-30[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
-.emotion-32[data-background-color="white"][data-state="closed"] {
+.emotion-30[data-background-color="white"][data-state="closed"] {
   background-color: #ffffff;
 }
 
-.emotion-34 {
+.emotion-32 {
   color: #20588f;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
@@ -522,34 +514,34 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   height: 24px;
 }
 
-.emotion-33[data-state='open']>.emotion-34 {
+.emotion-31[data-state='open']>.emotion-32 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
-.emotion-36 {
+.emotion-34 {
   overflow: hidden;
 }
 
-.emotion-36[data-state="open"] {
+.emotion-34[data-state="open"] {
   -webkit-animation: animation-0 300ms ease-out;
   animation: animation-0 300ms ease-out;
 }
 
-.emotion-36[data-state="closed"] {
+.emotion-34[data-state="closed"] {
   -webkit-animation: animation-1 300ms ease-out;
   animation: animation-1 300ms ease-out;
 }
 
-.emotion-36[data-disable-animate="true"] {
+.emotion-34[data-disable-animate="true"] {
   -webkit-animation: none;
   animation: none;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-38 {
+  .emotion-36 {
     position: relative!important;
     width: 83.333%;
     right: auto!important;
@@ -557,7 +549,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   }
 }
 
-.emotion-39 {
+.emotion-37 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -568,7 +560,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   justify-content: flex-end;
 }
 
-.emotion-41 {
+.emotion-39 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -579,7 +571,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   align-items: center;
 }
 
-.emotion-43 {
+.emotion-41 {
   color: #595959;
   margin-right: 38px;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
@@ -588,26 +580,26 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   line-height: 20px;
 }
 
-.emotion-43:where([lang='zh'], .emotion-43[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-41:where([lang='zh'], .emotion-41[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(20px * 1.11);
   font-size: calc(1.1111111111111112rem * 1.11);
 }
 
-.emotion-45 {
+.emotion-43 {
   color: #595959;
 }
 
-.emotion-49 {
+.emotion-47 {
   width: 120px;
   margin: 0;
   position: relative;
 }
 
-.emotion-49 a {
+.emotion-47 a {
   box-shadow: none;
 }
 
-.emotion-51 {
+.emotion-49 {
   fill: #20588f;
 }
 
@@ -659,7 +651,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         >
           <section>
             <p
-              class="emotion-14 emotion-15"
+              class="[&[data-align="center"]]:ta_center [&:has(span[dir="rtl"])]:direction_rtl"
               lang="no"
             >
               Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
@@ -670,20 +662,20 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           class="emotion-4"
         >
           <div
-            class="emotion-17 emotion-18"
+            class="emotion-15 emotion-16"
           >
             <div
-              class="emotion-19 emotion-20"
+              class="emotion-17 emotion-18"
               data-learning-path="false"
             >
               <div
-                class="emotion-21 emotion-22"
+                class="emotion-19 emotion-20"
               >
                 <span>
                   by-sa
                 </span>
                 <span
-                  class="emotion-23 emotion-24"
+                  class="emotion-21 emotion-22"
                 >
                   Skrevet av Someone. 
                 </span>
@@ -693,23 +685,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-25 emotion-26"
+              class="emotion-23 emotion-24"
               data-orientation="vertical"
             >
               <div
-                class="emotion-27 emotion-28"
+                class="emotion-25 emotion-26"
                 data-orientation="vertical"
                 data-state="closed"
               >
                 <h2
-                  class="emotion-29 emotion-30"
+                  class="emotion-27 emotion-28"
                   data-orientation="vertical"
                   data-state="closed"
                 >
                   <button
                     aria-controls="radix-:r1:"
                     aria-expanded="false"
-                    class="emotion-31 emotion-32 emotion-33"
+                    class="emotion-29 emotion-30 emotion-31"
                     data-background-color="blue"
                     data-orientation="vertical"
                     data-radix-collection-item=""
@@ -720,7 +712,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     Sitere eller gjenbruke?
                     <svg
                       aria-hidden="true"
-                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-34 emotion-35"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-32 emotion-33"
                       data-icon=""
                       data-license="Apache License 2.0"
                       data-source="Material Design"
@@ -740,7 +732,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </h2>
                 <div
                   aria-labelledby="radix-:r0:"
-                  class="emotion-36 emotion-37"
+                  class="emotion-34 emotion-35"
                   data-orientation="vertical"
                   data-state="closed"
                   hidden=""
@@ -753,19 +745,19 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </section>
         <section
-          class="emotion-38"
+          class="emotion-36"
         >
           <div
-            class="emotion-39 emotion-40"
+            class="emotion-37 emotion-38"
           >
             <div
-              class="emotion-41 emotion-42"
+              class="emotion-39 emotion-40"
             >
               <div
-                class="emotion-43 emotion-44"
+                class="emotion-41 emotion-42"
               >
                 <a
-                  class="emotion-45 emotion-46"
+                  class="emotion-43 emotion-44"
                   href="https://test.ndla.no/subject:1/resource:1"
                   target="_blank"
                 >
@@ -773,7 +765,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </a>
                  er hentet fra 
                 <a
-                  class="emotion-45 emotion-46"
+                  class="emotion-43 emotion-44"
                   href="https://ndla.no"
                   target="_blank"
                 >
@@ -781,7 +773,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </a>
               </div>
               <div
-                class="emotion-49 emotion-50"
+                class="emotion-47 emotion-48"
               >
                 <a
                   aria-label="NDLA"
@@ -790,7 +782,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   title="NDLA"
                 >
                   <svg
-                    class="emotion-51 emotion-52"
+                    class="emotion-49 emotion-50"
                     fill="#000000"
                     fill-rule="evenodd"
                     viewBox="0 0 376 152"
@@ -861,38 +853,6 @@ exports[`IframePage with article displays error message on status === error 1`] 
   clear: both!important;
 }
 
-.emotion-4 {
-  text-align: center;
-}
-
-.emotion-4 a {
-  color: #20588f;
-}
-
-.emotion-4 h1 {
-  margin-top: 0;
-}
-
-.emotion-6 {
-  margin-bottom: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6 {
-    margin-top: 48px;
-  }
-}
-
-.emotion-8 {
-  margin-bottom: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-8 {
-    margin-bottom: 48px;
-  }
-}
-
 <div
     class="emotion-0 emotion-1"
   >
@@ -900,10 +860,10 @@ exports[`IframePage with article displays error message on status === error 1`] 
       class="emotion-2 emotion-3"
     >
       <article
-        class="emotion-4 emotion-5"
+        class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
       >
         <div
-          class="emotion-6 emotion-7"
+          class="mb_medium tablet:mt_xxlarge"
         >
           <img
             alt="Ops, noe gikk galt"
@@ -914,7 +874,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
           Ops, noe gikk galt
         </h1>
         <p
-          class="emotion-8 emotion-9"
+          class="textStyle_body.medium mb_medium tablet:mb_xxlarge"
         >
           Beklager, en feil oppstod.
         </p>

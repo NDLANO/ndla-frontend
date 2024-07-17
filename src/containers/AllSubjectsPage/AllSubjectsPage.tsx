@@ -9,16 +9,15 @@
 import { TFunction } from "i18next";
 import sortBy from "lodash/sortBy";
 import { parse, stringify } from "query-string";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { useComponentSize } from "@ndla/hooks";
-import { Select } from "@ndla/select";
+import emotionStyled from "@emotion/styled";
+import { spacing } from "@ndla/core";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
 import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
@@ -26,8 +25,7 @@ import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import TabFilter from "../../components/TabFilter";
-import { MastheadHeightPx, SKIP_TO_CONTENT_ID } from "../../constants";
-import { useUserAgent } from "../../UserAgentContext";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
@@ -38,7 +36,7 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
         count: 2,
       })}`
     : t(`subjectCategories.${key}`);
-  return label.toLocaleUpperCase();
+  return label;
 };
 
 const createFilters = (t: TFunction) => [
@@ -58,35 +56,29 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, OTHER, false),
     value: OTHER,
   },
+  // TODO: Consider if all should be removed as a option with new filter logic
   {
     label: `${t("contentTypes.all")} ${t("common.subject", {
       count: 2,
-    })}`.toUpperCase(),
+    })}`,
     value: "all",
   },
 ];
 
-const StyledMain = styled.main`
-  padding-top: ${spacing.large};
-`;
+const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
 
-const StyledColumn = styled(OneColumn)`
+const StyledColumn = emotionStyled(OneColumn)`
   display: flex;
   flex-direction: column;
+  gap: ${spacing.medium};
 `;
 
-const StyledList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
-
-const SelectWrapper = styled.div`
-  padding: ${spacing.xsmall};
-  border-radius: ${spacing.small};
-  background: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.lighter};
-  margin: ${spacing.normal} 0 ${spacing.small};
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+    padding: 0,
+  },
+});
 
 const allSubjectsQuery = gql`
   query allSubjects {
@@ -100,41 +92,25 @@ const allSubjectsQuery = gql`
   }
 `;
 
+const convertToArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
+
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const selectors = useUserAgent();
   const location = useLocation();
   const { user } = useContext(AuthContext);
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
-  useEffect(() => {
-    if (window.location && window.location.hash) {
-      setTimeout(() => {
-        const element = document.getElementById(window.location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 400);
-    }
-  }, [height]);
-
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string>(parse(location.search).filter || ACTIVE_SUBJECTS);
-  const setFilter = (value: string) => {
+  const [filter, _setFilter] = useState<string[]>(convertToArray(parse(location.search).filter) || [ACTIVE_SUBJECTS]);
+
+  const setFilter = (value: string[]) => {
     const searchObject = parse(location.search);
     _setFilter(value);
     const search = stringify({
       ...searchObject,
-      filter: value !== ACTIVE_SUBJECTS ? value : undefined,
+      filter: value,
     });
     navigate(`${location.pathname}?${search}`);
   };
@@ -171,32 +147,18 @@ const AllSubjectsPage = () => {
     <StyledMain>
       <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
       <StyledColumn wide>
-        <Heading element="h1" headingStyle="h1" serif id={SKIP_TO_CONTENT_ID}>
+        <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
           {t("subjectsPage.allSubjects")}
         </Heading>
         {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
-        {selectors?.isMobile ? (
-          <SelectWrapper>
-            <Select<false>
-              value={filterOptions.find((opt) => opt.value === filter)}
-              onChange={(value) => value && setFilter(value?.value)}
-              options={filterOptions}
-              colorTheme="white"
-              outline
-              bold
-              prefix={`${t("subjectsPage.shows").toUpperCase()}: `}
-            />
-          </SelectWrapper>
-        ) : (
-          <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
-        )}
+        <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
         <LetterNavigation activeLetters={letters} />
+        <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
+          {groupedSubjects.map(({ label, subjects }) => (
+            <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
+          ))}
+        </StyledList>
       </StyledColumn>
-      <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
-        {groupedSubjects.map(({ label, subjects }) => (
-          <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
-        ))}
-      </StyledList>
     </StyledMain>
   );
 };

@@ -8,10 +8,9 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, fonts, misc, spacing } from "@ndla/core";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -21,27 +20,27 @@ import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
-const SubjectLinkWrapper = styled.li`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const SubjectLinkWrapper = styled("li", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
-const SubjectSafeLink = styled(SafeLink)`
-  font-weight: ${fonts.weight.semibold};
-  box-shadow: none;
-  :hover {
-    box-shadow: ${misc.textLinkBoxShadow};
-  }
-  color: ${colors.brand.primary};
-`;
+const SafeLinkWrapper = styled("div", {
+  base: {
+    padding: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    borderRadius: "xsmall",
+  },
+});
 
-const ModalSubjectContainer = styled.div`
-  margin-top: ${spacing.normal};
-  padding: ${spacing.small};
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-`;
+// TODO: Remove/update this custom SafeLink styling?
+const StyledSafeLink = styled(SafeLink, {
+  base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
+});
 
 interface Props {
   subject: Subject;
@@ -49,6 +48,7 @@ interface Props {
   className?: string;
 }
 
+// TODO: Needs to be refactored to use new components
 const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
   const { addSnack } = useSnack();
@@ -128,15 +128,15 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
             content={
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
-                <ModalSubjectContainer>
-                  <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
-                </ModalSubjectContainer>
+                <SafeLinkWrapper>
+                  <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+                </SafeLinkWrapper>
               </>
             }
           />
         </Modal>
       )}
-      <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
+      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };
