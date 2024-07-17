@@ -136,6 +136,11 @@ const messages = {
       },
     },
   },
+  tabs: {
+    competenceGoals: "Curriculum links",
+    licenseBox: "Rules for use of various content types",
+    subjectFilter: "Filter on subject",
+  },
 };
 
 export default messages;

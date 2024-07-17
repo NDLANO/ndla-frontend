@@ -131,6 +131,11 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
+    tabs: {
+      competenceGoals: "Læreplankoblinger",
+      licenseBox: "Regler for bruk for ulike innholdstyper",
+      subjectFilter: "Filtrer på fag",
+    },
   },
 };
 

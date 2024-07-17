@@ -136,6 +136,11 @@ const messages = {
       },
     },
   },
+  tabs: {
+    competenceGoals: "Læreplankoblinger",
+    licenseBox: "Regler for bruk for ulike innholdstyper",
+    subjectFilter: "Filtrer på fag",
+  },
 };
 
 export default messages;

@@ -13,15 +13,10 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, mq, breakpoints, spacing } from "@ndla/core";
 import { CheckboxItem, Label } from "@ndla/forms";
-import { Tabs } from "@ndla/tabs";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { MessageBox } from "@ndla/ui";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
-
-const StyledWrapper = styled.nav`
-  margin: 32px 0 0;
-  max-width: 1040px;
-`;
 
 const OuterList = styled.ul`
   list-style: none;
@@ -175,9 +170,26 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
   }, [categories, onToggleSubject, selectedSubjects, t]);
 
   return (
-    <StyledWrapper>
-      <Tabs tabs={tabs} />
-    </StyledWrapper>
+    <TabsRoot
+      defaultValue="active"
+      orientation="horizontal"
+      variant="line"
+      translations={{ listLabel: t("tabs.subjectFilter") }}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.id} value={tab.id}>
+          {tab.content}
+        </TabsContent>
+      ))}
+    </TabsRoot>
   );
 };
 
