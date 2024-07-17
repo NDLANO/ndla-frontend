@@ -6,48 +6,56 @@
  *
  */
 
-import { DetailedHTMLProps, HTMLAttributes } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq } from "@ndla/core";
+import { HTMLAttributes } from "react";
+import { Heading } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledDiv = styled.div`
-  display: none;
-  flex-direction: column;
-  border-right: 1px solid ${colors.brand.neutral7};
-  border-top: 1px solid ${colors.brand.neutral7};
-  min-width: 300px;
-  ${mq.range({ until: breakpoints.tablet })} {
-    :nth-last-of-type(-n + 1) {
-      display: flex;
-      flex: 1;
-    }
-  }
-  ${mq.range({ from: breakpoints.tablet })} {
-    :nth-last-of-type(-n + 2) {
-      display: flex;
-      max-width: 450px;
-    }
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    :nth-last-of-type(-n + 3) {
-      display: flex;
-      max-width: 450px;
-    }
-  }
-`;
-const DrawerPortion = ({ children, ...rest }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
-  return <StyledDiv {...rest}>{children}</StyledDiv>;
-};
+export const DrawerPortion = styled("div", {
+  base: {
+    display: "none",
+    flexDirection: "column",
+    minWidth: "surface.xsmall",
+    maxWidth: "surface.small",
+    paddingInline: "medium",
+    paddingBlockStart: "xlarge",
+    paddingBlockEnd: "medium",
+    borderInlineStart: "1px solid ",
+    borderBlockStart: "1px solid ",
+    borderColor: "stroke.subtle",
+    tabletDown: {
+      "&:nth-last-of-type(-n + 1)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+    tabletToDesktop: {
+      "&:nth-last-of-type(-n + 2)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+    desktop: {
+      "&:nth-last-of-type(-n + 3)": {
+        display: "flex",
+        flex: "1",
+      },
+    },
+    _first: {
+      borderLeft: "none",
+    },
+  },
+});
 
-const StyledDrawerList = styled.ul`
-  padding: 0;
-  overflow-y: auto;
-`;
+export const StyledDrawerList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-export const DrawerList = ({
-  children,
-  ...rest
-}: DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>) => {
+export const DrawerList = ({ children, ...rest }: HTMLAttributes<HTMLUListElement>) => {
   return (
     <StyledDrawerList role="menubar" aria-orientation="vertical" {...rest}>
       {children}
@@ -55,10 +63,29 @@ export const DrawerList = ({
   );
 };
 
-export const DrawerListItem = styled.li`
-  padding: 0;
-  list-style: none;
-  display: flex;
-`;
+export const DrawerListItem = styled("li", {
+  base: {
+    listStyle: "none",
+    display: "flex",
+  },
+});
 
-export default DrawerPortion;
+export const DrawerHeader = styled(Heading, {
+  base: {
+    textAlign: "start",
+    color: "text.default",
+    paddingInline: "small",
+    paddingBlockStart: "small",
+  },
+});
+
+export const DrawerHeaderLink = styled(SafeLinkButton, {
+  base: {
+    textAlign: "start",
+    color: "text.default",
+    textStyle: "title.medium",
+    fontWeight: "bold",
+    paddingInline: "small",
+    paddingBlockEnd: "small",
+  },
+});

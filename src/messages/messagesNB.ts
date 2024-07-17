@@ -35,6 +35,12 @@ const messages = {
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "Om oss",
+    subjectAndProgramme: "Fag og utdanningsprogram",
+    tipsAndAdvice: "Tips og råd",
+    goBack: "Gå tilbake",
+  },
   podcastPage: {
     episodes: "Episoder",
     podcast: "Podkast",
