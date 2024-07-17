@@ -13,11 +13,11 @@ import { Cross } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LanguageSelector } from "@ndla/ui";
 import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
 import { MenuType } from "./drawerMenuTypes";
+import { LanguageSelector } from "../../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
@@ -26,6 +26,7 @@ import {
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
+import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
@@ -35,6 +36,7 @@ const MainMenu = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
   },
 });
 
@@ -80,8 +82,12 @@ const DrawerButton = styled(Button, {
 
 const LanguageSelectWrapper = styled("div", {
   base: {
-    paddingTop: "medium",
-    paddingLeft: "small",
+    paddingBlockEnd: "medium",
+    paddingInlineStart: "large",
+    width: "max-content",
+    mobileWide: {
+      paddingBlockStart: "medium",
+    },
   },
 });
 
@@ -262,10 +268,10 @@ const MastheadDrawer = ({ subject }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  locales={supportedLanguages}
-                  onSelect={(lang) => {
+                  items={supportedLanguages}
+                  onValueChange={(details) => {
                     setOpen(false);
-                    setTimeout(() => i18n.changeLanguage(lang), 0);
+                    setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);
                   }}
                 />
               </LanguageSelectWrapper>
