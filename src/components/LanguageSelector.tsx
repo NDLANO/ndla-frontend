@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { ChevronDown } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
@@ -34,32 +33,24 @@ const LanguageButton = styled(Button)`
 export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
   const { t, i18n } = useTranslation();
   return (
-    <SelectRoot
-      {...props}
-      positioning={{ sameWidth: true }}
-      value={[i18n.language]}
-      itemToString={(item) => t(`languages.${item}`)}
-    >
+    <SelectRoot {...props} value={[i18n.language]} itemToString={(item) => t(`languages.${item}`)}>
       <SelectTrigger asChild>
         <LanguageButton variant="tertiary">
           {t("languages.prefixChangeLanguage")} <ChevronDown />
         </LanguageButton>
       </SelectTrigger>
-      {/* TODO: We probably don't need to portal this */}
-      <Portal>
-        <SelectPositioner>
-          <SelectContent>
-            {supportedLanguages.map((lang) => (
-              <SelectItem key={lang} item={lang}>
-                <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
-                <SelectItemIndicator>
-                  <Done />
-                </SelectItemIndicator>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </SelectPositioner>
-      </Portal>
+      <SelectPositioner>
+        <SelectContent>
+          {supportedLanguages.map((lang) => (
+            <SelectItem key={lang} item={lang}>
+              <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
+              <SelectItemIndicator>
+                <Done />
+              </SelectItemIndicator>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </SelectPositioner>
     </SelectRoot>
   );
 };
