@@ -104,7 +104,6 @@
     "@ndla/pager": "^4.0.2-alpha.0",
     "@ndla/primitives": "^0.0.19",
     "@ndla/safelink": "^6.0.2-alpha.0",
-    "@ndla/select": "^5.0.6-alpha.0",
     "@ndla/styled-system": "^0.0.8",
     "@ndla/tracker": "^5.0.7",
     "@ndla/typography": "^0.4.23",
