@@ -137,9 +137,9 @@ const messages = {
     },
   },
   tabs: {
-    competenceGoals: "Curriculum links",
-    licenseBox: "Rules for use of various content types",
-    subjectFilter: "Filter on subject",
+    competenceGoals: "Categories",
+    licenseBox: "Content types",
+    subjectFilter: "Subject categories",
   },
 };
 

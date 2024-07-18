@@ -137,9 +137,9 @@ const messages = {
     },
   },
   tabs: {
-    competenceGoals: "Læreplankoplingar",
-    licenseBox: "Reglar for bruk for ulike innhaldstypar",
-    subjectFilter: "Filtrer på fag",
+    competenceGoals: "Kategoriar",
+    licenseBox: "Innholdstypar",
+    subjectFilter: "Fagkategoriar",
   },
 };
 
