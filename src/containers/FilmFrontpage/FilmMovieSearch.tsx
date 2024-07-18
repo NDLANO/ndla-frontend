@@ -10,8 +10,23 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing, mq, breakpoints, colors } from "@ndla/core";
+import { ChevronDown } from "@ndla/icons/common";
+import { Done } from "@ndla/icons/editor";
+import {
+  Button,
+  SelectContent,
+  SelectControl,
+  SelectIndicator,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectLabel,
+  SelectPositioner,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Option, Select, SingleValue } from "@ndla/select";
 import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import { MovieResourceType } from "./resourceTypes";
@@ -64,6 +79,10 @@ const StyledNav = styled.nav`
   flex: 1;
 `;
 
+const FullWidthButton = styled(Button)`
+  width: 100%;
+`;
+
 interface Props {
   topics?: { id: string; path: string; name: string }[];
   onChangeResourceType: (resourceType?: string) => void;
@@ -90,7 +109,7 @@ const FilmMovieSearch = ({
     return { value: "fromNdla", label: t("ndlaFilm.search.categoryFromNdla") };
   }, [resourceTypeSelected, t]);
 
-  const options: Option[] = useMemo(() => {
+  const options = useMemo(() => {
     const fromNdla = {
       value: "fromNdla",
       label: t("ndlaFilm.search.categoryFromNdla"),
@@ -99,7 +118,7 @@ const FilmMovieSearch = ({
   }, [resourceTypes, t]);
 
   const onChange = useCallback(
-    (value: SingleValue) => {
+    (value) => {
       if (value?.value === "fromNdla") {
         onChangeResourceType();
       } else {
@@ -127,13 +146,38 @@ const FilmMovieSearch = ({
           </StyledUl>
         </StyledNav>
       </TopicNavigation>
-      <Select<false>
-        options={options}
-        value={selectedOption}
-        onChange={onChange}
-        placeholder={t("ndlaFilm.search.chooseCategory")}
-        prefix={`${t("ndlaFilm.search.chooseCategory")} `}
-      />
+      <SelectRoot
+        items={options}
+        onValueChange={onChange}
+        defaultValue={[selectedOption.value]}
+        positioning={{
+          sameWidth: true,
+        }}
+      >
+        <SelectLabel>{t("ndlaFilm.search.chooseCategory")}</SelectLabel>
+        <SelectControl>
+          <SelectTrigger asChild>
+            <FullWidthButton variant="secondary">
+              <SelectValueText />
+              <SelectIndicator asChild>
+                <ChevronDown />
+              </SelectIndicator>
+            </FullWidthButton>
+          </SelectTrigger>
+        </SelectControl>
+        <SelectPositioner>
+          <SelectContent>
+            {options.map((option) => (
+              <SelectItem item={option} key={option.value}>
+                <SelectItemText>{option.label}</SelectItemText>
+                <SelectItemIndicator asChild>
+                  <Done />
+                </SelectItemIndicator>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </SelectPositioner>
+      </SelectRoot>
     </OneColumn>
   );
 };
