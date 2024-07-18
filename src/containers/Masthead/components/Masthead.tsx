@@ -34,7 +34,7 @@ const StyledMasthead = styled("div", {
     borderBottom: "1px solid",
     zIndex: "banner",
 
-    "&[data-fixed=true]": { top: 0, position: "sticky", "@media print": { position: "relative" } },
+    "&[data-fixed=true]": { top: 0, position: "sticky", _print: { position: "relative" } },
   },
 });
 
