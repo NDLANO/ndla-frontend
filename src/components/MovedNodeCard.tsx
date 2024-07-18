@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
+import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { ContentTypeBadgeNew } from "@ndla/ui";
+
+// TODO: This does not have design, and should be improved later-on
+// TODO: Consider if ingress should be renderer as HTML.
+// TODO: Consider if we should render additional here.
+
+const Wrapper = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr",
+  },
+});
+
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    rowGap: "xxsmall",
+    columnGap: "xsmall",
+  },
+});
+
+const StyledLink = styled("li", {
+  base: {
+    paddingInlineEnd: "xsmall",
+    borderRight: "1px solid",
+    borderColor: "stroke.subtle",
+    _last: {
+      paddingInlineEnd: "0px",
+      borderInlineEnd: "0",
+    },
+  },
+});
+
+interface Props {
+  title: string;
+  url: string;
+  ingress: string;
+  contentType?: string;
+  metaImage?: {
+    url?: string;
+    alt?: string;
+  };
+  subjects?: {
+    url?: string;
+    title?: string;
+  }[];
+}
+
+export const MovedNodeCard = ({ title, url, ingress, subjects, contentType, metaImage }: Props) => {
+  const urlLabelId = useId();
+  const { t } = useTranslation();
+
+  return (
+    <CardRoot>
+      <Wrapper>
+        <CardContent>
+          {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
+          <CardHeading asChild consumeCss>
+            <h2>
+              <SafeLink to={url}>{title}</SafeLink>
+            </h2>
+          </CardHeading>
+          <Text>{ingress}</Text>
+        </CardContent>
+        {!!metaImage?.url && <CardImage src={metaImage.url} width={300} alt={metaImage?.alt ?? ""} />}
+      </Wrapper>
+      {!!subjects?.length && (
+        <CardContent>
+          <Text id={urlLabelId} textStyle="label.medium" fontWeight="bold">
+            {t("searchPage.searchResultListMessages.subjectsLabel")}
+          </Text>
+          <nav aria-labelledby={urlLabelId}>
+            <StyledList>
+              {subjects.map((subject) => (
+                <StyledLink key={subject.url}>
+                  <SafeLink to={subject.url ?? ""}>{subject.title}</SafeLink>
+                </StyledLink>
+              ))}
+            </StyledList>
+          </nav>
+        </CardContent>
+      )}
+    </CardRoot>
+  );
+};

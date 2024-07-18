@@ -85,25 +85,24 @@ interface ResultBase {
 }
 
 export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
-  results: T[],
+  result: T,
   t: TFunction,
   includeEmbedButton?: boolean,
   ltiData?: LtiData,
-) =>
-  results.map((result) => {
-    const { url, contentType, metaImage } = result;
-    return {
-      ...result,
-      url,
-      contenttypeicon: (
-        // defaults to empty div if contentType is undefined.
-        <ContentTypeBadge type={contentType ?? ""} size="x-small" background />
-      ),
-      children: includeEmbedButton && <LtiEmbed ltiData={ltiData} item={result} />,
-      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : "",
-      image: metaImage && <Image src={metaImage.url ?? ""} alt={metaImage.alt ?? ""} />,
-    };
-  });
+) => {
+  const { url, contentType, metaImage } = result;
+  return {
+    ...result,
+    url,
+    contenttypeicon: (
+      // defaults to empty div if contentType is undefined.
+      <ContentTypeBadge type={contentType ?? ""} size="x-small" background />
+    ),
+    children: includeEmbedButton && <LtiEmbed ltiData={ltiData} item={result} />,
+    contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : "",
+    image: metaImage && <Image src={metaImage.url ?? ""} alt={metaImage.alt ?? ""} />,
+  };
+};
 
 const mapTraits = (traits: string[] | undefined, t: TFunction) =>
   traits?.map((trait) => {
