@@ -18,6 +18,7 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: column;
   list-style-type: disc;
+  list-style-position: inside;
 `;
 
 const StyledListItem = styled.li`
