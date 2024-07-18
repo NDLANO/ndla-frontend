@@ -15,6 +15,7 @@ test.beforeEach(async ({ page }) => {
 
 test("should have list of valid links on frontpage", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
+  await page.getByTestId("accordion-header").click();
   const programmes = page.getByTestId("programme-list").getByRole("link");
   await expect(programmes).toHaveCount(16);
 });

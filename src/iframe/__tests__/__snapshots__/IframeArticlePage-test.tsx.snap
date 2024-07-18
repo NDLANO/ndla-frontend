@@ -403,6 +403,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   -ms-flex-direction: column;
   flex-direction: column;
   list-style-type: disc;
+  list-style-position: inside;
 }
 
 .emotion-21 {

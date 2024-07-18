@@ -12,12 +12,19 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
 import { transform } from "@ndla/article-converter";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
+import { ChevronDown } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+} from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import ResourceEmbedWrapper from "./ResourceEmbedWrapper";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
@@ -39,10 +46,6 @@ export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
 
 const CreatedByWrapper = styled.div`
   margin-top: ${spacing.small};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
 `;
 
 interface Props {
@@ -196,17 +199,22 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
       <main>
         <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>
           {transformedContent}
-          <AccordionRoot type="single" collapsible>
+          <AccordionRoot multiple>
             {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
               <AccordionItem value="rulesForUse">
-                <StyledAccordionHeader headingLevel="h2">
-                  <Text element="span" textStyle="button" margin="none">
-                    {t("article.useContent")}
-                  </Text>
-                </StyledAccordionHeader>
-                <AccordionContent>
+                <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                  <h2>
+                    <AccordionItemTrigger>
+                      {t("article.useContent")}
+                      <AccordionItemIndicator asChild>
+                        <ChevronDown size="medium" />
+                      </AccordionItemIndicator>
+                    </AccordionItemTrigger>
+                  </h2>
+                </Heading>
+                <AccordionItemContent>
                   <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionContent>
+                </AccordionItemContent>
               </AccordionItem>
             )}
           </AccordionRoot>

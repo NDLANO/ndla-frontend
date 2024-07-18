@@ -9,10 +9,17 @@
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
+import { ChevronDown } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+} from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
 import { BrightcoveEmbed, ExternalEmbed, H5pEmbed, IframeEmbed, ImageEmbed } from "@ndla/ui";
 import { GQLTopicVisualElementContent_MetaFragment } from "../../../graphqlTypes";
 import { hasLicensedContent } from "../../ResourceEmbed/components/ResourceEmbed";
@@ -23,11 +30,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: ${spacing.small};
   padding: ${spacing.normal};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
 `;
 
 interface Props {
@@ -50,17 +52,22 @@ const TopicVisualElementContent = ({ embed, metadata }: Props) => {
       ) : embed.resource === "external" ? (
         <ExternalEmbed embed={embed} />
       ) : null}
-      <AccordionRoot type="single" collapsible>
+      <AccordionRoot multiple>
         {metadata && hasLicensedContent(metadata) && (
           <AccordionItem value="rulesForUse">
-            <StyledAccordionHeader>
-              <Text element="span" textStyle="button" margin="none">
-                {t("article.useContent")}
-              </Text>
-            </StyledAccordionHeader>
-            <AccordionContent>
+            <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+              <h2>
+                <AccordionItemTrigger>
+                  {t("article.useContent")}
+                  <AccordionItemIndicator asChild>
+                    <ChevronDown size="medium" />
+                  </AccordionItemIndicator>
+                </AccordionItemTrigger>
+              </h2>
+            </Heading>
+            <AccordionItemContent>
               <ResourceEmbedLicenseBox metaData={metadata} />
-            </AccordionContent>
+            </AccordionItemContent>
           </AccordionItem>
         )}
       </AccordionRoot>

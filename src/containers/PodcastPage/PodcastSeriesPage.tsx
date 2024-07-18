@@ -11,13 +11,19 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
 import { transform } from "@ndla/article-converter";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
-import { Heading } from "@ndla/primitives";
+import { ChevronDown } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+} from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
 import { ContentTypeBadgeNew, OneColumn } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -45,11 +51,6 @@ const TitleWrapper = styled.hgroup`
   gap: ${spacing.small};
   margin-top: ${spacing.normal};
   margin-block: ${spacing.normal};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
 `;
 
 const SeriesDescription = styled.div`
@@ -220,17 +221,22 @@ const PodcastSeriesPage = () => {
             <>
               <h2>{t("podcastPage.episodes")}</h2>
               {embeds}
-              <AccordionRoot type="single" collapsible>
+              <AccordionRoot multiple>
                 {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
                   <AccordionItem value="rulesForUse">
-                    <StyledAccordionHeader>
-                      <Text element="span" textStyle="button" margin="none">
-                        {t("article.useContent")}
-                      </Text>
-                    </StyledAccordionHeader>
-                    <AccordionContent>
+                    <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                      <h2>
+                        <AccordionItemTrigger>
+                          {t("article.useContent")}
+                          <AccordionItemIndicator asChild>
+                            <ChevronDown size="medium" />
+                          </AccordionItemIndicator>
+                        </AccordionItemTrigger>
+                      </h2>
+                    </Heading>
+                    <AccordionItemContent>
                       <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
-                    </AccordionContent>
+                    </AccordionItemContent>
                   </AccordionItem>
                 )}
               </AccordionRoot>
