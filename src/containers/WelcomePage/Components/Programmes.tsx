@@ -8,111 +8,78 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { AccordionRoot, AccordionItem, AccordionHeader, AccordionContent } from "@ndla/accordion";
-import { spacing, breakpoints, mq, colors } from "@ndla/core";
-import { Heading, Text } from "@ndla/typography";
-import { ContentLoader, ProgrammeCard, ProgrammeV2 } from "@ndla/ui";
+import { ChevronDown } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { Heading as OldHeading, Text } from "@ndla/typography";
+import { ProgrammeCard, ProgrammeV2 } from "@ndla/ui";
 import { useUserAgent } from "../../../UserAgentContext";
 
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding-top: ${spacing.xxsmall};
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding-top: ${spacing.nsmall};
-  }
-`;
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    margin: "0",
+    paddingBlock: "xxsmall",
+    desktop: { paddingBlock: "medium" },
+  },
+});
 
-const Desktop = styled.ul`
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  gap: ${spacing.normal};
-`;
+const AllSubjectsPersonIllustration = styled("div", {
+  base: {
+    backgroundImage: "url('/static/illustrations/all_subjects_person.svg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "auto 100%",
+    backgroundPosition: "100% 100%",
+    height: "175px",
+    width: "208px",
+  },
+});
 
-const Mobile = styled.div`
-  display: block;
-  width: 100%;
-`;
+const ImageWrapper = styled("div", {
+  base: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+});
 
-const AllSubjectsPersonIllustration = styled.div`
-  background-image: url("/static/illustrations/all_subjects_person.svg");
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: 100% 100%;
-  height: 175px;
-  width: 208px;
-`;
+const StyledList = styled("ul", {
+  base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "small" },
+});
 
-const StyledAccordionRoot = styled(AccordionRoot)`
-  gap: 0;
-`;
+const StyledLi = styled("li", {
+  base: {
+    listStyle: "none",
+    padding: "0",
+    lineHeight: "unset",
+    "&[data-mobile=false]": { minHeight: "350px", minWidth: "250px", maxHeight: "350px", width: "250px" },
+  },
+});
 
-const StyledAccordionContent = styled(AccordionContent)`
-  background-color: ${colors.white};
-  a {
-    margin-top: ${spacing.normal};
-  }
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.white};
-  :hover {
-    text-decoration: none;
-  }
-  :active {
-    text-decoration: underline;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledNav = styled.nav`
-  ul {
-    margin: unset;
-    padding: unset;
-  }
-`;
-
-const StyledLi = styled.li`
-  list-style: none;
-  padding: 0;
-  line-height: unset;
-  &[data-mobile="false"] {
-    min-height: 350px;
-    min-width: 250px;
-    max-height: 350px;
-    width: 250px;
-  }
-`;
+const StyledAccordionRoot = styled(AccordionRoot, {
+  base: {
+    borderRadius: "small",
+    boxShadow: "full",
+    width: "100%",
+  },
+});
 interface Props {
   programmes: ProgrammeV2[];
-  loading: boolean;
 }
 
-const placeholder = (
-  <ContentLoader width={1150} height={350}>
-    <rect x="0" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-1" />
-    <rect x="274" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-2" />
-    <rect x="548" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-3" />
-    <rect x="812" y="10" rx="3" ry="3" width="250" height="350" key="rect-1-4" />
-  </ContentLoader>
-);
+const Description = styled(Text, { base: { marginTop: "xsmall", marginBottom: "large" } });
 
-const Description = styled(Text)`
-  margin-top: ${spacing.xsmall};
-  margin-bottom: ${spacing.large};
-`;
-
-const Programmes = ({ programmes, loading }: Props) => {
+const Programmes = ({ programmes }: Props) => {
   const { t } = useTranslation();
   const selectors = useUserAgent();
 
@@ -132,37 +99,34 @@ const Programmes = ({ programmes, loading }: Props) => {
 
   return (
     <StyledWrapper>
-      <Heading element="h2" headingStyle="h1" serif id="programmes-heading">
+      <OldHeading element="h2" headingStyle="h1" serif id="programmes-heading">
         {t("programmes.header")}
-      </Heading>
+      </OldHeading>
       <Description textStyle="content-alt" margin="none">
         {t("programmes.description")}
       </Description>
-      {selectors?.isMobile ? (
-        <Mobile>
-          <StyledAccordionRoot type="single" collapsible>
-            <ImageWrapper>
-              <AllSubjectsPersonIllustration />
-            </ImageWrapper>
-            <AccordionItem value="1">
-              <StyledAccordionHeader id="accordionHeader">
-                <Text element="span" textStyle="button" margin="none">
-                  {t("programmes.accordionHeader")}
-                </Text>
-              </StyledAccordionHeader>
-              <StyledAccordionContent>
-                <StyledNav aria-labelledby="accordionHeader">
-                  <ul>{programmeCards}</ul>
-                </StyledNav>
-              </StyledAccordionContent>
-            </AccordionItem>
-          </StyledAccordionRoot>
-        </Mobile>
-      ) : (
-        <StyledNav aria-labelledby="programmes-heading">
-          <Desktop>{loading ? placeholder : programmeCards}</Desktop>
-        </StyledNav>
-      )}
+      <ImageWrapper>
+        <AllSubjectsPersonIllustration />
+      </ImageWrapper>
+      <StyledAccordionRoot multiple>
+        <AccordionItem value="1">
+          <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+            <h2>
+              <AccordionItemTrigger id="accordionHeader">
+                {t("programmes.header")}
+                <AccordionItemIndicator asChild>
+                  <ChevronDown size="medium" />
+                </AccordionItemIndicator>
+              </AccordionItemTrigger>
+            </h2>
+          </Heading>
+          <AccordionItemContent>
+            <nav aria-labelledby="accordionHeader">
+              <StyledList>{programmeCards}</StyledList>
+            </nav>
+          </AccordionItemContent>
+        </AccordionItem>
+      </StyledAccordionRoot>
     </StyledWrapper>
   );
 };

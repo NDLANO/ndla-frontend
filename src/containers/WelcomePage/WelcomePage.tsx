@@ -198,7 +198,7 @@ const WelcomePage = () => {
       </SocialMediaMetadata>
       <StyledMain>
         <ProgrammeWrapper data-testid="programme-list">
-          <Programmes programmes={programmes} loading={fpQuery.loading} />
+          <Programmes programmes={programmes} />
         </ProgrammeWrapper>
         {article && (
           <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={{ ...article, ...article.transformedContent }} />
