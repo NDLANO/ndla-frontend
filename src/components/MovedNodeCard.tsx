@@ -19,28 +19,37 @@ import { ContentTypeBadgeNew } from "@ndla/ui";
 
 const Wrapper = styled("div", {
   base: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr",
+    display: "flex",
+    flexDirection: "column-reverse",
+    tablet: {
+      flexDirection: "row",
+    },
   },
 });
 
 const StyledList = styled("ul", {
   base: {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: "column",
     rowGap: "xxsmall",
-    columnGap: "xsmall",
+    tablet: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      columnGap: "xsmall",
+    },
   },
 });
 
-const StyledLink = styled("li", {
+const StyledLi = styled("li", {
   base: {
-    paddingInlineEnd: "xsmall",
-    borderRight: "1px solid",
-    borderColor: "stroke.subtle",
-    _last: {
-      paddingInlineEnd: "0px",
-      borderInlineEnd: "0",
+    tablet: {
+      paddingInlineEnd: "xsmall",
+      borderRight: "1px solid",
+      borderColor: "stroke.subtle",
+      _last: {
+        paddingInlineEnd: "0px",
+        borderInlineEnd: "0",
+      },
     },
   },
 });
@@ -86,9 +95,9 @@ export const MovedNodeCard = ({ title, url, ingress, subjects, contentType, meta
           <nav aria-labelledby={urlLabelId}>
             <StyledList>
               {subjects.map((subject) => (
-                <StyledLink key={subject.url}>
+                <StyledLi key={subject.url}>
                   <SafeLink to={subject.url ?? ""}>{subject.title}</SafeLink>
-                </StyledLink>
+                </StyledLi>
               ))}
             </StyledList>
           </nav>
