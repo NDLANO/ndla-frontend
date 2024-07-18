@@ -92,7 +92,7 @@ const MastheadContainer = () => {
       <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer subject={data?.subject} />
-          <MastheadSearch subject={data?.subject} />
+          <MastheadSearch />
         </DrawerWrapper>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
           <NdlaLogoText />

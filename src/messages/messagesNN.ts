@@ -141,6 +141,10 @@ const messages = {
     licenseBox: "Innholdstypar",
     subjectFilter: "Fagkategoriar",
   },
+  masthead: {
+    search: "Søk på ndla.no",
+    moreHits: "Vis fleire treff",
+  },
 };
 
 export default messages;
