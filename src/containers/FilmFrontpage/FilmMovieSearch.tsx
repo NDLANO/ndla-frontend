@@ -6,8 +6,9 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { SelectValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { spacing, mq, breakpoints, colors } from "@ndla/core";
 import { ChevronDown } from "@ndla/icons/common";
@@ -117,16 +118,18 @@ const FilmMovieSearch = ({
     return [fromNdla].concat(resourceTypes.map((rt) => ({ value: rt.id, label: rt.name })));
   }, [resourceTypes, t]);
 
-  const onChange = useCallback(
-    (value) => {
-      if (value?.value === "fromNdla") {
-        onChangeResourceType();
-      } else {
-        onChangeResourceType(value?.value);
-      }
-    },
-    [onChangeResourceType],
-  );
+  const onChange = (
+    details: SelectValueChangeDetails<{
+      value: string;
+      label: string;
+    }>,
+  ) => {
+    if (details.value[0] === "fromNdla") {
+      onChangeResourceType();
+    } else {
+      onChangeResourceType(details.value[0]);
+    }
+  };
 
   return (
     <OneColumn>
@@ -149,7 +152,7 @@ const FilmMovieSearch = ({
       <SelectRoot
         items={options}
         onValueChange={onChange}
-        defaultValue={[selectedOption.value]}
+        value={[selectedOption.value]}
         positioning={{
           sameWidth: true,
         }}
