@@ -225,14 +225,14 @@ const PodcastSeriesPage = () => {
                 {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
                   <AccordionItem value="rulesForUse">
                     <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                      <span>
+                      <h2>
                         <AccordionItemTrigger>
                           {t("article.useContent")}
                           <AccordionItemIndicator asChild>
                             <ChevronDown size="medium" />
                           </AccordionItemIndicator>
                         </AccordionItemTrigger>
-                      </span>
+                      </h2>
                     </Heading>
                     <AccordionItemContent>
                       <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />

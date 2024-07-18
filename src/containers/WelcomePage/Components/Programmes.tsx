@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "@ndla/icons/common";
 import {
@@ -79,9 +79,11 @@ interface Props {
 
 const Description = styled(Text, { base: { marginTop: "xsmall", marginBottom: "large" } });
 
+// TODO: Needs to be updated according to new design
 const Programmes = ({ programmes }: Props) => {
   const { t } = useTranslation();
   const selectors = useUserAgent();
+  const accordionHeader = useId();
 
   const programmeCards = useMemo(() => {
     return programmes.map((programme) => (
@@ -112,7 +114,7 @@ const Programmes = ({ programmes }: Props) => {
         <AccordionItem value="1">
           <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
             <h2>
-              <AccordionItemTrigger id="accordionHeader">
+              <AccordionItemTrigger id={accordionHeader}>
                 {t("programmes.header")}
                 <AccordionItemIndicator asChild>
                   <ChevronDown size="medium" />
