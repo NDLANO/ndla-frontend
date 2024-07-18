@@ -337,118 +337,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin-top: 24px;
 }
 
-.emotion-15 [data-tab-trigger] {
-  border: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: pointer;
-}
-
-.emotion-15 [data-tab-list] {
-  position: relative;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger] {
-  font-size: 12px;
-  font-size: 0.6666666666666666rem;
-  line-height: 2;
-  padding: 0 24px;
-  color: #20588f;
-  font-weight: 600;
-  background-color: #ceddea;
-  z-index: 0;
-  position: relative;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger]:where([lang='zh'], .emotion-15[data-variant="rounded"] [data-tab-trigger][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(12px * 1.11);
-  font-size: calc(0.6666666666666666rem * 1.11);
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger][data-state="active"] {
-  cursor: default;
-  background-color: #deebf6;
-  border-bottom: none;
-  z-index: 1;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger]:not(:last-of-type) {
-  border-right: 1px solid #a5bcd3;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger]:first-of-type {
-  border-top-left-radius: 4px;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger]:last-of-type {
-  border-top-right-radius: 4px;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger][data-state="inactive"]:hover {
-  color: #444;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-trigger][data-disabled] {
-  background-color: #e8e3e3;
-  color: #777777;
-  cursor: not-allowed;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-panel] {
-  background-color: #deebf6;
-  border-radius: 0px 10px 10px 10px;
-  padding: 16px;
-  position: relative;
-}
-
-.emotion-15[data-variant="rounded"] [data-tab-panel]:focus-visible,
-.emotion-15[data-variant="rounded"] [data-tab-trigger]:focus-visible {
-  z-index: 2;
-  box-shadow: 0 0 0 2px #20588f;
-}
-
-.emotion-15[data-variant="underlined"] [data-tab-list]:after {
-  border-bottom: 1px solid #20588f;
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  content: "";
-  width: 100%;
-  z-index: 0;
-}
-
-.emotion-15[data-variant="underlined"] [data-tab-trigger] {
-  font-weight: 700;
-  border-bottom: 5px solid transparent;
-  background-color: transparent;
-  color: inherit;
-  padding: 6px 16px;
-}
-
-.emotion-15[data-variant="underlined"] [data-tab-trigger]:hover {
-  color: #20588f;
-}
-
-.emotion-15[data-variant="underlined"] [data-tab-trigger][data-state="active"] {
-  cursor: default;
-  color: #20588f;
-  border-bottom-color: #20588f;
-}
-
-.emotion-15[data-variant="underlined"] [data-tab-trigger][data-disabled] {
-  color: #777777;
-  cursor: not-allowed;
-}
-
-.emotion-17 {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-
-.emotion-19 {
+.emotion-15 {
   padding-left: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -460,7 +349,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 24px 0;
 }
 
-.emotion-20 {
+.emotion-16 {
   margin-bottom: 12px;
   padding: 12px 0;
   border-bottom: 1px solid #a5bcd3;
@@ -474,24 +363,24 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   flex-direction: column;
 }
 
-.emotion-20:last-of-type {
+.emotion-16:last-of-type {
   border-bottom: none;
 }
 
-.emotion-20 img {
+.emotion-16 img {
   width: 100%;
 }
 
-.emotion-21 {
+.emotion-17 {
   padding-bottom: 24px;
 }
 
-.emotion-22 {
+.emotion-18 {
   font-weight: 700;
   padding-bottom: 6px;
 }
 
-.emotion-23 {
+.emotion-19 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 400;
   font-size: 18px;
@@ -500,12 +389,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0px;
 }
 
-.emotion-23:where([lang='zh'], .emotion-23[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-19:where([lang='zh'], .emotion-19[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-24 {
+.emotion-20 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -516,7 +405,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   list-style-type: disc;
 }
 
-.emotion-25 {
+.emotion-21 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -529,13 +418,13 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   width: 100%;
 }
 
-.emotion-25 button,
-.emotion-25 a {
+.emotion-21 button,
+.emotion-21 a {
   margin: 0 12px 12px 0;
 }
 
 @media (max-width: 29.75em) {
-  .emotion-25 {
+  .emotion-21 {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -545,84 +434,84 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     flex-direction: column;
   }
 
-  .emotion-25 button,
-  .emotion-25 a {
+  .emotion-21 button,
+  .emotion-21 a {
     margin: 0 0 12px 0;
     width: 100%;
   }
 
-  .emotion-25 span {
+  .emotion-21 span {
     width: 100%;
   }
 
-  .emotion-25 span button {
+  .emotion-21 span button {
     width: 100%;
   }
 }
 
-.emotion-26 {
+.emotion-22 {
   font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 24px;
 }
 
-.emotion-26:where([lang='zh'], .emotion-26[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-22:where([lang='zh'], .emotion-22[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-26 {
+  .emotion-22 {
     max-width: 70%;
   }
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-26 {
+  .emotion-22 {
     max-width: 75%;
   }
 }
 
-.emotion-27 {
+.emotion-23 {
   display: -webkit-box;
   display: -webkit-"none";
   display: -ms-"none"box;
   display: "none";
 }
 
-.emotion-29 {
+.emotion-25 {
   background: #fff;
   width: 100%;
 }
 
 @media (max-width: 37.5625em) {
-  .emotion-29 button,
-  .emotion-29 a {
+  .emotion-25 button,
+  .emotion-25 a {
     width: 100%;
     margin: 4px 0;
   }
 }
 
-.emotion-30 {
+.emotion-26 {
   margin: 12px 0;
   padding: 0;
   list-style: none;
   width: 100%;
 }
 
-.emotion-30 button,
-.emotion-30 a {
+.emotion-26 button,
+.emotion-26 a {
   margin: 0 12px 12px 0;
 }
 
-.emotion-31 {
+.emotion-27 {
   margin: 0;
   padding: 0;
   padding-bottom: 6px;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-34 {
+  .emotion-30 {
     position: relative!important;
     width: 83.333%;
     right: auto!important;
@@ -782,56 +671,78 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   style="--height: 0px; --width: 0px;"
                 >
                   <div
-                    class="emotion-15 emotion-16"
+                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row"
                     data-orientation="horizontal"
-                    data-variant="underlined"
+                    data-part="root"
+                    data-scope="tabs"
                     dir="ltr"
+                    id="tabs::r2:"
                   >
                     <div
+                      aria-label="Innholdstyper"
                       aria-orientation="horizontal"
-                      class="emotion-17 emotion-18"
+                      class="pos_relative d_flex flex-sh_0 flex-wrap_wrap horizontal:flex-d_row vertical:flex-d_column"
                       data-orientation="horizontal"
-                      data-tab-list=""
+                      data-part="list"
+                      data-scope="tabs"
+                      dir="ltr"
+                      id="tabs::r2::list"
                       role="tablist"
-                      style="outline: none;"
-                      tabindex="0"
                     >
                       <button
-                        aria-controls="radix-:r2:-content-text"
+                        aria-controls="tabs::r2::content-text"
                         aria-selected="true"
+                        class="d_inline-flex ai_center jc_center flex-sh_0 cursor_pointer textStyle_label.small fw_bold trs-dur_normal trs-prop_color,_background,_border-color trs-tmf_default white-space_nowrap px_small py_3xsmall z_1 hover:c_text.action hover:bd-c_stroke.hover hover:focusVisible:bd-c_stroke.default selected:c_text.strong disabled:c_text.subtle disabled:cursor_not-allowed disabled:hover:c_text.subtle disabled:hover:bd-c_stroke.default disabled:bd-c_stroke.default bd-c_stroke.default horizontal:bd-b_1px_solid vertical:bd-l_1px_solid vertical:jc_flex-start focusVisible:ring_none focusVisible:bdr_unset peer"
+                        data-focus=""
                         data-orientation="horizontal"
-                        data-radix-collection-item=""
-                        data-state="active"
-                        data-tab-trigger=""
-                        id="radix-:r2:-trigger-text"
+                        data-ownedby="tabs::r2::list"
+                        data-part="trigger"
+                        data-scope="tabs"
+                        data-selected=""
+                        data-value="text"
+                        dir="ltr"
+                        id="tabs::r2::trigger-text"
                         role="tab"
-                        tabindex="-1"
+                        tabindex="0"
                         type="button"
                       >
                         Tekst
                       </button>
+                      <div
+                        class="bg_transparent ring_3px_solid ring-c_stroke.default ring-o_-3px peerFocusVisible:h_var(--height) peerFocusVisible:w_var(--width) peerFocusVisible:horizontal:bdr-t_xsmall peerFocusVisible:vertical:bdr-r_xsmall horizontal:top_calc(var(--top)_+_var(--height)_-_6px) horizontal:peerFocusVisible:top_var(--top) horizontal:h_3 horizontal:w_var(--width) vertical:h_var(--height) vertical:left_0 vertical:w_3"
+                        data-orientation="horizontal"
+                        data-part="indicator"
+                        data-scope="tabs"
+                        dir="ltr"
+                        id="tabs::r2::indicator"
+                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function);"
+                      />
                     </div>
                     <div
-                      aria-labelledby="radix-:r2:-trigger-text"
+                      aria-labelledby="tabs::r2::trigger-text"
+                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
                       data-orientation="horizontal"
-                      data-state="active"
-                      data-tab-panel=""
-                      id="radix-:r2:-content-text"
+                      data-ownedby="tabs::r2::list"
+                      data-part="content"
+                      data-scope="tabs"
+                      data-selected=""
+                      data-state="open"
+                      dir="ltr"
+                      id="tabs::r2::content-text"
                       role="tabpanel"
-                      style="animation-duration: 0s;"
                       tabindex="0"
                     >
                       <ul
-                        class="emotion-19"
+                        class="emotion-15"
                       >
                         <li
-                          class="emotion-20"
+                          class="emotion-16"
                         >
                           <div
-                            class="emotion-21"
+                            class="emotion-17"
                           >
                             <label
-                              class="emotion-22 emotion-23"
+                              class="emotion-18 emotion-19"
                             >
                               Regler for bruk av teksten "Politiske skillelinjer"
                             </label>
@@ -844,34 +755,34 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               . 
                             </span>
                             <ul
-                              class="emotion-24"
+                              class="emotion-20"
                             />
                           </div>
                           <div
-                            class="emotion-25"
+                            class="emotion-21"
                           />
                           <div
                             about=""
-                            class="emotion-26"
+                            class="emotion-22"
                           >
                             <span
-                              class="emotion-27"
+                              class="emotion-23"
                               href="http://purl.org/dc/dcmitype/Text"
                               rel="dct:type"
                             />
                             <div
-                              class="emotion-25"
+                              class="emotion-21"
                             >
                               <div
-                                class="emotion-29"
+                                class="emotion-25"
                               >
                                 <ul
-                                  class="emotion-30"
+                                  class="emotion-26"
                                   content="Opphaver: Forfatter Someone"
                                   property="cc:attributionName"
                                 >
                                   <li
-                                    class="emotion-31"
+                                    class="emotion-27"
                                   >
                                     <span>
                                       Tittel: 
@@ -881,7 +792,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                     </span>
                                   </li>
                                   <li
-                                    class="emotion-31"
+                                    class="emotion-27"
                                   >
                                     <span>
                                       Opphaver: 
@@ -891,7 +802,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                     </span>
                                   </li>
                                   <li
-                                    class="emotion-31"
+                                    class="emotion-27"
                                   >
                                     <span>
                                       Sist faglig oppdatert: 
@@ -935,7 +846,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </section>
         <section
-          class="emotion-34"
+          class="emotion-30"
         >
           <div
             class="d_flex ai_center gap_xsmall jc_flex-end"
