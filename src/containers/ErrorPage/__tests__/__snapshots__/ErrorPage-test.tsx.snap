@@ -394,7 +394,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       id="masthead"
     >
       <div
-        class="d_flex jc_space-between ai_center p_token(spacing.small)_token(spacing.medium) gap_xsmall tabletDown:p_small"
+        class="d_flex jc_space-between ai_center p_token(spacing.small)_token(spacing.medium) gap_xsmall ta_center tabletDown:p_small"
       >
         <div
           class="emotion-2"
