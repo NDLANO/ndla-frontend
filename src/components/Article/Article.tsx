@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
-import { ArticleModifier, ContentTypeBadge, Article as UIArticle } from "@ndla/ui";
+import { Article as UIArticle } from "@ndla/ui";
 import FavoriteButton from "./FavoritesButton";
 import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
@@ -31,7 +31,6 @@ interface Props {
   children?: ReactElement;
   contentType?: string;
   label: string;
-  modifier?: ArticleModifier;
   isResourceArticle?: boolean;
   printUrl?: string;
   subjectId?: string;
@@ -51,7 +50,6 @@ const Article = ({
   children,
   contentType,
   label,
-  modifier,
   isResourceArticle = false,
   printUrl,
   id,
@@ -105,8 +103,6 @@ const Article = ({
     return children || null;
   }
 
-  const icon = contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null;
-
   const art = {
     ...article,
     content: article.transformedContent?.content ?? "",
@@ -123,50 +119,42 @@ const Article = ({
     footNotes: article.transformedContent?.metaData?.footnotes ?? [],
   };
 
-  const messages = {
-    label,
-  };
-
   return (
-    <>
-      <UIArticle
-        id={id ?? article.id.toString()}
-        article={art}
-        icon={icon}
-        licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
-        messages={messages}
-        competenceGoals={
-          !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
-            <CompetenceGoals
-              codes={article.grepCodes}
-              subjectId={subjectId}
-              supportedLanguages={article.supportedLanguages}
-              isOembed={isOembed}
-            />
-          ) : undefined
-        }
-        lang={art.language === "nb" ? "no" : art.language}
-        modifier={isResourceArticle && resourceType ? (resourceType as ArticleModifier) : modifier ?? "clean"}
-        heartButton={
-          path &&
-          config.feideEnabled &&
-          showFavoriteButton && (
-            <AddResourceToFolderModal
-              resource={{
-                id: article.id.toString(),
-                path,
-                resourceType: myNdlaResourceType,
-              }}
-            >
-              <FavoriteButton path={path} />
-            </AddResourceToFolderModal>
-          )
-        }
-        {...rest}
-      >
-        {children}
-      </UIArticle>
-    </>
+    <UIArticle
+      id={id ?? article.id.toString()}
+      article={art}
+      contentType={contentType}
+      licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
+      competenceGoals={
+        !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
+          <CompetenceGoals
+            codes={article.grepCodes}
+            subjectId={subjectId}
+            supportedLanguages={article.supportedLanguages}
+            isOembed={isOembed}
+          />
+        ) : undefined
+      }
+      lang={art.language === "nb" ? "no" : art.language}
+      heartButton={
+        path &&
+        config.feideEnabled &&
+        showFavoriteButton && (
+          <AddResourceToFolderModal
+            resource={{
+              id: article.id.toString(),
+              path,
+              resourceType: myNdlaResourceType,
+            }}
+          >
+            <FavoriteButton path={path} />
+          </AddResourceToFolderModal>
+        )
+      }
+      {...rest}
+    >
+      {children}
+    </UIArticle>
   );
 };
 

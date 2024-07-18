@@ -115,7 +115,6 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isPlainArticle
           isOembed
           oembed={article?.oembed}
-          modifier="clean"
           {...articleProps}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />

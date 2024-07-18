@@ -132,7 +132,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
         isLoading={false}
       >
         <TopicArticle>
-          <ArticleContents article={article} scripts={scripts} modifier="in-topic" oembed={article.oembed} />
+          <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
         </TopicArticle>
 
         {disableNav ? null : <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
