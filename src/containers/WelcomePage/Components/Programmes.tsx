@@ -121,7 +121,7 @@ const Programmes = ({ programmes }: Props) => {
           <AccordionItem value="1">
             <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
               <h2>
-                <AccordionItemTrigger id={accordionHeader}>
+                <AccordionItemTrigger id={accordionHeader} data-testid="accordion-header">
                   {t("programmes.header")}
                   <AccordionItemIndicator asChild>
                     <ChevronDown size="medium" />
