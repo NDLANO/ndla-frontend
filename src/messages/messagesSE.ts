@@ -137,6 +137,10 @@ const messages = {
       subjectFilter: "Fagkategorier",
     },
   },
+  masthead: {
+    search: "Søk på ndla.no",
+    moreHits: "Vis flere treff",
+  },
 };
 
 export default messages;

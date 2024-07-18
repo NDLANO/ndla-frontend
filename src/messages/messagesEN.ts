@@ -141,6 +141,10 @@ const messages = {
     licenseBox: "Content types",
     subjectFilter: "Subject categories",
   },
+  masthead: {
+    search: "Search ndla.no",
+    moreHits: "See more results",
+  },
 };
 
 export default messages;
