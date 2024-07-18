@@ -16,9 +16,9 @@ import {
   AccordionItemTrigger,
   AccordionRoot,
   Heading,
+  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Heading as OldHeading, Text } from "@ndla/typography";
 import { ProgrammeCard, ProgrammeV2 } from "@ndla/ui";
 import { useUserAgent } from "../../../UserAgentContext";
 
@@ -30,6 +30,7 @@ const StyledWrapper = styled("div", {
     margin: "0",
     paddingBlock: "xxsmall",
     desktop: { paddingBlock: "medium" },
+    gap: "xxlarge",
   },
 });
 
@@ -53,6 +54,10 @@ const ImageWrapper = styled("div", {
   },
 });
 
+const HeadingWrapper = styled("div", {
+  base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "medium" },
+});
+
 const StyledList = styled("ul", {
   base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "small" },
 });
@@ -70,14 +75,15 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     borderRadius: "small",
     boxShadow: "full",
-    width: "100%",
   },
 });
+
+const FullWidth = styled("div", { base: { width: "100%" } });
 interface Props {
   programmes: ProgrammeV2[];
 }
 
-const Description = styled(Text, { base: { marginTop: "xsmall", marginBottom: "large" } });
+const Description = styled(Text, { base: { fontWeight: "normal" } });
 
 // TODO: Needs to be updated according to new design
 const Programmes = ({ programmes }: Props) => {
@@ -101,34 +107,36 @@ const Programmes = ({ programmes }: Props) => {
 
   return (
     <StyledWrapper>
-      <OldHeading element="h2" headingStyle="h1" serif id="programmes-heading">
-        {t("programmes.header")}
-      </OldHeading>
-      <Description textStyle="content-alt" margin="none">
-        {t("programmes.description")}
-      </Description>
-      <ImageWrapper>
-        <AllSubjectsPersonIllustration />
-      </ImageWrapper>
-      <StyledAccordionRoot multiple>
-        <AccordionItem value="1">
-          <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-            <h2>
-              <AccordionItemTrigger id={accordionHeader}>
-                {t("programmes.header")}
-                <AccordionItemIndicator asChild>
-                  <ChevronDown size="medium" />
-                </AccordionItemIndicator>
-              </AccordionItemTrigger>
-            </h2>
-          </Heading>
-          <AccordionItemContent>
-            <nav aria-labelledby="accordionHeader">
-              <StyledList>{programmeCards}</StyledList>
-            </nav>
-          </AccordionItemContent>
-        </AccordionItem>
-      </StyledAccordionRoot>
+      <HeadingWrapper>
+        <Heading asChild consumeCss textStyle="heading.large" id="programmes-heading">
+          <h2>{t("programmes.header")}</h2>
+        </Heading>
+        <Description textStyle="title.medium">{t("programmes.description")}</Description>
+      </HeadingWrapper>
+      <FullWidth>
+        <ImageWrapper>
+          <AllSubjectsPersonIllustration />
+        </ImageWrapper>
+        <StyledAccordionRoot multiple>
+          <AccordionItem value="1">
+            <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+              <h2>
+                <AccordionItemTrigger id={accordionHeader}>
+                  {t("programmes.header")}
+                  <AccordionItemIndicator asChild>
+                    <ChevronDown size="medium" />
+                  </AccordionItemIndicator>
+                </AccordionItemTrigger>
+              </h2>
+            </Heading>
+            <AccordionItemContent>
+              <nav aria-labelledby="accordionHeader">
+                <StyledList>{programmeCards}</StyledList>
+              </nav>
+            </AccordionItemContent>
+          </AccordionItem>
+        </StyledAccordionRoot>
+      </FullWidth>
     </StyledWrapper>
   );
 };
