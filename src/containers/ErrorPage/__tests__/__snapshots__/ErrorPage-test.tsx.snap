@@ -20,81 +20,18 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 .emotion-2 {
-  z-index: 100;
-  position: relative;
-  background: #fff;
-  border-bottom: 1px solid #eff0f2;
-  min-height: 84px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex-flow: column;
-  -webkit-flex-flow: column;
-  -ms-flex-flow: column;
-  flex-flow: column;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-}
-
-.emotion-2[data-fixed="true"] {
-  top: 0;
-  position: -webkit-sticky;
-  position: sticky;
-}
-
-@media print {
-  .emotion-2[data-fixed="true"] {
-    position: relative;
-  }
+  width: 100%;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
 }
 
 .emotion-3 {
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  text-align: center;
-  padding: 12px 24px;
-  font-weight: 400;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  height: 84px;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  gap: 6px;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-3 {
-    padding: 12px;
-    gap: 6px;
-  }
-}
-
-.emotion-4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-}
-
-.emotion-5 {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
@@ -104,35 +41,35 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 29.75em) {
-  .emotion-5 {
+  .emotion-3 {
     padding-left: 24px;
     padding-right: 24px;
   }
 }
 
-.emotion-5::after {
+.emotion-3::after {
   content: ""!important;
   display: block!important;
   clear: both!important;
 }
 
-.emotion-7 {
+.emotion-5 {
   position: relative;
 }
 
-.emotion-8 {
+.emotion-6 {
   position: absolute;
   right: 48px;
   top: -24px;
   z-index: 10;
 }
 
-.emotion-9 {
+.emotion-7 {
   width: 20px;
   height: 20px;
 }
 
-.emotion-10 {
+.emotion-8 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -153,16 +90,16 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 81.3125em) {
-  .emotion-10 {
+  .emotion-8 {
     padding: 48px 170px 72px;
   }
 }
 
-.emotion-10>* {
+.emotion-8>* {
   max-width: 1100px;
 }
 
-.emotion-12 {
+.emotion-10 {
   font-weight: 700;
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-size: 22px;
@@ -171,161 +108,161 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 24px 0 24px 0;
 }
 
-.emotion-12:where([lang='zh'], .emotion-12[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10:where([lang='zh'], .emotion-10[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-12[data-serif="true"] {
+.emotion-10[data-serif="true"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
 }
 
-.emotion-12[data-margin="none"] {
+.emotion-10[data-margin="none"] {
   margin: 0px;
 }
 
-.emotion-12[data-margin="xlarge"] {
+.emotion-10[data-margin="xlarge"] {
   margin: 24px 0 12px 0;
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-12[data-margin="xlarge"] {
+  .emotion-10[data-margin="xlarge"] {
     margin-bottom: 24px;
   }
 }
 
-.emotion-12[data-margin="large"] {
+.emotion-10[data-margin="large"] {
   margin-top: 48px;
   margin-bottom: 12px;
 }
 
-.emotion-12[data-margin="small"] {
+.emotion-10[data-margin="small"] {
   margin-top: 24px;
   margin-bottom: 12px;
 }
 
-.emotion-12[data-style="h1"] {
+.emotion-10[data-style="h1"] {
   font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-12[data-style="h1"]:where([lang='zh'], .emotion-12[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="h1"]:where([lang='zh'], .emotion-10[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-12[data-style="h1"] {
+  .emotion-10[data-style="h1"] {
     font-size: 48px;
     font-size: 2.6666666666666665rem;
     line-height: 60px;
     margin-bottom: 24px;
   }
 
-  .emotion-12[data-style="h1"]:where([lang='zh'], .emotion-12[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-10[data-style="h1"]:where([lang='zh'], .emotion-10[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(48px * 1.11);
     font-size: calc(2.6666666666666665rem * 1.11);
   }
 }
 
-.emotion-12[data-style="h1-resource"] {
+.emotion-10[data-style="h1-resource"] {
   font-size: 30px;
   font-size: 1.6666666666666667rem;
   line-height: 36px;
 }
 
-.emotion-12[data-style="h1-resource"]:where([lang='zh'], .emotion-12[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="h1-resource"]:where([lang='zh'], .emotion-10[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(30px * 1.11);
   font-size: calc(1.6666666666666667rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-12[data-style="h1-resource"] {
+  .emotion-10[data-style="h1-resource"] {
     font-size: 38px;
     font-size: 2.111111111111111rem;
     line-height: 48px;
   }
 
-  .emotion-12[data-style="h1-resource"]:where([lang='zh'], .emotion-12[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-10[data-style="h1-resource"]:where([lang='zh'], .emotion-10[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(38px * 1.11);
     font-size: calc(2.111111111111111rem * 1.11);
   }
 }
 
-.emotion-12[data-style="h2"] {
+.emotion-10[data-style="h2"] {
   font-size: 28px;
   font-size: 1.5555555555555556rem;
   line-height: 36px;
 }
 
-.emotion-12[data-style="h2"]:where([lang='zh'], .emotion-12[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="h2"]:where([lang='zh'], .emotion-10[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(28px * 1.11);
   font-size: calc(1.5555555555555556rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-12[data-style="h2"] {
+  .emotion-10[data-style="h2"] {
     font-size: 30px;
     font-size: 1.6666666666666667rem;
     line-height: 38px;
   }
 
-  .emotion-12[data-style="h2"]:where([lang='zh'], .emotion-12[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-10[data-style="h2"]:where([lang='zh'], .emotion-10[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(30px * 1.11);
     font-size: calc(1.6666666666666667rem * 1.11);
   }
 }
 
-.emotion-12[data-style="h3"] {
+.emotion-10[data-style="h3"] {
   font-size: 26px;
   font-size: 1.4444444444444444rem;
   line-height: 35px;
 }
 
-.emotion-12[data-style="h3"]:where([lang='zh'], .emotion-12[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="h3"]:where([lang='zh'], .emotion-10[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(26px * 1.11);
   font-size: calc(1.4444444444444444rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-12[data-style="h3"] {
+  .emotion-10[data-style="h3"] {
     font-size: 26px;
     font-size: 1.4444444444444444rem;
     line-height: 36px;
   }
 
-  .emotion-12[data-style="h3"]:where([lang='zh'], .emotion-12[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  .emotion-10[data-style="h3"]:where([lang='zh'], .emotion-10[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
     font-size: calc(26px * 1.11);
     font-size: calc(1.4444444444444444rem * 1.11);
   }
 }
 
-.emotion-12[data-style="h4"] {
+.emotion-10[data-style="h4"] {
   font-size: 22px;
   font-size: 1.2222222222222223rem;
   line-height: 30px;
 }
 
-.emotion-12[data-style="h4"]:where([lang='zh'], .emotion-12[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="h4"]:where([lang='zh'], .emotion-10[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(22px * 1.11);
   font-size: calc(1.2222222222222223rem * 1.11);
 }
 
-.emotion-12[data-style="list-title"] {
+.emotion-10[data-style="list-title"] {
   font-size: 18px;
   font-size: 1rem;
   line-height: 24px;
   text-transform: uppercase;
 }
 
-.emotion-12[data-style="list-title"]:where([lang='zh'], .emotion-12[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-10[data-style="list-title"]:where([lang='zh'], .emotion-10[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-13 {
+.emotion-11 {
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -338,7 +275,7 @@ exports[`ErrorPage renderers correctly 1`] = `
 }
 
 @media (min-width: 48em) {
-  .emotion-13 {
+  .emotion-11 {
     display: grid;
     grid-template-columns: max-content max-content min-content;
     -webkit-box-pack: justify;
@@ -348,7 +285,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   }
 }
 
-.emotion-14 {
+.emotion-12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -359,7 +296,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-16 {
+.emotion-14 {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -373,7 +310,7 @@ exports[`ErrorPage renderers correctly 1`] = `
   gap: 6px;
 }
 
-.emotion-17 {
+.emotion-15 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -386,12 +323,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   padding: 0px;
 }
 
-.emotion-17 svg {
+.emotion-15 svg {
   width: 20px;
   height: 20px;
 }
 
-.emotion-18 {
+.emotion-16 {
   color: white;
   box-shadow: none;
   -webkit-text-decoration: underline;
@@ -399,14 +336,14 @@ exports[`ErrorPage renderers correctly 1`] = `
   text-underline-offset: 5px;
 }
 
-.emotion-18:hover,
-.emotion-18:focus,
-.emotion-18:active {
+.emotion-16:hover,
+.emotion-16:focus,
+.emotion-16:active {
   -webkit-text-decoration: none;
   text-decoration: none;
 }
 
-.emotion-27 {
+.emotion-25 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -418,19 +355,19 @@ exports[`ErrorPage renderers correctly 1`] = `
   justify-self: center;
 }
 
-.emotion-49 {
+.emotion-47 {
   grid-column: span 2;
 }
 
 @media (min-width: 48em) {
-  .emotion-49 {
+  .emotion-47 {
     -webkit-align-self: flex-end;
     -ms-flex-item-align: flex-end;
     align-self: flex-end;
   }
 }
 
-.emotion-50 {
+.emotion-48 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 400;
   font-size: 18px;
@@ -439,12 +376,12 @@ exports[`ErrorPage renderers correctly 1`] = `
   margin: 0px;
 }
 
-.emotion-50:where([lang='zh'], .emotion-50[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-48:where([lang='zh'], .emotion-48[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-52 {
+.emotion-50 {
   z-index: 10;
 }
 
@@ -452,15 +389,15 @@ exports[`ErrorPage renderers correctly 1`] = `
     class="emotion-0 emotion-1"
   >
     <div
-      class="emotion-2"
+      class="bg_white bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:[@media_print]:pos_relative"
       data-fixed="true"
       id="masthead"
     >
       <div
-        class="emotion-3"
+        class="d_flex jc_space-between ai_center p_token(spacing.small)_token(spacing.medium) gap_xsmall tabletDown:p_small"
       >
         <div
-          class="emotion-4"
+          class="emotion-2"
         >
           <a
             aria-label="Nasjonal digital læringsarena"
@@ -502,7 +439,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
     <div>
       <div
-        class="emotion-5 emotion-6"
+        class="emotion-3 emotion-4"
       >
         <article
           class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
@@ -541,16 +478,16 @@ exports[`ErrorPage renderers correctly 1`] = `
     </div>
     <footer>
       <div
-        class="emotion-7"
+        class="emotion-5"
       >
         <button
-          class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24 emotion-8"
+          class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24 emotion-6"
           id="zendesk"
           type="button"
         >
           <svg
             aria-hidden="true"
-            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-9"
+            class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium emotion-7"
             data-icon=""
             data-license="Apache License 2.0"
             data-source="Material Design"
@@ -569,23 +506,23 @@ exports[`ErrorPage renderers correctly 1`] = `
         </button>
       </div>
       <div
-        class="emotion-10 emotion-11"
+        class="emotion-8 emotion-9"
       >
         <span
-          class="emotion-12"
+          class="emotion-10"
           data-margin="none"
           data-style="h2"
         >
           Sammen skaper vi framtidas læring
         </span>
         <div
-          class="emotion-13"
+          class="emotion-11"
         >
           <div
-            class="emotion-14"
+            class="emotion-12"
           >
             <span
-              class="emotion-12"
+              class="emotion-10"
               data-margin="none"
               data-style="list-title"
               id=":r0:"
@@ -594,10 +531,10 @@ exports[`ErrorPage renderers correctly 1`] = `
             </span>
             <nav>
               <ul
-                class="emotion-16"
+                class="emotion-14"
               >
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <svg
                     aria-hidden="true"
@@ -617,7 +554,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     />
                   </svg>
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://www.facebook.com/ndla.no"
                     rel="noopener noreferrer"
                     target="_self"
@@ -626,7 +563,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <svg
                     aria-hidden="true"
@@ -644,7 +581,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     />
                   </svg>
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://instagram.com/ndla_no/"
                     rel="noopener noreferrer"
                     target="_self"
@@ -653,7 +590,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <svg
                     aria-hidden="true"
@@ -671,7 +608,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     />
                   </svg>
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://www.linkedin.com/company/ndla/"
                     rel="noopener noreferrer"
                     target="_self"
@@ -680,7 +617,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <svg
                     aria-hidden="true"
@@ -712,7 +649,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     </g>
                   </svg>
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                     rel="noopener noreferrer"
                     target="_self"
@@ -721,7 +658,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <svg
                     aria-hidden="true"
@@ -739,7 +676,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     />
                   </svg>
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
                     rel="noopener noreferrer"
                     target="_self"
@@ -751,10 +688,10 @@ exports[`ErrorPage renderers correctly 1`] = `
             </nav>
           </div>
           <div
-            class="emotion-27"
+            class="emotion-25"
           >
             <span
-              class="emotion-12"
+              class="emotion-10"
               data-margin="none"
               data-style="list-title"
               id=":r1:"
@@ -763,13 +700,13 @@ exports[`ErrorPage renderers correctly 1`] = `
             </span>
             <nav>
               <ul
-                class="emotion-16"
+                class="emotion-14"
               >
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.no/about/om-ndla"
                     rel="noopener noreferrer"
                     target="_self"
@@ -778,10 +715,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.no/about/about-us"
                     rel="noopener noreferrer"
                     target="_self"
@@ -790,10 +727,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://blogg.ndla.no"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -819,10 +756,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </svg>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://blogg.ndla.no/eleverivideregaende/"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -848,10 +785,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </svg>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.no/about/utlysninger"
                     rel="noopener noreferrer"
                     target="_self"
@@ -863,10 +800,10 @@ exports[`ErrorPage renderers correctly 1`] = `
             </nav>
           </div>
           <div
-            class="emotion-14"
+            class="emotion-12"
           >
             <span
-              class="emotion-12"
+              class="emotion-10"
               data-margin="none"
               data-style="list-title"
               id=":r2:"
@@ -875,13 +812,13 @@ exports[`ErrorPage renderers correctly 1`] = `
             </span>
             <nav>
               <ul
-                class="emotion-16"
+                class="emotion-14"
               >
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.no/article/personvernerklaering"
                     rel="noopener noreferrer"
                     target="_self"
@@ -890,10 +827,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://ndla.no/article/erklaering-for-informasjonskapsler"
                     rel="noopener noreferrer"
                     target="_self"
@@ -902,10 +839,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </a>
                 </li>
                 <li
-                  class="emotion-17"
+                  class="emotion-15"
                 >
                   <a
-                    class="emotion-18"
+                    class="emotion-16"
                     href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
                     rel="noopener noreferrer"
                     target="_self"
@@ -917,15 +854,15 @@ exports[`ErrorPage renderers correctly 1`] = `
             </nav>
           </div>
           <div
-            class="emotion-49"
+            class="emotion-47"
           >
             <p
-              class="emotion-50"
+              class="emotion-48"
             >
               Nettstedet er utarbeidet som åpen kildekode.
             </p>
             <p
-              class="emotion-50"
+              class="emotion-48"
             >
               <strong>
                 Ansvarlig redaktør:
@@ -937,7 +874,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       </div>
     </footer>
     <div
-      class="emotion-52"
+      class="emotion-50"
     >
       <button
         class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
