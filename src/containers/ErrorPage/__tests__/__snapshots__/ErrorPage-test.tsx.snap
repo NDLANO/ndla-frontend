@@ -389,12 +389,12 @@ exports[`ErrorPage renderers correctly 1`] = `
     class="emotion-0 emotion-1"
   >
     <div
-      class="bg_white bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
+      class="bg_surface.default bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
       data-fixed="true"
       id="masthead"
     >
       <div
-        class="d_flex jc_space-between ai_center p_token(spacing.small)_token(spacing.medium) gap_xsmall ta_center tabletDown:p_small"
+        class="d_flex jc_space-between ai_center py_small px_medium gap_xsmall ta_center tabletDown:p_small"
       >
         <div
           class="emotion-2"

@@ -18,7 +18,8 @@ const MastheadContent = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "token(spacing.small) token(spacing.medium)",
+    paddingBlock: "small",
+    paddingInline: "medium",
     gap: "xsmall",
     textAlign: "center",
     tabletDown: {
@@ -29,7 +30,7 @@ const MastheadContent = styled("div", {
 
 const StyledMasthead = styled("div", {
   base: {
-    background: "white",
+    background: "surface.default",
     borderColor: "stroke.subtle",
     borderBottom: "1px solid",
     zIndex: "banner",
@@ -44,10 +45,6 @@ const MessageBannerWrapper = styled("div", {
     display: "grid",
     gridTemplateAreas: "'. content closebutton'",
     gridTemplateColumns: "minmax(30px, 1fr) minmax(0, auto) minmax(30px, 1fr)",
-
-    tabletDown: {
-      padding: "small",
-    },
   },
 });
 const StyledCloseButton = styled(IconButton, {
