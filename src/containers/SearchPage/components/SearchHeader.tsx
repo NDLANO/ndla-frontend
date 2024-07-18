@@ -58,8 +58,6 @@ const StyledModalBody = styled(ModalBody)`
 
 const StyledModalHeader = styled(ModalHeader)`
   width: 100%;
-  max-width: 1040px;
-  padding: 0px;
 `;
 
 const StyledSearchWrapper = styled.div`

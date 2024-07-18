@@ -131,6 +131,11 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
+    tabs: {
+      competenceGoals: "Kategorier",
+      licenseBox: "Innholdstyper",
+      subjectFilter: "Fagkategorier",
+    },
   },
 };
 

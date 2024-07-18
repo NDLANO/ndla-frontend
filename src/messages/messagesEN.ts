@@ -136,6 +136,11 @@ const messages = {
       },
     },
   },
+  tabs: {
+    competenceGoals: "Categories",
+    licenseBox: "Content types",
+    subjectFilter: "Subject categories",
+  },
 };
 
 export default messages;

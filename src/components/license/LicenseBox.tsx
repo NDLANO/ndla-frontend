@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Tabs } from "@ndla/tabs";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import AudioLicenseList from "./AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "./ConceptLicenseList";
 import H5pLicenseList from "./H5pLicenseList";
@@ -137,7 +137,28 @@ interface Props {
 const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
   const { t } = useTranslation();
   const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
-  return <Tabs tabs={tabs} />;
+  return (
+    <TabsRoot
+      defaultValue="text"
+      orientation="horizontal"
+      variant="line"
+      translations={{ listLabel: t("tabs.licenseBox") }}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.id} value={tab.id}>
+          {tab.content}
+        </TabsContent>
+      ))}
+    </TabsRoot>
+  );
 };
 
 LicenseBox.fragments = {

@@ -12,8 +12,7 @@ import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { FooterHeaderIcon } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
-import { Tabs } from "@ndla/tabs";
+import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
@@ -204,7 +203,26 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
           </ModalHeader>
           <ModalBody>
             <CompetenceGoalsWrapper>
-              <Tabs tabs={tabs} />
+              <TabsRoot
+                defaultValue="competenceGoals"
+                orientation="horizontal"
+                variant="line"
+                translations={{ listLabel: t("tabs.competenceGoals") }}
+              >
+                <TabsList>
+                  {tabs.map((tab) => (
+                    <TabsTrigger key={tab.id} value={tab.id}>
+                      {tab.title}
+                    </TabsTrigger>
+                  ))}
+                  <TabsIndicator />
+                </TabsList>
+                {tabs.map((tab) => (
+                  <TabsContent key={tab.id} value={tab.id}>
+                    {tab.content}
+                  </TabsContent>
+                ))}
+              </TabsRoot>
             </CompetenceGoalsWrapper>
           </ModalBody>
         </ModalContent>

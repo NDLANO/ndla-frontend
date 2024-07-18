@@ -136,6 +136,11 @@ const messages = {
       },
     },
   },
+  tabs: {
+    competenceGoals: "Kategorier",
+    licenseBox: "Innholdstyper",
+    subjectFilter: "Fagkategorier",
+  },
 };
 
 export default messages;
