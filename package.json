@@ -91,7 +91,6 @@
     "@fontsource/source-sans-pro": "^4.5.9",
     "@fontsource/source-serif-pro": "^4.5.7",
     "@lexical/react": "^0.12.4",
-    "@ndla/accordion": "^5.0.7-alpha.0",
     "@ndla/article-converter": "^9.0.16-alpha.0",
     "@ndla/button": "^14.0.7-alpha.0",
     "@ndla/carousel": "^5.0.7-alpha.0",

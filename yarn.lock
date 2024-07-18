@@ -3324,24 +3324,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/accordion@npm:^5.0.7-alpha.0":
-  version: 5.0.7-alpha.0
-  resolution: "@ndla/accordion@npm:5.0.7-alpha.0"
-  dependencies:
-    "@ndla/button": "npm:^14.0.7-alpha.0"
-    "@ndla/core": "npm:^5.0.1"
-    "@ndla/icons": "npm:^7.0.8-alpha.0"
-    "@radix-ui/react-accordion": "npm:^1.1.2"
-  peerDependencies:
-    "@emotion/react": ^11.10.4
-    "@emotion/styled": ^11.10.4
-    react: ">= 16.8.0"
-    react-dom: ">= 16.8.0"
-    react-i18next: ^14.1.1
-  checksum: 10c0/afc46d9b07e64f5a13fd7e1f17319eb4d6831a1ca81af148b515309bf0a07569fdc259c5befc57617a31641f6632571216cad2c1b763e784b010033eef65b167
-  languageName: node
-  linkType: hard
-
 "@ndla/article-converter@npm:^9.0.16-alpha.0":
   version: 9.0.16-alpha.0
   resolution: "@ndla/article-converter@npm:9.0.16-alpha.0"
@@ -4058,34 +4040,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-accordion@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@radix-ui/react-accordion@npm:1.1.2"
-  dependencies:
-    "@babel/runtime": "npm:^7.13.10"
-    "@radix-ui/primitive": "npm:1.0.1"
-    "@radix-ui/react-collapsible": "npm:1.0.3"
-    "@radix-ui/react-collection": "npm:1.0.3"
-    "@radix-ui/react-compose-refs": "npm:1.0.1"
-    "@radix-ui/react-context": "npm:1.0.1"
-    "@radix-ui/react-direction": "npm:1.0.1"
-    "@radix-ui/react-id": "npm:1.0.1"
-    "@radix-ui/react-primitive": "npm:1.0.3"
-    "@radix-ui/react-use-controllable-state": "npm:1.0.1"
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-  checksum: 10c0/54fe3642306d62f68ac4d534c6bec1998d00d441663b16119fe267cb085e48761acf3c02b9466245d42b8ab419632a573d35d79d3a5d328906bde121dd1816db
-  languageName: node
-  linkType: hard
-
 "@radix-ui/react-arrow@npm:1.0.3":
   version: 1.0.3
   resolution: "@radix-ui/react-arrow@npm:1.0.3"
@@ -4130,33 +4084,6 @@ __metadata:
     "@types/react-dom":
       optional: true
   checksum: 10c0/a4bd259a7e15ad88f72524190ddcc2db0688d439aad954e06d0adf6038b2e17397ed8ae0ea26ab09bf6981f1b9dd883904b2b7e74b307b5c6b1a3765d27fe737
-  languageName: node
-  linkType: hard
-
-"@radix-ui/react-collapsible@npm:1.0.3":
-  version: 1.0.3
-  resolution: "@radix-ui/react-collapsible@npm:1.0.3"
-  dependencies:
-    "@babel/runtime": "npm:^7.13.10"
-    "@radix-ui/primitive": "npm:1.0.1"
-    "@radix-ui/react-compose-refs": "npm:1.0.1"
-    "@radix-ui/react-context": "npm:1.0.1"
-    "@radix-ui/react-id": "npm:1.0.1"
-    "@radix-ui/react-presence": "npm:1.0.1"
-    "@radix-ui/react-primitive": "npm:1.0.3"
-    "@radix-ui/react-use-controllable-state": "npm:1.0.1"
-    "@radix-ui/react-use-layout-effect": "npm:1.0.1"
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-  checksum: 10c0/7bc3e601e3fa84991bdf46ea1bdb725760942f8facadf42f05808abc7a1399c6ab90a00c70699367026afbd8afba0254ff9634f9d1e05b24ae452d9e0524d328
   languageName: node
   linkType: hard
 
@@ -12455,7 +12382,6 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/accordion": "npm:^5.0.7-alpha.0"
     "@ndla/article-converter": "npm:^9.0.16-alpha.0"
     "@ndla/button": "npm:^14.0.7-alpha.0"
     "@ndla/carousel": "npm:^5.0.7-alpha.0"
