@@ -54,11 +54,6 @@ const InformationLabel = styled.div`
   align-items: center;
 `;
 
-const StyledLabel = styled(Label)`
-  margin: 0;
-  margin-bottom: ${spacing.xxsmall};
-`;
-
 const StyledInformationOutline = styled(InformationOutline)`
   overflow: unset !important;
 `;
@@ -164,11 +159,11 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id={id ? `editor-${id}` : "editor"} isRequired isInvalid={!!fieldState.error?.message}>
-            <StyledLabel textStyle="label-small" onClick={() => document.getElementById("field-editor")?.focus()}>
+          <FieldRoot required invalid={!!fieldState.error?.message}>
+            <FieldLabel textStyle="label.large" onClick={() => document.getElementById("markdown-editor")?.focus()}>
               {type === "post" ? t("myNdla.arena.new.post") : t("myNdla.arena.topic.topicContent")}
-            </StyledLabel>
-            <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
+            </FieldLabel>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <Suspense fallback={<Spinner />}>
               <MarkdownEditor
                 setContentWritten={(val) => {
@@ -180,7 +175,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
                 {...field}
               />
             </Suspense>
-          </FormControl>
+          </FieldRoot>
         )}
       />
       {showLockedOption && (

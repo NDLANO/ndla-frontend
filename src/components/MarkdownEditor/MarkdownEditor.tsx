@@ -8,6 +8,7 @@
 
 import { $getRoot, EditorState } from "lexical";
 import { ComponentProps, forwardRef, useRef, useState } from "react";
+import { useFieldContext } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { $generateNodesFromDOM } from "@lexical/html";
 import { $convertToMarkdownString } from "@lexical/markdown";
@@ -20,7 +21,6 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { colors, misc, spacing } from "@ndla/core";
-import { useFormControl } from "@ndla/forms";
 import { AutoLink } from "./AutoLinkPlugin";
 import { editorTheme } from "./editorTheme";
 import { EditorToolbar } from "./EditorToolbar";
@@ -89,8 +89,12 @@ interface Props extends ComponentProps<"div"> {
 
 const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, initialValue, ...rest }, ref) => {
   const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
-  const props = useFormControl(rest);
   const [editorFocused, setEditorFocused] = useState(false);
+
+  const field = useFieldContext();
+
+  const textAreaProps = field?.getTextareaProps() ?? {};
+
   const initialConfig: InitialConfigType = {
     namespace: "MyEditor",
     onError,
@@ -124,17 +128,15 @@ const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, i
             contentEditable={
               <EditableWrapper ref={floatingAnchorElem}>
                 <StyledContentEditable
+                  id="markdown-editor"
                   role="textbox"
-                  ariaActiveDescendant={props["aria-activedescendant"]}
-                  ariaAutoComplete={props["aria-autocomplete"]}
-                  ariaControls={props["aria-controls"]}
-                  ariaDescribedBy={props["aria-describedby"]}
-                  ariaExpanded={props["aria-expanded"]}
-                  ariaLabel={props["aria-label"]}
-                  ariaLabelledBy={props["aria-labelledby"]}
-                  ariaMultiline={props["aria-multiline"]}
-                  ariaOwns={props["aria-owns"]}
-                  ariaRequired={props["aria-required"]}
+                  ariaDescribedBy={textAreaProps["aria-describedby"]}
+                  aria-invalid={textAreaProps["aria-invalid"]}
+                  ariaRequired={textAreaProps["aria-required"]}
+                  aria-readonly={textAreaProps["aria-readonly"]}
+                  readOnly={textAreaProps.readOnly}
+                  required={textAreaProps.required}
+                  disabled={textAreaProps.disabled}
                   onFocus={(e) => {
                     setEditorFocused(true);
                     rest.onFocus?.(e);
@@ -143,7 +145,7 @@ const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, i
                     setEditorFocused(false);
                     rest.onBlur?.(e);
                   }}
-                  {...props}
+                  {...rest}
                 />
               </EditableWrapper>
             }
