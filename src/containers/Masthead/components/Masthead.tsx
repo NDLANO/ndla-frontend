@@ -7,46 +7,51 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, misc, mq, spacing, stackOrder } from "@ndla/core";
-import { MessageBanner } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
+import { Cross } from "@ndla/icons/action";
+import { IconButton, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SkipToMainContent from "./SkipToMainContent";
 
-const MastheadContent = styled.div`
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: ${spacing.small} ${spacing.normal};
-  font-weight: ${fonts.weight.normal};
-  display: flex;
-  width: 100%;
-  height: ${misc.mastheadHeight};
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-  ${mq.range({ until: breakpoints.tablet })} {
-    padding: ${spacing.small};
-    gap: ${spacing.xsmall};
-  }
-`;
+const MastheadContent = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBlock: "small",
+    paddingInline: "medium",
+    gap: "xsmall",
+    textAlign: "center",
+    tabletDown: {
+      padding: "small",
+    },
+  },
+});
 
-const StyledMasthead = styled.div`
-  z-index: ${stackOrder.banner};
-  position: relative;
-  background: ${colors.white};
-  border-bottom: 1px solid ${colors.brand.greyLighter};
-  min-height: ${misc.mastheadHeight};
-  display: flex;
-  flex-flow: column;
-  justify-content: flex-end;
+const StyledMasthead = styled("div", {
+  base: {
+    background: "surface.default",
+    borderColor: "stroke.subtle",
+    borderBottom: "1px solid",
+    zIndex: "banner",
 
-  &[data-fixed="true"] {
-    top: 0;
-    position: sticky;
-    @media print {
-      position: relative;
-    }
-  }
-`;
+    "&[data-fixed=true]": { top: 0, position: "sticky", _print: { position: "relative" } },
+  },
+});
+
+const MessageBannerWrapper = styled("div", {
+  base: {
+    background: "surface.brand.4.moderate",
+    display: "grid",
+    gridTemplateAreas: "'. content closebutton'",
+    gridTemplateColumns: "minmax(30px, 1fr) minmax(0, auto) minmax(30px, 1fr)",
+  },
+});
+const StyledCloseButton = styled(IconButton, {
+  base: { gridArea: "closebutton", justifySelf: "flex-end", alignSelf: "center" },
+});
+
+const StyledText = styled(Text, { base: { paddingBlock: "xsmall", gridArea: "content" } });
 
 interface Alert {
   content: ReactNode;
@@ -63,18 +68,26 @@ interface Props {
 }
 
 export const Masthead = ({ children, fixed, skipToMainContentId, messages, onCloseAlert }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <>
       {skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
       <StyledMasthead data-fixed={!!fixed} id="masthead">
         {messages?.map((message) => (
-          <MessageBanner
-            key={message.number}
-            showCloseButton={message.closable}
-            onClose={() => onCloseAlert?.(message.number)}
-          >
-            {message.content}
-          </MessageBanner>
+          <MessageBannerWrapper key={message.number}>
+            <StyledText textStyle="body.large">{message.content}</StyledText>
+            {message.closable && (
+              <StyledCloseButton
+                variant="clear"
+                onClick={() => onCloseAlert?.(message.number)}
+                aria-label={t("close")}
+                title={t("close")}
+              >
+                <Cross />
+              </StyledCloseButton>
+            )}
+          </MessageBannerWrapper>
         ))}
         <MastheadContent>{children}</MastheadContent>
       </StyledMasthead>
