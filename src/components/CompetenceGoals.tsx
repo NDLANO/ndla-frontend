@@ -204,7 +204,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
           <ModalBody>
             <CompetenceGoalsWrapper>
               <TabsRoot
-                defaultValue="competenceGoals"
+                defaultValue={tabs[0]?.id}
                 orientation="horizontal"
                 variant="line"
                 translations={{ listLabel: t("tabs.competenceGoals") }}
