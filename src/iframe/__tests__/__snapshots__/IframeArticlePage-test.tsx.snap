@@ -3,341 +3,6 @@
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
   .emotion-0 {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-@media (min-width: 29.75em) {
-  .emotion-0 {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-.emotion-0::after {
-  content: ""!important;
-  display: block!important;
-  clear: both!important;
-}
-
-.emotion-2 {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-  background: #fff;
-  margin-top: 48px;
-  margin-right: auto;
-  margin-bottom: 24px;
-  margin-left: auto;
-  overflow-wrap: break-word;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 29px;
-  position: relative;
-}
-
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
-}
-
-.emotion-2 mjx-stretchy-v>mjx-ext>mjx-c {
-  -webkit-transform: scaleY(100) translateY(0.075em);
-  -moz-transform: scaleY(100) translateY(0.075em);
-  -ms-transform: scaleY(100) translateY(0.075em);
-  transform: scaleY(100) translateY(0.075em);
-}
-
-.emotion-2>section>p:not([class]) {
-  margin-bottom: 29px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-2 {
-    font-size: 18px;
-    font-size: 1rem;
-    line-height: 29px;
-    padding: 0 24px 24px;
-    margin-bottom: 48px;
-    margin-top: -144px;
-    padding-top: 72px;
-  }
-
-  .emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(18px * 1.11);
-    font-size: calc(1rem * 1.11);
-  }
-
-  .emotion-2>section>p:not([class]) {
-    margin-bottom: 35px;
-  }
-}
-
-@media (min-width: 61.3125em) {
-  .emotion-2 {
-    padding-bottom: 48px;
-    margin-bottom: 48px;
-  }
-}
-
-.emotion-2::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.emotion-2 p {
-  margin-top: 0;
-}
-
-.emotion-2 {
-  margin-top: 24px!important;
-  padding: 12px!important;
-  border: none;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-2 {
-    padding: 0!important;
-  }
-}
-
-.emotion-4 {
-  position: relative!important;
-  width: 83.333%;
-  right: auto!important;
-  left: 8.333%;
-}
-
-.emotion-5 {
-  margin-bottom: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-5 {
-    margin-bottom: 48px;
-  }
-}
-
-.emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 24px;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  padding-bottom: 30px;
-}
-
-.emotion-7 h1 {
-  overflow-wrap: anywhere;
-}
-
-.emotion-7 [data-badge] {
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
-.emotion-9 {
-  font-weight: 700;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-  margin: 24px 0 24px 0;
-}
-
-.emotion-9:where([lang='zh'], .emotion-9[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9[data-serif="true"] {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-}
-
-.emotion-9[data-margin="none"] {
-  margin: 0px;
-}
-
-.emotion-9[data-margin="xlarge"] {
-  margin: 24px 0 12px 0;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-margin="xlarge"] {
-    margin-bottom: 24px;
-  }
-}
-
-.emotion-9[data-margin="large"] {
-  margin-top: 48px;
-  margin-bottom: 12px;
-}
-
-.emotion-9[data-margin="small"] {
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-
-.emotion-9[data-style="h1"] {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h1"]:where([lang='zh'], .emotion-9[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h1"] {
-    font-size: 48px;
-    font-size: 2.6666666666666665rem;
-    line-height: 60px;
-    margin-bottom: 24px;
-  }
-
-  .emotion-9[data-style="h1"]:where([lang='zh'], .emotion-9[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(48px * 1.11);
-    font-size: calc(2.6666666666666665rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h1-resource"] {
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h1-resource"]:where([lang='zh'], .emotion-9[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h1-resource"] {
-    font-size: 38px;
-    font-size: 2.111111111111111rem;
-    line-height: 48px;
-  }
-
-  .emotion-9[data-style="h1-resource"]:where([lang='zh'], .emotion-9[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(38px * 1.11);
-    font-size: calc(2.111111111111111rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h2"] {
-  font-size: 28px;
-  font-size: 1.5555555555555556rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h2"]:where([lang='zh'], .emotion-9[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(28px * 1.11);
-  font-size: calc(1.5555555555555556rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h2"] {
-    font-size: 30px;
-    font-size: 1.6666666666666667rem;
-    line-height: 38px;
-  }
-
-  .emotion-9[data-style="h2"]:where([lang='zh'], .emotion-9[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(30px * 1.11);
-    font-size: calc(1.6666666666666667rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h3"] {
-  font-size: 26px;
-  font-size: 1.4444444444444444rem;
-  line-height: 35px;
-}
-
-.emotion-9[data-style="h3"]:where([lang='zh'], .emotion-9[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(26px * 1.11);
-  font-size: calc(1.4444444444444444rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h3"] {
-    font-size: 26px;
-    font-size: 1.4444444444444444rem;
-    line-height: 36px;
-  }
-
-  .emotion-9[data-style="h3"]:where([lang='zh'], .emotion-9[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(26px * 1.11);
-    font-size: calc(1.4444444444444444rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h4"] {
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-}
-
-.emotion-9[data-style="h4"]:where([lang='zh'], .emotion-9[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9[data-style="list-title"] {
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-  text-transform: uppercase;
-}
-
-.emotion-9[data-style="list-title"]:where([lang='zh'], .emotion-9[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
-}
-
-.emotion-10 {
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  font-size: 1.1111111111111112rem;
-  line-height: 31px;
-}
-
-.emotion-10:where([lang='zh'], .emotion-10[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(20px * 1.11);
-  font-size: calc(1.1111111111111112rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-10 {
-    font-size: 24px;
-    font-size: 1.3333333333333333rem;
-    line-height: 35px;
-  }
-
-  .emotion-10:where([lang='zh'], .emotion-10[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(24px * 1.11);
-    font-size: calc(1.3333333333333333rem * 1.11);
-  }
-}
-
-.emotion-11 {
-  margin-top: 24px;
-}
-
-.emotion-15 {
   padding-left: 0;
   display: -webkit-box;
   display: -webkit-flex;
@@ -349,7 +14,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 24px 0;
 }
 
-.emotion-16 {
+.emotion-1 {
   margin-bottom: 12px;
   padding: 12px 0;
   border-bottom: 1px solid #a5bcd3;
@@ -363,24 +28,24 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   flex-direction: column;
 }
 
-.emotion-16:last-of-type {
+.emotion-1:last-of-type {
   border-bottom: none;
 }
 
-.emotion-16 img {
+.emotion-1 img {
   width: 100%;
 }
 
-.emotion-17 {
+.emotion-2 {
   padding-bottom: 24px;
 }
 
-.emotion-18 {
+.emotion-3 {
   font-weight: 700;
   padding-bottom: 6px;
 }
 
-.emotion-19 {
+.emotion-4 {
   font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
   font-weight: 400;
   font-size: 18px;
@@ -389,12 +54,12 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   margin: 0px;
 }
 
-.emotion-19:where([lang='zh'], .emotion-19[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-4:where([lang='zh'], .emotion-4[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-20 {
+.emotion-5 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -406,7 +71,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   list-style-position: inside;
 }
 
-.emotion-21 {
+.emotion-6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -419,13 +84,13 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   width: 100%;
 }
 
-.emotion-21 button,
-.emotion-21 a {
+.emotion-6 button,
+.emotion-6 a {
   margin: 0 12px 12px 0;
 }
 
 @media (max-width: 29.75em) {
-  .emotion-21 {
+  .emotion-6 {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -435,136 +100,116 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     flex-direction: column;
   }
 
-  .emotion-21 button,
-  .emotion-21 a {
+  .emotion-6 button,
+  .emotion-6 a {
     margin: 0 0 12px 0;
     width: 100%;
   }
 
-  .emotion-21 span {
+  .emotion-6 span {
     width: 100%;
   }
 
-  .emotion-21 span button {
+  .emotion-6 span button {
     width: 100%;
   }
 }
 
-.emotion-22 {
+.emotion-7 {
   font-size: 16px;
   font-size: 0.8888888888888888rem;
   line-height: 24px;
 }
 
-.emotion-22:where([lang='zh'], .emotion-22[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-7:where([lang='zh'], .emotion-7[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(16px * 1.11);
   font-size: calc(0.8888888888888888rem * 1.11);
 }
 
 @media (min-width: 37.5625em) {
-  .emotion-22 {
+  .emotion-7 {
     max-width: 70%;
   }
 }
 
 @media (min-width: 61.3125em) {
-  .emotion-22 {
+  .emotion-7 {
     max-width: 75%;
   }
 }
 
-.emotion-23 {
+.emotion-8 {
   display: -webkit-box;
   display: -webkit-"none";
   display: -ms-"none"box;
   display: "none";
 }
 
-.emotion-25 {
+.emotion-10 {
   background: #fff;
   width: 100%;
 }
 
 @media (max-width: 37.5625em) {
-  .emotion-25 button,
-  .emotion-25 a {
+  .emotion-10 button,
+  .emotion-10 a {
     width: 100%;
     margin: 4px 0;
   }
 }
 
-.emotion-26 {
+.emotion-11 {
   margin: 12px 0;
   padding: 0;
   list-style: none;
   width: 100%;
 }
 
-.emotion-26 button,
-.emotion-26 a {
+.emotion-11 button,
+.emotion-11 a {
   margin: 0 12px 12px 0;
 }
 
-.emotion-27 {
+.emotion-12 {
   margin: 0;
   padding: 0;
   padding-bottom: 6px;
 }
 
-@media (min-width: 37.5625em) {
-  .emotion-30 {
-    position: relative!important;
-    width: 83.333%;
-    right: auto!important;
-    left: 8.333%;
-  }
-}
-
 <div
-    class="emotion-0 emotion-1"
+    class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
   >
     <main>
       <article
-        class="emotion-2 emotion-3"
+        class="d_flex flex-d_column c_text.default gap_xxlarge bg_surface.default py_xsmall px_8% ai_center w_100% ov-wrap_break-word pos_relative tablet:py_medium desktop:py_xxlarge [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
-        <section
-          class="emotion-4"
+        <header
+          class="d_flex flex-d_column gap_medium ai_flex-start w_100%"
         >
-          <div
-            class="emotion-5 emotion-6"
+          <hgroup
+            class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
           >
-            <div
-              class="emotion-7 emotion-8"
-            >
-              <hgroup>
-                <h1
-                  class="emotion-9"
-                  data-margin="none"
-                  data-style="h1-resource"
-                  id="54"
-                  lang="no"
-                  tabindex="-1"
-                >
-                  Politiske skillelinjer
-                </h1>
-              </hgroup>
-            </div>
-            <div
-              class="emotion-10"
+            <h1
+              class="textStyle_heading.large"
+              id="54"
               lang="no"
+              tabindex="-1"
             >
-              <p>
-                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-              </p>
-            </div>
-            <div
-              class="emotion-11 emotion-12"
-            />
+              Politiske skillelinjer
+            </h1>
+          </hgroup>
+          <div
+            class="textStyle_body.xlarge"
+            lang="no"
+          >
+            <p>
+              Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+            </p>
           </div>
-        </section>
+        </header>
         <section
-          class="emotion-4"
+          class="w_100%"
         >
           <section>
             <p
@@ -575,8 +220,8 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             </p>
           </section>
         </section>
-        <section
-          class="emotion-4"
+        <footer
+          class="d_flex flex-d_column gap_xxlarge w_100%"
         >
           <div
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
@@ -734,16 +379,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       tabindex="0"
                     >
                       <ul
-                        class="emotion-15"
+                        class="emotion-0"
                       >
                         <li
-                          class="emotion-16"
+                          class="emotion-1"
                         >
                           <div
-                            class="emotion-17"
+                            class="emotion-2"
                           >
                             <label
-                              class="emotion-18 emotion-19"
+                              class="emotion-3 emotion-4"
                             >
                               Regler for bruk av teksten "Politiske skillelinjer"
                             </label>
@@ -756,34 +401,34 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               . 
                             </span>
                             <ul
-                              class="emotion-20"
+                              class="emotion-5"
                             />
                           </div>
                           <div
-                            class="emotion-21"
+                            class="emotion-6"
                           />
                           <div
                             about=""
-                            class="emotion-22"
+                            class="emotion-7"
                           >
                             <span
-                              class="emotion-23"
+                              class="emotion-8"
                               href="http://purl.org/dc/dcmitype/Text"
                               rel="dct:type"
                             />
                             <div
-                              class="emotion-21"
+                              class="emotion-6"
                             >
                               <div
-                                class="emotion-25"
+                                class="emotion-10"
                               >
                                 <ul
-                                  class="emotion-26"
+                                  class="emotion-11"
                                   content="Opphaver: Forfatter Someone"
                                   property="cc:attributionName"
                                 >
                                   <li
-                                    class="emotion-27"
+                                    class="emotion-12"
                                   >
                                     <span>
                                       Tittel: 
@@ -793,7 +438,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                     </span>
                                   </li>
                                   <li
-                                    class="emotion-27"
+                                    class="emotion-12"
                                   >
                                     <span>
                                       Opphaver: 
@@ -803,7 +448,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                     </span>
                                   </li>
                                   <li
-                                    class="emotion-27"
+                                    class="emotion-12"
                                   >
                                     <span>
                                       Sist faglig oppdatert: 
@@ -845,10 +490,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
             </div>
           </div>
-        </section>
-        <section
-          class="emotion-30"
-        >
           <div
             class="d_flex ai_center gap_xsmall jc_flex-end"
           >
@@ -906,7 +547,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </svg>
             </a>
           </div>
-        </section>
+        </footer>
       </article>
     </main>
   </div>
@@ -915,44 +556,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
-  .emotion-0 {
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-2 {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-@media (min-width: 29.75em) {
-  .emotion-2 {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-.emotion-2::after {
-  content: ""!important;
-  display: block!important;
-  clear: both!important;
-}
-
-<div
-    class="emotion-0 emotion-1"
+  <div
+    class="min-h_100vh d_flex flex-d_column"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
     >
       <article
         class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"

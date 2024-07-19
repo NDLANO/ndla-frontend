@@ -6,7 +6,7 @@
  *
  */
 
-import { constants, HeroContentType } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_CONCEPT,
@@ -72,27 +72,6 @@ export function getContentTypeFromResourceTypes(resourceTypes: ResourceType[] = 
   }
   return { contentType: contentTypeMapping.default };
 }
-
-const heroResourceTypes = [
-  "subject-material",
-  "tasks-and-activities",
-  "assessment-resources",
-  "subject",
-  "concept",
-  "source-material",
-  "learning-path",
-  "topic",
-  "beta",
-  "ndla-film",
-  "ndla-film has-image",
-];
-
-export const isHeroContentType = (type: string): type is HeroContentType => {
-  if (heroResourceTypes.includes(type)) {
-    return true;
-  }
-  return false;
-};
 
 export function getContentType(resourceOrTopic: Pick<GQLResource, "id" | "resourceTypes"> | GQLTopic) {
   if (isTopic(resourceOrTopic)) {

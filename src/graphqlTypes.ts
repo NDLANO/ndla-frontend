@@ -2618,10 +2618,11 @@ export type GQLArticlePage_ResourceTypeFragment = {
 
 export type GQLArticlePage_SubjectFragment = {
   __typename?: "Subject";
+  id: string;
   name: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
-} & GQLArticleHero_SubjectFragment;
+};
 
 export type GQLArticlePage_ResourceFragment = {
   __typename?: "Resource";
@@ -2636,16 +2637,11 @@ export type GQLArticlePage_ResourceFragment = {
     metaDescription: string;
     oembed?: string;
     tags?: Array<string>;
-    metaImage?: { __typename?: "MetaImage" } & GQLArticleHero_MetaImageFragment;
   } & GQLStructuredArticleDataFragment &
     GQLArticle_ArticleFragment;
 };
 
 export type GQLArticlePage_TopicFragment = { __typename?: "Topic"; path: string } & GQLResources_TopicFragment;
-
-export type GQLArticleHero_SubjectFragment = { __typename?: "Subject"; id: string };
-
-export type GQLArticleHero_MetaImageFragment = { __typename?: "MetaImage"; url: string; alt: string };
 
 export type GQLAllMoviesQueryVariables = Exact<{
   resourceTypes: Scalars["String"]["input"];
@@ -2787,8 +2783,6 @@ export type GQLMastHeadQuery = {
   __typename?: "Query";
   subject?: { __typename?: "Subject" } & GQLMastheadDrawer_SubjectFragment;
 };
-
-export type GQLMastheadSearch_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
