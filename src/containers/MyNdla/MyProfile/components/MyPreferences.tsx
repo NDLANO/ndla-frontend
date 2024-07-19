@@ -11,8 +11,7 @@ import styled from "@emotion/styled";
 import { colors, misc, spacing, stackOrder } from "@ndla/core";
 import { Fieldset, FormControl, Label, Legend, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
 import { Heading, Text } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
-import { uuid } from "@ndla/util";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../../graphqlTypes";
 import { useUpdatePersonalData } from "../../../MyNdla/userMutations";
 import { isStudent } from "../../Folders/util";
@@ -75,16 +74,15 @@ const RadioButtonWrapper = styled.div`
 const MyPreferences = ({ user }: MyPreferencesProps) => {
   const { t } = useTranslation();
   const { updatePersonalData } = useUpdatePersonalData();
-  const { addSnack } = useSnack();
+  const toast = useToast();
 
   const setUserPref = async (value: string) => {
     const newPref = value === "showName" ? true : false;
     await updatePersonalData({
       variables: { shareName: newPref },
     });
-    addSnack({
-      id: uuid(),
-      content: t(`myNdla.myProfile.namePreference.${newPref ? "onNameShown" : "onNameHidden"}`),
+    toast.create({
+      title: t(`myNdla.myProfile.namePreference.${newPref ? "onNameShown" : "onNameHidden"}`),
     });
   };
 
