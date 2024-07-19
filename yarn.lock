@@ -12365,6 +12365,7 @@ __metadata:
     "@ndla/util": "npm:^4.1.0"
     "@pandacss/dev": "npm:^0.42.0"
     "@playwright/test": "npm:^1.43.1"
+    "@radix-ui/react-popover": "npm:^1.0.7"
     "@testing-library/jest-dom": "npm:^6.4.2"
     "@testing-library/react": "npm:^15.0.2"
     "@types/express": "npm:^4.17.21"

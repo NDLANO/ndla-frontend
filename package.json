@@ -109,6 +109,7 @@
     "@ndla/typography": "^0.4.23",
     "@ndla/ui": "^55.0.17-alpha.0",
     "@ndla/util": "^4.1.0",
+    "@radix-ui/react-popover": "^1.0.7",
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "express": "^4.19.2",
