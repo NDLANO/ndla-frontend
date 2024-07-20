@@ -83,7 +83,6 @@ const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: Subje
             >
               <div>{letter}</div>
             </Text>
-
             <CheckboxGroup aria-labelledby={letterId} css={{ marginBlockEnd: "small" }}>
               {subjects.map((subject) => (
                 <CheckboxRoot
