@@ -64,7 +64,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <PageContainer backgroundWide={backgroundWide} data-frontpage={frontpage}>
+    <PageContainer backgroundWide={backgroundWide}>
       <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
