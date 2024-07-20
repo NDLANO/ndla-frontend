@@ -96,7 +96,6 @@
     "@ndla/core": "^5.0.1",
     "@ndla/dropdown-menu": "^1.0.38",
     "@ndla/error-reporter": "^2.0.2",
-    "@ndla/forms": "^9.0.11-alpha.0",
     "@ndla/icons": "^7.0.9-alpha.0",
     "@ndla/licenses": "^8.0.0-alpha.0",
     "@ndla/modal": "^7.0.8-alpha.0",
