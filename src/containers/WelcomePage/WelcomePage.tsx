@@ -26,7 +26,6 @@ import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
-// TODO: Move WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH to semantic tokens
 // TODO: Figure out what size this should be. Either add a variant to OneColumn or to Article.
 // The accordion in the "header" should match up with the content in the "body" of the article.
 
