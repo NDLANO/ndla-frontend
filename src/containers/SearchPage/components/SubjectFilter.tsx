@@ -8,7 +8,7 @@
 
 import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
-import { useId, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
 import styled from "@emotion/styled";
@@ -67,7 +67,7 @@ interface SubjectListProps {
 
 const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: SubjectListProps) => {
   const { t } = useTranslation();
-  const letterId = useId();
+
   return (
     <OuterList>
       {Object.entries(subjects).map(([letter, subjects]) => {
@@ -78,12 +78,12 @@ const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: Subje
               consumeCss
               textStyle="title.large"
               color="text.strong"
-              id={letterId}
+              id={letter}
               aria-label={t("searchPage.subjectLetter", { letter })}
             >
               <div>{letter}</div>
             </Text>
-            <CheckboxGroup aria-labelledby={letterId} css={{ marginBlockEnd: "small" }}>
+            <CheckboxGroup aria-labelledby={letter} css={{ marginBlockEnd: "small" }}>
               {subjects.map((subject) => (
                 <CheckboxRoot
                   key={subject.name}
