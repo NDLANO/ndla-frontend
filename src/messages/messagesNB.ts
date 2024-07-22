@@ -145,6 +145,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
   },
+  pagination: { next: "Neste", prev: "Forrige" },
 };
 
 export default messages;

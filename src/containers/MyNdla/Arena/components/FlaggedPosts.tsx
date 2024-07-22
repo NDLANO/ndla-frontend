@@ -10,12 +10,24 @@ import { compareDesc } from "date-fns";
 import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PaginationContext } from "@ark-ui/react";
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
+import emotionStyled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
-import { Pager } from "@ndla/pager";
+import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import {
+  Text,
+  Button,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { usePaginationTranslations } from "@ndla/ui";
 import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
@@ -33,7 +45,7 @@ const rowStyle = css`
   padding: 10px;
 `;
 
-const StyledRow = styled.li`
+const StyledRow = emotionStyled.li`
   &:hover,
   &:focus-within {
     background-color: ${colors.background.lightBlue};
@@ -43,7 +55,7 @@ const StyledRow = styled.li`
   ${rowStyle}
 `;
 
-const StyledHeaderRow = styled.div`
+const StyledHeaderRow = emotionStyled.div`
   background-color: ${colors.brand.lighter};
 
   ${rowStyle}
@@ -55,17 +67,19 @@ const stateBoxStyle = css`
   border-radius: ${misc.borderRadius};
 `;
 
-const ResolvedBox = styled.span`
+const ResolvedBox = emotionStyled.span`
   background-color: ${colors.support.green};
 
   ${stateBoxStyle}
 `;
 
-const UnresolvedBox = styled.span`
+const UnresolvedBox = emotionStyled.span`
   background-color: ${colors.support.red};
 
   ${stateBoxStyle}
 `;
+
+const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
 
 type SearchObject = {
   page: string;
@@ -89,7 +103,7 @@ const FlaggedPosts = () => {
       pageSize,
     },
   });
-  const lastPage = Math.ceil((arenaAllFlags?.totalCount ?? 0) / pageSize);
+  const componentTranslations = usePaginationTranslations();
 
   const onQueryPush = (newSearchObject: object) => {
     const oldSearchObject = parse(location.search);
@@ -154,13 +168,44 @@ const FlaggedPosts = () => {
           );
         })}
       </div>
-      <Pager
+      <StyledPaginationRoot
         page={page}
-        lastPage={lastPage}
-        pageItemComponentClass="button"
-        query={searchObject}
-        onClick={onQueryPush}
-      />
+        onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+        translations={componentTranslations}
+        count={arenaAllFlags?.totalCount ?? 0}
+        siblingCount={2}
+        pageSize={pageSize}
+      >
+        <PaginationPrevTrigger asChild>
+          <Button variant="tertiary">
+            <ChevronLeft />
+            {t("pagination.prev")}
+          </Button>
+        </PaginationPrevTrigger>
+        <PaginationContext>
+          {(pagination) =>
+            pagination.pages.map((page, index) =>
+              page.type === "page" ? (
+                <PaginationItem key={index} {...page} asChild>
+                  <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                </PaginationItem>
+              ) : (
+                <PaginationEllipsis key={index} index={index} asChild>
+                  <Text asChild consumeCss>
+                    <div>&#8230;</div>
+                  </Text>
+                </PaginationEllipsis>
+              ),
+            )
+          }
+        </PaginationContext>
+        <PaginationNextTrigger asChild>
+          <Button variant="tertiary">
+            {t("pagination.next")}
+            <ChevronRight />
+          </Button>
+        </PaginationNextTrigger>
+      </StyledPaginationRoot>
     </>
   );
 };

@@ -10,15 +10,27 @@ import { parse, stringify } from "query-string";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
+import { PaginationContext } from "@ark-ui/react";
+import emotionStyled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
-import { Pager } from "@ndla/pager";
-import { Input } from "@ndla/primitives";
+import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import {
+  Button,
+  Input,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { usePaginationTranslations } from "@ndla/ui";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
 
-const StyledHeaderRow = styled.div`
+const StyledHeaderRow = emotionStyled.div`
   background-color: ${colors.brand.lighter};
   color: ${colors.text.primary};
   display: grid;
@@ -31,7 +43,7 @@ const StyledHeaderRow = styled.div`
   padding: ${spacing.small};
 `;
 
-export const Cell = styled.div`
+export const Cell = emotionStyled.div`
   white-space: nowrap;
 `;
 
@@ -39,9 +51,11 @@ type SearchObject = {
   page: string;
 };
 
-const SearchInput = styled(Input)`
+const SearchInput = emotionStyled(Input)`
   width: 35%;
 `;
+
+const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
 
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
@@ -63,8 +77,7 @@ const Users = () => {
       query: queryString ? queryString : undefined,
     },
   });
-
-  const lastPage = Math.ceil((users?.totalCount ?? 0) / pageSize);
+  const componentTranslations = usePaginationTranslations();
 
   const onQueryPush = (newSearchObject: object) => {
     const oldSearchObject = parse(location.search);
@@ -100,13 +113,44 @@ const Users = () => {
         </StyledHeaderRow>
         <UserList loading={loading} users={users} />
       </div>
-      <Pager
+      <StyledPaginationRoot
         page={page}
-        lastPage={lastPage}
-        pageItemComponentClass="button"
-        query={searchObject}
-        onClick={onQueryPush}
-      />
+        onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+        count={users?.totalCount ?? 0}
+        pageSize={pageSize}
+        translations={componentTranslations}
+        siblingCount={2}
+      >
+        <PaginationPrevTrigger asChild>
+          <Button variant="tertiary">
+            <ChevronLeft />
+            {t("pagination.prev")}
+          </Button>
+        </PaginationPrevTrigger>
+        <PaginationContext>
+          {(pagination) =>
+            pagination.pages.map((page, index) =>
+              page.type === "page" ? (
+                <PaginationItem key={index} {...page} asChild>
+                  <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                </PaginationItem>
+              ) : (
+                <PaginationEllipsis key={index} index={index} asChild>
+                  <Text asChild consumeCss>
+                    <div>&#8230;</div>
+                  </Text>
+                </PaginationEllipsis>
+              ),
+            )
+          }
+        </PaginationContext>
+        <PaginationNextTrigger asChild>
+          <Button variant="tertiary">
+            {t("pagination.next")}
+            <ChevronRight />
+          </Button>
+        </PaginationNextTrigger>
+      </StyledPaginationRoot>
     </>
   );
 };
