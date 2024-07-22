@@ -14,9 +14,10 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
+import { MessageBox, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { constants, OneColumn, LayoutItem, MessageBox, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
+import { constants, OneColumn, LayoutItem, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -167,15 +168,15 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
           </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
-            <MessageBox>
+            <MessageBox variant="warning">
               <InformationOutline />
-              {nonRegularSubjectMessage}
+              <Text>{nonRegularSubjectMessage}</Text>
             </MessageBox>
           )}
           {!ndlaFilm && nonRegularSubjectTypeMessage && (
-            <MessageBox>
+            <MessageBox variant="warning">
               <InformationOutline />
-              {nonRegularSubjectTypeMessage}
+              <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
           <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />

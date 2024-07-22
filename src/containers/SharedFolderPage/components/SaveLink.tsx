@@ -13,9 +13,8 @@ import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
-import { useSnack, MessageBox } from "@ndla/ui";
+import { Button, MessageBox, Text } from "@ndla/primitives";
+import { useSnack } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
@@ -80,9 +79,9 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
           <ModalBody>
             <Content>
               <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
-              <MessageBox>
+              <MessageBox variant="warning">
                 <InformationOutline />
-                <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
+                <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
               </MessageBox>
             </Content>
             <ButtonRow>
