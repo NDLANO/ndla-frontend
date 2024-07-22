@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import ProgrammeContainer from "./ProgrammeContainer";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";

@@ -9,9 +9,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import {
@@ -22,7 +19,9 @@ import {
   FieldLabel,
   FieldRoot,
   InputContainer,
+  Spinner,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IFolder } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { useUserAgent } from "../../UserAgentContext";
@@ -35,9 +34,11 @@ interface Props {
   onCreate?: (folder: IFolder, parentId: string) => void;
 }
 
-const StyledSpinner = styled(Spinner)`
-  margin: ${spacing.small};
-`;
+const StyledSpinner = styled(Spinner, {
+  base: {
+    margin: "small",
+  },
+});
 
 const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
   const [name, setName] = useState(initialValue);
@@ -141,7 +142,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           </>
         ) : (
           <FieldHelper>
-            <StyledSpinner size="normal" aria-label={t("loading")} />
+            <StyledSpinner aria-label={t("loading")} />
           </FieldHelper>
         )}
       </InputContainer>

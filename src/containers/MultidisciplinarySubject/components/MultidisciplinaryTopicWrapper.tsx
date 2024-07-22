@@ -7,7 +7,7 @@
  */
 import { Dispatch, SetStateAction } from "react";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import MultidisciplinaryTopic, { multidisciplinaryTopicFragments } from "./MultidisciplinaryTopic";
