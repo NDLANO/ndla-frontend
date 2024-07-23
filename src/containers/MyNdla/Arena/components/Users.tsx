@@ -11,8 +11,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationContext } from "@ark-ui/react";
-import emotionStyled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
   Button,
@@ -26,34 +24,18 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
+import { rowStyle, StyledHeaderRow } from "./FlaggedPosts";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
-
-const StyledHeaderRow = emotionStyled.div`
-  background-color: ${colors.brand.lighter};
-  color: ${colors.text.primary};
-  display: grid;
-  border: 1px solid ${colors.brand.light};
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
-  margin: ${spacing.xxsmall} 0px;
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  line-height: unset;
-  padding: ${spacing.small};
-`;
-
-export const Cell = emotionStyled.div`
-  white-space: nowrap;
-`;
 
 type SearchObject = {
   page: string;
 };
 
-const SearchInput = emotionStyled(Input)`
-  width: 35%;
-`;
+const SearchInput = styled(Input, { base: { width: "35%" } });
+
+export const Cell = styled("div", { base: { whiteSpace: "nowrap" } });
 
 const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
 
@@ -105,7 +87,7 @@ const Users = () => {
             navigate(routes.myNdla.adminUsers + "?page=1"); // Reset page number when searching
           }}
         />
-        <StyledHeaderRow>
+        <StyledHeaderRow css={rowStyle}>
           <Cell>{t("myNdla.arena.admin.users.username")}</Cell>
           <Cell>{t("myNdla.arena.admin.users.displayName")}</Cell>
           <Cell>{t("myNdla.arena.admin.users.location")}</Cell>

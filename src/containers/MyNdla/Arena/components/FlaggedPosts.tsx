@@ -11,9 +11,6 @@ import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationContext } from "@ark-ui/react";
-import { css } from "@emotion/react";
-import emotionStyled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
@@ -26,58 +23,37 @@ import {
   PaginationRoot,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
 import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
-const rowStyle = css`
-  color: ${colors.text.primary};
-  display: grid;
-  border: 1px solid ${colors.brand.light};
-  grid-template-columns: repeat(4, 1fr);
-  margin: ${spacing.xxsmall} 0px;
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  line-height: unset;
+export const rowStyle = css.raw({
+  display: "grid",
+  gridTemplateColumns: "repeat(4,1fr)",
+  marginBlock: "xxsmall",
+  padding: "xxsmall",
+  borderRadius: "xsmall",
+  border: "1px solid",
+  borderColor: "stroke.subtle",
+});
 
-  padding: 10px;
-`;
+export const StyledRow = styled("li", {
+  base: { _hover: { backgroundColor: "surface.hover" } },
+});
 
-const StyledRow = emotionStyled.li`
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    text-decoration: underline;
-  }
+export const StyledHeaderRow = styled("div", { base: { backgroundColor: "surface.brand.1" } });
 
-  ${rowStyle}
-`;
-
-const StyledHeaderRow = emotionStyled.div`
-  background-color: ${colors.brand.lighter};
-
-  ${rowStyle}
-`;
-
-const stateBoxStyle = css`
-  color: ${colors.white};
-  padding: ${spacing.xxsmall};
-  border-radius: ${misc.borderRadius};
-`;
-
-const ResolvedBox = emotionStyled.span`
-  background-color: ${colors.support.green};
-
-  ${stateBoxStyle}
-`;
-
-const UnresolvedBox = emotionStyled.span`
-  background-color: ${colors.support.red};
-
-  ${stateBoxStyle}
-`;
+export const StatusBox = styled("span", {
+  base: {
+    color: "surface.default",
+    padding: "4xsmall",
+    borderRadius: "xsmall",
+    width: "fit-content",
+  },
+});
 
 const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
 
@@ -127,7 +103,7 @@ const FlaggedPosts = () => {
   return (
     <>
       <div>
-        <StyledHeaderRow>
+        <StyledHeaderRow css={rowStyle}>
           <div>{t("myNdla.arena.admin.flags.postId")}</div>
           <div>{t("myNdla.arena.admin.flags.numFlags")}</div>
           <div>{t("myNdla.arena.admin.flags.latestFlag")}</div>
@@ -149,20 +125,25 @@ const FlaggedPosts = () => {
           const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
           const count = `${resolvedFlags.length}/${flags.length}`;
 
-          const state =
-            resolvedFlags.length === flags.length ? (
-              <ResolvedBox>{t(`myNdla.arena.admin.flags.status.resolved`)}</ResolvedBox>
-            ) : (
-              <UnresolvedBox>{t(`myNdla.arena.admin.flags.status.unresolved`)}</UnresolvedBox>
-            );
-
           return (
             <SafeLink to={`${post.id}`} key={`btn-${post.id}`}>
-              <StyledRow key={`post-${post.id}`}>
+              <StyledRow key={`post-${post.id}`} css={rowStyle}>
                 <div>Post {post.id}</div>
                 <div>{count}</div>
                 {<div>{lastFlagAt}</div>}
-                {<div>{state}</div>}
+                {
+                  <div>
+                    {resolvedFlags.length === flags.length ? (
+                      <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
+                        {t(`myNdla.arena.admin.flags.status.resolved`)}
+                      </StatusBox>
+                    ) : (
+                      <StatusBox css={{ backgroundColor: "surface.danger" }}>
+                        {t(`myNdla.arena.admin.flags.status.unresolved`)}
+                      </StatusBox>
+                    )}
+                  </div>
+                }
               </StyledRow>
             </SafeLink>
           );
