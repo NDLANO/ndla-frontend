@@ -14,7 +14,6 @@ import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { useSnack } from "@ndla/ui";
 import { ArenaFormValues } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
 import PostList from "./components/PostList";
@@ -26,6 +25,7 @@ import {
   useArenaReplyToTopicMutation,
 } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { useToast } from "../../../components/ToastContext";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -49,7 +49,7 @@ const POST_PAGE_SIZE = 100;
 const PostsPage = () => {
   const { t } = useTranslation();
   const { topicId } = useParams();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const navigate = useNavigate();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const [replyingTo, setReplyingTo] = useState<number | undefined>(undefined);
@@ -85,18 +85,16 @@ const PostsPage = () => {
     if (!arenaTopic) return;
     if (arenaTopic?.isFollowing) {
       await unsubscribeFromTopic({ variables: { topicId: arenaTopic.id } });
-      addSnack({
-        content: t("myNdla.arena.notification.unsubscribe"),
-        id: "myNdla.arena.notification.unsubscribe",
+      toast.create({
+        title: t("myNdla.arena.notification.unsubscribe"),
       });
     } else {
       await subscribeToTopic({ variables: { topicId: arenaTopic.id } });
-      addSnack({
-        content: t("myNdla.arena.notification.subscribe"),
-        id: "myNdla.arena.notification.subscribe",
+      toast.create({
+        title: t("myNdla.arena.notification.subscribe"),
       });
     }
-  }, [arenaTopic, subscribeToTopic, unsubscribeFromTopic, addSnack, t]);
+  }, [arenaTopic, unsubscribeFromTopic, toast, t, subscribeToTopic]);
 
   useEffect(() => {
     if (!authContextLoaded || !user?.arenaEnabled || loading) return;
@@ -120,12 +118,11 @@ const PostsPage = () => {
       } else {
         navigate(routes.myNdla.arena);
       }
-      addSnack({
-        content: t("myNdla.arena.topic.isDeleted"),
-        id: "myNdla.arena.topic.isDeleted",
+      toast.create({
+        title: t("myNdla.arena.topic.isDeleted"),
       });
     }
-  }, [error, arenaTopic, navigate, addSnack, t, loading]);
+  }, [error, arenaTopic, navigate, t, loading, toast]);
 
   const parentCrumbs =
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];

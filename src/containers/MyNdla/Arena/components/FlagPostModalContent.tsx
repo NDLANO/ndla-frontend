@@ -16,8 +16,8 @@ import { FormControl, Label, RadioButtonGroup, RadioButtonItem, Fieldset, Legend
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
 import { Button, FieldLabel, FieldRoot, FieldTextArea, FieldErrorMessage } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
+import { useToast } from "../../../../components/ToastContext";
 import handleError from "../../../../util/handleError";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -63,7 +63,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   const { addNewFlag } = useArenaNewFlagMutation();
   const { validationT } = useValidationTranslation();
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const [showReasonField, setShowReasonField] = useState<boolean>(false);
   const { handleSubmit, control, setValue } = useForm({ defaultValues: { type: "spam", reason: "" } });
 
@@ -76,15 +76,15 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
           reason: data.reason === "other" ? data.type : data.reason,
         },
       });
-      addSnack({
-        content: t("myNdla.arena.flag.success"),
-        id: "reportPostAdded",
+      toast.create({
+        title: t("myNdla.arena.reported"),
+        description: t("myNdla.arena.flag.success"),
       });
     } catch (err) {
       const typedError = err as { message?: string };
-      addSnack({
-        content: typedError.message,
-        id: "reportPostAddedError",
+      toast.create({
+        title: t("myNdla.arena.error"),
+        description: typedError.message,
       });
       handleError(err);
     }

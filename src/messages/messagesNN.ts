@@ -61,6 +61,7 @@ const messages = {
       ingressUnauthenticated:
         "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane. Logg inn for å få tilgang til praterobotane.",
     },
+    resource: { addedToFolder: 'Ressurs er lagt i "{{folder}}"', added: "Lagt til", removed: "Fjernet" },
   },
   myNdla: {
     sharedFolder: {
@@ -72,6 +73,9 @@ const messages = {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
       },
+      reported: "Innhald rapportert",
+      error: "Ein feil oppstod",
+      userUpdated: "Bruker oppdatert",
     },
   },
   validation: {

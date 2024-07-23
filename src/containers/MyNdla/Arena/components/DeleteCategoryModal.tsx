@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteForever } from "@ndla/icons/editor";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { IconButton } from "@ndla/primitives";
-import { useSnack } from "@ndla/ui";
+import { useToast } from "../../../../components/ToastContext";
 import { useArenaDeleteCategoryMutation } from "../../arenaMutations";
 import DeleteModalContent from "../../components/DeleteModalContent";
 
@@ -24,7 +24,20 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { deleteCategory } = useArenaDeleteCategoryMutation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
+
+  const onDeleteCategory = async () => {
+    await deleteCategory({
+      variables: {
+        categoryId,
+      },
+    });
+    refetchCategories && refetchCategories();
+    setOpen(false);
+    toast.create({
+      title: t("myNdla.arena.admin.category.deleteSnack"),
+    });
+  };
 
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -38,19 +51,7 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
         </IconButton>
       </ModalTrigger>
       <DeleteModalContent
-        onDelete={async () => {
-          await deleteCategory({
-            variables: {
-              categoryId,
-            },
-          });
-          refetchCategories && refetchCategories();
-          setOpen(false);
-          addSnack({
-            content: t("myNdla.arena.admin.category.deleteSnack"),
-            id: "arenaCategoryDeleted",
-          });
-        }}
+        onDelete={onDeleteCategory}
         title={t("myNdla.arena.admin.category.form.modalTitle")}
         description={t("myNdla.arena.admin.category.form.modalDescription")}
         removeText={t("myNdla.arena.admin.category.form.deleteText")}
