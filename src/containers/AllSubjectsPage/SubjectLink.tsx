@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useSnack } from "@ndla/ui";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FavoriteButton from "../../components/MyNdla/FavoriteButton";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import { useToast } from "../../components/ToastContext";
 import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
@@ -51,7 +51,7 @@ interface Props {
 // TODO: Needs to be refactored to use new components
 const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { authenticated } = useContext(AuthContext);
@@ -65,9 +65,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites },
     });
-    addSnack({
-      id: `addedFavorite-${subject.id}`,
-      content: t("subjectsPage.addConfirmed", { subject: subject.name }),
+    toast.create({
+      title: t("myndla.resource.added"),
+      description: t("subjectsPage.addConfirmed", { subject: subject.name }),
     });
   };
 
@@ -80,9 +80,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       variables: { favoriteSubjects: newFavorites, shareName: undefined },
     });
     setShowDeleteModal(false);
-    addSnack({
-      id: `removedFavorite-${subject.id}`,
-      content: t("subjectsPage.removeConfirmed", { subject: subject.name }),
+    toast.create({
+      title: t("myndla.resource.removed"),
+      description: t("subjectsPage.removeConfirmed", { subject: subject.name }),
     });
   };
 

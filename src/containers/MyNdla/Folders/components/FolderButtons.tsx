@@ -14,12 +14,12 @@ import { Cross, Copy } from "@ndla/icons/action";
 import { Share, ShareArrow } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { useSnack } from "@ndla/ui";
 import FolderCreateModal from "./FolderCreateModal";
 import FolderDeleteModal from "./FolderDeleteModal";
 import FolderEditModal from "./FolderEditModal";
 import FolderShareModal from "./FolderShareModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../../folderMutations";
@@ -40,7 +40,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { folderId } = useParams();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { examLock, user } = useContext(AuthContext);
   const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
 
@@ -57,9 +57,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       if (!folder) {
         return;
       }
-      addSnack({
-        id: "folderAdded",
-        content: t("myNdla.folder.folderCreated", {
+      toast.create({
+        title: t("myNdla.folder.folderCreated", {
           folderName: folder.name,
         }),
       });
@@ -67,13 +66,13 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
       setIsOpen(false);
       setResetFocus(true);
     },
-    [addSnack, t, setIsOpen, setFocusId, setResetFocus],
+    [toast, t, setFocusId, setIsOpen, setResetFocus],
   );
 
   const onFolderUpdated = useCallback(() => {
-    addSnack({ id: "folderUpdated", content: t("myNdla.folder.updated") });
+    toast.create({ title: t("myNdla.folder.updated") });
     setIsOpen(false);
-  }, [addSnack, t, setIsOpen]);
+  }, [toast, t, setIsOpen]);
 
   const onDeleteFolder = useCallback(async () => {
     if (!selectedFolder) {
@@ -86,16 +85,15 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         replace: true,
       });
     }
-    addSnack({
-      id: "folderDeleted",
-      content: t("myNdla.folder.folderDeleted", {
+    toast.create({
+      title: t("myNdla.folder.folderDeleted", {
         folderName: selectedFolder.name,
       }),
     });
     setResetFocus(true);
     setIsOpen(false);
     setPreventDefault(true);
-  }, [addSnack, deleteFolder, folderId, navigate, selectedFolder, t, setResetFocus, setIsOpen, setPreventDefault]);
+  }, [selectedFolder, deleteFolder, folderId, toast, t, setResetFocus, setIsOpen, navigate]);
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
   const showShareFolder = folderId !== null && !isStudent(user);
@@ -116,9 +114,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
                 status: "private",
               },
             }).then(() => setTimeout(() => shareRef.current?.focus(), 0));
-            addSnack({
-              id: "sharingDeleted",
-              content: t("myNdla.folder.sharing.unShare"),
+            toast.create({
+              title: t("myNdla.folder.sharing.unShare"),
             });
           }}
         >
@@ -150,9 +147,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
                 },
               });
             !isFolderShared &&
-              addSnack({
-                id: "folderShared",
-                content: t("myNdla.folder.sharing.header.shared"),
+              toast.create({
+                title: t("myNdla.folder.sharing.header.shared"),
               });
           }}
         >
@@ -199,9 +195,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           variant="tertiary"
           onClick={() => {
             copyFolderSharingLink(selectedFolder.id);
-            addSnack({
-              id: "folderLinkCopied",
-              content: t("myNdla.folder.sharing.link"),
+            toast.create({
+              title: t("myNdla.folder.sharing.link"),
             });
             setIsOpen(false);
           }}

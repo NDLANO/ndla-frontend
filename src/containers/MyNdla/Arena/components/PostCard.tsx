@@ -15,11 +15,11 @@ import { colors, spacing, misc } from "@ndla/core";
 import { Reply } from "@ndla/icons/action";
 import { IconButton } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
 import { formatDateTime } from "../../../../util/formatDate";
@@ -82,7 +82,7 @@ interface Props {
 const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { t, i18n } = useTranslation();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
@@ -91,14 +91,13 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
     async (close: VoidFunction, skipAutoFocus: VoidFunction) => {
       await deletePost({ variables: { postId } });
       close();
-      addSnack({
-        content: t("myNdla.arena.deleted.post"),
-        id: "arenaPostDeleted",
+      toast.create({
+        title: t("myNdla.arena.deleted.post"),
       });
       setFocusId?.(nextPostId);
       skipAutoFocus();
     },
-    [deletePost, postId, addSnack, t, setFocusId, nextPostId],
+    [deletePost, postId, toast, t, setFocusId, nextPostId],
   );
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {

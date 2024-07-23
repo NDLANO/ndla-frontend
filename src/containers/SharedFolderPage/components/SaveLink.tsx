@@ -14,10 +14,10 @@ import { InformationOutline } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
 import { Button, MessageBox, Text } from "@ndla/primitives";
-import { useSnack } from "@ndla/ui";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
+import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
@@ -48,15 +48,14 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
   const { t } = useTranslation();
   const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
-  const { addSnack } = useSnack();
+  const toast = useToast();
 
   const onSaveLink = (name: string) => {
     favoriteSharedFolder();
     hideTrigger();
     setOpen(false);
-    addSnack({
-      content: t("myNdla.folder.sharing.savedLink", { name }),
-      id: "sharedFolderSaved",
+    toast.create({
+      title: t("myNdla.folder.sharing.savedLink", { name }),
     });
   };
 

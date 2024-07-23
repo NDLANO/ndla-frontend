@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { Cross } from "@ndla/icons/action";
 import { ChevronDown, InformationOutline } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
@@ -31,7 +31,6 @@ import {
   InputContainer,
   Text,
 } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { HStack } from "@ndla/styled-system/jsx";
 import {
   TagSelectorClearTrigger,
@@ -40,7 +39,6 @@ import {
   TagSelectorLabel,
   TagSelectorRoot,
   TagSelectorTrigger,
-  useSnack,
   useTagSelectorTranslations,
 } from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
@@ -56,6 +54,7 @@ import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { useToast } from "../ToastContext";
 
 export interface ResourceAttributes {
   path: string;
@@ -93,40 +92,11 @@ const StyledComboboxContent = styled(ComboboxContent)`
   overflow: hidden;
 `;
 
-const StyledResourceAddedSnack = styled.div`
-  gap: ${spacing.small};
-  display: flex;
-`;
-
-const StyledResource = styled.p`
-  margin: 0;
-`;
-
 const StyledInfoMessages = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
 `;
-
-interface ResourceAddedSnackProps {
-  folder: GQLFolder;
-}
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.white};
-`;
-
-const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
-  const { t } = useTranslation();
-  return (
-    <StyledResourceAddedSnack>
-      <StyledResource>
-        {t("myNdla.resource.addedToFolder")}
-        <StyledSafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</StyledSafeLink>
-      </StyledResource>
-    </StyledResourceAddedSnack>
-  );
-};
 
 const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
@@ -140,7 +110,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const [canSave, setCanSave] = useState<boolean>(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const tagSelectorTranslations = useTagSelectorTranslations();
 
   useEffect(() => {
@@ -191,17 +161,17 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-      addSnack({
-        id: `addedToFolder${selectedFolder.name}`,
-        content: <ResourceAddedSnack folder={selectedFolder} />,
+
+      toast.create({
+        title: t("myndla.resource.added"),
+        description: t("myndla.resource.addedToFolder", { folder: selectedFolder.name }),
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      addSnack({
-        content: t("myNdla.resource.tagsUpdated"),
-        id: "tagsUpdated",
+      toast.create({
+        title: t("myNdla.resource.tagsUpdated"),
       });
     }
     onClose();

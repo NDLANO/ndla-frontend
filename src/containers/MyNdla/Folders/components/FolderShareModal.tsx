@@ -16,8 +16,8 @@ import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Mod
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Tooltip } from "@ndla/tooltip";
-import { useSnack } from "@ndla/ui";
 import FolderAndResourceCount from "./FolderAndResourceCount";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
@@ -108,7 +108,7 @@ interface FolderShareModalProps extends BaseProps {
 
 export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
 
   return (
     <ModalContent onCloseAutoFocus={setRef}>
@@ -137,9 +137,8 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
               variant="stripped"
               onClick={() => {
                 onCopyText?.();
-                addSnack({
-                  id: "shareLink",
-                  content: t("myNdla.folder.sharing.link"),
+                toast.create({
+                  title: t("myNdla.folder.sharing.link"),
                 });
               }}
             >

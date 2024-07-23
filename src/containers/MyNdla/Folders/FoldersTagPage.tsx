@@ -16,13 +16,13 @@ import { Spinner } from "@ndla/icons";
 import { FileDocumentOutline, Link } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { useSnack } from "@ndla/ui";
 import ListViewOptions from "./components/ListViewOptions";
 import { ViewType, BlockWrapper } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import BlockResource from "../../../components/MyNdla/BlockResource";
 import ListResource from "../../../components/MyNdla/ListResource";
+import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
@@ -104,7 +104,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
   );
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
   const { data, loading } = useFolderResourceMetaSearch(
@@ -149,9 +149,8 @@ const Resources = ({ resources }: ResourcesProps) => {
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
           navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-          addSnack({
-            content: t("myNdla.resource.linkCopied"),
-            id: "linkCopied",
+          toast.create({
+            title: t("myNdla.resource.linkCopied"),
           });
         },
       },

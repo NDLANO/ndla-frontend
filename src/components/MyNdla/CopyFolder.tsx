@@ -12,7 +12,6 @@ import { LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Button, Text, MessageBox } from "@ndla/primitives";
-import { useSnack } from "@ndla/ui";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
@@ -21,6 +20,7 @@ import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { useToast } from "../ToastContext";
 
 interface Props {
   folder: GQLFolder;
@@ -32,7 +32,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
 
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { folders, loading } = useFolders();
   const copySharedFolderMutation = useCopySharedFolderMutation();
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
@@ -45,10 +45,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       },
     });
     onClose();
-    addSnack({
-      content: t("myNdla.sharedFolder.folderCopied"),
-      id: "sharedFolderCopied",
-    });
+    toast.create({ title: t("myNdla.sharedFolder.folderCopied") });
   };
 
   return (

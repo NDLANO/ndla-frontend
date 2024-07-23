@@ -13,12 +13,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine, TimestampText } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
+import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -43,7 +43,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
   const replyToRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const { updateTopic } = useArenaUpdateTopic(topicId);
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
   const navigate = useNavigate();
   const selectors = useUserAgent();
@@ -52,9 +52,8 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
     async (close: VoidFunction) => {
       await deleteTopic({ variables: { topicId } });
       close();
-      addSnack({
-        content: t("myNdla.arena.deleted.topic"),
-        id: "arenaTopicDeleted",
+      toast.create({
+        title: t("myNdla.arena.deleted.topic"),
       });
       if (topic?.categoryId) {
         navigate(routes.myNdla.arenaCategory(topic.categoryId));
@@ -62,7 +61,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
         navigate(routes.myNdla.arena);
       }
     },
-    [topicId, deleteTopic, navigate, topic?.categoryId, addSnack, t],
+    [deleteTopic, topicId, toast, t, topic?.categoryId, navigate],
   );
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
