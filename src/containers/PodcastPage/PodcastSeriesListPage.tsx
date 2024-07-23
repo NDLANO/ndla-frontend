@@ -11,13 +11,22 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Pager } from "@ndla/pager";
-import { Spinner } from "@ndla/primitives";
+import { PaginationContext } from "@ark-ui/react";
+import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import {
+  Button,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Text,
+  Spinner,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { OneColumn } from "@ndla/ui";
+import { OneColumn, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
@@ -35,18 +44,17 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const StyledPageNumber = styled.span`
-  margin: 0 ${spacing.small};
-`;
+const StyledPageNumber = styled("span", { base: { marginBlock: "small" } });
 
-const NoResult = styled.div`
-  margin: ${spacing.normal} ${spacing.xxsmall};
-`;
+const NoResult = styled("div", { base: { marginBlock: "medium" } });
+
+const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
 
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const componentTranslations = usePaginationTranslations();
   const searchObject = parse(location.search);
 
   const page = getPage(searchObject);
@@ -130,13 +138,44 @@ const PodcastSeriesListPage = () => {
         ) : (
           <NoResult>{t("podcastPage.noResults")}</NoResult>
         )}
-        <Pager
-          page={getPage(searchObject)}
-          lastPage={lastPage}
-          pageItemComponentClass="button"
-          query={searchObject}
-          onClick={onQueryPush}
-        />
+        <StyledPaginationRoot
+          page={page}
+          onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+          count={data?.podcastSeriesSearch?.totalCount ?? 0}
+          pageSize={pageSize}
+          translations={componentTranslations}
+          siblingCount={2}
+        >
+          <PaginationPrevTrigger asChild>
+            <Button variant="tertiary">
+              <ChevronLeft />
+              {t("pagination.prev")}
+            </Button>
+          </PaginationPrevTrigger>
+          <PaginationContext>
+            {(pagination) =>
+              pagination.pages.map((page, index) =>
+                page.type === "page" ? (
+                  <PaginationItem key={index} {...page} asChild>
+                    <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                  </PaginationItem>
+                ) : (
+                  <PaginationEllipsis key={index} index={index} asChild>
+                    <Text asChild consumeCss>
+                      <div>&#8230;</div>
+                    </Text>
+                  </PaginationEllipsis>
+                ),
+              )
+            }
+          </PaginationContext>
+          <PaginationNextTrigger asChild>
+            <Button variant="tertiary">
+              {t("pagination.next")}
+              <ChevronRight />
+            </Button>
+          </PaginationNextTrigger>
+        </StyledPaginationRoot>
       </OneColumn>
     </>
   );

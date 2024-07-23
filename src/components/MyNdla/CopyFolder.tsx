@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
-import { MessageBox, useSnack } from "@ndla/ui";
+import { Button, Text, MessageBox } from "@ndla/primitives";
+import { useSnack } from "@ndla/ui";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
@@ -61,9 +61,9 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         <AddResourceContainer>
           <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
           {examLock ? (
-            <MessageBox>
+            <MessageBox variant="warning">
               <InformationOutline />
-              {t("myNdla.examLockInfo")}
+              <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           ) : (
             <>
@@ -73,14 +73,14 @@ const CopyFolder = ({ folder, onClose }: Props) => {
                 selectedFolderId={selectedFolderId}
                 setSelectedFolderId={setSelectedFolderId}
               />
-              <MessageBox>
+              <MessageBox variant="warning">
                 <InformationOutline />
-                {t("myNdla.copyFolderDisclaimer")}
+                <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
               </MessageBox>
               {copySharedFolderMutation.error && (
-                <MessageBox type="danger">
+                <MessageBox variant="error">
                   <WarningOutline />
-                  {t("errorMessage.description")}
+                  <Text>{t("errorMessage.description")}</Text>
                 </MessageBox>
               )}
             </>

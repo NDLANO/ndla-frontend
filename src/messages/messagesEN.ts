@@ -145,6 +145,7 @@ const messages = {
     search: "Search ndla.no",
     moreHits: "See more results",
   },
+  pagination: { next: "Next", prev: "Previous" },
 };
 
 export default messages;

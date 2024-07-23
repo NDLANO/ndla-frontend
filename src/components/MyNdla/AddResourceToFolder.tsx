@@ -20,6 +20,7 @@ import { Cross } from "@ndla/icons/action";
 import { ChevronDown, InformationOutline } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import {
+  MessageBox,
   Button,
   ComboboxContent,
   ComboboxItem,
@@ -28,11 +29,11 @@ import {
   IconButton,
   Input,
   InputContainer,
+  Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack } from "@ndla/styled-system/jsx";
 import {
-  MessageBox,
   TagSelectorClearTrigger,
   TagSelectorControl,
   TagSelectorInput,
@@ -228,9 +229,9 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         }}
       />
       {examLock ? (
-        <MessageBox>
+        <MessageBox variant="warning">
           <InformationOutline />
-          {t("myNdla.examLockInfo")}
+          <Text>{t("myNdla.examLockInfo")}</Text>
         </MessageBox>
       ) : (
         <>
@@ -243,12 +244,20 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && <MessageBox>{t("myNdla.alreadyInFolder")}</MessageBox>}
-            {selectedFolder?.status === "shared" && <MessageBox>{t("myNdla.addInSharedFolder")}</MessageBox>}
+            {alreadyAdded && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.alreadyInFolder")}</Text>
+              </MessageBox>
+            )}
+            {selectedFolder?.status === "shared" && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.addInSharedFolder")}</Text>
+              </MessageBox>
+            )}
             {noFolderSelected && (
-              <MessageBox type="danger">
+              <MessageBox variant="error">
                 <InformationOutline />
-                {t("myNdla.noFolderSelected")}
+                <Text>{t("myNdla.noFolderSelected")}</Text>
               </MessageBox>
             )}
           </StyledInfoMessages>

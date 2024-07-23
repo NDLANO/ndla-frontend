@@ -29,9 +29,8 @@ import {
 import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
 import { Folder } from "@ndla/icons/editor";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, MessageBox } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
-import { MessageBox } from "@ndla/ui";
 import NavigationLink from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { toHref } from "../../util/urlHelper";
@@ -108,10 +107,6 @@ const StyledSideBar = styled.div`
   }
 `;
 
-const MessageboxWrapper = styled.div`
-  margin-bottom: ${spacing.nsmall};
-`;
-
 const MoreButton = styled(Button)`
   display: flex;
   justify-content: flex-start;
@@ -167,9 +162,9 @@ const MyNdlaLayout = () => {
         </StyledSideBar>
         <StyledContent>
           {examLock && (
-            <MessageboxWrapper>
-              <MessageBox>{t("myNdla.examLockInfo")}</MessageBox>
-            </MessageboxWrapper>
+            <MessageBox variant="warning">
+              <Text>{t("myNdla.examLockInfo")}</Text>
+            </MessageBox>
           )}
           <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
         </StyledContent>

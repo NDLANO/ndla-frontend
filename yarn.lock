@@ -12311,7 +12311,6 @@ __metadata:
     "@ndla/icons": "npm:^7.0.9-alpha.0"
     "@ndla/licenses": "npm:^8.0.0-alpha.0"
     "@ndla/modal": "npm:^7.0.8-alpha.0"
-    "@ndla/pager": "npm:^4.0.5-alpha.0"
     "@ndla/preset-panda": "npm:^0.0.12"
     "@ndla/primitives": "npm:^0.0.22"
     "@ndla/safelink": "npm:^6.0.5-alpha.0"
