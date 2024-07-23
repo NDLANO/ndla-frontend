@@ -13,10 +13,10 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { MessageBox, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
-import { MessageBox } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -200,7 +200,9 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
           </GradesMenu>
           {grade?.missingProgrammeSubjects && (
             <MessageBoxWrapper>
-              <MessageBox>{t("messageBoxInfo.noContent")}</MessageBox>
+              <MessageBox variant="warning">
+                <Text>{t("messageBoxInfo.noContent")}</Text>
+              </MessageBox>
             </MessageBoxWrapper>
           )}
           {grade?.categories?.map((category) => (

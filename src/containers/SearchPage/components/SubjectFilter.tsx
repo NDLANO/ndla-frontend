@@ -13,9 +13,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, mq, breakpoints, spacing } from "@ndla/core";
 import { CheckboxItem, Label } from "@ndla/forms";
-import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, MessageBox, Text } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
-import { MessageBox } from "@ndla/ui";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 
 const OuterList = styled.ul`
@@ -139,7 +138,9 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
             <>
               {category.message && (
                 <MessageBoxWrapper>
-                  <MessageBox>{category.message}</MessageBox>
+                  <MessageBox variant="warning">
+                    <Text>{category.message}</Text>
+                  </MessageBox>
                 </MessageBoxWrapper>
               )}
               <SubjectList
