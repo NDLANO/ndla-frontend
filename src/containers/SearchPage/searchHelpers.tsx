@@ -139,7 +139,7 @@ export const mapResourcesToItems = (
     })),
     ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.metaImage.url}?width=${isLti ? "350" : "420"}`,
+        url: resource.metaImage.url,
         alt: resource.name ?? resource.metaImage?.alt ?? "",
       },
     }),
