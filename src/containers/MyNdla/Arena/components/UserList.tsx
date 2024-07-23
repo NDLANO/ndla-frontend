@@ -5,12 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { Spinner } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { rowStyle, StatusBox, StyledRow } from "./FlaggedPosts";
 import { Cell } from "./Users";
 import { isArenaModerator } from "../../../../components/AuthenticationContext";
 import { GQLArenaUserV2Fragment, GQLPaginatedArenaUsers } from "../../../../graphqlTypes";
@@ -21,44 +20,13 @@ interface Props {
   users: GQLPaginatedArenaUsers | undefined;
 }
 
-const StyledRow = styled.li`
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    text-decoration: underline;
-  }
-
-  color: ${colors.text.primary};
-  display: grid;
-  border: 1px solid ${colors.brand.light};
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
-  margin: ${spacing.xxsmall} 0px;
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  line-height: unset;
-  padding: ${spacing.small};
-`;
-
-const ModeratorTag = styled(Text)`
-  border-radius: ${misc.borderRadius};
-  padding: 2px ${spacing.small};
-  background-color: ${colors.brand.primary};
-  width: fit-content;
-  height: fit-content;
-  color: ${colors.white};
-`;
-
 const ModTag = ({ user }: { user: GQLArenaUserV2Fragment }) => {
   const { t } = useTranslation();
   if (!isArenaModerator(user.groups)) {
     return null;
   }
 
-  return (
-    <ModeratorTag textStyle="meta-text-xsmall" margin="none">
-      {t("user.moderator")}
-    </ModeratorTag>
-  );
+  return <StatusBox css={{ backgroundColor: "surface.brand.2.strong" }}>{t("user.moderator")}</StatusBox>;
 };
 
 const UserList = ({ loading, users }: Props) => {
@@ -71,7 +39,7 @@ const UserList = ({ loading, users }: Props) => {
       {users?.items.map((user) => {
         return (
           <SafeLink to={routes.myNdla.arenaUser(user.username)} key={`btn-${user.id}`}>
-            <StyledRow>
+            <StyledRow css={rowStyle}>
               <Cell>{user.username}</Cell>
               <Cell>{user.displayName}</Cell>
               <Cell>{user.location}</Cell>
