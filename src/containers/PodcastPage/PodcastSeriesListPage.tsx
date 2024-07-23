@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
 import { PaginationContext } from "@ark-ui/react";
-import { Spinner } from "@ndla/icons";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
   Button,
@@ -22,6 +21,7 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Text,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";

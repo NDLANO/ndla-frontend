@@ -11,10 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Cross, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
-import { Button, IconButton } from "@ndla/primitives";
+import { Button, IconButton, Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { constants } from "@ndla/ui";
 

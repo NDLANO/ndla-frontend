@@ -14,7 +14,6 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { transform } from "@ndla/article-converter";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { ChevronDown } from "@ndla/icons/common";
 import {
   AccordionItem,
@@ -23,6 +22,7 @@ import {
   AccordionItemTrigger,
   AccordionRoot,
   Heading,
+  Spinner,
 } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";

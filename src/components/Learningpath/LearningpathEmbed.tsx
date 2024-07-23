@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";

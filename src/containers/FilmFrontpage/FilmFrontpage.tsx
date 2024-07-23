@@ -13,8 +13,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-
+import { Spinner } from "@ndla/primitives";
 import AboutNdlaFilm from "./AboutNdlaFilm";
 import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";

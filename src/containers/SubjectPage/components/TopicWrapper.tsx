@@ -8,7 +8,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";

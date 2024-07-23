@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { rowStyle, StatusBox, StyledRow } from "./FlaggedPosts";
 import { Cell } from "./Users";

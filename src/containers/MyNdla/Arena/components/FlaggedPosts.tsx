@@ -11,7 +11,6 @@ import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationContext } from "@ark-ui/react";
-import { Spinner } from "@ndla/icons";
 import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
 import {
   Text,
@@ -21,6 +20,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
+  Spinner,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";

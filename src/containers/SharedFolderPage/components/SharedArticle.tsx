@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import SharedArticleContainer, { sharedArticleContainerFragments } from "./SharedArticleContainer";
 import {
   GQLFolderResource,
