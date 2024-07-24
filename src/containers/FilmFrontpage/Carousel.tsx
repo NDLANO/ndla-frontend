@@ -71,15 +71,10 @@ const StyledIconButton = styled(IconButton, {
     transform: "translateY(-20%)",
     zIndex: "overlay",
     marginInline: "medium",
-  },
-  variants: {
-    left: {
-      true: {
-        left: 0,
-      },
-      false: {
-        right: 0,
-      },
+    right: 0,
+    "&[data-left='true']": {
+      right: "unset",
+      left: 0,
     },
   },
 });
@@ -167,18 +162,17 @@ export const Carousel = ({ children, hideButtons }: Props) => {
   return (
     <CarouselWrapper>
       <StyledIconButton
-        aria-label={t("ndlaFilm.slideForwardsLabel")}
+        aria-label={t("ndlaFilm.slideBackwardsLabel")}
         variant="secondary"
-        left={true}
+        data-left={true}
         onClick={() => slidePage("left")}
         hidden={!showLeft || !!hideButtons}
       >
         <ChevronLeft />
       </StyledIconButton>
       <StyledIconButton
-        aria-label={t("ndlaFilm.slideBackwardsLabel")}
+        aria-label={t("ndlaFilm.slideForwardsLabel")}
         variant="secondary"
-        left={false}
         onClick={() => slidePage("right")}
         hidden={!showRight || !!hideButtons}
       >
