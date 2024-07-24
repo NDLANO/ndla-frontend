@@ -93,7 +93,6 @@
     "@lexical/react": "^0.12.4",
     "@ndla/article-converter": "^9.0.19-alpha.0",
     "@ndla/button": "^14.0.8-alpha.0",
-    "@ndla/carousel": "^5.0.8-alpha.0",
     "@ndla/core": "^5.0.1",
     "@ndla/dropdown-menu": "^1.0.38",
     "@ndla/error-reporter": "^2.0.2",
