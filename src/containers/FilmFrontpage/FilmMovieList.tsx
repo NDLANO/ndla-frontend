@@ -7,9 +7,8 @@
  */
 
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
@@ -17,37 +16,34 @@ import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
 interface Props {
   movies: GQLFilmMovieList_MovieFragment[];
   name?: string;
-  slideBackwardsLabel: string;
-  slideForwardsLabel: string;
 }
 
-const StyledSection = styled.section`
-  margin-bottom: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-bottom: ${spacing.large};
-  }
-`;
+const StyledSection = styled("section", {
+  base: {
+    paddingBlockEnd: "medium",
+  },
+});
 
-const StyledHeading = styled(Heading)`
-  margin: ${spacing.xsmall} 0;
-  margin-left: ${spacing.normal};
-  margin-right: ${spacing.normal};
-  ${mq.range({ from: breakpoints.desktop })} {
-    margin-left: ${spacing.xlarge};
-    margin-right: ${spacing.xlarge};
-  }
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    paddingBlock: "xsmall",
+    paddingInline: "3xlarge",
+    desktopDown: {
+      paddingInline: "medium",
+    },
+  },
+});
 
 const FilmMovieList = ({ name, movies = [] }: Props) => (
   <StyledSection>
     {!!name && (
-      <StyledHeading element="h2" headingStyle="list-title">
-        {name}
+      <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <h3>{name}</h3>
       </StyledHeading>
     )}
     <Carousel>
       {movies.map((movie) => (
-        <FilmContentCard key={movie.id} movie={movie} type="list" lazy />
+        <FilmContentCard key={movie.id} movie={movie} />
       ))}
     </Carousel>
   </StyledSection>

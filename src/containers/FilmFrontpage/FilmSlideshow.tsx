@@ -8,10 +8,10 @@
 
 import { useCallback, useState } from "react";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { Image } from "@ndla/primitives";
+import { Image, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
@@ -20,137 +20,130 @@ interface Props {
   slideshow: GQLFilmSlideshow_MovieFragment[];
 }
 
-const SlideInfoWrapper = styled.div`
-  position: absolute;
-  color: ${colors.white};
-  max-width: 40%;
-  min-width: 40%;
-  top: 40%;
-  right: 5%;
-  ${mq.range({ until: breakpoints.desktop })} {
-    top: 30%;
-    max-width: 60%;
-    min-width: 60%;
-  }
-  ${mq.range({ until: breakpoints.tablet })} {
-    max-width: 90%;
-    min-width: 90%;
-    left: 5%;
-  }
-`;
+const StyledImage = styled(Image, {
+  base: {
+    height: "surface.large",
+    objectPosition: "top",
+    width: "100%",
+    aspectRatio: "16/9",
+    objectFit: "cover",
+  },
+});
 
-const StyledSafeLink = styled(SafeLink)`
-  position: relative;
-  display: block;
-  box-shadow: none;
-`;
+const StyledText = styled(Text, {
+  base: {
+    backgroundColor: "surface.default",
+    paddingBlock: "xxsmall",
+    paddingInline: "xxsmall",
+    textDecoration: "underline",
+    borderBottomRadius: "4px",
+  },
+});
 
-const InfoWrapper = styled.div`
-  padding: ${spacing.normal};
-  border-radius: ${misc.borderRadius};
-  border: 0.5px solid ${colors.brand.primary};
-  background-color: rgba(11, 29, 45, 0.8);
-  h3 {
-    margin: 0px;
-  }
-`;
+const StyledSafeLinkCard = styled(SafeLink, {
+  base: {
+    maxHeight: "surface.xxsmall",
+    minHeight: "surface.xxsmall",
+    minWidth: "surface.small",
+    maxWidth: "surface.small",
 
-const StyledImg = styled(Image)`
-  max-height: 600px;
-  min-height: 600px;
-  object-position: top;
-  width: 100%;
-  aspect-ratio: 16/9;
-  ${mq.range({ until: breakpoints.tablet })} {
-    min-height: 440px;
-    max-height: 440px;
-  }
-  object-fit: cover;
-`;
+    display: "flex",
+    flexDirection: "column",
 
-const CarouselContainer = styled.div`
-  margin-top: -50px;
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-top: -70px;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    margin-top: -160px;
-  }
-`;
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "4px",
 
-const StyledFilmContentCard = styled(FilmContentCard)`
-  margin-bottom: 2%;
-  transition: all 200ms;
-  transform: translateY(10%);
-  &[data-current="true"] {
-    transform: translateY(0%);
-  }
-`;
+    transition: "all 200ms",
+    transform: "translateY(10%)",
+    "&[data-current='true']": {
+      transform: "translateY(0%)",
+    },
+
+    _hover: {
+      borderColor: "stroke.hover",
+      "& > p": {
+        textDecoration: "none",
+      },
+    },
+  },
+});
+
+const ImageWrapper = styled("div", {
+  base: {
+    position: "relative",
+    overflowY: "hidden",
+    borderTopRadius: "4px",
+  },
+});
+
+const StyledCarousel = styled(Carousel, {
+  base: {
+    justifyContent: "center",
+    paddingInline: "unset",
+    paddingBlockEnd: "medium",
+    marginBlockStart: "-large",
+    tablet: {
+      marginBlockStart: "-xlarge",
+    },
+    desktop: {
+      marginBlockStart: "-3xlarge",
+    },
+  },
+});
 
 const FilmSlideshow = ({ slideshow }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment>(slideshow[0]!);
+  const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const onHover = useCallback(
+    (movie: GQLFilmSlideshow_MovieFragment) => {
+      const timeout = setTimeout(() => setCurrentSlide(movie), 500);
+      setHoverCallback(timeout);
+    },
+    [setCurrentSlide],
+  );
 
   return (
     <section>
-      <StyledSafeLink to={currentSlide.path} tabIndex={-1} aria-hidden>
-        <StyledImg
-          src={currentSlide.metaImage?.url ?? ""}
-          sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
-          alt=""
-        />
-        <SlideInfoWrapper>
-          <InfoWrapper>
-            <h3>{currentSlide.title}</h3>
-            <span id="currentMovieDescription">{currentSlide.metaDescription}</span>
-          </InfoWrapper>
-        </SlideInfoWrapper>
-      </StyledSafeLink>
-      <CarouselContainer>
-        <Carousel hideButtons={true}>
+      <SafeLink to={currentSlide.path} tabIndex={-1} aria-hidden>
+        <ImageWrapper>
+          <StyledImage
+            src={currentSlide.metaImage?.url ?? ""}
+            sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
+            alt=""
+          />
+        </ImageWrapper>
+      </SafeLink>
+      <OneColumn wide>
+        <StyledCarousel hideButtons={true}>
           {slideshow.map((movie) => (
-            <FilmCard
+            <StyledSafeLinkCard
+              data-current={movie.id === currentSlide.id}
               key={movie.id}
-              current={movie.id === currentSlide.id}
-              movie={movie}
-              setCurrentSlide={setCurrentSlide}
-            />
+              onMouseDown={(e) => e.preventDefault()}
+              onMouseEnter={() => onHover(movie)}
+              onMouseLeave={() => {
+                if (hoverCallback) {
+                  clearTimeout(hoverCallback);
+                  setHoverCallback(undefined);
+                }
+              }}
+              onFocus={() => setCurrentSlide(movie)}
+              aria-describedby={"currentMovieDescription"}
+              to={movie.path}
+            >
+              <ImageWrapper>
+                <Image src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
+              </ImageWrapper>
+              <StyledText textStyle="label.large" fontWeight="bold">
+                {movie.title}
+              </StyledText>
+            </StyledSafeLinkCard>
           ))}
-        </Carousel>
-      </CarouselContainer>
+        </StyledCarousel>
+      </OneColumn>
     </section>
-  );
-};
-
-interface FilmCardProps {
-  setCurrentSlide: (movie: GQLFilmSlideshow_MovieFragment) => void;
-  movie: GQLFilmSlideshow_MovieFragment;
-  current: boolean;
-}
-
-const FilmCard = ({ setCurrentSlide, movie, current }: FilmCardProps) => {
-  const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  const onHover = useCallback(() => {
-    const timeout = setTimeout(() => setCurrentSlide(movie), 500);
-    setHoverCallback(timeout);
-  }, [movie, setCurrentSlide]);
-
-  return (
-    <StyledFilmContentCard
-      onMouseEnter={onHover}
-      onMouseLeave={() => {
-        if (hoverCallback) {
-          clearTimeout(hoverCallback);
-          setHoverCallback(undefined);
-        }
-      }}
-      onFocus={() => setCurrentSlide(movie)}
-      data-current={current}
-      hideTags
-      aria-describedby={"currentMovieDescription"}
-      key={movie.id}
-      movie={movie}
-    />
   );
 };
 
