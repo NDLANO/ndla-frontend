@@ -118,26 +118,6 @@ const SearchInnerPage = ({
     },
   });
 
-  const resetSelected = () => {
-    const filterUpdate = { ...typeFilter };
-    for (const [key, value] of Object.entries(filterUpdate)) {
-      const filters = value.filters?.map((filter) => {
-        filter.active = filter.id === "all";
-        return filter;
-      });
-      filterUpdate[key] = {
-        ...value,
-        filters,
-        selected: false,
-      };
-    }
-    handleSearchParamsChange({
-      activeSubFilters: [],
-      selectedFilters: undefined,
-    });
-    setTypeFilter(filterUpdate);
-  };
-
   const updateTypeFilter = <K extends keyof TypeFilter>(type: string, updates: Pick<TypeFilter, K>) => {
     const filterUpdate = { ...typeFilter };
     const filter = filterUpdate[type];
@@ -150,66 +130,34 @@ const SearchInnerPage = ({
     return filterUpdate;
   };
 
-  const getActiveFilters = (type: string) =>
-    typeFilter[type]?.filters.filter((f) => f.id !== "all" && f.active).map((f) => f.id) ?? [];
+  const getActiveFilters = (type: string) => typeFilter[type]?.filters.filter((f) => f.active).map((f) => f.id) ?? [];
 
-  const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
-    return Object.entries(typeFilters)
-      ?.filter(([, value]) => !!value.filters)
-      ?.flatMap(([key, value]) => {
-        return value.filters
-          ?.filter((filter) => !!filter.active && filter.id !== "all")
-          .map((filter) => `${key}:${filter.id}`);
-      });
-  };
-
-  const handleSubFilterClick = (type: string, filterId: string) => {
-    const updatedFilters = updateTypeFilter(type, { page: 1 });
-    const filters = typeFilter[type]?.filters;
-    const selectedFilter = filters?.find((item) => filterId === item.id);
-    if (!filters || !selectedFilter) return;
-    if (filterId === "all") {
-      filters.forEach((filter) => {
-        filter.active = filter.id === "all";
-      });
-      const toKeep = activeSubFilters.filter((asf) => !asf.startsWith(type));
-      handleSearchParamsChange({ activeSubFilters: toKeep });
+  const handleSubFilterClick = (filterIds: string[]) => {
+    // When last added element is all, remove all other filters
+    const lastAdded = filterIds[filterIds.length - 1];
+    if (lastAdded === "all") {
+      handleSearchParamsChange({ activeSubFilters: [] });
       fetchMore({
-        variables: getTypeParams([type], resourceTypes),
+        variables: getTypeParams([], resourceTypes),
       });
     } else {
-      const allFilter = filters.find((item) => "all" === item.id)!;
-      allFilter.active = false;
-      selectedFilter.active = !selectedFilter.active;
-      if (!filters.some((item) => item.active)) {
-        allFilter.active = true;
-      }
-      const subFilters = getActiveSubFilters(updatedFilters ?? []);
-      handleSearchParamsChange({ activeSubFilters: subFilters });
+      const updatedKeys = filterIds.filter((t) => t !== "all");
+      handleSearchParamsChange({ activeSubFilters: updatedKeys });
       fetchMore({
-        variables: getTypeParams(
-          filters.filter((filter) => filter.active && filter.id !== "all").map((f) => f.id),
-          resourceTypes,
-        ),
+        variables: getTypeParams(updatedKeys, resourceTypes),
       });
     }
   };
 
-  const handleFilterReset = () => {
-    resetSelected();
-  };
-
-  const handleFilterToggle = (type: string) => {
-    const selected = typeFilter[type]?.selected ?? false;
-    const updatedFilters = updateTypeFilter(type, {
-      page: 1,
-      pageSize: selected ? 6 : 12,
-      selected: !selected,
-    });
-    const selectedKeys = Object.entries(updatedFilters)
-      .filter(([, value]) => !!value.selected)
-      .map(([key]) => key);
-    handleSearchParamsChange({ selectedFilters: selectedKeys.join(",") });
+  const handleFilterToggle = (resourceTypeFilter: string[]) => {
+    // When last added element is all, remove all other filters
+    const lastAdded = resourceTypeFilter[resourceTypeFilter.length - 1];
+    if (lastAdded === "all") {
+      handleSearchParamsChange({ selectedFilters: [] });
+    } else {
+      const updatedKeys = resourceTypeFilter.filter((t) => t !== "all");
+      handleSearchParamsChange({ selectedFilters: updatedKeys });
+    }
   };
 
   const handleShowMore = (type: string) => {
@@ -261,7 +209,6 @@ const SearchInnerPage = ({
       handleSearchParamsChange={handleSearchParamsChange}
       handleSubFilterClick={handleSubFilterClick}
       handleFilterToggle={handleFilterToggle}
-      handleFilterReset={handleFilterReset}
       handleShowMore={handleShowMore}
       subjectIds={subjectIds}
       suggestion={suggestion}
@@ -275,6 +222,8 @@ const SearchInnerPage = ({
       isLti={isLti}
       competenceGoals={competenceGoals}
       coreElements={coreElements}
+      selectedFilters={selectedFilters}
+      activeSubFilters={activeSubFilters}
     />
   );
 };

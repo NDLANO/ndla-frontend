@@ -50,6 +50,7 @@ const messages = {
     subtitle: "Lytt og lær!",
   },
   subjectsPage: { tabFilter: "Kva fag vil du visa?" },
+  searchPage: { title: "Søk på ndla.no", filterSearch: "Filtrer søket ditt:" },
   myndla: {
     campaignBlock: {
       title: "Prøv praterobotane våre",

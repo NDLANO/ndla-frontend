@@ -44,7 +44,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
       <StyledText textStyle="title.small" id={tabFilterLabelId}>
         {t("subjectsPage.tabFilter")}
       </StyledText>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby={tabFilterLabelId}>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={onChange} aria-labelledby={tabFilterLabelId}>
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>

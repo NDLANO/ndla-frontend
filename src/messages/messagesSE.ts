@@ -49,6 +49,7 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  searchPage: { title: "Søk på ndla.no", filterSearch: "Filtrer søket ditt:" },
   myndla: {
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",

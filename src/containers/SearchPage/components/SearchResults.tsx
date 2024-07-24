@@ -8,18 +8,26 @@
 
 import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import emotionStyled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { Button, Spinner } from "@ndla/primitives";
-import { Heading, Text } from "@ndla/typography";
-import { ContentTypeBadge } from "@ndla/ui";
+import { Done } from "@ndla/icons/editor";
+import {
+  Heading,
+  Text,
+  Button,
+  Spinner,
+  CheckboxGroup,
+  CheckboxRoot,
+  CheckboxControl,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxHiddenInput,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
-import { ViewType } from "../searchTypes";
 
-const Wrapper = styled.section`
+const Wrapper = emotionStyled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -28,65 +36,57 @@ const Wrapper = styled.section`
   position: relative;
 `;
 
-const HeaderWrapper = styled.hgroup`
+const HeaderWrapper = emotionStyled.hgroup`
   display: flex;
   align-items: center;
-  gap: ${spacing.small};
+  gap: ${spacing.normal};
 `;
 
-const ButtonsWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
-
-const PaginationWrapper = styled.div`
+const PaginationWrapper = emotionStyled.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
   align-items: center;
 `;
 
-const ProgressBar = styled.div`
+const ProgressBar = emotionStyled.div`
   width: 200px;
   height: 2px;
   background: ${colors.brand.tertiary};
   margin: 0 0 ${spacing.small};
 `;
 
-const Progress = styled.span`
-  display: block;
-  background: ${colors.brand.primary};
-  height: 2px;
-  width: min(var(--width), 100%);
-`;
+const Progress = styled("span", {
+  base: { display: "block", background: "stroke.default", height: "2px", width: "min(var(--width),100%)" },
+});
 
-const SearchResultsList = styled.ul`
+const SearchResultsList = emotionStyled.ul`
   display: grid;
   align-items: flex-start;
   list-style: none;
   padding: 0;
   row-gap: ${spacing.normal};
   grid-template-columns: repeat(1, 1fr);
-  &[data-viewtype="grid"] {
-    ${mq.range({ from: breakpoints.tablet })} {
+  ${mq.range({ from: breakpoints.tablet })} {
       column-gap: ${spacing.normal};
       grid-template-columns: repeat(2, 1fr);
-    }
-
-    ${mq.range({ from: breakpoints.desktop })} {
+  }
+  ${mq.range({ from: breakpoints.desktop })} {
       grid-template-columns: repeat(3, 1fr);
-    }
   }
 `;
+
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+});
 
 interface Props {
   group: SearchGroup;
   typeFilter: Record<string, TypeFilter>;
-  handleSubFilterClick: (type: string, filterId: string) => void;
+  handleSubFilterClick: (filterIds: string[]) => void;
   handleShowMore: (type: string) => void;
   loading: boolean;
-  viewType: ViewType;
+  activeSubFilters: string[];
 }
 
 export const SearchResultGroup = ({
@@ -95,13 +95,14 @@ export const SearchResultGroup = ({
   handleShowMore,
   handleSubFilterClick,
   loading,
-  viewType,
+  activeSubFilters,
 }: Props) => {
   const { t } = useTranslation();
   const headingId = useId();
   const filter = typeFilter[group.type];
-  const filters =
-    filter?.filters.filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all") ?? [];
+  const filters = [{ id: "all", name: t("searchPage.resultType.all"), active: true }].concat(
+    filter?.filters.filter((filter) => group.resourceTypes.includes(filter.id)) ?? [],
+  );
   const toCount = filter ? filter?.page * filter.pageSize : 0;
 
   const onToTopHandler = useCallback(() => {
@@ -111,47 +112,38 @@ export const SearchResultGroup = ({
       behavior: "smooth",
     });
   }, []);
-
   return (
     <Wrapper key={`searchresult-${group.type}`}>
       <HeaderWrapper>
-        <ContentTypeBadge
-          type={group.type === "topic-article" ? "topic" : group.type}
-          background
-          size="large"
-          border={false}
-        />
-        <Heading element="h2" headingStyle="h4" margin="none" id={headingId}>
-          {group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}
+        <Heading textStyle="title.large" id={headingId} asChild consumeCss>
+          <h2>{group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}</h2>
         </Heading>
         {!!group.totalCount && (
-          <Text textStyle="meta-text-small" margin="none">
-            {t("searchPage.resultType.hits", { count: group.totalCount })}
-          </Text>
+          <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
         )}
       </HeaderWrapper>
-      {/* TODO: Maybe make this a ToggleGroup?  */}
-      <ButtonsWrapper>
-        {filters.map((filter) => (
-          <ButtonV2
-            size="xsmall"
-            shape="pill"
-            key={filter.id}
-            colorTheme={filter.active ? undefined : "greyLighter"}
-            onClick={() => handleSubFilterClick(group.type, filter.id)}
-          >
-            {filter.name}
-            {filter.active && <Cross />}
-          </ButtonV2>
-        ))}
-      </ButtonsWrapper>
-      <SearchResultsList data-viewtype={viewType}>
+      {filter?.filters.length ? (
+        <StyledCheckboxGroup onValueChange={handleSubFilterClick} value={activeSubFilters}>
+          {filters.map((filter) => (
+            <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
+              <CheckboxControl>
+                <CheckboxIndicator asChild>
+                  <Done />
+                </CheckboxIndicator>
+              </CheckboxControl>
+              <CheckboxLabel>{filter.name}</CheckboxLabel>
+              <CheckboxHiddenInput />
+            </CheckboxRoot>
+          ))}
+        </StyledCheckboxGroup>
+      ) : null}
+      <SearchResultsList>
         {group.items.slice(0, toCount).map((item) => (
           <SearchResultItem item={item} key={item.id} type={group.type} />
         ))}
       </SearchResultsList>
       <PaginationWrapper>
-        <Text textStyle="meta-text-medium">
+        <Text textStyle="label.medium">
           {toCount < group.totalCount
             ? t("searchPage.resultType.showing", {
                 count: toCount,

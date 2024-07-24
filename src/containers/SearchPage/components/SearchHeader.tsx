@@ -14,8 +14,7 @@ import { breakpoints, mq, spacing } from "@ndla/core";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, IconButton, Input, InputContainer } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { Button, IconButton, Input, InputContainer, Text, Heading } from "@ndla/primitives";
 import SubjectFilter from "./SubjectFilter";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
@@ -37,7 +36,7 @@ const MAX_SHOW_SUBJECT_FILTERS = 2;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${spacing.small};
+  gap: ${spacing.normal};
   margin-top: ${spacing.normal};
   ${mq.range({ from: breakpoints.tablet })} {
     margin-top: ${spacing.large};
@@ -63,6 +62,10 @@ const StyledModalHeader = styled(ModalHeader)`
 const StyledSearchWrapper = styled.div`
   display: flex;
   gap: ${spacing.xsmall};
+`;
+
+const StyledHitsWrapper = styled.div`
+  margin-top: ${spacing.xsmall};
 `;
 
 const SearchHeader = ({
@@ -121,69 +124,72 @@ const SearchHeader = ({
 
   return (
     <Wrapper>
-      <form action="/search/" onSubmit={handleSearchSubmit}>
-        <StyledSearchWrapper>
-          <InputContainer>
-            <Input
-              ref={inputRef}
-              type="search"
-              autoComplete="off"
-              id="search"
-              name="search"
-              placeholder={t("searchPage.searchFieldPlaceholder")}
-              value={searchValue}
-              onChange={(e) => onSearchValueChange(e.target.value)}
-            />
-            {searchValue && (
-              <IconButton
-                variant="clear"
-                aria-label={t("welcomePage.resetSearch")}
-                value={t("welcomePage.resetSearch")}
-                onClick={() => {
-                  onSearchValueChange("");
-                  inputRef.current?.focus();
-                }}
-              >
-                <Cross />
-              </IconButton>
-            )}
-          </InputContainer>
-          <IconButton
-            variant="primary"
-            type="submit"
-            aria-label={t("searchPage.search")}
-            title={t("searchPage.search")}
-          >
-            <Search />
-          </IconButton>
-        </StyledSearchWrapper>
-      </form>
-      <div aria-live="assertive">
-        {!loading && query && (
-          <div>
-            {noResults ? (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.noHitsShort", { query: query })}
-                {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
-              </Text>
-            ) : (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.resultType.showingSearchPhrase")} <b>&ldquo;{query}&rdquo;</b>
-              </Text>
-            )}
+      <Heading>{t("searchPage.title")}</Heading>
+      <div>
+        <form action="/search/" onSubmit={handleSearchSubmit}>
+          <StyledSearchWrapper>
+            <InputContainer>
+              <Input
+                ref={inputRef}
+                type="search"
+                autoComplete="off"
+                id="search"
+                name="search"
+                placeholder={t("searchPage.searchFieldPlaceholder")}
+                value={searchValue}
+                onChange={(e) => onSearchValueChange(e.target.value)}
+              />
+              {searchValue && (
+                <IconButton
+                  variant="clear"
+                  aria-label={t("welcomePage.resetSearch")}
+                  value={t("welcomePage.resetSearch")}
+                  onClick={() => {
+                    onSearchValueChange("");
+                    inputRef.current?.focus();
+                  }}
+                >
+                  <Cross />
+                </IconButton>
+              )}
+            </InputContainer>
+            <IconButton
+              variant="primary"
+              type="submit"
+              aria-label={t("searchPage.search")}
+              title={t("searchPage.search")}
+            >
+              <Search />
+            </IconButton>
+          </StyledSearchWrapper>
+        </form>
+        <StyledHitsWrapper aria-live="assertive">
+          {!loading && query && (
+            <div>
+              {noResults ? (
+                <Text textStyle="label.small">
+                  {t("searchPage.noHitsShort", { query: query })}
+                  {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
+                </Text>
+              ) : (
+                <Text textStyle="label.small">
+                  {t("searchPage.resultType.showingSearchPhrase")} &ldquo;{query}&rdquo;
+                </Text>
+              )}
 
-            {suggestion && (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.resultType.searchPhraseSuggestion")}
-                {/* TODO: Check if we should include an option for link variant to remove all padding */}
-                <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
-                  [{suggestion}]
-                </Button>
-              </Text>
-            )}
-          </div>
-        )}
-        {loading && <div aria-label={t("loading")} />}
+              {suggestion && (
+                <Text textStyle="label.small">
+                  {t("searchPage.resultType.searchPhraseSuggestion")}
+                  {/* TODO: Check if we should include an option for link variant to remove all padding */}
+                  <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
+                    [{suggestion}]
+                  </Button>
+                </Text>
+              )}
+            </div>
+          )}
+          {loading && <div aria-label={t("loading")} />}
+        </StyledHitsWrapper>
       </div>
       {!!grepElements.length && (
         <FiltersWrapper>

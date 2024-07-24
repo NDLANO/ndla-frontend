@@ -50,6 +50,7 @@ const messages = {
     subtitle: "Listen and learn!",
   },
   subjectsPage: { tabFilter: "Which subjects would you like to show?" },
+  searchPage: { title: "Search on ndla.no", filterSearch: "Filter your search results:" },
   myndla: {
     campaignBlock: {
       title: "Try our chatbot",
