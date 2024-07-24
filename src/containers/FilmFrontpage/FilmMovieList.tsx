@@ -8,11 +8,9 @@
 
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { Carousel } from "@ndla/carousel";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
-import { IconButton } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
+import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
 
@@ -40,28 +38,18 @@ const StyledHeading = styled(Heading)`
   }
 `;
 
-const FilmMovieList = ({ name, movies = [], slideBackwardsLabel, slideForwardsLabel }: Props) => (
+const FilmMovieList = ({ name, movies = [] }: Props) => (
   <StyledSection>
     {!!name && (
       <StyledHeading element="h2" headingStyle="list-title">
         {name}
       </StyledHeading>
     )}
-    <Carousel
-      leftButton={
-        <IconButton variant="secondary" aria-label={slideBackwardsLabel}>
-          <ChevronLeft />
-        </IconButton>
-      }
-      rightButton={
-        <IconButton variant="secondary" aria-label={slideForwardsLabel}>
-          <ChevronRight />
-        </IconButton>
-      }
-      items={movies.map((movie) => (
+    <Carousel>
+      {movies.map((movie) => (
         <FilmContentCard key={movie.id} movie={movie} type="list" lazy />
       ))}
-    />
+    </Carousel>
   </StyledSection>
 );
 
