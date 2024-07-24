@@ -8,8 +8,6 @@
 
 import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import emotionStyled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
 import {
   Heading,
@@ -27,54 +25,49 @@ import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
 
-const Wrapper = emotionStyled.section`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: ${spacing.normal};
-  margin: ${spacing.medium} 0;
-  position: relative;
-`;
+const Wrapper = styled("section", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    marginBlock: "medium",
+  },
+});
 
-const HeaderWrapper = emotionStyled.hgroup`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.normal};
-`;
+const HeaderWrapper = styled("hgroup", { base: { display: "flex", alignItems: "center", gap: "medium" } });
 
-const PaginationWrapper = emotionStyled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  align-items: center;
-`;
-
-const ProgressBar = emotionStyled.div`
-  width: 200px;
-  height: 2px;
-  background: ${colors.brand.tertiary};
-  margin: 0 0 ${spacing.small};
-`;
+const PaginationWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    alignItems: "center",
+  },
+});
+const ProgressBar = styled("div", {
+  base: {
+    width: "surface.xxsmall",
+    height: "1",
+    background: "stroke.subtle",
+  },
+});
 
 const Progress = styled("span", {
   base: { display: "block", background: "stroke.default", height: "2px", width: "min(var(--width),100%)" },
 });
 
-const SearchResultsList = emotionStyled.ul`
-  display: grid;
-  align-items: flex-start;
-  list-style: none;
-  padding: 0;
-  row-gap: ${spacing.normal};
-  grid-template-columns: repeat(1, 1fr);
-  ${mq.range({ from: breakpoints.tablet })} {
-      column-gap: ${spacing.normal};
-      grid-template-columns: repeat(2, 1fr);
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-      grid-template-columns: repeat(3, 1fr);
-  }
-`;
+const SearchResultsList = styled("ul", {
+  base: {
+    display: "grid",
+    alignItems: "flex-start",
+    listStyle: "none",
+    padding: "0",
+    rowGap: "medium",
+    gridTemplateColumns: "repeat(1, 1fr)",
+    tablet: { columnGap: "medium", gridTemplateColumns: "repeat(2,1fr)" },
+    desktop: { gridTemplateColumns: "repeat(3,1fr)" },
+  },
+});
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
@@ -99,11 +92,11 @@ export const SearchResultGroup = ({
 }: Props) => {
   const { t } = useTranslation();
   const headingId = useId();
-  const filter = typeFilter[group.type];
-  const filters = [{ id: "all", name: t("searchPage.resultType.all"), active: true }].concat(
-    filter?.filters.filter((filter) => group.resourceTypes.includes(filter.id)) ?? [],
+  const groupFilter = typeFilter[group.type];
+  const allFilters = [{ id: "all", name: t("searchPage.resultType.all"), active: true }].concat(
+    groupFilter?.filters.filter((filter) => group.resourceTypes.includes(filter.id)) ?? [],
   );
-  const toCount = filter ? filter?.page * filter.pageSize : 0;
+  const toCount = groupFilter ? groupFilter?.page * groupFilter.pageSize : 0;
 
   const onToTopHandler = useCallback(() => {
     window.scrollTo({
@@ -122,9 +115,9 @@ export const SearchResultGroup = ({
           <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
         )}
       </HeaderWrapper>
-      {filter?.filters.length ? (
+      {groupFilter?.filters.length ? (
         <StyledCheckboxGroup onValueChange={handleSubFilterClick} value={activeSubFilters}>
-          {filters.map((filter) => (
+          {allFilters.map((filter) => (
             <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
               <CheckboxControl>
                 <CheckboxIndicator asChild>
