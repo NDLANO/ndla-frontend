@@ -76,26 +76,19 @@ const StyledCheckboxGroup = styled(CheckboxGroup, {
 interface Props {
   group: SearchGroup;
   typeFilter: Record<string, TypeFilter>;
-  handleSubFilterClick: (filterIds: string[]) => void;
+  handleSubFilterClick: (type: string, filterIds: string[]) => void;
   handleShowMore: (type: string) => void;
   loading: boolean;
-  activeSubFilters: string[];
 }
 
-export const SearchResultGroup = ({
-  group,
-  typeFilter,
-  handleShowMore,
-  handleSubFilterClick,
-  loading,
-  activeSubFilters,
-}: Props) => {
+export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSubFilterClick, loading }: Props) => {
   const { t } = useTranslation();
   const headingId = useId();
   const groupFilter = typeFilter[group.type];
-  const allFilters = [{ id: "all", name: t("searchPage.resultType.all"), active: true }].concat(
-    groupFilter?.filters.filter((filter) => group.resourceTypes.includes(filter.id)) ?? [],
-  );
+  const filters =
+    groupFilter?.filters
+      .filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all")
+      .map((v) => ({ value: v.id, label: v.name })) ?? [];
   const toCount = groupFilter ? groupFilter?.page * groupFilter.pageSize : 0;
 
   const onToTopHandler = useCallback(() => {
@@ -116,15 +109,15 @@ export const SearchResultGroup = ({
         )}
       </HeaderWrapper>
       {groupFilter?.filters.length ? (
-        <StyledCheckboxGroup onValueChange={handleSubFilterClick} value={activeSubFilters}>
-          {allFilters.map((filter) => (
-            <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
+        <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
+          {filters.map((filter) => (
+            <CheckboxRoot key={filter.value} value={filter.value} variant="chip">
               <CheckboxControl>
                 <CheckboxIndicator asChild>
                   <Done />
                 </CheckboxIndicator>
               </CheckboxControl>
-              <CheckboxLabel>{filter.name}</CheckboxLabel>
+              <CheckboxLabel>{filter.label}</CheckboxLabel>
               <CheckboxHiddenInput />
             </CheckboxRoot>
           ))}

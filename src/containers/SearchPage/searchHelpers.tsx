@@ -205,14 +205,13 @@ export const mapSearchDataToGroups = (
 export interface TypeFilter {
   page: number;
   pageSize: number;
-  selected: boolean;
   filters: SubTypeFilter[];
+  selected: string[];
 }
 
 export interface SubTypeFilter {
-  id: string;
   name: string;
-  active: boolean;
+  id: string;
 }
 
 export const getTypeFilter = (
@@ -225,30 +224,21 @@ export const getTypeFilter = (
     "topic-article": {
       page: 1,
       pageSize: 6,
-      selected: selectedFilters?.some((f) => f === "topic-article"),
       filters: [],
+      selected: [],
     },
   };
-  const subFilterMapping = activeSubFilters.reduce<Record<string, boolean>>((acc, curr) => {
-    acc[curr] = true;
-    return acc;
-  }, {});
   if (resourceTypes) {
     resourceTypes.forEach((type) => {
       const filters: SubTypeFilter[] = [];
       if (type.subtypes) {
         const apiFilters = [...JSON.parse(JSON.stringify(type.subtypes))];
-        let hasActive = false;
-        const withActive = apiFilters.map((f) => {
-          if (subFilterMapping[`${contentTypeMapping[type.id]}:${f.id}`]) {
-            f.active = true;
-            hasActive = true;
-          }
-          return f;
+        apiFilters.sort((a, b) => a.id.localeCompare(b.id));
+        filters.push({
+          id: "all",
+          name: t("contentTypes.all"),
         });
-        withActive.sort((a, b) => a.id.localeCompare(b.id));
-
-        filters.push(...withActive);
+        filters.push(...apiFilters);
       }
       const isSelected = selectedFilters?.some((f) => f === contentTypeMapping[type.id]);
       const key = contentTypeMapping[type.id];
@@ -257,7 +247,7 @@ export const getTypeFilter = (
         filters,
         page: 1,
         pageSize: isSelected ? 12 : 6,
-        selected: isSelected,
+        selected: activeSubFilters.length ? activeSubFilters : ["all"],
       };
     });
   }

@@ -74,7 +74,7 @@ const SearchPage = () => {
           query={searchParams.query}
           subjectIds={searchParams.subjects}
           selectedFilters={searchParams.selectedFilters?.split(",") ?? ["all"]}
-          activeSubFilters={searchParams.activeSubFilters?.split(",") ?? ["all"]}
+          activeSubFilters={searchParams.activeSubFilters?.split(",") ?? []}
           subjectItems={subjectItems}
           subjects={data?.subjects}
           resourceTypes={data?.resourceTypes}

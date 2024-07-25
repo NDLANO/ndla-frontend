@@ -130,18 +130,20 @@ const SearchInnerPage = ({
     return filterUpdate;
   };
 
-  const getActiveFilters = (type: string) => typeFilter[type]?.filters.filter((f) => f.active).map((f) => f.id) ?? [];
+  const getActiveFilters = (type: string) => typeFilter[type]?.selected.filter((s) => s !== "all") ?? [];
 
-  const handleSubFilterClick = (filterIds: string[]) => {
+  const handleSubFilterClick = (type: string, filterIds: string[]) => {
     // When last added element is all, remove all other filters
     const lastAdded = filterIds[filterIds.length - 1];
     if (lastAdded === "all") {
+      updateTypeFilter(type, { page: 1, selected: ["all"] });
       handleSearchParamsChange({ activeSubFilters: [] });
       fetchMore({
         variables: getTypeParams([], resourceTypes),
       });
     } else {
       const updatedKeys = filterIds.filter((t) => t !== "all");
+      updateTypeFilter(type, { page: 1, selected: updatedKeys });
       handleSearchParamsChange({ activeSubFilters: updatedKeys });
       fetchMore({
         variables: getTypeParams(updatedKeys, resourceTypes),
@@ -163,7 +165,7 @@ const SearchInnerPage = ({
   const handleShowMore = (type: string) => {
     const filter = typeFilter[type];
     if (!filter) return;
-    const pageSize = showAll ? 6 : 12;
+    const pageSize = selectedFilters.includes("all") ? 6 : 12;
     const page = filter.page + 1;
     const currentGroup = data?.groupSearch?.find(
       (group) => type === (contentTypeMapping[group.resourceType] || group.resourceType),
@@ -202,8 +204,6 @@ const SearchInnerPage = ({
 
   const suggestion = data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
-  const showAll = !Object.values(typeFilter).some((value) => value.selected);
-
   return (
     <SearchContainer
       handleSearchParamsChange={handleSearchParamsChange}
@@ -217,13 +217,11 @@ const SearchInnerPage = ({
       subjectItems={subjectItems}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
-      showAll={showAll}
       loading={loading}
       isLti={isLti}
       competenceGoals={competenceGoals}
       coreElements={coreElements}
       selectedFilters={selectedFilters}
-      activeSubFilters={activeSubFilters}
     />
   );
 };

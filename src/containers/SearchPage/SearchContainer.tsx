@@ -64,16 +64,18 @@ const StyledCheckboxGroup = styled(CheckboxGroup, {
 });
 const StyledText = styled(Text, { base: { marginBottom: "small" } });
 
-const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>, showAll: boolean) => {
+const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
+  const showAll = selectedFilters.includes("all");
+  if (showAll) return searchGroups;
   return searchGroups.filter((group) => {
-    const filter = typeFilter[group.type];
-    return (showAll || filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+    const isSelected = selectedFilters.includes(group.type);
+    return (isSelected || group.type === contentTypes.SUBJECT) && !!group.items.length;
   });
 };
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
-  handleSubFilterClick: (filterIds: string[]) => void;
+  handleSubFilterClick: (type: string, filterIds: string[]) => void;
   handleFilterToggle: (type: string[]) => void;
   handleShowMore: (type: string) => void;
   query?: string;
@@ -85,11 +87,9 @@ interface Props {
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
-  showAll: boolean;
   loading: boolean;
   isLti?: boolean;
   selectedFilters: string[];
-  activeSubFilters: string[];
 }
 const SearchContainer = ({
   handleSearchParamsChange,
@@ -103,33 +103,30 @@ const SearchContainer = ({
   suggestion,
   typeFilter,
   searchGroups,
-  showAll,
   loading,
   isLti,
   competenceGoals,
   coreElements,
   selectedFilters,
-  activeSubFilters,
 }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeFilterId = useId();
 
-  const filterButtonItems = [];
-  for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find((group) => group.type === type)?.items?.length || typeFilter[type]?.selected) {
-      filterButtonItems.push({
-        value: type,
-        label: t(`contentTypes.${type}`),
-        selected: values.selected,
-      });
-    }
-  }
+  const filterButtonItems = Object.keys(typeFilter).reduce(
+    (acc, cur) => {
+      if (searchGroups.find((group) => group.type === cur)?.items?.length || selectedFilters.includes(cur)) {
+        return [...acc, { value: cur, label: t(`contentTypes.${cur}`) }];
+      }
+      return acc;
+    },
+    [] as { value: string; label: string }[],
+  );
 
-  const sortedFilterItems = [{ value: "all", label: t("searchPage.resultType.all"), selected: true }].concat(
+  const sortedFilterItems = [{ value: "all", label: t("searchPage.resultType.all") }].concat(
     sortResourceTypes(filterButtonItems, "value"),
   );
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
-  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, typeFilter, showAll);
+  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, selectedFilters);
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
 
   const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
@@ -214,7 +211,6 @@ const SearchContainer = ({
               handleShowMore={handleShowMore}
               loading={loading}
               typeFilter={typeFilter}
-              activeSubFilters={activeSubFilters}
             />
           ))}
           {isLti && (
