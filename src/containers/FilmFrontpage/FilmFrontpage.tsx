@@ -32,7 +32,7 @@ import { htmlTitle } from "../../util/titleHelper";
 const StyledUl = styled("ul", {
   base: {
     display: "grid",
-    gap: "xsmall",
+    gap: "medium",
 
     gridTemplateColumns: "1fr 1fr 1fr",
     tabletDown: {
@@ -45,8 +45,10 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     width: "100%",
     justifyContent: "start",
-    alignItems: "center",
-    textAlign: "left",
+    paddingLeft: "medium",
+    paddingRight: "medium",
+    paddingTop: "xsmall",
+    paddingBottom: "xsmall",
   },
 });
 

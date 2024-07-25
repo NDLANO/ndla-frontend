@@ -79,6 +79,12 @@ const LabelText = styled(Text, {
   },
 });
 
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    gap: "xsmall",
+  },
+});
+
 interface Props {
   onOptionSelected: (resourceType: MovieResourceType) => void;
   options: MovieResourceType[];
@@ -96,7 +102,7 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
       <LabelText textStyle="label.large" fontWeight="bold">
         {t("Filtrer filmer")}
       </LabelText>
-      <RadioGroupRoot
+      <StyledRadioGroupRoot
         orientation="horizontal"
         defaultValue={selectedOption?.id}
         onValueChange={(details) => onOptionSelected(options.find((option) => option.id === details.value)!)}
@@ -108,7 +114,7 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
             <RadioGroupItemHiddenInput />
           </StyledRadioGroupItem>
         ))}
-      </RadioGroupRoot>
+      </StyledRadioGroupRoot>
     </>
   );
 };
