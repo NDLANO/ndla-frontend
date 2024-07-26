@@ -8,13 +8,11 @@
 
 import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { breakpoints, mq, spacing } from "@ndla/core";
 import { Cross, Plus } from "@ndla/icons/action";
 import { Search } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button, IconButton, Input, InputContainer, Text, Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
@@ -33,40 +31,25 @@ interface Props {
 
 const MAX_SHOW_SUBJECT_FILTERS = 2;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  margin-top: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-top: ${spacing.large};
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    marginTop: "medium",
+    tablet: { marginTop: "large" },
+  },
+});
 
-const FiltersWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
+const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+const StyledModalBody = styled(ModalBody, { base: { display: "flex", flexDirection: "column", alignItems: "center" } });
 
-const StyledModalHeader = styled(ModalHeader)`
-  width: 100%;
-`;
+const StyledModalHeader = styled(ModalHeader, { base: { width: "100%" } });
 
-const StyledSearchWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-`;
+const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledHitsWrapper = styled.div`
-  margin-top: ${spacing.xsmall};
-`;
+const StyledHitsWrapper = styled("div", { base: { marginTop: "xsmall" } });
 
 const SearchHeader = ({
   query,
@@ -195,10 +178,10 @@ const SearchHeader = ({
         <FiltersWrapper>
           {/* TODO: Probably needs special handling */}
           {grepElements.map((grep) => (
-            <ButtonV2 key={grep.id} shape="pill" onClick={() => onGrepRemove(grep.id)}>
+            <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
               {grep.id}
               <Cross />
-            </ButtonV2>
+            </Button>
           ))}
         </FiltersWrapper>
       )}
@@ -211,17 +194,17 @@ const SearchHeader = ({
             </Button>
           </ModalTrigger>
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
-            <ButtonV2 key={subject.id} shape="pill" onClick={() => onToggleSubject(subject.id)}>
+            <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
               {subject.name}
               <Cross />
-            </ButtonV2>
+            </Button>
           ))}
           {activeSubjectFilters.length > MAX_SHOW_SUBJECT_FILTERS && (
-            <ButtonV2 shape="pill" onClick={() => setIsOpen(true)}>
+            <Button variant="primary" size="small" onClick={() => setIsOpen(true)}>
               {t("searchPage.searchFilterMessages.additionalSubjectFilters", {
                 count: activeSubjectFilters.length - MAX_SHOW_SUBJECT_FILTERS,
               })}
-            </ButtonV2>
+            </Button>
           )}
         </FiltersWrapper>
         <ModalContent size="full">
