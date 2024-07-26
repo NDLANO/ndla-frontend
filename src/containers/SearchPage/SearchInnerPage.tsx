@@ -79,6 +79,7 @@ const SearchInnerPage = ({
   const initialGQLCall = useRef(true);
 
   useEffect(() => {
+    console.log(selectedFilters);
     setTypeFilter(getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t));
   }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 
@@ -174,13 +175,14 @@ const SearchInnerPage = ({
     updateTypeFilter(type, { page });
     if (currentGroup?.resources.length === toCount) {
       const activeFilters = getActiveFilters(type);
+      const omitTypes = ["topic-article", "subject"];
       fetchMore({
         variables: {
           page: page,
           pageSize: pageSize,
           ...getTypeParams(
-            activeFilters.length ? activeFilters : type === "topic-article" ? [] : [type],
-            type === "topic-article" ? [] : resourceTypes,
+            activeFilters.length ? activeFilters : omitTypes.includes(type) ? [] : [type],
+            omitTypes.includes(type) ? [] : resourceTypes,
           ),
         },
       });

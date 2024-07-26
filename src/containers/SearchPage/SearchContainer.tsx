@@ -25,8 +25,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Heading } from "@ndla/typography";
 import { constants } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
-import { SearchResultGroup } from "./components/SearchResults";
-import SearchSubjectResult from "./components/SearchSubjectResult";
+import SearchResultItem from "./components/SearchResultItem";
+import { BaseSearchGroup, SearchResultGroup, SearchResultsList } from "./components/SearchResults";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
@@ -114,27 +114,32 @@ const SearchContainer = ({
 
   const filterButtonItems = Object.keys(typeFilter).reduce(
     (acc, cur) => {
-      if (searchGroups.find((group) => group.type === cur)?.items?.length || selectedFilters.includes(cur)) {
+      if (
+        searchGroups.find((group) => group.type === cur)?.items?.length ||
+        selectedFilters.includes(cur) ||
+        (subjectItems?.length && cur === "subject")
+      ) {
         return [...acc, { value: cur, label: t(`contentTypes.${cur}`) }];
       }
       return acc;
     },
-    [] as { value: string; label: string }[],
+    [{ value: "all", label: t("searchPage.resultType.all") }] as { value: string; label: string }[],
   );
 
-  const sortedFilterItems = [{ value: "all", label: t("searchPage.resultType.all") }].concat(
-    sortResourceTypes(filterButtonItems, "value"),
-  );
+  const sortedFilterItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
   const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, selectedFilters);
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
-
+  console.log(sortedSearchGroups);
   const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
     title: element.title,
     text: element.description ?? "",
     id: element.id,
     url: "",
   }));
+
+  const displaySubjectItems = subjectItems && subjectItems?.length > 0 && !subjectIds.length;
+  const toCountSubjectItems = typeFilter["subject"] ? typeFilter["subject"].page * typeFilter["subject"].pageSize : 0;
 
   return (
     <StyledMain>
@@ -171,58 +176,74 @@ const SearchContainer = ({
           )}
         </CompetenceWrapper>
       )}
-      {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
       {loading && searchGroups.length === 0 && (
         <div aria-live="assertive">
           <Spinner />
         </div>
       )}
-      {searchGroups && searchGroups.length > 0 && (
-        <div>
-          {sortedFilterItems.length > 1 && (
-            <>
-              <StyledText textStyle="title.small" id={resourceTypeFilterId}>
-                {t("searchPage.filterSearch")}
-              </StyledText>
-              <StyledCheckboxGroup
-                value={selectedFilters}
-                onValueChange={handleFilterToggle}
-                aria-labelledby={resourceTypeFilterId}
-              >
-                {sortedFilterItems.map((item) => (
-                  <CheckboxRoot key={item.value} value={item.value} variant="chip">
-                    <CheckboxControl>
-                      <CheckboxIndicator asChild>
-                        <Done />
-                      </CheckboxIndicator>
-                    </CheckboxControl>
-                    <CheckboxLabel>{item.label}</CheckboxLabel>
-                    <CheckboxHiddenInput />
-                  </CheckboxRoot>
-                ))}
-              </StyledCheckboxGroup>
-            </>
-          )}
-          {filteredSortedSearchGroups.map((group) => (
-            <SearchResultGroup
-              key={`searchresultgroup-${group.type}`}
-              group={group}
-              handleSubFilterClick={handleSubFilterClick}
-              handleShowMore={handleShowMore}
-              loading={loading}
-              typeFilter={typeFilter}
-            />
-          ))}
-          {isLti && (
-            <StyledLanguageSelector>
-              <LanguageSelector
-                items={supportedLanguages}
-                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+      <div>
+        {sortedFilterItems.length > 1 && (
+          <>
+            <StyledText textStyle="title.small" id={resourceTypeFilterId}>
+              {t("searchPage.filterSearch")}
+            </StyledText>
+            <StyledCheckboxGroup
+              value={selectedFilters}
+              onValueChange={handleFilterToggle}
+              aria-labelledby={resourceTypeFilterId}
+            >
+              {sortedFilterItems.map((item) => (
+                <CheckboxRoot key={item.value} value={item.value} variant="chip">
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <Done />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxLabel>{item.label}</CheckboxLabel>
+                  <CheckboxHiddenInput />
+                </CheckboxRoot>
+              ))}
+            </StyledCheckboxGroup>
+          </>
+        )}
+        {displaySubjectItems && selectedFilters.includes("subject") && (
+          <BaseSearchGroup
+            loading={loading}
+            groupType="subject"
+            totalCount={subjectItems.length}
+            toCount={toCountSubjectItems}
+            handleShowMore={handleShowMore}
+          >
+            <SearchResultsList>
+              {subjectItems.slice(0, toCountSubjectItems).map((item) => (
+                <SearchResultItem item={item} key={item.id} type="subject" />
+              ))}
+            </SearchResultsList>
+          </BaseSearchGroup>
+        )}
+        {searchGroups && searchGroups.length > 0 && (
+          <>
+            {filteredSortedSearchGroups.map((group) => (
+              <SearchResultGroup
+                key={`searchresultgroup-${group.type}`}
+                group={group}
+                handleSubFilterClick={handleSubFilterClick}
+                handleShowMore={handleShowMore}
+                loading={loading}
+                typeFilter={typeFilter}
               />
-            </StyledLanguageSelector>
-          )}
-        </div>
-      )}
+            ))}
+            {isLti && (
+              <StyledLanguageSelector>
+                <LanguageSelector
+                  items={supportedLanguages}
+                  onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+                />
+              </StyledLanguageSelector>
+            )}
+          </>
+        )}
+      </div>
     </StyledMain>
   );
 };

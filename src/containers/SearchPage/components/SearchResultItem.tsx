@@ -15,9 +15,10 @@ import { SafeLink } from "@ndla/safelink";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 import { SearchItem } from "../searchHelpers";
+import { SubjectItem } from "../SearchInnerPage";
 
 interface Props {
-  item: SearchItem;
+  item: SearchItem | SubjectItem;
   type: string;
 }
 const LtiWrapper = styled.div`
@@ -29,11 +30,11 @@ const LtiWrapper = styled.div`
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
   const contentType = type === "topic-article" ? "topic" : type;
-
+  const isSearchItem = "ingress" in item;
   return (
     <li>
       <CardRoot>
-        {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
+        {isSearchItem && item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading>
@@ -41,10 +42,10 @@ const SearchResultItem = ({ item, type }: Props) => {
               {item.title}
             </SafeLink>
           </CardHeading>
-          <Text>{parse(item.ingress)}</Text>
+          {isSearchItem && <Text>{parse(item.ingress)}</Text>}
         </CardContent>
       </CardRoot>
-      <LtiWrapper>{item.children}</LtiWrapper>
+      {isSearchItem && <LtiWrapper>{item.children}</LtiWrapper>}
     </li>
   );
 };

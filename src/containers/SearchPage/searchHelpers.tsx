@@ -157,6 +157,7 @@ export const mapResourcesToItems = (
 
 export const sortResourceTypes = <T extends Record<string, any>>(array: T[], value: keyof T) => {
   const sortedResourceTypes = [
+    "subject",
     "topic-article",
     "subject-material",
     "tasks-and-activities",
@@ -221,9 +222,10 @@ export const getTypeFilter = (
   t: TFunction,
 ): Record<string, TypeFilter> => {
   const typeFilter: Record<string, TypeFilter> = {
+    subject: { page: 1, pageSize: selectedFilters.some((s) => s === "subject") ? 12 : 6, filters: [], selected: [] },
     "topic-article": {
       page: 1,
-      pageSize: 6,
+      pageSize: selectedFilters.some((s) => s === "topic-article") ? 12 : 6,
       filters: [],
       selected: [],
     },
