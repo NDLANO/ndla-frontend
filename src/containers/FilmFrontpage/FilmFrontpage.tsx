@@ -45,10 +45,8 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     width: "100%",
     justifyContent: "start",
-    paddingLeft: "medium",
-    paddingRight: "medium",
-    paddingTop: "xsmall",
-    paddingBottom: "xsmall",
+    paddingInline: "medium",
+    paddingBlock: "xsmall",
   },
 });
 
