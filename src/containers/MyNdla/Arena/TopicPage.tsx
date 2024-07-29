@@ -10,10 +10,9 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Eye } from "@ndla/icons/editor";
+import { Button, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -123,11 +122,11 @@ const TopicPage = () => {
             </Heading>
             {user?.isModerator && (
               <ModeratorButtonWrapper>
-                <ButtonV2 onClick={() => setIsEditing((prev) => !prev)}>
+                <Button size="small" onClick={() => setIsEditing((prev) => !prev)}>
                   {isEditing
                     ? t("myNdla.arena.admin.category.stopEditing")
                     : t("myNdla.arena.admin.category.startEditing")}
-                </ButtonV2>
+                </Button>
                 <SafeLinkButton to={`/minndla/arena/category/new?parent-id=${arenaCategory.id}`}>
                   {t("myNdla.arena.admin.category.form.newCategory")}
                 </SafeLinkButton>

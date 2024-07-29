@@ -10,7 +10,7 @@ import { CSSProperties, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
+import { colors, misc, spacing, stackOrder } from "@ndla/core";
 import { LearningPathRead } from "@ndla/icons/contentType";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
@@ -21,7 +21,7 @@ import {
   GQLLearningpathMenu_LearningpathStepFragment,
   GQLLearningpathMenu_ResourceFragment,
 } from "../../graphqlTypes";
-import { toLearningPath, useIsNdlaFilm } from "../../routeHelpers";
+import { toLearningPath } from "../../routeHelpers";
 import { getContentType } from "../../util/getContentType";
 import FavoriteButton from "../Article/FavoritesButton";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
@@ -69,14 +69,6 @@ const StyledSafeLink = styled(SafeLink)`
   &:focus-within {
     text-decoration: underline;
     text-underline-offset: 5px;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    &[data-inverted="true"]:not([aria-current="page"]) {
-      color: ${colors.white};
-    }
-    &[data-inverted="true"][aria-current="page"] {
-      color: ${colors.text.primary};
-    }
   }
 
   &:not([data-last="true"]) {
@@ -127,34 +119,17 @@ const MenuWrapper = styled.div`
   min-width: 300px;
   padding-top: ${spacing.normal};
   padding-right: ${spacing.small};
-  ${mq.range({ from: breakpoints.desktop })} {
-    &[data-inverted="true"] {
-      color: ${colors.white};
-    }
-  }
 `;
 
 const LearningpathText = styled(Text)`
   color: ${colors.text.light};
   text-transform: uppercase;
-  ${mq.range({ from: breakpoints.desktop })} {
-    &[data-inverted="true"] {
-      color: ${colors.white};
-    }
-  }
 `;
 
 const StyledText = styled(Text)`
   top: 50%;
   left: 150%;
 `;
-
-const getLineColor = (afterCurrent: boolean, inverted: boolean) => {
-  if (inverted) {
-    return afterCurrent ? colors.brand.greyLighter : colors.text.light;
-  }
-  return afterCurrent ? colors.brand.greyLighter : colors.text.primary;
-};
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
@@ -165,7 +140,6 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
   const headingId = useId();
-  const ndlaFilm = useIsNdlaFilm();
 
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
 
@@ -190,8 +164,8 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
   }, [currentStep.id]);
 
   return (
-    <MenuWrapper data-inverted={ndlaFilm}>
-      <LearningpathText margin="none" data-inverted={ndlaFilm} textStyle="meta-text-small">
+    <MenuWrapper>
+      <LearningpathText margin="none" textStyle="meta-text-small">
         {t("learningPath.youAreInALearningPath")}
       </LearningpathText>
       <HeaderWrapper>
@@ -218,13 +192,12 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
               style={
                 {
                   "--width": index >= currentStep.seqNo ? "2px" : "4px",
-                  "--color": getLineColor(index >= currentStep.seqNo, ndlaFilm),
+                  "--color": index >= currentStep.seqNo ? colors.brand.greyLighter : colors.text.primary,
                 } as CSSProperties
               }
             >
               <StyledSafeLink
                 to={toLearningPath(learningpath.id, step.id, resource)}
-                data-inverted={ndlaFilm}
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
               >

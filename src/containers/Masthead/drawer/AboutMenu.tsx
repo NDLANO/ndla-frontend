@@ -9,12 +9,10 @@
 import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
-import DrawerRowHeader from "./DrawerRowHeader";
+import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import {
   GQLAboutMenuFragment,
@@ -161,59 +159,57 @@ const NewAboutMenuPortion = ({
   }
 
   return (
-    <PortionWrapper>
-      <DrawerPortion>
-        <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
-        <DrawerList id={`list-${item.article.slug}`}>
-          <DrawerRowHeader
-            id={item.article.slug}
-            title={item.article.title}
-            type="link"
+    <DrawerPortion>
+      <BackButton title={t("masthead.menu.goToMainMenu")} homeButton={homeButton} onGoBack={onGoBack} />
+      <DrawerList id={`list-${item.article.slug}`}>
+        <DrawerListItem role="none" data-list-item>
+          <DrawerHeaderLink
+            tabIndex={-1}
+            role="menuitem"
             to={toAbout(item.article.slug)}
-            onClose={onClose}
-            active={!selected}
-          />
-          {item.menu?.map((link) => {
-            const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
-            if (link.hideLevel) {
-              return null;
-            }
-            if (!link.menu?.length || allSublevelsHidden) {
-              return (
-                <DrawerMenuItem
-                  key={link.article.slug}
-                  id={link.article.slug!}
-                  type="link"
-                  onClose={onClose}
-                  current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
-                  to={toAbout(link.article.slug)}
-                >
-                  {link.article.title}
-                </DrawerMenuItem>
-              );
-            }
+            onClick={onClose}
+            id={`header-${item.article.slug}`}
+            data-active={!selected}
+            variant="link"
+          >
+            {item.article.title}
+          </DrawerHeaderLink>
+        </DrawerListItem>
+        {item.menu?.map((link) => {
+          const allSublevelsHidden = link.menu?.every((subItem) => subItem.hideLevel) ?? false;
+          if (link.hideLevel) {
+            return null;
+          }
+          if (!link.menu?.length || allSublevelsHidden) {
             return (
               <DrawerMenuItem
-                id={link.article.slug!}
                 key={link.article.slug}
-                active={nextItem?.article.slug === link.article.slug}
-                type="button"
-                onClick={() => onGoRight(link.article.slug)}
+                id={link.article.slug!}
+                type="link"
+                onClose={onClose}
+                current={checkIfNoCurrent(link.article.slug, slug, unfilteredMenuItems)}
+                to={toAbout(link.article.slug)}
               >
                 {link.article.title}
               </DrawerMenuItem>
             );
-          })}
-        </DrawerList>
-      </DrawerPortion>
-    </PortionWrapper>
+          }
+          return (
+            <DrawerMenuItem
+              id={link.article.slug!}
+              key={link.article.slug}
+              active={nextItem?.article.slug === link.article.slug}
+              type="button"
+              onClick={() => onGoRight(link.article.slug)}
+            >
+              {link.article.title}
+            </DrawerMenuItem>
+          );
+        })}
+      </DrawerList>
+    </DrawerPortion>
   );
 };
-
-const PortionWrapper = styled.div`
-  display: flex;
-  flex: 1;
-`;
 
 const aboutMenuFragment = gql`
   fragment AboutMenu on FrontpageMenu {

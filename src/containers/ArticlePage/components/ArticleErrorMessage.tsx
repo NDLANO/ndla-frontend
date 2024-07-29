@@ -24,7 +24,7 @@ const ArticleErrorMessage = ({ status, children }: Props) => {
 
   return (
     <OneColumn>
-      <ArticleWrapper modifier="clean">
+      <ArticleWrapper>
         <ErrorMessage
           illustration={{
             url: status === 404 ? "/static/not-exist.gif" : "/static/oops.gif",

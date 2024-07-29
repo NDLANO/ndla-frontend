@@ -13,6 +13,7 @@ import {
   GQLArenaCategoryFragment,
   GQLArenaCategoryV2Fragment,
   GQLArenaNotificationV2Fragment,
+  GQLArenaPostFragment,
   GQLArenaPostV2Fragment,
   GQLArenaTopicFragment,
   GQLArenaTopicV2Fragment,
@@ -148,6 +149,40 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
 
   const { refetch: nodebbRefetch } = nodebbQueries.useArenaNotifications();
 
+  const nodebbPostToArenaPost = (post: GQLArenaPostFragment) =>
+    ({
+      ...post,
+      __typename: "ArenaPostV2",
+      contentAsHTML: post.content,
+      created: post.timestamp,
+      updated: post.timestamp,
+      upvotes: post.upvotes,
+      upvoted: post.upvoted,
+      owner: {
+        displayName: post.user.displayName,
+        id: -1,
+        username: post.user.username,
+        location: post.user.location,
+        groups: [],
+      },
+      replies: post.replies?.map((reply) => ({
+        ...reply,
+        __typename: "ArenaPostV2",
+        contentAsHTML: reply.content,
+        created: reply.timestamp,
+        updated: reply.timestamp,
+        upvotes: post.upvotes,
+        upvoted: post.upvoted,
+        owner: {
+          displayName: reply.user.displayName,
+          id: -1,
+          username: reply.user.username,
+          location: reply.user.location,
+          groups: [],
+        },
+      })),
+    }) as GQLArenaPostV2Fragment;
+
   const {
     arenaTopic: nodebbArenaTopic,
     loading: nodebbLoading,
@@ -164,7 +199,7 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
   });
 
   if (!config.enableNodeBB) return { arenaTopic, loading, error };
-  else
+  else {
     return {
       arenaTopic: {
         ...nodebbArenaTopic,
@@ -176,22 +211,7 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
           totalCount: nodebbArenaTopic?.postCount,
           page: 1,
           pageSize: 100,
-          items: nodebbArenaTopic?.posts?.map((post) => {
-            return {
-              ...post,
-              __typename: "ArenaPostV2",
-              contentAsHTML: post.content,
-              created: post.timestamp,
-              updated: post.timestamp,
-              owner: {
-                displayName: post.user.displayName,
-                id: -1,
-                username: post.user.username,
-                location: post.user.location,
-                groups: [],
-              },
-            } as GQLArenaPostV2Fragment;
-          }),
+          items: nodebbArenaTopic?.posts?.map(nodebbPostToArenaPost),
         },
         isLocked: nodebbArenaTopic?.locked,
       } as GQLArenaTopicV2Fragment & {
@@ -202,6 +222,7 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
       loading: nodebbLoading,
       error: nodebbError,
     };
+  }
 };
 
 export const useArenaUser = (username: string | undefined) => {
@@ -337,7 +358,11 @@ export const useArenaReplyToTopicMutation = (topicId: number) => {
     refetchQueries: [
       {
         query: nodebbQueries.arenaTopicById,
-        variables: { topicId, page: 1, pageSize: 100 },
+        variables: {
+          topicId,
+          page: 1,
+          pageSize: 100,
+        },
       },
     ],
   });
@@ -477,6 +502,36 @@ export const useArenaCreateTopic = (categoryId: string | undefined) => {
   else return createArenaTopic;
 };
 
+export const useArenaPostUpvote = (topicId: number) => {
+  const upvotePost = myndlaMutations.useUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+  const upvoteNodeBBPost = nodebbMutations.useUpvotePost();
+
+  if (config.enableNodeBB) return upvoteNodeBBPost;
+  else return upvotePost;
+};
+
+export const useArenaPostRemoveUpvote = (topicId: number) => {
+  const removeUpvotePost = myndlaMutations.useRemoveUpvotePostV2({
+    refetchQueries: [
+      {
+        query: myndlaQueries.arenaTopicByIdV2,
+        variables: { topicId, page: 1, pageSize: 100 },
+      },
+    ],
+  });
+  const removeUpvoteNodeBBPost = nodebbMutations.useRemoveUpvotePost();
+
+  if (config.enableNodeBB) return removeUpvoteNodeBBPost;
+  else return removeUpvotePost;
+};
+
 export const useTemporaryArenaNotifications = (skip?: boolean) => {
   const { notifications, loading } = myndlaQueries.useArenaNotifications({
     skip: config.enableNodeBB || skip,
@@ -503,6 +558,8 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
             created: notification.datetimeISO,
             topicId: notification.topicId,
             updated: notification.datetimeISO,
+            upvotes: 0,
+            upvoted: false,
             owner: {
               __typename: "ArenaUserV2",
               id: notification.user.id,
@@ -511,6 +568,7 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
               location: "",
               groups: [],
             },
+            replies: [],
           },
         };
       }) ?? [];

@@ -8,11 +8,10 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
 import { TrashCanOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
-import DeleteModalContent from "../components/DeleteModalContent";
-import { buttonCss } from "../components/toolbarStyles";
+import { Button } from "@ndla/primitives";
+import DeleteModalContent from "../../components/DeleteModalContent";
 
 interface Props {
   onDelete: () => void;
@@ -26,16 +25,10 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <ButtonV2
-          css={buttonCss}
-          variant="ghost"
-          colorTheme="danger"
-          aria-label={t("myNdla.folder.delete")}
-          title={t("myNdla.folder.delete")}
-        >
-          <TrashCanOutline size="nsmall" />
+        <Button variant="danger" aria-label={t("myNdla.folder.delete")} title={t("myNdla.folder.delete")}>
+          <TrashCanOutline size="small" />
           {t("myNdla.folder.deleteShort")}
-        </ButtonV2>
+        </Button>
       </ModalTrigger>
       <DeleteModalContent
         onClose={onClose}

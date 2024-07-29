@@ -10,7 +10,7 @@ import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Tabs } from "@ndla/tabs";
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import AudioLicenseList from "../../../components/license/AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "../../../components/license/ConceptLicenseList";
 import H5pLicenseList from "../../../components/license/H5pLicenseList";
@@ -85,9 +85,26 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
   const tabs = useMemo(() => buildLicenseTabList(metaData, t), [metaData, t]);
 
   return (
-    <div>
-      <Tabs tabs={tabs} />
-    </div>
+    <TabsRoot
+      defaultValue="images"
+      orientation="horizontal"
+      variant="line"
+      translations={{ listLabel: t("tabs.licenseBox") }}
+    >
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.id} value={tab.id}>
+            {tab.title}
+          </TabsTrigger>
+        ))}
+        <TabsIndicator />
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.id} value={tab.id}>
+          {tab.content}
+        </TabsContent>
+      ))}
+    </TabsRoot>
   );
 };
 

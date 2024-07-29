@@ -13,6 +13,7 @@ import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
@@ -24,6 +25,7 @@ import LearningpathPage, { learningpathPageFragments } from "../LearningpathPage
 import MovedResourcePage from "../MovedResourcePage/MovedResourcePage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
+import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) => {
   return resource.paths?.find((p) => location.pathname.includes(p));
@@ -95,6 +97,7 @@ const ResourcePage = () => {
     },
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
+  const responseContext = useContext(ResponseContext);
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
@@ -111,6 +114,11 @@ const ResourcePage = () => {
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
+    return <UnpublishedResource />;
+  }
+
+  if (responseContext?.status === 410) {
+    return <UnpublishedResource />;
   }
 
   if (!data) {

@@ -19,7 +19,6 @@ export default defineConfig(() => {
     },
     plugins: [
       react({
-        jsxImportSource: "@emotion/react",
         babel: {
           configFile: "./babel.config.cjs",
         },
@@ -47,6 +46,7 @@ export default defineConfig(() => {
         "@radix-ui/react-menu",
         "@radix-ui/react-popover",
         "@radix-ui/react-switch",
+        "@radix-ui/react-slider",
         "react-router",
         "react-router-dom",
         "react-helmet-async",
@@ -54,6 +54,7 @@ export default defineConfig(() => {
         "react-i18next",
         "@emotion/react",
         "@emotion/styled",
+        "@ark-ui/react",
       ],
     },
   };

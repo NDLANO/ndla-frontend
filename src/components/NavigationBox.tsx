@@ -12,16 +12,9 @@ import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { Additional, HumanMaleBoard } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading } from "@ndla/typography";
-import { useIsNdlaFilm } from "../routeHelpers";
 
 const StyledWrapper = styled.nav`
   margin: ${spacing.normal} 0 ${spacing.mediumlarge};
-`;
-
-const StyledHeading = styled(Heading)`
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
 `;
 
 const StyledList = styled.ul`
@@ -96,7 +89,6 @@ const StyledListElementWrapper = styled.div`
 const StyledSafeLinkButton = styled(SafeLinkButton)`
   display: flex;
   flex: 1;
-  width: 100%;
   height: 100%;
   text-align: left;
   padding-left: ${spacing.xxsmall};
@@ -125,14 +117,13 @@ type Props = {
 };
 
 export const NavigationBox = ({ heading, colorMode = "primary", items, listDirection = "horizontal" }: Props) => {
-  const inverted = useIsNdlaFilm();
   const { t } = useTranslation();
   return (
     <StyledWrapper>
       {heading && (
-        <StyledHeading element="h2" margin="small" headingStyle="list-title" data-inverted={inverted}>
+        <Heading element="h2" margin="small" headingStyle="list-title">
           {heading}
-        </StyledHeading>
+        </Heading>
       )}
       <StyledList data-testid="nav-box-list" data-direction={listDirection}>
         {items?.map((item) => (
@@ -144,9 +135,8 @@ export const NavigationBox = ({ heading, colorMode = "primary", items, listDirec
             >
               <StyledSafeLinkButton
                 to={item.url ?? ""}
-                colorTheme={item.selected ? "darker" : colorMode}
-                size="medium"
-                shape="sharp"
+                // TODO: Fix handling of active safeLinkButton according to design
+                variant={item.selected ? "secondary" : "primary"}
               >
                 <StyledButtonContentText>
                   <StyledMarksWrapper>

@@ -10,9 +10,9 @@ import { HTMLProps } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { DragVertical } from "@ndla/icons/editor";
+import { IconButton } from "@ndla/primitives";
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;
@@ -20,7 +20,7 @@ interface Props extends HTMLProps<HTMLButtonElement> {
   name: string;
 }
 
-const StyledDragHandle = styled(IconButtonV2)`
+const StyledDragHandle = styled(IconButton)`
   touch-action: none;
   ${mq.range({ from: breakpoints.tablet })} {
     position: absolute;
@@ -40,9 +40,8 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
       {...rest}
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
       type={"button"}
-      variant={"ghost"}
-      colorTheme={"light"}
-      size={"small"}
+      // TODO: Should this be another variant?
+      variant="clear"
       tabIndex={0}
       {...listeners}
       ref={setActivatorNodeRef}

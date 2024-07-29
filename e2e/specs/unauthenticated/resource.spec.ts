@@ -22,7 +22,7 @@ test("contains content", async ({ page }) => {
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 
-  const rules = page.getByRole("button").getByText("Regler for bruk");
+  const rules = page.getByRole("button").getByText("Sitere eller gjenbruke?");
   expect(rules).toBeDefined();
   await expect(rules).toBeVisible();
 });

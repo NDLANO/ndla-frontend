@@ -29,6 +29,7 @@ export interface WindowData {
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;
   };
+  serverResponse?: number;
 }
 
 export interface NDLAWindow {

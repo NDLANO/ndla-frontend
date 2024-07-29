@@ -8,11 +8,9 @@
 
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { Carousel } from "@ndla/carousel";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { Heading } from "@ndla/typography";
+import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
 
@@ -31,7 +29,6 @@ const StyledSection = styled.section`
 `;
 
 const StyledHeading = styled(Heading)`
-  color: ${colors.white};
   margin: ${spacing.xsmall} 0;
   margin-left: ${spacing.normal};
   margin-right: ${spacing.normal};
@@ -41,28 +38,18 @@ const StyledHeading = styled(Heading)`
   }
 `;
 
-const FilmMovieList = ({ name, movies = [], slideBackwardsLabel, slideForwardsLabel }: Props) => (
+const FilmMovieList = ({ name, movies = [] }: Props) => (
   <StyledSection>
     {!!name && (
       <StyledHeading element="h2" headingStyle="list-title">
         {name}
       </StyledHeading>
     )}
-    <Carousel
-      leftButton={
-        <IconButtonV2 aria-label={slideBackwardsLabel}>
-          <ChevronLeft />
-        </IconButtonV2>
-      }
-      rightButton={
-        <IconButtonV2 aria-label={slideForwardsLabel}>
-          <ChevronRight />
-        </IconButtonV2>
-      }
-      items={movies.map((movie) => (
+    <Carousel>
+      {movies.map((movie) => (
         <FilmContentCard key={movie.id} movie={movie} type="list" lazy />
       ))}
-    />
+    </Carousel>
   </StyledSection>
 );
 

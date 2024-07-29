@@ -9,17 +9,16 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ZendeskButton } from "@ndla/button";
 import { stackOrder } from "@ndla/core";
-import { MissingRouterContext } from "@ndla/safelink";
-import { Logo, PageContainer } from "@ndla/ui";
+import { NdlaLogoText } from "@ndla/primitives";
+import { MissingRouterContext, SafeLink } from "@ndla/safelink";
+import { PageContainer, ZendeskButton } from "@ndla/ui";
 import { Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
-import FeideFooter from "../Page/components/FeideFooter";
-import Footer from "../Page/components/Footer";
+import { Footer } from "../Page/components/Footer";
 
 const ZendeskWrapper = styled.div`
   z-index: ${stackOrder.trigger};
@@ -45,14 +44,15 @@ const ErrorPage = () => {
           />
           <Masthead fixed>
             <LogoWrapper>
-              <Logo to="/" locale={i18n.language} label={t("logo.altText")} />
+              <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
+                <NdlaLogoText />
+              </SafeLink>
             </LogoWrapper>
           </Masthead>
           <div>
             <DefaultErrorMessage />
           </div>
           <Footer />
-          {config.feideEnabled && <FeideFooter />}
           {config.zendeskWidgetKey && (
             <ZendeskWrapper>
               <ZendeskButton locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>

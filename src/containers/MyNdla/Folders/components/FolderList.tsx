@@ -12,14 +12,14 @@ import { Reference, useApolloClient } from "@apollo/client";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import DraggableFolder from "./DraggableFolder";
-import { BlockWrapper, ViewType } from "./FoldersPage";
-import { makeDndSortFunction, makeDndTranslations } from "./util";
-import WhileLoading from "../../../components/WhileLoading";
-import { GQLFolder } from "../../../graphqlTypes";
-import { FolderTotalCount, getTotalCountForFolder } from "../../../util/folderHelpers";
-import { useSortFoldersMutation } from "../folderMutations";
+import WhileLoading from "../../../../components/WhileLoading";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
+import { useSortFoldersMutation } from "../../folderMutations";
+import { BlockWrapper, ViewType } from "../FoldersPage";
+import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 interface Props {
   loading: boolean;
@@ -28,9 +28,10 @@ interface Props {
   folderId: string | undefined;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
+  isFavorited?: boolean;
 }
 
-const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId }: Props) => {
+const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -103,11 +104,12 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId 
                   key={`folder-${folder.id}`}
                   folder={folder}
                   index={index}
-                  foldersCount={foldersCount}
+                  foldersCount={foldersCount?.[folder.id]}
                   type={type}
                   folders={folders}
                   setFocusId={setFocusId}
                   folderRefId={folderRefId}
+                  isFavorited={isFavorited}
                 />
               ))}
             </SortableContext>

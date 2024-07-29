@@ -11,12 +11,13 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
 import { Back } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, CreatedBy, constants, LayoutItem } from "@ndla/ui";
+import { OneColumn, constants, LayoutItem } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
+import { CreatedBy } from "../components/Article/CreatedBy";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
@@ -101,10 +102,11 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <main>
         {!!ltiData && (
           <LayoutItem layout="center">
-            <ButtonV2 variant="link" onClick={() => navigate(-1)}>
+            {/* TODO: Needs verification */}
+            <Button variant="link" onClick={() => navigate(-1)}>
               <Back />
               {t("lti.goBack")}
-            </ButtonV2>
+            </Button>
           </LayoutItem>
         )}
         <Article
@@ -113,7 +115,6 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isPlainArticle
           isOembed
           oembed={article?.oembed}
-          modifier="clean"
           {...articleProps}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />

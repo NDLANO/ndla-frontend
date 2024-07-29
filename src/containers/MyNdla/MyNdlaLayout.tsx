@@ -11,14 +11,12 @@ import { useMemo, useContext, useState, Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
   Book,
   BookOutlined,
   Forum,
   ForumOutlined,
-  HashTag,
   Home,
   HomeOutline,
   LogOut,
@@ -31,8 +29,8 @@ import {
 import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
 import { Folder } from "@ndla/icons/editor";
 import { Modal, ModalTrigger } from "@ndla/modal";
+import { Button, MessageBox } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
-import { MessageBox } from "@ndla/ui";
 import NavigationLink from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { toHref } from "../../util/urlHelper";
@@ -109,19 +107,10 @@ const StyledSideBar = styled.div`
   }
 `;
 
-const MessageboxWrapper = styled.div`
-  margin-bottom: ${spacing.nsmall};
-`;
-
-const MoreButton = styled(IconButtonV2)`
+const MoreButton = styled(Button)`
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
-  padding: ${spacing.xxsmall} ${spacing.small};
-  gap: ${spacing.xsmall};
-  color: ${colors.brand.primary};
-  border-radius: ${spacing.xxsmall};
-
+  flex-direction: column;
   ${mq.range({ from: breakpoints.mobileWide })} {
     display: none;
   }
@@ -163,7 +152,7 @@ const MyNdlaLayout = () => {
             <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
           </nav>
           <ModalTrigger>
-            <MoreButton variant="stripped" aria-label={t("myNdla.iconMenu.more")}>
+            <MoreButton variant="tertiary">
               <HorizontalMenu />
               <Text margin="none" textStyle="meta-text-xxsmall">
                 {t("myNdla.iconMenu.more")}
@@ -173,9 +162,9 @@ const MyNdlaLayout = () => {
         </StyledSideBar>
         <StyledContent>
           {examLock && (
-            <MessageboxWrapper>
-              <MessageBox>{t("myNdla.examLockInfo")}</MessageBox>
-            </MessageboxWrapper>
+            <MessageBox variant="warning">
+              <Text>{t("myNdla.examLockInfo")}</Text>
+            </MessageBox>
           )}
           <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
         </StyledContent>
@@ -207,12 +196,6 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.iconMenu.subjects"),
     icon: <BookOutlined />,
     iconFilled: <Book />,
-  },
-  {
-    id: "tags",
-    name: t("myNdla.myTags"),
-    shortName: t("myNdla.iconMenu.tags"),
-    icon: <HashTag />,
   },
   {
     id: "arena",

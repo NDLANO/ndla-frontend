@@ -9,9 +9,9 @@
 import { forwardRef, useMemo, ComponentPropsWithRef } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { colors, spacing } from "@ndla/core";
 import { Bell } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
 
@@ -44,10 +44,10 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(({ notificat
   const newNotifications = useMemo(() => notifications?.filter(({ isRead }) => !isRead).length, [notifications]);
 
   return (
-    <ButtonV2 variant="ghost" colorTheme="lighter" ref={ref} {...rest}>
+    <Button variant="tertiary" ref={ref} {...rest}>
       {t("myNdla.arena.notification.title")}
       <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
-    </ButtonV2>
+    </Button>
   );
 });
 
@@ -60,7 +60,7 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <Bell size="nsmall" />
+      <Bell size="small" />
       {amountOfUnreadNotifications !== 0 && (
         <NotificationCounter margin="none" element="div" textStyle="meta-text-xsmall" data-left={!!left}>
           {amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}

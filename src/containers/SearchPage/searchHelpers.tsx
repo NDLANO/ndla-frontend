@@ -9,7 +9,6 @@ import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
-import { ContentTypeBadge, Image } from "@ndla/ui";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLGroupSearchQuery, GQLGroupSearchResourceFragment, GQLResourceTypeDefinition } from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
@@ -71,38 +70,6 @@ export const convertSearchParam = (value?: any) => {
   }
   return value.length > 0 ? value : undefined;
 };
-
-interface ResultBase {
-  id: number | string;
-  title?: string;
-  url: string;
-  contentType?: string;
-  metaImage?: {
-    url?: string;
-    alt?: string;
-  };
-}
-
-export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
-  results: T[],
-  t: TFunction,
-  includeEmbedButton?: boolean,
-  ltiData?: LtiData,
-) =>
-  results.map((result) => {
-    const { url, contentType, metaImage } = result;
-    return {
-      ...result,
-      url,
-      contenttypeicon: (
-        // defaults to empty div if contentType is undefined.
-        <ContentTypeBadge type={contentType ?? ""} size="x-small" background />
-      ),
-      children: includeEmbedButton && <LtiEmbed ltiData={ltiData} item={result} />,
-      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : "",
-      image: metaImage && <Image src={metaImage.url ?? ""} alt={metaImage.alt ?? ""} />,
-    };
-  });
 
 const mapTraits = (traits: string[] | undefined, t: TFunction) =>
   traits?.map((trait) => {
@@ -172,7 +139,7 @@ export const mapResourcesToItems = (
     })),
     ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.metaImage.url}?width=${isLti ? "350" : "420"}`,
+        url: resource.metaImage.url,
         alt: resource.name ?? resource.metaImage?.alt ?? "",
       },
     }),

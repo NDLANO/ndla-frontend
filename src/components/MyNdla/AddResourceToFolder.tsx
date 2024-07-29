@@ -12,13 +12,37 @@ import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
 import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
+import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
-import { SafeLink } from "@ndla/safelink";
-import { ListResource, MessageBox, TagSelector, useSnack } from "@ndla/ui";
+import { LoadingButton } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { Cross } from "@ndla/icons/action";
+import { ChevronDown, InformationOutline } from "@ndla/icons/common";
+import { Done } from "@ndla/icons/editor";
+import {
+  MessageBox,
+  Button,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  IconButton,
+  Input,
+  InputContainer,
+  Text,
+} from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
+import {
+  TagSelectorClearTrigger,
+  TagSelectorControl,
+  TagSelectorInput,
+  TagSelectorLabel,
+  TagSelectorRoot,
+  TagSelectorTrigger,
+  useTagSelectorTranslations,
+} from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
+import ListResource from "./ListResource";
 import {
   useAddResourceToFolderMutation,
   useFolder,
@@ -30,6 +54,7 @@ import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { useToast } from "../ToastContext";
 
 export interface ResourceAttributes {
   path: string;
@@ -61,13 +86,10 @@ export const ComboboxContainer = styled.div`
   overflow: hidden;
 `;
 
-const StyledResourceAddedSnack = styled.div`
-  gap: ${spacing.small};
+const StyledComboboxContent = styled(ComboboxContent)`
   display: flex;
-`;
-
-const StyledResource = styled.p`
-  margin: 0;
+  max-height: 320px;
+  overflow: hidden;
 `;
 
 const StyledInfoMessages = styled.div`
@@ -76,44 +98,28 @@ const StyledInfoMessages = styled.div`
   gap: ${spacing.small};
 `;
 
-interface ResourceAddedSnackProps {
-  folder: GQLFolder;
-}
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.white};
-`;
-
-const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
-  const { t } = useTranslation();
-  return (
-    <StyledResourceAddedSnack>
-      <StyledResource>
-        {t("myNdla.resource.addedToFolder")}
-        <StyledSafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</StyledSafeLink>
-      </StyledResource>
-    </StyledResourceAddedSnack>
-  );
-};
-
 const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<GQLFolderResource | undefined>(undefined);
+  const [allTags, setAllTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
-  const { addSnack } = useSnack();
+  const toast = useToast();
+  const tagSelectorTranslations = useTagSelectorTranslations();
 
   useEffect(() => {
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
+      const newTags = uniq(compact(getAllTags(folders)));
+      setAllTags(newTags ?? []);
+      setTags(newTags ?? []);
       setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
     }
   }, [folders, loading, resource.path, storedResource]);
@@ -155,20 +161,25 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-      addSnack({
-        id: `addedToFolder${selectedFolder.name}`,
-        content: <ResourceAddedSnack folder={selectedFolder} />,
+
+      toast.create({
+        title: t("myndla.resource.added"),
+        description: t("myndla.resource.addedToFolder", { folder: selectedFolder.name }),
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      addSnack({
-        content: t("myNdla.resource.tagsUpdated"),
-        id: "tagsUpdated",
+      toast.create({
+        title: t("myNdla.resource.tagsUpdated"),
       });
     }
     onClose();
+  };
+
+  const onInputValueChange = (e: ComboboxInputValueChangeDetails) => {
+    const filtered = allTags.filter((item) => item.toLowerCase().includes(e.inputValue.toLowerCase()));
+    setTags(filtered);
   };
 
   const noFolderSelected = selectedFolderId === "folders";
@@ -188,9 +199,9 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         }}
       />
       {examLock ? (
-        <MessageBox>
+        <MessageBox variant="warning">
           <InformationOutline />
-          {t("myNdla.examLockInfo")}
+          <Text>{t("myNdla.examLockInfo")}</Text>
         </MessageBox>
       ) : (
         <>
@@ -203,34 +214,67 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && <MessageBox>{t("myNdla.alreadyInFolder")}</MessageBox>}
-            {selectedFolder?.status === "shared" && <MessageBox>{t("myNdla.addInSharedFolder")}</MessageBox>}
+            {alreadyAdded && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.alreadyInFolder")}</Text>
+              </MessageBox>
+            )}
+            {selectedFolder?.status === "shared" && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.addInSharedFolder")}</Text>
+              </MessageBox>
+            )}
             {noFolderSelected && (
-              <MessageBox type="danger">
+              <MessageBox variant="error">
                 <InformationOutline />
-                {t("myNdla.noFolderSelected")}
+                <Text>{t("myNdla.noFolderSelected")}</Text>
               </MessageBox>
             )}
           </StyledInfoMessages>
-          <ComboboxContainer>
-            <TagSelector
-              label={t("myNdla.myTags")}
-              selected={selectedTags}
-              tags={tags}
-              onChange={(tags) => {
-                setSelectedTags(tags);
-              }}
-              onCreateTag={(tag) => {
-                setTags((prev) => prev.concat(tag));
-                setSelectedTags((prev) => uniq(prev.concat(tag)));
-              }}
-            />
-          </ComboboxContainer>
+          <TagSelectorRoot
+            value={selectedTags}
+            items={allTags}
+            onInputValueChange={onInputValueChange}
+            onValueChange={(details) => setSelectedTags(details.value)}
+            translations={tagSelectorTranslations}
+          >
+            <TagSelectorLabel>{t("myNdla.myTags")}</TagSelectorLabel>
+            <HStack gap="4xsmall">
+              <TagSelectorControl asChild>
+                <InputContainer>
+                  <TagSelectorInput asChild>
+                    <Input placeholder={t("tagSelector.placeholder")} />
+                  </TagSelectorInput>
+
+                  <TagSelectorClearTrigger asChild>
+                    <IconButton variant="clear">
+                      <Cross />
+                    </IconButton>
+                  </TagSelectorClearTrigger>
+                </InputContainer>
+              </TagSelectorControl>
+              <TagSelectorTrigger asChild>
+                <IconButton variant="secondary">
+                  <ChevronDown />
+                </IconButton>
+              </TagSelectorTrigger>
+            </HStack>
+            <StyledComboboxContent>
+              {tags.map((item) => (
+                <ComboboxItem key={item} item={item}>
+                  <ComboboxItemText>{item}</ComboboxItemText>
+                  <ComboboxItemIndicator>
+                    <Done />
+                  </ComboboxItemIndicator>
+                </ComboboxItem>
+              ))}
+            </StyledComboboxContent>
+          </TagSelectorRoot>
         </>
       )}
       <ButtonRow>
         <Button
-          variant="outline"
+          variant="secondary"
           onClick={onClose}
           onMouseDown={(e) => {
             e.preventDefault();

@@ -9,12 +9,10 @@
 import { useCallback, useState } from "react";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { Carousel } from "@ndla/carousel";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Image } from "@ndla/ui";
+import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
@@ -80,10 +78,6 @@ const CarouselContainer = styled.div`
   }
 `;
 
-const SlideshowButton = styled(IconButtonV2)`
-  margin-top: ${spacing.normal};
-`;
-
 const StyledFilmContentCard = styled(FilmContentCard)`
   margin-bottom: 2%;
   transition: all 200ms;
@@ -112,18 +106,8 @@ const FilmSlideshow = ({ slideshow }: Props) => {
         </SlideInfoWrapper>
       </StyledSafeLink>
       <CarouselContainer>
-        <Carousel
-          leftButton={
-            <SlideshowButton aria-label="">
-              <ChevronLeft />
-            </SlideshowButton>
-          }
-          rightButton={
-            <SlideshowButton aria-label="">
-              <ChevronRight />
-            </SlideshowButton>
-          }
-          items={slideshow.map((movie) => (
+        <Carousel hideButtons={true}>
+          {slideshow.map((movie) => (
             <FilmCard
               key={movie.id}
               current={movie.id === currentSlide.id}
@@ -131,7 +115,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
               setCurrentSlide={setCurrentSlide}
             />
           ))}
-        />
+        </Carousel>
       </CarouselContainer>
     </section>
   );

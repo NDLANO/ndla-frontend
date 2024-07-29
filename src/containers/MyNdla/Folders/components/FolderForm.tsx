@@ -10,12 +10,13 @@ import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { FieldErrorMessage, FormControl, InputV3, Label, TextAreaV3 } from "@ndla/forms";
 import { ModalCloseButton } from "@ndla/modal";
-import { GQLFolder } from "../../../graphqlTypes";
-import useValidationTranslation from "../../../util/useValidationTranslation";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { GQLFolder } from "../../../../graphqlTypes";
+import useValidationTranslation from "../../../../util/useValidationTranslation";
+import FieldLength from "../../components/FieldLength";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
@@ -85,14 +86,12 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="name" isInvalid={!!fieldState.error?.message}>
-            <Label textStyle="label-small" margin="none">
-              {t("validation.fields.name")}
-            </Label>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("validation.fields.name")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <InputV3 {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
-          </FormControl>
+          </FieldRoot>
         )}
       />
       <Controller
@@ -109,20 +108,18 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="description" isInvalid={!!fieldState.error?.message}>
-            <Label textStyle="label-small" margin="none">
-              {t("validation.fields.description")}
-            </Label>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("validation.fields.description")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <TextAreaV3 {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
-          </FormControl>
+          </FieldRoot>
         )}
       />
       <StyledParagraph>{t("myNdla.folder.sharedWarning")}</StyledParagraph>
       <ButtonRow>
         <ModalCloseButton>
-          <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
+          <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
         <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={loading}>
           {t("save")}
@@ -130,20 +127,6 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
       </ButtonRow>
     </StyledForm>
   );
-};
-
-interface FieldLengthProps {
-  value: number;
-  maxLength: number;
-}
-
-const StyledSpan = styled.span`
-  display: block;
-  text-align: right;
-`;
-// TODO Update component to be more UU friendly
-export const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
-  return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
 };
 
 export default FolderForm;

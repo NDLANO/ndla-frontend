@@ -15,7 +15,7 @@ WORKDIR $APP_PATH
 RUN yarn install --immutable
 
 # Copy necessary source files for server and client build
-COPY babel.config.cjs tsconfig.json vite.config.ts .eslintrc.cjs postcss.config.cjs $APP_PATH/
+COPY babel.config.cjs tsconfig.json vite.config.ts panda.config.ts .eslintrc.cjs postcss.config.cjs $APP_PATH/
 COPY iframe-article.html iframe-embed.html index.html lti.html error.html $APP_PATH/
 COPY scripts $APP_PATH/scripts
 

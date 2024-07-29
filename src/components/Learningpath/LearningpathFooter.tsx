@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { animations, breakpoints, colors, mq, spacing, stackOrder } from "@ndla/core";
 import { Back, Forward } from "@ndla/icons/common";
 import { LearningPath } from "@ndla/icons/contentType";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { usePrevious } from "@ndla/util";
@@ -101,10 +101,6 @@ interface Props {
   currentStep: number;
 }
 
-const StyledModalButton = styled(ButtonV2)`
-  margin: ${spacing.small};
-`;
-
 const LearningpathFooter = ({
   mobileView,
   learningPathMenu,
@@ -130,10 +126,11 @@ const LearningpathFooter = ({
       {mobileView && (
         <Modal open={open} onOpenChange={setOpen}>
           <ModalTrigger>
-            <StyledModalButton size="small">
+            {/* TODO: Not sure if correct*/}
+            <Button variant="secondary" size="small">
               <LearningPath />
               {t("learningPath.openMenuTooltip")}
-            </StyledModalButton>
+            </Button>
           </ModalTrigger>
           <ModalContent size="full">
             <ModalHeader>
@@ -149,7 +146,7 @@ const LearningpathFooter = ({
             to={toLearningPath(learningPath.id, previousStep.id, resource)}
             aria-label={t("learningPath.previousArrow")}
           >
-            <Back size="normal" />
+            <Back />
             <LinkText>{previousStep.title}</LinkText>
           </StyledSafeLink>
         ) : (
@@ -164,7 +161,7 @@ const LearningpathFooter = ({
             aria-label={t("learningPath.nextArrow")}
           >
             <LinkText>{nextStep.title}</LinkText>
-            <Forward size="normal" />
+            <Forward />
           </StyledSafeLink>
         ) : (
           <div />

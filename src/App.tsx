@@ -8,12 +8,12 @@
 
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
-import { SnackbarProvider } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
 import Scripts from "./components/Scripts/Scripts";
+import { ToastProvider } from "./components/ToastContext";
 import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
@@ -33,11 +33,11 @@ import TopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
+import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
 import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
-import TagsPage from "./containers/MyNdla/Tags/TagsPage";
 import NotFound from "./containers/NotFoundPage/NotFoundPage";
 import Layout from "./containers/Page/Layout";
 import PlainArticlePage from "./containers/PlainArticlePage/PlainArticlePage";
@@ -100,7 +100,7 @@ const AppRoutes = ({ base }: AppProps) => {
     <AlertsProvider>
       <BaseNameProvider value={base}>
         <AuthenticationContext>
-          <SnackbarProvider>
+          <ToastProvider>
             <Scripts />
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -158,6 +158,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<PrivateRoute element={<FoldersPage />} />} />
+                    <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path="preview/:folderId">
                       <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
                       <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
@@ -188,17 +189,16 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  <Route path="tags">
-                    <Route index element={<PrivateRoute element={<TagsPage />} />} />
-                    <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
-                  </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
                 {config.folderRedesign ? (
-                  <Route path="folder/:folderId" element={<SharedFolderPageV2 />} />
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPageV2 />} />
+                    <Route path="*" element={<SharedFolderPageV2 />} />
+                  </Route>
                 ) : (
                   <Route path="folder/:folderId">
                     <Route index element={<SharedFolderPage />} />
@@ -212,7 +212,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>
-          </SnackbarProvider>
+          </ToastProvider>
         </AuthenticationContext>
       </BaseNameProvider>
     </AlertsProvider>

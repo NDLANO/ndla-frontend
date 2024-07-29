@@ -34,6 +34,7 @@ import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
+import ResponseContext from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "./constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from "./i18n";
@@ -46,7 +47,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery },
+  DATA: { config, serverPath, serverQuery, serverResponse },
 } = window;
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
@@ -192,11 +193,13 @@ renderOrHydrate(
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <CacheProvider value={cache}>
-          <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
-          </VersionHashProvider>
-        </CacheProvider>
+        <ResponseContext.Provider value={{ status: serverResponse }}>
+          <CacheProvider value={cache}>
+            <VersionHashProvider value={versionHash}>
+              <LanguageWrapper basename={basename} />
+            </VersionHashProvider>
+          </CacheProvider>
+        </ResponseContext.Provider>
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,

@@ -8,30 +8,24 @@
 
 import { ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
+import styledEmotion from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
 import { ChevronDown } from "@ndla/icons/common";
-import { useIsNdlaFilm } from "../../routeHelpers";
-
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 interface Props {
   children?: ReactNode;
 }
 
-const ToggleButton = styled(ButtonV2)`
-  margin-left: ${spacing.normal};
-  &:hover,
-  &:focus-within {
-    background-color: inherit;
-  }
-  &[aria-expanded="true"] {
-    svg {
-      transform: rotate(180deg);
-    }
-  }
-`;
+const ToggleButton = styled(Button, {
+  base: {
+    _expanded: {
+      "& svg": { transform: "rotate(180deg)" },
+    },
+  },
+});
 
-const ExpandContent = styled.div`
+const ExpandContent = styledEmotion.div`
   display: none;
   width: 100%;
   &[aria-hidden="false"] {
@@ -42,7 +36,7 @@ const ExpandContent = styled.div`
   }
 `;
 
-const TopicArticleWrapper = styled.div`
+const TopicArticleWrapper = styledEmotion.div`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
@@ -58,7 +52,6 @@ const TopicArticle = ({ children }: Props) => {
   const [expanded, setExpanded] = useState(false);
   const { t } = useTranslation();
   const id = useId();
-  const ndlaFilm = useIsNdlaFilm();
   return (
     <TopicArticleWrapper>
       <ToggleButton
@@ -66,7 +59,6 @@ const TopicArticle = ({ children }: Props) => {
         onClick={() => setExpanded((val) => !val)}
         aria-expanded={expanded}
         aria-controls={id}
-        inverted={ndlaFilm}
       >
         {t(`navigation.${expanded ? "showShorterDescription" : "showLongerDescription"}`)}
         <ChevronDown />

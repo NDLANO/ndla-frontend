@@ -8,17 +8,19 @@
 
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
+import { LoadingButton } from "@ndla/button";
 import { InformationOutline, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Folder, MessageBox, useSnack } from "@ndla/ui";
+import { Button, Text, MessageBox } from "@ndla/primitives";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
+import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { useToast } from "../ToastContext";
 
 interface Props {
   folder: GQLFolder;
@@ -30,7 +32,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
 
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { folders, loading } = useFolders();
   const copySharedFolderMutation = useCopySharedFolderMutation();
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
@@ -43,10 +45,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       },
     });
     onClose();
-    addSnack({
-      content: t("myNdla.sharedFolder.folderCopied"),
-      id: "sharedFolderCopied",
-    });
+    toast.create({ title: t("myNdla.sharedFolder.folderCopied") });
   };
 
   return (
@@ -57,18 +56,11 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       </ModalHeader>
       <ModalBody>
         <AddResourceContainer>
-          <Folder
-            id={folder.id.toString()}
-            title={folder.name ?? ""}
-            link={routes.folder(folder.id)}
-            isShared={true}
-            subFolders={folderCount.folders}
-            subResources={folderCount.resources}
-          />
+          <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
           {examLock ? (
-            <MessageBox>
+            <MessageBox variant="warning">
               <InformationOutline />
-              {t("myNdla.examLockInfo")}
+              <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           ) : (
             <>
@@ -78,21 +70,21 @@ const CopyFolder = ({ folder, onClose }: Props) => {
                 selectedFolderId={selectedFolderId}
                 setSelectedFolderId={setSelectedFolderId}
               />
-              <MessageBox>
+              <MessageBox variant="warning">
                 <InformationOutline />
-                {t("myNdla.copyFolderDisclaimer")}
+                <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
               </MessageBox>
               {copySharedFolderMutation.error && (
-                <MessageBox type="danger">
+                <MessageBox variant="error">
                   <WarningOutline />
-                  {t("errorMessage.description")}
+                  <Text>{t("errorMessage.description")}</Text>
                 </MessageBox>
               )}
             </>
           )}
           <ButtonRow>
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={onClose}
               onMouseDown={(e) => {
                 e.preventDefault();

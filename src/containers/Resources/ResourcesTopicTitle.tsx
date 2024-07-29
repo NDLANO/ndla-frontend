@@ -8,11 +8,10 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { LearningPathQuiz } from "@ndla/icons/contentType";
 import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent, ModalTitle } from "@ndla/modal";
-import { Switch } from "@ndla/switch";
+import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
 import { HeadingType } from "../../interfaces";
 
@@ -28,9 +27,6 @@ const TopicTitleWrapper = styled.header`
     flex-direction: column;
     gap: ${spacing.small};
   }
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
 `;
 
 const StyledModalHeader = styled(ModalHeader)`
@@ -41,22 +37,6 @@ const StyledRow = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.xsmall};
-`;
-
-const StyledSwitch = styled(Switch)`
-  border: 2px solid transparent;
-  border-radius: ${misc.borderRadius};
-  margin-right: ${spacing.xsmall};
-  &:focus,
-  &:focus-visible,
-  &:focus-within {
-    border-color: ${colors.brand.dark};
-  }
-  // Props are forwarded weirdly, so we need to use :has
-  &[data-inverted="true"],
-  &:has([data-inverted="true"]) {
-    color: ${colors.white};
-  }
 `;
 
 const StyledHGroup = styled.hgroup`
@@ -84,12 +64,11 @@ const ResourcesTopicTitle = ({
   toggleAdditionalResources,
   showAdditionalResources,
   heading,
-  invertedStyle = false,
 }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <TopicTitleWrapper data-inverted={invertedStyle}>
+    <TopicTitleWrapper>
       <StyledHGroup>
         <Heading id={headingId} element={heading} headingStyle="list-title" margin="none">
           {title}
@@ -101,24 +80,23 @@ const ResourcesTopicTitle = ({
       {hasAdditionalResources && (
         <StyledRow>
           <form>
-            <StyledSwitch
-              id="toggleAdditionID"
-              checked={showAdditionalResources}
-              label={t("resource.activateAdditionalResources")}
-              onChange={toggleAdditionalResources}
-              data-inverted={invertedStyle}
-            />
+            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
           </form>
           <Modal>
             <ModalTrigger>
-              <IconButtonV2
-                colorTheme="light"
-                inverted={invertedStyle}
+              <IconButton
+                variant="secondary"
                 aria-label={t("resource.dialogTooltip")}
                 title={t("resource.dialogTooltip")}
               >
                 <LearningPathQuiz />
-              </IconButtonV2>
+              </IconButton>
             </ModalTrigger>
             <ModalContent>
               <StyledModalHeader>

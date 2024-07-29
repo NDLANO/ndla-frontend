@@ -236,7 +236,7 @@ const ResourceItem = ({
         )}
         {showAdditionalResources && contentTypeDescription && (
           <IconWrapper id={contentTypeId} aria-label={contentTypeDescription} title={contentTypeDescription}>
-            {additional ? <StyledAdditional size="normal" /> : <StyledCore size="normal" />}
+            {additional ? <StyledAdditional /> : <StyledCore />}
           </IconWrapper>
         )}
         {heartButton?.(path)}

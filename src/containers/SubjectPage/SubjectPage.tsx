@@ -77,10 +77,10 @@ const SubjectPage = () => {
   }
 
   const alternateTopics = data.topic?.alternateTopics;
-  if (!data?.subject && alternateTopics && alternateTopics.length >= 1) {
-    if (alternateTopics.length === 1) {
-      return <Navigate to={alternateTopics[0]!.path!} replace />;
-    }
+  if (alternateTopics && alternateTopics.length >= 1) {
+    // if (alternateTopics.length === 1) {
+    //   return <Navigate to={alternateTopics[0]!.path!} replace />;
+    // }
     return <MovedTopicPage topics={alternateTopics} />;
   }
 

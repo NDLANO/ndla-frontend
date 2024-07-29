@@ -12,15 +12,15 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { FormControl, InputV3, Label, FieldErrorMessage, CheckboxItem, Select } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
+import { LoadingButton } from "@ndla/button";
+import { spacing } from "@ndla/core";
+import { CheckboxItem, FormControl, Label, Select, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
-import { FieldLength } from "../../Folders/FolderForm";
+import FieldLength from "../../components/FieldLength";
 
 const StyledForm = styled.form`
   display: flex;
@@ -35,19 +35,15 @@ const ButtonRow = styled.div`
   gap: ${spacing.small};
 `;
 
-const StyledLabel = styled(Label)`
-  margin: 0;
-  margin-bottom: ${spacing.xxsmall};
-`;
-
-const StyledInput = styled(InputV3)`
-  background: ${colors.white};
-`;
-
 const CheckboxWrapper = styled.div`
   display: flex;
   gap: ${spacing.small};
   align-items: center;
+`;
+
+const StyledLabel = styled(Label)`
+  margin: 0;
+  margin-bottom: ${spacing.xxsmall};
 `;
 
 interface ArenaFormProps {
@@ -142,12 +138,12 @@ const ArenaCategoryForm = ({
           },
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="title" isRequired isInvalid={!!fieldState.error?.message}>
-            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.title")}</StyledLabel>
+          <FieldRoot required invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("myNdla.arena.admin.category.form.title")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <StyledInput {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
-          </FormControl>
+          </FieldRoot>
         )}
       />
       <Controller
@@ -157,11 +153,11 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="editor" isRequired isInvalid={!!fieldState.error?.message}>
-            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.description")}</StyledLabel>
+          <FieldRoot required invalid={!!fieldState.error?.message}>
+            <FieldLabel>{t("myNdla.arena.admin.category.form.description")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <StyledInput {...field} />
-          </FormControl>
+            <FieldInput {...field} />
+          </FieldRoot>
         )}
       />
       <Controller
@@ -190,7 +186,7 @@ const ArenaCategoryForm = ({
         }}
         render={({ field, fieldState }) => (
           <FormControl id="visible" isInvalid={!!fieldState.error?.message}>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
             <CheckboxWrapper>
               <CheckboxItem
                 checked={field.value}
@@ -209,9 +205,9 @@ const ArenaCategoryForm = ({
         )}
       />
       <ButtonRow>
-        <ButtonV2 variant="outline" onClick={onAbort}>
+        <Button variant="secondary" onClick={onAbort}>
           {t("cancel")}
-        </ButtonV2>
+        </Button>
         <LoadingButton colorTheme="primary" type="submit">
           {t("myNdla.arena.publish")}
         </LoadingButton>

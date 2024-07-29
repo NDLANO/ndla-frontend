@@ -11,22 +11,22 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, stackOrder } from "@ndla/core";
-import { Folder } from "@ndla/ui";
-import DragHandle from "./DragHandle";
 import FolderActions from "./FolderActions";
-import { ViewType } from "./FoldersPage";
-import { GQLFolder } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import { FolderTotalCount } from "../../../util/folderHelpers";
+import { Folder } from "../../../../components/MyNdla/Folder";
+import { GQLFolder } from "../../../../graphqlTypes";
+import { FolderTotalCount } from "../../../../util/folderHelpers";
+import DragHandle from "../../components/DragHandle";
+import { ViewType } from "../FoldersPage";
 
 interface Props {
   folder: GQLFolder;
   index: number;
   type: ViewType;
-  foldersCount: Record<string, FolderTotalCount>;
+  foldersCount?: FolderTotalCount;
   folders: GQLFolder[];
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
+  isFavorited?: boolean;
 }
 
 export const DraggableListItem = styled.li`
@@ -49,7 +49,16 @@ export const DragWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusId, folderRefId }: Props) => {
+const DraggableFolder = ({
+  index,
+  folder,
+  type,
+  foldersCount,
+  folders,
+  setFocusId,
+  folderRefId,
+  isFavorited,
+}: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
     id: folder.id,
     data: {
@@ -71,31 +80,25 @@ const DraggableFolder = ({ index, folder, type, foldersCount, folders, setFocusI
         selectedFolder={folder}
         setFocusId={setFocusId}
         folderRefId={folderRefId}
+        isFavorited={isFavorited}
       />
     ),
-    [folder, folders, setFocusId, folderRefId],
+    [folder, folders, setFocusId, folderRefId, isFavorited],
   );
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
-      <DragHandle
-        sortableId={folder.id}
-        disabled={type === "block" || items.length < 2}
-        name={folder.name}
-        type="folder"
-        {...attributes}
-      />
-      <DragWrapper>
-        <Folder
-          id={folder.id}
-          isShared={folder.status === "shared"}
-          link={routes.myNdla.folder(folder.id)}
-          title={folder.name}
-          type={type}
-          menu={menu}
-          subFolders={foldersCount[folder.id]?.folders}
-          subResources={foldersCount[folder.id]?.resources}
+      {!isFavorited && (
+        <DragHandle
+          sortableId={folder.id}
+          disabled={type === "block" || items.length < 2}
+          name={folder.name}
+          type="folder"
+          {...attributes}
         />
+      )}
+      <DragWrapper>
+        <Folder folder={folder} foldersCount={foldersCount} type={type} menu={menu} isFavorited={isFavorited} />
       </DragWrapper>
     </DraggableListItem>
   );

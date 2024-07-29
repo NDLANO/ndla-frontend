@@ -16,6 +16,7 @@ const StyledDeletedCard = styled.div`
   border: 1px solid ${colors.brand.light};
   border-radius: ${misc.borderRadius};
   padding: ${spacing.normal};
+  margin-bottom: ${spacing.normal};
 `;
 
 const DeletedPostCard = () => {

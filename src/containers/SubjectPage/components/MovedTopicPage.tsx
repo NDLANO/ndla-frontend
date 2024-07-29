@@ -8,11 +8,11 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { SearchResultList, OneColumn } from "@ndla/ui";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
+import { MovedNodeCard } from "../../../components/MovedNodeCard";
 import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
-import { resultsWithContentTypeBadgeAndImage } from "../../SearchPage/searchHelpers";
 
 interface GQLSearchResultExtended
   extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
@@ -58,27 +58,54 @@ interface Props {
   topics: GQLMovedTopicPage_TopicFragment[];
 }
 
-const StyledSearchResultListWrapper = styled.div`
-  padding-bottom: ${spacing.medium};
-  margin-bottom: ${spacing.large};
-  border: 1px solid ${colors.brand.greyLight};
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: ${spacing.medium};
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    paddingBlock: "medium",
+  },
+});
+
+const SearchResultListWrapper = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const MovedTopicPage = ({ topics }: Props) => {
   const { t } = useTranslation();
   const topicsAsResults = topics.map(convertTopicToResult);
-  const results = resultsWithContentTypeBadgeAndImage(topicsAsResults, t);
-  const mergedTopic = mergeTopicSubjects(results);
+  const results = mergeTopicSubjects(topicsAsResults);
 
   return (
     <OneColumn>
-      <h1>{t("movedResourcePage.title")}</h1>
-      <StyledSearchResultListWrapper>
-        <SearchResultList results={mergedTopic} />
-      </StyledSearchResultListWrapper>
+      <Wrapper>
+        <Heading>
+          {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
+        </Heading>
+        {results.length ? (
+          <SearchResultListWrapper>
+            {results.map((result) => (
+              <li key={result.id}>
+                <MovedNodeCard
+                  title={result.title}
+                  url={result.url}
+                  ingress={result.ingress}
+                  contentType={result.contentType}
+                  metaImage={result.metaImage}
+                  subjects={result.subjects}
+                />
+              </li>
+            ))}
+          </SearchResultListWrapper>
+        ) : (
+          <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+        )}
+      </Wrapper>
     </OneColumn>
   );
 };

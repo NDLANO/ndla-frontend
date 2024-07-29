@@ -9,11 +9,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq } from "@ndla/core";
 import { FooterHeaderIcon } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Tabs } from "@ndla/tabs";
+import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
@@ -35,10 +34,6 @@ interface ElementType {
   groupedCompetenceGoals?: CompetenceGoalType[];
   groupedCoreElementItems?: CoreElementType[];
 }
-
-const CompetenceBadgeText = styled.span`
-  padding: 0 5px;
-`;
 
 const CompetenceGoalsWrapper = styled.div`
   height: 100%;
@@ -194,28 +189,40 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     <>
       <Modal>
         <ModalTrigger>
-          <ButtonV2
-            aria-busy={competenceGoalsLoading}
-            size="xsmall"
-            colorTheme="light"
-            shape="pill"
-            disabled={competenceGoalsLoading}
-          >
-            <FooterHeaderIcon />
-            <CompetenceBadgeText>{t("competenceGoals.showCompetenceGoals")}</CompetenceBadgeText>
-          </ButtonV2>
+          <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+            {t("competenceGoals.showCompetenceGoals")}
+          </Button>
         </ModalTrigger>
         <ModalContent size="full">
           <ModalHeader>
             <ModalTitle>
-              <FooterHeaderIcon size="normal" style={{ marginRight: "20px" }} />
+              <FooterHeaderIcon style={{ marginRight: "20px" }} />
               {t("competenceGoals.modalText")}
             </ModalTitle>
             <ModalCloseButton />
           </ModalHeader>
           <ModalBody>
             <CompetenceGoalsWrapper>
-              <Tabs tabs={tabs} />
+              <TabsRoot
+                defaultValue={tabs[0]?.id}
+                orientation="horizontal"
+                variant="line"
+                translations={{ listLabel: t("tabs.competenceGoals") }}
+              >
+                <TabsList>
+                  {tabs.map((tab) => (
+                    <TabsTrigger key={tab.id} value={tab.id}>
+                      {tab.title}
+                    </TabsTrigger>
+                  ))}
+                  <TabsIndicator />
+                </TabsList>
+                {tabs.map((tab) => (
+                  <TabsContent key={tab.id} value={tab.id}>
+                    {tab.content}
+                  </TabsContent>
+                ))}
+              </TabsRoot>
             </CompetenceGoalsWrapper>
           </ModalBody>
         </ModalContent>

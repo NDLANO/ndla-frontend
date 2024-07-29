@@ -9,10 +9,10 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing, utils } from "@ndla/core";
+import { Heading, Hero, HeroBackground } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ProgrammeV2, FrontpageArticle, WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
+import { ProgrammeV2, OneColumn, ArticleWrapper, ArticleContent } from "@ndla/ui";
 import Programmes from "./Components/Programmes";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
@@ -26,39 +26,35 @@ import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
-const HiddenHeading = styled.h1`
-  ${utils.visuallyHidden};
-`;
+// TODO: Figure out what size this should be. Either add a variant to OneColumn or to Article.
+// The accordion in the "header" should match up with the content in the "body" of the article.
 
-const StyledMain = styled.main`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: ${spacing.xlarge};
-  padding-top: ${spacing.normal};
+const StyledMain = styled("main", {
+  base: {
+    paddingBlockEnd: "3xlarge",
+  },
+});
 
-  section {
-    padding: 0px;
-  }
-  nav {
-    max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
-    width: 100%;
-  }
-  ${mq.range({ until: breakpoints.wide })} {
-    padding-left: ${spacing.normal};
-    padding-right: ${spacing.normal};
-  }
-  /* This is a SSR-friendly :first-child */
-  [data-wide] > section > *:not(:is(*:not(style) ~ *)) {
-    margin-top: ${spacing.xxlarge};
-  }
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    paddingBlockStart: "medium",
+  },
+});
 
-const ProgrammeWrapper = styled.div`
-  max-width: ${WIDE_FRONTPAGE_ARTICLE_MAX_WIDTH};
-  width: 100%;
-`;
+const StyledOneColumn = styled(OneColumn, {
+  base: {
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "surface.4xsmall",
+  },
+});
+
+const StyledHeroBackground = styled(HeroBackground, {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    height: "unset",
+  },
+});
 
 export const programmeFragment = gql`
   fragment ProgrammeFragment on ProgrammePage {
@@ -184,7 +180,7 @@ const WelcomePage = () => {
 
   return (
     <>
-      <HiddenHeading>{t("welcomePage.heading.heading")}</HiddenHeading>
+      <Heading srOnly>{t("welcomePage.heading.heading")}</Heading>
       <HelmetWithTracker title={t("htmlTitles.welcomePage")}>
         <script type="application/ld+json">{googleSearchJSONLd()}</script>
       </HelmetWithTracker>
@@ -197,11 +193,21 @@ const WelcomePage = () => {
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
       <StyledMain>
-        <ProgrammeWrapper data-testid="programme-list">
-          <Programmes programmes={programmes} loading={fpQuery.loading} />
-        </ProgrammeWrapper>
+        <Hero absolute={false} variant="brand1">
+          <StyledHeroBackground>
+            <StyledOneColumn wide data-testid="programme-list">
+              <Programmes programmes={programmes} />
+            </StyledOneColumn>
+          </StyledHeroBackground>
+        </Hero>
         {article && (
-          <FrontpageArticle isWide id={SKIP_TO_CONTENT_ID} article={{ ...article, ...article.transformedContent }} />
+          <ContentWrapper>
+            <OneColumn wide>
+              <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
+                <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              </ArticleWrapper>
+            </OneColumn>
+          </ContentWrapper>
         )}
       </StyledMain>
     </>

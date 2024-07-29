@@ -13,8 +13,9 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
 import { useWindowSize } from "@ndla/hooks";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
+import { HeroContent } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
-import { HomeBreadcrumb, HeroContent, OneColumn, LicenseLink, LayoutItem, LearningPathBadge } from "@ndla/ui";
+import { HomeBreadcrumb, OneColumn, LicenseLink, LayoutItem, LearningPathBadge } from "@ndla/ui";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed from "./LearningpathEmbed";
 import LearningpathFooter from "./LearningpathFooter";
@@ -28,7 +29,7 @@ import {
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { useIsNdlaFilm, TaxonomyCrumb } from "../../routeHelpers";
+import { TaxonomyCrumb } from "../../routeHelpers";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -59,14 +60,6 @@ const StyledLearningpathContent = styled.div`
   }
 `;
 
-const StyledOneColumn = styled(OneColumn)`
-  ${mq.range({ from: breakpoints.desktop })} {
-    &[data-inverted="true"] {
-      color: ${colors.white};
-    }
-  }
-`;
-
 const LearningPathContent = styled.div`
   width: 100%;
 `;
@@ -84,12 +77,6 @@ const LearningPathWrapper = styled.section`
   max-width: ${1402 + spacingUnit}px;
   padding: 0 ${spacing.normal};
   margin: 0 auto;
-
-  &[data-inverted="true"] {
-    ${mq.range({ until: breakpoints.desktop })} {
-      background: #fff;
-    }
-  }
 `;
 
 const Learningpath = ({
@@ -104,7 +91,6 @@ const Learningpath = ({
   breadcrumbItems,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const ndlaFilm = useIsNdlaFilm();
 
   const { innerWidth } = useWindowSize(100);
   const mobileView = innerWidth < 981;
@@ -116,10 +102,10 @@ const Learningpath = ({
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
   return (
-    <LearningPathWrapper data-inverted={ndlaFilm}>
+    <LearningPathWrapper>
       <StyledHeroContent>
         <section>
-          <HomeBreadcrumb light={ndlaFilm} items={breadcrumbItems} />
+          <HomeBreadcrumb items={breadcrumbItems} />
         </section>
       </StyledHeroContent>
       <StyledLearningpathContent>
@@ -136,7 +122,7 @@ const Learningpath = ({
         {learningpathStep && (
           <LearningPathContent data-testid="learningpath-content">
             {learningpathStep.showTitle && (
-              <StyledOneColumn data-inverted={ndlaFilm}>
+              <OneColumn>
                 <LayoutItem layout="center">
                   <Heading element="h1" headingStyle="h1-resource" margin="large" id={skipToContentId}>
                     {learningpathStep.title}
@@ -146,7 +132,7 @@ const Learningpath = ({
                   />
                   {!!learningpathStep.description && <div>{parse(learningpathStep.description)}</div>}
                 </LayoutItem>
-              </StyledOneColumn>
+              </OneColumn>
             )}
             <LearningpathEmbed
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}

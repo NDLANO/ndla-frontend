@@ -2,709 +2,240 @@
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
-  @keyframes animation-0 {
-  from {
-    height: 0;
-  }
-
-  to {
-    height: var(--radix-accordion-content-height);
-  }
-}
-
-@keyframes animation-1 {
-  from {
-    height: var(--radix-accordion-content-height);
-  }
-
-  to {
-    height: 0;
-  }
-}
-
-.emotion-0 {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-@media (min-width: 29.75em) {
   .emotion-0 {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+  padding-left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 24px 0;
 }
 
-.emotion-0::after {
-  content: ""!important;
-  display: block!important;
-  clear: both!important;
+.emotion-1 {
+  margin-bottom: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #a5bcd3;
+  list-style: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.emotion-1:last-of-type {
+  border-bottom: none;
+}
+
+.emotion-1 img {
+  width: 100%;
 }
 
 .emotion-2 {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-  background: #fff;
-  margin-top: 48px;
-  margin-right: auto;
-  margin-bottom: 24px;
-  margin-left: auto;
-  overflow-wrap: break-word;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 29px;
-  position: relative;
+  padding-bottom: 24px;
 }
 
-.emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+.emotion-3 {
+  font-weight: 700;
+  padding-bottom: 6px;
+}
+
+.emotion-4 {
+  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  font-size: 1rem;
+  line-height: 24px;
+  margin: 0px;
+}
+
+.emotion-4:where([lang='zh'], .emotion-4[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
   font-size: calc(18px * 1.11);
   font-size: calc(1rem * 1.11);
 }
 
-.emotion-2 mjx-stretchy-v>mjx-ext>mjx-c {
-  -webkit-transform: scaleY(100) translateY(0.075em);
-  -moz-transform: scaleY(100) translateY(0.075em);
-  -ms-transform: scaleY(100) translateY(0.075em);
-  transform: scaleY(100) translateY(0.075em);
-}
-
-.emotion-2>section>p:not([class]) {
-  margin-bottom: 29px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-2 {
-    font-size: 18px;
-    font-size: 1rem;
-    line-height: 29px;
-    padding: 0 24px 24px;
-    margin-bottom: 48px;
-    margin-top: -144px;
-    padding-top: 72px;
-  }
-
-  .emotion-2:where([lang='zh'], .emotion-2[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(18px * 1.11);
-    font-size: calc(1rem * 1.11);
-  }
-
-  .emotion-2>section>p:not([class]) {
-    margin-bottom: 35px;
-  }
-}
-
-@media (min-width: 61.3125em) {
-  .emotion-2 {
-    padding-bottom: 48px;
-    margin-bottom: 48px;
-  }
-}
-
-.emotion-2::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.emotion-2 p {
-  margin-top: 0;
-}
-
-.emotion-2 {
-  margin-top: 24px!important;
-  padding: 12px!important;
-  border: none;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-2 {
-    padding: 0!important;
-  }
-}
-
-.emotion-4 {
-  position: relative!important;
-  width: 83.333%;
-  right: auto!important;
-  left: 8.333%;
-}
-
 .emotion-5 {
-  margin-bottom: 24px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  list-style-type: disc;
+  list-style-position: inside;
 }
 
-@media (min-width: 37.5625em) {
-  .emotion-5 {
-    margin-bottom: 48px;
+.emotion-6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: start;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  margin: 12px 0 0 0;
+  width: 100%;
+}
+
+.emotion-6 button,
+.emotion-6 a {
+  margin: 0 12px 12px 0;
+}
+
+@media (max-width: 29.75em) {
+  .emotion-6 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+
+  .emotion-6 button,
+  .emotion-6 a {
+    margin: 0 0 12px 0;
+    width: 100%;
+  }
+
+  .emotion-6 span {
+    width: 100%;
+  }
+
+  .emotion-6 span button {
+    width: 100%;
   }
 }
 
 .emotion-7 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 24px;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  padding-bottom: 30px;
-}
-
-.emotion-7 h1 {
-  overflow-wrap: anywhere;
-}
-
-.emotion-7 [data-badge] {
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-}
-
-.emotion-9 {
-  font-weight: 700;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-  margin: 24px 0 24px 0;
-}
-
-.emotion-9:where([lang='zh'], .emotion-9[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9[data-margin="none"] {
-  margin: 0px;
-}
-
-.emotion-9[data-margin="xlarge"] {
-  margin: 24px 0 12px 0;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-margin="xlarge"] {
-    margin-bottom: 24px;
-  }
-}
-
-.emotion-9[data-margin="large"] {
-  margin-top: 48px;
-  margin-bottom: 12px;
-}
-
-.emotion-9[data-margin="small"] {
-  margin-top: 24px;
-  margin-bottom: 12px;
-}
-
-.emotion-9[data-style="h1"] {
-  font-family: 'Source Serif Pro',Times,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',serif;
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h1"]:where([lang='zh'], .emotion-9[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h1"] {
-    font-size: 48px;
-    font-size: 2.6666666666666665rem;
-    line-height: 60px;
-    margin-bottom: 24px;
-  }
-
-  .emotion-9[data-style="h1"]:where([lang='zh'], .emotion-9[data-style="h1"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(48px * 1.11);
-    font-size: calc(2.6666666666666665rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h1-resource"] {
-  font-size: 30px;
-  font-size: 1.6666666666666667rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h1-resource"]:where([lang='zh'], .emotion-9[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(30px * 1.11);
-  font-size: calc(1.6666666666666667rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h1-resource"] {
-    font-size: 38px;
-    font-size: 2.111111111111111rem;
-    line-height: 48px;
-  }
-
-  .emotion-9[data-style="h1-resource"]:where([lang='zh'], .emotion-9[data-style="h1-resource"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(38px * 1.11);
-    font-size: calc(2.111111111111111rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h2"] {
-  font-size: 28px;
-  font-size: 1.5555555555555556rem;
-  line-height: 36px;
-}
-
-.emotion-9[data-style="h2"]:where([lang='zh'], .emotion-9[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(28px * 1.11);
-  font-size: calc(1.5555555555555556rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h2"] {
-    font-size: 30px;
-    font-size: 1.6666666666666667rem;
-    line-height: 38px;
-  }
-
-  .emotion-9[data-style="h2"]:where([lang='zh'], .emotion-9[data-style="h2"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(30px * 1.11);
-    font-size: calc(1.6666666666666667rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h3"] {
-  font-size: 26px;
-  font-size: 1.4444444444444444rem;
-  line-height: 35px;
-}
-
-.emotion-9[data-style="h3"]:where([lang='zh'], .emotion-9[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(26px * 1.11);
-  font-size: calc(1.4444444444444444rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-9[data-style="h3"] {
-    font-size: 26px;
-    font-size: 1.4444444444444444rem;
-    line-height: 36px;
-  }
-
-  .emotion-9[data-style="h3"]:where([lang='zh'], .emotion-9[data-style="h3"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(26px * 1.11);
-    font-size: calc(1.4444444444444444rem * 1.11);
-  }
-}
-
-.emotion-9[data-style="h4"] {
-  font-size: 22px;
-  font-size: 1.2222222222222223rem;
-  line-height: 30px;
-}
-
-.emotion-9[data-style="h4"]:where([lang='zh'], .emotion-9[data-style="h4"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(22px * 1.11);
-  font-size: calc(1.2222222222222223rem * 1.11);
-}
-
-.emotion-9[data-style="list-title"] {
-  font-size: 18px;
-  font-size: 1rem;
+  font-size: 16px;
+  font-size: 0.8888888888888888rem;
   line-height: 24px;
-  text-transform: uppercase;
 }
 
-.emotion-9[data-style="list-title"]:where([lang='zh'], .emotion-9[data-style="list-title"][lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
+.emotion-7:where([lang='zh'], .emotion-7[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
+  font-size: calc(16px * 1.11);
+  font-size: calc(0.8888888888888888rem * 1.11);
+}
+
+@media (min-width: 37.5625em) {
+  .emotion-7 {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 61.3125em) {
+  .emotion-7 {
+    max-width: 75%;
+  }
+}
+
+.emotion-8 {
+  display: -webkit-box;
+  display: -webkit-"none";
+  display: -ms-"none"box;
+  display: "none";
 }
 
 .emotion-10 {
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  font-size: 1.1111111111111112rem;
-  line-height: 31px;
+  background: #fff;
+  width: 100%;
 }
 
-.emotion-10:where([lang='zh'], .emotion-10[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(20px * 1.11);
-  font-size: calc(1.1111111111111112rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-10 {
-    font-size: 24px;
-    font-size: 1.3333333333333333rem;
-    line-height: 35px;
-  }
-
-  .emotion-10:where([lang='zh'], .emotion-10[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-    font-size: calc(24px * 1.11);
-    font-size: calc(1.3333333333333333rem * 1.11);
+@media (max-width: 37.5625em) {
+  .emotion-10 button,
+  .emotion-10 a {
+    width: 100%;
+    margin: 4px 0;
   }
 }
 
 .emotion-11 {
-  margin-top: 24px;
-}
-
-.emotion-14[data-align="center"] {
-  text-align: center;
-}
-
-.emotion-17 {
-  margin-top: 24px;
-  padding-top: 24px;
-  padding-bottom: 6px;
-  border-top: 1px solid #e8e3e3;
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 24px;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  color: #4d4d4d;
-}
-
-.emotion-17:where([lang='zh'], .emotion-17[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
-.emotion-19 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
   width: 100%;
-  padding-bottom: 36px;
 }
 
-@media (max-width: 48em) {
-  .emotion-19 {
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-flex-direction: column-reverse;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse;
-    gap: 6px;
-  }
+.emotion-11 button,
+.emotion-11 a {
+  margin: 0 12px 12px 0;
 }
 
-.emotion-19[data-learning-path="true"] {
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex-direction: column-reverse;
-  -ms-flex-direction: column-reverse;
-  flex-direction: column-reverse;
-  gap: 6px;
-}
-
-.emotion-21 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 12px;
-  padding-right: 6px;
-}
-
-.emotion-23 {
-  color: #20588f;
-  font-weight: 700;
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  white-space: nowrap;
-  box-shadow: none;
-}
-
-.emotion-23:hover,
-.emotion-23:focus-within {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-}
-
-.emotion-25 {
-  margin-left: 4px;
-}
-
-.emotion-27 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.emotion-29 {
-  border: 1px solid #ceddea;
-}
-
-.emotion-29[data-state="open"] {
-  border-color: #20588f;
-}
-
-.emotion-31 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+.emotion-12 {
   margin: 0;
-}
-
-.emotion-34 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: transparent;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 24px;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  justify-content: space-between;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  color: #20588f;
-  font-weight: 600;
-  -webkit-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-  background-color: #F0F6FB;
-  font-size:font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 29px;
-  font-weight: 600;
-}
-
-.emotion-34[data-state="open"] {
-  background-color: #deebf6;
-  border-bottom: 1px solid #20588f;
-}
-
-.emotion-34:hover,
-.emotion-34:focus-visible {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.emotion-34:focus-visible {
-  outline: 2px solid #20588f;
-}
-
-.emotion-34:where([lang='zh'], .emotion-34[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
-.emotion-34[data-background-color="white"][data-state="closed"] {
-  background-color: #ffffff;
-}
-
-.emotion-37 {
-  display: inline-block;
-  fill: currentColor;
-  vertical-align: middle;
-  line-height: 1em;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  color: #20588f;
-  -webkit-transition: all 200ms ease-in-out;
-  transition: all 200ms ease-in-out;
-  width: 24px;
-  height: 24px;
-}
-
-.emotion-35[data-state='open']>.emotion-37 {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-
-.emotion-39 {
-  overflow: hidden;
-}
-
-.emotion-39[data-state="open"] {
-  -webkit-animation: animation-0 300ms ease-out;
-  animation: animation-0 300ms ease-out;
-}
-
-.emotion-39[data-state="closed"] {
-  -webkit-animation: animation-1 300ms ease-out;
-  animation: animation-1 300ms ease-out;
-}
-
-.emotion-39[data-disable-animate="true"] {
-  -webkit-animation: none;
-  animation: none;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-41 {
-    position: relative!important;
-    width: 83.333%;
-    right: auto!important;
-    left: 8.333%;
-  }
-}
-
-.emotion-42 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  -webkit-justify-content: flex-end;
-  justify-content: flex-end;
-}
-
-.emotion-44 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.emotion-46 {
-  color: #595959;
-  margin-right: 38px;
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-size: 20px;
-  font-size: 1.1111111111111112rem;
-  line-height: 20px;
-}
-
-.emotion-46:where([lang='zh'], .emotion-46[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(20px * 1.11);
-  font-size: calc(1.1111111111111112rem * 1.11);
-}
-
-.emotion-48 {
-  color: #595959;
-}
-
-.emotion-52 {
-  width: 120px;
-  margin: 0;
-  position: relative;
-}
-
-.emotion-52 a {
-  box-shadow: none;
-}
-
-.emotion-54 {
-  fill: #20588f;
+  padding: 0;
+  padding-bottom: 6px;
 }
 
 <div
-    class="emotion-0 emotion-1"
+    class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
   >
     <main>
       <article
-        class="emotion-2 emotion-3"
+        class="d_flex flex-d_column c_text.default gap_xxlarge bg_surface.default py_xsmall px_8% ai_center w_100% ov-wrap_break-word pos_relative tablet:py_medium desktop:py_xxlarge [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
-        <section
-          class="emotion-4"
+        <header
+          class="d_flex flex-d_column gap_medium ai_flex-start w_100%"
         >
-          <div
-            class="emotion-5 emotion-6"
+          <hgroup
+            class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
           >
-            <div
-              class="emotion-7 emotion-8"
-            >
-              <hgroup>
-                <h1
-                  class="emotion-9"
-                  data-margin="none"
-                  data-style="h1-resource"
-                  id="54"
-                  lang="no"
-                  tabindex="-1"
-                >
-                  Politiske skillelinjer
-                </h1>
-              </hgroup>
-            </div>
-            <div
-              class="emotion-10"
+            <h1
+              class="textStyle_heading.large"
+              id="54"
               lang="no"
+              tabindex="-1"
             >
-              <p>
-                Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-              </p>
-            </div>
-            <div
-              class="emotion-11 emotion-12"
-            />
+              Politiske skillelinjer
+            </h1>
+          </hgroup>
+          <div
+            class="textStyle_body.xlarge"
+            lang="no"
+          >
+            <p>
+              Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+            </p>
           </div>
-        </section>
+        </header>
         <section
-          class="emotion-4"
+          class="w_100%"
         >
           <section>
             <p
-              class="emotion-14 emotion-15"
+              class="[&[data-align="center"]]:ta_center [&:has(span[dir="rtl"])]:direction_rtl"
               lang="no"
             >
               Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
             </p>
           </section>
         </section>
-        <section
-          class="emotion-4"
+        <footer
+          class="d_flex flex-d_column gap_xxlarge w_100%"
         >
           <div
-            class="emotion-17 emotion-18"
+            class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
           >
             <div
-              class="emotion-19 emotion-20"
-              data-learning-path="false"
+              class="d_flex flex-d_column-reverse gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium tabletWide:flex-d_row"
             >
               <div
-                class="emotion-21 emotion-22"
+                class="d_flex gap_xsmall"
               >
-                <a
-                  class="emotion-23 emotion-24"
-                  href="https://creativecommons.org/licenses/by-sa/4.0/deed.no"
-                  rel="license"
-                >
-                  CC BY-SA
-                </a>
-                <span
-                  class="emotion-25 emotion-26"
-                >
+                <span>
+                  by-sa
+                </span>
+                <span>
                   Skrevet av Someone. 
                 </span>
               </div>
@@ -713,132 +244,310 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
             </div>
             <div
-              class="emotion-27 emotion-28"
+              class="d_flex flex-d_column gap_3xsmall pbs_xxlarge"
               data-orientation="vertical"
+              data-part="root"
+              data-scope="accordion"
+              dir="ltr"
+              id="accordion::r0:"
             >
               <div
-                class="emotion-29 emotion-30"
+                class="w_100%"
                 data-orientation="vertical"
+                data-part="item"
+                data-scope="accordion"
                 data-state="closed"
+                dir="ltr"
+                id="collapsible:accordion::r0::item:rulesForUse"
               >
-                <h2
-                  class="emotion-31 emotion-32"
+                <button
+                  aria-controls="accordion::r0::content:rulesForUse"
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg-c_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_2px_var(--shadow-color)"
                   data-orientation="vertical"
+                  data-ownedby="accordion::r0:"
+                  data-part="item-trigger"
+                  data-scope="accordion"
                   data-state="closed"
+                  dir="ltr"
+                  id="accordion::r0::trigger:rulesForUse"
+                  type="button"
                 >
-                  <button
-                    aria-controls="radix-:r1:"
-                    aria-expanded="false"
-                    class="emotion-33 emotion-34 emotion-35"
-                    data-background-color="blue"
-                    data-orientation="vertical"
-                    data-radix-collection-item=""
-                    data-state="closed"
-                    id="radix-:r0:"
-                    type="button"
+                  <h2
+                    class="textStyle_label.medium fw_bold"
                   >
-                    Regler for bruk
-                    <svg
-                      aria-hidden="true"
-                      class="emotion-36 emotion-37 emotion-38"
-                      data-icon=""
-                      data-license="Apache License 2.0"
-                      data-source="Material Design"
-                      fill="currentColor"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                      />
-                      <path
-                        d="M0 0h24v24H0z"
-                        fill="none"
-                      />
-                    </svg>
-                  </button>
-                </h2>
-                <div
-                  aria-labelledby="radix-:r0:"
-                  class="emotion-39 emotion-40"
-                  data-orientation="vertical"
-                  data-state="closed"
-                  hidden=""
-                  id="radix-:r1:"
-                  role="region"
-                  style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section
-          class="emotion-41"
-        >
-          <div
-            class="emotion-42 emotion-43"
-          >
-            <div
-              class="emotion-44 emotion-45"
-            >
-              <div
-                class="emotion-46 emotion-47"
-              >
-                <a
-                  class="emotion-48 emotion-49"
-                  href="https://test.ndla.no/subject:1/resource:1"
-                  target="_blank"
-                >
-                  Ressursen
-                </a>
-                 er hentet fra 
-                <a
-                  class="emotion-48 emotion-49"
-                  href="https://ndla.no"
-                  target="_blank"
-                >
-                  NDLA
-                </a>
-              </div>
-              <div
-                class="emotion-52 emotion-53"
-              >
-                <a
-                  aria-label="NDLA"
-                  href="https://ndla.no"
-                  title="NDLA"
-                >
+                    Sitere eller gjenbruke?
+                  </h2>
                   <svg
-                    class="emotion-54 emotion-55"
-                    fill="#000000"
-                    fill-rule="evenodd"
-                    viewBox="0 0 376 152"
-                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg)"
+                    data-icon=""
+                    data-license="Apache License 2.0"
+                    data-orientation="vertical"
+                    data-part="item-indicator"
+                    data-scope="accordion"
+                    data-source="Material Design"
+                    data-state="closed"
+                    dir="ltr"
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 24 24"
                   >
                     <path
-                      d="M355 67h-84v51h102V51h-18v16zm0 14h-66v19h66V81zm-84-48v18h84V33h-84z"
-                    />
-                    <rect
-                      height="118"
-                      transform="matrix(-1 0 0 1 490 0)"
-                      width="18"
-                      x="236"
+                      d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
                     />
                     <path
-                      d="M201 100V51h-65v49h65zm18 18V0h-18v33h-83v85h101z"
-                    />
-                    <polygon
-                      points="18 51 18 118 0 118 0 33 101 33 101 118 83 118 83 51"
-                    />
-                    <path
-                      d="M.8 151v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H.8zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L18.93 151h-2.67l7.58-16.28L31.41 151h-2.68zm3.26-3.13l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.62 1.92l-2 1.03c-.3-.5-.65-.86-1.03-1.08-.37-.23-.8-.35-1.28-.35-.69 0-1.23.18-1.64.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.79 1.3c-1.33 0-2.43-.3-3.28-.91a4.3 4.3 0 0 1-1.67-2.63zm12.79.29c.26.3.52.54.76.68s.5.21.77.21c.5 0 .85-.16 1.05-.49.2-.33.3-.94.3-1.83v-11.39h2.53v12.22c0 1.32-.3 2.3-.88 2.92-.58.63-1.5.94-2.74.94a4.25 4.25 0 0 1-3.42-1.63l1.63-1.63zm22.15-4.96a5.95 5.95 0 0 0-1.67-4.16 5.52 5.52 0 0 0-4.04-1.7 5.61 5.61 0 0 0-4.05 1.7 5.66 5.66 0 0 0-1.24 1.9 6.05 6.05 0 0 0 1.24 6.4 5.62 5.62 0 0 0 8.09 0 5.87 5.87 0 0 0 1.67-4.14zm2.66 0a8.05 8.05 0 0 1-2.45 5.81 8.56 8.56 0 0 1-5.92 2.4 8.46 8.46 0 0 1-7.75-5.04 8.09 8.09 0 0 1-.62-3.17 8.14 8.14 0 0 1 5.16-7.6 8.56 8.56 0 0 1 3.21-.6 8.49 8.49 0 0 1 5.92 2.38 8.23 8.23 0 0 1 2.45 5.82zm2.92 7.8v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151H72.5zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2L90.64 151h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm19.45-2.3h2.14c1.17 0 2.06-.08 2.64-.23.6-.16 1.1-.42 1.54-.8a4.7 4.7 0 0 0 1.33-1.88c.3-.76.44-1.63.44-2.63s-.14-1.87-.44-2.62a4.7 4.7 0 0 0-1.33-1.9 3.94 3.94 0 0 0-1.59-.78c-.62-.16-1.58-.24-2.9-.24h-1.83v11.08zm-2.55 2.3v-15.66h3.44c2.23 0 3.8.12 4.7.34a6.36 6.36 0 0 1 4.45 3.8 9.3 9.3 0 0 1 .7 3.7c0 1.4-.23 2.62-.7 3.7a6.65 6.65 0 0 1-2.05 2.66c-.69.52-1.47.9-2.34 1.12-.87.23-2.23.34-4.08.34h-4.12zm16.26 0v-15.66h2.54V151h-2.54zm14.87-8.02h6.2l.01.45c.03.5.04.85.04 1.03 0 2.2-.63 3.9-1.9 5.13-1.26 1.22-3.04 1.83-5.33 1.83a9.7 9.7 0 0 1-3.43-.57c-1.01-.38-1.89-.95-2.65-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.41-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.61 2.06l-1.86 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.15 1.63a5.78 5.78 0 0 0-1.61 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.26-2.77v-.22h-3.77v-2.15zm8.96 8.02v-15.66h2.55V151h-2.55zm11.26-13.5V151h-2.54v-13.5h-4.16v-2.16h10.84v2.16h-4.14zm9.4 7.35h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm4.16 0v-15.66h2.54v13.38h5.7V151h-8.24zm16.9 0v-15.66h2.55v13.38h5.69V151h-8.24zm13.6-6.15h4.52l-1.32-3.57a19.6 19.6 0 0 1-.76-2.6 10.28 10.28 0 0 1-.79 2.38l-1.64 3.8zm9.12-9.5l.9 2.15h-5.74l1.38 3.84h5.25l.84 2.24h-5.24l1.91 5.14h5.75l.86 2.28h-8.26l-1.48-4.03H223L221.2 151h-2.68l7.32-15.66h7.23zm10.08 6.67h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.26.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.92 7v-15.66h2.55V151h-2.55zm6.2 0v-16.28l9.95 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.15-9.74a13.47 13.47 0 0 1-1.5-1.76V151h-2.34zm26.27-8.02h6.2l.01.45.03 1.03c0 2.2-.63 3.9-1.89 5.13-1.26 1.22-3.04 1.83-5.34 1.83a9.7 9.7 0 0 1-3.43-.57c-1-.38-1.88-.95-2.64-1.71a7.77 7.77 0 0 1-1.7-2.66 8.96 8.96 0 0 1-.6-3.28c0-1.18.2-2.27.6-3.27.4-1 1-1.88 1.8-2.64a7.72 7.72 0 0 1 2.68-1.71 9.15 9.15 0 0 1 3.3-.59c1.23 0 2.33.23 3.3.68a7.38 7.38 0 0 1 2.6 2.06l-1.85 1.4a5.15 5.15 0 0 0-1.79-1.37c-.66-.3-1.4-.45-2.22-.45-1.7 0-3.08.55-4.16 1.63a5.78 5.78 0 0 0-1.6 4.24c0 1.77.53 3.2 1.6 4.3a5.57 5.57 0 0 0 4.18 1.66 5.3 5.3 0 0 0 3.43-1.02 3.38 3.38 0 0 0 1.25-2.77v-.22h-3.76v-2.15zm8.02 4.89l2.03-.94c.2.7.55 1.23 1.06 1.6a3.3 3.3 0 0 0 1.97.55c.75 0 1.35-.22 1.8-.64.44-.42.67-.98.67-1.69 0-.91-.77-1.73-2.3-2.45l-.48-.24c-1.73-.84-2.88-1.6-3.45-2.28a3.74 3.74 0 0 1-.86-2.5 4 4 0 0 1 1.3-3.1c.86-.8 2-1.19 3.4-1.19 1.16 0 2.12.22 2.9.67a3.52 3.52 0 0 1 1.61 1.92l-1.98 1.03c-.32-.5-.66-.86-1.04-1.08-.37-.23-.8-.35-1.29-.35-.68 0-1.22.18-1.63.54-.4.36-.6.83-.6 1.43 0 .94.88 1.82 2.65 2.63l.32.15a9.43 9.43 0 0 1 3.19 2.1c.58.67.87 1.52.87 2.54a4.6 4.6 0 0 1-1.4 3.54 5.32 5.32 0 0 1-3.8 1.3c-1.32 0-2.42-.3-3.27-.91a4.3 4.3 0 0 1-1.67-2.63zm16.22-3.02h4.36l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.57 1.78l-1.6 3.57zm7.04 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68zm6.7-8.98h.46c1.35 0 2.24-.16 2.68-.47.45-.32.67-.87.67-1.67 0-.86-.24-1.47-.71-1.82-.48-.36-1.36-.53-2.64-.53h-.46v4.49zm-.16 1.98v7h-2.38v-15.66h3.55c1.04 0 1.84.07 2.42.2a3.8 3.8 0 0 1 1.47.68c.48.38.86.87 1.12 1.47.27.6.4 1.25.4 1.96a4.4 4.4 0 0 1-.91 2.95 4 4 0 0 1-2.69 1.28l5.4 7.12h-2.88l-5.21-7h-.29zm9.88 7v-15.66h8.74v2.16h-6.2v3.93h6.2v2.23h-6.2v5.06h6.2V151h-8.74zm11.66 0v-16.28l9.94 9.58a24.54 24.54 0 0 1 1.7 1.9v-10.86h2.35v16.27l-10.14-9.74a13.47 13.47 0 0 1-1.51-1.76V151h-2.34zm20.9-6.15h4.35l-1.6-3.57a13.98 13.98 0 0 1-.59-1.78 14.35 14.35 0 0 1-.56 1.78l-1.6 3.57zm7.03 6.15l-1.78-4.03h-6.2l-1.82 4.03h-2.67l7.58-16.28 7.57 16.28h-2.68z"
+                      d="M0 0h24v24H0z"
+                      fill="none"
                     />
                   </svg>
-                </a>
+                </button>
+                <div
+                  aria-labelledby="accordion::r0::trigger:rulesForUse"
+                  class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in closed:anim_collapse-out bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
+                  data-orientation="vertical"
+                  data-part="item-content"
+                  data-scope="accordion"
+                  data-state="closed"
+                  dir="ltr"
+                  hidden=""
+                  id="accordion::r0::content:rulesForUse"
+                  role="region"
+                  style="--height: 0px; --width: 0px;"
+                >
+                  <div
+                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row"
+                    data-orientation="horizontal"
+                    data-part="root"
+                    data-scope="tabs"
+                    dir="ltr"
+                    id="tabs::r2:"
+                  >
+                    <div
+                      aria-label="Innholdstyper"
+                      aria-orientation="horizontal"
+                      class="pos_relative d_flex flex-sh_0 flex-wrap_wrap horizontal:flex-d_row vertical:flex-d_column"
+                      data-orientation="horizontal"
+                      data-part="list"
+                      data-scope="tabs"
+                      dir="ltr"
+                      id="tabs::r2::list"
+                      role="tablist"
+                    >
+                      <button
+                        aria-controls="tabs::r2::content-text"
+                        aria-selected="true"
+                        class="d_inline-flex ai_center jc_center flex-sh_0 cursor_pointer textStyle_label.small fw_bold trs-dur_normal trs-prop_color,_background,_border-color trs-tmf_default white-space_nowrap px_small py_3xsmall z_1 hover:c_text.action hover:bd-c_stroke.hover hover:focusVisible:bd-c_stroke.default selected:c_text.strong disabled:c_text.subtle disabled:cursor_not-allowed disabled:hover:c_text.subtle disabled:hover:bd-c_stroke.default disabled:bd-c_stroke.default bd-c_stroke.default horizontal:bd-b_1px_solid vertical:bd-l_1px_solid vertical:jc_flex-start focusVisible:ring_none focusVisible:bdr_unset peer"
+                        data-focus=""
+                        data-orientation="horizontal"
+                        data-ownedby="tabs::r2::list"
+                        data-part="trigger"
+                        data-scope="tabs"
+                        data-selected=""
+                        data-value="text"
+                        dir="ltr"
+                        id="tabs::r2::trigger-text"
+                        role="tab"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Tekst
+                      </button>
+                      <div
+                        class="bg_transparent ring_3px_solid ring-c_stroke.default ring-o_-3px peerFocusVisible:h_var(--height) peerFocusVisible:w_var(--width) peerFocusVisible:horizontal:bdr-t_xsmall peerFocusVisible:vertical:bdr-r_xsmall horizontal:top_calc(var(--top)_+_var(--height)_-_6px) horizontal:peerFocusVisible:top_var(--top) horizontal:h_3 horizontal:w_var(--width) vertical:h_var(--height) vertical:left_0 vertical:w_3"
+                        data-orientation="horizontal"
+                        data-part="indicator"
+                        data-scope="tabs"
+                        dir="ltr"
+                        id="tabs::r2::indicator"
+                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function);"
+                      />
+                    </div>
+                    <div
+                      aria-labelledby="tabs::r2::trigger-text"
+                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
+                      data-orientation="horizontal"
+                      data-ownedby="tabs::r2::list"
+                      data-part="content"
+                      data-scope="tabs"
+                      data-selected=""
+                      data-state="open"
+                      dir="ltr"
+                      id="tabs::r2::content-text"
+                      role="tabpanel"
+                      tabindex="0"
+                    >
+                      <ul
+                        class="emotion-0"
+                      >
+                        <li
+                          class="emotion-1"
+                        >
+                          <div
+                            class="emotion-2"
+                          >
+                            <label
+                              class="emotion-3 emotion-4"
+                            >
+                              Regler for bruk av teksten "Politiske skillelinjer"
+                            </label>
+                            <br />
+                            <span>
+                              Denne teksten har lisensen 
+                              <span>
+                                by-sa
+                              </span>
+                              . 
+                            </span>
+                            <ul
+                              class="emotion-5"
+                            />
+                          </div>
+                          <div
+                            class="emotion-6"
+                          />
+                          <div
+                            about=""
+                            class="emotion-7"
+                          >
+                            <span
+                              class="emotion-8"
+                              href="http://purl.org/dc/dcmitype/Text"
+                              rel="dct:type"
+                            />
+                            <div
+                              class="emotion-6"
+                            >
+                              <div
+                                class="emotion-10"
+                              >
+                                <ul
+                                  class="emotion-11"
+                                  content="Opphaver: Forfatter Someone"
+                                  property="cc:attributionName"
+                                >
+                                  <li
+                                    class="emotion-12"
+                                  >
+                                    <span>
+                                      Tittel: 
+                                      <span>
+                                        Politiske skillelinjer
+                                      </span>
+                                    </span>
+                                  </li>
+                                  <li
+                                    class="emotion-12"
+                                  >
+                                    <span>
+                                      Opphaver: 
+                                      <span>
+                                        Forfatter Someone
+                                      </span>
+                                    </span>
+                                  </li>
+                                  <li
+                                    class="emotion-12"
+                                  >
+                                    <span>
+                                      Sist faglig oppdatert: 
+                                      <span>
+                                        09.01.2018
+                                      </span>
+                                    </span>
+                                  </li>
+                                </ul>
+                                <span>
+                                  <button
+                                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
+                                    type="button"
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                                      data-icon=""
+                                      data-license="Apache License 2.0"
+                                      data-source="Material Design"
+                                      preserveAspectRatio="xMidYMid meet"
+                                      viewBox="0 96 960 960"
+                                    >
+                                      <path
+                                        d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18zm0-60h440V235H300zm0 0V235z"
+                                      />
+                                    </svg>
+                                    Kopier kildehenvisning
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+          <div
+            class="d_flex ai_center gap_xsmall jc_flex-end"
+          >
+            <p
+              class="textStyle_body.large c_text.subtle [&_a]:c_inherit"
+            >
+              <a
+                class=""
+                href="https://test.ndla.no/subject:1/resource:1"
+                target="_blank"
+              >
+                Ressursen
+              </a>
+               er hentet fra 
+              <a
+                class=""
+                href="https://ndla.no"
+                target="_blank"
+              >
+                NDLA
+              </a>
+            </p>
+            <a
+              aria-label="NDLA"
+              class=""
+              href="https://ndla.no"
+            >
+              <svg
+                class="c_primary"
+                height="32"
+                viewBox="0 0 1104 280"
+                width="126"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  fill="currentColor"
+                >
+                  <rect
+                    height="280"
+                    width="52"
+                  />
+                  <polygon
+                    points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
+                  />
+                  <path
+                    d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
+                  />
+                  <polygon
+                    points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
+                  />
+                  <path
+                    d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
+                  />
+                </g>
+              </svg>
+            </a>
+          </div>
+        </footer>
       </article>
     </main>
   </div>
@@ -847,82 +556,17 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
-  .emotion-0 {
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-2 {
-  max-width: 1024px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-@media (min-width: 29.75em) {
-  .emotion-2 {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-.emotion-2::after {
-  content: ""!important;
-  display: block!important;
-  clear: both!important;
-}
-
-.emotion-4 {
-  text-align: center;
-}
-
-.emotion-4 a {
-  color: #20588f;
-}
-
-.emotion-4 h1 {
-  margin-top: 0;
-}
-
-.emotion-6 {
-  margin-bottom: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-6 {
-    margin-top: 48px;
-  }
-}
-
-.emotion-8 {
-  margin-bottom: 24px;
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-8 {
-    margin-bottom: 48px;
-  }
-}
-
-<div
-    class="emotion-0 emotion-1"
+  <div
+    class="min-h_100vh d_flex flex-d_column"
   >
     <div
-      class="emotion-2 emotion-3"
+      class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
     >
       <article
-        class="emotion-4 emotion-5"
+        class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
       >
         <div
-          class="emotion-6 emotion-7"
+          class="mb_medium tablet:mt_xxlarge"
         >
           <img
             alt="Ops, noe gikk galt"
@@ -933,7 +577,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
           Ops, noe gikk galt
         </h1>
         <p
-          class="emotion-8 emotion-9"
+          class="textStyle_body.medium mb_medium tablet:mb_xxlarge"
         >
           Beklager, en feil oppstod.
         </p>

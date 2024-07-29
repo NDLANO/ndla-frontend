@@ -51,6 +51,10 @@ import {
   GQLUpdatePostV2MutationVariables,
   GQLUpdateTopicV2Mutation,
   GQLUpdateTopicV2MutationVariables,
+  GQLRemoveUpvotePostV2Mutation,
+  GQLRemoveUpvotePostV2MutationVariables,
+  GQLUpvotePostV2Mutation,
+  GQLUpvotePostV2MutationVariables,
 } from "../../graphqlTypes";
 
 const newFlagMutationV2 = gql`
@@ -67,8 +71,8 @@ export const useNewFlagMutationV2 = () => {
 };
 
 const replyToTopicV2Mutation = gql`
-  mutation ReplyToTopicV2($topicId: Int!, $content: String!) {
-    replyToTopicV2(topicId: $topicId, content: $content) {
+  mutation ReplyToTopicV2($topicId: Int!, $content: String!, $postId: Int) {
+    replyToTopicV2(topicId: $topicId, content: $content, postId: $postId) {
       ...ArenaPostV2
     }
   }
@@ -401,4 +405,38 @@ export const useUnsubscribeFromTopicMutation = () => {
       });
     },
   });
+};
+
+const upvotePostMutation = gql`
+  mutation upvotePostV2($postId: Int!) {
+    addPostUpvoteV2(postId: $postId)
+  }
+`;
+
+export const useUpvotePostV2 = (
+  options: MutationHookOptions<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>,
+) => {
+  const [upvotePost] = useMutation<GQLUpvotePostV2Mutation, GQLUpvotePostV2MutationVariables>(
+    upvotePostMutation,
+    options,
+  );
+  return {
+    upvotePost,
+  };
+};
+
+const removeUpvotePostMutation = gql`
+  mutation removeUpvotePostV2($postId: Int!) {
+    removePostUpvoteV2(postId: $postId)
+  }
+`;
+
+export const useRemoveUpvotePostV2 = (
+  options: MutationHookOptions<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>,
+) => {
+  const [removeUpvotePost] = useMutation<GQLRemoveUpvotePostV2Mutation, GQLRemoveUpvotePostV2MutationVariables>(
+    removeUpvotePostMutation,
+    options,
+  );
+  return { removeUpvotePost };
 };

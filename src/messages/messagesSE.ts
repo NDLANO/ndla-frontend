@@ -34,6 +34,12 @@ const messages = {
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "Om oss",
+    subjectAndProgramme: "Fag og utdanningsprogram",
+    tipsAndAdvice: "Tips og råd",
+    goBack: "Gå tilbake",
+  },
   podcastPage: {
     episodes: "Jearahusat",
     podcast: "Podkast",
@@ -42,6 +48,7 @@ const messages = {
     noResults: "...Eai leat oasit",
     subtitle: "Guldal ja oahpa!",
   },
+  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
   myndla: {
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
@@ -53,6 +60,7 @@ const messages = {
       ingressUnauthenticated:
         "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
     },
+    resource: { addedToFolder: 'Ressurs er lagt i "{{folder}}"', added: "Lagt til", removed: "Fjernet" },
   },
   myNdla: {
     sharedFolder: {
@@ -64,6 +72,9 @@ const messages = {
         description:
           "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
       },
+      reported: "Innhold rapportert",
+      error: "En feil oppstod",
+      userUpdated: "Bruker oppdatert",
     },
   },
   validation: {
@@ -124,7 +135,17 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
+    tabs: {
+      competenceGoals: "Kategorier",
+      licenseBox: "Innholdstyper",
+      subjectFilter: "Fagkategorier",
+    },
   },
+  masthead: {
+    search: "Søk på ndla.no",
+    moreHits: "Vis flere treff",
+  },
+  pagination: { next: "Neste", prev: "Forrige" },
 };
 
 export default messages;

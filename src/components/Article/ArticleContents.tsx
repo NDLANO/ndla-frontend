@@ -6,16 +6,8 @@
  *
  */
 
-import parse from "html-react-parser";
 import { gql } from "@apollo/client";
-import {
-  ArticleWrapper,
-  LayoutItem,
-  ArticleHeaderWrapper,
-  ArticleIntroduction,
-  ArticleByline,
-  ArticleFootNotes,
-} from "@ndla/ui";
+import { ArticleWrapper, ArticleByline, ArticleFootNotes, ArticleFooter, ArticleContent } from "@ndla/ui";
 import { GQLArticleContents_ArticleFragment } from "../../graphqlTypes";
 import { Scripts } from "../../util/getArticleScripts";
 import { TransformedBaseArticle } from "../../util/transformArticle";
@@ -23,32 +15,21 @@ import LicenseBox from "../license/LicenseBox";
 
 interface Props {
   article: TransformedBaseArticle<GQLArticleContents_ArticleFragment>;
-  modifier: "clean" | "in-topic";
-  showIngress: boolean;
   oembed: string | undefined;
   scripts?: Scripts[];
 }
 
-const ArticleContents = ({ article, modifier = "clean", showIngress = true, scripts, oembed }: Props) => {
+const ArticleContents = ({ article, scripts, oembed }: Props) => {
   return (
-    <ArticleWrapper modifier={modifier}>
+    <ArticleWrapper>
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      {showIngress && (
-        <LayoutItem layout="extend">
-          <ArticleHeaderWrapper>
-            <ArticleIntroduction>{parse(article.htmlIntroduction ?? "")}</ArticleIntroduction>
-          </ArticleHeaderWrapper>
-        </LayoutItem>
-      )}
-      <LayoutItem layout="extend">{article.transformedContent.content}</LayoutItem>
-      <LayoutItem layout="extend">
+      <ArticleContent>{article.transformedContent.content}</ArticleContent>
+      <ArticleFooter>
         {article.transformedContent?.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.transformedContent.metaData?.footnotes} />
         ) : undefined}
-      </LayoutItem>
-      <LayoutItem layout="extend">
         <ArticleByline
           licenseBox={<LicenseBox article={article} oembed={oembed} />}
           {...{
@@ -57,7 +38,7 @@ const ArticleContents = ({ article, modifier = "clean", showIngress = true, scri
             license: article.copyright?.license?.license || "",
           }}
         />
-      </LayoutItem>
+      </ArticleFooter>
     </ArticleWrapper>
   );
 };

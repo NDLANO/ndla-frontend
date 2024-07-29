@@ -10,7 +10,7 @@ import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { breakpoints, mq, spacing } from "@ndla/core";
 import { Heading } from "@ndla/typography";
 import FilmContentCard from "./FilmContentCard";
 import { GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables } from "../../graphqlTypes";
@@ -41,7 +41,6 @@ const StyledFilmContentCard = styled(FilmContentCard)`
 `;
 
 const StyledHeading = styled(Heading)`
-  color: ${colors.white};
   display: flex;
   gap: ${spacing.small};
   margin: ${spacing.xsmall} 0;

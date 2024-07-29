@@ -14,8 +14,9 @@ import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { CursorClick, ExpandTwoArrows } from "@ndla/icons/action";
 import { PlayCircleFilled } from "@ndla/icons/common";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Image, getCrop, getFocalPoint } from "@ndla/ui";
+import { getCrop, getFocalPoint } from "@ndla/ui";
 
 interface Props {
   visualElementEmbedMeta: EmbedMetaData;
@@ -45,7 +46,7 @@ const TopicHeaderVisualElementWrapper = styled.div`
     max-height: 200px;
   }
 `;
-
+// TODO: Needs special handling
 const VisualElementButton = styled(ButtonV2)`
   color: ${colors.brand.secondary};
   overflow: hidden;
@@ -160,7 +161,7 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
             />
             <TopicHeaderOverlay data-overlay="" />
             <ExpandVisualElementButton data-indicator="">
-              {VisualElementIcon && <VisualElementIcon size="normal" />}
+              {VisualElementIcon && <VisualElementIcon />}
             </ExpandVisualElementButton>
           </VisualElementButton>
         </ModalTrigger>

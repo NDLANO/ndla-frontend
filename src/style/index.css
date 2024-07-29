@@ -6,7 +6,12 @@
  *
  */
 
-@import url("@ndla/ui/lib/all.css");
+@import "@fontsource/source-code-pro/variable.css";
+@import "@fontsource/source-serif-pro/index.css";
+@import "@fontsource/source-serif-pro/400-italic.css";
+@import "@fontsource/source-serif-pro/700.css";
+
+@layer reset, base, tokens, recipes, utilities;
 
 .c-topic-resource__item--hidden {
   display: none;

@@ -12,12 +12,11 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents, extractEmbedMeta } from "@ndla/article-converter";
+import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
@@ -38,10 +37,6 @@ import Resources from "../../Resources/Resources";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
-};
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
 };
 
 type Props = {
@@ -116,7 +111,6 @@ const SubjectTopic = ({
       transformArticle(topic.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
         subject: subjectId,
-        components: converterComponents,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
@@ -131,7 +125,7 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -167,13 +161,7 @@ const SubjectTopic = ({
       >
         {topic.article?.transformedContent?.content !== "" && (
           <TopicArticle>
-            <ArticleContents
-              article={article}
-              scripts={scripts}
-              modifier="in-topic"
-              showIngress={false}
-              oembed={article.oembed}
-            />
+            <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
           </TopicArticle>
         )}
         {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}

@@ -6,45 +6,24 @@
  *
  */
 
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import { Done } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-interface StyledProps {
-  selected: boolean;
-}
-
-const StyledLi = styled.li`
-  padding: 0;
-`;
-
-const StyledButton = styled(ButtonV2)<StyledProps>`
-  border-width: 1px;
-  border-radius: 12px;
-  border-color: ${colors.brand.dark};
-  ${({ selected }) =>
-    !selected &&
-    css`
-      background: ${colors.white};
-      color: ${colors.brand.dark};
-      border-color: ${colors.brand.light};
-    `};
-`;
-
-const ButtonContainer = styled.ul`
-  display: flex;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  border-radius: ${spacing.small};
-  background: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.lighter};
-  align-self: flex-start;
-  margin: ${spacing.normal} 0 ${spacing.small};
-  list-style: none;
-  flex-wrap: wrap;
-`;
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+});
+const StyledText = styled(Text, { base: { marginBlock: "small" } });
 
 interface Option {
   value: string;
@@ -52,30 +31,33 @@ interface Option {
 }
 
 interface Props {
-  value: string;
-  onChange: (value: string) => void;
+  value: string[];
+  onChange: (value: string[]) => void;
   options: Option[];
 }
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
+  const tabFilterLabelId = useId();
   return (
-    <ButtonContainer aria-label={t("subjectsPage.filterSubjects")}>
-      {options.map(({ value, label }) => (
-        <StyledLi role="none" key={value}>
-          <StyledButton
-            role="listitem"
-            fontWeight="bold"
-            aria-current={selectedValue === value}
-            selected={selectedValue === value}
-            variant={selectedValue === value ? undefined : "outline"}
-            onClick={() => onChange(value)}
-          >
-            {label}
-          </StyledButton>
-        </StyledLi>
-      ))}
-    </ButtonContainer>
+    <div>
+      <StyledText textStyle="title.small" id={tabFilterLabelId}>
+        {t("subjectsPage.tabFilter")}
+      </StyledText>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby={tabFilterLabelId}>
+        {options.map((item) => (
+          <CheckboxRoot key={item.value} value={item.value} variant="chip">
+            <CheckboxControl>
+              <CheckboxIndicator asChild>
+                <Done />
+              </CheckboxIndicator>
+            </CheckboxControl>
+            <CheckboxLabel>{item.label}</CheckboxLabel>
+            <CheckboxHiddenInput />
+          </CheckboxRoot>
+        ))}
+      </StyledCheckboxGroup>
+    </div>
   );
 };
 

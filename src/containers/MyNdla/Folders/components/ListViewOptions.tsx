@@ -9,11 +9,11 @@
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { breakpoints, mq } from "@ndla/core";
 import { FourlineHamburger, GridListView, List } from "@ndla/icons/action";
+import { IconButton } from "@ndla/primitives";
 import { Tooltip } from "@ndla/tooltip";
-import { ViewType } from "./FoldersPage";
+import { ViewType } from "../FoldersPage";
 
 const StyledDisplayOptionsContainer = styled.div`
   display: flex;
@@ -27,31 +27,6 @@ const HiddenOnMobileTooltip = styled(Tooltip)`
   }
 `;
 
-interface StyledIconButtonProps {
-  selected?: boolean;
-}
-
-const StyledIconButton = styled(IconButtonV2)<StyledIconButtonProps>`
-  padding: ${spacing.xsmall};
-  margin: 0 ${spacing.xxsmall};
-  svg {
-    margin: 0;
-    width: 24px;
-    height: 24px;
-    fill: ${(p) => (p.selected ? colors.brand.primary : colors.brand.tertiary)};
-  }
-  :focus {
-    background-color: transparent;
-  }
-  :focus,
-  :hover,
-  :active {
-    svg {
-      fill: ${colors.brand.primary};
-    }
-  }
-`;
-
 interface Props {
   onTypeChange: (type: ViewType) => void;
   type: ViewType;
@@ -62,40 +37,34 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
   return (
     <StyledDisplayOptionsContainer>
       <Tooltip tooltip={t("myNdla.listView")}>
-        <StyledIconButton
-          selected={type === "list"}
-          variant="ghost"
-          colorTheme="light"
+        <IconButton
+          // TODO: Fix handling of active according to design
+          variant={type === "list" ? "primary" : "tertiary"}
           onClick={() => onTypeChange("list")}
-          size="small"
           aria-label={t("myNdla.listView")}
         >
           <FourlineHamburger />
-        </StyledIconButton>
+        </IconButton>
       </Tooltip>
       <Tooltip tooltip={t("myNdla.detailView")}>
-        <StyledIconButton
-          selected={type === "listLarger"}
-          variant="ghost"
-          colorTheme="light"
+        <IconButton
+          // TODO: Fix handling of active according to design
+          variant={type === "listLarger" ? "primary" : "tertiary"}
           onClick={() => onTypeChange("listLarger")}
-          size="small"
           aria-label={t("myNdla.detailView")}
         >
           <List />
-        </StyledIconButton>
+        </IconButton>
       </Tooltip>
       <HiddenOnMobileTooltip tooltip={t("myNdla.shortView")}>
-        <StyledIconButton
-          selected={type === "block"}
-          variant="ghost"
-          colorTheme="light"
+        <IconButton
+          // TODO: Fix handling of active according to design
+          variant={type === "block" ? "primary" : "tertiary"}
           onClick={() => onTypeChange("block")}
-          size="small"
           aria-label={t("myNdla.shortView")}
         >
           <GridListView />
-        </StyledIconButton>
+        </IconButton>
       </HiddenOnMobileTooltip>
     </StyledDisplayOptionsContainer>
   );

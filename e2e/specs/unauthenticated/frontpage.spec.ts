@@ -15,18 +15,19 @@ test.beforeEach(async ({ page }) => {
 
 test("should have list of valid links on frontpage", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
+  await page.getByTestId("accordion-header").click();
   const programmes = page.getByTestId("programme-list").getByRole("link");
   await expect(programmes).toHaveCount(16);
 });
 
 test("show have functioning language box", async ({ page }) => {
-  await page.getByRole("button", { name: "Velg språk" }).first().click();
+  await page.getByRole("combobox").getByText("Velg språk").click();
 
-  expect(page.locator("[data-radix-popper-content-wrapper]").getByText("Bokmål")).toBeTruthy();
+  expect(page.getByRole("option").getByText("Bokmål")).toBeTruthy();
 
-  await page.locator("[data-radix-popper-content-wrapper]").getByText("Nynorsk").click();
+  await page.getByRole("option").getByText("Nynorsk").click();
 
-  await expect(page.getByRole("button", { name: "Vel språk" }).first()).toBeVisible();
+  await expect(page.getByRole("combobox").getByText("Vel språk")).toBeVisible();
 
   expect(page.url().includes("/nn/")).toBeTruthy();
 });

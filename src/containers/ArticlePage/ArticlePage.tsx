@@ -12,15 +12,13 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents } from "@ndla/article-converter";
+import { HeroBackground, HeroContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, LayoutItem, constants } from "@ndla/ui";
+import { OneColumn, LayoutItem, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
-import ArticleHero from "./components/ArticleHero";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -33,7 +31,7 @@ import {
 import { toBreadcrumbItems, TaxonomyCrumb } from "../../routeHelpers";
 import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import { getContentType, isHeroContentType } from "../../util/getContentType";
+import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
@@ -52,10 +50,6 @@ interface Props {
   loading?: boolean;
   skipToContentId?: string;
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const ArticlePage = ({
   resource,
@@ -92,7 +86,6 @@ const ArticlePage = ({
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
-        components: converterComponents,
         articleLanguage: resource.article.language,
       }),
       getArticleScripts(resource.article, i18n.language),
@@ -132,7 +125,6 @@ const ArticlePage = ({
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
-  const resourceType = contentType && isHeroContentType(contentType) ? contentType : undefined;
 
   const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
@@ -141,12 +133,6 @@ const ArticlePage = ({
 
   return (
     <main>
-      <ArticleHero
-        subject={subject}
-        resourceType={resourceType}
-        metaImage={article.metaImage}
-        breadcrumbItems={breadcrumbItems}
-      />
       <Helmet>
         <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
@@ -173,25 +159,29 @@ const ArticlePage = ({
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
       />
-      <OneColumn>
-        <Article
-          path={resource.path}
-          id={skipToContentId}
-          article={article}
-          resourceType={contentType}
-          isResourceArticle
-          printUrl={printUrl}
-          subjectId={subject?.id}
-          showFavoriteButton={config.feideEnabled}
-          oembed={article.oembed}
-          {...getArticleProps(resource, topic)}
-        />
-        {topic && (
-          <LayoutItem layout="extend">
-            <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-          </LayoutItem>
-        )}
-      </OneColumn>
+      <ContentTypeHero contentType={contentType}>
+        <HeroBackground />
+        <OneColumn>
+          <HeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</HeroContent>
+          <Article
+            path={resource.path}
+            id={skipToContentId}
+            article={article}
+            resourceType={contentType}
+            isResourceArticle
+            printUrl={printUrl}
+            subjectId={subject?.id}
+            showFavoriteButton={config.feideEnabled}
+            oembed={article.oembed}
+            {...getArticleProps(resource, topic)}
+          />
+          {topic && (
+            <LayoutItem layout="extend">
+              <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+            </LayoutItem>
+          )}
+        </OneColumn>
+      </ContentTypeHero>
     </main>
   );
 };
@@ -215,6 +205,7 @@ export const articlePageFragments = {
   `,
   subject: gql`
     fragment ArticlePage_Subject on Subject {
+      id
       name
       metadata {
         customFields
@@ -225,9 +216,7 @@ export const articlePageFragments = {
           title
         }
       }
-      ...ArticleHero_Subject
     }
-    ${ArticleHero.fragments.subject}
   `,
   resource: gql`
     fragment ArticlePage_Resource on Resource {
@@ -240,16 +229,12 @@ export const articlePageFragments = {
         updated
         metaDescription
         oembed
-        metaImage {
-          ...ArticleHero_MetaImage
-        }
         tags
         ...StructuredArticleData
         ...Article_Article
       }
     }
     ${structuredArticleDataFragment}
-    ${ArticleHero.fragments.metaImage}
     ${Article.fragments.article}
   `,
   topic: gql`

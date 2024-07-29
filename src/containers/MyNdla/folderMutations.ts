@@ -715,10 +715,32 @@ const favoriteSharedFolderMutation = gql`
 `;
 
 export const useFavoriteSharedFolder = (folderId: string) => {
+  const client = useApolloClient();
   const [favoriteSharedFolder] = useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     favoriteSharedFolderMutation,
     {
       variables: { folderId },
+      refetchQueries: [{ query: recentlyUsedQuery }],
+      onCompleted: ({ favoriteSharedFolder: folderId }) => {
+        client.cache.modify({
+          fields: {
+            folders: (
+              { sharedFolders: existingFolders, ...rest } = {
+                folders: [],
+                sharedFolders: [],
+                __typename: "UserFolder",
+              },
+            ) => {
+              return {
+                sharedFolders: existingFolders.concat({
+                  __ref: client.cache.identify({ id: folderId, __typename: "SharedFolder" }),
+                }),
+                ...rest,
+              };
+            },
+          },
+        });
+      },
     },
   );
 
@@ -731,12 +753,21 @@ const unFavoriteSharedFolderMutation = gql`
   }
 `;
 
-export const useUnFavoriteSharedFolder = (folderId: string) => {
+export const useUnFavoriteSharedFolder = () => {
+  const client = useApolloClient();
   const [unFavoriteSharedFolder] = useMutation<
     GQLUnFavoriteSharedFolderMutation,
     GQLMutationUnFavoriteSharedFolderArgs
   >(unFavoriteSharedFolderMutation, {
-    variables: { folderId },
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    onCompleted: ({ unFavoriteSharedFolder: id }) => {
+      const normalizedId = client.cache.identify({
+        id,
+        __typename: "SharedFolder",
+      });
+      client.cache.evict({ id: normalizedId, broadcast: false });
+      client.cache.gc();
+    },
   });
 
   return { unFavoriteSharedFolder };

@@ -10,9 +10,9 @@ import { ComponentPropsWithoutRef } from "react";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts, breakpoints, misc, mq, stackOrder } from "@ndla/core";
+import { makeSrcQueryString } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
-import { makeSrcQueryString } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {
@@ -38,10 +38,10 @@ interface Props extends ComponentPropsWithoutRef<"a"> {
 const StyledMovieTitle = styled.span`
   ${fonts.size.text.metaText.small}
   font-weight: ${fonts.weight.semibold};
-  color: ${colors.white};
   ${mq.range({ from: breakpoints.tablet })} {
     ${fonts.size.text.metaText.medium};
   }
+  color: ${colors.text.primary};
 `;
 
 const ImageWrapper = styled.div`
@@ -61,7 +61,7 @@ const StyledSafeLink = styled(SafeLink)`
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};
-  color: ${colors.white};
+  color: ${colors.black};
   box-shadow: none;
   &:hover,
   &:focus-within,

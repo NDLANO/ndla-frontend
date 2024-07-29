@@ -12,13 +12,17 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileDocumentOutline, HashTag, Link } from "@ndla/icons/common";
+import { FileDocumentOutline, Link } from "@ndla/icons/common";
 import { FolderOutlined } from "@ndla/icons/contentType";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { BlockResource, ListResource, useSnack } from "@ndla/ui";
+import ListViewOptions from "./components/ListViewOptions";
+import { ViewType, BlockWrapper } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
+import BlockResource from "../../../components/MyNdla/BlockResource";
+import ListResource from "../../../components/MyNdla/ListResource";
+import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
@@ -30,24 +34,9 @@ import NotFoundPage from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
-import SettingsMenu from "../components/SettingsMenu";
+import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
-import { useFolderResourceMetaSearch, useFolders } from "../folderMutations";
-import { BlockWrapper, ViewType } from "../Folders/FoldersPage";
-import ListViewOptions from "../Folders/ListViewOptions";
-
-const StyledUl = styled.ul`
-  padding: 0px;
-  margin: ${spacing.small} 0;
-  list-style: none;
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
-
-const StyledLi = styled.li`
-  padding: 0;
-`;
+import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
 const TagsPageContainer = styled.div`
   display: flex;
@@ -56,22 +45,16 @@ const TagsPageContainer = styled.div`
   flex: 1;
 `;
 
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  width: fit-content;
-  display: flex;
-  align-items: center;
-`;
-
 const CountWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${spacing.small};
 `;
 
-const TagsPage = () => {
+const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const { folders } = useFolders();
+  const { folders, loading } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
   const title = useMemo(() => (tag ? t("htmlTitles.myTagPage", { tag }) : t("htmlTitles.myTagsPage")), [t, tag]);
@@ -87,11 +70,15 @@ const TagsPage = () => {
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
-      navigate(routes.myNdla.tags);
+      navigate(routes.myNdla.folders);
     }
   }, [resources, previousResources, tag, navigate]);
 
-  if (tag && tags && !tags.includes(tag)) {
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!tag || !tags.includes(tag)) {
     return <NotFoundPage />;
   }
 
@@ -100,19 +87,14 @@ const TagsPage = () => {
       <TagsPageContainer>
         <HelmetWithTracker title={title} />
         <TitleWrapper>
-          <MyNdlaBreadcrumb page="tags" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
+          <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
           <MyNdlaTitle title={tag ? tag : t("myNdla.myTags")} />
         </TitleWrapper>
-        {!tag && tags.length ? <Tags tags={tags} /> : null}
         {tag && resources && <Resources resources={resources} />}
       </TagsPageContainer>
     </MyNdlaPageWrapper>
   );
 };
-
-interface TagsProps {
-  tags: string[];
-}
 
 interface ResourcesProps {
   resources: GQLFolderResource[];
@@ -122,7 +104,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   const [viewType, _setViewType] = useState<ViewType>(
     (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
   );
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
   const { data, loading } = useFolderResourceMetaSearch(
@@ -141,6 +123,40 @@ const Resources = ({ resources }: ResourcesProps) => {
   };
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
+
+  const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
+    if (examLock) return [];
+
+    return [
+      {
+        icon: <FolderOutlined />,
+        text: t("myNdla.resource.add"),
+        isModal: true,
+        modality: false,
+        modalContent: (close) => (
+          <AddResourceToFolderModalContent
+            resource={{
+              id: resource.resourceId,
+              resourceType: resource.resourceType,
+              path: resource.path,
+            }}
+            close={close}
+          />
+        ),
+      },
+      {
+        icon: <Link />,
+        text: t("myNdla.resource.copyLink"),
+        onClick: () => {
+          navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
+          toast.create({
+            title: t("myNdla.resource.linkCopied"),
+          });
+        },
+      },
+    ];
+  };
+
   return (
     <>
       <CountWrapper>
@@ -166,43 +182,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 src: meta?.metaImage?.url ?? "",
                 alt: "",
               }}
-              menu={
-                <SettingsMenu
-                  menuItems={
-                    examLock
-                      ? []
-                      : [
-                          {
-                            icon: <FolderOutlined />,
-                            text: t("myNdla.resource.add"),
-                            isModal: true,
-                            modality: false,
-                            modalContent: (close) => (
-                              <AddResourceToFolderModalContent
-                                resource={{
-                                  id: resource.resourceId,
-                                  resourceType: resource.resourceType,
-                                  path: resource.path,
-                                }}
-                                close={close}
-                              />
-                            ),
-                          },
-                          {
-                            icon: <Link />,
-                            text: t("myNdla.resource.copyLink"),
-                            onClick: () => {
-                              navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-                              addSnack({
-                                content: t("myNdla.resource.linkCopied"),
-                                id: "linkCopied",
-                              });
-                            },
-                          },
-                        ]
-                  }
-                />
-              }
+              menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
             />
           );
         })}
@@ -211,28 +191,4 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
 };
 
-const Tags = ({ tags }: TagsProps) => {
-  const { t } = useTranslation();
-  return (
-    <>
-      <CountWrapper>
-        <HashTag />
-        <span>{t("myNdla.tags", { count: tags.length })}</span>
-      </CountWrapper>
-      <nav aria-label={t("myNdla.myTags")}>
-        <StyledUl>
-          {tags.map((tag) => (
-            <StyledLi key={tag}>
-              <StyledSafeLinkButton colorTheme="greyLighter" shape="pill" key={tag} to={encodeURIComponent(tag)}>
-                <HashTag />
-                {tag}
-              </StyledSafeLinkButton>
-            </StyledLi>
-          ))}
-        </StyledUl>
-      </nav>
-    </>
-  );
-};
-
-export default TagsPage;
+export default FoldersTagsPage;

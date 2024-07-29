@@ -7,11 +7,10 @@
  */
 
 import { ReactNode } from "react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, fonts, misc, spacing } from "@ndla/core";
-import { SafeLink, SafeLinkProps } from "@ndla/safelink";
+import { RightArrow } from "@ndla/icons/action";
+import { Button } from "@ndla/primitives";
+import { SafeLinkButton, SafeLinkProps } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
@@ -33,112 +32,69 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
   onClose?: () => void;
 }
 
-const commonStyle = css`
-  width: 100%;
-  padding: ${spacing.xsmall} ${spacing.small};
-  margin: 0 ${spacing.small};
-  background-color: transparent;
-  border: 0;
-  border-radius: ${misc.borderRadius};
-  color: ${colors.brand.primary};
-  text-align: start;
-  box-shadow: none;
-  cursor: pointer;
-  :last-of-type {
-    margin: ${spacing.xsmall} ${spacing.small};
-  }
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+export const StyledButton = styled(Button, {
+  base: {
+    display: "flex",
+    textStyle: "label.medium",
+    fontWeight: "light",
+    color: "text.default",
+    textAlign: "start",
+    paddingInline: "small",
+    "&[data-current-selected='true']": {
+      background: "surface.selected",
+      border: "none",
+    },
+  },
+});
 
-const boldItemStyle = css`
-  font-weight: ${fonts.weight.bold};
-  ${fonts.sizes("24px", "32px")};
-  ${commonStyle};
-`;
-
-const normalItemStyle = css`
-  ${fonts.sizes("18px", "32px")};
-  ${commonStyle};
-`;
-
-interface StyledButtonProps {
-  active?: boolean;
-}
-
-const activeStyle = css`
-  background-color: ${colors.brand.primary};
-  color: ${colors.white};
-`;
-
-const shouldForwardProp = (prop: string) => prop !== "active";
-
-const StyledButton = styled(ButtonV2, { shouldForwardProp })<StyledButtonProps>`
-  ${(p) =>
-    p.active &&
-    css`
-      background-color: ${colors.brand.primary};
-      color: ${colors.white};
-    `}
-`;
-
-const TextWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
-
-const CurrentIndicator = styled.span`
-  color: currentColor;
-`;
+export const StyledSafeLink = styled(SafeLinkButton, {
+  base: {
+    textStyle: "text.link",
+    fontWeight: "light",
+    paddingInline: "small",
+    paddingBlock: "3xsmall",
+    textAlign: "start",
+    textUnderlineOffset: "var(--spacing-4xsmall)",
+  },
+});
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
 const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
-  const style = bold ? boldItemStyle : normalItemStyle;
-  if (specificProps.type === "button") {
-    return (
-      <DrawerListItem role="none" data-list-item>
-        <StyledButton
-          tabIndex={-1}
-          role="menuitem"
-          aria-current={current}
-          aria-owns={`list-${id}`}
-          aria-expanded={!!active}
-          id={id}
-          onClick={() => specificProps.onClick(!!active)}
-          css={[style, active ? activeStyle : []]}
-        >
-          <TextWrapper>
-            {children}
-            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
-          </TextWrapper>
-        </StyledButton>
-      </DrawerListItem>
-    );
-  } else {
-    return (
-      <DrawerListItem role="none" data-list-item>
-        <SafeLink
-          tabIndex={-1}
-          role="menuitem"
-          id={id}
-          aria-current={current ? "page" : undefined}
-          to={specificProps.to}
-          onClick={specificProps.onClose}
-          css={[style, active ? activeStyle : []]}
-        >
-          <TextWrapper>
-            {children}
-            {current && <CurrentIndicator aria-hidden={true}>•</CurrentIndicator>}
-          </TextWrapper>
-        </SafeLink>
-      </DrawerListItem>
-    );
-  }
+  return specificProps.type === "button" ? (
+    <DrawerListItem role="none" data-list-item>
+      <StyledButton
+        tabIndex={-1}
+        role="menuitem"
+        aria-current={current}
+        aria-owns={`list-${id}`}
+        aria-expanded={!!active}
+        id={id}
+        onClick={() => specificProps.onClick(!!active)}
+        variant="tertiary"
+        size="small"
+        data-current-selected={!!active}
+      >
+        {children}
+        <RightArrow />
+      </StyledButton>
+    </DrawerListItem>
+  ) : (
+    <DrawerListItem role="none" data-list-item>
+      <StyledSafeLink
+        tabIndex={-1}
+        role="menuitem"
+        id={id}
+        aria-current={current ? "page" : undefined}
+        to={specificProps.to.toString()}
+        onClick={specificProps.onClose}
+        variant="link"
+        size="small"
+      >
+        {children}
+      </StyledSafeLink>
+    </DrawerListItem>
+  );
 };
 
 export default DrawerMenuItem;

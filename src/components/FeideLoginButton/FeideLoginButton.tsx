@@ -8,129 +8,38 @@
 
 import { ReactNode, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 as Button, ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { FeideText, LogOut } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Modal, ModalTrigger } from "@ndla/modal";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { UserInfo } from "../../containers/MyNdla/components/UserInfo";
-import { routes, useIsNdlaFilm } from "../../routeHelpers";
-import { constructNewPath, toHref } from "../../util/urlHelper";
+import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
-import { useBaseName } from "../BaseNameContext";
 import LoginModalContent from "../MyNdla/LoginModalContent";
 
-const FeideFooterButton = styled(Button)`
-  padding: ${spacing.xsmall} ${spacing.small};
-  background: none;
-  color: ${colors.white};
-  border: 2px solid ${colors.brand.grey};
-`;
-
-const LoginButton = styled(Button)`
-  white-space: nowrap;
-`;
-
-const StyledLink = styled(SafeLinkButton)`
-  display: flex;
-  gap: ${spacing.small};
-  white-space: nowrap;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-const StyledHeading = styled.h1`
-  margin: ${spacing.small} 0 0;
-  svg {
-    width: 82px;
-    height: 28px;
-    color: #000000;
-  }
-`;
-
-const StyledButton = styled(ButtonV2)`
-  display: flex;
-  margin-top: ${spacing.normal};
-`;
-
-const StyledLogOut = styled(LogOut)`
-  color: ${colors.white};
-`;
 interface Props {
   footer?: boolean;
   children?: ReactNode;
 }
 
-const FeideLoginButton = ({ footer, children }: Props) => {
-  const location = useLocation();
+const FeideLoginButton = ({ children }: Props) => {
   const { t } = useTranslation();
-  const { authenticated, user } = useContext(AuthContext);
-  const basename = useBaseName();
-  const ndlaFilm = useIsNdlaFilm();
+  const { authenticated } = useContext(AuthContext);
 
-  if (authenticated && !footer) {
+  if (authenticated) {
     return (
-      <StyledLink
-        variant="ghost"
-        colorTheme="light"
-        shape="pill"
-        inverted={ndlaFilm}
-        to={routes.myNdla.root}
-        aria-label={t("myNdla.myNDLA")}
-      >
+      <SafeLinkButton variant="tertiary" to={routes.myNdla.root} aria-label={t("myNdla.myNDLA")}>
         {children}
-      </StyledLink>
-    );
-  }
-
-  if (!authenticated) {
-    return (
-      <Modal>
-        <ModalTrigger>
-          <LoginButton
-            variant={footer ? "outline" : "ghost"}
-            colorTheme={footer ? "greyLighter" : "lighter"}
-            inverted={!footer && ndlaFilm}
-            shape={footer ? "normal" : "pill"}
-            aria-label={t("user.buttonLogIn")}
-            title={t("user.buttonLogIn")}
-          >
-            {children}
-          </LoginButton>
-        </ModalTrigger>
-        <LoginModalContent masthead />
-      </Modal>
+      </SafeLinkButton>
     );
   }
 
   return (
-    <Modal aria-label={t("user.modal.isAuth")}>
+    <Modal>
       <ModalTrigger>
-        <FeideFooterButton>{children}</FeideFooterButton>
+        <Button variant="tertiary" aria-label={t("user.buttonLogIn")} title={t("user.buttonLogIn")}>
+          {children}
+        </Button>
       </ModalTrigger>
-      <ModalContent position="top">
-        <ModalHeader>
-          <StyledHeading aria-label="Feide">
-            <FeideText aria-hidden />
-          </StyledHeading>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          {user && <UserInfo user={user} />}
-          <StyledButton
-            onClick={() => {
-              window.location.href = constructNewPath(`/logout?state=${toHref(location)}`, basename);
-            }}
-          >
-            {t("user.buttonLogOut")}
-            <StyledLogOut />
-          </StyledButton>
-        </ModalBody>
-      </ModalContent>
+      <LoginModalContent masthead />
     </Modal>
   );
 };

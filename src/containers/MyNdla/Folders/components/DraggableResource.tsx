@@ -12,23 +12,25 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FolderOutlined } from "@ndla/icons/contentType";
 import { DeleteForever, Link } from "@ndla/icons/editor";
-import { BlockResource, ListResource, useSnack } from "@ndla/ui";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
-import DragHandle from "./DragHandle";
-import { ViewType } from "./FoldersPage";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
-import config from "../../../config";
+import { AuthContext } from "../../../../components/AuthenticationContext";
+import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
+import BlockResource from "../../../../components/MyNdla/BlockResource";
+import ListResource from "../../../../components/MyNdla/ListResource";
+import { useToast } from "../../../../components/ToastContext";
+import config from "../../../../config";
 import {
   GQLFolder,
   GQLFolderResource,
   GQLFolderResourceMeta,
   GQLFolderResourceResourceType,
-} from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
-import DeleteModalContent from "../components/DeleteModalContent";
-import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import { useDeleteFolderResourceMutation } from "../folderMutations";
+} from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import DeleteModalContent from "../../components/DeleteModalContent";
+import DragHandle from "../../components/DragHandle";
+import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+import { useDeleteFolderResourceMutation } from "../../folderMutations";
+import { ViewType } from "../FoldersPage";
 
 interface Props {
   resource: GQLFolderResource;
@@ -55,7 +57,7 @@ const DraggableResource = ({
 }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { attributes, setNodeRef, transform, items, transition, isDragging } = useSortable({
     id: resource.id,
     data: {
@@ -73,9 +75,8 @@ const DraggableResource = ({
       await deleteFolderResource({
         variables: { folderId: selectedFolder.id, resourceId: resource.id },
       });
-      addSnack({
-        id: `removedFromFolder${selectedFolder.id}`,
-        content: t("myNdla.resource.removedFromFolder", {
+      toast.create({
+        title: t("myNdla.resource.removedFromFolder", {
           folderName: selectedFolder.name,
         }),
       });
@@ -92,7 +93,7 @@ const DraggableResource = ({
         );
       }
     },
-    [addSnack, deleteFolderResource, resources, selectedFolder.id, selectedFolder.name, setFocusId, resourceRefId, t],
+    [resources, deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t, resourceRefId, setFocusId],
   );
 
   const Resource = viewType === "block" ? BlockResource : ListResource;
@@ -122,9 +123,8 @@ const DraggableResource = ({
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
           navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-          addSnack({
-            content: t("myNdla.resource.linkCopied"),
-            id: "linkCopied",
+          toast.create({
+            title: t("myNdla.resource.linkCopied"),
           });
         },
       },
@@ -148,7 +148,7 @@ const DraggableResource = ({
         type: "danger",
       },
     ];
-  }, [addSnack, examLock, index, onDeleteFolder, resource, selectedFolder, t]);
+  }, [examLock, index, onDeleteFolder, resource, selectedFolder, t, toast]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 

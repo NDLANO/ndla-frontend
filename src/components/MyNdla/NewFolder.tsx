@@ -9,13 +9,19 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { FieldErrorMessage, FieldHelper, FormControl, InputContainer, InputV3, Label } from "@ndla/forms";
-import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
+import {
+  IconButton,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  InputContainer,
+  Spinner,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { IFolder } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { useUserAgent } from "../../UserAgentContext";
@@ -28,16 +34,11 @@ interface Props {
   onCreate?: (folder: IFolder, parentId: string) => void;
 }
 
-const StyledSpinner = styled(Spinner)`
-  margin: ${spacing.small};
-`;
-
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xxsmall};
-  padding-right: ${spacing.xsmall};
-`;
+const StyledSpinner = styled(Spinner, {
+  base: {
+    margin: "small",
+  },
+});
 
 const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
   const [name, setName] = useState(initialValue);
@@ -102,11 +103,11 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
   }, [name, validationT, siblingNames]);
 
   return (
-    <FormControl id="folder-name" isRequired isInvalid={!!error}>
-      <Label visuallyHidden>{t("treeStructure.newFolder.folderName")}</Label>
+    <FieldRoot required invalid={!!error}>
+      <FieldLabel srOnly>{t("treeStructure.newFolder.folderName")}</FieldLabel>
       <FieldErrorMessage>{error}</FieldErrorMessage>
       <InputContainer>
-        <InputV3
+        <FieldInput
           autoComplete="off"
           disabled={loading}
           ref={inputRef}
@@ -128,34 +129,24 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
             }
           }}
         />
-        <Row>
-          {!loading ? (
-            <>
-              {!error && (
-                <IconButtonV2
-                  variant={"ghost"}
-                  colorTheme="light"
-                  tabIndex={0}
-                  aria-label={t("save")}
-                  title={t("save")}
-                  size="small"
-                  onClick={onSave}
-                >
-                  <Done />
-                </IconButtonV2>
-              )}
-              <IconButtonV2 aria-label={t("close")} title={t("close")} size="small" variant="ghost" onClick={onClose}>
-                <Cross />
-              </IconButtonV2>
-            </>
-          ) : (
-            <FieldHelper>
-              <StyledSpinner size="normal" aria-label={t("loading")} />
-            </FieldHelper>
-          )}
-        </Row>
+        {!loading ? (
+          <>
+            {!error && (
+              <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
+                <Done />
+              </IconButton>
+            )}
+            <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
+              <Cross />
+            </IconButton>
+          </>
+        ) : (
+          <FieldHelper>
+            <StyledSpinner aria-label={t("loading")} />
+          </FieldHelper>
+        )}
       </InputContainer>
-    </FormControl>
+    </FieldRoot>
   );
 };
 

@@ -9,13 +9,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
+import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Cross, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
+import { Button, IconButton, Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
-import { LanguageSelector, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 
 import SearchHeader from "./components/SearchHeader";
 import { SearchResultGroup } from "./components/SearchResults";
@@ -25,8 +25,10 @@ import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchI
 import { ViewType } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 
 const { contentTypes } = constants;
 
@@ -49,10 +51,6 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   gap: ${spacing.normal};
-`;
-
-const StyledButton = styled(ButtonV2)`
-  align-self: flex-start;
 `;
 
 const ItemWrapper = styled.div`
@@ -192,6 +190,7 @@ const SearchContainer = ({
           {sortedFilterButtonItems.length > 1 && (
             <FilterWrapper>
               <ItemWrapper>
+                {/* TODO: Should probably not be button */}
                 {sortedFilterButtonItems.map((item) => (
                   <ButtonV2
                     key={item.value}
@@ -205,31 +204,32 @@ const SearchContainer = ({
                 ))}
               </ItemWrapper>
               <ButtonWrapper>
-                <IconButtonV2
-                  variant={viewType === "grid" ? "solid" : "ghost"}
+                <IconButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "grid" ? "primary" : "secondary"}
                   onClick={() => setViewType("grid")}
-                  colorTheme="greyLighter"
                   aria-label={t("searchPage.resultType.gridView")}
                   title={t("searchPage.resultType.gridView")}
                 >
                   <Grid />
-                </IconButtonV2>
-                <IconButtonV2
-                  variant={viewType === "list" ? "solid" : "ghost"}
+                </IconButton>
+                <IconButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "list" ? "primary" : "secondary"}
                   onClick={() => setViewType("list")}
-                  colorTheme="greyLighter"
                   aria-label={t("searchPage.resultType.listView")}
                   title={t("searchPage.resultType.listView")}
                 >
                   <ListCircle />
-                </IconButtonV2>
+                </IconButton>
               </ButtonWrapper>
             </FilterWrapper>
           )}
+          {/* TODO: Check if we should include an option for link variant to remove all padding */}
           {hasSelectedResourceType && (
-            <StyledButton variant="link" onClick={handleFilterReset}>
+            <Button variant="link" onClick={handleFilterReset}>
               {t(`filterButtons.removeAllFilters`)}
-            </StyledButton>
+            </Button>
           )}
           {filteredSortedSearchGroups.map((group) => (
             <SearchResultGroup
@@ -244,7 +244,10 @@ const SearchContainer = ({
           ))}
           {isLti && (
             <StyledLanguageSelector>
-              <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
+              <LanguageSelector
+                items={supportedLanguages}
+                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              />
             </StyledLanguageSelector>
           )}
         </div>

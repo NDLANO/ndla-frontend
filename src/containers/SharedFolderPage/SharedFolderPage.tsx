@@ -12,11 +12,10 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { HumanMaleBoard } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Button, Spinner } from "@ndla/primitives";
 import { ErrorMessage, OneColumn } from "@ndla/ui";
 import FolderMeta from "./components/FolderMeta";
 import FolderNavigation from "./components/FolderNavigation";
@@ -84,26 +83,12 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   return folder.resources.concat(subResources);
 };
 
-const DrawerButton = styled(ButtonV2)`
+const DrawerButton = styled(Button)`
   position: fixed;
   bottom: 0;
-  padding-top: ${spacing.small};
-  padding-bottom: ${spacing.nsmall};
-  justify-content: center;
-  color: ${colors.text};
-  background-color: ${colors.brand.greyLighter};
-  border-top: 2px solid ${colors.brand.tertiary};
   width: 100%;
   z-index: ${stackOrder.trigger};
-  &:focus-within,
-  &:hover {
-    border-top: 1px solid ${colors.brand.light};
-    background-color: ${colors.brand.greyLight};
-  }
-  &:focus-within,
-  &:active {
-    color: ${colors.text.primary} !important;
-  }
+  border-radius: 0;
 `;
 
 const DesktopPadding = styled.div`
@@ -211,7 +196,7 @@ const SharedFolderPage = () => {
         ) : selectors?.isMobile && selectedResource ? (
           <Modal open={open} onOpenChange={setOpen}>
             <ModalTrigger>
-              <DrawerButton shape="sharp" colorTheme="light">
+              <DrawerButton variant="secondary">
                 <span id="folder-drawer-button">{t("myNdla.sharedFolder.drawerButton")}</span>
               </DrawerButton>
             </ModalTrigger>

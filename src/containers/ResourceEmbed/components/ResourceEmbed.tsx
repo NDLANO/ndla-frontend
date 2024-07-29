@@ -12,17 +12,23 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
-import { DynamicComponents, transform } from "@ndla/article-converter";
-import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { transform } from "@ndla/article-converter";
+import { spacing } from "@ndla/core";
+import { ChevronDown } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+  Spinner,
+} from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
-import { CreatedBy } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import ResourceEmbedWrapper from "./ResourceEmbedWrapper";
+import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import {
@@ -42,10 +48,6 @@ const CreatedByWrapper = styled.div`
   margin-top: ${spacing.small};
 `;
 
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-`;
-
 interface Props {
   id: string;
   isOembed?: boolean;
@@ -61,10 +63,6 @@ interface MetaProperies {
   imageUrl?: string;
   type: StandaloneEmbed | "gloss" | "podcast";
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
@@ -162,11 +160,10 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
     }
     return transform(data.resourceEmbed.content, {
       frontendDomain: "",
-      components: isOembed ? undefined : converterComponents,
       path: pathname,
       renderContext: "embed",
     });
-  }, [data?.resourceEmbed.content, isOembed, pathname]);
+  }, [data?.resourceEmbed.content, pathname]);
 
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
@@ -202,17 +199,22 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
       <main>
         <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>
           {transformedContent}
-          <AccordionRoot type="single" collapsible>
+          <AccordionRoot multiple>
             {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
               <AccordionItem value="rulesForUse">
-                <StyledAccordionHeader headingLevel="h2">
-                  <Text element="span" textStyle="button" margin="none">
-                    {t("article.useContent")}
-                  </Text>
-                </StyledAccordionHeader>
-                <AccordionContent>
+                <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                  <h2>
+                    <AccordionItemTrigger>
+                      {t("article.useContent")}
+                      <AccordionItemIndicator asChild>
+                        <ChevronDown size="medium" />
+                      </AccordionItemIndicator>
+                    </AccordionItemTrigger>
+                  </h2>
+                </Heading>
+                <AccordionItemContent>
                   <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionContent>
+                </AccordionItemContent>
               </AccordionItem>
             )}
           </AccordionRoot>

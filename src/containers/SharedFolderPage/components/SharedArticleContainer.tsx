@@ -11,12 +11,10 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import Article from "../../../components/Article";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -36,10 +34,6 @@ interface Props {
   meta?: GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][0];
   title: string;
 }
-
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
 
 const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) => {
   const { t, i18n } = useTranslation();
@@ -70,7 +64,6 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
     return [
       transformArticle(propArticle, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
-        components: converterComponents,
         articleLanguage: propArticle.language,
       }),
       getArticleScripts(propArticle, i18n.language),

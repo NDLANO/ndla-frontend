@@ -25,12 +25,6 @@ test("can navigate to subjects", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Mine favorittfag")).toBeVisible();
 });
 
-test("can navigate to tags", async ({ page }) => {
-  await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
-  await page.getByRole("listitem").getByRole("link", { name: "Mine emneknagger" }).click();
-  await expect(page.getByRole("heading").getByText("Mine emneknagger")).toBeVisible();
-});
-
 test("can navigate to profile", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   await page.getByRole("listitem").getByRole("link", { name: "Min profil" }).click();
@@ -47,10 +41,6 @@ test("have all options at the different pages", async ({ page }) => {
 
   await page.getByRole("listitem").getByRole("link", { name: "Mine favorittfag" }).click();
   await expect(page.getByRole("heading").getByText("Mine favorittfag")).toBeVisible();
-  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
-
-  await page.getByRole("listitem").getByRole("link", { name: "Mine emneknagger" }).click();
-  await expect(page.getByRole("heading").getByText("Mine emneknagger")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Min profil" }).click();

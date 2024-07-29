@@ -9,16 +9,16 @@
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
+import { Icon } from "@ndla/icons";
 import { Forum, ForumOutlined } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { routes } from "../../../../routeHelpers";
-import DragHandle from "../../Folders/DragHandle";
+import DragHandle from "../../components/DragHandle";
 
 interface Props {
   id: number;
@@ -102,7 +102,7 @@ const StyledCountContainer = styled.div`
   text-align: center;
 `;
 
-const iconCss = css`
+const StyledIcon = styled(Icon)`
   width: ${spacing.large};
   height: ${spacing.large};
   color: ${colors.brand.primary};
@@ -110,6 +110,9 @@ const iconCss = css`
     display: none;
   }
 `;
+
+const StyledForumOutlined = StyledIcon.withComponent(ForumOutlined);
+const StyledForum = StyledIcon.withComponent(Forum);
 
 const RightSideContainer = styled.div`
   display: flex;
@@ -168,8 +171,8 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
           type="category"
           {...attributes}
         />
-        <ForumOutlined data-normal-icon="" css={iconCss} />
-        <Forum data-hover-icon="" css={iconCss} />
+        <StyledForumOutlined data-normal-icon="" />
+        <StyledForum data-hover-icon="" />
         <SpacingContainer>
           <div>
             <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>

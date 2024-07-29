@@ -6,20 +6,21 @@
  *
  */
 
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
-import { Text } from "@ndla/typography";
-import { useSnack, Folder, MessageBox } from "@ndla/ui";
+import { Button, MessageBox, Text } from "@ndla/primitives";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
+import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
+import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
 const Content = styled(ModalBody)`
@@ -41,30 +42,32 @@ interface SaveLinkProps {
   hideTrigger: () => void;
 }
 
-export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, hideTrigger }: SaveLinkProps) => {
+export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
+  const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
-  const { addSnack } = useSnack();
+  const toast = useToast();
 
   const onSaveLink = (name: string) => {
     favoriteSharedFolder();
     hideTrigger();
     setOpen(false);
-    addSnack({
-      content: t("myNdla.folder.sharing.savedLink", { name }),
-      id: "sharedFolderSaved",
+    toast.create({
+      title: t("myNdla.folder.sharing.savedLink", { name }),
     });
   };
+
+  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   return (
     <Modal open={open} onOpenChange={() => setOpen(!open)}>
       <ModalTrigger>
-        <ButtonV2 aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="ghost">
+        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
           <Subject />
           {t("myNdla.folder.sharing.button.saveLink")}
-        </ButtonV2>
+        </Button>
       </ModalTrigger>
       {authenticated ? (
         <ModalContent>
@@ -74,40 +77,26 @@ export const SaveLink = ({ folder: { id, name, subfolders, resources, status }, 
           </ModalHeader>
           <ModalBody>
             <Content>
-              <Folder
-                id={id}
-                title={name}
-                subFolders={subfolders.length}
-                subResources={resources.length}
-                link={routes.folder(id)}
-                isShared={status === "shared"}
-              />
-              <MessageBox>
+              <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+              <MessageBox variant="warning">
                 <InformationOutline />
-                <Text margin="none">{t("myNdla.folder.sharing.save.warning")}</Text>
+                <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
               </MessageBox>
             </Content>
             <ButtonRow>
-              <ButtonV2 variant="outline" onClick={() => setOpen(false)}>
+              <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("close")}
-              </ButtonV2>
-              <ButtonV2 onClick={() => onSaveLink(name)}>{t("myNdla.folder.sharing.button.saveLink")}</ButtonV2>
+              </Button>
+              <Button variant="primary" onClick={() => onSaveLink(name)}>
+                {t("myNdla.folder.sharing.button.saveLink")}
+              </Button>
             </ButtonRow>
           </ModalBody>
         </ModalContent>
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={
-            <Folder
-              id={id.toString()}
-              title={name ?? ""}
-              link={`/folder/${id}`}
-              isShared={true}
-              subFolders={subfolders.length}
-              subResources={resources.length}
-            />
-          }
+          content={<Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />}
         />
       )}
     </Modal>

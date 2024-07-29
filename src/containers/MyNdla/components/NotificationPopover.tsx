@@ -9,56 +9,36 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
+import { PopoverContent, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 
-const StyledContent = styled(Content)`
-  background-color: ${colors.background.default};
-  box-shadow: 0 0 ${spacing.nsmall} ${colors.black}7f;
-  padding: ${spacing.normal};
-  gap: ${spacing.small};
-  min-width: 350px;
-  border-radius: ${spacing.xxsmall};
-`;
-
-const StyledArrow = styled(Arrow)`
-  fill: ${colors.white};
-`;
-
 const ShowAllLink = styled(SafeLinkButton)`
   margin-top: ${spacing.small};
   width: 100%;
-  &:focus-visible {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: ${colors.black};
-  }
 `;
 
 const NotificationPopover = () => {
   const { notifications } = useTemporaryArenaNotifications();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
   return (
-    <Root open={open} onOpenChange={setOpen}>
-      <Trigger asChild>
+    <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <PopoverTrigger asChild>
         <NotificationBellButton notifications={notifications?.items} />
-      </Trigger>
-      <Portal>
-        <StyledContent align="end">
-          <StyledArrow />
-          <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
-          <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)} fontWeight="bold">
-            {t("myNdla.arena.notification.showAll")}
-          </ShowAllLink>
-        </StyledContent>
-      </Portal>
-    </Root>
+      </PopoverTrigger>
+      <PopoverContent>
+        <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
+        <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
+          {t("myNdla.arena.notification.showAll")}
+        </ShowAllLink>
+      </PopoverContent>
+    </PopoverRoot>
   );
 };
 

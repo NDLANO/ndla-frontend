@@ -67,11 +67,62 @@ export const isInternalServerError = (error: ApolloError | undefined | null): bo
   return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
-const handleError = async (error: ApolloError | Error | string | unknown, info?: ErrorInfo | { clientTime: Date }) => {
+const getErrorLog = (
+  error: ApolloError | Error | string | unknown,
+  extraContext: Record<string, unknown>,
+): ApolloError | Error | string | unknown => {
+  if (typeof error === "object") {
+    const errWithPath = error as { requestPath?: string } & object;
+    return { ...errWithPath, ...extraContext };
+  }
+
+  if (typeof error === "string") {
+    return { message: error, ...extraContext };
+  }
+
+  return error;
+};
+
+export type LogLevel = "error" | "warn" | "info";
+const unreachable = (parameter: never): never => {
+  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
+};
+
+const logServerError = async (
+  error: ApolloError | Error | string | unknown,
+  requestPath: string | undefined,
+  loglevel: LogLevel | undefined,
+  extraContext: Record<string, unknown>,
+) => {
+  const ctx = { ...extraContext, requestPath };
+  const err = getErrorLog(error, ctx);
+  switch (loglevel) {
+    case "info":
+      await log?.info(err);
+      break;
+    case "warn":
+      await log?.warn(err);
+      break;
+    case "error":
+    case undefined:
+      await log?.error(err);
+      break;
+    default:
+      unreachable(loglevel);
+  }
+};
+
+const handleError = async (
+  error: ApolloError | Error | string | unknown,
+  info?: ErrorInfo | { clientTime: Date },
+  requestPath?: string,
+  loglevel?: LogLevel,
+  extraContext: Record<string, unknown> = {},
+) => {
   if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
   } else if (config.runtimeType === "production" && !config.isClient) {
-    await log?.error(error);
+    await logServerError(error, requestPath, loglevel, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

@@ -12,7 +12,6 @@ import styled from "@emotion/styled";
 import { Plus } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
 import SettingsMenu from "../components/SettingsMenu";
-import { buttonCss } from "../components/toolbarStyles";
 import { OutletContext } from "../MyNdlaLayout";
 
 const StyledListItem = styled.li`
@@ -44,15 +43,13 @@ export const PostButtons = () => {
   return (
     <StyledListItem key="newTopic">
       <SafeLinkButton
-        colorTheme="lighter"
-        css={buttonCss}
         to="topic/new"
-        variant="ghost"
+        variant="tertiary"
         onClick={() => {
           setIsOpen(false);
         }}
       >
-        <Plus size="nsmall" />
+        <Plus size="small" />
         {t("myNdla.arena.new.topic")}
       </SafeLinkButton>
     </StyledListItem>
@@ -84,15 +81,13 @@ export const TopicButtons = () => {
     <StyledListItem key="newTopic">
       <SafeLinkButton
         key="newTopic"
-        colorTheme="lighter"
-        css={buttonCss}
         to="category/new"
-        variant="ghost"
+        variant="tertiary"
         onClick={() => {
           setIsOpen(false);
         }}
       >
-        <Plus size="nsmall" />
+        <Plus size="small" />
         {t("myNdla.arena.admin.category.form.newCategory")}
       </SafeLinkButton>
     </StyledListItem>

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { useArenaTopicsByUser, useArenaUser } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";

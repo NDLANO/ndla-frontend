@@ -131,8 +131,8 @@ export const arenaFlagFragment = gql`
   ${arenaUserFragment}
 `;
 
-export const arenaPostV2Fragment = gql`
-  fragment ArenaPostV2 on ArenaPostV2 {
+const arenaPostV2DataFragment = gql`
+  fragment ArenaPostV2Data on ArenaPostV2 {
     __typename
     content
     contentAsHTML
@@ -140,6 +140,8 @@ export const arenaPostV2Fragment = gql`
     created
     updated
     topicId
+    upvotes
+    upvoted
     owner {
       ...ArenaUserV2
     }
@@ -149,6 +151,16 @@ export const arenaPostV2Fragment = gql`
   }
   ${arenaFlagFragment}
   ${arenaUserFragment}
+`;
+
+export const arenaPostV2Fragment = gql`
+  fragment ArenaPostV2 on ArenaPostV2 {
+    ...ArenaPostV2Data
+    replies {
+      ...ArenaPostV2Data
+    }
+  }
+  ${arenaPostV2DataFragment}
 `;
 
 export const arenaPaginatedPostsV2Fragment = gql`
@@ -274,10 +286,10 @@ const arenaNotificationFragment = gql`
     notificationTime
     isRead
     post {
-      ...ArenaPostV2
+      ...ArenaPostV2Data
     }
   }
-  ${arenaPostV2Fragment}
+  ${arenaPostV2DataFragment}
 `;
 
 const arenaPaginatedNotificationsFragment = gql`

@@ -8,46 +8,39 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { colors, fonts, misc, spacing } from "@ndla/core";
-import { Heart, HeartOutline } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
-import { useSnack } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
 import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
+import FavoriteButton from "../../components/MyNdla/FavoriteButton";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import { useToast } from "../../components/ToastContext";
 import { toSubject } from "../../routeHelpers";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
-const SubjectLinkWrapper = styled.li`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
+const SubjectLinkWrapper = styled("li", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
-const StyledIconButton = styled(IconButtonV2)`
-  min-height: 40px;
-  min-width: 40px;
-`;
+const SafeLinkWrapper = styled("div", {
+  base: {
+    padding: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    borderRadius: "xsmall",
+  },
+});
 
-const SubjectSafeLink = styled(SafeLink)`
-  font-weight: ${fonts.weight.semibold};
-  box-shadow: none;
-  :hover {
-    box-shadow: ${misc.textLinkBoxShadow};
-  }
-  color: ${colors.brand.primary};
-`;
-
-const ModalSubjectContainer = styled.div`
-  margin-top: ${spacing.normal};
-  padding: ${spacing.small};
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-`;
+// TODO: Remove/update this custom SafeLink styling?
+const StyledSafeLink = styled(SafeLink, {
+  base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
+});
 
 interface Props {
   subject: Subject;
@@ -55,9 +48,10 @@ interface Props {
   className?: string;
 }
 
+// TODO: Needs to be refactored to use new components
 const SubjectLink = ({ subject, favorites, className }: Props) => {
   const isFavorite = !!favorites?.includes(subject.id);
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { authenticated } = useContext(AuthContext);
@@ -71,9 +65,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites },
     });
-    addSnack({
-      id: `addedFavorite-${subject.id}`,
-      content: t("subjectsPage.addConfirmed", { subject: subject.name }),
+    toast.create({
+      title: t("myndla.resource.added"),
+      description: t("subjectsPage.addConfirmed", { subject: subject.name }),
     });
   };
 
@@ -86,37 +80,29 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       variables: { favoriteSubjects: newFavorites, shareName: undefined },
     });
     setShowDeleteModal(false);
-    addSnack({
-      id: `removedFavorite-${subject.id}`,
-      content: t("subjectsPage.removeConfirmed", { subject: subject.name }),
+    toast.create({
+      title: t("myndla.resource.removed"),
+      description: t("subjectsPage.removeConfirmed", { subject: subject.name }),
     });
   };
 
   return (
     <SubjectLinkWrapper className={className}>
       {authenticated && !isFavorite ? (
-        <StyledIconButton
+        <FavoriteButton
           onClick={setFavorite}
-          aria-label={t("subjectspage.addFavorite")}
-          title={t("subjectspage.addFavorite")}
-          variant="ghost"
-          size="xsmall"
-          colorTheme="lighter"
-        >
-          {isFavorite ? <Heart /> : <HeartOutline />}
-        </StyledIconButton>
+          aria-label={t("subjectsPage.addFavorite")}
+          title={t("subjectsPage.addFavorite")}
+          isFavorite={false}
+        />
       ) : authenticated ? (
         <Modal open={showDeleteModal} onOpenChange={setShowDeleteModal}>
           <ModalTrigger>
-            <StyledIconButton
+            <FavoriteButton
               aria-label={t("subjectsPage.removeFavorite")}
               title={t("subjectsPage.removeFavorite")}
-              variant="ghost"
-              size="xsmall"
-              colorTheme="lighter"
-            >
-              <Heart />
-            </StyledIconButton>
+              isFavorite
+            />
           </ModalTrigger>
           <DeleteModalContent
             onDelete={removeFavorite}
@@ -130,30 +116,27 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       ) : (
         <Modal>
           <ModalTrigger>
-            <StyledIconButton
+            <FavoriteButton
               aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
-              variant="ghost"
-              size="xsmall"
-              colorTheme="lighter"
-            >
-              <HeartOutline />
-            </StyledIconButton>
+              variant="tertiary"
+              isFavorite={false}
+            />
           </ModalTrigger>
           <LoginModalContent
             title={t("subjectsPage.subjectFavoritePitch")}
             content={
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
-                <ModalSubjectContainer>
-                  <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
-                </ModalSubjectContainer>
+                <SafeLinkWrapper>
+                  <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+                </SafeLinkWrapper>
               </>
             }
           />
         </Modal>
       )}
-      <SubjectSafeLink to={toSubject(subject.id)}>{subject.name}</SubjectSafeLink>
+      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

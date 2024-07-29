@@ -7,8 +7,8 @@
  */
 
 import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from "react";
-import { FavoriteButton as UIFavoriteButton } from "@ndla/button";
 import { NoSSR } from "@ndla/util";
+import UIFavoriteButton from "../../components/MyNdla/FavoriteButton";
 import config from "../../config";
 import { useFolders } from "../../containers/MyNdla/folderMutations";
 import { getAllResources } from "../../util/folderHelpers";

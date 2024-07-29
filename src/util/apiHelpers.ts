@@ -6,12 +6,13 @@
  *
  */
 
+import { GraphQLErrorExtensions } from "graphql/error";
 import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
-import handleError from "./handleError";
+import handleError, { LogLevel } from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 
@@ -195,16 +196,23 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = "nb", versionHash?: string) => {
+export const createApolloClient = (language = "nb", versionHash?: string, path?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
-    link: createApolloLinks(language, versionHash),
+    link: createApolloLinks(language, versionHash, path),
     cache,
   });
 };
 
-export const createApolloLinks = (lang: string, versionHash?: string) => {
+const getLogLevel = (extensions: GraphQLErrorExtensions): LogLevel => {
+  if (typeof extensions?.status === "number" && extensions.status < 500) {
+    return "warn";
+  }
+  return "error";
+};
+
+export const createApolloLinks = (lang: string, versionHash?: string, requestPath?: string) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
@@ -221,26 +229,31 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
       },
     };
   });
-  return ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (!config.isClient || extensions?.status !== 404) {
-            handleError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-          }
-        });
-      }
-      if (networkError) {
-        handleError(`[Network error]: ${networkError}`, {
-          clientTime: new Date(),
-        });
-      }
-    }),
-    headersLink,
-    new BatchHttpLink({
-      uri,
-    }),
-  ]);
+
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+        if (!config.isClient || extensions?.status !== 404) {
+          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, getLogLevel(extensions), {
+            requestPath,
+            graphqlError: {
+              message,
+              locations,
+              path,
+              extensions,
+            },
+          });
+        }
+      });
+    }
+    if (networkError) {
+      handleError(`[Network error]: ${networkError}`, {
+        clientTime: new Date(),
+      });
+    }
+  });
+
+  return ApolloLink.from([errorLink, headersLink, new BatchHttpLink({ uri })]);
 };
 
 type HttpHeaders = {

@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Cross } from "@ndla/icons/action";
+import { Button, Spinner } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
 import SearchResultItem from "./SearchResultItem";
@@ -165,13 +165,13 @@ export const SearchResultGroup = ({
         </ProgressBar>
         {loading && <Spinner />}
         {toCount < group.totalCount ? (
-          <ButtonV2 variant="outline" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
+          <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
             {t("searchPage.resultType.showMore")}
-          </ButtonV2>
+          </Button>
         ) : (
-          <ButtonV2 variant="outline" onClick={onToTopHandler}>
+          <Button variant="secondary" onClick={onToTopHandler}>
             {t("searchPage.resultType.toTopOfPage")}
-          </ButtonV2>
+          </Button>
         )}
       </PaginationWrapper>
     </Wrapper>

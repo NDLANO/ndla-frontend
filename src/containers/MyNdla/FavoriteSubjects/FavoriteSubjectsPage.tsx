@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
 import { Forward } from "@ndla/icons/common";
+import { Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -21,7 +21,6 @@ import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu from "../components/SettingsMenu";
-import { buttonCss } from "../components/toolbarStyles";
 import { useFavouriteSubjects } from "../folderMutations";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
@@ -76,9 +75,9 @@ const FavoriteSubjectsPage = () => {
   const allSubjects = useMemo(
     () => (
       <StyledListItem key="allSubjects">
-        <SafeLinkButton css={buttonCss} variant="ghost" colorTheme="lighter" to="/subjects">
+        <SafeLinkButton variant="tertiary" to="/subjects">
           {t("subjectsPage.allSubjects")}
-          <Forward size="nsmall" />
+          <Forward size="small" />
         </SafeLinkButton>
       </StyledListItem>
     ),
@@ -91,7 +90,7 @@ const FavoriteSubjectsPage = () => {
         menuItems={[
           {
             text: t("subjectsPage.allSubjects"),
-            icon: <Forward size="nsmall" />,
+            icon: <Forward size="small" />,
             onClick: () => navigate("/subjects"),
           },
         ]}

@@ -103,6 +103,25 @@ export const arenaTopicFragment = gql`
   }
 `;
 
+export const arenaRepliesFragment = gql`
+  fragment ArenaReplies on ArenaPost {
+    __typename
+    content
+    id
+    timestamp
+    topicId
+    isMainPost
+    user {
+      displayName
+      profilePicture
+      username
+      location
+    }
+    deleted
+    toPid
+  }
+`;
+
 export const arenaPostFragment = gql`
   fragment ArenaPost on ArenaPost {
     __typename
@@ -117,8 +136,15 @@ export const arenaPostFragment = gql`
       username
       location
     }
+    upvotes
+    upvoted
     deleted
+    toPid
+    replies {
+      ...ArenaReplies
+    }
   }
+  ${arenaRepliesFragment}
 `;
 
 export const arenaUserQuery = gql`

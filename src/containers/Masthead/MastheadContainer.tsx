@@ -13,18 +13,21 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
-import { LanguageSelector, Logo } from "@ndla/ui";
+import { NdlaLogoText } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
 import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
-import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { LocaleType } from "../../interfaces";
+import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
@@ -34,8 +37,7 @@ const FeideLoginLabel = styled.span`
   }
 `;
 
-const LanguageSelectWrapper = styled.div`
-  margin-left: ${spacing.xxsmall};
+const StyledLanguageSelector = styled(LanguageSelector)`
   ${mq.range({ until: breakpoints.desktop })} {
     display: none;
   }
@@ -52,12 +54,8 @@ const ButtonWrapper = styled.div`
 const DrawerWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
+  gap: ${spacing.small};
   flex: 1;
-`;
-
-const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const mastheadQuery = gql`
@@ -71,11 +69,9 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
-  const ndlaFilm = useIsNdlaFilm();
   const { data: freshData, previousData } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
@@ -93,24 +89,19 @@ const MastheadContainer = () => {
 
   return (
     <ErrorBoundary>
-      <Masthead
-        fixed
-        ndlaFilm={ndlaFilm}
-        skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={(id) => closeAlert(id)}
-        messages={alerts}
-      >
+      <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer subject={data?.subject} />
+          <MastheadSearch />
         </DrawerWrapper>
-        <LogoWrapper>
-          <Logo to="/" locale={locale} label="NDLA" cssModifier={ndlaFilm ? "white" : ""} />
-        </LogoWrapper>
+        <SafeLink to="/" aria-label="NDLA" title="NDLA">
+          <NdlaLogoText />
+        </SafeLink>
         <ButtonWrapper>
-          <MastheadSearch subject={data?.subject} />
-          <LanguageSelectWrapper>
-            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={i18n.changeLanguage} />
-          </LanguageSelectWrapper>
+          <StyledLanguageSelector
+            items={supportedLanguages}
+            onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+          />
           {config.feideEnabled && (
             <FeideLoginButton>
               <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
