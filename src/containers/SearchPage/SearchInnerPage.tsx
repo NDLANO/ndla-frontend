@@ -141,14 +141,14 @@ const SearchInnerPage = ({
       fetchMore({
         variables: getTypeParams([], resourceTypes),
       });
-    } else {
-      const updatedKeys = filterIds.filter((t) => t !== "all");
-      updateTypeFilter(type, { page: 1, selected: updatedKeys });
-      handleSearchParamsChange({ activeSubFilters: updatedKeys });
-      fetchMore({
-        variables: getTypeParams(updatedKeys, resourceTypes),
-      });
+      return;
     }
+    const updatedKeys = filterIds.filter((t) => t !== "all");
+    updateTypeFilter(type, { page: 1, selected: updatedKeys });
+    handleSearchParamsChange({ activeSubFilters: updatedKeys });
+    fetchMore({
+      variables: getTypeParams(updatedKeys, resourceTypes),
+    });
   };
 
   const handleFilterToggle = (resourceTypeFilter: string[]) => {
@@ -156,10 +156,10 @@ const SearchInnerPage = ({
     const lastAdded = resourceTypeFilter[resourceTypeFilter.length - 1];
     if (lastAdded === "all") {
       handleSearchParamsChange({ selectedFilters: [] });
-    } else {
-      const updatedKeys = resourceTypeFilter.filter((t) => t !== "all");
-      handleSearchParamsChange({ selectedFilters: updatedKeys });
+      return;
     }
+    const updatedKeys = resourceTypeFilter.filter((t) => t !== "all");
+    handleSearchParamsChange({ selectedFilters: updatedKeys });
   };
 
   const handleShowMore = (type: string) => {
