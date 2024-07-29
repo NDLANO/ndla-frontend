@@ -1431,7 +1431,7 @@ type Tags {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
-  crumbs: [TaxonomyCrumb]
+  crumbs: [TaxonomyCrumb!]
   parentIds: [String!]!
   path: String!
   url: String

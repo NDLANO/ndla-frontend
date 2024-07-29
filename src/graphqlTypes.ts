@@ -2024,7 +2024,7 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
-  crumbs?: Maybe<Array<Maybe<GQLTaxonomyCrumb>>>;
+  crumbs?: Maybe<Array<GQLTaxonomyCrumb>>;
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
