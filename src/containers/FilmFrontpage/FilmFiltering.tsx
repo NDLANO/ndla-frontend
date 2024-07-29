@@ -7,10 +7,10 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Done } from "@ndla/icons/editor";
 import {
   Heading,
   RadioGroupItem,
+  RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
   RadioGroupRoot,
@@ -18,55 +18,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MovieResourceType } from "./resourceTypes";
-
-const StyledRadioGroupItem = styled(RadioGroupItem, {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: "4xsmall",
-    color: "text.default",
-
-    paddingBlock: "4xsmall",
-    paddingInline: "xsmall",
-
-    border: "1px solid",
-    borderRadius: "100px",
-    borderColor: "stroke.subtle",
-
-    backgroundColor: "surface.actionSubtle",
-
-    // TODO Fiks når vi har fått nye ICONS inn
-    "& svg": {
-      display: "none",
-    },
-
-    _hover: {
-      backgroundColor: "surface.actionSubtle.hover",
-      color: "text.default",
-    },
-
-    _checked: {
-      backgroundColor: "surface.actionSubtle.selected",
-      color: "text.onAction",
-      "& svg": {
-        display: "block",
-      },
-    },
-  },
-});
-
-const StyledRadioGroupItemText = styled(RadioGroupItemText, {
-  base: {
-    color: "text.default",
-    _hover: {
-      color: "text.default",
-    },
-    _checked: {
-      color: "text.onAction",
-    },
-  },
-});
 
 const StyledHeading = styled(Heading, {
   base: {
@@ -76,12 +27,6 @@ const StyledHeading = styled(Heading, {
 const LabelText = styled(Text, {
   base: {
     paddingBlockEnd: "small",
-  },
-});
-
-const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    gap: "xsmall",
   },
 });
 
@@ -102,19 +47,19 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
       <LabelText textStyle="label.large" fontWeight="bold">
         {t("Filtrer filmer")}
       </LabelText>
-      <StyledRadioGroupRoot
+      <RadioGroupRoot
         orientation="horizontal"
         defaultValue={selectedOption?.id}
         onValueChange={(details) => onOptionSelected(options.find((option) => option.id === details.value)!)}
       >
         {options.map((category, index) => (
-          <StyledRadioGroupItem key={`${category.id}-${index}`} value={category.id}>
-            <Done />
-            <StyledRadioGroupItemText fontWeight="bold">{t(category.name)}</StyledRadioGroupItemText>
+          <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
+            <RadioGroupItemControl />
+            <RadioGroupItemText fontWeight="bold">{t(category.name)}</RadioGroupItemText>
             <RadioGroupItemHiddenInput />
-          </StyledRadioGroupItem>
+          </RadioGroupItem>
         ))}
-      </StyledRadioGroupRoot>
+      </RadioGroupRoot>
     </>
   );
 };
