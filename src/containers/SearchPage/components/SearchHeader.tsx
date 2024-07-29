@@ -159,7 +159,6 @@ const SearchHeader = ({
                   {t("searchPage.resultType.showingSearchPhrase")} &ldquo;{query}&rdquo;
                 </Text>
               )}
-
               {suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
@@ -174,17 +173,6 @@ const SearchHeader = ({
           {loading && <div aria-label={t("loading")} />}
         </StyledHitsWrapper>
       </div>
-      {!!grepElements.length && (
-        <FiltersWrapper>
-          {/* TODO: Probably needs special handling */}
-          {grepElements.map((grep) => (
-            <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
-              {grep.id}
-              <Cross />
-            </Button>
-          ))}
-        </FiltersWrapper>
-      )}
       <Modal open={isOpen} onOpenChange={setIsOpen}>
         <FiltersWrapper>
           <ModalTrigger>
@@ -221,6 +209,17 @@ const SearchHeader = ({
           </StyledModalBody>
         </ModalContent>
       </Modal>
+      {!!grepElements.length && (
+        <FiltersWrapper>
+          {/* TODO: Probably needs special handling */}
+          {grepElements.map((grep) => (
+            <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
+              {grep.id}
+              <Cross />
+            </Button>
+          ))}
+        </FiltersWrapper>
+      )}
     </Wrapper>
   );
 };

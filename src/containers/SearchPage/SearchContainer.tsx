@@ -8,8 +8,6 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import emotionStyled from "@emotion/styled";
-import { fonts, spacing, spacingUnit } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -38,26 +36,12 @@ import { LocaleType } from "../../interfaces";
 
 const { contentTypes } = constants;
 
-const StyledLanguageSelector = emotionStyled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: ${spacingUnit * 10}px;
-`;
+const StyledLanguageSelector = styled("div", {
+  base: { display: "flex", justifyContent: "center", marginBottom: "100" },
+});
+const CompetenceWrapper = styled("div", { base: { marginBottom: "medium" } });
 
-const StyledHeading = emotionStyled(Heading)`
-  font-weight: ${fonts.weight.normal};
-`;
-
-const CompetenceWrapper = emotionStyled.div`
-  margin-bottom: ${spacing.normal};
-`;
-
-const StyledMain = emotionStyled.main`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledMain = styled("main", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
 const BreadcrumbWrapper = styled("div", { base: { marginTop: "xxlarge", tabletDown: { marginTop: "medium" } } });
 
@@ -170,9 +154,9 @@ const SearchContainer = ({
         <CompetenceWrapper>
           {!!competenceGoalsMetadata?.length && (
             <>
-              <StyledHeading element="h2" headingStyle="list-title">
+              <Heading element="h2" headingStyle="list-title">
                 {t("competenceGoals.competenceGoalItem.title")}
-              </StyledHeading>
+              </Heading>
               {competenceGoalsMetadata.map((goal, index) => (
                 <CompetenceItem item={goal} key={index} showLinks={false} />
               ))}
@@ -180,9 +164,9 @@ const SearchContainer = ({
           )}
           {!!coreElements?.length && (
             <>
-              <StyledHeading element="h2" headingStyle="list-title">
+              <Heading element="h2" headingStyle="list-title">
                 {t("competenceGoals.competenceTabCorelabel")}
-              </StyledHeading>
+              </Heading>
               <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} showLinks={false} />
             </>
           )}
