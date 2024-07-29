@@ -205,7 +205,7 @@ const SearchContainer = ({
             </StyledCheckboxGroup>
           </>
         )}
-        {displaySubjectItems && selectedFilters.includes("subject") && (
+        {displaySubjectItems && (selectedFilters.includes("all") || selectedFilters.includes("subject")) && (
           <BaseSearchGroup
             loading={loading}
             groupType="subject"

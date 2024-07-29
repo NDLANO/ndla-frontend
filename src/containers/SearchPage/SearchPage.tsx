@@ -6,8 +6,9 @@
  *
  */
 
+import sortBy from "lodash/sortBy";
 import queryString from "query-string";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -40,6 +41,13 @@ const SearchPage = () => {
 
   const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
 
+  const sortedArchivedRemovedSubjects = useMemo(() => {
+    return sortBy(
+      data?.subjects?.filter((s) => s.metadata.customFields.subjectCategory !== "archive"),
+      (s) => s.name,
+    );
+  }, [data?.subjects]);
+
   useEffect(() => {
     if (!loading && authContextLoaded) {
       trackPageView({
@@ -53,7 +61,7 @@ const SearchPage = () => {
     return <ContentPlaceholder />;
   }
 
-  const subjectItems = searchSubjects(searchParams.query, data?.subjects);
+  const subjectItems = searchSubjects(searchParams.query, sortedArchivedRemovedSubjects);
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
     navigate({
