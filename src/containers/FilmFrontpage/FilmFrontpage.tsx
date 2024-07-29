@@ -52,7 +52,8 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 
 const StyledNav = styled("nav", {
   base: {
-    paddingBlock: "medium",
+    paddingTop: "medium",
+    paddingBottom: "xxlarge",
   },
 });
 

@@ -34,6 +34,15 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const StyledCarousel = styled(Carousel, {
+  base: {
+    paddingInline: "3xlarge",
+    desktopDown: {
+      paddingInline: "medium",
+    },
+  },
+});
+
 const FilmMovieList = ({ name, movies = [] }: Props) => (
   <StyledSection>
     {!!name && (
@@ -41,11 +50,11 @@ const FilmMovieList = ({ name, movies = [] }: Props) => (
         <h3>{name}</h3>
       </StyledHeading>
     )}
-    <Carousel>
+    <StyledCarousel>
       {movies.map((movie) => (
         <FilmContentCard key={movie.id} movie={movie} />
       ))}
-    </Carousel>
+    </StyledCarousel>
   </StyledSection>
 );
 
