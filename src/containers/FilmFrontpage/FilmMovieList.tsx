@@ -25,20 +25,22 @@ const StyledSection = styled("section", {
   },
 });
 
-const FilmMovieList = ({ name, movies = [] }: Props) => (
-  <StyledSection>
-    {!!name && (
-      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-        <h3>{name}</h3>
-      </Heading>
-    )}
-    <Carousel>
-      {movies.map((movie) => (
-        <FilmContentCard key={movie.id} movie={movie} />
-      ))}
-    </Carousel>
-  </StyledSection>
-);
+const FilmMovieList = ({ name, movies = [] }: Props) => {
+  return (
+    <StyledSection>
+      {!!name && (
+        <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <h3>{name}</h3>
+        </Heading>
+      )}
+      <Carousel>
+        {movies.map((movie) => (
+          <FilmContentCard key={movie.id} movie={movie} />
+        ))}
+      </Carousel>
+    </StyledSection>
+  );
+};
 
 FilmMovieList.fragments = {
   movie: gql`

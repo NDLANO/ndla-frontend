@@ -38,10 +38,9 @@ const ImageWrapper = styled("div", {
 
 const StyledImage = styled(Image, {
   base: {
-    maxHeight: "surface.xxsmall",
-    minHeight: "surface.xxsmall",
-    minWidth: "surface.small",
-    maxWidth: "surface.small",
+    aspectRatio: "16/9",
+    width: "100%",
+    objectFit: "cover",
   },
 });
 
