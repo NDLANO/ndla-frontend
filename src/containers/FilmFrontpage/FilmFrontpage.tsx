@@ -15,12 +15,11 @@ import { Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
-import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
+import { FilmContent } from "./FilmContent";
 import FilmFiltering from "./FilmFiltering";
-import { ALL_MOVIES_ID, findName } from "./filmHelper";
+import { ALL_MOVIES_ID } from "./filmHelper";
 import FilmMovieList from "./FilmMovieList";
 import FilmSlideshow from "./FilmSlideshow";
-import MovieGrid from "./MovieGrid";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -138,19 +137,11 @@ const FilmFrontpage = () => {
           />
         </OneColumn>
         <ContentWrapper ref={movieListRef}>
-          {resourceTypeSelected?.id === ALL_MOVIES_ID ? (
-            <AllMoviesAlphabetically />
-          ) : resourceTypeSelected ? (
-            <MovieGrid resourceType={resourceTypeSelected} loadingPlaceholderHeight={loadingPlaceholderHeight} />
-          ) : (
-            filmfrontpage?.movieThemes?.map((theme) => (
-              <FilmMovieList
-                key={theme.name[0]?.name}
-                name={findName(theme.name ?? [], i18n.language)}
-                movies={theme.movies}
-              />
-            ))
-          )}
+          <FilmContent
+            resourceTypeSelected={resourceTypeSelected}
+            movieThemes={filmfrontpage?.movieThemes}
+            loadingPlaceholderHeight={loadingPlaceholderHeight}
+          />
         </ContentWrapper>
       </main>
     </>
