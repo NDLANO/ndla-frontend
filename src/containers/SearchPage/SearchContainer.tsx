@@ -23,7 +23,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Heading } from "@ndla/typography";
-import { constants } from "@ndla/ui";
+import { constants, HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
 import { BaseSearchGroup, SearchResultGroup, SearchResultsList } from "./components/SearchResults";
 import SearchResultSubjectItem from "./components/SearchResultSubjectItem";
@@ -58,6 +58,8 @@ const StyledMain = emotionStyled.main`
   flex-direction: column;
   gap: ${spacing.normal};
 `;
+
+const BreadcrumbWrapper = styled("div", { base: { marginTop: "xxlarge", tabletDown: { marginTop: "medium" } } });
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
@@ -142,6 +144,17 @@ const SearchContainer = ({
 
   return (
     <StyledMain>
+      <BreadcrumbWrapper>
+        <HomeBreadcrumb
+          items={[
+            {
+              name: t("breadcrumb.toFrontpage"),
+              to: "/",
+            },
+            { to: "/search", name: t("searchPage.search") },
+          ]}
+        />
+      </BreadcrumbWrapper>
       <SearchHeader
         query={query}
         suggestion={suggestion}
