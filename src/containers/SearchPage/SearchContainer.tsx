@@ -25,8 +25,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Heading } from "@ndla/typography";
 import { constants } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
-import SearchResultItem from "./components/SearchResultItem";
 import { BaseSearchGroup, SearchResultGroup, SearchResultsList } from "./components/SearchResults";
+import SearchResultSubjectItem from "./components/SearchResultSubjectItem";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
@@ -215,7 +215,7 @@ const SearchContainer = ({
           >
             <SearchResultsList>
               {subjectItems.slice(0, toCountSubjectItems).map((item) => (
-                <SearchResultItem item={item} key={item.id} type="subject" />
+                <SearchResultSubjectItem item={item} key={item.id} />
               ))}
             </SearchResultsList>
           </BaseSearchGroup>
