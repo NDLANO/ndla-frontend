@@ -84,7 +84,9 @@ const messages = {
     },
   },
   ndlaFilm: {
+    films: "Filmer",
     topics: "Emner",
+    filterFilms: "Filtrer filmer",
   },
   validation: {
     fields: {

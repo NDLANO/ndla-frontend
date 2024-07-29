@@ -20,7 +20,7 @@ interface Props {
   loadingPlaceholderHeight: string;
 }
 
-export const FilmContent = ({ resourceTypeSelected, movieThemes, loadingPlaceholderHeight }: Props) => {
+export const FilmContent = ({ resourceTypeSelected, movieThemes }: Props) => {
   const { i18n } = useTranslation();
 
   if (resourceTypeSelected?.id === ALL_MOVIES_ID) {
@@ -28,7 +28,7 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loadingPlacehol
   }
 
   if (resourceTypeSelected && resourceTypeSelected?.id !== "fromNdla") {
-    return <MovieGrid resourceType={resourceTypeSelected} loadingPlaceholderHeight={loadingPlaceholderHeight} />;
+    return <MovieGrid resourceType={resourceTypeSelected} />;
   }
 
   return movieThemes?.map((theme) => (

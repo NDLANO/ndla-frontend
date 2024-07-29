@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading } from "@ndla/primitives";
+import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
 import { GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables } from "../../graphqlTypes";
@@ -55,12 +55,26 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const LoadingShimmer = () => {
+  return new Array(24).fill(0).map((_, index) => (
+    <Skeleton key={index}>
+      <StyledFilmContentCard
+        movie={{
+          id: `dummy-${index}`,
+          resourceTypes: [],
+          path: "",
+          title: "",
+        }}
+      />
+    </Skeleton>
+  ));
+};
+
 interface Props {
   resourceType: { id: string; name: string };
-  loadingPlaceholderHeight?: string;
 }
 
-const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
+const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
     resourceTypeMoviesQuery,
@@ -71,6 +85,7 @@ const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
       },
     },
   );
+
   return (
     <StyledSection>
       <ColumnWrapper>
@@ -79,7 +94,7 @@ const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
         </StyledHeading>
         <MovieListing>
           {resourceTypeMovies.loading ? (
-            <div style={{ height: loadingPlaceholderHeight }} />
+            <LoadingShimmer />
           ) : (
             resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
               <StyledFilmContentCard

@@ -42,10 +42,10 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
   return (
     <>
       <StyledHeading textStyle="heading.small" consumeCss asChild>
-        <h2>{t("Filmer")}</h2>
+        <h2>{t("ndlaFilm.films")}</h2>
       </StyledHeading>
       <LabelText textStyle="label.large" fontWeight="bold">
-        {t("Filtrer filmer")}
+        {t("ndlaFilm.filterFilms")}
       </LabelText>
       <RadioGroupRoot
         orientation="horizontal"

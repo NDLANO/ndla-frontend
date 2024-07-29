@@ -83,6 +83,11 @@ const messages = {
       userUpdated: "User updated",
     },
   },
+  ndlaFilm: {
+    films: "Films",
+    topics: "Topics",
+    filterFilms: "Filter films",
+  },
   validation: {
     fields: {
       name: "Name",
