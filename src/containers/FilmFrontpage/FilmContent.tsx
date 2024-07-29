@@ -27,7 +27,7 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loadingPlacehol
     return <AllMoviesAlphabetically />;
   }
 
-  if (resourceTypeSelected) {
+  if (resourceTypeSelected && resourceTypeSelected?.id !== "fromNdla") {
     return <MovieGrid resourceType={resourceTypeSelected} loadingPlaceholderHeight={loadingPlaceholderHeight} />;
   }
 
