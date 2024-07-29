@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { PageContainer } from "@ndla/ui";
 import Footer from "./components/Footer";
@@ -25,12 +25,6 @@ const BottomPadding = styled.div`
   padding-bottom: ${spacing.large};
   &[data-no-padding="true"] {
     padding-bottom: unset;
-  }
-`;
-
-const StyledPageContainer = styled(PageContainer)`
-  &[data-frontpage="true"] {
-    background-color: ${colors.background.lightBlue};
   }
 `;
 
@@ -70,7 +64,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage}>
+    <PageContainer backgroundWide={backgroundWide}>
       <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
@@ -85,7 +79,7 @@ const Layout = () => {
         </BottomPadding>
       </div>
       <Footer />
-    </StyledPageContainer>
+    </PageContainer>
   );
 };
 export default Layout;

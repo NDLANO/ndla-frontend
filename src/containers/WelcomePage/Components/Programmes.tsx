@@ -25,6 +25,7 @@ import { useUserAgent } from "../../../UserAgentContext";
 const StyledWrapper = styled("div", {
   base: {
     display: "flex",
+    width: "100%",
     flexDirection: "column",
     alignItems: "center",
     margin: "0",
@@ -75,6 +76,12 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     borderRadius: "small",
     boxShadow: "full",
+  },
+});
+
+const StyledAccordionItemContent = styled(AccordionItemContent, {
+  base: {
+    background: "surface.default",
   },
 });
 
@@ -129,11 +136,11 @@ const Programmes = ({ programmes }: Props) => {
                 </AccordionItemTrigger>
               </h2>
             </Heading>
-            <AccordionItemContent>
+            <StyledAccordionItemContent>
               <nav aria-labelledby="accordionHeader">
                 <StyledList>{programmeCards}</StyledList>
               </nav>
-            </AccordionItemContent>
+            </StyledAccordionItemContent>
           </AccordionItem>
         </StyledAccordionRoot>
       </FullWidth>
