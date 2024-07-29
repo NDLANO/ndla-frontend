@@ -85,9 +85,9 @@ const StyledCarousel = styled(Carousel, {
     desktop: {
       marginBlockStart: "-3xlarge",
     },
+
     "& > div > div": {
       gap: "xlarge",
-      height: "surface.xxsmall",
       marginBottom: "3xlarge",
     },
   },

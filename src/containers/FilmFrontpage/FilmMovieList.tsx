@@ -21,40 +21,22 @@ interface Props {
 const StyledSection = styled("section", {
   base: {
     paddingBlockEnd: "medium",
-  },
-});
-
-const StyledHeading = styled(Heading, {
-  base: {
-    paddingBlock: "xsmall",
-    paddingInline: "3xlarge",
-    desktopDown: {
-      paddingInline: "medium",
-    },
-  },
-});
-
-const StyledCarousel = styled(Carousel, {
-  base: {
-    paddingInline: "3xlarge",
-    desktopDown: {
-      paddingInline: "medium",
-    },
+    paddingInline: "medium",
   },
 });
 
 const FilmMovieList = ({ name, movies = [] }: Props) => (
   <StyledSection>
     {!!name && (
-      <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
         <h3>{name}</h3>
-      </StyledHeading>
+      </Heading>
     )}
-    <StyledCarousel>
+    <Carousel>
       {movies.map((movie) => (
         <FilmContentCard key={movie.id} movie={movie} />
       ))}
-    </StyledCarousel>
+    </Carousel>
   </StyledSection>
 );
 

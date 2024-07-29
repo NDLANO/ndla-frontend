@@ -59,6 +59,7 @@ const StyledNav = styled("nav", {
 const ContentWrapper = styled("div", {
   base: {
     width: "100%",
+    marginTop: "medium",
   },
 });
 
