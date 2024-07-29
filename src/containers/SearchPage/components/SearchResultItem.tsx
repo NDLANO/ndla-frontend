@@ -36,7 +36,16 @@ interface Props {
   item: SearchItem;
   type: string;
 }
-const LtiWrapper = styled("div", { base: { display: "flex", flexDirection: "column" } });
+const LtiWrapper = styled("div", {
+  base: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
+    "& > button": { width: "100%" },
+  },
+});
 
 const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
 
@@ -102,9 +111,9 @@ const SearchResultItem = ({ item, type }: Props) => {
               </DialogRoot>
             )}
           </Text>
+          <LtiWrapper>{item.children}</LtiWrapper>
         </CardContent>
       </FullheightCardRoot>
-      <LtiWrapper>{item.children}</LtiWrapper>
     </FullHeightListElement>
   );
 };
