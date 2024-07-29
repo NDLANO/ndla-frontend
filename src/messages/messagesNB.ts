@@ -79,6 +79,9 @@ const messages = {
       userUpdated: "Bruker oppdatert",
     },
   },
+  ndlaFilm: {
+    topics: "Emner",
+  },
   validation: {
     fields: {
       name: "Navn",

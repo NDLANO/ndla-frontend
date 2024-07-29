@@ -16,19 +16,25 @@ import { useGraphQuery } from "../../util/runQueries";
 
 const StyledSection = styled("section", {
   base: {
-    paddingInline: "medium",
-    desktop: {
-      paddingInline: "3xlarge",
-    },
+    display: "flex",
+    justifyContent: "center",
+  },
+});
+
+const ColumnWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
 const MovieListing = styled("div", {
   base: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: "grid",
     gap: "medium",
-    paddingBlock: "small",
+    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+    desktopDown: { gridTemplateColumns: "1fr 1fr 1fr" },
+    tabletDown: { gridTemplateColumns: "1fr 1fr" },
   },
 });
 
@@ -45,7 +51,7 @@ const StyledHeading = styled(Heading, {
   base: {
     display: "flex",
     gap: "small",
-    paddingBlock: "small",
+    paddingBlockEnd: "xsmall",
   },
 });
 
@@ -67,27 +73,29 @@ const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
   );
   return (
     <StyledSection>
-      <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-        <h3>{t(resourceType.name)}</h3>
-      </StyledHeading>
-      <MovieListing>
-        {resourceTypeMovies.loading ? (
-          <div style={{ height: loadingPlaceholderHeight }} />
-        ) : (
-          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
-            <StyledFilmContentCard
-              key={index}
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
-              }}
-            />
-          ))
-        )}
-      </MovieListing>
+      <ColumnWrapper>
+        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <h3>{t(resourceType.name)}</h3>
+        </StyledHeading>
+        <MovieListing>
+          {resourceTypeMovies.loading ? (
+            <div style={{ height: loadingPlaceholderHeight }} />
+          ) : (
+            resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
+              <StyledFilmContentCard
+                key={index}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
+                }}
+              />
+            ))
+          )}
+        </MovieListing>
+      </ColumnWrapper>
     </StyledSection>
   );
 };
