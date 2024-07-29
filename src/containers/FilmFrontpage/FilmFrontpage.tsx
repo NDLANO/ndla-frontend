@@ -66,6 +66,11 @@ const ContentWrapper = styled("div", {
 const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
   htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
 
+const fromNdla = {
+  id: "fromNdla",
+  name: "ndlaFilm.search.categoryFromNdla",
+};
+
 const FilmFrontpage = () => {
   const allResources = useMemo(
     () => ({
@@ -76,7 +81,7 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
-  const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(allResources);
+  const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
@@ -99,12 +104,7 @@ const FilmFrontpage = () => {
   };
 
   const options = useMemo(() => {
-    const fromNdla = {
-      id: "fromNdla",
-      name: "ndlaFilm.search.categoryFromNdla",
-    };
-
-    return [allResources, fromNdla].concat(movieResourceTypes);
+    return [fromNdla, allResources].concat(movieResourceTypes);
   }, [allResources]);
 
   return (
