@@ -35,7 +35,7 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const frontpage = !!matchPath("/", pathname);
+  const frontpage = !!matchPath("/", pathname) || !!matchPath("/about/*", pathname);
   const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
   const noPaddingBottom = !!matchPath(`${routes.myNdla.root}/*`, pathname) || frontpage;
 
