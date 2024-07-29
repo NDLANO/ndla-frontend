@@ -68,8 +68,8 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
     document.documentElement.lang = lang;
   });
 
-  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string }) => {
-    const selectedFilters = searchParamUpdates.selectedFilters?.split(",") ?? [];
+  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string[] }) => {
+    const selectedFilters = searchParamUpdates.selectedFilters ?? [];
     setSearchParams((prevState) => ({
       ...prevState,
       ...searchParamUpdates,
@@ -95,7 +95,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
         subjectIds={searchParams.subjects}
-        selectedFilters={searchParams.selectedFilters}
+        selectedFilters={searchParams.selectedFilters.length ? searchParams.selectedFilters : ["all"]}
         activeSubFilters={searchParams.activeSubFilters}
         subjects={data?.subjects}
         subjectItems={subjectItems}
