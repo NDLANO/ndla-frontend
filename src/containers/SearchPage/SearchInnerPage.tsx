@@ -79,7 +79,6 @@ const SearchInnerPage = ({
   const initialGQLCall = useRef(true);
 
   useEffect(() => {
-    console.log(selectedFilters);
     setTypeFilter(getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t));
   }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 

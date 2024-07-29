@@ -66,10 +66,9 @@ const StyledText = styled(Text, { base: { marginBottom: "small" } });
 
 const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
   const showAll = selectedFilters.includes("all");
-  if (showAll) return searchGroups;
   return searchGroups.filter((group) => {
     const isSelected = selectedFilters.includes(group.type);
-    return (isSelected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+    return (showAll || isSelected || group.type === contentTypes.SUBJECT) && !!group.items.length;
   });
 };
 
@@ -130,7 +129,7 @@ const SearchContainer = ({
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
   const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, selectedFilters);
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
-  console.log(sortedSearchGroups);
+
   const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
     title: element.title,
     text: element.description ?? "",
