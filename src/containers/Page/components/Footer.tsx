@@ -6,119 +6,122 @@
  *
  */
 
-import { ReactNode, useId } from "react";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing, stackOrder } from "@ndla/core";
-import { FacebookFilled, HelpCircleOutline, Instagram, LinkedIn, Email, Youtube, Launch } from "@ndla/icons/common";
-import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
-import { FooterBlock, ZendeskButton } from "@ndla/ui";
+import { HelpCircleOutline, Instagram, LinkedIn, Email, Youtube, Facebook } from "@ndla/icons/common";
+import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
+import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn, ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
 
-const FooterTextWrapper = styled.div`
-  grid-column: span 2;
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    align-self: flex-end;
-  }
-`;
+// TODO: This does not fully adhere to the design. The links switch positions at smaller breakpoints in the design, whereas they remain as-is here.
+// Let's keep things in their natural order for now.
+// TODO: Add new translations for the footer.
 
-const ZendeskWrapper = styled.div`
-  position: relative;
-`;
+export const FooterBlock = styled("footer", {
+  base: {
+    position: "relative",
+    background: "primary",
+    color: "text.onAction",
+  },
+});
 
-const FooterGrid = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    display: grid;
-    grid-template-columns: max-content max-content min-content;
-    justify-content: space-between;
-    row-gap: ${spacing.normal};
-  }
-`;
+export const StyledOneColumn = styled(OneColumn, {
+  base: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingBlock: "xxlarge",
+    tablet: {
+      paddingBlock: "4xlarge",
+    },
+    desktopDown: {
+      flexDirection: "column-reverse",
+      gap: "xxlarge",
+    },
+    "& a:focus-visible": {
+      outlineColor: "surface.default",
+    },
+  },
+});
 
-const StyledZendesk = styled(ZendeskButton)`
-  position: absolute;
-  right: ${spacing.large};
-  // Heigth of button is 48px, so this is to center it vertically.
-  top: -${spacing.normal};
-  z-index: ${stackOrder.trigger};
-`;
+const FooterTextWrapper = styled("div", {
+  base: {
+    tabletWide: {
+      alignSelf: "flex-end",
+    },
+    desktop: {
+      gridColumn: "span 2",
+    },
+  },
+});
 
-const StyledHelpCircleOutline = styled(HelpCircleOutline)`
-  width: 20px;
-  height: 20px;
-`;
+const StyledZendesk = styled(ZendeskButton, {
+  base: {
+    position: "absolute",
+    right: "xxlarge",
+    top: "-medium",
+    zIndex: "docked",
+  },
+});
 
-const StyledLinkBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
+const StyledLinkBlock = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-const LinkList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
+const LinkList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-const StyledSafeLink = styled(SafeLink)`
-  color: white;
-  box-shadow: none;
-  text-decoration: underline;
-  text-underline-offset: 5px;
-  &:hover,
-  &:focus,
-  &:active {
-    text-decoration: none;
-  }
-`;
-
-const LinkListElement = styled.li`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  padding: 0px;
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.onAction",
+    textStyle: "body.link",
+    textDecoration: "underline",
+    "& svg": {
+      marginInlineStart: "xsmall",
+    },
+    _hover: {
+      textDecoration: "none",
+    },
+    _focusVisible: {
+      textDecoration: "none",
+    },
+  },
+});
 
 interface FooterLinkBlockProps {
-  links: { to: string; text: string; external?: boolean; icon?: ReactNode; asAnchor?: boolean }[];
+  links: { to: string; text: string }[];
   label: string;
-  className?: string;
 }
 
-const FooterLinkBlock = ({ links, label, className }: FooterLinkBlockProps) => {
+const FooterLinkBlock = ({ links, label }: FooterLinkBlockProps) => {
   const id = useId();
   return (
-    <StyledLinkBlock className={className}>
-      <Heading id={id} element="span" headingStyle="list-title" margin="none">
-        {label}
+    <StyledLinkBlock>
+      {/* TODO: Consider if this should be an actual heading */}
+      <Heading id={id} asChild consumeCss textStyle="label.large" fontWeight="bold">
+        <span>{label}</span>
       </Heading>
-      <nav>
+      <nav aria-labelledby={id}>
         <LinkList>
           {links.map((link, index) => (
-            <LinkListElement key={index}>
-              {link.icon ? link.icon : null}
-              <StyledSafeLink
-                to={link.to}
-                asAnchor={link.asAnchor}
-                target={link.external ? "_blank" : "_self"}
-                rel="noopener noreferrer"
-              >
+            <li key={index}>
+              <StyledSafeLink to={link.to} rel="noopener noreferrer">
                 {link.text}
               </StyledSafeLink>
-              {link.external ? <Launch /> : null}
-            </LinkListElement>
+            </li>
           ))}
         </LinkList>
       </nav>
@@ -126,67 +129,98 @@ const FooterLinkBlock = ({ links, label, className }: FooterLinkBlockProps) => {
   );
 };
 
-const CenteredLinkBlock = styled(FooterLinkBlock)`
-  justify-self: center;
-`;
+const SocialMediaLinkList = styled(LinkList, {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+});
 
-const FooterWrapper = () => {
-  const { t, i18n } = useTranslation();
-  const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
+const FooterSocialMedia = () => {
+  const id = useId();
+  const { t } = useTranslation();
 
   const links = [
     {
-      to: "https://www.facebook.com/ndla.no",
       text: t("footer.socialMediaLinks.facebook"),
-      icon: <FacebookFilled />,
+      to: "https://www.facebook.com/ndla.no",
+      icon: <Facebook />,
     },
     {
-      to: "https://instagram.com/ndla_no/",
       text: t("footer.socialMediaLinks.instagram"),
+      to: "https://instagram.com/ndla_no/",
       icon: <Instagram />,
     },
     {
-      to: "https://www.linkedin.com/company/ndla/",
       text: t("footer.socialMediaLinks.linkedin"),
+      to: "https://www.linkedin.com/company/ndla/",
       icon: <LinkedIn />,
     },
     {
-      to: "https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA",
       text: t("footer.socialMediaLinks.youtube"),
+      to: "https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA",
       icon: <Youtube />,
     },
-    {
-      to: "https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea",
-      text: t("footer.socialMediaLinks.newsletter"),
-      icon: <Email />,
-    },
   ];
+
+  return (
+    <StyledLinkBlock>
+      {/* TODO: Consider if this should be an actual heading */}
+      <Heading id={id} asChild consumeCss textStyle="label.large" fontWeight="bold">
+        <span>{t("footer.followUs")}</span>
+      </Heading>
+      <nav aria-labelledby={id}>
+        <SocialMediaLinkList>
+          {links.map((link) => (
+            <SafeLinkIconButton
+              variant="clearSubtle"
+              to={link.to}
+              title={link.text}
+              aria-label={link.text}
+              key={link.to}
+            >
+              {link.icon}
+            </SafeLinkIconButton>
+          ))}
+          <StyledSafeLink
+            css={{ width: "100%" }}
+            to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
+          >
+            {t("footer.socialMediaLinks.newsletter")} <Email />
+          </StyledSafeLink>
+        </SocialMediaLinkList>
+      </nav>
+    </StyledLinkBlock>
+  );
+};
+
+const StyledHeading = styled(Heading, {
+  base: {
+    desktopDown: {
+      textAlign: "center",
+    },
+  },
+});
+
+export const Footer = () => {
+  const { t, i18n } = useTranslation();
+  const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
+
+  const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
 
   const commonLinks = [
     {
       text: t("footer.ndlaLinks.omNdla"),
       to: "https://ndla.no/about/om-ndla",
-      external: false,
     },
     {
       text: t("footer.ndlaLinks.aboutNdla"),
       to: "https://ndla.no/about/about-us",
-      external: false,
-    },
-    {
-      text: t("footer.ndlaLinks.blog"),
-      to: "https://blogg.ndla.no",
-      external: true,
-    },
-    {
-      text: t("footer.ndlaLinks.tips"),
-      to: "https://blogg.ndla.no/eleverivideregaende/",
-      external: true,
     },
     {
       text: t("footer.ndlaLinks.vacancies"),
       to: "https://ndla.no/about/utlysninger",
-      external: false,
     },
   ];
 
@@ -205,48 +239,79 @@ const FooterWrapper = () => {
     },
   ];
 
+  // TODO: Reintroduce this block when we do the language redesign. We're also missing an option
   // const otherLanguages = [
-  //   {
-  //     to: "/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466",
-  //     text: "Українська",
-  //   },
   //   {
   //     to: "/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c",
   //     text: "Davvisámegiella",
   //   },
+  //   {
+  //     to: "/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466",
+  //     text: "Українська",
+  //   },
   // ];
 
   return (
-    <footer>
+    <FooterBlock>
       {config.zendeskWidgetKey && (
-        <ZendeskWrapper>
-          <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
-            <StyledHelpCircleOutline />
-            {t("askNDLA")}
-          </StyledZendesk>
-        </ZendeskWrapper>
+        <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
+          <HelpCircleOutline />
+          {t("askNDLA")}
+        </StyledZendesk>
       )}
-      <FooterBlock>
-        <Heading headingStyle="h2" element="span" margin="none">
-          {t("footer.vision")}
-        </Heading>
-        <FooterGrid>
-          <FooterLinkBlock links={links} label={t("footer.socialMedia")} />
-          <CenteredLinkBlock links={commonLinks} label={t("footer.linksHeader")} />
-          <FooterLinkBlock links={privacyLinks} label={t("footer.aboutWebsite")} />
-          <FooterTextWrapper>
-            <Text textStyle="meta-text-medium" margin="none">
-              {t("footer.info")}
-            </Text>
-            <Text textStyle="meta-text-medium" margin="none">
-              <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
-            </Text>
-          </FooterTextWrapper>
-          {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
-        </FooterGrid>
-      </FooterBlock>
-    </footer>
+      <StyledOneColumn wide>
+        <Logo color="icon.onAction" css={{ flexShrink: "0" }} />
+        <ContentWrapper>
+          {/* TODO: Consider if this should be an actual heading */}
+          <StyledHeading asChild consumeCss textStyle="heading.small">
+            <span>{t("footer.vision")}</span>
+          </StyledHeading>
+          <FooterGrid>
+            <FooterLinkBlock links={commonLinks} label={t("footer.linksHeader")} />
+            <FooterLinkBlock links={privacyLinks} label={t("footer.aboutWebsite")} />
+            <div></div>
+            {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
+            <FooterSocialMedia />
+            <FooterTextWrapper>
+              <Text textStyle="body.large">{t("footer.info")}</Text>
+              <Text textStyle="body.large">
+                <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
+              </Text>
+            </FooterTextWrapper>
+          </FooterGrid>
+        </ContentWrapper>
+      </StyledOneColumn>
+    </FooterBlock>
   );
 };
 
-export default FooterWrapper;
+const FooterGrid = styled("div", {
+  base: {
+    display: "grid",
+    justifyContent: "space-between",
+    gridTemplateColumns: "repeat(3, auto)",
+    rowGap: "medium",
+    columnGap: "xlarge",
+    desktopDown: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    tabletDown: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "medium",
+    },
+  },
+});
+
+const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: "xxlarge",
+    paddingInlineStart: "xxsmall",
+    desktop: {
+      paddingInlineStart: "4xlarge",
+    },
+  },
+});
