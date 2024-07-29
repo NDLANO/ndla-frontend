@@ -30,17 +30,12 @@ const StyledSlideContent = styled("div", {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "space-between",
-    paddingInline: "3xlarge",
     gap: "small",
-    desktopDown: {
-      paddingInline: "medium",
-    },
   },
 });
 
 const CarouselWrapper = styled("div", {
   base: {
-    overflow: "hidden",
     position: "relative",
     cursor: "grab",
     _hover: {
@@ -55,7 +50,6 @@ const SliderWrapper = styled("div", {
   base: {
     display: "flex",
     overflowX: "scroll",
-    overflowY: "hidden",
     paddingBlock: "xxsmall",
     scrollbarWidth: "none",
     "&::-webkit-scrollbar": {

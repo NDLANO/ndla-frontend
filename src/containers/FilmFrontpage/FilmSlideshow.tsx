@@ -33,33 +33,29 @@ const StyledImage = styled(Image, {
 const StyledText = styled(Text, {
   base: {
     backgroundColor: "surface.default",
-    paddingBlock: "xxsmall",
-    paddingInline: "xxsmall",
+    paddingBlock: "xsmall",
+    paddingInline: "medium",
+
     textDecoration: "underline",
-    borderBottomRadius: "4px",
+    borderBottomRadius: "4",
   },
 });
 
 const StyledSafeLinkCard = styled(SafeLink, {
   base: {
-    maxHeight: "surface.xxsmall",
-    minHeight: "surface.xxsmall",
-    minWidth: "surface.small",
-    maxWidth: "surface.small",
-
     display: "flex",
     flexDirection: "column",
+    width: "340px",
 
     border: "1px solid",
     borderColor: "stroke.default",
-    borderRadius: "4px",
+    borderRadius: "4",
 
     transition: "all 200ms",
     transform: "translateY(10%)",
     "&[data-current='true']": {
       transform: "translateY(0%)",
     },
-
     _hover: {
       borderColor: "stroke.hover",
       "& > p": {
@@ -69,18 +65,18 @@ const StyledSafeLinkCard = styled(SafeLink, {
   },
 });
 
-const ImageWrapper = styled("div", {
+const StyledImg = styled("img", {
   base: {
-    position: "relative",
-    overflowY: "hidden",
-    borderTopRadius: "4px",
+    width: "340px",
+    height: "170px",
+    objectFit: "cover",
+    borderTopRadius: "4",
   },
 });
 
 const StyledCarousel = styled(Carousel, {
   base: {
     justifyContent: "center",
-    paddingInline: "unset",
     paddingBlockEnd: "medium",
     marginBlockStart: "-large",
     tablet: {
@@ -88,6 +84,11 @@ const StyledCarousel = styled(Carousel, {
     },
     desktop: {
       marginBlockStart: "-3xlarge",
+    },
+    "& > div > div": {
+      gap: "xlarge",
+      height: "surface.xxsmall",
+      marginBottom: "3xlarge",
     },
   },
 });
@@ -107,13 +108,11 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   return (
     <section>
       <SafeLink to={currentSlide.path} tabIndex={-1} aria-hidden>
-        <ImageWrapper>
-          <StyledImage
-            src={currentSlide.metaImage?.url ?? ""}
-            sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
-            alt=""
-          />
-        </ImageWrapper>
+        <StyledImage
+          src={currentSlide.metaImage?.url ?? ""}
+          sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
+          alt=""
+        />
       </SafeLink>
       <OneColumn wide>
         <StyledCarousel hideButtons={true}>
@@ -133,9 +132,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
               aria-describedby={"currentMovieDescription"}
               to={movie.path}
             >
-              <ImageWrapper>
-                <Image src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
-              </ImageWrapper>
+              <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
               <StyledText textStyle="label.large" fontWeight="bold">
                 {movie.title}
               </StyledText>
