@@ -40,14 +40,17 @@ const LtiWrapper = styled("div", { base: { display: "flex", flexDirection: "colu
 
 const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
 
+const FullHeightListElement = styled("li", { base: { height: "100%" } });
+const FullheightCardRoot = styled(CardRoot, { base: { height: "100%" } });
+
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
   const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
 
   return (
-    <li>
-      <CardRoot>
+    <FullHeightListElement>
+      <FullheightCardRoot>
         {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
@@ -100,9 +103,9 @@ const SearchResultItem = ({ item, type }: Props) => {
             )}
           </Text>
         </CardContent>
-      </CardRoot>
+      </FullheightCardRoot>
       <LtiWrapper>{item.children}</LtiWrapper>
-    </li>
+    </FullHeightListElement>
   );
 };
 

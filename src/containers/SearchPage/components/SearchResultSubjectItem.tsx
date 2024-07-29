@@ -9,9 +9,13 @@
 import { useTranslation } from "react-i18next";
 import { CardContent, CardHeading, CardRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 import { SubjectItem } from "../SearchInnerPage";
+
+const FullHeightListElement = styled("li", { base: { height: "100%", minHeight: "75" } });
+const FullheightCardRoot = styled(CardRoot, { base: { height: "100%" } });
 
 interface Props {
   item: SubjectItem;
@@ -21,8 +25,8 @@ const SearchResultSubjectItem = ({ item }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <li>
-      <CardRoot>
+    <FullHeightListElement>
+      <FullheightCardRoot>
         <CardContent>
           <ContentTypeBadgeNew contentType="subject">{t("contentTypes.subject")}</ContentTypeBadgeNew>
           <CardHeading>
@@ -31,8 +35,8 @@ const SearchResultSubjectItem = ({ item }: Props) => {
             </SafeLink>
           </CardHeading>
         </CardContent>
-      </CardRoot>
-    </li>
+      </FullheightCardRoot>
+    </FullHeightListElement>
   );
 };
 
