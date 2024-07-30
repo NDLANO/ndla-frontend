@@ -127,6 +127,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
+                <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
                 <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic1" element={null}>
@@ -193,7 +194,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
-
                 {config.folderRedesign ? (
                   <Route path="folder/:folderId">
                     <Route index element={<SharedFolderPageV2 />} />

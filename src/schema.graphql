@@ -1207,6 +1207,7 @@ type Query {
   subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
+  taxonomyEntity(contextId: String!): TaxonomyEntityWithContent
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1222,7 +1223,7 @@ type RelatedContent {
   url: String!
 }
 
-type Resource implements TaxonomyEntity & WithArticle {
+type Resource implements TaxonomyEntity & WithContent {
   article: Article
   availability: String
   breadcrumbs: [String!]!
@@ -1432,8 +1433,10 @@ type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
   crumbs: [TaxonomyCrumb!]
+  name: String!
   parentIds: [String!]!
   path: String!
+  relevance: String!
   url: String
 }
 
@@ -1462,6 +1465,30 @@ interface TaxonomyEntity {
   url: String
 }
 
+type TaxonomyEntityWithContent implements TaxonomyEntity & WithContent {
+  article: Article
+  availability: String
+  breadcrumbs: [String!]!
+  contentUri: String
+  contextId: String
+  contexts: [TaxonomyContext!]!
+  id: String!
+  language: String
+  learningpath: Learningpath
+  meta: Meta
+  metadata: TaxonomyMetadata!
+  name: String!
+  nodeType: String!
+  parents: [TaxonomyEntityWithContent!]
+  path: String!
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  resourceTypes: [ResourceType!]
+  supportedLanguages: [String!]!
+  url: String
+}
+
 type TaxonomyMetadata {
   customFields: StringRecord!
   grepCodes: [String!]!
@@ -1478,7 +1505,7 @@ type Title {
   title: String!
 }
 
-type Topic implements TaxonomyEntity & WithArticle {
+type Topic implements TaxonomyEntity & WithContent {
   alternateTopics: [Topic!]
   article: Article
   availability: String
@@ -1490,6 +1517,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   id: String!
   isPrimary: Boolean
   language: String
+  learningpath: Learningpath
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
@@ -1591,7 +1619,10 @@ type VisualElementOembed {
   title: String
 }
 
-interface WithArticle {
+interface WithContent {
+  article: Article
   availability: String
+  contentUri: String
+  learningpath: Learningpath
   meta: Meta
 }

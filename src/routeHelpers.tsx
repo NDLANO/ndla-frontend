@@ -8,6 +8,7 @@
 
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import config from "./config";
 import {
   ABOUT_PATH,
   MULTIDISCIPLINARY_SUBJECT_ID,
@@ -36,6 +37,7 @@ interface MatchParams extends TypedParams {
   topic4?: string;
   programme?: string;
   slug?: string;
+  contextId?: string;
 }
 
 export const useOnTopicPage = () => {
@@ -74,6 +76,7 @@ export const useUrnIds = () => {
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
     slug: params.slug,
+    contextId: params.contextId,
   };
 };
 
@@ -143,11 +146,18 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
   return t;
 }
-export type TaxonomyCrumb = Pick<GQLTaxonomyCrumb | GQLTaxonomyEntity, "id" | "name" | "path">;
+
+export type TaxonomyCrumb = Pick<GQLTaxonomyCrumb | GQLTaxonomyEntity, "id" | "name" | "path" | "url">;
 export function toBreadcrumbItems(rootName: string, paths: (TaxonomyCrumb | undefined)[]): Breadcrumb[] {
   const safePaths = paths.filter((p) => p !== undefined);
   if (safePaths.length === 0) return [];
-  const breadcrumbs = safePaths.map((crumb) => ({ to: crumb?.path ?? "", name: crumb?.name ?? "" }));
+  const breadcrumbs = safePaths.map((crumb) => {
+    const to = config.enablePrettyUrls ? crumb?.url : crumb?.path;
+    return {
+      to: to ?? "",
+      name: crumb?.name ?? "",
+    };
+  });
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 

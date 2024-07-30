@@ -23,6 +23,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
+  GQLArticlePage_EntityFragment,
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
@@ -40,7 +41,7 @@ import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resou
 import Resources from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_ResourceFragment;
+  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_EntityFragment;
   topic?: GQLArticlePage_TopicFragment;
   topicPath: TaxonomyCrumb[];
   relevance: string;
@@ -188,7 +189,7 @@ const ArticlePage = ({
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_ResourceFragment,
+  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_EntityFragment,
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
@@ -220,6 +221,25 @@ export const articlePageFragments = {
   `,
   resource: gql`
     fragment ArticlePage_Resource on Resource {
+      id
+      name
+      path
+      contentUri
+      article {
+        created
+        updated
+        metaDescription
+        oembed
+        tags
+        ...StructuredArticleData
+        ...Article_Article
+      }
+    }
+    ${structuredArticleDataFragment}
+    ${Article.fragments.article}
+  `,
+  entity: gql`
+    fragment ArticlePage_Entity on TaxonomyEntityWithContent {
       id
       name
       path

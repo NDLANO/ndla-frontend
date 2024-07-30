@@ -7,14 +7,14 @@
  */
 
 import config from "../../config";
-import { GQLResource } from "../../graphqlTypes";
+import { GQLResource, GQLWithContent } from "../../graphqlTypes";
 
 export const URN_ARTICLE = "urn:article:";
 export const URN_LEARTNING_PATH = "urn:learningpath:";
 
 export const hasContentUri = (resource: Pick<GQLResource, "contentUri">) => (resource && resource.contentUri) || false;
 
-export const isLearningPathResource = (resource: Pick<GQLResource, "contentUri">) =>
+export const isLearningPathResource = (resource: Pick<GQLWithContent, "contentUri">) =>
   hasContentUri(resource) && resource!.contentUri!.startsWith(URN_LEARTNING_PATH);
 
 export const isArticleResource = (resource: Pick<GQLResource, "contentUri">) =>

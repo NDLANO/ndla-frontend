@@ -1496,6 +1496,7 @@ export type GQLQuery = {
   subjectCollection?: Maybe<Array<GQLSubject>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
+  taxonomyEntity?: Maybe<GQLTaxonomyEntityWithContent>;
   topic?: Maybe<GQLTopic>;
   topics?: Maybe<Array<GQLTopic>>;
 };
@@ -1767,6 +1768,10 @@ export type GQLQuerySubjectsArgs = {
   metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLQueryTaxonomyEntityArgs = {
+  contextId: Scalars["String"]["input"];
+};
+
 export type GQLQueryTopicArgs = {
   id: Scalars["String"]["input"];
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
@@ -1791,7 +1796,7 @@ export type GQLRelatedContent = {
 };
 
 export type GQLResource = GQLTaxonomyEntity &
-  GQLWithArticle & {
+  GQLWithContent & {
     __typename?: "Resource";
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars["String"]["output"]>;
@@ -2025,8 +2030,10 @@ export type GQLTaxonomyContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
   crumbs?: Maybe<Array<GQLTaxonomyCrumb>>;
+  name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
+  relevance: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
@@ -2056,6 +2063,32 @@ export type GQLTaxonomyEntity = {
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
+export type GQLTaxonomyEntityWithContent = GQLTaxonomyEntity &
+  GQLWithContent & {
+    __typename?: "TaxonomyEntityWithContent";
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars["String"]["output"]>;
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    id: Scalars["String"]["output"];
+    language?: Maybe<Scalars["String"]["output"]>;
+    learningpath?: Maybe<GQLLearningpath>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: Scalars["String"]["output"];
+    parents?: Maybe<Array<GQLTaxonomyEntityWithContent>>;
+    path: Scalars["String"]["output"];
+    paths: Array<Scalars["String"]["output"]>;
+    rank?: Maybe<Scalars["Int"]["output"]>;
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes?: Maybe<Array<GQLResourceType>>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
+
 export type GQLTaxonomyMetadata = {
   __typename?: "TaxonomyMetadata";
   customFields: Scalars["StringRecord"]["output"];
@@ -2076,7 +2109,7 @@ export type GQLTitle = {
 };
 
 export type GQLTopic = GQLTaxonomyEntity &
-  GQLWithArticle & {
+  GQLWithContent & {
     __typename?: "Topic";
     alternateTopics?: Maybe<Array<GQLTopic>>;
     article?: Maybe<GQLArticle>;
@@ -2089,6 +2122,7 @@ export type GQLTopic = GQLTaxonomyEntity &
     id: Scalars["String"]["output"];
     isPrimary?: Maybe<Scalars["Boolean"]["output"]>;
     language?: Maybe<Scalars["String"]["output"]>;
+    learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
@@ -2208,8 +2242,11 @@ export type GQLVisualElementOembed = {
   title?: Maybe<Scalars["String"]["output"]>;
 };
 
-export type GQLWithArticle = {
+export type GQLWithContent = {
+  article?: Maybe<GQLArticle>;
   availability?: Maybe<Scalars["String"]["output"]>;
+  contentUri?: Maybe<Scalars["String"]["output"]>;
+  learningpath?: Maybe<GQLLearningpath>;
   meta?: Maybe<GQLMeta>;
 };
 
@@ -2637,6 +2674,23 @@ export type GQLArticlePage_SubjectFragment = {
 
 export type GQLArticlePage_ResourceFragment = {
   __typename?: "Resource";
+  id: string;
+  name: string;
+  path: string;
+  contentUri?: string;
+  article?: {
+    __typename?: "Article";
+    created: string;
+    updated: string;
+    metaDescription: string;
+    oembed?: string;
+    tags?: Array<string>;
+  } & GQLStructuredArticleDataFragment &
+    GQLArticle_ArticleFragment;
+};
+
+export type GQLArticlePage_EntityFragment = {
+  __typename?: "TaxonomyEntityWithContent";
   id: string;
   name: string;
   path: string;
@@ -4348,6 +4402,67 @@ export type GQLResourceEmbedLicenseBox_MetaFragment = {
   images?: Array<{ __typename?: "ImageLicense"; altText: string } & GQLImageLicenseList_ImageLicenseFragment>;
 };
 
+export type GQLResourceContextPageQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLResourceContextPageQuery = {
+  __typename?: "Query";
+  resourceTypes?: Array<
+    { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
+      GQLLearningpathPage_ResourceTypeDefinitionFragment
+  >;
+  taxonomyEntity?: {
+    __typename?: "TaxonomyEntityWithContent";
+    id: string;
+    name: string;
+    path: string;
+    contentUri?: string;
+    relevanceId?: string;
+    paths: Array<string>;
+    url?: string;
+    contextId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    contexts: Array<{
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      breadcrumbs: Array<string>;
+      parentIds: Array<string>;
+      path: string;
+      relevance: string;
+      crumbs?: Array<{
+        __typename?: "TaxonomyCrumb";
+        contextId: string;
+        id: string;
+        name: string;
+        path: string;
+        url: string;
+      }>;
+    }>;
+    article?: {
+      __typename?: "Article";
+      created: string;
+      updated: string;
+      metaDescription: string;
+      oembed?: string;
+      tags?: Array<string>;
+    } & GQLStructuredArticleDataFragment &
+      GQLArticle_ArticleFragment;
+    learningpath?: {
+      __typename?: "Learningpath";
+      supportedLanguages: Array<string>;
+      tags: Array<string>;
+      description: string;
+      coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
+      learningsteps: Array<
+        { __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStepFragment
+      >;
+    } & GQLLearningpath_LearningpathFragment;
+  };
+};
+
 export type GQLResourcePageQueryVariables = Exact<{
   topicId: Scalars["String"]["input"];
   subjectId: Scalars["String"]["input"];
@@ -4365,6 +4480,7 @@ export type GQLResourcePageQuery = {
   topic?: { __typename?: "Topic" } & GQLLearningpathPage_TopicFragment & GQLArticlePage_TopicFragment;
   resource?: {
     __typename?: "Resource";
+    id: string;
     relevanceId?: string;
     paths: Array<string>;
     contextId?: string;
