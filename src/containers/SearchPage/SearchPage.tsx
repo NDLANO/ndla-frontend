@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ContentPlaceholder, OneColumn } from "@ndla/ui";
+import { ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
 
 import { converSearchStringToObject, convertSearchParam } from "./searchHelpers";
 import SearchInnerPage from "./SearchInnerPage";
@@ -43,7 +43,9 @@ const SearchPage = () => {
 
   const sortedArchivedRemovedSubjects = useMemo(() => {
     return sortBy(
-      data?.subjects?.filter((s) => s.metadata.customFields.subjectCategory !== "archive"),
+      data?.subjects?.filter(
+        (s) => s.metadata.customFields.subjectCategory !== constants.subjectCategories.ARCHIVE_SUBJECTS,
+      ),
       (s) => s.name,
     );
   }, [data?.subjects]);
