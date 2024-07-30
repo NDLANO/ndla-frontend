@@ -27,6 +27,8 @@ import {
   TabsTrigger,
   Text,
   MessageBox,
+  FieldsetRoot,
+  FieldsetLegend,
 } from "@ndla/primitives";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 
@@ -73,33 +75,32 @@ const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: Subje
       {Object.entries(subjects).map(([letter, subjects]) => {
         return (
           <OuterListItem key={letter}>
-            <Text
-              asChild
-              consumeCss
-              textStyle="title.large"
-              color="text.strong"
-              id={letter}
-              aria-label={t("searchPage.subjectLetter", { letter })}
-            >
-              <div>{letter}</div>
-            </Text>
-            <CheckboxGroup aria-labelledby={letter} css={{ marginBlockEnd: "small" }}>
-              {subjects.map((subject) => (
-                <CheckboxRoot
-                  key={subject.name}
-                  checked={selectedSubjects.includes(subject.id)}
-                  onCheckedChange={() => onToggleSubject(subject.id)}
-                >
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <Done />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{subject.name}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </CheckboxRoot>
-              ))}
-            </CheckboxGroup>
+            <FieldsetRoot>
+              <FieldsetLegend
+                textStyle="title.large"
+                color="text.strong"
+                aria-label={t("searchPage.subjectLetter", { letter })}
+              >
+                {letter}
+              </FieldsetLegend>
+              <CheckboxGroup css={{ marginBlockEnd: "small" }}>
+                {subjects.map((subject) => (
+                  <CheckboxRoot
+                    key={subject.name}
+                    checked={selectedSubjects.includes(subject.id)}
+                    onCheckedChange={() => onToggleSubject(subject.id)}
+                  >
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <Done />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{subject.name}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </CheckboxRoot>
+                ))}
+              </CheckboxGroup>
+            </FieldsetRoot>
           </OuterListItem>
         );
       })}
