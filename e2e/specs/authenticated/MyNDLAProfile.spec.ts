@@ -27,7 +27,9 @@ test("can change folder sharing settings", async ({ page }) => {
       name: "Velg om du vil vise navn når du deler en mappe",
     }),
   ).toBeAttached();
-  const [show, dontShow] = await page.locator("form").locator("button").all();
+  const show = page.locator("label").filter({ hasText: "Vis navnet mitt når jeg deler en mappe" });
+  const dontShow = page.locator("label").filter({ hasText: "Ikke vis navnet mitt når jeg deler mappe" });
+
   await expect(show).toBeChecked();
   await expect(dontShow).toBeChecked({ checked: false });
 

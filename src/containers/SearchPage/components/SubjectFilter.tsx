@@ -10,16 +10,30 @@ import groupBy from "lodash/groupBy";
 import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { CheckboxHiddenInput } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { colors, mq, breakpoints, spacing } from "@ndla/core";
-import { CheckboxItem, Label } from "@ndla/forms";
-import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger, MessageBox, Text } from "@ndla/primitives";
-import { Heading } from "@ndla/typography";
+import { mq, breakpoints, spacing } from "@ndla/core";
+import { Done } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+  Text,
+  MessageBox,
+  FieldsetRoot,
+  FieldsetLegend,
+} from "@ndla/primitives";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 
 const OuterList = styled.ul`
   list-style: none;
-  margin: ${spacing.normal} 0 0;
   padding: 0;
   ${mq.range({ from: breakpoints.tablet })} {
     column-count: 2;
@@ -36,42 +50,8 @@ const OuterListItem = styled.li`
   break-inside: avoid;
 `;
 
-const StyledLetterItem = styled(Heading)`
-  color: ${colors.brand.primary};
-  margin: 0 !important;
-  margin-left: ${spacing.normal} !important;
-`;
-
 const MessageBoxWrapper = styled.div`
   padding-top: ${spacing.normal};
-`;
-
-const InnerList = styled.ul`
-  display: flex;
-  padding: 0;
-  flex-direction: column;
-  list-style: none;
-  flex-wrap: wrap;
-`;
-
-const InnerListItem = styled.li`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  padding: 0;
-  margin-bottom: ${spacing.xxsmall};
-  break-inside: avoid;
-`;
-
-const StyledLabel = styled(Label)`
-  color: ${colors.brand.primary};
-`;
-
-const StyledCheckboxItem = styled(CheckboxItem)`
-  min-width: ${spacing.nsmall};
-  min-height: ${spacing.nsmall};
-  max-height: ${spacing.nsmall};
-  max-width: ${spacing.nsmall};
 `;
 
 interface Category {
@@ -87,33 +67,46 @@ interface SubjectListProps {
   selectedSubjects: string[];
 }
 
-const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: SubjectListProps) => (
-  <OuterList>
-    {Object.entries(subjects).map(([letter, subjects]) => {
-      return (
-        <OuterListItem key={letter}>
-          <StyledLetterItem element="h2" headingStyle="h2">
-            {letter}
-          </StyledLetterItem>
-          <InnerList>
-            {subjects.map((subject) => (
-              <InnerListItem key={subject.name}>
-                <StyledCheckboxItem
-                  id={subject.id}
-                  checked={selectedSubjects.includes(subject.id)}
-                  onCheckedChange={() => onToggleSubject(subject.id)}
-                />
-                <StyledLabel htmlFor={subject.id} textStyle="meta-text-small">
-                  {subject.name}
-                </StyledLabel>
-              </InnerListItem>
-            ))}
-          </InnerList>
-        </OuterListItem>
-      );
-    })}
-  </OuterList>
-);
+const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: SubjectListProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <OuterList>
+      {Object.entries(subjects).map(([letter, subjects]) => {
+        return (
+          <OuterListItem key={letter}>
+            <FieldsetRoot>
+              <FieldsetLegend
+                textStyle="title.large"
+                color="text.strong"
+                aria-label={t("searchPage.subjectLetter", { letter })}
+              >
+                {letter}
+              </FieldsetLegend>
+              <CheckboxGroup css={{ marginBlockEnd: "small" }}>
+                {subjects.map((subject) => (
+                  <CheckboxRoot
+                    key={subject.name}
+                    checked={selectedSubjects.includes(subject.id)}
+                    onCheckedChange={() => onToggleSubject(subject.id)}
+                  >
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <Done />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{subject.name}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </CheckboxRoot>
+                ))}
+              </CheckboxGroup>
+            </FieldsetRoot>
+          </OuterListItem>
+        );
+      })}
+    </OuterList>
+  );
+};
 
 interface Props {
   categories: Category[];

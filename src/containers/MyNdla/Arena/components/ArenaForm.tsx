@@ -12,9 +12,20 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { CheckboxItem, FormControl, Label, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
 import { InformationOutline } from "@ndla/icons/common";
-import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { Done } from "@ndla/icons/editor";
+import {
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Spinner,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+} from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -55,12 +66,6 @@ const InformationLabel = styled.div`
 
 const StyledInformationOutline = styled(InformationOutline)`
   overflow: unset !important;
-`;
-
-const CheckboxWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
 `;
 
 interface ArenaFormProps {
@@ -183,23 +188,26 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           name="locked"
           rules={{ required: false }}
           render={({ field, fieldState }) => (
-            <FormControl id="locked" isInvalid={!!fieldState.error?.message}>
-              <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
-              <CheckboxWrapper>
-                <CheckboxItem
-                  checked={field.value}
-                  onCheckedChange={() => {
-                    setValue("locked", !field.value, {
-                      shouldDirty: true,
-                      shouldTouch: true,
-                    });
-                  }}
-                />
-                <Label margin="none" textStyle="label-small">
-                  {t("myNdla.arena.topic.locked")}
-                </Label>
-              </CheckboxWrapper>
-            </FormControl>
+            <FieldRoot invalid={!!fieldState.error?.message}>
+              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+              <CheckboxRoot
+                checked={field.value}
+                onCheckedChange={() => {
+                  setValue("locked", !field.value, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  });
+                }}
+              >
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <Done />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxLabel>{t("myNdla.arena.topic.locked")}</CheckboxLabel>
+                <CheckboxHiddenInput />
+              </CheckboxRoot>
+            </FieldRoot>
           )}
         />
       )}
