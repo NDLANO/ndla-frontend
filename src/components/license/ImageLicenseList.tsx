@@ -15,7 +15,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { DownloadLine, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -126,7 +126,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       {!isCopyrighted(image.copyright.license.license) && (
         <MediaListItemActions>
           <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
-            <Download />
+            <DownloadLine />
             {t("license.download")}
           </SafeLinkButton>
           <CopyTextButton

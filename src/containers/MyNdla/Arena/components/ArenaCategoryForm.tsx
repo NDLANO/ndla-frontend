@@ -17,7 +17,7 @@ import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   FieldErrorMessage,
@@ -215,7 +215,7 @@ const ArenaCategoryForm = ({
                     <SelectItem item={option} key={option.value}>
                       <SelectItemText>{option.label}</SelectItemText>
                       <SelectItemIndicator asChild>
-                        <Done />
+                        <CheckLine />
                       </SelectItemIndicator>
                     </SelectItem>
                   ))}
@@ -245,7 +245,7 @@ const ArenaCategoryForm = ({
             >
               <CheckboxControl>
                 <CheckboxIndicator asChild>
-                  <Done />
+                  <CheckLine />
                 </CheckboxIndicator>
               </CheckboxControl>
               <CheckboxLabel>{t("myNdla.arena.admin.category.form.visible")}</CheckboxLabel>

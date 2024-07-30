@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { DownloadLine, Launch } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -114,7 +114,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
       {!isCopyrighted(podcast.copyright.license.license) && (
         <MediaListItemActions>
           <SafeLinkButton to={podcast.src} download variant="secondary">
-            <Download />
+            <DownloadLine />
             {t("license.download")}
           </SafeLinkButton>
           <CopyTextButton

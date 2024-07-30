@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ArrowDownShortLine } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   SelectContent,
@@ -45,7 +45,7 @@ export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
             <SelectItem key={lang} item={lang}>
               <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
               <SelectItemIndicator>
-                <Done />
+                <CheckLine />
               </SelectItemIndicator>
             </SelectItem>
           ))}

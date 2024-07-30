@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
-import { FooterHeaderIcon } from "@ndla/icons/common";
+import { CompassFill } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
@@ -196,7 +196,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
         <ModalContent size="full">
           <ModalHeader>
             <ModalTitle>
-              <FooterHeaderIcon style={{ marginRight: "20px" }} />
+              <CompassFill style={{ marginRight: "20px" }} />
               {t("competenceGoals.modalText")}
             </ModalTitle>
             <ModalCloseButton />

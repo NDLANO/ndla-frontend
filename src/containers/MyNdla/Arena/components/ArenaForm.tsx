@@ -13,7 +13,7 @@ import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -201,7 +201,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
               >
                 <CheckboxControl>
                   <CheckboxIndicator asChild>
-                    <Done />
+                    <CheckLine />
                   </CheckboxIndicator>
                 </CheckboxControl>
                 <CheckboxLabel>{t("myNdla.arena.topic.locked")}</CheckboxLabel>

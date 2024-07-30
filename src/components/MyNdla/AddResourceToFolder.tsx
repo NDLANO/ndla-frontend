@@ -18,7 +18,7 @@ import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine, InformationOutline } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   MessageBox,
   Button,
@@ -264,7 +264,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
                 <ComboboxItem key={item} item={item}>
                   <ComboboxItemText>{item}</ComboboxItemText>
                   <ComboboxItemIndicator>
-                    <Done />
+                    <CheckLine />
                   </ComboboxItemIndicator>
                 </ComboboxItem>
               ))}

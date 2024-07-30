@@ -10,8 +10,8 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core";
-import { FileDocumentOutline, Share, Link } from "@ndla/icons/common";
-import { FolderSharedOutlined } from "@ndla/icons/contentType";
+import { FileTextLine, Share, Link } from "@ndla/icons/common";
+import { FolderUserLine } from "@ndla/icons/contentType";
 import { FolderLine } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { GQLFolder } from "../../graphqlTypes";
@@ -155,7 +155,7 @@ interface IconCountProps {
 }
 
 const Count = ({ type, count, layoutType }: IconCountProps) => {
-  const Icon = type === "resource" ? FileDocumentOutline : FolderLine;
+  const Icon = type === "resource" ? FileTextLine : FolderLine;
   const { t } = useTranslation();
   if (!count) return null;
 
@@ -181,7 +181,7 @@ const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
   if (isFavorited) {
     return Link;
   } else if (isShared) {
-    return FolderSharedOutlined;
+    return FolderUserLine;
   } else {
     return FolderLine;
   }

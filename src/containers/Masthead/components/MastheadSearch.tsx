@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { CloseLine } from "@ndla/icons/action";
-import { Forward, Search } from "@ndla/icons/common";
+import { ArrowRightLine, Search } from "@ndla/icons/common";
 import {
   Button,
   ComboboxControl,
@@ -373,7 +373,7 @@ const MastheadSearch = () => {
           {!!mappedItems.length && !loading && (
             <Button variant="secondary" type="submit">
               {t("masthead.moreHits")}
-              <Forward />
+              <ArrowRightLine />
             </Button>
           )}
         </StyledForm>

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileDocumentOutline, Link } from "@ndla/icons/common";
+import { FileTextLine, Link } from "@ndla/icons/common";
 import { FolderLine } from "@ndla/icons/editor";
 import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -160,7 +160,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   return (
     <>
       <CountWrapper>
-        <FileDocumentOutline />
+        <FileTextLine />
         <span>{t("myNdla.resources", { count: resources.length })}</span>
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />

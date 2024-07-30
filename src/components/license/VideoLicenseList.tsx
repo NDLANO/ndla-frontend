@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { DownloadLine, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
@@ -101,7 +101,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           {video.download && (
             <SafeLinkButton to={video.download} download variant="secondary">
-              <Download />
+              <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
           )}

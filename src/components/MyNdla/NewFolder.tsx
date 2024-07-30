@@ -10,7 +10,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { CloseLine } from "@ndla/icons/action";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   IconButton,
   FieldErrorMessage,
@@ -133,7 +133,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           <>
             {!error && (
               <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
-                <Done />
+                <CheckLine />
               </IconButton>
             )}
             <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>

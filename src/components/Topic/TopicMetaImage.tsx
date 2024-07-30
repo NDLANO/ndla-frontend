@@ -11,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { CursorClick, ExpandTwoArrows } from "@ndla/icons/action";
+import { CursorClick } from "@ndla/icons/action";
 import { PlayCircleFilled } from "@ndla/icons/common";
+import { ExpandDiagonalLine } from "@ndla/icons/editor";
 import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
@@ -106,7 +107,7 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
     else if (visualElementEmbedMeta.resource === "brightcove") {
       return PlayCircleFilled;
     } else if (visualElementEmbedMeta.resource === "image") {
-      return ExpandTwoArrows;
+      return ExpandDiagonalLine;
     } else return CursorClick;
   }, [visualElementEmbedMeta]);
 

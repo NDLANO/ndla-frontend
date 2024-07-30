@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { mq, breakpoints, spacing } from "@ndla/core";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -92,7 +92,7 @@ const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: Subje
                   >
                     <CheckboxControl>
                       <CheckboxIndicator asChild>
-                        <Done />
+                        <CheckLine />
                       </CheckboxIndicator>
                     </CheckboxControl>
                     <CheckboxLabel>{subject.name}</CheckboxLabel>

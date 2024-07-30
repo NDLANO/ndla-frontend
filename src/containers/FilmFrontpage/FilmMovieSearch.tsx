@@ -12,7 +12,7 @@ import { SelectValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { spacing, mq, breakpoints, colors } from "@ndla/core";
 import { ArrowDownShortLine } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   SelectContent,
@@ -174,7 +174,7 @@ const FilmMovieSearch = ({
               <SelectItem item={option} key={option.value}>
                 <SelectItemText>{option.label}</SelectItemText>
                 <SelectItemIndicator asChild>
-                  <Done />
+                  <CheckLine />
                 </SelectItemIndicator>
               </SelectItem>
             ))}

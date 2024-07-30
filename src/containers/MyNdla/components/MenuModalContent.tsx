@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useOutletContext } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
-import { FourlineHamburger, List } from "@ndla/icons/action";
+import { MenuLine, List } from "@ndla/icons/action";
 import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -209,7 +209,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
                 aria-current={viewType === "list"}
                 onClick={() => onViewTypeChange?.("list")}
               >
-                <FourlineHamburger />
+                <MenuLine />
                 <Text textStyle="meta-text-xxsmall" margin="none">
                   {t("myNdla.simpleList")}
                 </Text>
