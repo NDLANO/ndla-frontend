@@ -10,14 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { Done } from "@ndla/icons/editor";
-import {
-  CheckboxControl,
-  CheckboxHiddenInput,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxRoot,
-  FieldRoot,
-} from "@ndla/primitives";
+import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
 import { useToast } from "../../../../components/ToastContext";
@@ -81,21 +74,23 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
         {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
       </Heading>
       <SettingsWrapper>
-        <FieldRoot disabled={userToAdmin.id === currentUser.id}>
-          <CheckboxRoot onCheckedChange={onCheckedChange} checked={isModerator}>
-            <CheckboxControl>
-              <CheckboxIndicator asChild>
-                <Done />
-              </CheckboxIndicator>
-            </CheckboxControl>
-            <CheckboxLabel>
-              {t(`myNdla.arena.admin.users.selectAdministrator`, {
-                user: userToAdmin.displayName,
-              })}
-            </CheckboxLabel>
-            <CheckboxHiddenInput />
-          </CheckboxRoot>
-        </FieldRoot>
+        <CheckboxRoot
+          onCheckedChange={onCheckedChange}
+          checked={isModerator}
+          disabled={userToAdmin.id === currentUser.id}
+        >
+          <CheckboxControl>
+            <CheckboxIndicator asChild>
+              <Done />
+            </CheckboxIndicator>
+          </CheckboxControl>
+          <CheckboxLabel>
+            {t(`myNdla.arena.admin.users.selectAdministrator`, {
+              user: userToAdmin.displayName,
+            })}
+          </CheckboxLabel>
+          <CheckboxHiddenInput />
+        </CheckboxRoot>
       </SettingsWrapper>
     </>
   );
