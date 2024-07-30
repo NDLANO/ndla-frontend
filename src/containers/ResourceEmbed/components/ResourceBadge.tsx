@@ -10,7 +10,7 @@ import { ElementType, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { Podcast, VoicePrintLine } from "@ndla/icons/common";
-import { ChatLine, H5P, Media, Video, GlobalLine } from "@ndla/icons/editor";
+import { ChatLine, H5P, ImageLine, Video, GlobalLine } from "@ndla/icons/editor";
 import { EmbedType } from "./ResourceEmbedWrapper";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -39,7 +39,7 @@ const typeIconMapping: Record<EmbedType, ElementType> = {
   audio: VoicePrintLine,
   podcast: Podcast,
   h5p: H5P,
-  image: Media,
+  image: ImageLine,
   concept: ChatLine,
   gloss: GlobalLine,
 };

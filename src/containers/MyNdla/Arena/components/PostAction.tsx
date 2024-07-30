@@ -9,7 +9,7 @@
 import { Dispatch, SetStateAction, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Pencil, TrashCanOutline } from "@ndla/icons/action";
-import { ReportOutlined, Locked } from "@ndla/icons/common";
+import { ReportOutlined, LockFill } from "@ndla/icons/common";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -82,7 +82,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const lockUnlock: MenuItemProps = {
-    icon: <Locked />,
+    icon: <LockFill />,
     text: topic?.isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked"),
     type: "danger",
     isModal: true,

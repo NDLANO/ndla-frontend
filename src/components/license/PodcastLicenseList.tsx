@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, Launch } from "@ndla/icons/common";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -124,7 +124,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
           />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-              <Launch />
+              <ShareBoxLine />
               {t("license.openLink")}
             </SafeLinkButton>
           )}

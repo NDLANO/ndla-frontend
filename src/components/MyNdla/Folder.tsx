@@ -10,9 +10,9 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core";
-import { FileTextLine, Share, Link } from "@ndla/icons/common";
+import { FileTextLine, Share } from "@ndla/icons/common";
 import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
@@ -179,7 +179,7 @@ interface Props {
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
   if (isFavorited) {
-    return Link;
+    return LinkMedium;
   } else if (isShared) {
     return FolderUserLine;
   } else {

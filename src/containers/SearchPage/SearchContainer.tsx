@@ -13,7 +13,7 @@ import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { GridFill } from "@ndla/icons/common";
-import { ListCircle } from "@ndla/icons/editor";
+import { ListUnordered } from "@ndla/icons/editor";
 import { Button, IconButton, Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { constants } from "@ndla/ui";
@@ -221,7 +221,7 @@ const SearchContainer = ({
                   aria-label={t("searchPage.resultType.listView")}
                   title={t("searchPage.resultType.listView")}
                 >
-                  <ListCircle />
+                  <ListUnordered />
                 </IconButton>
               </ButtonWrapper>
             </FilterWrapper>

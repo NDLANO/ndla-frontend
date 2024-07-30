@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { LearningPathQuiz } from "@ndla/icons/contentType";
+import { QuestionMark } from "@ndla/icons/contentType";
 import { ModalBody, ModalHeader, ModalCloseButton, Modal, ModalTrigger, ModalContent, ModalTitle } from "@ndla/modal";
 import { IconButton, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
@@ -95,7 +95,7 @@ const ResourcesTopicTitle = ({
                 aria-label={t("resource.dialogTooltip")}
                 title={t("resource.dialogTooltip")}
               >
-                <LearningPathQuiz />
+                <QuestionMark />
               </IconButton>
             </ModalTrigger>
             <ModalContent>

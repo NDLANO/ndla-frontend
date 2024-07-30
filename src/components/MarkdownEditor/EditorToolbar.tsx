@@ -34,7 +34,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
 import { colors, misc, spacing } from "@ndla/core";
-import { Bold, Italic, Link, ListCircle, ListNumbered } from "@ndla/icons/editor";
+import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
@@ -229,7 +229,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
       >
-        <ListCircle />
+        <ListUnordered />
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
@@ -238,7 +238,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
       >
-        <ListNumbered />
+        <ListOrdered />
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
@@ -247,7 +247,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         aria-label={linkLabel}
         title={linkLabel}
       >
-        <Link />
+        <LinkMedium />
       </IconButton>
     </ButtonRow>
   );

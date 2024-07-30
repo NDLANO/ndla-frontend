@@ -11,7 +11,7 @@ import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
-import { CircleFill, KeyboardReturn } from "@ndla/icons/common";
+import { CircleFill, CornerDownLeftLine } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
@@ -72,7 +72,7 @@ const StyledText = styled(Text)`
   font-weight: ${fonts.weight.semibold};
 `;
 
-const StyledKeyboardReturn = styled(KeyboardReturn)`
+const StyledKeyboardReturn = styled(CornerDownLeftLine)`
   transform: scaleY(-1);
   min-width: ${spacing.normal};
   min-height: ${spacing.normal};

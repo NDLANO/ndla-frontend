@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { QuestionLine, InstagramLine, LinkedIn, MailFill, Youtube, Facebook } from "@ndla/icons/common";
+import { QuestionLine, InstagramLine, LinkedinBoxFill, MailFill, Youtube, Facebook } from "@ndla/icons/common";
 import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -155,7 +155,7 @@ const FooterSocialMedia = () => {
     {
       text: t("footer.socialMediaLinks.linkedin"),
       to: "https://www.linkedin.com/company/ndla/",
-      icon: <LinkedIn />,
+      icon: <LinkedinBoxFill />,
     },
     {
       text: t("footer.socialMediaLinks.youtube"),

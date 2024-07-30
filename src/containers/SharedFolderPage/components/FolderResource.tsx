@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Launch } from "@ndla/icons/common";
+import { ShareBoxLine } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { ContentTypeBadge } from "@ndla/ui";
 import { GQLFolderResource, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
@@ -134,7 +134,7 @@ const FolderResource = ({ parentId, resource, meta, setFocus, level, isLast, onC
         <ContentTypeBadge type={contentType!} border={false} />
         <StyledSpan>{meta?.title}</StyledSpan>
         {(resource.resourceType === "learningpath" || resource.resourceType === "multidisciplinary") && (
-          <Launch height={"24px"} width={"24px"} />
+          <ShareBoxLine height={"24px"} width={"24px"} />
         )}
       </StyledSafelinkButton>
     </ListElement>

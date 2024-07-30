@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { MenuBook } from "@ndla/icons/action";
+import { BookReadFill } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { CompetenceGoalsType } from "../interfaces";
@@ -61,7 +61,7 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
         <CompetenceItemWrapper key={index}>
           <hgroup>
             <StyledHeading element="h2" headingStyle="h2" margin="none">
-              <MenuBook />
+              <BookReadFill />
               {item.title}
             </StyledHeading>
             {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}

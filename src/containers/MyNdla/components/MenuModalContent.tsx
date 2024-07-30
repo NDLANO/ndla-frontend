@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useOutletContext } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
-import { MenuLine, List } from "@ndla/icons/action";
+import { MenuLine } from "@ndla/icons/action";
+import { ListCheck } from "@ndla/icons/editor";
 import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -221,7 +222,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
                 aria-current={viewType === "listLarger"}
                 onClick={() => onViewTypeChange?.("listLarger")}
               >
-                <List />
+                <ListCheck />
                 <Text textStyle="meta-text-xxsmall" margin="none">
                   {t("myNdla.detailedList")}
                 </Text>

@@ -10,8 +10,8 @@ import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef } fr
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { CloseLine, Pencil, Plus } from "@ndla/icons/action";
-import { Link, Share, ShareArrow } from "@ndla/icons/common";
-import { DeleteForever } from "@ndla/icons/editor";
+import { Share, ShareArrow } from "@ndla/icons/common";
+import { DeleteForever, LinkMedium } from "@ndla/icons/editor";
 import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
 import { FolderFormValues } from "./FolderForm";
@@ -214,7 +214,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const copyLink: MenuItemProps = {
-      icon: <Link />,
+      icon: <LinkMedium />,
       text: t("myNdla.folder.sharing.copyLink"),
       onClick: () => {
         navigator.clipboard.writeText(`${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`);
