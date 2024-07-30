@@ -13,7 +13,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileDocumentOutline, Link } from "@ndla/icons/common";
-import { FolderOutlined } from "@ndla/icons/contentType";
+import { FolderLine } from "@ndla/icons/editor";
 import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ListViewOptions from "./components/ListViewOptions";
@@ -129,7 +129,7 @@ const Resources = ({ resources }: ResourcesProps) => {
 
     return [
       {
-        icon: <FolderOutlined />,
+        icon: <FolderLine />,
         text: t("myNdla.resource.add"),
         isModal: true,
         modality: false,

@@ -13,21 +13,21 @@ import { Location, Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
-  Book,
-  BookOutlined,
-  Forum,
-  ForumOutlined,
-  Home,
-  HomeOutline,
-  LogOut,
-  ProfilePerson,
-  ProfilePersonOutlined,
-  AdminPanelSettings,
-  AdminPanelSettingsFilled,
-  LogIn,
+  BookReadFill,
+  BookReadLine,
+  QuestionAnswerFill,
+  QuestionAnswerLine,
+  HomeFill,
+  HomeLine,
+  LogoutBoxRightLine,
+  AccountCircleFill,
+  AccountCircleLine,
+  ShieldUserLine,
+  ShieldUserFill,
+  LoginBoxLine,
 } from "@ndla/icons/common";
-import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
-import { Folder } from "@ndla/icons/editor";
+import { HorizontalMenu } from "@ndla/icons/contentType";
+import { FolderFill, FolderLine } from "@ndla/icons/editor";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button, MessageBox } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
@@ -180,51 +180,51 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     id: "",
     name: t("myNdla.myNDLA"),
     shortName: t("myNdla.myNDLA"),
-    icon: <HomeOutline />,
-    iconFilled: <Home />,
+    icon: <HomeLine />,
+    iconFilled: <HomeFill />,
   },
   {
     id: "folders",
     name: t("myNdla.myFolders"),
     shortName: t("myNdla.iconMenu.folders"),
-    icon: <FolderOutlined />,
-    iconFilled: <Folder />,
+    icon: <FolderLine />,
+    iconFilled: <FolderFill />,
   },
   {
     id: "subjects",
     name: t("myNdla.favoriteSubjects.title"),
     shortName: t("myNdla.iconMenu.subjects"),
-    icon: <BookOutlined />,
-    iconFilled: <Book />,
+    icon: <BookReadLine />,
+    iconFilled: <BookReadFill />,
   },
   {
     id: "arena",
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
-    icon: <ForumOutlined />,
-    iconFilled: <Forum />,
+    icon: <QuestionAnswerLine />,
+    iconFilled: <QuestionAnswerFill />,
     shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled,
   },
   {
     id: "admin",
     name: t("myNdla.arena.admin.title"),
     shortName: t("myNdla.arena.admin.title"),
-    icon: <AdminPanelSettings />,
-    iconFilled: <AdminPanelSettingsFilled />,
+    icon: <ShieldUserLine />,
+    iconFilled: <ShieldUserFill />,
     shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled && user?.isModerator,
   },
   {
     id: "profile",
     name: t("myNdla.myProfile.title"),
     shortName: t("myNdla.iconMenu.profile"),
-    icon: <ProfilePersonOutlined />,
-    iconFilled: <ProfilePerson />,
+    icon: <AccountCircleLine />,
+    iconFilled: <AccountCircleFill />,
   },
   {
     id: "logout-path",
     name: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
-    icon: user ? <LogOut /> : <LogIn />,
+    icon: user ? <LogoutBoxRightLine /> : <LoginBoxLine />,
     to: user ? `/logout?state=${toHref(location)}` : `/login?state=${toHref(location)}`,
   },
 ];

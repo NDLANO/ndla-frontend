@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ProfilePersonOutlined, WarningOutline } from "@ndla/icons/common";
+import { AccountCircleLine, WarningOutline } from "@ndla/icons/common";
 import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -56,7 +56,7 @@ const ArenaAdminPage = () => {
           to={"users"}
           title={t("myNdla.arena.admin.users.title")}
           subText={t("myNdla.arena.admin.users.shortDescription")}
-          icon={<ProfilePersonOutlined />}
+          icon={<AccountCircleLine />}
         />
       </StyledCardContainer>
     </MyNdlaPageWrapper>

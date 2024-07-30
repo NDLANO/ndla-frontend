@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileDocumentOutline, Share } from "@ndla/icons/common";
-import { FolderOutlined } from "@ndla/icons/contentType";
+import { FolderLine } from "@ndla/icons/editor";
 import { ContentLoader } from "@ndla/ui";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -70,7 +70,7 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
         )}
         {folders && (
           <>
-            <FolderOutlined />
+            <FolderLine />
             <span>
               <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
                 {t("myNdla.folders", {

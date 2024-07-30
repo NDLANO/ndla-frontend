@@ -9,7 +9,8 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FolderOutlined, FolderSharedOutlined } from "@ndla/icons/contentType";
+import { FolderSharedOutlined } from "@ndla/icons/contentType";
+import { FolderLine } from "@ndla/icons/editor";
 import { ContentLoader } from "@ndla/ui";
 import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";
 import MyNdlaTitle from "../../containers/MyNdla/components/MyNdlaTitle";
@@ -62,7 +63,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
           }
           isLoading={loading}
         >
-          {selectedFolder ? selectedFolder.status === "shared" ? <FolderSharedOutlined /> : <FolderOutlined /> : null}
+          {selectedFolder ? selectedFolder.status === "shared" ? <FolderSharedOutlined /> : <FolderLine /> : null}
           <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />
         </WhileLoading>
       </TitleRow>
