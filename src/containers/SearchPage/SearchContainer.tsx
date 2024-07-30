@@ -128,17 +128,19 @@ const SearchContainer = ({
 
   return (
     <StyledMain>
-      <BreadcrumbWrapper>
-        <HomeBreadcrumb
-          items={[
-            {
-              name: t("breadcrumb.toFrontpage"),
-              to: "/",
-            },
-            { to: "/search", name: t("searchPage.search") },
-          ]}
-        />
-      </BreadcrumbWrapper>
+      {!isLti && (
+        <BreadcrumbWrapper>
+          <HomeBreadcrumb
+            items={[
+              {
+                name: t("breadcrumb.toFrontpage"),
+                to: "/",
+              },
+              { to: "/search", name: t("searchPage.search") },
+            ]}
+          />
+        </BreadcrumbWrapper>
+      )}
       <SearchHeader
         query={query}
         suggestion={suggestion}
