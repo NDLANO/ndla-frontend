@@ -11,7 +11,7 @@ import { useCallback, useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing, colors, fonts } from "@ndla/core";
-import { HelpCircleDual, KeyboardReturn } from "@ndla/icons/common";
+import { CircleFill, KeyboardReturn } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
@@ -32,7 +32,7 @@ const TitleWrapper = styled.div`
   }
 `;
 
-const StyledDot = styled(HelpCircleDual)`
+const StyledDot = styled(CircleFill)`
   width: ${spacing.small};
   height: ${spacing.small};
   color: ${colors.brand.primary};

@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   FieldErrorMessage,
@@ -64,7 +64,7 @@ const InformationLabel = styled.div`
   align-items: center;
 `;
 
-const StyledInformationOutline = styled(InformationOutline)`
+const StyledInformationOutline = styled(InformationLine)`
   overflow: unset !important;
 `;
 

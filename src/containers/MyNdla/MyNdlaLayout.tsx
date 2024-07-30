@@ -26,7 +26,7 @@ import {
   ShieldUserFill,
   LoginBoxLine,
 } from "@ndla/icons/common";
-import { HorizontalMenu } from "@ndla/icons/contentType";
+import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button, MessageBox } from "@ndla/primitives";
@@ -153,7 +153,7 @@ const MyNdlaLayout = () => {
           </nav>
           <ModalTrigger>
             <MoreButton variant="tertiary">
-              <HorizontalMenu />
+              <MoreLine />
               <Text margin="none" textStyle="meta-text-xxsmall">
                 {t("myNdla.iconMenu.more")}
               </Text>

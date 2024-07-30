@@ -17,7 +17,7 @@ import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine, InformationOutline } from "@ndla/icons/common";
+import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   MessageBox,
@@ -200,7 +200,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       />
       {examLock ? (
         <MessageBox variant="warning">
-          <InformationOutline />
+          <InformationLine />
           <Text>{t("myNdla.examLockInfo")}</Text>
         </MessageBox>
       ) : (
@@ -226,7 +226,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             )}
             {noFolderSelected && (
               <MessageBox variant="error">
-                <InformationOutline />
+                <InformationLine />
                 <Text>{t("myNdla.noFolderSelected")}</Text>
               </MessageBox>
             )}

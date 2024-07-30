@@ -10,7 +10,7 @@ import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
 import { Subject } from "@ndla/icons/contentType";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
 import { Button, MessageBox, Text } from "@ndla/primitives";
@@ -79,7 +79,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
             <Content>
               <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
               <MessageBox variant="warning">
-                <InformationOutline />
+                <InformationLine />
                 <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
               </MessageBox>
             </Content>

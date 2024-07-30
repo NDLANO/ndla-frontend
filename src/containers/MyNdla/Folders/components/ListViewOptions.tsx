@@ -10,7 +10,8 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
-import { MenuLine, GridListView, List } from "@ndla/icons/action";
+import { MenuLine, List } from "@ndla/icons/action";
+import { GridFill } from "@ndla/icons/common";
 import { IconButton } from "@ndla/primitives";
 import { Tooltip } from "@ndla/tooltip";
 import { ViewType } from "../FoldersPage";
@@ -63,7 +64,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
           onClick={() => onTypeChange("block")}
           aria-label={t("myNdla.shortView")}
         >
-          <GridListView />
+          <GridFill />
         </IconButton>
       </HiddenOnMobileTooltip>
     </StyledDisplayOptionsContainer>

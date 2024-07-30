@@ -9,7 +9,7 @@
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@ndla/button";
-import { InformationOutline, WarningOutline } from "@ndla/icons/common";
+import { InformationLine, WarningOutline } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Button, Text, MessageBox } from "@ndla/primitives";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
@@ -59,7 +59,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
           {examLock ? (
             <MessageBox variant="warning">
-              <InformationOutline />
+              <InformationLine />
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           ) : (
@@ -71,7 +71,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
                 setSelectedFolderId={setSelectedFolderId}
               />
               <MessageBox variant="warning">
-                <InformationOutline />
+                <InformationLine />
                 <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
               </MessageBox>
               {copySharedFolderMutation.error && (

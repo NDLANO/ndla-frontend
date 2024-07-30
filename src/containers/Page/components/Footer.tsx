@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { HelpCircleOutline, Instagram, LinkedIn, MailFill, Youtube, Facebook } from "@ndla/icons/common";
+import { QuestionLine, InstagramLine, LinkedIn, MailFill, Youtube, Facebook } from "@ndla/icons/common";
 import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -150,7 +150,7 @@ const FooterSocialMedia = () => {
     {
       text: t("footer.socialMediaLinks.instagram"),
       to: "https://instagram.com/ndla_no/",
-      icon: <Instagram />,
+      icon: <InstagramLine />,
     },
     {
       text: t("footer.socialMediaLinks.linkedin"),
@@ -255,7 +255,7 @@ export const Footer = () => {
     <FooterBlock>
       {config.zendeskWidgetKey && (
         <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
-          <HelpCircleOutline />
+          <QuestionLine />
           {t("askNDLA")}
         </StyledZendesk>
       )}

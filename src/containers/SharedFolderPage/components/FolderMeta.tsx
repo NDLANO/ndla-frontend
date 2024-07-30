@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
 import { Button, MessageBox, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
@@ -44,7 +44,7 @@ const FolderMeta = ({ folder, title }: Props) => {
       <StyledOneColumn>
         {folder.status !== "shared" ? (
           <MessageBox variant="warning">
-            <InformationOutline />
+            <InformationLine />
             <Text>{t("myNdla.folder.sharing.previewInformation")}</Text>
           </MessageBox>
         ) : null}

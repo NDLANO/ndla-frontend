@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@ndla/dropdown-menu";
-import { HorizontalMenu } from "@ndla/icons/contentType";
+import { MoreLine } from "@ndla/icons/contentType";
 import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { Button, IconButton } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -111,7 +111,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
             disabled={!menuItems?.length}
             ref={dropdownTriggerRef}
           >
-            <HorizontalMenu />
+            <MoreLine />
           </IconButton>
         </ModalTrigger>
         <StyledDrawer
@@ -226,7 +226,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
           disabled={!menuItems?.length}
           ref={dropdownTriggerRef}
         >
-          <HorizontalMenu />
+          <MoreLine />
         </IconButton>
       </DropdownTrigger>
       <StyledDropdownContent
