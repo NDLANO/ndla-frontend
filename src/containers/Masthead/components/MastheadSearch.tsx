@@ -11,7 +11,7 @@ import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Forward, Search } from "@ndla/icons/common";
 import {
   Button,
@@ -314,7 +314,7 @@ const MastheadSearch = () => {
               <DialogCloseTrigger asChild>
                 <Button variant="tertiary">
                   {t("siteNav.close")}
-                  <Cross />
+                  <CloseLine />
                 </Button>
               </DialogCloseTrigger>
             </LabelContainer>

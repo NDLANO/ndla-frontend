@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { SelectValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { spacing, mq, breakpoints, colors } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import {
   Button,
@@ -163,7 +163,7 @@ const FilmMovieSearch = ({
             <FullWidthButton variant="secondary">
               <SelectValueText />
               <SelectIndicator asChild>
-                <ChevronDown />
+                <ArrowDownShortLine />
               </SelectIndicator>
             </FullWidthButton>
           </SelectTrigger>

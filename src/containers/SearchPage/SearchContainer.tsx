@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
-import { Cross, Grid } from "@ndla/icons/action";
+import { CloseLine, Grid } from "@ndla/icons/action";
 import { ListCircle } from "@ndla/icons/editor";
 import { Button, IconButton, Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
@@ -199,7 +199,7 @@ const SearchContainer = ({
                     colorTheme={item.selected ? "primary" : "greyLighter"}
                   >
                     {item.label}
-                    {item.selected && <Cross />}
+                    {item.selected && <CloseLine />}
                   </ButtonV2>
                 ))}
               </ItemWrapper>

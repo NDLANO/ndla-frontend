@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Menu } from "@ndla/icons/common";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -230,7 +230,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           <HeadWrapper>
             <DialogCloseTrigger asChild>
               <Button variant="tertiary">
-                <Cross />
+                <CloseLine />
                 {t("close")}
               </Button>
             </DialogCloseTrigger>

@@ -14,7 +14,7 @@ import styled from "@emotion/styled";
 import { transform } from "@ndla/article-converter";
 import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -229,7 +229,7 @@ const PodcastSeriesPage = () => {
                         <AccordionItemTrigger>
                           {t("article.useContent")}
                           <AccordionItemIndicator asChild>
-                            <ChevronDown size="medium" />
+                            <ArrowDownShortLine size="medium" />
                           </AccordionItemIndicator>
                         </AccordionItemTrigger>
                       </h2>

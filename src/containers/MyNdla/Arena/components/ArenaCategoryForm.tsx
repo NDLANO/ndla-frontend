@@ -15,8 +15,8 @@ import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/re
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { ChevronDown } from "@ndla/icons/common";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import {
   Button,
@@ -199,13 +199,13 @@ const ArenaCategoryForm = ({
                   <FullWidthButton variant="secondary">
                     <SelectValueText placeholder={t("myNdla.arena.admin.category.form.noParentCategory")} />
                     <SelectIndicator asChild>
-                      <ChevronDown />
+                      <ArrowDownShortLine />
                     </SelectIndicator>
                   </FullWidthButton>
                 </SelectTrigger>
                 <SelectClearTrigger asChild>
                   <IconButton variant="secondary">
-                    <Cross />
+                    <CloseLine />
                   </IconButton>
                 </SelectClearTrigger>
               </SelectControl>

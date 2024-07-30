@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import {
   Button,
@@ -36,7 +36,7 @@ export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
     <SelectRoot {...props} value={[i18n.language]} itemToString={(item) => t(`languages.${item}`)}>
       <SelectTrigger asChild>
         <LanguageButton variant="tertiary">
-          {t("languages.prefixChangeLanguage")} <ChevronDown />
+          {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />
         </LanguageButton>
       </SelectTrigger>
       <SelectPositioner>

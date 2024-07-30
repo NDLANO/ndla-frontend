@@ -16,8 +16,8 @@ import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { ChevronDown, InformationOutline } from "@ndla/icons/common";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine, InformationOutline } from "@ndla/icons/common";
 import { Done } from "@ndla/icons/editor";
 import {
   MessageBox,
@@ -248,14 +248,14 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
                   <TagSelectorClearTrigger asChild>
                     <IconButton variant="clear">
-                      <Cross />
+                      <CloseLine />
                     </IconButton>
                   </TagSelectorClearTrigger>
                 </InputContainer>
               </TagSelectorControl>
               <TagSelectorTrigger asChild>
                 <IconButton variant="secondary">
-                  <ChevronDown />
+                  <ArrowDownShortLine />
                 </IconButton>
               </TagSelectorTrigger>
             </HStack>

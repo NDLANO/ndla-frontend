@@ -16,7 +16,7 @@ import {
   HTMLAttributes,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -168,7 +168,7 @@ export const Carousel = ({ children, hideButtons }: Props) => {
         onClick={() => slidePage("left")}
         hidden={!showLeft || !!hideButtons}
       >
-        <ChevronLeft />
+        <ArrowLeftShortLine />
       </StyledIconButton>
       <StyledIconButton
         aria-label={t("ndlaFilm.slideForwardsLabel")}
@@ -176,7 +176,7 @@ export const Carousel = ({ children, hideButtons }: Props) => {
         onClick={() => slidePage("right")}
         hidden={!showRight || !!hideButtons}
       >
-        <ChevronRight />
+        <ArrowRightShortLine />
       </StyledIconButton>
       <SliderWrapper ref={slideContainer} tabIndex={-1} onScroll={onScroll} onMouseDown={onMouseDown}>
         <StyledSlideContent ref={slideshowRef}>{children}</StyledSlideContent>

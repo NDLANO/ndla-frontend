@@ -9,7 +9,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import {
   IconButton,
@@ -137,7 +137,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
               </IconButton>
             )}
             <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
-              <Cross />
+              <CloseLine />
             </IconButton>
           </>
         ) : (

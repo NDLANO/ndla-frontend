@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, useContext, useRef, useCallback, memo, useSta
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams, useOutletContext } from "react-router-dom";
 import styled from "@emotion/styled";
-import { Cross, Copy } from "@ndla/icons/action";
+import { CloseLine, FileCopyLine } from "@ndla/icons/action";
 import { Share, ShareArrow } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -119,7 +119,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             });
           }}
         >
-          <Cross size="small" />
+          <CloseLine size="small" />
           {t("myNdla.folder.sharing.button.unShare")}
         </Button>
       </StyledListItem>
@@ -203,7 +203,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           aria-label={t("myNdla.folder.sharing.button.shareLink")}
           title={t("myNdla.folder.sharing.button.shareLink")}
         >
-          <Copy size="small" />
+          <FileCopyLine size="small" />
           {t("myNdla.folder.sharing.button.shareLink")}
         </Button>
       </StyledListItem>

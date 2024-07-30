@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons/action";
 import { InformationOutline } from "@ndla/icons/common";
 import { Button, MessageBox, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -54,7 +54,7 @@ const FolderMeta = ({ folder, title }: Props) => {
         <CopyFolderModal folder={folder}>
           {/* TODO: verify this */}
           <Button variant="secondary">
-            <Copy />
+            <FileCopyLine />
             {t("myNdla.folder.copy")}
           </Button>
         </CopyFolderModal>
