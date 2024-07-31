@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { CloseLine, Plus } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
+import { CloseLine, AddLine } from "@ndla/icons/action";
+import { SearchLine } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button, IconButton, Input, InputContainer } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
@@ -154,7 +154,7 @@ const SearchHeader = ({
             aria-label={t("searchPage.search")}
             title={t("searchPage.search")}
           >
-            <Search />
+            <SearchLine />
           </IconButton>
         </StyledSearchWrapper>
       </form>
@@ -201,7 +201,7 @@ const SearchHeader = ({
           <ModalTrigger>
             <Button variant="secondary">
               {t("searchPage.searchFilterMessages.noValuesButtonText")}
-              <Plus />
+              <AddLine />
             </Button>
           </ModalTrigger>
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (

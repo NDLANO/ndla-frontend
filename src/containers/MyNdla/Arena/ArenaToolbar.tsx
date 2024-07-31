@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { useOutletContext } from "react-router";
 import styled from "@emotion/styled";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
 import SettingsMenu from "../components/SettingsMenu";
 import { OutletContext } from "../MyNdlaLayout";
@@ -27,7 +27,7 @@ export const PostActions = () => {
       showSingle
       menuItems={[
         {
-          icon: <Plus />,
+          icon: <AddLine />,
           text: t("myNdla.arena.new.topic"),
           link: "topic/new",
         },
@@ -49,7 +49,7 @@ export const PostButtons = () => {
           setIsOpen(false);
         }}
       >
-        <Plus size="small" />
+        <AddLine size="small" />
         {t("myNdla.arena.new.topic")}
       </SafeLinkButton>
     </StyledListItem>
@@ -64,7 +64,7 @@ export const TopicActions = () => {
       showSingle
       menuItems={[
         {
-          icon: <Plus />,
+          icon: <AddLine />,
           text: t("myNdla.arena.admin.category.form.newCategory"),
           link: "category/new",
         },
@@ -87,7 +87,7 @@ export const TopicButtons = () => {
           setIsOpen(false);
         }}
       >
-        <Plus size="small" />
+        <AddLine size="small" />
         {t("myNdla.arena.admin.category.form.newCategory")}
       </SafeLinkButton>
     </StyledListItem>

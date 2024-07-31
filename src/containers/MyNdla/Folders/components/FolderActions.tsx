@@ -9,8 +9,8 @@
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseLine, Pencil, Plus } from "@ndla/icons/action";
-import { Share, ShareArrow } from "@ndla/icons/common";
+import { CloseLine, PencilFill, AddLine } from "@ndla/icons/action";
+import { ShareFill, ShareArrow } from "@ndla/icons/common";
 import { DeleteForever, LinkMedium } from "@ndla/icons/editor";
 import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
@@ -152,7 +152,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     if (examLock) return [];
 
     const addFolderButton: MenuItemProps = {
-      icon: <Plus />,
+      icon: <AddLine />,
       text: t("myNdla.newFolderShort"),
       isModal: true,
       modalContent: (close, setFocus) => (
@@ -169,7 +169,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     if (!selectedFolder) return [addFolderButton];
 
     const editFolder: MenuItemProps = {
-      icon: <Pencil />,
+      icon: <PencilFill />,
       text: t("myNdla.folder.editShort"),
       isModal: true,
       modalContent: (close) => (
@@ -178,7 +178,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const share: MenuItemProps = {
-      icon: <Share />,
+      icon: <ShareFill />,
       text: t("myNdla.folder.sharing.button.shareShort"),
       ref: shareRef,
       isModal: true,

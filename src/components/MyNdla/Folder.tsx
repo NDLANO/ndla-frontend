@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { fonts, spacing, colors, mq, breakpoints, stackOrder } from "@ndla/core";
-import { FileTextLine, Share } from "@ndla/icons/common";
+import { FileTextLine, ShareFill } from "@ndla/icons/common";
 import { FolderUserLine } from "@ndla/icons/contentType";
 import { FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
@@ -218,7 +218,7 @@ export const Folder = ({
         <CountContainer data-type={type}>
           {isShared && (
             <IconTextWrapper>
-              <Share />
+              <ShareFill />
               {isFavorited ? (
                 <span>
                   {t("myNdla.folder.sharing.sharedBy")}

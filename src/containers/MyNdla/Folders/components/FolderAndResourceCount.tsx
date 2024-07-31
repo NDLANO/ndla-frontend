@@ -9,7 +9,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileTextLine, Share } from "@ndla/icons/common";
+import { FileTextLine, ShareFill } from "@ndla/icons/common";
 import { FolderLine } from "@ndla/icons/editor";
 import { ContentLoader } from "@ndla/ui";
 import WhileLoading from "../../../../components/WhileLoading";
@@ -64,7 +64,7 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
       <ResourceCountContainer>
         {selectedFolder?.status === "shared" && (
           <>
-            <Share />
+            <ShareFill />
             <span>{t("myNdla.folder.sharing.shared")}</span>
           </>
         )}
