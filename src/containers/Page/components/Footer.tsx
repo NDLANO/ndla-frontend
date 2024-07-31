@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { QuestionLine, InstagramLine, LinkedinBoxFill, MailFill, YoutubeFill, Facebook } from "@ndla/icons/common";
+import { QuestionLine, InstagramLine, LinkedinBoxFill, MailLine, YoutubeFill, Facebook } from "@ndla/icons/common";
 import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -187,7 +187,7 @@ const FooterSocialMedia = () => {
             css={{ width: "100%" }}
             to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
           >
-            {t("footer.socialMediaLinks.newsletter")} <MailFill />
+            {t("footer.socialMediaLinks.newsletter")} <MailLine />
           </StyledSafeLink>
         </SocialMediaLinkList>
       </nav>
