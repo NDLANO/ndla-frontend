@@ -86,7 +86,7 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
 
   return (
     <TabsRoot
-      defaultValue="images"
+      defaultValue={tabs[0]?.id}
       orientation="horizontal"
       variant="line"
       translations={{ listLabel: t("tabs.licenseBox") }}
