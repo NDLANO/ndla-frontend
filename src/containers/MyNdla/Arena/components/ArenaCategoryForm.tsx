@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine } from "@ndla/icons/common";
@@ -258,9 +257,7 @@ const ArenaCategoryForm = ({
         <Button variant="secondary" onClick={onAbort}>
           {t("cancel")}
         </Button>
-        <LoadingButton colorTheme="primary" type="submit">
-          {t("myNdla.arena.publish")}
-        </LoadingButton>
+        <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </ButtonRow>
     </StyledForm>
   );
