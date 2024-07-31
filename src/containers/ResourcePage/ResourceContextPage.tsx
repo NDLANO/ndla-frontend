@@ -35,7 +35,7 @@ const resourceContextPageQuery = gql`
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
-    taxonomyEntity(contextId: $contextId) {
+    node(contextId: $contextId) {
       id
       name
       path
@@ -108,12 +108,9 @@ const ResourceContextPage = () => {
   const responseContext = useContext(ResponseContext);
 
   const topicPath = useMemo(() => {
-    if (!data?.taxonomyEntity?.url) return [];
-    return (
-      data?.taxonomyEntity.contexts.find((context) => context.contextId === data?.taxonomyEntity?.contextId)?.crumbs ??
-      []
-    );
-  }, [data?.taxonomyEntity?.contextId, data?.taxonomyEntity?.contexts, data?.taxonomyEntity?.url]);
+    if (!data?.node?.url) return [];
+    return data?.node.contexts.find((context) => context.contextId === data?.node?.contextId)?.crumbs ?? [];
+  }, [data?.node?.contextId, data?.node?.contexts, data?.node?.url]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -136,32 +133,32 @@ const ResourceContextPage = () => {
     return <DefaultErrorMessage />;
   }
 
-  if (!data.taxonomyEntity || !data.taxonomyEntity.url) {
+  if (!data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 
-  /*if (data.taxonomyEntity && !urlInPaths(location, data.taxonomyEntity)) {
-    if (data.taxonomyEntity.paths?.length === 1) {
+  /*if (data.node && !urlInPaths(location, data.node)) {
+    if (data.node.paths?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
           redirectContext.status = 301;
-          redirectContext.url = data.taxonomyEntity.paths[0]!;
+          redirectContext.url = data.node.paths[0]!;
           return null;
         }
       } else {
-        return <Navigate to={data.taxonomyEntity.paths[0]!} replace />;
+        return <Navigate to={data.node.paths[0]!} replace />;
       }
     } else {
       return <MovedResourcePage resource={data.taxonomyEntity} />;
     }
     }*/
 
-  const { taxonomyEntity } = data;
+  const { node } = data;
   const relevance =
-    taxonomyEntity.contexts.find((c) => c.contextId === contextId)?.relevance ??
+    node.contexts.find((c) => c.contextId === contextId)?.relevance ??
     t("searchPage.searchFilterMessages.coreRelevance");
 
-  if (isLearningPathResource(taxonomyEntity)) {
+  if (isLearningPathResource(node)) {
     return (
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
@@ -174,11 +171,11 @@ const ResourceContextPage = () => {
   return (
     <ArticlePage
       skipToContentId={SKIP_TO_CONTENT_ID}
-      resource={taxonomyEntity}
+      resource={node}
       //topic={data.topic}
       topicPath={topicPath}
       relevance={relevance}
-      subject={{ id: data.taxonomyEntity.id, name: data.taxonomyEntity.name, metadata: { customFields: [] } }}
+      subject={{ id: data.node.id, name: data.node.name, metadata: { customFields: [] } }}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

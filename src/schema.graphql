@@ -985,6 +985,38 @@ type NewFolderResource {
   tags: [String!]
 }
 
+type Node implements TaxonomyEntity & WithContent {
+  article: Article
+  availability: String
+  breadcrumbs: [String!]!
+  children: [Node!]
+  contentUri: String
+  contextId: String
+  contexts: [TaxonomyContext!]!
+  id: String!
+  language: String
+  learningpath: Learningpath
+  meta: Meta
+  metadata: TaxonomyMetadata!
+  name: String!
+  nodeType: NodeType!
+  path: String!
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  resourceTypes: [ResourceType!]
+  supportedLanguages: [String!]!
+  url: String
+}
+
+enum NodeType {
+  NODE
+  PROGRAMME
+  RESOURCE
+  SUBJECT
+  TOPIC
+}
+
 type Owner {
   name: String!
 }
@@ -1159,6 +1191,7 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
+  node(contextId: String!): Node
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
@@ -1207,7 +1240,6 @@ type Query {
   subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
-  taxonomyEntity(contextId: String!): TaxonomyEntityWithContent
   topic(id: String!, subjectId: String): Topic
   topics(contentUri: String, filterVisible: Boolean): [Topic!]
 }
@@ -1459,30 +1491,6 @@ interface TaxonomyEntity {
   name: String!
   path: String!
   paths: [String!]!
-  relevanceId: String
-  resourceTypes: [ResourceType!]
-  supportedLanguages: [String!]!
-  url: String
-}
-
-type TaxonomyEntityWithContent implements TaxonomyEntity & WithContent {
-  article: Article
-  availability: String
-  breadcrumbs: [String!]!
-  contentUri: String
-  contextId: String
-  contexts: [TaxonomyContext!]!
-  id: String!
-  language: String
-  learningpath: Learningpath
-  meta: Meta
-  metadata: TaxonomyMetadata!
-  name: String!
-  nodeType: String!
-  parents: [TaxonomyEntityWithContent!]
-  path: String!
-  paths: [String!]!
-  rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!

@@ -23,7 +23,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
-  GQLArticlePage_EntityFragment,
+  GQLArticlePage_NodeFragment,
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
@@ -41,7 +41,7 @@ import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resou
 import Resources from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_EntityFragment;
+  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_NodeFragment;
   topic?: GQLArticlePage_TopicFragment;
   topicPath: TaxonomyCrumb[];
   relevance: string;
@@ -189,7 +189,7 @@ const ArticlePage = ({
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_EntityFragment,
+  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_NodeFragment,
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
@@ -239,7 +239,7 @@ export const articlePageFragments = {
     ${Article.fragments.article}
   `,
   entity: gql`
-    fragment ArticlePage_Entity on TaxonomyEntityWithContent {
+    fragment ArticlePage_Node on Node {
       id
       name
       path

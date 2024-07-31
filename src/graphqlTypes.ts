@@ -1316,6 +1316,40 @@ export type GQLNewFolderResource = {
   tags?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
+export type GQLNode = GQLTaxonomyEntity &
+  GQLWithContent & {
+    __typename?: "Node";
+    article?: Maybe<GQLArticle>;
+    availability?: Maybe<Scalars["String"]["output"]>;
+    breadcrumbs: Array<Scalars["String"]["output"]>;
+    children?: Maybe<Array<GQLNode>>;
+    contentUri?: Maybe<Scalars["String"]["output"]>;
+    contextId?: Maybe<Scalars["String"]["output"]>;
+    contexts: Array<GQLTaxonomyContext>;
+    id: Scalars["String"]["output"];
+    language?: Maybe<Scalars["String"]["output"]>;
+    learningpath?: Maybe<GQLLearningpath>;
+    meta?: Maybe<GQLMeta>;
+    metadata: GQLTaxonomyMetadata;
+    name: Scalars["String"]["output"];
+    nodeType: GQLNodeType;
+    path: Scalars["String"]["output"];
+    paths: Array<Scalars["String"]["output"]>;
+    rank?: Maybe<Scalars["Int"]["output"]>;
+    relevanceId?: Maybe<Scalars["String"]["output"]>;
+    resourceTypes?: Maybe<Array<GQLResourceType>>;
+    supportedLanguages: Array<Scalars["String"]["output"]>;
+    url?: Maybe<Scalars["String"]["output"]>;
+  };
+
+export enum GQLNodeType {
+  Node = "NODE",
+  Programme = "PROGRAMME",
+  Resource = "RESOURCE",
+  Subject = "SUBJECT",
+  Topic = "TOPIC",
+}
+
 export type GQLOwner = {
   __typename?: "Owner";
   name: Scalars["String"]["output"];
@@ -1479,6 +1513,7 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
+  node?: Maybe<GQLNode>;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -1496,7 +1531,6 @@ export type GQLQuery = {
   subjectCollection?: Maybe<Array<GQLSubject>>;
   subjectpage?: Maybe<GQLSubjectPage>;
   subjects?: Maybe<Array<GQLSubject>>;
-  taxonomyEntity?: Maybe<GQLTaxonomyEntityWithContent>;
   topic?: Maybe<GQLTopic>;
   topics?: Maybe<Array<GQLTopic>>;
 };
@@ -1672,6 +1706,10 @@ export type GQLQueryListingPageArgs = {
   subjects?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLQueryNodeArgs = {
+  contextId: Scalars["String"]["input"];
+};
+
 export type GQLQueryPodcastSearchArgs = {
   fallback?: InputMaybe<Scalars["Boolean"]["input"]>;
   page: Scalars["Int"]["input"];
@@ -1766,10 +1804,6 @@ export type GQLQuerySubjectsArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
   metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLQueryTaxonomyEntityArgs = {
-  contextId: Scalars["String"]["input"];
 };
 
 export type GQLQueryTopicArgs = {
@@ -2062,32 +2096,6 @@ export type GQLTaxonomyEntity = {
   supportedLanguages: Array<Scalars["String"]["output"]>;
   url?: Maybe<Scalars["String"]["output"]>;
 };
-
-export type GQLTaxonomyEntityWithContent = GQLTaxonomyEntity &
-  GQLWithContent & {
-    __typename?: "TaxonomyEntityWithContent";
-    article?: Maybe<GQLArticle>;
-    availability?: Maybe<Scalars["String"]["output"]>;
-    breadcrumbs: Array<Scalars["String"]["output"]>;
-    contentUri?: Maybe<Scalars["String"]["output"]>;
-    contextId?: Maybe<Scalars["String"]["output"]>;
-    contexts: Array<GQLTaxonomyContext>;
-    id: Scalars["String"]["output"];
-    language?: Maybe<Scalars["String"]["output"]>;
-    learningpath?: Maybe<GQLLearningpath>;
-    meta?: Maybe<GQLMeta>;
-    metadata: GQLTaxonomyMetadata;
-    name: Scalars["String"]["output"];
-    nodeType: Scalars["String"]["output"];
-    parents?: Maybe<Array<GQLTaxonomyEntityWithContent>>;
-    path: Scalars["String"]["output"];
-    paths: Array<Scalars["String"]["output"]>;
-    rank?: Maybe<Scalars["Int"]["output"]>;
-    relevanceId?: Maybe<Scalars["String"]["output"]>;
-    resourceTypes?: Maybe<Array<GQLResourceType>>;
-    supportedLanguages: Array<Scalars["String"]["output"]>;
-    url?: Maybe<Scalars["String"]["output"]>;
-  };
 
 export type GQLTaxonomyMetadata = {
   __typename?: "TaxonomyMetadata";
@@ -2689,8 +2697,8 @@ export type GQLArticlePage_ResourceFragment = {
     GQLArticle_ArticleFragment;
 };
 
-export type GQLArticlePage_EntityFragment = {
-  __typename?: "TaxonomyEntityWithContent";
+export type GQLArticlePage_NodeFragment = {
+  __typename?: "Node";
   id: string;
   name: string;
   path: string;
@@ -4414,8 +4422,8 @@ export type GQLResourceContextPageQuery = {
     { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
       GQLLearningpathPage_ResourceTypeDefinitionFragment
   >;
-  taxonomyEntity?: {
-    __typename?: "TaxonomyEntityWithContent";
+  node?: {
+    __typename?: "Node";
     id: string;
     name: string;
     path: string;
