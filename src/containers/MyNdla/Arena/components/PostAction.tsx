@@ -8,7 +8,7 @@
 
 import { Dispatch, SetStateAction, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { PencilFill, TrashCanOutline } from "@ndla/icons/action";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
 import { SpamLine, LockFill } from "@ndla/icons/common";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
@@ -56,7 +56,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const deleteItem: MenuItemProps = {
-    icon: <TrashCanOutline />,
+    icon: <DeleteBinLine />,
     type: "danger",
     text: t("myNdla.arena.posts.dropdownMenu.delete"),
     isModal: true,

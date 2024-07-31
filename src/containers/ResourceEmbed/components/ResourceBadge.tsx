@@ -10,7 +10,7 @@ import { ElementType, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { BroadcastLine, VoicePrintLine } from "@ndla/icons/common";
-import { ChatLine, H5P, ImageLine, Video, GlobalLine } from "@ndla/icons/editor";
+import { ChatLine, H5P, ImageLine, MovieLine, GlobalLine } from "@ndla/icons/editor";
 import { EmbedType } from "./ResourceEmbedWrapper";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -35,7 +35,7 @@ const BadgeWrapper = styled.div`
 `;
 
 const typeIconMapping: Record<EmbedType, ElementType> = {
-  video: Video,
+  video: MovieLine,
   audio: VoicePrintLine,
   podcast: BroadcastLine,
   h5p: H5P,

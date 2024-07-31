@@ -9,7 +9,7 @@
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LoadingButton } from "@ndla/button";
-import { InformationLine, WarningOutline } from "@ndla/icons/common";
+import { InformationLine, AlertLine } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Button, Text, MessageBox } from "@ndla/primitives";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
@@ -76,7 +76,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
               </MessageBox>
               {copySharedFolderMutation.error && (
                 <MessageBox variant="error">
-                  <WarningOutline />
+                  <AlertLine />
                   <Text>{t("errorMessage.description")}</Text>
                 </MessageBox>
               )}
