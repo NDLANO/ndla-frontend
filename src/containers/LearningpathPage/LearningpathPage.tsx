@@ -19,6 +19,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLLearningpath,
+  GQLLearningpathPage_NodeFragment,
   GQLLearningpathPage_ResourceFragment,
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_SubjectFragment,
@@ -35,7 +36,7 @@ interface PropData {
   topicPath: TaxonomyCrumb[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
-  resource?: GQLLearningpathPage_ResourceFragment;
+  resource?: GQLLearningpathPage_ResourceFragment | GQLLearningpathPage_NodeFragment;
 }
 
 interface Props {
@@ -78,9 +79,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   if (
     !data.resource ||
     !data.resource.learningpath ||
-    !data.topic ||
     !data.topicPath ||
-    !data.subject ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
     return <DefaultErrorMessage />;
@@ -96,10 +95,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems =
-    subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
+  const breadcrumbItems = topicPath
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
+    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
 
   return (
     <div>
@@ -120,7 +118,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        resource={resource}
+        path={resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
@@ -144,6 +142,25 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
   return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
+
+export const learningpathFragment = gql`
+  fragment LearningpathPage_Learningpath on Learningpath {
+    supportedLanguages
+    tags
+    description
+    coverphoto {
+      url
+      metaUrl
+    }
+    learningsteps {
+      type
+      ...Learningpath_LearningpathStep
+    }
+    ...Learningpath_Learningpath
+  }
+  ${Learningpath.fragments.learningpathStep}
+  ${Learningpath.fragments.learningpath}
+`;
 
 export const learningpathPageFragments = {
   topic: gql`
@@ -177,25 +194,26 @@ export const learningpathPageFragments = {
   resource: gql`
     fragment LearningpathPage_Resource on Resource {
       id
-      ...Learningpath_Resource
+      name
+      path
+      url
       learningpath {
-        supportedLanguages
-        tags
-        description
-        coverphoto {
-          url
-          metaUrl
-        }
-        learningsteps {
-          type
-          ...Learningpath_LearningpathStep
-        }
-        ...Learningpath_Learningpath
+        ...LearningpathPage_Learningpath
       }
     }
-    ${Learningpath.fragments.learningpathStep}
-    ${Learningpath.fragments.learningpath}
-    ${Learningpath.fragments.resource}
+    ${learningpathFragment}
+  `,
+  node: gql`
+    fragment LearningpathPage_Node on Node {
+      id
+      name
+      path
+      url
+      learningpath {
+        ...LearningpathPage_Learningpath
+      }
+    }
+    ${learningpathFragment}
   `,
 };
 

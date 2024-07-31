@@ -23,11 +23,31 @@ import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage, { articlePageFragments } from "../ArticlePage/ArticlePage";
-import LearningpathPage, { learningpathPageFragments } from "../LearningpathPage/LearningpathPage";
+import LearningpathPage, {
+  learningpathPageFragments,
+  learningpathFragment,
+} from "../LearningpathPage/LearningpathPage";
 //import MovedResourcePage from "../MovedResourcePage/MovedResourcePage";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
+
+const contextFragment = gql`
+  fragment ContextPage_Context on TaxonomyContext {
+    contextId
+    breadcrumbs
+    parentIds
+    path
+    relevance
+    crumbs {
+      contextId
+      id
+      name
+      path
+      url
+    }
+  }
+`;
 
 const resourceContextPageQuery = gql`
   query resourceContextPage($contextId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
@@ -38,7 +58,7 @@ const resourceContextPageQuery = gql`
     node(contextId: $contextId) {
       id
       name
-      path
+      path: url
       contentUri
       relevanceId
       paths
@@ -48,19 +68,11 @@ const resourceContextPageQuery = gql`
         id
         name
       }
+      context {
+        ...ContextPage_Context
+      }
       contexts {
-        contextId
-        breadcrumbs
-        parentIds
-        path
-        relevance
-        crumbs {
-          contextId
-          id
-          name
-          path
-          url
-        }
+        ...ContextPage_Context
       }
       article {
         created
@@ -72,27 +84,18 @@ const resourceContextPageQuery = gql`
         ...Article_Article
       }
       learningpath {
-        supportedLanguages
-        tags
-        description
-        coverphoto {
-          url
-          metaUrl
-        }
-        learningsteps {
-          type
-          ...Learningpath_LearningpathStep
-        }
-        ...Learningpath_Learningpath
+        ...LearningpathPage_Learningpath
       }
     }
   }
+  ${contextFragment}
   ${Article.fragments.article}
   ${Learningpath.fragments.learningpathStep}
   ${Learningpath.fragments.learningpath}
   ${structuredArticleDataFragment}
   ${articlePageFragments.resourceType}
   ${learningpathPageFragments.resourceType}
+  ${learningpathFragment}
 `;
 
 const ResourceContextPage = () => {
@@ -109,8 +112,8 @@ const ResourceContextPage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.node?.url) return [];
-    return data?.node.contexts.find((context) => context.contextId === data?.node?.contextId)?.crumbs ?? [];
-  }, [data?.node?.contextId, data?.node?.contexts, data?.node?.url]);
+    return data?.node.context?.crumbs ?? [];
+  }, [data?.node?.context, data?.node?.url]);
 
   if (loading) {
     return <ContentPlaceholder />;
@@ -154,16 +157,19 @@ const ResourceContextPage = () => {
     }*/
 
   const { node } = data;
-  const relevance =
-    node.contexts.find((c) => c.contextId === contextId)?.relevance ??
-    t("searchPage.searchFilterMessages.coreRelevance");
+  const relevance = node.context?.relevance ?? t("searchPage.searchFilterMessages.coreRelevance");
 
   if (isLearningPathResource(node)) {
     return (
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, relevance, topicPath }}
+        data={{
+          ...data,
+          resource: node,
+          relevance,
+          topicPath,
+        }}
         loading={loading}
       />
     );

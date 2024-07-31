@@ -23,7 +23,6 @@ import LearningpathMenu from "./LearningpathMenu";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
@@ -38,7 +37,7 @@ interface Props {
   topicPath?: TaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
-  resource?: GQLLearningpath_ResourceFragment;
+  path?: string;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
 }
@@ -82,7 +81,7 @@ const LearningPathWrapper = styled.section`
 const Learningpath = ({
   learningpath,
   learningpathStep,
-  resource,
+  path,
   topic,
   subject,
   topicPath,
@@ -95,9 +94,7 @@ const Learningpath = ({
   const { innerWidth } = useWindowSize(100);
   const mobileView = innerWidth < 981;
 
-  const learningpathMenu = (
-    <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />
-  );
+  const learningpathMenu = <LearningpathMenu path={path} learningpath={learningpath} currentStep={learningpathStep} />;
   const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
@@ -154,7 +151,7 @@ const Learningpath = ({
         )}
       </StyledLearningpathContent>
       <LearningpathFooter
-        resource={resource}
+        path={path}
         mobileView={mobileView}
         learningPathMenu={learningpathMenu}
         learningPath={learningpath}
@@ -206,16 +203,6 @@ Learningpath.fragments = {
     ${LearningpathMenu.fragments.step}
     ${LearningpathFooter.fragments.learningpathStep}
     ${LearningpathEmbed.fragments.learningpathStep}
-  `,
-  resource: gql`
-    fragment Learningpath_Resource on Resource {
-      path
-      name
-      ...LearningpathMenu_Resource
-      ...LearningpathFooter_Resource
-    }
-    ${LearningpathMenu.fragments.resource}
-    ${LearningpathFooter.fragments.resource}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

@@ -22,7 +22,6 @@ import { usePrevious } from "@ndla/util";
 import {
   GQLLearningpathFooter_LearningpathFragment,
   GQLLearningpathFooter_LearningpathStepFragment,
-  GQLLearningpathFooter_ResourceFragment,
 } from "../../graphqlTypes";
 import { toLearningPath } from "../../routeHelpers";
 
@@ -96,7 +95,7 @@ interface Props {
   previousStep?: GQLLearningpathFooter_LearningpathStepFragment;
   nextStep?: GQLLearningpathFooter_LearningpathStepFragment;
   learningPath: GQLLearningpathFooter_LearningpathFragment;
-  resource?: GQLLearningpathFooter_ResourceFragment;
+  path?: string;
   totalSteps: number;
   currentStep: number;
 }
@@ -107,7 +106,7 @@ const LearningpathFooter = ({
   previousStep,
   nextStep,
   learningPath,
-  resource,
+  path,
   totalSteps,
   currentStep,
 }: Props) => {
@@ -143,7 +142,7 @@ const LearningpathFooter = ({
       <LinksWrapper>
         {previousStep ? (
           <StyledSafeLink
-            to={toLearningPath(learningPath.id, previousStep.id, resource)}
+            to={toLearningPath(learningPath.id, previousStep.id, path)}
             aria-label={t("learningPath.previousArrow")}
           >
             <Back />
@@ -157,7 +156,7 @@ const LearningpathFooter = ({
         </StepInfoText>
         {nextStep ? (
           <StyledSafeLink
-            to={toLearningPath(learningPath.id, nextStep.id, resource)}
+            to={toLearningPath(learningPath.id, nextStep.id, path)}
             aria-label={t("learningPath.nextArrow")}
           >
             <LinkText>{nextStep.title}</LinkText>
@@ -181,11 +180,6 @@ LearningpathFooter.fragments = {
   learningpath: gql`
     fragment LearningpathFooter_Learningpath on Learningpath {
       id
-    }
-  `,
-  resource: gql`
-    fragment LearningpathFooter_Resource on Resource {
-      path
     }
   `,
 };

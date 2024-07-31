@@ -991,6 +991,7 @@ type Node implements TaxonomyEntity & WithContent {
   breadcrumbs: [String!]!
   children: [Node!]
   contentUri: String
+  context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
   id: String!
@@ -1260,6 +1261,7 @@ type Resource implements TaxonomyEntity & WithContent {
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
   id: String!
@@ -1393,6 +1395,7 @@ type Subject implements TaxonomyEntity {
   allTopics: [Topic!]
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
@@ -1483,6 +1486,7 @@ type TaxonomyCrumb {
 interface TaxonomyEntity {
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
   id: String!
@@ -1519,6 +1523,7 @@ type Topic implements TaxonomyEntity & WithContent {
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
   coreResources(subjectId: String): [Resource!]
@@ -1529,10 +1534,8 @@ type Topic implements TaxonomyEntity & WithContent {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
-  parent: String
   parentId: String
   path: String!
-  pathTopics: [[Topic!]!]
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
