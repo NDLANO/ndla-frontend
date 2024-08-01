@@ -217,7 +217,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       tabindex="0"
                     >
                       <ul
-                        class="li-s_none p_0 w_100% [&_h3,_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
+                        class="w_100% [&_h3,_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
                       >
                         <li
                           class="d_flex flex-d_column gap_medium [&_img]:w_100% py_xlarge bd-b_1px_solid bd-c_stroke.subtle last:bd-b_none last:pbe_0 first:pbs_medium"
@@ -256,13 +256,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                 class="d_flex flex-d_column gap_xsmall"
                               >
                                 <ul
-                                  class="li-s_none p_0"
                                   content="Opphaver: Forfatter Someone"
                                   property="cc:attributionName"
                                 >
-                                  <li
-                                    class="m_0 p_0"
-                                  >
+                                  <li>
                                     <p
                                       class="textStyle_body.medium"
                                     >
@@ -272,9 +269,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       </span>
                                     </p>
                                   </li>
-                                  <li
-                                    class="m_0 p_0"
-                                  >
+                                  <li>
                                     <p
                                       class="textStyle_body.medium"
                                     >
@@ -284,9 +279,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       </span>
                                     </p>
                                   </li>
-                                  <li
-                                    class="m_0 p_0"
-                                  >
+                                  <li>
                                     <p
                                       class="textStyle_body.medium"
                                     >

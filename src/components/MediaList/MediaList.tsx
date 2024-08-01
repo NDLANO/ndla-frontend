@@ -203,24 +203,18 @@ const isAttributionItem = (item: ItemType): item is ItemTypeWithDescription => {
   return attributionTypes.some((type) => type === item.metaType);
 };
 
-const StyledMediaListItemMeta = styled("ul", {
-  base: {
-    listStyle: "none",
-    padding: "0",
-  },
-});
-
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   const attributionItems = items.filter(isAttributionItem);
   const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
 
   return (
-    <StyledMediaListItemMeta property="cc:attributionName" content={attributionMeta}>
+    // eslint-disable-next-line react/no-unknown-property
+    <ul property="cc:attributionName" content={attributionMeta}>
       {items.map((item) => (
         <li key={item.label}>
           <ItemText item={item} />
         </li>
       ))}
-    </StyledMediaListItemMeta>
+    </ul>
   );
 };
