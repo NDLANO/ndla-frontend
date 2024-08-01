@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
@@ -88,7 +88,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <LicenseAndButtonWrapper>
           <MediaListLicense
             licenseType={concept.copyright?.license?.license ?? ""}
@@ -104,7 +104,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 resourceType: "concept",
               }}
             >
-              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
@@ -123,14 +123,14 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={concept.copyright?.license?.license ?? ""}
         resourceUrl={concept.src}
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(concept.copyright?.license?.license) && !!copyText && (
               <CopyTextButton
@@ -141,7 +141,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

@@ -29,8 +29,8 @@ export const MediaList = styled("ul", {
     listStyle: "none",
     padding: "0",
     width: "100%",
-    "& h3,p ": {
-      marginBottom: "3xsmall",
+    "& h3, p ": {
+      marginBlockEnd: "3xsmall",
     },
     tabletDown: {
       "& button, a": {
@@ -40,7 +40,7 @@ export const MediaList = styled("ul", {
   },
 });
 
-export const StyledFavoriteButton = styled(FavoriteButton, { base: { width: "auto!" } });
+export const MediaListFavoriteButton = styled(FavoriteButton, { base: { width: "auto!" } });
 
 interface MediaSourceProps {
   licenseType: string;
@@ -93,7 +93,7 @@ export const MediaListItem = styled("li", {
   },
 });
 
-export const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 interface MediaListItemBodyProps {
   children: ReactNode;
@@ -139,8 +139,9 @@ export const MediaListItemBody = ({
 export const MediaListItemActions = styled("div", {
   base: {
     display: "flex",
+    flexWrap: "wrap",
     gap: "xsmall",
-    "&>a": {
+    "& > a": {
       width: "fit-content",
     },
 

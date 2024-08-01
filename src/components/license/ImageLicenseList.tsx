@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -97,7 +97,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <LicenseAndButtonWrapper>
           <MediaListLicense
             licenseType={image.copyright.license.license}
@@ -113,7 +113,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 resourceType: "image",
               }}
             >
-              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
@@ -137,7 +137,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={image.copyright.license?.license}
         resourceType="image"
@@ -145,7 +145,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(image.copyright.license.license) && !!copyText && (
               <CopyTextButton
@@ -156,7 +156,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

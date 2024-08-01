@@ -11,7 +11,7 @@ import { Copy } from "@ndla/icons/action";
 import { Heading, Text } from "@ndla/primitives";
 import CopyTextButton from "./CopyTextButton";
 import { MediaList, MediaListItem } from "../MediaList";
-import { ContentWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface Props {
   oembed: string;
@@ -22,7 +22,7 @@ const OembedItem = ({ oembed }: Props) => {
   return (
     <MediaList>
       <MediaListItem>
-        <ContentWrapper>
+        <MediaListContent>
           <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
             <h3>{t("license.tabs.embedlink")}</h3>
           </Heading>
@@ -34,7 +34,7 @@ const OembedItem = ({ oembed }: Props) => {
           >
             <Copy />
           </CopyTextButton>
-        </ContentWrapper>
+        </MediaListContent>
       </MediaListItem>
     </MediaList>
   );

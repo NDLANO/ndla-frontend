@@ -30,7 +30,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;
@@ -67,7 +67,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <MediaListLicense
           licenseType={h5p.copyright?.license?.license ?? ""}
           title={t("license.h5p.rules")}
@@ -89,7 +89,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={h5p.copyright?.license?.license ?? ""}
         resourceType="h5p"
@@ -97,7 +97,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(h5p.copyright?.license.license) && !!copyText && (
               <CopyTextButton
@@ -108,7 +108,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

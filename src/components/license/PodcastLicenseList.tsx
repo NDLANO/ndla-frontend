@@ -31,7 +31,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -86,7 +86,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <LicenseAndButtonWrapper>
           <MediaListLicense
             licenseType={podcast.copyright.license.license}
@@ -102,7 +102,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 resourceType: "podcast",
               }}
             >
-              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/podcast/${podcast.id}`} />
+              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/podcast/${podcast.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
@@ -125,7 +125,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={podcast.copyright.license?.license}
         resourceType="podcast"
@@ -133,7 +133,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
               <CopyTextButton
@@ -144,7 +144,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

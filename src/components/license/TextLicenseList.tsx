@@ -25,7 +25,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -68,7 +68,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <MediaListLicense
           licenseType={text.copyright.license.license}
           title={t("license.text.rules")}
@@ -82,10 +82,10 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
             </Button>
           )}
         </MediaListItemActions>
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
               <CopyTextButton
@@ -96,7 +96,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

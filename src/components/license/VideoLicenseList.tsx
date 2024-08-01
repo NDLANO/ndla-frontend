@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -76,7 +76,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <LicenseAndButtonWrapper>
           <MediaListLicense
             licenseType={video.copyright?.license?.license ?? ""}
@@ -92,7 +92,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
                 resourceType: "video",
               }}
             >
-              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
@@ -118,7 +118,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={video.copyright?.license?.license ?? ""}
         resourceType="video"
@@ -126,7 +126,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
               <CopyTextButton
@@ -137,7 +137,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

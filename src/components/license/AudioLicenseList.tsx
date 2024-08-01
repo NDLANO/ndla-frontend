@@ -32,7 +32,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -86,7 +86,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <ContentWrapper>
+      <MediaListContent>
         <LicenseAndButtonWrapper>
           <MediaListLicense
             licenseType={audio.copyright.license.license}
@@ -102,7 +102,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 resourceType: "audio",
               }}
             >
-              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
@@ -120,7 +120,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             )}
           </MediaListItemActions>
         )}
-      </ContentWrapper>
+      </MediaListContent>
       <MediaListItemBody
         license={audio.copyright.license.license}
         resourceType="audio"
@@ -128,7 +128,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <ContentWrapper>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
               <CopyTextButton
@@ -139,7 +139,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </ContentWrapper>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
