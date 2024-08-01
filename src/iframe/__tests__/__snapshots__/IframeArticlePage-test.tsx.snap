@@ -217,7 +217,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       tabindex="0"
                     >
                       <ul
-                        class="li-s_none p_0 w_100% [&_h3,p]:mb_3xsmall tabletDown:[&_button,_a]:w_100%"
+                        class="li-s_none p_0 w_100% [&_h3,_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
                       >
                         <li
                           class="d_flex flex-d_column gap_medium [&_img]:w_100% py_xlarge bd-b_1px_solid bd-c_stroke.subtle last:bd-b_none last:pbe_0 first:pbs_medium"
@@ -236,12 +236,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               />
                             </div>
                             <div
-                              class="d_flex gap_xsmall [&>a]:w_fit-content tabletDown:flex-d_column"
+                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             />
                           </div>
                           <div
                             about=""
-                            class="tablet:max-w_70% desktop:max-w_75%"
                             xmlns:cc="https://creativecommons.org/ns#"
                             xmlns:dct="http://purl.org/dc/terms/"
                           >
@@ -251,7 +250,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               rel="dct:type"
                             />
                             <div
-                              class="d_flex gap_xsmall [&>a]:w_fit-content tabletDown:flex-d_column"
+                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             >
                               <div
                                 class="d_flex flex-d_column gap_xsmall"
