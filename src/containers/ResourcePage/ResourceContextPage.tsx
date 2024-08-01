@@ -58,7 +58,7 @@ const resourceContextPageQuery = gql`
     node(contextId: $contextId) {
       id
       name
-      path: url
+      path
       contentUri
       relevanceId
       paths
@@ -86,6 +86,8 @@ const resourceContextPageQuery = gql`
       learningpath {
         ...LearningpathPage_Learningpath
       }
+      ...LearningpathPage_Subject
+      ...ArticlePage_Subject
     }
   }
   ${contextFragment}
@@ -94,7 +96,9 @@ const resourceContextPageQuery = gql`
   ${Learningpath.fragments.learningpath}
   ${structuredArticleDataFragment}
   ${articlePageFragments.resourceType}
+  ${articlePageFragments.subject}
   ${learningpathPageFragments.resourceType}
+  ${learningpathPageFragments.subject}
   ${learningpathFragment}
 `;
 
@@ -181,7 +185,7 @@ const ResourceContextPage = () => {
       //topic={data.topic}
       topicPath={topicPath}
       relevance={relevance}
-      subject={{ id: data.node.id, name: data.node.name, metadata: { customFields: [] } }}
+      subject={{ id: data.node.id, name: data.node.name, path: data.node.path, metadata: { customFields: [] } }}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

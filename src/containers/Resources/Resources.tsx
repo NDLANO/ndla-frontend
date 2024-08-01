@@ -193,11 +193,12 @@ const AddResource = ({ resources, path }: AddResourceProps) => {
 };
 
 const resourceFragment = gql`
-  fragment Resources_Resource on Resource {
+  fragment Resources_Resource on Node {
     id
     name
     contentUri
     path
+    url
     paths
     rank
     language
@@ -216,12 +217,15 @@ Resources.fragments = {
     }
   `,
   topic: gql`
-    fragment Resources_Topic on Topic {
+    fragment Resources_Topic on Node {
+      id
       name
-      coreResources(subjectId: $subjectId) {
+      path
+      url
+      coreResources(rootId: $subjectId) {
         ...Resources_Resource
       }
-      supplementaryResources(subjectId: $subjectId) {
+      supplementaryResources(rootId: $subjectId) {
         ...Resources_Resource
       }
       metadata {

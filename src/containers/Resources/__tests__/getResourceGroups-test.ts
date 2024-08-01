@@ -7,10 +7,10 @@
  */
 
 import { resourceData1, resourceData2, resourceTypes } from "./mockResources";
-import { GQLResource } from "../../../graphqlTypes";
+import { GQLNode } from "../../../graphqlTypes";
 import { getResourceGroups, sortResourceTypes } from "../getResourceGroups";
 
-type ResourceData = Pick<GQLResource, "id" | "resourceTypes" | "name" | "contentUri">;
+type ResourceData = Pick<GQLNode, "id" | "resourceTypes" | "name" | "contentUri">;
 
 test("get core resources grouped by types", () => {
   const groups = getResourceGroups(resourceTypes, [], resourceData1);

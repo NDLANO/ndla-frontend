@@ -13,15 +13,15 @@ import { SimpleBreadcrumbItem } from "@ndla/ui";
 import ToolboxTopicWrapper, { toolboxTopicWrapperFragments } from "./ToolboxTopicWrapper";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
+  GQLTaxBase,
   GQLToolboxTopicContainerQuery,
   GQLToolboxTopicContainerQueryVariables,
-  GQLToolboxTopicContainer_SubjectFragment,
 } from "../../../graphqlTypes";
 import { removeUrn } from "../../../routeHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
 
 interface Props {
-  subject: GQLToolboxTopicContainer_SubjectFragment;
+  subject: GQLTaxBase;
   topicId: string;
   topicList: Array<string>;
   setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
@@ -30,7 +30,7 @@ interface Props {
 
 const toolboxTopicContainerQuery = gql`
   query toolboxTopicContainer($topicId: String!, $subjectId: String!, $transformArgs: TransformedArticleContentInput) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
       id # This query recursively calls itself if ID is not included here. Not sure why.
       ...ToolboxTopicWrapper_Topic
     }
@@ -85,13 +85,4 @@ export const ToolboxTopicContainer = ({ subject, topicId, topicList, setCrumbs, 
       index={index}
     />
   );
-};
-
-ToolboxTopicContainer.fragments = {
-  subject: gql`
-    fragment ToolboxTopicContainer_Subject on Subject {
-      ...ToolboxTopicWrapper_Subject
-    }
-    ${toolboxTopicWrapperFragments.subject}
-  `,
 };

@@ -55,6 +55,7 @@ import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
 import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
+import SubjectContextPage from "./containers/SubjectPage/SubjectContextPage";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -128,6 +129,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   {resourceRoutes}
                 </Route>
                 <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
+                <Route path=":name/f/:subjectContextId" element={<SubjectContextPage />} />
                 <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic1" element={null}>

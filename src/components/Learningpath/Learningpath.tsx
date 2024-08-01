@@ -21,6 +21,7 @@ import LearningpathEmbed from "./LearningpathEmbed";
 import LearningpathFooter from "./LearningpathFooter";
 import LearningpathMenu from "./LearningpathMenu";
 import {
+  GQLTaxBase,
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
@@ -28,13 +29,12 @@ import {
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { TaxonomyCrumb } from "../../routeHelpers";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TaxonomyCrumb[];
+  topicPath?: GQLTaxBase[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
   path?: string;
@@ -166,7 +166,7 @@ const Learningpath = ({
 
 Learningpath.fragments = {
   topic: gql`
-    fragment Learningpath_Topic on Topic {
+    fragment Learningpath_Topic on Node {
       ...LastLearningpathStepInfo_Topic
       ...LearningpathEmbed_Topic
     }
@@ -180,7 +180,7 @@ Learningpath.fragments = {
     ${LastLearningpathStepInfo.fragments.resourceType}
   `,
   subject: gql`
-    fragment Learningpath_Subject on Subject {
+    fragment Learningpath_Subject on Node {
       id
       ...LastLearningpathStepInfo_Subject
     }

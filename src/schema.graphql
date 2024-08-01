@@ -985,27 +985,34 @@ type NewFolderResource {
   tags: [String!]
 }
 
-type Node implements TaxonomyEntity & WithContent {
+type Node implements TaxBase & TaxonomyEntity & WithContent {
+  alternateNodes: [Node!]
   article: Article
   availability: String
   breadcrumbs: [String!]!
-  children: [Node!]
+  children(nodeType: NodeType, recursive: Boolean): [Node!]
+  connectionId: String
   contentUri: String
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  coreResources(rootId: String): [Node!]
+  grepCodes: [String!]
   id: String!
   language: String
   learningpath: Learningpath
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
-  nodeType: NodeType!
+  nodeType: String!
+  parentId: ID
   path: String!
   paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
+  subjectpage: SubjectPage
+  supplementaryResources(rootId: String): [Node!]
   supportedLanguages: [String!]!
   url: String
 }
@@ -1148,6 +1155,7 @@ type Query {
   arenaUser(username: String!): ArenaUser
   arenaUserV2(username: String!): ArenaUserV2
   article(id: String!): Article
+  articleNode(articleId: String, nodeId: String): Node
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1193,6 +1201,17 @@ type Query {
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
   node(contextId: String!): Node
+  nodeCollection(language: String!): [Node!]
+  nodeResource(id: String!, parentId: String, rootId: String): Node
+  nodeSubject(id: String!): Node
+  nodeTopic(id: String!, rootId: String): Node
+  nodes(
+    contentUri: String
+    filterVisible: Boolean
+    ids: [String!]
+    metadataFilterKey: String
+    metadataFilterValue: String
+  ): [Node!]
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
@@ -1256,7 +1275,7 @@ type RelatedContent {
   url: String!
 }
 
-type Resource implements TaxonomyEntity & WithContent {
+type Resource implements TaxBase & TaxonomyEntity & WithContent {
   article: Article
   availability: String
   breadcrumbs: [String!]!
@@ -1270,6 +1289,7 @@ type Resource implements TaxonomyEntity & WithContent {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   parents: [Topic!]
   path: String!
   paths: [String!]!
@@ -1391,7 +1411,7 @@ type SortResult {
 
 scalar StringRecord
 
-type Subject implements TaxonomyEntity {
+type Subject implements TaxBase & TaxonomyEntity {
   allTopics: [Topic!]
   breadcrumbs: [String!]!
   contentUri: String
@@ -1403,6 +1423,7 @@ type Subject implements TaxonomyEntity {
   language: String
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   path: String!
   paths: [String!]!
   relevanceId: String
@@ -1464,6 +1485,13 @@ type Tags {
   tags: [String!]!
 }
 
+interface TaxBase {
+  id: String!
+  name: String!
+  path: String!
+  url: String
+}
+
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
@@ -1475,7 +1503,7 @@ type TaxonomyContext {
   url: String
 }
 
-type TaxonomyCrumb {
+type TaxonomyCrumb implements TaxBase {
   contextId: String!
   id: String!
   name: String!
@@ -1493,6 +1521,7 @@ interface TaxonomyEntity {
   language: String
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   path: String!
   paths: [String!]!
   relevanceId: String
@@ -1517,7 +1546,7 @@ type Title {
   title: String!
 }
 
-type Topic implements TaxonomyEntity & WithContent {
+type Topic implements TaxBase & TaxonomyEntity & WithContent {
   alternateTopics: [Topic!]
   article: Article
   availability: String
@@ -1534,6 +1563,7 @@ type Topic implements TaxonomyEntity & WithContent {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   parentId: String
   path: String!
   paths: [String!]!

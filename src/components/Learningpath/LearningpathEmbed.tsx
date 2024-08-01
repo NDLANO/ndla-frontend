@@ -199,8 +199,8 @@ const articleFragment = gql`
 
 LearningpathEmbed.fragments = {
   topic: gql`
-    fragment LearningpathEmbed_Topic on Topic {
-      supplementaryResources(subjectId: $subjectId) {
+    fragment LearningpathEmbed_Topic on Node {
+      supplementaryResources(rootId: $subjectId) {
         id
       }
     }
@@ -243,7 +243,7 @@ const learningpathStepQuery = gql`
       oembed
       ...LearningpathEmbed_Article
     }
-    resource(id: $resourceId) @include(if: $includeResource) {
+    resource: nodeResource(id: $resourceId) @include(if: $includeResource) {
       id
       path
       resourceTypes {

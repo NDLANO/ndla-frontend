@@ -13,7 +13,7 @@ import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_CONCEPT,
 } from "../../constants";
-import { GQLResource, GQLResourceType } from "../../graphqlTypes";
+import { GQLNode, GQLResourceType } from "../../graphqlTypes";
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -24,7 +24,7 @@ export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_CONCEPT]: 6,
 };
 
-type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes">;
+type GQLResourceLike = Pick<GQLNode, "id" | "resourceTypes">;
 
 const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryResources: T[], coreResources: T[]) => {
   const resources = [
@@ -36,7 +36,7 @@ const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryR
       }))
       .filter((resource) => !coreResources.find((core) => core.id === resource.id)), // don't show supp resources that exists in core
   ];
-  return resources.reduce<Record<string, GQLResource[]>>((obj, resource) => {
+  return resources.reduce<Record<string, GQLNode[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map((type) => {
       const existing = obj[type.id] ?? [];
       return { ...type, resources: [...existing, resource] };
@@ -61,7 +61,7 @@ export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
 export interface ResourceTypeWithResources extends GQLResourceType {
   id: string;
   name: string;
-  resources: GQLResource[];
+  resources: GQLNode[];
 }
 
 export const getResourceGroups = <T extends GQLResourceLike>(

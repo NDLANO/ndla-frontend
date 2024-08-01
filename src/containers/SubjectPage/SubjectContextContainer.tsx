@@ -30,14 +30,14 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
+import { GQLSubjectContextContainer_NodeFragment } from "../../graphqlTypes";
 import { removeUrn, useIsNdlaFilm } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
   topicIds: string[];
-  subject: GQLSubjectContainer_SubjectFragment;
+  subject: GQLSubjectContextContainer_NodeFragment;
   loading?: boolean;
 };
 
@@ -74,7 +74,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
+const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
@@ -160,11 +160,13 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             >
               {subject.name}
             </Heading>
-            <SubjectLinks
-              buildsOn={subject.subjectpage?.buildsOn ?? []}
-              connectedTo={subject.subjectpage?.connectedTo ?? []}
-              leadsTo={subject.subjectpage?.leadsTo ?? []}
-            />
+            {
+              <SubjectLinks
+                buildsOn={subject.subjectpage?.buildsOn ?? []}
+                connectedTo={subject.subjectpage?.connectedTo ?? []}
+                leadsTo={subject.subjectpage?.leadsTo ?? []}
+              />
+            }
             {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
           </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
@@ -187,9 +189,13 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   );
 };
 
-export const subjectContainerFragments = {
+export const subjectContextContainerFragments = {
   subject: gql`
-    fragment SubjectContainer_Subject on Node {
+    fragment SubjectContextContainer_Node on Node {
+      id
+      name
+      path
+      url
       supportedLanguages
       metadata {
         customFields
@@ -209,11 +215,15 @@ export const subjectContainerFragments = {
         }
         ...SubjectLinks_Subject
       }
-      ...SubjectPageContent_Node
+      topics: children(nodeType: TOPIC) {
+        id
+        name
+        url
+        path
+      }
     }
     ${SubjectLinks.fragments.links}
-    ${SubjectPageContent.fragments.subject}
   `,
 };
 
-export default SubjectContainer;
+export default SubjectContextContainer;

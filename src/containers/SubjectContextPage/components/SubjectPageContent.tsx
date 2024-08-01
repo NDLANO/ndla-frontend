@@ -12,12 +12,12 @@ import { SimpleBreadcrumbItem } from "@ndla/ui";
 import TopicWrapper from "./TopicWrapper";
 import NavigationBox from "../../../components/NavigationBox";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
-import { GQLSubjectPageContent_NodeFragment } from "../../../graphqlTypes";
+import { GQLSubjectPageContent_SubjectFragment } from "../../../graphqlTypes";
 import { toTopic } from "../../../routeHelpers";
 import { scrollToRef } from "../../../util/pageHelpers";
 
 interface Props {
-  subject: GQLSubjectPageContent_NodeFragment;
+  subject: GQLSubjectPageContent_SubjectFragment;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
@@ -62,7 +62,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
 
 SubjectPageContent.fragments = {
   subject: gql`
-    fragment SubjectPageContent_Node on Node {
+    fragment SubjectPageContent_Subject on Node {
       id
       name
       path

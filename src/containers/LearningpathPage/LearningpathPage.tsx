@@ -18,25 +18,25 @@ import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
+  GQLTaxBase,
   GQLLearningpath,
-  GQLLearningpathPage_NodeFragment,
   GQLLearningpathPage_ResourceFragment,
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_SubjectFragment,
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathStep,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems, TaxonomyCrumb } from "../../routeHelpers";
+import { toBreadcrumbItems } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TaxonomyCrumb[];
+  topicPath: GQLTaxBase[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
-  resource?: GQLLearningpathPage_ResourceFragment | GQLLearningpathPage_NodeFragment;
+  resource?: GQLLearningpathPage_ResourceFragment;
 }
 
 interface Props {
@@ -164,13 +164,13 @@ export const learningpathFragment = gql`
 
 export const learningpathPageFragments = {
   topic: gql`
-    fragment LearningpathPage_Topic on Topic {
+    fragment LearningpathPage_Topic on Node {
       ...Learningpath_Topic
     }
     ${Learningpath.fragments.topic}
   `,
   subject: gql`
-    fragment LearningpathPage_Subject on Subject {
+    fragment LearningpathPage_Subject on Node {
       id
       metadata {
         customFields
@@ -192,19 +192,7 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.resourceType}
   `,
   resource: gql`
-    fragment LearningpathPage_Resource on Resource {
-      id
-      name
-      path
-      url
-      learningpath {
-        ...LearningpathPage_Learningpath
-      }
-    }
-    ${learningpathFragment}
-  `,
-  node: gql`
-    fragment LearningpathPage_Node on Node {
+    fragment LearningpathPage_Resource on Node {
       id
       name
       path

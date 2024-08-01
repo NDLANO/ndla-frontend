@@ -173,18 +173,18 @@ const SubjectTopic = ({
 
 export const topicFragments = {
   subject: gql`
-    fragment Topic_Subject on Subject {
+    fragment Topic_Subject on Node {
       id
       name
     }
   `,
   topic: gql`
-    fragment Topic_Topic on Topic {
+    fragment Topic_Topic on Node {
       id
       path
       name
       relevanceId
-      subtopics {
+      subtopics: children(nodeType: TOPIC) {
         id
         name
         relevanceId

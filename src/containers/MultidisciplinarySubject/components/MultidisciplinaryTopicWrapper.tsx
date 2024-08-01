@@ -15,7 +15,7 @@ import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import {
   GQLMultidisciplinaryTopicWrapperQuery,
   GQLMultidisciplinaryTopicWrapperQueryVariables,
-  GQLMultidisciplinaryTopic_SubjectFragment,
+  GQLTaxBase,
 } from "../../../graphqlTypes";
 import { removeUrn } from "../../../routeHelpers";
 import { useGraphQuery } from "../../../util/runQueries";
@@ -24,7 +24,7 @@ interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  subject: GQLMultidisciplinaryTopic_SubjectFragment;
+  subject: GQLTaxBase;
   setCrumbs: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   disableNav?: boolean;
   index: number;
@@ -38,9 +38,9 @@ const multidisciplinaryTopicWrapperQuery = gql`
     $showSubtopics: Boolean!
     $transformArgs: TransformedArticleContentInput
   ) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
       id
-      subtopics @include(if: $showSubtopics) {
+      subtopics: children(nodeType: TOPIC) @include(if: $showSubtopics) {
         ...MultidisciplinaryArticleList_Topic
       }
       ...MultidisciplinaryTopic_Topic
@@ -112,15 +112,6 @@ const MultidisciplinaryTopicWrapper = ({
       )}
     </>
   );
-};
-
-MultidisciplinaryTopicWrapper.fragments = {
-  subject: gql`
-    fragment MultidisciplinaryTopicWrapper_Subject on Subject {
-      ...MultidisciplinaryTopic_Subject
-    }
-    ${multidisciplinaryTopicFragments.subject}
-  `,
 };
 
 export default MultidisciplinaryTopicWrapper;

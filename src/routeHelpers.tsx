@@ -16,7 +16,7 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLTaxonomyEntity, GQLTaxonomyCrumb } from "./graphqlTypes";
+import { GQLTaxBase } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
 export function toSearch(searchString?: string) {
@@ -147,8 +147,7 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export type TaxonomyCrumb = Pick<GQLTaxonomyCrumb | GQLTaxonomyEntity, "id" | "name" | "path" | "url">;
-export function toBreadcrumbItems(rootName: string, paths: (TaxonomyCrumb | undefined)[]): Breadcrumb[] {
+export function toBreadcrumbItems(rootName: string, paths: (GQLTaxBase | undefined)[]): Breadcrumb[] {
   const safePaths = paths.filter((p) => p !== undefined);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {

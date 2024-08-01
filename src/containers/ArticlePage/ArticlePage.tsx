@@ -23,13 +23,13 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
-  GQLArticlePage_NodeFragment,
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
+  GQLTaxBase,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems, TaxonomyCrumb } from "../../routeHelpers";
+import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
@@ -41,9 +41,9 @@ import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resou
 import Resources from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_NodeFragment;
+  resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
-  topicPath: TaxonomyCrumb[];
+  topicPath: GQLTaxBase[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
@@ -189,7 +189,7 @@ const ArticlePage = ({
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_ResourceFragment | GQLArticlePage_NodeFragment,
+  resource?: GQLArticlePage_ResourceFragment,
   subject?: GQLArticlePage_SubjectFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
@@ -205,9 +205,11 @@ export const articlePageFragments = {
     ${Resources.fragments.resourceType}
   `,
   subject: gql`
-    fragment ArticlePage_Subject on Subject {
+    fragment ArticlePage_Subject on Node {
       id
       name
+      path
+      url
       metadata {
         customFields
       }
@@ -220,29 +222,11 @@ export const articlePageFragments = {
     }
   `,
   resource: gql`
-    fragment ArticlePage_Resource on Resource {
+    fragment ArticlePage_Resource on Node {
       id
       name
       path
-      contentUri
-      article {
-        created
-        updated
-        metaDescription
-        oembed
-        tags
-        ...StructuredArticleData
-        ...Article_Article
-      }
-    }
-    ${structuredArticleDataFragment}
-    ${Article.fragments.article}
-  `,
-  entity: gql`
-    fragment ArticlePage_Node on Node {
-      id
-      name
-      path
+      url
       contentUri
       article {
         created
@@ -258,7 +242,7 @@ export const articlePageFragments = {
     ${Article.fragments.article}
   `,
   topic: gql`
-    fragment ArticlePage_Topic on Topic {
+    fragment ArticlePage_Topic on Node {
       path
       ...Resources_Topic
     }

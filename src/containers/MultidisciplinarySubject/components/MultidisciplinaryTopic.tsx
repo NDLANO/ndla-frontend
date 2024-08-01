@@ -22,10 +22,7 @@ import Topic from "../../../components/Topic/Topic";
 import TopicArticle from "../../../components/Topic/TopicArticle";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import {
-  GQLMultidisciplinaryTopic_SubjectFragment,
-  GQLMultidisciplinaryTopic_TopicFragment,
-} from "../../../graphqlTypes";
+import { GQLMultidisciplinaryTopic_TopicFragment, GQLTaxBase } from "../../../graphqlTypes";
 import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
@@ -38,7 +35,7 @@ interface Props {
   topicId: string;
   subjectId: string;
   subTopicId?: string;
-  subject: GQLMultidisciplinaryTopic_SubjectFragment;
+  subject: GQLTaxBase;
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   loading?: boolean;
   disableNav?: boolean;
@@ -143,9 +140,9 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
 
 export const multidisciplinaryTopicFragments = {
   topic: gql`
-    fragment MultidisciplinaryTopic_Topic on Topic {
+    fragment MultidisciplinaryTopic_Topic on Node {
       path
-      subtopics {
+      subtopics: children(nodeType: TOPIC) {
         id
         name
       }
@@ -178,12 +175,6 @@ export const multidisciplinaryTopicFragments = {
     ${Resources.fragments.topic}
     ${ArticleContents.fragments.article}
     ${TopicVisualElementContent.fragments.metadata}
-  `,
-  subject: gql`
-    fragment MultidisciplinaryTopic_Subject on Subject {
-      id
-      name
-    }
   `,
 };
 

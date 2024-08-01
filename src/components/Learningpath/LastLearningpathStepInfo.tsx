@@ -15,11 +15,12 @@ import { Heading, Text } from "@ndla/typography";
 import { LayoutItem, OneColumn } from "@ndla/ui";
 import Resources from "../../containers/Resources/Resources";
 import {
+  GQLTaxBase,
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
 } from "../../graphqlTypes";
-import { toTopic, TaxonomyCrumb } from "../../routeHelpers";
+import { toTopic } from "../../routeHelpers";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
@@ -42,7 +43,7 @@ const StyledHGroup = styled.div`
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
   subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TaxonomyCrumb[];
+  topicPath?: GQLTaxBase[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
@@ -105,14 +106,14 @@ const LastLearningpathStepInfo = ({
 
 LastLearningpathStepInfo.fragments = {
   topic: gql`
-    fragment LastLearningpathStepInfo_Topic on Topic {
+    fragment LastLearningpathStepInfo_Topic on Node {
       id
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
   `,
   subject: gql`
-    fragment LastLearningpathStepInfo_Subject on Subject {
+    fragment LastLearningpathStepInfo_Subject on Node {
       path
       name
     }

@@ -29,21 +29,23 @@ import { htmlTitle } from "../../util/titleHelper";
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
-    subject(id: $subjectId) {
+    subject: nodeSubject(id: $subjectId) {
+      id
+      name
+      path
+      url
       subjectpage {
         id
         about {
           title
         }
       }
-      topics {
+      topics: children(nodeType: TOPIC) {
         id
         name
       }
-      ...MultidisciplinaryTopicWrapper_Subject
     }
   }
-  ${MultidisciplinaryTopicWrapper.fragments.subject}
 `;
 
 const StyledWrapper = styled.div`

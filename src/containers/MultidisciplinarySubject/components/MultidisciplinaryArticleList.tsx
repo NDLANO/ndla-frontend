@@ -109,7 +109,7 @@ const ListItem = ({ topic, subjects }: ListItemProps) => (
 
 MultidisciplinaryArticleList.fragments = {
   topic: gql`
-    fragment MultidisciplinaryArticleList_Topic on Topic {
+    fragment MultidisciplinaryArticleList_Topic on Node {
       name
       id
       path

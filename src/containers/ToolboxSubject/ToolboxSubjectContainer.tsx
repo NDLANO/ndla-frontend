@@ -174,6 +174,10 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
 export const toolboxSubjectContainerFragments = {
   subject: gql`
     fragment ToolboxSubjectContainer_Subject on Subject {
+      id
+      name
+      path
+      url
       topics {
         name
         id
@@ -192,9 +196,7 @@ export const toolboxSubjectContainerFragments = {
         }
         metaDescription
       }
-      ...ToolboxTopicContainer_Subject
     }
-    ${ToolboxTopicContainer.fragments.subject}
   `,
 };
 

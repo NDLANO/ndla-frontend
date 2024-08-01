@@ -38,7 +38,7 @@ const resourcePageQuery = gql`
     $resourceId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject(id: $subjectId) {
+    subject: nodeSubject(id: $subjectId) {
       ...LearningpathPage_Subject
       ...ArticlePage_Subject
     }
@@ -46,11 +46,11 @@ const resourcePageQuery = gql`
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
       ...LearningpathPage_Topic
       ...ArticlePage_Topic
     }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
+    resource: nodeResource(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
       id
       relevanceId
       paths
