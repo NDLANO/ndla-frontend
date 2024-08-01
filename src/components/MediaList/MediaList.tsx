@@ -25,8 +25,6 @@ import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 
 export const MediaList = styled("ul", {
   base: {
-    listStyle: "none",
-    padding: "0",
     width: "100%",
     "& h3, p ": {
       marginBlockEnd: "3xsmall",
@@ -212,13 +210,6 @@ const StyledMediaListItemMeta = styled("ul", {
   },
 });
 
-const StyledMediaListMetaItem = styled("li", {
-  base: {
-    margin: "0",
-    padding: "0",
-  },
-});
-
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   const attributionItems = items.filter(isAttributionItem);
   const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
@@ -226,9 +217,9 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   return (
     <StyledMediaListItemMeta property="cc:attributionName" content={attributionMeta}>
       {items.map((item) => (
-        <StyledMediaListMetaItem key={item.label}>
+        <li key={item.label}>
           <ItemText item={item} />
-        </StyledMediaListMetaItem>
+        </li>
       ))}
     </StyledMediaListItemMeta>
   );
