@@ -26,6 +26,20 @@ import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 export const MediaList = styled("ul", {
   base: {
     width: "100%",
+
+    "& > li": {
+      paddingBlock: "xlarge",
+      borderBottom: "1px solid",
+      borderColor: "stroke.subtle",
+      _last: {
+        borderBottom: "none",
+        paddingBlockEnd: "0",
+      },
+      _first: {
+        paddingBlockStart: "medium",
+      },
+    },
+
     "& h3, p ": {
       marginBlockEnd: "3xsmall",
     },
@@ -75,16 +89,6 @@ export const MediaListItem = styled("li", {
     flexDirection: "column",
     gap: "medium",
     "& img": { width: "100%" },
-    paddingBlock: "xlarge",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    _last: {
-      borderBottom: "none",
-      paddingBlockEnd: "0",
-    },
-    _first: {
-      paddingBlockStart: "medium",
-    },
   },
 });
 
