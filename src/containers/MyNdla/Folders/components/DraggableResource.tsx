@@ -24,7 +24,6 @@ import {
   GQLFolderResourceMeta,
   GQLFolderResourceResourceType,
 } from "../../../../graphqlTypes";
-import { routes } from "../../../../routeHelpers";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
@@ -192,7 +191,6 @@ const DraggableResource = ({
       <DragWrapper>
         <Resource
           id={resource.id}
-          tagLinkPrefix={routes.myNdla.tags}
           isLoading={loading}
           key={resource.id}
           resourceImage={{
@@ -200,7 +198,6 @@ const DraggableResource = ({
             alt: "",
           }}
           link={resourcePath}
-          tags={resource.tags}
           resourceTypes={resourceTypes}
           title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}

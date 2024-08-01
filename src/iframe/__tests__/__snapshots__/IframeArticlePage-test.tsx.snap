@@ -125,7 +125,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     data-orientation="vertical"
                     data-part="item-indicator"
                     data-scope="accordion"
-                    data-source="Material Design"
+                    data-source="RemixIcon"
                     data-state="closed"
                     dir="ltr"
                     fill="currentColor"
@@ -133,11 +133,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                    />
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
+                      d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
                     />
                   </svg>
                 </button>

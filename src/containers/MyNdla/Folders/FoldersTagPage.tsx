@@ -170,13 +170,11 @@ const Resources = ({ resources }: ResourcesProps) => {
           return (
             <Resource
               id={resource.id}
-              tagLinkPrefix={routes.myNdla.tags}
               isLoading={loading}
               key={resource.id}
               link={resource.path}
               title={meta?.title ?? ""}
               description={viewType !== "list" ? meta?.description ?? "" : undefined}
-              tags={resource.tags}
               resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? "",

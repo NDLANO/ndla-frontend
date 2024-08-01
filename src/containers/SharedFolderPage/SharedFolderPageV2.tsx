@@ -198,11 +198,11 @@ const SharedFolderPageV2 = () => {
               </OptionsWrapper>
             </StyledRow>
             {folder.subfolders.length > 0 && (
-              <BlockWrapper data-type={viewType} data-no-padding={true}>
+              <BlockWrapper data-no-padding={true}>
                 {folder.subfolders.map((subFolder) =>
                   containsFolder(subFolder) ? (
                     <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder folder={subFolder} type={viewType} link={routes.folder(subFolder.id)} />
+                      <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
                     </ListItem>
                   ) : null,
                 )}
@@ -215,13 +215,11 @@ const SharedFolderPageV2 = () => {
                   <ListItem key={resource.id}>
                     <Resource
                       id={resource.id}
-                      tagLinkPrefix={routes.myNdla.tags}
                       resourceImage={{
                         src: resourceMeta?.metaImage?.url ?? "",
                         alt: "",
                       }}
                       link={getResourceMetaPath(resource, resourceMeta)}
-                      tags={resource.tags}
                       resourceTypes={getResourceMetaTypes(resource, resourceMeta)}
                       title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                       description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
