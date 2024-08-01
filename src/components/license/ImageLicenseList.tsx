@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -96,13 +96,12 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicenseButtonWrapper>
-          <MediaListLicense
-            licenseType={image.copyright.license.license}
-            title={t("license.images.rules")}
-            sourceTitle={image.title}
-            sourceType="images"
-          />
+        <MediaListLicense
+          licenseType={image.copyright.license.license}
+          title={t("license.images.rules")}
+          sourceTitle={image.title}
+          sourceType="images"
+        >
           {!isCopyrighted(image.copyright.license.license) && (
             <AddResourceToFolderModal
               resource={{
@@ -114,7 +113,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
               <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
             </AddResourceToFolderModal>
           )}
-        </MediaListLicenseButtonWrapper>
+        </MediaListLicense>
         <Image alt={image.altText} src={image.src} />
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>

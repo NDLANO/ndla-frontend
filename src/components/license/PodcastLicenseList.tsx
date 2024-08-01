@@ -31,7 +31,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -85,13 +85,12 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicenseButtonWrapper>
-          <MediaListLicense
-            licenseType={podcast.copyright.license.license}
-            title={t("license.podcast.rules")}
-            sourceTitle={podcast.title}
-            sourceType="podcast"
-          />
+        <MediaListLicense
+          licenseType={podcast.copyright.license.license}
+          title={t("license.podcast.rules")}
+          sourceTitle={podcast.title}
+          sourceType="podcast"
+        >
           {!isCopyrighted(podcast.copyright.license.license) && (
             <AddResourceToFolderModal
               resource={{
@@ -103,7 +102,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
               <FavoriteButton path={`${config.ndlaFrontendDomain}/podcast/${podcast.id}`} />
             </AddResourceToFolderModal>
           )}
-        </MediaListLicenseButtonWrapper>
+        </MediaListLicense>
         {!isCopyrighted(podcast.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={podcast.src} download variant="secondary">

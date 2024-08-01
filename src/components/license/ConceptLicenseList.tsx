@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
@@ -87,13 +87,12 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicenseButtonWrapper>
-          <MediaListLicense
-            licenseType={concept.copyright?.license?.license ?? ""}
-            title={t(`license.${type}.rules`)}
-            sourceTitle={concept.title}
-            sourceType={type}
-          />
+        <MediaListLicense
+          licenseType={concept.copyright?.license?.license ?? ""}
+          title={t(`license.${type}.rules`)}
+          sourceTitle={concept.title}
+          sourceType={type}
+        >
           {!isCopyrighted(concept.copyright?.license?.license) && (
             <AddResourceToFolderModal
               resource={{
@@ -105,7 +104,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
               <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
             </AddResourceToFolderModal>
           )}
-        </MediaListLicenseButtonWrapper>
+        </MediaListLicense>
         {!isCopyrighted(concept.copyright?.license?.license) && (
           <MediaListItemActions>
             <CopyTextButton

@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
+import { MediaListContent } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
@@ -71,13 +71,12 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicenseButtonWrapper>
-          <MediaListLicense
-            licenseType={video.copyright?.license?.license ?? ""}
-            title={t("license.video.rules")}
-            sourceTitle={video.title}
-            sourceType="video"
-          />
+        <MediaListLicense
+          licenseType={video.copyright?.license?.license ?? ""}
+          title={t("license.video.rules")}
+          sourceTitle={video.title}
+          sourceType="video"
+        >
           {!isCopyrighted(video.copyright?.license.license) && (
             <AddResourceToFolderModal
               resource={{
@@ -89,7 +88,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
               <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
             </AddResourceToFolderModal>
           )}
-        </MediaListLicenseButtonWrapper>
+        </MediaListLicense>
         {video.cover && <Image alt={video.title} src={video.cover} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>

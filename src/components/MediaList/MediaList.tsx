@@ -40,7 +40,7 @@ export const MediaList = styled("ul", {
       },
     },
 
-    "& h3, p ": {
+    "& p ": {
       marginBlockEnd: "3xsmall",
     },
     tabletDown: {
@@ -51,26 +51,34 @@ export const MediaList = styled("ul", {
   },
 });
 
+const MediaListLicenseButtonWrapper = styled("div", {
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "xxlarge" },
+});
+
 interface MediaSourceProps {
   licenseType: string;
   title?: string;
   sourceTitle?: string;
   sourceType?: string;
+  children?: ReactNode;
 }
 
-export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }: MediaSourceProps) => {
+export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, children }: MediaSourceProps) => {
   const { i18n, t } = useTranslation();
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
   const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
   return (
-    <div>
-      {title && (
-        <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
-          <h3>{`${title} "${sourceTitle}"`}</h3>
-        </Heading>
-      )}
+    <>
+      <MediaListLicenseButtonWrapper>
+        {title && (
+          <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
+            <h3>{`${title} "${sourceTitle}"`}</h3>
+          </Heading>
+        )}
+        <div>{children}</div>
+      </MediaListLicenseButtonWrapper>
       {!!description && (
         <Text textStyle="body.medium">
           {`${t(`license.${sourceType}.${licenseRightsText}`)} `}
@@ -79,7 +87,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }
         </Text>
       )}
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
-    </div>
+    </>
   );
 };
 
@@ -93,10 +101,6 @@ export const MediaListItem = styled("li", {
 });
 
 export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
-
-export const MediaListLicenseButtonWrapper = styled("div", {
-  base: { display: "flex", justifyContent: "space-between", "& button": { width: "auto!" } },
-});
 
 interface MediaListItemBodyProps {
   children: ReactNode;

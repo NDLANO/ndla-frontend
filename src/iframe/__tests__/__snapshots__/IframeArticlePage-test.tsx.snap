@@ -217,24 +217,27 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       tabindex="0"
                     >
                       <ul
-                        class="w_100% [&_h3,_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
+                        class="w_100% [&_>_li]:py_xlarge [&_>_li]:bd-b_1px_solid [&_>_li]:bd-c_stroke.subtle [&_>_li]:last:bd-b_none [&_>_li]:last:pbe_0 [&_>_li]:first:pbs_medium [&_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
                       >
                         <li
-                          class="d_flex flex-d_column gap_medium [&_img]:w_100% py_xlarge bd-b_1px_solid bd-c_stroke.subtle last:bd-b_none last:pbe_0 first:pbs_medium"
+                          class="d_flex flex-d_column gap_medium [&_img]:w_100%"
                         >
                           <div
                             class="d_flex flex-d_column gap_xsmall"
                           >
-                            <div>
+                            <div
+                              class="d_flex jc_space-between ai_center min-h_xxlarge"
+                            >
                               <h3
                                 class="textStyle_title.small fw_semibold"
                               >
                                 Regler for bruk av teksten "Politiske skillelinjer"
                               </h3>
-                              <ul
-                                class="emotion-0"
-                              />
+                              <div />
                             </div>
+                            <ul
+                              class="emotion-0"
+                            />
                             <div
                               class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             />
