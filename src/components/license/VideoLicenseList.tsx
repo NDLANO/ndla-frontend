@@ -16,6 +16,7 @@ import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
@@ -96,7 +97,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
-        <img alt={video.title} src={video.cover} />
+        {video.cover && <Image alt={video.title} src={video.cover} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
