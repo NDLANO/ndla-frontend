@@ -8,7 +8,7 @@
 
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Heart, HeartOutline } from "@ndla/icons/action";
+import { HeartFill, HeartLine } from "@ndla/icons/action";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -21,7 +21,7 @@ export interface Props extends Omit<IconButtonProps, "children"> {
 const FavoriteButton = forwardRef<HTMLButtonElement, Props>(({ isFavorite, variant = "tertiary", ...props }, ref) => {
   const { t } = useTranslation();
   const labelModifier = isFavorite ? "added" : "add";
-  const Icon = isFavorite ? Heart : HeartOutline;
+  const Icon = isFavorite ? HeartFill : HeartLine;
   const ariaLabel = props["aria-label"] || t(`myNdla.resource.${labelModifier}ToMyNdla`);
   const title = props["title"] || t(`myNdla.resource.${labelModifier}ToMyNdla`);
 

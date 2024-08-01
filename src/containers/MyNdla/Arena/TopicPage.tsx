@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Eye } from "@ndla/icons/editor";
+import { EyeFill } from "@ndla/icons/editor";
 import { Button, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -58,7 +58,7 @@ const HeaderWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledEye = styled(Eye)`
+const StyledEye = styled(EyeFill)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   margin-left: ${spacing.small};

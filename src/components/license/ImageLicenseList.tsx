@@ -14,8 +14,8 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -126,7 +126,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
       {!isCopyrighted(image.copyright.license.license) && (
         <MediaListItemActions>
           <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
-            <Download />
+            <DownloadLine />
             {t("license.download")}
           </SafeLinkButton>
           <CopyTextButton
@@ -136,7 +136,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
           />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-              <Launch />
+              <ShareBoxLine />
               {t("license.openLink")}
             </SafeLinkButton>
           )}
@@ -157,7 +157,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListRef>

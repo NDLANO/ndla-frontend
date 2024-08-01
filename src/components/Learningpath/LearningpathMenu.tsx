@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { colors, misc, spacing, stackOrder } from "@ndla/core";
-import { LearningPathRead } from "@ndla/icons/contentType";
+import { CheckLine } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { ArticleByline, ContentTypeBadge, constants } from "@ndla/ui";
@@ -98,7 +98,7 @@ const StyledContentTypeBadge = styled(ContentTypeBadge)`
   z-index: ${stackOrder.offsetDouble};
 `;
 
-const StyledRead = styled(LearningPathRead)`
+const StyledRead = styled(CheckLine)`
   position: absolute;
   z-index: ${stackOrder.offsetDouble};
   right: -${spacing.xsmall};

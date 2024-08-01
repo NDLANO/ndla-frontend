@@ -13,8 +13,8 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
@@ -101,7 +101,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         <MediaListItemActions>
           {video.download && (
             <SafeLinkButton to={video.download} download variant="secondary">
-              <Download />
+              <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
           )}
@@ -112,7 +112,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
           />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-              <Launch />
+              <ShareBoxLine />
               {t("license.openLink")}
             </SafeLinkButton>
           )}
@@ -133,7 +133,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListRef>

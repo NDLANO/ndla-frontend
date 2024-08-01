@@ -12,7 +12,7 @@ import { CSS } from "@dnd-kit/utilities";
 import styled from "@emotion/styled";
 import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
 import { Icon } from "@ndla/icons";
-import { Forum, ForumOutlined } from "@ndla/icons/common";
+import { QuestionAnswerFill, QuestionAnswerLine } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import DeleteCategoryModal from "./DeleteCategoryModal";
@@ -111,8 +111,8 @@ const StyledIcon = styled(Icon)`
   }
 `;
 
-const StyledForumOutlined = StyledIcon.withComponent(ForumOutlined);
-const StyledForum = StyledIcon.withComponent(Forum);
+const StyledQuestionAnswerLine = StyledIcon.withComponent(QuestionAnswerLine);
+const StyledQuestionAnswerFill = StyledIcon.withComponent(QuestionAnswerFill);
 
 const RightSideContainer = styled.div`
   display: flex;
@@ -171,8 +171,8 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
           type="category"
           {...attributes}
         />
-        <StyledForumOutlined data-normal-icon="" />
-        <StyledForum data-hover-icon="" />
+        <StyledQuestionAnswerLine data-normal-icon="" />
+        <StyledQuestionAnswerFill data-hover-icon="" />
         <SpacingContainer>
           <div>
             <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>

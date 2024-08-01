@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, misc, spacing } from "@ndla/core";
-import { ArrowDropDownRounded } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import FolderResource from "./FolderResource";
 import { GQLFolder, GQLFolderResourceMetaSearchQuery } from "../../../graphqlTypes";
@@ -67,7 +67,7 @@ const FolderLink = styled(SafeLinkButton)`
   }
 `;
 
-const StyledArrow = styled(ArrowDropDownRounded)`
+const StyledArrow = styled(ArrowDownShortLine)`
   height: 30px;
   width: 30px;
   color: ${colors.text.primary};

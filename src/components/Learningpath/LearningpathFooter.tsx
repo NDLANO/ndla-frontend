@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { animations, breakpoints, colors, mq, spacing, stackOrder } from "@ndla/core";
-import { Back, Forward } from "@ndla/icons/common";
+import { ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
 import { LearningPath } from "@ndla/icons/contentType";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
@@ -146,7 +146,7 @@ const LearningpathFooter = ({
             to={toLearningPath(learningPath.id, previousStep.id, resource)}
             aria-label={t("learningPath.previousArrow")}
           >
-            <Back />
+            <ArrowLeftLine />
             <LinkText>{previousStep.title}</LinkText>
           </StyledSafeLink>
         ) : (
@@ -161,7 +161,7 @@ const LearningpathFooter = ({
             aria-label={t("learningPath.nextArrow")}
           >
             <LinkText>{nextStep.title}</LinkText>
-            <Forward />
+            <ArrowRightLine />
           </StyledSafeLink>
         ) : (
           <div />

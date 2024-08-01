@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
-import { HumanMaleBoard } from "@ndla/icons/common";
+import { PresentationLine } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
 import { Button, Spinner } from "@ndla/primitives";
 import { ErrorMessage, OneColumn } from "@ndla/ui";
@@ -184,7 +184,7 @@ const SharedFolderPage = () => {
         {!selectors?.isMobile ? (
           <DesktopPadding>
             <InfoBox>
-              <HumanMaleBoard />
+              <PresentationLine />
               <span>
                 {t("myNdla.sharedFolder.shared", {
                   sharedBy: folder.owner?.name ?? t("myNdla.sharedFolder.aTeacher"),
@@ -232,7 +232,7 @@ const SharedFolderPage = () => {
         {!selectedResource && selectors?.isMobile && (
           <LandingPageMobileWrapper>
             <InfoBox>
-              <HumanMaleBoard />
+              <PresentationLine />
               <span>
                 {t("myNdla.sharedFolder.shared", {
                   sharedBy: folder.owner?.name ?? t("myNdla.sharedFolder.aTeacher"),

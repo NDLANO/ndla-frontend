@@ -9,8 +9,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileDocumentOutline, Share } from "@ndla/icons/common";
-import { FolderOutlined } from "@ndla/icons/contentType";
+import { FileTextLine, ShareFill } from "@ndla/icons/common";
+import { FolderLine } from "@ndla/icons/editor";
 import { ContentLoader } from "@ndla/ui";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -64,13 +64,13 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
       <ResourceCountContainer>
         {selectedFolder?.status === "shared" && (
           <>
-            <Share />
+            <ShareFill />
             <span>{t("myNdla.folder.sharing.shared")}</span>
           </>
         )}
         {folders && (
           <>
-            <FolderOutlined />
+            <FolderLine />
             <span>
               <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
                 {t("myNdla.folders", {
@@ -82,7 +82,7 @@ const FolderAndResourceCount = ({ folders, selectedFolder, hasSelectedFolder, fo
         )}
         {hasSelectedFolder && (
           <>
-            <FileDocumentOutline />
+            <FileTextLine />
             <span>
               <WhileLoading isLoading={loading} fallback={<CountLoadingShimmer />}>
                 {t("myNdla.resources", {

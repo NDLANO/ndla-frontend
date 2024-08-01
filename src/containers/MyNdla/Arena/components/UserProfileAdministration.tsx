@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
@@ -81,7 +81,7 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
         >
           <CheckboxControl>
             <CheckboxIndicator asChild>
-              <Done />
+              <CheckLine />
             </CheckboxIndicator>
           </CheckboxControl>
           <CheckboxLabel>

@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons/action";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -144,7 +144,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
             >
               <span>{sharedFolderLink(folder.id)}</span>
               <div>
-                <Copy />
+                <FileCopyLine />
               </div>
             </CopyLinkButton>
           </Tooltip>

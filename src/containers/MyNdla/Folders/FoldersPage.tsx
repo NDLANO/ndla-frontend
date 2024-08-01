@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { FileDocumentOutline, HashTag } from "@ndla/icons/common";
+import { FileTextLine, HashTag } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -236,7 +236,7 @@ const FoldersPage = () => {
         />
         {!!selectedFolder?.resources.length && (
           <ResourceCountContainer>
-            <FileDocumentOutline />
+            <FileTextLine />
             <span>
               {t("myNdla.resources", {
                 count: selectedFolder?.resources.length,

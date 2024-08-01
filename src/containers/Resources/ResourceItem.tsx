@@ -10,7 +10,7 @@ import { CSSProperties, ReactNode, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
-import { Additional, Core, HumanMaleBoard } from "@ndla/icons/common";
+import { Additional, Core, PresentationLine } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { ContentTypeBadge, constants } from "@ndla/ui";
@@ -231,7 +231,7 @@ const ResourceItem = ({
             aria-label={t("article.access.onlyTeacher")}
             title={t("article.access.onlyTeacher")}
           >
-            <HumanMaleBoard />
+            <PresentationLine />
           </IconWrapper>
         )}
         {showAdditionalResources && contentTypeDescription && (

@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { Additional, HumanMaleBoard } from "@ndla/icons/common";
+import { Additional, PresentationLine } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading } from "@ndla/typography";
 
@@ -143,7 +143,7 @@ export const NavigationBox = ({ heading, colorMode = "primary", items, listDirec
                     {item.isAdditionalResource && (
                       <Additional aria-label={t("resource.additionalTooltip")} aria-hidden={false} />
                     )}
-                    {item.isRestrictedResource && <HumanMaleBoard />}
+                    {item.isRestrictedResource && <PresentationLine />}
                   </StyledMarksWrapper>
                   <StyledSpan>{item.label}</StyledSpan>
                 </StyledButtonContentText>
