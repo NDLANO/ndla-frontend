@@ -15,7 +15,6 @@ import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
