@@ -21,7 +21,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import FavoriteButton from "../../components/Article/FavoritesButton";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
@@ -34,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper } from "../MediaList/MediaList";
+import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -114,7 +113,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 resourceType: "image",
               }}
             >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>

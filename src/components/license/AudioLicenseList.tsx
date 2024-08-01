@@ -20,7 +20,6 @@ import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import FavoriteButton from "../../components/Article/FavoritesButton";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
@@ -33,7 +32,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { ContentWrapper } from "../MediaList/MediaList";
+import { ContentWrapper, StyledFavoriteButton } from "../MediaList/MediaList";
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
@@ -103,7 +102,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 resourceType: "audio",
               }}
             >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+              <StyledFavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
             </AddResourceToFolderModal>
           )}
         </LicenseAndButtonWrapper>
