@@ -104,10 +104,6 @@ interface MediaListItemBodyProps {
   resourceType?: "video" | "image" | "audio" | "text" | "h5p" | "podcast";
 }
 
-const StyledMediaListItemBody = styled("div", {
-  base: { tablet: { maxWidth: "70%" }, desktop: { maxWidth: "75%" } },
-});
-
 const StyledSpan = styled("span", { base: { display: "none" } });
 
 export const MediaListItemBody = ({
@@ -129,11 +125,11 @@ export const MediaListItemBody = ({
   const metaResourceType = getResourceTypeNamespace(resourceType);
 
   return (
-    <StyledMediaListItemBody {...containerProps}>
+    <div {...containerProps}>
       {/* @ts-ignore */}
       {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
-    </StyledMediaListItemBody>
+    </div>
   );
 };
 
