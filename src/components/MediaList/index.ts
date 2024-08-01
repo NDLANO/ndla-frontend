@@ -10,7 +10,6 @@ export {
   MediaListItem,
   MediaListItemBody,
   MediaListItemActions,
-  MediaListItemImage,
   MediaListItemMeta,
   MediaListLicense,
 } from "./MediaList";

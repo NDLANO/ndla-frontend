@@ -11,15 +11,13 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import CopyTextButton from "./CopyTextButton";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef } from "./licenseStyles";
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
@@ -36,17 +34,14 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
+import { ContentWrapper } from "../MediaList/MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
   type: "gloss" | "concept";
 }
 
-const LicenseAndButtonWrapper = styled.div`
-  display: flex;
-  align-items: start;
-  gap: ${spacing.xsmall};
-`;
+const LicenseAndButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -94,47 +89,49 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <LicenseAndButtonWrapper>
-        <MediaListLicense
-          licenseType={concept.copyright?.license?.license ?? ""}
-          title={t(`license.${type}.rules`)}
-          sourceTitle={concept.title}
-          sourceType={type}
-        />
-        {!isCopyrighted(concept.copyright?.license?.license) && (
-          <AddResourceToFolderModal
-            resource={{
-              id: concept.id,
-              path: `${config.ndlaFrontendDomain}/concept/${concept.id}`,
-              resourceType: "concept",
-            }}
-          >
-            <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
-          </AddResourceToFolderModal>
-        )}
-      </LicenseAndButtonWrapper>
-      {!isCopyrighted(concept.copyright?.license?.license) && (
-        <MediaListItemActions>
-          <CopyTextButton
-            stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
-            copyTitle={t("license.embed")}
-            hasCopiedTitle={t("license.embedCopied")}
+      <ContentWrapper>
+        <LicenseAndButtonWrapper>
+          <MediaListLicense
+            licenseType={concept.copyright?.license?.license ?? ""}
+            title={t(`license.${type}.rules`)}
+            sourceTitle={concept.title}
+            sourceType={type}
           />
-          {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
-              <Launch />
-              {t("license.openLink")}
-            </SafeLinkButton>
+          {!isCopyrighted(concept.copyright?.license?.license) && (
+            <AddResourceToFolderModal
+              resource={{
+                id: concept.id,
+                path: `${config.ndlaFrontendDomain}/concept/${concept.id}`,
+                resourceType: "concept",
+              }}
+            >
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+            </AddResourceToFolderModal>
           )}
-        </MediaListItemActions>
-      )}
+        </LicenseAndButtonWrapper>
+        {!isCopyrighted(concept.copyright?.license?.license) && (
+          <MediaListItemActions>
+            <CopyTextButton
+              stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
+              copyTitle={t("license.embed")}
+              hasCopiedTitle={t("license.embedCopied")}
+            />
+            {shouldShowLink && (
+              <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
+                <Launch />
+                {t("license.openLink")}
+              </SafeLinkButton>
+            )}
+          </MediaListItemActions>
+        )}
+      </ContentWrapper>
       <MediaListItemBody
         license={concept.copyright?.license?.license ?? ""}
         resourceUrl={concept.src}
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <MediaListRef>
+          <ContentWrapper>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(concept.copyright?.license?.license) && !!copyText && (
               <CopyTextButton
@@ -145,7 +142,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 <Copy />
               </CopyTextButton>
             )}
-          </MediaListRef>
+          </ContentWrapper>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
