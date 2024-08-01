@@ -22,7 +22,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
 import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
-import FavoriteButton from "../../components/Article/FavoritesButton";
 
 export const MediaList = styled("ul", {
   base: {
@@ -39,8 +38,6 @@ export const MediaList = styled("ul", {
     },
   },
 });
-
-export const MediaListFavoriteButton = styled(FavoriteButton, { base: { width: "auto!" } });
 
 interface MediaSourceProps {
   licenseType: string;
@@ -94,6 +91,10 @@ export const MediaListItem = styled("li", {
 });
 
 export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+
+export const MediaListLicenseButtonWrapper = styled("div", {
+  base: { display: "flex", justifyContent: "space-between", "& button": { width: "auto!" } },
+});
 
 interface MediaListItemBodyProps {
   children: ReactNode;

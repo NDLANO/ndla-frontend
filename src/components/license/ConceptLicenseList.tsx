@@ -15,7 +15,6 @@ import { Copy } from "@ndla/icons/action";
 import { Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import CopyTextButton from "./CopyTextButton";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
@@ -24,6 +23,7 @@ import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -33,14 +33,12 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
   type: "gloss" | "concept";
 }
-
-const LicenseAndButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -89,7 +87,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <LicenseAndButtonWrapper>
+        <MediaListLicenseButtonWrapper>
           <MediaListLicense
             licenseType={concept.copyright?.license?.license ?? ""}
             title={t(`license.${type}.rules`)}
@@ -104,10 +102,10 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 resourceType: "concept",
               }}
             >
-              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
             </AddResourceToFolderModal>
           )}
-        </LicenseAndButtonWrapper>
+        </MediaListLicenseButtonWrapper>
         {!isCopyrighted(concept.copyright?.license?.license) && (
           <MediaListItemActions>
             <CopyTextButton

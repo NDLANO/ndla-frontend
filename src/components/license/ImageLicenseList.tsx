@@ -17,13 +17,13 @@ import { Download, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);
@@ -46,8 +46,6 @@ export const downloadUrl = (imageSrc: string) => {
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
 }
-
-const LicenseAndButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -98,7 +96,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <LicenseAndButtonWrapper>
+        <MediaListLicenseButtonWrapper>
           <MediaListLicense
             licenseType={image.copyright.license.license}
             title={t("license.images.rules")}
@@ -113,10 +111,10 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 resourceType: "image",
               }}
             >
-              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
             </AddResourceToFolderModal>
           )}
-        </LicenseAndButtonWrapper>
+        </MediaListLicenseButtonWrapper>
         <Image alt={image.altText} src={image.src} />
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>

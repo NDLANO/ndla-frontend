@@ -15,13 +15,13 @@ import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -31,13 +31,11 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
 }
-
-const LicenseAndButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -87,7 +85,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <LicenseAndButtonWrapper>
+        <MediaListLicenseButtonWrapper>
           <MediaListLicense
             licenseType={podcast.copyright.license.license}
             title={t("license.podcast.rules")}
@@ -102,10 +100,10 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 resourceType: "podcast",
               }}
             >
-              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/podcast/${podcast.id}`} />
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/podcast/${podcast.id}`} />
             </AddResourceToFolderModal>
           )}
-        </LicenseAndButtonWrapper>
+        </MediaListLicenseButtonWrapper>
         {!isCopyrighted(podcast.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={podcast.src} download variant="secondary">

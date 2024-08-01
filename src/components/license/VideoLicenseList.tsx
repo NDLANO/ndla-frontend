@@ -11,8 +11,6 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Copy } from "@ndla/icons/action";
 import { Download, Launch } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
@@ -25,6 +23,7 @@ import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -34,17 +33,11 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
 }
-
-const LicenseAndButtonWrapper = styled.div`
-  display: flex;
-  align-items: start;
-  gap: ${spacing.xsmall};
-`;
 
 const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -78,7 +71,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <LicenseAndButtonWrapper>
+        <MediaListLicenseButtonWrapper>
           <MediaListLicense
             licenseType={video.copyright?.license?.license ?? ""}
             title={t("license.video.rules")}
@@ -93,10 +86,10 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
                 resourceType: "video",
               }}
             >
-              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
             </AddResourceToFolderModal>
           )}
-        </LicenseAndButtonWrapper>
+        </MediaListLicenseButtonWrapper>
         {video.cover && <Image alt={video.title} src={video.cover} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>

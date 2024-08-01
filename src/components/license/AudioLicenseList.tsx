@@ -23,6 +23,7 @@ import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -32,13 +33,11 @@ import {
   ItemType,
   MediaListLicense,
 } from "../MediaList";
-import { MediaListContent, MediaListFavoriteButton } from "../MediaList/MediaList";
+import { MediaListContent, MediaListLicenseButtonWrapper } from "../MediaList/MediaList";
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
 }
-
-const LicenseAndButtonWrapper = styled("div", { base: { display: "flex", justifyContent: "space-between" } });
 
 const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -87,7 +86,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <LicenseAndButtonWrapper>
+        <MediaListLicenseButtonWrapper>
           <MediaListLicense
             licenseType={audio.copyright.license.license}
             title={t("license.audio.rules")}
@@ -102,10 +101,10 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 resourceType: "audio",
               }}
             >
-              <MediaListFavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
             </AddResourceToFolderModal>
           )}
-        </LicenseAndButtonWrapper>
+        </MediaListLicenseButtonWrapper>
         {!isCopyrighted(audio.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={audio.src} download variant="secondary">
