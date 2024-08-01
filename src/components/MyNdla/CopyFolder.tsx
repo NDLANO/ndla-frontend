@@ -104,8 +104,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
                 e.preventDefault();
               }}
               onClick={onSave}
-              aria-live="polite"
-              aria-label={copySharedFolderMutation.loading ? t("loading") : ""}
+              aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
             >
               {t("myNdla.resource.save")}
             </Button>

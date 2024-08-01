@@ -120,7 +120,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         <ModalCloseButton>
           <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
-        <Button loading={loading} type="submit" aria-live="polite" aria-label={loading ? t("loading") : ""}>
+        <Button loading={loading} disabled={loading} type="submit" aria-label={loading ? t("loading") : undefined}>
           {t("save")}
         </Button>
       </ButtonRow>

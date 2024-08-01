@@ -182,7 +182,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   };
 
   const noFolderSelected = selectedFolderId === "folders";
-
+  const disabledButton = !canSave || noFolderSelected || examLock;
   return (
     <AddResourceContainer>
       <ListResource
@@ -287,9 +287,8 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         <Button
           onClick={onSave}
           loading={addResourceLoading}
-          disabled={!canSave || noFolderSelected || examLock}
-          aria-live="polite"
-          aria-label={addResourceLoading ? t("loading") : ""}
+          disabled={disabledButton}
+          aria-label={addResourceLoading ? t("loading") : undefined}
           onMouseDown={(e) => {
             e.preventDefault();
           }}
