@@ -41,6 +41,7 @@ const StyledHGroup = styled.div`
 `;
 
 interface Props {
+  resourceId?: string;
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
   subject?: GQLLastLearningpathStepInfo_SubjectFragment;
   topicPath?: GQLTaxBase[];
@@ -50,6 +51,7 @@ interface Props {
   title: string;
 }
 const LastLearningpathStepInfo = ({
+  resourceId,
   topic,
   subject,
   topicPath,
@@ -97,7 +99,16 @@ const LastLearningpathStepInfo = ({
           )}
         </LinksWrapper>
         {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
-          <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
+          <Resources
+            headingType="h2"
+            key="resources"
+            topicId={topic.id}
+            subjectId={subject?.id}
+            resourceId={resourceId}
+            resourceTypes={resourceTypes}
+            topic={topic}
+            subHeadingType="h3"
+          />
         )}
       </LayoutItem>
     </StyledOneColumn>
@@ -114,6 +125,7 @@ LastLearningpathStepInfo.fragments = {
   `,
   subject: gql`
     fragment LastLearningpathStepInfo_Subject on Node {
+      id
       path
       name
     }

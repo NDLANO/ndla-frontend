@@ -2427,7 +2427,12 @@ export type GQLLastLearningpathStepInfo_TopicFragment = {
   id: string;
 } & GQLResources_TopicFragment;
 
-export type GQLLastLearningpathStepInfo_SubjectFragment = { __typename?: "Node"; path: string; name: string };
+export type GQLLastLearningpathStepInfo_SubjectFragment = {
+  __typename?: "Node";
+  id: string;
+  path: string;
+  name: string;
+};
 
 export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -2765,7 +2770,11 @@ export type GQLArticlePage_ResourceFragment = {
     GQLArticle_ArticleFragment;
 };
 
-export type GQLArticlePage_TopicFragment = { __typename?: "Node"; path: string } & GQLResources_TopicFragment;
+export type GQLArticlePage_TopicFragment = {
+  __typename?: "Node";
+  id: string;
+  path: string;
+} & GQLResources_TopicFragment;
 
 export type GQLAllMoviesQueryVariables = Exact<{
   resourceTypes: Scalars["String"]["input"];
@@ -4589,6 +4598,16 @@ export type GQLResources_TopicFragment = {
   coreResources?: Array<{ __typename?: "Node" } & GQLResources_ResourceFragment>;
   supplementaryResources?: Array<{ __typename?: "Node" } & GQLResources_ResourceFragment>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+};
+
+export type GQLResourcesQueryQueryVariables = Exact<{
+  topicId: Scalars["String"]["input"];
+  subjectId: Scalars["String"]["input"];
+}>;
+
+export type GQLResourcesQueryQuery = {
+  __typename?: "Query";
+  topic?: { __typename?: "Node" } & GQLResources_TopicFragment;
 };
 
 export type GQLSharedResourceArticlePageQueryVariables = Exact<{

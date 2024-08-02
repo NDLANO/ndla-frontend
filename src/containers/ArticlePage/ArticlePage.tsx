@@ -48,12 +48,14 @@ interface Props {
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
+  topicId?: string;
   loading?: boolean;
   skipToContentId?: string;
 }
 
 const ArticlePage = ({
   resource,
+  topicId,
   topicPath,
   topic,
   resourceTypes,
@@ -119,7 +121,15 @@ const ArticlePage = ({
           //@ts-ignore
           status={error?.status}
         >
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
+          <Resources
+            topicId={topicId}
+            subjectId={subject?.id}
+            resourceId={resource?.id}
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h2"
+            subHeadingType="h3"
+          />
         </ArticleErrorMessage>
       </div>
     );
@@ -176,11 +186,17 @@ const ArticlePage = ({
             oembed={article.oembed}
             {...getArticleProps(resource, topic)}
           />
-          {topic && (
-            <LayoutItem layout="extend">
-              <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-            </LayoutItem>
-          )}
+          <LayoutItem layout="extend">
+            <Resources
+              topicId={topicId}
+              subjectId={subject?.id}
+              resourceId={resource?.id}
+              topic={topic}
+              resourceTypes={resourceTypes}
+              headingType="h2"
+              subHeadingType="h3"
+            />
+          </LayoutItem>
         </OneColumn>
       </ContentTypeHero>
     </main>
@@ -243,6 +259,7 @@ export const articlePageFragments = {
   `,
   topic: gql`
     fragment ArticlePage_Topic on Node {
+      id
       path
       ...Resources_Topic
     }

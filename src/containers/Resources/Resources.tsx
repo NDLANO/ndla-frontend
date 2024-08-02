@@ -22,16 +22,20 @@ import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolde
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
+  GQLResourcesQueryQuery,
   GQLResources_ResourceFragment,
   GQLResources_ResourceTypeDefinitionFragment,
   GQLResources_TopicFragment,
 } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
+import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
-  topic: GQLResources_TopicFragment;
+  topicId?: string;
+  subjectId?: string;
+  resourceId?: string;
+  topic?: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
@@ -49,31 +53,32 @@ const StyledSection = styled.section`
   padding-bottom: ${spacing.normal};
 `;
 
-const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
-  const { resourceId } = useUrnIds();
+const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
 
   const resourcesTopicId = useId();
+  let localTopic = topic;
 
   const isGrouped = useMemo(
     () =>
-      topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-    [topic?.metadata?.customFields],
+      localTopic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
+      TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+    [localTopic?.metadata?.customFields],
   );
 
   const { coreResources, supplementaryResources, sortedResources } = useMemo(() => {
-    const core = topic.coreResources ?? [];
-    const supp = (topic.supplementaryResources ?? [])
+    const core = localTopic?.coreResources ?? [];
+    const supp = (localTopic?.supplementaryResources ?? [])
       .map((r) => ({ ...r, additional: true }))
-      .filter((r) => !topic.coreResources?.find((c) => c.id === r.id));
+      .filter((r) => !localTopic?.coreResources?.find((c) => c.id === r.id));
 
     return {
       coreResources: core,
       supplementaryResources: supp,
       sortedResources: sortBy(core.concat(supp), (res) => res.rank),
     };
-  }, [topic.coreResources, topic.supplementaryResources]);
+  }, [localTopic?.coreResources, localTopic?.supplementaryResources]);
 
   const { groupedResources, ungroupedResources } = useMemo(() => {
     if (isGrouped) {
@@ -117,6 +122,26 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
     });
   }, []);
 
+  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+    skip: topic !== undefined || (!topicId && !subjectId),
+    variables: {
+      topicId: topicId,
+      subjectId: subjectId,
+    },
+  });
+
+  if (loading) {
+    return null;
+  }
+
+  if (error) {
+    return null;
+  }
+
+  if (!topic && data?.topic) {
+    localTopic = data.topic;
+  }
+
   if (!sortedResources.length) {
     return null;
   }
@@ -127,7 +152,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
         headingId={resourcesTopicId}
         heading={headingType}
         title={t("resource.label")}
-        subTitle={topic.name}
+        subTitle={topic?.name}
         toggleAdditionalResources={toggleAdditionalResources}
         showAdditionalResources={showAdditionalResources}
         hasAdditionalResources={supplementaryResources.length > 0}
@@ -235,5 +260,14 @@ Resources.fragments = {
     ${resourceFragment}
   `,
 };
+
+const resourcesQuery = gql`
+  query resourcesQuery($topicId: String!, $subjectId: String!) {
+    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+      ...Resources_Topic
+    }
+  }
+  ${Resources.fragments.topic}
+`;
 
 export default Resources;

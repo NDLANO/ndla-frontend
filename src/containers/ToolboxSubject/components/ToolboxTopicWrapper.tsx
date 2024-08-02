@@ -77,10 +77,19 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
+      return (
+        <Resources
+          topicId={topic.id}
+          subjectId={subject?.id}
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h2"
+          subHeadingType="h3"
+        />
+      );
     }
     return null;
-  }, [resourceTypes, topic]);
+  }, [resourceTypes, topic, subject]);
 
   if (!topic.article) {
     return null;

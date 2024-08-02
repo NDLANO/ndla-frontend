@@ -31,15 +31,16 @@ import {
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
 
 interface Props {
+  breadcrumbItems: BreadcrumbType[];
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
+  path?: string;
+  resourceId?: string;
+  resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
+  skipToContentId?: string;
+  subject?: GQLLearningpath_SubjectFragment;
   topic?: GQLLearningpath_TopicFragment;
   topicPath?: GQLTaxBase[];
-  resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  subject?: GQLLearningpath_SubjectFragment;
-  path?: string;
-  skipToContentId?: string;
-  breadcrumbItems: BreadcrumbType[];
 }
 
 const StyledHeroContent = styled(HeroContent)`
@@ -79,15 +80,16 @@ const LearningPathWrapper = styled.section`
 `;
 
 const Learningpath = ({
+  breadcrumbItems,
   learningpath,
   learningpathStep,
   path,
-  topic,
-  subject,
-  topicPath,
+  resourceId,
   resourceTypes,
   skipToContentId,
-  breadcrumbItems,
+  subject,
+  topic,
+  topicPath,
 }: Props) => {
   const { t, i18n } = useTranslation();
 
@@ -146,6 +148,7 @@ const Learningpath = ({
               numberOfLearningSteps={learningpath.learningsteps.length - 1}
               title={learningpath.title}
               subject={subject}
+              resourceId={resourceId}
             />
           </LearningPathContent>
         )}

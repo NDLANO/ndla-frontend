@@ -118,6 +118,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
+        resourceId={resource.id}
         path={resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}

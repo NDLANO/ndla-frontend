@@ -113,7 +113,14 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           oembed={article.oembed}
         />
         <div ref={resourcesRef}>
-          <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+          <Resources
+            topicId={topic.id}
+            subjectId={subject.id}
+            topic={topic}
+            resourceTypes={resourceTypes}
+            headingType="h2"
+            subHeadingType="h3"
+          />
         </div>
       </OneColumn>
     </main>

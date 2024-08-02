@@ -183,6 +183,7 @@ const ResourceContextPage = () => {
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={node}
       //topic={data.topic}
+      topicId={data.node.context?.parentIds?.slice(-1)?.[0]}
       topicPath={topicPath}
       relevance={relevance}
       subject={{ id: data.node.id, name: data.node.name, path: data.node.path, metadata: { customFields: [] } }}

@@ -100,10 +100,19 @@ const SubjectTopic = ({
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
+      return (
+        <Resources
+          topicId={topic.id}
+          subjectId={subject?.id}
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h2"
+          subHeadingType="h3"
+        />
+      );
     }
     return null;
-  }, [resourceTypes, topic]);
+  }, [resourceTypes, topic, subject]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
