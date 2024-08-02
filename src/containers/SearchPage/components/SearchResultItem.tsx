@@ -47,6 +47,7 @@ const LtiWrapper = styled("div", {
   },
 });
 
+// TODO: Should this styling be updated?
 const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
 
 const FullHeightListElement = styled("li", { base: { height: "100%" } });
@@ -83,6 +84,7 @@ const SearchResultItem = ({ item, type }: Props) => {
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle>{t("searchPage.contextModal.heading")}</DialogTitle>
+                    {/* TODO: Replace with DialogCloseButton */}
                     <DialogCloseTrigger asChild>
                       <IconButton variant="clear">
                         <Cross />

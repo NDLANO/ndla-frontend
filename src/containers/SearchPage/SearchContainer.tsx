@@ -129,7 +129,7 @@ const SearchContainer = ({
     url: "",
   }));
 
-  const displaySubjectItems = subjectItems && subjectItems?.length > 0 && !subjectIds.length;
+  const displaySubjectItems = !!subjectItems?.length && !subjectIds.length;
   const toCountSubjectItems = typeFilter["subject"] ? typeFilter["subject"].page * typeFilter["subject"].pageSize : 0;
 
   return (

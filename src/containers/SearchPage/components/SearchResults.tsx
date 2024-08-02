@@ -84,9 +84,7 @@ interface Props {
 export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSubFilterClick, loading }: Props) => {
   const groupFilter = typeFilter[group.type];
   const filters =
-    groupFilter?.filters
-      .filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all")
-      .map((v) => ({ value: v.id, label: v.name })) ?? [];
+    groupFilter?.filters.filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all") ?? [];
   const toCount = groupFilter ? groupFilter?.page * groupFilter.pageSize : 0;
 
   return (
@@ -100,13 +98,13 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
       {groupFilter?.filters.length ? (
         <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
           {filters.map((filter) => (
-            <CheckboxRoot key={filter.value} value={filter.value} variant="chip">
+            <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
               <CheckboxControl>
                 <CheckboxIndicator asChild>
                   <CheckLine />
                 </CheckboxIndicator>
               </CheckboxControl>
-              <CheckboxLabel>{filter.label}</CheckboxLabel>
+              <CheckboxLabel>{filter.name}</CheckboxLabel>
               <CheckboxHiddenInput />
             </CheckboxRoot>
           ))}
