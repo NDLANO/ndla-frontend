@@ -10,7 +10,6 @@ import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
@@ -121,9 +120,9 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         <ModalCloseButton>
           <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
-        <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={loading}>
+        <Button loading={loading} disabled={loading} type="submit" aria-label={loading ? t("loading") : undefined}>
           {t("save")}
-        </LoadingButton>
+        </Button>
       </ButtonRow>
     </StyledForm>
   );

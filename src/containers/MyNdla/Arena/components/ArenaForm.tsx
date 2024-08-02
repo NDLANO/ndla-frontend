@@ -10,7 +10,6 @@ import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
 import { InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -25,6 +24,7 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
+  Button,
 } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
@@ -219,9 +219,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
       </InformationLabel>
       <ButtonRow>
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
-        <LoadingButton colorTheme="primary" type="submit">
-          {t("myNdla.arena.publish")}
-        </LoadingButton>
+        <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </ButtonRow>
     </StyledForm>
   );

@@ -14,7 +14,6 @@ import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
@@ -183,7 +182,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   };
 
   const noFolderSelected = selectedFolderId === "folders";
-
+  const disabledButton = !canSave || noFolderSelected || examLock;
   return (
     <AddResourceContainer>
       <ListResource
@@ -285,11 +284,11 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("cancel")}
         </Button>
-        <LoadingButton
-          loading={addResourceLoading}
-          colorTheme="light"
-          disabled={!canSave || addResourceLoading || noFolderSelected || examLock}
+        <Button
           onClick={onSave}
+          loading={addResourceLoading}
+          disabled={disabledButton}
+          aria-label={addResourceLoading ? t("loading") : undefined}
           onMouseDown={(e) => {
             e.preventDefault();
           }}
@@ -298,7 +297,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           }}
         >
           {t("myNdla.resource.save")}
-        </LoadingButton>
+        </Button>
       </ButtonRow>
     </AddResourceContainer>
   );

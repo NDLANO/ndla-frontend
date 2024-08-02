@@ -8,7 +8,6 @@
 
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LoadingButton } from "@ndla/button";
 import { InformationLine, AlertLine } from "@ndla/icons/common";
 import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
 import { Button, Text, MessageBox } from "@ndla/primitives";
@@ -95,10 +94,9 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             >
               {t("cancel")}
             </Button>
-            <LoadingButton
+            <Button
               loading={copySharedFolderMutation.loading}
-              colorTheme="light"
-              disabled={examLock || copySharedFolderMutation.loading}
+              disabled={examLock}
               onMouseDown={(e) => {
                 e.preventDefault();
               }}
@@ -106,9 +104,10 @@ const CopyFolder = ({ folder, onClose }: Props) => {
                 e.preventDefault();
               }}
               onClick={onSave}
+              aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
             >
               {t("myNdla.resource.save")}
-            </LoadingButton>
+            </Button>
           </ButtonRow>
         </AddResourceContainer>
       </ModalBody>
