@@ -8,8 +8,6 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, mq, spacing } from "@ndla/core";
 import {
   COPYRIGHTED,
   getLicenseByAbbreviation,
@@ -19,100 +17,90 @@ import {
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
 import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 
-export const MediaList = styled.ul`
-  padding-left: 0;
-  display: flex;
-  flex-direction: column;
-  margin: ${spacing.normal} 0;
-`;
+export const MediaList = styled("ul", {
+  base: {
+    width: "100%",
+
+    "& > li": {
+      paddingBlock: "xlarge",
+      borderBottom: "1px solid",
+      borderColor: "stroke.subtle",
+      _last: {
+        borderBottom: "none",
+        paddingBlockEnd: "0",
+      },
+      _first: {
+        paddingBlockStart: "medium",
+      },
+    },
+
+    "& p ": {
+      marginBlockEnd: "3xsmall",
+    },
+    tabletDown: {
+      "& button, a": {
+        width: "100%",
+      },
+    },
+  },
+});
+
+const MediaListLicenseButtonWrapper = styled("div", {
+  base: { display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "xxlarge" },
+});
 
 interface MediaSourceProps {
   licenseType: string;
   title?: string;
   sourceTitle?: string;
   sourceType?: string;
+  children?: ReactNode;
 }
 
-const MediaLicenseContainer = styled.div`
-  padding-bottom: ${spacing.normal};
-`;
-
-const BodyTitle = styled(Text)`
-  font-weight: ${fonts.weight.bold};
-  padding-bottom: ${spacing.xsmall};
-`;
-
-export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType }: MediaSourceProps) => {
+export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, children }: MediaSourceProps) => {
   const { i18n, t } = useTranslation();
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
   const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
-
   return (
-    <MediaLicenseContainer>
-      {title ? (
-        <BodyTitle element="label" margin="none" textStyle="meta-text-medium">
-          {`${title} "${sourceTitle}"`}
-        </BodyTitle>
-      ) : null}
-      <br />
-      <span>
-        {`${t(`license.${sourceType}.${licenseRightsText}`)} `}
-        <LicenseLink license={license} />
-        {`. ${description}`}
-      </span>
+    <>
+      <MediaListLicenseButtonWrapper>
+        {title && (
+          <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
+            <h3>{`${title} "${sourceTitle}"`}</h3>
+          </Heading>
+        )}
+        <div>{children}</div>
+      </MediaListLicenseButtonWrapper>
+      {!!description && (
+        <Text textStyle="body.medium">
+          {`${t(`license.${sourceType}.${licenseRightsText}`)} `}
+          <LicenseLink license={license} />
+          {`. ${description}`}
+        </Text>
+      )}
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
-    </MediaLicenseContainer>
+    </>
   );
 };
 
-export const MediaListItem = styled.li`
-  margin-bottom: ${spacing.small};
-  padding: ${spacing.small} 0;
-  border-bottom: 1px solid ${colors.brand.tertiary};
-  list-style: none;
-  display: flex;
-  flex-direction: column;
+export const MediaListItem = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    "& img": { width: "100%" },
+  },
+});
 
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  img {
-    width: 100%;
-  }
-`;
-
-interface MediaListItemImageProps {
-  children: ReactNode;
-  canOpen?: boolean;
-}
-
-const ImageWrapper = styled.div`
-  position: relative;
-  align-self: flex-start;
-  margin-right: ${spacing.small};
-  width: 100%;
-  a {
-    display: block;
-    box-shadow: none;
-  }
-  &:hover,
-  &:focus-visible {
-    [data-open-indicator] {
-      background-color: ${colors.brand.dark};
-      padding: ${spacing.xsmall};
-    }
-  }
-`;
-
-export const MediaListItemImage = ({ children }: MediaListItemImageProps) => <ImageWrapper>{children}</ImageWrapper>;
+export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 interface MediaListItemBodyProps {
   children: ReactNode;
@@ -122,19 +110,7 @@ interface MediaListItemBodyProps {
   resourceType?: "video" | "image" | "audio" | "text" | "h5p" | "podcast";
 }
 
-const StyledMediaListItemBody = styled.div`
-  ${fonts.size.text.metaText.small};
-  ${mq.range({ from: breakpoints.tablet })} {
-    max-width: 70%;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    max-width: 75%;
-  }
-`;
-
-const StyledSpan = styled.span`
-  display: "none";
-`;
+const StyledSpan = styled("span", { base: { display: "none" } });
 
 export const MediaListItemBody = ({
   children,
@@ -155,39 +131,28 @@ export const MediaListItemBody = ({
   const metaResourceType = getResourceTypeNamespace(resourceType);
 
   return (
-    <StyledMediaListItemBody {...containerProps}>
+    <div {...containerProps}>
       {/* @ts-ignore */}
       {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
-    </StyledMediaListItemBody>
+    </div>
   );
 };
 
-export const MediaListItemActions = styled.div`
-  display: flex;
-  align-items: start;
-  margin: ${spacing.small} 0 0 0;
-  width: 100%;
-  button,
-  a {
-    margin: 0 ${spacing.small} ${spacing.small} 0;
-  }
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: flex;
-    flex-direction: column;
-    button,
-    a {
-      margin: 0 0 ${spacing.small} 0;
-      width: 100%;
-    }
-    span {
-      width: 100%;
-      button {
-        width: 100%;
-      }
-    }
-  }
-`;
+export const MediaListItemActions = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "xsmall",
+    "& > a": {
+      width: "fit-content",
+    },
+
+    tabletDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
 const isLink = (url: string) => url.startsWith("http") || url.startsWith("https");
 
@@ -222,9 +187,8 @@ interface DescriptionlessItemType {
   metaType: "otherWithoutDescription";
 }
 
-function isOtherWithoutDescription(item: ItemType): item is DescriptionlessItemType {
-  return item.metaType === metaTypes.otherWithoutDescription;
-}
+const isOtherWithoutDescription = (item: ItemType): item is DescriptionlessItemType =>
+  item.metaType === metaTypes.otherWithoutDescription;
 
 interface MediaListItemMetaProps {
   items?: ItemType[];
@@ -236,45 +200,29 @@ const ItemText = ({ item }: { item: ItemType }) => {
   }
 
   return (
-    <span>
+    <Text textStyle="body.medium">
       {item.label}: <HandleLink url={item.description}>{item.description}</HandleLink>
-    </span>
+    </Text>
   );
 };
 
-function isAttributionItem(item: ItemType): item is ItemTypeWithDescription {
+const isAttributionItem = (item: ItemType): item is ItemTypeWithDescription => {
   if (isOtherWithoutDescription(item)) return false;
   return attributionTypes.some((type) => type === item.metaType);
-}
-
-const StyledMediaListItemMeta = styled.ul`
-  margin: ${spacing.small} 0;
-  padding: 0;
-  list-style: none;
-  width: 100%;
-  button,
-  a {
-    margin: 0 ${spacing.small} ${spacing.small} 0;
-  }
-`;
-
-const StyledMediaListMetaItem = styled.li`
-  margin: 0;
-  padding: 0;
-  padding-bottom: ${spacing.xsmall};
-`;
+};
 
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   const attributionItems = items.filter(isAttributionItem);
   const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
 
   return (
-    <StyledMediaListItemMeta property="cc:attributionName" content={attributionMeta}>
+    // eslint-disable-next-line react/no-unknown-property
+    <ul property="cc:attributionName" content={attributionMeta}>
       {items.map((item) => (
-        <StyledMediaListMetaItem key={item.label}>
+        <li key={item.label}>
           <ItemText item={item} />
-        </StyledMediaListMetaItem>
+        </li>
       ))}
-    </StyledMediaListItemMeta>
+    </ul>
   );
 };

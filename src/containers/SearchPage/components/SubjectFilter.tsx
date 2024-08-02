@@ -165,7 +165,7 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
 
   return (
     <TabsRoot
-      defaultValue="active"
+      defaultValue={tabs[0]?.id}
       orientation="horizontal"
       variant="line"
       translations={{ listLabel: t("tabs.subjectFilter") }}
