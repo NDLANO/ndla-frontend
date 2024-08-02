@@ -14,7 +14,7 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 import { SubjectItem } from "../SearchInnerPage";
 
-const FullHeightListElement = styled("li", { base: { height: "100%", minHeight: "75" } });
+const FullHeightListElement = styled("li", { base: { height: "100%", minHeight: "surface.3xsmall" } });
 const FullheightCardRoot = styled(CardRoot, { base: { height: "100%" } });
 
 interface Props {
