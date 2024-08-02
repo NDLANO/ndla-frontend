@@ -41,6 +41,7 @@ const messages = {
     tipsAndAdvice: "Tips og råd",
     goBack: "Gå tilbake",
   },
+  searchPage: { subjectLetter: "Fag som starter på {{letter}}" },
   podcastPage: {
     episodes: "Episoder",
     podcast: "Podkast",

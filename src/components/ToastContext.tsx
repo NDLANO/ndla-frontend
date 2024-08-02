@@ -8,7 +8,7 @@
 
 import { ReactNode, createContext, useContext } from "react";
 import { Toaster, createToaster } from "@ark-ui/react";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { IconButton, ToastCloseTrigger, ToastDescription, ToastRoot, ToastTitle } from "@ndla/primitives";
 
 const toaster = createToaster({
@@ -42,7 +42,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
             <ToastDescription>{toast.description}</ToastDescription>
             <ToastCloseTrigger asChild>
               <IconButton variant="clearSubtle">
-                <Cross />
+                <CloseLine />
               </IconButton>
             </ToastCloseTrigger>
           </ToastRoot>

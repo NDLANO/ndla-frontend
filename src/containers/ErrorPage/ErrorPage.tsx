@@ -18,7 +18,7 @@ import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
-import Footer from "../Page/components/Footer";
+import { Footer } from "../Page/components/Footer";
 
 const ZendeskWrapper = styled.div`
   z-index: ${stackOrder.trigger};

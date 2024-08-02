@@ -8,8 +8,8 @@
 
 import { Dispatch, SetStateAction, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Pencil, TrashCanOutline } from "@ndla/icons/action";
-import { ReportOutlined, Locked } from "@ndla/icons/common";
+import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
+import { SpamLine, LockFill } from "@ndla/icons/common";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -48,7 +48,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const disableModification = topic?.isLocked && !user?.isModerator;
 
   const update: MenuItemProps = {
-    icon: <Pencil />,
+    icon: <PencilFill />,
     text: t("myNdla.arena.posts.dropdownMenu.edit"),
     type: "tertiary",
     disabled: disableModification,
@@ -56,7 +56,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const deleteItem: MenuItemProps = {
-    icon: <TrashCanOutline />,
+    icon: <DeleteBinLine />,
     type: "danger",
     text: t("myNdla.arena.posts.dropdownMenu.delete"),
     isModal: true,
@@ -73,7 +73,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const report: MenuItemProps = {
-    icon: <ReportOutlined />,
+    icon: <SpamLine />,
     text: t("myNdla.arena.posts.dropdownMenu.report"),
     type: "tertiary",
     isModal: true,
@@ -82,7 +82,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const lockUnlock: MenuItemProps = {
-    icon: <Locked />,
+    icon: <LockFill />,
     text: topic?.isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked"),
     type: "danger",
     isModal: true,

@@ -8,7 +8,7 @@
 
 import { CSSProperties, ReactNode, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Heading,
   Text,
@@ -103,7 +103,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
             <CheckboxRoot key={filter.value} value={filter.value} variant="chip">
               <CheckboxControl>
                 <CheckboxIndicator asChild>
-                  <Done />
+                  <CheckLine />
                 </CheckboxIndicator>
               </CheckboxControl>
               <CheckboxLabel>{filter.label}</CheckboxLabel>

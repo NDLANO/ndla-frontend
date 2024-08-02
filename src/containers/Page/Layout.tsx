@@ -11,10 +11,10 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { PageContainer } from "@ndla/ui";
-import Footer from "./components/Footer";
+import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { routes, useUrnIds } from "../../routeHelpers";
@@ -28,12 +28,6 @@ const BottomPadding = styled.div`
   }
 `;
 
-const StyledPageContainer = styled(PageContainer)`
-  &[data-frontpage="true"] {
-    background-color: ${colors.background.lightBlue};
-  }
-`;
-
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
@@ -41,7 +35,7 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const frontpage = !!matchPath("/", pathname);
+  const frontpage = !!matchPath("/", pathname) || !!matchPath("/about/*", pathname);
   const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
   const noPaddingBottom = !!matchPath(`${routes.myNdla.root}/*`, pathname) || frontpage;
 
@@ -70,7 +64,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage}>
+    <PageContainer backgroundWide={backgroundWide}>
       <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
@@ -85,7 +79,7 @@ const Layout = () => {
         </BottomPadding>
       </div>
       <Footer />
-    </StyledPageContainer>
+    </PageContainer>
   );
 };
 export default Layout;

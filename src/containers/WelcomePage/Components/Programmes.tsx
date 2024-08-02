@@ -8,7 +8,7 @@
 
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -25,6 +25,7 @@ import { useUserAgent } from "../../../UserAgentContext";
 const StyledWrapper = styled("div", {
   base: {
     display: "flex",
+    width: "100%",
     flexDirection: "column",
     alignItems: "center",
     margin: "0",
@@ -78,6 +79,12 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   },
 });
 
+const StyledAccordionItemContent = styled(AccordionItemContent, {
+  base: {
+    background: "surface.default",
+  },
+});
+
 const FullWidth = styled("div", { base: { width: "100%" } });
 interface Props {
   programmes: ProgrammeV2[];
@@ -124,16 +131,16 @@ const Programmes = ({ programmes }: Props) => {
                 <AccordionItemTrigger id={accordionHeader} data-testid="accordion-header">
                   {t("programmes.header")}
                   <AccordionItemIndicator asChild>
-                    <ChevronDown size="medium" />
+                    <ArrowDownShortLine size="medium" />
                   </AccordionItemIndicator>
                 </AccordionItemTrigger>
               </h2>
             </Heading>
-            <AccordionItemContent>
+            <StyledAccordionItemContent>
               <nav aria-labelledby="accordionHeader">
                 <StyledList>{programmeCards}</StyledList>
               </nav>
-            </AccordionItemContent>
+            </StyledAccordionItemContent>
           </AccordionItem>
         </StyledAccordionRoot>
       </FullWidth>

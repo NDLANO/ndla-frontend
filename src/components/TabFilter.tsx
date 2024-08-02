@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -49,7 +49,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>
               <CheckboxIndicator asChild>
-                <Done />
+                <CheckLine />
               </CheckboxIndicator>
             </CheckboxControl>
             <CheckboxLabel>{item.label}</CheckboxLabel>

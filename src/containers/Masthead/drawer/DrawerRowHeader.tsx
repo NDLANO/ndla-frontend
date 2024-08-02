@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useState } from "react";
-import { RightArrow } from "@ndla/icons/action";
+import { ArrowRightLine } from "@ndla/icons/common";
 import { StyledButton, StyledSafeLink } from "./DrawerMenuItem";
 import { DrawerListItem } from "./DrawerPortion";
 
@@ -56,7 +56,7 @@ const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) =
           size="small"
         >
           {title}
-          <RightArrow />
+          <ArrowRightLine />
         </StyledButton>
       </DrawerListItem>
     );

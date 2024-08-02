@@ -8,7 +8,6 @@
 
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
-import { SnackbarProvider } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
@@ -102,121 +101,117 @@ const AppRoutes = ({ base }: AppProps) => {
       <BaseNameProvider value={base}>
         <AuthenticationContext>
           <ToastProvider>
-            <SnackbarProvider>
-              <Scripts />
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<WelcomePage />} />
-                  <Route path="subjects" element={<AllSubjectsPage />} />
-                  <Route path="search" element={<SearchPage />} />
-                  <Route path="utdanning/*" element={<ProgrammePage />} />
-                  <Route path="podkast">
-                    <Route index element={<PodcastSeriesListPage />} />
-                    <Route path=":id" element={<PodcastSeriesPage />} />
-                  </Route>
-                  <Route path="article/:articleId" element={<PlainArticlePage />} />
-                  <Route path="learningpaths/:learningpathId" element={<PlainLearningpathPage />}>
-                    <Route path="steps/:stepId" element={null} />
-                  </Route>
-                  <Route path="subject:subjectId/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
-                  <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">
-                    {resourceRoutes}
-                  </Route>
-                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                    {resourceRoutes}
-                  </Route>
-                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
-                    {resourceRoutes}
-                  </Route>
-                  <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
-                    {resourceRoutes}
-                  </Route>
-                  <Route path="subject:subjectId" element={<SubjectRouting />}>
+            <Scripts />
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<WelcomePage />} />
+                <Route path="subjects" element={<AllSubjectsPage />} />
+                <Route path="search" element={<SearchPage />} />
+                <Route path="utdanning/*" element={<ProgrammePage />} />
+                <Route path="podkast">
+                  <Route index element={<PodcastSeriesListPage />} />
+                  <Route path=":id" element={<PodcastSeriesPage />} />
+                </Route>
+                <Route path="article/:articleId" element={<PlainArticlePage />} />
+                <Route path="learningpaths/:learningpathId" element={<PlainLearningpathPage />}>
+                  <Route path="steps/:stepId" element={null} />
+                </Route>
+                <Route path="subject:subjectId/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
+                  {resourceRoutes}
+                </Route>
+                <Route path="subject:subjectId" element={<SubjectRouting />}>
+                  <Route path="topic:topicId" element={null} />
+                  <Route path="topic:topic1" element={null}>
                     <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic1" element={null}>
+                    <Route path="topic:topic2" element={null}>
                       <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic2" element={null}>
+                      <Route path="topic:topic3" element={null}>
                         <Route path="topic:topicId" element={null} />
-                        <Route path="topic:topic3" element={null}>
+                        <Route path="topic:topic4" element={null}>
                           <Route path="topic:topicId" element={null} />
-                          <Route path="topic:topic4" element={null}>
-                            <Route path="topic:topicId" element={null} />
-                          </Route>
                         </Route>
                       </Route>
                     </Route>
                   </Route>
-                  <Route path="video/:videoId" element={<VideoPage />} />
-                  <Route path="image/:imageId" element={<ImagePage />} />
-                  <Route path="concept/:conceptId" element={<ConceptPage />} />
-                  <Route path="audio/:audioId" element={<AudioPage />} />
-                  <Route path="h5p/:h5pId" element={<H5pPage />} />
-                  <Route
-                    path="minndla"
-                    element={
-                      <NoSSR fallback={null}>
-                        <MyNdlaLayout />
-                      </NoSSR>
-                    }
-                  >
-                    <Route index element={<MyNdlaPage />} />
-                    <Route path="folders">
-                      <Route index element={<PrivateRoute element={<FoldersPage />} />} />
-                      <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
-                      <Route path="preview/:folderId">
-                        <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                        <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                        <Route
-                          path=":subfolderId/:resourceId"
-                          element={<PrivateRoute element={<PreviewFoldersPage />} />}
-                        />
-                      </Route>
-                      <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
-                    </Route>
-                    <Route path="arena">
-                      <Route index element={<PrivateRoute element={<ArenaPage />} />} />
-                      <Route path="category/new" element={<PrivateRoute element={<NewCategoryPage />} />} />
-                      <Route path="category/:categoryId">
-                        <Route index element={<PrivateRoute element={<TopicPage />} />} />
-                        <Route path="edit" element={<PrivateRoute element={<CategoryEditPage />} />} />
-                        <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
-                      </Route>
-                      <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
-                      <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
-                      <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
-                    </Route>
-                    <Route path="admin">
-                      <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
-                      <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
-                      <Route path="flags">
-                        <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
-                        <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
-                      </Route>
-                    </Route>
-                    <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
-                    <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
-                  </Route>
-                  <Route path="about/:slug" element={<AboutPage />} />
-
-                  {config.folderRedesign ? (
-                    <Route path="folder/:folderId">
-                      <Route index element={<SharedFolderPageV2 />} />
-                      <Route path="*" element={<SharedFolderPageV2 />} />
-                    </Route>
-                  ) : (
-                    <Route path="folder/:folderId">
-                      <Route index element={<SharedFolderPage />} />
-                      <Route path=":subfolderId" element={<SharedFolderPage />} />
-                      <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                    </Route>
-                  )}
-                  <Route path="404" element={<NotFound />} />
-                  <Route path="403" element={<AccessDenied />} />
-                  <Route path="*" element={<NotFound />} />
-                  <Route path="p/:articleId" element={<PlainArticlePage />} />
                 </Route>
-              </Routes>
-            </SnackbarProvider>
+                <Route path="video/:videoId" element={<VideoPage />} />
+                <Route path="image/:imageId" element={<ImagePage />} />
+                <Route path="concept/:conceptId" element={<ConceptPage />} />
+                <Route path="audio/:audioId" element={<AudioPage />} />
+                <Route path="h5p/:h5pId" element={<H5pPage />} />
+                <Route
+                  path="minndla"
+                  element={
+                    <NoSSR fallback={null}>
+                      <MyNdlaLayout />
+                    </NoSSR>
+                  }
+                >
+                  <Route index element={<MyNdlaPage />} />
+                  <Route path="folders">
+                    <Route index element={<PrivateRoute element={<FoldersPage />} />} />
+                    <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
+                    <Route path="preview/:folderId">
+                      <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
+                      <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
+                      <Route
+                        path=":subfolderId/:resourceId"
+                        element={<PrivateRoute element={<PreviewFoldersPage />} />}
+                      />
+                    </Route>
+                    <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
+                  </Route>
+                  <Route path="arena">
+                    <Route index element={<PrivateRoute element={<ArenaPage />} />} />
+                    <Route path="category/new" element={<PrivateRoute element={<NewCategoryPage />} />} />
+                    <Route path="category/:categoryId">
+                      <Route index element={<PrivateRoute element={<TopicPage />} />} />
+                      <Route path="edit" element={<PrivateRoute element={<CategoryEditPage />} />} />
+                      <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
+                    </Route>
+                    <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
+                    <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
+                    <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
+                  </Route>
+                  <Route path="admin">
+                    <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
+                    <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
+                    <Route path="flags">
+                      <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
+                      <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
+                    </Route>
+                  </Route>
+                  <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
+                  <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
+                </Route>
+                <Route path="about/:slug" element={<AboutPage />} />
+
+                {config.folderRedesign ? (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPageV2 />} />
+                    <Route path="*" element={<SharedFolderPageV2 />} />
+                  </Route>
+                ) : (
+                  <Route path="folder/:folderId">
+                    <Route index element={<SharedFolderPage />} />
+                    <Route path=":subfolderId" element={<SharedFolderPage />} />
+                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
+                  </Route>
+                )}
+                <Route path="404" element={<NotFound />} />
+                <Route path="403" element={<AccessDenied />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="p/:articleId" element={<PlainArticlePage />} />
+              </Route>
+            </Routes>
           </ToastProvider>
         </AuthenticationContext>
       </BaseNameProvider>

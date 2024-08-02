@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { transform } from "@ndla/article-converter";
 import { spacing } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -207,7 +207,7 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
                     <AccordionItemTrigger>
                       {t("article.useContent")}
                       <AccordionItemIndicator asChild>
-                        <ChevronDown size="medium" />
+                        <ArrowDownShortLine size="medium" />
                       </AccordionItemIndicator>
                     </AccordionItemTrigger>
                   </h2>

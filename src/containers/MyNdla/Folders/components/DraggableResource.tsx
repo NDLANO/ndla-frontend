@@ -10,8 +10,7 @@ import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FolderOutlined } from "@ndla/icons/contentType";
-import { DeleteForever, Link } from "@ndla/icons/editor";
+import { DeleteForever, FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
@@ -102,7 +101,7 @@ const DraggableResource = ({
     if (examLock) return [];
     return [
       {
-        icon: <FolderOutlined />,
+        icon: <FolderLine />,
         text: t("myNdla.resource.add"),
         isModal: true,
         modality: false,
@@ -119,7 +118,7 @@ const DraggableResource = ({
         ),
       },
       {
-        icon: <Link />,
+        icon: <LinkMedium />,
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
           navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);

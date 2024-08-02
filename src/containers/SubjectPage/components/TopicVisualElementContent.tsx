@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -60,7 +60,7 @@ const TopicVisualElementContent = ({ embed, metadata }: Props) => {
                 <AccordionItemTrigger>
                   {t("article.useContent")}
                   <AccordionItemIndicator asChild>
-                    <ChevronDown size="medium" />
+                    <ArrowDownShortLine size="medium" />
                   </AccordionItemIndicator>
                 </AccordionItemTrigger>
               </h2>

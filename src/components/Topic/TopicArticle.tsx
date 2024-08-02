@@ -10,7 +10,7 @@ import { ReactNode, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styledEmotion from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 interface Props {
@@ -61,7 +61,7 @@ const TopicArticle = ({ children }: Props) => {
         aria-controls={id}
       >
         {t(`navigation.${expanded ? "showShorterDescription" : "showLongerDescription"}`)}
-        <ChevronDown />
+        <ArrowDownShortLine />
       </ToggleButton>
       <ExpandContent id={id} aria-hidden={!expanded}>
         {children}

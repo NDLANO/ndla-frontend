@@ -13,12 +13,11 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
-import { downloadUrl } from "./ImageLicenseList";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import { MediaListRef } from "./licenseStyles";
 import FavoriteButton from "../../components/Article/FavoritesButton";
@@ -116,12 +115,6 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
       </LicenseAndButtonWrapper>
       {!isCopyrighted(concept.copyright?.license?.license) && (
         <MediaListItemActions>
-          {concept.src && (
-            <SafeLinkButton to={downloadUrl(concept.src)} variant="secondary">
-              <Download />
-              {t("license.download")}
-            </SafeLinkButton>
-          )}
           <CopyTextButton
             stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
             copyTitle={t("license.embed")}
@@ -129,7 +122,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           />
           {shouldShowLink && (
             <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
-              <Launch />
+              <ShareBoxLine />
               {t("license.openLink")}
             </SafeLinkButton>
           )}
@@ -149,7 +142,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListRef>

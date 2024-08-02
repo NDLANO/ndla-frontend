@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { Icon } from "@ndla/icons";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 
@@ -19,7 +19,7 @@ const StyledPencilSvg = styled(Icon)`
   height: 20px;
 `;
 
-const PencilIcon = StyledPencilSvg.withComponent(Pencil);
+const PencilIcon = StyledPencilSvg.withComponent(PencilFill);
 
 const EditProfilePicture = () => {
   const { t } = useTranslation();
