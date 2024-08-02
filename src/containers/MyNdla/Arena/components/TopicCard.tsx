@@ -8,7 +8,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
-import { Locked } from "@ndla/icons/common";
+import { LockFill } from "@ndla/icons/common";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { routes } from "../../../../routeHelpers";
@@ -61,7 +61,7 @@ const StyledCountContainer = styled.div`
   color: ${colors.text.primary};
 `;
 
-const StyledLockedIcon = styled(Locked)`
+const StyledLockedIcon = styled(LockFill)`
   width: ${spacing.normal};
   height: ${spacing.normal};
   color: ${colors.brand.primary};

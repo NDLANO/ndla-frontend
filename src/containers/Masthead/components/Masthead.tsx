@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SkipToMainContent from "./SkipToMainContent";
@@ -84,7 +84,7 @@ export const Masthead = ({ children, fixed, skipToMainContentId, messages, onClo
                 aria-label={t("close")}
                 title={t("close")}
               >
-                <Cross />
+                <CloseLine />
               </StyledCloseButton>
             )}
           </MessageBannerWrapper>

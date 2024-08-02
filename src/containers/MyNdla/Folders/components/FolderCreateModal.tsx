@@ -8,7 +8,7 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import FolderForm, { FolderFormValues } from "./FolderForm";
@@ -42,7 +42,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <Button variant="tertiary" aria-label={t("myNdla.newFolder")} title={t("myNdla.newFolder")}>
-          <Plus size="small" />
+          <AddLine size="small" />
           <span>{t("myNdla.newFolderShort")}</span>
         </Button>
       </ModalTrigger>

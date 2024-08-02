@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { RightArrow } from "@ndla/icons/action";
+import { ArrowRightLine } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -76,7 +76,7 @@ const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps 
         data-current-selected={!!active}
       >
         {children}
-        <RightArrow />
+        <ArrowRightLine />
       </StyledButton>
     </DrawerListItem>
   ) : (

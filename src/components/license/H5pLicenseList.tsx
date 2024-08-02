@@ -11,8 +11,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Copy } from "@ndla/icons/action";
-import { Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
@@ -83,7 +83,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
             />
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
-                <Launch />
+                <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>
             )}
@@ -105,7 +105,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListContent>

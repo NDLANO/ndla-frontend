@@ -11,8 +11,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -106,7 +106,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         {!isCopyrighted(podcast.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={podcast.src} download variant="secondary">
-              <Download />
+              <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
             <CopyTextButton
@@ -116,7 +116,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             />
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-                <Launch />
+                <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>
             )}
@@ -138,7 +138,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListContent>

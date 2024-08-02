@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
 import { PaginationContext } from "@ark-ui/react";
-import { ChevronLeft, ChevronRight } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import {
   Button,
   PaginationEllipsis,
@@ -148,7 +148,7 @@ const PodcastSeriesListPage = () => {
         >
           <PaginationPrevTrigger asChild>
             <Button variant="tertiary">
-              <ChevronLeft />
+              <ArrowLeftShortLine />
               {t("pagination.prev")}
             </Button>
           </PaginationPrevTrigger>
@@ -172,7 +172,7 @@ const PodcastSeriesListPage = () => {
           <PaginationNextTrigger asChild>
             <Button variant="tertiary">
               {t("pagination.next")}
-              <ChevronRight />
+              <ArrowRightShortLine />
             </Button>
           </PaginationNextTrigger>
         </StyledPaginationRoot>

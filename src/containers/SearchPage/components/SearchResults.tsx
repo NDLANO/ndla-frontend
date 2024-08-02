@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { Button, Spinner } from "@ndla/primitives";
 import { Heading, Text } from "@ndla/typography";
 import { ContentTypeBadge } from "@ndla/ui";
@@ -141,7 +141,7 @@ export const SearchResultGroup = ({
             onClick={() => handleSubFilterClick(group.type, filter.id)}
           >
             {filter.name}
-            {filter.active && <Cross />}
+            {filter.active && <CloseLine />}
           </ButtonV2>
         ))}
       </ButtonsWrapper>

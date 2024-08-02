@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Forward } from "@ndla/icons/common";
+import { ArrowRightLine } from "@ndla/icons/common";
 import { Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -77,7 +77,7 @@ const FavoriteSubjectsPage = () => {
       <StyledListItem key="allSubjects">
         <SafeLinkButton variant="tertiary" to="/subjects">
           {t("subjectsPage.allSubjects")}
-          <Forward size="small" />
+          <ArrowRightLine size="small" />
         </SafeLinkButton>
       </StyledListItem>
     ),
@@ -90,7 +90,7 @@ const FavoriteSubjectsPage = () => {
         menuItems={[
           {
             text: t("subjectsPage.allSubjects"),
-            icon: <Forward size="small" />,
+            icon: <ArrowRightLine size="small" />,
             onClick: () => navigate("/subjects"),
           },
         ]}

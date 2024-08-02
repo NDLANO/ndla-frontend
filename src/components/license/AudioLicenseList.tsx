@@ -11,8 +11,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
@@ -106,12 +106,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         {!isCopyrighted(audio.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={audio.src} download variant="secondary">
-              <Download />
+              <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-                <Launch />
+                <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>
             )}
@@ -133,7 +133,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListContent>

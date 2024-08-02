@@ -3326,12 +3326,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.1-alpha.0":
-  version: 10.0.1-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.1-alpha.0"
+"@ndla/article-converter@npm:^10.0.2-alpha.0":
+  version: 10.0.2-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.2-alpha.0"
   dependencies:
-    "@ndla/primitives": "npm:^1.0.1-alpha.0"
-    "@ndla/ui": "npm:^56.0.1-alpha.0"
+    "@ndla/primitives": "npm:^1.0.2-alpha.0"
+    "@ndla/ui": "npm:^56.0.2-alpha.0"
     html-react-parser: "npm:^5.1.8"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -3341,17 +3341,17 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/399c8749e2bc0d6d0bd609d2041dc38f70a1722145da11568e2b2f9e6facab23f92b8caa52c7aee1a5e21770d995512625b1801edbd292edacd0fb2f8fa1bb0c
+  checksum: 10c0/d327c1731e5964a834895c3503843860ab0fa785f71f872b9f246aa6e9c0d017ae22f89b2a665f13ddd94c4b2543caa01257e02613622663d065bd6d852002d9
   languageName: node
   linkType: hard
 
-"@ndla/button@npm:^15.0.1-alpha.0":
-  version: 15.0.1-alpha.0
-  resolution: "@ndla/button@npm:15.0.1-alpha.0"
+"@ndla/button@npm:^15.0.2-alpha.0":
+  version: 15.0.2-alpha.0
+  resolution: "@ndla/button@npm:15.0.2-alpha.0"
   dependencies:
     "@ndla/core": "npm:^5.0.1"
     "@ndla/dropdown-menu": "npm:^1.0.38"
-    "@ndla/icons": "npm:^8.0.1-alpha.0"
+    "@ndla/icons": "npm:^8.0.2-alpha.0"
     "@ndla/tooltip": "npm:^8.0.1"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -3359,7 +3359,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
-  checksum: 10c0/2ae688473579200b586d45cdaae56be92f21ec75b588588d118b3e405b52f38a15c96cdf4e4fc4e6a7eea08f6cd1013253b454bd0d540abdbd3d380ae5726bd6
+  checksum: 10c0/95c305b83e571de3721fb75743284916dd47dfcf9eefd018d6f5785b29f4a37715974cfbdf96234c5eb3e7806c9f3408575b6ee945c9503faa4abd670572902e
   languageName: node
   linkType: hard
 
@@ -3413,9 +3413,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/icons@npm:^8.0.1-alpha.0":
-  version: 8.0.1-alpha.0
-  resolution: "@ndla/icons@npm:8.0.1-alpha.0"
+"@ndla/icons@npm:^8.0.2-alpha.0":
+  version: 8.0.2-alpha.0
+  resolution: "@ndla/icons@npm:8.0.2-alpha.0"
   dependencies:
     "@ndla/core": "npm:^5.0.1"
     "@ndla/styled-system": "npm:^0.0.10"
@@ -3424,7 +3424,7 @@ __metadata:
     "@emotion/styled": ^11.10.4
     react: ">= 18"
     react-dom: ">= 18"
-  checksum: 10c0/6be11d4437d1f29eb90c14ddce059145f2d94ca48d564fa07473bc385627e1c55c6f968f57f164a919cf93bee94da69887dae66cba7b80488df92a29ee730d9b
+  checksum: 10c0/d92b6f06a009019dce4b37536110c8f9993200ce8d540e75779d4026ffcfc24db457d93f2cafbb3a580e0059afc33408dcb71070b7c1fcbebbe6891d83cea5f4
   languageName: node
   linkType: hard
 
@@ -3435,12 +3435,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/modal@npm:^8.0.1-alpha.0":
-  version: 8.0.1-alpha.0
-  resolution: "@ndla/modal@npm:8.0.1-alpha.0"
+"@ndla/modal@npm:^8.0.2-alpha.0":
+  version: 8.0.2-alpha.0
+  resolution: "@ndla/modal@npm:8.0.2-alpha.0"
   dependencies:
     "@ndla/core": "npm:^5.0.1"
-    "@ndla/icons": "npm:^8.0.1-alpha.0"
+    "@ndla/icons": "npm:^8.0.2-alpha.0"
     "@radix-ui/react-dialog": "npm:^1.0.5"
   peerDependencies:
     "@emotion/react": ^11.10.4
@@ -3448,7 +3448,7 @@ __metadata:
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
-  checksum: 10c0/3aa7980c953ced9ab0d9e13f82495cef618230f12aab46ed2782bfdb179d8be6da363dfa64cc2aa442531d4378bd062f1ac3b1288c72cbae6884d53a742141ed
+  checksum: 10c0/fc904913d49f462acd7e0ebbc6888d33215ee51e0648cb696385b9a2d1234cc53fabc358f8ea5a13e4079599e779c4c09d7b96c60de2a7846ca5ae70258af2b5
   languageName: node
   linkType: hard
 
@@ -3459,9 +3459,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/primitives@npm:^1.0.1-alpha.0":
-  version: 1.0.1-alpha.0
-  resolution: "@ndla/primitives@npm:1.0.1-alpha.0"
+"@ndla/primitives@npm:^1.0.2-alpha.0":
+  version: 1.0.2-alpha.0
+  resolution: "@ndla/primitives@npm:1.0.2-alpha.0"
   dependencies:
     "@ark-ui/react": "npm:^3.6.2"
     "@ndla/styled-system": "npm:^0.0.10"
@@ -3469,21 +3469,21 @@ __metadata:
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
-  checksum: 10c0/18ca10b2d74ca85692dc137ce15171e92a42f9355a861ad1ac5ebdeddd51cda7c552b5525e44efb35a9cecca29c6c3b6d75d9947c708c4759841c1df7f7f7938
+  checksum: 10c0/616d6a412c29b08923dacedaa5d60d76087cda8c3c3e66787062c92fd8b287119056a2652ed1caff26c39ecbe4cd651a1536b9740df80780799e6d9bd487325b
   languageName: node
   linkType: hard
 
-"@ndla/safelink@npm:^7.0.1-alpha.0":
-  version: 7.0.1-alpha.0
-  resolution: "@ndla/safelink@npm:7.0.1-alpha.0"
+"@ndla/safelink@npm:^7.0.2-alpha.0":
+  version: 7.0.2-alpha.0
+  resolution: "@ndla/safelink@npm:7.0.2-alpha.0"
   dependencies:
-    "@ndla/primitives": "npm:^1.0.1-alpha.0"
+    "@ndla/primitives": "npm:^1.0.2-alpha.0"
     "@ndla/styled-system": "npm:^0.0.10"
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
     react-router-dom: ^6.3.0
-  checksum: 10c0/391b5aaa1731c4fe4f08b7f740a9f6193108d65f2996a0f081b02a0562c0bef3e57d8512df6025c9822b99ae5443fc367efd5faf903d4fbc950b5d636006f785
+  checksum: 10c0/65a275b98af3c3aec2fa93f4f3cd9dd4aadcabac5b42abebbe0f3acf4ae20d358b78fc89196e88a35d90077d6ae3669aba66462297d37bd9df9b19f02670147b
   languageName: node
   linkType: hard
 
@@ -3576,17 +3576,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.1-alpha.0":
-  version: 56.0.1-alpha.0
-  resolution: "@ndla/ui@npm:56.0.1-alpha.0"
+"@ndla/ui@npm:^56.0.2-alpha.0":
+  version: 56.0.2-alpha.0
+  resolution: "@ndla/ui@npm:56.0.2-alpha.0"
   dependencies:
-    "@ndla/button": "npm:^15.0.1-alpha.0"
+    "@ndla/button": "npm:^15.0.2-alpha.0"
     "@ndla/core": "npm:^5.0.1"
     "@ndla/hooks": "npm:^2.1.8"
-    "@ndla/icons": "npm:^8.0.1-alpha.0"
+    "@ndla/icons": "npm:^8.0.2-alpha.0"
     "@ndla/licenses": "npm:^8.0.0-alpha.0"
-    "@ndla/primitives": "npm:^1.0.1-alpha.0"
-    "@ndla/safelink": "npm:^7.0.1-alpha.0"
+    "@ndla/primitives": "npm:^1.0.2-alpha.0"
+    "@ndla/safelink": "npm:^7.0.2-alpha.0"
     "@ndla/styled-system": "npm:^0.0.10"
     "@ndla/typography": "npm:^0.4.23"
     "@ndla/util": "npm:^4.1.0"
@@ -3604,7 +3604,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^14.1.1
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/53673e6440b938a89f47a71ee84e9226cb143aedcce709857e65e72d7ec3fc871fbcf0eb327ad3ac59b4816dd25caec10db332653c79b9476ec9d6f6ec53912f
+  checksum: 10c0/3772357c1029240443b945809f7297b2eb99c557f244989431eb9b05f41c226172a5b4002ccbf3341a37b6b1c1434b2e79d069822170eeb871c53bee22a4d722
   languageName: node
   linkType: hard
 
@@ -12200,17 +12200,17 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^10.0.1-alpha.0"
-    "@ndla/button": "npm:^15.0.1-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.2-alpha.0"
+    "@ndla/button": "npm:^15.0.2-alpha.0"
     "@ndla/core": "npm:^5.0.1"
     "@ndla/dropdown-menu": "npm:^1.0.38"
     "@ndla/error-reporter": "npm:^2.0.2"
-    "@ndla/icons": "npm:^8.0.1-alpha.0"
+    "@ndla/icons": "npm:^8.0.2-alpha.0"
     "@ndla/licenses": "npm:^8.0.0-alpha.0"
-    "@ndla/modal": "npm:^8.0.1-alpha.0"
+    "@ndla/modal": "npm:^8.0.2-alpha.0"
     "@ndla/preset-panda": "npm:^0.0.14"
-    "@ndla/primitives": "npm:^1.0.1-alpha.0"
-    "@ndla/safelink": "npm:^7.0.1-alpha.0"
+    "@ndla/primitives": "npm:^1.0.2-alpha.0"
+    "@ndla/safelink": "npm:^7.0.2-alpha.0"
     "@ndla/scripts": "npm:^2.1.2"
     "@ndla/styled-system": "npm:^0.0.10"
     "@ndla/tracker": "npm:^5.0.7"
@@ -12218,7 +12218,7 @@ __metadata:
     "@ndla/types-embed": "npm:^5.0.0-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.26"
     "@ndla/typography": "npm:^0.4.23"
-    "@ndla/ui": "npm:^56.0.1-alpha.0"
+    "@ndla/ui": "npm:^56.0.2-alpha.0"
     "@ndla/util": "npm:^4.1.0"
     "@pandacss/dev": "npm:^0.44.0"
     "@playwright/test": "npm:^1.43.1"

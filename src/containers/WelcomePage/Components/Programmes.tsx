@@ -8,7 +8,7 @@
 
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -131,7 +131,7 @@ const Programmes = ({ programmes }: Props) => {
                 <AccordionItemTrigger id={accordionHeader} data-testid="accordion-header">
                   {t("programmes.header")}
                   <AccordionItemIndicator asChild>
-                    <ChevronDown size="medium" />
+                    <ArrowDownShortLine size="medium" />
                   </AccordionItemIndicator>
                 </AccordionItemTrigger>
               </h2>

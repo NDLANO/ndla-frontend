@@ -9,7 +9,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { Pencil } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons/action";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import FolderForm from "./FolderForm";
@@ -29,7 +29,7 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <Button variant="tertiary" aria-label={t("myNdla.folder.edit")} title={t("myNdla.folder.edit")}>
-          <Pencil size="small" />
+          <PencilFill size="small" />
           {t("myNdla.folder.editShort")}
         </Button>
       </ModalTrigger>

@@ -13,8 +13,8 @@ import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { HumanMaleBoard } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { PresentationLine } from "@ndla/icons/common";
 import { Button, Spinner } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
@@ -78,7 +78,7 @@ const StyledRow = styled.div`
   justify-content: space-between;
 `;
 
-const StyledInformationIcon = styled(HumanMaleBoard)`
+const StyledInformationIcon = styled(PresentationLine)`
   height: ${spacing.mediumlarge};
   width: ${spacing.mediumlarge};
 `;
@@ -181,7 +181,7 @@ const SharedFolderPageV2 = () => {
               <ButtonContainer>
                 <CopyFolderModal folder={folder}>
                   <Button variant="tertiary">
-                    <Copy />
+                    <FileCopyLine />
                     {t("myNdla.folder.copy")}
                   </Button>
                 </CopyFolderModal>

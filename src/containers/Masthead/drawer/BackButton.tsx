@@ -6,7 +6,7 @@
  *
  */
 
-import { Back, Home } from "@ndla/icons/common";
+import { ArrowLeftLine, HomeFill } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -28,7 +28,7 @@ const StyledButton = styled(Button, {
 });
 
 const BackButton = ({ onGoBack, title, homeButton }: Props) => {
-  const Icon = homeButton ? Home : Back;
+  const Icon = homeButton ? HomeFill : ArrowLeftLine;
   return (
     <StyledButton onClick={onGoBack} variant="secondary">
       <Icon />

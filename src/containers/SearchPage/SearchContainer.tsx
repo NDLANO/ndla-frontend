@@ -11,8 +11,9 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
-import { Cross, Grid } from "@ndla/icons/action";
-import { ListCircle } from "@ndla/icons/editor";
+import { CloseLine } from "@ndla/icons/action";
+import { GridFill } from "@ndla/icons/common";
+import { ListUnordered } from "@ndla/icons/editor";
 import { Button, IconButton, Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { constants } from "@ndla/ui";
@@ -199,7 +200,7 @@ const SearchContainer = ({
                     colorTheme={item.selected ? "primary" : "greyLighter"}
                   >
                     {item.label}
-                    {item.selected && <Cross />}
+                    {item.selected && <CloseLine />}
                   </ButtonV2>
                 ))}
               </ItemWrapper>
@@ -211,7 +212,7 @@ const SearchContainer = ({
                   aria-label={t("searchPage.resultType.gridView")}
                   title={t("searchPage.resultType.gridView")}
                 >
-                  <Grid />
+                  <GridFill />
                 </IconButton>
                 <IconButton
                   // TODO: Fix handling of active according to design
@@ -220,7 +221,7 @@ const SearchContainer = ({
                   aria-label={t("searchPage.resultType.listView")}
                   title={t("searchPage.resultType.listView")}
                 >
-                  <ListCircle />
+                  <ListUnordered />
                 </IconButton>
               </ButtonWrapper>
             </FilterWrapper>

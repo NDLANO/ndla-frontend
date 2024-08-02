@@ -11,8 +11,8 @@ import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
-import { Cross } from "@ndla/icons/action";
-import { Forward, Search } from "@ndla/icons/common";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
 import {
   Button,
   ComboboxControl,
@@ -281,7 +281,7 @@ const MastheadSearch = () => {
       <DialogTrigger asChild>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <span>{t("masthead.menu.search")}</span>
-          <Search />
+          <SearchLine />
         </StyledButton>
       </DialogTrigger>
       <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
@@ -314,7 +314,7 @@ const MastheadSearch = () => {
               <DialogCloseTrigger asChild>
                 <Button variant="tertiary">
                   {t("siteNav.close")}
-                  <Cross />
+                  <CloseLine />
                 </Button>
               </DialogCloseTrigger>
             </LabelContainer>
@@ -338,7 +338,7 @@ const MastheadSearch = () => {
                 aria-label={t("searchPage.search")}
                 title={t("searchPage.search")}
               >
-                <Search />
+                <SearchLine />
               </IconButton>
             </ComboboxControl>
             {!!mappedItems.length || loading ? (
@@ -373,7 +373,7 @@ const MastheadSearch = () => {
           {!!mappedItems.length && !loading && (
             <Button variant="secondary" type="submit">
               {t("masthead.moreHits")}
-              <Forward />
+              <ArrowRightLine />
             </Button>
           )}
         </StyledForm>

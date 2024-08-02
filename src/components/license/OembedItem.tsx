@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Copy } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons/action";
 import { Heading, Text } from "@ndla/primitives";
 import CopyTextButton from "./CopyTextButton";
 import { MediaList, MediaListItem } from "../MediaList";
@@ -32,7 +32,7 @@ const OembedItem = ({ oembed }: Props) => {
             hasCopiedTitle={t("license.embedlink.hasCopiedTitle")}
             stringToCopy={oembed}
           >
-            <Copy />
+            <FileCopyLine />
           </CopyTextButton>
         </MediaListContent>
       </MediaListItem>

@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TrashCanOutline } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import DeleteModalContent from "../../components/DeleteModalContent";
@@ -26,7 +26,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
     <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <Button variant="danger" aria-label={t("myNdla.folder.delete")} title={t("myNdla.folder.delete")}>
-          <TrashCanOutline size="small" />
+          <DeleteBinLine size="small" />
           {t("myNdla.folder.deleteShort")}
         </Button>
       </ModalTrigger>

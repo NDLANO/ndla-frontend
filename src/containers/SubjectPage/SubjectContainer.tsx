@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
 import { MessageBox, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -169,13 +169,13 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox variant="warning">
-              <InformationOutline />
+              <InformationLine />
               <Text>{nonRegularSubjectMessage}</Text>
             </MessageBox>
           )}
           {!ndlaFilm && nonRegularSubjectTypeMessage && (
             <MessageBox variant="warning">
-              <InformationOutline />
+              <InformationLine />
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}

@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Copy } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons/action";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
@@ -93,7 +93,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
           </MediaListContent>

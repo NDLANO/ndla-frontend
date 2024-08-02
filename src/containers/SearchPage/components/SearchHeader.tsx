@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { Cross, Plus } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
+import { CloseLine, AddLine } from "@ndla/icons/action";
+import { SearchLine } from "@ndla/icons/common";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
 import { Button, IconButton, Input, InputContainer } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
@@ -144,7 +144,7 @@ const SearchHeader = ({
                   inputRef.current?.focus();
                 }}
               >
-                <Cross />
+                <CloseLine />
               </IconButton>
             )}
           </InputContainer>
@@ -154,7 +154,7 @@ const SearchHeader = ({
             aria-label={t("searchPage.search")}
             title={t("searchPage.search")}
           >
-            <Search />
+            <SearchLine />
           </IconButton>
         </StyledSearchWrapper>
       </form>
@@ -191,7 +191,7 @@ const SearchHeader = ({
           {grepElements.map((grep) => (
             <ButtonV2 key={grep.id} shape="pill" onClick={() => onGrepRemove(grep.id)}>
               {grep.id}
-              <Cross />
+              <CloseLine />
             </ButtonV2>
           ))}
         </FiltersWrapper>
@@ -201,13 +201,13 @@ const SearchHeader = ({
           <ModalTrigger>
             <Button variant="secondary">
               {t("searchPage.searchFilterMessages.noValuesButtonText")}
-              <Plus />
+              <AddLine />
             </Button>
           </ModalTrigger>
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
             <ButtonV2 key={subject.id} shape="pill" onClick={() => onToggleSubject(subject.id)}>
               {subject.name}
-              <Cross />
+              <CloseLine />
             </ButtonV2>
           ))}
           {activeSubjectFilters.length > MAX_SHOW_SUBJECT_FILTERS && (

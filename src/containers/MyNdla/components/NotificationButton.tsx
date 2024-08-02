@@ -10,7 +10,7 @@ import { forwardRef, useMemo, ComponentPropsWithRef } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, spacing } from "@ndla/core";
-import { Bell } from "@ndla/icons/common";
+import { NotificationFill } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
@@ -60,7 +60,7 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <Bell size="small" />
+      <NotificationFill size="small" />
       {amountOfUnreadNotifications !== 0 && (
         <NotificationCounter margin="none" element="div" textStyle="meta-text-xsmall" data-left={!!left}>
           {amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}
