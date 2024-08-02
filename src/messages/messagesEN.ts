@@ -41,7 +41,6 @@ const messages = {
     tipsAndAdvice: "Tools and advice",
     goBack: "Go back",
   },
-  searchPage: { subjectLetter: "Subjects starting with {{letter}}" },
   podcastPage: {
     episodes: "Episodes",
     podcast: "Podcast",
@@ -51,7 +50,11 @@ const messages = {
     subtitle: "Listen and learn!",
   },
   subjectsPage: { tabFilter: "Which subjects would you like to show?" },
-  searchPage: { title: "Search on ndla.no", filterSearch: "Filter your search results:" },
+  searchPage: {
+    title: "Search on ndla.no",
+    filterSearch: "Filter your search results:",
+    subjectLetter: "Subjects starting with {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Try our chatbot",

@@ -41,6 +41,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const tabFilterLabelId = useId();
   return (
     <div>
+      {/* TODO: Update to Fieldset */}
       <StyledText textStyle="title.small" id={tabFilterLabelId}>
         {t("subjectsPage.tabFilter")}
       </StyledText>

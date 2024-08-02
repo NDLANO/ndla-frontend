@@ -47,7 +47,7 @@ const CompetenceWrapper = styled("div", {
 });
 const CompetenceItemWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const SearchPanel = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
+const SearchPanel = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 const StyledMain = styled("main", {
   base: { marginBlockStart: "xxlarge", tabletDown: { marginBlockStart: "medium" } },
@@ -181,11 +181,7 @@ const SearchContainer = ({
             )}
           </CompetenceWrapper>
         )}
-        {loading && searchGroups.length === 0 && (
-          <div aria-live="assertive">
-            <Spinner />
-          </div>
-        )}
+        <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
         {sortedFilterItems.length > 1 && (
           <div>
             <StyledText textStyle="title.small" id={resourceTypeFilterId}>

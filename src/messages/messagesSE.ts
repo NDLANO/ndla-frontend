@@ -40,7 +40,6 @@ const messages = {
     tipsAndAdvice: "Tips og råd",
     goBack: "Gå tilbake",
   },
-  searchPage: { subjectLetter: "Fag som starter på {{letter}}" },
   podcastPage: {
     episodes: "Jearahusat",
     podcast: "Podkast",
@@ -50,7 +49,11 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
-  searchPage: { title: "Søk på ndla.no", filterSearch: "Filtrer søket ditt:" },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som starter på {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
