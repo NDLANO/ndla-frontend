@@ -37,18 +37,20 @@ import { LocaleType } from "../../interfaces";
 const { contentTypes } = constants;
 
 const StyledLanguageSelector = styled("div", {
-  base: { display: "flex", justifyContent: "center", marginBottom: "100" },
+  base: { display: "flex", justifyContent: "center", marginBlockEnd: "surface.xxsmall" },
 });
-const CompetenceWrapper = styled("div", { base: { marginBottom: "medium" } });
+const CompetenceWrapper = styled("div", { base: { marginBlockEnd: "medium" } });
 
 const StyledMain = styled("main", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const BreadcrumbWrapper = styled("div", { base: { marginTop: "xxlarge", tabletDown: { marginTop: "medium" } } });
+const BreadcrumbWrapper = styled("div", {
+  base: { marginBlockStart: "xxlarge", tabletDown: { marginBlockStart: "medium" } },
+});
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
 });
-const StyledText = styled(Text, { base: { marginBottom: "small" } });
+const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
 
 const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
   const showAll = selectedFilters.includes("all");
