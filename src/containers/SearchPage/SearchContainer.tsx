@@ -110,7 +110,7 @@ const SearchContainer = ({
         selectedFilters.includes(cur) ||
         (subjectItems?.length && cur === "subject")
       ) {
-        return [...acc, { value: cur, label: t(`contentTypes.${cur}`) }];
+        acc.push({ value: cur, label: t(`contentTypes.${cur}`) });
       }
       return acc;
     },
