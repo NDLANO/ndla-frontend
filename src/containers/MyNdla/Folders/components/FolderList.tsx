@@ -18,12 +18,11 @@ import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { useSortFoldersMutation } from "../../folderMutations";
-import { BlockWrapper, ViewType } from "../FoldersPage";
+import { BlockWrapper } from "../FoldersPage";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 interface Props {
   loading: boolean;
-  type: ViewType;
   folders: GQLFolder[];
   folderId: string | undefined;
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
@@ -31,7 +30,7 @@ interface Props {
   isFavorited?: boolean;
 }
 
-const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
+const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
   const client = useApolloClient();
@@ -90,7 +89,7 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId,
   return (
     <WhileLoading isLoading={loading} fallback={<Spinner />}>
       {folders.length > 0 && (
-        <BlockWrapper data-type={type} data-no-padding={folders.length === 1}>
+        <BlockWrapper data-no-padding={folders.length === 1}>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -105,7 +104,6 @@ const FolderList = ({ loading, type, folders, folderId, setFocusId, folderRefId,
                   folder={folder}
                   index={index}
                   foldersCount={foldersCount?.[folder.id]}
-                  type={type}
                   folders={folders}
                   setFocusId={setFocusId}
                   folderRefId={folderRefId}

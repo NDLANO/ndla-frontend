@@ -51,6 +51,10 @@ const StyledResourceList = styled.ul`
   }
 `;
 
+const StyledTopicList = styled(StyledResourceList)`
+  gap: 0px;
+`;
+
 const SectionWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -197,13 +201,13 @@ const MyNdlaPage = () => {
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentArenaPosts.title")}
             </Heading>
-            <StyledResourceList>
+            <StyledTopicList>
               {recentArenaTopicsQuery.data?.items?.map((topic) => (
                 <li key={topic.id}>
                   <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
                 </li>
               ))}
-            </StyledResourceList>
+            </StyledTopicList>
             <StyledSafeLink to="arena">
               {t("myNdla.myPage.recentArenaPosts.link")}
               <ArrowRightLine />
@@ -266,7 +270,6 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix={routes.myNdla.tags}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}
@@ -275,7 +278,6 @@ const MyNdlaPage = () => {
                         src: meta?.metaImage?.url ?? "",
                         alt: "",
                       }}
-                      tags={res.tags}
                       resourceTypes={meta?.resourceTypes ?? []}
                     />
                   </ListItem>

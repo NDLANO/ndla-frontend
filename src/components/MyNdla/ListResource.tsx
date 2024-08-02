@@ -6,268 +6,178 @@
  *
  */
 
-/** @jsxImportSource @emotion/react */
 import { ReactNode, useMemo } from "react";
-import styled from "@emotion/styled";
-import { spacing, colors, breakpoints, mq, stackOrder } from "@ndla/core";
-import { Image } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
-import { ContentTypeBadge, ContentLoader } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
 import {
-  ResourceImageProps,
-  ContentIconWrapper,
-  LoaderProps,
-  ResourceTypeList,
-  CompressedTagList,
-  ResourceTitleLink,
-  ResourceHeading,
-} from "./resourceComponents";
-import { resourceEmbedTypeMapping, contentTypeMapping } from "../../util/getContentType";
+  ListItemContent,
+  ListItemHeading,
+  ListItemImage,
+  ListItemRoot,
+  ListItemVariantProps,
+  Skeleton,
+  Text,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeBadgeNew, constants } from "@ndla/ui";
 
-const ListResourceWrapper = styled.div`
-  flex: 1;
-  display: grid;
-  position: relative;
-  grid-template-columns: auto minmax(50px, 1fr) auto;
-  grid-template-areas:
-    "image  topicAndTitle   tags"
-    "image  description     description";
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    grid-template-columns: auto 1fr;
-    grid-template-areas:
-      "image                topicAndTitle"
-      "description          description"
-      "tags                 tags";
-  }
+const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
-  cursor: pointer;
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: 2px;
-
-  &:hover {
-    box-shadow: 1px 1px 6px 2px rgba(9, 55, 101, 0.08);
-    transition-duration: 0.2s;
-    [data-link] {
-      color: ${colors.brand.primary};
-      text-decoration: underline;
-    }
-  }
-`;
-
-interface StyledImageProps {
-  imageSize: "normal" | "compact";
-}
-
-const ImageWrapper = styled.div<StyledImageProps>`
-  grid-area: image;
-  width: 56px;
-  overflow: hidden;
-  border-radius: 2px;
-  display: flex;
-  margin: ${spacing.small};
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4/3;
-  &[data-image-size="normal"] {
-    width: 136px;
-  }
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    width: 56px;
-    margin-bottom: 0;
-  }
-`;
-
-const StyledImage = styled(Image)`
-  object-fit: cover;
-  aspect-ratio: 4/3;
-`;
-
-const StyledResourceDescription = styled(Text)`
-  grid-area: description;
-  line-clamp: 2;
-  height: 3.1em;
-  margin: 0 ${spacing.small} ${spacing.small} 0;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    margin: 0 ${spacing.small};
-  }
-  overflow: hidden;
-  text-overflow: ellipsis;
-  // Unfortunate css needed for multi-line text overflow ellipsis.
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
-`;
-
-const TagsandActionMenu = styled.div`
-  grid-area: tags;
-  z-index: ${stackOrder.offsetSingle};
-  box-sizing: content-box;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  align-self: flex-start;
-  justify-items: flex-end;
-  overflow: hidden;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    min-height: ${spacing.small};
-  }
-`;
-
-const TopicAndTitleWrapper = styled.div`
-  grid-area: topicAndTitle;
-  display: flex;
-  margin: ${spacing.small} 0;
-  flex-direction: column;
-  overflow: hidden;
-  margin-right: ${spacing.small};
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    margin-bottom: 0;
-  }
-`;
-
-interface ListResourceImageProps {
-  resourceImage: ResourceImageProps;
-  loading?: boolean;
-  type: "normal" | "compact";
-  contentType: string;
-  background?: boolean;
-}
-
-const ListResourceImage = ({ resourceImage, loading, type, contentType, background }: ListResourceImageProps) => {
-  if (!loading) {
-    if (resourceImage.src === "") {
-      return (
-        <ContentIconWrapper contentType={contentType}>
-          <ContentTypeBadge type={contentType} background={background} size="x-small" />
-        </ContentIconWrapper>
-      );
-    }
-    return (
-      <StyledImage alt={resourceImage.alt} src={resourceImage.src} fallbackWidth={type === "compact" ? 56 : 136} />
-    );
-  }
-
-  return (
-    <ContentLoader height={"100%"} width={"100%"} viewBox={null} preserveAspectRatio="none">
-      <rect
-        x="0"
-        y="0"
-        rx="3"
-        ry="3"
-        width={type === "compact" ? "56" : "136"}
-        height={type === "compact" ? "40" : "96"}
-      />
-    </ContentLoader>
-  );
-};
-
-const TypeAndTitleLoader = ({ loading, children }: LoaderProps) => {
-  if (loading) {
-    return (
-      <ContentLoader height={"40px"} width={"100%"} viewBox={null} preserveAspectRatio="none">
-        <rect x="0" y="0" rx="3" ry="3" width={"100%"} height={"16"} />
-        <rect x="0" y="18" rx="3" ry="3" width={"70"} height={"16"} />
-        <rect x="80" y="18" rx="3" ry="3" width={"70"} height={"16"} />
-      </ContentLoader>
-    );
-  }
-  return <>{children}</>;
-};
-
-interface ResourceDescriptionProps {
-  description?: string;
-  loading?: boolean;
-}
-
-const Description = ({ description, loading }: ResourceDescriptionProps) => {
-  if (loading) {
-    return (
-      <ContentLoader height={"20px"} width={"100%"} viewBox={null} preserveAspectRatio="none">
-        <rect x="0" y="0" width="100%" height="20" />
-      </ContentLoader>
-    );
-  }
-  return (
-    <StyledResourceDescription element="p" textStyle="meta-text-small">
-      {description}
-    </StyledResourceDescription>
-  );
-};
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    placeSelf: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "4xsmall",
+    width: "100%",
+  },
+});
 
 export interface ListResourceProps {
   id: string;
   link: string;
-  tagLinkPrefix?: string;
   title: string;
-  resourceImage: ResourceImageProps;
+  resourceImage: { src: string; alt: string };
   resourceTypes: { id: string; name: string }[];
-  tags?: string[];
   description?: string;
   menu?: ReactNode;
   isLoading?: boolean;
-  targetBlank?: boolean;
 }
 
-const MISSING = "missing";
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    lineClamp: "1",
+    overflowWrap: "anywhere",
+  },
+});
+
+const StyledDescription = styled(Text, {
+  base: {
+    width: "100%",
+    lineClamp: "2",
+    overflowWrap: "anywhere",
+  },
+});
+
+const ActionWrapper = styled("div", {
+  base: {
+    "& > button, & > a": {
+      position: "relative",
+    },
+  },
+});
+
+const BigListItemImage = styled(ListItemImage, {
+  base: {
+    tabletWide: {
+      minWidth: "102px",
+      maxWidth: "102px",
+      minHeight: "77px",
+      maxHeight: "77px",
+    },
+  },
+});
+
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "space-between",
+    gap: "4xsmall",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
+    tablet: {
+      flexDirection: "row",
+    },
+  },
+});
+
+const LoadingListItemRoot = styled(ListItemRoot, {
+  base: {
+    pointerEvents: "none",
+  },
+});
 
 const ListResource = ({
   id,
   link,
-  tagLinkPrefix,
   title,
-  tags,
   resourceImage,
   resourceTypes,
   description,
   menu,
+  variant = "list",
   isLoading = false,
-  targetBlank,
-}: ListResourceProps) => {
+}: ListResourceProps & ListItemVariantProps) => {
+  const { t } = useTranslation();
   const showDescription = description !== undefined;
   const imageType = showDescription ? "normal" : "compact";
   const firstContentType = resourceTypes?.[0]?.id ?? "";
-  const embedResourceType = resourceEmbedTypeMapping[firstContentType];
+
+  const ImageComponent = imageType === "compact" ? ListItemImage : BigListItemImage;
 
   const contentType = useMemo(() => {
     if (!firstContentType) {
-      return MISSING;
+      return constants.contentTypes.MISSING;
     }
-    return contentTypeMapping[firstContentType] ?? embedResourceType ?? contentTypeMapping.default!;
-  }, [embedResourceType, firstContentType]);
+    return (
+      constants.contentTypeMapping[firstContentType] ??
+      resourceEmbedTypeMapping[firstContentType] ??
+      constants.contentTypeMapping.default!
+    );
+  }, [firstContentType]);
+
+  if (isLoading) {
+    return (
+      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} variant={variant}>
+        <Skeleton>
+          <ListItemImage src="" alt="" />
+        </Skeleton>
+        <StyledListItemContent>
+          <TitleWrapper>
+            <Skeleton css={{ width: "40%" }}>
+              <ListItemHeading>&nbsp;</ListItemHeading>
+            </Skeleton>
+            <Skeleton>
+              <ContentTypeBadgeNew contentType={"missing"} />
+            </Skeleton>
+          </TitleWrapper>
+        </StyledListItemContent>
+      </LoadingListItemRoot>
+    );
+  }
 
   return (
-    <ListResourceWrapper id={id}>
-      <ImageWrapper imageSize={imageType} data-image-size={imageType}>
-        <ListResourceImage
-          resourceImage={resourceImage}
-          loading={isLoading}
-          type={imageType}
-          background={!!embedResourceType}
-          contentType={contentType}
-        />
-      </ImageWrapper>
-      <TopicAndTitleWrapper>
-        <TypeAndTitleLoader loading={isLoading}>
-          <ResourceTitleLink
-            to={link}
-            data-link=""
-            target={targetBlank ? "_blank" : undefined}
-            data-resource-available={contentType !== MISSING}
+    <ListItemRoot id={id} variant={variant}>
+      <ImageComponent
+        src={resourceImage.src}
+        alt={resourceImage.alt}
+        fallbackWidth={imageType === "compact" ? 56 : 136}
+        // Hide image borders when no image is present. We still want it to take up space
+        css={{ "&[src='']": { opacity: "0" } }}
+      />
+      <StyledListItemContent>
+        <TitleWrapper>
+          <ListItemHeading
+            asChild
+            consumeCss
+            color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
           >
-            <ResourceHeading element="span" textStyle="label-small" title={title}>
-              {title}
-            </ResourceHeading>
-          </ResourceTitleLink>
-          <ResourceTypeList resourceTypes={resourceTypes} />
-        </TypeAndTitleLoader>
-      </TopicAndTitleWrapper>
-      {showDescription && <Description description={description} loading={isLoading} />}
-      <TagsandActionMenu>
-        {tags && tags.length > 0 && <CompressedTagList tagLinkPrefix={tagLinkPrefix} tags={tags} />}
-        {menu}
-      </TagsandActionMenu>
-    </ListResourceWrapper>
+            <h2>
+              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
+                {title}
+              </StyledSafeLink>
+            </h2>
+          </ListItemHeading>
+          <ContentTypeBadgeNew contentType={contentType} />
+        </TitleWrapper>
+        {!!description && <StyledDescription>{description}</StyledDescription>}
+      </StyledListItemContent>
+      <ActionWrapper>{menu}</ActionWrapper>
+    </ListItemRoot>
   );
 };
 
