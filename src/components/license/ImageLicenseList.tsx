@@ -32,8 +32,8 @@ import {
   MediaListItemMeta,
   ItemType,
   MediaListLicense,
-} from "../MediaList";
-import { MediaListContent } from "../MediaList/MediaList";
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
   const urlObject = queryString.parseUrl(imageSrc);

@@ -10,8 +10,7 @@ import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons/action";
 import { Heading, Text } from "@ndla/primitives";
 import CopyTextButton from "./CopyTextButton";
-import { MediaList, MediaListItem } from "../MediaList";
-import { MediaListContent } from "../MediaList/MediaList";
+import { MediaListContent, MediaList, MediaListItem } from "../MediaList/MediaList";
 
 interface Props {
   oembed: string;

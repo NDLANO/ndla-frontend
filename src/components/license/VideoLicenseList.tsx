@@ -32,8 +32,8 @@ import {
   MediaListItemMeta,
   ItemType,
   MediaListLicense,
-} from "../MediaList";
-import { MediaListContent } from "../MediaList/MediaList";
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
