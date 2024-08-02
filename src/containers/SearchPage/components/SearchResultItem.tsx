@@ -96,14 +96,13 @@ const SearchResultItem = ({ item, type }: Props) => {
                       {item.contexts.map((context) => (
                         <li key={context.url}>
                           <SafeLink to={context.url}>{item.title}</SafeLink>
-                          <Text textStyle="label.small">
+                          <Text
+                            textStyle="label.small"
+                            aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
+                          >
                             {context.breadcrumb.join(" › ")}
                             &nbsp;
-                            {context.isAdditional ? (
-                              <Additional aria-hidden={false} aria-label={t("resource.tooltipAdditionalTopic")} />
-                            ) : (
-                              <Core aria-hidden={false} aria-label={t("resource.tooltipCoreTopic")} />
-                            )}
+                            {context.isAdditional ? <Additional /> : <Core />}
                           </Text>
                         </li>
                       ))}
