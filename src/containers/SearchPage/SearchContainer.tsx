@@ -18,9 +18,9 @@ import {
   CheckboxRoot,
   Spinner,
   Text,
+  Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Heading } from "@ndla/typography";
 import { constants, HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
 import { BaseSearchGroup, SearchResultGroup, SearchResultsList } from "./components/SearchResults";
@@ -39,7 +39,11 @@ const { contentTypes } = constants;
 const StyledLanguageSelector = styled("div", {
   base: { display: "flex", justifyContent: "center", marginBlockEnd: "surface.xxsmall" },
 });
-const CompetenceWrapper = styled("div", { base: { marginBlockEnd: "medium" } });
+const CompetenceWrapper = styled("div", {
+  base: { display: "flex", flexDirection: "column", gap: "small" },
+});
+
+const CompetenceItemWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
 const StyledMain = styled("main", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
@@ -157,22 +161,22 @@ const SearchContainer = ({
       {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
         <CompetenceWrapper>
           {!!competenceGoalsMetadata?.length && (
-            <>
-              <Heading element="h2" headingStyle="list-title">
-                {t("competenceGoals.competenceGoalItem.title")}
+            <CompetenceItemWrapper>
+              <Heading textStyle="title.large" asChild consumeCss>
+                <h2>{t("competenceGoals.competenceGoalItem.title")}</h2>
               </Heading>
               {competenceGoalsMetadata.map((goal, index) => (
-                <CompetenceItem item={goal} key={index} showLinks={false} />
+                <CompetenceItem item={goal} key={index} />
               ))}
-            </>
+            </CompetenceItemWrapper>
           )}
           {!!coreElements?.length && (
-            <>
-              <Heading element="h2" headingStyle="list-title">
-                {t("competenceGoals.competenceTabCorelabel")}
+            <CompetenceItemWrapper>
+              <Heading textStyle="title.large" asChild consumeCss>
+                <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
               </Heading>
-              <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} showLinks={false} />
-            </>
+              <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} />
+            </CompetenceItemWrapper>
           )}
         </CompetenceWrapper>
       )}

@@ -7,19 +7,12 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { BookReadFill } from "@ndla/icons/common";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
+import { Heading as OldHeading, Text as OldText } from "@ndla/typography";
 import { CompetenceGoalsType } from "../interfaces";
-
-const TabWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  padding: ${spacing.normal} 0px;
-`;
 
 interface Props {
   items: CompetenceGoalType[] | CoreElementType[];
@@ -52,19 +45,19 @@ export interface CoreElementType {
 }
 
 type CompetenceType = "goal" | "element";
-
+// TODO: adjust according to new design
 const CompetenceGoalTab = ({ items, type }: Props) => {
   const { t } = useTranslation();
   return (
-    <TabWrapper>
+    <div>
       {items.map((item, index) => (
         <CompetenceItemWrapper key={index}>
           <hgroup>
-            <StyledHeading element="h2" headingStyle="h2" margin="none">
+            <OldHeading element="h2" headingStyle="h2" margin="none">
               <BookReadFill />
               {item.title}
-            </StyledHeading>
-            {type === "goal" && <Text margin="none">{t("competenceGoals.competenceGoalTitle")}</Text>}
+            </OldHeading>
+            {type === "goal" && <OldText margin="none">{t("competenceGoals.competenceGoalTitle")}</OldText>}
           </hgroup>
           <CompetenceItem item={item} showLinks />
         </CompetenceItemWrapper>
@@ -79,7 +72,7 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
           data.udir.no
         </SafeLink>
       </span>
-    </TabWrapper>
+    </div>
   );
 };
 
@@ -89,102 +82,59 @@ interface CompetenceItemProps {
   showLinks?: boolean;
 }
 
-const StyledHeading = styled(Heading)`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const CompetenceItemWrapper = styled("div", {
+  base: { display: "flex", flexDirection: "column", gap: "small", alignItems: "flex-start" },
+});
 
-const CompetenceItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${spacing.small};
-`;
+const OuterList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const OuterList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-`;
+const InnerList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const InnerList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const ItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gridTemplateColumns: "1fr",
+    alignItems: "center",
+    gap: "small",
+    "&[data-show-links='true']": { gridTemplateColumns: "3fr 1fr" },
+  },
+});
 
-const InnerListItem = styled.li`
-  margin: 0px;
-  padding: 0px;
-`;
-
-const OuterListItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin: 0px;
-  padding: 0px;
-`;
-
-const ItemWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: ${spacing.small};
-  &[data-show-links="true"] {
-    grid-template-columns: 3fr 1fr;
-  }
-`;
-
-const CoreElementWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-export const CompetenceItem = ({ item, isOembed, showLinks }: CompetenceItemProps) => {
+export const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
   const { t } = useTranslation();
   return (
     <OuterList>
       {item.elements?.map((element) => (
-        <OuterListItem key={element.id}>
-          <Heading element="h3" headingStyle="list-title" margin="none">
-            {element.title}
+        <li key={element.id}>
+          <Heading textStyle="label.large" fontWeight="bold" asChild consumeCss>
+            <h3>{element.title}</h3>
           </Heading>
           {"goals" in element ? (
             <InnerList>
               {element.goals.map((goal) => (
-                <InnerListItem key={goal.id}>
+                <li key={goal.id}>
                   <ItemWrapper data-show-links={showLinks}>
-                    <Text textStyle="content-alt" margin="none">
-                      {goal.text}
-                    </Text>
+                    <Text>{goal.text}</Text>
                     {showLinks && (
                       <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
                         {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
                       </SafeLink>
                     )}
                   </ItemWrapper>
-                </InnerListItem>
+                </li>
               ))}
             </InnerList>
           ) : (
-            <CoreElementWrapper>
-              <Text textStyle="content-alt" margin="none">
-                {element.text}
-              </Text>
+            <div>
+              <Text>{element.text}</Text>
               {showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </SafeLink>
               )}
-            </CoreElementWrapper>
+            </div>
           )}
-        </OuterListItem>
+        </li>
       ))}
     </OuterList>
   );
