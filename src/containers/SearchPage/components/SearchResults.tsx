@@ -25,12 +25,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
 
-const Wrapper = styled("section", {
+const StyledSection = styled("section", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    marginBlock: "medium",
   },
 });
 
@@ -147,7 +146,7 @@ export const BaseSearchGroup = ({
   }, []);
 
   return (
-    <Wrapper key={`searchresult-${groupType}`}>
+    <StyledSection key={`searchresult-${groupType}`}>
       <HeaderWrapper>
         <Heading textStyle="title.large" id={headingId} asChild consumeCss>
           <h2>{groupType ? t(`contentTypes.${groupType}`) : t("searchPage.resultType.allContentTypes")}</h2>
@@ -179,6 +178,6 @@ export const BaseSearchGroup = ({
           </Button>
         )}
       </PaginationWrapper>
-    </Wrapper>
+    </StyledSection>
   );
 };

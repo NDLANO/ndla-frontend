@@ -20,6 +20,7 @@ import {
   Text,
   Heading,
 } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { constants, HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
@@ -36,18 +37,19 @@ import { LocaleType } from "../../interfaces";
 
 const { contentTypes } = constants;
 
+const mainSearchLayoutStyle = css.raw({ display: "flex", flexDirection: "column", gap: "xxlarge" });
+
 const StyledLanguageSelector = styled("div", {
   base: { display: "flex", justifyContent: "center", marginBlockEnd: "surface.xxsmall" },
 });
 const CompetenceWrapper = styled("div", {
   base: { display: "flex", flexDirection: "column", gap: "small" },
 });
-
 const CompetenceItemWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const StyledMain = styled("main", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
+const SearchPanel = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
 
-const BreadcrumbWrapper = styled("div", {
+const StyledMain = styled("main", {
   base: { marginBlockStart: "xxlarge", tabletDown: { marginBlockStart: "medium" } },
 });
 
@@ -133,61 +135,59 @@ const SearchContainer = ({
   const toCountSubjectItems = typeFilter["subject"] ? typeFilter["subject"].page * typeFilter["subject"].pageSize : 0;
 
   return (
-    <StyledMain>
+    <StyledMain css={mainSearchLayoutStyle}>
       {!isLti && (
-        <BreadcrumbWrapper>
-          <HomeBreadcrumb
-            items={[
-              {
-                name: t("breadcrumb.toFrontpage"),
-                to: "/",
-              },
-              { to: "/search", name: t("searchPage.search") },
-            ]}
-          />
-        </BreadcrumbWrapper>
+        <HomeBreadcrumb
+          items={[
+            {
+              name: t("breadcrumb.toFrontpage"),
+              to: "/",
+            },
+            { to: "/search", name: t("searchPage.search") },
+          ]}
+        />
       )}
-      <SearchHeader
-        query={query}
-        suggestion={suggestion}
-        subjectIds={subjectIds}
-        handleSearchParamsChange={handleSearchParamsChange}
-        subjects={subjects}
-        noResults={sortedFilterItems.length === 0}
-        competenceGoals={competenceGoals}
-        coreElements={coreElements}
-        loading={loading}
-      />
-      {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
-        <CompetenceWrapper>
-          {!!competenceGoalsMetadata?.length && (
-            <CompetenceItemWrapper>
-              <Heading textStyle="title.large" asChild consumeCss>
-                <h2>{t("competenceGoals.competenceGoalItem.title")}</h2>
-              </Heading>
-              {competenceGoalsMetadata.map((goal, index) => (
-                <CompetenceItem item={goal} key={index} />
-              ))}
-            </CompetenceItemWrapper>
-          )}
-          {!!coreElements?.length && (
-            <CompetenceItemWrapper>
-              <Heading textStyle="title.large" asChild consumeCss>
-                <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
-              </Heading>
-              <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} />
-            </CompetenceItemWrapper>
-          )}
-        </CompetenceWrapper>
-      )}
-      {loading && searchGroups.length === 0 && (
-        <div aria-live="assertive">
-          <Spinner />
-        </div>
-      )}
-      <div>
+      <SearchPanel>
+        <SearchHeader
+          query={query}
+          suggestion={suggestion}
+          subjectIds={subjectIds}
+          handleSearchParamsChange={handleSearchParamsChange}
+          subjects={subjects}
+          noResults={sortedFilterItems.length === 0}
+          competenceGoals={competenceGoals}
+          coreElements={coreElements}
+          loading={loading}
+        />
+        {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
+          <CompetenceWrapper>
+            {!!competenceGoalsMetadata?.length && (
+              <CompetenceItemWrapper>
+                <Heading textStyle="title.large" asChild consumeCss>
+                  <h2>{t("competenceGoals.competenceGoalItem.title")}</h2>
+                </Heading>
+                {competenceGoalsMetadata.map((goal, index) => (
+                  <CompetenceItem item={goal} key={index} />
+                ))}
+              </CompetenceItemWrapper>
+            )}
+            {!!coreElements?.length && (
+              <CompetenceItemWrapper>
+                <Heading textStyle="title.large" asChild consumeCss>
+                  <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
+                </Heading>
+                <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} />
+              </CompetenceItemWrapper>
+            )}
+          </CompetenceWrapper>
+        )}
+        {loading && searchGroups.length === 0 && (
+          <div aria-live="assertive">
+            <Spinner />
+          </div>
+        )}
         {sortedFilterItems.length > 1 && (
-          <>
+          <div>
             <StyledText textStyle="title.small" id={resourceTypeFilterId}>
               {t("searchPage.filterSearch")}
             </StyledText>
@@ -208,46 +208,46 @@ const SearchContainer = ({
                 </CheckboxRoot>
               ))}
             </StyledCheckboxGroup>
-          </>
+          </div>
         )}
-        {displaySubjectItems && (selectedFilters.includes("all") || selectedFilters.includes("subject")) && (
-          <BaseSearchGroup
-            loading={loading}
-            groupType="subject"
-            totalCount={subjectItems.length}
-            toCount={toCountSubjectItems}
-            handleShowMore={handleShowMore}
-          >
-            <SearchResultsList>
-              {subjectItems.slice(0, toCountSubjectItems).map((item) => (
-                <SearchResultSubjectItem item={item} key={item.id} />
-              ))}
-            </SearchResultsList>
-          </BaseSearchGroup>
-        )}
-        {searchGroups && searchGroups.length > 0 && (
-          <>
-            {filteredSortedSearchGroups.map((group) => (
-              <SearchResultGroup
-                key={`searchresultgroup-${group.type}`}
-                group={group}
-                handleSubFilterClick={handleSubFilterClick}
-                handleShowMore={handleShowMore}
-                loading={loading}
-                typeFilter={typeFilter}
-              />
+      </SearchPanel>
+      {displaySubjectItems && (selectedFilters.includes("all") || selectedFilters.includes("subject")) && (
+        <BaseSearchGroup
+          loading={loading}
+          groupType="subject"
+          totalCount={subjectItems.length}
+          toCount={toCountSubjectItems}
+          handleShowMore={handleShowMore}
+        >
+          <SearchResultsList>
+            {subjectItems.slice(0, toCountSubjectItems).map((item) => (
+              <SearchResultSubjectItem item={item} key={item.id} />
             ))}
-            {isLti && (
-              <StyledLanguageSelector>
-                <LanguageSelector
-                  items={supportedLanguages}
-                  onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
-                />
-              </StyledLanguageSelector>
-            )}
-          </>
-        )}
-      </div>
+          </SearchResultsList>
+        </BaseSearchGroup>
+      )}
+      {searchGroups && searchGroups.length > 0 && (
+        <styled.div css={mainSearchLayoutStyle}>
+          {filteredSortedSearchGroups.map((group) => (
+            <SearchResultGroup
+              key={`searchresultgroup-${group.type}`}
+              group={group}
+              handleSubFilterClick={handleSubFilterClick}
+              handleShowMore={handleShowMore}
+              loading={loading}
+              typeFilter={typeFilter}
+            />
+          ))}
+          {isLti && (
+            <StyledLanguageSelector>
+              <LanguageSelector
+                items={supportedLanguages}
+                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              />
+            </StyledLanguageSelector>
+          )}
+        </styled.div>
+      )}
     </StyledMain>
   );
 };

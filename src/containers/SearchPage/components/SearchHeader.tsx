@@ -36,8 +36,6 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-    marginTop: "medium",
-    tabletDown: { marginTop: "0" },
   },
 });
 
