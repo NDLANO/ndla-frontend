@@ -6,7 +6,7 @@
  *
  */
 
-import { CSSProperties, ReactNode, useCallback, useId } from "react";
+import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -55,7 +55,7 @@ const Progress = styled("span", {
   base: { display: "block", background: "stroke.default", height: "2px", width: "min(var(--width),100%)" },
 });
 
-export const SearchResultsList = styled("ul", {
+const SearchResultsList = styled("ul", {
   base: {
     display: "grid",
     alignItems: "flex-start",
@@ -81,19 +81,33 @@ interface Props {
 }
 
 export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSubFilterClick, loading }: Props) => {
+  const { t } = useTranslation();
+
   const groupFilter = typeFilter[group.type];
   const filters =
     groupFilter?.filters.filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all") ?? [];
   const toCount = groupFilter ? groupFilter?.page * groupFilter.pageSize : 0;
 
+  const headingId = useId();
+
+  const onToTopHandler = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
-    <BaseSearchGroup
-      loading={loading}
-      groupType={group.type}
-      totalCount={group.totalCount}
-      toCount={toCount}
-      handleShowMore={handleShowMore}
-    >
+    <StyledSection key={`searchresult-${group.type}`}>
+      <HeaderWrapper>
+        <Heading textStyle="title.large" id={headingId} asChild consumeCss>
+          <h2>{group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}</h2>
+        </Heading>
+        {!!group.totalCount && (
+          <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
+        )}
+      </HeaderWrapper>
       {groupFilter?.filters.length ? (
         <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
           {filters.map((filter) => (
@@ -114,62 +128,22 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
           <SearchResultItem item={item} key={item.id} type={group.type} />
         ))}
       </SearchResultsList>
-    </BaseSearchGroup>
-  );
-};
-
-interface BaseSearchProps {
-  children: ReactNode;
-  loading: boolean;
-  groupType: string;
-  totalCount: number;
-  toCount: number;
-  handleShowMore: (type: string) => void;
-}
-export const BaseSearchGroup = ({
-  children,
-  loading,
-  groupType,
-  totalCount,
-  toCount,
-  handleShowMore,
-}: BaseSearchProps) => {
-  const { t } = useTranslation();
-  const headingId = useId();
-
-  const onToTopHandler = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  }, []);
-
-  return (
-    <StyledSection key={`searchresult-${groupType}`}>
-      <HeaderWrapper>
-        <Heading textStyle="title.large" id={headingId} asChild consumeCss>
-          <h2>{groupType ? t(`contentTypes.${groupType}`) : t("searchPage.resultType.allContentTypes")}</h2>
-        </Heading>
-        {!!totalCount && <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: totalCount })}</Text>}
-      </HeaderWrapper>
-      {children}
       <PaginationWrapper>
         <Text textStyle="label.medium">
-          {toCount < totalCount
+          {toCount < group.totalCount
             ? t("searchPage.resultType.showing", {
                 count: toCount,
-                totalCount: totalCount,
+                totalCount: group.totalCount,
                 contentType: "",
               })
             : t("searchPage.resultType.showingAll")}
         </Text>
         <ProgressBar>
-          <Progress style={{ "--width": `${Math.ceil((toCount / totalCount) * 100)}%` } as CSSProperties} />
+          <Progress style={{ "--width": `${Math.ceil((toCount / group.totalCount) * 100)}%` } as CSSProperties} />
         </ProgressBar>
         {loading && <Spinner />}
-        {toCount < totalCount ? (
-          <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(groupType)}>
+        {toCount < group.totalCount ? (
+          <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
             {t("searchPage.resultType.showMore")}
           </Button>
         ) : (

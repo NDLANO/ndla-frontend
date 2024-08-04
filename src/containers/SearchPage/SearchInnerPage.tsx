@@ -6,7 +6,7 @@
  *
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Location } from "react-router-dom";
 import SearchContainer from "./SearchContainer";
@@ -17,6 +17,7 @@ import {
   converSearchStringToObject,
   getTypeParams,
   TypeFilter,
+  mapSubjectDataToGroup,
 } from "./searchHelpers";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import config from "../../config";
@@ -35,13 +36,6 @@ const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-export interface SubjectItem {
-  id: string;
-  title: string;
-  url: string;
-  img?: { url: string };
-}
-
 export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>["competenceGoals"][0];
 
 export type SearchCoreElements = Required<GQLGroupSearchQuery>["coreElements"][0];
@@ -52,7 +46,7 @@ interface Props {
   query?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
-  subjectItems?: SubjectItem[];
+  subjectItems?: GQLSubjectInfoFragment[];
   resourceTypes?: GQLResourceTypeDefinition[];
   ltiData?: LtiData;
   isLti?: boolean;
@@ -188,20 +182,24 @@ const SearchInnerPage = ({
     }
   };
 
+  const searchGroups = useMemo(() => {
+    const language = i18n.language !== config.defaultLocale ? i18n.language : undefined;
+    const subjectSearchGroup = mapSubjectDataToGroup(subjectItems);
+    const searchGroups = mapSearchDataToGroups(
+      data?.groupSearch || previousData?.groupSearch,
+      resourceTypes,
+      ltiData,
+      isLti,
+      language,
+      t,
+    );
+    return subjectSearchGroup.concat(searchGroups);
+  }, [data?.groupSearch, i18n.language, isLti, ltiData, previousData?.groupSearch, resourceTypes, subjectItems, t]);
+
   if (error) {
     handleError(error);
     return <DefaultErrorMessage />;
   }
-
-  const language = i18n.language !== config.defaultLocale ? i18n.language : undefined;
-  const searchGroups = mapSearchDataToGroups(
-    data?.groupSearch || previousData?.groupSearch,
-    resourceTypes,
-    ltiData,
-    isLti,
-    language,
-    t,
-  );
 
   const suggestion = data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
@@ -215,7 +213,6 @@ const SearchInnerPage = ({
       suggestion={suggestion}
       subjects={subjects}
       query={query}
-      subjectItems={subjectItems}
       typeFilter={typeFilter}
       searchGroups={searchGroups}
       loading={loading}

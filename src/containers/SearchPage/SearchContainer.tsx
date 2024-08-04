@@ -22,20 +22,17 @@ import {
 } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { constants, HomeBreadcrumb } from "@ndla/ui";
+import { HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
-import { BaseSearchGroup, SearchResultGroup, SearchResultsList } from "./components/SearchResults";
-import SearchResultSubjectItem from "./components/SearchResultSubjectItem";
+import { SearchResultGroup } from "./components/SearchResults";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
-import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
+import { SearchCompetenceGoal, SearchCoreElements } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
-
-const { contentTypes } = constants;
 
 const mainSearchLayoutStyle = css.raw({ display: "flex", flexDirection: "column", gap: "xxlarge" });
 
@@ -62,7 +59,7 @@ const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) =>
   const showAll = selectedFilters.includes("all");
   return searchGroups.filter((group) => {
     const isSelected = selectedFilters.includes(group.type);
-    return (showAll || isSelected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+    return (showAll || isSelected) && !!group.items.length;
   });
 };
 
@@ -76,7 +73,6 @@ interface Props {
   subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
   coreElements: SearchCoreElements[];
-  subjectItems?: SubjectItem[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
@@ -91,7 +87,6 @@ const SearchContainer = ({
   handleShowMore,
   query,
   subjectIds,
-  subjectItems,
   subjects,
   suggestion,
   typeFilter,
@@ -107,11 +102,7 @@ const SearchContainer = ({
 
   const filterButtonItems = Object.keys(typeFilter).reduce(
     (acc, cur) => {
-      if (
-        searchGroups.find((group) => group.type === cur)?.items?.length ||
-        selectedFilters.includes(cur) ||
-        (subjectItems?.length && cur === "subject")
-      ) {
+      if (searchGroups.find((group) => group.type === cur)?.items?.length || selectedFilters.includes(cur)) {
         acc.push({ value: cur, label: t(`contentTypes.${cur}`) });
       }
       return acc;
@@ -130,9 +121,6 @@ const SearchContainer = ({
     id: element.id,
     url: "",
   }));
-
-  const displaySubjectItems = !!subjectItems?.length && !subjectIds.length;
-  const toCountSubjectItems = typeFilter["subject"] ? typeFilter["subject"].page * typeFilter["subject"].pageSize : 0;
 
   return (
     <StyledMain css={mainSearchLayoutStyle}>
@@ -154,7 +142,7 @@ const SearchContainer = ({
           subjectIds={subjectIds}
           handleSearchParamsChange={handleSearchParamsChange}
           subjects={subjects}
-          noResults={sortedFilterItems.length === 0}
+          noResults={!(sortedFilterItems.length > 1)}
           competenceGoals={competenceGoals}
           coreElements={coreElements}
           loading={loading}
@@ -207,21 +195,6 @@ const SearchContainer = ({
           </div>
         )}
       </SearchPanel>
-      {displaySubjectItems && (selectedFilters.includes("all") || selectedFilters.includes("subject")) && (
-        <BaseSearchGroup
-          loading={loading}
-          groupType="subject"
-          totalCount={subjectItems.length}
-          toCount={toCountSubjectItems}
-          handleShowMore={handleShowMore}
-        >
-          <SearchResultsList>
-            {subjectItems.slice(0, toCountSubjectItems).map((item) => (
-              <SearchResultSubjectItem item={item} key={item.id} />
-            ))}
-          </SearchResultsList>
-        </BaseSearchGroup>
-      )}
       {searchGroups && searchGroups.length > 0 && (
         <styled.div css={mainSearchLayoutStyle}>
           {filteredSortedSearchGroups.map((group) => (

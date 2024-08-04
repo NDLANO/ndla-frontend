@@ -50,7 +50,7 @@ const LtiWrapper = styled("div", {
 // TODO: Should this styling be updated?
 const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
 
-const FullHeightListElement = styled("li", { base: { height: "100%" } });
+const FullHeightListElement = styled("li", { base: { height: "100%", minHeight: "surface.3xsmall" } });
 const FullheightCardRoot = styled(CardRoot, { base: { height: "100%" } });
 
 const SearchResultItem = ({ item, type }: Props) => {
@@ -69,7 +69,7 @@ const SearchResultItem = ({ item, type }: Props) => {
               {item.title}
             </SafeLink>
           </CardHeading>
-          <Text>{parse(item.ingress)}</Text>
+          {item.ingress && <Text>{parse(item.ingress)}</Text>}
           <Text color="text.subtle" textStyle="label.small">
             {mainContext?.breadcrumb.join(" › ")}
             {item.contexts && item.contexts.length > 1 && (

@@ -9,11 +9,20 @@ import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
+import { constants } from "@ndla/ui";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchResourceFragment, GQLResourceTypeDefinition } from "../../graphqlTypes";
+import {
+  GQLGroupSearchQuery,
+  GQLGroupSearchResourceFragment,
+  GQLResourceTypeDefinition,
+  GQLSubjectInfoFragment,
+} from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
+import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
+
+const { contentTypes } = constants;
 
 export const searchResultToLinkProps = (result?: { path?: string }) => {
   return result?.path ? { to: result.path } : { to: "/404" };
@@ -98,11 +107,11 @@ const getContextLabels = (contexts: GQLGroupSearchResourceFragment["contexts"] |
 };
 
 export interface SearchItem {
-  id: number;
+  id: number | string;
   title: string;
-  ingress: string;
+  ingress?: string;
   url: string;
-  labels: string[];
+  labels?: string[];
   contexts?: {
     url: string;
     breadcrumb: string[];
@@ -201,6 +210,22 @@ export const mapSearchDataToGroups = (
     totalCount: result.totalCount,
     type: contentTypeMapping[result.resourceType] || result.resourceType,
   }));
+};
+
+export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
+  if (!subjectData) return [];
+  return [
+    {
+      items: subjectData.map((subject) => ({
+        id: subject.id,
+        title: subject.name,
+        url: toSubject(subject.id),
+      })),
+      resourceTypes: [],
+      totalCount: subjectData.length,
+      type: contentTypes.SUBJECT,
+    },
+  ];
 };
 
 export interface TypeFilter {
