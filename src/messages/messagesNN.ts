@@ -163,6 +163,9 @@ const messages = {
     moreHits: "Vis fleire treff",
   },
   pagination: { next: "Neste", prev: "Forrige" },
+  programmePage: {
+    programmeSubjects: "Programfag",
+  },
 };
 
 export default messages;

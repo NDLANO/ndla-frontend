@@ -163,6 +163,9 @@ const messages = {
     moreHits: "See more results",
   },
   pagination: { next: "Next", prev: "Previous" },
+  programmePage: {
+    programmeSubjects: "Programme subjects",
+  },
 };
 
 export default messages;
