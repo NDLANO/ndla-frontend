@@ -7,11 +7,9 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { BookReadFill } from "@ndla/icons/common";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Heading as OldHeading, Text as OldText } from "@ndla/typography";
 import { CompetenceGoalsType } from "../interfaces";
 
 interface Props {
@@ -45,24 +43,25 @@ export interface CoreElementType {
 }
 
 type CompetenceType = "goal" | "element";
-// TODO: adjust according to new design
+
 const CompetenceGoalTab = ({ items, type }: Props) => {
   const { t } = useTranslation();
   return (
-    <div>
-      {items.map((item, index) => (
-        <CompetenceItemWrapper key={index}>
-          <hgroup>
-            <OldHeading element="h2" headingStyle="h2" margin="none">
-              <BookReadFill />
-              {item.title}
-            </OldHeading>
-            {type === "goal" && <OldText margin="none">{t("competenceGoals.competenceGoalTitle")}</OldText>}
-          </hgroup>
-          <CompetenceItem item={item} showLinks />
-        </CompetenceItemWrapper>
-      ))}
-      <span>
+    <ContentWrapper>
+      <ItemsWrapper>
+        {items.map((item, index) => (
+          <CompetenceItemWrapper key={index}>
+            <ContentWrapper>
+              <Heading textStyle="title.large" asChild consumeCss>
+                <h2>{item.title}</h2>
+              </Heading>
+              {type === "goal" && <Text>{t("competenceGoals.competenceGoalTitle")}</Text>}
+            </ContentWrapper>
+            <CompetenceItem item={item} showLinks />
+          </CompetenceItemWrapper>
+        ))}
+      </ItemsWrapper>
+      <div>
         {`${t("competenceGoals.licenseData")} `}
         <SafeLink to="https://data.norge.no/nlod/no" target="_blank">
           NLOD
@@ -71,8 +70,8 @@ const CompetenceGoalTab = ({ items, type }: Props) => {
         <SafeLink to="https://data.udir.no/" target="_blank">
           data.udir.no
         </SafeLink>
-      </span>
-    </div>
+      </div>
+    </ContentWrapper>
   );
 };
 
@@ -82,30 +81,38 @@ interface CompetenceItemProps {
   showLinks?: boolean;
 }
 
+const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
+
+const ItemsWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });
+
 const CompetenceItemWrapper = styled("div", {
-  base: { display: "flex", flexDirection: "column", gap: "small", alignItems: "flex-start" },
+  base: { display: "flex", flexDirection: "column", gap: "xsmall", alignItems: "flex-start" },
 });
 
 const OuterList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
 
-const InnerList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+const OuterListItem = styled("li", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
-const ItemWrapper = styled("div", {
+const InnerList = styled("ul", {
   base: {
-    display: "flex",
-    gridTemplateColumns: "1fr",
-    alignItems: "center",
-    gap: "small",
-    "&[data-show-links='true']": { gridTemplateColumns: "3fr 1fr" },
+    listStyle: "outside",
+    paddingInlineStart: "large",
+    "& li": {
+      marginBlock: "xsmall",
+    },
   },
 });
+
+const SafeLinkWrapper = styled("span", { base: { marginLeft: "xsmall" } });
+
+const CoreElementWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
 
 export const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
   const { t } = useTranslation();
   return (
     <OuterList>
       {item.elements?.map((element) => (
-        <li key={element.id}>
+        <OuterListItem key={element.id}>
           <Heading textStyle="label.large" fontWeight="bold" asChild consumeCss>
             <h3>{element.title}</h3>
           </Heading>
@@ -113,28 +120,30 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
             <InnerList>
               {element.goals.map((goal) => (
                 <li key={goal.id}>
-                  <ItemWrapper data-show-links={showLinks}>
-                    <Text>{goal.text}</Text>
+                  <Text>
+                    {goal.text}
                     {showLinks && (
-                      <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
-                        {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
-                      </SafeLink>
+                      <SafeLinkWrapper>
+                        <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
+                          {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
+                        </SafeLink>
+                      </SafeLinkWrapper>
                     )}
-                  </ItemWrapper>
+                  </Text>
                 </li>
               ))}
             </InnerList>
           ) : (
-            <div>
+            <CoreElementWrapper>
               <Text>{element.text}</Text>
               {showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </SafeLink>
               )}
-            </div>
+            </CoreElementWrapper>
           )}
-        </li>
+        </OuterListItem>
       ))}
     </OuterList>
   );
