@@ -154,6 +154,9 @@ const messages = {
     moreHits: "Vis flere treff",
   },
   pagination: { next: "Neste", prev: "Forrige" },
+  programmePage: {
+    programmeSubjects: "Programfag",
+  },
 };
 
 export default messages;
