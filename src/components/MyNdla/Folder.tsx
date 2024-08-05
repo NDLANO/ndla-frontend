@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { FileTextLine, ShareFill } from "@ndla/icons/common";
@@ -105,10 +105,39 @@ const MenuWrapper = styled("div", {
 });
 
 const StyledSafeLink = styled(SafeLink, {
-  base: {
-    lineClamp: "1",
-  },
+  base: { display: "block" },
 });
+
+const SingleLineLink = ({ link, text }: { link: string; text: string }) => {
+  const textRef = useRef<HTMLAnchorElement>(null);
+  const [clampedText, setClampedText] = useState(text);
+
+  useEffect(() => {
+    const clampText = () => {
+      const textElement = textRef.current;
+      if (textElement) {
+        const lineHeight = parseFloat(window.getComputedStyle(textElement).lineHeight);
+        let truncatedText = text;
+
+        (textElement as HTMLAnchorElement).innerText = truncatedText;
+
+        while (textElement.scrollHeight > lineHeight && truncatedText.length > 0) {
+          truncatedText = truncatedText.slice(0, -1);
+          textElement.innerText = truncatedText + "...";
+        }
+        setClampedText(truncatedText);
+      }
+    };
+
+    clampText();
+  });
+
+  return (
+    <StyledSafeLink to={link} unstyled css={linkOverlay.raw()} ref={textRef}>
+      {clampedText}
+    </StyledSafeLink>
+  );
+};
 
 export const Folder = ({ menu, folder: { id, status, name, owner }, foldersCount, isFavorited, link }: Props) => {
   const { t } = useTranslation();
@@ -135,9 +164,7 @@ export const Folder = ({ menu, folder: { id, status, name, owner }, foldersCount
           />
           <ListItemHeading asChild consumeCss>
             <h2>
-              <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
-                {name}
-              </StyledSafeLink>
+              <SingleLineLink link={link ?? defaultLink} text={name} />
             </h2>
           </ListItemHeading>
         </TitleWrapper>
