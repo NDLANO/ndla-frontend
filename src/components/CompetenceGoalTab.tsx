@@ -33,7 +33,7 @@ export interface CompetenceGoalType {
 }
 
 export interface CoreElementType {
-  title: string;
+  title?: string;
   elements: {
     id: string;
     title: string;
@@ -46,6 +46,7 @@ type CompetenceType = "goal" | "element";
 
 const CompetenceGoalTab = ({ items, type }: Props) => {
   const { t } = useTranslation();
+
   return (
     <ContentWrapper>
       <ItemsWrapper>

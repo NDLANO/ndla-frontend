@@ -60,10 +60,9 @@ const SearchResultsList = styled("ul", {
     display: "grid",
     alignItems: "flex-start",
     listStyle: "none",
-    padding: "0",
-    rowGap: "medium",
+    gap: "medium",
     gridTemplateColumns: "repeat(1, 1fr)",
-    tablet: { columnGap: "medium", gridTemplateColumns: "repeat(2,1fr)" },
+    tablet: { gridTemplateColumns: "repeat(2,1fr)" },
     desktop: { gridTemplateColumns: "repeat(3,1fr)" },
   },
 });

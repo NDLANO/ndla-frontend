@@ -164,7 +164,7 @@ const SearchContainer = ({
                 <Heading textStyle="title.large" asChild consumeCss>
                   <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
                 </Heading>
-                <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} />
+                <CompetenceItem item={{ elements: mappedCoreElements }} />
               </CompetenceItemWrapper>
             )}
           </CompetenceWrapper>
@@ -195,7 +195,7 @@ const SearchContainer = ({
           </div>
         )}
       </SearchPanel>
-      {searchGroups && searchGroups.length > 0 && (
+      {!!searchGroups?.length && (
         <styled.div css={mainSearchLayoutStyle}>
           {filteredSortedSearchGroups.map((group) => (
             <SearchResultGroup

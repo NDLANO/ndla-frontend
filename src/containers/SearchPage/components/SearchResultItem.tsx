@@ -50,8 +50,8 @@ const LtiWrapper = styled("div", {
 // TODO: Should this styling be updated?
 const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
 
-const FullHeightListElement = styled("li", { base: { height: "100%", minHeight: "surface.3xsmall" } });
-const FullheightCardRoot = styled(CardRoot, { base: { height: "100%" } });
+const StyledListElement = styled("li", { base: { height: "100%", minHeight: "surface.3xsmall" } });
+const StyledCardRoot = styled(CardRoot, { base: { height: "100%" } });
 
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
@@ -59,8 +59,8 @@ const SearchResultItem = ({ item, type }: Props) => {
   const mainContext = item.contexts?.[0];
 
   return (
-    <FullHeightListElement>
-      <FullheightCardRoot>
+    <StyledListElement>
+      <StyledCardRoot>
         {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
@@ -114,8 +114,8 @@ const SearchResultItem = ({ item, type }: Props) => {
           </Text>
           <LtiWrapper>{item.children}</LtiWrapper>
         </CardContent>
-      </FullheightCardRoot>
-    </FullHeightListElement>
+      </StyledCardRoot>
+    </StyledListElement>
   );
 };
 
