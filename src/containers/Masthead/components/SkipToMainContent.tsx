@@ -7,47 +7,36 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, stackOrder } from "@ndla/core";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   skipToMainContentId: string;
 }
 
-const StyledSkipToMainContent = styled.a`
-  position: absolute;
-  top: 10px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  color: ${colors.white};
-  background: ${colors.brand.primary};
-  left: auto;
-  top: auto;
-  width: 30%;
-  height: auto;
-  overflow: auto;
-  margin: 10px 35%;
-  padding: 5px;
-  border-radius: 15px;
-  border: 4px solid ${colors.brand.tertiary};
-  text-align: center;
-  font-size: 1.2em;
-  z-index: ${stackOrder.popover};
-  animation-name: fadeIn;
-  animation-duration: 0.3s;
-  transform: translateY(-150%);
-  &:focus {
-    transform: translateY(0);
-  }
-`;
+const SkipLink = styled(SafeLinkButton, {
+  base: {
+    position: "absolute",
+    top: "xsmall",
+    left: "0",
+    right: "0",
+    marginBlock: "0",
+    marginInline: "auto",
+    zIndex: "skipLink",
+    width: "fit-content",
+    transform: "translateY(-150%)",
+    _focus: {
+      transform: "translateY(0%)",
+    },
+  },
+});
 
 const SkipToMainContent = ({ skipToMainContentId }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledSkipToMainContent tabIndex={0} href={`#${skipToMainContentId}`}>
+    <SkipLink asAnchor to={`#${skipToMainContentId}`}>
       {t("masthead.skipToContent")}
-    </StyledSkipToMainContent>
+    </SkipLink>
   );
 };
 
