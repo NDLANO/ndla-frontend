@@ -141,6 +141,9 @@ const messages = {
       },
     },
   },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
+  },
   tabs: {
     competenceGoals: "Kategorier",
     licenseBox: "Innholdstyper",
