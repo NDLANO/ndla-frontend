@@ -131,9 +131,11 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
         visualElement={visualElement}
         isLoading={false}
       >
-        <TopicArticle>
-          <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
-        </TopicArticle>
+        {!!topic.article.transformedContent.content.length && (
+          <TopicArticle>
+            <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
+          </TopicArticle>
+        )}
 
         {disableNav ? null : <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
       </Topic>
