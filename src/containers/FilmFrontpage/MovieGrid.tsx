@@ -6,6 +6,7 @@
  *
  */
 
+import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
@@ -40,10 +41,10 @@ const MovieListing = styled("div", {
 
 const StyledFilmContentCard = styled(FilmContentCard, {
   base: {
-    animationFillMode: "forwards",
-    animationName: "fadeIn",
+    animationFillMode: "backwards",
+    animationName: "fade-in",
     animationDuration: "300ms",
-    animationDelay: "calc(var(--key) * 50ms)",
+    animationDelay: "calc(var(--index) * 50ms)",
   },
 });
 
@@ -98,6 +99,7 @@ const MovieGrid = ({ resourceType }: Props) => {
           ) : (
             resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
               <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
                 key={index}
                 movie={{
                   id: movie.id,

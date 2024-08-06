@@ -8,8 +8,9 @@
 
 import { gql } from "@apollo/client";
 import { Text, Image } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { JsxStyleProps } from "@ndla/styled-system/types";
 import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {
@@ -25,7 +26,7 @@ interface MovieType {
   path: string;
 }
 
-interface Props {
+interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to"> {
   movie: MovieType;
 }
 
@@ -105,7 +106,7 @@ const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((a
   return acc;
 }, {});
 
-const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes } }: Props) => {
+const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes }, ...rest }: Props) => {
   const resources = resourceTypes.reduce<string[]>((acc, curr) => {
     const name = mappedResourceTypes[curr.id];
     if (name) return acc.concat(curr.name);
@@ -113,7 +114,12 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes } 
   }, []);
 
   return (
-    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} to={path} aria-describedby={`list-content-type-${id}`}>
+    <StyledSafeLink
+      onMouseDown={(e) => e.preventDefault()}
+      aria-describedby={`list-content-type-${id}`}
+      {...rest}
+      to={path}
+    >
       <ImageWrapper>
         <StyledImage src={metaImage?.url ?? ""} loading="lazy" alt="" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">
