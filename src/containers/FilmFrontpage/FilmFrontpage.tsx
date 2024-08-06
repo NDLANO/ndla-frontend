@@ -11,7 +11,7 @@ import { useId, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Spinner } from "@ndla/primitives";
+import { Heading, Skeleton } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
@@ -74,6 +74,18 @@ const fromNdla = {
   name: "ndlaFilm.search.categoryFromNdla",
 };
 
+const StyledSkeleton = styled(Skeleton, { base: {} });
+
+const TopicLoadingShimmer = () => {
+  return new Array(8).fill(0).map((_, idx) => (
+    <StyledSkeleton key={idx}>
+      <li>
+        <StyledSafeLinkButton to={""}>loading</StyledSafeLinkButton>
+      </li>
+    </StyledSkeleton>
+  ));
+};
+
 const FilmFrontpage = () => {
   const allResources = useMemo(
     () => ({
@@ -130,11 +142,15 @@ const FilmFrontpage = () => {
             </Heading>
             {/* TODO: Investigate if this should look like `transportsider` in figma instead of this design */}
             <StyledUl data-testid="film-subject-list">
-              {subject?.topics?.map((topic) => (
-                <li key={topic.id}>
-                  <StyledSafeLinkButton to={topic.path}>{topic.name}</StyledSafeLinkButton>
-                </li>
-              ))}
+              {loading ? (
+                <TopicLoadingShimmer />
+              ) : (
+                subject?.topics?.map((topic) => (
+                  <li key={topic.id}>
+                    <StyledSafeLinkButton to={topic.path}>{topic.name}</StyledSafeLinkButton>
+                  </li>
+                ))
+              )}
             </StyledUl>
           </StyledNav>
           <FilmFiltering
