@@ -13,8 +13,8 @@ import {
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
+  RadioGroupLabel,
   RadioGroupRoot,
-  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { MovieResourceType } from "./resourceTypes";
@@ -24,9 +24,22 @@ const StyledHeading = styled(Heading, {
     marginBlockEnd: "medium",
   },
 });
-const LabelText = styled(Text, {
+const LabelText = styled(RadioGroupLabel, {
   base: {
     marginBlockEnd: "small",
+  },
+});
+
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    gap: "small",
+  },
+});
+
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
   },
 });
 
@@ -44,22 +57,24 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
       <StyledHeading textStyle="heading.small" consumeCss asChild>
         <h2>{t("ndlaFilm.films")}</h2>
       </StyledHeading>
-      <LabelText textStyle="label.large" fontWeight="bold">
-        {t("ndlaFilm.filterFilms")}
-      </LabelText>
-      <RadioGroupRoot
-        orientation="horizontal"
+      <StyledRadioGroupRoot
+        orientation="vertical"
         defaultValue={selectedOption?.id}
         onValueChange={(details) => onOptionSelected(options.find((option) => option.id === details.value)!)}
       >
-        {options.map((category, index) => (
-          <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
-            <RadioGroupItemControl />
-            <RadioGroupItemText fontWeight="bold">{t(category.name)}</RadioGroupItemText>
-            <RadioGroupItemHiddenInput />
-          </RadioGroupItem>
-        ))}
-      </RadioGroupRoot>
+        <LabelText textStyle="label.large" fontWeight="bold">
+          {t("ndlaFilm.filterFilms")}
+        </LabelText>
+        <RadioButtonWrapper>
+          {options.map((category, index) => (
+            <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
+              <RadioGroupItemControl />
+              <RadioGroupItemText fontWeight="bold">{t(category.name)}</RadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
+          ))}
+        </RadioButtonWrapper>
+      </StyledRadioGroupRoot>
     </>
   );
 };
