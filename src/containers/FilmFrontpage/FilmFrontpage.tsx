@@ -121,7 +121,7 @@ const FilmFrontpage = () => {
           </Heading>
           <StyledNav>
             <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-              <span>{t("ndlaFilm.topics")}</span>
+              <h2>{t("ndlaFilm.topics")}</h2>
             </Heading>
             <StyledUl data-testid="film-subject-list">
               {subject?.topics?.map((topic) => (
