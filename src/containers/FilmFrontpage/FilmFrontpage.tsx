@@ -128,6 +128,7 @@ const FilmFrontpage = () => {
             <Heading id={navHeadingId} textStyle="title.large" fontWeight="bold" asChild consumeCss>
               <h2>{t("ndlaFilm.topics")}</h2>
             </Heading>
+            {/* TODO: Investigate if this should look like `transportsider` in figma instead of this design */}
             <StyledUl data-testid="film-subject-list">
               {subject?.topics?.map((topic) => (
                 <li key={topic.id}>
