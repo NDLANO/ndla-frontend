@@ -119,7 +119,7 @@ const FilmFrontpage = () => {
       </Helmet>
       <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
       <main>
-        {loading ? <Spinner /> : definedSlideshowMovies ? <FilmSlideshow slideshow={definedSlideshowMovies} /> : null}
+        <FilmSlideshow slideshow={definedSlideshowMovies} />
         <OneColumn wide>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("ndlaFilm.heading")}
