@@ -63,7 +63,7 @@ const SearchPage = () => {
     return <ContentPlaceholder />;
   }
 
-  const subjectItems = searchSubjects(searchParams.query, sortedArchivedRemovedSubjects);
+  const subjectItems = searchSubjects(searchParams.query, sortedArchivedRemovedSubjects, searchParams.subjects);
 
   const handleSearchParamsChange = (searchParams: Record<string, any>) => {
     navigate({

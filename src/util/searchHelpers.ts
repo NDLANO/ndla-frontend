@@ -11,9 +11,13 @@ import { GQLSubjectInfoFragment } from "../graphqlTypes";
 
 type SubjectType = Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "path">;
 
-export const searchSubjects = <T extends SubjectType>(query?: string, subjects?: T[]) => {
+export const searchSubjects = <T extends SubjectType>(query?: string, subjects?: T[], subjectsFilter?: string[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
 
+  if (subjectsFilter?.length) {
+    const filtered = subjects?.filter((subject) => subjectsFilter.includes(subject.id));
+    return filtered;
+  }
   if (!trimmedQuery || trimmedQuery?.length < 2) return subjects;
 
   const filtered = subjects?.filter(
