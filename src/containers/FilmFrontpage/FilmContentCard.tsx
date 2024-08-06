@@ -32,7 +32,7 @@ const ImageWrapper = styled("div", {
   base: {
     position: "relative",
     overflow: "hidden",
-    borderRadius: "4px",
+    borderRadius: "xsmall",
   },
 });
 
