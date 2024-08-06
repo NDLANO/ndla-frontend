@@ -11,13 +11,14 @@ import { gql } from "@apollo/client";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import TopicWrapper from "./TopicWrapper";
 import NavigationBox from "../../../components/NavigationBox";
+import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
 import { GQLSubjectPageContent_NodeFragment } from "../../../graphqlTypes";
 import { toTopic } from "../../../routeHelpers";
 import { scrollToRef } from "../../../util/pageHelpers";
 
 interface Props {
-  subject: GQLSubjectPageContent_NodeFragment;
+  subject?: GQLSubjectPageContent_NodeFragment;
   topicIds: Array<string>;
   refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
@@ -33,7 +34,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
       ...topic,
       label: topic?.name,
       selected: topic?.id === topicIds[0],
-      url: toTopic(subject.id, topic?.id),
+      url: config.enablePrettyUrls ? topic.url : toTopic(subject?.id, topic?.id),
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
@@ -47,7 +48,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
           <div ref={refs[index]} key={index}>
             <TopicWrapper
               topicId={topicId}
-              subjectId={subject.id}
+              subjectId={subject?.id}
               setBreadCrumb={setBreadCrumb}
               subTopicId={topicIds[index + 1]}
               showResources={!topicIds[index + 1]}

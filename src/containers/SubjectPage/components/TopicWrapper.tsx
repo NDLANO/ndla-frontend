@@ -13,18 +13,18 @@ import { Spinner } from "@ndla/primitives";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
+import config from "../../../config";
 import { GQLTaxBase, GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
 import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
   topicId: string;
-  subjectId: string;
+  subjectId?: string;
   subTopicId?: string;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   showResources: boolean;
-  subject: GQLTaxBase;
+  subject?: GQLTaxBase;
 };
 
 const topicWrapperQuery = gql`
@@ -59,11 +59,13 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
           const topicPath = topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: `/${removeUrn(tp.id)}`,
+              to: config.enablePrettyUrls ? tp.url : tp.path,
               name: tp.name,
             }))
             .slice(1);
-          setBreadCrumb(newCrumbs.concat({ to: topic.id, name: topic.name }));
+          setBreadCrumb(
+            newCrumbs.concat({ to: config.enablePrettyUrls ? topic.url ?? topic.path : topic.path, name: topic.name }),
+          );
         }
       },
     },

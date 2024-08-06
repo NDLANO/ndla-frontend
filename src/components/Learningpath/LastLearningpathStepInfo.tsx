@@ -13,6 +13,7 @@ import { colors, spacing } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { LayoutItem, OneColumn } from "@ndla/ui";
+import config from "../../config";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLTaxBase,
@@ -20,7 +21,6 @@ import {
   GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
 } from "../../graphqlTypes";
-import { toTopic } from "../../routeHelpers";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
@@ -67,13 +67,8 @@ const LastLearningpathStepInfo = ({
     return null;
   }
 
-  const linkTopic =
-    !!topicPath && topicPath.length > 1
-      ? {
-          path: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((tp) => tp.id)),
-          name: topicPath[topicPath.length - 1]?.name,
-        }
-      : undefined;
+  const root = topicPath?.[0];
+  const parent = topicPath?.toReversed()?.[0];
 
   return (
     <StyledOneColumn>
@@ -87,14 +82,16 @@ const LastLearningpathStepInfo = ({
           </Text>
         </StyledHGroup>
         <LinksWrapper>
-          {!!subject && (
+          {!!root && (
             <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
+              {t("learningPath.lastStep.subjectHeading")}{" "}
+              <SafeLink to={config.enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
             </Text>
           )}
-          {!!linkTopic && (
+          {!!parent && (
             <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+              {t("learningPath.lastStep.topicHeading")}{" "}
+              <SafeLink to={config.enablePrettyUrls ? parent.url ?? parent.path : parent.path}>{parent.name}</SafeLink>
             </Text>
           )}
         </LinksWrapper>
@@ -103,7 +100,7 @@ const LastLearningpathStepInfo = ({
             headingType="h2"
             key="resources"
             topicId={topic.id}
-            subjectId={subject?.id}
+            subjectId={root?.id}
             resourceId={resourceId}
             resourceTypes={resourceTypes}
             topic={topic}

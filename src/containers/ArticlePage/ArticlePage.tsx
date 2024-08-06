@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { HeroBackground, HeroContent } from "@ndla/primitives";
+import { HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn, LayoutItem, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
@@ -23,6 +23,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
+  GQLArticlePageQuery,
   GQLArticlePage_ResourceFragment,
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
@@ -34,6 +35,7 @@ import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -49,6 +51,7 @@ interface Props {
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   topicId?: string;
+  subjectId?: string;
   loading?: boolean;
   skipToContentId?: string;
 }
@@ -56,44 +59,55 @@ interface Props {
 const ArticlePage = ({
   resource,
   topicId,
+  subjectId,
   topicPath,
   topic,
   resourceTypes,
   subject,
   errors,
   skipToContentId,
-  loading,
 }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
 
+  const { error, loading, data } = useGraphQuery<GQLArticlePageQuery>(articlePageQuery, {
+    skip: (topic !== undefined && subject !== undefined) || (!topicId && !subjectId),
+    variables: {
+      topicId: topicId,
+      subjectId: subjectId,
+    },
+  });
+
+  const localSubject = subject || data?.subject;
+  const localTopic = topic || data?.topic;
+
   useEffect(() => {
     if (!loading && authContextLoaded) {
       const dimensions = getAllDimensions({
         article: resource?.article,
-        filter: subject?.name,
+        filter: localSubject?.name,
         user,
       });
       trackPageView({
         dimensions,
-        title: getDocumentTitle(t, resource, subject),
+        title: getDocumentTitle(t, resource, localSubject),
       });
     }
-  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, localSubject, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
-        subject: subject?.id,
+        subject: subjectId,
         articleLanguage: resource.article.language,
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [subject?.id, resource?.article, i18n.language])!;
+  }, [subjectId, resource?.article, i18n.language])!;
 
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
@@ -104,6 +118,14 @@ const ArticlePage = ({
       }
     }
   });
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return null;
+  }
 
   if (resource && isLearningPathResource(resource)) {
     const url = getLearningPathUrlFromResource(resource);
@@ -123,9 +145,9 @@ const ArticlePage = ({
         >
           <Resources
             topicId={topicId}
-            subjectId={subject?.id}
+            subjectId={subjectId}
             resourceId={resource?.id}
-            topic={topic}
+            topic={localTopic}
             resourceTypes={resourceTypes}
             headingType="h2"
             subHeadingType="h3"
@@ -145,7 +167,7 @@ const ArticlePage = ({
   return (
     <main>
       <Helmet>
-        <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
+        <title>{`${getDocumentTitle(t, resource, localSubject)}`}</title>
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
@@ -157,7 +179,7 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
-        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+        {localSubject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
@@ -165,7 +187,7 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [localSubject?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -173,7 +195,9 @@ const ArticlePage = ({
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <OneColumn>
-          <HeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</HeroContent>
+          <HeroContent>
+            <HomeBreadcrumb items={breadcrumbItems} />
+          </HeroContent>
           <Article
             path={resource.path}
             id={skipToContentId}
@@ -181,7 +205,7 @@ const ArticlePage = ({
             resourceType={contentType}
             isResourceArticle
             printUrl={printUrl}
-            subjectId={subject?.id}
+            subjectId={subjectId}
             showFavoriteButton={config.feideEnabled}
             oembed={article.oembed}
             {...getArticleProps(resource, topic)}
@@ -189,7 +213,7 @@ const ArticlePage = ({
           <LayoutItem layout="extend">
             <Resources
               topicId={topicId}
-              subjectId={subject?.id}
+              subjectId={subjectId}
               resourceId={resource?.id}
               topic={topic}
               resourceTypes={resourceTypes}
@@ -266,5 +290,20 @@ export const articlePageFragments = {
     ${Resources.fragments.topic}
   `,
 };
+
+const articlePageQuery = gql`
+  query articlePage($topicId: String!, $subjectId: String!) {
+    subject: node(id: $subjectId) {
+      ...ArticlePage_Subject
+    }
+    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+      ...ArticlePage_Topic
+      ...Resources_Topic
+    }
+  }
+  ${articlePageFragments.subject}
+  ${articlePageFragments.topic}
+  ${Resources.fragments.topic}
+`;
 
 export default ArticlePage;

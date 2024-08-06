@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { Spinner } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
@@ -20,6 +21,7 @@ import FavoriteButton from "../../components/Article/FavoritesButton";
 import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import { StableId } from "../../components/StableId";
+import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
   GQLResourcesQueryQuery,
@@ -56,9 +58,17 @@ const StyledSection = styled.section`
 const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headingType, subHeadingType }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
-
   const resourcesTopicId = useId();
-  let localTopic = topic;
+
+  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+    skip: topic !== undefined || (!topicId && !subjectId),
+    variables: {
+      topicId: topicId,
+      subjectId: subjectId,
+    },
+  });
+
+  const localTopic = topic ?? data?.topic;
 
   const isGrouped = useMemo(
     () =>
@@ -78,7 +88,7 @@ const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headi
       supplementaryResources: supp,
       sortedResources: sortBy(core.concat(supp), (res) => res.rank),
     };
-  }, [localTopic?.coreResources, localTopic?.supplementaryResources]);
+  }, [localTopic]);
 
   const { groupedResources, ungroupedResources } = useMemo(() => {
     if (isGrouped) {
@@ -89,6 +99,7 @@ const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headi
           ...type,
           resources: type?.resources?.map((res) => ({
             ...res,
+            path: config.enablePrettyUrls ? res.url : res.path,
             active: !!resourceId && res.id.endsWith(resourceId),
           })),
           contentType: contentTypeMapping[type.id],
@@ -122,24 +133,12 @@ const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headi
     });
   }, []);
 
-  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
-    skip: topic !== undefined || (!topicId && !subjectId),
-    variables: {
-      topicId: topicId,
-      subjectId: subjectId,
-    },
-  });
-
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (error) {
     return null;
-  }
-
-  if (!topic && data?.topic) {
-    localTopic = data.topic;
   }
 
   if (!sortedResources.length) {

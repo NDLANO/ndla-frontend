@@ -1005,7 +1005,7 @@ type Node implements TaxBase & TaxonomyEntity & WithContent {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  parentId: ID
+  parentId: String
   path: String!
   paths: [String!]!
   rank: Int
@@ -1014,7 +1014,7 @@ type Node implements TaxBase & TaxonomyEntity & WithContent {
   subjectpage: SubjectPage
   supplementaryResources(rootId: String): [Node!]
   supportedLanguages: [String!]!
-  url: String
+  url: String!
 }
 
 enum NodeType {
@@ -1200,7 +1200,7 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
-  node(contextId: String!): Node
+  node(contextId: String, id: String): Node
   nodeCollection(language: String!): [Node!]
   nodeResource(id: String!, parentId: String, rootId: String): Node
   nodeSubject(id: String!): Node
@@ -1297,7 +1297,7 @@ type Resource implements TaxBase & TaxonomyEntity & WithContent {
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
-  url: String
+  url: String!
 }
 
 type ResourceEmbed {
@@ -1431,7 +1431,7 @@ type Subject implements TaxBase & TaxonomyEntity {
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   topics(all: Boolean): [Topic!]
-  url: String
+  url: String!
 }
 
 type SubjectLink {
@@ -1489,7 +1489,7 @@ interface TaxBase {
   id: String!
   name: String!
   path: String!
-  url: String
+  url: String!
 }
 
 type TaxonomyContext {
@@ -1500,7 +1500,8 @@ type TaxonomyContext {
   parentIds: [String!]!
   path: String!
   relevance: String!
-  url: String
+  rootId: String!
+  url: String!
 }
 
 type TaxonomyCrumb implements TaxBase {
@@ -1527,7 +1528,7 @@ interface TaxonomyEntity {
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
-  url: String
+  url: String!
 }
 
 type TaxonomyMetadata {
@@ -1572,7 +1573,7 @@ type Topic implements TaxBase & TaxonomyEntity & WithContent {
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
-  url: String
+  url: String!
 }
 
 type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {

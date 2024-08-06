@@ -182,11 +182,10 @@ const ResourceContextPage = () => {
     <ArticlePage
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={node}
-      //topic={data.topic}
+      subjectId={data.node.context?.parentIds?.[0]}
       topicId={data.node.context?.parentIds?.slice(-1)?.[0]}
       topicPath={topicPath}
       relevance={relevance}
-      subject={{ id: data.node.id, name: data.node.name, path: data.node.path, metadata: { customFields: [] } }}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

@@ -16,6 +16,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLTaxBase,
@@ -119,7 +120,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         topic={topic}
         subject={subject}
         resourceId={resource.id}
-        path={resource.path}
+        path={config.enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}

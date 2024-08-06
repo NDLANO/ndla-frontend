@@ -12,48 +12,45 @@ import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "@ndla/ui";
 import SubjectContextContainer, { subjectContextContainerFragments } from "./SubjectContextContainer";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
-import { GQLSubjectContextPageQuery, GQLSubjectContextPageQueryVariables } from "../../graphqlTypes";
+import { GQLContextPageQuery, GQLContextPageQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
-const subjectContextPageQuery = gql`
-  query subjectContextPage($contextId: String!) {
-    subject: node(contextId: $contextId) {
-      id
-      name
-      path
-      url
-      context {
-        contextId
-        crumbs {
-          id
-          name
-          url
-          path
-        }
-      }
-      children(nodeType: TOPIC) {
+export const nodeFragment = gql`
+  fragment NodeFragment on Node {
+    id
+    name
+    path
+    url
+    context {
+      contextId
+      rootId
+      crumbs {
         id
         name
-        path
         url
-        parentId
-        context {
-          contextId
-          crumbs {
-            id
-            name
-            url
-            path
-          }
-        }
+        path
       }
-      metadata {
-        customFields
-      }
-      ...SubjectContextContainer_Node
     }
   }
+`;
+
+const contextPageQuery = gql`
+  query contextPage(
+    $subjectContextId: String!
+    $includeSubject: Boolean!
+    $topicContextId: String!
+    $includeTopic: Boolean!
+  ) {
+    subject: node(contextId: $subjectContextId) @include(if: $includeSubject) {
+      ...NodeFragment
+      ...SubjectContextContainer_Subject
+    }
+    topic: node(contextId: $topicContextId) @include(if: $includeTopic) {
+      ...NodeFragment
+    }
+  }
+  ${nodeFragment}
   ${subjectContextContainerFragments.subject}
 `;
 
@@ -66,9 +63,12 @@ const SubjectContextPage = () => {
     loading,
     data: newData,
     previousData,
-  } = useGraphQuery<GQLSubjectContextPageQuery, GQLSubjectContextPageQueryVariables>(subjectContextPageQuery, {
+  } = useGraphQuery<GQLContextPageQuery, GQLContextPageQueryVariables>(contextPageQuery, {
     variables: {
-      contextId: params.subjectContextId ?? "",
+      subjectContextId: params.subjectContextId ?? "",
+      includeSubject: params.subjectContextId !== undefined,
+      topicContextId: params.topicContextId ?? "",
+      includeTopic: params.topicContextId !== undefined,
     },
   });
 
@@ -82,16 +82,26 @@ const SubjectContextPage = () => {
     return <ContentPlaceholder />;
   }
 
-  if (!data.subject) {
+  if (!data.subject && !data.topic) {
     return <NotFoundPage />;
   }
 
   initialLoad.current = false;
 
-  const topicList =
-    data.subject.children?.filter((child) => child.parentId === data.subject?.id).map((child) => child.id) ?? [];
-
-  return <SubjectContextContainer topicIds={topicList} subject={data.subject} loading={loading} />;
+  const topicList = (
+    (data.topic?.context?.crumbs && data.topic?.context?.crumbs?.slice(1).map((crumb) => crumb.id)) ??
+    []
+  ).concat(data.topic?.id ? [data.topic.id] : []);
+  return (
+    <SubjectContextContainer
+      subjectFragment={data.subject}
+      subjectId={data.subject?.id}
+      topicFragment={data.topic}
+      topicId={data.topic?.id}
+      topicIds={topicList}
+      loading={loading}
+    />
+  );
 };
 
 export default SubjectContextPage;

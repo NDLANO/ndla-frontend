@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import { MessageBox, Text } from "@ndla/primitives";
+import { MessageBox, Spinner, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import { constants, OneColumn, LayoutItem, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
@@ -24,20 +24,31 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectBanner from "../../components/Subject/SubjectBanner";
+import config from "../../config";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContextContainer_NodeFragment } from "../../graphqlTypes";
-import { removeUrn, useIsNdlaFilm } from "../../routeHelpers";
+import {
+  GQLNodeFragmentFragment,
+  GQLContextContainerQuery,
+  GQLContextContainerQueryVariables,
+  GQLSubjectContextContainer_SubjectFragment,
+} from "../../graphqlTypes";
+import { useIsNdlaFilm } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
+  subjectFragment?: GQLNodeFragmentFragment & GQLSubjectContextContainer_SubjectFragment;
+  subjectId?: string;
+  topicFragment?: GQLNodeFragmentFragment;
+  topicId?: string;
   topicIds: string[];
-  subject: GQLSubjectContextContainer_NodeFragment;
+
   loading?: boolean;
 };
 
@@ -74,22 +85,38 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
+const SubjectContextContainer = ({ subjectId, subjectFragment, topicId, topicFragment, topicIds, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  const about = subject.subjectpage?.about;
+
+  const subId = subjectId || topicFragment?.context?.rootId;
+
+  const {
+    loading: ldng,
+    data,
+    error,
+  } = useGraphQuery<GQLContextContainerQuery, GQLContextContainerQueryVariables>(contextContainerQuery, {
+    variables: {
+      subjectId: subId,
+      topicId: topicId,
+    },
+  });
+
+  const subject = data?.subject ?? subjectFragment;
+
+  const about = subject?.subjectpage?.about;
 
   useEffect(() => {
     if (!authContextLoaded || loading || topicIds.length) return;
     const dimensions = getAllDimensions({
-      filter: subject.name,
+      filter: subject?.name,
       user,
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]),
+      title: htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]),
     });
   }, [authContextLoaded, loading, subject, t, topicIds.length, trackPageView, user]);
 
@@ -99,30 +126,35 @@ const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
     setTopicCrumbs((crumbs) => crumbs.slice(0, topicIds.length));
   }, [topicIds.length]);
 
+  if (ldng) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return null;
+  }
+
+  if (!data) {
+    return null;
+  }
+
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
       name: t("breadcrumb.toFrontpage"),
       to: "/",
     },
     {
-      to: `${removeUrn(subject.id)}`,
-      name: subject.name,
+      to: (config.enablePrettyUrls ? subject?.url : subject?.path) ?? "",
+      name: subject?.name,
     },
     ...topicCrumbs,
-  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-    crumbs.push({
-      name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
-    });
-
-    return crumbs;
-  }, []);
+  ];
 
   const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 
-  const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
+  const pageTitle = htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
 
-  const customFields = subject?.metadata.customFields || {};
+  const customFields = subject?.metadata?.customFields || {};
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
@@ -141,10 +173,10 @@ const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
         <LayoutItem layout="extend">
           {!topicIds.length && (
             <SocialMediaMetadata
-              title={subject.name}
-              description={subject.subjectpage?.metaDescription}
+              title={subject?.name ?? ""}
+              description={subject?.subjectpage?.metaDescription}
               imageUrl={about?.visualElement.url}
-              trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+              trackableContent={{ supportedLanguages: subject?.supportedLanguages }}
             />
           )}
           <HeaderWrapper>
@@ -158,16 +190,16 @@ const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}
             >
-              {subject.name}
+              {subject?.name}
             </Heading>
             {
               <SubjectLinks
-                buildsOn={subject.subjectpage?.buildsOn ?? []}
-                connectedTo={subject.subjectpage?.connectedTo ?? []}
-                leadsTo={subject.subjectpage?.leadsTo ?? []}
+                buildsOn={subject?.subjectpage?.buildsOn ?? []}
+                connectedTo={subject?.subjectpage?.connectedTo ?? []}
+                leadsTo={subject?.subjectpage?.leadsTo ?? []}
               />
             }
-            {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
+            {!!subject?.grepCodes?.length && <CompetenceGoals codes={subject?.grepCodes} subjectId={subject?.id} />}
           </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox variant="warning">
@@ -184,14 +216,14 @@ const SubjectContextContainer = ({ topicIds, subject, loading }: Props) => {
           <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
         </LayoutItem>
       </OneColumn>
-      {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
+      {subject?.subjectpage?.banner && <SubjectBanner image={subject?.subjectpage?.banner.desktopUrl || ""} />}
     </main>
   );
 };
 
 export const subjectContextContainerFragments = {
   subject: gql`
-    fragment SubjectContextContainer_Node on Node {
+    fragment SubjectContextContainer_Subject on Node {
       id
       name
       path
@@ -224,6 +256,39 @@ export const subjectContextContainerFragments = {
     }
     ${SubjectLinks.fragments.links}
   `,
+  topic: gql`
+    fragment SubjectContextContainer_Topic on Node {
+      id
+      name
+      path
+      url
+      supportedLanguages
+      metadata {
+        customFields
+      }
+      topics: children(nodeType: TOPIC) {
+        id
+        name
+        url
+        path
+      }
+    }
+  `,
 };
+
+const contextContainerQuery = gql`
+  query contextContainer($subjectId: String, $topicId: String) {
+    subject: node(id: $subjectId) {
+      ...SubjectContextContainer_Subject
+      ...SubjectPageContent_Node
+    }
+    topic: node(id: $topicId) {
+      ...SubjectContextContainer_Topic
+    }
+  }
+  ${subjectContextContainerFragments.subject}
+  ${SubjectPageContent.fragments.subject}
+  ${subjectContextContainerFragments.topic}
+`;
 
 export default SubjectContextContainer;

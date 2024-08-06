@@ -1339,7 +1339,7 @@ export type GQLNode = GQLTaxBase &
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
     nodeType: Scalars["String"]["output"];
-    parentId?: Maybe<Scalars["ID"]["output"]>;
+    parentId?: Maybe<Scalars["String"]["output"]>;
     path: Scalars["String"]["output"];
     paths: Array<Scalars["String"]["output"]>;
     rank?: Maybe<Scalars["Int"]["output"]>;
@@ -1348,7 +1348,7 @@ export type GQLNode = GQLTaxBase &
     subjectpage?: Maybe<GQLSubjectPage>;
     supplementaryResources?: Maybe<Array<GQLNode>>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
-    url?: Maybe<Scalars["String"]["output"]>;
+    url: Scalars["String"]["output"];
   };
 
 export type GQLNodeChildrenArgs = {
@@ -1740,7 +1740,8 @@ export type GQLQueryListingPageArgs = {
 };
 
 export type GQLQueryNodeArgs = {
-  contextId: Scalars["String"]["input"];
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
+  id?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryNodeCollectionArgs = {
@@ -1914,7 +1915,7 @@ export type GQLResource = GQLTaxBase &
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
-    url?: Maybe<Scalars["String"]["output"]>;
+    url: Scalars["String"]["output"];
   };
 
 export type GQLResourceEmbed = {
@@ -2059,7 +2060,7 @@ export type GQLSubject = GQLTaxBase &
     subjectpage?: Maybe<GQLSubjectPage>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
     topics?: Maybe<Array<GQLTopic>>;
-    url?: Maybe<Scalars["String"]["output"]>;
+    url: Scalars["String"]["output"];
   };
 
 export type GQLSubjectTopicsArgs = {
@@ -2129,7 +2130,7 @@ export type GQLTaxBase = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
   path: Scalars["String"]["output"];
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type GQLTaxonomyContext = {
@@ -2141,7 +2142,8 @@ export type GQLTaxonomyContext = {
   parentIds: Array<Scalars["String"]["output"]>;
   path: Scalars["String"]["output"];
   relevance: Scalars["String"]["output"];
-  url?: Maybe<Scalars["String"]["output"]>;
+  rootId: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLTaxonomyCrumb = GQLTaxBase & {
@@ -2169,7 +2171,7 @@ export type GQLTaxonomyEntity = {
   relevanceId?: Maybe<Scalars["String"]["output"]>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
-  url?: Maybe<Scalars["String"]["output"]>;
+  url: Scalars["String"]["output"];
 };
 
 export type GQLTaxonomyMetadata = {
@@ -2220,7 +2222,7 @@ export type GQLTopic = GQLTaxBase &
     subtopics?: Maybe<Array<GQLTopic>>;
     supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
-    url?: Maybe<Scalars["String"]["output"]>;
+    url: Scalars["String"]["output"];
   };
 
 export type GQLTopicCoreResourcesArgs = {
@@ -2747,7 +2749,7 @@ export type GQLArticlePage_SubjectFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
 };
@@ -2757,7 +2759,7 @@ export type GQLArticlePage_ResourceFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   contentUri?: string;
   article?: {
     __typename?: "Article";
@@ -2775,6 +2777,17 @@ export type GQLArticlePage_TopicFragment = {
   id: string;
   path: string;
 } & GQLResources_TopicFragment;
+
+export type GQLArticlePageQueryVariables = Exact<{
+  topicId: Scalars["String"]["input"];
+  subjectId: Scalars["String"]["input"];
+}>;
+
+export type GQLArticlePageQuery = {
+  __typename?: "Query";
+  subject?: { __typename?: "Node" } & GQLArticlePage_SubjectFragment;
+  topic?: { __typename?: "Node" } & GQLArticlePage_TopicFragment & GQLResources_TopicFragment;
+};
 
 export type GQLAllMoviesQueryVariables = Exact<{
   resourceTypes: Scalars["String"]["input"];
@@ -2909,7 +2922,7 @@ export type GQLLearningpathPage_ResourceFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   learningpath?: { __typename?: "Learningpath" } & GQLLearningpathPage_LearningpathFragment;
 };
 
@@ -3082,7 +3095,7 @@ export type GQLMultidisciplinarySubjectPageQuery = {
     id: string;
     name: string;
     path: string;
-    url?: string;
+    url: string;
     subjectpage?: {
       __typename?: "SubjectPage";
       id: number;
@@ -4510,7 +4523,7 @@ export type GQLResourceContextPageQuery = {
     contentUri?: string;
     relevanceId?: string;
     paths: Array<string>;
-    url?: string;
+    url: string;
     contextId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     context?: { __typename?: "TaxonomyContext" } & GQLContextPage_ContextFragment;
@@ -4576,7 +4589,7 @@ export type GQLResources_ResourceFragment = {
   name: string;
   contentUri?: string;
   path: string;
-  url?: string;
+  url: string;
   paths: Array<string>;
   rank?: number;
   language?: string;
@@ -4594,7 +4607,7 @@ export type GQLResources_TopicFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   coreResources?: Array<{ __typename?: "Node" } & GQLResources_ResourceFragment>;
   supplementaryResources?: Array<{ __typename?: "Node" } & GQLResources_ResourceFragment>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
@@ -4633,12 +4646,12 @@ export type GQLSubjectPageContent_SubjectFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   topics?: Array<{
     __typename?: "Node";
     id: string;
     name: string;
-    url?: string;
+    url: string;
     path: string;
     availability?: string;
     relevanceId?: string;
@@ -4663,12 +4676,12 @@ export type GQLSubjectContainer_SubjectFragment = {
   } & GQLSubjectLinks_SubjectFragment;
 } & GQLSubjectPageContent_NodeFragment;
 
-export type GQLSubjectContextContainer_NodeFragment = {
+export type GQLSubjectContextContainer_SubjectFragment = {
   __typename?: "Node";
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   supportedLanguages: Array<string>;
   grepCodes?: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
@@ -4683,41 +4696,56 @@ export type GQLSubjectContextContainer_NodeFragment = {
     };
     banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   } & GQLSubjectLinks_SubjectFragment;
-  topics?: Array<{ __typename?: "Node"; id: string; name: string; url?: string; path: string }>;
+  topics?: Array<{ __typename?: "Node"; id: string; name: string; url: string; path: string }>;
 };
 
-export type GQLSubjectContextPageQueryVariables = Exact<{
-  contextId: Scalars["String"]["input"];
+export type GQLSubjectContextContainer_TopicFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path: string;
+  url: string;
+  supportedLanguages: Array<string>;
+  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  topics?: Array<{ __typename?: "Node"; id: string; name: string; url: string; path: string }>;
+};
+
+export type GQLContextContainerQueryVariables = Exact<{
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  topicId?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
-export type GQLSubjectContextPageQuery = {
+export type GQLContextContainerQuery = {
   __typename?: "Query";
-  subject?: {
-    __typename?: "Node";
-    id: string;
-    name: string;
-    path: string;
-    url?: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string; path: string }>;
-    };
-    children?: Array<{
-      __typename?: "Node";
-      id: string;
-      name: string;
-      path: string;
-      url?: string;
-      parentId?: string;
-      context?: {
-        __typename?: "TaxonomyContext";
-        contextId: string;
-        crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string; path: string }>;
-      };
-    }>;
-    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  } & GQLSubjectContextContainer_NodeFragment;
+  subject?: { __typename?: "Node" } & GQLSubjectContextContainer_SubjectFragment & GQLSubjectPageContent_NodeFragment;
+  topic?: { __typename?: "Node" } & GQLSubjectContextContainer_TopicFragment;
+};
+
+export type GQLNodeFragmentFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path: string;
+  url: string;
+  context?: {
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    rootId: string;
+    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string; path: string }>;
+  };
+};
+
+export type GQLContextPageQueryVariables = Exact<{
+  subjectContextId: Scalars["String"]["input"];
+  includeSubject: Scalars["Boolean"]["input"];
+  topicContextId: Scalars["String"]["input"];
+  includeTopic: Scalars["Boolean"]["input"];
+}>;
+
+export type GQLContextPageQuery = {
+  __typename?: "Query";
+  subject?: { __typename?: "Node" } & GQLNodeFragmentFragment & GQLSubjectContextContainer_SubjectFragment;
+  topic?: { __typename?: "Node" } & GQLNodeFragmentFragment;
 };
 
 export type GQLSubjectPageTestQueryVariables = Exact<{
@@ -4764,12 +4792,12 @@ export type GQLSubjectPageContent_NodeFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   topics?: Array<{
     __typename?: "Node";
     id: string;
     name: string;
-    url?: string;
+    url: string;
     path: string;
     availability?: string;
     relevanceId?: string;
@@ -4782,11 +4810,12 @@ export type GQLTopic_TopicFragment = {
   __typename?: "Node";
   id: string;
   path: string;
+  url: string;
   name: string;
   relevanceId?: string;
   supportedLanguages: Array<string>;
   contextId?: string;
-  subtopics?: Array<{ __typename?: "Node"; id: string; name: string; relevanceId?: string }>;
+  subtopics?: Array<{ __typename?: "Node"; id: string; name: string; relevanceId?: string; url: string }>;
   meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
   contexts: Array<{
     __typename?: "TaxonomyContext";
@@ -4844,7 +4873,7 @@ export type GQLToolboxSubjectContainer_SubjectFragment = {
   id: string;
   name: string;
   path: string;
-  url?: string;
+  url: string;
   topics?: Array<{ __typename?: "Topic"; name: string; id: string }>;
   subjectpage?: {
     __typename?: "SubjectPage";

@@ -150,7 +150,7 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     folderRedesign: getEnvironmentVariabel("FOLDER_REDESIGN", true),
-    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", false),
+    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true),
   };
 };
 

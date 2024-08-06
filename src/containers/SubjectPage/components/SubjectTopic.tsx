@@ -41,7 +41,7 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
 
 type Props = {
   topicId: string;
-  subjectId: string;
+  subjectId?: string;
   subTopicId?: string;
   index?: number;
   showResources?: boolean;
@@ -63,7 +63,6 @@ const SubjectTopic = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
 
   const topicPath = useMemo(() => {
@@ -134,7 +133,9 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: config.enablePrettyUrls
+        ? subtopic.url
+        : toTopic(subjectId ?? "", ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -145,7 +146,7 @@ const SubjectTopic = ({
 
   return (
     <>
-      {urnTopicId === topicId && (
+      {topic.id === topicId && (
         <>
           <Helmet>
             <title>{pageTitle}</title>
@@ -161,7 +162,7 @@ const SubjectTopic = ({
       <Topic
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
-        id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
+        id={topic.id === topicId ? SKIP_TO_CONTENT_ID : undefined}
         title={parse(article.htmlTitle ?? "")}
         introduction={parse(article.htmlIntroduction ?? "")}
         metaImage={article.metaImage}
@@ -191,12 +192,14 @@ export const topicFragments = {
     fragment Topic_Topic on Node {
       id
       path
+      url
       name
       relevanceId
       subtopics: children(nodeType: TOPIC) {
         id
         name
         relevanceId
+        url
       }
       meta {
         metaDescription
