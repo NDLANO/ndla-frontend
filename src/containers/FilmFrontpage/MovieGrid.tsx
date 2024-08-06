@@ -32,9 +32,9 @@ const MovieListing = styled("div", {
   base: {
     display: "grid",
     gap: "medium",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr",
-    desktopDown: { gridTemplateColumns: "1fr 1fr 1fr" },
-    tabletDown: { gridTemplateColumns: "1fr 1fr" },
+    gridTemplateColumns: "repeat(4, 1fr)",
+    desktopDown: { gridTemplateColumns: "repeat(3, 1fr)" },
+    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
   },
 });
 
