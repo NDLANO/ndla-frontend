@@ -33,7 +33,13 @@ const StyledSection = styled("section", {
   },
 });
 
-const HeaderWrapper = styled("hgroup", { base: { display: "flex", alignItems: "center", gap: "medium" } });
+const HeaderWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "medium",
+  },
+});
 
 const PaginationWrapper = styled("div", {
   base: {
@@ -52,7 +58,12 @@ const ProgressBar = styled("div", {
 });
 
 const Progress = styled("span", {
-  base: { display: "block", background: "stroke.default", height: "2px", width: "min(var(--width),100%)" },
+  base: {
+    display: "block",
+    background: "stroke.default",
+    height: "2px",
+    width: "min(var(--width),100%)",
+  },
 });
 
 const SearchResultsList = styled("ul", {
@@ -68,7 +79,11 @@ const SearchResultsList = styled("ul", {
 });
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 });
 
 interface Props {

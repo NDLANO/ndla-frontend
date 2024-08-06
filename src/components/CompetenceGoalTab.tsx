@@ -82,17 +82,46 @@ interface CompetenceItemProps {
   showLinks?: boolean;
 }
 
-const ContentWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "medium" } });
-
-const ItemsWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxlarge" } });
-
-const CompetenceItemWrapper = styled("div", {
-  base: { display: "flex", flexDirection: "column", gap: "xsmall", alignItems: "flex-start" },
+const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
 });
 
-const OuterList = styled("ul", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
+const ItemsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
 
-const OuterListItem = styled("li", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+const CompetenceItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    alignItems: "flex-start",
+  },
+});
+
+const OuterList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
+const OuterListItem = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const InnerList = styled("ul", {
   base: {
@@ -104,9 +133,17 @@ const InnerList = styled("ul", {
   },
 });
 
-const SafeLinkWrapper = styled("span", { base: { marginLeft: "xsmall" } });
+const SafeLinkWrapper = styled("span", {
+  base: { marginLeft: "xsmall" },
+});
 
-const CoreElementWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+const CoreElementWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 export const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
   const { t } = useTranslation();

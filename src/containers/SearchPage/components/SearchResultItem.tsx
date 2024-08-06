@@ -48,10 +48,23 @@ const LtiWrapper = styled("div", {
 });
 
 // TODO: Should this styling be updated?
-const StyledButton = styled(Button, { base: { position: "relative", minHeight: "0", paddingBlock: "0" } });
+const StyledButton = styled(Button, {
+  base: {
+    position: "relative",
+    minHeight: "0",
+    paddingBlock: "0",
+  },
+});
 
-const StyledListElement = styled("li", { base: { height: "100%", minHeight: "surface.3xsmall" } });
-const StyledCardRoot = styled(CardRoot, { base: { height: "100%" } });
+const StyledListElement = styled("li", {
+  base: {
+    height: "100%",
+    minHeight: "surface.3xsmall",
+  },
+});
+const StyledCardRoot = styled(CardRoot, {
+  base: { height: "100%" },
+});
 
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
