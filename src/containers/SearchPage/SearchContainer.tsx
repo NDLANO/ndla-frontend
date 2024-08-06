@@ -66,11 +66,11 @@ const SearchPanel = styled("div", {
 const StyledMain = styled("main", {
   base: {
     marginBlockStart: "xxlarge",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
     tabletDown: {
       marginBlockStart: "medium",
-      display: "flex",
-      flexDirection: "column",
-      gap: "xxlarge",
     },
   },
 });
