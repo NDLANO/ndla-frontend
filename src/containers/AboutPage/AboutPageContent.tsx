@@ -65,17 +65,21 @@ export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
   slug: string | undefined,
   currentPath: GQLAboutPage_FrontpageMenuFragment[] = [],
+  previousPath: GQLAboutPage_FrontpageMenuFragment[] = [],
 ): GQLAboutPage_FrontpageMenuFragment[] => {
   for (const item of menu) {
     const newPath = currentPath.concat(item);
     if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
       return newPath;
     } else if (item.menu?.length) {
-      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath);
+      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath, currentPath);
       if (foundPath.length) {
         return foundPath;
       }
     }
+  }
+  if (previousPath?.length > 0) {
+    return previousPath.slice(0, 1);
   }
   return [];
 };
