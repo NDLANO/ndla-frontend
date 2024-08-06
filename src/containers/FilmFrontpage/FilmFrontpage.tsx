@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useRef, useState } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
@@ -51,6 +51,9 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
 
 const StyledNav = styled("nav", {
   base: {
+    display: "flex",
+    gap: "4xsmall",
+    flexDirection: "column",
     paddingTop: "medium",
     paddingBottom: "xxlarge",
   },
@@ -107,6 +110,8 @@ const FilmFrontpage = () => {
     return [fromNdla, allResources].concat(movieResourceTypes);
   }, [allResources]);
 
+  const navHeadingId = useId();
+
   return (
     <>
       <Helmet>
@@ -119,8 +124,8 @@ const FilmFrontpage = () => {
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("ndlaFilm.heading")}
           </Heading>
-          <StyledNav>
-            <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <StyledNav aria-labelledby={navHeadingId}>
+            <Heading id={navHeadingId} textStyle="title.large" fontWeight="bold" asChild consumeCss>
               <h2>{t("ndlaFilm.topics")}</h2>
             </Heading>
             <StyledUl data-testid="film-subject-list">
