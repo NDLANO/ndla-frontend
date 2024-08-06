@@ -296,7 +296,7 @@ const articlePageQuery = gql`
     subject: node(id: $subjectId) {
       ...ArticlePage_Subject
     }
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       ...ArticlePage_Topic
       ...Resources_Topic
     }

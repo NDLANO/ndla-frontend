@@ -38,7 +38,7 @@ const multidisciplinaryTopicWrapperQuery = gql`
     $showSubtopics: Boolean!
     $transformArgs: TransformedArticleContentInput
   ) {
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id
       subtopics: children(nodeType: TOPIC) @include(if: $showSubtopics) {
         ...MultidisciplinaryArticleList_Topic

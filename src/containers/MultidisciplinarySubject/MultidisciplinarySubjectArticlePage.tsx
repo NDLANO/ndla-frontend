@@ -30,10 +30,10 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     $subjectId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject: nodeSubject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...MultidisciplinarySubjectArticle_Subject
     }
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id
       article {
         metaDescription

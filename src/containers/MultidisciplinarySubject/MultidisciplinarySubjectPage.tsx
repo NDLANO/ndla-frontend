@@ -29,7 +29,7 @@ import { htmlTitle } from "../../util/titleHelper";
 
 const multidisciplinarySubjectPageQuery = gql`
   query multidisciplinarySubjectPage($subjectId: String!) {
-    subject: nodeSubject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       id
       name
       path

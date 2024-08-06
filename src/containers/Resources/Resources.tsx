@@ -262,7 +262,7 @@ Resources.fragments = {
 
 const resourcesQuery = gql`
   query resourcesQuery($topicId: String!, $subjectId: String!) {
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       ...Resources_Topic
     }
   }

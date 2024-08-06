@@ -985,7 +985,7 @@ type NewFolderResource {
   tags: [String!]
 }
 
-type Node implements TaxBase & TaxonomyEntity & WithContent {
+type Node implements TaxBase & TaxonomyEntity & WithArticle {
   alternateNodes: [Node!]
   article: Article
   availability: String
@@ -1200,11 +1200,9 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
-  node(contextId: String, id: String): Node
+  node(contextId: String, id: String, rootId: String): Node
   nodeCollection(language: String!): [Node!]
   nodeResource(id: String!, parentId: String, rootId: String): Node
-  nodeSubject(id: String!): Node
-  nodeTopic(id: String!, rootId: String): Node
   nodes(
     contentUri: String
     filterVisible: Boolean
@@ -1275,7 +1273,7 @@ type RelatedContent {
   url: String!
 }
 
-type Resource implements TaxBase & TaxonomyEntity & WithContent {
+type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   article: Article
   availability: String
   breadcrumbs: [String!]!
@@ -1547,7 +1545,7 @@ type Title {
   title: String!
 }
 
-type Topic implements TaxBase & TaxonomyEntity & WithContent {
+type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
   article: Article
   availability: String
@@ -1560,7 +1558,6 @@ type Topic implements TaxBase & TaxonomyEntity & WithContent {
   id: String!
   isPrimary: Boolean
   language: String
-  learningpath: Learningpath
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
@@ -1661,10 +1658,9 @@ type VisualElementOembed {
   title: String
 }
 
-interface WithContent {
+interface WithArticle {
   article: Article
   availability: String
   contentUri: String
-  learningpath: Learningpath
   meta: Meta
 }

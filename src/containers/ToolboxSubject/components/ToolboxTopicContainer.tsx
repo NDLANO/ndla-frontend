@@ -30,7 +30,7 @@ interface Props {
 
 const toolboxTopicContainerQuery = gql`
   query toolboxTopicContainer($topicId: String!, $subjectId: String!, $transformArgs: TransformedArticleContentInput) {
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id # This query recursively calls itself if ID is not included here. Not sure why.
       ...ToolboxTopicWrapper_Topic
     }

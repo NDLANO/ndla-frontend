@@ -28,7 +28,7 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useUrnIds } from "../../../routeHelpers";
+import { toTopic } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";

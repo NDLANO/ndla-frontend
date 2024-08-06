@@ -27,10 +27,10 @@ const subjectPageQuery = gql`
     $metadataFilterKey: String
     $metadataFilterValue: String
   ) {
-    subject: nodeSubject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...SubjectContainer_Subject
     }
-    topic: nodeTopic(id: $topicId) @include(if: $includeTopic) {
+    topic: node(id: $topicId) @include(if: $includeTopic) {
       alternateTopics: alternateNodes {
         ...MovedTopicPage_Topic
       }

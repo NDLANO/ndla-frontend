@@ -29,7 +29,7 @@ type Props = {
 
 const topicWrapperQuery = gql`
   query topicWrapper($topicId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
-    topic: nodeTopic(id: $topicId, rootId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id
       ...Topic_Topic
     }

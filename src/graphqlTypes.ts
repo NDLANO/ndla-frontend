@@ -1318,7 +1318,7 @@ export type GQLNewFolderResource = {
 
 export type GQLNode = GQLTaxBase &
   GQLTaxonomyEntity &
-  GQLWithContent & {
+  GQLWithArticle & {
     __typename?: "Node";
     alternateNodes?: Maybe<Array<GQLNode>>;
     article?: Maybe<GQLArticle>;
@@ -1539,8 +1539,6 @@ export type GQLQuery = {
   node?: Maybe<GQLNode>;
   nodeCollection?: Maybe<Array<GQLNode>>;
   nodeResource?: Maybe<GQLNode>;
-  nodeSubject?: Maybe<GQLNode>;
-  nodeTopic?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
@@ -1742,6 +1740,7 @@ export type GQLQueryListingPageArgs = {
 export type GQLQueryNodeArgs = {
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryNodeCollectionArgs = {
@@ -1751,15 +1750,6 @@ export type GQLQueryNodeCollectionArgs = {
 export type GQLQueryNodeResourceArgs = {
   id: Scalars["String"]["input"];
   parentId?: InputMaybe<Scalars["String"]["input"]>;
-  rootId?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLQueryNodeSubjectArgs = {
-  id: Scalars["String"]["input"];
-};
-
-export type GQLQueryNodeTopicArgs = {
-  id: Scalars["String"]["input"];
   rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -1892,7 +1882,7 @@ export type GQLRelatedContent = {
 
 export type GQLResource = GQLTaxBase &
   GQLTaxonomyEntity &
-  GQLWithContent & {
+  GQLWithArticle & {
     __typename?: "Resource";
     article?: Maybe<GQLArticle>;
     availability?: Maybe<Scalars["String"]["output"]>;
@@ -2195,7 +2185,7 @@ export type GQLTitle = {
 
 export type GQLTopic = GQLTaxBase &
   GQLTaxonomyEntity &
-  GQLWithContent & {
+  GQLWithArticle & {
     __typename?: "Topic";
     alternateTopics?: Maybe<Array<GQLTopic>>;
     article?: Maybe<GQLArticle>;
@@ -2209,7 +2199,6 @@ export type GQLTopic = GQLTaxBase &
     id: Scalars["String"]["output"];
     isPrimary?: Maybe<Scalars["Boolean"]["output"]>;
     language?: Maybe<Scalars["String"]["output"]>;
-    learningpath?: Maybe<GQLLearningpath>;
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
@@ -2328,11 +2317,10 @@ export type GQLVisualElementOembed = {
   title?: Maybe<Scalars["String"]["output"]>;
 };
 
-export type GQLWithContent = {
+export type GQLWithArticle = {
   article?: Maybe<GQLArticle>;
   availability?: Maybe<Scalars["String"]["output"]>;
   contentUri?: Maybe<Scalars["String"]["output"]>;
-  learningpath?: Maybe<GQLLearningpath>;
   meta?: Maybe<GQLMeta>;
 };
 
