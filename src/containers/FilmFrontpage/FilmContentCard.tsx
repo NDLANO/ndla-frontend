@@ -10,6 +10,7 @@ import { gql } from "@apollo/client";
 import { Text, Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {
   metaImage?: {
@@ -58,11 +59,38 @@ const StyledSafeLink = styled(SafeLink, {
       width: "20vw",
     },
 
-    _hover: {
+    "&:hover,&:active,&:focus-within": {
+      "& [data-content-cards]": {
+        opacity: "1",
+      },
+      "& img": {
+        opacity: "0.7",
+      },
       "& > *": {
         textDecoration: "none",
       },
     },
+  },
+});
+
+const StyledWrapperDiv = styled("div", {
+  base: {
+    transition: "opacity 200ms ease",
+    padding: "xxsmall",
+    opacity: "0",
+    position: "absolute",
+    bottom: "0",
+    left: "0",
+  },
+});
+
+const StyledMovieTags = styled(Text, {
+  base: {
+    fontWeight: "semibold",
+    background: "background.default",
+    paddingInline: "xxsmall",
+    paddingBlock: "3xsmall",
+    borderRadius: "xsmall",
   },
 });
 
@@ -72,11 +100,29 @@ const StyledText = styled(Text, {
   },
 });
 
-const FilmContentCard = ({ movie: { metaImage, title, id, path } }: Props) => {
+const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((acc, resourceType) => {
+  acc[resourceType.id] = resourceType.name;
+  return acc;
+}, {});
+
+const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes } }: Props) => {
+  const resources = resourceTypes.reduce<string[]>((acc, curr) => {
+    const name = mappedResourceTypes[curr.id];
+    if (name) return acc.concat(curr.name);
+    return acc;
+  }, []);
+
   return (
     <StyledSafeLink onMouseDown={(e) => e.preventDefault()} to={path} aria-describedby={`list-content-type-${id}`}>
       <ImageWrapper>
         <StyledImage src={metaImage?.url ?? ""} loading="lazy" alt="" />
+        <StyledWrapperDiv id={`${id}`} data-content-cards="">
+          {resources.map((resource) => (
+            <StyledMovieTags textStyle="label.small" key={resource}>
+              {resource}
+            </StyledMovieTags>
+          ))}
+        </StyledWrapperDiv>
       </ImageWrapper>
       <StyledText fontWeight="bold" textStyle="label.medium">
         {title}
