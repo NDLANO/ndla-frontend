@@ -117,7 +117,7 @@ const AllMoviesAlphabetically = () => {
                 )}
                 <MovieTextWrapper>
                   <Heading textStyle="title.small" asChild consumeCss>
-                    <h4>{movie.title}</h4>
+                    <h3>{movie.title}</h3>
                   </Heading>
                   <Text textStyle="body.small">{movie.metaDescription}</Text>
                 </MovieTextWrapper>
