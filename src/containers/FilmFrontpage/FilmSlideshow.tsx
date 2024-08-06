@@ -6,9 +6,9 @@
  *
  */
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { gql } from "@apollo/client";
-import { Image, Text } from "@ndla/primitives";
+import { Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
@@ -17,7 +17,7 @@ import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
 interface Props {
-  slideshow: GQLFilmSlideshow_MovieFragment[];
+  slideshow: GQLFilmSlideshow_MovieFragment[] | undefined;
 }
 
 const StyledImage = styled(Image, {
@@ -93,8 +93,27 @@ const StyledCarousel = styled(Carousel, {
   },
 });
 
+const LoadingShimmer = () => {
+  return new Array(3).fill(0).map((_, index) => {
+    return (
+      <Skeleton key={index}>
+        <StyledSafeLinkCard data-current={false} onMouseDown={(e) => e.preventDefault()} to={""}>
+          <StyledImg src={""} loading="eager" alt="" />
+          <StyledText textStyle="label.large" fontWeight="bold"></StyledText>
+        </StyledSafeLinkCard>
+      </Skeleton>
+    );
+  });
+};
+
+const MainImageShimmer = () => (
+  <Skeleton>
+    <StyledImage src={""} sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw" alt="" />
+  </Skeleton>
+);
+
 const FilmSlideshow = ({ slideshow }: Props) => {
-  const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment>(slideshow[0]!);
+  const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const onHover = useCallback(
@@ -105,39 +124,51 @@ const FilmSlideshow = ({ slideshow }: Props) => {
     [setCurrentSlide],
   );
 
+  useEffect(() => {
+    if (!currentSlide) setCurrentSlide(slideshow?.[0]);
+  }, [currentSlide, slideshow]);
+
   return (
     <section>
-      <SafeLink to={currentSlide.path} tabIndex={-1} aria-hidden>
-        <StyledImage
-          src={currentSlide.metaImage?.url ?? ""}
-          sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
-          alt=""
-        />
+      <SafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
+        {!currentSlide?.metaImage?.url ? (
+          <MainImageShimmer />
+        ) : (
+          <StyledImage
+            src={currentSlide?.metaImage?.url ?? ""}
+            sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
+            alt=""
+          />
+        )}
       </SafeLink>
       <OneColumn wide>
         <StyledCarousel>
-          {slideshow.map((movie) => (
-            <StyledSafeLinkCard
-              data-current={movie.id === currentSlide.id}
-              key={movie.id}
-              onMouseDown={(e) => e.preventDefault()}
-              onMouseEnter={() => onHover(movie)}
-              onMouseLeave={() => {
-                if (hoverCallback) {
-                  clearTimeout(hoverCallback);
-                  setHoverCallback(undefined);
-                }
-              }}
-              onFocus={() => setCurrentSlide(movie)}
-              aria-describedby={"currentMovieDescription"}
-              to={movie.path}
-            >
-              <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
-              <StyledText textStyle="label.large" fontWeight="bold">
-                {movie.title}
-              </StyledText>
-            </StyledSafeLinkCard>
-          ))}
+          {!slideshow ? (
+            <LoadingShimmer />
+          ) : (
+            slideshow.map((movie) => (
+              <StyledSafeLinkCard
+                data-current={movie.id === currentSlide?.id}
+                key={movie.id}
+                onMouseDown={(e) => e.preventDefault()}
+                onMouseEnter={() => onHover(movie)}
+                onMouseLeave={() => {
+                  if (hoverCallback) {
+                    clearTimeout(hoverCallback);
+                    setHoverCallback(undefined);
+                  }
+                }}
+                onFocus={() => setCurrentSlide(movie)}
+                aria-describedby={"currentMovieDescription"}
+                to={movie.path}
+              >
+                <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
+                <StyledText textStyle="label.large" fontWeight="bold">
+                  {movie.title}
+                </StyledText>
+              </StyledSafeLinkCard>
+            ))
+          )}
         </StyledCarousel>
       </OneColumn>
     </section>
