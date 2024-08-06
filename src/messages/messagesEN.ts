@@ -141,6 +141,9 @@ const messages = {
       },
     },
   },
+  multidisciplinary: {
+    casesCount: "{{count}} cases",
+  },
   tabs: {
     competenceGoals: "Categories",
     licenseBox: "Content types",

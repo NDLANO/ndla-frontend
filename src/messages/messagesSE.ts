@@ -136,11 +136,14 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
-    tabs: {
-      competenceGoals: "Kategorier",
-      licenseBox: "Innholdstyper",
-      subjectFilter: "Fagkategorier",
-    },
+  },
+  tabs: {
+    competenceGoals: "Kategorier",
+    licenseBox: "Innholdstyper",
+    subjectFilter: "Fagkategorier",
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
   },
   masthead: {
     search: "Søk på ndla.no",
