@@ -11,13 +11,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import Flags from "./components/FlagCard";
 import FlaggedPostCard from "./components/FlaggedPostCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { useArenaPostInContext } from "../arenaQueries";
@@ -43,7 +43,7 @@ const ArenaSingleFlagPage = () => {
   });
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (loading || !authContextLoaded) return <Spinner />;
+  if (loading || !authContextLoaded) return <PageSpinner />;
 
   const flaggedPost = topic?.posts?.items[0];
 

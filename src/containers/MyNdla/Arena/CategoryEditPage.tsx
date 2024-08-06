@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { Heading } from "@ndla/typography";
@@ -19,6 +18,7 @@ import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useEditArenaCategory } from "../arenaMutations";
@@ -76,7 +76,7 @@ const CategoryEditPage = () => {
     else navigate(routes.myNdla.arena);
   }, [categoryId, navigate]);
 
-  if (loading || !authContextLoaded) return <Spinner />;
+  if (loading || !authContextLoaded) return <PageSpinner />;
   if (!categoryId) return <Navigate to={routes.myNdla.arena} />;
   if (user && !(user.isModerator || user.arenaEnabled))
     return <Navigate to={routes.myNdla.arenaCategory(Number(categoryId))} />;

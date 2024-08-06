@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing, utils } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import AboutNdlaFilm from "./AboutNdlaFilm";
 import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";
@@ -23,6 +22,7 @@ import FilmSlideshow from "./FilmSlideshow";
 import MovieGrid from "./MovieGrid";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
+import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
@@ -123,7 +123,11 @@ const FilmFrontpage = () => {
       <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
       <StyledH1>{t("ndlaFilm.heading")}</StyledH1>
       <main>
-        {loading ? <Spinner /> : definedSlideshowMovies ? <FilmSlideshow slideshow={definedSlideshowMovies} /> : null}
+        {loading ? (
+          <PageSpinner />
+        ) : definedSlideshowMovies ? (
+          <FilmSlideshow slideshow={definedSlideshowMovies} />
+        ) : null}
         <FilmMovieSearch
           skipToContentId={SKIP_TO_CONTENT_ID}
           topics={subject?.topics ?? []}

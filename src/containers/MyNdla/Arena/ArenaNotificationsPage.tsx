@@ -9,10 +9,10 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { useTemporaryArenaNotifications } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -25,7 +25,7 @@ const ArenaNotificationPage = () => {
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications();
 
-  if (!authContextLoaded) return <Spinner />;
+  if (!authContextLoaded) return <PageSpinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
   return (
     <MyNdlaPageWrapper>

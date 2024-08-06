@@ -16,6 +16,7 @@ import { Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -101,7 +102,7 @@ const FavoriteSubjectsPage = () => {
   );
 
   if (favouriteSubjectsQuery.loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   return (

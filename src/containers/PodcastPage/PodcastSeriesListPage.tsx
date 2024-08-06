@@ -21,7 +21,6 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Text,
-  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -29,6 +28,7 @@ import { Heading } from "@ndla/typography";
 import { OneColumn, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { PageSpinner } from "../../components/PageSpinner";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -115,7 +115,7 @@ const PodcastSeriesListPage = () => {
   }
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   return (

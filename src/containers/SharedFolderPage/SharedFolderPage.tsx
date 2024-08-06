@@ -15,11 +15,12 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
 import { PresentationLine } from "@ndla/icons/common";
 import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button } from "@ndla/primitives";
 import { ErrorMessage, OneColumn } from "@ndla/ui";
 import FolderMeta from "./components/FolderMeta";
 import FolderNavigation from "./components/FolderNavigation";
 import SharedArticle from "./components/SharedArticle";
+import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { useUserAgent } from "../../UserAgentContext";
@@ -151,7 +152,7 @@ const SharedFolderPage = () => {
   const close = useCallback(() => setOpen(false), []);
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (error?.graphQLErrors[0]?.extensions?.status === 404) {

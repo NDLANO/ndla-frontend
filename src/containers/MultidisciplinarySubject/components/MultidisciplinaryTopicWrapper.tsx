@@ -7,11 +7,11 @@
  */
 import { Dispatch, SetStateAction } from "react";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/primitives";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import MultidisciplinaryTopic, { multidisciplinaryTopicFragments } from "./MultidisciplinaryTopic";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import {
   GQLMultidisciplinaryTopicWrapperQuery,
   GQLMultidisciplinaryTopicWrapperQueryVariables,
@@ -86,7 +86,7 @@ const MultidisciplinaryTopicWrapper = ({
   });
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (!data?.topic) {
