@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { Heading } from "@ndla/primitives";
+import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
@@ -16,6 +16,7 @@ import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
 interface Props {
   movies: GQLFilmMovieList_MovieFragment[];
   name?: string;
+  loading: boolean;
 }
 
 const StyledSection = styled("section", {
@@ -25,7 +26,26 @@ const StyledSection = styled("section", {
   },
 });
 
-const FilmMovieList = ({ name, movies = [] }: Props) => {
+const FilmMovieList = ({ name, movies = [], loading }: Props) => {
+  if (loading) {
+    return (
+      <StyledSection>
+        <Skeleton css={{ width: "surface.small" }}>
+          <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+            <h3>{name}</h3>
+          </Heading>
+        </Skeleton>
+        <Carousel>
+          {new Array(5).fill(0).map((_, idx) => (
+            <Skeleton key={idx}>
+              <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
+            </Skeleton>
+          ))}
+        </Carousel>
+      </StyledSection>
+    );
+  }
+
   return (
     <StyledSection>
       {!!name && (

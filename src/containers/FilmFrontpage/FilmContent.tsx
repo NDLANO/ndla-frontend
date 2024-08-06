@@ -31,7 +31,18 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes }: Props) => {
     return <MovieGrid resourceType={resourceTypeSelected} />;
   }
 
+  if (movieThemes === undefined) {
+    return new Array(5).fill(0).map((_, idx) => {
+      return <FilmMovieList key={idx} loading={true} movies={[]} name="temp" />;
+    });
+  }
+
   return movieThemes?.map((theme) => (
-    <FilmMovieList key={theme.name[0]?.name} name={findName(theme.name ?? [], i18n.language)} movies={theme.movies} />
+    <FilmMovieList
+      key={theme.name[0]?.name}
+      loading={false}
+      name={findName(theme.name ?? [], i18n.language)}
+      movies={theme.movies}
+    />
   ));
 };
