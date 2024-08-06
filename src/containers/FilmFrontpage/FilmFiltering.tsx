@@ -21,12 +21,12 @@ import { MovieResourceType } from "./resourceTypes";
 
 const StyledHeading = styled(Heading, {
   base: {
-    paddingBlockEnd: "medium",
+    marginBlockEnd: "medium",
   },
 });
 const LabelText = styled(Text, {
   base: {
-    paddingBlockEnd: "small",
+    marginBlockEnd: "small",
   },
 });
 
