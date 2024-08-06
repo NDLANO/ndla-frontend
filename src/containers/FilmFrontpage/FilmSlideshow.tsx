@@ -115,7 +115,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
         />
       </SafeLink>
       <OneColumn wide>
-        <StyledCarousel hideButtons={true}>
+        <StyledCarousel>
           {slideshow.map((movie) => (
             <StyledSafeLinkCard
               data-current={movie.id === currentSlide.id}
