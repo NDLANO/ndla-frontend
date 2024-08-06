@@ -6,35 +6,29 @@
  *
  */
 
-import styled from "@emotion/styled";
 import { getLicenseRightByAbbreviation } from "@ndla/licenses";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface LicenseDescriptionListProps {
   licenseRights: string[];
   locale?: string;
 }
 
-const StyledList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  list-style-type: disc;
-  list-style-position: inside;
-`;
-
-const StyledListItem = styled.li`
-  padding: 0;
-  margin: 0;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyleType: "disc",
+    listStylePosition: "inside",
+  },
+});
 
 const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescriptionListProps) => (
   <StyledList>
     {/* Filter away the CC-rights description since it is now shown in MediaListLicense*/}
     {licenseRights
       .filter((right) => right !== "cc")
-      .map((licenseRight) => {
-        const { description } = getLicenseRightByAbbreviation(licenseRight, locale);
-        return <StyledListItem key={licenseRight}>{description}</StyledListItem>;
-      })}
+      .map((licenseRight) => (
+        <li key={licenseRight}>{getLicenseRightByAbbreviation(licenseRight, locale).description}</li>
+      ))}
   </StyledList>
 );
 
