@@ -20,7 +20,6 @@ import {
   Text,
   Heading,
 } from "@ndla/primitives";
-import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
@@ -34,24 +33,62 @@ import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 
-const mainSearchLayoutStyle = css.raw({ display: "flex", flexDirection: "column", gap: "xxlarge" });
-
 const StyledLanguageSelector = styled("div", {
-  base: { display: "flex", justifyContent: "center", marginBlockEnd: "surface.xxsmall" },
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    marginBlockEnd: "surface.xxsmall",
+  },
 });
 const CompetenceWrapper = styled("div", {
-  base: { display: "flex", flexDirection: "column", gap: "small" },
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
 });
-const CompetenceItemWrapper = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xxsmall" } });
+const CompetenceItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
-const SearchPanel = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+const SearchPanel = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const StyledMain = styled("main", {
-  base: { marginBlockStart: "xxlarge", tabletDown: { marginBlockStart: "medium" } },
+  base: {
+    marginBlockStart: "xxlarge",
+    tabletDown: {
+      marginBlockStart: "medium",
+      display: "flex",
+      flexDirection: "column",
+      gap: "xxlarge",
+    },
+  },
+});
+
+const SearchGroupWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
 });
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 });
 const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
 
@@ -123,7 +160,7 @@ const SearchContainer = ({
   }));
 
   return (
-    <StyledMain css={mainSearchLayoutStyle}>
+    <StyledMain>
       {!isLti && (
         <HomeBreadcrumb
           items={[
@@ -196,7 +233,7 @@ const SearchContainer = ({
         )}
       </SearchPanel>
       {!!searchGroups?.length && (
-        <styled.div css={mainSearchLayoutStyle}>
+        <SearchGroupWrapper>
           {filteredSortedSearchGroups.map((group) => (
             <SearchResultGroup
               key={`searchresultgroup-${group.type}`}
@@ -215,7 +252,7 @@ const SearchContainer = ({
               />
             </StyledLanguageSelector>
           )}
-        </styled.div>
+        </SearchGroupWrapper>
       )}
     </StyledMain>
   );
