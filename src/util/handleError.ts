@@ -71,9 +71,19 @@ const getErrorLog = (
   error: ApolloError | Error | string | unknown,
   extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
+  if (error === null) return { message: "Unknown error", ...extraContext };
+
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      ...extraContext,
+    };
+  }
+
   if (typeof error === "object") {
-    const errWithPath = error as { requestPath?: string } & object;
-    return { ...errWithPath, ...extraContext };
+    return { ...error, ...extraContext };
   }
 
   if (typeof error === "string") {
