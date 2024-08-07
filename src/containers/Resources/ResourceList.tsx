@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type Resource, ResourceItem } from "./ResourceItem";
+import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
 const StyledResourceList = styled("ul", {
   base: {
@@ -28,7 +29,8 @@ interface ResourceListProps {
 const ResourceList = ({ resources, contentType, headingId, title, showAdditionalResources }: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
-    !showAdditionalResources && resources.length - resources.filter((r) => r.additional).length === 0;
+    !showAdditionalResources &&
+    resources.length - resources.filter((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY).length === 0;
 
   return (
     <div>

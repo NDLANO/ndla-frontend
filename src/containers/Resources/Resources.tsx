@@ -6,7 +6,6 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
@@ -20,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
@@ -77,54 +76,30 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
   const { t } = useTranslation();
   const navHeadingId = useId();
 
+  const { supplementaryResources, sortedResources } = useMemo(
+    () => getResourceGroupings(topic.coreResources?.concat(topic.supplementaryResources ?? []) ?? [], resourceId),
+    [resourceId, topic.coreResources, topic.supplementaryResources],
+  );
+
   const isGrouped = useMemo(
     () =>
       topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
     [topic?.metadata?.customFields],
   );
 
-  const { coreResources, supplementaryResources, sortedResources } = useMemo(() => {
-    const core = topic.coreResources ?? [];
-    const supp = (topic.supplementaryResources ?? [])
-      .map((r) => ({ ...r, additional: true }))
-      .filter((r) => !topic.coreResources?.find((c) => c.id === r.id));
-
-    return {
-      coreResources: core,
-      supplementaryResources: supp,
-      sortedResources: sortBy(core.concat(supp), (res) => res.rank),
-    };
-  }, [topic.coreResources, topic.supplementaryResources]);
-
   const { groupedResources, ungroupedResources } = useMemo(() => {
     if (isGrouped) {
-      const resourceGroups = getResourceGroups(resourceTypes ?? [], supplementaryResources, coreResources);
-
-      const groupedResources = resourceGroups
-        .map((type) => ({
-          ...type,
-          resources: type?.resources?.map((res) => ({
-            ...res,
-            active: !!resourceId && res.id.endsWith(resourceId),
-          })),
-          contentType: contentTypeMapping[type.id],
-        }))
-        .filter((type) => type.resources?.length);
+      const resourceGroups = getResourceGroups(resourceTypes ?? [], sortedResources);
+      const groupedResources = resourceGroups.map((type) => ({ ...type, contentType: contentTypeMapping[type.id] }));
       return { groupedResources, ungroupedResources: [] };
     }
 
     const ungroupedResources = sortedResources.map((res) => {
-      const resourceTypes = sortResourceTypes(res.resourceTypes ?? []);
-      const firstResourceType = resourceTypes?.[0];
-      return {
-        ...res,
-        active: !!resourceId && res.id.endsWith(resourceId),
-        contentTypeName: firstResourceType?.name,
-        contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined,
-      };
+      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
+      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
     });
     return { groupedResources: [], ungroupedResources };
-  }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources]);
+  }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
     const showAdditional = window.localStorage.getItem("showAdditionalResources");
@@ -198,6 +173,7 @@ const resourceFragment = gql`
     paths
     rank
     language
+    relevanceId
     resourceTypes {
       id
       name

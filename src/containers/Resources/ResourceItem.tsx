@@ -14,6 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import { RELEVANCE_CORE } from "../../constants";
 
 // TODO: How should we handle additional resources?
 // TODO: What should teacher only look like?
@@ -78,7 +79,7 @@ export type Resource = {
   path: string;
   contentType?: string;
   active?: boolean;
-  additional?: boolean;
+  relevanceId?: string;
 };
 
 export const ResourceItem = ({
@@ -86,14 +87,15 @@ export const ResourceItem = ({
   path,
   contentType,
   active,
-  additional,
+  relevanceId,
   showAdditionalResources,
   access,
   language,
 }: Props & Resource) => {
   const { t } = useTranslation();
-  const relevanceId = useId();
+  const relevanceElId = useId();
   const accessId = useId();
+  const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
   const teacherOnly = access === "teacher";
   const contentTypeDescription = additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic");
@@ -149,7 +151,7 @@ export const ResourceItem = ({
             {!!RelevanceIcon && (
               <RelevanceIcon
                 aria-hidden={false}
-                id={relevanceId}
+                id={relevanceElId}
                 aria-label={contentTypeDescription}
                 title={contentTypeDescription}
               />
