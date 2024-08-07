@@ -19,7 +19,6 @@ import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
-  GQLLearningpathEmbed_TopicFragment,
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
 } from "../../graphqlTypes";
@@ -66,12 +65,11 @@ const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefin
 
 interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
-  topic?: GQLLearningpathEmbed_TopicFragment;
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
 }
-const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId, breadcrumbItems }: Props) => {
+const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [taxId, articleId] =
@@ -170,7 +168,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
         id={skipToContentId}
         article={article}
         oembed={data?.article?.oembed}
-        {...getArticleProps(resource, topic)}
+        {...getArticleProps(resource)}
       >
         {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
       </Article>
@@ -198,13 +196,6 @@ const articleFragment = gql`
 `;
 
 LearningpathEmbed.fragments = {
-  topic: gql`
-    fragment LearningpathEmbed_Topic on Node {
-      supplementaryResources(rootId: $subjectId) {
-        id
-      }
-    }
-  `,
   article: articleFragment,
   learningpathStep: gql`
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {

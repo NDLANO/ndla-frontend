@@ -208,7 +208,7 @@ const ArticlePage = ({
             subjectId={subjectId}
             showFavoriteButton={config.feideEnabled}
             oembed={article.oembed}
-            {...getArticleProps(resource, topic)}
+            {...getArticleProps(resource)}
           />
           <LayoutItem layout="extend">
             <Resources

@@ -89,7 +89,7 @@ const SharedArticleContainer = ({ article: propArticle, meta, title }: Props) =>
         id={SKIP_TO_CONTENT_ID}
         oembed={undefined}
         article={article}
-        {...getArticleProps(undefined, undefined)}
+        {...getArticleProps(undefined)}
         contentType={contentType?.contentType}
         label={contentType?.label || ""}
       />
