@@ -41,7 +41,6 @@ const messages = {
     tipsAndAdvice: "Tips og råd",
     goBack: "Gå tilbake",
   },
-  searchPage: { subjectLetter: "Fag som starter på {{letter}}" },
   podcastPage: {
     episodes: "Episoder",
     podcast: "Podkast",
@@ -51,6 +50,11 @@ const messages = {
     subtitle: "Lytt og lær!",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som starter på {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Prøv vår praterobot",
