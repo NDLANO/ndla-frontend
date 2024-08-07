@@ -16,16 +16,9 @@ import { Heading } from "@ndla/typography";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
 import ResourcesTopicTitle from "./ResourcesTopicTitle";
-import FavoriteButton from "../../components/Article/FavoritesButton";
-import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import {
-  GQLResources_ResourceFragment,
-  GQLResources_ResourceTypeDefinitionFragment,
-  GQLResources_TopicFragment,
-} from "../../graphqlTypes";
+import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
@@ -134,11 +127,7 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
       />
       {!isGrouped ? (
         <StyledNav aria-labelledby={resourcesTopicId}>
-          <ResourceList
-            resources={ungroupedResources}
-            showAdditionalResources={showAdditionalResources}
-            heartButton={(p) => <AddResource resources={ungroupedResources} path={p} />}
-          />
+          <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
         </StyledNav>
       ) : (
         groupedResources.map((type) => (
@@ -153,7 +142,6 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
                   showAdditionalResources={showAdditionalResources}
                   contentType={type.contentType}
                   resources={type.resources ?? []}
-                  heartButton={(p) => <AddResource resources={type.resources ?? []} path={p} />}
                 />
               </StyledNav>
             )}
@@ -161,34 +149,6 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
         ))
       )}
     </StyledSection>
-  );
-};
-
-interface AddResourceProps {
-  resources: GQLResources_ResourceFragment[];
-  path: string;
-}
-
-const AddResource = ({ resources, path }: AddResourceProps) => {
-  const resource: ResourceAttributes | undefined = useMemo(() => {
-    const res = resources?.find((r) => r.path === path);
-    const [, resourceType, articleIdString] = res?.contentUri?.split(":") ?? [];
-    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
-    if (!resourceType || !articleId || !path) return undefined;
-
-    return {
-      id: articleId?.toString(),
-      path: path,
-      resourceType,
-    };
-  }, [path, resources]);
-
-  if (!resource) return null;
-
-  return (
-    <AddResourceToFolderModal resource={resource}>
-      <FavoriteButton path={path} />
-    </AddResourceToFolderModal>
   );
 };
 
