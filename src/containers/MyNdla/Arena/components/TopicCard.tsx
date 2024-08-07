@@ -36,13 +36,13 @@ const StyledSafelink = styled(SafeLink, {
     paddingRight: "large",
 
     _focusVisible: {
-      backgroundColor: "surface.brand.2.moderate",
+      backgroundColor: "surface.hover",
       "& [data-name='hover']": {
         textDecoration: "none",
       },
     },
     _hover: {
-      backgroundColor: "surface.brand.2.moderate",
+      backgroundColor: "surface.hover",
       "& [data-name='hover']": {
         textDecoration: "none",
       },
