@@ -95,18 +95,16 @@ const LastLearningpathStepInfo = ({
             </Text>
           )}
         </LinksWrapper>
-        {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
-          <Resources
-            headingType="h2"
-            key="resources"
-            topicId={topic.id}
-            subjectId={root?.id}
-            resourceId={resourceId}
-            resourceTypes={resourceTypes}
-            topic={topic}
-            subHeadingType="h3"
-          />
-        )}
+        <Resources
+          headingType="h2"
+          key="resources"
+          topicId={parent.id}
+          subjectId={root?.id}
+          resourceId={resourceId}
+          resourceTypes={resourceTypes}
+          topic={topic}
+          subHeadingType="h3"
+        />
       </LayoutItem>
     </StyledOneColumn>
   );
