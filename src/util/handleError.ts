@@ -71,7 +71,7 @@ const getErrorLog = (
   error: ApolloError | Error | string | unknown,
   extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
-  if (error === null) return { message: "Unknown error", ...extraContext };
+  if (!error) return { message: `Unknown error: ${JSON.stringify(error)}`, ...extraContext };
 
   if (error instanceof Error) {
     return {
