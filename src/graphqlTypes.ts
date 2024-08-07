@@ -964,6 +964,7 @@ export type GQLMovie = {
   path: Scalars["String"]["output"];
   resourceTypes: Array<GQLResourceType>;
   title: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
 };
 
 export type GQLMovieMeta = {
@@ -971,12 +972,6 @@ export type GQLMovieMeta = {
   metaDescription?: Maybe<Scalars["String"]["output"]>;
   metaImage?: Maybe<GQLMetaImage>;
   title: Scalars["String"]["output"];
-};
-
-export type GQLMoviePath = {
-  __typename?: "MoviePath";
-  path?: Maybe<Scalars["String"]["output"]>;
-  paths?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type GQLMovieResourceTypes = {
@@ -2801,6 +2796,7 @@ export type GQLFilmContentCard_MovieFragment = {
   title: string;
   metaDescription: string;
   path: string;
+  url: string;
   metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
   resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
@@ -2857,7 +2853,7 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string; url?: string }>;
         }
       | {
           __typename?: "LearningpathSearchResult";
@@ -2865,7 +2861,7 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextType: string; path: string; url?: string }>;
         }
     >;
   };

@@ -849,6 +849,7 @@ type Movie {
   path: String!
   resourceTypes: [ResourceType!]!
   title: String!
+  url: String!
 }
 
 type MovieMeta {
@@ -857,10 +858,6 @@ type MovieMeta {
   title: String!
 }
 
-type MoviePath {
-  path: String
-  paths: [String!]
-}
 
 type MovieResourceTypes {
   resourceTypes: [ResourceType!]

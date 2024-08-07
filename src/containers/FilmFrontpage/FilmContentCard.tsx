@@ -14,6 +14,7 @@ import { makeSrcQueryString } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { movieResourceTypes } from "./resourceTypes";
+import config from "../../config";
 
 interface MovieType {
   metaImage?: {
@@ -26,6 +27,7 @@ interface MovieType {
   title: string;
   id: string | number;
   path: string;
+  url: string;
 }
 
 interface Props extends ComponentPropsWithoutRef<"a"> {
@@ -124,7 +126,7 @@ const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((a
 }, {});
 
 const FilmContentCard = ({
-  movie: { metaImage, resourceTypes, title, id, path },
+  movie: { metaImage, resourceTypes, title, id, path, url },
   hideTags = false,
   className,
   type = "slideshow",
@@ -143,7 +145,7 @@ const FilmContentCard = ({
   return (
     <StyledSafeLink
       onMouseDown={(e) => e.preventDefault()}
-      to={path}
+      to={config.enablePrettyUrls ? url : path}
       data-type={type}
       aria-describedby={contentTypeId}
       className={className}
@@ -181,6 +183,7 @@ FilmContentCard.fragments = {
         name
       }
       path
+      url
     }
   `,
 };

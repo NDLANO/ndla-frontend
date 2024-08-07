@@ -70,6 +70,7 @@ const resourceTypeMoviesQuery = gql`
         contexts {
           contextType
           path
+          url
         }
       }
     }
@@ -114,6 +115,7 @@ const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
                 resourceTypes: [],
                 title: movie.title,
                 path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
+                url: movie.contexts.filter((c) => c.contextType === "standard")[0]?.url ?? "",
               }}
               lazy
               type="list"
