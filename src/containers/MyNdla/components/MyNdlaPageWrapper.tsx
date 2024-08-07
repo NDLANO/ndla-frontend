@@ -7,26 +7,31 @@
  */
 
 import { HTMLAttributes, ReactNode } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import Toolbar from "./Toolbar";
-import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
 import { ViewType } from "../Folders/FoldersPage";
 
-const ContentWrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  margin: ${spacing.nsmall} ${spacing.nsmall} ${spacing.xlarge};
+const ContentWrapper = styled("main", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "9",
+    marginTop: "9",
+    marginBottom: "3xlarge",
+    tablet: {
+      margin: "xxlarge",
+      marginTop: "0",
+      marginBottom: "3xlarge",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin: 0 ${spacing.large} ${spacing.xlarge};
-  }
-`;
-
-export const Content = styled.div`
-  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
-  width: 100%;
-`;
+export const Content = styled("div", {
+  base: {
+    maxWidth: "surface.4xlarge",
+    width: "100%",
+  },
+});
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   dropDownMenu?: ReactNode;
