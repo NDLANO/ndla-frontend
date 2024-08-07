@@ -92,7 +92,10 @@ const allSubjectsQuery = gql`
   }
 `;
 
-const convertToArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
+const filterDefaults = (value: string | string[]): string[] => {
+  if (!value) return [ACTIVE_SUBJECTS];
+  return Array.isArray(value) ? value : [value];
+};
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
@@ -103,7 +106,7 @@ const AllSubjectsPage = () => {
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string[]>(convertToArray(parse(location.search).filter) || [ACTIVE_SUBJECTS]);
+  const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
 
   const setFilter = (value: string[]) => {
     const searchObject = parse(location.search);
