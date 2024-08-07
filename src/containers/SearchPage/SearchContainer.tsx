@@ -206,7 +206,7 @@ const SearchContainer = ({
             )}
           </CompetenceWrapper>
         )}
-        <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
+        <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
         {sortedFilterItems.length > 1 && (
           <div>
             <StyledText textStyle="title.small" id={resourceTypeFilterId}>

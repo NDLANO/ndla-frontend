@@ -168,7 +168,6 @@ const SearchHeader = ({
               )}
             </div>
           )}
-          {loading && <div aria-label={t("loading")} />}
         </StyledHitsWrapper>
       </div>
       <Modal open={isOpen} onOpenChange={setIsOpen}>

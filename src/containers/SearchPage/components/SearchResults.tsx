@@ -122,6 +122,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
           <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
         )}
       </HeaderWrapper>
+      {/* TODO: Checkboxgroup should be associated with some kind of label (fieldset or labelledby) */}
       {groupFilter?.filters.length ? (
         <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
           {filters.map((filter) => (
@@ -155,7 +156,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
         <ProgressBar>
           <Progress style={{ "--width": `${Math.ceil((toCount / group.totalCount) * 100)}%` } as CSSProperties} />
         </ProgressBar>
-        {loading && <Spinner />}
+        <div aria-live="polite">{loading && <Spinner aria-label={t("loading")} />}</div>
         {toCount < group.totalCount ? (
           <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
             {t("searchPage.resultType.showMore")}
