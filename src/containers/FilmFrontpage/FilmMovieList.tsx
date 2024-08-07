@@ -25,6 +25,14 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const StyledCarousel = styled(Carousel, {
+  base: {
+    "& [data-slide-content-wrapper]": {
+      marginInline: "medium",
+    },
+  },
+});
+
 const FilmMovieList = ({ name, movies = [], loading }: Props) => {
   if (loading) {
     return (
@@ -34,13 +42,13 @@ const FilmMovieList = ({ name, movies = [], loading }: Props) => {
             <h3>{name}</h3>
           </StyledHeading>
         </Skeleton>
-        <Carousel withInnerMargin={true}>
+        <StyledCarousel>
           {new Array(5).fill(0).map((_, idx) => (
             <Skeleton key={idx}>
               <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
             </Skeleton>
           ))}
-        </Carousel>
+        </StyledCarousel>
       </section>
     );
   }
@@ -52,11 +60,11 @@ const FilmMovieList = ({ name, movies = [], loading }: Props) => {
           <h3>{name}</h3>
         </StyledHeading>
       )}
-      <Carousel withInnerMargin={true}>
+      <StyledCarousel>
         {movies.map((movie) => (
           <FilmContentCard key={movie.id} movie={movie} />
         ))}
-      </Carousel>
+      </StyledCarousel>
     </section>
   );
 };
