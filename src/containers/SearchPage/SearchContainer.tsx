@@ -180,6 +180,7 @@ const SearchContainer = ({
           competenceGoals={competenceGoals}
           coreElements={coreElements}
           loading={loading}
+          isLti={isLti}
         />
         {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
           <CompetenceWrapper>

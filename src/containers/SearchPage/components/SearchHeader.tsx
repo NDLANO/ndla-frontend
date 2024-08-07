@@ -27,6 +27,7 @@ interface Props {
   coreElements: GQLCoreElement[];
   noResults: boolean;
   loading: boolean;
+  isLti?: boolean;
 }
 
 const MAX_SHOW_SUBJECT_FILTERS = 2;
@@ -59,6 +60,7 @@ const SearchHeader = ({
   competenceGoals,
   coreElements,
   loading,
+  isLti,
 }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +107,7 @@ const SearchHeader = ({
 
   return (
     <Wrapper>
-      <Heading>{t("searchPage.title")}</Heading>
+      {!isLti && <Heading>{t("searchPage.title")}</Heading>}
       <div>
         <form action="/search/" onSubmit={handleSearchSubmit}>
           <StyledSearchWrapper>
