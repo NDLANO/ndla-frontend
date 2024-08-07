@@ -6,10 +6,10 @@
  *
  */
 
-import { t } from "i18next";
 import keyBy from "lodash/keyBy";
 import { useContext, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
@@ -105,6 +105,7 @@ const containsFolder = (folder: GQLFolder): boolean => {
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
+  const { t } = useTranslation();
 
   const { authenticated } = useContext(AuthContext);
 
