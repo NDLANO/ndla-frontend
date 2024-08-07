@@ -67,7 +67,7 @@ const StyledSafeLink = styled(SafeLink, {
       "& img": {
         opacity: "0.7",
       },
-      "& > *": {
+      "& [data-title]": {
         textDecoration: "none",
       },
     },
@@ -130,7 +130,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes },
           ))}
         </StyledWrapperDiv>
       </ImageWrapper>
-      <StyledText fontWeight="bold" textStyle="label.medium">
+      <StyledText fontWeight="bold" textStyle="label.medium" data-title="">
         {title}
       </StyledText>
     </StyledSafeLink>
