@@ -118,7 +118,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpath={learningpath}
         learningpathStep={learningpathStep}
         topic={topic}
-        subject={subject}
+        subjectId={subject?.id}
         resourceId={resource.id}
         path={config.enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
@@ -183,9 +183,7 @@ export const learningpathPageFragments = {
           title
         }
       }
-      ...Learningpath_Subject
     }
-    ${Learningpath.fragments.subject}
   `,
   resourceType: gql`
     fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {

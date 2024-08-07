@@ -25,7 +25,6 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
@@ -38,7 +37,7 @@ interface Props {
   resourceId?: string;
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
-  subject?: GQLLearningpath_SubjectFragment;
+  subjectId?: string;
   topic?: GQLLearningpath_TopicFragment;
   topicPath?: GQLTaxBase[];
 }
@@ -87,7 +86,7 @@ const Learningpath = ({
   resourceId,
   resourceTypes,
   skipToContentId,
-  subject,
+  subjectId,
   topic,
   topicPath,
 }: Props) => {
@@ -136,7 +135,7 @@ const Learningpath = ({
             <LearningpathEmbed
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
               topic={topic}
-              subjectId={subject?.id}
+              subjectId={subjectId}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
             />
@@ -147,7 +146,6 @@ const Learningpath = ({
               seqNo={learningpathStep.seqNo}
               numberOfLearningSteps={learningpath.learningsteps.length - 1}
               title={learningpath.title}
-              subject={subject}
               resourceId={resourceId}
             />
           </LearningPathContent>
@@ -181,13 +179,6 @@ Learningpath.fragments = {
       ...LastLearningpathStepInfo_ResourceTypeDefinition
     }
     ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
-  subject: gql`
-    fragment Learningpath_Subject on Node {
-      id
-      ...LastLearningpathStepInfo_Subject
-    }
-    ${LastLearningpathStepInfo.fragments.subject}
   `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {

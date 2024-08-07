@@ -18,7 +18,6 @@ import Resources from "../../containers/Resources/Resources";
 import {
   GQLTaxBase,
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
 } from "../../graphqlTypes";
 
@@ -43,7 +42,6 @@ const StyledHGroup = styled.div`
 interface Props {
   resourceId?: string;
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
-  subject?: GQLLastLearningpathStepInfo_SubjectFragment;
   topicPath?: GQLTaxBase[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
@@ -53,7 +51,6 @@ interface Props {
 const LastLearningpathStepInfo = ({
   resourceId,
   topic,
-  subject,
   topicPath,
   resourceTypes,
   seqNo,
@@ -98,7 +95,7 @@ const LastLearningpathStepInfo = ({
         <Resources
           headingType="h2"
           key="resources"
-          topicId={parent.id}
+          topicId={parent?.id}
           subjectId={root?.id}
           resourceId={resourceId}
           resourceTypes={resourceTypes}
@@ -117,13 +114,6 @@ LastLearningpathStepInfo.fragments = {
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-  `,
-  subject: gql`
-    fragment LastLearningpathStepInfo_Subject on Node {
-      id
-      path
-      name
-    }
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {
