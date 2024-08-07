@@ -19,46 +19,45 @@ interface Props {
   loading: boolean;
 }
 
-const StyledSection = styled("section", {
+const StyledHeading = styled(Heading, {
   base: {
-    paddingBlockEnd: "medium",
-    paddingInline: "medium",
+    marginInline: "medium",
   },
 });
 
 const FilmMovieList = ({ name, movies = [], loading }: Props) => {
   if (loading) {
     return (
-      <StyledSection>
+      <section>
         <Skeleton css={{ width: "surface.small" }}>
-          <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
             <h3>{name}</h3>
-          </Heading>
+          </StyledHeading>
         </Skeleton>
-        <Carousel>
+        <Carousel withInnerMargin={true}>
           {new Array(5).fill(0).map((_, idx) => (
             <Skeleton key={idx}>
               <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
             </Skeleton>
           ))}
         </Carousel>
-      </StyledSection>
+      </section>
     );
   }
 
   return (
-    <StyledSection>
+    <section>
       {!!name && (
-        <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
           <h3>{name}</h3>
-        </Heading>
+        </StyledHeading>
       )}
-      <Carousel>
+      <Carousel withInnerMargin={true}>
         {movies.map((movie) => (
           <FilmContentCard key={movie.id} movie={movie} />
         ))}
       </Carousel>
-    </StyledSection>
+    </section>
   );
 };
 
