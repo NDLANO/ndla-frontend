@@ -9,6 +9,7 @@ import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
+import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLGroupSearchQuery, GQLGroupSearchResourceFragment, GQLResourceTypeDefinition } from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
@@ -129,11 +130,12 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
       : resource.contexts?.length
-        ? resource.contexts[0]?.path || resource.path
+        ? (config.enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) ||
+          (config.enablePrettyUrls ? resource.url : resource.path)
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: context.path,
+      url: config.enablePrettyUrls ? context.url ?? context.path : context.path,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),

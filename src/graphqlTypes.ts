@@ -2417,13 +2417,6 @@ export type GQLLastLearningpathStepInfo_TopicFragment = {
   id: string;
 } & GQLResources_TopicFragment;
 
-export type GQLLastLearningpathStepInfo_SubjectFragment = {
-  __typename?: "Node";
-  id: string;
-  path: string;
-  name: string;
-};
-
 export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -2434,11 +2427,6 @@ export type GQLLearningpath_TopicFragment = { __typename?: "Node" } & GQLLastLea
 export type GQLLearningpath_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment;
-
-export type GQLLearningpath_SubjectFragment = {
-  __typename?: "Node";
-  id: string;
-} & GQLLastLearningpathStepInfo_SubjectFragment;
 
 export type GQLLearningpath_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
@@ -2897,9 +2885,10 @@ export type GQLLearningpathPage_TopicFragment = { __typename?: "Node" } & GQLLea
 export type GQLLearningpathPage_SubjectFragment = {
   __typename?: "Node";
   id: string;
+  name: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
-} & GQLLearningpath_SubjectFragment;
+};
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -5023,14 +5012,16 @@ export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: str
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
-  path: string;
   name: string;
+  path: string;
+  url: string;
   ingress: string;
   traits: Array<string>;
   contexts: Array<{
     __typename?: "SearchContext";
     language: string;
     path: string;
+    url?: string;
     breadcrumbs: Array<string>;
     rootId: string;
     root: string;

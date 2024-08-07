@@ -174,6 +174,7 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Node {
       id
+      name
       metadata {
         customFields
       }

@@ -18,13 +18,15 @@ export const contributorInfoFragment = gql`
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
-    path
     name
+    path
+    url
     ingress
     traits
     contexts {
       language
       path
+      url
       breadcrumbs
       rootId
       root
