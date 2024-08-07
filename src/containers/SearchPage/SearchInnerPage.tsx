@@ -126,22 +126,34 @@ const SearchInnerPage = ({
 
   const getActiveFilters = (type: string) => typeFilter[type]?.selected.filter((s) => s !== "all") ?? [];
 
+  const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
+    return Object.entries(typeFilters)
+      .filter(([_, value]) => !value.selected.includes("all") && !!value.selected.length)
+      .flatMap(([key, value]) => {
+        return value.selected.map((filter) => `${key}:${filter}`);
+      });
+  };
+
   const handleSubFilterClick = (type: string, filterIds: string[]) => {
     // When last added element is all, remove all other filters
     const lastAdded = filterIds[filterIds.length - 1];
     if (lastAdded === "all") {
-      updateTypeFilter(type, { page: 1, selected: ["all"] });
-      handleSearchParamsChange({ activeSubFilters: [] });
+      const updatedWithoutAllFilter = updateTypeFilter(type, { page: 1, selected: ["all"] });
+      const updatedSearchParamKeys = getActiveSubFilters(updatedWithoutAllFilter);
+      handleSearchParamsChange({ activeSubFilters: updatedSearchParamKeys });
       fetchMore({
         variables: getTypeParams([], resourceTypes),
       });
       return;
     }
-    const updatedKeys = filterIds.filter((t) => t !== "all");
-    updateTypeFilter(type, { page: 1, selected: updatedKeys });
-    handleSearchParamsChange({ activeSubFilters: updatedKeys });
+    const updatedWithoutAllFilter = filterIds.filter((t) => t !== "all");
+    const updatedTypeFilter = updateTypeFilter(type, { page: 1, selected: updatedWithoutAllFilter });
+    const updatedSearchParamKeys = getActiveSubFilters(updatedTypeFilter);
+
+    updateTypeFilter(type, { page: 1, selected: filterIds.filter((t) => t !== "all") });
+    handleSearchParamsChange({ activeSubFilters: updatedSearchParamKeys });
     fetchMore({
-      variables: getTypeParams(updatedKeys, resourceTypes),
+      variables: getTypeParams(updatedWithoutAllFilter, resourceTypes),
     });
   };
 

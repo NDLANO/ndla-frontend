@@ -255,6 +255,10 @@ export const getTypeFilter = (
       selected: [],
     },
   };
+  const subFilterMapping = activeSubFilters.reduce<Record<string, boolean>>((acc, curr) => {
+    acc[curr] = true;
+    return acc;
+  }, {});
   if (resourceTypes) {
     resourceTypes.forEach((type) => {
       const filters: SubTypeFilter[] = [];
@@ -270,7 +274,10 @@ export const getTypeFilter = (
       const isSelected = selectedFilters?.some((f) => f === contentTypeMapping[type.id]);
       const key = contentTypeMapping[type.id];
       if (!key) return;
-      const activeTypeFilters = filters.filter((filter) => activeSubFilters.includes(filter.id));
+      const activeTypeFilters = filters.filter(
+        (filter) => !!subFilterMapping[`${contentTypeMapping[type.id]}:${filter.id}`],
+      );
+
       typeFilter[key] = {
         filters,
         page: 1,
