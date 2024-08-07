@@ -11,7 +11,6 @@ import { gql } from "@apollo/client";
 import { Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
@@ -45,10 +44,11 @@ const StyledSafeLinkCard = styled(SafeLink, {
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "340px",
-
+    width: "30vw",
+    minWidth: "surface.3xsmall",
     border: "1px solid",
     borderColor: "stroke.default",
+    backgroundColor: "surface.default",
     borderRadius: "4",
 
     transition: "all 200ms",
@@ -61,14 +61,18 @@ const StyledSafeLinkCard = styled(SafeLink, {
       "& > p": {
         textDecoration: "none",
       },
+      "& > img": {
+        opacity: "0.7",
+      },
     },
   },
 });
 
 const StyledImg = styled("img", {
   base: {
-    width: "340px",
-    height: "170px",
+    minWidth: "surface.3xsmall",
+    width: "30vw",
+    height: "15vw",
     objectFit: "cover",
     borderTopRadius: "4",
   },
@@ -86,9 +90,14 @@ const StyledCarousel = styled(Carousel, {
       marginBlockStart: "-3xlarge",
     },
 
-    "& > div > div": {
+    "& [data-slide-content-wrapper]": {
       gap: "xlarge",
       marginBottom: "3xlarge",
+      marginLeft: "3xlarge",
+      wideDown: {
+        gap: "medium",
+        marginLeft: "medium",
+      },
     },
   },
 });
@@ -141,36 +150,34 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           />
         )}
       </SafeLink>
-      <OneColumn wide>
-        <StyledCarousel>
-          {!slideshow ? (
-            <LoadingShimmer />
-          ) : (
-            slideshow.map((movie) => (
-              <StyledSafeLinkCard
-                data-current={movie.id === currentSlide?.id}
-                key={movie.id}
-                onMouseDown={(e) => e.preventDefault()}
-                onMouseEnter={() => onHover(movie)}
-                onMouseLeave={() => {
-                  if (hoverCallback) {
-                    clearTimeout(hoverCallback);
-                    setHoverCallback(undefined);
-                  }
-                }}
-                onFocus={() => setCurrentSlide(movie)}
-                aria-describedby={"currentMovieDescription"}
-                to={movie.path}
-              >
-                <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
-                <StyledText textStyle="label.large" fontWeight="bold">
-                  {movie.title}
-                </StyledText>
-              </StyledSafeLinkCard>
-            ))
-          )}
-        </StyledCarousel>
-      </OneColumn>
+      <StyledCarousel>
+        {!slideshow ? (
+          <LoadingShimmer />
+        ) : (
+          [...slideshow].map((movie) => (
+            <StyledSafeLinkCard
+              data-current={movie.id === currentSlide?.id}
+              key={movie.id}
+              onMouseDown={(e) => e.preventDefault()}
+              onMouseEnter={() => onHover(movie)}
+              onMouseLeave={() => {
+                if (hoverCallback) {
+                  clearTimeout(hoverCallback);
+                  setHoverCallback(undefined);
+                }
+              }}
+              onFocus={() => setCurrentSlide(movie)}
+              aria-describedby={"currentMovieDescription"}
+              to={movie.path}
+            >
+              <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
+              <StyledText textStyle="label.large" fontWeight="bold">
+                {movie.title}
+              </StyledText>
+            </StyledSafeLinkCard>
+          ))
+        )}
+      </StyledCarousel>
     </section>
   );
 };

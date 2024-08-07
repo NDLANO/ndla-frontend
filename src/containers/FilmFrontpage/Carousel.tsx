@@ -33,13 +33,6 @@ const StyledSlideContent = styled("div", {
     justifyContent: "space-between",
     gap: "small",
   },
-  variants: {
-    withInnerMargin: {
-      true: {
-        marginInline: "medium",
-      },
-    },
-  },
 });
 
 const CarouselWrapper = styled("div", {
@@ -183,7 +176,7 @@ export const Carousel = forwardRef<HTMLDivElement, Props>(
           <ArrowRightShortLine />
         </StyledIconButton>
         <SliderWrapper ref={slideContainer} tabIndex={-1} onScroll={onScroll} onMouseDown={onMouseDown}>
-          <StyledSlideContent ref={slideshowRef} withInnerMargin={withInnerMargin ?? false}>
+          <StyledSlideContent ref={slideshowRef} data-slide-content-wrapper="true">
             {children}
           </StyledSlideContent>
         </SliderWrapper>
