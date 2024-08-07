@@ -40,6 +40,7 @@ const RadioButtonWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "small",
+    flexWrap: "wrap",
   },
 });
 
