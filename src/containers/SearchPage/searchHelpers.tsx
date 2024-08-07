@@ -270,11 +270,12 @@ export const getTypeFilter = (
       const isSelected = selectedFilters?.some((f) => f === contentTypeMapping[type.id]);
       const key = contentTypeMapping[type.id];
       if (!key) return;
+      const activeTypeFilters = filters.filter((filter) => activeSubFilters.includes(filter.id));
       typeFilter[key] = {
         filters,
         page: 1,
         pageSize: isSelected ? 12 : 6,
-        selected: activeSubFilters.length ? activeSubFilters : ["all"],
+        selected: activeTypeFilters.length ? activeTypeFilters.map((activeFilter) => activeFilter.id) : ["all"],
       };
     });
   }
