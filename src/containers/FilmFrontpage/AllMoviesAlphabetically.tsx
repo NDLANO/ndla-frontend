@@ -43,6 +43,11 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "small",
     height: "surface.4xsmall",
     overflow: "hidden",
+    "&:hover,&:active,&:focus-within": {
+      "& [data-title]": {
+        textDecoration: "underline",
+      },
+    },
   },
 });
 
@@ -116,7 +121,7 @@ const AllMoviesAlphabetically = () => {
                   <MovieImage alt="" loading="lazy" fallbackWidth={150} src={movie.metaImage.url} />
                 )}
                 <MovieTextWrapper>
-                  <Heading textStyle="title.small" asChild consumeCss>
+                  <Heading textStyle="title.small" asChild consumeCss data-title="">
                     <h3>{movie.title}</h3>
                   </Heading>
                   <Text textStyle="body.small">{movie.metaDescription}</Text>
