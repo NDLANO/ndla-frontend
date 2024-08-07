@@ -22,16 +22,17 @@ interface ResourceListProps {
   contentType?: string;
   title?: string;
   showAdditionalResources?: boolean;
+  headingId?: string;
 }
 
-const ResourceList = ({ resources, contentType, title, showAdditionalResources }: ResourceListProps) => {
+const ResourceList = ({ resources, contentType, headingId, title, showAdditionalResources }: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
     !showAdditionalResources && resources.length - resources.filter((r) => r.additional).length === 0;
 
   return (
     <div>
-      <StyledResourceList>
+      <StyledResourceList aria-labelledby={headingId}>
         {resources.map((resource) => (
           <ResourceItem
             key={resource.id}

@@ -10,12 +10,18 @@ import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
+import {
+  Heading,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
-import ResourcesTopicTitle from "./ResourcesTopicTitle";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
@@ -30,24 +36,46 @@ interface Props {
   subHeadingType: HeadingType;
 }
 
-const StyledNav = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
-  margin-bottom: ${spacing.mediumlarge};
-`;
+const StyledNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StyledSection = styled.section`
-  padding-top: ${spacing.normal};
-  padding-bottom: ${spacing.normal};
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});
 
-const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
+const StyledHGroup = styled("hgroup", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+});
+
+const ListWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingType: SubHeadingType }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
-
-  const resourcesTopicId = useId();
+  const navHeadingId = useId();
 
   const isGrouped = useMemo(
     () =>
@@ -115,40 +143,49 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
   }
 
   return (
-    <StyledSection>
-      <ResourcesTopicTitle
-        headingId={resourcesTopicId}
-        heading={headingType}
-        title={t("resource.label")}
-        subTitle={topic.name}
-        toggleAdditionalResources={toggleAdditionalResources}
-        showAdditionalResources={showAdditionalResources}
-        hasAdditionalResources={supplementaryResources.length > 0}
-      />
+    <StyledNav aria-labelledby={navHeadingId}>
+      <TitleWrapper>
+        <StyledHGroup>
+          <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
+            <HeadingType>{t("resource.label")}</HeadingType>
+          </Heading>
+          <Text textStyle="label.medium">{topic.name}</Text>
+        </StyledHGroup>
+        {!!supplementaryResources.length && (
+          <form>
+            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
+          </form>
+        )}
+      </TitleWrapper>
       {!isGrouped ? (
-        <StyledNav aria-labelledby={resourcesTopicId}>
-          <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
-        </StyledNav>
+        <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
       ) : (
         groupedResources.map((type) => (
           <StableId key={type.id}>
             {(id) => (
-              <StyledNav key={type.id} aria-labelledby={id}>
-                <Heading id={id} margin="none" element={subHeadingType} headingStyle="list-title">
-                  {type.name}
+              <ListWrapper>
+                <Heading id={id} textStyle="title.medium" asChild consumeCss>
+                  <SubHeadingType>{type.name}</SubHeadingType>
                 </Heading>
                 <ResourceList
+                  headingId={id}
                   title={type.name}
                   showAdditionalResources={showAdditionalResources}
                   contentType={type.contentType}
                   resources={type.resources ?? []}
                 />
-              </StyledNav>
+              </ListWrapper>
             )}
           </StableId>
         ))
       )}
-    </StyledSection>
+    </StyledNav>
   );
 };
 
