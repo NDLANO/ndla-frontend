@@ -33,13 +33,8 @@ import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 
-const StyledLanguageSelector = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-    marginBlockEnd: "surface.xxsmall",
-  },
-});
+const StyledLanguageSelector = styled(LanguageSelector, { base: { alignSelf: "center" } });
+
 const CompetenceWrapper = styled("div", {
   base: {
     display: "flex",
@@ -66,11 +61,13 @@ const SearchPanel = styled("div", {
 const StyledMain = styled("main", {
   base: {
     marginBlockStart: "xxlarge",
+    marginBlockEnd: "4xlarge",
     display: "flex",
     flexDirection: "column",
     gap: "xxlarge",
     tabletDown: {
       marginBlockStart: "medium",
+      marginBlockEnd: "xlarge",
     },
   },
 });
@@ -245,12 +242,10 @@ const SearchContainer = ({
             />
           ))}
           {isLti && (
-            <StyledLanguageSelector>
-              <LanguageSelector
-                items={supportedLanguages}
-                onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
-              />
-            </StyledLanguageSelector>
+            <StyledLanguageSelector
+              items={supportedLanguages}
+              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+            />
           )}
         </SearchGroupWrapper>
       )}
