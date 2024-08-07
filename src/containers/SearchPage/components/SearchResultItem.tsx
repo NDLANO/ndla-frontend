@@ -77,10 +77,12 @@ const SearchResultItem = ({ item, type }: Props) => {
         {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
-          <CardHeading>
-            <SafeLink to={item.url} unstyled css={linkOverlay.raw()}>
-              {item.title}
-            </SafeLink>
+          <CardHeading asChild consumeCss>
+            <h3>
+              <SafeLink to={item.url} unstyled css={linkOverlay.raw()}>
+                {item.title}
+              </SafeLink>
+            </h3>
           </CardHeading>
           {item.ingress && <Text>{parse(item.ingress)}</Text>}
           <Text color="text.subtle" textStyle="label.small">
