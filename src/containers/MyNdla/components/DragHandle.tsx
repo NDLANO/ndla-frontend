@@ -25,7 +25,7 @@ const StyledDragHandle = styled(IconButton, {
     tablet: {
       left: -"4xsmall",
       position: "absolute",
-      translate: "-100%",
+      translate: "-50px 20px",
     },
     _disabled: {
       display: "none",

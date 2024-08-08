@@ -24,8 +24,7 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import ArenaCard from "./ArenaCard";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
@@ -40,12 +39,15 @@ interface Props {
   refetchCategories: (() => void) | undefined;
 }
 
-const StyledCardContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
-`;
+const StyledCardContainer = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    paddingBottom: "medium",
+    paddingTop: "medium",
+  },
+});
 
 const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, categoryParentId }: Props) => {
   const client = useApolloClient();

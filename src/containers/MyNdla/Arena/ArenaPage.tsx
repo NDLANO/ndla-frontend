@@ -10,12 +10,10 @@ import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button, Spinner, Text, Heading } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import { TopicActions, TopicButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
@@ -25,18 +23,30 @@ import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const StyledContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: ${spacing.large} 0 ${spacing.normal};
-`;
+const StyledContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "large",
+    marginBottom: "medium",
+  },
+});
 
-export const ModeratorButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: ${spacing.xsmall};
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    marginTop: "large",
+    marginBottom: "medium",
+  },
+});
+
+export const ModeratorButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: "3xsmall",
+  },
+});
 
 const ArenaPage = () => {
   const { t } = useTranslation();
@@ -65,15 +75,13 @@ const ArenaPage = () => {
       dropDownMenu={user?.isModerator && <TopicActions />}
     >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
-      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+      <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
         {t("myNdla.arena.title")}
-      </Heading>
-      <Text element="p" textStyle="content-alt" margin="none">
-        {parse(t("myNdla.arena.notification.description"))}
-      </Text>
+      </StyledHeading>
+      <Text>{parse(t("myNdla.arena.notification.description"))}</Text>
       <StyledContainer>
-        <Heading element="h2" headingStyle="h2" margin="none">
-          {t("myNdla.arena.category.title")}
+        <Heading textStyle="title.large" asChild consumeCss>
+          <h2>{t("myNdla.arena.category.title")}</h2>
         </Heading>
         {user?.isModerator && (
           <ModeratorButtonWrapper>
@@ -94,7 +102,7 @@ const ArenaPage = () => {
           refetchCategories={refetchCategories}
         />
       )}
-      <Text element="p" textStyle="meta-text-small" margin="none">
+      <Text textStyle="body.small">
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>

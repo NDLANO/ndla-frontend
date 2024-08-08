@@ -215,15 +215,16 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
 
   return (
     <ArenaCardWrapper id={`category-${id}`} ref={setNodeRef} data-is-dragging={isDragging} style={style}>
+      <DragHandle
+        sortableId={id.toString()}
+        name={title}
+        disabled={!isEditing || items.length < 2}
+        type="category"
+        onClick={(e) => e.stopPropagation()}
+        {...attributes}
+      />
       <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
         <StyledCardWrapper data-visible={visible}>
-          <DragHandle
-            sortableId={id.toString()}
-            name={title}
-            disabled={!isEditing || items.length < 2}
-            type="category"
-            {...attributes}
-          />
           <StyledQuestionAnswerLine data-normal-icon="" />
           <StyledQuestionAnswerFill data-hover-icon="" />
           <SpacingContainer>
