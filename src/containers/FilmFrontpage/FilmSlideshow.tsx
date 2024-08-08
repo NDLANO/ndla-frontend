@@ -93,10 +93,10 @@ const StyledCarousel = styled(Carousel, {
     "& [data-slide-content-wrapper]": {
       gap: "xlarge",
       marginBottom: "3xlarge",
-      marginLeft: "3xlarge",
+      marginInline: "3xlarge",
       wideDown: {
         gap: "medium",
-        marginLeft: "medium",
+        marginInline: "medium",
       },
     },
   },
