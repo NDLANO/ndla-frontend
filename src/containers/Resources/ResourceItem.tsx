@@ -14,6 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import config from "../../config";
 import { RELEVANCE_CORE } from "../../constants";
 
 // TODO: How should we handle additional resources?
@@ -77,6 +78,7 @@ export type Resource = {
   id: string;
   name: string;
   path: string;
+  url: string;
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
@@ -85,6 +87,7 @@ export type Resource = {
 export const ResourceItem = ({
   name,
   path,
+  url,
   contentType,
   active,
   relevanceId,
@@ -128,7 +131,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
-              to={path}
+              to={config.enablePrettyUrls ? url : path}
               unstyled
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}

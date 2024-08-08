@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import {
   Heading,
+  Spinner,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -23,13 +24,20 @@ import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./ge
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
+import {
+  GQLResources_ResourceTypeDefinitionFragment,
+  GQLResources_TopicFragment,
+  GQLResourcesQueryQuery,
+} from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
+import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
-  topic: GQLResources_TopicFragment;
+  topicId?: string;
+  subjectId?: string;
+  resourceId?: string;
+  topic?: GQLResources_TopicFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
@@ -70,15 +78,32 @@ const ListWrapper = styled("div", {
   },
 });
 
-const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingType: SubHeadingType }: Props) => {
-  const { resourceId } = useUrnIds();
+const Resources = ({
+  topicId,
+  subjectId,
+  resourceId,
+  topic: maybeTopic,
+  resourceTypes,
+  headingType: HeadingType,
+  subHeadingType: SubHeadingType,
+}: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();
 
+  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+    skip: maybeTopic !== undefined || (!topicId && !subjectId),
+    variables: {
+      topicId: topicId,
+      subjectId: subjectId,
+    },
+  });
+
+  const topic = maybeTopic ?? data?.topic;
+
   const { supplementaryResources, sortedResources } = useMemo(
-    () => getResourceGroupings(topic.coreResources?.concat(topic.supplementaryResources ?? []) ?? [], resourceId),
-    [resourceId, topic.coreResources, topic.supplementaryResources],
+    () => getResourceGroupings(topic?.children ?? [], resourceId),
+    [resourceId, topic?.children],
   );
 
   const isGrouped = useMemo(
@@ -113,6 +138,14 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
     });
   }, []);
 
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return null;
+  }
+
   if (!sortedResources.length) {
     return null;
   }
@@ -124,7 +157,7 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
             <HeadingType>{t("resource.label")}</HeadingType>
           </Heading>
-          <Text textStyle="label.medium">{topic.name}</Text>
+          <Text textStyle="label.medium">{topic?.name}</Text>
         </StyledHGroup>
         {!!supplementaryResources.length && (
           <form>
@@ -165,11 +198,12 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
 };
 
 const resourceFragment = gql`
-  fragment Resources_Resource on Resource {
+  fragment Resources_Resource on Node {
     id
     name
     contentUri
     path
+    url
     paths
     rank
     language
@@ -189,12 +223,12 @@ Resources.fragments = {
     }
   `,
   topic: gql`
-    fragment Resources_Topic on Topic {
+    fragment Resources_Topic on Node {
+      id
       name
-      coreResources(subjectId: $subjectId) {
-        ...Resources_Resource
-      }
-      supplementaryResources(subjectId: $subjectId) {
+      path
+      url
+      children(nodeType: RESOURCE) {
         ...Resources_Resource
       }
       metadata {
@@ -204,5 +238,14 @@ Resources.fragments = {
     ${resourceFragment}
   `,
 };
+
+const resourcesQuery = gql`
+  query resourcesQuery($topicId: String!, $subjectId: String!) {
+    topic: node(id: $topicId, rootId: $subjectId) {
+      ...Resources_Topic
+    }
+  }
+  ${Resources.fragments.topic}
+`;
 
 export default Resources;

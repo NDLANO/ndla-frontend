@@ -23,7 +23,6 @@ import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
 import config from "../../config";
 import {
   SKIP_TO_CONTENT_ID,
@@ -216,7 +215,6 @@ const SubjectContextContainer = ({ subjectId, subjectFragment, topicId, topicFra
           <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
         </LayoutItem>
       </OneColumn>
-      {subject?.subjectpage?.banner && <SubjectBanner image={subject?.subjectpage?.banner.desktopUrl || ""} />}
     </main>
   );
 };
@@ -241,9 +239,6 @@ export const subjectContextContainerFragments = {
           visualElement {
             url
           }
-        }
-        banner {
-          desktopUrl
         }
         ...SubjectLinks_Subject
       }
