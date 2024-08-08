@@ -133,6 +133,7 @@ export const ResourceItem = ({
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}
               aria-current={active ? "page" : undefined}
+              title={name}
               aria-describedby={describedBy}
             >
               {name}
