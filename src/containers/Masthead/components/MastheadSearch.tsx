@@ -280,8 +280,8 @@ const MastheadSearch = () => {
     >
       <DialogTrigger asChild>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
-          <span>{t("masthead.menu.search")}</span>
           <SearchLine />
+          <span>{t("masthead.menu.search")}</span>
         </StyledButton>
       </DialogTrigger>
       <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
