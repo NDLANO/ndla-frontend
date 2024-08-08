@@ -6,54 +6,50 @@
  *
  */
 
-import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import ResourceItem, { Resource } from "./ResourceItem";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { type Resource, ResourceItem } from "./ResourceItem";
+import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
-const StyledResourceList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
+const StyledResourceList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-export type ResourceListProps = {
+interface ResourceListProps {
   resources: Resource[];
   contentType?: string;
   title?: string;
   showAdditionalResources?: boolean;
-  heartButton?: (path: string) => ReactNode;
-};
+  headingId?: string;
+}
 
-const ResourceList = ({ resources, contentType, title, showAdditionalResources, heartButton }: ResourceListProps) => {
+const ResourceList = ({ resources, contentType, headingId, title, showAdditionalResources }: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
-    !showAdditionalResources && resources.length - resources.filter((r) => r.additional).length === 0;
+    !showAdditionalResources &&
+    resources.length - resources.filter((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY).length === 0;
 
   return (
     <div>
-      <StyledResourceList>
-        {resources.map(({ id, ...resource }) => (
+      <StyledResourceList aria-labelledby={headingId}>
+        {resources.map((resource) => (
           <ResourceItem
-            id={id}
-            key={id}
+            key={resource.id}
             contentType={contentType}
             showAdditionalResources={showAdditionalResources}
-            heartButton={heartButton}
             {...resource}
-            contentTypeDescription={
-              resource.additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")
-            }
           />
         ))}
       </StyledResourceList>
       {renderAdditionalResourceTrigger && (
-        <div>
-          <p>
-            {title
-              ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })
-              : t("resource.noCoreResourcesAvailableUnspecific")}
-          </p>
-        </div>
+        <Text>
+          {title
+            ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })
+            : t("resource.noCoreResourcesAvailableUnspecific")}
+        </Text>
       )}
     </div>
   );

@@ -2857,7 +2857,14 @@ export type GQLSubjectMenu_SubjectFragment = {
 
 export type GQLTopicMenu_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
-export type GQLTopicMenu_ResourceFragment = { __typename?: "Resource"; id: string; name: string; path: string };
+export type GQLTopicMenu_ResourceFragment = {
+  __typename?: "Resource";
+  id: string;
+  name: string;
+  path: string;
+  relevanceId?: string;
+  rank?: number;
+};
 
 export type GQLTopicMenuResourcesQueryVariables = Exact<{
   subjectId: Scalars["String"]["input"];
@@ -4366,6 +4373,7 @@ export type GQLResources_ResourceFragment = {
   paths: Array<string>;
   rank?: number;
   language?: string;
+  relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
