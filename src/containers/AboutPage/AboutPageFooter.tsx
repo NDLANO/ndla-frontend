@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
@@ -93,9 +93,9 @@ const AboutPageFooter = ({ frontpage }: Props) => {
       <OneColumn>
         <StyledOuterList>
           {crumb.map((item, index) => (
-            <StyledOuterListItem key={item.article.slug}>
+            <Fragment key={item.article.slug}>
               {!!item.menu?.length && (
-                <>
+                <StyledOuterListItem>
                   <Heading id={`${item.article.slug}-title`} asChild consumeCss textStyle="title.large">
                     <h2>{item.article.title}</h2>
                   </Heading>
@@ -129,9 +129,9 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                       })}
                     </StyledList>
                   </nav>
-                </>
+                </StyledOuterListItem>
               )}
-            </StyledOuterListItem>
+            </Fragment>
           ))}
         </StyledOuterList>
       </OneColumn>
