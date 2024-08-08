@@ -41,7 +41,7 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     display: "flex",
     gap: "small",
-    height: "surface.4xsmall",
+    minHeight: "surface.4xsmall",
     overflow: "hidden",
     "&:hover,&:active,&:focus-within": {
       "& [data-title]": {
