@@ -74,15 +74,13 @@ const fromNdla = {
   name: "ndlaFilm.search.categoryFromNdla",
 };
 
-const StyledSkeleton = styled(Skeleton, { base: {} });
-
 const TopicLoadingShimmer = () => {
   return new Array(8).fill(0).map((_, idx) => (
-    <StyledSkeleton key={idx}>
+    <Skeleton key={idx}>
       <li>
         <StyledSafeLinkButton to={""}>loading</StyledSafeLinkButton>
       </li>
-    </StyledSkeleton>
+    </Skeleton>
   ));
 };
 
