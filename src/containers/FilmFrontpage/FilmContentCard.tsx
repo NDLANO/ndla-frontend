@@ -114,12 +114,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes },
   }, []);
 
   return (
-    <StyledSafeLink
-      onMouseDown={(e) => e.preventDefault()}
-      aria-describedby={`list-content-type-${id}`}
-      {...rest}
-      to={path}
-    >
+    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={path}>
       <ImageWrapper>
         <StyledImage src={metaImage?.url ?? ""} loading="lazy" alt="" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">
