@@ -31,9 +31,6 @@ const MovieTextWrapper = styled("div", {
 const MovieImage = styled(Image, {
   base: {
     width: "surface.3xsmall",
-    tablet: {
-      width: "surface.3xsmall",
-    },
   },
 });
 
