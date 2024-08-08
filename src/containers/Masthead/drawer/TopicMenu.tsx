@@ -17,7 +17,12 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
+import {
+  RELEVANCE_CORE,
+  RELEVANCE_SUPPLEMENTARY,
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -73,10 +78,13 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [data?.topic?.coreResources]);
+  const coreResources = useMemo(
+    () => data?.topic?.children?.filter((c) => c.relevanceId === RELEVANCE_CORE) ?? [],
+    [data?.topic?.children],
+  );
   const supplementaryResources = useMemo(
-    () => data?.topic?.supplementaryResources ?? [],
-    [data?.topic?.supplementaryResources],
+    () => data?.topic?.children?.filter((c) => c.relevanceId === RELEVANCE_SUPPLEMENTARY) ?? [],
+    [data?.topic?.children],
   );
 
   const sortedResources = useMemo(
@@ -90,13 +98,8 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
   const groupedResources = useMemo(
-    () =>
-      getResourceGroups(
-        data?.resourceTypes ?? [],
-        data?.topic?.supplementaryResources ?? [],
-        data?.topic?.coreResources ?? [],
-      ),
-    [data?.resourceTypes, data?.topic?.supplementaryResources, data?.topic?.coreResources],
+    () => getResourceGroups(data?.resourceTypes ?? [], coreResources, supplementaryResources ?? []),
+    [data?.resourceTypes, coreResources, supplementaryResources],
   );
 
   return (
@@ -167,37 +170,31 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
 
 TopicMenu.fragments = {
   subject: gql`
-    fragment TopicMenu_Subject on Subject {
+    fragment TopicMenu_Subject on Node {
       id
       name
     }
   `,
   resource: gql`
-    fragment TopicMenu_Resource on Resource {
+    fragment TopicMenu_Resource on Node {
       id
       name
       path
+      url
     }
   `,
 };
 
 const resourceQuery = gql`
   query topicMenuResources($subjectId: String!, $topicId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       metadata {
         customFields
       }
-      coreResources(subjectId: $subjectId) {
+      children(nodeType: RESOURCE) {
         ...TopicMenu_Resource
         rank
-        resourceTypes {
-          id
-          name
-        }
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...TopicMenu_Resource
-        rank
+        relevanceId
         resourceTypes {
           id
           name

@@ -18,12 +18,13 @@ import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWr
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLMultidisciplinarySubjectPageQuery,
   GQLMultidisciplinarySubjectPageQueryVariables,
 } from "../../graphqlTypes";
-import { removeUrn, toTopic, useUrnIds } from "../../routeHelpers";
+import { removeUrn, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
@@ -43,6 +44,8 @@ const multidisciplinarySubjectPageQuery = gql`
       topics: children(nodeType: TOPIC) {
         id
         name
+        path
+        url
       }
     }
   }
@@ -157,7 +160,7 @@ const MultidisciplinarySubjectPage = () => {
         ...topic,
         label: topic.name,
         selected: topic.id === selectedTopics[0],
-        url: toTopic(subject.id, topic.id),
+        url: config.enablePrettyUrls ? topic.url : topic.path,
       };
     }) ?? [];
 

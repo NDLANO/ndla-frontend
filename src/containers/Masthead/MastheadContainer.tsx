@@ -60,7 +60,7 @@ const DrawerWrapper = styled.div`
 
 const mastheadQuery = gql`
   query mastHead($subjectId: String!) {
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...MastheadDrawer_Subject
     }
   }

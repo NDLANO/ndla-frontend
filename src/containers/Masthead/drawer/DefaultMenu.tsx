@@ -168,7 +168,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
 
 DefaultMenu.fragments = {
   subject: gql`
-    fragment DefaultMenu_Subject on Subject {
+    fragment DefaultMenu_Subject on Node {
       id
       name
     }

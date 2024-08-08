@@ -858,7 +858,6 @@ type MovieMeta {
   title: String!
 }
 
-
 type MovieResourceTypes {
   resourceTypes: [ResourceType!]
 }
@@ -993,7 +992,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
-  coreResources(rootId: String): [Node!]
   grepCodes: [String!]
   id: String!
   language: String
@@ -1009,7 +1007,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   relevanceId: String
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
-  supplementaryResources(rootId: String): [Node!]
   supportedLanguages: [String!]!
   url: String!
 }
@@ -1152,7 +1149,6 @@ type Query {
   arenaUser(username: String!): ArenaUser
   arenaUserV2(username: String!): ArenaUserV2
   article(id: String!): Article
-  articleNode(articleId: String, nodeId: String): Node
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1198,7 +1194,8 @@ type Query {
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
   node(contextId: String, id: String, rootId: String): Node
-  nodeCollection(language: String!): [Node!]
+  nodeByArticleId(articleId: String, nodeId: String): Node
+  nodeByLanguageMeta(language: String!): [Node!]
   nodeResource(id: String!, parentId: String, rootId: String): Node
   nodes(
     contentUri: String

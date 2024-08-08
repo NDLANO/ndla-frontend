@@ -22,7 +22,12 @@ import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder"
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import { StableId } from "../../components/StableId";
 import config from "../../config";
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
+import {
+  RELEVANCE_CORE,
+  RELEVANCE_SUPPLEMENTARY,
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from "../../constants";
 import {
   GQLResourcesQueryQuery,
   GQLResources_ResourceFragment,
@@ -78,10 +83,10 @@ const Resources = ({ topicId, subjectId, resourceId, topic, resourceTypes, headi
   );
 
   const { coreResources, supplementaryResources, sortedResources } = useMemo(() => {
-    const core = localTopic?.coreResources ?? [];
-    const supp = (localTopic?.supplementaryResources ?? [])
+    const core = localTopic?.children?.filter((c) => c.relevanceId === RELEVANCE_CORE) ?? [];
+    const supp = (localTopic?.children?.filter((c) => c.relevanceId === RELEVANCE_SUPPLEMENTARY) ?? [])
       .map((r) => ({ ...r, additional: true }))
-      .filter((r) => !localTopic?.coreResources?.find((c) => c.id === r.id));
+      .filter((r) => !core?.find((c) => c.id === r.id));
 
     return {
       coreResources: core,
@@ -225,6 +230,7 @@ const resourceFragment = gql`
     url
     paths
     rank
+    relevanceId
     language
     resourceTypes {
       id
@@ -246,10 +252,7 @@ Resources.fragments = {
       name
       path
       url
-      coreResources(rootId: $subjectId) {
-        ...Resources_Resource
-      }
-      supplementaryResources(rootId: $subjectId) {
+      children(nodeType: RESOURCE) {
         ...Resources_Resource
       }
       metadata {

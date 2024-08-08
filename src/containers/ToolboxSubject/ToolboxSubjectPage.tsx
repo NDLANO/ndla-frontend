@@ -16,7 +16,7 @@ import { useGraphQuery } from "../../util/runQueries";
 
 const toolboxSubjectPageQuery = gql`
   query toolboxSubjectPage($subjectId: String!) {
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...ToolboxSubjectContainer_Subject
     }
   }

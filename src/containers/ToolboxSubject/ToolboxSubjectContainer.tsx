@@ -20,9 +20,10 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectBanner from "../../components/Subject/SubjectBanner";
+import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, toTopic } from "../../routeHelpers";
+import { removeUrn } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -106,10 +107,10 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           ...topic,
           label: topic.name,
           selected: topic.id === topicList[0],
-          url: toTopic(subject.id, topic.id),
+          url: config.enablePrettyUrls ? topic.url : topic.path,
         };
       }),
-    [subject.id, subject.topics, topicList],
+    [subject.topics, topicList],
   );
 
   if (!topics) {
@@ -173,14 +174,16 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
 
 export const toolboxSubjectContainerFragments = {
   subject: gql`
-    fragment ToolboxSubjectContainer_Subject on Subject {
+    fragment ToolboxSubjectContainer_Subject on Node {
       id
       name
       path
       url
-      topics {
-        name
+      topics: children(nodeType: TOPIC) {
         id
+        name
+        path
+        url
       }
       subjectpage {
         id

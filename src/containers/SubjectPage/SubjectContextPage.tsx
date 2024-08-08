@@ -7,12 +7,12 @@
  */
 
 import { useRef } from "react";
-import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "@ndla/ui";
 import SubjectContextContainer, { subjectContextContainerFragments } from "./SubjectContextContainer";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { GQLContextPageQuery, GQLContextPageQueryVariables } from "../../graphqlTypes";
+import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 
@@ -55,7 +55,7 @@ const contextPageQuery = gql`
 `;
 
 const SubjectContextPage = () => {
-  const params = useParams();
+  const { subjectContextId, topicContextId } = useUrnIds();
 
   const initialLoad = useRef(true);
 
@@ -65,10 +65,10 @@ const SubjectContextPage = () => {
     previousData,
   } = useGraphQuery<GQLContextPageQuery, GQLContextPageQueryVariables>(contextPageQuery, {
     variables: {
-      subjectContextId: params.subjectContextId ?? "",
-      includeSubject: params.subjectContextId !== undefined,
-      topicContextId: params.topicContextId ?? "",
-      includeTopic: params.topicContextId !== undefined,
+      subjectContextId: subjectContextId ?? "",
+      includeSubject: subjectContextId !== undefined,
+      topicContextId: topicContextId ?? "",
+      includeTopic: topicContextId !== undefined,
     },
   });
 
