@@ -9,9 +9,8 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { Heading } from "@ndla/typography";
@@ -24,15 +23,19 @@ import { useCreateArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
+const BreadcrumbWrapper = styled("div", {
+  base: {
+    paddingTop: "medium",
+  },
+});
 
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.large};
-`;
+const PageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
 
 export const NewCategoryPage = () => {
   const { t } = useTranslation();
