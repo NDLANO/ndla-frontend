@@ -36,7 +36,7 @@ const StyledText = styled(Text, {
     paddingInline: "medium",
 
     textDecoration: "underline",
-    borderBottomRadius: "4",
+    borderBottomRadius: "xsmall",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -52,7 +52,7 @@ const StyledSafeLinkCard = styled(SafeLink, {
     border: "1px solid",
     borderColor: "stroke.default",
     backgroundColor: "surface.default",
-    borderRadius: "4",
+    borderRadius: "xsmall",
 
     transition: "all 200ms",
     transform: "translateY(10%)",
