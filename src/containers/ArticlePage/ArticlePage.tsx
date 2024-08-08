@@ -61,9 +61,9 @@ const ArticlePage = ({
   topicId,
   subjectId,
   topicPath,
-  topic,
+  topic: maybeTopic,
   resourceTypes,
-  subject,
+  subject: maybeSubject,
   errors,
   skipToContentId,
 }: Props) => {
@@ -73,29 +73,29 @@ const ArticlePage = ({
   const subjectPageUrl = config.ndlaFrontendDomain;
 
   const { error, loading, data } = useGraphQuery<GQLArticlePageQuery>(articlePageQuery, {
-    skip: (topic !== undefined && subject !== undefined) || (!topicId && !subjectId),
+    skip: (maybeTopic !== undefined && maybeSubject !== undefined) || (!topicId && !subjectId),
     variables: {
       topicId: topicId,
       subjectId: subjectId,
     },
   });
 
-  const localSubject = subject || data?.subject;
-  const localTopic = topic || data?.topic;
+  const subject = maybeSubject || data?.subject;
+  const topic = maybeTopic || data?.topic;
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
       const dimensions = getAllDimensions({
         article: resource?.article,
-        filter: localSubject?.name,
+        filter: subject?.name,
         user,
       });
       trackPageView({
         dimensions,
-        title: getDocumentTitle(t, resource, localSubject),
+        title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [authContextLoaded, loading, resource, localSubject, t, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, subject, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -147,7 +147,7 @@ const ArticlePage = ({
             topicId={topicId}
             subjectId={subjectId}
             resourceId={resource?.id}
-            topic={localTopic}
+            topic={topic}
             resourceTypes={resourceTypes}
             headingType="h2"
             subHeadingType="h3"
@@ -167,7 +167,7 @@ const ArticlePage = ({
   return (
     <main>
       <Helmet>
-        <title>{`${getDocumentTitle(t, resource, localSubject)}`}</title>
+        <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
@@ -179,7 +179,7 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
-        {localSubject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
@@ -187,7 +187,7 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [localSubject?.name])}
+        title={htmlTitle(article.title, [subject?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -284,7 +284,9 @@ export const articlePageFragments = {
   topic: gql`
     fragment ArticlePage_Topic on Node {
       id
+      name
       path
+      url
       ...Resources_Topic
     }
     ${Resources.fragments.topic}

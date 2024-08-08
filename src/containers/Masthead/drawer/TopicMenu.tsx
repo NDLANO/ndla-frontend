@@ -16,12 +16,7 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import {
-  RELEVANCE_CORE,
-  RELEVANCE_SUPPLEMENTARY,
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from "../../../constants";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
@@ -77,10 +72,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(data?.topic?.coreResources?.concat(data?.topic?.supplementaryResources ?? []) ?? []),
-    [data?.topic?.coreResources, data?.topic?.supplementaryResources],
-  );
+  const { sortedResources } = useMemo(() => getResourceGroupings(data?.topic?.children ?? []), [data?.topic?.children]);
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
   const groupedResources = useMemo(

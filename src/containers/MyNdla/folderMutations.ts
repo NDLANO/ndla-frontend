@@ -15,7 +15,6 @@ import {
   useApolloClient,
   useMutation,
 } from "@apollo/client";
-import { allSubectsFragment } from "../AllSubjectsPage/AllSubjectsPage";
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
@@ -53,6 +52,7 @@ import {
   GQLUpdateFolderStatusMutation,
 } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
+import { allSubectsFragment } from "../AllSubjectsPage/AllSubjectsPage";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {
