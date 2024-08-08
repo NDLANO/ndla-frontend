@@ -14,11 +14,10 @@ import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { ChevronDown, InformationOutline } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   MessageBox,
   Button,
@@ -51,7 +50,6 @@ import {
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
-import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
@@ -183,12 +181,12 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   };
 
   const noFolderSelected = selectedFolderId === "folders";
-
+  const disabledButton = !canSave || noFolderSelected || examLock;
   return (
     <AddResourceContainer>
       <ListResource
+        variant="standalone"
         id={resource.id.toString()}
-        tagLinkPrefix={routes.myNdla.tags}
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}
@@ -200,7 +198,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       />
       {examLock ? (
         <MessageBox variant="warning">
-          <InformationOutline />
+          <InformationLine />
           <Text>{t("myNdla.examLockInfo")}</Text>
         </MessageBox>
       ) : (
@@ -226,7 +224,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             )}
             {noFolderSelected && (
               <MessageBox variant="error">
-                <InformationOutline />
+                <InformationLine />
                 <Text>{t("myNdla.noFolderSelected")}</Text>
               </MessageBox>
             )}
@@ -248,14 +246,14 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
                   <TagSelectorClearTrigger asChild>
                     <IconButton variant="clear">
-                      <Cross />
+                      <CloseLine />
                     </IconButton>
                   </TagSelectorClearTrigger>
                 </InputContainer>
               </TagSelectorControl>
               <TagSelectorTrigger asChild>
                 <IconButton variant="secondary">
-                  <ChevronDown />
+                  <ArrowDownShortLine />
                 </IconButton>
               </TagSelectorTrigger>
             </HStack>
@@ -264,7 +262,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
                 <ComboboxItem key={item} item={item}>
                   <ComboboxItemText>{item}</ComboboxItemText>
                   <ComboboxItemIndicator>
-                    <Done />
+                    <CheckLine />
                   </ComboboxItemIndicator>
                 </ComboboxItem>
               ))}
@@ -285,11 +283,11 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("cancel")}
         </Button>
-        <LoadingButton
-          loading={addResourceLoading}
-          colorTheme="light"
-          disabled={!canSave || addResourceLoading || noFolderSelected || examLock}
+        <Button
           onClick={onSave}
+          loading={addResourceLoading}
+          disabled={disabledButton}
+          aria-label={addResourceLoading ? t("loading") : undefined}
           onMouseDown={(e) => {
             e.preventDefault();
           }}
@@ -298,7 +296,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           }}
         >
           {t("myNdla.resource.save")}
-        </LoadingButton>
+        </Button>
       </ButtonRow>
     </AddResourceContainer>
   );

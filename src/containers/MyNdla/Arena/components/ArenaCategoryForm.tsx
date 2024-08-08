@@ -11,11 +11,36 @@ import { useEffect, useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
+import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
-import { CheckboxItem, FormControl, Label, Select, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Spinner,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  SelectControl,
+  SelectLabel,
+  SelectTrigger,
+  SelectRoot,
+  SelectContent,
+  SelectPositioner,
+  SelectItem,
+  SelectItemText,
+  SelectItemIndicator,
+  SelectClearTrigger,
+  IconButton,
+} from "@ndla/primitives";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -35,15 +60,8 @@ const ButtonRow = styled.div`
   gap: ${spacing.small};
 `;
 
-const CheckboxWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
-
-const StyledLabel = styled(Label)`
-  margin: 0;
-  margin-bottom: ${spacing.xxsmall};
+const FullWidthButton = styled(Button)`
+  width: 100%;
 `;
 
 interface ArenaFormProps {
@@ -67,11 +85,11 @@ const titleMaxLength = 64;
 function getAllCategoryPathAndIds(
   arenaCategories: (GQLArenaCategoryV2Fragment | GQLTopiclessArenaCategoryV2)[],
   breadcrumb: string[] = [],
-): { id: number; name: string }[] {
+): { value: number; label: string }[] {
   return arenaCategories
     .map((x) => {
       const newBreadcrumb = [...breadcrumb, x.title];
-      const cur = { id: x.id, name: newBreadcrumb.join(" > ") };
+      const cur = { value: x.id, label: newBreadcrumb.join(" > ") };
       const children = getAllCategoryPathAndIds(x.subcategories ?? [], newBreadcrumb);
       return [cur, ...children];
     })
@@ -165,17 +183,45 @@ const ArenaCategoryForm = ({
         name={"parentCategoryId"}
         rules={{ required: false }}
         render={({ field, fieldState }) => (
-          <FormControl id="parentCategoryId" isInvalid={!!fieldState.error?.message}>
-            <StyledLabel textStyle="label-small">{t("myNdla.arena.admin.category.form.parentCategoryId")}</StyledLabel>
-            <Select {...field}>
-              <option>{t("myNdla.arena.admin.category.form.noParentCategory")}</option>
-              {possibleParents.map((parent) => (
-                <option value={parent.id} key={parent.id}>
-                  {parent.name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <SelectRoot
+              items={possibleParents}
+              defaultValue={[field.value]}
+              positioning={{
+                sameWidth: true,
+              }}
+            >
+              <SelectLabel>{t("myNdla.arena.admin.category.form.parentCategoryId")}</SelectLabel>
+              <SelectHiddenSelect {...field} />
+              <SelectControl>
+                <SelectTrigger asChild>
+                  <FullWidthButton variant="secondary">
+                    <SelectValueText placeholder={t("myNdla.arena.admin.category.form.noParentCategory")} />
+                    <SelectIndicator asChild>
+                      <ArrowDownShortLine />
+                    </SelectIndicator>
+                  </FullWidthButton>
+                </SelectTrigger>
+                <SelectClearTrigger asChild>
+                  <IconButton variant="secondary">
+                    <CloseLine />
+                  </IconButton>
+                </SelectClearTrigger>
+              </SelectControl>
+              <SelectPositioner>
+                <SelectContent>
+                  {possibleParents.map((option) => (
+                    <SelectItem item={option} key={option.value}>
+                      <SelectItemText>{option.label}</SelectItemText>
+                      <SelectItemIndicator asChild>
+                        <CheckLine />
+                      </SelectItemIndicator>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </SelectPositioner>
+            </SelectRoot>
+          </FieldRoot>
         )}
       />
       <Controller
@@ -185,32 +231,33 @@ const ArenaCategoryForm = ({
           required: false,
         }}
         render={({ field, fieldState }) => (
-          <FormControl id="visible" isInvalid={!!fieldState.error?.message}>
-            <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
-            <CheckboxWrapper>
-              <CheckboxItem
-                checked={field.value}
-                onCheckedChange={() => {
-                  setValue("visible", !field.value, {
-                    shouldDirty: true,
-                    shouldTouch: true,
-                  });
-                }}
-              />
-              <Label margin="none" textStyle="label-small">
-                {t("myNdla.arena.admin.category.form.visible")}
-              </Label>
-            </CheckboxWrapper>
-          </FormControl>
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <CheckboxRoot
+              checked={field.value}
+              onCheckedChange={() => {
+                setValue("visible", !field.value, {
+                  shouldDirty: true,
+                  shouldTouch: true,
+                });
+              }}
+            >
+              <CheckboxControl>
+                <CheckboxIndicator asChild>
+                  <CheckLine />
+                </CheckboxIndicator>
+              </CheckboxControl>
+              <CheckboxLabel>{t("myNdla.arena.admin.category.form.visible")}</CheckboxLabel>
+              <CheckboxHiddenInput />
+            </CheckboxRoot>
+          </FieldRoot>
         )}
       />
       <ButtonRow>
         <Button variant="secondary" onClick={onAbort}>
           {t("cancel")}
         </Button>
-        <LoadingButton colorTheme="primary" type="submit">
-          {t("myNdla.arena.publish")}
-        </LoadingButton>
+        <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </ButtonRow>
     </StyledForm>
   );

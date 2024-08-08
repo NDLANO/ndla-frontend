@@ -6,15 +6,15 @@
  *
  */
 
-import { t } from "i18next";
 import keyBy from "lodash/keyBy";
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { HumanMaleBoard } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { PresentationLine } from "@ndla/icons/common";
 import { Button, Spinner } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
@@ -78,7 +78,7 @@ const StyledRow = styled.div`
   justify-content: space-between;
 `;
 
-const StyledInformationIcon = styled(HumanMaleBoard)`
+const StyledInformationIcon = styled(PresentationLine)`
   height: ${spacing.mediumlarge};
   width: ${spacing.mediumlarge};
 `;
@@ -100,12 +100,13 @@ const ButtonContainer = styled.div`
 `;
 
 const containsFolder = (folder: GQLFolder): boolean => {
-  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder) || folder.resources.length > 0);
+  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
 };
 
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
+  const { t } = useTranslation();
 
   const { authenticated } = useContext(AuthContext);
 
@@ -181,7 +182,7 @@ const SharedFolderPageV2 = () => {
               <ButtonContainer>
                 <CopyFolderModal folder={folder}>
                   <Button variant="tertiary">
-                    <Copy />
+                    <FileCopyLine />
                     {t("myNdla.folder.copy")}
                   </Button>
                 </CopyFolderModal>
@@ -198,11 +199,11 @@ const SharedFolderPageV2 = () => {
               </OptionsWrapper>
             </StyledRow>
             {folder.subfolders.length > 0 && (
-              <BlockWrapper data-type={viewType} data-no-padding={true}>
+              <BlockWrapper data-no-padding={true}>
                 {folder.subfolders.map((subFolder) =>
                   containsFolder(subFolder) ? (
                     <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder folder={subFolder} type={viewType} link={routes.folder(subFolder.id)} />
+                      <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
                     </ListItem>
                   ) : null,
                 )}
@@ -215,13 +216,11 @@ const SharedFolderPageV2 = () => {
                   <ListItem key={resource.id}>
                     <Resource
                       id={resource.id}
-                      tagLinkPrefix={routes.myNdla.tags}
                       resourceImage={{
                         src: resourceMeta?.metaImage?.url ?? "",
                         alt: "",
                       }}
                       link={getResourceMetaPath(resource, resourceMeta)}
-                      tags={resource.tags}
                       resourceTypes={getResourceMetaTypes(resource, resourceMeta)}
                       title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                       description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}

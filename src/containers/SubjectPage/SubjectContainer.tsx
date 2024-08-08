@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
 import { MessageBox, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -23,7 +23,6 @@ import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -169,20 +168,19 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           </HeaderWrapper>
           {!ndlaFilm && nonRegularSubjectMessage && (
             <MessageBox variant="warning">
-              <InformationOutline />
+              <InformationLine />
               <Text>{nonRegularSubjectMessage}</Text>
             </MessageBox>
           )}
           {!ndlaFilm && nonRegularSubjectTypeMessage && (
             <MessageBox variant="warning">
-              <InformationOutline />
+              <InformationLine />
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
           <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
         </LayoutItem>
       </OneColumn>
-      {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
     </main>
   );
 };
@@ -203,9 +201,6 @@ export const subjectContainerFragments = {
           visualElement {
             url
           }
-        }
-        banner {
-          desktopUrl
         }
         ...SubjectLinks_Subject
       }

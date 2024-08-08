@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Forward } from "@ndla/icons/common";
+import { ArrowRightLine } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Heading } from "@ndla/typography";
 import { FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
@@ -121,7 +121,7 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                   aria-current={menuItem.article.slug === slug ? "page" : false}
                 >
                   {menuItem.article.title}
-                  <Forward />
+                  <ArrowRightLine />
                 </StyledSafeLinkButton>
               ) : (
                 <StyledSubSafeLinkButton

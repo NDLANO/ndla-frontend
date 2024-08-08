@@ -9,8 +9,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Cross } from "@ndla/icons/action";
-import { Menu } from "@ndla/icons/common";
+import { CloseLine, MenuLine } from "@ndla/icons/action";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import DefaultMenu from "./DefaultMenu";
@@ -221,7 +220,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           aria-label={t("masthead.menu.title")}
           title={t("masthead.menu.title")}
         >
-          <Menu />
+          <MenuLine />
           <span>{t("masthead.menu.button")}</span>
         </DrawerButton>
       </DialogTrigger>
@@ -230,7 +229,7 @@ const MastheadDrawer = ({ subject }: Props) => {
           <HeadWrapper>
             <DialogCloseTrigger asChild>
               <Button variant="tertiary">
-                <Cross />
+                <CloseLine />
                 {t("close")}
               </Button>
             </DialogCloseTrigger>

@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { FileDocumentOutline, Link } from "@ndla/icons/common";
-import { FolderOutlined } from "@ndla/icons/contentType";
+import { FileTextLine } from "@ndla/icons/common";
+import { FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ListViewOptions from "./components/ListViewOptions";
@@ -129,7 +129,7 @@ const Resources = ({ resources }: ResourcesProps) => {
 
     return [
       {
-        icon: <FolderOutlined />,
+        icon: <FolderLine />,
         text: t("myNdla.resource.add"),
         isModal: true,
         modality: false,
@@ -145,7 +145,7 @@ const Resources = ({ resources }: ResourcesProps) => {
         ),
       },
       {
-        icon: <Link />,
+        icon: <LinkMedium />,
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
           navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
@@ -160,7 +160,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   return (
     <>
       <CountWrapper>
-        <FileDocumentOutline />
+        <FileTextLine />
         <span>{t("myNdla.resources", { count: resources.length })}</span>
       </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
@@ -170,13 +170,11 @@ const Resources = ({ resources }: ResourcesProps) => {
           return (
             <Resource
               id={resource.id}
-              tagLinkPrefix={routes.myNdla.tags}
               isLoading={loading}
               key={resource.id}
               link={resource.path}
               title={meta?.title ?? ""}
               description={viewType !== "list" ? meta?.description ?? "" : undefined}
-              tags={resource.tags}
               resourceTypes={meta?.resourceTypes ?? []}
               resourceImage={{
                 src: meta?.metaImage?.url ?? "",

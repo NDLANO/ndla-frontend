@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Done } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -41,15 +41,16 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const tabFilterLabelId = useId();
   return (
     <div>
+      {/* TODO: Update to Fieldset */}
       <StyledText textStyle="title.small" id={tabFilterLabelId}>
         {t("subjectsPage.tabFilter")}
       </StyledText>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={(v) => onChange(v)} aria-labelledby={tabFilterLabelId}>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={onChange} aria-labelledby={tabFilterLabelId}>
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>
               <CheckboxIndicator asChild>
-                <Done />
+                <CheckLine />
               </CheckboxIndicator>
             </CheckboxControl>
             <CheckboxLabel>{item.label}</CheckboxLabel>

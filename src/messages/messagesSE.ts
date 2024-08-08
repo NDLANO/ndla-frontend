@@ -49,6 +49,11 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som starter på {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
@@ -135,11 +140,14 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
-    tabs: {
-      competenceGoals: "Kategorier",
-      licenseBox: "Innholdstyper",
-      subjectFilter: "Fagkategorier",
-    },
+  },
+  tabs: {
+    competenceGoals: "Kategorier",
+    licenseBox: "Innholdstyper",
+    subjectFilter: "Fagkategorier",
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
   },
   masthead: {
     search: "Søk på ndla.no",

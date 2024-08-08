@@ -9,12 +9,20 @@ import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
-import config from "../../config";
+import { constants } from "@ndla/ui";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchResourceFragment, GQLResourceTypeDefinition } from "../../graphqlTypes";
+import {
+  GQLGroupSearchQuery,
+  GQLGroupSearchResourceFragment,
+  GQLResourceTypeDefinition,
+  GQLSubjectInfoFragment,
+} from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
+import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
+
+const { contentTypes } = constants;
 
 export const searchResultToLinkProps = (result?: { path?: string }) => {
   return result?.path ? { to: result.path } : { to: "/404" };
@@ -99,11 +107,11 @@ const getContextLabels = (contexts: GQLGroupSearchResourceFragment["contexts"] |
 };
 
 export interface SearchItem {
-  id: number;
+  id: number | string;
   title: string;
-  ingress: string;
+  ingress?: string;
   url: string;
-  labels: string[];
+  labels?: string[];
   contexts?: {
     url: string;
     breadcrumb: string[];
@@ -130,12 +138,11 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
       : resource.contexts?.length
-        ? (config.enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) ||
-          (config.enablePrettyUrls ? resource.url : resource.path)
+        ? resource.contexts[0]?.path || resource.path
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: config.enablePrettyUrls ? context.url ?? context.path : context.path,
+      url: context.path,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
@@ -159,6 +166,7 @@ export const mapResourcesToItems = (
 
 export const sortResourceTypes = <T extends Record<string, any>>(array: T[], value: keyof T) => {
   const sortedResourceTypes = [
+    "subject",
     "topic-article",
     "subject-material",
     "tasks-and-activities",
@@ -204,17 +212,32 @@ export const mapSearchDataToGroups = (
   }));
 };
 
+export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
+  if (!subjectData) return [];
+  return [
+    {
+      items: subjectData.map((subject) => ({
+        id: subject.id,
+        title: subject.name,
+        url: toSubject(subject.id),
+      })),
+      resourceTypes: [],
+      totalCount: subjectData.length,
+      type: contentTypes.SUBJECT,
+    },
+  ];
+};
+
 export interface TypeFilter {
   page: number;
   pageSize: number;
-  selected: boolean;
   filters: SubTypeFilter[];
+  selected: string[];
 }
 
 export interface SubTypeFilter {
-  id: string;
   name: string;
-  active: boolean;
+  id: string;
 }
 
 export const getTypeFilter = (
@@ -224,11 +247,12 @@ export const getTypeFilter = (
   t: TFunction,
 ): Record<string, TypeFilter> => {
   const typeFilter: Record<string, TypeFilter> = {
+    subject: { page: 1, pageSize: selectedFilters.some((s) => s === "subject") ? 12 : 6, filters: [], selected: [] },
     "topic-article": {
       page: 1,
-      pageSize: 6,
-      selected: selectedFilters?.some((f) => f === "topic-article"),
+      pageSize: selectedFilters.some((s) => s === "topic-article") ? 12 : 6,
       filters: [],
+      selected: [],
     },
   };
   const subFilterMapping = activeSubFilters.reduce<Record<string, boolean>>((acc, curr) => {
@@ -240,30 +264,25 @@ export const getTypeFilter = (
       const filters: SubTypeFilter[] = [];
       if (type.subtypes) {
         const apiFilters = [...JSON.parse(JSON.stringify(type.subtypes))];
-        let hasActive = false;
-        const withActive = apiFilters.map((f) => {
-          if (subFilterMapping[`${contentTypeMapping[type.id]}:${f.id}`]) {
-            f.active = true;
-            hasActive = true;
-          }
-          return f;
-        });
-        withActive.sort((a, b) => a.id.localeCompare(b.id));
+        apiFilters.sort((a, b) => a.id.localeCompare(b.id));
         filters.push({
           id: "all",
           name: t("contentTypes.all"),
-          active: !hasActive,
         });
-        filters.push(...withActive);
+        filters.push(...apiFilters);
       }
       const isSelected = selectedFilters?.some((f) => f === contentTypeMapping[type.id]);
       const key = contentTypeMapping[type.id];
       if (!key) return;
+      const activeTypeFilters = filters.filter(
+        (filter) => !!subFilterMapping[`${contentTypeMapping[type.id]}:${filter.id}`],
+      );
+
       typeFilter[key] = {
         filters,
         page: 1,
         pageSize: isSelected ? 12 : 6,
-        selected: isSelected,
+        selected: activeTypeFilters.length ? activeTypeFilters.map((activeFilter) => activeFilter.id) : ["all"],
       };
     });
   }

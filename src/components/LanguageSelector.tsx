@@ -7,9 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ChevronDown } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   SelectContent,
@@ -21,12 +20,15 @@ import {
   SelectRootProps,
   SelectTrigger,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { supportedLanguages } from "../i18n";
 import { LocaleType } from "../interfaces";
 
-const LanguageButton = styled(Button)`
-  width: unset;
-`;
+const LanguageSelectTrigger = styled(SelectTrigger, {
+  base: {
+    width: "unset",
+  },
+});
 
 // TODO: This should probably be a Menu.
 
@@ -34,18 +36,18 @@ export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
   const { t, i18n } = useTranslation();
   return (
     <SelectRoot {...props} value={[i18n.language]} itemToString={(item) => t(`languages.${item}`)}>
-      <SelectTrigger asChild>
-        <LanguageButton variant="tertiary">
-          {t("languages.prefixChangeLanguage")} <ChevronDown />
-        </LanguageButton>
-      </SelectTrigger>
+      <LanguageSelectTrigger asChild>
+        <Button variant="tertiary">
+          {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />
+        </Button>
+      </LanguageSelectTrigger>
       <SelectPositioner>
         <SelectContent>
           {supportedLanguages.map((lang) => (
             <SelectItem key={lang} item={lang}>
               <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
               <SelectItemIndicator>
-                <Done />
+                <CheckLine />
               </SelectItemIndicator>
             </SelectItem>
           ))}

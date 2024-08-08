@@ -47,6 +47,9 @@ const StyledHeroContent = styled(HeroContent)`
 
   ${mq.range({ from: breakpoints.desktop })} {
     display: flex;
+    min-height: ${spacing.xxlarge}; //TODO: Temporary fix until design is finished
+    align-items: end;
+    padding: ${spacing.small} 0 ${spacing.xxsmall};
   }
 `;
 

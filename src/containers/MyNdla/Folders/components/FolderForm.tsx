@@ -10,10 +10,9 @@ import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { spacing } from "@ndla/core";
 import { ModalCloseButton } from "@ndla/modal";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
 import { GQLFolder } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -111,7 +110,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           <FieldRoot invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("validation.fields.description")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldInput {...field} />
+            <FieldTextArea {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
           </FieldRoot>
         )}
@@ -121,9 +120,9 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         <ModalCloseButton>
           <Button variant="secondary">{t("cancel")}</Button>
         </ModalCloseButton>
-        <LoadingButton colorTheme="primary" loading={loading} type="submit" disabled={loading}>
+        <Button loading={loading} disabled={loading} type="submit" aria-label={loading ? t("loading") : undefined}>
           {t("save")}
-        </LoadingButton>
+        </Button>
       </ButtonRow>
     </StyledForm>
   );

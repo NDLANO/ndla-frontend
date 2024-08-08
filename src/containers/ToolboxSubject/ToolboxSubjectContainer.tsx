@@ -19,11 +19,9 @@ import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
-import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn } from "../../routeHelpers";
+import { removeUrn, toTopic } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -107,10 +105,10 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           ...topic,
           label: topic.name,
           selected: topic.id === topicList[0],
-          url: config.enablePrettyUrls ? topic.url : topic.path,
+          url: toTopic(subject.id, topic.id),
         };
       }),
-    [subject.topics, topicList],
+    [subject.id, subject.topics, topicList],
   );
 
   if (!topics) {
@@ -166,7 +164,6 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             />
           </div>
         ))}
-        {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
       </OneColumn>
     </>
   );
@@ -174,16 +171,10 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
 
 export const toolboxSubjectContainerFragments = {
   subject: gql`
-    fragment ToolboxSubjectContainer_Subject on Node {
-      id
-      name
-      path
-      url
-      topics: children(nodeType: TOPIC) {
-        id
+    fragment ToolboxSubjectContainer_Subject on Subject {
+      topics {
         name
-        path
-        url
+        id
       }
       subjectpage {
         id
@@ -194,12 +185,11 @@ export const toolboxSubjectContainerFragments = {
             url
           }
         }
-        banner {
-          desktopUrl
-        }
         metaDescription
       }
+      ...ToolboxTopicContainer_Subject
     }
+    ${ToolboxTopicContainer.fragments.subject}
   `,
 };
 

@@ -50,6 +50,11 @@ const messages = {
     subtitle: "Lytt og lær!",
   },
   subjectsPage: { tabFilter: "Kva fag vil du visa?" },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som startar på {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Prøv praterobotane våre",
@@ -139,6 +144,9 @@ const messages = {
         inactive: "Legg til lenke",
       },
     },
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
   },
   tabs: {
     competenceGoals: "Kategoriar",

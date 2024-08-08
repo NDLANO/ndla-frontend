@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { FileDocumentOutline, HashTag } from "@ndla/icons/common";
+import { FileTextLine, HashTag } from "@ndla/icons/common";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
@@ -50,7 +50,7 @@ const OptionsWrapper = styled.div`
 
 export const BlockWrapper = styled.ul`
   display: grid;
-  gap: ${spacing.xsmall};
+  height: 100%;
   margin: 0;
   margin-bottom: ${spacing.medium};
   padding: 0 0 0 ${spacing.medium};
@@ -59,10 +59,13 @@ export const BlockWrapper = styled.ul`
     padding: 0;
     gap: ${spacing.normal};
     margin-top: ${spacing.normal};
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
 
-    ${mq.range({ until: breakpoints.wide })} {
+    ${mq.range({ from: breakpoints.tabletWide })} {
       grid-template-columns: repeat(2, 1fr);
+    }
+    ${mq.range({ from: breakpoints.wide })} {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -227,7 +230,6 @@ const FoldersPage = () => {
           </OptionsWrapper>
         </StyledRow>
         <FolderList
-          type={viewType}
           folders={folders}
           loading={loading}
           folderId={folderId}
@@ -236,7 +238,7 @@ const FoldersPage = () => {
         />
         {!!selectedFolder?.resources.length && (
           <ResourceCountContainer>
-            <FileDocumentOutline />
+            <FileTextLine />
             <span>
               {t("myNdla.resources", {
                 count: selectedFolder?.resources.length,
@@ -253,7 +255,6 @@ const FoldersPage = () => {
               {t("myNdla.sharedByOthersFolders")}
             </StyledHeading>
             <FolderList
-              type={viewType}
               folders={sharedByOthersFolders as unknown as GQLFolder[]}
               loading={loading}
               folderId={folderId}

@@ -8,14 +8,13 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Copy } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons/action";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef } from "./licenseStyles";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
   MediaList,
@@ -25,7 +24,8 @@ import {
   MediaListItemMeta,
   ItemType,
   MediaListLicense,
-} from "../MediaList";
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 interface TextLicenseInfoProps {
   text: TextItem;
@@ -68,22 +68,24 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListLicense
-        licenseType={text.copyright.license.license}
-        title={t("license.text.rules")}
-        sourceTitle={text.title}
-        sourceType="text"
-      />
-      <MediaListItemActions>
-        {printUrl && (
-          <Button variant="secondary" onClick={() => printPage(printUrl)}>
-            {t("article.printPage")}
-          </Button>
-        )}
-      </MediaListItemActions>
+      <MediaListContent>
+        <MediaListLicense
+          licenseType={text.copyright.license.license}
+          title={t("license.text.rules")}
+          sourceTitle={text.title}
+          sourceType="text"
+        />
+        <MediaListItemActions>
+          {printUrl && (
+            <Button variant="secondary" onClick={() => printPage(printUrl)}>
+              {t("article.printPage")}
+            </Button>
+          )}
+        </MediaListItemActions>
+      </MediaListContent>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
         <MediaListItemActions>
-          <MediaListRef>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
               <CopyTextButton
@@ -91,10 +93,10 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
-          </MediaListRef>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

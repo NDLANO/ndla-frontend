@@ -10,11 +10,10 @@ import parse from "html-react-parser";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
 import { Feide } from "@ndla/icons/common";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
@@ -31,32 +30,40 @@ import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
-const FeideLoginLabel = styled.span`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
+const FeideLoginLabel = styled("span", {
+  base: {
+    mobileWideDown: {
+      display: "none",
+    },
+  },
+});
 
-const StyledLanguageSelector = styled(LanguageSelector)`
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-  }
-`;
+const StyledLanguageSelector = styled(LanguageSelector, {
+  base: {
+    desktopDown: {
+      display: "none",
+    },
+  },
+});
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-  justify-content: flex-end;
-  flex: 1;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: "1",
+  },
+});
 
-const DrawerWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  gap: ${spacing.small};
-  flex: 1;
-`;
+const DrawerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-start",
+    gap: "xsmall",
+    flex: "1",
+  },
+});
 
 const mastheadQuery = gql`
   query mastHead($subjectId: String!) {

@@ -9,7 +9,7 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Back } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons/common";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";
@@ -93,7 +93,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
     return (
       <StyledCollapsedMenu>
         <IconButton onClick={setShouldCloseLevel} aria-label={t("menu.goBack")} variant="secondary">
-          <Back />
+          <ArrowLeftLine />
         </IconButton>
       </StyledCollapsedMenu>
     );

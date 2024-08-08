@@ -10,11 +10,21 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { FormControl, Label, RadioButtonGroup, RadioButtonItem, Fieldset, Legend } from "@ndla/forms";
+import { spacing } from "@ndla/core";
 import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
-import { Button, FieldLabel, FieldRoot, FieldTextArea, FieldErrorMessage } from "@ndla/primitives";
+import {
+  Button,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
+  FieldErrorMessage,
+  RadioGroupLabel,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemText,
+  RadioGroupItemHiddenInput,
+  RadioGroupRoot,
+} from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
 import { useToast } from "../../../../components/ToastContext";
@@ -41,12 +51,10 @@ const StyledTextArea = styled(FieldTextArea)`
   min-height: 74px;
 `;
 
-const RadioButtonWrapper = styled.div`
+const StyledForm = styled.form`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: ${spacing.small};
-  flex-direction: row;
-  color: ${colors.brand.primary};
 `;
 
 interface FlagPost {
@@ -110,7 +118,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
         <Text element="p" textStyle="meta-text-medium" margin="none">
           {t("myNdla.arena.flag.disclaimer")}
         </Text>
-        <form onSubmit={handleSubmit(sendReport)} noValidate>
+        <StyledForm onSubmit={handleSubmit(sendReport)} noValidate>
           <Controller
             control={control}
             name="type"
@@ -120,33 +128,28 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               }),
             }}
             render={({ field }) => (
-              <FormControl id="flag-type">
-                <RadioButtonGroup
-                  {...field}
-                  asChild
-                  onValueChange={(value) => {
-                    setValue("type", value, {
+              <FieldRoot>
+                <RadioGroupRoot
+                  defaultValue="spam"
+                  onValueChange={(details) => {
+                    setValue("type", details.value, {
                       shouldDirty: true,
                     });
-                    setShowReasonField(value === "other");
+                    setShowReasonField(details.value === "other");
                   }}
                 >
-                  <Fieldset>
-                    <Legend visuallyHidden>{t("myNdla.arena.flag.reason")}</Legend>
-                    {radioButtonOptions.map((option) => (
-                      <RadioButtonWrapper key={option.value}>
-                        <RadioButtonItem id={`flag-${option.value}`} value={option.value} />
-                        <Label htmlFor={`flag-${option.value}`} margin="none" textStyle="label-small">
-                          {option.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </Fieldset>
-                </RadioButtonGroup>
-              </FormControl>
+                  <RadioGroupLabel srOnly>{t("myNdla.arena.flag.reason")}</RadioGroupLabel>
+                  {radioButtonOptions.map((option) => (
+                    <RadioGroupItem value={option.value} key={option.value}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{option.title}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput {...field} />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           />
-
           {showReasonField && (
             <Controller
               control={control}
@@ -175,11 +178,9 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <Button variant="secondary" onClick={onClose}>
               {t("cancel")}
             </Button>
-            <LoadingButton colorTheme="primary" type="submit">
-              {t("myNdla.arena.flag.send")}
-            </LoadingButton>
+            <Button type="submit">{t("myNdla.arena.flag.send")}</Button>
           </StyledButtonRow>
-        </form>
+        </StyledForm>
       </StyledModalBody>
     </ModalContent>
   );

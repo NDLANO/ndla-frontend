@@ -2,181 +2,7 @@
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
-  .emotion-0 {
-  padding-left: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin: 24px 0;
-}
-
-.emotion-1 {
-  margin-bottom: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid #a5bcd3;
-  list-style: none;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.emotion-1:last-of-type {
-  border-bottom: none;
-}
-
-.emotion-1 img {
-  width: 100%;
-}
-
-.emotion-2 {
-  padding-bottom: 24px;
-}
-
-.emotion-3 {
-  font-weight: 700;
-  padding-bottom: 6px;
-}
-
-.emotion-4 {
-  font-family: 'Source Sans Pro',Helvetica,Arial,STKaiti,'华文楷体',KaiTi,SimKai,'楷体',KaiU,DFKai-SB,'標楷體',SongTi,'宋体',sans-serif;
-  font-weight: 400;
-  font-size: 18px;
-  font-size: 1rem;
-  line-height: 24px;
-  margin: 0px;
-}
-
-.emotion-4:where([lang='zh'], .emotion-4[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(18px * 1.11);
-  font-size: calc(1rem * 1.11);
-}
-
-.emotion-5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  list-style-type: disc;
-  list-style-position: inside;
-}
-
-.emotion-6 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: start;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  align-items: start;
-  margin: 12px 0 0 0;
-  width: 100%;
-}
-
-.emotion-6 button,
-.emotion-6 a {
-  margin: 0 12px 12px 0;
-}
-
-@media (max-width: 29.75em) {
-  .emotion-6 {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-  }
-
-  .emotion-6 button,
-  .emotion-6 a {
-    margin: 0 0 12px 0;
-    width: 100%;
-  }
-
-  .emotion-6 span {
-    width: 100%;
-  }
-
-  .emotion-6 span button {
-    width: 100%;
-  }
-}
-
-.emotion-7 {
-  font-size: 16px;
-  font-size: 0.8888888888888888rem;
-  line-height: 24px;
-}
-
-.emotion-7:where([lang='zh'], .emotion-7[lang='zh-Hans'], [lang='zh-Hant']):not([data-pinyin]) {
-  font-size: calc(16px * 1.11);
-  font-size: calc(0.8888888888888888rem * 1.11);
-}
-
-@media (min-width: 37.5625em) {
-  .emotion-7 {
-    max-width: 70%;
-  }
-}
-
-@media (min-width: 61.3125em) {
-  .emotion-7 {
-    max-width: 75%;
-  }
-}
-
-.emotion-8 {
-  display: -webkit-box;
-  display: -webkit-"none";
-  display: -ms-"none"box;
-  display: "none";
-}
-
-.emotion-10 {
-  background: #fff;
-  width: 100%;
-}
-
-@media (max-width: 37.5625em) {
-  .emotion-10 button,
-  .emotion-10 a {
-    width: 100%;
-    margin: 4px 0;
-  }
-}
-
-.emotion-11 {
-  margin: 12px 0;
-  padding: 0;
-  list-style: none;
-  width: 100%;
-}
-
-.emotion-11 button,
-.emotion-11 a {
-  margin: 0 12px 12px 0;
-}
-
-.emotion-12 {
-  margin: 0;
-  padding: 0;
-  padding-bottom: 6px;
-}
-
-<div
+  <div
     class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
   >
     <main>
@@ -287,7 +113,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     data-orientation="vertical"
                     data-part="item-indicator"
                     data-scope="accordion"
-                    data-source="Material Design"
+                    data-source="RemixIcon"
                     data-state="closed"
                     dir="ltr"
                     fill="currentColor"
@@ -295,11 +121,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     viewBox="0 0 24 24"
                   >
                     <path
-                      d="M16.6 8.6 12 13.2 7.4 8.6 6 10l6 6 6-6z"
-                    />
-                    <path
-                      d="M0 0h24v24H0z"
-                      fill="none"
+                      d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
                     />
                   </svg>
                 </button>
@@ -379,83 +201,80 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       tabindex="0"
                     >
                       <ul
-                        class="emotion-0"
+                        class="w_100% [&_>_li]:py_xlarge [&_>_li]:bd-b_1px_solid [&_>_li]:bd-c_stroke.subtle [&_>_li]:last:bd-b_none [&_>_li]:last:pbe_0 [&_>_li]:first:pbs_medium [&_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
                       >
                         <li
-                          class="emotion-1"
+                          class="d_flex flex-d_column gap_medium [&_img]:w_100%"
                         >
                           <div
-                            class="emotion-2"
+                            class="d_flex flex-d_column gap_xsmall"
                           >
-                            <label
-                              class="emotion-3 emotion-4"
+                            <div
+                              class="d_flex jc_space-between ai_center min-h_xxlarge"
                             >
-                              Regler for bruk av teksten "Politiske skillelinjer"
-                            </label>
-                            <br />
-                            <span>
-                              Denne teksten har lisensen 
-                              <span>
-                                by-sa
-                              </span>
-                              . 
-                            </span>
+                              <h3
+                                class="textStyle_title.small fw_semibold"
+                              >
+                                Regler for bruk av teksten "Politiske skillelinjer"
+                              </h3>
+                              <div />
+                            </div>
                             <ul
-                              class="emotion-5"
+                              class="li-t_disc li-pos_inside"
+                            />
+                            <div
+                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             />
                           </div>
                           <div
-                            class="emotion-6"
-                          />
-                          <div
                             about=""
-                            class="emotion-7"
+                            xmlns:cc="https://creativecommons.org/ns#"
+                            xmlns:dct="http://purl.org/dc/terms/"
                           >
                             <span
-                              class="emotion-8"
+                              class="d_none"
                               href="http://purl.org/dc/dcmitype/Text"
                               rel="dct:type"
                             />
                             <div
-                              class="emotion-6"
+                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             >
                               <div
-                                class="emotion-10"
+                                class="d_flex flex-d_column gap_xsmall"
                               >
                                 <ul
-                                  class="emotion-11"
                                   content="Opphaver: Forfatter Someone"
                                   property="cc:attributionName"
                                 >
-                                  <li
-                                    class="emotion-12"
-                                  >
-                                    <span>
+                                  <li>
+                                    <p
+                                      class="textStyle_body.medium"
+                                    >
                                       Tittel: 
                                       <span>
                                         Politiske skillelinjer
                                       </span>
-                                    </span>
+                                    </p>
                                   </li>
-                                  <li
-                                    class="emotion-12"
-                                  >
-                                    <span>
+                                  <li>
+                                    <p
+                                      class="textStyle_body.medium"
+                                    >
                                       Opphaver: 
                                       <span>
                                         Forfatter Someone
                                       </span>
-                                    </span>
+                                    </p>
                                   </li>
-                                  <li
-                                    class="emotion-12"
-                                  >
-                                    <span>
+                                  <li>
+                                    <p
+                                      class="textStyle_body.medium"
+                                    >
                                       Sist faglig oppdatert: 
                                       <span>
                                         09.01.2018
                                       </span>
-                                    </span>
+                                    </p>
                                   </li>
                                 </ul>
                                 <span>
@@ -468,12 +287,13 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                                       data-icon=""
                                       data-license="Apache License 2.0"
-                                      data-source="Material Design"
+                                      data-source="RemixIcon"
+                                      fill="currentColor"
                                       preserveAspectRatio="xMidYMid meet"
-                                      viewBox="0 96 960 960"
+                                      viewBox="0 0 24 24"
                                     >
                                       <path
-                                        d="M180 975q-24 0-42-18t-18-42V312h60v603h474v60zm120-120q-24 0-42-18t-18-42V235q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18zm0-60h440V235H300zm0 0V235z"
+                                        d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM5 8v12h10V8zm4-2h8v10h2V4H9z"
                                       />
                                     </svg>
                                     Kopier kildehenvisning

@@ -10,8 +10,8 @@ import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
-import { Subject } from "@ndla/icons/contentType";
+import { BookmarkLine } from "@ndla/icons/action";
+import { InformationLine } from "@ndla/icons/common";
 import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
 import { Button, MessageBox, Text } from "@ndla/primitives";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -65,7 +65,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
     <Modal open={open} onOpenChange={() => setOpen(!open)}>
       <ModalTrigger>
         <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
-          <Subject />
+          <BookmarkLine />
           {t("myNdla.folder.sharing.button.saveLink")}
         </Button>
       </ModalTrigger>
@@ -79,7 +79,7 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
             <Content>
               <Folder folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
               <MessageBox variant="warning">
-                <InformationOutline />
+                <InformationLine />
                 <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
               </MessageBox>
             </Content>

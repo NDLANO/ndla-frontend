@@ -50,6 +50,11 @@ const messages = {
     subtitle: "Listen and learn!",
   },
   subjectsPage: { tabFilter: "Which subjects would you like to show?" },
+  searchPage: {
+    title: "Search on ndla.no",
+    filterSearch: "Filter your search results:",
+    subjectLetter: "Subjects starting with {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Try our chatbot",
@@ -139,6 +144,9 @@ const messages = {
         inactive: "Add link",
       },
     },
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} cases",
   },
   tabs: {
     competenceGoals: "Categories",

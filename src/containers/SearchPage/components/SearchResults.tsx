@@ -8,101 +8,101 @@
 
 import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { Button, Spinner } from "@ndla/primitives";
-import { Heading, Text } from "@ndla/typography";
-import { ContentTypeBadge } from "@ndla/ui";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  Heading,
+  Text,
+  Button,
+  Spinner,
+  CheckboxGroup,
+  CheckboxRoot,
+  CheckboxControl,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxHiddenInput,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
-import { ViewType } from "../searchTypes";
 
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: ${spacing.normal};
-  margin: ${spacing.medium} 0;
-  position: relative;
-`;
+const StyledSection = styled("section", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const HeaderWrapper = styled.hgroup`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const HeaderWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "medium",
+  },
+});
 
-const ButtonsWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
+const PaginationWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    alignItems: "center",
+  },
+});
+const ProgressBar = styled("div", {
+  base: {
+    width: "surface.xxsmall",
+    height: "1",
+    background: "stroke.subtle",
+  },
+});
 
-const PaginationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  align-items: center;
-`;
+const Progress = styled("span", {
+  base: {
+    display: "block",
+    background: "stroke.default",
+    height: "2px",
+    width: "min(var(--width),100%)",
+  },
+});
 
-const ProgressBar = styled.div`
-  width: 200px;
-  height: 2px;
-  background: ${colors.brand.tertiary};
-  margin: 0 0 ${spacing.small};
-`;
+const SearchResultsList = styled("ul", {
+  base: {
+    display: "grid",
+    alignItems: "flex-start",
+    listStyle: "none",
+    gap: "medium",
+    gridTemplateColumns: "repeat(1, 1fr)",
+    tablet: { gridTemplateColumns: "repeat(2,1fr)" },
+    desktop: { gridTemplateColumns: "repeat(3,1fr)" },
+  },
+});
 
-const Progress = styled.span`
-  display: block;
-  background: ${colors.brand.primary};
-  height: 2px;
-  width: min(var(--width), 100%);
-`;
-
-const SearchResultsList = styled.ul`
-  display: grid;
-  align-items: flex-start;
-  list-style: none;
-  padding: 0;
-  row-gap: ${spacing.normal};
-  grid-template-columns: repeat(1, 1fr);
-  &[data-viewtype="grid"] {
-    ${mq.range({ from: breakpoints.tablet })} {
-      column-gap: ${spacing.normal};
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    ${mq.range({ from: breakpoints.desktop })} {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-`;
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+});
 
 interface Props {
   group: SearchGroup;
   typeFilter: Record<string, TypeFilter>;
-  handleSubFilterClick: (type: string, filterId: string) => void;
+  handleSubFilterClick: (type: string, filterIds: string[]) => void;
   handleShowMore: (type: string) => void;
   loading: boolean;
-  viewType: ViewType;
 }
 
-export const SearchResultGroup = ({
-  group,
-  typeFilter,
-  handleShowMore,
-  handleSubFilterClick,
-  loading,
-  viewType,
-}: Props) => {
+export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSubFilterClick, loading }: Props) => {
   const { t } = useTranslation();
-  const headingId = useId();
-  const filter = typeFilter[group.type];
+
+  const groupFilter = typeFilter[group.type];
   const filters =
-    filter?.filters.filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all") ?? [];
-  const toCount = filter ? filter?.page * filter.pageSize : 0;
+    groupFilter?.filters.filter((filter) => group.resourceTypes.includes(filter.id) || filter.id === "all") ?? [];
+  const toCount = groupFilter ? groupFilter?.page * groupFilter.pageSize : 0;
+
+  const headingId = useId();
 
   const onToTopHandler = useCallback(() => {
     window.scrollTo({
@@ -113,45 +113,38 @@ export const SearchResultGroup = ({
   }, []);
 
   return (
-    <Wrapper key={`searchresult-${group.type}`}>
+    <StyledSection key={`searchresult-${group.type}`}>
       <HeaderWrapper>
-        <ContentTypeBadge
-          type={group.type === "topic-article" ? "topic" : group.type}
-          background
-          size="large"
-          border={false}
-        />
-        <Heading element="h2" headingStyle="h4" margin="none" id={headingId}>
-          {group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}
+        <Heading textStyle="title.large" id={headingId} asChild consumeCss>
+          <h2>{group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}</h2>
         </Heading>
         {!!group.totalCount && (
-          <Text textStyle="meta-text-small" margin="none">
-            {t("searchPage.resultType.hits", { count: group.totalCount })}
-          </Text>
+          <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
         )}
       </HeaderWrapper>
-      {/* TODO: Maybe make this a ToggleGroup?  */}
-      <ButtonsWrapper>
-        {filters.map((filter) => (
-          <ButtonV2
-            size="xsmall"
-            shape="pill"
-            key={filter.id}
-            colorTheme={filter.active ? undefined : "greyLighter"}
-            onClick={() => handleSubFilterClick(group.type, filter.id)}
-          >
-            {filter.name}
-            {filter.active && <Cross />}
-          </ButtonV2>
-        ))}
-      </ButtonsWrapper>
-      <SearchResultsList data-viewtype={viewType}>
+      {/* TODO: Checkboxgroup should be associated with some kind of label (fieldset or labelledby) */}
+      {groupFilter?.filters.length ? (
+        <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
+          {filters.map((filter) => (
+            <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
+              <CheckboxControl>
+                <CheckboxIndicator asChild>
+                  <CheckLine />
+                </CheckboxIndicator>
+              </CheckboxControl>
+              <CheckboxLabel>{filter.name}</CheckboxLabel>
+              <CheckboxHiddenInput />
+            </CheckboxRoot>
+          ))}
+        </StyledCheckboxGroup>
+      ) : null}
+      <SearchResultsList>
         {group.items.slice(0, toCount).map((item) => (
           <SearchResultItem item={item} key={item.id} type={group.type} />
         ))}
       </SearchResultsList>
       <PaginationWrapper>
-        <Text textStyle="meta-text-medium">
+        <Text textStyle="label.medium">
           {toCount < group.totalCount
             ? t("searchPage.resultType.showing", {
                 count: toCount,
@@ -163,7 +156,7 @@ export const SearchResultGroup = ({
         <ProgressBar>
           <Progress style={{ "--width": `${Math.ceil((toCount / group.totalCount) * 100)}%` } as CSSProperties} />
         </ProgressBar>
-        {loading && <Spinner />}
+        <div aria-live="polite">{loading && <Spinner aria-label={t("loading")} />}</div>
         {toCount < group.totalCount ? (
           <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
             {t("searchPage.resultType.showMore")}
@@ -174,6 +167,6 @@ export const SearchResultGroup = ({
           </Button>
         )}
       </PaginationWrapper>
-    </Wrapper>
+    </StyledSection>
   );
 };

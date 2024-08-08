@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { SelectValueChangeDetails } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { spacing, mq, breakpoints, colors } from "@ndla/core";
-import { ChevronDown } from "@ndla/icons/common";
-import { Done } from "@ndla/icons/editor";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
 import {
   Button,
   SelectContent,
@@ -164,7 +164,7 @@ const FilmMovieSearch = ({
             <FullWidthButton variant="secondary">
               <SelectValueText />
               <SelectIndicator asChild>
-                <ChevronDown />
+                <ArrowDownShortLine />
               </SelectIndicator>
             </FullWidthButton>
           </SelectTrigger>
@@ -175,7 +175,7 @@ const FilmMovieSearch = ({
               <SelectItem item={option} key={option.value}>
                 <SelectItemText>{option.label}</SelectItemText>
                 <SelectItemIndicator asChild>
-                  <Done />
+                  <CheckLine />
                 </SelectItemIndicator>
               </SelectItem>
             ))}

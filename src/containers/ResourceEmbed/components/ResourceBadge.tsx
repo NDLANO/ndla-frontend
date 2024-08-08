@@ -9,8 +9,8 @@
 import { ElementType, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
-import { Podcast, Audio } from "@ndla/icons/common";
-import { Concept, H5P, Media, Video, Globe } from "@ndla/icons/editor";
+import { BroadcastLine, VoicePrintLine } from "@ndla/icons/common";
+import { ChatLine, H5P, ImageLine, MovieLine, GlobalLine } from "@ndla/icons/editor";
 import { EmbedType } from "./ResourceEmbedWrapper";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -35,13 +35,13 @@ const BadgeWrapper = styled.div`
 `;
 
 const typeIconMapping: Record<EmbedType, ElementType> = {
-  video: Video,
-  audio: Audio,
-  podcast: Podcast,
+  video: MovieLine,
+  audio: VoicePrintLine,
+  podcast: BroadcastLine,
   h5p: H5P,
-  image: Media,
-  concept: Concept,
-  gloss: Globe,
+  image: ImageLine,
+  concept: ChatLine,
+  gloss: GlobalLine,
 };
 
 const ResourceBadge = ({ type }: Props) => {

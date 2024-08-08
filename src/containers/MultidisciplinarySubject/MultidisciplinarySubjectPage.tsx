@@ -11,7 +11,6 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
 import { Heading, Text } from "@ndla/typography";
 import { ContentPlaceholder, HomeBreadcrumb, LayoutItem, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
@@ -48,42 +47,6 @@ const multidisciplinarySubjectPageQuery = gql`
         url
       }
     }
-  }
-`;
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledBackground = styled.div`
-  width: 100%;
-  background: linear-gradient(179.64deg, rgba(255, 255, 255, 0.6) 80.1%, rgba(255, 255, 255) 99.05%),
-    linear-gradient(318.9deg, rgb(239, 238, 220, 0.6) 35.53%, rgb(250, 246, 235) 74.23%), rgb(221, 216, 175);
-`;
-
-const Illustration = styled.div`
-  background-image: url("/static/illustrations/frontpage_multidisciplinary.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  height: 88px;
-  width: 100%;
-  margin: 0 0 -15px;
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    margin: 32px 0 -15px;
-  }
-  ${mq.range({ from: breakpoints.tablet })} {
-    height: 114px;
-    margin: 40px 0 -15px;
-  }
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    height: 146px;
-    margin: 56px 0 -15px;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    height: 175px;
   }
 `;
 
@@ -178,46 +141,41 @@ const MultidisciplinarySubjectPage = () => {
         </>
       )}
       <main>
-        <StyledWrapper>
-          <StyledBackground>
-            <OneColumn wide>
-              <Header>
-                <LayoutItem layout="extend">
-                  <HomeBreadcrumb items={breadCrumbs} />
-                  <Heading
-                    element="h1"
-                    headingStyle="h1-resource"
-                    id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-                    tabIndex={-1}
-                  >
-                    {t("frontpageMultidisciplinarySubject.heading")}
-                  </Heading>
-                  <Text textStyle="ingress">{t("frontpageMultidisciplinarySubject.text")}</Text>
-                </LayoutItem>
-                <Illustration />
-              </Header>
-            </OneColumn>
-          </StyledBackground>
-          <OneColumn wide>
+        <OneColumn wide>
+          <Header>
             <LayoutItem layout="extend">
-              <NavigationBox items={mainTopics} listDirection="horizontal" />
-              {selectedTopics.map((topicId, index) => (
-                <div key={index} ref={refs[index]}>
-                  <MultidisciplinaryTopicWrapper
-                    index={index}
-                    setCrumbs={setTopicCrumbs}
-                    disableNav={index >= selectionLimit - 1}
-                    topicId={topicId}
-                    subjectId={subject.id}
-                    subTopicId={selectedTopics[index + 1]}
-                    subject={subject}
-                    showSubtopics={index >= selectionLimit - 1}
-                  />
-                </div>
-              ))}
+              <HomeBreadcrumb items={breadCrumbs} />
+              <Heading
+                element="h1"
+                headingStyle="h1-resource"
+                id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+                tabIndex={-1}
+              >
+                {t("frontpageMultidisciplinarySubject.heading")}
+              </Heading>
+              <Text textStyle="ingress">{t("frontpageMultidisciplinarySubject.text")}</Text>
             </LayoutItem>
-          </OneColumn>
-        </StyledWrapper>
+          </Header>
+        </OneColumn>
+        <OneColumn wide>
+          <LayoutItem layout="extend">
+            <NavigationBox items={mainTopics} listDirection="horizontal" />
+            {selectedTopics.map((topicId, index) => (
+              <div key={index} ref={refs[index]}>
+                <MultidisciplinaryTopicWrapper
+                  index={index}
+                  setCrumbs={setTopicCrumbs}
+                  disableNav={index >= selectionLimit - 1}
+                  topicId={topicId}
+                  subjectId={subject.id}
+                  subTopicId={selectedTopics[index + 1]}
+                  subject={subject}
+                  showSubtopics={index >= selectionLimit - 1}
+                />
+              </div>
+            ))}
+          </LayoutItem>
+        </OneColumn>
       </main>
     </>
   );

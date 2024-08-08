@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import styled from "@emotion/styled";
 import { breakpoints, mq, spacing } from "@ndla/core";
-import { DragVertical } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
 
 interface Props extends HTMLProps<HTMLButtonElement> {
@@ -46,7 +46,7 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
       {...listeners}
       ref={setActivatorNodeRef}
     >
-      <DragVertical />
+      <Draggable />
     </StyledDragHandle>
   );
 };

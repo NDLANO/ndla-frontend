@@ -11,21 +11,18 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Copy } from "@ndla/icons/action";
-import { Download, Launch } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef } from "./licenseStyles";
-import FavoriteButton from "../../components/Article/FavoritesButton";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -34,17 +31,12 @@ import {
   MediaListItemMeta,
   ItemType,
   MediaListLicense,
-} from "../MediaList";
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
 }
-
-const LicenseAndButtonWrapper = styled.div`
-  display: flex;
-  align-items: start;
-  gap: ${spacing.xsmall};
-`;
 
 const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
@@ -92,39 +84,40 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <LicenseAndButtonWrapper>
+      <MediaListContent>
         <MediaListLicense
           licenseType={audio.copyright.license.license}
           title={t("license.audio.rules")}
           sourceTitle={audio.title}
           sourceType="audio"
-        />
-        {!isCopyrighted(audio.copyright.license.license) && (
-          <AddResourceToFolderModal
-            resource={{
-              id: audio.id,
-              path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
-              resourceType: "audio",
-            }}
-          >
-            <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
-          </AddResourceToFolderModal>
-        )}
-      </LicenseAndButtonWrapper>
-      {!isCopyrighted(audio.copyright.license.license) && (
-        <MediaListItemActions>
-          <SafeLinkButton to={audio.src} download variant="secondary">
-            <Download />
-            {t("license.download")}
-          </SafeLinkButton>
-          {shouldShowLink && (
-            <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-              <Launch />
-              {t("license.openLink")}
-            </SafeLinkButton>
+        >
+          {!isCopyrighted(audio.copyright.license.license) && (
+            <AddResourceToFolderModal
+              resource={{
+                id: audio.id,
+                path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+                resourceType: "audio",
+              }}
+            >
+              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+            </AddResourceToFolderModal>
           )}
-        </MediaListItemActions>
-      )}
+        </MediaListLicense>
+        {!isCopyrighted(audio.copyright.license.license) && (
+          <MediaListItemActions>
+            <SafeLinkButton to={audio.src} download variant="secondary">
+              <DownloadLine />
+              {t("license.download")}
+            </SafeLinkButton>
+            {shouldShowLink && (
+              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                <ShareBoxLine />
+                {t("license.openLink")}
+              </SafeLinkButton>
+            )}
+          </MediaListItemActions>
+        )}
+      </MediaListContent>
       <MediaListItemBody
         license={audio.copyright.license.license}
         resourceType="audio"
@@ -132,7 +125,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListItemActions>
-          <MediaListRef>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
             {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
               <CopyTextButton
@@ -140,10 +133,10 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
               >
-                <Copy />
+                <FileCopyLine />
               </CopyTextButton>
             )}
-          </MediaListRef>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>

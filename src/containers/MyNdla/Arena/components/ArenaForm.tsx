@@ -10,11 +10,22 @@ import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { LoadingButton } from "@ndla/button";
 import { colors, misc, spacing } from "@ndla/core";
-import { CheckboxItem, FormControl, Label, FieldErrorMessage as FieldErrorMessageOld } from "@ndla/forms";
-import { InformationOutline } from "@ndla/icons/common";
-import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Spinner,
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Button,
+} from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -53,14 +64,8 @@ const InformationLabel = styled.div`
   align-items: center;
 `;
 
-const StyledInformationOutline = styled(InformationOutline)`
+const StyledInformationOutline = styled(InformationLine)`
   overflow: unset !important;
-`;
-
-const CheckboxWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
 `;
 
 interface ArenaFormProps {
@@ -183,23 +188,26 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           name="locked"
           rules={{ required: false }}
           render={({ field, fieldState }) => (
-            <FormControl id="locked" isInvalid={!!fieldState.error?.message}>
-              <FieldErrorMessageOld>{fieldState.error?.message}</FieldErrorMessageOld>
-              <CheckboxWrapper>
-                <CheckboxItem
-                  checked={field.value}
-                  onCheckedChange={() => {
-                    setValue("locked", !field.value, {
-                      shouldDirty: true,
-                      shouldTouch: true,
-                    });
-                  }}
-                />
-                <Label margin="none" textStyle="label-small">
-                  {t("myNdla.arena.topic.locked")}
-                </Label>
-              </CheckboxWrapper>
-            </FormControl>
+            <FieldRoot invalid={!!fieldState.error?.message}>
+              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+              <CheckboxRoot
+                checked={field.value}
+                onCheckedChange={() => {
+                  setValue("locked", !field.value, {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  });
+                }}
+              >
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <CheckLine />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxLabel>{t("myNdla.arena.topic.locked")}</CheckboxLabel>
+                <CheckboxHiddenInput />
+              </CheckboxRoot>
+            </FieldRoot>
           )}
         />
       )}
@@ -211,9 +219,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
       </InformationLabel>
       <ButtonRow>
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
-        <LoadingButton colorTheme="primary" type="submit">
-          {t("myNdla.arena.publish")}
-        </LoadingButton>
+        <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </ButtonRow>
     </StyledForm>
   );

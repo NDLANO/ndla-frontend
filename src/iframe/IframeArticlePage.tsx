@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Back } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { OneColumn, constants, LayoutItem } from "@ndla/ui";
@@ -104,7 +104,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           <LayoutItem layout="center">
             {/* TODO: Needs verification */}
             <Button variant="link" onClick={() => navigate(-1)}>
-              <Back />
+              <ArrowLeftLine />
               {t("lti.goBack")}
             </Button>
           </LayoutItem>

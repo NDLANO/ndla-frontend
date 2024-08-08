@@ -28,12 +28,6 @@ import { transformArticle } from "../../../util/transformArticle";
 import Resources from "../../Resources/Resources";
 import MultidisciplinarySubjectHeader from "../MultidisciplinarySubjectHeader";
 
-const filterCodes: Record<string, "publicHealth" | "democracy" | "climate"> = {
-  TT1: "publicHealth",
-  TT2: "democracy",
-  TT3: "climate",
-};
-
 interface Props {
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
   subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
@@ -88,9 +82,6 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
     label: crossSubjectTopic.title,
     url: crossSubjectTopic.path || subject.path || "",
   }));
-  const subjects = topic.article?.grepCodes
-    ?.filter((grepCode) => grepCode.startsWith("TT"))
-    .map((code) => filterCodes[code]!);
 
   return (
     <main>
@@ -99,7 +90,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
       </Helmet>
-      <MultidisciplinarySubjectHeader breadcrumbs={breadCrumbs} subjects={subjects} subjectsLinks={subjectLinks} />
+      <MultidisciplinarySubjectHeader breadcrumbs={breadCrumbs} subjectsLinks={subjectLinks} />
       <OneColumn>
         <Article
           myNdlaResourceType="multidisciplinary"

@@ -12,8 +12,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
-import { ForwardArrow } from "@ndla/icons/action";
-import { Feide } from "@ndla/icons/common";
+import { Feide, ArrowRightLine } from "@ndla/icons/common";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -50,6 +49,10 @@ const StyledResourceList = styled.ul`
   li {
     padding: 0px;
   }
+`;
+
+const StyledTopicList = styled(StyledResourceList)`
+  gap: 0px;
 `;
 
 const SectionWrapper = styled.section`
@@ -198,16 +201,16 @@ const MyNdlaPage = () => {
             <Heading element="h2" headingStyle="h2" margin="small">
               {t("myNdla.myPage.recentArenaPosts.title")}
             </Heading>
-            <StyledResourceList>
+            <StyledTopicList>
               {recentArenaTopicsQuery.data?.items?.map((topic) => (
                 <li key={topic.id}>
                   <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
                 </li>
               ))}
-            </StyledResourceList>
+            </StyledTopicList>
             <StyledSafeLink to="arena">
               {t("myNdla.myPage.recentArenaPosts.link")}
-              <ForwardArrow />
+              <ArrowRightLine />
             </StyledSafeLink>
           </SectionWrapper>
         )}
@@ -224,7 +227,7 @@ const MyNdlaPage = () => {
 
             <StyledSafeLink to={routes.myNdla.subjects}>
               {t("myNdla.myPage.favouriteSubjects.viewAll")}
-              <ForwardArrow />
+              <ArrowRightLine />
             </StyledSafeLink>
           </SectionWrapper>
         )}
@@ -239,7 +242,7 @@ const MyNdlaPage = () => {
               </Text>
               <StyledSafeLink to="/subjects">
                 {t("myNdla.myPage.favouriteSubjects.search")}
-                <ForwardArrow />
+                <ArrowRightLine />
               </StyledSafeLink>
             </SectionWrapper>
             <SectionWrapper>
@@ -251,7 +254,7 @@ const MyNdlaPage = () => {
               </Text>
               <StyledSafeLink to="/search">
                 {t("myNdla.myPage.recentFavourites.search")}
-                <ForwardArrow />
+                <ArrowRightLine />
               </StyledSafeLink>
             </SectionWrapper>
           </>
@@ -267,7 +270,6 @@ const MyNdlaPage = () => {
                   <ListItem key={res.id}>
                     <ListResource
                       id={res.id}
-                      tagLinkPrefix={routes.myNdla.tags}
                       isLoading={loading}
                       key={res.id}
                       link={res.path}
@@ -276,7 +278,6 @@ const MyNdlaPage = () => {
                         src: meta?.metaImage?.url ?? "",
                         alt: "",
                       }}
-                      tags={res.tags}
                       resourceTypes={meta?.resourceTypes ?? []}
                     />
                   </ListItem>
@@ -285,7 +286,7 @@ const MyNdlaPage = () => {
             </StyledResourceList>
             <StyledSafeLink to="folders">
               {t("myNdla.myPage.recentFavourites.link")}
-              <ForwardArrow />
+              <ArrowRightLine />
             </StyledSafeLink>
           </SectionWrapper>
         ) : null}
