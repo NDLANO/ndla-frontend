@@ -9,7 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Text, Image } from "@ndla/primitives";
+import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
@@ -84,6 +84,44 @@ const groupMovies = (movies: MovieType[]) => {
   }));
 };
 
+const LoadingShimmer = () => {
+  return (
+    <HStack justify="center">
+      <OneColumn wide>
+        {["#", "Å", "Ø", "Æ"].map((letter, idx) => {
+          return (
+            <MovieGroup key={`Loading-${idx}`}>
+              <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
+                <h2>{letter}</h2>
+              </LetterHeading>
+              {new Array(4).fill(0).map((_, idx2) => {
+                return (
+                  <StyledSafeLink to="" disabled={true} key={idx2}>
+                    <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />
+                    <MovieTextWrapper>
+                      <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
+                        <Heading textStyle="title.small" asChild consumeCss data-title="">
+                          <h3>Example title</h3>
+                        </Heading>
+                      </Skeleton>
+                      <Skeleton css={{ width: "surface.medium" }}>
+                        <Text textStyle="body.small">
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                          labore et dolore magna aliqua.
+                        </Text>
+                      </Skeleton>
+                    </MovieTextWrapper>
+                  </StyledSafeLink>
+                );
+              })}
+            </MovieGroup>
+          );
+        })}
+      </OneColumn>
+    </HStack>
+  );
+};
+
 const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
   const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
@@ -97,6 +135,10 @@ const AllMoviesAlphabetically = () => {
     if (!allMovies.data?.searchWithoutPagination?.results) return [];
     return groupMovies(allMovies.data.searchWithoutPagination.results);
   }, [allMovies.data?.searchWithoutPagination?.results]);
+
+  if (allMovies.loading) {
+    return <LoadingShimmer />;
+  }
 
   return (
     <HStack justify="center">
