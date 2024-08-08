@@ -135,10 +135,11 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Subject {
+  fragment SubjectInfo on Node {
     id
     name
     path
+    url
     metadata {
       customFields
     }
@@ -156,7 +157,7 @@ export const subjectInfoFragment = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects(filterVisible: true) {
+    subjects: nodes(nodeType: SUBJECT, filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {

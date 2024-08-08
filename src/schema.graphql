@@ -1203,6 +1203,7 @@ type Query {
     ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
+    nodeType: NodeType
   ): [Node!]
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch

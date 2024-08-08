@@ -15,6 +15,7 @@ import {
   useApolloClient,
   useMutation,
 } from "@apollo/client";
+import { allSubectsFragment } from "../AllSubjectsPage/AllSubjectsPage";
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
@@ -448,12 +449,11 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
 
 export const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
-    subjects(ids: $ids) {
-      id
-      name
-      path
+    subjects: nodes(ids: $ids) {
+      ...AllSubjects_Subject
     }
   }
+  ${allSubectsFragment}
 `;
 
 export const useFavouriteSubjects = (

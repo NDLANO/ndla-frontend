@@ -1744,6 +1744,7 @@ export type GQLQueryNodesArgs = {
   ids?: InputMaybe<Array<Scalars["String"]["input"]>>;
   metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
   metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
+  nodeType?: InputMaybe<GQLNodeType>;
 };
 
 export type GQLQueryPodcastSearchArgs = {
@@ -2683,16 +2684,20 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAllSubjects_SubjectFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path: string;
+  url: string;
+  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+};
+
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{
-    __typename?: "Subject";
-    id: string;
-    name: string;
-    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  }>;
+  subjects?: Array<{ __typename?: "Node" } & GQLAllSubjects_SubjectFragment>;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -3947,7 +3952,7 @@ export type GQLFavouriteSubjectsQueryVariables = Exact<{
 
 export type GQLFavouriteSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject"; id: string; name: string; path: string }>;
+  subjects?: Array<{ __typename?: "Node" } & GQLAllSubjects_SubjectFragment>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{
@@ -5069,10 +5074,11 @@ export type GQLCopyrightInfoFragment = {
 };
 
 export type GQLSubjectInfoFragment = {
-  __typename?: "Subject";
+  __typename?: "Node";
   id: string;
   name: string;
   path: string;
+  url: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: {
     __typename?: "SubjectPage";
@@ -5086,7 +5092,7 @@ export type GQLSearchPageQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSearchPageQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Subject" } & GQLSubjectInfoFragment>;
+  subjects?: Array<{ __typename?: "Node" } & GQLSubjectInfoFragment>;
   resourceTypes?: Array<{
     __typename?: "ResourceTypeDefinition";
     id: string;

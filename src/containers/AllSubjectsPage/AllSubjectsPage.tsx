@@ -80,16 +80,25 @@ const StyledList = styled("ul", {
   },
 });
 
-const allSubjectsQuery = gql`
-  query allSubjects {
-    subjects(filterVisible: true) {
-      id
-      name
-      metadata {
-        customFields
-      }
+export const allSubectsFragment = gql`
+  fragment AllSubjects_Subject on Node {
+    id
+    name
+    path
+    url
+    metadata {
+      customFields
     }
   }
+`;
+
+const allSubjectsQuery = gql`
+  query allSubjects {
+    subjects: nodes(nodeType: SUBJECT, filterVisible: true) {
+      ...AllSubjects_Subject
+    }
+  }
+  ${allSubectsFragment}
 `;
 
 const convertToArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
