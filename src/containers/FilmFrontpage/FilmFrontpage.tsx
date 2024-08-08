@@ -43,7 +43,7 @@ const StyledUl = styled("ul", {
 const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     width: "100%",
-    justifyContent: "start",
+    justifyContent: "flex-start",
     paddingInline: "medium",
     paddingBlock: "xsmall",
   },
