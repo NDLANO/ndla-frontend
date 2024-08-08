@@ -15,6 +15,7 @@ import { Heading, Skeleton } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
+import AboutNdlaFilm from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
 import FilmFiltering from "./FilmFiltering";
 import { ALL_MOVIES_ID } from "./filmHelper";
@@ -163,6 +164,7 @@ const FilmFrontpage = () => {
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
         </ContentWrapper>
+        {about && <AboutNdlaFilm loading={loading} aboutNDLAVideo={about} article={filmfrontpage?.article} />}
       </main>
     </>
   );
