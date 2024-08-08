@@ -35,7 +35,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="w_100%"
+          class="ndla-article"
         >
           <section>
             <p
@@ -386,7 +386,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
         class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
       >
         <div
-          class="mb_medium tablet:mt_xxlarge"
+          class="d_flex jc_center mb_medium tablet:mt_xxlarge"
         >
           <img
             alt="Ops, noe gikk galt"

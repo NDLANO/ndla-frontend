@@ -6,161 +6,72 @@
  *
  */
 
-import { CSSProperties, ReactNode, useId, useMemo } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { Additional, Core, PresentationLine } from "@ndla/icons/common";
+import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { HStack, styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeBadgeNew } from "@ndla/ui";
+import { RELEVANCE_CORE } from "../../constants";
 
-const contentTypes = constants.contentTypes;
+// TODO: How should we handle additional resources?
+// TODO: What should teacher only look like?
+// TODO: What should we do with current indicator? Should we keep "you are here" / the dot before the list item?
+// TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
 
-const activeColorMap = {
-  [contentTypes.SUBJECT_MATERIAL]: colors.subjectMaterial.dark,
-  [contentTypes.TASKS_AND_ACTIVITIES]: colors.tasksAndActivities.dark,
-  [contentTypes.ASSESSMENT_RESOURCES]: colors.assessmentResource.dark,
-  [contentTypes.CONCEPT]: colors.concept.text,
-  [contentTypes.SOURCE_MATERIAL]: colors.sourceMaterial.dark,
-  [contentTypes.LEARNING_PATH]: colors.learningPath.dark,
-  default: "none",
-};
+const StyledAdditional = styled(Additional, {
+  base: {
+    position: "relative",
+    color: "icon.strong",
+  },
+});
 
-const ListElement = styled.li`
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-  background: ${colors.white};
-  margin-bottom: ${spacing.xsmall};
-  display: grid;
-  align-items: center;
-  grid-template-areas:
-    "badge resourceType typeWrapper"
-    "badge resourceLink typeWrapper";
-  grid-row-gap: ${spacing.xsmall};
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto auto;
+const StyledCore = styled(Core, {
+  base: {
+    position: "relative",
+    color: "icon.strong",
+  },
+});
 
-  padding: ${spacing.small};
-  &[data-additional="true"] {
-    border-style: dashed;
-  }
+const StyledPresentationLine = styled(PresentationLine, {
+  base: {
+    position: "relative",
+  },
+});
 
-  * {
-    transition:
-      height ease-out 0.2s,
-      width ease-out 0.2s;
-  }
-  &[aria-current="true"] {
-    &:before {
-      ${mq.range({ from: breakpoints.tablet })} {
-        content: "";
-        display: block;
-        position: absolute;
-        width: ${spacing.small};
-        height: ${spacing.small};
-        border-radius: 100%;
-        transform: translate(-${spacing.mediumlarge});
-        background-color: var(--contentTypeBg);
-      }
-    }
-  }
-  &[hidden] {
-    display: none;
-  }
-  &:not([data-content-type]) {
-    grid-template-areas: "badge resourceLink typeWrapper";
-    grid-row-gap: 0;
-    align-items: center;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    grid-template-areas: "badge resourceLink resourceType typeWrapper";
-    grid-row-gap: 0;
-    align-items: center;
-  }
-`;
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    wordWrap: "anywhere",
+    mobileWide: {
+      lineClamp: "1",
+    },
+  },
+});
 
-const ResourceLink = styled(SafeLink)`
-  grid-area: resourceLink;
-  font-weight: ${fonts.weight.semibold};
-  box-shadow: none;
-  color: ${colors.brand.dark};
-  &:not([aria-current="page"]) {
-    text-decoration: underline;
-    text-underline-offset: ${spacing.xsmall};
-  }
-  &:hover {
-    text-decoration: none;
-  }
-`;
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    mobileWideDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
-const TitleContainer = styled.div`
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  ${mq.range({ from: breakpoints.desktop })} {
-    align-items: center;
-    flex-direction: row;
-  }
-`;
-
-const ContentBadgeWrapper = styled.div`
-  grid-area: badge;
-  padding-right: ${spacing.small};
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding-right: ${spacing.small};
-    padding-left: ${spacing.xsmall};
-  }
-`;
-
-const TypeWrapper = styled.div`
-  grid-area: typeWrapper;
-  display: flex;
-  align-items: center;
-  gap: ${spacing.xsmall};
-`;
-
-const ContentTypeName = styled(Text)`
-  grid-area: resourceType;
-  color: ${colors.text.light};
-  ${mq.range({ from: breakpoints.desktop })} {
-    margin: 0 ${spacing.xsmall};
-  }
-`;
-
-const CurrentSmall = styled.small`
-  text-decoration: none;
-  color: ${colors.text.primary};
-  font-weight: ${fonts.weight.normal};
-  white-space: nowrap;
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: 0 ${spacing.xsmall};
-  }
-`;
-
-const StyledAdditional = styled(Additional)`
-  color: ${colors.brand.dark};
-`;
-
-const StyledCore = styled(Core)`
-  color: ${colors.brand.primary};
-`;
+const InfoContainer = styled(HStack, {
+  base: {
+    flexShrink: "0",
+  },
+});
 
 interface Props {
   id: string;
   showContentTypeDescription?: boolean;
-  contentTypeName?: string;
-  contentTypeDescription?: string;
   extraBottomMargin?: boolean;
   showAdditionalResources?: boolean;
   language?: string;
   access?: "teacher";
-  heartButton?: (path: string) => ReactNode;
 }
-
-const IconWrapper = styled.div`
-  display: flex;
-`;
 
 export type Resource = {
   id: string;
@@ -168,81 +79,87 @@ export type Resource = {
   path: string;
   contentType?: string;
   active?: boolean;
-  additional?: boolean;
+  relevanceId?: string;
 };
 
-const ResourceItem = ({
-  contentTypeName,
-  contentTypeDescription,
+export const ResourceItem = ({
   name,
   path,
   contentType,
   active,
-  additional,
+  relevanceId,
   showAdditionalResources,
   access,
   language,
-  heartButton,
 }: Props & Resource) => {
   const { t } = useTranslation();
-  const contentTypeId = useId();
+  const relevanceElId = useId();
   const accessId = useId();
-  const describedBy = `${contentTypeId} ${accessId}`;
+  const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
-  const listElementVars = useMemo(() => {
-    if (!contentType) return {};
-    return {
-      "--contentTypeBg": activeColorMap[contentType] ?? activeColorMap.default,
-    } as unknown as CSSProperties;
-  }, [contentType]);
+  const teacherOnly = access === "teacher";
+  const contentTypeDescription = additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic");
+
+  const RelevanceIcon = useMemo(() => {
+    if (!showAdditionalResources) return null;
+    return additional ? StyledAdditional : StyledCore;
+  }, [additional, showAdditionalResources]);
+
+  const describedBy = useMemo(() => {
+    const elements = [];
+    if (teacherOnly) {
+      elements.push(accessId);
+    }
+    if (RelevanceIcon) {
+      elements.push(relevanceId);
+    }
+    return elements.length ? elements.join(" ") : undefined;
+  }, [RelevanceIcon, accessId, relevanceId, teacherOnly]);
 
   return (
-    <ListElement
+    <ListItemRoot
+      variant="list"
       aria-current={active ? "page" : undefined}
       hidden={hidden && !active}
-      data-additional={additional}
-      data-content-type={contentTypeName}
-      style={listElementVars}
+      asChild
+      consumeCss
     >
-      <ContentBadgeWrapper>
-        <ContentTypeBadge type={contentType ?? ""} background border={false} />
-      </ContentBadgeWrapper>
-      <ResourceLink
-        to={path}
-        lang={language === "nb" ? "no" : language}
-        aria-current={active ? "page" : undefined}
-        aria-describedby={describedBy}
-        disabled={active}
-      >
-        <TitleContainer>
-          {name}
-          {active ? <CurrentSmall>{t("resource.youAreHere")}</CurrentSmall> : undefined}
-        </TitleContainer>
-      </ResourceLink>
-      {contentTypeName && (
-        <ContentTypeName element="span" textStyle="meta-text-xsmall">
-          {contentTypeName}
-        </ContentTypeName>
-      )}
-      <TypeWrapper>
-        {access && access === "teacher" && (
-          <IconWrapper
-            id={accessId}
-            aria-label={t("article.access.onlyTeacher")}
-            title={t("article.access.onlyTeacher")}
-          >
-            <PresentationLine />
-          </IconWrapper>
-        )}
-        {showAdditionalResources && contentTypeDescription && (
-          <IconWrapper id={contentTypeId} aria-label={contentTypeDescription} title={contentTypeDescription}>
-            {additional ? <StyledAdditional /> : <StyledCore />}
-          </IconWrapper>
-        )}
-        {heartButton?.(path)}
-      </TypeWrapper>
-    </ListElement>
+      <li>
+        <StyledListItemContent>
+          <ListItemHeading asChild consumeCss>
+            <StyledSafeLink
+              to={path}
+              unstyled
+              css={linkOverlay.raw()}
+              lang={language === "nb" ? "no" : language}
+              aria-current={active ? "page" : undefined}
+              title={name}
+              aria-describedby={describedBy}
+            >
+              {name}
+            </StyledSafeLink>
+          </ListItemHeading>
+          <InfoContainer gap="xxsmall">
+            {teacherOnly && (
+              <StyledPresentationLine
+                aria-hidden={false}
+                id={accessId}
+                aria-label={t("article.access.onlyTeacher")}
+                title={t("article.access.onlyTeacher")}
+              />
+            )}
+            <ContentTypeBadgeNew contentType={contentType} />
+            {!!RelevanceIcon && (
+              <RelevanceIcon
+                aria-hidden={false}
+                id={relevanceElId}
+                aria-label={contentTypeDescription}
+                title={contentTypeDescription}
+              />
+            )}
+          </InfoContainer>
+        </StyledListItemContent>
+      </li>
+    </ListItemRoot>
   );
 };
-
-export default ResourceItem;

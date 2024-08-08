@@ -78,7 +78,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
         >
           <div
-            class="mb_medium tablet:mt_xxlarge"
+            class="d_flex jc_center mb_medium tablet:mt_xxlarge"
           >
             <img
               alt="Ops, noe gikk galt"
