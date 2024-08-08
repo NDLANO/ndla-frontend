@@ -4415,7 +4415,6 @@ export type GQLSubjectContainer_SubjectFragment = {
       title: string;
       visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
     };
-    banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   } & GQLSubjectLinks_SubjectFragment;
 } & GQLSubjectPageContent_SubjectFragment;
 
@@ -4531,7 +4530,6 @@ export type GQLToolboxSubjectContainer_SubjectFragment = {
       description: string;
       visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
     };
-    banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   };
 } & GQLToolboxTopicContainer_SubjectFragment;
 

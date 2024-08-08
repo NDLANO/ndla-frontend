@@ -23,7 +23,6 @@ import { searchPageQuery } from "../queries";
 import { createApolloLinks } from "../util/apiHelpers";
 import handleError from "../util/handleError";
 import { useGraphQuery } from "../util/runQueries";
-import { searchSubjects } from "../util/searchHelpers";
 
 interface Props {
   locale?: LocaleType;
@@ -47,12 +46,6 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
   });
   const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
-  const subjects = searchSubjects(searchParams.query);
-  const subjectItems = subjects?.map((subject) => ({
-    id: subject.id,
-    title: subject.name,
-    url: subject.path,
-  }));
 
   const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
@@ -68,8 +61,8 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
     document.documentElement.lang = lang;
   });
 
-  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string }) => {
-    const selectedFilters = searchParamUpdates.selectedFilters?.split(",") ?? [];
+  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string[] }) => {
+    const selectedFilters = searchParamUpdates.selectedFilters ?? [];
     setSearchParams((prevState) => ({
       ...prevState,
       ...searchParamUpdates,
@@ -95,10 +88,10 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
         handleSearchParamsChange={handleSearchParamsChange}
         query={searchParams.query}
         subjectIds={searchParams.subjects}
-        selectedFilters={searchParams.selectedFilters}
+        selectedFilters={searchParams.selectedFilters.length ? searchParams.selectedFilters : ["all"]}
         activeSubFilters={searchParams.activeSubFilters}
         subjects={data?.subjects}
-        subjectItems={subjectItems}
+        subjectItems={[]}
         resourceTypes={data?.resourceTypes?.filter((type) => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
         ltiData={ltiContext?.ltiData}
         isLti
