@@ -44,8 +44,6 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {
     width: "100%",
     justifyContent: "flex-start",
-    paddingInline: "medium",
-    paddingBlock: "xsmall",
   },
 });
 
