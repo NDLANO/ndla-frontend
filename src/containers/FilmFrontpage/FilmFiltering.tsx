@@ -24,17 +24,6 @@ const StyledHeading = styled(Heading, {
     marginBlockEnd: "medium",
   },
 });
-const LabelText = styled(RadioGroupLabel, {
-  base: {
-    marginBlockEnd: "small",
-  },
-});
-
-const StyledRadioGroupRoot = styled(RadioGroupRoot, {
-  base: {
-    gap: "small",
-  },
-});
 
 const RadioButtonWrapper = styled("div", {
   base: {
@@ -58,14 +47,14 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
       <StyledHeading textStyle="heading.small" consumeCss asChild>
         <h2>{t("ndlaFilm.films")}</h2>
       </StyledHeading>
-      <StyledRadioGroupRoot
+      <RadioGroupRoot
         orientation="vertical"
         defaultValue={selectedOption?.id}
         onValueChange={(details) => onOptionSelected(options.find((option) => option.id === details.value)!)}
       >
-        <LabelText textStyle="label.large" fontWeight="bold">
+        <RadioGroupLabel textStyle="label.large" fontWeight="bold">
           {t("ndlaFilm.filterFilms")}
-        </LabelText>
+        </RadioGroupLabel>
         <RadioButtonWrapper>
           {options.map((category, index) => (
             <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
@@ -75,7 +64,7 @@ const FilmFiltering = ({ onOptionSelected, options, selectedOption }: Props) => 
             </RadioGroupItem>
           ))}
         </RadioButtonWrapper>
-      </StyledRadioGroupRoot>
+      </RadioGroupRoot>
     </>
   );
 };
