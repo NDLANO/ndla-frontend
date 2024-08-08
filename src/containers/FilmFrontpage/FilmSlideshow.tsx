@@ -37,6 +37,9 @@ const StyledText = styled(Text, {
 
     textDecoration: "underline",
     borderBottomRadius: "4",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 });
 
@@ -121,6 +124,24 @@ const MainImageShimmer = () => (
   </Skeleton>
 );
 
+// TODO: IF we want to have a constant height of the text instead of ellipsis
+//       We can achieve that by wrapping slideshow.map(...) below with this GridWrapper.
+//       and remove the custom style from data-slide-content-wrapper above.
+//
+// const GridWrapper = styled("div", {
+//   base: {
+//     display: "grid",
+//     gridTemplateColumns: "repeat(3, 1fr)",
+//     gap: "xlarge",
+//     marginBottom: "3xlarge",
+//     marginInline: "3xlarge",
+//     wideDown: {
+//       gap: "medium",
+//       marginInline: "medium",
+//     },
+//   },
+// });
+
 const FilmSlideshow = ({ slideshow }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -154,7 +175,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
         {!slideshow ? (
           <LoadingShimmer />
         ) : (
-          [...slideshow].map((movie) => (
+          slideshow.map((movie) => (
             <StyledSafeLinkCard
               data-current={movie.id === currentSlide?.id}
               key={movie.id}
@@ -171,7 +192,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
               to={movie.path}
             >
               <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
-              <StyledText textStyle="label.large" fontWeight="bold">
+              <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
                 {movie.title}
               </StyledText>
             </StyledSafeLinkCard>
