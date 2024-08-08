@@ -74,11 +74,11 @@ const fromNdla = {
 
 const TopicLoadingShimmer = () => {
   return new Array(8).fill(0).map((_, idx) => (
-    <Skeleton key={idx}>
-      <li>
+    <li key={idx}>
+      <Skeleton>
         <StyledSafeLinkButton to={""}>loading</StyledSafeLinkButton>
-      </li>
-    </Skeleton>
+      </Skeleton>
+    </li>
   ));
 };
 
