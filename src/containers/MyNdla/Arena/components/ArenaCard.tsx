@@ -33,16 +33,14 @@ interface Props {
 const StyledCardWrapper = styled("div", {
   base: {
     backgroundColor: "surface.default",
+    border: "1px solid",
     borderColor: "stroke.default",
     borderRadius: "xsmall",
-    borderWidth: "1px",
-    boxShadow: "none",
-    color: "text.primary",
     display: "flex",
     flexDirection: "row",
     gap: "medium",
     padding: "medium",
-    paddingRight: "large",
+    paddingInlineEnd: "large",
     position: "relative",
   },
 });
@@ -58,8 +56,6 @@ const SpacingContainer = styled("div", {
 
 const StyledHeader = styled(Text, {
   base: {
-    color: "text.strong",
-    cursor: "pointer",
     textDecoration: "underline",
   },
 });
@@ -82,8 +78,6 @@ const StyledCountContainer = styled("div", {
 const StyledQuestionAnswerLine = styled(QuestionAnswerLine, {
   base: {
     color: "icon.strong",
-    height: "xxlarge",
-    width: "xxlarge",
     mobileWide: {
       display: "none",
     },
@@ -92,8 +86,6 @@ const StyledQuestionAnswerLine = styled(QuestionAnswerLine, {
 const StyledQuestionAnswerFill = styled(QuestionAnswerFill, {
   base: {
     color: "icon.strong",
-    height: "xxlarge",
-    width: "xxlarge",
     mobileWide: {
       display: "none",
     },
@@ -106,14 +98,12 @@ const RightSideContainer = styled("div", {
     display: "flex",
     flexDirection: "row",
     gap: "medium",
-    zIndex: "1",
   },
 });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
     boxShadow: "none",
-    color: "text.strong",
     flex: "1",
     textDecoration: "none",
     _after: {
@@ -123,7 +113,6 @@ const StyledSafeLink = styled(SafeLink, {
       position: "absolute",
       right: "0",
       top: "0",
-      zIndex: "1",
     },
 
     "& [data-normal-icon='']": {
@@ -145,9 +134,6 @@ const StyledSafeLink = styled(SafeLink, {
         "&[data-visible='false']": {
           backgroundColor: "surface.disabled",
         },
-      },
-      "& [data-name='hover']": {
-        textDecoration: "none",
       },
       "& [data-normal-icon='']": {
         display: "none",
@@ -229,7 +215,9 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
           <StyledQuestionAnswerFill data-hover-icon="" />
           <SpacingContainer>
             <div>
-              <StyledHeader data-name="hover">{title}</StyledHeader>
+              <StyledHeader data-name="hover" color="text.strong">
+                {title}
+              </StyledHeader>
               <StyledDescriptionText>{subText}</StyledDescriptionText>
             </div>
             <RightSideContainer>
