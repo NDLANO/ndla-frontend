@@ -40,9 +40,12 @@ const StyledSafeLink = styled(SafeLink, {
     gap: "small",
     minHeight: "surface.4xsmall",
     overflow: "hidden",
-    "&:hover,&:active,&:focus-within": {
+    "& [data-title]": {
+      textDecoration: "underline",
+    },
+    _hover: {
       "& [data-title]": {
-        textDecoration: "underline",
+        textDecoration: "none",
       },
     },
   },
