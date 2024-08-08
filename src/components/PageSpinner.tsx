@@ -23,7 +23,7 @@ const SpinnerWrapper = styled("div", {
 export const PageSpinner = forwardRef<HTMLDivElement, SpinnerProps>(({ ...rest }, ref) => {
   const { t } = useTranslation();
   return (
-    <SpinnerWrapper aria-live="polite">
+    <SpinnerWrapper>
       <Spinner {...rest} aria-label={t("loading")} ref={ref} />
     </SpinnerWrapper>
   );
