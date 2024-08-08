@@ -49,7 +49,7 @@ const StyledLanguageSelector = styled(LanguageSelector, {
 const ButtonWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "xxsmall",
+    gap: "small",
     alignItems: "center",
     justifyContent: "flex-end",
     flex: "1",
@@ -60,7 +60,7 @@ const DrawerWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-start",
-    gap: "xsmall",
+    gap: "small",
     flex: "1",
   },
 });
