@@ -11,10 +11,9 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Heading, Hero, HeroBackground, HeroContent, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from "@ndla/ui";
+import { ArticleByline, ArticleContent, ArticleHeader, ArticleWrapper, HomeBreadcrumb, OneColumn } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
@@ -32,34 +31,6 @@ interface Props {
   article: GQLAboutPage_ArticleFragment;
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
-
-const StyledMain = styled.main`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: ${colors.background.lightBlue};
-  padding-bottom: ${spacing.large};
-  padding-top: ${spacing.normal};
-  border-bottom: 1px solid ${colors.brand.light};
-  section {
-    padding: 0px;
-  }
-  nav {
-    max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
-    width: 100%;
-  }
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    padding: ${spacing.normal};
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
 
 export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
@@ -139,41 +110,56 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   });
 
   return (
-    <Wrapper>
-      <StyledMain>
-        <Helmet>
-          <title>{`${getDocumentTitle(t, article.title)}`}</title>
-          <meta name="pageid" content={`${article.id}`} />
-          {scripts?.map((script) => (
-            <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-          ))}
-          <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-          <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-          </script>
-        </Helmet>
-        <SocialMediaMetadata
-          title={article.title}
-          description={article.metaDescription}
-          imageUrl={article.metaImage?.url}
-          trackableContent={article}
-        />
-        <HomeBreadcrumb items={crumbs} />
-        <FrontpageArticle
-          id={SKIP_TO_CONTENT_ID}
-          // TODO: This might be broken now. Fix later
-          article={{ ...article, ...article.transformedContent }}
-          licenseBox={
-            <LicenseBox
-              article={article}
-              copyText={article?.transformedContent?.metaData?.copyText}
-              oembed={undefined}
-            />
-          }
-        />
-      </StyledMain>
-      <AboutPageFooter frontpage={frontpage} />
-    </Wrapper>
+    <main>
+      <Helmet>
+        <title>{`${getDocumentTitle(t, article.title)}`}</title>
+        <meta name="pageid" content={`${article.id}`} />
+        {scripts?.map((script) => (
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+        ))}
+        <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
+        <script type="application/ld+json">
+          {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
+        </script>
+      </Helmet>
+      <SocialMediaMetadata
+        title={article.title}
+        description={article.metaDescription}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+      />
+      <Hero variant="primary">
+        <HeroBackground />
+        <OneColumn>
+          <HeroContent>
+            <HomeBreadcrumb items={crumbs} />
+          </HeroContent>
+          <ArticleWrapper>
+            <ArticleHeader>
+              <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                {article.transformedContent.title}
+              </Heading>
+              <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
+            </ArticleHeader>
+            <ArticleContent>
+              {article.transformedContent.content}
+              {/*TODO: should this be included? */}
+              <ArticleByline
+                licenseBox={
+                  <LicenseBox
+                    article={article}
+                    copyText={article?.transformedContent?.metaData?.copyText}
+                    oembed={undefined}
+                  />
+                }
+                displayByline={false}
+              />
+            </ArticleContent>
+          </ArticleWrapper>
+        </OneColumn>
+        <AboutPageFooter frontpage={frontpage} />
+      </Hero>
+    </main>
   );
 };
 
