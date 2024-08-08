@@ -9,13 +9,11 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { EyeFill } from "@ndla/icons/editor";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button, Heading, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import { ModeratorButtonWrapper } from "./ArenaPage";
 import { PostActions, PostButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
@@ -28,47 +26,70 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
+const BreadcrumbWrapper = styled("div", {
+  base: {
+    paddingTop: "medium",
+  },
+});
 
-const ListWrapper = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  margin: 0;
-  padding: 0;
-`;
+const ListWrapper = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    margin: "0",
+    padding: "0",
+  },
+});
 
-const StyledContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: ${spacing.large} 0 ${spacing.normal};
-`;
+const StyledContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: "0",
+    marginBottom: "xlarge",
+    marginTop: "medium",
+  },
+});
 
-const StyledCardContainer = styled.li`
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-`;
+const StyledCardContainer = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "0",
+  },
+});
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+const HeaderWrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+  },
+});
 
-const StyledEye = styled(EyeFill)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  margin-left: ${spacing.small};
-`;
+const StyledEye = styled(EyeFill, {
+  base: {
+    height: "medium",
+    marginLeft: "xxsmall",
+    width: "medium",
+  },
+});
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.xsmall};
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "3xsmall",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    marginTop: "large",
+    marginBottom: "medium",
+  },
+});
 
 const TopicPage = () => {
   const { t } = useTranslation();
@@ -100,7 +121,7 @@ const TopicPage = () => {
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
       <HeaderWrapper>
-        <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
           {arenaCategory?.title}
           {user?.isModerator && !arenaCategory?.visible && (
             <StyledEye
@@ -109,16 +130,14 @@ const TopicPage = () => {
               aria-hidden={false}
             />
           )}
-        </Heading>
+        </StyledHeading>
       </HeaderWrapper>
-      <Text element="p" textStyle="content-alt" margin="none">
-        {arenaCategory?.description}
-      </Text>
+      <Text>{arenaCategory?.description}</Text>
       {showCategories && (
         <>
           <StyledContainer>
-            <Heading element="h2" headingStyle="h2" margin="none">
-              {t("myNdla.arena.category.subcategory")}
+            <Heading textStyle="title.large" asChild consumeCss>
+              <h2>{t("myNdla.arena.category.subcategory")}</h2>
             </Heading>
             {user?.isModerator && (
               <ModeratorButtonWrapper>
@@ -145,8 +164,8 @@ const TopicPage = () => {
         </>
       )}
       <StyledContainer>
-        <Heading element="h2" headingStyle="h2" margin="none">
-          {t("myNdla.arena.posts.title")}
+        <Heading textStyle="title.large" asChild consumeCss>
+          <h2>{t("myNdla.arena.posts.title")}</h2>
         </Heading>
         <ButtonContainer>
           {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
