@@ -101,14 +101,12 @@ const LoadingShimmer = () => {
                     <MovieTextWrapper>
                       <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
                         <Heading textStyle="title.small" asChild consumeCss data-title="">
-                          <h3>Example title</h3>
+                          <h3>&nbsp;</h3>
                         </Heading>
                       </Skeleton>
                       <Skeleton css={{ width: "surface.medium" }}>
-                        <Text textStyle="body.small">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                          labore et dolore magna aliqua.
-                        </Text>
+                        <Text textStyle="body.small">&nbsp;</Text>
+                        <Text textStyle="body.small">&nbsp;</Text>
                       </Skeleton>
                     </MovieTextWrapper>
                   </StyledSafeLink>
