@@ -100,7 +100,7 @@ const ButtonContainer = styled.div`
 `;
 
 const containsFolder = (folder: GQLFolder): boolean => {
-  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder) || folder.resources.length > 0);
+  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
 };
 
 const SharedFolderPageV2 = () => {
