@@ -163,6 +163,7 @@ const FilmFrontpage = () => {
           <FilmContent
             resourceTypeSelected={resourceTypeSelected}
             movieThemes={filmfrontpage?.movieThemes}
+            loading={loading}
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
         </ContentWrapper>
