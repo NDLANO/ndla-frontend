@@ -6,7 +6,7 @@
  *
  */
 
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
@@ -86,16 +86,6 @@ const MovieGrid = ({ resourceType }: Props) => {
       },
     },
   );
-  const [films, setFilms] = useState<GQLResourceTypeMoviesQuery | undefined>(undefined);
-  const [prevResourceType, setPrevResourceType] = useState(resourceType);
-  useEffect(() => {
-    if (prevResourceType !== resourceType) {
-      setFilms(undefined);
-      setPrevResourceType(resourceType);
-      return;
-    }
-    setFilms(resourceTypeMovies.data);
-  }, [prevResourceType, resourceType, resourceTypeMovies.data]);
 
   return (
     <StyledSection>
@@ -107,10 +97,10 @@ const MovieGrid = ({ resourceType }: Props) => {
           {resourceTypeMovies.loading ? (
             <LoadingShimmer />
           ) : (
-            films?.searchWithoutPagination?.results?.map((movie, index) => (
+            resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
               <StyledFilmContentCard
                 style={{ "--index": index } as CSSProperties}
-                key={index}
+                key={`${resourceType.id}-${index}`}
                 movie={{
                   id: movie.id,
                   metaImage: movie.metaImage,
