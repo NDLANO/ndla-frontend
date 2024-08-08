@@ -18,9 +18,10 @@ interface Props {
   resourceTypeSelected: MovieResourceType | undefined;
   movieThemes: GQLMovieTheme[] | undefined;
   loadingPlaceholderHeight: string;
+  loading: boolean;
 }
 
-export const FilmContent = ({ resourceTypeSelected, movieThemes }: Props) => {
+export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Props) => {
   const { i18n } = useTranslation();
 
   if (resourceTypeSelected?.id === ALL_MOVIES_ID) {
@@ -31,7 +32,7 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes }: Props) => {
     return <MovieGrid resourceType={resourceTypeSelected} />;
   }
 
-  if (movieThemes === undefined) {
+  if (loading) {
     return new Array(5).fill(0).map((_, idx) => {
       return <FilmMovieList key={idx} loading={true} movies={[]} name="temp" />;
     });
