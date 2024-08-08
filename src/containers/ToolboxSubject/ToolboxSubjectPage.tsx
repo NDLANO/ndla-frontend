@@ -7,8 +7,8 @@
  */
 
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import ToolboxSubjectContainer, { toolboxSubjectContainerFragments } from "./ToolboxSubjectContainer";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { GQLToolboxSubjectPageQuery, GQLToolboxSubjectPageQueryVariables } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";

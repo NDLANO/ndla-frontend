@@ -10,7 +10,7 @@ import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";

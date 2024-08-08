@@ -8,8 +8,8 @@
 
 import { useContext } from "react";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import AboutPageContent, { aboutPageFragments } from "./AboutPageContent";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";

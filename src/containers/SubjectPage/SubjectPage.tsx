@@ -9,9 +9,9 @@
 import { useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import MovedTopicPage from "./components/MovedTopicPage";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
