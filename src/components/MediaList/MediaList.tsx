@@ -144,7 +144,7 @@ export const MediaListItemActions = styled("div", {
     display: "flex",
     flexWrap: "wrap",
     gap: "xsmall",
-    marginTop: "3xsmall",
+    marginBlockStart: "3xsmall",
     "& > a": {
       width: "fit-content",
     },
