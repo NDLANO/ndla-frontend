@@ -113,7 +113,6 @@ export type ConfigType = {
   enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
-  folderRedesign: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -147,7 +146,6 @@ const getServerSideConfig = (): ConfigType => {
     enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
-    folderRedesign: getEnvironmentVariabel("FOLDER_REDESIGN", true),
   };
 };
 
