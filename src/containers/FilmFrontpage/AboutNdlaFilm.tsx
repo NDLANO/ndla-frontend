@@ -71,12 +71,6 @@ interface VisualElementProps {
   };
 }
 
-const StyledButton = styled(Button, {
-  base: {
-    padding: "0",
-  },
-});
-
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
   if (type === "image") {
@@ -139,7 +133,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
           {transformedArticle && (
             <Modal>
               <ModalTrigger>
-                <StyledButton variant="link">{t("ndlaFilm.about.more")}</StyledButton>
+                <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
               </ModalTrigger>
               <ModalContent size="full">
                 <ModalHeader>
