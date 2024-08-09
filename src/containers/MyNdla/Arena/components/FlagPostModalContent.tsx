@@ -11,7 +11,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
 import {
   Button,
   FieldLabel,
@@ -24,9 +23,14 @@ import {
   RadioGroupItemText,
   RadioGroupItemHiddenInput,
   RadioGroupRoot,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
 } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import handleError from "../../../../util/handleError";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -39,12 +43,6 @@ const StyledButtonRow = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   gap: ${spacing.small};
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-flow: column;
-  gap: ${spacing.nsmall};
 `;
 
 const StyledTextArea = styled(FieldTextArea)`
@@ -109,12 +107,12 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   ];
 
   return (
-    <ModalContent forceOverlay>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.arena.flag.title")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <StyledModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.arena.flag.title")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <Text element="p" textStyle="meta-text-medium" margin="none">
           {t("myNdla.arena.flag.disclaimer")}
         </Text>
@@ -181,8 +179,8 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
             <Button type="submit">{t("myNdla.arena.flag.send")}</Button>
           </StyledButtonRow>
         </StyledForm>
-      </StyledModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 

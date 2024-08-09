@@ -8,18 +8,19 @@
 
 import { resourceData1, resourceData2, resourceTypes } from "./mockResources";
 import { GQLResource } from "../../../graphqlTypes";
-import { getResourceGroups, sortResourceTypes } from "../getResourceGroups";
+import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "../getResourceGroups";
 
 type ResourceData = Pick<GQLResource, "id" | "resourceTypes" | "name" | "contentUri">;
 
 test("get core resources grouped by types", () => {
-  const groups = getResourceGroups(resourceTypes, [], resourceData1);
+  const groups = getResourceGroups(resourceTypes, [...resourceData1]);
 
   expect(groups).toMatchSnapshot();
 });
 
 test("get core and supplementary resources grouped by types", () => {
-  const groups = getResourceGroups(resourceTypes, resourceData2, resourceData1);
+  const { sortedResources } = getResourceGroupings([...resourceData2, ...resourceData1]);
+  const groups = getResourceGroups(resourceTypes, sortedResources);
 
   expect(groups).toMatchSnapshot();
 });
@@ -40,7 +41,8 @@ test("resources types sort order", () => {
 
 test("filter out duplicates", () => {
   const dupe = resourceData2[0]!;
-  const groups = getResourceGroups(resourceTypes, resourceData2, [...resourceData1, dupe]);
+  const { sortedResources } = getResourceGroupings([...resourceData2, ...resourceData1, dupe]);
+  const groups = getResourceGroups(resourceTypes, sortedResources);
   const type = groups.find((group) => group.id === "urn:resourcetype:subjectMaterial");
   const reduced = type?.resources?.reduce<ResourceData[]>((acc, resource) => {
     if (resource.id === dupe.id) {

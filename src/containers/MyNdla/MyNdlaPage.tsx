@@ -13,8 +13,7 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { colors, fonts, spacing } from "@ndla/core";
 import { Feide, ArrowRightLine } from "@ndla/icons/common";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -166,15 +165,15 @@ const MyNdlaPage = () => {
           </StyledText>
         </div>
         {!authenticated && (
-          <Modal>
-            <ModalTrigger>
+          <DialogRoot>
+            <DialogTrigger asChild>
               <LoginButton variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
                 {t("myNdla.myPage.loginPitchButton")}
                 <Feide />
               </LoginButton>
-            </ModalTrigger>
+            </DialogTrigger>
             <LoginModalContent masthead />
-          </Modal>
+          </DialogRoot>
         )}
         <StyledCampaignBlock
           title={t("myndla.campaignBlock.title")}

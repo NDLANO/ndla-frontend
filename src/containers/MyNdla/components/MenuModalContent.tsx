@@ -6,109 +6,89 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo } from "react";
+import { ReactNode, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useOutletContext } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
+import { useLocation } from "react-router-dom";
+import { Portal, useDialogContext } from "@ark-ui/react";
 import { MenuLine } from "@ndla/icons/action";
 import { ListCheck } from "@ndla/icons/editor";
-import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { ViewType } from "../Folders/FoldersPage";
-import { OutletContext, menuLinks } from "../MyNdlaLayout";
+import { menuLinks } from "../MyNdlaLayout";
 
-const MenuItem = styled.li`
-  list-style: none;
-  padding: unset;
-`;
+const StyledText = styled(Text, {
+  base: {
+    paddingInlineStart: "xsmall",
+    textTransform: "uppercase",
+  },
+});
 
-const StyledText = styled(Text)`
-  text-transform: uppercase;
-  padding: ${spacing.normal} ${spacing.small} ${spacing.small} ${spacing.small};
-  color: ${colors.brand.grey};
-  font-weight: ${fonts.weight.bold};
+const MenuItems = styled("ul", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
+    justifyContent: "space-between",
+    paddingBlockEnd: "xsmall",
+    borderBottom: "1px solid",
+    borderColor: "surface.brand.2.moderate",
+    background: "surface.brand.2.subtle",
+  },
+});
 
-  &[data-border-top="true"] {
-    border-top: 1px solid ${colors.brand.lightest};
-  }
+const ToolMenu = styled("ul", {
+  base: {
+    listStyle: "none",
+    "& > li": {
+      display: "flex",
+      flexDirection: "column",
+    },
+    "& li": {
+      borderTop: "1px solid",
+      borderColor: "surface.brand.2.moderate",
+      _last: {
+        borderBottom: "1px solid",
+        borderColor: "surface.brand.2.moderate",
+      },
+    },
+  },
+});
 
-  &[data-no-padding-top="true"] {
-    padding-top: unset;
-  }
-`;
+const ViewButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "4xsmall",
+    paddingInlineStart: "xsmall",
+  },
+});
 
-const StyledModalTitle = styled(ModalTitle)`
-  color: ${colors.brand.grey} !important;
-  padding: unset;
-`;
+const ViewButton = styled(Button, {
+  base: {
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+  },
+});
 
-const MenuItems = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  justify-content: space-between;
-  padding: unset;
-  margin: unset;
-  padding-bottom: ${spacing.small};
-  border-bottom: 1px solid ${colors.brand.lighter};
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    paddingBlockStart: "0",
+    paddingInline: "0",
+  },
+});
 
-  background: ${colors.background.lightBlue};
-`;
-
-const ToolMenu = styled.ul`
-  list-style: none;
-  > li {
-    display: flex;
-    flex-direction: column;
-  }
-
-  padding: unset;
-  margin: unset;
-
-  li {
-    border-top: 0.5px solid ${colors.brand.greyLighter};
-    &:last-child {
-      border-bottom: 0.5px solid ${colors.brand.greyLighter};
-    }
-  }
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 ${spacing.normal} 0;
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  background: ${colors.background.lightBlue};
-`;
-
-const ViewButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  padding-left: ${spacing.small};
-`;
-
-const ViewButton = styled(Button)`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-
-const CloseWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: ${colors.brand.primary};
-  justify-content: center;
-  align-items: center;
-`;
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    background: "surface.brand.2.subtle",
+  },
+});
 
 interface Props {
   onViewTypeChange?: (val: ViewType) => void;
@@ -120,118 +100,100 @@ interface Props {
 const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
   const { user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location, user).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
-        if (shownForUser && !shownForUser(user)) {
-          return null;
-        }
-        return (
-          <MenuItem key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </MenuItem>
-        );
-      }),
-    [t, location, user, setIsOpen],
+      menuLinks(t, location, user).map(
+        ({ id, shortName, icon, to, name, iconFilled, shownForUser, reloadDocument }) => {
+          if (shownForUser && !shownForUser(user)) {
+            return null;
+          }
+          return (
+            <li key={id}>
+              <NavigationLink
+                id={id}
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+                onClick={() => setOpen(false)}
+              />
+            </li>
+          );
+        },
+      ),
+    [t, location, user, setOpen],
   );
 
   const notificationLink = useMemo(
     () => (
-      <MenuItem>
-        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setIsOpen(false)}>
+      <li>
+        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
           <BellIcon
             amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
             left={true}
           />
           {t("myNdla.arena.notification.title")}
         </SafeLinkButton>
-      </MenuItem>
+      </li>
     ),
-    [notifications, setIsOpen, t],
-  );
-
-  const onCloseModal = useCallback(
-    (e: Event) => {
-      if (resetFocus) {
-        e.preventDefault();
-        setResetFocus(false);
-      }
-    },
-    [resetFocus, setResetFocus],
+    [notifications?.items, setOpen, t],
   );
 
   return (
-    <ModalContent onCloseAutoFocus={onCloseModal}>
-      <StyledModalHeader>
-        <StyledModalTitle data-no-padding-top={true}>{t("myNdla.myNDLA")}</StyledModalTitle>
-        <CloseWrapper>
-          <ModalCloseButton />
-          <Text textStyle="meta-text-xxsmall" margin="none">
-            {t("close")}
-          </Text>
-        </CloseWrapper>
-      </StyledModalHeader>
-      <StyledModalBody>
-        <nav aria-label={t("myNdla.myNDLAMenu")}>
-          <MenuItems role="tablist">{links}</MenuItems>
-        </nav>
-        {showButtons && (!!buttons || user?.arenaEnabled) && (
-          <>
-            <StyledText margin="none" textStyle="meta-text-medium">
-              {t("myNdla.tools")}
-            </StyledText>
-            <ToolMenu>
-              {buttons}
-              {user?.arenaEnabled && notificationLink}
-            </ToolMenu>
-          </>
-        )}
-        {!!viewType && (
-          <>
-            <StyledText data-border-top={showButtons} textStyle="meta-text-medium" margin="none">
-              {t("myNdla.selectView")}
-            </StyledText>
-            <ViewButtonWrapper>
-              <ViewButton
-                // TODO: Fix handling of active according to design
-                variant={viewType === "list" ? "primary" : "secondary"}
-                aria-label={t("myNdla.listView")}
-                aria-current={viewType === "list"}
-                onClick={() => onViewTypeChange?.("list")}
-              >
-                <MenuLine />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t("myNdla.simpleList")}
-                </Text>
-              </ViewButton>
-              <ViewButton
-                // TODO: Fix handling of active according to design
-                variant={viewType === "listLarger" ? "primary" : "secondary"}
-                aria-label={t("myNdla.detailView")}
-                aria-current={viewType === "listLarger"}
-                onClick={() => onViewTypeChange?.("listLarger")}
-              >
-                <ListCheck />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t("myNdla.detailedList")}
-                </Text>
-              </ViewButton>
-            </ViewButtonWrapper>
-          </>
-        )}
-      </StyledModalBody>
-    </ModalContent>
+    <Portal>
+      <DialogContent>
+        <StyledDialogHeader>
+          <DialogTitle textStyle="title.medium">{t("myNdla.myNDLA")}</DialogTitle>
+          <DialogCloseButton />
+        </StyledDialogHeader>
+        <StyledDialogBody>
+          <nav aria-label={t("myNdla.myNDLAMenu")}>
+            <MenuItems role="tablist">{links}</MenuItems>
+          </nav>
+          {showButtons && (!!buttons || user?.arenaEnabled) && (
+            <>
+              <StyledText textStyle="title.medium">{t("myNdla.tools")}</StyledText>
+              <ToolMenu>
+                {buttons}
+                {user?.arenaEnabled && notificationLink}
+              </ToolMenu>
+            </>
+          )}
+          {!!viewType && (
+            <>
+              <StyledText textStyle="title.medium">{t("myNdla.selectView")}</StyledText>
+              <ViewButtonWrapper>
+                <ViewButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "list" ? "primary" : "secondary"}
+                  aria-label={t("myNdla.listView")}
+                  aria-current={viewType === "list"}
+                  onClick={() => onViewTypeChange?.("list")}
+                >
+                  <MenuLine />
+                  <Text textStyle="label.xsmall">{t("myNdla.simpleList")}</Text>
+                </ViewButton>
+                <ViewButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "listLarger" ? "primary" : "secondary"}
+                  aria-label={t("myNdla.detailView")}
+                  aria-current={viewType === "listLarger"}
+                  onClick={() => onViewTypeChange?.("listLarger")}
+                >
+                  <ListCheck />
+                  <Text textStyle="label.xsmall">{t("myNdla.detailedList")}</Text>
+                </ViewButton>
+              </ViewButtonWrapper>
+            </>
+          )}
+        </StyledDialogBody>
+      </DialogContent>
+    </Portal>
   );
 };
 

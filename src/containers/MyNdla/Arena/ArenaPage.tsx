@@ -18,6 +18,7 @@ import { TopicActions, TopicButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -61,7 +62,7 @@ const ArenaPage = () => {
   }, [authContextLoaded, t, trackPageView, user]);
 
   if (loading || !authContextLoaded) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
@@ -89,16 +90,14 @@ const ArenaPage = () => {
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
-      {loading || !user ? (
-        <Spinner />
-      ) : (
+      {user ? (
         <SortableArenaCards
           isEditing={isEditing}
           categories={arenaCategories ?? []}
           user={user}
           refetchCategories={refetchCategories}
         />
-      )}
+      ) : null}
       <Text textStyle="body.small">
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>

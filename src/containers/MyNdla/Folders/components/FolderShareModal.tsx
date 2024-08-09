@@ -9,24 +9,24 @@
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Tooltip } from "@ndla/tooltip";
 import FolderAndResourceCount from "./FolderAndResourceCount";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-flow: column;
-  gap: ${spacing.normal};
-`;
 
 const GapWrapper = styled.div`
   display: flex;
@@ -44,38 +44,9 @@ const FolderName = styled.span`
   border-radius: ${misc.borderRadius};
 `;
 
-// TODO: this should be IconButton ?
-const CopyLinkButton = styled(ButtonV2)`
-  padding: ${spacing.small};
-  color: ${colors.text.primary};
-  background: ${colors.brand.greyLightest};
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  vertical-align: middle;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+// TODO: We need design for this
+const CopyLinkButton = styled(Button)`
   justify-content: space-between;
-  span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  &:hover,
-  &:active,
-  &:disabled,
-  &:focus-visible {
-    background-color: ${colors.brand.greyLightest};
-    color: ${colors.text.primary};
-    border: 1px solid ${colors.brand.neutral7};
-    box-shadow: 1px 1px 6px 2px rgba(9, 55, 101, 0.08);
-    transition-duration: 0.2s;
-  }
 `;
 
 const CopyLinkHeader = styled.span`
@@ -95,7 +66,6 @@ const StyledButtonRow = styled.div`
 interface BaseProps {
   folder: GQLFolder;
   onCopyText?: () => void;
-  setRef?: () => void;
 }
 
 interface FolderShareModalContentProps extends BaseProps {
@@ -106,17 +76,17 @@ interface FolderShareModalProps extends BaseProps {
   children: ReactNode;
 }
 
-export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return (
-    <ModalContent onCloseAutoFocus={setRef}>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.folder.sharing.header.shared")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <StyledModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <GapWrapper>
           <FolderName aria-label={folder.name}>{folder.name}</FolderName>
           <FolderAndResourceCount
@@ -131,23 +101,20 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
         <div>{t("myNdla.folder.sharing.description.shared")}</div>
         <GapWrapper>
           <CopyLinkHeader>{t("myNdla.folder.sharing.description.copy")}</CopyLinkHeader>
-          <Tooltip tooltip={t("myNdla.folder.sharing.button.shareLink")}>
-            <CopyLinkButton
-              aria-label={sharedFolderLink(folder.id)}
-              variant="stripped"
-              onClick={() => {
-                onCopyText?.();
-                toast.create({
-                  title: t("myNdla.folder.sharing.link"),
-                });
-              }}
-            >
-              <span>{sharedFolderLink(folder.id)}</span>
-              <div>
-                <FileCopyLine />
-              </div>
-            </CopyLinkButton>
-          </Tooltip>
+          <CopyLinkButton
+            aria-label={t("myNdla.folder.sharing.button.shareLink")}
+            title={t("myNdla.folder.sharing.button.shareLink")}
+            variant="secondary"
+            onClick={() => {
+              onCopyText?.();
+              toast.create({
+                title: t("myNdla.folder.sharing.link"),
+              });
+            }}
+          >
+            {sharedFolderLink(folder.id)}
+            <FileCopyLine />
+          </CopyLinkButton>
         </GapWrapper>
         <StyledButtonRow>
           <SafeLinkButton to={routes.folder(folder.id)} variant="secondary">
@@ -157,25 +124,24 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
             variant="primary"
             onClick={() => {
               onClose();
-              setRef?.();
             }}
           >
             {t("finished")}
           </Button>
         </StyledButtonRow>
-      </StyledModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 
-const FolderShareModal = ({ children, folder, onCopyText, setRef }: FolderShareModalProps) => {
+const FolderShareModal = ({ children, folder, onCopyText }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>{children}</ModalTrigger>
-      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} setRef={setRef} />
-    </Modal>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} />
+    </DialogRoot>
   );
 };
 

@@ -9,7 +9,7 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { Heading, Spinner } from "@ndla/primitives";
+import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useArenaTopicsByUser, useArenaUser } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";
@@ -19,6 +19,7 @@ import MyNdlaBreadcrumb from "./components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import TitleWrapper from "./components/TitleWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageSpinner } from "../../components/PageSpinner";
 import { routes } from "../../routeHelpers";
 
 const StyledUlWrapper = styled("ul", {
@@ -43,7 +44,7 @@ const ArenaUserPage = () => {
   const { arenaTopicsByUser, loading } = useArenaTopicsByUser(arenaUser?.id, arenaUser?.slug);
 
   if (loading || userLoading || !authContextLoaded) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (!user?.arenaEnabled) {
