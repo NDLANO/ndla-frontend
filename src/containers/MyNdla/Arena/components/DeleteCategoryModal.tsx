@@ -9,8 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteForever } from "@ndla/icons/editor";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { IconButton } from "@ndla/primitives";
+import { DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { useToast } from "../../../../components/ToastContext";
 import { useArenaDeleteCategoryMutation } from "../../arenaMutations";
 import DeleteModalContent from "../../components/DeleteModalContent";
@@ -40,8 +39,8 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
   };
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <IconButton
           title={t("myNdla.arena.admin.category.form.deleteCategory")}
           aria-label={t("myNdla.arena.admin.category.form.deleteCategory")}
@@ -49,14 +48,14 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
         >
           <DeleteForever />
         </IconButton>
-      </ModalTrigger>
+      </DialogTrigger>
       <DeleteModalContent
         onDelete={onDeleteCategory}
         title={t("myNdla.arena.admin.category.form.modalTitle")}
         description={t("myNdla.arena.admin.category.form.modalDescription")}
         removeText={t("myNdla.arena.admin.category.form.deleteText")}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 

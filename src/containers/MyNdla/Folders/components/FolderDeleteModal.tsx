@@ -9,8 +9,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons/action";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import DeleteModalContent from "../../components/DeleteModalContent";
 
 interface Props {
@@ -23,13 +22,13 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <Button variant="danger" aria-label={t("myNdla.folder.delete")} title={t("myNdla.folder.delete")}>
           <DeleteBinLine size="small" />
           {t("myNdla.folder.deleteShort")}
         </Button>
-      </ModalTrigger>
+      </DialogTrigger>
       <DeleteModalContent
         onClose={onClose}
         onDelete={async () => {
@@ -41,7 +40,7 @@ const FolderDeleteModal = ({ onDelete, onClose }: Props) => {
         description={t("myNdla.confirmDeleteFolder")}
         removeText={t("myNdla.folder.delete")}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 

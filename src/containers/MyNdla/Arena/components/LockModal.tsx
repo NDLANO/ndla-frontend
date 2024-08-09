@@ -9,9 +9,9 @@
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
 import { useUpdateTopicV2 } from "../../arenaMutations";
 
@@ -35,9 +35,9 @@ const LockModal = ({ topic, post, onClose }: Props) => {
   const lockText = isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked");
   const description = isLocked ? t("myNdla.arena.topic.unlockDescription") : t("myNdla.arena.topic.lockDescription");
 
-  const onLock = () => {
+  const onLock = async () => {
     if (!topic || !post) return;
-    updateTopic.updateTopic({
+    await updateTopic.updateTopic({
       variables: {
         topicId: topic.id,
         title: topic.title,
@@ -45,26 +45,27 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         isLocked: !isLocked,
       },
     });
+    onClose?.();
   };
 
   return (
-    <ModalContent onCloseAutoFocus={onClose}>
-      <ModalHeader>
-        <ModalTitle>{title}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <Text>{description}</Text>
         <StyledButtonRow>
-          <ModalCloseButton>
+          <DialogCloseTrigger asChild>
             <Button variant="secondary">{t("cancel")}</Button>
-          </ModalCloseButton>
+          </DialogCloseTrigger>
           <Button variant="danger" onClick={onLock}>
             {lockText}
           </Button>
         </StyledButtonRow>
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 
