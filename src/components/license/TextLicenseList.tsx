@@ -75,29 +75,27 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
           sourceTitle={text.title}
           sourceType="text"
         />
-        <MediaListItemActions>
-          {printUrl && (
+        {printUrl && (
+          <MediaListItemActions>
             <Button variant="secondary" onClick={() => printPage(printUrl)}>
               {t("article.printPage")}
             </Button>
-          )}
-        </MediaListItemActions>
+          </MediaListItemActions>
+        )}
       </MediaListContent>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
-        <MediaListItemActions>
-          <MediaListContent>
-            <MediaListItemMeta items={items} />
-            {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
-              <CopyTextButton
-                stringToCopy={text.copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
-          </MediaListContent>
-        </MediaListItemActions>
+        <MediaListContent>
+          <MediaListItemMeta items={items} />
+          {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
+            <CopyTextButton
+              stringToCopy={text.copyText}
+              copyTitle={t("license.copyTitle")}
+              hasCopiedTitle={t("license.hasCopiedTitle")}
+            >
+              <FileCopyLine />
+            </CopyTextButton>
+          )}
+        </MediaListContent>
       </MediaListItemBody>
     </MediaListItem>
   );

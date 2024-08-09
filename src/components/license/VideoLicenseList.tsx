@@ -118,20 +118,18 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         resourceUrl={video.src}
         locale={i18n.language}
       >
-        <MediaListItemActions>
-          <MediaListContent>
-            <MediaListItemMeta items={items} />
-            {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
-          </MediaListContent>
-        </MediaListItemActions>
+        <MediaListContent>
+          <MediaListItemMeta items={items} />
+          {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
+            <CopyTextButton
+              stringToCopy={copyText}
+              copyTitle={t("license.copyTitle")}
+              hasCopiedTitle={t("license.hasCopiedTitle")}
+            >
+              <FileCopyLine />
+            </CopyTextButton>
+          )}
+        </MediaListContent>
       </MediaListItemBody>
     </MediaListItem>
   );

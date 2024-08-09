@@ -129,20 +129,18 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         resourceUrl={podcast.src}
         locale={i18n.language}
       >
-        <MediaListItemActions>
-          <MediaListContent>
-            <MediaListItemMeta items={items} />
-            {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
-          </MediaListContent>
-        </MediaListItemActions>
+        <MediaListContent>
+          <MediaListItemMeta items={items} />
+          {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
+            <CopyTextButton
+              stringToCopy={copyText}
+              copyTitle={t("license.copyTitle")}
+              hasCopiedTitle={t("license.hasCopiedTitle")}
+            >
+              <FileCopyLine />
+            </CopyTextButton>
+          )}
+        </MediaListContent>
       </MediaListItemBody>
     </MediaListItem>
   );
