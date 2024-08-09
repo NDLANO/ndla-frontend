@@ -9,13 +9,13 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
-import { Subject } from "./interfaces";
 import { GridList } from "./SubjectCategory";
 import SubjectLink from "./SubjectLink";
+import { GQLAllSubjects_SubjectFragment } from "../../graphqlTypes";
 import { sortSubjectsByRecentlyFavourited } from "../MyNdla/myNdlaUtils";
 
 interface Props {
-  subjects: Subject[];
+  subjects: GQLAllSubjects_SubjectFragment[];
   favorites: string[];
 }
 

@@ -95,7 +95,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
           id={skipToContentId}
           article={article}
           oembed={undefined}
-          {...getArticleProps(undefined, undefined)}
+          {...getArticleProps(undefined)}
         />
       </OneColumn>
     </div>

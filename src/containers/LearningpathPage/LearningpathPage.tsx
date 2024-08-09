@@ -16,8 +16,10 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
+  GQLTaxBase,
   GQLLearningpath,
   GQLLearningpathPage_ResourceFragment,
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
@@ -26,14 +28,13 @@ import {
   GQLLearningpathStep,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: GQLTaxBase[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;
@@ -79,9 +80,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   if (
     !data.resource ||
     !data.resource.learningpath ||
-    !data.topic ||
     !data.topicPath ||
-    !data.subject ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
     return <DefaultErrorMessage />;
@@ -97,13 +96,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems =
-    subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          ...topicPath,
-          { name: learningpath.title, id: `${learningpath.id}` },
-        ])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+  const breadcrumbItems = topicPath
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
+    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
 
   return (
     <div>
@@ -123,8 +118,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpath={learningpath}
         learningpathStep={learningpathStep}
         topic={topic}
-        subject={subject}
-        resource={resource}
+        subjectId={subject?.id}
+        resourceId={resource.id}
+        path={config.enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
@@ -149,16 +145,36 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
   return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
 
+export const learningpathFragment = gql`
+  fragment LearningpathPage_Learningpath on Learningpath {
+    supportedLanguages
+    tags
+    description
+    coverphoto {
+      url
+      metaUrl
+    }
+    learningsteps {
+      type
+      ...Learningpath_LearningpathStep
+    }
+    ...Learningpath_Learningpath
+  }
+  ${Learningpath.fragments.learningpathStep}
+  ${Learningpath.fragments.learningpath}
+`;
+
 export const learningpathPageFragments = {
   topic: gql`
-    fragment LearningpathPage_Topic on Topic {
+    fragment LearningpathPage_Topic on Node {
       ...Learningpath_Topic
     }
     ${Learningpath.fragments.topic}
   `,
   subject: gql`
-    fragment LearningpathPage_Subject on Subject {
+    fragment LearningpathPage_Subject on Node {
       id
+      name
       metadata {
         customFields
       }
@@ -168,9 +184,7 @@ export const learningpathPageFragments = {
           title
         }
       }
-      ...Learningpath_Subject
     }
-    ${Learningpath.fragments.subject}
   `,
   resourceType: gql`
     fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
@@ -179,27 +193,16 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.resourceType}
   `,
   resource: gql`
-    fragment LearningpathPage_Resource on Resource {
+    fragment LearningpathPage_Resource on Node {
       id
-      ...Learningpath_Resource
+      name
+      path
+      url
       learningpath {
-        supportedLanguages
-        tags
-        description
-        coverphoto {
-          url
-          metaUrl
-        }
-        learningsteps {
-          type
-          ...Learningpath_LearningpathStep
-        }
-        ...Learningpath_Learningpath
+        ...LearningpathPage_Learningpath
       }
     }
-    ${Learningpath.fragments.learningpathStep}
-    ${Learningpath.fragments.learningpath}
-    ${Learningpath.fragments.resource}
+    ${learningpathFragment}
   `,
 };
 

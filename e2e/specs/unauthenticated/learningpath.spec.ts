@@ -10,7 +10,7 @@ import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/learningpaths/8/?disableSSR=true");
+  await page.goto("/learningpaths/306?disableSSR=true");
 });
 
 test("contains content", async ({ page }) => {
@@ -18,7 +18,7 @@ test("contains content", async ({ page }) => {
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 
-  const menuIntro = page.getByRole("heading").getByText("Sirkulasjonssystemet");
+  const menuIntro = page.getByRole("heading").getByText("Kildekritikk");
   expect(menuIntro).toBeDefined();
   await expect(menuIntro).toBeVisible();
 });

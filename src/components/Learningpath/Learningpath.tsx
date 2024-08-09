@@ -21,26 +21,25 @@ import LearningpathEmbed from "./LearningpathEmbed";
 import LearningpathFooter from "./LearningpathFooter";
 import LearningpathMenu from "./LearningpathMenu";
 import {
+  GQLTaxBase,
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { TopicPath } from "../../util/getTopicPath";
 
 interface Props {
+  breadcrumbItems: BreadcrumbType[];
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TopicPath[];
+  path?: string;
+  resourceId?: string;
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  subject?: GQLLearningpath_SubjectFragment;
-  resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
-  breadcrumbItems: BreadcrumbType[];
+  subjectId?: string;
+  topic?: GQLLearningpath_TopicFragment;
+  topicPath?: GQLTaxBase[];
 }
 
 const StyledHeroContent = styled(HeroContent)`
@@ -83,24 +82,23 @@ const LearningPathWrapper = styled.section`
 `;
 
 const Learningpath = ({
+  breadcrumbItems,
   learningpath,
   learningpathStep,
-  resource,
-  topic,
-  subject,
-  topicPath,
+  path,
+  resourceId,
   resourceTypes,
   skipToContentId,
-  breadcrumbItems,
+  subjectId,
+  topic,
+  topicPath,
 }: Props) => {
   const { t, i18n } = useTranslation();
 
   const { innerWidth } = useWindowSize(100);
   const mobileView = innerWidth < 981;
 
-  const learningpathMenu = (
-    <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />
-  );
+  const learningpathMenu = <LearningpathMenu path={path} learningpath={learningpath} currentStep={learningpathStep} />;
   const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
@@ -139,8 +137,7 @@ const Learningpath = ({
             )}
             <LearningpathEmbed
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
-              topic={topic}
-              subjectId={subject?.id}
+              subjectId={subjectId}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
             />
@@ -151,13 +148,13 @@ const Learningpath = ({
               seqNo={learningpathStep.seqNo}
               numberOfLearningSteps={learningpath.learningsteps.length - 1}
               title={learningpath.title}
-              subject={subject}
+              resourceId={resourceId}
             />
           </LearningPathContent>
         )}
       </StyledLearningpathContent>
       <LearningpathFooter
-        resource={resource}
+        path={path}
         mobileView={mobileView}
         learningPathMenu={learningpathMenu}
         learningPath={learningpath}
@@ -172,11 +169,9 @@ const Learningpath = ({
 
 Learningpath.fragments = {
   topic: gql`
-    fragment Learningpath_Topic on Topic {
+    fragment Learningpath_Topic on Node {
       ...LastLearningpathStepInfo_Topic
-      ...LearningpathEmbed_Topic
     }
-    ${LearningpathEmbed.fragments.topic}
     ${LastLearningpathStepInfo.fragments.topic}
   `,
   resourceType: gql`
@@ -184,13 +179,6 @@ Learningpath.fragments = {
       ...LastLearningpathStepInfo_ResourceTypeDefinition
     }
     ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
-  subject: gql`
-    fragment Learningpath_Subject on Subject {
-      id
-      ...LastLearningpathStepInfo_Subject
-    }
-    ${LastLearningpathStepInfo.fragments.subject}
   `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {
@@ -209,15 +197,6 @@ Learningpath.fragments = {
     ${LearningpathMenu.fragments.step}
     ${LearningpathFooter.fragments.learningpathStep}
     ${LearningpathEmbed.fragments.learningpathStep}
-  `,
-  resource: gql`
-    fragment Learningpath_Resource on Resource {
-      path
-      ...LearningpathMenu_Resource
-      ...LearningpathFooter_Resource
-    }
-    ${LearningpathMenu.fragments.resource}
-    ${LearningpathFooter.fragments.resource}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

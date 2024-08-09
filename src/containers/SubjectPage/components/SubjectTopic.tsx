@@ -28,9 +28,8 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useUrnIds } from "../../../routeHelpers";
+import { toTopic } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -42,7 +41,7 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
 
 type Props = {
   topicId: string;
-  subjectId: string;
+  subjectId?: string;
   subTopicId?: string;
   index?: number;
   showResources?: boolean;
@@ -64,12 +63,11 @@ const SubjectTopic = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { topicId: urnTopicId } = useUrnIds();
   const { trackPageView } = useTracker();
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
-    return getTopicPath(topic.path, topic.contexts);
+    return topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [];
   }, [topic]);
 
   useEffect(() => {
@@ -101,10 +99,19 @@ const SubjectTopic = ({
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
+      return (
+        <Resources
+          topicId={topic.id}
+          subjectId={subject?.id}
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h2"
+          subHeadingType="h3"
+        />
+      );
     }
     return null;
-  }, [resourceTypes, topic]);
+  }, [resourceTypes, topic, subject]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -126,7 +133,9 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: config.enablePrettyUrls
+        ? subtopic.url
+        : toTopic(subjectId ?? "", ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -137,7 +146,7 @@ const SubjectTopic = ({
 
   return (
     <>
-      {urnTopicId === topicId && (
+      {topic.id === topicId && (
         <>
           <Helmet>
             <title>{pageTitle}</title>
@@ -153,7 +162,7 @@ const SubjectTopic = ({
       <Topic
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
-        id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
+        id={topic.id === topicId ? SKIP_TO_CONTENT_ID : undefined}
         title={parse(article.htmlTitle ?? "")}
         introduction={parse(article.htmlIntroduction ?? "")}
         metaImage={article.metaImage}
@@ -174,21 +183,23 @@ const SubjectTopic = ({
 
 export const topicFragments = {
   subject: gql`
-    fragment Topic_Subject on Subject {
+    fragment Topic_Subject on Node {
       id
       name
     }
   `,
   topic: gql`
-    fragment Topic_Topic on Topic {
+    fragment Topic_Topic on Node {
       id
       path
+      url
       name
       relevanceId
-      subtopics {
+      subtopics: children(nodeType: TOPIC) {
         id
         name
         relevanceId
+        url
       }
       meta {
         metaDescription
@@ -197,10 +208,19 @@ export const topicFragments = {
         }
       }
       supportedLanguages
+      contextId
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path
+        crumbs {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       article {
         oembed

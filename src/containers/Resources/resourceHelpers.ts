@@ -7,34 +7,34 @@
  */
 
 import config from "../../config";
-import { GQLResource } from "../../graphqlTypes";
+import { GQLWithArticle } from "../../graphqlTypes";
 
 export const URN_ARTICLE = "urn:article:";
 export const URN_LEARTNING_PATH = "urn:learningpath:";
 
-export const hasContentUri = (resource: Pick<GQLResource, "contentUri">) => (resource && resource.contentUri) || false;
+export const hasContentUri = (content: Pick<GQLWithArticle, "contentUri">) => (content && content.contentUri) || false;
 
-export const isLearningPathResource = (resource: Pick<GQLResource, "contentUri">) =>
+export const isLearningPathResource = (resource: Pick<GQLWithArticle, "contentUri">) =>
   hasContentUri(resource) && resource!.contentUri!.startsWith(URN_LEARTNING_PATH);
 
-export const isArticleResource = (resource: Pick<GQLResource, "contentUri">) =>
+export const isArticleResource = (resource: Pick<GQLWithArticle, "contentUri">) =>
   hasContentUri(resource) && resource!.contentUri!.startsWith(URN_ARTICLE) && resource!.contentUri!.length > 12;
 
-export const getArticleIdFromResource = (resource: Pick<GQLResource, "contentUri">) => {
+export const getArticleIdFromResource = (resource: Pick<GQLWithArticle, "contentUri">) => {
   if (isArticleResource(resource)) {
     return resource!.contentUri!.replace(URN_ARTICLE, "");
   }
   return undefined;
 };
 
-export const getLearningPathIdFromResource = (resource: Pick<GQLResource, "contentUri">) => {
+export const getLearningPathIdFromResource = (resource: Pick<GQLWithArticle, "contentUri">) => {
   if (isLearningPathResource(resource)) {
     return resource!.contentUri!.replace(URN_LEARTNING_PATH, "");
   }
   return undefined;
 };
 
-export function getLearningPathUrlFromResource(resource: Pick<GQLResource, "contentUri">, languagePrefix?: string) {
+export function getLearningPathUrlFromResource(resource: Pick<GQLWithArticle, "contentUri">, languagePrefix?: string) {
   return `${config.learningPathDomain}${
     languagePrefix ? `/${languagePrefix}` : ""
   }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`;

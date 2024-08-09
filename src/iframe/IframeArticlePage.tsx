@@ -143,7 +143,7 @@ export const iframeArticlePageFragments = {
     ${structuredArticleDataFragment}
   `,
   resource: gql`
-    fragment IframeArticlePage_Resource on Resource {
+    fragment IframeArticlePage_Resource on Node {
       id
       path
       resourceTypes {

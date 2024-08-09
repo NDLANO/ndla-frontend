@@ -13,14 +13,13 @@ import { colors, spacing } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { LayoutItem, OneColumn } from "@ndla/ui";
+import config from "../../config";
 import Resources from "../../containers/Resources/Resources";
 import {
+  GQLTaxBase,
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
 } from "../../graphqlTypes";
-import { toTopic } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 
 const StyledOneColumn = styled(OneColumn)`
   background: ${colors.white};
@@ -41,17 +40,17 @@ const StyledHGroup = styled.div`
 `;
 
 interface Props {
+  resourceId?: string;
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
-  subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TopicPath[];
+  topicPath?: GQLTaxBase[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
 }
 const LastLearningpathStepInfo = ({
+  resourceId,
   topic,
-  subject,
   topicPath,
   resourceTypes,
   seqNo,
@@ -65,13 +64,8 @@ const LastLearningpathStepInfo = ({
     return null;
   }
 
-  const linkTopic =
-    !!topicPath && topicPath.length > 1
-      ? {
-          path: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((tp) => tp.id)),
-          name: topicPath[topicPath.length - 1]?.name,
-        }
-      : undefined;
+  const root = topicPath?.[0];
+  const parent = topicPath?.toReversed()?.[0];
 
   return (
     <StyledOneColumn>
@@ -85,20 +79,29 @@ const LastLearningpathStepInfo = ({
           </Text>
         </StyledHGroup>
         <LinksWrapper>
-          {!!subject && (
+          {!!root && (
             <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
+              {t("learningPath.lastStep.subjectHeading")}{" "}
+              <SafeLink to={config.enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
             </Text>
           )}
-          {!!linkTopic && (
+          {!!parent && (
             <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+              {t("learningPath.lastStep.topicHeading")}{" "}
+              <SafeLink to={config.enablePrettyUrls ? parent.url ?? parent.path : parent.path}>{parent.name}</SafeLink>
             </Text>
           )}
         </LinksWrapper>
-        {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
-          <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
-        )}
+        <Resources
+          headingType="h2"
+          key="resources"
+          topicId={parent?.id}
+          subjectId={root?.id}
+          resourceId={resourceId}
+          resourceTypes={resourceTypes}
+          topic={topic}
+          subHeadingType="h3"
+        />
       </LayoutItem>
     </StyledOneColumn>
   );
@@ -106,17 +109,11 @@ const LastLearningpathStepInfo = ({
 
 LastLearningpathStepInfo.fragments = {
   topic: gql`
-    fragment LastLearningpathStepInfo_Topic on Topic {
+    fragment LastLearningpathStepInfo_Topic on Node {
       id
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-  `,
-  subject: gql`
-    fragment LastLearningpathStepInfo_Subject on Subject {
-      path
-      name
-    }
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {

@@ -20,6 +20,7 @@ import { Heading } from "@ndla/typography";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
@@ -58,7 +59,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
-          url: subject.path,
+          url: config.enablePrettyUrls ? subject.url : subject.path,
         };
       });
       return {
@@ -242,6 +243,7 @@ ProgrammeContainer.fragments = {
             id
             name
             path
+            url
             subjectpage {
               about {
                 title

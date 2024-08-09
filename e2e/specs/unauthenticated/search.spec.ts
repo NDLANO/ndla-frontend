@@ -19,7 +19,7 @@ test("contains search bar", async ({ page }) => {
 });
 
 test("LTI contains action elements", async ({ page }) => {
-  await page.goto("/lti/?disableSSR=true");
+  await page.goto("/lti?disableSSR=true");
 
   const input = page.getByRole("searchbox");
   expect(input).toBeDefined();

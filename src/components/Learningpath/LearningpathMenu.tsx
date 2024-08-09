@@ -19,7 +19,6 @@ import config from "../../config";
 import {
   GQLLearningpathMenu_LearningpathFragment,
   GQLLearningpathMenu_LearningpathStepFragment,
-  GQLLearningpathMenu_ResourceFragment,
 } from "../../graphqlTypes";
 import { toLearningPath } from "../../routeHelpers";
 import { getContentType } from "../../util/getContentType";
@@ -29,7 +28,7 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 const { contentTypes } = constants;
 
 interface Props {
-  resource: GQLLearningpathMenu_ResourceFragment | undefined;
+  path: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
 }
@@ -136,7 +135,7 @@ const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 const getResourceType = (resource?: GQLLearningpathMenu_LearningpathFragment["learningsteps"][0]["resource"]) =>
   resource ? getContentType(resource) ?? contentTypes.LEARNING_PATH : contentTypes.LEARNING_PATH;
 
-const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
+const LearningpathMenu = ({ path, learningpath, currentStep }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
   const headingId = useId();
@@ -172,15 +171,15 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
         <Heading element="h1" headingStyle="h4" margin="none" id={headingId}>
           {learningpath.title}
         </Heading>
-        {!!resource?.path && config.feideEnabled && (
+        {!!path && config.feideEnabled && (
           <AddResourceToFolderModal
             resource={{
               id: learningpath.id.toString(),
-              path: resource.path,
+              path: path,
               resourceType: "learningpath",
             }}
           >
-            <FavoriteButton path={resource.path} />
+            <FavoriteButton path={path} />
           </AddResourceToFolderModal>
         )}
       </HeaderWrapper>
@@ -197,7 +196,7 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
               }
             >
               <StyledSafeLink
-                to={toLearningPath(learningpath.id, step.id, resource)}
+                to={toLearningPath(learningpath.id, step.id, path)}
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
               >
@@ -260,12 +259,6 @@ LearningpathMenu.fragments = {
       license {
         license
       }
-    }
-  `,
-  resource: gql`
-    fragment LearningpathMenu_Resource on Resource {
-      id
-      path
     }
   `,
 };

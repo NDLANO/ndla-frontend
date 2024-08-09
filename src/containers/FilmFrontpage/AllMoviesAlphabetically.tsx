@@ -15,6 +15,7 @@ import { Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { movieResourceTypes } from "./resourceTypes";
+import config from "../../config";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -103,6 +104,7 @@ const allMoviesQuery = gql`
         contexts {
           contextType
           path
+          url
         }
       }
     }
@@ -157,24 +159,25 @@ const AllMoviesAlphabetically = () => {
           >
             {letter}
           </LetterHeading>
-          {movies.map((movie) => (
-            <StyledSafeLink
-              to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
-              key={movie.id}
-            >
-              {!!movie.metaImage?.url && (
-                <MovieImage alt="" loading="lazy" fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
-              )}
-              <MovieTextWrapper>
-                <Heading element="h3" headingStyle="h3" margin="none" data-title>
-                  {movie.title}
-                </Heading>
-                <MovieDescription margin="none" textStyle="content-alt">
-                  {movie.metaDescription}
-                </MovieDescription>
-              </MovieTextWrapper>
-            </StyledSafeLink>
-          ))}
+          {movies.map((movie) => {
+            const ctx = movie.contexts.filter((c) => c.contextType === "standard")[0];
+            const to = config.enablePrettyUrls ? ctx?.url : ctx?.path;
+            return (
+              <StyledSafeLink to={to ?? ""} key={movie.id}>
+                {!!movie.metaImage?.url && (
+                  <MovieImage alt="" loading="lazy" fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
+                )}
+                <MovieTextWrapper>
+                  <Heading element="h3" headingStyle="h3" margin="none" data-title>
+                    {movie.title}
+                  </Heading>
+                  <MovieDescription margin="none" textStyle="content-alt">
+                    {movie.metaDescription}
+                  </MovieDescription>
+                </MovieTextWrapper>
+              </StyledSafeLink>
+            );
+          })}
         </MovieGroup>
       ))}
     </StyledWrapper>

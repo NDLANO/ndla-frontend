@@ -8,14 +8,16 @@
 
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
+import config from "./config";
 import {
   ABOUT_PATH,
+  FILM_ID,
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
+import { GQLTaxBase } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
 export function toSearch(searchString?: string) {
@@ -36,6 +38,9 @@ interface MatchParams extends TypedParams {
   topic4?: string;
   programme?: string;
   slug?: string;
+  contextId?: string;
+  subjectContextId?: string;
+  topicContextId?: string;
 }
 
 export const useOnTopicPage = () => {
@@ -74,6 +79,9 @@ export const useUrnIds = () => {
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
     slug: params.slug,
+    contextId: params.contextId,
+    subjectContextId: params.subjectContextId,
+    topicContextId: params.topicContextId,
   };
 };
 
@@ -84,7 +92,7 @@ export const getSubjectType = (subjectId: string): SubjectType => {
     return "multiDisciplinary";
   } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
     return "toolbox";
-  } else if (subjectId === "urn:subject:20") {
+  } else if (subjectId === FILM_ID) {
     return "film";
   } else if (typeof subjectId === "string") {
     return "standard";
@@ -105,9 +113,9 @@ type Resource = {
   id: string;
 };
 
-export function toLearningPath(pathId?: string | number, stepId?: string | number, resource?: Pick<Resource, "path">) {
-  if (resource) {
-    return stepId ? `${resource.path}/${stepId}` : resource.path;
+export function toLearningPath(pathId?: string | number, stepId?: string | number, path?: string) {
+  if (path) {
+    return stepId ? `${path}/${stepId}` : path;
   }
   if (pathId && stepId) {
     return `${LEARNINGPATHS}/${pathId}/steps/${stepId}`;
@@ -144,21 +152,16 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
-  const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
-  const [subject, ...rest] = safePaths;
-  if (!subject) return [];
-  // henter longname fra filter og bruk i stedet for første ledd i path
-  const breadcrumbSubject = safePaths[0]!;
-
-  const links = [breadcrumbSubject, ...rest];
-  const breadcrumbs = links
-    .reduce<Breadcrumb[]>((acc, link) => {
-      const prefix = acc.length ? acc[acc.length - 1]?.to : "";
-      const to = `${prefix}/${removeUrn(link.id)}`;
-      return acc.concat([{ to, name: link.name }]);
-    }, [])
-    .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
+export function toBreadcrumbItems(rootName: string, paths: (GQLTaxBase | undefined)[]): Breadcrumb[] {
+  const safePaths = paths.filter((p) => p !== undefined);
+  if (safePaths.length === 0) return [];
+  const breadcrumbs = safePaths.map((crumb) => {
+    const to = config.enablePrettyUrls ? crumb?.url : crumb?.path;
+    return {
+      to: to ?? "",
+      name: crumb?.name ?? "",
+    };
+  });
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 

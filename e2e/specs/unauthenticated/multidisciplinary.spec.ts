@@ -10,7 +10,7 @@ import { expect } from "@playwright/test";
 import { test, mockWaitResponse } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/?disableSSR=true");
+  await page.goto("?disableSSR=true");
 });
 
 test("contains content", async ({ page }) => {

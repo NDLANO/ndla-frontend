@@ -31,6 +31,7 @@ import { SafeLink } from "@ndla/safelink";
 import { Heading } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import { MovieResourceType } from "./resourceTypes";
+import config from "../../config";
 
 const StyledHeading = styled(Heading)`
   flex: 1;
@@ -85,7 +86,7 @@ const FullWidthButton = styled(Button)`
 `;
 
 interface Props {
-  topics?: { id: string; path: string; name: string }[];
+  topics?: { id: string; path: string; name: string; url: string }[];
   onChangeResourceType: (resourceType?: string) => void;
   resourceTypeSelected?: MovieResourceType;
   resourceTypes: MovieResourceType[];
@@ -141,7 +142,7 @@ const FilmMovieSearch = ({
           <StyledUl>
             {topics.map((topic) => (
               <StyledListItem key={topic.id}>
-                <SafeLink to={topic.path} key={topic.id}>
+                <SafeLink to={config.enablePrettyUrls ? topic.url : topic.path} key={topic.id}>
                   {topic.name}
                 </SafeLink>
               </StyledListItem>

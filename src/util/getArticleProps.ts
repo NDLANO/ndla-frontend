@@ -7,20 +7,15 @@
  */
 
 import { getContentType } from "./getContentType";
+import { RELEVANCE_SUPPLEMENTARY } from "../constants";
 import { GQLResource } from "../graphqlTypes";
 
-interface Topic {
-  supplementaryResources?: { id: string }[];
-}
-export const getArticleProps = <T extends Topic>(
-  resource: Pick<GQLResource, "resourceTypes" | "id"> | undefined,
-  topic?: T,
-) => {
+export const getArticleProps = (resource: Pick<GQLResource, "resourceTypes" | "relevanceId" | "id"> | undefined) => {
   const hasResourceTypes = resource?.resourceTypes && resource?.resourceTypes?.length > 0;
 
   const contentType = hasResourceTypes && resource ? getContentType(resource) : undefined;
 
-  const additional = topic?.supplementaryResources?.some((item) => item?.id === resource?.id) ?? false;
+  const additional = resource?.relevanceId === RELEVANCE_SUPPLEMENTARY ?? false;
 
   const label = (hasResourceTypes && resource?.resourceTypes![0]?.name) || "";
   return { contentType, label, additional };

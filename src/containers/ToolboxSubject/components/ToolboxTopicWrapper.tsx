@@ -20,8 +20,8 @@ import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
+  GQLTaxBase,
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
-  GQLToolboxTopicWrapper_SubjectFragment,
   GQLToolboxTopicWrapper_TopicFragment,
 } from "../../../graphqlTypes";
 import { toTopic } from "../../../routeHelpers";
@@ -31,7 +31,7 @@ import Resources from "../../Resources/Resources";
 import TopicVisualElementContent from "../../SubjectPage/components/TopicVisualElementContent";
 
 interface Props {
-  subject: GQLToolboxTopicWrapper_SubjectFragment;
+  subject: GQLTaxBase;
   topic: GQLToolboxTopicWrapper_TopicFragment;
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
   topicList: Array<string>;
@@ -77,10 +77,19 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
-      return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
+      return (
+        <Resources
+          topicId={topic.id}
+          subjectId={subject?.id}
+          topic={topic}
+          resourceTypes={resourceTypes}
+          headingType="h2"
+          subHeadingType="h3"
+        />
+      );
     }
     return null;
-  }, [resourceTypes, topic]);
+  }, [resourceTypes, topic, subject]);
 
   if (!topic.article) {
     return null;
@@ -134,12 +143,6 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
 };
 
 export const toolboxTopicWrapperFragments = {
-  subject: gql`
-    fragment ToolboxTopicWrapper_Subject on Subject {
-      id
-      name
-    }
-  `,
   resourceType: gql`
     fragment ToolboxTopicWrapper_ResourceTypeDefinition on ResourceTypeDefinition {
       id
@@ -147,7 +150,7 @@ export const toolboxTopicWrapperFragments = {
     }
   `,
   topic: gql`
-    fragment ToolboxTopicWrapper_Topic on Topic {
+    fragment ToolboxTopicWrapper_Topic on Node {
       id
       name
       path
@@ -199,7 +202,7 @@ export const toolboxTopicWrapperFragments = {
           }
         }
       }
-      subtopics {
+      subtopics: children(nodeType: TOPIC) {
         id
         name
         path

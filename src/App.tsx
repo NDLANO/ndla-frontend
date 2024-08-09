@@ -55,6 +55,7 @@ import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
 import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
+import SubjectContextPage from "./containers/SubjectPage/SubjectContextPage";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -127,6 +128,9 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
+                <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
+                <Route path=":name/f/:subjectContextId" element={<SubjectContextPage />} />
+                <Route path=":root/:name/e/:topicContextId" element={<SubjectContextPage />} />
                 <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic1" element={null}>
@@ -193,7 +197,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
-
                 {config.folderRedesign ? (
                   <Route path="folder/:folderId">
                     <Route index element={<SharedFolderPageV2 />} />

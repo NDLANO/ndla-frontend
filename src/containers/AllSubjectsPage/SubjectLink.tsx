@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import { Modal, ModalTrigger } from "@ndla/modal";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Subject } from "./interfaces";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FavoriteButton from "../../components/MyNdla/FavoriteButton";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../components/ToastContext";
-import { toSubject } from "../../routeHelpers";
+import config from "../../config";
+import { GQLAllSubjects_SubjectFragment } from "../../graphqlTypes";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
 
@@ -43,7 +43,7 @@ const StyledSafeLink = styled(SafeLink, {
 });
 
 interface Props {
-  subject: Subject;
+  subject: GQLAllSubjects_SubjectFragment;
   favorites: string[] | undefined;
   className?: string;
 }
@@ -129,14 +129,16 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
                 <SafeLinkWrapper>
-                  <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+                  <StyledSafeLink to={config.enablePrettyUrls ? subject.url : subject.path}>
+                    {subject.name}
+                  </StyledSafeLink>
                 </SafeLinkWrapper>
               </>
             }
           />
         </Modal>
       )}
-      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+      <StyledSafeLink to={config.enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

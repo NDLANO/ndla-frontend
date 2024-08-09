@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { LocaleType } from "./interfaces";
 
 type RuntimeType = "test" | "development" | "production";
@@ -114,6 +115,7 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   isClient: boolean;
   folderRedesign: boolean;
+  enablePrettyUrls: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -148,6 +150,7 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     folderRedesign: getEnvironmentVariabel("FOLDER_REDESIGN", true),
+    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true),
   };
 };
 
