@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, mq, fonts } from "@ndla/core";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { routes } from "../../../routeHelpers";
 
@@ -47,30 +47,27 @@ const ShortText = styled(Text)`
   }
 `;
 
-interface Props {
+interface Props extends Omit<SafeLinkButtonProps, "children"> {
   id: string;
   icon: ReactNode;
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
-  to?: string;
-  onClick?: () => void;
 }
 
-const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: Props) => {
+const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
   const location = useLocation();
   const selected = id
     ? location.pathname.startsWith(`${routes.myNdla.root}/${id}`)
     : location.pathname === routes.myNdla.root;
   const selectedIcon = selected ? iconFilled ?? icon : icon;
-  const linkTo = to ?? `${routes.myNdla.root}${id ? `/${id}` : ""}`;
 
   return (
     <StyledSafeLink
       variant="tertiary"
       aria-current={selected ? "page" : undefined}
-      to={linkTo}
-      reloadDocument={!!to}
+      to={to}
+      reloadDocument={reloadDocument}
       onClick={onClick}
     >
       <IconWrapper>{selectedIcon}</IconWrapper>

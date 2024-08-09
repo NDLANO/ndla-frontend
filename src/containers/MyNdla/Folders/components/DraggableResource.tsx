@@ -104,7 +104,6 @@ const DraggableResource = ({
         value: "addResource",
         icon: <FolderLine />,
         text: t("myNdla.resource.add"),
-        modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
             close={close}
@@ -135,11 +134,10 @@ const DraggableResource = ({
         icon: <DeleteForever />,
         text: t("myNdla.resource.remove"),
         isModal: true,
-        modalContent: (close, setSkipAutoFocus) => (
+        modalContent: (close) => (
           <DeleteModalContent
             onClose={close}
             onDelete={async () => {
-              setSkipAutoFocus?.();
               await onDeleteFolder(resource, index);
               close();
             }}

@@ -34,7 +34,7 @@ interface PostActionProps {
   post: GQLArenaPostV2Fragment | Omit<GQLArenaPostV2Fragment, "replies">;
   type: "topic" | "post";
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-  onDelete: ((close: () => void, autoFocus: () => void) => void) | ((close: () => void) => void);
+  onDelete: (close: () => void) => void;
   topic?: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   setFocusId?: Dispatch<SetStateAction<number | undefined>>;
 }
@@ -63,10 +63,10 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
     variant: "destructive",
     text: t("myNdla.arena.posts.dropdownMenu.delete"),
     disabled: disableModification,
-    modalContent: (close, skipAutoFocus) => (
+    modalContent: (close) => (
       <DeleteModalContent
         onClose={close}
-        onDelete={() => onDelete(close, skipAutoFocus)}
+        onDelete={() => onDelete(close)}
         title={t(`myNdla.arena.deleteTitle.${type}`)}
         description={t(`myNdla.arena.description.${type}`)}
         removeText={t(`myNdla.arena.removeText.${type}`)}
@@ -79,7 +79,6 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
     value: "reportPost",
     icon: <SpamLine />,
     text: t("myNdla.arena.posts.dropdownMenu.report"),
-    modality: false,
     modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,
   };
 

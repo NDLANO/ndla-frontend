@@ -52,8 +52,7 @@ interface ButtonMenuItem extends BaseMenuItem {
 
 export interface DialogMenuItem extends BaseMenuItem {
   type: "dialog";
-  modalContent: (close: VoidFunction, setSkipAutoFocus: VoidFunction) => ReactNode;
-  modality?: boolean;
+  modalContent: (close: VoidFunction) => ReactNode;
 }
 
 export type MenuItemProps = LinkMenuItem | ButtonMenuItem | DialogMenuItem;
@@ -105,14 +104,11 @@ const StyledDialogBody = styled(DialogBody, {
 
 const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   const [open, setOpen] = useState(false);
-  const [hasOpenModal, setHasOpenModal] = useState(false);
-  const [skipAutoFocus, setSkipAutoFocus] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
   const selectors = useUserAgent();
   const { t } = useTranslation();
 
   const handleDialogItemOpenChange = (open: boolean) => {
-    setHasOpenModal(open);
     if (!open) {
       setOpen(false);
     }
@@ -140,11 +136,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
           }
         }}
       >
-        <Item
-          item={item}
-          handleDialogItemOpenChange={handleDialogItemOpenChange}
-          setSkipAutoFocus={() => setSkipAutoFocus(true)}
-        >
+        <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
           {item.icon}
           {item.text}
         </Item>
@@ -160,19 +152,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
             <MoreLine />
           </IconButton>
         </DialogTrigger>
-        <StyledDialogContent
-          hidden={hasOpenModal}
-          // onCloseAutoFocus={(event) => {
-          //   setHasOpenModal(false);
-          //   if (skipAutoFocus) {
-          //     event.preventDefault();
-          //     setSkipAutoFocus(false);
-          //   } else if (dropdownTriggerRef.current) {
-          //     event.preventDefault();
-          //     dropdownTriggerRef.current.focus();
-          //   }
-          // }}
-        >
+        <StyledDialogContent>
           <DialogHeader>
             <Heading textStyle="heading.small">{modalHeader ?? t("myNdla.settings")}</Heading>
             <DialogCloseButton />
@@ -195,18 +175,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
         </IconButton>
       </MenuTrigger>
       <MenuPositioner>
-        <MenuContent
-        // onCloseAutoFocus={(event) => {
-        //   setHasOpenModal(false);
-        //   if (skipAutoFocus) {
-        //     event.preventDefault();
-        //     setSkipAutoFocus(false);
-        //   } else if (dropdownTriggerRef.current) {
-        //     event.preventDefault();
-        //     dropdownTriggerRef.current?.focus();
-        //   }
-        // }}
-        >
+        <MenuContent>
           {menuItems?.map((item) => (
             <MenuItem
               key={item.value}
@@ -218,11 +187,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               asChild={item.type !== "action"}
               consumeCss
             >
-              <Item
-                item={item}
-                handleDialogItemOpenChange={handleDialogItemOpenChange}
-                setSkipAutoFocus={() => setSkipAutoFocus(true)}
-              >
+              <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
                 {item.icon}
                 {item.text}
               </Item>
@@ -237,11 +202,10 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
 interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
-  setSkipAutoFocus: VoidFunction;
   item: MenuItemProps;
 }
 
-const Item = ({ handleDialogItemOpenChange, setSkipAutoFocus, children, item, ...rest }: ItemProps) => {
+const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onOpenChange = useCallback(
@@ -267,11 +231,11 @@ const Item = ({ handleDialogItemOpenChange, setSkipAutoFocus, children, item, ..
   }
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)} modal={item.modality ?? true}>
+    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
       <DialogTrigger css={{ all: "unset" }} {...rest}>
         {children}
       </DialogTrigger>
-      <Portal>{item.modalContent(close, setSkipAutoFocus)}</Portal>
+      <Portal>{item.modalContent(close)}</Portal>
     </DialogRoot>
   );
 };

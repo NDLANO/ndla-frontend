@@ -8,7 +8,8 @@
 
 import { Dispatch, SetStateAction, useContext, useRef, useCallback, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams, useOutletContext } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDialogContext } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { CloseLine, FileCopyLine } from "@ndla/icons/action";
 import { ShareFill, ShareArrow } from "@ndla/icons/common";
@@ -23,7 +24,6 @@ import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { useUpdateFolderStatusMutation, useDeleteFolderMutation } from "../../folderMutations";
-import { OutletContext } from "../../MyNdlaLayout";
 import { isStudent, copyFolderSharingLink } from "../util";
 
 interface FolderButtonProps {
@@ -42,7 +42,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { folderId } = useParams();
   const toast = useToast();
   const { examLock, user } = useContext(AuthContext);
-  const { setResetFocus, setIsOpen } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
 
   const shareRef = useRef<HTMLButtonElement | null>(null);
   const unShareRef = useRef<HTMLButtonElement | null>(null);
@@ -63,16 +63,15 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         }),
       });
       setFocusId(folder.id);
-      setIsOpen(false);
-      setResetFocus(true);
+      setOpen(false);
     },
-    [toast, t, setFocusId, setIsOpen, setResetFocus],
+    [toast, t, setFocusId, setOpen],
   );
 
   const onFolderUpdated = useCallback(() => {
     toast.create({ title: t("myNdla.folder.updated") });
-    setIsOpen(false);
-  }, [toast, t, setIsOpen]);
+    setOpen(false);
+  }, [toast, t, setOpen]);
 
   const onDeleteFolder = useCallback(async () => {
     if (!selectedFolder) {
@@ -90,10 +89,9 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
         folderName: selectedFolder.name,
       }),
     });
-    setResetFocus(true);
-    setIsOpen(false);
+    setOpen(false);
     setPreventDefault(true);
-  }, [selectedFolder, deleteFolder, folderId, toast, t, setResetFocus, setIsOpen, navigate]);
+  }, [selectedFolder, deleteFolder, folderId, toast, t, setOpen, navigate]);
 
   const showAddButton = (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock;
   const showShareFolder = folderId !== null && !isStudent(user);
@@ -198,7 +196,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
             toast.create({
               title: t("myNdla.folder.sharing.link"),
             });
-            setIsOpen(false);
+            setOpen(false);
           }}
           aria-label={t("myNdla.folder.sharing.button.shareLink")}
           title={t("myNdla.folder.sharing.button.shareLink")}

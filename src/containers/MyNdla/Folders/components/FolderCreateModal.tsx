@@ -83,10 +83,9 @@ interface ContentProps {
   onCreate: (values: FolderFormValues) => Promise<void>;
   folders?: GQLFolder[];
   parentFolder?: GQLFolder | null;
-  skipAutoFocus?: VoidFunction;
 }
 
-export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, skipAutoFocus }: ContentProps) => {
+export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate }: ContentProps) => {
   const { t } = useTranslation();
   return (
     // TODO: Thgere used to be a onCloseAUtoFocus here
@@ -99,7 +98,6 @@ export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, s
         <FolderForm
           siblings={parentFolder?.subfolders ?? folders ?? []}
           onSave={async (values) => {
-            skipAutoFocus?.();
             await onCreate(values);
             onClose();
           }}

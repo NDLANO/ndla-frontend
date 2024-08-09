@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useState, Dispatch, SetStateAction } from "react";
+import { useMemo, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
@@ -32,6 +32,7 @@ import { Button, DialogRoot, DialogTrigger, MessageBox } from "@ndla/primitives"
 import { Text } from "@ndla/typography";
 import NavigationLink from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
+import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled.div`
@@ -115,37 +116,40 @@ const MoreButton = styled(Button)`
   }
 `;
 
-export interface OutletContext {
-  setResetFocus: Dispatch<SetStateAction<boolean>>;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  resetFocus: boolean;
-}
-
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { user, examLock } = useContext(AuthContext);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [resetFocus, setResetFocus] = useState(false);
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location, user).map(({ name, shortName, id, icon, to, iconFilled, shownForUser }) => {
-        if (shownForUser && !shownForUser(user)) {
-          return null;
-        }
-        return (
-          <StyledLi key={id}>
-            <NavigationLink id={id} name={name} shortName={shortName} icon={icon} to={to} iconFilled={iconFilled} />
-          </StyledLi>
-        );
-      }),
+      menuLinks(t, location, user).map(
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser, reloadDocument }) => {
+          if (shownForUser && !shownForUser(user)) {
+            return null;
+          }
+          return (
+            <StyledLi key={id}>
+              <NavigationLink
+                id={id}
+                name={name}
+                shortName={shortName}
+                icon={icon}
+                to={to}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+              />
+            </StyledLi>
+          );
+        },
+      ),
     [location, t, user],
   );
 
   return (
     <StyledLayout>
-      <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
+      <DialogRoot key={location.pathname} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
             <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
@@ -165,7 +169,7 @@ const MyNdlaLayout = () => {
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           )}
-          <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
+          <Outlet />
         </StyledContent>
       </DialogRoot>
     </StyledLayout>
@@ -176,7 +180,8 @@ export default MyNdlaLayout;
 
 export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined) => [
   {
-    id: "",
+    id: "root",
+    to: routes.myNdla.root,
     name: t("myNdla.myNDLA"),
     shortName: t("myNdla.myNDLA"),
     icon: <HomeLine />,
@@ -184,6 +189,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "folders",
+    to: routes.myNdla.folders,
     name: t("myNdla.myFolders"),
     shortName: t("myNdla.iconMenu.folders"),
     icon: <FolderLine />,
@@ -191,6 +197,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "subjects",
+    to: routes.myNdla.subjects,
     name: t("myNdla.favoriteSubjects.title"),
     shortName: t("myNdla.iconMenu.subjects"),
     icon: <BookReadLine />,
@@ -198,6 +205,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "arena",
+    to: routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <QuestionAnswerLine />,
@@ -206,6 +214,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "admin",
+    to: routes.myNdla.admin,
     name: t("myNdla.arena.admin.title"),
     shortName: t("myNdla.arena.admin.title"),
     icon: <ShieldUserLine />,
@@ -214,6 +223,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "profile",
+    to: routes.myNdla.profile,
     name: t("myNdla.myProfile.title"),
     shortName: t("myNdla.iconMenu.profile"),
     icon: <UserLine />,
@@ -225,5 +235,6 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     icon: user ? <LogoutBoxRightLine /> : <LoginBoxLine />,
     to: user ? `/logout?state=${toHref(location)}` : `/login?state=${toHref(location)}`,
+    reloadDocument: true,
   },
 ];

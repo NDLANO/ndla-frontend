@@ -35,9 +35,9 @@ const LockModal = ({ topic, post, onClose }: Props) => {
   const lockText = isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked");
   const description = isLocked ? t("myNdla.arena.topic.unlockDescription") : t("myNdla.arena.topic.lockDescription");
 
-  const onLock = () => {
+  const onLock = async () => {
     if (!topic || !post) return;
-    updateTopic.updateTopic({
+    await updateTopic.updateTopic({
       variables: {
         topicId: topic.id,
         title: topic.title,
@@ -45,10 +45,10 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         isLocked: !isLocked,
       },
     });
+    onClose?.();
   };
 
   return (
-    // TODO: Used to have a onCloseAutoFocus prop whatever
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>

@@ -152,13 +152,12 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       value: "newFolder",
       icon: <AddLine />,
       text: t("myNdla.newFolderShort"),
-      modalContent: (close, setFocus) => (
+      modalContent: (close) => (
         <CreateModalContent
           onClose={close}
           folders={selectedFolder?.subfolders}
           parentFolder={selectedFolder}
           onCreate={onFolderAdded}
-          skipAutoFocus={setFocus}
         />
       ),
     };
@@ -264,13 +263,12 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       icon: <DeleteForever />,
       text: t("myNdla.folder.deleteShort"),
       variant: "destructive",
-      modalContent: (close, setSkipAutoFocus) => (
+      modalContent: (close) => (
         <DeleteModalContent
           title={t("myNdla.folder.delete")}
           description={t("myNdla.confirmDeleteFolder")}
           removeText={t("myNdla.folder.delete")}
           onDelete={async () => {
-            setSkipAutoFocus?.();
             await onDeleteFolder();
             close();
           }}

@@ -7,12 +7,11 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useOutletContext } from "react-router";
+import { useDialogContext } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { AddLine } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
 import SettingsMenu from "../components/SettingsMenu";
-import { OutletContext } from "../MyNdlaLayout";
 
 const StyledListItem = styled.li`
   margin: 0;
@@ -39,18 +38,12 @@ export const PostActions = () => {
 };
 
 export const PostButtons = () => {
-  const { setIsOpen } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
   const { t } = useTranslation();
 
   return (
     <StyledListItem key="newTopic">
-      <SafeLinkButton
-        to="topic/new"
-        variant="tertiary"
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      >
+      <SafeLinkButton to="topic/new" variant="tertiary" onClick={() => setOpen(false)}>
         <AddLine size="small" />
         {t("myNdla.arena.new.topic")}
       </SafeLinkButton>
@@ -78,19 +71,12 @@ export const TopicActions = () => {
 };
 
 export const TopicButtons = () => {
-  const { setIsOpen } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
   const { t } = useTranslation();
 
   return (
-    <StyledListItem key="newTopic">
-      <SafeLinkButton
-        key="newTopic"
-        to="category/new"
-        variant="tertiary"
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      >
+    <StyledListItem key="newCategory">
+      <SafeLinkButton to="category/new" variant="tertiary" onClick={() => setOpen(false)}>
         <AddLine size="small" />
         {t("myNdla.arena.admin.category.form.newCategory")}
       </SafeLinkButton>

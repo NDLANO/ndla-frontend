@@ -133,7 +133,6 @@ const Resources = ({ resources }: ResourcesProps) => {
         value: "addResource",
         icon: <FolderLine />,
         text: t("myNdla.resource.add"),
-        modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
             resource={{

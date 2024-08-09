@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo } from "react";
+import { ReactNode, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useOutletContext } from "react-router-dom";
-import { Portal } from "@ark-ui/react";
+import { useLocation } from "react-router-dom";
+import { Portal, useDialogContext } from "@ark-ui/react";
 import { MenuLine } from "@ndla/icons/action";
 import { ListCheck } from "@ndla/icons/editor";
 import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
@@ -22,7 +22,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { ViewType } from "../Folders/FoldersPage";
-import { OutletContext, menuLinks } from "../MyNdlaLayout";
+import { menuLinks } from "../MyNdlaLayout";
 
 const StyledText = styled(Text, {
   base: {
@@ -100,36 +100,39 @@ interface Props {
 const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
   const { user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location, user).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
-        if (shownForUser && !shownForUser(user)) {
-          return null;
-        }
-        return (
-          <li key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </li>
-        );
-      }),
-    [t, location, user, setIsOpen],
+      menuLinks(t, location, user).map(
+        ({ id, shortName, icon, to, name, iconFilled, shownForUser, reloadDocument }) => {
+          if (shownForUser && !shownForUser(user)) {
+            return null;
+          }
+          return (
+            <li key={id}>
+              <NavigationLink
+                id={id}
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+                onClick={() => setOpen(false)}
+              />
+            </li>
+          );
+        },
+      ),
+    [t, location, user, setOpen],
   );
 
   const notificationLink = useMemo(
     () => (
       <li>
-        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setIsOpen(false)}>
+        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
           <BellIcon
             amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
             left={true}
@@ -138,17 +141,7 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
         </SafeLinkButton>
       </li>
     ),
-    [notifications, setIsOpen, t],
-  );
-
-  const onCloseModal = useCallback(
-    (e: Event) => {
-      if (resetFocus) {
-        e.preventDefault();
-        setResetFocus(false);
-      }
-    },
-    [resetFocus, setResetFocus],
+    [notifications?.items, setOpen, t],
   );
 
   return (
