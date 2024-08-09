@@ -9,9 +9,8 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Button, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArenaFormValues } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
@@ -30,17 +29,23 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-  padding-bottom: ${spacing.large};
-`;
+const PageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "large",
+    paddingBlock: "medium",
+  },
+});
 
-const StyledReplyButton = styled(Button)`
-  float: right;
-  &[hidden] {
-    display: none;
-  }
-`;
+const StyledReplyButton = styled(Button, {
+  base: {
+    float: "right",
+    "&[hidden]": {
+      display: "none",
+    },
+  },
+});
 
 const POST_PAGE = 1;
 const POST_PAGE_SIZE = 100;
@@ -132,34 +137,38 @@ const PostsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
-      <BreadcrumbWrapper>
+      <PageWrapper>
+        <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-      </BreadcrumbWrapper>
-      <MainPostCard
-        post={arenaTopic?.posts?.items[0]!}
-        topic={arenaTopic}
-        onFollowChange={onFollowChange}
-        setFocusId={setFocusId}
-        setReplyingTo={() => setReplyingTo(arenaTopic.id)}
-        isReplying={!!replyingTo}
-      />
-      <PostList
-        posts={arenaTopic?.posts?.items.slice(1)}
-        topic={arenaTopic}
-        setFocusId={setFocusId}
-        createReply={createReply}
-        replyToId={arenaTopic.id}
-        isReplyingTo={replyingTo}
-        setReplyingTo={setReplyingTo}
-      />
-      <StyledReplyButton
-        aria-expanded={!!replyingTo}
-        onClick={() => setReplyingTo(arenaTopic?.id)}
-        hidden={!!replyingTo || !!arenaTopic?.isLocked}
-      >
-        {t("myNdla.arena.new.post")}
-      </StyledReplyButton>
+        <div>
+          <MainPostCard
+            post={arenaTopic?.posts?.items[0]!}
+            topic={arenaTopic}
+            onFollowChange={onFollowChange}
+            setFocusId={setFocusId}
+            setReplyingTo={() => setReplyingTo(arenaTopic.id)}
+            isReplying={!!replyingTo}
+          />
+          <PostList
+            posts={arenaTopic?.posts?.items.slice(1)}
+            topic={arenaTopic}
+            setFocusId={setFocusId}
+            createReply={createReply}
+            replyToId={arenaTopic.id}
+            isReplyingTo={replyingTo}
+            setReplyingTo={setReplyingTo}
+          />
+        </div>
+        <div>
+          <StyledReplyButton
+            aria-expanded={!!replyingTo}
+            onClick={() => setReplyingTo(arenaTopic?.id)}
+            hidden={!!replyingTo || !!arenaTopic?.isLocked}
+          >
+            {t("myNdla.arena.new.post")}
+          </StyledReplyButton>
+        </div>
+      </PageWrapper>
     </MyNdlaPageWrapper>
   );
 };
