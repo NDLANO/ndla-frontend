@@ -7,23 +7,13 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject:20?disableSSR=true");
 });
 
 test("film page has content", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/*");
-  await expect(page.locator("span", { hasText: "Chef Flynn" }).first()).toBeVisible();
-  const subjects = page.locator("div", {
-    has: page.getByRole("heading", { name: "Emner i film:" }),
-    hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
-  });
-  await expect(subjects.getByRole("navigation").getByRole("list").getByRole("listitem")).toHaveCount(7);
-  const identitet = page.locator("div", {
-    has: page.getByRole("heading", { name: "Identitet" }),
-    hasNot: page.locator("span", { hasText: "Sammen skaper vi framtidas læring" }),
-  });
-  await expect(identitet.getByRole("listitem")).toHaveCount(7);
+  await expect(page.getByRole("link", { name: "Chef Flynn", exact: true }).first()).toBeVisible();
+  await expect(page.getByTestId("film-subject-list").getByRole("listitem").getByRole("link")).toHaveCount(8);
 });

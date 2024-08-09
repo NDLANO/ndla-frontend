@@ -83,6 +83,11 @@ const messages = {
       userUpdated: "Bruker oppdatert",
     },
   },
+  ndlaFilm: {
+    films: "Filmer",
+    topics: "Emner",
+    filterFilms: "Filtrer filmer",
+  },
   validation: {
     fields: {
       name: "Navn",
