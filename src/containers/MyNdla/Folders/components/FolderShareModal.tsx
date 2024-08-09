@@ -97,7 +97,6 @@ const StyledButtonRow = styled.div`
 interface BaseProps {
   folder: GQLFolder;
   onCopyText?: () => void;
-  setRef?: () => void;
 }
 
 interface FolderShareModalContentProps extends BaseProps {
@@ -108,12 +107,11 @@ interface FolderShareModalProps extends BaseProps {
   children: ReactNode;
 }
 
-export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return (
-    // TODO: There used to be a onCloseAutoFocus here. It used to do setRef
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
@@ -160,7 +158,6 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
             variant="primary"
             onClick={() => {
               onClose();
-              setRef?.();
             }}
           >
             {t("finished")}
@@ -171,13 +168,13 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
   );
 };
 
-const FolderShareModal = ({ children, folder, onCopyText, setRef }: FolderShareModalProps) => {
+const FolderShareModal = ({ children, folder, onCopyText }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} setRef={setRef} />
+      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} />
     </DialogRoot>
   );
 };

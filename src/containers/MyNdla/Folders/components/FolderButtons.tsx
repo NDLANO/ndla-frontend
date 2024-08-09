@@ -124,13 +124,12 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
     ) : null;
 
   const shareButton = selectedFolder ? (
-    <FolderShareModal
-      key="shareFolderButton"
-      folder={selectedFolder}
-      setRef={() => setTimeout(() => shareRef.current?.focus(), 0)}
-      onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
-    >
-      <StyledListItem key="shareFolderButton">
+    <StyledListItem key="shareFolderButton">
+      <FolderShareModal
+        key="shareFolderButton"
+        folder={selectedFolder}
+        onCopyText={() => copyFolderSharingLink(selectedFolder.id)}
+      >
         <Button
           variant="tertiary"
           ref={shareRef}
@@ -153,8 +152,8 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           <ShareFill size="small" />
           {t("myNdla.folder.sharing.button.shareShort")}
         </Button>
-      </StyledListItem>
-    </FolderShareModal>
+      </FolderShareModal>
+    </StyledListItem>
   ) : null;
 
   const addFolderButton = showAddButton ? (
