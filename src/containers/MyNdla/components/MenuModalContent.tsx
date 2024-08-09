@@ -145,7 +145,6 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
   );
 
   return (
-    // TODO: There used to be a onCloseAutoFocus here. It called onCloseModal
     <Portal>
       <DialogContent>
         <StyledDialogHeader>

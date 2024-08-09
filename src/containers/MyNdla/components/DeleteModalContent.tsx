@@ -38,7 +38,6 @@ const StyledButtonRow = styled("div", {
 const DeleteModalContent = ({ onDelete, title, description, removeText }: Props) => {
   const { t } = useTranslation();
   return (
-    // TODO: We used to call onAutoFocusClose or whatever here.
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>

@@ -88,7 +88,6 @@ interface ContentProps {
 export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    // TODO: Thgere used to be a onCloseAUtoFocus here
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{t("myNdla.newFolder")}</DialogTitle>
