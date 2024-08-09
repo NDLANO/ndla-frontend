@@ -53,12 +53,6 @@ const StyledHeader = styled(Text, {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    paddingTop: "3xsmall",
-  },
-});
-
 const StyledCountContainer = styled("div", {
   base: {
     alignItems: "center",
@@ -78,6 +72,15 @@ const CountContainer = styled("div", {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const TitleContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -85,12 +88,12 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
-      <div>
+      <TitleContainer>
         <StyledHeader data-name="hover" textStyle="title.small" color="text.strong">
           {title}
         </StyledHeader>
-        <StyledText textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</StyledText>
-      </div>
+        <Text textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
+      </TitleContainer>
       <StyledCountContainer>
         {locked ? (
           <StyledLockedIcon />
@@ -99,9 +102,9 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
             <Text textStyle="body.medium" aria-hidden color="text.strong">
               {count}
             </Text>
-            <StyledText aria-hidden textStyle="body.small">
+            <Text aria-hidden textStyle="body.small">
               {t("myNdla.arena.topic.responses")}
-            </StyledText>
+            </Text>
           </CountContainer>
         )}
       </StyledCountContainer>

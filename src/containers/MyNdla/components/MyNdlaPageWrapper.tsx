@@ -28,6 +28,10 @@ const ContentWrapper = styled("main", {
 
 export const Content = styled("div", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    gap: "medium",
     maxWidth: "surface.4xlarge",
     width: "100%",
   },
