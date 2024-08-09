@@ -9,8 +9,6 @@
 import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
 import { InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -26,6 +24,7 @@ import {
   CheckboxRoot,
   Button,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Text } from "@ndla/typography";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -35,38 +34,48 @@ import FieldLength from "../../components/FieldLength";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
-export const ArenaFormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-`;
+export const ArenaFormWrapper = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+  },
+});
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledForm = styled("form", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: "xxsmall",
+  },
+});
 
-const InformationLabel = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
+const InformationLabel = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    gap: "xxsmall",
+  },
+});
 
-const StyledInformationOutline = styled(InformationLine)`
-  overflow: unset !important;
-`;
+const StyledInformationOutline = styled(InformationLine, {
+  base: {
+    overflow: "unset",
+  },
+});
 
 interface ArenaFormProps {
   type: "topic" | "post";

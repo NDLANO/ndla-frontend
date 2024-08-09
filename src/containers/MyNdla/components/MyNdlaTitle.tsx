@@ -6,7 +6,7 @@
  *
  */
 
-import { Heading } from "@ndla/typography";
+import { Heading } from "@ndla/primitives";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 
 const MyNdlaTitle = ({ title }: Props) => {
   return (
-    <Heading element="h1" headingStyle="h1-resource" margin="none" id={SKIP_TO_CONTENT_ID}>
+    <Heading textStyle="title.large" id={SKIP_TO_CONTENT_ID}>
       {title}
     </Heading>
   );
