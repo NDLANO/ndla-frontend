@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { CompassFill } from "@ndla/icons/common";
@@ -199,23 +200,23 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   }
 
   return (
-    <>
-      <DialogRoot size="full">
-        <DialogTrigger asChild>
-          <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
-            {t("competenceGoals.showCompetenceGoals")}
-          </Button>
-        </DialogTrigger>
+    <DialogRoot size="full">
+      <DialogTrigger asChild>
+        <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+          {t("competenceGoals.showCompetenceGoals")}
+        </Button>
+      </DialogTrigger>
+      <Portal>
         <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              <CompassFill />
-              {t("competenceGoals.modalText")}
-            </DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
-            <CompetenceGoalsWrapper>
+          <CompetenceGoalsWrapper>
+            <DialogHeader>
+              <DialogTitle>
+                <CompassFill />
+                {t("competenceGoals.modalText")}
+              </DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
                 orientation="horizontal"
@@ -236,11 +237,11 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                   </TabsContent>
                 ))}
               </TabsRoot>
-            </CompetenceGoalsWrapper>
-          </DialogBody>
+            </DialogBody>
+          </CompetenceGoalsWrapper>
         </DialogContent>
-      </DialogRoot>
-    </>
+      </Portal>
+    </DialogRoot>
   );
 };
 
