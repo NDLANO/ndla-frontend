@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import { Button, Spinner, Text, Heading } from "@ndla/primitives";
+import { Button, Text, Heading } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
