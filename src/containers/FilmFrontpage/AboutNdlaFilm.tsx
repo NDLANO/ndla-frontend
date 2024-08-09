@@ -100,7 +100,6 @@ interface AboutNdlaFilmProps {
         };
       }
     | undefined;
-  loading: boolean;
   article?: BaseArticle;
 }
 
@@ -110,7 +109,7 @@ const StyledOneColumn = styled(OneColumn, {
   },
 });
 
-const AboutNdlaFilm = ({ loading, aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
+const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
 
@@ -120,9 +119,6 @@ const AboutNdlaFilm = ({ loading, aboutNDLAVideo, article }: AboutNdlaFilmProps)
     }
     return undefined;
   }, [article, i18n.language]);
-
-  if (loading) return;
-  if (aboutNDLAVideo === undefined) return null;
 
   return (
     <StyledOneColumn>
