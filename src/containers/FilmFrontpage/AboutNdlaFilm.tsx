@@ -8,11 +8,21 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button, Heading, Image, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  Heading,
+  Image,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
@@ -128,19 +138,21 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
             <p>{aboutNDLAVideo?.description}</p>
           </StyledText>
           {transformedArticle && (
-            <Modal>
-              <ModalTrigger>
+            <DialogRoot size="full">
+              <DialogTrigger asChild>
                 <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
-              </ModalTrigger>
-              <ModalContent size="full">
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <ModalBody>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  {/* TODO: Consider moving title up here? */}
+                  <div />
+                  <DialogCloseButton />
+                </DialogHeader>
+                <DialogBody>
                   <Article article={transformedArticle} oembed={undefined} label="" />
-                </ModalBody>
-              </ModalContent>
-            </Modal>
+                </DialogBody>
+              </DialogContent>
+            </DialogRoot>
           )}
         </StyledDiv>
       </StyledAside>

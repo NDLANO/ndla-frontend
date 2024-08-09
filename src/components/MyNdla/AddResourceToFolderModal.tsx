@@ -8,8 +8,7 @@
 
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
+import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
@@ -35,18 +34,18 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
   const close = useCallback(() => setOpen(false), []);
 
   return (
-    <Modal open={open} onOpenChange={setOpen} modal={!authenticated}>
-      <ModalTrigger>{children}</ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} modal={!authenticated}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       {authenticated ? (
-        <ModalContent>
-          <ModalHeader>
-            <ModalTitle>{t("myNdla.resource.addToMyNdla")}</ModalTitle>
-            <ModalCloseButton />
-          </ModalHeader>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
           <DialogBody>
             <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
           </DialogBody>
-        </ModalContent>
+        </DialogContent>
       ) : (
         <LoginModalContent
           title={t("myNdla.myPage.loginResourcePitch")}
@@ -68,7 +67,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
           }
         />
       )}
-    </Modal>
+    </DialogRoot>
   );
 };
 

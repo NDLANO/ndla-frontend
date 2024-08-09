@@ -3435,23 +3435,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/modal@npm:^8.0.4-alpha.0":
-  version: 8.0.4-alpha.0
-  resolution: "@ndla/modal@npm:8.0.4-alpha.0"
-  dependencies:
-    "@ndla/core": "npm:^5.0.1"
-    "@ndla/icons": "npm:^8.0.4-alpha.0"
-    "@radix-ui/react-dialog": "npm:^1.0.5"
-  peerDependencies:
-    "@emotion/react": ^11.10.4
-    "@emotion/styled": ^11.10.4
-    react: ">= 16.8.0"
-    react-dom: ">= 16.8.0"
-    react-i18next: ^14.1.1
-  checksum: 10c0/d078b6fd8a2a876128e36ebb35e25b57bce9a6413d1ed05920eacdd5653a585e7e1ffa1bf7bba466f43d33f72661f1a275f628b94360aabacb04d14e337387a6
-  languageName: node
-  linkType: hard
-
 "@ndla/preset-panda@npm:^0.0.15":
   version: 0.0.15
   resolution: "@ndla/preset-panda@npm:0.0.15"
@@ -4042,39 +4025,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/3de5761b32cc70cd61715527f29d8c699c01ab28c195ced972ccbc7025763a373a68f18c9f948c7a7b922e469fd2df7fee5f7536e3f7bad44ffc06d959359333
-  languageName: node
-  linkType: hard
-
-"@radix-ui/react-dialog@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "@radix-ui/react-dialog@npm:1.0.5"
-  dependencies:
-    "@babel/runtime": "npm:^7.13.10"
-    "@radix-ui/primitive": "npm:1.0.1"
-    "@radix-ui/react-compose-refs": "npm:1.0.1"
-    "@radix-ui/react-context": "npm:1.0.1"
-    "@radix-ui/react-dismissable-layer": "npm:1.0.5"
-    "@radix-ui/react-focus-guards": "npm:1.0.1"
-    "@radix-ui/react-focus-scope": "npm:1.0.4"
-    "@radix-ui/react-id": "npm:1.0.1"
-    "@radix-ui/react-portal": "npm:1.0.4"
-    "@radix-ui/react-presence": "npm:1.0.1"
-    "@radix-ui/react-primitive": "npm:1.0.3"
-    "@radix-ui/react-slot": "npm:1.0.2"
-    "@radix-ui/react-use-controllable-state": "npm:1.0.1"
-    aria-hidden: "npm:^1.1.1"
-    react-remove-scroll: "npm:2.5.5"
-  peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
-    react: ^16.8 || ^17.0 || ^18.0
-    react-dom: ^16.8 || ^17.0 || ^18.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    "@types/react-dom":
-      optional: true
-  checksum: 10c0/c5b3069397379e79857a3203f3ead4d12d87736b59899f02a63e620a07dd1e6704e15523926cdf8e39afe1c945a7ff0f2533c5ea5be1e17c3114820300a51133
   languageName: node
   linkType: hard
 
@@ -8986,8 +8936,8 @@ __metadata:
   linkType: hard
 
 "eslint-config-ndla@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "eslint-config-ndla@npm:5.0.3"
+  version: 5.0.4
+  resolution: "eslint-config-ndla@npm:5.0.4"
   dependencies:
     "@babel/eslint-parser": "npm:^7.23.10"
     "@typescript-eslint/eslint-plugin": "npm:^7.1.1"
@@ -8996,13 +8946,12 @@ __metadata:
     eslint-plugin-header: "npm:^3.1.1"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.8.0"
-    eslint-plugin-lodash: "npm:^7.4.0"
     eslint-plugin-react: "npm:^7.34.0"
     eslint-plugin-react-hooks: "npm:^4.6.0"
   peerDependencies:
     "@babel/core": ">= 7.0.0"
     eslint: ">= 8.0.0"
-  checksum: 10c0/56385480b580b0aa00111399ca0adaad4683118a348b8c772261ae1bf46d73bd13a7fcdabfd93b9fcd919a018e3a34399b5b096de09cd94292af78b485b762f9
+  checksum: 10c0/757c8d261dc2f0efc90e0da7ca20ae28b6b9368410e188e7d003156c2039f5c12e185bc1e15e280e6f1a37fdc3af286fc85c008ce92a420da864755c58b2ec05
   languageName: node
   linkType: hard
 
@@ -9088,17 +9037,6 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
   checksum: 10c0/199b883e526e6f9d7c54cb3f094abc54f11a1ec816db5fb6cae3b938eb0e503acc10ccba91ca7451633a9d0b9abc0ea03601844a8aba5fe88c5e8897c9ac8f49
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-lodash@npm:^7.4.0":
-  version: 7.4.0
-  resolution: "eslint-plugin-lodash@npm:7.4.0"
-  dependencies:
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    eslint: ">=2"
-  checksum: 10c0/6bd681e7374d4c7f9d150556206eb76e9240b0423ffc65a74178816102ba7063227cc296ed8e10c40108e040935fd29871db4ba0a6b6c6eeef49ee341b203ff4
   languageName: node
   linkType: hard
 
@@ -12206,7 +12144,6 @@ __metadata:
     "@ndla/error-reporter": "npm:^2.0.2"
     "@ndla/icons": "npm:^8.0.4-alpha.0"
     "@ndla/licenses": "npm:^8.0.0-alpha.0"
-    "@ndla/modal": "npm:^8.0.4-alpha.0"
     "@ndla/preset-panda": "npm:^0.0.15"
     "@ndla/primitives": "npm:^1.0.4-alpha.0"
     "@ndla/safelink": "npm:^7.0.4-alpha.0"

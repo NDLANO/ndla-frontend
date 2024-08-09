@@ -14,10 +14,10 @@ import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { CursorClick } from "@ndla/icons/action";
 import { PlayCircleFill } from "@ndla/icons/common";
 import { ExpandDiagonalLine } from "@ndla/icons/editor";
-import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Image } from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogRoot, DialogTrigger, Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
 import { getCrop, getFocalPoint } from "@ndla/ui";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   visualElementEmbedMeta: EmbedMetaData;
@@ -95,10 +95,6 @@ const ExpandVisualElementButton = styled.span`
   }
 `;
 
-const StyledModalHeader = styled(ModalHeader)`
-  padding: ${spacing.small} ${spacing.nsmall};
-`;
-
 const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, visualElement }: Props) => {
   const { t } = useTranslation();
 
@@ -147,8 +143,9 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
 
   return (
     <TopicHeaderVisualElementWrapper>
-      <Modal>
-        <ModalTrigger>
+      <DialogRoot size="large">
+        {/* TODO: Remove consumeCss once VisualElementButton is fixed. This'll probably removed anyways */}
+        <DialogTrigger asChild consumeCss>
           <VisualElementButton
             variant="stripped"
             title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
@@ -165,14 +162,15 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
               {VisualElementIcon && <VisualElementIcon />}
             </ExpandVisualElementButton>
           </VisualElementButton>
-        </ModalTrigger>
-        <ModalContent aria-label={t("topicPage.imageModal")} animation="subtle" animationDuration={50} size="large">
-          <StyledModalHeader>
-            <ModalCloseButton />
-          </StyledModalHeader>
+        </DialogTrigger>
+        <DialogContent aria-label={t("topicPage.imageModal")}>
+          <DialogHeader>
+            <div />
+            <DialogCloseButton />
+          </DialogHeader>
           {visualElement}
-        </ModalContent>
-      </Modal>
+        </DialogContent>
+      </DialogRoot>
     </TopicHeaderVisualElementWrapper>
   );
 };

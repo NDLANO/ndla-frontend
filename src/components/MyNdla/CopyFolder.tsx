@@ -9,8 +9,7 @@
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InformationLine, AlertLine } from "@ndla/icons/common";
-import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Button, Text, MessageBox } from "@ndla/primitives";
+import { Button, Text, MessageBox, DialogContent, DialogHeader, DialogTitle, DialogBody } from "@ndla/primitives";
 import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
@@ -19,6 +18,7 @@ import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { DialogCloseButton } from "../DialogCloseButton";
 import { useToast } from "../ToastContext";
 
 interface Props {
@@ -48,12 +48,12 @@ const CopyFolder = ({ folder, onClose }: Props) => {
   };
 
   return (
-    <ModalContent>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.resource.copyToMyNdla")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <ModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.resource.copyToMyNdla")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <AddResourceContainer>
           <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
           {examLock ? (
@@ -110,8 +110,8 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             </Button>
           </ButtonRow>
         </AddResourceContainer>
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 
