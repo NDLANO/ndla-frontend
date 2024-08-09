@@ -31,7 +31,7 @@ const StyledDiv = styled("div", {
     padding: "small",
     width: "100%",
     tabletDown: {
-      "&:first-of-type": {
+      _firstOfType: {
         paddingBottom: "0",
       },
     },
