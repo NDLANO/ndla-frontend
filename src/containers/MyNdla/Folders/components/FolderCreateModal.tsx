@@ -9,9 +9,17 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import FolderForm, { FolderFormValues } from "./FolderForm";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useAddFolderMutation, useFolders } from "../../folderMutations";
 
@@ -39,13 +47,13 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
   );
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <Button variant="tertiary" aria-label={t("myNdla.newFolder")} title={t("myNdla.newFolder")}>
           <AddLine size="small" />
           <span>{t("myNdla.newFolderShort")}</span>
         </Button>
-      </ModalTrigger>
+      </DialogTrigger>
       <CreateModalContent
         onClose={onModalClose}
         parentFolder={parentFolder}
@@ -64,7 +72,7 @@ const FolderCreateModal = ({ onSaved, parentFolder }: Props) => {
           onSaved(folder);
         }}
       />
-    </Modal>
+    </DialogRoot>
   );
 };
 
@@ -81,12 +89,13 @@ interface ContentProps {
 export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, skipAutoFocus }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    <ModalContent onCloseAutoFocus={onClose}>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.newFolder")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+    // TODO: Thgere used to be a onCloseAUtoFocus here
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.newFolder")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <FolderForm
           siblings={parentFolder?.subfolders ?? folders ?? []}
           onSave={async (values) => {
@@ -95,7 +104,7 @@ export const CreateModalContent = ({ onClose, parentFolder, folders, onCreate, s
             onClose();
           }}
         />
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };

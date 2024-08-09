@@ -8,13 +8,15 @@
 
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
+import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
 import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
 import { AuthContext } from "../AuthenticationContext";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -36,14 +38,14 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
     <Modal open={open} onOpenChange={setOpen} modal={!authenticated}>
       <ModalTrigger>{children}</ModalTrigger>
       {authenticated ? (
-        <ModalContent forceOverlay>
+        <ModalContent>
           <ModalHeader>
             <ModalTitle>{t("myNdla.resource.addToMyNdla")}</ModalTitle>
-            <ModalCloseButton title={t("modal.closeModal")} />
+            <ModalCloseButton />
           </ModalHeader>
-          <ModalBody>
+          <DialogBody>
             <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-          </ModalBody>
+          </DialogBody>
         </ModalContent>
       ) : (
         <LoginModalContent
@@ -79,15 +81,15 @@ interface ContentProps {
 export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, close }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    <ModalContent forceOverlay>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.resource.addToMyNdla")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <ModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 

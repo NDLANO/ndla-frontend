@@ -48,18 +48,20 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const disableModification = topic?.isLocked && !user?.isModerator;
 
   const update: MenuItemProps = {
+    type: "action",
+    value: "editPost",
     icon: <PencilFill />,
     text: t("myNdla.arena.posts.dropdownMenu.edit"),
-    type: "tertiary",
     disabled: disableModification,
     onClick: () => setIsEditing(true),
   };
 
   const deleteItem: MenuItemProps = {
+    type: "dialog",
+    value: "deletePost",
     icon: <DeleteBinLine />,
-    type: "danger",
+    variant: "destructive",
     text: t("myNdla.arena.posts.dropdownMenu.delete"),
-    isModal: true,
     disabled: disableModification,
     modalContent: (close, skipAutoFocus) => (
       <DeleteModalContent
@@ -73,19 +75,20 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   };
 
   const report: MenuItemProps = {
+    type: "dialog",
+    value: "reportPost",
     icon: <SpamLine />,
     text: t("myNdla.arena.posts.dropdownMenu.report"),
-    type: "tertiary",
-    isModal: true,
     modality: false,
     modalContent: (close) => <FlagPostModalContent id={postId} onClose={close} />,
   };
 
   const lockUnlock: MenuItemProps = {
+    type: "dialog",
+    value: "lockPost",
     icon: <LockFill />,
     text: topic?.isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked"),
-    type: "danger",
-    isModal: true,
+    variant: "destructive",
     modalContent: (close) => <LockModal topic={topic} post={post} onClose={close} />,
   };
 

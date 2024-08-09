@@ -11,8 +11,15 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ModalCloseButton } from "@ndla/modal";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, FieldTextArea } from "@ndla/primitives";
+import {
+  Button,
+  DialogCloseTrigger,
+  FieldErrorMessage,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
+} from "@ndla/primitives";
 import { GQLFolder } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -117,9 +124,9 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
       />
       <StyledParagraph>{t("myNdla.folder.sharedWarning")}</StyledParagraph>
       <ButtonRow>
-        <ModalCloseButton>
+        <DialogCloseTrigger asChild>
           <Button variant="secondary">{t("cancel")}</Button>
-        </ModalCloseButton>
+        </DialogCloseTrigger>
         <Button loading={loading} disabled={loading} type="submit" aria-label={loading ? t("loading") : undefined}>
           {t("save")}
         </Button>

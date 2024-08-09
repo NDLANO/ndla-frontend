@@ -7,11 +7,17 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import {
+  Text,
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogCloseTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 
 interface Props {
   onDelete: () => void;
@@ -21,32 +27,35 @@ interface Props {
   onClose?: (e?: Event) => void;
 }
 
-const StyledButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const StyledButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "xsmall",
+  },
+});
 
-const DeleteModalContent = ({ onDelete, onClose, title, description, removeText }: Props) => {
+const DeleteModalContent = ({ onDelete, title, description, removeText }: Props) => {
   const { t } = useTranslation();
   return (
-    <ModalContent onCloseAutoFocus={onClose}>
-      <ModalHeader>
-        <ModalTitle>{title}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+    // TODO: We used to call onAutoFocusClose or whatever here.
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <Text>{description}</Text>
         <StyledButtonRow>
-          <ModalCloseButton>
+          <DialogCloseTrigger asChild>
             <Button variant="secondary">{t("cancel")}</Button>
-          </ModalCloseButton>
+          </DialogCloseTrigger>
           <Button variant="danger" onClick={onDelete}>
             {removeText}
           </Button>
         </StyledButtonRow>
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 

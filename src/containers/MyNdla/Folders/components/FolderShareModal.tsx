@@ -12,21 +12,23 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Tooltip } from "@ndla/tooltip";
 import FolderAndResourceCount from "./FolderAndResourceCount";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-flow: column;
-  gap: ${spacing.normal};
-`;
 
 const GapWrapper = styled.div`
   display: flex;
@@ -111,12 +113,13 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
   const toast = useToast();
 
   return (
-    <ModalContent onCloseAutoFocus={setRef}>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.folder.sharing.header.shared")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <StyledModalBody>
+    // TODO: There used to be a onCloseAutoFocus here. It used to do setRef
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <GapWrapper>
           <FolderName aria-label={folder.name}>{folder.name}</FolderName>
           <FolderAndResourceCount
@@ -163,8 +166,8 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
             {t("finished")}
           </Button>
         </StyledButtonRow>
-      </StyledModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 
@@ -172,10 +175,10 @@ const FolderShareModal = ({ children, folder, onCopyText, setRef }: FolderShareM
   const [open, setOpen] = useState(false);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>{children}</ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} setRef={setRef} />
-    </Modal>
+    </DialogRoot>
   );
 };
 

@@ -27,6 +27,8 @@ export const PostActions = () => {
       showSingle
       menuItems={[
         {
+          type: "link",
+          value: "newTopic",
           icon: <AddLine />,
           text: t("myNdla.arena.new.topic"),
           link: "topic/new",
@@ -64,6 +66,8 @@ export const TopicActions = () => {
       showSingle
       menuItems={[
         {
+          type: "link",
+          value: "newCategory",
           icon: <AddLine />,
           text: t("myNdla.arena.admin.category.form.newCategory"),
           link: "category/new",

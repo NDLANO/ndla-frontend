@@ -28,8 +28,7 @@ import {
 } from "@ndla/icons/common";
 import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button, MessageBox } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger, MessageBox } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import NavigationLink from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
@@ -146,19 +145,19 @@ const MyNdlaLayout = () => {
 
   return (
     <StyledLayout>
-      <Modal open={isOpen} onOpenChange={setIsOpen}>
+      <DialogRoot open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
             <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
           </nav>
-          <ModalTrigger>
+          <DialogTrigger asChild>
             <MoreButton variant="tertiary">
               <MoreLine />
               <Text margin="none" textStyle="meta-text-xxsmall">
                 {t("myNdla.iconMenu.more")}
               </Text>
             </MoreButton>
-          </ModalTrigger>
+          </DialogTrigger>
         </StyledSideBar>
         <StyledContent>
           {examLock && (
@@ -168,7 +167,7 @@ const MyNdlaLayout = () => {
           )}
           <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
         </StyledContent>
-      </Modal>
+      </DialogRoot>
     </StyledLayout>
   );
 };

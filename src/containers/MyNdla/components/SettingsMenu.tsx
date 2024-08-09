@@ -6,30 +6,57 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
-import { isMobile, isTablet } from "react-device-detect";
+import { ReactNode, MouseEvent, useState, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
-import { DropdownMenu, DropdownItem, DropdownContent, DropdownTrigger } from "@ndla/dropdown-menu";
+import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons/contentType";
-import { Drawer, Modal, ModalBody, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button, IconButton } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  Heading,
+  IconButton,
+  MenuContent,
+  MenuItem,
+  MenuItemVariantProps,
+  MenuPositioner,
+  MenuRoot,
+  MenuTrigger,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { useUserAgent } from "../../../UserAgentContext";
 
-export interface MenuItemProps {
+interface BaseMenuItem {
+  value: string;
   icon?: ReactNode;
   text?: string;
   disabled?: boolean;
-  type?: "danger" | "tertiary";
-  isModal?: boolean;
+  variant?: NonNullable<MenuItemVariantProps>["variant"];
   onClick?: (e?: MouseEvent<HTMLElement>) => void;
-  keepOpen?: boolean;
-  ref?: RefObject<HTMLButtonElement>;
-  modalContent?: (close: VoidFunction, setSkipAutoFocus: VoidFunction) => ReactNode;
-  modality?: boolean;
-  link?: string;
 }
+
+interface LinkMenuItem extends BaseMenuItem {
+  type: "link";
+  link: string;
+}
+
+interface ButtonMenuItem extends BaseMenuItem {
+  type: "action";
+  onClick: (e?: MouseEvent<HTMLElement>) => void;
+}
+
+export interface DialogMenuItem extends BaseMenuItem {
+  type: "dialog";
+  modalContent: (close: VoidFunction, setSkipAutoFocus: VoidFunction) => ReactNode;
+  modality?: boolean;
+}
+
+export type MenuItemProps = LinkMenuItem | ButtonMenuItem | DialogMenuItem;
 
 interface Props {
   menuItems?: MenuItemProps[];
@@ -37,61 +64,56 @@ interface Props {
   showSingle?: boolean;
 }
 
-const StyledDrawer = styled(Drawer)`
-  max-height: 100%;
-  border-top-left-radius: ${misc.borderRadius};
-  border-top-right-radius: ${misc.borderRadius};
-  ${mq.range({ until: breakpoints.tablet })} {
-    min-height: 20%;
-  }
-`;
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    maxHeight: "100%",
+    borderTopRadius: "xsmall!",
+    tabletDown: {
+      minHeight: "20%",
+    },
+  },
+});
 
-const StyledListItem = styled.li`
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+  variants: {
+    mobile: {
+      true: {
+        "& > li": {
+          padding: "4xsmall",
+          borderBottom: "1px solid",
+          borderColor: "surface.brand.2.moderate",
+          "& a, button": {
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+          },
+        },
+      },
+    },
+  },
+});
 
-const StyledList = styled.ul`
-  padding: 0;
-  list-style: none;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding: 0 0 ${spacing.large} 0px;
-`;
-
-const StyledListItemMobile = styled.li`
-  border-bottom: 1px solid ${colors.brand.neutral7};
-  padding: 0;
-`;
-
-const StyledDropdownContent = styled(DropdownContent)`
-  &[hidden] {
-    display: none;
-  }
-`;
-
-const StyledSafeLinkItem = styled(SafeLinkButton)`
-  display: flex;
-  justify-content: flex-start;
-`;
-
-const StyledButtonItem = styled(Button)`
-  display: flex;
-  justify-content: flex-start;
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    paddingBlockStart: "0",
+    paddingInline: "0",
+  },
+});
 
 const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   const [open, setOpen] = useState(false);
   const [hasOpenModal, setHasOpenModal] = useState(false);
   const [skipAutoFocus, setSkipAutoFocus] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const selectors = useUserAgent();
   const { t } = useTranslation();
 
-  const handleDialogItemOpenChange = (open: boolean, keepOpen?: boolean) => {
+  const handleDialogItemOpenChange = (open: boolean) => {
     setHasOpenModal(open);
-    if (!open && !keepOpen) {
+    if (!open) {
       setOpen(false);
     }
   };
@@ -100,227 +122,127 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
 
   const title = t("myNdla.showEditOptions");
 
-  if (isMobile || isTablet) {
-    return (
-      <Modal open={open} onOpenChange={setOpen}>
-        <ModalTrigger>
-          <IconButton
-            title={title}
-            aria-label={title}
-            variant="tertiary"
-            disabled={!menuItems?.length}
-            ref={dropdownTriggerRef}
-          >
-            <MoreLine />
-          </IconButton>
-        </ModalTrigger>
-        <StyledDrawer
-          expands
-          position="bottom"
-          size="small"
-          hidden={hasOpenModal}
-          onCloseAutoFocus={(event) => {
-            setHasOpenModal(false);
-            if (skipAutoFocus) {
-              event.preventDefault();
-              setSkipAutoFocus(false);
-            } else if (dropdownTriggerRef.current) {
-              event.preventDefault();
-              dropdownTriggerRef.current.focus();
+  const buttonSize = showSingle && menuItems?.length === 1 ? "default" : "small";
+
+  const items = menuItems?.map((item) => (
+    <li key={item.value}>
+      <Button
+        disabled={item.disabled}
+        variant={item.variant === "destructive" ? "danger" : "tertiary"}
+        size={buttonSize}
+        asChild={item.type !== "action"}
+        onClick={(e) => {
+          if (item.onClick) {
+            item.onClick(e);
+            if (item.type !== "dialog") {
+              close();
             }
-          }}
-        >
-          <ModalHeader>
-            <h1>{modalHeader ?? t("myNdla.settings")}</h1>
-            <ModalCloseButton />
-          </ModalHeader>
-          <StyledModalBody>
-            {!!menuItems?.length && (
-              <StyledList>
-                {menuItems.map((item) => (
-                  <StyledListItemMobile key={item.text}>
-                    <Item
-                      keepOpen={item.keepOpen}
-                      handleDialogItemOpenChange={handleDialogItemOpenChange}
-                      isModal={item.isModal}
-                      modalContent={item.modalContent}
-                      modality={item.modality}
-                      setSkipAutoFocus={() => setSkipAutoFocus(true)}
-                    >
-                      <Button
-                        variant={item.type ?? "tertiary"}
-                        size="small"
-                        ref={item.ref}
-                        onClick={(e) => {
-                          if (item.onClick) {
-                            item.onClick(e);
-                            if (!item.modalContent) {
-                              close();
-                            }
-                          }
-                        }}
-                      >
-                        {item.icon}
-                        {item.text}
-                      </Button>
-                    </Item>
-                  </StyledListItemMobile>
-                ))}
-              </StyledList>
-            )}
-          </StyledModalBody>
-        </StyledDrawer>
-      </Modal>
-    );
-  }
-
-  if (showSingle && menuItems && menuItems.length === 1) {
-    return (
-      <StyledList>
-        {menuItems.map((item) => (
-          <Item
-            key={item.text}
-            handleDialogItemOpenChange={handleDialogItemOpenChange}
-            isModal={item.isModal}
-            modalContent={item.modalContent}
-            keepOpen={item.keepOpen}
-            modality={item.modality}
-            setSkipAutoFocus={() => setSkipAutoFocus(true)}
-          >
-            {item.link ? (
-              <StyledSafeLinkItem
-                tabIndex={-1}
-                key={item.text}
-                variant="tertiary"
-                to={item.link}
-                aria-label={item.text}
-              >
-                {item.icon}
-                {item.text}
-              </StyledSafeLinkItem>
-            ) : (
-              <StyledButtonItem
-                disabled={item.disabled}
-                variant={item.type ?? "tertiary"}
-                data-type={item.type}
-                onClick={item.onClick}
-                ref={item.ref}
-              >
-                {item.icon}
-                {item.text}
-              </StyledButtonItem>
-            )}
-          </Item>
-        ))}
-      </StyledList>
-    );
-  }
-
-  return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownTrigger>
-        <IconButton
-          title={title}
-          aria-label={title}
-          variant="tertiary"
-          disabled={!menuItems?.length}
-          ref={dropdownTriggerRef}
-        >
-          <MoreLine />
-        </IconButton>
-      </DropdownTrigger>
-      <StyledDropdownContent
-        showArrow
-        side="bottom"
-        align="end"
-        hidden={hasOpenModal}
-        forceMount
-        onCloseAutoFocus={(event) => {
-          setHasOpenModal(false);
-          if (skipAutoFocus) {
-            event.preventDefault();
-            setSkipAutoFocus(false);
-          } else if (dropdownTriggerRef.current) {
-            event.preventDefault();
-            dropdownTriggerRef.current?.focus();
           }
         }}
       >
-        <StyledList>
+        <Item
+          item={item}
+          handleDialogItemOpenChange={handleDialogItemOpenChange}
+          setSkipAutoFocus={() => setSkipAutoFocus(true)}
+        >
+          {item.icon}
+          {item.text}
+        </Item>
+      </Button>
+    </li>
+  ));
+
+  if (selectors?.isMobile || selectors?.isTablet) {
+    return (
+      <DialogRoot open={open} variant="dialog" position="bottom" onOpenChange={(details) => setOpen(details.open)}>
+        <DialogTrigger asChild ref={dropdownTriggerRef}>
+          <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
+            <MoreLine />
+          </IconButton>
+        </DialogTrigger>
+        <StyledDialogContent
+          hidden={hasOpenModal}
+          // onCloseAutoFocus={(event) => {
+          //   setHasOpenModal(false);
+          //   if (skipAutoFocus) {
+          //     event.preventDefault();
+          //     setSkipAutoFocus(false);
+          //   } else if (dropdownTriggerRef.current) {
+          //     event.preventDefault();
+          //     dropdownTriggerRef.current.focus();
+          //   }
+          // }}
+        >
+          <DialogHeader>
+            <Heading textStyle="heading.small">{modalHeader ?? t("myNdla.settings")}</Heading>
+            <DialogCloseButton />
+          </DialogHeader>
+          <StyledDialogBody>{!!menuItems?.length && <StyledList mobile>{items}</StyledList>}</StyledDialogBody>
+        </StyledDialogContent>
+      </DialogRoot>
+    );
+  }
+
+  if (showSingle && menuItems?.length === 1) {
+    return <StyledList>{items}</StyledList>;
+  }
+
+  return (
+    <MenuRoot open={open} positioning={{ placement: "bottom-end" }} onOpenChange={(details) => setOpen(details.open)}>
+      <MenuTrigger asChild ref={dropdownTriggerRef}>
+        <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
+          <MoreLine />
+        </IconButton>
+      </MenuTrigger>
+      <MenuPositioner>
+        <MenuContent
+        // onCloseAutoFocus={(event) => {
+        //   setHasOpenModal(false);
+        //   if (skipAutoFocus) {
+        //     event.preventDefault();
+        //     setSkipAutoFocus(false);
+        //   } else if (dropdownTriggerRef.current) {
+        //     event.preventDefault();
+        //     dropdownTriggerRef.current?.focus();
+        //   }
+        // }}
+        >
           {menuItems?.map((item) => (
-            <Item
-              key={item.text}
-              handleDialogItemOpenChange={handleDialogItemOpenChange}
-              isModal={item.isModal}
-              modalContent={item.modalContent}
-              keepOpen={item.keepOpen}
-              modality={item.modality}
-              setSkipAutoFocus={() => setSkipAutoFocus(true)}
+            <MenuItem
+              key={item.value}
+              value={item.value}
+              variant={item.variant}
+              onClick={item.type === "action" ? item.onClick : undefined}
+              disabled={item.disabled}
+              closeOnSelect={item.type !== "dialog"}
+              asChild={item.type !== "action"}
+              consumeCss
             >
-              <DropdownItem
-                asChild
-                onSelect={(e) => {
-                  if (!item.onClick || (!!item.onClick && !!item.modalContent)) {
-                    e.preventDefault();
-                  }
-                }}
+              <Item
+                item={item}
+                handleDialogItemOpenChange={handleDialogItemOpenChange}
+                setSkipAutoFocus={() => setSkipAutoFocus(true)}
               >
-                {item.link ? (
-                  <StyledSafeLinkItem
-                    tabIndex={-1}
-                    role="menuitem"
-                    key={item.text}
-                    variant="tertiary"
-                    size="small"
-                    to={item.link}
-                    aria-label={item.text}
-                  >
-                    {item.icon}
-                    {item.text}
-                  </StyledSafeLinkItem>
-                ) : (
-                  <StyledButtonItem
-                    disabled={item.disabled}
-                    variant={item.type ?? "tertiary"}
-                    size="small"
-                    data-type={item.type}
-                    onClick={item.onClick}
-                    ref={item.ref}
-                  >
-                    {item.icon}
-                    {item.text}
-                  </StyledButtonItem>
-                )}
-              </DropdownItem>
-            </Item>
+                {item.icon}
+                {item.text}
+              </Item>
+            </MenuItem>
           ))}
-        </StyledList>
-      </StyledDropdownContent>
-    </DropdownMenu>
+        </MenuContent>
+      </MenuPositioner>
+    </MenuRoot>
   );
 };
 
-interface ItemProps extends Pick<MenuItemProps, "isModal" | "modalContent" | "keepOpen" | "modality"> {
+interface ItemProps {
   children?: ReactNode;
-  handleDialogItemOpenChange?: (open: boolean, keepOpen?: boolean) => void;
+  handleDialogItemOpenChange?: (open: boolean) => void;
   setSkipAutoFocus: VoidFunction;
+  item: MenuItemProps;
 }
 
-const Item = ({
-  handleDialogItemOpenChange,
-  setSkipAutoFocus,
-  modality = true,
-  modalContent,
-  keepOpen,
-  children,
-  isModal,
-}: ItemProps) => {
+const Item = ({ handleDialogItemOpenChange, setSkipAutoFocus, children, item, ...rest }: ItemProps) => {
   const [open, setOpen] = useState(false);
-
-  const close = useCallback(() => {
-    handleDialogItemOpenChange?.(false, keepOpen);
-    setOpen(false);
-  }, [handleDialogItemOpenChange, keepOpen]);
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -330,17 +252,27 @@ const Item = ({
     [handleDialogItemOpenChange],
   );
 
-  if (!isModal || !modalContent) {
-    return <StyledListItem>{children}</StyledListItem>;
+  const close = useCallback(() => onOpenChange(false), [onOpenChange]);
+
+  if (item.type === "link") {
+    return (
+      <SafeLink unstyled to={item.link} {...rest}>
+        {children}
+      </SafeLink>
+    );
+  }
+
+  if (item.type === "action") {
+    return children;
   }
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange} modal={modality}>
-      <ModalTrigger>
-        <StyledListItem>{children}</StyledListItem>
-      </ModalTrigger>
-      {modalContent(close, setSkipAutoFocus)}
-    </Modal>
+    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)} modal={item.modality ?? true}>
+      <DialogTrigger css={{ all: "unset" }} {...rest}>
+        {children}
+      </DialogTrigger>
+      <Portal>{item.modalContent(close, setSkipAutoFocus)}</Portal>
+    </DialogRoot>
   );
 };
 export default SettingsMenu;

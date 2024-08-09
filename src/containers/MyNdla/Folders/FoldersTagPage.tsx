@@ -129,9 +129,10 @@ const Resources = ({ resources }: ResourcesProps) => {
 
     return [
       {
+        type: "dialog",
+        value: "addResource",
         icon: <FolderLine />,
         text: t("myNdla.resource.add"),
-        isModal: true,
         modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
@@ -145,6 +146,8 @@ const Resources = ({ resources }: ResourcesProps) => {
         ),
       },
       {
+        type: "action",
+        value: "copyResourceLink",
         icon: <LinkMedium />,
         text: t("myNdla.resource.copyLink"),
         onClick: () => {

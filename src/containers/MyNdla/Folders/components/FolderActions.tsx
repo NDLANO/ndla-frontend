@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo, useRef } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { CloseLine, PencilFill, AddLine } from "@ndla/icons/action";
@@ -52,10 +52,6 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
   const { unFavoriteSharedFolder } = useUnFavoriteSharedFolder();
 
   const { user, examLock } = useContext(AuthContext);
-
-  const shareRef = useRef<HTMLButtonElement | null>(null);
-  const unShareRef = useRef<HTMLButtonElement | null>(null);
-  const unLinkRef = useRef<HTMLButtonElement | null>(null);
 
   const isFolderShared = selectedFolder?.status !== "private";
 
@@ -152,9 +148,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     if (examLock) return [];
 
     const addFolderButton: MenuItemProps = {
+      type: "dialog",
+      value: "newFolder",
       icon: <AddLine />,
       text: t("myNdla.newFolderShort"),
-      isModal: true,
       modalContent: (close, setFocus) => (
         <CreateModalContent
           onClose={close}
@@ -169,19 +166,20 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     if (!selectedFolder) return [addFolderButton];
 
     const editFolder: MenuItemProps = {
+      type: "dialog",
+      value: "editFolder",
       icon: <PencilFill />,
       text: t("myNdla.folder.editShort"),
-      isModal: true,
       modalContent: (close) => (
         <EditFolderModalContent onClose={close} onSaved={onFolderUpdated} folder={selectedFolder} />
       ),
     };
 
     const share: MenuItemProps = {
+      type: "dialog",
+      value: "shareFolder",
       icon: <ShareFill />,
       text: t("myNdla.folder.sharing.button.shareShort"),
-      ref: shareRef,
-      isModal: true,
       modalContent: (close) => (
         <FolderShareModalContent
           folder={selectedFolder}
@@ -205,6 +203,8 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const previewFolder: MenuItemProps = {
+      type: "link",
+      value: "previewFolder",
       icon: <ShareArrow />,
       link: routes.folder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
@@ -214,6 +214,8 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const copyLink: MenuItemProps = {
+      type: "action",
+      value: "copyFolderLink",
       icon: <LinkMedium />,
       text: t("myNdla.folder.sharing.copyLink"),
       onClick: () => {
@@ -225,9 +227,10 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const unShare: MenuItemProps = {
+      type: "action",
+      value: "unshareFolder",
       icon: <CloseLine />,
       text: t("myNdla.folder.sharing.button.unShare"),
-      ref: unShareRef,
       onClick: () => {
         updateFolderStatus({
           variables: {
@@ -242,10 +245,11 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const deleteLink: MenuItemProps = {
+      type: "action",
+      value: "unfavoriteFolder",
       icon: <CloseLine />,
       text: t("myNdla.folder.sharing.button.unSaveLink"),
-      type: "danger",
-      ref: unLinkRef,
+      variant: "destructive",
       onClick: async () => {
         await onUnFavoriteSharedFolder();
         toast.create({
@@ -255,10 +259,11 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     };
 
     const deleteOpt: MenuItemProps = {
+      type: "dialog",
+      value: "deleteFolder",
       icon: <DeleteForever />,
       text: t("myNdla.folder.deleteShort"),
-      type: "danger",
-      isModal: true,
+      variant: "destructive",
       modalContent: (close, setSkipAutoFocus) => (
         <DeleteModalContent
           title={t("myNdla.folder.delete")}
@@ -274,7 +279,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       ),
     };
 
-    const actions = [];
+    const actions: MenuItemProps[] = [];
 
     if (inToolbar && (selectedFolder?.breadcrumbs.length || 0) < 5 && !examLock) {
       actions.push(addFolderButton);

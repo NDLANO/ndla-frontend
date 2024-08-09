@@ -100,9 +100,10 @@ const DraggableResource = ({
     if (examLock) return [];
     return [
       {
+        type: "dialog",
+        value: "addResource",
         icon: <FolderLine />,
         text: t("myNdla.resource.add"),
-        isModal: true,
         modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
@@ -117,6 +118,8 @@ const DraggableResource = ({
         ),
       },
       {
+        type: "action",
+        value: "copyResourceLink",
         icon: <LinkMedium />,
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
@@ -127,6 +130,8 @@ const DraggableResource = ({
         },
       },
       {
+        type: "dialog",
+        value: "removeResource",
         icon: <DeleteForever />,
         text: t("myNdla.resource.remove"),
         isModal: true,
@@ -143,7 +148,7 @@ const DraggableResource = ({
             removeText={t("myNdla.resource.remove")}
           />
         ),
-        type: "danger",
+        variant: "destructive",
       },
     ];
   }, [examLock, index, onDeleteFolder, resource, selectedFolder, t, toast]);
