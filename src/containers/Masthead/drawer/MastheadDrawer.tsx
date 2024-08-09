@@ -150,7 +150,10 @@ const MastheadDrawer = ({ subject }: Props) => {
       const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType("about");
-      setFrontpageMenu((menuItems.length > 0 ? menuItems : [crumb[0]]) as GQLDrawerContent_FrontpageMenuFragment[]);
+      const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
+      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
+      const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
+      setFrontpageMenu(menuItem as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
       setType(undefined);
     }
@@ -238,7 +241,7 @@ const MastheadDrawer = ({ subject }: Props) => {
             <DrawerContainer aria-label={t("myNdla.mainMenu")}>
               <DrawerProvider>
                 <DefaultMenu
-                  dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article.slug}-dynamic` : undefined}
+                  dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article?.slug}-dynamic` : undefined}
                   onClose={close}
                   onCloseMenuPortion={onCloseMenuPortion}
                   setActiveMenu={setType}
