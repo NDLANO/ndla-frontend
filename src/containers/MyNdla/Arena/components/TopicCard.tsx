@@ -23,23 +23,19 @@ interface Props {
 const StyledSafelink = styled(SafeLink, {
   base: {
     alignItems: "center",
+    border: "1px solid",
     borderColor: "stroke.default",
     borderRadius: "xsmall",
-    borderWidth: "1px",
-    boxShadow: "none",
     display: "flex",
     flexDirection: "row",
     gap: "medium",
     justifyContent: "space-between",
-    padding: "medium",
-    paddingLeft: "xxlarge",
-    paddingRight: "large",
+    paddingBlock: "medium",
+    paddingInlineStart: "xxlarge",
+    paddingInlineEnd: "large",
 
     _focusVisible: {
       backgroundColor: "surface.hover",
-      "& [data-name='hover']": {
-        textDecoration: "none",
-      },
     },
     _hover: {
       backgroundColor: "surface.hover",
@@ -52,26 +48,14 @@ const StyledSafelink = styled(SafeLink, {
 
 const StyledHeader = styled(Text, {
   base: {
-    color: "text.strong",
-    cursor: "pointer",
-    fontSize: "small",
     overflowWrap: "break-word",
     textDecoration: "underline",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    color: "text.primary",
-    fontSize: "xxsmall",
-    paddingTop: "3xsmall",
   },
 });
 
 const StyledCountContainer = styled("div", {
   base: {
     alignItems: "center",
-    color: "text.primary",
     display: "flex",
     flexDirection: "column",
   },
@@ -80,8 +64,6 @@ const StyledCountContainer = styled("div", {
 const StyledLockedIcon = styled(LockFill, {
   base: {
     color: "stroke.default",
-    height: "medium",
-    width: "medium",
   },
 });
 
@@ -90,6 +72,15 @@ const CountContainer = styled("div", {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const TitleContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -97,19 +88,23 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
-      <div>
-        <StyledHeader data-name="hover">{title}</StyledHeader>
-        <StyledText>{timestamp && formatDateTime(timestamp, i18n.language)}</StyledText>
-      </div>
+      <TitleContainer>
+        <StyledHeader data-name="hover" textStyle="title.small" color="text.strong">
+          {title}
+        </StyledHeader>
+        <Text textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
+      </TitleContainer>
       <StyledCountContainer>
         {locked ? (
           <StyledLockedIcon />
         ) : (
           <CountContainer aria-label={`${count} ${t("myNdla.arena.topic.responses")}`}>
-            <Text textStyle="body.medium" aria-hidden>
+            <Text textStyle="body.medium" aria-hidden color="text.strong">
               {count}
             </Text>
-            <StyledText aria-hidden>{t("myNdla.arena.topic.responses")}</StyledText>
+            <Text aria-hidden textStyle="body.small">
+              {t("myNdla.arena.topic.responses")}
+            </Text>
           </CountContainer>
         )}
       </StyledCountContainer>

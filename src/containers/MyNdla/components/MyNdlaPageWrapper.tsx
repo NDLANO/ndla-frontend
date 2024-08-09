@@ -15,19 +15,23 @@ const ContentWrapper = styled("main", {
   base: {
     display: "flex",
     justifyContent: "center",
-    margin: "9",
-    marginTop: "9",
-    marginBottom: "3xlarge",
+    marginInline: "small",
+    marginBlockStart: "small",
+    marginBlockEnd: "3xlarge",
     tablet: {
-      margin: "xxlarge",
-      marginTop: "0",
-      marginBottom: "3xlarge",
+      marginInline: "xxlarge",
+      marginBlockStart: "0",
+      marginBlockEnd: "3xlarge",
     },
   },
 });
 
 export const Content = styled("div", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    gap: "medium",
     maxWidth: "surface.4xlarge",
     width: "100%",
   },

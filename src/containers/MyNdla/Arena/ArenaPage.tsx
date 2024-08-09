@@ -27,15 +27,12 @@ const StyledContainer = styled("div", {
   base: {
     display: "flex",
     justifyContent: "space-between",
-    marginTop: "large",
-    marginBottom: "medium",
   },
 });
 
 const StyledHeading = styled(Heading, {
   base: {
     marginTop: "large",
-    marginBottom: "medium",
   },
 });
 
