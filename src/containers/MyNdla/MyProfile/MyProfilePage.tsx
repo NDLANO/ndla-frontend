@@ -10,14 +10,23 @@ import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { constructNewPath } from "../../../util/urlHelper";
 import MyContactArea from "../components/MyContactArea";
@@ -108,28 +117,28 @@ const MyProfilePage = () => {
           <Heading element="h2" id="deleteUserTitle" margin="none" headingStyle="h2">
             {t("myNdla.myPage.wishToDelete")}
           </Heading>
-          <Modal>
-            <ModalTrigger>
+          <DialogRoot>
+            <DialogTrigger asChild>
               <Button variant="danger">{t("myNdla.myPage.deleteAccount")}</Button>
-            </ModalTrigger>
-            <ModalContent>
-              <ModalHeader>
-                <ModalTitle>{t("myNdla.myPage.deleteAccount")}</ModalTitle>
-                <ModalCloseButton title={t("modal.closeModal")} />
-              </ModalHeader>
-              <ModalBody>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t("myNdla.myPage.deleteAccount")}</DialogTitle>
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
                 <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
                 <ButtonRow>
-                  <ModalCloseButton>
+                  <DialogCloseTrigger asChild>
                     <Button variant="secondary">{t("cancel")}</Button>
-                  </ModalCloseButton>
+                  </DialogCloseTrigger>
                   <Button variant="danger" onClick={onDeleteAccount}>
                     {t("myNdla.myPage.confirmDeleteAccountButton")}
                   </Button>
                 </ButtonRow>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
+              </DialogBody>
+            </DialogContent>
+          </DialogRoot>
         </ButtonContainer>
       </StyledPageContentContainer>
     </MyNdlaPageWrapper>

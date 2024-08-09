@@ -8,7 +8,7 @@
 
 import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalTrigger } from "@ndla/modal";
+import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import CopyFolder from "./CopyFolder";
 import { Folder } from "./Folder";
 import LoginModalContent from "./LoginModalContent";
@@ -32,8 +32,8 @@ const CopyFolderModal = ({ folder, children }: Props) => {
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>{children}</ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       {authenticated ? (
         <CopyFolder folder={folder} onClose={close} />
       ) : (
@@ -46,7 +46,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
           }
         />
       )}
-    </Modal>
+    </DialogRoot>
   );
 };
 

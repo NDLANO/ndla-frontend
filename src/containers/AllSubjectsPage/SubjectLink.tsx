@@ -8,7 +8,6 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalTrigger } from "@ndla/modal";
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -115,15 +114,15 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           />
         </DialogRoot>
       ) : (
-        <Modal>
-          <ModalTrigger>
+        <DialogRoot>
+          <DialogTrigger asChild>
             <FavoriteButton
               aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               variant="tertiary"
               isFavorite={false}
             />
-          </ModalTrigger>
+          </DialogTrigger>
           <LoginModalContent
             title={t("subjectsPage.subjectFavoritePitch")}
             content={
@@ -135,7 +134,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               </>
             }
           />
-        </Modal>
+        </DialogRoot>
       )}
       <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>

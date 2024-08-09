@@ -12,9 +12,19 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { BookmarkLine } from "@ndla/icons/action";
 import { InformationLine } from "@ndla/icons/common";
-import { ModalBody, Modal, ModalTrigger, ModalContent, ModalHeader, ModalTitle, ModalCloseButton } from "@ndla/modal";
-import { Button, MessageBox, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  MessageBox,
+  Text,
+} from "@ndla/primitives";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
@@ -22,12 +32,6 @@ import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
-
-const Content = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
 
 const ButtonRow = styled.div`
   display: flex;
@@ -62,27 +66,25 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   return (
-    <Modal open={open} onOpenChange={() => setOpen(!open)}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
           <BookmarkLine />
           {t("myNdla.folder.sharing.button.saveLink")}
         </Button>
-      </ModalTrigger>
+      </DialogTrigger>
       {authenticated ? (
-        <ModalContent>
-          <ModalHeader>
-            <ModalTitle>{t("myNdla.folder.sharing.save.header")}</ModalTitle>
-            <ModalCloseButton title={t("modal.closeModal")} />
-          </ModalHeader>
-          <ModalBody>
-            <Content>
-              <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
-              <MessageBox variant="warning">
-                <InformationLine />
-                <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
-              </MessageBox>
-            </Content>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.folder.sharing.save.header")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+            <MessageBox variant="warning">
+              <InformationLine />
+              <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
+            </MessageBox>
             <ButtonRow>
               <Button variant="secondary" onClick={() => setOpen(false)}>
                 {t("close")}
@@ -91,8 +93,8 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
                 {t("myNdla.folder.sharing.button.saveLink")}
               </Button>
             </ButtonRow>
-          </ModalBody>
-        </ModalContent>
+          </DialogBody>
+        </DialogContent>
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
@@ -101,6 +103,6 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
           }
         />
       )}
-    </Modal>
+    </DialogRoot>
   );
 };

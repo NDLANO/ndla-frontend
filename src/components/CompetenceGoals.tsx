@@ -11,9 +11,22 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { CompassFill } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
@@ -187,21 +200,21 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
 
   return (
     <>
-      <Modal>
-        <ModalTrigger>
+      <DialogRoot size="full">
+        <DialogTrigger asChild>
           <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
             {t("competenceGoals.showCompetenceGoals")}
           </Button>
-        </ModalTrigger>
-        <ModalContent size="full">
-          <ModalHeader>
-            <ModalTitle>
-              <CompassFill style={{ marginRight: "20px" }} />
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              <CompassFill />
               {t("competenceGoals.modalText")}
-            </ModalTitle>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
+            </DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
             <CompetenceGoalsWrapper>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
@@ -224,9 +237,9 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                 ))}
               </TabsRoot>
             </CompetenceGoalsWrapper>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </>
   );
 };

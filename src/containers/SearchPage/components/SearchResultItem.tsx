@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
 import { Additional, Core } from "@ndla/icons/common";
 import {
   Button,
@@ -17,19 +16,18 @@ import {
   CardImage,
   CardRoot,
   DialogBody,
-  DialogCloseTrigger,
   DialogContent,
   DialogHeader,
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-  IconButton,
   Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
 
 interface Props {
@@ -108,12 +106,7 @@ const SearchResultItem = ({ item, type }: Props) => {
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>{t("searchPage.contextModal.heading")}</DialogTitle>
-                      {/* TODO: Replace with DialogCloseButton */}
-                      <DialogCloseTrigger asChild>
-                        <IconButton variant="clear">
-                          <Cross />
-                        </IconButton>
-                      </DialogCloseTrigger>
+                      <DialogCloseButton />
                     </DialogHeader>
                     <DialogBody>
                       <ul>

@@ -14,12 +14,12 @@ import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing, stackOrder } from "@ndla/core";
 import { PresentationLine } from "@ndla/icons/common";
-import { Drawer, Modal, ModalCloseButton, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { ErrorMessage, OneColumn } from "@ndla/ui";
 import FolderMeta from "./components/FolderMeta";
 import FolderNavigation from "./components/FolderNavigation";
 import SharedArticle from "./components/SharedArticle";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
@@ -100,11 +100,10 @@ const DesktopPadding = styled.div`
   }
 `;
 
-const StyledDrawer = styled(Drawer)`
+const StyledDrawer = styled(DialogContent)`
   max-height: 100%;
   border-top-left-radius: ${misc.borderRadius};
   border-top-right-radius: ${misc.borderRadius};
-  margin: 0;
   max-width: 100%;
   ${mq.range({ until: breakpoints.desktop })} {
     min-height: 20%;
@@ -195,22 +194,22 @@ const SharedFolderPage = () => {
             <FolderNavigation folder={folder} meta={keyedData} />
           </DesktopPadding>
         ) : selectors?.isMobile && selectedResource ? (
-          <Modal open={open} onOpenChange={setOpen}>
-            <ModalTrigger>
+          <DialogRoot open={open} variant="drawer" position="bottom" onOpenChange={(details) => setOpen(details.open)}>
+            <DialogTrigger asChild>
               <DrawerButton variant="secondary">
                 <span id="folder-drawer-button">{t("myNdla.sharedFolder.drawerButton")}</span>
               </DrawerButton>
-            </ModalTrigger>
-            <StyledDrawer position="bottom" size="small" expands aria-labelledby="folder-drawer-button">
+            </DialogTrigger>
+            <StyledDrawer aria-labelledby="folder-drawer-button">
               <StyledDrawerContent>
-                <ModalHeader>
-                  <h1>{t("myNdla.sharedFolder.drawerTitle")}</h1>
-                  <ModalCloseButton />
-                </ModalHeader>
+                <DialogHeader>
+                  <DialogTitle>{t("myNdla.sharedFolder.drawerTitle")}</DialogTitle>
+                  <DialogCloseButton />
+                </DialogHeader>
                 <FolderNavigation onClose={close} folder={folder} meta={keyedData} />
               </StyledDrawerContent>
             </StyledDrawer>
-          </Modal>
+          </DialogRoot>
         ) : null}
       </Sidebar>
       <StyledSection>
