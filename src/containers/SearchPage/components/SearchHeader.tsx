@@ -81,7 +81,11 @@ const SearchHeader = ({
 
   useEffect(() => {
     const onSlashPressed = (evt: KeyboardEvent) => {
-      if (evt.key === "/" && document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true") {
+      if (
+        evt.key === "/" &&
+        !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
+        document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true"
+      ) {
         evt.preventDefault();
         inputRef.current?.focus();
       }
