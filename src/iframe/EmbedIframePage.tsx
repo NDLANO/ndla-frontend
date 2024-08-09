@@ -23,7 +23,7 @@ const EmbedIframePage = ({ embedId, embedType }: Props) => {
       <>
         <Scripts />
         <PostResizeMessage />
-        <ResourceEmbed noBackground id={embedId} type={embedType as StandaloneEmbed} isOembed />
+        <ResourceEmbed id={embedId} type={embedType as StandaloneEmbed} isOembed />
       </>
     );
   }

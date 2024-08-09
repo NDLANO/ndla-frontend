@@ -217,12 +217,7 @@ const SharedFolderPage = () => {
           selectedResource.resourceType === "learningpath" || selectedResource.resourceType === "multidisciplinary" ? (
             <SharedLearningpathWarning />
           ) : embedResourceTypes.includes(selectedResource.resourceType) ? (
-            <ResourceEmbed
-              id={selectedResource.resourceId}
-              type={selectedResource.resourceType as StandaloneEmbed}
-              folder={selectedFolder}
-              noBackground
-            />
+            <ResourceEmbed id={selectedResource.resourceId} type={selectedResource.resourceType as StandaloneEmbed} />
           ) : (
             <SharedArticle resource={selectedResource} meta={articleMeta} title={title} />
           )
