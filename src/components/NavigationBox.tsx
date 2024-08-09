@@ -10,11 +10,15 @@ import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { Additional, PresentationLine } from "@ndla/icons/common";
+import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Heading } from "@ndla/typography";
 
 const StyledWrapper = styled.nav`
+  /* TODO: Remove margin */
   margin: ${spacing.normal} 0 ${spacing.mediumlarge};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.small};
 `;
 
 const StyledList = styled.ul`
@@ -26,19 +30,6 @@ const StyledList = styled.ul`
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: flex;
     flex-direction: column;
-  }
-
-  &[data-direction="horizontal"] {
-    display: flex;
-    flex-direction: column;
-    ${mq.range({ from: breakpoints.tablet })} {
-      gap: ${spacing.nsmall};
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-    }
-    ${mq.range({ from: breakpoints.tabletWide })} {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
 `;
 
@@ -113,19 +104,18 @@ type Props = {
   heading?: string;
   colorMode?: "primary" | "darker" | "light" | "greyLightest" | "greyLighter";
   items?: ItemProps[];
-  listDirection?: "horizontal" | "floating";
 };
 
-export const NavigationBox = ({ heading, colorMode = "primary", items, listDirection = "horizontal" }: Props) => {
+export const NavigationBox = ({ heading, colorMode = "primary", items }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledWrapper>
       {heading && (
-        <Heading element="h2" margin="small" headingStyle="list-title">
-          {heading}
+        <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+          <h2>{heading}</h2>
         </Heading>
       )}
-      <StyledList data-testid="nav-box-list" data-direction={listDirection}>
+      <StyledList data-testid="nav-box-list">
         {items?.map((item) => (
           <StyledListItem key={item.label} data-testid="nav-box-item">
             <StyledListElementWrapper

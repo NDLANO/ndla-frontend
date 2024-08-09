@@ -10,23 +10,14 @@ import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { matchPath, Outlet, useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { PageContainer } from "@ndla/ui";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
-import { routes, useUrnIds } from "../../routeHelpers";
+import { useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
-
-const BottomPadding = styled.div`
-  padding-bottom: ${spacing.large};
-  &[data-no-padding="true"] {
-    padding-bottom: unset;
-  }
-`;
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
@@ -35,9 +26,7 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const frontpage = !!matchPath("/", pathname) || !!matchPath("/about/*", pathname);
   const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
-  const noPaddingBottom = !!matchPath(`${routes.myNdla.root}/*`, pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -73,11 +62,7 @@ const Layout = () => {
         {metaChildren}
       </Helmet>
       <Masthead />
-      <div>
-        <BottomPadding data-no-padding={noPaddingBottom}>
-          <Outlet />
-        </BottomPadding>
-      </div>
+      <Outlet />
       <Footer />
     </PageContainer>
   );
