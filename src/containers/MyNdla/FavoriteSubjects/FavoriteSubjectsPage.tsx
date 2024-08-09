@@ -90,6 +90,8 @@ const FavoriteSubjectsPage = () => {
       <SettingsMenu
         menuItems={[
           {
+            type: "action",
+            value: "allSubjects",
             text: t("subjectsPage.allSubjects"),
             icon: <ArrowRightLine size="small" />,
             onClick: () => navigate("/subjects"),

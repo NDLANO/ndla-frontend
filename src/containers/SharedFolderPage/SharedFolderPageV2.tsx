@@ -6,10 +6,10 @@
  *
  */
 
-import { t } from "i18next";
 import keyBy from "lodash/keyBy";
 import { useContext, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
@@ -101,12 +101,13 @@ const ButtonContainer = styled.div`
 `;
 
 const containsFolder = (folder: GQLFolder): boolean => {
-  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder) || folder.resources.length > 0);
+  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
 };
 
 const SharedFolderPageV2 = () => {
   const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
+  const { t } = useTranslation();
 
   const { authenticated } = useContext(AuthContext);
 

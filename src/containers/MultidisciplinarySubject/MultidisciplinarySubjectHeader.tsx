@@ -12,21 +12,9 @@ import { breakpoints, mq, spacing, stackOrder } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { HomeBreadcrumb, SimpleBreadcrumbItem } from "@ndla/ui";
-import {
-  ClimateIllustration,
-  DemocracyClimateIllustration,
-  DemocracyIllustration,
-  PublicHealthClimateIllustration,
-  PublicHealthDemocracyClimateIllustration,
-  PublicHealthDemocracyIllustration,
-  PublicHealthIllustration,
-} from "./Illustrations";
 
 const StyledWrapper = styled.div`
   width: 100%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 68.75%, #ffffff 100%),
-    linear-gradient(336.12deg, #efeedc 35.53%, #faf6f0 74.23%), #ddd8af;
-
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -56,51 +44,18 @@ const SubjectsWrapper = styled.div`
   margin-top: ${spacing.small};
 `;
 
-type IllustrationsWrapperProps = {
-  subjectCount?: number;
-};
-const IllustrationsWrapper = styled.div<IllustrationsWrapperProps>`
-  display: flex;
-  align-items: flex-end;
-  margin-bottom: ${spacing.normal};
-`;
-
-type subjects = "climate" | "democracy" | "publicHealth";
-
 type subjectLink = {
   label: string;
   url: string;
 };
 
 type Props = {
-  subjects?: subjects[];
   subjectsLinks?: subjectLink[];
   breadcrumbs?: SimpleBreadcrumbItem[];
 };
 
-const MultidisciplinarySubjectHeader = ({ subjects = [], subjectsLinks = [], breadcrumbs = [] }: Props) => {
+const MultidisciplinarySubjectHeader = ({ subjectsLinks = [], breadcrumbs = [] }: Props) => {
   const { t } = useTranslation();
-  const getIllustration = () => {
-    if (subjects.length === 3) {
-      return <PublicHealthDemocracyClimateIllustration />;
-    }
-    if (subjects.includes("publicHealth") && subjects.includes("democracy")) {
-      return <PublicHealthDemocracyIllustration />;
-    }
-    if (subjects.includes("climate") && subjects.includes("democracy")) {
-      return <DemocracyClimateIllustration />;
-    }
-    if (subjects.includes("climate") && subjects.includes("publicHealth")) {
-      return <PublicHealthClimateIllustration />;
-    }
-    return (
-      <>
-        {subjects.includes("publicHealth") && <PublicHealthIllustration />}
-        {subjects.includes("democracy") && <DemocracyIllustration />}
-        {subjects.includes("climate") && <ClimateIllustration />}
-      </>
-    );
-  };
   return (
     <StyledWrapper>
       <ContentWrapper>
@@ -123,7 +78,6 @@ const MultidisciplinarySubjectHeader = ({ subjects = [], subjectsLinks = [], bre
             })}
           </SubjectsWrapper>
         </TextWrapper>
-        <IllustrationsWrapper subjectCount={subjects.length}>{getIllustration()}</IllustrationsWrapper>
       </ContentWrapper>
     </StyledWrapper>
   );

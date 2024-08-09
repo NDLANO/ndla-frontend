@@ -12,21 +12,23 @@ import styled from "@emotion/styled";
 import { ButtonV2 } from "@ndla/button";
 import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent, Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Tooltip } from "@ndla/tooltip";
 import FolderAndResourceCount from "./FolderAndResourceCount";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-flow: column;
-  gap: ${spacing.normal};
-`;
 
 const GapWrapper = styled.div`
   display: flex;
@@ -95,7 +97,6 @@ const StyledButtonRow = styled.div`
 interface BaseProps {
   folder: GQLFolder;
   onCopyText?: () => void;
-  setRef?: () => void;
 }
 
 interface FolderShareModalContentProps extends BaseProps {
@@ -106,17 +107,17 @@ interface FolderShareModalProps extends BaseProps {
   children: ReactNode;
 }
 
-export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const toast = useToast();
 
   return (
-    <ModalContent onCloseAutoFocus={setRef}>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.folder.sharing.header.shared")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <StyledModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <GapWrapper>
           <FolderName aria-label={folder.name}>{folder.name}</FolderName>
           <FolderAndResourceCount
@@ -157,25 +158,24 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText, setRef }:
             variant="primary"
             onClick={() => {
               onClose();
-              setRef?.();
             }}
           >
             {t("finished")}
           </Button>
         </StyledButtonRow>
-      </StyledModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 
-const FolderShareModal = ({ children, folder, onCopyText, setRef }: FolderShareModalProps) => {
+const FolderShareModal = ({ children, folder, onCopyText }: FolderShareModalProps) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>{children}</ModalTrigger>
-      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} setRef={setRef} />
-    </Modal>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} />
+    </DialogRoot>
   );
 };
 

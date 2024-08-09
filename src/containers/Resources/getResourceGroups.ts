@@ -5,6 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import partition from "lodash/partition";
+import sortBy from "lodash/sortBy";
+import uniqBy from "lodash/uniqBy";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -12,6 +16,7 @@ import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_CONCEPT,
+  RELEVANCE_CORE,
 } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
 
@@ -22,20 +27,26 @@ export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: 4,
   [RESOURCE_TYPE_SOURCE_MATERIAL]: 5,
   [RESOURCE_TYPE_CONCEPT]: 6,
+  default: 7,
 };
 
-type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes">;
+type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
 
-const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryResources: T[], coreResources: T[]) => {
-  const resources = [
-    ...coreResources,
-    ...supplementaryResources
-      .map((resource) => ({
-        ...resource,
-        additional: true,
-      }))
-      .filter((resource) => !coreResources.find((core) => core.id === resource.id)), // don't show supp resources that exists in core
-  ];
+export const getResourceGroupings = <T extends GQLResourceLike>(resources: T[], resourceId?: string) => {
+  let unique = uniqBy(resources, (res) => res.id);
+
+  if (resourceId) {
+    unique = unique.map((res) => ({
+      ...res,
+      active: resourceId ? res.id.endsWith(resourceId) : undefined,
+    }));
+  }
+  const sortedResources = sortBy(unique, (res) => res.rank ?? res.id);
+  const [coreResources, supplementaryResources] = partition(sortedResources, (r) => r.relevanceId === RELEVANCE_CORE);
+  return { coreResources, supplementaryResources, sortedResources };
+};
+
+const groupResourcesByResourceTypes = <T extends GQLResourceLike>(resources: T[]) => {
   return resources.reduce<Record<string, GQLResource[]>>((obj, resource) => {
     const resourceTypesWithResources = resource.resourceTypes?.map((type) => {
       const existing = obj[type.id] ?? [];
@@ -49,14 +60,7 @@ const groupResourcesByResourceTypes = <T extends GQLResourceLike>(supplementaryR
 type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
 
 export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
-  [...resourceTypes].sort((a, b) => {
-    if (!sortOrder[a.id] && !sortOrder[b.id]) return 0;
-    if (sortOrder[a.id] === undefined) return 1;
-    if (sortOrder[b.id] === undefined) return -1;
-    if (sortOrder[a.id]! > sortOrder[b.id]!) return 1;
-    if (sortOrder[a.id]! < sortOrder[b.id]!) return -1;
-    return 0;
-  });
+  sortBy(resourceTypes, (type) => sortOrder[type.id] ?? sortOrder.default);
 
 export interface ResourceTypeWithResources extends GQLResourceType {
   id: string;
@@ -66,16 +70,12 @@ export interface ResourceTypeWithResources extends GQLResourceType {
 
 export const getResourceGroups = <T extends GQLResourceLike>(
   resourceTypes: SharedResourceType[],
-  supplementaryResources: T[],
-  coreResouces: T[],
+  resources: T[],
 ): ResourceTypeWithResources[] => {
-  const groupedResources = groupResourcesByResourceTypes(supplementaryResources, coreResouces);
+  const groupedResources = groupResourcesByResourceTypes(resources);
   const sortedResourceTypes = sortResourceTypes(resourceTypes);
 
   return sortedResourceTypes
-    .map((type) => {
-      const resources = groupedResources[type.id] ?? [];
-      return { ...type, resources };
-    })
-    .filter((type) => type.resources.length > 0);
+    .map((type) => ({ ...type, resources: groupedResources[type.id] ?? [] }))
+    .filter((type) => !!type.resources.length);
 };

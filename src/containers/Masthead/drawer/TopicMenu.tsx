@@ -6,7 +6,6 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -24,7 +23,7 @@ import {
   GQLTopicMenu_SubjectFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
-import { getResourceGroups, sortResourceTypes } from "../../Resources/getResourceGroups";
+import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
 interface Props {
   topic: TopicWithSubTopics;
@@ -73,30 +72,15 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const coreResources = useMemo(() => data?.topic?.coreResources ?? [], [data?.topic?.coreResources]);
-  const supplementaryResources = useMemo(
-    () => data?.topic?.supplementaryResources ?? [],
-    [data?.topic?.supplementaryResources],
-  );
-
-  const sortedResources = useMemo(
-    () =>
-      sortBy(coreResources.concat(supplementaryResources), (r) => r.rank).map((r) => ({
-        ...r,
-        resourceTypes: sortResourceTypes(r.resourceTypes ?? []),
-      })),
-    [coreResources, supplementaryResources],
+  const { sortedResources } = useMemo(
+    () => getResourceGroupings(data?.topic?.coreResources?.concat(data?.topic?.supplementaryResources ?? []) ?? []),
+    [data?.topic?.coreResources, data?.topic?.supplementaryResources],
   );
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
   const groupedResources = useMemo(
-    () =>
-      getResourceGroups(
-        data?.resourceTypes ?? [],
-        data?.topic?.supplementaryResources ?? [],
-        data?.topic?.coreResources ?? [],
-      ),
-    [data?.resourceTypes, data?.topic?.supplementaryResources, data?.topic?.coreResources],
+    () => getResourceGroups(data?.resourceTypes ?? [], sortedResources),
+    [data?.resourceTypes, sortedResources],
   );
 
   return (
@@ -177,6 +161,8 @@ TopicMenu.fragments = {
       id
       name
       path
+      relevanceId
+      rank
     }
   `,
 };

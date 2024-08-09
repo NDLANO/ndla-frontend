@@ -2,19 +2,7 @@
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
-  .emotion-0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  list-style-type: disc;
-  list-style-position: inside;
-}
-
-<div
+  <div
     class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
   >
     <main>
@@ -47,7 +35,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="w_100%"
+          class="ndla-article"
         >
           <section>
             <p
@@ -232,7 +220,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               <div />
                             </div>
                             <ul
-                              class="emotion-0"
+                              class="li-t_disc li-pos_inside"
                             />
                             <div
                               class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
@@ -398,7 +386,7 @@ exports[`IframePage with article displays error message on status === error 1`] 
         class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
       >
         <div
-          class="mb_medium tablet:mt_xxlarge"
+          class="d_flex jc_center mb_medium tablet:mt_xxlarge"
         >
           <img
             alt="Ops, noe gikk galt"

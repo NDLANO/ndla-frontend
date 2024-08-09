@@ -48,8 +48,7 @@ const LtiDefault = ({ item }: Props) => {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalTrigger>
-        {/* TODO: Needs verification */}
-        <Button variant="tertiary">{t("lti.embed")}</Button>
+        <Button variant="primary">{t("lti.embed")}</Button>
       </ModalTrigger>
       <ModalContent size="normal">
         <ModalHeader>

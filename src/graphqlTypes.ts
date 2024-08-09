@@ -2857,7 +2857,14 @@ export type GQLSubjectMenu_SubjectFragment = {
 
 export type GQLTopicMenu_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
-export type GQLTopicMenu_ResourceFragment = { __typename?: "Resource"; id: string; name: string; path: string };
+export type GQLTopicMenu_ResourceFragment = {
+  __typename?: "Resource";
+  id: string;
+  name: string;
+  path: string;
+  relevanceId?: string;
+  rank?: number;
+};
 
 export type GQLTopicMenuResourcesQueryVariables = Exact<{
   subjectId: Scalars["String"]["input"];
@@ -4366,6 +4373,7 @@ export type GQLResources_ResourceFragment = {
   paths: Array<string>;
   rank?: number;
   language?: string;
+  relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
@@ -4415,7 +4423,6 @@ export type GQLSubjectContainer_SubjectFragment = {
       title: string;
       visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
     };
-    banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   } & GQLSubjectLinks_SubjectFragment;
 } & GQLSubjectPageContent_SubjectFragment;
 
@@ -4531,7 +4538,6 @@ export type GQLToolboxSubjectContainer_SubjectFragment = {
       description: string;
       visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
     };
-    banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   };
 } & GQLToolboxTopicContainer_SubjectFragment;
 

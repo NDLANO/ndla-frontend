@@ -10,9 +10,17 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { PencilFill } from "@ndla/icons/action";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import FolderForm from "./FolderForm";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMutations";
 
@@ -26,15 +34,15 @@ const FolderEditModal = ({ folder, onSaved }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <Button variant="tertiary" aria-label={t("myNdla.folder.edit")} title={t("myNdla.folder.edit")}>
           <PencilFill size="small" />
           {t("myNdla.folder.editShort")}
         </Button>
-      </ModalTrigger>
+      </DialogTrigger>
       <EditFolderModalContent folder={folder} onClose={() => setOpen(false)} onSaved={onSaved} />
-    </Modal>
+    </DialogRoot>
   );
 };
 
@@ -60,12 +68,12 @@ export const EditFolderModalContent = ({ folder, onClose, onSaved }: ContentProp
   const siblings = levelFolders.filter((f) => f.id !== folder?.id);
 
   return (
-    <ModalContent>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.folder.edit")}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.folder.edit")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         {folder && (
           <FolderForm
             folder={folder}
@@ -84,7 +92,7 @@ export const EditFolderModalContent = ({ folder, onClose, onSaved }: ContentProp
             loading={loading}
           />
         )}
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };

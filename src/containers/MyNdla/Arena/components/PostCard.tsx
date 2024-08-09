@@ -88,14 +88,13 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
   const { deletePost } = useArenaDeletePost(topicId);
 
   const deletePostCallback = useCallback(
-    async (close: VoidFunction, skipAutoFocus: VoidFunction) => {
+    async (close: VoidFunction) => {
       await deletePost({ variables: { postId } });
       close();
       toast.create({
         title: t("myNdla.arena.deleted.post"),
       });
       setFocusId?.(nextPostId);
-      skipAutoFocus();
     },
     [deletePost, postId, toast, t, setFocusId, nextPostId],
   );
