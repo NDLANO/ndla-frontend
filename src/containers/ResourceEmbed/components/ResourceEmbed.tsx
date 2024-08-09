@@ -11,9 +11,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
 import { transform } from "@ndla/article-converter";
-import { spacing } from "@ndla/core";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
@@ -22,17 +20,31 @@ import {
   AccordionItemTrigger,
   AccordionRoot,
   Heading,
+  HeroBackground,
+  HeroContent,
   Spinner,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import {
+  ArticleContent,
+  ArticleFooter,
+  ArticleHeader,
+  ArticleWrapper,
+  ContentTypeBadgeNew,
+  ContentTypeHero,
+  HomeBreadcrumb,
+  OneColumn,
+} from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
-import ResourceEmbedWrapper from "./ResourceEmbedWrapper";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
+import FavoritesButton from "../../../components/Article/FavoritesButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
-  GQLFolder,
   GQLResourceEmbedLicenseBox_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
@@ -44,16 +56,39 @@ import NotFound from "../../NotFoundPage/NotFoundPage";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
 
-const CreatedByWrapper = styled.div`
-  margin-top: ${spacing.small};
-`;
+// TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
+const TitleWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    "& h1": {
+      overflowWrap: "anywhere",
+    },
+  },
+});
+
+// TODO: Should we export styling from ndla-ui? (ArticleFavoritesButtonWrapper)
+const FavoritesButtonWrapper = styled("div", {
+  base: {
+    position: "absolute",
+    right: "8%",
+    top: "xsmall",
+    tablet: {
+      top: "medium",
+    },
+    desktop: {
+      top: "xxlarge",
+    },
+  },
+});
 
 interface Props {
   id: string;
   isOembed?: boolean;
   type: StandaloneEmbed;
-  folder?: GQLFolder | null;
-  noBackground?: boolean;
 }
 
 interface MetaProperies {
@@ -138,7 +173,7 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment
   return false;
 };
 
-const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
+const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
@@ -168,9 +203,9 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
     const dimensions = getAllDimensions({ user });
-    const title = getDocumentTitle(folder?.name, properties.title, properties.type, t);
+    const title = getDocumentTitle(properties.title, properties.type, t);
     trackPageView({ dimensions, title });
-  }, [authContextLoaded, properties, t, trackPageView, user, folder]);
+  }, [authContextLoaded, properties, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
@@ -184,9 +219,11 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
     return <ErrorPage />;
   }
   const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
+  const path = `/${type}/${id}`;
+
   return (
     <>
-      <HelmetWithTracker title={getDocumentTitle(folder?.name, properties.title, properties.type, t)} />
+      <HelmetWithTracker title={getDocumentTitle(properties.title, properties.type, t)} />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
@@ -197,47 +234,88 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
         <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
       <main>
-        <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>
-          {transformedContent}
-          <AccordionRoot multiple>
-            {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-              <AccordionItem value="rulesForUse">
-                <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                  <h2>
-                    <AccordionItemTrigger>
-                      {t("article.useContent")}
-                      <AccordionItemIndicator asChild>
-                        <ArrowDownShortLine size="medium" />
-                      </AccordionItemIndicator>
-                    </AccordionItemTrigger>
-                  </h2>
-                </Heading>
-                <AccordionItemContent>
-                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionItemContent>
-              </AccordionItem>
+        <ContentTypeHero contentType={type}>
+          {!isOembed && <HeroBackground />}
+          <OneColumn>
+            {!isOembed && (
+              <HeroContent>
+                <HomeBreadcrumb
+                  items={[
+                    {
+                      name: t("breadcrumb.toFrontpage"),
+                      to: "/",
+                    },
+                    {
+                      name: properties.title,
+                      to: path,
+                    },
+                  ]}
+                />
+              </HeroContent>
             )}
-          </AccordionRoot>
-          {isOembed && (
-            <CreatedByWrapper>
-              <CreatedBy
-                name={t("createdBy.content")}
-                description={t("createdBy.text")}
-                url={`${config.ndlaFrontendDomain}/${type}/${id}`}
-              />
-            </CreatedByWrapper>
-          )}
-        </ResourceEmbedWrapper>
+            <ArticleWrapper>
+              <ArticleHeader>
+                <TitleWrapper>
+                  {!!type && <ContentTypeBadgeNew contentType={type} />}
+                  {!isOembed && config.feideEnabled && (
+                    <FavoritesButtonWrapper>
+                      <AddResourceToFolderModal
+                        resource={{
+                          id: id,
+                          path,
+                          resourceType: type,
+                        }}
+                      >
+                        <FavoritesButton path={path} />
+                      </AddResourceToFolderModal>
+                    </FavoritesButtonWrapper>
+                  )}
+                  <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                    {properties.title}
+                  </Heading>
+                </TitleWrapper>
+              </ArticleHeader>
+              <ArticleContent>{transformedContent}</ArticleContent>
+              <ArticleFooter>
+                <AccordionRoot multiple>
+                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                    <AccordionItem value="rulesForUse">
+                      <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                        <h2>
+                          <AccordionItemTrigger>
+                            {t("article.useContent")}
+                            <AccordionItemIndicator asChild>
+                              <ArrowDownShortLine size="medium" />
+                            </AccordionItemIndicator>
+                          </AccordionItemTrigger>
+                        </h2>
+                      </Heading>
+                      <AccordionItemContent>
+                        <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
+                      </AccordionItemContent>
+                    </AccordionItem>
+                  )}
+                </AccordionRoot>
+                {isOembed && (
+                  <CreatedBy
+                    name={t("createdBy.content")}
+                    description={t("createdBy.text")}
+                    url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+                  />
+                )}
+              </ArticleFooter>
+            </ArticleWrapper>
+          </OneColumn>
+        </ContentTypeHero>
       </main>
     </>
   );
 };
 
-const getDocumentTitle = (folderName: string | undefined, title: string, type: string | undefined, t: TFunction) => {
-  const maybeFolder = folderName ? `${folderName} - ` : "";
+const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
   return t("htmlTitles.sharedFolderPage", {
-    name: `${maybeFolder}${title}${maybeType}`,
+    name: `${title}${maybeType}`,
   });
 };
 
