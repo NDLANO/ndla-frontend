@@ -79,6 +79,17 @@ const SearchHeader = ({
     setSearchValue(query ?? "");
   }, [query]);
 
+  useEffect(() => {
+    const onSlashPressed = (evt: KeyboardEvent) => {
+      if (evt.key === "/" && document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true") {
+        evt.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onSlashPressed);
+    return () => window.removeEventListener("keydown", onSlashPressed);
+  }, []);
+
   const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSearchParamsChange({ query: searchValue });

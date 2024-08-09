@@ -198,7 +198,8 @@ const MastheadSearch = () => {
         evt.key === "/" &&
         !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
-        !dialogState.open
+        !dialogState.open &&
+        pathname !== "/search"
       ) {
         evt.preventDefault();
         setDialogState({ open: true });
@@ -206,7 +207,7 @@ const MastheadSearch = () => {
     };
     window.addEventListener("keydown", onSlashPressed);
     return () => window.removeEventListener("keydown", onSlashPressed);
-  }, [dialogState.open]);
+  }, [dialogState.open, pathname]);
 
   const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
     GQLGroupSearchQuery,
