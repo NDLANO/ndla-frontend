@@ -30,6 +30,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
+import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
 
@@ -277,7 +278,7 @@ const MyNdlaPage = () => {
                         src: meta?.metaImage?.url ?? "",
                         alt: "",
                       }}
-                      resourceTypes={meta?.resourceTypes ?? []}
+                      resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}
                     />
                   </ListItem>
                 );

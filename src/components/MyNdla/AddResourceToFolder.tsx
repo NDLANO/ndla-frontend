@@ -50,7 +50,7 @@ import {
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
-import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
+import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
 
@@ -190,7 +190,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}
-        resourceTypes={meta?.resourceTypes ?? []}
+        resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
         resourceImage={{
           src: meta?.metaImage?.url ?? "",
           alt: meta?.metaImage?.alt ?? "",
