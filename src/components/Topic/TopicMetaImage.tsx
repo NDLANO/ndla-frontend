@@ -9,7 +9,6 @@
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { CursorClick } from "@ndla/icons/action";
 import { PlayCircleFill } from "@ndla/icons/common";
@@ -47,9 +46,10 @@ const TopicHeaderVisualElementWrapper = styled.div`
     max-height: 200px;
   }
 `;
-// TODO: Needs special handling
-const VisualElementButton = styled(ButtonV2)`
+
+const VisualElementDialogTrigger = styled(DialogTrigger)`
   color: ${colors.brand.secondary};
+  cursor: pointer;
   overflow: hidden;
   border-radius: ${misc.borderRadiusLarge};
   &:hover {
@@ -145,24 +145,21 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
     <TopicHeaderVisualElementWrapper>
       <DialogRoot size="large">
         {/* TODO: Remove consumeCss once VisualElementButton is fixed. This'll probably removed anyways */}
-        <DialogTrigger asChild consumeCss>
-          <VisualElementButton
-            variant="stripped"
-            title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
-          >
-            <TopicHeaderImage
-              src={metaImage.url}
-              alt={metaImage.alt}
-              fallbackWidth={400}
-              crop={crop}
-              focalPoint={focalPoint}
-            />
-            <TopicHeaderOverlay data-overlay="" />
-            <ExpandVisualElementButton data-indicator="">
-              {VisualElementIcon && <VisualElementIcon />}
-            </ExpandVisualElementButton>
-          </VisualElementButton>
-        </DialogTrigger>
+        <VisualElementDialogTrigger
+          title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
+        >
+          <TopicHeaderImage
+            src={metaImage.url}
+            alt={metaImage.alt}
+            fallbackWidth={400}
+            crop={crop}
+            focalPoint={focalPoint}
+          />
+          <TopicHeaderOverlay data-overlay="" />
+          <ExpandVisualElementButton data-indicator="">
+            {VisualElementIcon && <VisualElementIcon />}
+          </ExpandVisualElementButton>
+        </VisualElementDialogTrigger>
         <DialogContent aria-label={t("topicPage.imageModal")}>
           <DialogHeader>
             <div />

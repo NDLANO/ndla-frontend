@@ -92,7 +92,6 @@
     "@fontsource/source-serif-pro": "^4.5.7",
     "@lexical/react": "^0.12.4",
     "@ndla/article-converter": "^10.0.4-alpha.0",
-    "@ndla/button": "^15.0.4-alpha.0",
     "@ndla/core": "^5.0.1",
     "@ndla/error-reporter": "^2.0.2",
     "@ndla/icons": "^8.0.4-alpha.0",

@@ -14,7 +14,6 @@ import { MenuLine } from "@ndla/icons/action";
 import { GridFill } from "@ndla/icons/common";
 import { ListCheck } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
-import { Tooltip } from "@ndla/tooltip";
 import { ViewType } from "../FoldersPage";
 
 const StyledDisplayOptionsContainer = styled.div`
@@ -23,7 +22,7 @@ const StyledDisplayOptionsContainer = styled.div`
   margin-left: auto;
 `;
 
-const HiddenOnMobileTooltip = styled(Tooltip)`
+const HiddenOnMobileIconButton = styled(IconButton)`
   ${mq.range({ until: breakpoints.mobileWide })} {
     display: none;
   }
@@ -38,36 +37,33 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledDisplayOptionsContainer>
-      <Tooltip tooltip={t("myNdla.listView")}>
-        <IconButton
-          // TODO: Fix handling of active according to design
-          variant={type === "list" ? "primary" : "tertiary"}
-          onClick={() => onTypeChange("list")}
-          aria-label={t("myNdla.listView")}
-        >
-          <MenuLine />
-        </IconButton>
-      </Tooltip>
-      <Tooltip tooltip={t("myNdla.detailView")}>
-        <IconButton
-          // TODO: Fix handling of active according to design
-          variant={type === "listLarger" ? "primary" : "tertiary"}
-          onClick={() => onTypeChange("listLarger")}
-          aria-label={t("myNdla.detailView")}
-        >
-          <ListCheck />
-        </IconButton>
-      </Tooltip>
-      <HiddenOnMobileTooltip tooltip={t("myNdla.shortView")}>
-        <IconButton
-          // TODO: Fix handling of active according to design
-          variant={type === "block" ? "primary" : "tertiary"}
-          onClick={() => onTypeChange("block")}
-          aria-label={t("myNdla.shortView")}
-        >
-          <GridFill />
-        </IconButton>
-      </HiddenOnMobileTooltip>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={type === "list" ? "primary" : "tertiary"}
+        onClick={() => onTypeChange("list")}
+        aria-label={t("myNdla.listView")}
+        title={t("myNdla.listView")}
+      >
+        <MenuLine />
+      </IconButton>
+      <IconButton
+        // TODO: Fix handling of active according to design
+        variant={type === "listLarger" ? "primary" : "tertiary"}
+        onClick={() => onTypeChange("listLarger")}
+        aria-label={t("myNdla.detailView")}
+        title={t("myNdla.detailView")}
+      >
+        <ListCheck />
+      </IconButton>
+      <HiddenOnMobileIconButton
+        // TODO: Fix handling of active according to design
+        variant={type === "block" ? "primary" : "tertiary"}
+        onClick={() => onTypeChange("block")}
+        aria-label={t("myNdla.shortView")}
+        title={t("myNdla.shortView")}
+      >
+        <GridFill />
+      </HiddenOnMobileIconButton>
     </StyledDisplayOptionsContainer>
   );
 };
