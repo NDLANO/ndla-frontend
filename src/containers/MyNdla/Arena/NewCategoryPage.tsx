@@ -23,17 +23,12 @@ import { useCreateArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled("div", {
-  base: {
-    paddingTop: "medium",
-  },
-});
-
 const PageWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "xxlarge",
+    paddingBlock: "medium",
   },
 });
 
@@ -78,17 +73,15 @@ export const NewCategoryPage = () => {
   return (
     <MyNdlaPageWrapper>
       <PageWrapper>
-        <BreadcrumbWrapper>
-          <MyNdlaBreadcrumb
-            breadcrumbs={[
-              {
-                name: t("myNdla.arena.admin.category.form.newCategory"),
-                id: "newCategory",
-              },
-            ]}
-            page={"arena"}
-          />
-        </BreadcrumbWrapper>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[
+            {
+              name: t("myNdla.arena.admin.category.form.newCategory"),
+              id: "newCategory",
+            },
+          ]}
+          page={"arena"}
+        />
         <HelmetWithTracker title={t("htmlTitles.arenaNewCategoryPage")} />
         <ArenaFormWrapper>
           <Heading element="h1" headingStyle="h1-resource" margin="none">

@@ -9,9 +9,8 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
@@ -22,15 +21,14 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
-
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.large};
-`;
+const PageWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlock: "medium",
+  },
+});
 
 export const NewTopicPage = () => {
   const { t } = useTranslation();
@@ -86,9 +84,7 @@ export const NewTopicPage = () => {
   return (
     <MyNdlaPageWrapper>
       <PageWrapper>
-        <BreadcrumbWrapper>
-          <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-        </BreadcrumbWrapper>
+        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
         <HelmetWithTracker title={t("htmlTitles.arenaNewTopicPage")} />
         <ArenaFormWrapper>
           <Heading element="h1" headingStyle="h1-resource" margin="none">
