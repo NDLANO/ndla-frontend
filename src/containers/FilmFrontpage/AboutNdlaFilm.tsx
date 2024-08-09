@@ -40,10 +40,7 @@ const StyledDiv = styled("div", {
 
 const StyledHeading = styled(Heading, {
   base: {
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
     marginBottom: "medium",
-    marginTop: "0",
   },
 });
 
