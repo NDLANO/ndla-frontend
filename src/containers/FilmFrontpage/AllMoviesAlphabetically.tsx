@@ -64,7 +64,7 @@ const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
 
 const groupMovies = (movies: MovieType[]) => {
-  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title));
+  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
 
   const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
     const firstChar = movie.title[0]?.toUpperCase() ?? "";
@@ -88,7 +88,7 @@ const LoadingShimmer = () => {
   return (
     <HStack justify="center">
       <OneColumn wide>
-        {["#", "Å", "Ø", "Æ"].map((letter, idx) => {
+        {["#", "A", "B", "C"].map((letter, idx) => {
           return (
             <MovieGroup key={`Loading-${idx}`}>
               <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
