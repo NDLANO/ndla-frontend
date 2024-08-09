@@ -23,6 +23,7 @@ import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
+import handleError from "../util/handleError";
 import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
@@ -115,17 +116,22 @@ router.get("/login/success", async (req, res) => {
 });
 
 router.get("/:lang?/logout", async (req, res) => {
-  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-  const state = typeof req.query.state === "string" ? req.query.state : "/";
-  const redirect = constructNewPath(state, req.params.lang);
-  res.setHeader("Cache-Control", "private");
+  try {
+    const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
+    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
+    const state = typeof req.query.state === "string" ? req.query.state : "/";
+    const redirect = constructNewPath(state, req.params.lang);
+    res.setHeader("Cache-Control", "private");
 
-  if (!feideToken?.["id_token"] || typeof state !== "string") {
-    throw new Error("Missing id_token or state");
+    if (!feideToken?.["id_token"] || typeof state !== "string") {
+      throw new Error("Missing id_token or state");
+    }
+    const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
+    return res.redirect(logoutUri);
+  } catch (error) {
+    handleError(error);
+    res.redirect("/");
   }
-  const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
-  return res.redirect(logoutUri);
 });
 
 router.get("/logout/session", (req, res) => {
