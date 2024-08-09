@@ -123,15 +123,17 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   return (
     <StyledOneColumn>
       <StyledAside aria-labelledby={titleId}>
-        <StyledDiv>
-          <VisualElement visualElement={aboutNDLAVideo?.visualElement ?? { url: "", type: "video" }} />
-        </StyledDiv>
+        {aboutNDLAVideo?.visualElement && (
+          <StyledDiv>
+            <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
+          </StyledDiv>
+        )}
         <StyledDiv>
           <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
-            <h2>{aboutNDLAVideo?.title ?? "temp"}</h2>
+            <h2>{aboutNDLAVideo?.title}</h2>
           </StyledHeading>
           <StyledText asChild consumeCss>
-            <p>{aboutNDLAVideo?.description ?? "temp"}</p>
+            <p>{aboutNDLAVideo?.description}</p>
           </StyledText>
           {iArticle && (
             <Modal>
