@@ -27,7 +27,7 @@ import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
-import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
+import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import NotFoundPage from "../../NotFoundPage/NotFoundPage";
@@ -177,7 +177,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               link={resource.path}
               title={meta?.title ?? ""}
               description={viewType !== "list" ? meta?.description ?? "" : undefined}
-              resourceTypes={meta?.resourceTypes ?? []}
+              resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
               resourceImage={{
                 src: meta?.metaImage?.url ?? "",
                 alt: "",
