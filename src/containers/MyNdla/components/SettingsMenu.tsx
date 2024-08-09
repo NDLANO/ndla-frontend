@@ -181,7 +181,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               key={item.value}
               value={item.value}
               variant={item.variant}
-              onClick={item.type === "action" ? item.onClick : undefined}
+              onClick={item.onClick}
               disabled={item.disabled}
               closeOnSelect={item.type !== "dialog"}
               asChild={item.type !== "action"}
