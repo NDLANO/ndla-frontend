@@ -11,12 +11,12 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory, useArenaCreateTopic } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
@@ -76,7 +76,7 @@ export const NewTopicPage = () => {
     navigate(categoryId ? routes.myNdla.arenaCategory(Number(categoryId)) : routes.myNdla.arena);
   }, [categoryId, navigate]);
 
-  if (!authContextLoaded) return <Spinner />;
+  if (!authContextLoaded || loading) return <PageSpinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   const parentCrumbs =

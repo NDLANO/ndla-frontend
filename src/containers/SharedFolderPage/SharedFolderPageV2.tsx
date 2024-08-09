@@ -15,7 +15,7 @@ import styled from "@emotion/styled";
 import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
 import { PresentationLine } from "@ndla/icons/common";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button } from "@ndla/primitives";
 import { Text } from "@ndla/typography";
 import { OneColumn } from "@ndla/ui";
 import { SaveLink } from "./components/SaveLink";
@@ -25,6 +25,7 @@ import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
 import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
 import ListResource from "../../components/MyNdla/ListResource";
+import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
@@ -149,7 +150,7 @@ const SharedFolderPageV2 = () => {
       : resource.path;
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
   if (error?.graphQLErrors[0]?.extensions?.status === 404) {
     return <NotFound />;

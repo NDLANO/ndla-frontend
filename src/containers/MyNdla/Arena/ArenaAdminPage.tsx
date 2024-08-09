@@ -12,11 +12,11 @@ import { Navigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { UserLine, AlertLine } from "@ndla/icons/common";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
 import AdminNavLink from "./components/AdminNavLink";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -32,7 +32,7 @@ const ArenaAdminPage = () => {
   const { t } = useTranslation();
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (!authContextLoaded) return <Spinner />;
+  if (!authContextLoaded) return <PageSpinner />;
 
   if (!authenticated || (user && !(user.arenaEnabled || user.isModerator))) return <Navigate to={routes.myNdla.root} />;
 
