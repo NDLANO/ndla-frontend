@@ -113,7 +113,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
 
-  const iArticle = useMemo(() => {
+  const transformedArticle = useMemo(() => {
     if (article) {
       return transformArticle(article, i18n.language) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
     }
@@ -135,7 +135,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
           <StyledText asChild consumeCss>
             <p>{aboutNDLAVideo?.description}</p>
           </StyledText>
-          {iArticle && (
+          {transformedArticle && (
             <Modal>
               <ModalTrigger>
                 <StyledButton variant="link">{t("ndlaFilm.about.more")}</StyledButton>
@@ -145,7 +145,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <ModalCloseButton />
                 </ModalHeader>
                 <ModalBody>
-                  <Article article={iArticle} oembed={undefined} label="" />
+                  <Article article={transformedArticle} oembed={undefined} label="" />
                 </ModalBody>
               </ModalContent>
             </Modal>
