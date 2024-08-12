@@ -124,24 +124,6 @@ const MainImageShimmer = () => (
   </Skeleton>
 );
 
-// TODO: IF we want to have a constant height of the text instead of ellipsis
-//       We can achieve that by wrapping slideshow.map(...) below with this GridWrapper.
-//       and remove the custom style from data-slide-content-wrapper above.
-//
-// const GridWrapper = styled("div", {
-//   base: {
-//     display: "grid",
-//     gridTemplateColumns: "repeat(3, 1fr)",
-//     gap: "xlarge",
-//     marginBottom: "3xlarge",
-//     marginInline: "3xlarge",
-//     wideDown: {
-//       gap: "medium",
-//       marginInline: "medium",
-//     },
-//   },
-// });
-
 const FilmSlideshow = ({ slideshow }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);

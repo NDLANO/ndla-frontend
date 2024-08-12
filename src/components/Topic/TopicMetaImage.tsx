@@ -144,7 +144,6 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
   return (
     <TopicHeaderVisualElementWrapper>
       <DialogRoot size="large">
-        {/* TODO: Remove consumeCss once VisualElementButton is fixed. This'll probably removed anyways */}
         <VisualElementDialogTrigger
           title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
         >

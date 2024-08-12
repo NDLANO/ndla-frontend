@@ -110,7 +110,6 @@ const StyledOneColumn = styled(OneColumn, {
   },
 });
 
-// TODO: Check with designer that we even want this block :^)
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
