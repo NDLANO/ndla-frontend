@@ -231,13 +231,18 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
     };
   });
 
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const operationInfo = {
+      operationName: operation.operationName,
+      variables: operation.variables,
+    };
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         if (!config.isClient || extensions?.status !== 404) {
           handleError(`[GraphQL error]: ${message}`, undefined, requestPath, getLogLevel(extensions), {
             requestPath,
             graphqlError: {
+              operationInfo,
               message,
               locations,
               path,
@@ -248,8 +253,14 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
       });
     }
     if (networkError) {
-      handleError(`[Network error]: ${networkError}`, {
-        clientTime: new Date(),
+      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, undefined, {
+        requestPath,
+        stack: networkError.stack,
+        networkErrorMessage: networkError.message,
+        cause: networkError.cause,
+        graphqlError: {
+          operationInfo,
+        },
       });
     }
   });
