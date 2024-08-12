@@ -172,7 +172,7 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction, ro
   try {
     const { data, status } = await route(req);
     if (status === INTERNAL_SERVER_ERROR) {
-      sendInternalServerError(req, res);
+      await sendInternalServerError(req, res);
     } else {
       sendResponse(res, data, status);
     }

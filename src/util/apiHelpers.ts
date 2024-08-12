@@ -6,13 +6,12 @@
  *
  */
 
-import { GraphQLErrorExtensions } from "graphql/error";
 import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
-import handleError, { LogLevel } from "./handleError";
+import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 
@@ -205,14 +204,6 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
   });
 };
 
-const getLogLevel = (extensions: GraphQLErrorExtensions): LogLevel => {
-  if (typeof extensions?.status === "number") {
-    if ([401, 403, 404, 410].includes(extensions.status)) return "info";
-    if (extensions.status < 500) return "warn";
-  }
-  return "error";
-};
-
 export const createApolloLinks = (lang: string, versionHash?: string, requestPath?: string) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
@@ -239,7 +230,7 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         if (!config.isClient || extensions?.status !== 404) {
-          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, getLogLevel(extensions), {
+          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, {
             requestPath,
             graphqlError: {
               operationInfo,
@@ -253,7 +244,7 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
       });
     }
     if (networkError) {
-      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, undefined, {
+      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, {
         requestPath,
         stack: networkError.stack,
         networkErrorMessage: networkError.message,
