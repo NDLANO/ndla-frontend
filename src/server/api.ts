@@ -116,22 +116,19 @@ router.get("/login/success", async (req, res) => {
 });
 
 router.get("/:lang?/logout", async (req, res) => {
-  try {
-    const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-    const state = typeof req.query.state === "string" ? req.query.state : "/";
-    const redirect = constructNewPath(state, req.params.lang);
-    res.setHeader("Cache-Control", "private");
+  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
+  const state = typeof req.query.state === "string" ? req.query.state : "/";
+  const redirect = constructNewPath(state, req.params.lang);
+  res.setHeader("Cache-Control", "private");
 
-    if (!feideToken?.["id_token"] || typeof state !== "string") {
-      throw new Error("Missing id_token or state");
-    }
-    const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
-    return res.redirect(logoutUri);
-  } catch (error) {
-    handleError(error);
-    res.redirect("/");
+  if (!feideToken?.["id_token"] || typeof state !== "string") {
+    handleError(new Error("Missing id_token or state"));
+    return res.redirect("/");
   }
+
+  const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
+  return res.redirect(logoutUri);
 });
 
 router.get("/logout/session", (req, res) => {
