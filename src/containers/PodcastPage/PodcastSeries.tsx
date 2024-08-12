@@ -6,64 +6,45 @@
  *
  */
 
-import { Link } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { Heading, Text } from "@ndla/typography";
+import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
-const StyledCoverPhoto = styled.img`
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-`;
+const StyledText = styled(Text, { base: { lineClamp: "3" } });
 
-const FlexWrapper = styled.div`
-  display: grid;
-  grid-template-columns: auto 1fr;
-  margin: ${spacing.medium};
-`;
-
-const ImageWrapper = styled.div`
-  width: 125px;
-  padding: ${spacing.small};
-  margin-right: ${spacing.medium};
-  border: 1px solid ${colors.brand.greyLight};
-`;
-
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledDescription = styled(Text)`
-  max-width: 600px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`;
+const BigListItemImage = styled(ListItemImage, {
+  base: {
+    maxWidth: "125px",
+    maxHeight: "125px",
+    tabletDown: {
+      maxWidth: "77px",
+      maxHeight: "77px",
+    },
+  },
+});
 
 const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
-    <FlexWrapper>
-      <ImageWrapper>
-        <StyledCoverPhoto src={coverPhoto.url} alt={coverPhoto.altText} />
-      </ImageWrapper>
-      <TextWrapper>
-        <div>
-          <Heading headingStyle="default" element="h3" margin="none">
-            <Link to={`/podkast/${id}`}>{title.title}</Link>
-          </Heading>
-        </div>
-        <StyledDescription textStyle="meta-text-small" margin="none">
-          {description.description}
-        </StyledDescription>
-      </TextWrapper>
-    </FlexWrapper>
+    <ListItemRoot asChild consumeCss>
+      <li>
+        <BigListItemImage alt={coverPhoto.altText} src={coverPhoto.url} />
+        <ListItemContent>
+          <div>
+            <ListItemHeading asChild consumeCss>
+              <h3>
+                <SafeLink to={`/podkast/${id}`} css={linkOverlay.raw()}>
+                  {title.title}
+                </SafeLink>
+              </h3>
+            </ListItemHeading>
+            <StyledText>{description.description}</StyledText>
+          </div>
+        </ListItemContent>
+      </li>
+    </ListItemRoot>
   );
 };
 

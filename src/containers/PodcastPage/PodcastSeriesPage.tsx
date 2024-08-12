@@ -10,9 +10,7 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
-import styled from "@emotion/styled";
 import { transform } from "@ndla/article-converter";
-import { spacing } from "@ndla/core";
 import { useComponentSize } from "@ndla/hooks";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
@@ -22,9 +20,22 @@ import {
   AccordionItemTrigger,
   AccordionRoot,
   Heading,
+  Hero,
+  HeroBackground,
+  HeroContent,
+  Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ContentTypeBadgeNew, OneColumn } from "@ndla/ui";
+import {
+  ArticleContent,
+  ArticleFooter,
+  ArticleHeader,
+  ArticleWrapper,
+  ContentTypeBadgeNew,
+  HomeBreadcrumb,
+  OneColumn,
+} from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -45,35 +56,27 @@ interface RouteParams extends TypedParams {
   id: string;
 }
 
-const TitleWrapper = styled.hgroup`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin-top: ${spacing.normal};
-  margin-block: ${spacing.normal};
-`;
+// TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
+const TitleWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xsmall",
+    "& h1": {
+      overflowWrap: "anywhere",
+    },
+  },
+});
 
-const SeriesDescription = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledImage = styled.img`
-  max-width: 150px;
-  max-height: 150px;
-  margin-right: ${spacing.normal};
-`;
-
-const EpisodesWrapper = styled.div`
-  padding-top: ${spacing.small};
-  figure:first-of-type {
-    margin-top: 0;
-  }
-`;
-
-const NoResults = styled.div`
-  padding-top: ${spacing.medium};
-`;
+const StyledPodcastSeriesWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
@@ -205,47 +208,76 @@ const PodcastSeriesPage = () => {
         description={podcastSeries.description.description}
         imageUrl={podcastSeries.coverPhoto.url}
       />
-      <OneColumn>
-        <TitleWrapper>
-          <ContentTypeBadgeNew contentType="podcast" />
-          <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-            {podcastSeries.title.title}
-          </Heading>
-        </TitleWrapper>
-        <SeriesDescription>
-          <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText} />
-          {podcastSeries.description.description}
-        </SeriesDescription>
-        <EpisodesWrapper>
-          {podcastSeries.content ? (
-            <>
-              <h2>{t("podcastPage.episodes")}</h2>
-              {embeds}
-              <AccordionRoot multiple>
-                {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
-                  <AccordionItem value="rulesForUse">
-                    <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                      <h2>
-                        <AccordionItemTrigger>
-                          {t("article.useContent")}
-                          <AccordionItemIndicator asChild>
-                            <ArrowDownShortLine size="medium" />
-                          </AccordionItemIndicator>
-                        </AccordionItemTrigger>
-                      </h2>
+      <main>
+        <Hero content="primary">
+          <HeroBackground />
+          <OneColumn>
+            <HeroContent>
+              <HomeBreadcrumb
+                items={[
+                  {
+                    name: t("breadcrumb.toFrontpage"),
+                    to: "/",
+                  },
+                  {
+                    name: t("podcastPage.podcasts"),
+                    to: "/podkast",
+                  },
+                  {
+                    name: podcastSeries.title.title,
+                    to: `/podkast/${podcastSeries.id}`,
+                  },
+                ]}
+              />
+            </HeroContent>
+            {/* TODO: Should not be article, update to use new padding componnt when it is ready! */}
+            <ArticleWrapper>
+              <ArticleHeader>
+                <TitleWrapper>
+                  <ContentTypeBadgeNew contentType={"podcast"} />
+                  <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                    {podcastSeries.title.title}
+                  </Heading>
+                </TitleWrapper>
+                <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
+              </ArticleHeader>
+              <ArticleContent>
+                {podcastSeries.content ? (
+                  <StyledPodcastSeriesWrapper>
+                    <Heading asChild consumeCss textStyle="title.medium">
+                      <h2>{t("podcastPage.episodes")}</h2>
                     </Heading>
-                    <AccordionItemContent>
-                      <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
-                    </AccordionItemContent>
-                  </AccordionItem>
+                    {embeds}
+                  </StyledPodcastSeriesWrapper>
+                ) : (
+                  <Text>{t("podcastPage.noResults")}</Text>
                 )}
-              </AccordionRoot>
-            </>
-          ) : (
-            <NoResults>{t("podcastPage.noResults")}</NoResults>
-          )}
-        </EpisodesWrapper>
-      </OneColumn>
+              </ArticleContent>
+              {podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
+                <ArticleFooter>
+                  <AccordionRoot multiple>
+                    <AccordionItem value="rulesForUse">
+                      <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                        <h2>
+                          <AccordionItemTrigger>
+                            {t("article.useContent")}
+                            <AccordionItemIndicator asChild>
+                              <ArrowDownShortLine size="medium" />
+                            </AccordionItemIndicator>
+                          </AccordionItemTrigger>
+                        </h2>
+                      </Heading>
+                      <AccordionItemContent>
+                        <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
+                      </AccordionItemContent>
+                    </AccordionItem>
+                  </AccordionRoot>
+                </ArticleFooter>
+              )}
+            </ArticleWrapper>
+          </OneColumn>
+        </Hero>
+      </main>
     </>
   );
 };

@@ -45,7 +45,6 @@ const messages = {
     episodes: "Episodes",
     podcast: "Podcast",
     podcasts: "Podcasts",
-    pageInfo: "Page {{page}} of {{lastPage}}",
     noResults: "...No episodes",
     subtitle: "Listen and learn!",
   },

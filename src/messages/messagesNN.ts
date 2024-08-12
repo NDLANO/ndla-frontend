@@ -45,7 +45,6 @@ const messages = {
     episodes: "Episoder",
     podcast: "Podkast",
     podcasts: "Podkaster",
-    pageInfo: "Side {{page}} av {{lastPage}}",
     noResults: "...Ingen episoder",
     subtitle: "Lytt og lær!",
   },
