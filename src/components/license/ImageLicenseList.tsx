@@ -15,7 +15,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
-import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -33,6 +32,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
+  StyledMediaImage,
 } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
@@ -114,7 +114,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
-        <Image alt={image.altText} src={image.src} />
+        <StyledMediaImage alt={image.altText} src={image.src} />
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>

@@ -17,7 +17,7 @@ import {
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
-import { Heading, Text } from "@ndla/primitives";
+import { Heading, Text, Image } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
@@ -233,3 +233,9 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
     </ul>
   );
 };
+
+export const StyledMediaImage = styled(Image, {
+  base: {
+    marginBlockStart: "small",
+  },
+});

@@ -14,7 +14,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
-import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
@@ -33,6 +32,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
+  StyledMediaImage,
 } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
@@ -89,7 +89,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
-        {video.cover && <Image alt={video.title} src={video.cover} />}
+        {video.cover && <StyledMediaImage alt={video.title} src={video.cover} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (

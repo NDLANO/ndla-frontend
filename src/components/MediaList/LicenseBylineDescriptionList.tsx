@@ -18,7 +18,6 @@ const StyledList = styled("ul", {
   base: {
     listStyleType: "disc",
     listStylePosition: "inside",
-    marginBlockEnd: "small",
   },
 });
 
