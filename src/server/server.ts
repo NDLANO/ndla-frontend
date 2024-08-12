@@ -26,6 +26,9 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 
+// To handle uncaught exceptions in async express
+await import("express-async-errors");
+
 const base = "/";
 const isProduction = config.runtimeType === "production";
 

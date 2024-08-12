@@ -25,6 +25,9 @@ import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { constructNewPath } from "../util/urlHelper";
 
+// To handle uncaught exceptions in async express
+await import("express-async-errors");
+
 const router = express.Router();
 
 router.get("/robots.txt", (req, res) => {
