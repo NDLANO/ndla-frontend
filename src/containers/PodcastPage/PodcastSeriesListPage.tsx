@@ -11,7 +11,6 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
-import { PaginationContext } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import {
   Button,
@@ -26,6 +25,7 @@ import {
   HeroBackground,
   Heading,
   HeroContent,
+  PaginationContext,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
