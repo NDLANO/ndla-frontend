@@ -138,7 +138,6 @@ const Article = ({
       lang={art.language === "nb" ? "no" : art.language}
       heartButton={
         path &&
-        config.feideEnabled &&
         showFavoriteButton && (
           <AddResourceToFolderModal
             resource={{

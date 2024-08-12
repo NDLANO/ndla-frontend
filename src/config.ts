@@ -102,7 +102,6 @@ export type ConfigType = {
   localGraphQLApi: boolean;
   saamiEnabled: boolean;
   feideDomain: string;
-  feideEnabled: boolean;
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
@@ -135,7 +134,6 @@ const getServerSideConfig = (): ConfigType => {
     localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
     saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
     feideDomain: feideDomain(ndlaEnvironment),
-    feideEnabled: getEnvironmentVariabel("FEIDE_ENABLED", false),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
