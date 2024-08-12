@@ -206,8 +206,9 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
 };
 
 const getLogLevel = (extensions: GraphQLErrorExtensions): LogLevel => {
-  if (typeof extensions?.status === "number" && extensions.status < 500) {
-    return "warn";
+  if (typeof extensions?.status === "number") {
+    if ([401, 403, 404, 410].includes(extensions.status)) return "info";
+    if (extensions.status < 500) return "warn";
   }
   return "error";
 };
