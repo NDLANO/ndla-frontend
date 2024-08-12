@@ -31,6 +31,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import {
   ArticleContent,
+  ArticleFooter,
   ArticleHeader,
   ArticleWrapper,
   ContentTypeBadgeNew,
@@ -181,45 +182,49 @@ const PodcastSeriesListPage = () => {
                   <Text>{t("podcastPage.noResults")}</Text>
                 )}
               </ArticleContent>
+              <ArticleFooter>
+                <StyledPaginationRoot
+                  page={page}
+                  onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+                  count={data?.podcastSeriesSearch?.totalCount ?? 0}
+                  pageSize={pageSize}
+                  translations={componentTranslations}
+                  siblingCount={2}
+                >
+                  <PaginationPrevTrigger asChild>
+                    <Button variant="tertiary">
+                      <ArrowLeftShortLine />
+                      {t("pagination.prev")}
+                    </Button>
+                  </PaginationPrevTrigger>
+                  <PaginationContext>
+                    {(pagination) =>
+                      pagination.pages.map((page, index) =>
+                        page.type === "page" ? (
+                          <PaginationItem key={index} {...page} asChild>
+                            <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                              {page.value}
+                            </Button>
+                          </PaginationItem>
+                        ) : (
+                          <PaginationEllipsis key={index} index={index} asChild>
+                            <Text asChild consumeCss>
+                              <div>&#8230;</div>
+                            </Text>
+                          </PaginationEllipsis>
+                        ),
+                      )
+                    }
+                  </PaginationContext>
+                  <PaginationNextTrigger asChild>
+                    <Button variant="tertiary">
+                      {t("pagination.next")}
+                      <ArrowRightShortLine />
+                    </Button>
+                  </PaginationNextTrigger>
+                </StyledPaginationRoot>
+              </ArticleFooter>
             </ArticleWrapper>
-            <StyledPaginationRoot
-              page={page}
-              onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
-              count={data?.podcastSeriesSearch?.totalCount ?? 0}
-              pageSize={pageSize}
-              translations={componentTranslations}
-              siblingCount={2}
-            >
-              <PaginationPrevTrigger asChild>
-                <Button variant="tertiary">
-                  <ArrowLeftShortLine />
-                  {t("pagination.prev")}
-                </Button>
-              </PaginationPrevTrigger>
-              <PaginationContext>
-                {(pagination) =>
-                  pagination.pages.map((page, index) =>
-                    page.type === "page" ? (
-                      <PaginationItem key={index} {...page} asChild>
-                        <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
-                      </PaginationItem>
-                    ) : (
-                      <PaginationEllipsis key={index} index={index} asChild>
-                        <Text asChild consumeCss>
-                          <div>&#8230;</div>
-                        </Text>
-                      </PaginationEllipsis>
-                    ),
-                  )
-                }
-              </PaginationContext>
-              <PaginationNextTrigger asChild>
-                <Button variant="tertiary">
-                  {t("pagination.next")}
-                  <ArrowRightShortLine />
-                </Button>
-              </PaginationNextTrigger>
-            </StyledPaginationRoot>
           </OneColumn>
         </Hero>
       </main>
