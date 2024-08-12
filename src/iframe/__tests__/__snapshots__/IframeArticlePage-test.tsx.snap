@@ -220,7 +220,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               <div />
                             </div>
                             <ul
-                              class="li-t_disc li-pos_inside mb_9"
+                              class="li-t_disc li-pos_inside"
                             />
                           </div>
                           <div
