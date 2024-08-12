@@ -185,6 +185,7 @@ export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
   myNdla: {
     root: "/minndla",
+    profile: "/minndla/profile",
     arena: "/minndla/arena",
     folders: "/minndla/folders",
     subjects: "/minndla/subjects",

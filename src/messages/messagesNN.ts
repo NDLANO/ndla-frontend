@@ -41,7 +41,6 @@ const messages = {
     tipsAndAdvice: "Tips og råd",
     goBack: "Gå tilbake",
   },
-  searchPage: { subjectLetter: "Fag som startar på {{letter}}" },
   podcastPage: {
     episodes: "Episoder",
     podcast: "Podkast",
@@ -51,6 +50,11 @@ const messages = {
     subtitle: "Lytt og lær!",
   },
   subjectsPage: { tabFilter: "Kva fag vil du visa?" },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som startar på {{letter}}",
+  },
   myndla: {
     campaignBlock: {
       title: "Prøv praterobotane våre",
@@ -78,6 +82,11 @@ const messages = {
       error: "Ein feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+  },
+  ndlaFilm: {
+    films: "Filmar",
+    topics: "Emner",
+    filterFilms: "Filtrer filmar",
   },
   validation: {
     fields: {

@@ -18,12 +18,13 @@ import { spacing } from "@ndla/core";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
+import { ErrorMessage, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -92,7 +93,10 @@ const allSubjectsQuery = gql`
   }
 `;
 
-const convertToArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
+const filterDefaults = (value: string | string[]): string[] => {
+  if (!value) return [ACTIVE_SUBJECTS];
+  return Array.isArray(value) ? value : [value];
+};
 
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
@@ -103,7 +107,7 @@ const AllSubjectsPage = () => {
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string[]>(convertToArray(parse(location.search).filter) || [ACTIVE_SUBJECTS]);
+  const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
 
   const setFilter = (value: string[]) => {
     const searchObject = parse(location.search);

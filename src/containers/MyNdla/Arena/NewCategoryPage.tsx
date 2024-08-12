@@ -11,13 +11,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { Heading } from "@ndla/typography";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useCreateArenaCategory } from "../arenaMutations";
@@ -69,7 +69,7 @@ export const NewCategoryPage = () => {
 
   const onAbort = useCallback(() => navigate(routes.myNdla.arena), [navigate]);
 
-  if (!authContextLoaded) return <Spinner />;
+  if (!authContextLoaded) return <PageSpinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (

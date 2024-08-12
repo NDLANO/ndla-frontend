@@ -60,10 +60,6 @@ const Wrapper = styled.div`
   align-items: center;
 
   max-width: ${MY_NDLA_CONTENT_WIDTH}px;
-
-  div {
-    flex-grow: 1;
-  }
 `;
 
 interface Props {

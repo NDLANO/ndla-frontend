@@ -19,7 +19,6 @@ import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
 import { removeUrn, toTopic } from "../../routeHelpers";
@@ -165,7 +164,6 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             />
           </div>
         ))}
-        {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
       </OneColumn>
     </>
   );
@@ -186,9 +184,6 @@ export const toolboxSubjectContainerFragments = {
           visualElement {
             url
           }
-        }
-        banner {
-          desktopUrl
         }
         metaDescription
       }

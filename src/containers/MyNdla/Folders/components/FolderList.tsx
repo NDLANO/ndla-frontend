@@ -12,8 +12,8 @@ import { Reference, useApolloClient } from "@apollo/client";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { Spinner } from "@ndla/primitives";
 import DraggableFolder from "./DraggableFolder";
+import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
@@ -87,7 +87,7 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
   );
 
   return (
-    <WhileLoading isLoading={loading} fallback={<Spinner />}>
+    <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
       {folders.length > 0 && (
         <BlockWrapper data-no-padding={folders.length === 1}>
           <DndContext

@@ -69,7 +69,6 @@ exports[`get core and supplementary resources grouped by types 1`] = `
         ],
       },
       {
-        "additional": true,
         "contentUri": "urn:article:3",
         "id": "urn:resource:4",
         "name": "Hva er menneskerettigheter?",
@@ -81,7 +80,6 @@ exports[`get core and supplementary resources grouped by types 1`] = `
         ],
       },
       {
-        "additional": true,
         "contentUri": "urn:article:2",
         "id": "urn:resource:6",
         "name": "Endring av NATOs strategi",
@@ -117,7 +115,6 @@ exports[`get core and supplementary resources grouped by types 1`] = `
     "name": "Oppgaver og aktiviteter",
     "resources": [
       {
-        "additional": true,
         "contentUri": "urn:article:4",
         "id": "urn:resource:5",
         "name": "Påstander konflikter",

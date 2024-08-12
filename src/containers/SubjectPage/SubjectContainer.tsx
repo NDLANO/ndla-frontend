@@ -23,7 +23,6 @@ import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -182,7 +181,6 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
         </LayoutItem>
       </OneColumn>
-      {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
     </main>
   );
 };
@@ -203,9 +201,6 @@ export const subjectContainerFragments = {
           visualElement {
             url
           }
-        }
-        banner {
-          desktopUrl
         }
         ...SubjectLinks_Subject
       }

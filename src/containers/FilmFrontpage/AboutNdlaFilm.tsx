@@ -8,58 +8,67 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button, Image } from "@ndla/primitives";
-import { Heading, Text } from "@ndla/typography";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTrigger,
+  Heading,
+  Image,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
-const StyledAside = styled.aside`
-  display: flex;
-  padding: ${spacing.normal} ${spacing.normal} ${spacing.medium};
-  > div {
-    padding: ${spacing.normal};
-    width: 50%;
-    h2 {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin: 0 0 ${spacing.small} 0;
-    }
-  }
-  button,
-  button:hover,
-  button:focus {
-    color: ${colors.text.light};
-  }
+const StyledAside = styled("aside", {
+  base: {
+    display: "flex",
+    padding: "medium",
+    tabletDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex-direction: column;
-    > div {
-      width: auto;
-      &:first-of-type {
-        padding-bottom: 0;
-      }
-    }
-  }
-`;
+const StyledDiv = styled("div", {
+  base: {
+    padding: "small",
+    width: "100%",
+    tabletDown: {
+      _firstOfType: {
+        paddingBottom: "0",
+      },
+    },
+  },
+});
 
-const StylediFrame = styled.iframe`
-  height: 100%;
-  width: 100%;
-  border: 0;
-  margin: 0;
-  padding: 0;
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    marginBottom: "medium",
+  },
+});
 
-const StyledModalBody = styled(ModalBody)`
-  h2 {
-    margin: 0;
-  }
-`;
+const StyledText = styled(Text, {
+  base: {
+    marginBottom: "xxlarge",
+    tabletDown: {
+      marginBottom: "0",
+    },
+  },
+});
+
+const StyledIframe = styled("iframe", {
+  base: {
+    height: "100%",
+    width: "100%",
+  },
+});
 
 interface VisualElementProps {
   visualElement: {
@@ -74,30 +83,39 @@ const VisualElement = ({ visualElement }: VisualElementProps) => {
   if (type === "image") {
     return <Image src={url} alt={alt ?? ""} />;
   } else if (type === "brightcove") {
-    return <StylediFrame allowFullScreen={true} src={url} />;
+    return <StyledIframe allowFullScreen={true} src={url} />;
   } else {
     return null;
   }
 };
 
 interface AboutNdlaFilmProps {
-  aboutNDLAVideo: {
-    title: string;
-    description: string;
-    visualElement: {
-      alt?: string;
-      url: string;
-      type: string;
-    };
-  };
+  aboutNDLAVideo:
+    | {
+        title: string;
+        description: string;
+        visualElement: {
+          alt?: string;
+          url: string;
+          type: string;
+        };
+      }
+    | undefined;
   article?: BaseArticle;
 }
 
+const StyledOneColumn = styled(OneColumn, {
+  base: {
+    marginTop: "3xlarge",
+  },
+});
+
+// TODO: Check with designer that we even want this block :^)
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
 
-  const iArticle = useMemo(() => {
+  const transformedArticle = useMemo(() => {
     if (article) {
       return transformArticle(article, i18n.language) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
     }
@@ -105,34 +123,40 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <OneColumn>
+    <StyledOneColumn>
       <StyledAside aria-labelledby={titleId}>
-        <div>
-          <VisualElement visualElement={aboutNDLAVideo.visualElement} />
-        </div>
-        <div>
-          <Heading element="h2" headingStyle="h2" id={titleId}>
-            {aboutNDLAVideo.title}
-          </Heading>
-          <Text element="p">{aboutNDLAVideo.description}</Text>
-          {iArticle && (
-            <Modal>
-              <ModalTrigger>
-                <Button variant="link">{t("ndlaFilm.about.more")}</Button>
-              </ModalTrigger>
-              <ModalContent size="full">
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <StyledModalBody>
-                  <Article article={iArticle} oembed={undefined} label="" />
-                </StyledModalBody>
-              </ModalContent>
-            </Modal>
+        {aboutNDLAVideo?.visualElement && (
+          <StyledDiv>
+            <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
+          </StyledDiv>
+        )}
+        <StyledDiv>
+          <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
+            <h2>{aboutNDLAVideo?.title}</h2>
+          </StyledHeading>
+          <StyledText asChild consumeCss>
+            <p>{aboutNDLAVideo?.description}</p>
+          </StyledText>
+          {transformedArticle && (
+            <DialogRoot size="full">
+              <DialogTrigger asChild>
+                <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  {/* TODO: Consider moving title up here? */}
+                  <div />
+                  <DialogCloseButton />
+                </DialogHeader>
+                <DialogBody>
+                  <Article article={transformedArticle} oembed={undefined} label="" />
+                </DialogBody>
+              </DialogContent>
+            </DialogRoot>
           )}
-        </div>
+        </StyledDiv>
       </StyledAside>
-    </OneColumn>
+    </StyledOneColumn>
   );
 };
 

@@ -14,7 +14,6 @@ import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { FileTextLine } from "@ndla/icons/common";
 import { FolderLine, LinkMedium } from "@ndla/icons/editor";
-import { Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ListViewOptions from "./components/ListViewOptions";
 import { ViewType, BlockWrapper } from "./FoldersPage";
@@ -22,6 +21,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import BlockResource from "../../../components/MyNdla/BlockResource";
 import ListResource from "../../../components/MyNdla/ListResource";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
@@ -75,7 +75,7 @@ const FoldersTagsPage = () => {
   }, [resources, previousResources, tag, navigate]);
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (!tag || !tags.includes(tag)) {
@@ -129,10 +129,10 @@ const Resources = ({ resources }: ResourcesProps) => {
 
     return [
       {
+        type: "dialog",
+        value: "addResource",
         icon: <FolderLine />,
         text: t("myNdla.resource.add"),
-        isModal: true,
-        modality: false,
         modalContent: (close) => (
           <AddResourceToFolderModalContent
             resource={{
@@ -145,6 +145,8 @@ const Resources = ({ resources }: ResourcesProps) => {
         ),
       },
       {
+        type: "action",
+        value: "copyResourceLink",
         icon: <LinkMedium />,
         text: t("myNdla.resource.copyLink"),
         onClick: () => {

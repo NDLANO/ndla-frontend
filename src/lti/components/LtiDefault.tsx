@@ -9,8 +9,8 @@
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger } from "@ndla/primitives";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
 import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
 import { LtiItem } from "../../interfaces";
@@ -46,23 +46,24 @@ const LtiDefault = ({ item }: Props) => {
   );
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalTrigger>
-        {/* TODO: Needs verification */}
-        <Button variant="tertiary">{t("lti.embed")}</Button>
-      </ModalTrigger>
-      <ModalContent size="normal">
-        <ModalHeader>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
+    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+      <DialogTrigger asChild>
+        <Button variant="primary">{t("lti.embed")}</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          {/* TODO: We should probably have a dialog title here. */}
+          <div />
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
           <MarginLeftParagraph>{t("lti.notSupported")}</MarginLeftParagraph>
           <pre>
             <CodeWithBreakWord>{embedCode}</CodeWithBreakWord>
           </pre>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

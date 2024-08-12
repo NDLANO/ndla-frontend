@@ -8,12 +8,26 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { breakpoints, mq } from "@ndla/core";
 import { CompassFill } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
@@ -186,23 +200,23 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   }
 
   return (
-    <>
-      <Modal>
-        <ModalTrigger>
-          <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
-            {t("competenceGoals.showCompetenceGoals")}
-          </Button>
-        </ModalTrigger>
-        <ModalContent size="full">
-          <ModalHeader>
-            <ModalTitle>
-              <CompassFill style={{ marginRight: "20px" }} />
-              {t("competenceGoals.modalText")}
-            </ModalTitle>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
-            <CompetenceGoalsWrapper>
+    <DialogRoot size="full">
+      <DialogTrigger asChild>
+        <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+          {t("competenceGoals.showCompetenceGoals")}
+        </Button>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <CompetenceGoalsWrapper>
+            <DialogHeader>
+              <DialogTitle>
+                <CompassFill />
+                {t("competenceGoals.modalText")}
+              </DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
                 orientation="horizontal"
@@ -223,11 +237,11 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                   </TabsContent>
                 ))}
               </TabsRoot>
-            </CompetenceGoalsWrapper>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+            </DialogBody>
+          </CompetenceGoalsWrapper>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 
