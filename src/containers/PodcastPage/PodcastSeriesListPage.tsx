@@ -20,12 +20,12 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Text,
-  Spinner,
   Hero,
   HeroBackground,
   Heading,
   HeroContent,
   PaginationContext,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -154,7 +154,6 @@ const PodcastSeriesListPage = () => {
                 ]}
               />
             </HeroContent>
-            {/* TODO: Should not be article, update to use new padding componnt when it is ready! */}
             <ArticleWrapper>
               <ArticleHeader>
                 <TitleWrapper>

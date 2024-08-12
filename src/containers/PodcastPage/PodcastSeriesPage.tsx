@@ -32,6 +32,7 @@ import {
   ArticleFooter,
   ArticleHeader,
   ArticleWrapper,
+  ContentPlaceholder,
   ContentTypeBadgeNew,
   HomeBreadcrumb,
   OneColumn,
@@ -120,7 +121,7 @@ const PodcastSeriesPage = () => {
   };
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder />;
   }
 
   if (!podcastSeries) {
@@ -230,7 +231,6 @@ const PodcastSeriesPage = () => {
                 ]}
               />
             </HeroContent>
-            {/* TODO: Should not be article, update to use new padding componnt when it is ready! */}
             <ArticleWrapper>
               <ArticleHeader>
                 <TitleWrapper>

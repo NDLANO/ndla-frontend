@@ -17,18 +17,22 @@ const StyledText = styled(Text, { base: { lineClamp: "3" } });
 
 const BigListItemImage = styled(ListItemImage, {
   base: {
-    maxWidth: "125px",
-    maxHeight: "125px",
+    maxWidth: "surface.4xsmall",
+    minWidth: "surface.4xsmall",
+    maxHeight: "surface.4xsmall",
+    minHeight: "surface.4xsmall",
     tabletDown: {
-      maxWidth: "77px",
-      maxHeight: "77px",
+      maxWidth: "3xlarge",
+      minWidth: "3xlarge",
+      maxHeight: "3xlarge",
+      minHeight: "3xlarge",
     },
   },
 });
 
 const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
-    <ListItemRoot asChild consumeCss>
+    <ListItemRoot asChild consumeCss variant="list">
       <li>
         <BigListItemImage alt={coverPhoto.altText} src={coverPhoto.url} />
         <ListItemContent>
