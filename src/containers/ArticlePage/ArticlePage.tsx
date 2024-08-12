@@ -172,7 +172,7 @@ const ArticlePage = ({
             isResourceArticle
             printUrl={printUrl}
             subjectId={subject?.id}
-            showFavoriteButton={config.feideEnabled}
+            showFavoriteButton
             oembed={article.oembed}
             {...getArticleProps(resource, topic)}
           />
