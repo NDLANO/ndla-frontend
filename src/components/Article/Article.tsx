@@ -6,7 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
 import { ReactElement, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -82,16 +81,8 @@ const Article = ({
   const art = {
     ...article,
     content: article.transformedContent?.content ?? "",
-    title: parse(article.htmlTitle!),
-    introduction: parse(article.htmlIntroduction!),
-    copyright: {
-      ...article.copyright,
-      license: article.copyright.license!,
-      creators: article.copyright.creators ?? [],
-      rightsholders: article.copyright.rightsholders ?? [],
-      processors: article.copyright.processors ?? [],
-      processed: article.copyright.processed ?? false,
-    },
+    title: article.transformedContent.title,
+    introduction: article.transformedContent.introduction,
     footNotes: article.transformedContent?.metaData?.footnotes ?? [],
   };
 
