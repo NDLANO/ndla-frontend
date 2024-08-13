@@ -13,19 +13,19 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { OneColumn } from "@ndla/ui";
 import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
-  GQLLearningpathEmbed_TopicFragment,
   GQLLearningpathStepQuery,
   GQLLearningpathStepQueryVariables,
 } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { Breadcrumb } from "../../interfaces";
-import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
+import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
@@ -66,12 +66,11 @@ const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefin
 
 interface Props {
   learningpathStep: GQLLearningpathEmbed_LearningpathStepFragment;
-  topic?: GQLLearningpathEmbed_TopicFragment;
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
 }
-const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId, breadcrumbItems }: Props) => {
+const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [taxId, articleId] =
@@ -165,15 +164,20 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, topic, subjectId
           {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
-      <Article
-        isPlainArticle
-        id={skipToContentId}
-        article={article}
-        oembed={data?.article?.oembed}
-        {...getArticleProps(resource, topic)}
-      >
-        {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
-      </Article>
+      <OneColumn>
+        <Article
+          id={skipToContentId}
+          article={article}
+          oembed={data?.article?.oembed}
+          contentType={getContentType(resource)}
+        >
+          {path ? (
+            <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
+          ) : (
+            <></>
+          )}
+        </Article>
+      </OneColumn>
     </>
   );
 };
@@ -198,13 +202,6 @@ const articleFragment = gql`
 `;
 
 LearningpathEmbed.fragments = {
-  topic: gql`
-    fragment LearningpathEmbed_Topic on Topic {
-      supplementaryResources(subjectId: $subjectId) {
-        id
-      }
-    }
-  `,
   article: articleFragment,
   learningpathStep: gql`
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {

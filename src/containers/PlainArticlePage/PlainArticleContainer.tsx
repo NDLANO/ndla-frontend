@@ -18,7 +18,6 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
-import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
@@ -90,13 +89,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         trackableContent={article}
       />
       <OneColumn>
-        <Article
-          isPlainArticle
-          id={skipToContentId}
-          article={article}
-          oembed={undefined}
-          {...getArticleProps(undefined, undefined)}
-        />
+        <Article id={skipToContentId} article={article} oembed={undefined} />
       </OneColumn>
     </div>
   );

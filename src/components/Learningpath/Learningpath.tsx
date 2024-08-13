@@ -139,7 +139,6 @@ const Learningpath = ({
             )}
             <LearningpathEmbed
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
-              topic={topic}
               subjectId={subject?.id}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
@@ -174,9 +173,7 @@ Learningpath.fragments = {
   topic: gql`
     fragment Learningpath_Topic on Topic {
       ...LastLearningpathStepInfo_Topic
-      ...LearningpathEmbed_Topic
     }
-    ${LearningpathEmbed.fragments.topic}
     ${LastLearningpathStepInfo.fragments.topic}
   `,
   resourceType: gql`

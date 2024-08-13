@@ -148,7 +148,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <DialogCloseButton />
                 </DialogHeader>
                 <DialogBody>
-                  <Article article={transformedArticle} oembed={undefined} label="" />
+                  <Article article={transformedArticle} oembed={undefined} />
                 </DialogBody>
               </DialogContent>
             </DialogRoot>
