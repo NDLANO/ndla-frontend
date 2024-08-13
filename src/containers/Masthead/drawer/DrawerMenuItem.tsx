@@ -36,7 +36,7 @@ export const StyledButton = styled(Button, {
   base: {
     display: "flex",
     textStyle: "label.medium",
-    fontWeight: "light",
+    fontWeight: "normal",
     color: "text.default",
     textAlign: "start",
     paddingInline: "small",
@@ -50,7 +50,6 @@ export const StyledButton = styled(Button, {
 export const StyledSafeLink = styled(SafeLinkButton, {
   base: {
     textStyle: "text.link",
-    fontWeight: "light",
     paddingInline: "small",
     paddingBlock: "3xsmall",
     textAlign: "start",
