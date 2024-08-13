@@ -143,7 +143,6 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
             </ArticleHeader>
             <ArticleContent>
               {article.transformedContent.content}
-              {/*TODO: should this be included? */}
               <ArticleByline
                 licenseBox={
                   <LicenseBox
