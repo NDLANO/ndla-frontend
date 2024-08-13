@@ -6,12 +6,11 @@
  *
  */
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { useComponentSize } from "@ndla/hooks";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import {
   AccordionItem,
@@ -40,12 +39,7 @@ import {
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import {
-  AcquireLicensePage,
-  MastheadHeightPx,
-  PODCAST_SERIES_LIST_PAGE_PATH,
-  SKIP_TO_CONTENT_ID,
-} from "../../constants";
+import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
 import { copyrightInfoFragment } from "../../queries";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
@@ -88,31 +82,11 @@ const PodcastSeriesPage = () => {
   } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
     return transform(podcastSeries.content.content, { renderContext: "embed" });
   }, [podcastSeries?.content?.content]);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 200);
-    }
-  }, [podcastSeries, location, height]);
 
   const { t } = useTranslation();
 
