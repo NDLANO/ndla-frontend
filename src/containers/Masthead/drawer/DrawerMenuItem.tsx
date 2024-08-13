@@ -49,6 +49,7 @@ export const StyledButton = styled(Button, {
 
 export const StyledSafeLink = styled(SafeLinkButton, {
   base: {
+    fontWeight: "normal",
     textStyle: "text.link",
     paddingInline: "small",
     paddingBlock: "3xsmall",
