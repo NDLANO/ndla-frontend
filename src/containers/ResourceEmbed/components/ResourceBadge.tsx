@@ -11,7 +11,8 @@ import styled from "@emotion/styled";
 import { colors, spacing, misc } from "@ndla/core";
 import { BroadcastLine, VoicePrintLine } from "@ndla/icons/common";
 import { ChatLine, H5P, ImageLine, MovieLine, GlobalLine } from "@ndla/icons/editor";
-import { EmbedType } from "./ResourceEmbedWrapper";
+
+type EmbedType = "video" | "audio" | "podcast" | "image" | "h5p" | "concept" | "gloss";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   type: EmbedType;
