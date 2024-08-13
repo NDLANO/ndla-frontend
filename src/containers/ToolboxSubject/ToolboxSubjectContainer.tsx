@@ -146,12 +146,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           {subject.name}
         </Heading>
         <Text textStyle="ingress">{t("toolboxPage.introduction")}</Text>
-        <NavigationBox
-          items={topics}
-          listDirection="floating"
-          heading={t("topicPage.topics")}
-          colorMode="greyLighter"
-        />
+        <NavigationBox items={topics} heading={t("topicPage.topics")} colorMode="greyLighter" />
         {selectedTopics.map((topic: string, index: number) => (
           <div key={topic} ref={refs[index]}>
             <ToolboxTopicContainer

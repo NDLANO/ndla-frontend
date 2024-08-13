@@ -155,7 +155,7 @@ const MultidisciplinarySubjectPage = () => {
         </OneColumn>
         <OneColumn wide>
           <LayoutItem layout="extend">
-            <NavigationBox items={mainTopics} listDirection="horizontal" />
+            <NavigationBox items={mainTopics} />
             {selectedTopics.map((topicId, index) => (
               <div key={index} ref={refs[index]}>
                 <MultidisciplinaryTopicWrapper
