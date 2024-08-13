@@ -66,7 +66,14 @@ const messages = {
       ingressUnauthenticated:
         "Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots. Log in to to access the chat bots.",
     },
-    resource: { addedToFolder: 'Resource added to "{{folder}}"', added: "Added", removed: "Removed" },
+    resource: {
+      addedToFolder: 'Resource added to "{{folder}}"',
+      added: "Added",
+      removed: "Removed",
+      showTags: "Show tags",
+      tagsDialogTitle: "Tags related to resource {{title}}",
+      noTags: "No tags ...",
+    },
   },
   myNdla: {
     sharedFolder: {

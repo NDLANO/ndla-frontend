@@ -10,21 +10,50 @@ import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { HashTag, TagOutlined } from "@ndla/icons/common";
 import { DeleteForever, FolderLine, LinkMedium } from "@ndla/icons/editor";
+import {
+  Text,
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
 import BlockResource from "../../../../components/MyNdla/BlockResource";
 import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
 import { getResourceTypesForResource } from "../../../../util/folderHelpers";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../../folderMutations";
 import { ViewType } from "../FoldersPage";
+
+const StyledTagsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
+
+const StyledDialogCloseTrigger = styled(DialogCloseTrigger, {
+  base: {
+    alignSelf: "flex-end",
+  },
+});
 
 interface Props {
   resource: GQLFolderResource;
@@ -126,6 +155,38 @@ const DraggableResource = ({
       },
       {
         type: "dialog",
+        value: "showTags",
+        icon: <TagOutlined />,
+        text: t("myndla.resource.showTags"),
+        isModal: true,
+        modalContent: () => (
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("myndla.resource.tagsDialogTitle", { title: resourceMeta?.title ?? "" })}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              {resource.tags.length ? (
+                <StyledTagsWrapper>
+                  {resource.tags.map((tag, index) => (
+                    <SafeLinkButton variant="primary" size="small" key={`${tag}_${index}`} to={routes.myNdla.tag(tag)}>
+                      <HashTag />
+                      {tag}
+                    </SafeLinkButton>
+                  ))}
+                </StyledTagsWrapper>
+              ) : (
+                <Text>{t("myndla.resource.noTags")}</Text>
+              )}
+              <StyledDialogCloseTrigger asChild>
+                <Button variant="secondary">{t("cancel")}</Button>
+              </StyledDialogCloseTrigger>
+            </DialogBody>
+          </DialogContent>
+        ),
+      },
+      {
+        type: "dialog",
         value: "removeResource",
         icon: <DeleteForever />,
         text: t("myNdla.resource.remove"),
@@ -145,7 +206,7 @@ const DraggableResource = ({
         variant: "destructive",
       },
     ];
-  }, [examLock, index, onDeleteFolder, resource, selectedFolder, t, toast]);
+  }, [examLock, index, onDeleteFolder, resource, resourceMeta?.title, selectedFolder, t, toast]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
