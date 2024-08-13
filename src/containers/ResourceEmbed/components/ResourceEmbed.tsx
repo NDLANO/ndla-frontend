@@ -24,7 +24,6 @@ import {
   HeroContent,
   Spinner,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import {
   ArticleContent,
@@ -35,6 +34,8 @@ import {
   ContentTypeHero,
   HomeBreadcrumb,
   OneColumn,
+  ArticleHGroup,
+  ArticleActionWrapper,
 } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
@@ -55,35 +56,6 @@ import ErrorPage from "../../ErrorPage";
 import NotFound from "../../NotFoundPage/NotFoundPage";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
-
-// TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
-const TitleWrapper = styled("hgroup", {
-  base: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    "& h1": {
-      overflowWrap: "anywhere",
-    },
-  },
-});
-
-// TODO: Should we export styling from ndla-ui? (ArticleFavoritesButtonWrapper)
-const FavoritesButtonWrapper = styled("div", {
-  base: {
-    position: "absolute",
-    right: "8%",
-    top: "xsmall",
-    tablet: {
-      top: "medium",
-    },
-    desktop: {
-      top: "xxlarge",
-    },
-  },
-});
 
 interface Props {
   id: string;
@@ -255,10 +227,10 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
             )}
             <ArticleWrapper>
               <ArticleHeader>
-                <TitleWrapper>
+                <ArticleHGroup>
                   {!!type && <ContentTypeBadgeNew contentType={type} />}
-                  {!isOembed && config.feideEnabled && (
-                    <FavoritesButtonWrapper>
+                  {!isOembed && (
+                    <ArticleActionWrapper>
                       <AddResourceToFolderModal
                         resource={{
                           id: id,
@@ -268,12 +240,12 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                       >
                         <FavoritesButton path={path} />
                       </AddResourceToFolderModal>
-                    </FavoritesButtonWrapper>
+                    </ArticleActionWrapper>
                   )}
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {properties.title}
                   </Heading>
-                </TitleWrapper>
+                </ArticleHGroup>
               </ArticleHeader>
               <ArticleContent>{transformedContent}</ArticleContent>
               <ArticleFooter>
