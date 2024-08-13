@@ -26,6 +26,9 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 
+// To handle uncaught exceptions in async express
+await import("express-async-errors");
+
 const base = "/";
 const isProduction = config.runtimeType === "production";
 
@@ -169,7 +172,7 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction, ro
   try {
     const { data, status } = await route(req);
     if (status === INTERNAL_SERVER_ERROR) {
-      sendInternalServerError(req, res);
+      await sendInternalServerError(req, res);
     } else {
       sendResponse(res, data, status);
     }

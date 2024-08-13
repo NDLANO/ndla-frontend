@@ -9291,6 +9291,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-async-errors@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "express-async-errors@npm:3.1.1"
+  peerDependencies:
+    express: ^4.16.2
+  checksum: 10c0/56c4e90c44e98c7edc5bd38e18dd23b0d9a7139cb94ff3e25943ba257415b433e0e52ea8f9bc1fb5b70a5e6c5246eaace4fb69ab171edfb8896580928bb97ec6
+  languageName: node
+  linkType: hard
+
 "express-prom-bundle@npm:^7.0.0":
   version: 7.0.0
   resolution: "express-prom-bundle@npm:7.0.0"
@@ -12173,6 +12182,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     eslint-config-ndla: "npm:^5.0.3"
     express: "npm:^4.19.2"
+    express-async-errors: "npm:^3.1.1"
     express-prom-bundle: "npm:^7.0.0"
     graphql: "npm:^16.8.1"
     graphql-tag: "npm:^2.12.6"
