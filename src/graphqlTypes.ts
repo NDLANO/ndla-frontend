@@ -1522,8 +1522,6 @@ export type GQLQuery = {
   listingPage?: Maybe<GQLListingPage>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
-  nodeByLanguageMeta?: Maybe<Array<GQLNode>>;
-  nodeResource?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
@@ -1720,22 +1718,13 @@ export type GQLQueryListingPageArgs = {
 export type GQLQueryNodeArgs = {
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   id?: InputMaybe<Scalars["String"]["input"]>;
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryNodeByArticleIdArgs = {
   articleId?: InputMaybe<Scalars["String"]["input"]>;
   nodeId?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLQueryNodeByLanguageMetaArgs = {
-  language: Scalars["String"]["input"];
-};
-
-export type GQLQueryNodeResourceArgs = {
-  id: Scalars["String"]["input"];
-  parentId?: InputMaybe<Scalars["String"]["input"]>;
-  rootId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryNodesArgs = {

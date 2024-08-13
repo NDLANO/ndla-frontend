@@ -30,7 +30,7 @@ const subjectPageQuery = gql`
     subject: node(id: $subjectId) {
       ...SubjectContainer_Subject
     }
-    topic: node(id: $topicId) @include(if: $includeTopic) {
+    topic: node(id: $topicId, rootId: $subjectId) @include(if: $includeTopic) {
       alternateTopics: alternateNodes {
         ...MovedTopicPage_Topic
       }

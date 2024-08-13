@@ -50,7 +50,7 @@ const resourcePageQuery = gql`
       ...LearningpathPage_Topic
       ...ArticlePage_Topic
     }
-    resource: nodeResource(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
+    resource: node(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
       id
       relevanceId
       paths

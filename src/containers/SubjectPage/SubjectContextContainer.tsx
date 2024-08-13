@@ -277,7 +277,7 @@ const contextContainerQuery = gql`
       ...SubjectContextContainer_Subject
       ...SubjectPageContent_Node
     }
-    topic: node(id: $topicId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       ...SubjectContextContainer_Topic
     }
   }
