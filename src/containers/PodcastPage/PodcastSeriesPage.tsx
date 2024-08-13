@@ -30,6 +30,7 @@ import {
   ArticleContent,
   ArticleFooter,
   ArticleHeader,
+  ArticleHGroup,
   ArticleWrapper,
   ContentPlaceholder,
   ContentTypeBadgeNew,
@@ -50,20 +51,6 @@ import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLi
 interface RouteParams extends TypedParams {
   id: string;
 }
-
-// TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
-const TitleWrapper = styled("hgroup", {
-  base: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    "& h1": {
-      overflowWrap: "anywhere",
-    },
-  },
-});
 
 const StyledPodcastSeriesWrapper = styled("div", {
   base: {
@@ -207,12 +194,12 @@ const PodcastSeriesPage = () => {
             </HeroContent>
             <ArticleWrapper>
               <ArticleHeader>
-                <TitleWrapper>
+                <ArticleHGroup>
                   <ContentTypeBadgeNew contentType={"podcast"} />
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {podcastSeries.title.title}
                   </Heading>
-                </TitleWrapper>
+                </ArticleHGroup>
                 <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
               </ArticleHeader>
               <ArticleContent>

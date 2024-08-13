@@ -33,6 +33,7 @@ import {
   ArticleContent,
   ArticleFooter,
   ArticleHeader,
+  ArticleHGroup,
   ArticleWrapper,
   ContentTypeBadgeNew,
   HomeBreadcrumb,
@@ -67,20 +68,6 @@ const SpinnerWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "center",
-  },
-});
-
-// TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
-const TitleWrapper = styled("hgroup", {
-  base: {
-    display: "flex",
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    "& h1": {
-      overflowWrap: "anywhere",
-    },
   },
 });
 
@@ -164,7 +151,7 @@ const PodcastSeriesListPage = () => {
             </HeroContent>
             <ArticleWrapper>
               <ArticleHeader>
-                <TitleWrapper>
+                <ArticleHGroup>
                   <ContentTypeBadgeNew contentType={"podcast"} />
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {t("podcastPage.podcasts")}
@@ -174,7 +161,7 @@ const PodcastSeriesListPage = () => {
                       <h2>{t("podcastPage.subtitle")}</h2>
                     </Heading>
                   )}
-                </TitleWrapper>
+                </ArticleHGroup>
               </ArticleHeader>
               <ArticleContent>
                 {loading ? (
