@@ -83,6 +83,11 @@ const messages = {
       userUpdated: "User updated",
     },
   },
+  ndlaFilm: {
+    films: "Films",
+    topics: "Topics",
+    filterFilms: "Filter films",
+  },
   validation: {
     fields: {
       name: "Name",
@@ -158,6 +163,9 @@ const messages = {
     moreHits: "See more results",
   },
   pagination: { next: "Next", prev: "Previous" },
+  programmePage: {
+    programmeSubjects: "Programme subjects",
+  },
 };
 
 export default messages;

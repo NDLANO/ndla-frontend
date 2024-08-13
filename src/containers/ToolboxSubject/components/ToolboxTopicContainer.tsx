@@ -8,10 +8,10 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/primitives";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import ToolboxTopicWrapper, { toolboxTopicWrapperFragments } from "./ToolboxTopicWrapper";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import {
   GQLTaxBase,
   GQLToolboxTopicContainerQuery,
@@ -68,7 +68,7 @@ export const ToolboxTopicContainer = ({ subject, topicId, topicList, setCrumbs, 
   );
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (!data?.topic) {

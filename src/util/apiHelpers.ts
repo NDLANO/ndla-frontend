@@ -6,13 +6,12 @@
  *
  */
 
-import { GraphQLErrorExtensions } from "graphql/error";
 import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
-import handleError, { LogLevel } from "./handleError";
+import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 
@@ -205,13 +204,6 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
   });
 };
 
-const getLogLevel = (extensions: GraphQLErrorExtensions): LogLevel => {
-  if (typeof extensions?.status === "number" && extensions.status < 500) {
-    return "warn";
-  }
-  return "error";
-};
-
 export const createApolloLinks = (lang: string, versionHash?: string, requestPath?: string) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
@@ -230,13 +222,18 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
     };
   });
 
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const operationInfo = {
+      operationName: operation.operationName,
+      variables: operation.variables,
+    };
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         if (!config.isClient || extensions?.status !== 404) {
-          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, getLogLevel(extensions), {
+          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, {
             requestPath,
             graphqlError: {
+              operationInfo,
               message,
               locations,
               path,
@@ -247,8 +244,14 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
       });
     }
     if (networkError) {
-      handleError(`[Network error]: ${networkError}`, {
-        clientTime: new Date(),
+      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, {
+        requestPath,
+        stack: networkError.stack,
+        networkErrorMessage: networkError.message,
+        cause: networkError.cause,
+        graphqlError: {
+          operationInfo,
+        },
       });
     }
   });

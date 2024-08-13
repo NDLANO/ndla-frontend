@@ -8,7 +8,7 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalTrigger } from "@ndla/modal";
+import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -96,14 +96,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
           isFavorite={false}
         />
       ) : authenticated ? (
-        <Modal open={showDeleteModal} onOpenChange={setShowDeleteModal}>
-          <ModalTrigger>
+        <DialogRoot open={showDeleteModal} onOpenChange={(details) => setShowDeleteModal(details.open)}>
+          <DialogTrigger asChild>
             <FavoriteButton
               aria-label={t("subjectsPage.removeFavorite")}
               title={t("subjectsPage.removeFavorite")}
               isFavorite
             />
-          </ModalTrigger>
+          </DialogTrigger>
           <DeleteModalContent
             onDelete={removeFavorite}
             title={t("subjectsPage.removeFavorite")}
@@ -112,17 +112,17 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               subject: subject.name,
             })}
           />
-        </Modal>
+        </DialogRoot>
       ) : (
-        <Modal>
-          <ModalTrigger>
+        <DialogRoot>
+          <DialogTrigger asChild>
             <FavoriteButton
               aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
               variant="tertiary"
               isFavorite={false}
             />
-          </ModalTrigger>
+          </DialogTrigger>
           <LoginModalContent
             title={t("subjectsPage.subjectFavoritePitch")}
             content={
@@ -136,7 +136,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               </>
             }
           />
-        </Modal>
+        </DialogRoot>
       )}
       <StyledSafeLink to={config.enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>

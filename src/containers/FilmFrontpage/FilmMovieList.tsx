@@ -7,9 +7,8 @@
  */
 
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
+import { Heading, Skeleton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
 import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
@@ -17,41 +16,58 @@ import { GQLFilmMovieList_MovieFragment } from "../../graphqlTypes";
 interface Props {
   movies: GQLFilmMovieList_MovieFragment[];
   name?: string;
-  slideBackwardsLabel: string;
-  slideForwardsLabel: string;
+  loading: boolean;
 }
 
-const StyledSection = styled.section`
-  margin-bottom: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-bottom: ${spacing.large};
-  }
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    marginInline: "medium",
+  },
+});
 
-const StyledHeading = styled(Heading)`
-  margin: ${spacing.xsmall} 0;
-  margin-left: ${spacing.normal};
-  margin-right: ${spacing.normal};
-  ${mq.range({ from: breakpoints.desktop })} {
-    margin-left: ${spacing.xlarge};
-    margin-right: ${spacing.xlarge};
-  }
-`;
+const StyledCarousel = styled(Carousel, {
+  base: {
+    "& [data-slide-content-wrapper]": {
+      marginInline: "medium",
+    },
+  },
+});
 
-const FilmMovieList = ({ name, movies = [] }: Props) => (
-  <StyledSection>
-    {!!name && (
-      <StyledHeading element="h2" headingStyle="list-title">
-        {name}
-      </StyledHeading>
-    )}
-    <Carousel>
-      {movies.map((movie) => (
-        <FilmContentCard key={movie.id} movie={movie} type="list" lazy />
-      ))}
-    </Carousel>
-  </StyledSection>
-);
+const FilmMovieList = ({ name, movies = [], loading }: Props) => {
+  if (loading) {
+    return (
+      <section>
+        <Skeleton css={{ width: "surface.small" }}>
+          <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+            <h3>{name}</h3>
+          </StyledHeading>
+        </Skeleton>
+        <StyledCarousel>
+          {new Array(5).fill(0).map((_, idx) => (
+            <Skeleton key={idx}>
+              <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
+            </Skeleton>
+          ))}
+        </StyledCarousel>
+      </section>
+    );
+  }
+
+  return (
+    <section>
+      {!!name && (
+        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <h3>{name}</h3>
+        </StyledHeading>
+      )}
+      <StyledCarousel>
+        {movies.map((movie) => (
+          <FilmContentCard key={movie.id} movie={movie} />
+        ))}
+      </StyledCarousel>
+    </section>
+  );
+};
 
 FilmMovieList.fragments = {
   movie: gql`

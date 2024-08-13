@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { FileTextLine, ShareFill } from "@ndla/icons/common";
 import { FolderUserLine } from "@ndla/icons/contentType";
 import { FolderLine, LinkMedium } from "@ndla/icons/editor";
-import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -72,6 +72,7 @@ interface Props {
   foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
   link?: string;
+  variant?: NonNullable<ListItemVariantProps>["variant"];
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -110,14 +111,21 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
-export const Folder = ({ menu, folder: { id, status, name, owner }, foldersCount, isFavorited, link }: Props) => {
+export const Folder = ({
+  menu,
+  folder: { id, status, name, owner },
+  variant = "list",
+  foldersCount,
+  isFavorited,
+  link,
+}: Props) => {
   const { t } = useTranslation();
   const isShared = status === "shared";
   const Icon = getIcon(isFavorited, isShared);
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot variant="list" id={id}>
+    <ListItemRoot variant={variant} id={id}>
       <ListItemContent
         css={{
           alignItems: "center",

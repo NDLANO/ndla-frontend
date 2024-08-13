@@ -21,7 +21,6 @@ import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector";
-import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
@@ -49,7 +48,7 @@ const StyledLanguageSelector = styled(LanguageSelector, {
 const ButtonWrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "xxsmall",
+    gap: "small",
     alignItems: "center",
     justifyContent: "flex-end",
     flex: "1",
@@ -60,7 +59,7 @@ const DrawerWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-start",
-    gap: "xsmall",
+    gap: "small",
     flex: "1",
   },
 });
@@ -109,12 +108,10 @@ const MastheadContainer = () => {
             items={supportedLanguages}
             onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
           />
-          {config.feideEnabled && (
-            <FeideLoginButton>
-              <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-              <Feide />
-            </FeideLoginButton>
-          )}
+          <FeideLoginButton>
+            <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
+            <Feide />
+          </FeideLoginButton>
         </ButtonWrapper>
       </Masthead>
     </ErrorBoundary>

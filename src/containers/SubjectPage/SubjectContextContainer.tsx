@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { InformationOutline } from "@ndla/icons/common";
-import { MessageBox, Spinner, Text } from "@ndla/primitives";
+import { MessageBox, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import { constants, OneColumn, LayoutItem, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
@@ -22,6 +22,7 @@ import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import {
@@ -126,7 +127,7 @@ const SubjectContextContainer = ({ subjectId, subjectFragment, topicId, topicFra
   }, [topicIds.length]);
 
   if (ldng) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (error) {

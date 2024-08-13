@@ -13,7 +13,6 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/primitives";
 import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
@@ -31,6 +30,7 @@ import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
+import { PageSpinner } from "../PageSpinner";
 
 interface StyledIframeContainerProps {
   oembedWidth: number;
@@ -140,7 +140,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   }
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   const learningpathStepResource = learningpathStep.resource ?? data;

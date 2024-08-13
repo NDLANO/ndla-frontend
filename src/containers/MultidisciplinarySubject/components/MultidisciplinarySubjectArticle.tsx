@@ -99,7 +99,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           label=""
           isTopicArticle={false}
           isResourceArticle={false}
-          showFavoriteButton={config.feideEnabled}
+          showFavoriteButton
           path={topic.path}
           oembed={article.oembed}
         />

@@ -18,7 +18,6 @@ import config from "../../config";
 import { RELEVANCE_CORE } from "../../constants";
 
 // TODO: How should we handle additional resources?
-// TODO: What should teacher only look like?
 // TODO: What should we do with current indicator? Should we keep "you are here" / the dot before the list item?
 // TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
 

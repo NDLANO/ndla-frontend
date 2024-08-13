@@ -7,8 +7,8 @@
  */
 
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import PlainLearningpathContainer, { plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";

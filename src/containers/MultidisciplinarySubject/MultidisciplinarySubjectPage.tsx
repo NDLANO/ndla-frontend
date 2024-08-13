@@ -12,8 +12,9 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { Heading, Text } from "@ndla/typography";
-import { ContentPlaceholder, HomeBreadcrumb, LayoutItem, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
+import { HomeBreadcrumb, LayoutItem, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -159,7 +160,7 @@ const MultidisciplinarySubjectPage = () => {
         </OneColumn>
         <OneColumn wide>
           <LayoutItem layout="extend">
-            <NavigationBox items={mainTopics} listDirection="horizontal" />
+            <NavigationBox items={mainTopics} />
             {selectedTopics.map((topicId, index) => (
               <div key={index} ref={refs[index]}>
                 <MultidisciplinaryTopicWrapper

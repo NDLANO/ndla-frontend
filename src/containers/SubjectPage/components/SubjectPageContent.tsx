@@ -42,7 +42,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
 
   return (
     <>
-      <NavigationBox items={mainTopics || []} listDirection="horizontal" />
+      <NavigationBox items={mainTopics || []} />
       {topicIds.map((topicId, index) => {
         return (
           <div ref={refs[index]} key={index}>

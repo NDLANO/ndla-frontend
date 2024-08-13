@@ -10,12 +10,12 @@ import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
+import { Portal } from "@ark-ui/react";
 import styled from "@emotion/styled";
 import { animations, breakpoints, colors, mq, spacing, stackOrder } from "@ndla/core";
 import { ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
 import { LearningPath } from "@ndla/icons/contentType";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Text } from "@ndla/typography";
 import { usePrevious } from "@ndla/util";
@@ -24,6 +24,7 @@ import {
   GQLLearningpathFooter_LearningpathStepFragment,
 } from "../../graphqlTypes";
 import { toLearningPath } from "../../routeHelpers";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 const StepInfoText = styled(Text)`
   white-space: nowrap;
@@ -123,21 +124,25 @@ const LearningpathFooter = ({
   return (
     <FooterWrapper>
       {mobileView && (
-        <Modal open={open} onOpenChange={setOpen}>
-          <ModalTrigger>
+        <DialogRoot open={open} size="full" onOpenChange={(details) => setOpen(details.open)}>
+          <DialogTrigger asChild>
             {/* TODO: Not sure if correct*/}
             <Button variant="secondary" size="small">
               <LearningPath />
               {t("learningPath.openMenuTooltip")}
             </Button>
-          </ModalTrigger>
-          <ModalContent size="full">
-            <ModalHeader>
-              <ModalCloseButton />
-            </ModalHeader>
-            <ModalBody>{learningPathMenu}</ModalBody>
-          </ModalContent>
-        </Modal>
+          </DialogTrigger>
+          <Portal>
+            <DialogContent>
+              <DialogHeader>
+                {/* TODO: Add a dialog title if we're keeping this dialog. */}
+                <div />
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>{learningPathMenu}</DialogBody>
+            </DialogContent>
+          </Portal>
+        </DialogRoot>
       )}
       <LinksWrapper>
         {previousStep ? (

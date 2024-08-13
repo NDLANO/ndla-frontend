@@ -102,7 +102,6 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <main>
         {!!ltiData && (
           <LayoutItem layout="center">
-            {/* TODO: Needs verification */}
             <Button variant="link" onClick={() => navigate(-1)}>
               <ArrowLeftLine />
               {t("lti.goBack")}

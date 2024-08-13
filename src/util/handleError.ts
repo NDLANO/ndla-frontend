@@ -9,6 +9,7 @@
 import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
 import { ErrorReporter } from "@ndla/error-reporter";
+import { ErrorType, LogLevel, StatusError } from "./error";
 import config from "../config";
 
 let log: any | undefined;
@@ -27,7 +28,7 @@ type UnknownGQLError = {
   graphQLErrors?: { status?: number }[] | null;
 };
 
-export const getErrorStatuses = (unknownError: ApolloError | null | undefined): number[] => {
+export const getErrorStatuses = (unknownError: ErrorType | null | undefined): number[] => {
   const statuses: number[] = [];
   // We cast to our own error type since we append status in graphql-api
   const error = unknownError as UnknownGQLError | null | undefined;
@@ -49,26 +50,26 @@ export const AccessDeniedCodes = [401, 403];
 
 export const InternalServerErrorCodes = [500, 503, 504];
 
-export const isAccessDeniedError = (error: ApolloError | undefined | null): boolean => {
+export const isAccessDeniedError = (error: ErrorType | undefined | null): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
 };
 
-export const isNotFoundError = (error: ApolloError | undefined | null): boolean => {
+export const isNotFoundError = (error: ErrorType | undefined | null): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => c === 404) !== undefined;
 };
 
-export const isInternalServerError = (error: ApolloError | undefined | null): boolean => {
+export const isInternalServerError = (error: ErrorType | undefined | null): boolean => {
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
 const getErrorLog = (
-  error: ApolloError | Error | string | unknown,
+  error: ErrorType,
   extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
   if (!error) return { message: `Unknown error: ${JSON.stringify(error)}`, ...extraContext };
@@ -93,20 +94,37 @@ const getErrorLog = (
   return error;
 };
 
-export type LogLevel = "error" | "warn" | "info";
 const unreachable = (parameter: never): never => {
   throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
 };
 
+const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
+  if ([401, 403, 404, 410].includes(statusCode)) return "info";
+  if (statusCode < 500) return "warn";
+  return "error";
+};
+
+const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
+  if (error instanceof StatusError) return error.logLevel;
+
+  const statusCodes = getErrorStatuses(error);
+  const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
+
+  if (logLevels.every((l) => l === "info")) return "info";
+  if (logLevels.every((l) => l === "warn" || "info")) return "warn";
+  if (logLevels.includes("error")) return "error";
+  return undefined;
+};
+
 const logServerError = async (
-  error: ApolloError | Error | string | unknown,
+  error: ErrorType,
   requestPath: string | undefined,
-  loglevel: LogLevel | undefined,
   extraContext: Record<string, unknown>,
 ) => {
   const ctx = { ...extraContext, requestPath };
+  const logLevel = deriveLogLevel(error);
   const err = getErrorLog(error, ctx);
-  switch (loglevel) {
+  switch (logLevel) {
     case "info":
       await log?.info(err);
       break;
@@ -118,21 +136,20 @@ const logServerError = async (
       await log?.error(err);
       break;
     default:
-      unreachable(loglevel);
+      unreachable(logLevel);
   }
 };
 
 const handleError = async (
-  error: ApolloError | Error | string | unknown,
+  error: ErrorType,
   info?: ErrorInfo | { clientTime: Date },
   requestPath?: string,
-  loglevel?: LogLevel,
   extraContext: Record<string, unknown> = {},
 ) => {
   if (config.runtimeType === "production" && config.isClient) {
     ErrorReporter.getInstance().captureError(error, info);
   } else if (config.runtimeType === "production" && !config.isClient) {
-    await logServerError(error, requestPath, loglevel, extraContext);
+    await logServerError(error, requestPath, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

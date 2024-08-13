@@ -36,17 +36,12 @@ export const nodeFragment = gql`
 `;
 
 const contextPageQuery = gql`
-  query contextPage(
-    $subjectContextId: String!
-    $includeSubject: Boolean!
-    $topicContextId: String!
-    $includeTopic: Boolean!
-  ) {
-    subject: node(contextId: $subjectContextId) @include(if: $includeSubject) {
+  query contextPage($contextId: String!, $includeSubject: Boolean!, $includeTopic: Boolean!) {
+    subject: node(contextId: $contextId) @include(if: $includeSubject) {
       ...NodeFragment
       ...SubjectContextContainer_Subject
     }
-    topic: node(contextId: $topicContextId) @include(if: $includeTopic) {
+    topic: node(contextId: $contextId) @include(if: $includeTopic) {
       ...NodeFragment
     }
   }
@@ -54,8 +49,12 @@ const contextPageQuery = gql`
   ${subjectContextContainerFragments.subject}
 `;
 
-const SubjectContextPage = () => {
-  const { subjectContextId, topicContextId } = useUrnIds();
+type Props = {
+  nodeType: string;
+};
+
+const SubjectContextPage = ({ nodeType }: Props) => {
+  const { contextId } = useUrnIds();
 
   const initialLoad = useRef(true);
 
@@ -65,10 +64,9 @@ const SubjectContextPage = () => {
     previousData,
   } = useGraphQuery<GQLContextPageQuery, GQLContextPageQueryVariables>(contextPageQuery, {
     variables: {
-      subjectContextId: subjectContextId ?? "",
-      includeSubject: subjectContextId !== undefined,
-      topicContextId: topicContextId ?? "",
-      includeTopic: topicContextId !== undefined,
+      contextId: contextId ?? "",
+      includeSubject: nodeType === "SUBJECT",
+      includeTopic: nodeType === "TOPIC",
     },
   });
 

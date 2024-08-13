@@ -10,10 +10,23 @@ import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { CloseLine, AddLine } from "@ndla/icons/action";
 import { SearchLine } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, IconButton, Input, InputContainer, Text, Heading } from "@ndla/primitives";
+import {
+  Button,
+  IconButton,
+  Input,
+  InputContainer,
+  Text,
+  Heading,
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogBody,
+  DialogHeader,
+  DialogTitle,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
 
@@ -41,10 +54,6 @@ const Wrapper = styled("div", {
 });
 
 const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
-
-const StyledModalBody = styled(ModalBody, { base: { display: "flex", flexDirection: "column", alignItems: "center" } });
-
-const StyledModalHeader = styled(ModalHeader, { base: { width: "100%" } });
 
 const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
@@ -172,14 +181,14 @@ const SearchHeader = ({
           )}
         </StyledHitsWrapper>
       </div>
-      <Modal open={isOpen} onOpenChange={setIsOpen}>
+      <DialogRoot size="full" open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <FiltersWrapper>
-          <ModalTrigger>
+          <DialogTrigger asChild>
             <Button variant="secondary">
               {t("searchPage.searchFilterMessages.noValuesButtonText")}
               <AddLine />
             </Button>
-          </ModalTrigger>
+          </DialogTrigger>
           {/* TODO: Should these be pills? */}
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
             <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
@@ -195,20 +204,20 @@ const SearchHeader = ({
             </Button>
           )}
         </FiltersWrapper>
-        <ModalContent size="full">
-          <StyledModalBody>
-            <StyledModalHeader>
-              <ModalTitle>{t("searchPage.searchFilterMessages.filterLabel")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
+        <DialogContent>
+          <DialogBody>
+            <DialogHeader>
+              <DialogTitle>{t("searchPage.searchFilterMessages.filterLabel")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
             <SubjectFilter
               categories={localeSubjectCategories}
               onToggleSubject={onToggleSubject}
               selectedSubjects={subjectIds}
             />
-          </StyledModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
       {!!grepElements.length && (
         <FiltersWrapper>
           {/* TODO: Probably needs special handling */}

@@ -9,15 +9,14 @@
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
 import { animations, breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { CursorClick } from "@ndla/icons/action";
 import { PlayCircleFill } from "@ndla/icons/common";
 import { ExpandDiagonalLine } from "@ndla/icons/editor";
-import { Modal, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Image } from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogRoot, DialogTrigger, Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
 import { getCrop, getFocalPoint } from "@ndla/ui";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   visualElementEmbedMeta: EmbedMetaData;
@@ -47,9 +46,10 @@ const TopicHeaderVisualElementWrapper = styled.div`
     max-height: 200px;
   }
 `;
-// TODO: Needs special handling
-const VisualElementButton = styled(ButtonV2)`
+
+const VisualElementDialogTrigger = styled(DialogTrigger)`
   color: ${colors.brand.secondary};
+  cursor: pointer;
   overflow: hidden;
   border-radius: ${misc.borderRadiusLarge};
   &:hover {
@@ -93,10 +93,6 @@ const ExpandVisualElementButton = styled.span`
     right: 0;
     bottom: 0;
   }
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding: ${spacing.small} ${spacing.nsmall};
 `;
 
 const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, visualElement }: Props) => {
@@ -147,32 +143,30 @@ const TopicMetaImage = ({ visualElementEmbedMeta, metaImage: articleMetaImage, v
 
   return (
     <TopicHeaderVisualElementWrapper>
-      <Modal>
-        <ModalTrigger>
-          <VisualElementButton
-            variant="stripped"
-            title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
-          >
-            <TopicHeaderImage
-              src={metaImage.url}
-              alt={metaImage.alt}
-              fallbackWidth={400}
-              crop={crop}
-              focalPoint={focalPoint}
-            />
-            <TopicHeaderOverlay data-overlay="" />
-            <ExpandVisualElementButton data-indicator="">
-              {VisualElementIcon && <VisualElementIcon />}
-            </ExpandVisualElementButton>
-          </VisualElementButton>
-        </ModalTrigger>
-        <ModalContent aria-label={t("topicPage.imageModal")} animation="subtle" animationDuration={50} size="large">
-          <StyledModalHeader>
-            <ModalCloseButton />
-          </StyledModalHeader>
+      <DialogRoot size="large">
+        <VisualElementDialogTrigger
+          title={visualElementEmbedMeta.resource === "image" ? t("image.largeSize") : t("visualElement.show")}
+        >
+          <TopicHeaderImage
+            src={metaImage.url}
+            alt={metaImage.alt}
+            fallbackWidth={400}
+            crop={crop}
+            focalPoint={focalPoint}
+          />
+          <TopicHeaderOverlay data-overlay="" />
+          <ExpandVisualElementButton data-indicator="">
+            {VisualElementIcon && <VisualElementIcon />}
+          </ExpandVisualElementButton>
+        </VisualElementDialogTrigger>
+        <DialogContent aria-label={t("topicPage.imageModal")}>
+          <DialogHeader>
+            <div />
+            <DialogCloseButton />
+          </DialogHeader>
           {visualElement}
-        </ModalContent>
-      </Modal>
+        </DialogContent>
+      </DialogRoot>
     </TopicHeaderVisualElementWrapper>
   );
 };

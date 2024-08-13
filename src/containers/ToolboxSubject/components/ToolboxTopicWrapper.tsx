@@ -156,8 +156,10 @@ export const toolboxTopicWrapperFragments = {
       path
       contexts {
         breadcrumbs
+        contextId
         parentIds
         path
+        url
       }
       meta {
         metaDescription

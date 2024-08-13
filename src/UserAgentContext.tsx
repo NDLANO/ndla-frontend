@@ -11,6 +11,7 @@ import { ReactNode, createContext, useContext } from "react";
 interface UserAgentType {
   isMobile: boolean;
   isMacOs: boolean;
+  isTablet: boolean;
 }
 
 const UserAgentContext = createContext<UserAgentType | undefined>(undefined);

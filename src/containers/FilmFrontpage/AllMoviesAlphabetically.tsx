@@ -9,81 +9,173 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing, colors } from "@ndla/core";
-import { Image } from "@ndla/primitives";
+import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
+import { HStack, styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
-import config from "../../config";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
-const IMAGE_WIDTH = 143;
+const LetterHeading = styled(Heading, {
+  base: {
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
 
-const LetterHeading = styled(Heading)`
-  color: ${colors.white};
-  padding-left: ${spacing.nsmall};
-  padding-bottom: ${spacing.small};
-  border-bottom: 1px solid ${colors.brand.greyDark};
-`;
+const MovieTextWrapper = styled("div", {
+  base: { flex: 1 },
+});
 
-const StyledWrapper = styled.section`
-  width: 652px;
-  max-width: 100%;
-  margin: ${spacing.large} auto;
-  padding: 0 ${spacing.normal};
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const MovieImage = styled(Image, {
+  base: {
+    width: "surface.3xsmall",
+  },
+});
 
-const MovieTextWrapper = styled.div`
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding: ${spacing.xsmall} ${spacing.xsmall} 0 0;
-  }
-  flex: 1;
-`;
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "flex",
+    gap: "small",
+    minHeight: "surface.4xsmall",
+    overflow: "hidden",
+    "& [data-title]": {
+      textDecoration: "underline",
+    },
+    _hover: {
+      "& [data-title]": {
+        textDecoration: "none",
+      },
+    },
+  },
+});
 
-const MovieImage = styled(Image)`
-  width: 104px;
-  height: 80px;
-  ${mq.range({ from: breakpoints.tablet })} {
-    width: ${IMAGE_WIDTH}px;
-    height: 90px;
-  }
-`;
-
-const MovieDescription = styled(Text)`
-  color: ${colors.brand.greyLighter};
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.black};
-  box-shadow: none;
-  display: flex;
-  gap: ${spacing.small};
-  &:hover,
-  &:focus {
-    [data-title] {
-      text-decoration: underline;
-    }
-  }
-`;
-
-const MovieGroup = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const MovieGroup = styled("section", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
+
+type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
+
+const groupMovies = (movies: MovieType[]) => {
+  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
+
+  const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
+    const firstChar = movie.title[0]?.toUpperCase() ?? "";
+    const isLetter = firstChar?.match(LETTER_REGEXP);
+    const char = isLetter ? firstChar : "#";
+    if (acc[char]) {
+      acc[char]!.push(movie);
+    } else {
+      acc[char] = [movie];
+    }
+    return acc;
+  }, {});
+
+  return Object.entries(grouped).map(([letter, movies]) => ({
+    letter,
+    movies,
+  }));
+};
+
+const LoadingShimmer = () => {
+  return (
+    <HStack justify="center">
+      <OneColumn wide>
+        {["#", "A", "B", "C"].map((letter, idx) => {
+          return (
+            <MovieGroup key={`Loading-${idx}`}>
+              <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
+                <h2>{letter}</h2>
+              </LetterHeading>
+              {new Array(4).fill(0).map((_, idx2) => {
+                return (
+                  <StyledSafeLink to="" disabled={true} key={idx2}>
+                    <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />
+                    <MovieTextWrapper>
+                      <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
+                        <Heading textStyle="title.small" asChild consumeCss data-title="">
+                          <h3>&nbsp;</h3>
+                        </Heading>
+                      </Skeleton>
+                      <Skeleton css={{ width: "surface.medium" }}>
+                        <Text textStyle="body.small">&nbsp;</Text>
+                        <Text textStyle="body.small">&nbsp;</Text>
+                      </Skeleton>
+                    </MovieTextWrapper>
+                  </StyledSafeLink>
+                );
+              })}
+            </MovieGroup>
+          );
+        })}
+      </OneColumn>
+    </HStack>
+  );
+};
+
+const AllMoviesAlphabetically = () => {
+  const { t, i18n } = useTranslation();
+  const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
+    variables: {
+      resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
+      language: i18n.language,
+    },
+  });
+
+  const groupedMovies = useMemo(() => {
+    if (!allMovies.data?.searchWithoutPagination?.results) return [];
+    return groupMovies(allMovies.data.searchWithoutPagination.results);
+  }, [allMovies.data?.searchWithoutPagination?.results]);
+
+  if (allMovies.loading) {
+    return <LoadingShimmer />;
+  }
+
+  return (
+    <HStack justify="center">
+      <OneColumn wide>
+        {groupedMovies.map(({ letter, movies }) => (
+          <MovieGroup key={letter}>
+            <LetterHeading
+              textStyle="title.medium"
+              fontWeight="bold"
+              aria-label={t("filmfrontpage.allMovieGroupTitleLabel", { letter })}
+              asChild
+              consumeCss
+            >
+              <h2>{letter}</h2>
+            </LetterHeading>
+            {movies.map((movie) => (
+              <StyledSafeLink
+                to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
+                key={movie.id}
+              >
+                {movie.metaImage?.url && (
+                  <MovieImage alt="" loading="lazy" fallbackWidth={150} src={movie.metaImage.url} />
+                )}
+                <MovieTextWrapper>
+                  <Heading textStyle="title.small" asChild consumeCss data-title="">
+                    <h3>{movie.title}</h3>
+                  </Heading>
+                  <Text textStyle="body.small">{movie.metaDescription}</Text>
+                </MovieTextWrapper>
+              </StyledSafeLink>
+            ))}
+          </MovieGroup>
+        ))}
+      </OneColumn>
+    </HStack>
+  );
+};
+
+export default AllMoviesAlphabetically;
 
 const allMoviesQuery = gql`
   query allMovies($resourceTypes: String!, $language: String!) {
@@ -104,84 +196,8 @@ const allMoviesQuery = gql`
         contexts {
           contextType
           path
-          url
         }
       }
     }
   }
 `;
-
-type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
-
-const groupMovies = (movies: MovieType[]) => {
-  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title));
-
-  const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
-    const firstChar = movie.title[0]?.toUpperCase() ?? "";
-    const isLetter = firstChar?.match(LETTER_REGEXP);
-    const char = isLetter ? firstChar : "#";
-    if (acc[char]) {
-      acc[char]!.push(movie);
-    } else {
-      acc[char] = [movie];
-    }
-    return acc;
-  }, {});
-  return Object.entries(grouped).map(([letter, movies]) => ({
-    letter,
-    movies,
-  }));
-};
-
-const AllMoviesAlphabetically = () => {
-  const { t, i18n } = useTranslation();
-  const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
-    variables: {
-      resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
-      language: i18n.language,
-    },
-  });
-
-  const groupedMovies = useMemo(() => {
-    if (!allMovies.data?.searchWithoutPagination?.results) return [];
-    return groupMovies(allMovies.data.searchWithoutPagination.results);
-  }, [allMovies.data?.searchWithoutPagination?.results]);
-
-  return (
-    <StyledWrapper>
-      {groupedMovies.map(({ letter, movies }) => (
-        <MovieGroup key={letter}>
-          <LetterHeading
-            element="h2"
-            headingStyle="h2"
-            margin="none"
-            aria-label={t("filmfrontpage.allMovieGroupTitleLabel", { letter })}
-          >
-            {letter}
-          </LetterHeading>
-          {movies.map((movie) => {
-            const ctx = movie.contexts.filter((c) => c.contextType === "standard")[0];
-            const to = config.enablePrettyUrls ? ctx?.url : ctx?.path;
-            return (
-              <StyledSafeLink to={to ?? ""} key={movie.id}>
-                {!!movie.metaImage?.url && (
-                  <MovieImage alt="" loading="lazy" fallbackWidth={IMAGE_WIDTH * 2} src={movie.metaImage.url} />
-                )}
-                <MovieTextWrapper>
-                  <Heading element="h3" headingStyle="h3" margin="none" data-title>
-                    {movie.title}
-                  </Heading>
-                  <MovieDescription margin="none" textStyle="content-alt">
-                    {movie.metaDescription}
-                  </MovieDescription>
-                </MovieTextWrapper>
-              </StyledSafeLink>
-            );
-          })}
-        </MovieGroup>
-      ))}
-    </StyledWrapper>
-  );
-};
-
-export default AllMoviesAlphabetically;

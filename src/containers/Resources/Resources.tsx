@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import {
   Heading,
-  Spinner,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -22,6 +21,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
+import { PageSpinner } from "../../components/PageSpinner";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import {
@@ -139,7 +139,7 @@ const Resources = ({
   }, []);
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (error) {

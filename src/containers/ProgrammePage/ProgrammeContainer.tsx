@@ -7,16 +7,16 @@
  */
 
 import { TFunction } from "i18next";
-import { CSSProperties, useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { MessageBox, Text } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons/common";
+import { Heading, Hero, HeroBackground, Image, MessageBox, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
+import { OneColumn } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -76,67 +76,47 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
   });
 };
 
-const StyledBackground = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  background-image: var(--programme-image);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 400px;
+const StyledHeroBackground = styled(HeroBackground, {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    height: "unset",
+  },
+});
 
-  ${mq.range({ until: breakpoints.tablet })} {
-    height: 160px;
-    margin: ${spacing.normal} ${spacing.normal} 0;
-    width: calc(100% - ${spacing.medium});
-  }
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    height: 128px;
-  }
-`;
+const HeadingWrapper = styled("div", {
+  base: {
+    paddingBlockStart: "4xlarge",
+    display: "flex",
+    flexDirection: "column",
+    paddingBlockEnd: "large",
+    gap: "large",
+  },
+});
 
-const StyledOneColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  background: ${colors.white};
-  width: 90%;
-  margin-top: -170px;
-  padding: 1px ${spacing.large};
-  ${mq.range({ until: breakpoints.tablet })} {
-    width: 100%;
-    margin: 0;
-    padding: 1px ${spacing.normal};
-  }
-`;
+const GradesList = styled("ul", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const StyledMain = styled.main`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-`;
+const ContentOneColumn = styled(OneColumn, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlockEnd: "4xlarge",
+  },
+});
 
-const ContentWrapper = styled.div`
-  max-width: 1105px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const GradesMenu = styled.ul`
-  display: flex;
-  gap: ${spacing.small};
-  padding-left: 0;
-  li {
-    list-style: none;
-    padding: 0;
-  }
-`;
-
-const MessageBoxWrapper = styled.div`
-  margin-top: ${spacing.normal};
-`;
+const MessageBoxWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -160,58 +140,62 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
 
   const selectedGrade = gradeProp.toLowerCase();
 
-  const style = useMemo(
-    () => ({ "--programme-image": `url(${programme.desktopImage?.url}` }) as CSSProperties,
-    [programme.desktopImage?.url],
-  );
-
   const grade = useMemo(
     () => grades?.find((grade) => grade.name.toLowerCase() === selectedGrade) ?? grades?.[0],
     [grades, selectedGrade],
   );
 
   return (
-    <StyledMain>
+    <main>
       <Helmet>
         <title>{pageTitle}</title>
       </Helmet>
       <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
-      <ContentWrapper>
-        <StyledBackground style={style} />
-        <StyledOneColumn>
-          <Heading element="h1" margin="xlarge" headingStyle="h1" id={SKIP_TO_CONTENT_ID}>
+      <Hero absolute={false} variant="brand1">
+        <StyledHeroBackground>
+          <OneColumn>
+            <Image src={programme.desktopImage?.url ?? ""} alt="" />
+          </OneColumn>
+        </StyledHeroBackground>
+      </Hero>
+      <ContentOneColumn>
+        <HeadingWrapper>
+          <Heading textStyle="heading.large" id={SKIP_TO_CONTENT_ID}>
             {heading}
           </Heading>
-          <GradesMenu aria-label={t("programmes.grades")}>
-            {grades?.map((item) => {
-              const current = item.name.toLowerCase() === selectedGrade;
-              return (
+          {!!grades.length && (
+            <GradesList aria-label={t("programme.grades")}>
+              {grades?.map((item) => (
                 <li key={item.name}>
                   <SafeLinkButton
                     to={toProgramme(programme.url, item.name.toLowerCase())}
                     // TODO: Fix handling of active safeLinkButton according to design
-                    variant={current ? "primary" : "secondary"}
-                    aria-current={current}
+                    variant={item.name.toLowerCase() === selectedGrade ? "primary" : "secondary"}
+                    aria-current={item.name.toLowerCase() === selectedGrade}
                   >
                     {item.name}
                   </SafeLinkButton>
                 </li>
-              );
-            })}
-          </GradesMenu>
-          {grade?.missingProgrammeSubjects && (
-            <MessageBoxWrapper>
-              <MessageBox variant="warning">
-                <Text>{t("messageBoxInfo.noContent")}</Text>
-              </MessageBox>
-            </MessageBoxWrapper>
+              ))}
+            </GradesList>
           )}
-          {grade?.categories?.map((category) => (
-            <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
-          ))}
-        </StyledOneColumn>
-      </ContentWrapper>
-    </StyledMain>
+        </HeadingWrapper>
+        {grade?.missingProgrammeSubjects && (
+          <MessageBoxWrapper>
+            <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+              <h2>{t("programmePage.programmeSubjects")}</h2>
+            </Heading>
+            <MessageBox variant="info">
+              <InformationLine />
+              <Text>{t("messageBoxInfo.noContent")}</Text>
+            </MessageBox>
+          </MessageBoxWrapper>
+        )}
+        {grade?.categories?.map((category) => (
+          <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
+        ))}
+      </ContentOneColumn>
+    </main>
   );
 };
 

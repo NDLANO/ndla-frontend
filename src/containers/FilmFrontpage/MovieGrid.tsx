@@ -9,47 +9,115 @@
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
+import { Heading, Skeleton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
 import { GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
-const StyledSection = styled.section`
-  margin-left: ${spacing.normal};
-  margin-right: ${spacing.normal};
-  ${mq.range({ from: breakpoints.desktop })} {
-    margin-left: ${spacing.xlarge};
-    margin-right: ${spacing.xlarge};
-  }
-`;
+const StyledSection = styled("section", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+  },
+});
 
-const MovieListing = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${spacing.normal};
-  margin: ${spacing.small} 0;
-`;
+const ColumnWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
-const StyledFilmContentCard = styled(FilmContentCard)`
-  opacity: 0;
-  animation-fill-mode: forwards;
-  animation-name: fadeIn;
-  animation-duration: 300ms;
-  animation-delay: calc(var(--index) * 50ms);
-`;
+const MovieListing = styled("div", {
+  base: {
+    display: "grid",
+    gap: "medium",
+    gridTemplateColumns: "repeat(4, 1fr)",
+    desktopDown: { gridTemplateColumns: "repeat(3, 1fr)" },
+    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
+  },
+});
 
-const StyledHeading = styled(Heading)`
-  display: flex;
-  gap: ${spacing.small};
-  margin: ${spacing.xsmall} 0;
-`;
+const StyledFilmContentCard = styled(FilmContentCard, {
+  base: {
+    animationFillMode: "backwards",
+    animationName: "fade-in",
+    animationDuration: "300ms",
+    animationDelay: "calc(var(--index) * 50ms)",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    display: "flex",
+    gap: "small",
+    paddingBlockEnd: "xsmall",
+  },
+});
+
+const LoadingShimmer = () => {
+  return new Array(24).fill(0).map((_, index) => (
+    <Skeleton key={index}>
+      <StyledFilmContentCard
+        movie={{
+          id: `dummy-${index}`,
+          resourceTypes: [],
+          path: "",
+          title: "",
+        }}
+      />
+    </Skeleton>
+  ));
+};
 
 interface Props {
   resourceType: { id: string; name: string };
-  loadingPlaceholderHeight?: string;
 }
+
+const MovieGrid = ({ resourceType }: Props) => {
+  const { t, i18n } = useTranslation();
+  const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
+    resourceTypeMoviesQuery,
+    {
+      variables: {
+        resourceType: resourceType.id,
+        language: i18n.language,
+      },
+    },
+  );
+
+  return (
+    <StyledSection>
+      <ColumnWrapper>
+        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <h3>{t(resourceType.name)}</h3>
+        </StyledHeading>
+        <MovieListing>
+          {resourceTypeMovies.loading ? (
+            <LoadingShimmer />
+          ) : (
+            resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
+              <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
+                key={`${resourceType.id}-${index}`}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
+                }}
+              />
+            ))
+          )}
+        </MovieListing>
+      </ColumnWrapper>
+    </StyledSection>
+  );
+};
+
+export default MovieGrid;
 
 const resourceTypeMoviesQuery = gql`
   query resourceTypeMovies($resourceType: String!, $language: String!) {
@@ -70,61 +138,8 @@ const resourceTypeMoviesQuery = gql`
         contexts {
           contextType
           path
-          url
         }
       }
     }
   }
 `;
-
-const MovieGrid = ({ resourceType, loadingPlaceholderHeight }: Props) => {
-  const { t, i18n } = useTranslation();
-  const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
-    resourceTypeMoviesQuery,
-    {
-      variables: {
-        resourceType: resourceType.id,
-        language: i18n.language,
-      },
-    },
-  );
-  return (
-    <StyledSection>
-      <StyledHeading element="h2" headingStyle="list-title">
-        {resourceType.name}
-        <small>
-          {resourceTypeMovies.loading
-            ? t("ndlaFilm.loadingMovies")
-            : `${resourceTypeMovies.data?.searchWithoutPagination?.results.length} ${t(
-                "ndlaFilm.movieMatchInCategory",
-              )}`}
-        </small>
-      </StyledHeading>
-      <MovieListing>
-        {resourceTypeMovies.loading ? (
-          <div style={{ height: loadingPlaceholderHeight }} />
-        ) : (
-          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
-            <StyledFilmContentCard
-              key={index}
-              style={{ "--index": index } as CSSProperties}
-              hideTags
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
-                url: movie.contexts.filter((c) => c.contextType === "standard")[0]?.url ?? "",
-              }}
-              lazy
-              type="list"
-            />
-          ))
-        )}
-      </MovieListing>
-    </StyledSection>
-  );
-};
-
-export default MovieGrid;
