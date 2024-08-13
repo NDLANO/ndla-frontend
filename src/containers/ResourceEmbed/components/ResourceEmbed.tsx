@@ -226,7 +226,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               </HeroContent>
             )}
             <ArticleWrapper>
-              <ArticleHeader>
+              <ArticleHeader padded>
                 <ArticleHGroup>
                   {!!type && <ContentTypeBadgeNew contentType={type} />}
                   {!isOembed && (
@@ -247,8 +247,8 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   </Heading>
                 </ArticleHGroup>
               </ArticleHeader>
-              <ArticleContent>{transformedContent}</ArticleContent>
-              <ArticleFooter>
+              <ArticleContent padded>{transformedContent}</ArticleContent>
+              <ArticleFooter padded>
                 <AccordionRoot multiple>
                   {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
                     <AccordionItem value="rulesForUse">
