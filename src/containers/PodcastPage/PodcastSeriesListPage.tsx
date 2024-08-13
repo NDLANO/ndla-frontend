@@ -63,6 +63,13 @@ const StyledPaginationRoot = styled(PaginationRoot, {
   },
 });
 
+const SpinnerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+  },
+});
+
 // TODO: Should we export styling from ndla-ui? (ArticleTitleWrapper)
 const TitleWrapper = styled("hgroup", {
   base: {
@@ -169,9 +176,11 @@ const PodcastSeriesListPage = () => {
                   )}
                 </TitleWrapper>
               </ArticleHeader>
-              <ArticleContent asChild consumeCss>
+              <ArticleContent>
                 {loading ? (
-                  <Spinner />
+                  <SpinnerWrapper>
+                    <Spinner aria-label={t("loading")} />
+                  </SpinnerWrapper>
                 ) : results?.length ? (
                   <ul>
                     {results.map((series) => {
