@@ -161,6 +161,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         <HomeBreadcrumb items={crumbs} />
         <FrontpageArticle
           id={SKIP_TO_CONTENT_ID}
+          // TODO: This might be broken now. Fix later
           article={{ ...article, ...article.transformedContent }}
           licenseBox={
             <LicenseBox

@@ -21,7 +21,7 @@ interface MatchParams extends TypedParams {
 }
 
 const plainLearningpathPageQuery = gql`
-  query plainLearningpathPage($pathId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+  query plainLearningpathPage($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     learningpath(pathId: $pathId) {
       ...PlainLearningpathContainer_Learningpath
     }
