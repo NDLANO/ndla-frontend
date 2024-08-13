@@ -7,6 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
+import { breakpoints } from "@ndla/core";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -34,7 +35,11 @@ const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_
   return (
     <ListItemRoot asChild consumeCss variant="list">
       <li>
-        <BigListItemImage alt={coverPhoto.altText} src={coverPhoto.url} />
+        <BigListItemImage
+          alt={coverPhoto.altText}
+          src={coverPhoto.url}
+          sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
+        />
         <ListItemContent>
           <div>
             <ListItemHeading asChild consumeCss>
