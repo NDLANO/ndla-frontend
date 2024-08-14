@@ -17,7 +17,7 @@ import {
   metaTypes,
 } from "@ndla/licenses";
 import type { MetaType } from "@ndla/licenses";
-import { Heading, Text, Image } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
@@ -70,7 +70,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
 
   const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
   return (
-    <>
+    <div>
       <MediaListLicenseButtonWrapper>
         {title && (
           <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
@@ -87,7 +87,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
         </Text>
       )}
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
-    </>
+    </div>
   );
 };
 
@@ -234,8 +234,10 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   );
 };
 
-export const StyledMediaImage = styled(Image, {
+export const MediaImageWrapper = styled("div", {
   base: {
-    marginBlockStart: "small",
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
   },
 });

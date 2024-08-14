@@ -14,6 +14,7 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
@@ -32,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
-  StyledMediaImage,
+  MediaImageWrapper,
 } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
@@ -71,25 +72,27 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicense
-          licenseType={video.copyright?.license?.license ?? ""}
-          title={t("license.video.rules")}
-          sourceTitle={video.title}
-          sourceType="video"
-        >
-          {!isCopyrighted(video.copyright?.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: video.id,
-                path: `${config.ndlaFrontendDomain}/video/${video.id}`,
-                resourceType: "video",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {video.cover && <StyledMediaImage alt={video.title} src={video.cover} />}
+        <MediaImageWrapper>
+          <MediaListLicense
+            licenseType={video.copyright?.license?.license ?? ""}
+            title={t("license.video.rules")}
+            sourceTitle={video.title}
+            sourceType="video"
+          >
+            {!isCopyrighted(video.copyright?.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: video.id,
+                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  resourceType: "video",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {video.cover && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+        </MediaImageWrapper>
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
