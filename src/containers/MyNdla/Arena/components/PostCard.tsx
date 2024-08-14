@@ -57,6 +57,7 @@ export const FlexLine = styled.div`
   display: flex;
   gap: ${spacing.nsmall};
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const TimestampText = styled(Text)`

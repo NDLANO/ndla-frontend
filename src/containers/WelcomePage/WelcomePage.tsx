@@ -26,9 +26,6 @@ import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
-// TODO: Figure out what size this should be. Either add a variant to OneColumn or to Article.
-// The accordion in the "header" should match up with the content in the "body" of the article.
-
 const StyledMain = styled("main", {
   base: {
     paddingBlockEnd: "3xlarge",

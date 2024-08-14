@@ -70,14 +70,17 @@ export function getContentTypeFromResourceTypes(resourceTypes: ResourceType[] = 
       label: resourceType.name,
     };
   }
-  return { contentType: contentTypeMapping.default };
+  return undefined;
 }
 
-export function getContentType(resourceOrTopic: Pick<GQLResource, "id" | "resourceTypes"> | GQLTopic) {
+export function getContentType(resourceOrTopic: Pick<GQLResource, "id" | "resourceTypes"> | GQLTopic | undefined) {
+  if (!resourceOrTopic) {
+    return undefined;
+  }
   if (isTopic(resourceOrTopic)) {
     return contentTypes.TOPIC;
   } else {
-    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes).contentType;
+    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)?.contentType;
   }
 }
 

@@ -15,8 +15,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn, ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
 
-// TODO: This does not fully adhere to the design. The links switch positions at smaller breakpoints in the design, whereas they remain as-is here.
-// Let's keep things in their natural order for now.
 // TODO: Add new translations for the footer.
 
 export const FooterBlock = styled("footer", {

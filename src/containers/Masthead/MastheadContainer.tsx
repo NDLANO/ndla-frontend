@@ -21,7 +21,6 @@ import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector";
-import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
@@ -109,12 +108,10 @@ const MastheadContainer = () => {
             items={supportedLanguages}
             onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
           />
-          {config.feideEnabled && (
-            <FeideLoginButton>
-              <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-              <Feide />
-            </FeideLoginButton>
-          )}
+          <FeideLoginButton>
+            <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
+            <Feide />
+          </FeideLoginButton>
         </ButtonWrapper>
       </Masthead>
     </ErrorBoundary>
