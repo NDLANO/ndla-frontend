@@ -27,8 +27,9 @@ import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
 import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../graphqlTypes";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { getResourceTypesForResource } from "../../util/folderHelpers";
 import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
@@ -135,13 +136,6 @@ const SharedFolderPage = () => {
     name: folder?.owner?.name ?? t("myNdla.folder.professional"),
   });
 
-  const getResourceMetaTypes = (resource: GQLFolderResource, resourceMeta?: GQLFolderResourceMeta) =>
-    resourceMeta
-      ? resourceMeta?.resourceTypes.length < 1
-        ? [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }]
-        : resourceMeta.resourceTypes
-      : [];
-
   const getResourceMetaPath = (resource: GQLFolderResource, resourceMeta: any) =>
     resourceMeta &&
     resourceMeta?.resourceTypes.length < 1 &&
@@ -222,7 +216,7 @@ const SharedFolderPage = () => {
                         alt: "",
                       }}
                       link={getResourceMetaPath(resource, resourceMeta)}
-                      resourceTypes={getResourceMetaTypes(resource, resourceMeta)}
+                      resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
                       title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                       description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
                     />

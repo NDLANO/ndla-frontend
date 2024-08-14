@@ -18,12 +18,8 @@ import BlockResource from "../../../../components/MyNdla/BlockResource";
 import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import {
-  GQLFolder,
-  GQLFolderResource,
-  GQLFolderResourceMeta,
-  GQLFolderResourceResourceType,
-} from "../../../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
+import { getResourceTypesForResource } from "../../../../util/folderHelpers";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
@@ -159,18 +155,16 @@ const DraggableResource = ({
   };
 
   const [resourceTypes, resourcePath] = useMemo(() => {
-    let resTypes: GQLFolderResourceResourceType[] = [];
     let resPath = resource.path;
 
-    if (!resourceMeta) return [resTypes, resPath];
+    if (!resourceMeta) return [[], resPath];
 
-    resTypes = resourceMeta.resourceTypes;
+    const resTypes = getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t);
 
     if (resourceMeta.resourceTypes.length < 1) {
       if (resource.resourceType === "article" || resource.resourceType === "learningpath") {
         resPath = `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`;
       }
-      resTypes = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
     }
 
     return [resTypes, resPath];
