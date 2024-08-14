@@ -2888,6 +2888,27 @@ export type GQLMastHeadQuery = {
   subject?: { __typename?: "Node" } & GQLMastheadDrawer_SubjectFragment;
 };
 
+export type GQLRootQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLRootQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      parentIds: Array<string>;
+      path: string;
+      url: string;
+    };
+  };
+};
+
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
   articleId: number;

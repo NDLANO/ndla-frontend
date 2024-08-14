@@ -22,7 +22,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
+import { GQLMastHeadQuery, GQLMastHeadQueryVariables, GQLRootQuery, GQLRootQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
@@ -73,19 +73,45 @@ const mastheadQuery = gql`
   ${MastheadDrawer.fragments.subject}
 `;
 
+const rootQuery = gql`
+  query root($contextId: String!) {
+    node(contextId: $contextId) {
+      id
+      nodeType
+      context {
+        contextId
+        rootId
+        parentIds
+        path
+        url
+      }
+    }
+  }
+`;
+
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const { subjectId } = useUrnIds();
+  const { contextId, subjectId, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
+  const { data: rootData } = useGraphQuery<GQLRootQuery, GQLRootQueryVariables>(rootQuery, {
+    variables: {
+      contextId: contextId!,
+    },
+    skip: !contextId || typeof window === "undefined",
+  });
+  const maybeTopicId = rootData?.node?.nodeType === "TOPIC" ? rootData?.node?.id : undefined;
+  const rootId = rootData?.node?.context?.rootId || subjectId;
+  const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== rootId) ?? [];
+  const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds || topicList;
+
   const { data: freshData, previousData } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
-      subjectId: subjectId!,
+      subjectId: rootId!,
     },
-    skip: !subjectId || typeof window === "undefined",
+    skip: !rootId || typeof window === "undefined",
   });
-
-  const data = subjectId ? freshData ?? previousData : undefined;
+  const data = rootId ? freshData ?? previousData : undefined;
 
   const alerts = openAlerts?.map((alert) => ({
     content: alert.body ? parse(alert.body) : alert.title,
@@ -97,7 +123,7 @@ const MastheadContainer = () => {
     <ErrorBoundary>
       <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
-          <MastheadDrawer subject={data?.subject} />
+          <MastheadDrawer subject={data?.subject} crumbs={crumbs} />
           <MastheadSearch />
         </DrawerWrapper>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
