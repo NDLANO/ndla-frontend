@@ -6,7 +6,8 @@
  *
  */
 
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
@@ -84,56 +85,55 @@ const Wrapper = styled("div", {
 
 const AboutPageFooter = ({ frontpage }: Props) => {
   const { slug } = useParams();
+  const { t } = useTranslation();
 
   const crumb = useMemo(() => findBreadcrumb(frontpage.menu ?? [], slug), [frontpage.menu, slug]);
 
   return (
     <Wrapper>
       <OneColumn>
-        <ArticlePadding asChild>
-          <StyledOuterList>
-            {crumb.map((item, index) => (
-              <Fragment key={item.article.slug}>
-                {!!item.menu?.length && (
-                  <StyledOuterListItem>
+        <ArticlePadding asChild consumeCss>
+          <nav aria-label={t("aboutPage.nav")}>
+            <StyledOuterList>
+              {crumb
+                .filter((item) => !!item.menu?.length)
+                .map((item, index) => (
+                  <StyledOuterListItem key={item.article.slug}>
                     <Heading id={`${item.article.slug}-title`} asChild consumeCss textStyle="title.large">
                       <h2>{item.article.title}</h2>
                     </Heading>
-                    <nav aria-labelledby={`${item.article.slug}-title`}>
-                      <StyledList>
-                        {item.menu.map((m) => {
-                          const current = crumb.some((c) => c.article.slug === m.article.slug);
-                          return (
-                            <StyledListItem key={m.article.slug}>
-                              {index === 0 ? (
-                                <StyledSafeLinkButtonPrimary
-                                  to={toAbout(m.article.slug)}
-                                  aria-current={current}
-                                  active={current}
-                                  variant="primary"
-                                >
-                                  {m.article.title}
-                                </StyledSafeLinkButtonPrimary>
-                              ) : (
-                                <StyledSafeLinkButtonSecondary
-                                  to={toAbout(m.article.slug)}
-                                  aria-current={current}
-                                  active={current}
-                                  variant="secondary"
-                                >
-                                  {m.article.title}
-                                </StyledSafeLinkButtonSecondary>
-                              )}
-                            </StyledListItem>
-                          );
-                        })}
-                      </StyledList>
-                    </nav>
+                    <StyledList aria-labelledby={`${item.article.slug}-title`}>
+                      {item.menu?.map((m) => {
+                        const current = crumb.some((c) => c.article.slug === m.article.slug);
+                        return (
+                          <StyledListItem key={m.article.slug}>
+                            {index === 0 ? (
+                              <StyledSafeLinkButtonPrimary
+                                to={toAbout(m.article.slug)}
+                                aria-current={current}
+                                active={current}
+                                variant="primary"
+                              >
+                                {m.article.title}
+                              </StyledSafeLinkButtonPrimary>
+                            ) : (
+                              <StyledSafeLinkButtonSecondary
+                                to={toAbout(m.article.slug)}
+                                aria-current={current}
+                                active={current}
+                                variant="secondary"
+                              >
+                                {m.article.title}
+                              </StyledSafeLinkButtonSecondary>
+                            )}
+                          </StyledListItem>
+                        );
+                      })}
+                    </StyledList>
                   </StyledOuterListItem>
-                )}
-              </Fragment>
-            ))}
-          </StyledOuterList>
+                ))}
+            </StyledOuterList>
+          </nav>
         </ArticlePadding>
       </OneColumn>
     </Wrapper>

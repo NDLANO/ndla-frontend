@@ -166,6 +166,9 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programme subjects",
   },
+  aboutPage: {
+    nav: "Information pages",
+  },
 };
 
 export default messages;
