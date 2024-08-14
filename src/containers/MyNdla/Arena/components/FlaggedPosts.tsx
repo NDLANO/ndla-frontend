@@ -55,8 +55,6 @@ export const StatusBox = styled("span", {
   },
 });
 
-const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
-
 type SearchObject = {
   page: string;
 };
@@ -149,7 +147,7 @@ const FlaggedPosts = () => {
           );
         })}
       </div>
-      <StyledPaginationRoot
+      <PaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
         translations={componentTranslations}
@@ -186,7 +184,7 @@ const FlaggedPosts = () => {
             <ArrowRightShortLine />
           </Button>
         </PaginationNextTrigger>
-      </StyledPaginationRoot>
+      </PaginationRoot>
     </>
   );
 };

@@ -48,8 +48,6 @@ const StyledPageNumber = styled("span", { base: { marginBlock: "small" } });
 
 const NoResult = styled("div", { base: { marginBlock: "medium" } });
 
-const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
-
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -138,7 +136,7 @@ const PodcastSeriesListPage = () => {
         ) : (
           <NoResult>{t("podcastPage.noResults")}</NoResult>
         )}
-        <StyledPaginationRoot
+        <PaginationRoot
           page={page}
           onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
           count={data?.podcastSeriesSearch?.totalCount ?? 0}
@@ -175,7 +173,7 @@ const PodcastSeriesListPage = () => {
               <ArrowRightShortLine />
             </Button>
           </PaginationNextTrigger>
-        </StyledPaginationRoot>
+        </PaginationRoot>
       </OneColumn>
     </>
   );
