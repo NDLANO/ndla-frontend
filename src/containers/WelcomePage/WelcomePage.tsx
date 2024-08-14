@@ -201,7 +201,7 @@ const WelcomePage = () => {
           <ContentWrapper>
             <OneColumn wide>
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
-                <ArticleContent>{article.transformedContent.content}</ArticleContent>
+                <ArticleContent padded>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>
             </OneColumn>
           </ContentWrapper>
