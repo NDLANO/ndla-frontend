@@ -208,19 +208,21 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           <div
                             class="d_flex flex-d_column gap_3xsmall"
                           >
-                            <div
-                              class="d_flex jc_space-between ai_center min-h_xxlarge"
-                            >
-                              <h3
-                                class="textStyle_title.small fw_semibold"
+                            <div>
+                              <div
+                                class="d_flex jc_space-between ai_center min-h_xxlarge"
                               >
-                                Regler for bruk av teksten "Politiske skillelinjer"
-                              </h3>
-                              <div />
+                                <h3
+                                  class="textStyle_title.small fw_semibold"
+                                >
+                                  Regler for bruk av teksten "Politiske skillelinjer"
+                                </h3>
+                                <div />
+                              </div>
+                              <ul
+                                class="li-t_disc li-pos_inside"
+                              />
                             </div>
-                            <ul
-                              class="li-t_disc li-pos_inside"
-                            />
                           </div>
                           <div
                             about=""
