@@ -3128,21 +3128,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^9.0.6-alpha.0":
-  version: 9.0.6-alpha.0
-  resolution: "@ndla/article-converter@npm:9.0.6-alpha.0"
+"@ndla/article-converter@npm:^9.0.6-alpha.1":
+  version: 9.0.6-alpha.1
+  resolution: "@ndla/article-converter@npm:9.0.6-alpha.1"
   dependencies:
-    "@ndla/ui": "npm:^55.0.6-alpha.0"
+    "@ndla/ui": "npm:^55.0.6-alpha.1"
     html-react-parser: "npm:^5.1.8"
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
+    checksum: "*"
     i18next: ">= 23.11.5"
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/de14445eeca268f1454438cb8cd2ec0ab2c5cad8ea9bae6f2df8d34760a98d86d2d5517f128f6d5b80e3887ba1bd0152567325083a53774f1682a248c913b1db
+  checksum: 10c0/bba2fbcf0855aaf3238a8769a15db37e76f88d597d7ad57215e3d9fee1bdcc4266e5c0276716a8e047b35ffc54dffcf58e232f828eb8af6689469d6dd26b7e6d
   languageName: node
   linkType: hard
 
@@ -3439,9 +3440,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^55.0.6-alpha.0":
-  version: 55.0.6-alpha.0
-  resolution: "@ndla/ui@npm:55.0.6-alpha.0"
+"@ndla/ui@npm:^55.0.6-alpha.1":
+  version: 55.0.6-alpha.1
+  resolution: "@ndla/ui@npm:55.0.6-alpha.1"
   dependencies:
     "@ndla/accordion": "npm:^4.0.6"
     "@ndla/button": "npm:^13.0.6"
@@ -3469,12 +3470,13 @@ __metadata:
   peerDependencies:
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
+    checksum: "*"
     i18next: ^23.11.5
     react: ">= 16.8.0"
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/0b4ecdb03282ec97be2b20f4c5edd68730ec00d2e3583b4d911c4859250f8912d68386fe8a8c52d0c80534ae14efec5e717d37e6c769850d2f9db684a4899598
+  checksum: 10c0/b98f0c955bef51c53e47eeebed1aca0d3f46b7414246fa7c3c8d664435de137982e4e85071233b7c53b12014fdddba2e45fc064bbb2c9b7e1492ab95191e523c
   languageName: node
   linkType: hard
 
@@ -10896,7 +10898,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^9.0.6-alpha.0"
+    "@ndla/article-converter": "npm:^9.0.6-alpha.1"
     "@ndla/button": "npm:^13.0.6"
     "@ndla/carousel": "npm:^4.0.49"
     "@ndla/core": "npm:^5.0.1"
@@ -10917,7 +10919,7 @@ __metadata:
     "@ndla/types-embed": "npm:^4.1.8"
     "@ndla/types-taxonomy": "npm:^1.0.26"
     "@ndla/typography": "npm:^0.4.22"
-    "@ndla/ui": "npm:^55.0.6-alpha.0"
+    "@ndla/ui": "npm:^55.0.6-alpha.1"
     "@ndla/util": "npm:^4.0.4"
     "@playwright/test": "npm:^1.43.1"
     "@testing-library/jest-dom": "npm:^6.4.2"
