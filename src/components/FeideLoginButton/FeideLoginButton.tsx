@@ -8,8 +8,7 @@
 
 import { ReactNode, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
@@ -33,14 +32,14 @@ const FeideLoginButton = ({ children }: Props) => {
   }
 
   return (
-    <Modal>
-      <ModalTrigger>
+    <DialogRoot>
+      <DialogTrigger asChild>
         <Button variant="tertiary" aria-label={t("user.buttonLogIn")} title={t("user.buttonLogIn")}>
           {children}
         </Button>
-      </ModalTrigger>
+      </DialogTrigger>
       <LoginModalContent masthead />
-    </Modal>
+    </DialogRoot>
   );
 };
 

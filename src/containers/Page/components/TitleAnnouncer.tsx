@@ -8,19 +8,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import styled from "@emotion/styled";
+import { Text } from "@ndla/primitives";
 import { useOnTopicPage } from "../../../routeHelpers";
-
-const VisuallyHiddenTitle = styled.p`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-`;
 
 const TitleAnnouncer = () => {
   const [title, setTitle] = useState("");
@@ -38,14 +27,9 @@ const TitleAnnouncer = () => {
 
   return (
     <>
-      <VisuallyHiddenTitle
-        aria-live={onTopicPage ? `assertive` : undefined}
-        tabIndex={-1}
-        id="titleAnnouncer"
-        ref={titleRef}
-      >
+      <Text srOnly aria-live={onTopicPage ? `assertive` : undefined} tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
         {title}
-      </VisuallyHiddenTitle>
+      </Text>
       <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />
     </>
   );

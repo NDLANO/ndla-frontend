@@ -8,12 +8,26 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
+import { Portal } from "@ark-ui/react";
 import { CompassFill } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button, TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
@@ -35,16 +49,28 @@ interface ElementType {
   groupedCoreElementItems?: CoreElementType[];
 }
 
-const CompetenceGoalsWrapper = styled.div`
-  height: 100%;
-  max-width: 960px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 32px;
-  ${mq.range({ from: breakpoints.mobile })} {
-    padding: 0;
-  }
-`;
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    paddingInline: "0",
+  },
+});
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    paddingInline: "0",
+  },
+});
+
+// const CompetenceGoalsWrapper = styled.div`
+//   height: 100%;
+//   max-width: 960px;
+//   width: 100%;
+//   margin: 0 auto;
+//   padding: 32px;
+//   ${mq.range({ from: breakpoints.mobile })} {
+//     padding: 0;
+//   }
+// `;
 
 const getUniqueCurriculums = (
   competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
@@ -186,23 +212,23 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   }
 
   return (
-    <>
-      <Modal>
-        <ModalTrigger>
-          <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
-            {t("competenceGoals.showCompetenceGoals")}
-          </Button>
-        </ModalTrigger>
-        <ModalContent size="full">
-          <ModalHeader>
-            <ModalTitle>
-              <CompassFill style={{ marginRight: "20px" }} />
-              {t("competenceGoals.modalText")}
-            </ModalTitle>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
-            <CompetenceGoalsWrapper>
+    <DialogRoot size="full">
+      <DialogTrigger asChild>
+        <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+          {t("competenceGoals.showCompetenceGoals")}
+        </Button>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <OneColumn wide>
+            <StyledDialogHeader>
+              <DialogTitle>
+                <CompassFill />
+                {t("competenceGoals.modalText")}
+              </DialogTitle>
+              <DialogCloseButton />
+            </StyledDialogHeader>
+            <StyledDialogBody>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
                 orientation="horizontal"
@@ -223,11 +249,11 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                   </TabsContent>
                 ))}
               </TabsRoot>
-            </CompetenceGoalsWrapper>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+            </StyledDialogBody>
+          </OneColumn>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

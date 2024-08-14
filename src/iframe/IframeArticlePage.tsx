@@ -23,8 +23,8 @@ import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
-import { getArticleProps } from "../util/getArticleProps";
 import { getArticleScripts } from "../util/getArticleScripts";
+import { getContentType } from "../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
 import { getAllDimensions } from "../util/trackingUtil";
 import { transformArticle } from "../util/transformArticle";
@@ -71,15 +71,12 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
 
   const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
 
-  const articleProps =
+  const contentType =
     article.articleType === "standard"
-      ? getArticleProps(resource)
+      ? getContentType(resource)
       : article.articleType === "topic-article"
-        ? {
-            label: t("topicPage.topic"),
-            contentType: constants.contentTypes.TOPIC,
-          }
-        : { label: "" };
+        ? constants.contentTypes.TOPIC
+        : undefined;
   return (
     <OneColumn>
       <Helmet>
@@ -102,7 +99,6 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <main>
         {!!ltiData && (
           <LayoutItem layout="center">
-            {/* TODO: Needs verification */}
             <Button variant="link" onClick={() => navigate(-1)}>
               <ArrowLeftLine />
               {t("lti.goBack")}
@@ -112,10 +108,9 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         <Article
           article={article}
           isTopicArticle={article.articleType === "topic-article"}
-          isPlainArticle
           isOembed
           oembed={article?.oembed}
-          {...articleProps}
+          contentType={contentType}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>

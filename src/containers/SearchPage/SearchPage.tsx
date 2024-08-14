@@ -12,11 +12,11 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
-
+import { OneColumn, constants } from "@ndla/ui";
 import { converSearchStringToObject, convertSearchParam } from "./searchHelpers";
 import SearchInnerPage from "./SearchInnerPage";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { GQLSearchPageQuery } from "../../graphqlTypes";
 import { searchPageQuery } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";

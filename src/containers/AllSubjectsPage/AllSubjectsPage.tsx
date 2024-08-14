@@ -13,17 +13,16 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import emotionStyled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, ContentPlaceholder, OneColumn, constants } from "@ndla/ui";
+import { ErrorMessage, OneColumn, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -67,11 +66,21 @@ const createFilters = (t: TFunction) => [
 
 const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
 
-const StyledColumn = emotionStyled(OneColumn)`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.medium};
-`;
+const StyledColumn = styled(OneColumn, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
+
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 const StyledList = styled("ul", {
   base: {
@@ -150,10 +159,12 @@ const AllSubjectsPage = () => {
     <StyledMain>
       <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
       <StyledColumn wide>
-        <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-          {t("subjectsPage.allSubjects")}
-        </Heading>
-        {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
+        <HeadingWrapper>
+          <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+            {t("subjectsPage.allSubjects")}
+          </Heading>
+          {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
+        </HeadingWrapper>
         <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
         <LetterNavigation activeLetters={letters} />
         <StyledList aria-label={t("subjectsPage.alphabeticSort")}>

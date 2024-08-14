@@ -13,9 +13,17 @@ import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { Text } from "@ndla/typography";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { ButtonRow } from "../../../../components/MyNdla/AddResourceToFolder";
 import { supportedLanguages } from "../../../../i18n";
 
@@ -96,18 +104,18 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
   }, [shouldBlock, nextLocation, navigate]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
         <Button variant="secondary" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
           {t("cancel")}
         </Button>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalBody>
-          <ModalHeader>
-            <ModalTitle>{t(`myNdla.arena.cancel.title.${type}`)}</ModalTitle>
-            <ModalCloseButton title={t("modal.closeModal")} />
-          </ModalHeader>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogBody>
+          <DialogHeader>
+            <DialogTitle>{t(`myNdla.arena.cancel.title.${type}`)}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
           <StyledWarningText margin="none" textStyle="meta-text-medium">
             {t(`myNdla.arena.cancel.content.${type}`)}
           </StyledWarningText>
@@ -119,9 +127,9 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
               {t(`myNdla.arena.cancel.cancel.${type}`)}
             </Button>
           </ButtonRow>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

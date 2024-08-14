@@ -12,7 +12,7 @@ import { Navigate, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { EyeFill } from "@ndla/icons/editor";
-import { Button, Spinner } from "@ndla/primitives";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading, Text } from "@ndla/typography";
@@ -22,6 +22,7 @@ import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
 import TopicCard from "./components/TopicCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -87,7 +88,7 @@ const TopicPage = () => {
     });
   }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
 
-  if (loading || !authContextLoaded) return <Spinner />;
+  if (loading || !authContextLoaded) return <PageSpinner />;
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
   const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];

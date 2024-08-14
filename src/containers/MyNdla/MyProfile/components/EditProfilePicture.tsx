@@ -6,34 +6,22 @@
  *
  */
 
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Icon } from "@ndla/icons";
 import { PencilFill } from "@ndla/icons/action";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Button } from "@ndla/primitives";
-
-const StyledPencilSvg = styled(Icon)`
-  width: 20px;
-  height: 20px;
-`;
-
-const PencilIcon = StyledPencilSvg.withComponent(PencilFill);
+import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 
 const EditProfilePicture = () => {
   const { t } = useTranslation();
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
-    <Modal open={showModal} onOpenChange={setShowModal}>
-      <ModalTrigger>
-        <Button variant="primary" size="small" onClick={() => setShowModal(!showModal)}>
-          <PencilIcon />
+    <DialogRoot>
+      <DialogTrigger asChild>
+        <Button variant="primary" size="small">
+          <PencilFill />
           {t("myNdla.myProfile.editButtonText")}
         </Button>
-      </ModalTrigger>
-    </Modal>
+      </DialogTrigger>
+    </DialogRoot>
   );
 };
 

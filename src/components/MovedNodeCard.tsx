@@ -11,9 +11,15 @@ import { useTranslation } from "react-i18next";
 import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 
-// TODO: This does not have design, and should be improved later-on
+const StyledCardRoot = styled(CardRoot, {
+  base: {
+    border: "0",
+  },
+});
+
 // TODO: Consider if ingress should be renderer as HTML.
 // TODO: Consider if we should render additional here.
 
@@ -29,6 +35,7 @@ const Wrapper = styled("div", {
 
 const StyledList = styled("ul", {
   base: {
+    position: "relative",
     display: "flex",
     flexDirection: "column",
     rowGap: "xxsmall",
@@ -74,13 +81,15 @@ export const MovedNodeCard = ({ title, url, ingress, subjects, contentType, meta
   const { t } = useTranslation();
 
   return (
-    <CardRoot>
+    <StyledCardRoot>
       <Wrapper>
         <CardContent>
           {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
           <CardHeading asChild consumeCss>
             <h2>
-              <SafeLink to={url}>{title}</SafeLink>
+              <SafeLink to={url} css={linkOverlay.raw()}>
+                {title}
+              </SafeLink>
             </h2>
           </CardHeading>
           <Text>{ingress}</Text>
@@ -103,6 +112,6 @@ export const MovedNodeCard = ({ title, url, ingress, subjects, contentType, meta
           </nav>
         </CardContent>
       )}
-    </CardRoot>
+    </StyledCardRoot>
   );
 };

@@ -15,7 +15,6 @@ import { CheckLine } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
 import { Heading, Text } from "@ndla/typography";
 import { ArticleByline, ContentTypeBadge, constants } from "@ndla/ui";
-import config from "../../config";
 import {
   GQLLearningpathMenu_LearningpathFragment,
   GQLLearningpathMenu_LearningpathStepFragment,
@@ -172,7 +171,7 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
         <Heading element="h1" headingStyle="h4" margin="none" id={headingId}>
           {learningpath.title}
         </Heading>
-        {!!resource?.path && config.feideEnabled && (
+        {!!resource?.path && (
           <AddResourceToFolderModal
             resource={{
               id: learningpath.id.toString(),

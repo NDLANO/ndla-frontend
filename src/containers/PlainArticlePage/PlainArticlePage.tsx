@@ -9,8 +9,8 @@
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
@@ -28,7 +28,7 @@ interface MatchParams extends TypedParams {
 }
 
 const plainArticlePageQuery = gql`
-  query plainArticlePage($articleId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+  query plainArticlePage($articleId: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId) {
       ...PlainArticleContainer_Article
     }

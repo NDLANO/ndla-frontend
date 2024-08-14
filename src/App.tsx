@@ -34,7 +34,6 @@ import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
-import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -54,7 +53,6 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -159,14 +157,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="folders">
                     <Route index element={<PrivateRoute element={<FoldersPage />} />} />
                     <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
-                    <Route path="preview/:folderId">
-                      <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                      <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                      <Route
-                        path=":subfolderId/:resourceId"
-                        element={<PrivateRoute element={<PreviewFoldersPage />} />}
-                      />
-                    </Route>
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
                   <Route path="arena">
@@ -194,18 +184,10 @@ const AppRoutes = ({ base }: AppProps) => {
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                {config.folderRedesign ? (
-                  <Route path="folder/:folderId">
-                    <Route index element={<SharedFolderPageV2 />} />
-                    <Route path="*" element={<SharedFolderPageV2 />} />
-                  </Route>
-                ) : (
-                  <Route path="folder/:folderId">
-                    <Route index element={<SharedFolderPage />} />
-                    <Route path=":subfolderId" element={<SharedFolderPage />} />
-                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                  </Route>
-                )}
+                <Route path="folder/:folderId">
+                  <Route index element={<SharedFolderPage />} />
+                  <Route path="*" element={<SharedFolderPage />} />
+                </Route>
                 <Route path="404" element={<NotFound />} />
                 <Route path="403" element={<AccessDenied />} />
                 <Route path="*" element={<NotFound />} />

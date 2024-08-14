@@ -23,7 +23,11 @@ import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
+import { BadRequestError } from "../util/error";
 import { constructNewPath } from "../util/urlHelper";
+
+// To handle uncaught exceptions in async express
+await import("express-async-errors");
 
 const router = express.Router();
 
@@ -92,7 +96,7 @@ router.get("/login/success", async (req, res) => {
   res.setHeader("Cache-Control", "private");
   const verifier = getCookie("PKCE_code", req.headers.cookie ?? "");
   if (!code || !verifier) {
-    throw new Error("Missing code or verifier");
+    throw new BadRequestError("Missing code or verifier");
   }
 
   const token = await getFeideToken(req, verifier, code);
@@ -122,7 +126,7 @@ router.get("/:lang?/logout", async (req, res) => {
   res.setHeader("Cache-Control", "private");
 
   if (!feideToken?.["id_token"] || typeof state !== "string") {
-    throw new Error("Missing id_token or state");
+    throw new BadRequestError("Missing id_token or state");
   }
   const logoutUri = await feideLogout(req, redirect, feideToken["id_token"]);
   return res.redirect(logoutUri);
