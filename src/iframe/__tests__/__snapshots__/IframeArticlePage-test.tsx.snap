@@ -7,11 +7,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   >
     <main>
       <article
-        class="d_flex flex-d_column c_text.default gap_xxlarge bg_surface.default py_xsmall px_8% ai_center w_100% ov-wrap_break-word pos_relative tablet:py_medium desktop:py_xxlarge [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
-          class="d_flex flex-d_column gap_medium ai_flex-start w_100%"
+          class="d_flex flex-d_column bg_surface.default gap_medium ai_flex-start w_100% px_8% pbs_xsmall tablet:pbs_medium desktop:pbs_xxlarge"
         >
           <hgroup
             class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
@@ -34,7 +34,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="ndla-article"
+          class="bg_surface.default px_8% pbs_xsmall tablet:pbe_medium desktop:pbe_xxlarge pbe_xsmall ndla-article"
         >
           <section>
             <p
@@ -46,7 +46,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </section>
         </section>
         <footer
-          class="d_flex flex-d_column gap_xxlarge w_100%"
+          class="d_flex flex-d_column bg_surface.default gap_xxlarge w_100% px_8% pbe_xsmall tablet:pbe_medium desktop:pbe_xxlarge"
         >
           <div
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"

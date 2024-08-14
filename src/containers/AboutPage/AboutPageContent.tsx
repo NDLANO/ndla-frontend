@@ -11,9 +11,18 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Hero, HeroBackground, HeroContent, Text } from "@ndla/primitives";
+import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, Text } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { ArticleByline, ArticleContent, ArticleHeader, ArticleWrapper, HomeBreadcrumb, OneColumn } from "@ndla/ui";
+import {
+  ArticleContent,
+  ArticleFooter,
+  ArticleHeader,
+  ArticlePadding,
+  ArticleWrapper,
+  HomeBreadcrumb,
+  OneColumn,
+  ArticleBylineAccordionItem,
+} from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
@@ -134,29 +143,34 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
           <HeroContent>
             <HomeBreadcrumb items={crumbs} />
           </HeroContent>
-          <ArticleWrapper>
-            <ArticleHeader>
+        </OneColumn>
+        <ArticleWrapper>
+          <OneColumn>
+            <ArticleHeader padded>
               <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                 {article.transformedContent.title}
               </Heading>
               <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
             </ArticleHeader>
-            <ArticleContent>
-              {article.transformedContent.content}
-              <ArticleByline
-                licenseBox={
-                  <LicenseBox
-                    article={article}
-                    copyText={article?.transformedContent?.metaData?.copyText}
-                    oembed={undefined}
-                  />
-                }
-                displayByline={false}
-              />
-            </ArticleContent>
-          </ArticleWrapper>
-        </OneColumn>
-        <AboutPageFooter frontpage={frontpage} />
+            <ArticleContent padded>{article.transformedContent.content}</ArticleContent>
+          </OneColumn>
+          <ArticleFooter>
+            <OneColumn>
+              <ArticlePadding asChild>
+                <AccordionRoot multiple>
+                  <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
+                    <LicenseBox
+                      article={article}
+                      copyText={article?.transformedContent?.metaData?.copyText}
+                      oembed={undefined}
+                    />
+                  </ArticleBylineAccordionItem>
+                </AccordionRoot>
+              </ArticlePadding>
+            </OneColumn>
+            <AboutPageFooter frontpage={frontpage} />
+          </ArticleFooter>
+        </ArticleWrapper>
       </Hero>
     </main>
   );
