@@ -8,31 +8,32 @@
 
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { stackOrder } from "@ndla/core";
 import { NdlaLogoText } from "@ndla/primitives";
 import { MissingRouterContext, SafeLink } from "@ndla/safelink";
-import { PageContainer, ZendeskButton } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
+import { PageContainer } from "@ndla/ui";
 import { Status } from "../../components";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
-import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
 import { Footer } from "../Page/components/Footer";
 
-const ZendeskWrapper = styled.div`
-  z-index: ${stackOrder.trigger};
-`;
+const LogoWrapper = styled("div", {
+  base: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+  },
+});
 
-const LogoWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-`;
+const ErrorMessageWrapper = styled("div", {
+  base: {
+    paddingBlockEnd: "4xlarge",
+  },
+});
 
 const ErrorPage = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
   return (
     <MissingRouterContext.Provider value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
@@ -49,17 +50,10 @@ const ErrorPage = () => {
               </SafeLink>
             </LogoWrapper>
           </Masthead>
-          <div>
+          <ErrorMessageWrapper>
             <DefaultErrorMessage />
-          </div>
+          </ErrorMessageWrapper>
           <Footer />
-          {config.zendeskWidgetKey && (
-            <ZendeskWrapper>
-              <ZendeskButton locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
-                {t("askNDLA")}
-              </ZendeskButton>
-            </ZendeskWrapper>
-          )}
         </PageContainer>
       </Status>
     </MissingRouterContext.Provider>
