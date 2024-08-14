@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, constants, ContentTypeHero, HomeBreadcrumb, LayoutItem } from "@ndla/ui";
+import { OneColumn, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
@@ -172,12 +172,9 @@ const ArticlePage = ({
             showFavoriteButton
             oembed={article.oembed}
             contentType={contentType}
-          />
-          {topic && (
-            <LayoutItem layout="extend">
-              <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-            </LayoutItem>
-          )}
+          >
+            {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
+          </Article>
         </OneColumn>
       </ContentTypeHero>
     </main>

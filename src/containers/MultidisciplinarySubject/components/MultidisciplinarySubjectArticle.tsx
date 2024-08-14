@@ -99,8 +99,9 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           showFavoriteButton
           path={topic.path}
           oembed={article.oembed}
-        />
-        <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+        >
+          <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+        </Article>
       </OneColumn>
     </main>
   );
