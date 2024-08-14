@@ -93,9 +93,6 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
 
 export const MediaListItem = styled("li", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
     "& img": { width: "100%" },
   },
 });
@@ -111,6 +108,14 @@ interface MediaListItemBodyProps {
 }
 
 const StyledSpan = styled("span", { base: { display: "none" } });
+
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 export const MediaListItemBody = ({
   children,
@@ -131,11 +136,11 @@ export const MediaListItemBody = ({
   const metaResourceType = getResourceTypeNamespace(resourceType);
 
   return (
-    <div {...containerProps}>
+    <StyledWrapper {...containerProps}>
       {/* @ts-ignore */}
       {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
-    </div>
+    </StyledWrapper>
   );
 };
 
@@ -159,17 +164,30 @@ const isLink = (url: string) => url.startsWith("http") || url.startsWith("https"
 interface HandleLinkProps {
   url: string;
   children: ReactNode;
+  type: ItemTypeWithDescription["metaType"];
 }
+const licenceTag = (type: ItemTypeWithDescription["metaType"]): string | undefined =>
+  ({
+    title: "dct:title",
+    author: "cc:attributionName",
+    copyrightHolder: undefined,
+    contributor: undefined,
+    other: "cc:attributionURL",
+    //@ts-ignore
+  })[type];
 
-export const HandleLink = ({ url, children }: HandleLinkProps) => {
+export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
+  const tag = licenceTag(type);
+
   if (isLink(url)) {
     return (
-      <SafeLink to={url} target="_blank" rel="noopener noreferrer">
+      <SafeLink to={url} target="_blank" rel={`noopener noreferrer ${tag}`}>
         {children}
       </SafeLink>
     );
   }
-  return <span>{children}</span>;
+  // eslint-disable-next-line react/no-unknown-property
+  return <span property={tag}>{children}</span>;
 };
 
 const attributionTypes = [metaTypes.author, metaTypes.copyrightHolder, metaTypes.contributor];
@@ -201,7 +219,10 @@ const ItemText = ({ item }: { item: ItemType }) => {
 
   return (
     <Text textStyle="body.medium">
-      {item.label}: <HandleLink url={item.description}>{item.description}</HandleLink>
+      {item.label}:{" "}
+      <HandleLink url={item.description} type={item.metaType}>
+        {item.description}
+      </HandleLink>
     </Text>
   );
 };
@@ -216,8 +237,7 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
 
   return (
-    // eslint-disable-next-line react/no-unknown-property
-    <ul property="cc:attributionName" content={attributionMeta}>
+    <ul content={attributionMeta}>
       {items.map((item) => (
         <li key={item.label}>
           <ItemText item={item} />
