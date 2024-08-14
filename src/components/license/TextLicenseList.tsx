@@ -68,22 +68,22 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={text.copyright.license.license}
-          title={t("license.text.rules")}
-          sourceTitle={text.title}
-          sourceType="text"
-        />
-        <MediaListItemActions>
-          {printUrl && (
-            <Button variant="secondary" onClick={() => printPage(printUrl)}>
-              {t("article.printPage")}
-            </Button>
-          )}
-        </MediaListItemActions>
-      </MediaListContent>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={text.copyright.license.license}
+            title={t("license.text.rules")}
+            sourceTitle={text.title}
+            sourceType="text"
+          />
+          <MediaListItemActions>
+            {printUrl && (
+              <Button variant="secondary" onClick={() => printPage(printUrl)}>
+                {t("article.printPage")}
+              </Button>
+            )}
+          </MediaListItemActions>
+        </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />

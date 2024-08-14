@@ -67,35 +67,35 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={h5p.copyright?.license?.license ?? ""}
-          title={t("license.h5p.rules")}
-          sourceTitle={h5p.title}
-          sourceType="h5p"
-        />
-        {!isCopyrighted(h5p.copyright?.license.license) && (
-          <MediaListItemActions>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={h5p.copyright?.license?.license ?? ""}
         resourceType="h5p"
         resourceUrl={h5p.src}
         locale={i18n.language}
       >
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={h5p.copyright?.license?.license ?? ""}
+            title={t("license.h5p.rules")}
+            sourceTitle={h5p.title}
+            sourceType="h5p"
+          />
+          {!isCopyrighted(h5p.copyright?.license.license) && (
+            <MediaListItemActions>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />

@@ -70,54 +70,54 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={video.copyright?.license?.license ?? ""}
-          title={t("license.video.rules")}
-          sourceTitle={video.title}
-          sourceType="video"
-        >
-          {!isCopyrighted(video.copyright?.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: video.id,
-                path: `${config.ndlaFrontendDomain}/video/${video.id}`,
-                resourceType: "video",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {video.cover && <Image alt={video.title} src={video.cover} />}
-        {!isCopyrighted(video.copyright?.license.license) && (
-          <MediaListItemActions>
-            {video.download && (
-              <SafeLinkButton to={video.download} download variant="secondary">
-                <DownloadLine />
-                {t("license.download")}
-              </SafeLinkButton>
-            )}
-            <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={video.copyright?.license?.license ?? ""}
         resourceType="video"
         resourceUrl={video.src}
         locale={i18n.language}
       >
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={video.copyright?.license?.license ?? ""}
+            title={t("license.video.rules")}
+            sourceTitle={video.title}
+            sourceType="video"
+          >
+            {!isCopyrighted(video.copyright?.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: video.id,
+                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  resourceType: "video",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {video.cover && <Image alt={video.title} src={video.cover} />}
+          {!isCopyrighted(video.copyright?.license.license) && (
+            <MediaListItemActions>
+              {video.download && (
+                <SafeLinkButton to={video.download} download variant="secondary">
+                  <DownloadLine />
+                  {t("license.download")}
+                </SafeLinkButton>
+              )}
+              <CopyTextButton
+                stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />

@@ -84,46 +84,46 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={audio.copyright.license.license}
-          title={t("license.audio.rules")}
-          sourceTitle={audio.title}
-          sourceType="audio"
-        >
-          {!isCopyrighted(audio.copyright.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: audio.id,
-                path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
-                resourceType: "audio",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {!isCopyrighted(audio.copyright.license.license) && (
-          <MediaListItemActions>
-            <SafeLinkButton to={audio.src} download variant="secondary">
-              <DownloadLine />
-              {t("license.download")}
-            </SafeLinkButton>
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={audio.copyright.license.license}
         resourceType="audio"
         resourceUrl={audio.src}
         locale={i18n.language}
       >
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={audio.copyright.license.license}
+            title={t("license.audio.rules")}
+            sourceTitle={audio.title}
+            sourceType="audio"
+          >
+            {!isCopyrighted(audio.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: audio.id,
+                  path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+                  resourceType: "audio",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {!isCopyrighted(audio.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={audio.src} download variant="secondary">
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />

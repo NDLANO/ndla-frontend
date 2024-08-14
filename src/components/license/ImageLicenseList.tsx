@@ -95,52 +95,52 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={image.copyright.license.license}
-          title={t("license.images.rules")}
-          sourceTitle={image.title}
-          sourceType="images"
-        >
-          {!isCopyrighted(image.copyright.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: image.id,
-                path: `${config.ndlaFrontendDomain}/image/${image.id}`,
-                resourceType: "image",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        <Image alt={image.altText} src={image.src} />
-        {!isCopyrighted(image.copyright.license.license) && (
-          <MediaListItemActions>
-            <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
-              <DownloadLine />
-              {t("license.download")}
-            </SafeLinkButton>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={image.copyright.license?.license}
         resourceType="image"
         resourceUrl={image.src}
         locale={i18n.language}
       >
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={image.copyright.license.license}
+            title={t("license.images.rules")}
+            sourceTitle={image.title}
+            sourceType="images"
+          >
+            {!isCopyrighted(image.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: image.id,
+                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                  resourceType: "image",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          <Image alt={image.altText} src={image.src} />
+          {!isCopyrighted(image.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
