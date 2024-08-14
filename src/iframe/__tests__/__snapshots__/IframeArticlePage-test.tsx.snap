@@ -242,41 +242,8 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                 <li
                                   class="wb_break-word"
                                 >
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Tittel: 
-                                      <span>
-                                        Politiske skillelinjer
-                                      </span>
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Opphaver: 
-                                      <span>
-                                        Forfatter Someone
-                                      </span>
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Sist faglig oppdatert: 
-                                      <span>
-                                        09.01.2018
-                                      </span>
-                                    </p>
-                                  </li>
-                                </ul>
-                                <span>
-                                  <button
-                                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
-                                    type="button"
+                                  <p
+                                    class="textStyle_body.medium"
                                   >
                                     Tittel: 
                                     <span>
@@ -311,7 +278,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               </ul>
                               <span>
                                 <button
-                                  class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
+                                  class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
                                   type="button"
                                 >
                                   <svg
