@@ -204,30 +204,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         class="w_100% [&_>_li]:py_xlarge [&_>_li]:bd-b_1px_solid [&_>_li]:bd-c_stroke.subtle [&_>_li]:last:bd-b_none [&_>_li]:last:pbe_0 [&_>_li]:first:pbs_medium [&_p]:mbe_3xsmall tabletDown:[&_button,_a]:w_100%"
                       >
                         <li
-                          class="d_flex flex-d_column gap_medium [&_img]:w_100%"
+                          class="[&_img]:w_100%"
                         >
                           <div
-                            class="d_flex flex-d_column gap_xsmall"
-                          >
-                            <div
-                              class="d_flex jc_space-between ai_center min-h_xxlarge"
-                            >
-                              <h3
-                                class="textStyle_title.small fw_semibold"
-                              >
-                                Regler for bruk av teksten "Politiske skillelinjer"
-                              </h3>
-                              <div />
-                            </div>
-                            <ul
-                              class="li-t_disc li-pos_inside"
-                            />
-                            <div
-                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
-                            />
-                          </div>
-                          <div
                             about=""
+                            class="d_flex flex-d_column gap_medium"
                             xmlns:cc="https://creativecommons.org/ns#"
                             xmlns:dct="http://purl.org/dc/terms/"
                           >
@@ -237,6 +218,26 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               rel="dct:type"
                             />
                             <div
+                              class="d_flex flex-d_column gap_xsmall"
+                            >
+                              <div
+                                class="d_flex jc_space-between ai_center min-h_xxlarge"
+                              >
+                                <h3
+                                  class="textStyle_title.small fw_semibold"
+                                >
+                                  Regler for bruk av teksten "Politiske skillelinjer"
+                                </h3>
+                                <div />
+                              </div>
+                              <ul
+                                class="li-t_disc li-pos_inside"
+                              />
+                              <div
+                                class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
+                              />
+                            </div>
+                            <div
                               class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
                             >
                               <div
@@ -244,14 +245,15 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               >
                                 <ul
                                   content="Opphaver: Forfatter Someone"
-                                  property="cc:attributionName"
                                 >
                                   <li>
                                     <p
                                       class="textStyle_body.medium"
                                     >
                                       Tittel: 
-                                      <span>
+                                      <span
+                                        property="cc:attributionURL"
+                                      >
                                         Politiske skillelinjer
                                       </span>
                                     </p>
@@ -261,7 +263,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       class="textStyle_body.medium"
                                     >
                                       Opphaver: 
-                                      <span>
+                                      <span
+                                        property="cc:attributionName"
+                                      >
                                         Forfatter Someone
                                       </span>
                                     </p>
@@ -271,7 +275,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       class="textStyle_body.medium"
                                     >
                                       Sist faglig oppdatert: 
-                                      <span>
+                                      <span
+                                        property="cc:attributionURL"
+                                      >
                                         09.01.2018
                                       </span>
                                     </p>
