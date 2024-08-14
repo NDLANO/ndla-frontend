@@ -18,13 +18,13 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
+import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTaxBase,
   GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment,
   GQLToolboxTopicWrapper_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic } from "../../../routeHelpers";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import Resources from "../../Resources/Resources";
@@ -96,16 +96,11 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
   }
 
   const subTopics = topic?.subtopics?.map((subtopic) => {
-    const path = topic.path || "";
-    const topicPath = path
-      .split("/")
-      .slice(2)
-      .map((id) => `urn:${id}`);
     return {
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === topicList[index + 1],
-      url: toTopic(subject.id, ...topicPath, subtopic.id),
+      url: config.enablePrettyUrls ? subtopic.url : subtopic.path,
     };
   });
 
@@ -154,7 +149,7 @@ export const toolboxTopicWrapperFragments = {
       id
       name
       path
-      contexts {
+      context {
         breadcrumbs
         contextId
         parentIds
@@ -207,6 +202,7 @@ export const toolboxTopicWrapperFragments = {
       subtopics: children(nodeType: TOPIC) {
         id
         name
+        url
         path
       }
       ...Resources_Topic

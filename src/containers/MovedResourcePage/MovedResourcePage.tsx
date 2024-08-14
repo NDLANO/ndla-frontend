@@ -110,6 +110,7 @@ MovedResourcePage.fragments = {
       path
       paths
       contexts {
+        contextId
         path
         breadcrumbs
       }

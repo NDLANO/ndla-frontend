@@ -14,7 +14,6 @@ import NavigationBox from "../../../components/NavigationBox";
 import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
 import { GQLSubjectPageContent_NodeFragment } from "../../../graphqlTypes";
-import { toTopic } from "../../../routeHelpers";
 import { scrollToRef } from "../../../util/pageHelpers";
 
 interface Props {
@@ -34,7 +33,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
       ...topic,
       label: topic?.name,
       selected: topic?.id === topicIds[0],
-      url: config.enablePrettyUrls ? topic.url : toTopic(subject?.id, topic?.id),
+      url: config.enablePrettyUrls ? topic.url : topic.path,
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };

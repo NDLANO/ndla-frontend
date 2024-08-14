@@ -136,6 +136,7 @@ const resourceTypeMoviesQuery = gql`
         }
         title
         contexts {
+          contextId
           contextType
           path
         }

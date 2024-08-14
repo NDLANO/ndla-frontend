@@ -19,9 +19,9 @@ import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLToolboxSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, toTopic } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -66,8 +66,8 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           to: "/",
         },
         {
-          to: `${removeUrn(subject.id)}`,
           name: subject.name,
+          to: config.enablePrettyUrls ? subject.url : subject.path,
         },
         ...topicCrumbs,
       ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
@@ -78,7 +78,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
 
         return crumbs;
       }, []),
-    [subject.id, subject.name, t, topicCrumbs],
+    [subject, t, topicCrumbs],
   );
 
   const refs = topicList.map(() => createRef<HTMLDivElement>());
@@ -105,10 +105,10 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           ...topic,
           label: topic.name,
           selected: topic.id === topicList[0],
-          url: toTopic(subject.id, topic.id),
+          url: config.enablePrettyUrls ? topic.url : topic.path,
         };
       }),
-    [subject.id, subject.topics, topicList],
+    [subject.topics, topicList],
   );
 
   if (!topics) {
@@ -174,6 +174,8 @@ export const toolboxSubjectContainerFragments = {
       topics: children(nodeType: TOPIC) {
         name
         id
+        path
+        url
       }
       subjectpage {
         id

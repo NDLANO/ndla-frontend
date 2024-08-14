@@ -28,7 +28,6 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -64,11 +63,6 @@ const SubjectTopic = ({
   const { t, i18n } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-
-  const topicPath = useMemo(() => {
-    if (!topic?.path) return [];
-    return topic.contexts.find((context) => context.contextId === topic.contextId)?.crumbs ?? [];
-  }, [topic]);
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
@@ -133,9 +127,7 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: config.enablePrettyUrls
-        ? subtopic.url
-        : toTopic(subjectId ?? "", ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: config.enablePrettyUrls ? subtopic.url : subtopic.path,
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -200,6 +192,7 @@ export const topicFragments = {
         name
         relevanceId
         url
+        path
       }
       meta {
         metaDescription
@@ -209,7 +202,7 @@ export const topicFragments = {
       }
       supportedLanguages
       contextId
-      contexts {
+      context {
         contextId
         breadcrumbs
         parentIds

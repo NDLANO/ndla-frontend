@@ -71,9 +71,6 @@ const resourceContextPageQuery = gql`
       context {
         ...ContextPage_Context
       }
-      contexts {
-        ...ContextPage_Context
-      }
       article {
         created
         updated

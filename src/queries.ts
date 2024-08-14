@@ -24,6 +24,7 @@ export const GroupSearchResourceFragment = gql`
     ingress
     traits
     contexts {
+      contextId
       language
       path
       url

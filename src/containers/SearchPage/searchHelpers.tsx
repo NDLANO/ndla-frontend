@@ -20,7 +20,6 @@ import {
 } from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
-import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
 
 const { contentTypes } = constants;
@@ -220,7 +219,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
       items: subjectData.map((subject) => ({
         id: subject.id,
         title: subject.name,
-        url: toSubject(subject.id),
+        url: config.enablePrettyUrls ? subject.url : subject.path,
       })),
       resourceTypes: [],
       totalCount: subjectData.length,

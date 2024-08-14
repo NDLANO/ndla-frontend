@@ -12,6 +12,7 @@ import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
 import { SafeLink } from "@ndla/safelink";
+import config from "../../../config";
 
 const ComponentRoot = styled.ul`
   padding: 0 0 ${spacing.medium} 0;
@@ -39,6 +40,7 @@ const Conjunction = styled.span`
 type SubjectLinkItem = {
   name?: string;
   path?: string;
+  url?: string;
 };
 
 type SubjectLinkSetProps = {
@@ -59,16 +61,19 @@ const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
   return (
     <SubComponentRoot>
       <LinkSetTitle>{title}:</LinkSetTitle>
-      {subjects.map((subject, index) => (
-        <Fragment key={`${set}-${index}`}>
-          <LinkElement>
-            {subject.path ? <SafeLink to={subject.path}>{subject.name}</SafeLink> : <span>{subject.name}</span>}
+      {subjects.map((subject, index) => {
+        const path = config.enablePrettyUrls ? subject.url : subject.path;
+        return (
+          <Fragment key={`${set}-${index}`}>
+            <LinkElement>
+              {path ? <SafeLink to={path}>{subject.name}</SafeLink> : <span>{subject.name}</span>}
 
-            {index < subjects.length - 2 && ","}
-          </LinkElement>
-          {index === subjects.length - 2 && <Conjunction>{t("article.conjunction")}</Conjunction>}
-        </Fragment>
-      ))}
+              {index < subjects.length - 2 && ","}
+            </LinkElement>
+            {index === subjects.length - 2 && <Conjunction>{t("article.conjunction")}</Conjunction>}
+          </Fragment>
+        );
+      })}
     </SubComponentRoot>
   );
 };
@@ -96,14 +101,17 @@ SubjectLinks.fragments = {
       buildsOn {
         name
         path
+        url
       }
       connectedTo {
         name
         path
+        url
       }
       leadsTo {
         name
         path
+        url
       }
     }
   `,

@@ -55,7 +55,7 @@ const resourcePageQuery = gql`
       relevanceId
       paths
       contextId
-      contexts {
+      context {
         contextId
         breadcrumbs
         parentIds
@@ -102,8 +102,8 @@ const ResourceIdsPage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return data?.resource.contexts.find((context) => context.contextId === data?.resource?.contextId)?.crumbs ?? [];
-  }, [data?.resource?.contextId, data?.resource?.contexts, data?.resource?.path]);
+    return data?.resource.context?.crumbs ?? [];
+  }, [data?.resource?.context, data?.resource?.path]);
 
   if (loading) {
     return <ContentPlaceholder />;

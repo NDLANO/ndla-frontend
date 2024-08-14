@@ -124,6 +124,7 @@ MovedTopicPage.fragments = {
         }
       }
       contexts {
+        contextId
         breadcrumbs
       }
     }

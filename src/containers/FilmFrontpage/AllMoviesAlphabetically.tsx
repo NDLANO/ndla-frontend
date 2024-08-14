@@ -194,6 +194,7 @@ const allMoviesQuery = gql`
         }
         title
         contexts {
+          contextId
           contextType
           path
         }

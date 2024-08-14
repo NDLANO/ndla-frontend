@@ -23,7 +23,7 @@ import TopicArticle from "../../../components/Topic/TopicArticle";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLMultidisciplinaryTopic_TopicFragment, GQLTaxBase } from "../../../graphqlTypes";
-import { toTopic, useUrnIds } from "../../../routeHelpers";
+import { useUrnIds } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -78,16 +78,12 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
     );
   }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
 
-  const topicPath = topic.path
-    ?.split("/")
-    .slice(2)
-    .map((id) => `urn:${id}`);
   const subTopics =
     topic.subtopics?.map((item) => ({
       id: item.id,
       label: item.name,
       selected: item.id === subTopicId,
-      url: toTopic(subjectId, ...(topicPath ?? []), item.id),
+      url: config.enablePrettyUrls ? item.url : item.path,
     })) ?? [];
 
   const [article, scripts] = useMemo(() => {
@@ -147,6 +143,8 @@ export const multidisciplinaryTopicFragments = {
       subtopics: children(nodeType: TOPIC) {
         id
         name
+        path
+        url
       }
       meta {
         title
