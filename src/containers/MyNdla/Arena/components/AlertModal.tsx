@@ -22,9 +22,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
+import { HStack } from "@ndla/styled-system/jsx";
 import { Text } from "@ndla/typography";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { ButtonRow } from "../../../../components/MyNdla/AddResourceToFolder";
 import { supportedLanguages } from "../../../../i18n";
 
 // TODO: Remove when upgrading react-router
@@ -119,14 +119,14 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
           <StyledWarningText margin="none" textStyle="meta-text-medium">
             {t(`myNdla.arena.cancel.content.${type}`)}
           </StyledWarningText>
-          <ButtonRow>
+          <HStack justify="flex-end" gap="xsmall">
             <Button variant="secondary" onClick={onCancel}>
               {t(`myNdla.arena.cancel.continue.${type}`)}
             </Button>
             <Button variant="danger" onClick={onWillContinue}>
               {t(`myNdla.arena.cancel.cancel.${type}`)}
             </Button>
-          </ButtonRow>
+          </HStack>
         </DialogBody>
       </DialogContent>
     </DialogRoot>
