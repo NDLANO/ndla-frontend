@@ -130,7 +130,6 @@ const StyledSafeLink = styled(SafeLink, {
     _focusWithin: {
       "& > div": {
         backgroundColor: "surface.hover",
-        outline: "solid",
         "&[data-visible='false']": {
           backgroundColor: "surface.disabled",
         },
