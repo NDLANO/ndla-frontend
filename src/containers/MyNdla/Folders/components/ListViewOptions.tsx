@@ -8,25 +8,20 @@
 
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
 import { MenuLine } from "@ndla/icons/action";
 import { GridFill } from "@ndla/icons/common";
 import { ListCheck } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ViewType } from "../FoldersPage";
 
-const StyledDisplayOptionsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-`;
-
-const HiddenOnMobileIconButton = styled(IconButton)`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
+const ListViewOptionsContainer = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    marginInlineStart: "auto",
+  },
+});
 
 interface Props {
   onTypeChange: (type: ViewType) => void;
@@ -36,7 +31,7 @@ interface Props {
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
-    <StyledDisplayOptionsContainer>
+    <ListViewOptionsContainer>
       <IconButton
         // TODO: Fix handling of active according to design
         variant={type === "list" ? "primary" : "tertiary"}
@@ -55,7 +50,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
       >
         <ListCheck />
       </IconButton>
-      <HiddenOnMobileIconButton
+      <IconButton
         // TODO: Fix handling of active according to design
         variant={type === "block" ? "primary" : "tertiary"}
         onClick={() => onTypeChange("block")}
@@ -63,8 +58,8 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         title={t("myNdla.shortView")}
       >
         <GridFill />
-      </HiddenOnMobileIconButton>
-    </StyledDisplayOptionsContainer>
+      </IconButton>
+    </ListViewOptionsContainer>
   );
 };
 
