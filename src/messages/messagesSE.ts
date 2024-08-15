@@ -44,9 +44,9 @@ const messages = {
     episodes: "Jearahusat",
     podcast: "Podkast",
     podcasts: "Podkasttat",
-    pageInfo: "Siidu {{page}} eret {{lastPage}}",
     noResults: "...Eai leat oasit",
     subtitle: "Guldal ja oahpa!",
+    pagination: "Podkastsider",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
   searchPage: {
