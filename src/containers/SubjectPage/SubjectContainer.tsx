@@ -11,13 +11,11 @@ import { useState, createRef, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { InformationLine } from "@ndla/icons/common";
-import { MessageBox, Text } from "@ndla/primitives";
+import { Heading, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
-import { constants, OneColumn, LayoutItem, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
+import { constants, OneColumn, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -40,16 +38,23 @@ type Props = {
   loading?: boolean;
 };
 
-const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.mediumlarge};
-`;
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "medium",
+  },
+});
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${spacing.xsmall};
-`;
+const StyledOneColumn = styled(OneColumn, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlock: "xxlarge",
+  },
+});
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
@@ -136,51 +141,41 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
-      <OneColumn>
-        <LayoutItem layout="extend">
-          {!topicIds.length && (
-            <SocialMediaMetadata
-              title={subject.name}
-              description={subject.subjectpage?.metaDescription}
-              imageUrl={about?.visualElement.url}
-              trackableContent={{ supportedLanguages: subject.supportedLanguages }}
-            />
-          )}
-          <HeaderWrapper>
-            <BreadcrumbWrapper>
-              <HomeBreadcrumb items={breadCrumbs} />
-            </BreadcrumbWrapper>
-            <Heading
-              element="h1"
-              margin="xlarge"
-              headingStyle="h1-resource"
-              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-              tabIndex={-1}
-            >
-              {subject.name}
-            </Heading>
-            <SubjectLinks
-              buildsOn={subject.subjectpage?.buildsOn ?? []}
-              connectedTo={subject.subjectpage?.connectedTo ?? []}
-              leadsTo={subject.subjectpage?.leadsTo ?? []}
-            />
-            {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
-          </HeaderWrapper>
-          {!ndlaFilm && nonRegularSubjectMessage && (
-            <MessageBox variant="warning">
-              <InformationLine />
-              <Text>{nonRegularSubjectMessage}</Text>
-            </MessageBox>
-          )}
-          {!ndlaFilm && nonRegularSubjectTypeMessage && (
-            <MessageBox variant="warning">
-              <InformationLine />
-              <Text>{nonRegularSubjectTypeMessage}</Text>
-            </MessageBox>
-          )}
-          <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
-        </LayoutItem>
-      </OneColumn>
+      <StyledOneColumn wide>
+        {!topicIds.length && (
+          <SocialMediaMetadata
+            title={subject.name}
+            description={subject.subjectpage?.metaDescription}
+            imageUrl={about?.visualElement.url}
+            trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+          />
+        )}
+        <HomeBreadcrumb items={breadCrumbs} />
+        <HeadingWrapper>
+          <Heading textStyle="heading.medium" id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined} tabIndex={-1}>
+            {subject.name}
+          </Heading>
+          <SubjectLinks
+            buildsOn={subject.subjectpage?.buildsOn ?? []}
+            connectedTo={subject.subjectpage?.connectedTo ?? []}
+            leadsTo={subject.subjectpage?.leadsTo ?? []}
+          />
+          {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
+        </HeadingWrapper>
+        {!ndlaFilm && nonRegularSubjectMessage && (
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{nonRegularSubjectMessage}</Text>
+          </MessageBox>
+        )}
+        {!ndlaFilm && nonRegularSubjectTypeMessage && (
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{nonRegularSubjectTypeMessage}</Text>
+          </MessageBox>
+        )}
+        <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
+      </StyledOneColumn>
     </main>
   );
 };
@@ -202,12 +197,12 @@ export const subjectContainerFragments = {
             url
           }
         }
-        ...SubjectLinks_Subject
+        ...SubjectLinks_SubjectPage
       }
       ...SubjectPageContent_Subject
     }
     ${SubjectPageContent.fragments.subject}
-    ${SubjectLinks.fragments.links}
+    ${SubjectLinks.fragments.subjectPage}
   `,
 };
 

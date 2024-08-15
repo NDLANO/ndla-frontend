@@ -40,7 +40,7 @@ type RequiredLearningpath = {
 };
 
 interface Props {
-  article?: Pick<GQLArticle, "title" | "grepCodes" | "copyright">;
+  article?: Pick<GQLArticle, "grepCodes">;
   learningpath?: RequiredLearningpath;
   learningstep?: Pick<GQLLearningpathStep, "seqNo">;
   filter?: string;

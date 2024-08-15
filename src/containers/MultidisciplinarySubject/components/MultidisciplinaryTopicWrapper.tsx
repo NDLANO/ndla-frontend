@@ -102,8 +102,9 @@ const MultidisciplinaryTopicWrapper = ({
         subTopicId={subTopicId}
         subject={subject}
         disableNav={disableNav}
-      />
-      {showSubtopics && <MultidisciplinaryArticleList topics={data.topic?.subtopics ?? []} />}
+      >
+        {showSubtopics && <MultidisciplinaryArticleList topics={data.topic?.subtopics ?? []} />}
+      </MultidisciplinaryTopic>
     </>
   );
 };

@@ -6,30 +6,26 @@
  *
  */
 
+import parse from "html-react-parser";
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { ReactNode, useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
-import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { NavigationBox } from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
-import TopicArticle from "../../../components/Topic/TopicArticle";
-import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLMultidisciplinaryTopic_SubjectFragment,
   GQLMultidisciplinaryTopic_TopicFragment,
 } from "../../../graphqlTypes";
 import { toTopic, useUrnIds } from "../../../routeHelpers";
-import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import { transformArticle } from "../../../util/transformArticle";
 import Resources from "../../Resources/Resources";
 import TopicVisualElementContent from "../../SubjectPage/components/TopicVisualElementContent";
 
@@ -41,14 +37,15 @@ interface Props {
   topic: GQLMultidisciplinaryTopic_TopicFragment;
   loading?: boolean;
   disableNav?: boolean;
+  children?: ReactNode;
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
   return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
 };
 
-const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject, disableNav }: Props) => {
-  const { t, i18n } = useTranslation();
+const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject, disableNav, children }: Props) => {
+  const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { topicList } = useUrnIds();
@@ -71,14 +68,9 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
   }, [topic?.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
-      />
-    );
-  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
+    if (!embedMeta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} />;
+  }, [embedMeta]);
 
   const topicPath = topic.path
     ?.split("/")
@@ -92,18 +84,7 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       url: toTopic(subjectId, ...(topicPath ?? []), item.id),
     })) ?? [];
 
-  const [article, scripts] = useMemo(() => {
-    if (!topic.article) return [undefined, undefined];
-    return [
-      transformArticle(topic.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
-        subject: subjectId,
-      }),
-      getArticleScripts(topic.article, i18n.language),
-    ];
-  }, [i18n.language, subjectId, topic.article]);
-
-  if (!topic.article || !article) {
+  if (!topic.article) {
     return null;
   }
 
@@ -123,20 +104,13 @@ const MultidisciplinaryTopic = ({ topicId, subjectId, subTopicId, topic, subject
       )}
       <Topic
         id={topicId === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
-        title={article.transformedContent.title}
-        introduction={article.transformedContent.introduction}
-        metaImage={article.metaImage}
+        title={parse(topic.article.htmlTitle ?? "")}
+        introduction={parse(topic.article.htmlIntroduction ?? "")}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
-        isLoading={false}
       >
-        {!!topic.article.transformedContent.content.length && (
-          <TopicArticle>
-            <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
-          </TopicArticle>
-        )}
-
         {disableNav ? null : <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
+        {children}
       </Topic>
     </>
   );
@@ -160,6 +134,9 @@ export const multidisciplinaryTopicFragments = {
       }
       article {
         oembed
+        htmlTitle
+        htmlIntroduction
+        grepCodes
         metaImage {
           url
           alt
@@ -167,18 +144,12 @@ export const multidisciplinaryTopicFragments = {
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {
             content
-            meta {
-              ...TopicVisualElementContent_Meta
-            }
           }
         }
-        ...ArticleContents_Article
       }
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-    ${ArticleContents.fragments.article}
-    ${TopicVisualElementContent.fragments.metadata}
   `,
   subject: gql`
     fragment MultidisciplinaryTopic_Subject on Subject {

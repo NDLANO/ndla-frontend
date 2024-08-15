@@ -10,10 +10,9 @@ import { useEffect, createRef, useState, useMemo, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import { ToolboxTopicContainer } from "./components/ToolboxTopicContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -30,9 +29,28 @@ interface Props {
   topicList: string[];
 }
 
-const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.mediumlarge};
-`;
+const StyledOneColumn = styled(OneColumn, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlock: "xxlarge",
+  },
+});
+
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const IntroductionText = styled(Text, {
+  base: {
+    maxWidth: "surface.xlarge",
+  },
+});
 
 const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
   const { t } = useTranslation();
@@ -133,19 +151,14 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
           />
         </>
       )}
-      <OneColumn>
-        <BreadcrumbWrapper>
-          <HomeBreadcrumb items={breadCrumbs} />
-        </BreadcrumbWrapper>
-        <Heading
-          element="h1"
-          headingStyle="h1-resource"
-          id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined}
-          tabIndex={-1}
-        >
-          {subject.name}
-        </Heading>
-        <Text textStyle="ingress">{t("toolboxPage.introduction")}</Text>
+      <StyledOneColumn wide>
+        <HomeBreadcrumb items={breadCrumbs} />
+        <HeadingWrapper>
+          <Heading textStyle="heading.medium" id={!topicList.length ? SKIP_TO_CONTENT_ID : undefined} tabIndex={-1}>
+            {subject.name}
+          </Heading>
+          <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+        </HeadingWrapper>
         <NavigationBox items={topics} heading={t("topicPage.topics")} colorMode="greyLighter" />
         {selectedTopics.map((topic: string, index: number) => (
           <div key={topic} ref={refs[index]}>
@@ -159,7 +172,7 @@ const ToolboxSubjectContainer = ({ topicList, subject }: Props) => {
             />
           </div>
         ))}
-      </OneColumn>
+      </StyledOneColumn>
     </>
   );
 };

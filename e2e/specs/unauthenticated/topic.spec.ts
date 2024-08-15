@@ -45,5 +45,4 @@ test("show have functioning language box", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
 
   await expect(page.getByRole("heading", { name: "Tverrfaglige medieoppdrag" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Vis hele emnebeskrivelsen" })).toBeVisible();
 });

@@ -78,7 +78,6 @@ export const ToolboxTopicContainer = ({ subject, topicId, topicList, setCrumbs, 
   return (
     <ToolboxTopicWrapper
       subject={subject}
-      loading={loading}
       topic={data.topic}
       resourceTypes={data.resourceTypes}
       topicList={topicList}

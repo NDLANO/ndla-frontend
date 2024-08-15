@@ -10,9 +10,9 @@ import { createRef, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { Heading, Text } from "@ndla/typography";
-import { HomeBreadcrumb, LayoutItem, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { HomeBreadcrumb, OneColumn, SimpleBreadcrumbItem } from "@ndla/ui";
 import MultidisciplinaryTopicWrapper from "./components/MultidisciplinaryTopicWrapper";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
@@ -46,12 +46,30 @@ const multidisciplinarySubjectPageQuery = gql`
   ${MultidisciplinaryTopicWrapper.fragments.subject}
 `;
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 32px 0px;
-`;
+const StyledOneColumn = styled(OneColumn, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlock: "xxlarge",
+    minHeight: "surface.xxlarge",
+  },
+});
+
+const IntroductionWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const IntroductionText = styled(Text, {
+  base: {
+    maxWidth: "surface.xlarge",
+  },
+});
+
 const selectionLimit = 2;
 
 const MultidisciplinarySubjectPage = () => {
@@ -137,41 +155,34 @@ const MultidisciplinarySubjectPage = () => {
         </>
       )}
       <main>
-        <OneColumn wide>
-          <Header>
-            <LayoutItem layout="extend">
-              <HomeBreadcrumb items={breadCrumbs} />
-              <Heading
-                element="h1"
-                headingStyle="h1-resource"
-                id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-                tabIndex={-1}
-              >
-                {t("frontpageMultidisciplinarySubject.heading")}
-              </Heading>
-              <Text textStyle="ingress">{t("frontpageMultidisciplinarySubject.text")}</Text>
-            </LayoutItem>
-          </Header>
-        </OneColumn>
-        <OneColumn wide>
-          <LayoutItem layout="extend">
-            <NavigationBox items={mainTopics} />
-            {selectedTopics.map((topicId, index) => (
-              <div key={index} ref={refs[index]}>
-                <MultidisciplinaryTopicWrapper
-                  index={index}
-                  setCrumbs={setTopicCrumbs}
-                  disableNav={index >= selectionLimit - 1}
-                  topicId={topicId}
-                  subjectId={subject.id}
-                  subTopicId={selectedTopics[index + 1]}
-                  subject={subject}
-                  showSubtopics={index >= selectionLimit - 1}
-                />
-              </div>
-            ))}
-          </LayoutItem>
-        </OneColumn>
+        <StyledOneColumn wide>
+          <HomeBreadcrumb items={breadCrumbs} />
+          <IntroductionWrapper>
+            <Heading
+              textStyle="heading.medium"
+              id={selectedTopics.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
+            >
+              {t("frontpageMultidisciplinarySubject.heading")}
+            </Heading>
+            <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+          </IntroductionWrapper>
+          <NavigationBox items={mainTopics} />
+          {selectedTopics.map((topicId, index) => (
+            <div key={index} ref={refs[index]}>
+              <MultidisciplinaryTopicWrapper
+                index={index}
+                setCrumbs={setTopicCrumbs}
+                disableNav={index >= selectionLimit - 1}
+                topicId={topicId}
+                subjectId={subject.id}
+                subTopicId={selectedTopics[index + 1]}
+                subject={subject}
+                showSubtopics={index >= selectionLimit - 1}
+              />
+            </div>
+          ))}
+        </StyledOneColumn>
       </main>
     </>
   );

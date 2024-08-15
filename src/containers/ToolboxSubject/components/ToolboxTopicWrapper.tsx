@@ -36,14 +36,13 @@ interface Props {
   resourceTypes?: GQLToolboxTopicWrapper_ResourceTypeDefinitionFragment[];
   topicList: Array<string>;
   index: number;
-  loading?: boolean;
 }
 
 const getDocumentTitle = (name: string, t: TFunction) => {
   return htmlTitle(name, [t("htmlTitles.titleTemplate")]);
 };
 
-const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, loading }: Props) => {
+const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
@@ -66,14 +65,9 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
   }, [topic.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
-      />
-    );
-  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
+    if (!embedMeta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} />;
+  }, [embedMeta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
@@ -118,11 +112,8 @@ const ToolboxTopicWrapper = ({ subject, topicList, index, topic, resourceTypes, 
       )}
       <Topic
         id={topic.id === topicList[topicList.length - 1] ? SKIP_TO_CONTENT_ID : undefined}
-        frame={subTopics?.length === 0}
-        isLoading={loading}
         title={parse(topic.article.htmlTitle ?? "")}
         introduction={parse(topic.article.htmlIntroduction ?? "")}
-        metaImage={topic.article.metaImage}
         visualElementEmbedMeta={embedMeta}
         visualElement={visualElement}
       >
@@ -165,37 +156,12 @@ export const toolboxTopicWrapperFragments = {
         }
       }
       article {
-        title
+        grepCodes
         htmlTitle
-        introduction
         htmlIntroduction
-        copyright {
-          license {
-            license
-          }
-          creators {
-            name
-            type
-          }
-          processors {
-            name
-            type
-          }
-          rightsholders {
-            name
-            type
-          }
-        }
-        metaImage {
-          alt
-          url
-        }
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {
             content
-            meta {
-              ...TopicVisualElementContent_Meta
-            }
           }
         }
       }
@@ -207,7 +173,6 @@ export const toolboxTopicWrapperFragments = {
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-    ${TopicVisualElementContent.fragments.metadata}
   `,
 };
 
