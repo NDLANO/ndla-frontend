@@ -178,8 +178,12 @@ const StyledSafeLink = styled(SafeLink, {
 
 const ArenaCardWrapper = styled("li", {
   base: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
     listStyle: "none",
     padding: "0",
+    position: "relative",
   },
 });
 
@@ -206,7 +210,6 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
         name={title}
         disabled={!isEditing || items.length < 2}
         type="category"
-        onClick={(e) => e.stopPropagation()}
         {...attributes}
       />
       <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
