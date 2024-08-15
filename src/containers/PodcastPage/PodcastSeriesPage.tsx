@@ -32,11 +32,11 @@ import {
   ArticleHeader,
   ArticleHGroup,
   ArticleWrapper,
-  ContentPlaceholder,
   ContentTypeBadgeNew,
   HomeBreadcrumb,
   OneColumn,
 } from "@ndla/ui";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
