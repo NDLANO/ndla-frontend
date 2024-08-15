@@ -108,13 +108,11 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
 
   const path = subject ? `/${removeUrn(subject.id)}` : "";
 
-  const test = false;
-
   return (
     <>
       <DrawerPortion>
         <BackButton onGoBack={onCloseMenuPortion} title={t("masthead.menu.goToMainMenu")} homeButton />
-        {subject && test ? (
+        {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
