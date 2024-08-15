@@ -72,7 +72,7 @@ const messages = {
       removed: "Removed",
       showTags: "Show tags",
       tagsDialogTitle: "Tags related to resource {{title}}",
-      noTags: "No tags ...",
+      noTags: "No tags.",
     },
   },
   myNdla: {

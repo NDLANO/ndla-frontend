@@ -72,7 +72,7 @@ const messages = {
       removed: "Fjernet",
       showTags: "Vis emneknaggar",
       tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
-      noTags: "Ingen emneknaggar ...",
+      noTags: "Ingen emneknaggar.",
     },
   },
   myNdla: {

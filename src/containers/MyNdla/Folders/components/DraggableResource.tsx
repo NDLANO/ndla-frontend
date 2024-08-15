@@ -12,15 +12,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { HashTag, TagOutlined } from "@ndla/icons/common";
 import { DeleteForever, FolderLine, LinkMedium } from "@ndla/icons/editor";
-import {
-  Text,
-  Button,
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@ndla/primitives";
+import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
@@ -46,12 +38,6 @@ const StyledTagsWrapper = styled("div", {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: "xsmall",
-  },
-});
-
-const StyledDialogCloseTrigger = styled(DialogCloseTrigger, {
-  base: {
-    alignSelf: "flex-end",
   },
 });
 
@@ -168,8 +154,8 @@ const DraggableResource = ({
             <DialogBody>
               {resource.tags.length ? (
                 <StyledTagsWrapper>
-                  {resource.tags.map((tag, index) => (
-                    <SafeLinkButton variant="primary" size="small" key={`${tag}_${index}`} to={routes.myNdla.tag(tag)}>
+                  {resource.tags.map((tag) => (
+                    <SafeLinkButton variant="primary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
                       <HashTag />
                       {tag}
                     </SafeLinkButton>
@@ -178,9 +164,6 @@ const DraggableResource = ({
               ) : (
                 <Text>{t("myndla.resource.noTags")}</Text>
               )}
-              <StyledDialogCloseTrigger asChild>
-                <Button variant="secondary">{t("cancel")}</Button>
-              </StyledDialogCloseTrigger>
             </DialogBody>
           </DialogContent>
         ),
