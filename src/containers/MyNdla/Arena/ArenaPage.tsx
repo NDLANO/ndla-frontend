@@ -33,7 +33,7 @@ const StyledContainer = styled("div", {
 
 const StyledHeading = styled(Heading, {
   base: {
-    marginTop: "large",
+    marginBlockStart: "large",
   },
 });
 

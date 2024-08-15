@@ -150,7 +150,7 @@ const StyledSafeLink = styled(SafeLink, {
           backgroundColor: "surface.disabled",
         },
       },
-      "& [data-name='hover']": {
+      "& [data-title='hover']": {
         textDecoration: "none",
       },
       "& [data-normal-icon='']": {
@@ -215,7 +215,7 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
           <StyledQuestionAnswerFill data-hover-icon="" />
           <SpacingContainer>
             <div>
-              <StyledHeader data-name="hover" color="text.strong">
+              <StyledHeader data-title="hover" color="text.strong">
                 {title}
               </StyledHeader>
               <StyledDescriptionText>{subText}</StyledDescriptionText>
