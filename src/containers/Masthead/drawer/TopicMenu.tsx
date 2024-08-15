@@ -16,6 +16,7 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
+import config from "../../../config";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
@@ -79,6 +80,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     () => getResourceGroups(data?.resourceTypes ?? [], sortedResources),
     [data?.resourceTypes, sortedResources],
   );
+  const to = config.enablePrettyUrls ? topic.url : topic.path;
 
   return (
     <DrawerPortion>
@@ -90,7 +92,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             aria-current={location.pathname === topic.path ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
-            to={topic.path}
+            to={to}
             onClick={onClose}
             id={`header-${topic.id}`}
           >
@@ -112,27 +114,31 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         {!isUngrouped
           ? groupedResources.map((group) => (
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-                {group.resources?.map((res) => (
-                  <DrawerMenuItem
-                    id={`${topic.id}-${res.id}`}
-                    type="link"
-                    to={res.path}
-                    current={res.path === location.pathname}
-                    onClose={onClose}
-                    key={res.id}
-                  >
-                    {res.name}
-                  </DrawerMenuItem>
-                ))}
+                {group.resources?.map((res) => {
+                  const to = config.enablePrettyUrls ? res.url : res.path;
+                  return (
+                    <DrawerMenuItem
+                      id={`${topic.id}-${res.id}`}
+                      type="link"
+                      to={to}
+                      current={to === location.pathname}
+                      onClose={onClose}
+                      key={res.id}
+                    >
+                      {res.name}
+                    </DrawerMenuItem>
+                  );
+                })}
               </ResourceTypeList>
             ))
           : sortedResources.map((res) => {
+              const to = config.enablePrettyUrls ? res.url : res.path;
               return (
                 <DrawerMenuItem
                   id={`${topic.id}-${res.id}`}
                   type="link"
-                  to={res.path}
-                  current={res.path === location.pathname}
+                  to={to}
+                  current={to === location.pathname}
                   onClose={onClose}
                   key={res.id}
                 >

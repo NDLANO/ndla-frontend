@@ -50,7 +50,7 @@ const contextFragment = gql`
 `;
 
 const resourceContextPageQuery = gql`
-  query resourceContextPage($contextId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+  query resourceContextPage($contextId: String!, $transformArgs: TransformedArticleContentInput) {
     resourceTypes {
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition

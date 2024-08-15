@@ -19,8 +19,8 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
+import config from "../../../config";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -106,15 +106,14 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject ? `/${removeUrn(subject.id)}` : "";
-
-  const test = false;
+  const subjectPath = config.enablePrettyUrls ? subject?.url : subject?.path;
+  const path = subjectPath ?? "";
 
   return (
     <>
       <DrawerPortion>
         <BackButton onGoBack={onCloseMenuPortion} title={t("masthead.menu.goToMainMenu")} homeButton />
-        {subject && test ? (
+        {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
@@ -130,24 +129,27 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
               </DrawerHeaderLink>
             </DrawerListItem>
 
-            {groupedTopics.map((t) => (
-              <DrawerMenuItem
-                id={t.id}
-                key={t.id}
-                type="button"
-                current={t.path === location.pathname}
-                onClick={(expanded) => {
-                  if (expanded) {
-                    setTopicPathIds([]);
-                  } else {
-                    addTopic(t, 0);
-                  }
-                }}
-                active={topicPath[0]?.id === t.id}
-              >
-                {t.name}
-              </DrawerMenuItem>
-            ))}
+            {groupedTopics.map((t) => {
+              const path = config.enablePrettyUrls ? t.url : t.path;
+              return (
+                <DrawerMenuItem
+                  id={t.id}
+                  key={t.id}
+                  type="button"
+                  current={path === location.pathname}
+                  onClick={(expanded) => {
+                    if (expanded) {
+                      setTopicPathIds([]);
+                    } else {
+                      addTopic(t, 0);
+                    }
+                  }}
+                  active={topicPath[0]?.id === t.id}
+                >
+                  {t.name}
+                </DrawerMenuItem>
+              );
+            })}
           </DrawerList>
         ) : (
           <VStack gap="small" justify="flex-start">
@@ -181,11 +183,14 @@ SubjectMenu.fragments = {
     fragment SubjectMenu_Subject on Node {
       id
       name
+      path
+      url
       allTopics: children(nodeType: TOPIC, recursive: true) {
         id
         name
         parentId
         path
+        url
       }
       ...TopicMenu_Subject
     }

@@ -2974,7 +2974,9 @@ export type GQLSubjectMenu_SubjectFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  allTopics?: Array<{ __typename?: "Node"; id: string; name: string; parentId?: string; path: string }>;
+  path: string;
+  url: string;
+  allTopics?: Array<{ __typename?: "Node"; id: string; name: string; parentId?: string; path: string; url: string }>;
 } & GQLTopicMenu_SubjectFragment;
 
 export type GQLTopicMenu_SubjectFragment = { __typename?: "Node"; id: string; name: string };
@@ -4478,7 +4480,6 @@ export type GQLContextPage_ContextFragment = {
 
 export type GQLResourceContextPageQueryVariables = Exact<{
   contextId: Scalars["String"]["input"];
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
