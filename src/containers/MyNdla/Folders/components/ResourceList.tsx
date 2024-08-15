@@ -15,8 +15,6 @@ import { Reference } from "@apollo/client/cache";
 import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import DraggableResource from "./DraggableResource";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
@@ -28,12 +26,6 @@ interface Props {
   viewType: ViewType;
   resourceRefId?: string;
 }
-
-const ResourceListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
 
 const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const { t } = useTranslation();
@@ -106,41 +98,39 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
   return (
-    <ResourceListWrapper>
-      <BlockWrapper data-type={viewType}>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={sortResourceIds}
-          accessibility={{ announcements }}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    <BlockWrapper data-type={viewType}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={sortResourceIds}
+        accessibility={{ announcements }}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      >
+        <SortableContext
+          items={sortedResources}
+          disabled={sortedResources.length < 2}
+          strategy={verticalListSortingStrategy}
         >
-          <SortableContext
-            items={sortedResources}
-            disabled={sortedResources.length < 2}
-            strategy={verticalListSortingStrategy}
-          >
-            {resources.map((resource, index) => {
-              const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-              return (
-                <DraggableResource
-                  resource={resource}
-                  key={resource.id}
-                  index={index}
-                  loading={loading}
-                  viewType={viewType}
-                  resourceMeta={resourceMeta}
-                  resources={resources}
-                  setFocusId={setFocusId}
-                  selectedFolder={selectedFolder}
-                  resourceRefId={resourceRefId}
-                />
-              );
-            })}
-          </SortableContext>
-        </DndContext>
-      </BlockWrapper>
-    </ResourceListWrapper>
+          {resources.map((resource, index) => {
+            const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+            return (
+              <DraggableResource
+                resource={resource}
+                key={resource.id}
+                index={index}
+                loading={loading}
+                viewType={viewType}
+                resourceMeta={resourceMeta}
+                resources={resources}
+                setFocusId={setFocusId}
+                selectedFolder={selectedFolder}
+                resourceRefId={resourceRefId}
+              />
+            );
+          })}
+        </SortableContext>
+      </DndContext>
+    </BlockWrapper>
   );
 };
 

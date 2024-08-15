@@ -48,12 +48,7 @@ interface Props {
 }
 
 const iframePageQuery = gql`
-  query iframePage(
-    $articleId: String!
-    $subjectId: String
-    $taxonomyId: String!
-    $transformArgs: TransformedArticleContentInput
-  ) {
+  query iframePage($articleId: String!, $taxonomyId: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }

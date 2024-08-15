@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { spacing } from "@ndla/core";
+import { OneColumn } from "@ndla/ui";
 import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
@@ -23,8 +24,8 @@ import {
 } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { Breadcrumb } from "../../interfaces";
-import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
+import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
@@ -163,15 +164,20 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
           {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
-      <Article
-        isPlainArticle
-        id={skipToContentId}
-        article={article}
-        oembed={data?.article?.oembed}
-        {...getArticleProps(resource)}
-      >
-        {path ? <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} /> : <></>}
-      </Article>
+      <OneColumn>
+        <Article
+          id={skipToContentId}
+          article={article}
+          oembed={data?.article?.oembed}
+          contentType={getContentType(resource)}
+        >
+          {path ? (
+            <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
+          ) : (
+            <></>
+          )}
+        </Article>
+      </OneColumn>
     </>
   );
 };

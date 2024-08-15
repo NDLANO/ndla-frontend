@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, LayoutItem, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
+import { LayoutItem, OneColumn, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
@@ -31,7 +31,6 @@ import {
   GQLTaxBase,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
-import { getArticleProps } from "../../util/getArticleProps";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
@@ -202,13 +201,11 @@ const ArticlePage = ({
             path={resource.path}
             id={skipToContentId}
             article={article}
-            resourceType={contentType}
-            isResourceArticle
             printUrl={printUrl}
             subjectId={subjectId}
             showFavoriteButton
             oembed={article.oembed}
-            {...getArticleProps(resource)}
+            contentType={contentType}
           />
           <LayoutItem layout="extend">
             <Resources

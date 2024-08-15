@@ -36,6 +36,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     topic: node(id: $topicId, rootId: $subjectId) {
       id
       article {
+        introduction
         metaDescription
         tags
         metaImage {

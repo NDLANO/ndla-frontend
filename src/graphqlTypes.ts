@@ -2307,11 +2307,8 @@ export type GQLArticle_ArticleFragment = {
   updated: string;
   supportedLanguages?: Array<string>;
   grepCodes?: Array<string>;
-  oldNdlaUrl?: string;
-  introduction?: string;
   htmlIntroduction?: string;
-  conceptIds?: Array<number>;
-  revisionDate?: string;
+  htmlTitle: string;
   language: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
@@ -2331,7 +2328,6 @@ export type GQLArticle_ArticleFragment = {
       }>;
     };
   };
-  relatedContent?: Array<{ __typename?: "RelatedContent"; title: string; url: string }>;
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLArticleContents_ArticleFragment = {
@@ -3051,6 +3047,7 @@ export type GQLMultidisciplinarySubjectArticlePageQuery = {
     id: string;
     article?: {
       __typename?: "Article";
+      introduction?: string;
       metaDescription: string;
       tags?: Array<string>;
       metaImage?: { __typename?: "MetaImage"; url: string };
@@ -4303,7 +4300,6 @@ export type GQLPlainArticleContainer_ArticleFragment = {
 
 export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -4323,7 +4319,6 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
 
 export type GQLPlainLearningpathPageQueryVariables = Exact<{
   pathId: Scalars["String"]["input"];
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -4959,7 +4954,6 @@ export type GQLIframeArticlePage_ResourceFragment = {
 
 export type GQLIframePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
   taxonomyId: Scalars["String"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
