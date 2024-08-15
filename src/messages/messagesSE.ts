@@ -46,6 +46,7 @@ const messages = {
     podcasts: "Podkasttat",
     noResults: "...Eai leat oasit",
     subtitle: "Guldal ja oahpa!",
+    pagination: "Podkastsider",
   },
   subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
   searchPage: {

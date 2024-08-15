@@ -47,6 +47,7 @@ const messages = {
     podcasts: "Podcasts",
     noResults: "...No episodes",
     subtitle: "Listen and learn!",
+    pagination: "Podcast pages",
   },
   subjectsPage: { tabFilter: "Which subjects would you like to show?" },
   searchPage: {

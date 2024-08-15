@@ -214,7 +214,7 @@ const PodcastSeriesPage = () => {
                   <Text>{t("podcastPage.noResults")}</Text>
                 )}
               </ArticleContent>
-              {podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
+              {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
                 <ArticleFooter>
                   <AccordionRoot multiple>
                     <AccordionItem value="rulesForUse">
