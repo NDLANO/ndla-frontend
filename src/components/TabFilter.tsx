@@ -23,7 +23,7 @@ import { styled } from "@ndla/styled-system/jsx";
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
 });
-const StyledText = styled(Text, { base: { marginBlock: "small" } });
+const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
 
 interface Option {
   value: string;

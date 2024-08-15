@@ -25,8 +25,8 @@ const ArticleContents = ({ article, scripts, oembed }: Props) => {
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <ArticleContent>{article.transformedContent.content}</ArticleContent>
-      <ArticleFooter>
+      <ArticleContent padded>{article.transformedContent.content}</ArticleContent>
+      <ArticleFooter padded>
         {article.transformedContent?.metaData?.footnotes?.length ? (
           <ArticleFootNotes footNotes={article.transformedContent.metaData?.footnotes} />
         ) : undefined}

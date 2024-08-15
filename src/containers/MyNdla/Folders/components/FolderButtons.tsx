@@ -10,7 +10,6 @@ import { Dispatch, SetStateAction, useContext, useRef, useCallback, memo, useSta
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDialogContext } from "@ark-ui/react";
-import styled from "@emotion/styled";
 import { CloseLine, FileCopyLine } from "@ndla/icons/action";
 import { ShareFill, ShareArrow } from "@ndla/icons/common";
 import { Button } from "@ndla/primitives";
@@ -30,11 +29,6 @@ interface FolderButtonProps {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   selectedFolder: GQLFolder | null;
 }
-
-const StyledListItem = styled.li`
-  margin: 0;
-  padding: 0;
-`;
 
 const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
   const { t } = useTranslation();
@@ -99,7 +93,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
 
   const unShareButton =
     selectedFolder && isFolderShared ? (
-      <StyledListItem key="unShareFolderButton">
+      <li key="unShareFolderButton">
         <Button
           variant="tertiary"
           ref={unShareRef}
@@ -120,11 +114,11 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           <CloseLine size="small" />
           {t("myNdla.folder.sharing.button.unShare")}
         </Button>
-      </StyledListItem>
+      </li>
     ) : null;
 
   const shareButton = selectedFolder ? (
-    <StyledListItem key="shareFolderButton">
+    <li key="shareFolderButton">
       <FolderShareModal
         key="shareFolderButton"
         folder={selectedFolder}
@@ -153,23 +147,23 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           {t("myNdla.folder.sharing.button.shareShort")}
         </Button>
       </FolderShareModal>
-    </StyledListItem>
+    </li>
   ) : null;
 
   const addFolderButton = showAddButton ? (
-    <StyledListItem key="createFolderButton">
+    <li key="createFolderButton">
       <FolderCreateModal key="createFolderButton" onSaved={onFolderAdded} parentFolder={selectedFolder} />
-    </StyledListItem>
+    </li>
   ) : null;
 
   const editFolderButton = selectedFolder ? (
-    <StyledListItem key="editFolderButton">
+    <li key="editFolderButton">
       <FolderEditModal key="editFolderButton" onSaved={onFolderUpdated} folder={selectedFolder} />
-    </StyledListItem>
+    </li>
   ) : null;
 
   const deleteFolderButton = selectedFolder?.id ? (
-    <StyledListItem key="deleteFolderButton">
+    <li key="deleteFolderButton">
       <FolderDeleteModal
         key="deleteFolderButton"
         onDelete={onDeleteFolder}
@@ -181,12 +175,12 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           }
         }}
       />
-    </StyledListItem>
+    </li>
   ) : null;
 
   const copySharedFolderLink =
     selectedFolder && isFolderShared ? (
-      <StyledListItem key="copySharedLink">
+      <li key="copySharedLink">
         <Button
           key="copySharedLink"
           variant="tertiary"
@@ -203,12 +197,12 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           <FileCopyLine size="small" />
           {t("myNdla.folder.sharing.button.shareLink")}
         </Button>
-      </StyledListItem>
+      </li>
     ) : null;
 
   const previewFolderButton =
     selectedFolder && isFolderShared ? (
-      <StyledListItem key="previewFolder">
+      <li key="previewFolder">
         <SafeLinkButton
           key="previewFolder"
           variant="tertiary"
@@ -219,7 +213,7 @@ const FolderButtons = ({ setFocusId, selectedFolder }: FolderButtonProps) => {
           <ShareArrow size="small" />
           {t("myNdla.folder.sharing.button.goTo")}
         </SafeLinkButton>
-      </StyledListItem>
+      </li>
     ) : null;
 
   if (!showShareFolder) {

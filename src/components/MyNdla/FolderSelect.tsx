@@ -8,11 +8,20 @@
 
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 import { IFolderData, IResource } from "@ndla/types-backend/myndla-api";
 import { TreeStructure } from "@ndla/ui";
-import { ComboboxContainer } from "./AddResourceToFolder";
 import NewFolder from "./NewFolder";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+
+// TODO: Refactor this once TreeStructure is updated
+const ComboboxContainer = styled("div", {
+  base: {
+    display: "flex",
+    maxHeight: "320px",
+    overflow: "hidden",
+  },
+});
 
 interface Props {
   folders: GQLFolder[];

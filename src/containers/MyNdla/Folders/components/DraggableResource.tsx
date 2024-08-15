@@ -10,25 +10,36 @@ import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { HashTag, TagOutlined } from "@ndla/icons/common";
 import { DeleteForever, FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem, DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
 import BlockResource from "../../../../components/MyNdla/BlockResource";
 import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import {
-  GQLFolder,
-  GQLFolderResource,
-  GQLFolderResourceMeta,
-  GQLFolderResourceResourceType,
-} from "../../../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
+import { getResourceTypesForResource } from "../../../../util/folderHelpers";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../../folderMutations";
 import { ViewType } from "../FoldersPage";
+
+const StyledTagsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
 
 interface Props {
   resource: GQLFolderResource;
@@ -130,6 +141,35 @@ const DraggableResource = ({
       },
       {
         type: "dialog",
+        value: "showTags",
+        icon: <TagOutlined />,
+        text: t("myndla.resource.showTags"),
+        isModal: true,
+        modalContent: () => (
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("myndla.resource.tagsDialogTitle", { title: resourceMeta?.title ?? "" })}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              {resource.tags.length ? (
+                <StyledTagsWrapper>
+                  {resource.tags.map((tag) => (
+                    <SafeLinkButton variant="primary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
+                      <HashTag />
+                      {tag}
+                    </SafeLinkButton>
+                  ))}
+                </StyledTagsWrapper>
+              ) : (
+                <Text>{t("myndla.resource.noTags")}</Text>
+              )}
+            </DialogBody>
+          </DialogContent>
+        ),
+      },
+      {
+        type: "dialog",
         value: "removeResource",
         icon: <DeleteForever />,
         text: t("myNdla.resource.remove"),
@@ -149,7 +189,7 @@ const DraggableResource = ({
         variant: "destructive",
       },
     ];
-  }, [examLock, index, onDeleteFolder, resource, selectedFolder, t, toast]);
+  }, [examLock, index, onDeleteFolder, resource, resourceMeta?.title, selectedFolder, t, toast]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
@@ -159,18 +199,16 @@ const DraggableResource = ({
   };
 
   const [resourceTypes, resourcePath] = useMemo(() => {
-    let resTypes: GQLFolderResourceResourceType[] = [];
     let resPath = resource.path;
 
-    if (!resourceMeta) return [resTypes, resPath];
+    if (!resourceMeta) return [[], resPath];
 
-    resTypes = resourceMeta.resourceTypes;
+    const resTypes = getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t);
 
     if (resourceMeta.resourceTypes.length < 1) {
       if (resource.resourceType === "article" || resource.resourceType === "learningpath") {
         resPath = `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`;
       }
-      resTypes = [{ id: resource.resourceType, name: t(`contentTypes.${resource.resourceType}`) }];
     }
 
     return [resTypes, resPath];

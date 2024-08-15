@@ -58,12 +58,6 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const StyledPaginationRoot = styled(PaginationRoot, {
-  base: {
-    justifyContent: "center",
-  },
-});
-
 const SpinnerWrapper = styled("div", {
   base: {
     display: "flex",
@@ -179,7 +173,7 @@ const PodcastSeriesListPage = () => {
                 )}
               </ArticleContent>
               <ArticleFooter>
-                <StyledPaginationRoot
+                <PaginationRoot
                   page={page}
                   onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
                   count={data?.podcastSeriesSearch?.totalCount ?? 0}
@@ -218,7 +212,7 @@ const PodcastSeriesListPage = () => {
                       <ArrowRightShortLine />
                     </Button>
                   </PaginationNextTrigger>
-                </StyledPaginationRoot>
+                </PaginationRoot>
               </ArticleFooter>
             </ArticleWrapper>
           </OneColumn>

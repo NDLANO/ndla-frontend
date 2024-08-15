@@ -9,8 +9,6 @@
 import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import {
   Button,
   DialogCloseTrigger,
@@ -19,7 +17,9 @@ import {
   FieldLabel,
   FieldRoot,
   FieldTextArea,
+  Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GQLFolder } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -31,22 +31,21 @@ interface EditFolderFormProps {
   loading?: boolean;
 }
 
-const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-  margin-top: ${spacing.small};
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "xsmall",
+  },
+});
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledParagraph = styled.p`
-  margin: 0;
-`;
+const StyledForm = styled("form", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 export interface FolderFormValues {
   name: string;
@@ -122,7 +121,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           </FieldRoot>
         )}
       />
-      <StyledParagraph>{t("myNdla.folder.sharedWarning")}</StyledParagraph>
+      <Text>{t("myNdla.folder.sharedWarning")}</Text>
       <ButtonRow>
         <DialogCloseTrigger asChild>
           <Button variant="secondary">{t("cancel")}</Button>

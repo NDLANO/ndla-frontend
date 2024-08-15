@@ -28,7 +28,7 @@ interface MatchParams extends TypedParams {
 }
 
 const plainArticlePageQuery = gql`
-  query plainArticlePage($articleId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+  query plainArticlePage($articleId: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId) {
       ...PlainArticleContainer_Article
     }
