@@ -98,7 +98,7 @@ const ArenaPage = () => {
           refetchCategories={refetchCategories}
         />
       ) : null}
-      <Text textStyle="body.small">
+      <Text>
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
