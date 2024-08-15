@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
-  MediaImageWrapper,
+  ImageAndLicenseWrapper,
 } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
@@ -97,7 +97,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaImageWrapper>
+        <ImageAndLicenseWrapper>
           <MediaListLicense
             licenseType={image.copyright.license.license}
             title={t("license.images.rules")}
@@ -117,7 +117,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             )}
           </MediaListLicense>
           <Image alt={image.altText} src={image.src} fallbackWidth={300} />
-        </MediaImageWrapper>
+        </ImageAndLicenseWrapper>
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>

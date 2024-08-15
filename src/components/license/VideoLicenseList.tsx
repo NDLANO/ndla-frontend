@@ -33,7 +33,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
-  MediaImageWrapper,
+  ImageAndLicenseWrapper,
 } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
@@ -72,7 +72,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaImageWrapper>
+        <ImageAndLicenseWrapper>
           <MediaListLicense
             licenseType={video.copyright?.license?.license ?? ""}
             title={t("license.video.rules")}
@@ -92,7 +92,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             )}
           </MediaListLicense>
           {video.cover && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
-        </MediaImageWrapper>
+        </ImageAndLicenseWrapper>
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (

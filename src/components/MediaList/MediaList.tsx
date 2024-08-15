@@ -234,7 +234,7 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   );
 };
 
-export const MediaImageWrapper = styled("div", {
+export const ImageAndLicenseWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
