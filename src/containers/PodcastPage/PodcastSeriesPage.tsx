@@ -193,7 +193,7 @@ const PodcastSeriesPage = () => {
               />
             </HeroContent>
             <ArticleWrapper>
-              <ArticleHeader>
+              <ArticleHeader padded>
                 <ArticleHGroup>
                   <ContentTypeBadgeNew contentType={"podcast"} />
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
@@ -202,7 +202,7 @@ const PodcastSeriesPage = () => {
                 </ArticleHGroup>
                 <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
               </ArticleHeader>
-              <ArticleContent>
+              <ArticleContent padded>
                 {podcastSeries.content ? (
                   <StyledPodcastSeriesWrapper>
                     <Heading asChild consumeCss textStyle="title.medium">
@@ -215,7 +215,7 @@ const PodcastSeriesPage = () => {
                 )}
               </ArticleContent>
               {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
-                <ArticleFooter>
+                <ArticleFooter padded>
                   <AccordionRoot multiple>
                     <AccordionItem value="rulesForUse">
                       <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
