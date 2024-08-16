@@ -148,7 +148,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                 />
                 <Button
                   variant="primary"
-                  // TODO: Do we want size="small" here?
+                  size="small"
                   ref={replyToRef}
                   onClick={setReplyingTo}
                   disabled={isReplying || topic?.isLocked}

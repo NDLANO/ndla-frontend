@@ -8,8 +8,6 @@
 
 import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { BookmarkLine } from "@ndla/icons/action";
 import { InformationLine } from "@ndla/icons/common";
 import {
@@ -23,6 +21,7 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
@@ -33,13 +32,15 @@ import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-  padding-top: ${spacing.large};
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: "xsmall",
+    paddingBlockStart: "xxlarge",
+  },
+});
 
 interface SaveLinkProps {
   folder: GQLFolder;

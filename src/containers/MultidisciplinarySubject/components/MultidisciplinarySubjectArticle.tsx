@@ -6,7 +6,7 @@
  *
  */
 
-import { useRef, useMemo, useEffect, useContext } from "react";
+import { useMemo, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
@@ -40,7 +40,6 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const resourcesRef = useRef(null);
   const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
 
   useEffect(() => {
@@ -97,16 +96,12 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           myNdlaResourceType="multidisciplinary"
           id={skipToContentId}
           article={article}
-          label=""
-          isTopicArticle={false}
-          isResourceArticle={false}
-          showFavoriteButton={config.feideEnabled}
+          showFavoriteButton
           path={topic.path}
           oembed={article.oembed}
-        />
-        <div ref={resourcesRef}>
+        >
           <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-        </div>
+        </Article>
       </OneColumn>
     </main>
   );

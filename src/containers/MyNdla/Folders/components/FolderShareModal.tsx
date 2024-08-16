@@ -44,7 +44,6 @@ const FolderName = styled.span`
   border-radius: ${misc.borderRadius};
 `;
 
-// TODO: We need design for this
 const CopyLinkButton = styled(Button)`
   justify-content: space-between;
 `;

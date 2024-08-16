@@ -9,8 +9,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { breakpoints, mq } from "@ndla/core";
 import { CompassFill } from "@ndla/icons/common";
 import {
   Button,
@@ -26,6 +24,8 @@ import {
   TabsRoot,
   TabsTrigger,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
@@ -49,16 +49,28 @@ interface ElementType {
   groupedCoreElementItems?: CoreElementType[];
 }
 
-const CompetenceGoalsWrapper = styled.div`
-  height: 100%;
-  max-width: 960px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 32px;
-  ${mq.range({ from: breakpoints.mobile })} {
-    padding: 0;
-  }
-`;
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    paddingInline: "0",
+  },
+});
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    paddingInline: "0",
+  },
+});
+
+// const CompetenceGoalsWrapper = styled.div`
+//   height: 100%;
+//   max-width: 960px;
+//   width: 100%;
+//   margin: 0 auto;
+//   padding: 32px;
+//   ${mq.range({ from: breakpoints.mobile })} {
+//     padding: 0;
+//   }
+// `;
 
 const getUniqueCurriculums = (
   competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
@@ -208,15 +220,15 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
       </DialogTrigger>
       <Portal>
         <DialogContent>
-          <CompetenceGoalsWrapper>
-            <DialogHeader>
+          <OneColumn wide>
+            <StyledDialogHeader>
               <DialogTitle>
                 <CompassFill />
                 {t("competenceGoals.modalText")}
               </DialogTitle>
               <DialogCloseButton />
-            </DialogHeader>
-            <DialogBody>
+            </StyledDialogHeader>
+            <StyledDialogBody>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
                 orientation="horizontal"
@@ -237,8 +249,8 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                   </TabsContent>
                 ))}
               </TabsRoot>
-            </DialogBody>
-          </CompetenceGoalsWrapper>
+            </StyledDialogBody>
+          </OneColumn>
         </DialogContent>
       </Portal>
     </DialogRoot>

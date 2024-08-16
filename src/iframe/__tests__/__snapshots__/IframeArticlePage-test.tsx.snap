@@ -7,11 +7,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   >
     <main>
       <article
-        class="d_flex flex-d_column c_text.default gap_xxlarge bg_surface.default py_xsmall px_8% ai_center w_100% ov-wrap_break-word pos_relative tablet:py_medium desktop:py_xxlarge [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
-          class="d_flex flex-d_column gap_medium ai_flex-start w_100%"
+          class="d_flex flex-d_column bg_surface.default gap_medium ai_flex-start w_100% px_8% pbs_xsmall tablet:pbs_medium desktop:pbs_xxlarge"
         >
           <hgroup
             class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
@@ -20,7 +20,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               class="textStyle_heading.large"
               id="54"
               lang="no"
-              tabindex="-1"
             >
               Politiske skillelinjer
             </h1>
@@ -35,7 +34,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="ndla-article"
+          class="bg_surface.default px_8% pbs_xsmall tablet:pbe_medium desktop:pbe_xxlarge pbe_xsmall ndla-article"
         >
           <section>
             <p
@@ -47,7 +46,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </section>
         </section>
         <footer
-          class="d_flex flex-d_column gap_xxlarge w_100%"
+          class="d_flex flex-d_column bg_surface.default gap_xxlarge w_100% px_8% pbe_xsmall tablet:pbe_medium desktop:pbe_xxlarge"
         >
           <div
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
@@ -107,7 +106,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </h2>
                   <svg
                     aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg)"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg) motionReduce:trs_none motionReduce:trs-dur_0s"
                     data-icon=""
                     data-license="Apache License 2.0"
                     data-orientation="vertical"
@@ -127,7 +126,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 </button>
                 <div
                   aria-labelledby="accordion::r0::trigger:rulesForUse"
-                  class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in closed:anim_collapse-out bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
+                  class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in open:motionReduce:anim_none closed:anim_collapse-out closed:motionReduce:anim_none bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
                   data-orientation="vertical"
                   data-part="item-content"
                   data-scope="accordion"
@@ -160,7 +159,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       <button
                         aria-controls="tabs::r2::content-text"
                         aria-selected="true"
-                        class="d_inline-flex ai_center jc_center flex-sh_0 cursor_pointer textStyle_label.small fw_bold trs-dur_normal trs-prop_color,_background,_border-color trs-tmf_default white-space_nowrap px_small py_3xsmall z_1 hover:c_text.action hover:bd-c_stroke.hover hover:focusVisible:bd-c_stroke.default selected:c_text.strong disabled:c_text.subtle disabled:cursor_not-allowed disabled:hover:c_text.subtle disabled:hover:bd-c_stroke.default disabled:bd-c_stroke.default bd-c_stroke.default horizontal:bd-b_1px_solid vertical:bd-l_1px_solid vertical:jc_flex-start focusVisible:ring_none focusVisible:bdr_unset peer"
+                        class="d_inline-flex ai_center jc_center flex-sh_0 cursor_pointer textStyle_label.small fw_bold trs-dur_normal trs-prop_color,_background,_border-color trs-tmf_default white-space_nowrap px_small py_3xsmall z_1 hover:c_text.action hover:bd-c_stroke.hover hover:focusVisible:bd-c_stroke.default selected:c_text.strong disabled:c_text.subtle disabled:cursor_not-allowed disabled:hover:c_text.subtle disabled:hover:bd-c_stroke.default disabled:bd-c_stroke.default motionReduce:trs_none motionReduce:trs-dur_0s bd-c_stroke.default horizontal:bd-b_1px_solid vertical:bd-l_1px_solid vertical:jc_flex-start focusVisible:ring_none focusVisible:bdr_unset peer"
                         data-focus=""
                         data-orientation="horizontal"
                         data-ownedby="tabs::r2::list"
@@ -207,24 +206,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                           class="d_flex flex-d_column gap_medium [&_img]:w_100%"
                         >
                           <div
-                            class="d_flex flex-d_column gap_xsmall"
+                            class="d_flex flex-d_column gap_3xsmall"
                           >
-                            <div
-                              class="d_flex jc_space-between ai_center min-h_xxlarge"
-                            >
-                              <h3
-                                class="textStyle_title.small fw_semibold"
+                            <div>
+                              <div
+                                class="d_flex jc_space-between ai_center min-h_xxlarge"
                               >
-                                Regler for bruk av teksten "Politiske skillelinjer"
-                              </h3>
-                              <div />
+                                <h3
+                                  class="textStyle_title.small fw_semibold"
+                                >
+                                  Regler for bruk av teksten "Politiske skillelinjer"
+                                </h3>
+                                <div />
+                              </div>
+                              <ul
+                                class="li-t_disc li-pos_inside"
+                              />
                             </div>
-                            <ul
-                              class="li-t_disc li-pos_inside"
-                            />
-                            <div
-                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
-                            />
                           </div>
                           <div
                             about=""
@@ -237,69 +235,71 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               rel="dct:type"
                             />
                             <div
-                              class="d_flex flex-wrap_wrap gap_xsmall [&_>_a]:w_fit-content tabletDown:flex-d_column"
+                              class="d_flex flex-d_column gap_3xsmall"
                             >
-                              <div
-                                class="d_flex flex-d_column gap_xsmall"
+                              <ul
+                                content="Opphaver: Forfatter Someone"
+                                property="cc:attributionName"
                               >
-                                <ul
-                                  content="Opphaver: Forfatter Someone"
-                                  property="cc:attributionName"
+                                <li
+                                  class="wb_break-word"
                                 >
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Tittel: 
-                                      <span>
-                                        Politiske skillelinjer
-                                      </span>
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Opphaver: 
-                                      <span>
-                                        Forfatter Someone
-                                      </span>
-                                    </p>
-                                  </li>
-                                  <li>
-                                    <p
-                                      class="textStyle_body.medium"
-                                    >
-                                      Sist faglig oppdatert: 
-                                      <span>
-                                        09.01.2018
-                                      </span>
-                                    </p>
-                                  </li>
-                                </ul>
-                                <span>
-                                  <button
-                                    class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
-                                    type="button"
+                                  <p
+                                    class="textStyle_body.medium"
                                   >
-                                    <svg
-                                      aria-hidden="true"
-                                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                                      data-icon=""
-                                      data-license="Apache License 2.0"
-                                      data-source="RemixIcon"
-                                      fill="currentColor"
-                                      preserveAspectRatio="xMidYMid meet"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM5 8v12h10V8zm4-2h8v10h2V4H9z"
-                                      />
-                                    </svg>
-                                    Kopier kildehenvisning
-                                  </button>
-                                </span>
-                              </div>
+                                    Tittel: 
+                                    <span>
+                                      Politiske skillelinjer
+                                    </span>
+                                  </p>
+                                </li>
+                                <li
+                                  class="wb_break-word"
+                                >
+                                  <p
+                                    class="textStyle_body.medium"
+                                  >
+                                    Opphaver: 
+                                    <span>
+                                      Forfatter Someone
+                                    </span>
+                                  </p>
+                                </li>
+                                <li
+                                  class="wb_break-word"
+                                >
+                                  <p
+                                    class="textStyle_body.medium"
+                                  >
+                                    Sist faglig oppdatert: 
+                                    <span>
+                                      09.01.2018
+                                    </span>
+                                  </p>
+                                </li>
+                              </ul>
+                              <span>
+                                <button
+                                  class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
+                                  type="button"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                                    data-icon=""
+                                    data-license="Apache License 2.0"
+                                    data-source="RemixIcon"
+                                    fill="currentColor"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M7 6V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-3v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM5 8v12h10V8zm4-2h8v10h2V4H9z"
+                                    />
+                                  </svg>
+                                  Kopier kildehenvisning
+                                </button>
+                              </span>
                             </div>
                           </div>
                         </li>

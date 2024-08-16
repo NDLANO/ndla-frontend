@@ -6,16 +6,13 @@
  *
  */
 
-import parse from "html-react-parser";
 import { ReactElement, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { useComponentSize } from "@ndla/hooks";
-import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import { Article as UIArticle } from "@ndla/ui";
+import { useArticleCopyText } from "./articleHelpers";
 import FavoriteButton from "./FavoritesButton";
-import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
@@ -26,15 +23,11 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   id?: string;
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
-  resourceType?: string;
   isTopicArticle?: boolean;
   children?: ReactElement;
   contentType?: string;
-  label: string;
-  isResourceArticle?: boolean;
   printUrl?: string;
   subjectId?: string;
-  isPlainArticle?: boolean;
   isOembed?: boolean;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
@@ -45,37 +38,19 @@ interface Props {
 const Article = ({
   path,
   article,
-  resourceType,
   isTopicArticle = false,
   children,
   contentType,
-  label,
-  isResourceArticle = false,
   printUrl,
   id,
   subjectId,
-  isPlainArticle,
   isOembed = false,
   showFavoriteButton,
   myNdlaResourceType = "article",
   oembed,
-  ...rest
 }: Props) => {
-  const { t, i18n } = useTranslation();
   const { height = MastheadHeightPx } = useComponentSize("masthead");
-
-  const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
-  const published = new Date(year!, month! - 1, day!).toUTCString();
-  const copyText = webpageReferenceApa7CopyString(
-    article.title,
-    undefined,
-    published,
-    `${config.ndlaFrontendDomain}/article/${article.id}`,
-    article.copyright,
-    i18n.language,
-    "",
-    (id: string) => t(id),
-  );
+  const copyText = useArticleCopyText(article);
 
   const location = useLocation();
 
@@ -106,16 +81,8 @@ const Article = ({
   const art = {
     ...article,
     content: article.transformedContent?.content ?? "",
-    title: parse(article.htmlTitle!),
-    introduction: parse(article.htmlIntroduction!),
-    copyright: {
-      ...article.copyright,
-      license: article.copyright.license!,
-      creators: article.copyright.creators ?? [],
-      rightsholders: article.copyright.rightsholders ?? [],
-      processors: article.copyright.processors ?? [],
-      processed: article.copyright.processed ?? false,
-    },
+    title: article.transformedContent.title,
+    introduction: article.transformedContent.introduction,
     footNotes: article.transformedContent?.metaData?.footnotes ?? [],
   };
 
@@ -135,10 +102,9 @@ const Article = ({
           />
         ) : undefined
       }
-      lang={art.language === "nb" ? "no" : art.language}
+      lang={article.language === "nb" ? "no" : article.language}
       heartButton={
         path &&
-        config.feideEnabled &&
         showFavoriteButton && (
           <AddResourceToFolderModal
             resource={{
@@ -151,7 +117,6 @@ const Article = ({
           </AddResourceToFolderModal>
         )
       }
-      {...rest}
     >
       {children}
     </UIArticle>
@@ -166,10 +131,8 @@ Article.fragments = {
       updated
       supportedLanguages
       grepCodes
-      oldNdlaUrl
-      introduction
       htmlIntroduction
-      conceptIds
+      htmlTitle
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {
@@ -185,11 +148,6 @@ Article.fragments = {
           }
         }
       }
-      relatedContent(subjectId: $subjectId) {
-        title
-        url
-      }
-      revisionDate
       language
       ...LicenseBox_Article
     }

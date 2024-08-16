@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Portal, useDialogContext } from "@ark-ui/react";
 import { MenuLine } from "@ndla/icons/action";
+import { GridFill } from "@ndla/icons/common";
 import { ListCheck } from "@ndla/icons/editor";
 import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -187,6 +188,16 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
                 >
                   <ListCheck />
                   <Text textStyle="label.xsmall">{t("myNdla.detailedList")}</Text>
+                </ViewButton>
+                <ViewButton
+                  // TODO: Fix handling of active according to design
+                  variant={viewType === "block" ? "primary" : "secondary"}
+                  onClick={() => onViewTypeChange?.("block")}
+                  aria-label={t("myNdla.shortView")}
+                  title={t("myNdla.shortView")}
+                >
+                  <GridFill />
+                  <Text textStyle="label.xsmall">{t("myNdla.shortView")}</Text>
                 </ViewButton>
               </ViewButtonWrapper>
             </>

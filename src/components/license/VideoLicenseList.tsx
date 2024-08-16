@@ -16,7 +16,6 @@ import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -33,6 +32,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
+  ImageAndLicenseWrapper,
 } from "../MediaList/MediaList";
 
 interface VideoLicenseInfoProps {
@@ -71,25 +71,27 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
   return (
     <MediaListItem>
       <MediaListContent>
-        <MediaListLicense
-          licenseType={video.copyright?.license?.license ?? ""}
-          title={t("license.video.rules")}
-          sourceTitle={video.title}
-          sourceType="video"
-        >
-          {!isCopyrighted(video.copyright?.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: video.id,
-                path: `${config.ndlaFrontendDomain}/video/${video.id}`,
-                resourceType: "video",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {video.cover && <Image alt={video.title} src={video.cover} />}
+        <ImageAndLicenseWrapper>
+          <MediaListLicense
+            licenseType={video.copyright?.license?.license ?? ""}
+            title={t("license.video.rules")}
+            sourceTitle={video.title}
+            sourceType="video"
+          >
+            {!isCopyrighted(video.copyright?.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: video.id,
+                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  resourceType: "video",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {video.cover && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+        </ImageAndLicenseWrapper>
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
@@ -118,20 +120,18 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         resourceUrl={video.src}
         locale={i18n.language}
       >
-        <MediaListItemActions>
-          <MediaListContent>
-            <MediaListItemMeta items={items} />
-            {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
-          </MediaListContent>
-        </MediaListItemActions>
+        <MediaListContent>
+          <MediaListItemMeta items={items} />
+          {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
+            <CopyTextButton
+              stringToCopy={copyText}
+              copyTitle={t("license.copyTitle")}
+              hasCopiedTitle={t("license.hasCopiedTitle")}
+            >
+              <FileCopyLine />
+            </CopyTextButton>
+          )}
+        </MediaListContent>
       </MediaListItemBody>
     </MediaListItem>
   );
@@ -146,7 +146,7 @@ const VideoLicenseList = ({ videos }: Props) => {
   return (
     <MediaList>
       {unique.map((video) => (
-        <VideoLicenseInfo video={video} key={uuid()} />
+        <VideoLicenseInfo video={video} key={`video-${video.id}`} />
       ))}
     </MediaList>
   );

@@ -41,7 +41,6 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
       {...rest}
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
       type={"button"}
-      // TODO: Should this be another variant?
       variant="clear"
       tabIndex={0}
       {...listeners}

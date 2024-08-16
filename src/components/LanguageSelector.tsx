@@ -30,8 +30,6 @@ const LanguageSelectTrigger = styled(SelectTrigger, {
   },
 });
 
-// TODO: This should probably be a Menu.
-
 export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
   const { t, i18n } = useTranslation();
   return (

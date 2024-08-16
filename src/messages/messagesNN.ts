@@ -45,9 +45,9 @@ const messages = {
     episodes: "Episoder",
     podcast: "Podkast",
     podcasts: "Podkaster",
-    pageInfo: "Side {{page}} av {{lastPage}}",
     noResults: "...Ingen episoder",
     subtitle: "Lytt og lær!",
+    pagination: "Podkastsider",
   },
   subjectsPage: { tabFilter: "Kva fag vil du visa?" },
   searchPage: {
@@ -66,7 +66,14 @@ const messages = {
       ingressUnauthenticated:
         "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane. Logg inn for å få tilgang til praterobotane.",
     },
-    resource: { addedToFolder: 'Ressurs er lagt i "{{folder}}"', added: "Lagt til", removed: "Fjernet" },
+    resource: {
+      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
+      added: "Lagt til",
+      removed: "Fjernet",
+      showTags: "Vis emneknaggar",
+      tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
+      noTags: "Ingen emneknaggar.",
+    },
   },
   myNdla: {
     sharedFolder: {
@@ -163,6 +170,12 @@ const messages = {
     moreHits: "Vis fleire treff",
   },
   pagination: { next: "Neste", prev: "Forrige" },
+  programmePage: {
+    programmeSubjects: "Programfag",
+  },
+  aboutPage: {
+    nav: "Informasjonsider",
+  },
 };
 
 export default messages;

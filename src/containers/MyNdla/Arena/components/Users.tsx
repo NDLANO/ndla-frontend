@@ -37,8 +37,6 @@ const SearchInput = styled(Input, { base: { width: "35%" } });
 
 export const Cell = styled("div", { base: { whiteSpace: "nowrap" } });
 
-const StyledPaginationRoot = styled(PaginationRoot, { base: { display: "flex", justifyContent: "center" } });
-
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
@@ -95,7 +93,7 @@ const Users = () => {
         </StyledHeaderRow>
         <UserList loading={loading} users={users} />
       </div>
-      <StyledPaginationRoot
+      <PaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
         count={users?.totalCount ?? 0}
@@ -132,7 +130,7 @@ const Users = () => {
             <ArrowRightShortLine />
           </Button>
         </PaginationNextTrigger>
-      </StyledPaginationRoot>
+      </PaginationRoot>
     </>
   );
 };

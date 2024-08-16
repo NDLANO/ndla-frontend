@@ -110,7 +110,6 @@ const StyledOneColumn = styled(OneColumn, {
   },
 });
 
-// TODO: Check with designer that we even want this block :^)
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
@@ -149,7 +148,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                   <DialogCloseButton />
                 </DialogHeader>
                 <DialogBody>
-                  <Article article={transformedArticle} oembed={undefined} label="" />
+                  <Article article={transformedArticle} oembed={undefined} />
                 </DialogBody>
               </DialogContent>
             </DialogRoot>
