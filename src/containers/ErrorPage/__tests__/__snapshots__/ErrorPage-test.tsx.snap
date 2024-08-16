@@ -137,7 +137,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default max-w_1150px"
       >
         <svg
-          class="c_icon.onAction flex-sh_0"
+          class="c_icon.onAction flex-sh_0 print:c_icon.strong"
           height="383"
           viewBox="0 0 260.29 611.89"
           width="163"
