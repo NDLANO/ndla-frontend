@@ -1113,6 +1113,7 @@ type Query {
   arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
   arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
   arenaUser(username: String!): ArenaUser
+  arenaUserById(id: Int!): ArenaUser
   arenaUserV2(username: String!): ArenaUserV2
   article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
@@ -1208,7 +1209,7 @@ type Query {
   subjectpage(id: Int!): SubjectPage
   subjects(filterVisible: Boolean, ids: [String!], metadataFilterKey: String, metadataFilterValue: String): [Subject!]
   topic(id: String!, subjectId: String): Topic
-  topics(contentUri: String, filterVisible: Boolean): [Topic!]
+  topics(contentUri: String!, filterVisible: Boolean): [Topic!]
 }
 
 type Reference {

@@ -160,7 +160,7 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
       upvoted: post.upvoted,
       owner: {
         displayName: post.user.displayName,
-        id: -1,
+        id: post.user.id,
         username: post.user.username,
         location: post.user.location,
         groups: [],
@@ -225,14 +225,15 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
   }
 };
 
-export const useArenaUser = (username: string | undefined) => {
+export const useArenaUser = (username: string | number | undefined) => {
   const { arenaUser, loading } = myndlaQueries.useArenaUser({
-    variables: { username: username ?? "" },
+    variables: { username: typeof username === "string" ? username : "" },
     skip: !username || config.enableNodeBB,
   });
 
+  const id = typeof username === "number" ? username : -2;
   const { arenaUser: nodebbUser, loading: nodebbLoading } = nodebbQueries.useArenaUser({
-    variables: { username: username ?? "" },
+    variables: { id },
     skip: !username || !config.enableNodeBB,
   });
 
