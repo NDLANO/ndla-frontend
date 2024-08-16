@@ -101,7 +101,7 @@ type ArenaPost {
   topicId: Int!
   upvoted: Boolean!
   upvotes: Int!
-  user: ArenaUser!
+  user: ArenaUser
 }
 
 type ArenaPostV2 {

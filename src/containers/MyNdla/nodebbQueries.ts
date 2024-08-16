@@ -112,6 +112,7 @@ export const arenaRepliesFragment = gql`
     topicId
     isMainPost
     user {
+      id
       displayName
       profilePicture
       username

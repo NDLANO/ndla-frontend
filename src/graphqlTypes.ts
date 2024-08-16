@@ -126,7 +126,7 @@ export type GQLArenaPost = {
   topicId: Scalars["Int"]["output"];
   upvoted: Scalars["Boolean"]["output"];
   upvotes: Scalars["Int"]["output"];
-  user: GQLArenaUser;
+  user?: Maybe<GQLArenaUser>;
 };
 
 export type GQLArenaPostV2 = {
@@ -4037,7 +4037,14 @@ export type GQLArenaRepliesFragment = {
   isMainPost: boolean;
   deleted: boolean;
   toPid?: number;
-  user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+  user?: {
+    __typename?: "ArenaUser";
+    id: number;
+    displayName: string;
+    profilePicture?: string;
+    username: string;
+    location?: string;
+  };
 };
 
 export type GQLArenaPostFragment = {
@@ -4051,7 +4058,7 @@ export type GQLArenaPostFragment = {
   upvoted: boolean;
   deleted: boolean;
   toPid?: number;
-  user: {
+  user?: {
     __typename?: "ArenaUser";
     id: number;
     displayName: string;

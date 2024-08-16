@@ -149,8 +149,17 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
 
   const { refetch: nodebbRefetch } = nodebbQueries.useArenaNotifications();
 
-  const nodebbPostToArenaPost = (post: GQLArenaPostFragment) =>
-    ({
+  const nodebbPostToArenaPost = (post: GQLArenaPostFragment) => {
+    const owner = post.user
+      ? {
+          displayName: post.user.displayName,
+          id: post.user.id,
+          username: post.user.username,
+          location: post.user.location,
+          groups: [],
+        }
+      : undefined;
+    return {
       ...post,
       __typename: "ArenaPostV2",
       contentAsHTML: post.content,
@@ -158,30 +167,30 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
       updated: post.timestamp,
       upvotes: post.upvotes,
       upvoted: post.upvoted,
-      owner: {
-        displayName: post.user.displayName,
-        id: post.user.id,
-        username: post.user.username,
-        location: post.user.location,
-        groups: [],
-      },
-      replies: post.replies?.map((reply) => ({
-        ...reply,
-        __typename: "ArenaPostV2",
-        contentAsHTML: reply.content,
-        created: reply.timestamp,
-        updated: reply.timestamp,
-        upvotes: post.upvotes,
-        upvoted: post.upvoted,
-        owner: {
-          displayName: reply.user.displayName,
-          id: -1,
-          username: reply.user.username,
-          location: reply.user.location,
-          groups: [],
-        },
-      })),
-    }) as GQLArenaPostV2Fragment;
+      owner,
+      replies: post.replies?.map((reply) => {
+        const replyOwner = reply.user
+          ? {
+              displayName: reply.user.displayName,
+              id: reply.user.id,
+              username: reply.user.username,
+              location: reply.user.location,
+              groups: [],
+            }
+          : undefined;
+        return {
+          ...reply,
+          __typename: "ArenaPostV2",
+          contentAsHTML: reply.content,
+          created: reply.timestamp,
+          updated: reply.timestamp,
+          upvotes: post.upvotes,
+          upvoted: post.upvoted,
+          owner: replyOwner,
+        };
+      }),
+    } as GQLArenaPostV2Fragment;
+  };
 
   const {
     arenaTopic: nodebbArenaTopic,
