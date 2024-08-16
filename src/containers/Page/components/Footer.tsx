@@ -201,11 +201,31 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const LogoNor = styled(NdlaLogoNb, {
+  base: {
+    color: "icon.onAction",
+    flexShrink: "0",
+    _print: {
+      color: "icon.strong",
+    },
+  },
+});
+
+const LogoEng = styled(NdlaLogoEn, {
+  base: {
+    color: "icon.onAction",
+    flexShrink: "0",
+    _print: {
+      color: "icon.strong",
+    },
+  },
+});
+
 export const Footer = () => {
   const { t, i18n } = useTranslation();
   const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
 
-  const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
+  const Logo = i18n.language === "en" ? LogoEng : LogoNor;
 
   const commonLinks = [
     {
@@ -258,7 +278,7 @@ export const Footer = () => {
         </StyledZendesk>
       )}
       <StyledOneColumn wide>
-        <Logo color="icon.onAction" css={{ flexShrink: "0" }} />
+        <Logo />
         <ContentWrapper>
           {/* TODO: Consider if this should be an actual heading */}
           <StyledHeading asChild consumeCss textStyle="heading.small">
