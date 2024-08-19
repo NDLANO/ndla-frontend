@@ -16,8 +16,11 @@ import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../gr
 const StyledOl = styled("ol", {
   base: {
     listStyle: "none",
-    marginInlineStart: "3xlarge",
+    marginInlineStart: "large",
     padding: "unset",
+    mobileWide: {
+      marginInlineStart: "3xlarge",
+    },
   },
 });
 
