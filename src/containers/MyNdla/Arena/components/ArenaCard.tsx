@@ -9,12 +9,11 @@
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
-import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
-import { Icon } from "@ndla/icons";
 import { QuestionAnswerFill, QuestionAnswerLine } from "@ndla/icons/common";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { routes } from "../../../../routeHelpers";
@@ -32,118 +31,140 @@ interface Props {
   refetchCategories: (() => void) | undefined;
 }
 
-const StyledCardWrapper = styled.div`
-  color: ${colors.text.primary};
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
-  padding-right: ${spacing.medium};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
+const StyledCardWrapper = styled("div", {
+  base: {
+    backgroundColor: "surface.default",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "row",
+    gap: "medium",
+    padding: "medium",
+    paddingInlineEnd: "large",
+    position: "relative",
+  },
+});
 
-  position: relative;
+const SpacingContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
 
-  [data-hover-icon=""] {
-    display: none;
-  }
+const StyledHeader = styled(Text, {
+  base: {
+    textDecoration: "underline",
+  },
+});
 
-  &[data-visible="false"] {
-    background-color: ${colors.brand.greyLight};
-    &:hover,
-    &:focus-within {
-      background-color: ${colors.brand.greyLight};
-    }
-  }
+const StyledDescriptionText = styled(Text, {
+  base: {
+    display: "none",
+    mobileWide: {
+      display: "block",
+    },
+  },
+});
 
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    [data-name="hover"] {
-      text-decoration: none;
-    }
+const StyledCountContainer = styled("div", {
+  base: {
+    textAlign: "center",
+  },
+});
 
-    [data-normal-icon=""] {
-      display: none;
-    }
-  }
+const StyledQuestionAnswerLine = styled(QuestionAnswerLine, {
+  base: {
+    color: "icon.strong",
+    mobileWide: {
+      display: "none",
+    },
+  },
+});
+const StyledQuestionAnswerFill = styled(QuestionAnswerFill, {
+  base: {
+    color: "icon.strong",
+    mobileWide: {
+      display: "none",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    &:hover,
-    &:focus-within {
-      [data-hover-icon=""] {
-        display: block;
-      }
-    }
-  }
-`;
+const RightSideContainer = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: "medium",
+  },
+});
 
-const SpacingContainer = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  justify-content: space-between;
-  width: 100%;
-`;
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    boxShadow: "none",
+    flex: "1",
+    textDecoration: "none",
 
-const StyledHeader = styled(Text)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  cursor: pointer;
-`;
+    "& [data-normal-icon]": {
+      display: "none",
+    },
+    "& [data-hover-icon]": {
+      display: "none",
+    },
+    "& [data-visible='false']": {
+      backgroundColor: "surface.disabled",
+    },
 
-const StyledDescriptionText = styled(Text)`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
+    _hover: {
+      "& > div": {
+        backgroundColor: "surface.hover",
+        "&[data-visible='false']": {
+          backgroundColor: "surface.disabled",
+        },
+      },
+      "& [data-title='hover']": {
+        textDecoration: "none",
+      },
+      "& [data-normal-icon='']": {
+        display: "none",
+      },
+      "& [data-hover-icon='']": {
+        display: "none",
+      },
+    },
 
-const StyledCountContainer = styled.div`
-  text-align: center;
-`;
+    mobileWide: {
+      "& [data-normal-icon='']": {
+        display: "block",
+      },
+      "& [data-hover-icon='']": {
+        display: "none",
+      },
+      _hover: {
+        "& [data-hover-icon='']": {
+          display: "block",
+        },
+      },
+    },
+  },
+});
 
-const StyledIcon = styled(Icon)`
-  width: ${spacing.large};
-  height: ${spacing.large};
-  color: ${colors.brand.primary};
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
-
-const StyledQuestionAnswerLine = StyledIcon.withComponent(QuestionAnswerLine);
-const StyledQuestionAnswerFill = StyledIcon.withComponent(QuestionAnswerFill);
-
-const RightSideContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.normal};
-  align-items: center;
-  z-index: 1;
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  text-decoration: none;
-  box-shadow: none;
-  color: ${colors.brand.primary};
-  flex: 1;
-
-  // To make the link clickable in the entire container, not only text
-  :after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-`;
-
-const ArenaCardWrapper = styled.li`
-  list-style: none;
-  padding: 0;
-`;
+const ArenaCardWrapper = styled("li", {
+  base: {
+    alignItems: "center",
+    display: "block",
+    justifyContent: "center",
+    listStyle: "none",
+    padding: "0",
+    position: "relative",
+    mobileWide: {
+      display: "flex",
+    },
+  },
+});
 
 const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing, refetchCategories }: Props) => {
   const { t } = useTranslation();
@@ -163,44 +184,42 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
 
   return (
     <ArenaCardWrapper id={`category-${id}`} ref={setNodeRef} data-is-dragging={isDragging} style={style}>
-      <StyledCardWrapper data-visible={visible}>
-        <DragHandle
-          sortableId={id.toString()}
-          name={title}
-          disabled={!isEditing || items.length < 2}
-          type="category"
-          {...attributes}
-        />
-        <StyledQuestionAnswerLine data-normal-icon="" />
-        <StyledQuestionAnswerFill data-hover-icon="" />
-        <SpacingContainer>
-          <div>
-            <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
-              <StyledHeader element="p" textStyle="label-small" margin="none" data-name="hover">
+      <DragHandle
+        sortableId={id.toString()}
+        name={title}
+        disabled={!isEditing || items.length < 2}
+        type="category"
+        {...attributes}
+      />
+      <StyledSafeLink to={routes.myNdla.arenaCategory(id)} css={linkOverlay.raw()}>
+        <StyledCardWrapper data-visible={visible}>
+          <StyledQuestionAnswerLine data-normal-icon="" />
+          <StyledQuestionAnswerFill data-hover-icon="" />
+          <SpacingContainer>
+            <div>
+              <StyledHeader data-title="hover" color="text.strong">
                 {title}
               </StyledHeader>
-            </StyledSafeLink>
-            <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
-              {subText}
-            </StyledDescriptionText>
-          </div>
-          <RightSideContainer>
-            {isEditing && user?.isModerator && (
-              <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
-            )}
-            {count !== undefined && (
-              <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
-                <Text aria-hidden element="p" textStyle="content-alt" margin="none">
-                  {count}
-                </Text>
-                <Text aria-hidden textStyle="meta-text-small" margin="none">
-                  {t("myNdla.arena.category.posts", { count })}
-                </Text>
-              </StyledCountContainer>
-            )}
-          </RightSideContainer>
-        </SpacingContainer>
-      </StyledCardWrapper>
+              <StyledDescriptionText>{subText}</StyledDescriptionText>
+            </div>
+            <RightSideContainer>
+              {isEditing && user?.isModerator && (
+                <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
+              )}
+              {count !== undefined && (
+                <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
+                  <Text aria-hidden textStyle="body.medium">
+                    {count}
+                  </Text>
+                  <Text aria-hidden textStyle="body.small">
+                    {t("myNdla.arena.category.posts", { count })}
+                  </Text>
+                </StyledCountContainer>
+              )}
+            </RightSideContainer>
+          </SpacingContainer>
+        </StyledCardWrapper>
+      </StyledSafeLink>
     </ArenaCardWrapper>
   );
 };
