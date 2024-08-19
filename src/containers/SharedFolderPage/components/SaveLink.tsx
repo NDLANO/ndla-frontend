@@ -44,10 +44,9 @@ const ButtonRow = styled("div", {
 
 interface SaveLinkProps {
   folder: GQLFolder;
-  hideTrigger?: () => void;
 }
 
-export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
+export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
@@ -57,7 +56,6 @@ export const SaveLink = ({ folder, hideTrigger }: SaveLinkProps) => {
 
   const onSaveLink = (name: string) => {
     favoriteSharedFolder();
-    hideTrigger?.();
     setOpen(false);
     toast.create({
       title: t("myNdla.folder.sharing.savedLink", { name }),

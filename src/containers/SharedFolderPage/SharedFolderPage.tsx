@@ -7,7 +7,7 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -25,11 +25,12 @@ import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
 import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 import ErrorPage from "../ErrorPage";
-import { useGetSharedFolder, useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
+import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -113,6 +114,8 @@ const SharedFolderPage = () => {
     includeSubfolders: true,
   });
 
+  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+
   const { data } = useFolderResourceMetaSearch(
     flattenResources(folder).map((res) => ({
       id: res.resourceId,
@@ -137,6 +140,11 @@ const SharedFolderPage = () => {
     (resource.resourceType === "article" || resource.resourceType === "learningpath")
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
+
+  const folderLinkIsSaved = useMemo(
+    () => folderData?.folders.sharedFolders.some((f) => f.id === folderId),
+    [folderData?.folders.sharedFolders, folderId],
+  );
 
   if (loading) {
     return <PageSpinner />;
@@ -173,7 +181,7 @@ const SharedFolderPage = () => {
                   {t("myNdla.folder.copy")}
                 </Button>
               </CopyFolderModal>
-              <SaveLink folder={folder} />
+              {!folderLinkIsSaved ? <SaveLink folder={folder} /> : null}
             </HStack>
           </InformationWrapper>
           <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
