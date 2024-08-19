@@ -36,7 +36,7 @@ const StyledSafelink = styled(SafeLink, {
 
     _hover: {
       backgroundColor: "surface.hover",
-      "& [data-title='hover']": {
+      "& [data-title]": {
         textDecoration: "none",
       },
     },
@@ -86,7 +86,7 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
       <TitleContainer>
-        <StyledHeader data-title="hover" textStyle="title.small" color="text.strong">
+        <StyledHeader data-title="" textStyle="title.small" color="text.strong">
           {title}
         </StyledHeader>
         <Text textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>

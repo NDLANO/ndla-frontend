@@ -115,31 +115,16 @@ const StyledSafeLink = styled(SafeLink, {
       top: "0",
     },
 
-    "& [data-normal-icon='']": {
-      display: "block",
+    "& [data-normal-icon]": {
+      display: "none",
     },
 
-    "& [data-hover-icon='']": {
+    "& [data-hover-icon]": {
       display: "none",
     },
 
     "& [data-visible='false']": {
       backgroundColor: "surface.disabled",
-    },
-
-    _focusWithin: {
-      "& > div": {
-        backgroundColor: "surface.hover",
-        "&[data-visible='false']": {
-          backgroundColor: "surface.disabled",
-        },
-      },
-      "& [data-normal-icon='']": {
-        display: "none",
-      },
-      "& [data-hover-icon='']": {
-        display: "block",
-      },
     },
 
     _hover: {
@@ -156,15 +141,17 @@ const StyledSafeLink = styled(SafeLink, {
         display: "none",
       },
       "& [data-hover-icon='']": {
-        display: "block",
+        display: "none",
       },
     },
 
     mobileWide: {
-      _focusWithin: {
-        "& [data-hover-icon='']": {
-          display: "block",
-        },
+      "& [data-normal-icon='']": {
+        display: "block",
+      },
+
+      "& [data-hover-icon='']": {
+        display: "none",
       },
       _hover: {
         "& [data-hover-icon='']": {
@@ -178,11 +165,14 @@ const StyledSafeLink = styled(SafeLink, {
 const ArenaCardWrapper = styled("li", {
   base: {
     alignItems: "center",
-    display: "flex",
+    display: "block",
     justifyContent: "center",
     listStyle: "none",
     padding: "0",
     position: "relative",
+    mobileWide: {
+      display: "flex",
+    },
   },
 });
 
