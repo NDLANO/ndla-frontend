@@ -28,7 +28,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, useIsNdlaFilm } from "../../routeHelpers";
+import { removeUrn, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -53,6 +53,12 @@ const StyledOneColumn = styled(OneColumn, {
     flexDirection: "column",
     gap: "xxlarge",
     paddingBlock: "xxlarge",
+  },
+});
+
+const IntroductionText = styled(Text, {
+  base: {
+    maxWidth: "surface.xlarge",
   },
 });
 
@@ -81,6 +87,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
+  const { subjectType } = useUrnIds();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
@@ -161,6 +168,11 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             leadsTo={subject.subjectpage?.leadsTo ?? []}
           />
           {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
+          {subjectType === "toolbox" ? (
+            <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+          ) : subjectType === "multiDisciplinary" ? (
+            <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+          ) : null}
         </HeadingWrapper>
         {!ndlaFilm && nonRegularSubjectMessage && (
           <MessageBox variant="warning">

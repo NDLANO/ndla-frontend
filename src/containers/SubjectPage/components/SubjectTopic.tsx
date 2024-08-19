@@ -29,6 +29,7 @@ import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../../Resources/Resources";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
@@ -59,7 +60,7 @@ const SubjectTopic = ({
 }: Props) => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { topicId: urnTopicId } = useUrnIds();
+  const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
 
   const topicPath = useMemo(() => {
@@ -137,7 +138,11 @@ const SubjectTopic = ({
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       >
-        {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
+        {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+          <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
+        ) : subTopics?.length ? (
+          <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />
+        ) : null}
         {resources}
       </Topic>
     </>
@@ -161,6 +166,7 @@ export const topicFragments = {
         id
         name
         relevanceId
+        ...MultidisciplinaryArticleList_Topic
       }
       meta {
         metaDescription
@@ -193,6 +199,7 @@ export const topicFragments = {
       }
       ...Resources_Topic
     }
+    ${MultidisciplinaryArticleList.fragments.topic}
     ${Resources.fragments.topic}
   `,
   resourceType: gql`
