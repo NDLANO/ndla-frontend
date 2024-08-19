@@ -112,6 +112,7 @@ export const arenaRepliesFragment = gql`
     topicId
     isMainPost
     user {
+      id
       displayName
       profilePicture
       username
@@ -131,6 +132,7 @@ export const arenaPostFragment = gql`
     topicId
     isMainPost
     user {
+      id
       displayName
       profilePicture
       username
@@ -148,8 +150,8 @@ export const arenaPostFragment = gql`
 `;
 
 export const arenaUserQuery = gql`
-  query ArenaUser($username: String!) {
-    arenaUser(username: $username) {
+  query ArenaUser($id: Int!) {
+    arenaUserById(id: $id) {
       ...ArenaUser
     }
   }
@@ -203,7 +205,7 @@ export const arenaTopicsByUserQuery = gql`
 
 export const useArenaUser = (options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>) => {
   const { data, loading } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(arenaUserQuery, options);
-  return { arenaUser: data?.arenaUser, loading };
+  return { arenaUser: data?.arenaUserById, loading };
 };
 
 const arenaRecentTopics = gql`
