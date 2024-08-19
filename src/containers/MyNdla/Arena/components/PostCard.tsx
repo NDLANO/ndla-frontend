@@ -75,7 +75,7 @@ export const Content = styled(Text, {
   base: {
     wordBreak: "break-word",
     "& ul, ol": {
-      paddingLeft: "medium",
+      paddingInlineStart: "medium",
     },
   },
 });

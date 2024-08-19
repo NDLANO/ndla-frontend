@@ -16,14 +16,12 @@ import { ViewType } from "../Folders/FoldersPage";
 const ToolbarContainer = styled("div", {
   base: {
     borderBottomColor: "stroke.subtle",
-    borderBottomStyle: "solid",
-    borderBottomWidth: "1px",
+    borderBottom: "1px solid",
     display: "none",
     justifyContent: "center",
     minHeight: "fit-content",
-    padding: "xxsmall xxlarge",
-    paddingLeft: "xxlarge",
-    paddingRight: "xxlarge",
+    paddingBlock: "xxsmall",
+    paddingInline: "xxlarge",
 
     mobileWide: {
       display: "flex",

@@ -29,7 +29,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const BreadcrumbWrapper = styled("div", {
   base: {
-    paddingTop: "medium",
+    paddingBlockStart: "medium",
   },
 });
 
@@ -49,8 +49,8 @@ const StyledContainer = styled("div", {
     gap: "xsmall",
     justifyContent: "space-between",
     margin: "0",
-    marginBottom: "xlarge",
-    marginTop: "medium",
+    marginBlockEnd: "xlarge",
+    marginBlockStart: "medium",
   },
 });
 
@@ -73,7 +73,7 @@ const HeaderWrapper = styled("div", {
 const StyledEye = styled(EyeFill, {
   base: {
     height: "medium",
-    marginLeft: "xxsmall",
+    marginInlineStart: "xxsmall",
     width: "medium",
   },
 });
@@ -88,8 +88,8 @@ const ButtonContainer = styled("div", {
 
 const StyledHeading = styled(Heading, {
   base: {
-    marginTop: "large",
-    marginBottom: "medium",
+    marginBlockEnd: "medium",
+    marginBlockStart: "large",
   },
 });
 
