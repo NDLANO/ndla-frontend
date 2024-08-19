@@ -13,6 +13,7 @@ import { QuestionAnswerFill, QuestionAnswerLine } from "@ndla/icons/common";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { routes } from "../../../../routeHelpers";
@@ -106,23 +107,13 @@ const StyledSafeLink = styled(SafeLink, {
     boxShadow: "none",
     flex: "1",
     textDecoration: "none",
-    _after: {
-      bottom: "0",
-      content: "",
-      left: "0",
-      position: "absolute",
-      right: "0",
-      top: "0",
-    },
 
     "& [data-normal-icon]": {
       display: "none",
     },
-
     "& [data-hover-icon]": {
       display: "none",
     },
-
     "& [data-visible='false']": {
       backgroundColor: "surface.disabled",
     },
@@ -149,7 +140,6 @@ const StyledSafeLink = styled(SafeLink, {
       "& [data-normal-icon='']": {
         display: "block",
       },
-
       "& [data-hover-icon='']": {
         display: "none",
       },
@@ -201,7 +191,7 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
         type="category"
         {...attributes}
       />
-      <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
+      <StyledSafeLink to={routes.myNdla.arenaCategory(id)} css={linkOverlay.raw()}>
         <StyledCardWrapper data-visible={visible}>
           <StyledQuestionAnswerLine data-normal-icon="" />
           <StyledQuestionAnswerFill data-hover-icon="" />

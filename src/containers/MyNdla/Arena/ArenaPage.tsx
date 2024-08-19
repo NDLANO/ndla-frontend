@@ -27,6 +27,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 const StyledContainer = styled("div", {
   base: {
     display: "flex",
+    gap: "xsmall",
     justifyContent: "space-between",
   },
 });
