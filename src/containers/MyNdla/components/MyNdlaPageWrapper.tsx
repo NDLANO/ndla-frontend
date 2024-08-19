@@ -8,6 +8,7 @@
 
 import { HTMLAttributes, ReactNode } from "react";
 import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import Toolbar from "./Toolbar";
 import { ViewType } from "../Folders/FoldersPage";
 
@@ -30,9 +31,7 @@ export const Content = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-around",
     gap: "medium",
-    maxWidth: "surface.4xlarge",
     width: "100%",
   },
 });
@@ -56,7 +55,9 @@ const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, 
         showButtons={showButtons}
       />
       <ContentWrapper>
-        <Content>{children}</Content>
+        <OneColumn>
+          <Content>{children}</Content>
+        </OneColumn>
       </ContentWrapper>
     </>
   );

@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, Facebook } from "@ndla/icons/common";
 import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { OneColumn, ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
@@ -201,6 +202,14 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const logoStyle = css.raw({
+  color: "icon.onAction",
+  flexShrink: "0",
+  _print: {
+    color: "icon.strong",
+  },
+});
+
 export const Footer = () => {
   const { t, i18n } = useTranslation();
   const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
@@ -258,7 +267,7 @@ export const Footer = () => {
         </StyledZendesk>
       )}
       <StyledOneColumn wide>
-        <Logo color="icon.onAction" css={{ flexShrink: "0" }} />
+        <Logo css={logoStyle} />
         <ContentWrapper>
           {/* TODO: Consider if this should be an actual heading */}
           <StyledHeading asChild consumeCss textStyle="heading.small">

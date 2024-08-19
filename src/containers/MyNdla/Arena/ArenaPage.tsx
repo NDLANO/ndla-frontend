@@ -27,13 +27,14 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 const StyledContainer = styled("div", {
   base: {
     display: "flex",
+    gap: "xsmall",
     justifyContent: "space-between",
   },
 });
 
 const StyledHeading = styled(Heading, {
   base: {
-    marginTop: "large",
+    marginBlockStart: "large",
   },
 });
 
@@ -98,7 +99,7 @@ const ArenaPage = () => {
           refetchCategories={refetchCategories}
         />
       ) : null}
-      <Text textStyle="body.small">
+      <Text>
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>

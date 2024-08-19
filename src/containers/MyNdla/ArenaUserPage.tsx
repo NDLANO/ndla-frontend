@@ -40,7 +40,9 @@ const ArenaUserPage = () => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { username } = useParams();
-  const { arenaUser, loading: userLoading } = useArenaUser(username);
+  const idFromParam = username && parseInt(username);
+  const userParam = idFromParam ? idFromParam : username;
+  const { arenaUser, loading: userLoading } = useArenaUser(userParam);
   const { arenaTopicsByUser, loading } = useArenaTopicsByUser(arenaUser?.id, arenaUser?.slug);
 
   if (loading || userLoading || !authContextLoaded) {

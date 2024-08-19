@@ -13,6 +13,7 @@ import { QuestionAnswerFill, QuestionAnswerLine } from "@ndla/icons/common";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { routes } from "../../../../routeHelpers";
@@ -106,41 +107,15 @@ const StyledSafeLink = styled(SafeLink, {
     boxShadow: "none",
     flex: "1",
     textDecoration: "none",
-    _after: {
-      bottom: "0",
-      content: "",
-      left: "0",
-      position: "absolute",
-      right: "0",
-      top: "0",
-    },
 
-    "& [data-normal-icon='']": {
-      display: "block",
-    },
-
-    "& [data-hover-icon='']": {
+    "& [data-normal-icon]": {
       display: "none",
     },
-
+    "& [data-hover-icon]": {
+      display: "none",
+    },
     "& [data-visible='false']": {
       backgroundColor: "surface.disabled",
-    },
-
-    _focusWithin: {
-      "& > div": {
-        backgroundColor: "surface.hover",
-        outline: "solid",
-        "&[data-visible='false']": {
-          backgroundColor: "surface.disabled",
-        },
-      },
-      "& [data-normal-icon='']": {
-        display: "none",
-      },
-      "& [data-hover-icon='']": {
-        display: "block",
-      },
     },
 
     _hover: {
@@ -150,22 +125,23 @@ const StyledSafeLink = styled(SafeLink, {
           backgroundColor: "surface.disabled",
         },
       },
-      "& [data-name='hover']": {
+      "& [data-title='hover']": {
         textDecoration: "none",
       },
       "& [data-normal-icon='']": {
         display: "none",
       },
       "& [data-hover-icon='']": {
-        display: "block",
+        display: "none",
       },
     },
 
     mobileWide: {
-      _focusWithin: {
-        "& [data-hover-icon='']": {
-          display: "block",
-        },
+      "& [data-normal-icon='']": {
+        display: "block",
+      },
+      "& [data-hover-icon='']": {
+        display: "none",
       },
       _hover: {
         "& [data-hover-icon='']": {
@@ -178,8 +154,15 @@ const StyledSafeLink = styled(SafeLink, {
 
 const ArenaCardWrapper = styled("li", {
   base: {
+    alignItems: "center",
+    display: "block",
+    justifyContent: "center",
     listStyle: "none",
     padding: "0",
+    position: "relative",
+    mobileWide: {
+      display: "flex",
+    },
   },
 });
 
@@ -206,16 +189,15 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
         name={title}
         disabled={!isEditing || items.length < 2}
         type="category"
-        onClick={(e) => e.stopPropagation()}
         {...attributes}
       />
-      <StyledSafeLink to={routes.myNdla.arenaCategory(id)}>
+      <StyledSafeLink to={routes.myNdla.arenaCategory(id)} css={linkOverlay.raw()}>
         <StyledCardWrapper data-visible={visible}>
           <StyledQuestionAnswerLine data-normal-icon="" />
           <StyledQuestionAnswerFill data-hover-icon="" />
           <SpacingContainer>
             <div>
-              <StyledHeader data-name="hover" color="text.strong">
+              <StyledHeader data-title="hover" color="text.strong">
                 {title}
               </StyledHeader>
               <StyledDescriptionText>{subText}</StyledDescriptionText>
