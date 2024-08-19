@@ -46,6 +46,7 @@ const ListWrapper = styled("ul", {
 const StyledContainer = styled("div", {
   base: {
     display: "flex",
+    gap: "xsmall",
     justifyContent: "space-between",
     margin: "0",
     marginBottom: "xlarge",
