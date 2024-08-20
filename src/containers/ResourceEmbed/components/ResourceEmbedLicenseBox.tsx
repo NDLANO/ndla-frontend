@@ -21,7 +21,7 @@ interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;
 }
 
-const DividerWrapper = styled("div", {
+const Wrapper = styled("div", {
   base: {
     "&[data-padding-top='true']": {
       paddingBlockStart: "xsmall",
@@ -48,6 +48,9 @@ const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment) 
   if (metaData.audios?.length) {
     licenseContent.push(<AudioLicenseList audios={metaData.audios} />);
   }
+  if (metaData.concepts?.length) {
+    licenseContent.push(<ConceptLicenseList concepts={metaData.concepts} />);
+  }
   if (metaData.images?.length) {
     licenseContent.push(<ImageLicenseList images={metaData.images} />);
   }
@@ -56,9 +59,6 @@ const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment) 
   }
   if (metaData.h5ps?.length) {
     licenseContent.push(<H5pLicenseList h5ps={metaData.h5ps} />);
-  }
-  if (metaData.concepts?.length) {
-    licenseContent.push(<ConceptLicenseList concepts={metaData.concepts} />);
   }
   if (metaData.glosses?.length) {
     licenseContent.push(<GlossLicenseList glosses={metaData.glosses} />);
@@ -75,13 +75,13 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
       {licenseContent.map((content, index) => (
         <>
           {index + 1 >= licenseContent.length && <Divider />}
-          <DividerWrapper
+          <Wrapper
             key={index}
             data-padding-top={index + 1 >= licenseContent.length}
             data-padding-bottom={index < licenseContent.length - 1}
           >
             {content}
-          </DividerWrapper>
+          </Wrapper>
         </>
       ))}
     </>
