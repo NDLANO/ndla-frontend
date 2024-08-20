@@ -24,7 +24,10 @@ interface Props {
 
 const DividerWrapper = styled("div", {
   base: {
-    "&[data-padding='true']": {
+    "&[data-padding-top='true']": {
+      paddingBlockStart: "xsmall",
+    },
+    "&[data-padding-bottom='true']": {
       paddingBlockEnd: "xlarge",
     },
   },
@@ -32,11 +35,8 @@ const DividerWrapper = styled("div", {
 
 const Divider = styled("div", {
   base: {
-    marginBlockStart: "xsmall",
-    "&[data-divider='true']": {
-      height: "1px",
-      backgroundColor: "stroke.subtle",
-    },
+    height: "1px",
+    backgroundColor: "stroke.subtle",
   },
 });
 
@@ -74,10 +74,16 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
   return (
     <>
       {licenseContent.map((content, index) => (
-        <DividerWrapper key={index} data-padding={index < licenseContent.length - 1}>
-          <Divider data-divider={index + 1 >= licenseContent.length} />
-          {content}
-        </DividerWrapper>
+        <>
+          {index + 1 >= licenseContent.length && <Divider />}
+          <DividerWrapper
+            key={index}
+            data-padding-top={index + 1 >= licenseContent.length}
+            data-padding-bottom={index < licenseContent.length - 1}
+          >
+            {content}
+          </DividerWrapper>
+        </>
       ))}
     </>
   );
