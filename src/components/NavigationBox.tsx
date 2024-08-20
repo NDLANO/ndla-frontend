@@ -14,8 +14,6 @@ import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 
 const StyledWrapper = styled.nav`
-  /* TODO: Remove margin */
-  margin: ${spacing.normal} 0 ${spacing.mediumlarge};
   display: flex;
   flex-direction: column;
   gap: ${spacing.small};

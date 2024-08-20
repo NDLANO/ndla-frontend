@@ -8,132 +8,81 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Additional } from "@ndla/icons/common";
+import { Badge, Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Text, Heading } from "@ndla/typography";
-import { ContentLoader } from "@ndla/ui";
-import TopicMetaImage from "./TopicMetaImage";
+import { LayoutItem } from "@ndla/ui";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
+// TODO: Figure out how we should handle margin here.
 
-  &[data-frame="true"] {
-    ${mq.range({ from: breakpoints.tabletWide })} {
-      padding: 40px 40px;
-      border: 2px solid ${colors.brand.neutral7};
-    }
-    ${mq.range({ from: breakpoints.desktop })} {
-      padding: 40px 80px;
-    }
-    ${mq.range({ from: "1180px" })} {
-      padding: 60px 160px;
-    }
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "xsmall",
+  },
+});
 
-const TopicIntroductionWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  justify-content: space-between;
-`;
+const TopicContent = styled(LayoutItem, {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "medium",
+    justifyContent: "space-between",
+    desktop: {
+      gridTemplateColumns: "1fr 1fr",
+    },
+  },
+});
 
-const HeadingWrapper = styled.hgroup`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const TopicIntroductionWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
-const StyledAdditional = styled(Additional)`
-  color: ${colors.brand.dark};
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  padding: 1px;
-`;
+const HeadingWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
 export type TopicProps = {
   id?: string;
-  metaImage?: {
-    url: string;
-    alt: string;
-  };
   title: ReactNode;
   introduction: ReactNode;
   visualElementEmbedMeta?: EmbedMetaData;
-  isLoading?: boolean;
   isAdditionalTopic?: boolean;
-  frame?: boolean;
   children?: ReactNode;
   visualElement?: ReactNode;
 };
 
-const Topic = ({
-  id,
-  title,
-  introduction,
-  metaImage: articleMetaImage,
-  isAdditionalTopic,
-  isLoading,
-  frame,
-  visualElementEmbedMeta,
-  children,
-  visualElement,
-}: TopicProps) => {
+const Topic = ({ id, title, introduction, isAdditionalTopic, children, visualElement }: TopicProps) => {
   const { t } = useTranslation();
 
-  if (isLoading) {
-    return (
-      <Wrapper data-frame={frame}>
-        <ContentLoader width={800} height={880}>
-          <rect x="0" y="0" rx="3" ry="3" width="500" height="60" />
-          <rect x="0" y="100" rx="3" ry="3" width="500" height="25" />
-          <rect x="0" y="140" rx="3" ry="3" width="500" height="25" />
-          <rect x="0" y="180" rx="3" ry="3" width="400" height="25" />
-          <rect x="600" y="0" rx="3" ry="3" width="200" height="205" />
-          <rect x="0" y="280" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="350" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="420" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="490" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="560" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="680" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="750" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="820" rx="3" ry="3" width="800" height="60" />
-        </ContentLoader>
-      </Wrapper>
-    );
-  }
-
   return (
-    <Wrapper data-frame={frame}>
-      <TopicIntroductionWrapper>
-        <div>
+    <Wrapper>
+      <TopicContent layout="extend">
+        <TopicIntroductionWrapper>
           <HeadingWrapper>
-            <Heading element="h1" margin="none" headingStyle="h2" id={id} tabIndex={-1}>
+            <Heading textStyle="heading.small" id={id} tabIndex={-1}>
               {title}
             </Heading>
-            {isAdditionalTopic && (
-              <>
-                <StyledAdditional aria-hidden="true" />
-                <span>{t("navigation.additionalTopic")}</span>
-              </>
-            )}
+            {isAdditionalTopic && <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>}
           </HeadingWrapper>
-          <Text textStyle="ingress" element="div">
-            {introduction}
+          <Text textStyle="body.xlarge" asChild consumeCss>
+            <div>{introduction}</div>
           </Text>
-        </div>
-        {!!visualElementEmbedMeta && !!articleMetaImage && (
-          <TopicMetaImage
-            visualElementEmbedMeta={visualElementEmbedMeta}
-            metaImage={articleMetaImage}
-            visualElement={visualElement}
-          />
-        )}
-      </TopicIntroductionWrapper>
+        </TopicIntroductionWrapper>
+        {visualElement}
+      </TopicContent>
       {children}
     </Wrapper>
   );
