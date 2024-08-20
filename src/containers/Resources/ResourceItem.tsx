@@ -8,31 +8,15 @@
 
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Additional, Core, PresentationLine } from "@ndla/icons/common";
-import { ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { PresentationLine } from "@ndla/icons/common";
+import { Badge, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 import { RELEVANCE_CORE } from "../../constants";
 
-// TODO: How should we handle additional resources?
-// TODO: What should we do with current indicator? Should we keep "you are here" / the dot before the list item?
 // TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
-
-const StyledAdditional = styled(Additional, {
-  base: {
-    position: "relative",
-    color: "icon.strong",
-  },
-});
-
-const StyledCore = styled(Core, {
-  base: {
-    position: "relative",
-    color: "icon.strong",
-  },
-});
 
 const StyledPresentationLine = styled(PresentationLine, {
   base: {
@@ -99,31 +83,26 @@ export const ResourceItem = ({
   const teacherOnly = access === "teacher";
   const contentTypeDescription = additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic");
 
-  const RelevanceIcon = useMemo(() => {
-    if (!showAdditionalResources) return null;
-    return additional ? StyledAdditional : StyledCore;
-  }, [additional, showAdditionalResources]);
-
   const describedBy = useMemo(() => {
     const elements = [];
     if (teacherOnly) {
       elements.push(accessId);
     }
-    if (RelevanceIcon) {
+    if (showAdditionalResources) {
       elements.push(relevanceId);
     }
     return elements.length ? elements.join(" ") : undefined;
-  }, [RelevanceIcon, accessId, relevanceId, teacherOnly]);
+  }, [accessId, relevanceId, showAdditionalResources, teacherOnly]);
 
   return (
-    <ListItemRoot
-      variant="list"
-      aria-current={active ? "page" : undefined}
-      hidden={hidden && !active}
-      asChild
-      consumeCss
-    >
-      <li>
+    <li>
+      <ListItemRoot
+        variant="list"
+        colorTheme="brand1"
+        borderVariant={additional ? "dashed" : "solid"}
+        aria-current={active ? "page" : undefined}
+        hidden={hidden && !active}
+      >
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
@@ -148,17 +127,10 @@ export const ResourceItem = ({
               />
             )}
             <ContentTypeBadgeNew contentType={contentType} />
-            {!!RelevanceIcon && (
-              <RelevanceIcon
-                aria-hidden={false}
-                id={relevanceElId}
-                aria-label={contentTypeDescription}
-                title={contentTypeDescription}
-              />
-            )}
+            {!!showAdditionalResources && <Badge id={relevanceElId}>{contentTypeDescription}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
-      </li>
-    </ListItemRoot>
+      </ListItemRoot>
+    </li>
   );
 };
