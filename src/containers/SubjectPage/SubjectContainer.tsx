@@ -174,18 +174,21 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
           ) : null}
         </HeadingWrapper>
-        {!ndlaFilm && nonRegularSubjectMessage && (
+        {!ndlaFilm && subjectType !== "multiDisciplinary" && subjectType !== "toolbox" && nonRegularSubjectMessage && (
           <MessageBox variant="warning">
             <InformationLine />
             <Text>{nonRegularSubjectMessage}</Text>
           </MessageBox>
         )}
-        {!ndlaFilm && nonRegularSubjectTypeMessage && (
-          <MessageBox variant="warning">
-            <InformationLine />
-            <Text>{nonRegularSubjectTypeMessage}</Text>
-          </MessageBox>
-        )}
+        {!ndlaFilm &&
+          subjectType !== "multiDisciplinary" &&
+          subjectType !== "toolbox" &&
+          nonRegularSubjectTypeMessage && (
+            <MessageBox variant="warning">
+              <InformationLine />
+              <Text>{nonRegularSubjectTypeMessage}</Text>
+            </MessageBox>
+          )}
         <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
       </StyledOneColumn>
     </main>
