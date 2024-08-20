@@ -6,14 +6,11 @@
  *
  */
 
-import { ReactElement, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { ReactElement } from "react";
 import { gql } from "@apollo/client";
-import { useComponentSize } from "@ndla/hooks";
 import { Article as UIArticle } from "@ndla/ui";
-import { useArticleCopyText } from "./articleHelpers";
+import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
 import FavoriteButton from "./FavoritesButton";
-import { MastheadHeightPx } from "../../constants";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import CompetenceGoals from "../CompetenceGoals";
@@ -49,30 +46,9 @@ const Article = ({
   myNdlaResourceType = "article",
   oembed,
 }: Props) => {
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
   const copyText = useArticleCopyText(article);
 
-  const location = useLocation();
-
-  // Scroll to element with ID passed in as a query-parameter.
-  // We use query-params instead of the regular fragments since
-  // the article doesn't exist on initial page load (At least without SSR).
-  useEffect(() => {
-    if (location.hash && article?.transformedContent?.content) {
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 400);
-    }
-  }, [article?.transformedContent?.content, location, height]);
+  useNavigateToHash(article.transformedContent.content);
 
   if (!article) {
     return children || null;
