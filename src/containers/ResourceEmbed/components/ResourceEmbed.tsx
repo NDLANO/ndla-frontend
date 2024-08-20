@@ -12,18 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import {
-  AccordionItem,
-  AccordionItemContent,
-  AccordionItemIndicator,
-  AccordionItemTrigger,
-  AccordionRoot,
-  Heading,
-  HeroBackground,
-  HeroContent,
-  Spinner,
-} from "@ndla/primitives";
+import { Heading, HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import {
   ArticleContent,
@@ -39,9 +28,7 @@ import {
 } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
-import FavoritesButton from "../../../components/Article/FavoritesButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -229,45 +216,20 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               <ArticleHeader padded>
                 <ArticleHGroup>
                   {!!type && <ContentTypeBadgeNew contentType={type} />}
-                  {!isOembed && (
-                    <ArticleActionWrapper>
-                      <AddResourceToFolderModal
-                        resource={{
-                          id: id,
-                          path,
-                          resourceType: type,
-                        }}
-                      >
-                        <FavoritesButton path={path} />
-                      </AddResourceToFolderModal>
-                    </ArticleActionWrapper>
-                  )}
+                  {!isOembed && <ArticleActionWrapper></ArticleActionWrapper>}
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {properties.title}
                   </Heading>
                 </ArticleHGroup>
               </ArticleHeader>
-              <ArticleContent padded>{transformedContent}</ArticleContent>
+              <ArticleContent padded>
+                {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) ? (
+                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
+                ) : (
+                  transformedContent
+                )}
+              </ArticleContent>
               <ArticleFooter padded>
-                <AccordionRoot multiple>
-                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                    <AccordionItem value="rulesForUse">
-                      <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                        <h2>
-                          <AccordionItemTrigger>
-                            {t("article.useContent")}
-                            <AccordionItemIndicator asChild>
-                              <ArrowDownShortLine size="medium" />
-                            </AccordionItemIndicator>
-                          </AccordionItemTrigger>
-                        </h2>
-                      </Heading>
-                      <AccordionItemContent>
-                        <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                      </AccordionItemContent>
-                    </AccordionItem>
-                  )}
-                </AccordionRoot>
                 {isOembed && (
                   <CreatedBy
                     name={t("createdBy.content")}

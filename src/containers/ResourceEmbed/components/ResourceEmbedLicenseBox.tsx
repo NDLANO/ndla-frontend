@@ -6,11 +6,10 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { ReactNode, useMemo } from "react";
 import { gql } from "@apollo/client";
-import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+
+import { styled } from "@ndla/styled-system/jsx";
 import AudioLicenseList from "../../../components/license/AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "../../../components/license/ConceptLicenseList";
 import H5pLicenseList from "../../../components/license/H5pLicenseList";
@@ -23,88 +22,64 @@ interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;
 }
 
-const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment, t: TFunction) => {
-  const tabs = [];
-  if (metaData.images?.length) {
-    tabs.push({
-      title: t("license.tabs.images"),
-      id: "images",
-      content: <ImageLicenseList images={metaData.images} />,
-    });
+const DividerWrapper = styled("div", {
+  base: {
+    "&[data-padding='true']": {
+      paddingBlockEnd: "xlarge",
+    },
+  },
+});
+
+const Divider = styled("div", {
+  base: {
+    marginBlockStart: "xsmall",
+    "&[data-divider='true']": {
+      height: "1px",
+      backgroundColor: "stroke.subtle",
+    },
+  },
+});
+
+const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment) => {
+  const licenseContent: ReactNode[] = [];
+
+  if (metaData.podcasts?.length) {
+    licenseContent.push(<PodcastLicenseList podcasts={metaData.podcasts} />);
   }
   if (metaData.audios?.length) {
-    tabs.push({
-      title: t("license.tabs.audio"),
-      id: "audio",
-      content: <AudioLicenseList audios={metaData.audios} />,
-    });
+    licenseContent.push(<AudioLicenseList audios={metaData.audios} />);
   }
-  if (metaData.podcasts?.length) {
-    tabs.push({
-      title: t("license.tabs.podcast"),
-      id: "podcast",
-      content: <PodcastLicenseList podcasts={metaData.podcasts} />,
-    });
+  if (metaData.images?.length) {
+    licenseContent.push(<ImageLicenseList images={metaData.images} />);
   }
   if (metaData.brightcoves?.length) {
-    tabs.push({
-      title: t("license.tabs.video"),
-      id: "video",
-      content: <VideoLicenseList videos={metaData.brightcoves} />,
-    });
+    licenseContent.push(<VideoLicenseList videos={metaData.brightcoves} />);
   }
-
   if (metaData.h5ps?.length) {
-    tabs.push({
-      title: t("license.tabs.h5p"),
-      id: "h5p",
-      content: <H5pLicenseList h5ps={metaData.h5ps} />,
-    });
+    licenseContent.push(<H5pLicenseList h5ps={metaData.h5ps} />);
   }
-
   if (metaData.concepts?.length) {
-    tabs.push({
-      title: t("license.tabs.concept"),
-      id: "concept",
-      content: <ConceptLicenseList concepts={metaData.concepts} />,
-    });
+    licenseContent.push(<ConceptLicenseList concepts={metaData.concepts} />);
   }
   if (metaData.glosses?.length) {
-    tabs.push({
-      title: t("license.tabs.gloss"),
-      id: "gloss",
-      content: <GlossLicenseList glosses={metaData.glosses} />,
-    });
+    licenseContent.push(<GlossLicenseList glosses={metaData.glosses} />);
   }
 
-  return tabs;
+  return licenseContent;
 };
 
 const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
-  const { t } = useTranslation();
-  const tabs = useMemo(() => buildLicenseTabList(metaData, t), [metaData, t]);
+  const licenseContent = useMemo(() => buildLicenseTabList(metaData), [metaData]);
 
   return (
-    <TabsRoot
-      defaultValue={tabs[0]?.id}
-      orientation="horizontal"
-      variant="line"
-      translations={{ listLabel: t("tabs.licenseBox") }}
-    >
-      <TabsList>
-        {tabs.map((tab) => (
-          <TabsTrigger key={tab.id} value={tab.id}>
-            {tab.title}
-          </TabsTrigger>
-        ))}
-        <TabsIndicator />
-      </TabsList>
-      {tabs.map((tab) => (
-        <TabsContent key={tab.id} value={tab.id}>
-          {tab.content}
-        </TabsContent>
+    <>
+      {licenseContent.map((content, index) => (
+        <DividerWrapper key={index} data-padding={index < licenseContent.length - 1}>
+          <Divider data-divider={index + 1 >= licenseContent.length} />
+          {content}
+        </DividerWrapper>
       ))}
-    </TabsRoot>
+    </>
   );
 };
 
