@@ -8,7 +8,6 @@
 
 import { ReactNode, useMemo } from "react";
 import { gql } from "@apollo/client";
-
 import { styled } from "@ndla/styled-system/jsx";
 import AudioLicenseList from "../../../components/license/AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "../../../components/license/ConceptLicenseList";
