@@ -141,7 +141,7 @@ const SubjectTopic = ({
         {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
           <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
         ) : subTopics?.length ? (
-          <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />
+          <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
         ) : null}
         {resources}
       </Topic>
