@@ -62,6 +62,7 @@ interface MetaProperies {
 const StyledArticlePadding = styled(ArticlePadding, {
   base: {
     background: "surface.default",
+    paddingBlockStart: "xlarge",
   },
 });
 
@@ -230,10 +231,9 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                 </ArticleHGroup>
               </ArticleHeader>
               <StyledArticlePadding>
-                {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) ? (
+                {transformedContent}
+                {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
                   <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                ) : (
-                  transformedContent
                 )}
               </StyledArticlePadding>
               <ArticleFooter padded>
