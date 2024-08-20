@@ -53,29 +53,10 @@ const StyledHeroBackground = styled(HeroBackground, {
   },
 });
 
-export const programmeFragment = gql`
-  fragment ProgrammeFragment on ProgrammePage {
-    id
-    title {
-      title
-      language
-    }
-    desktopImage {
-      url
-      alt
-    }
-    mobileImage {
-      url
-      alt
-    }
-    url
-  }
-`;
-
 const frontpageQuery = gql`
   query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
-      ...ProgrammeFragment
+      ...Programmes_ProgrammePage
     }
     frontpage {
       articleId
@@ -98,7 +79,7 @@ const frontpageQuery = gql`
   }
   ${LicenseBox.fragments.article}
   ${structuredArticleDataFragment}
-  ${programmeFragment}
+  ${Programmes.fragments.programmePage}
 `;
 
 const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {

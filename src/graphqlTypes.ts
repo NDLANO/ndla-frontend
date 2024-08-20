@@ -4430,13 +4430,11 @@ export type GQLTopicWrapperQuery = {
 
 export type GQLTopicWrapper_SubjectFragment = { __typename?: "Subject" } & GQLTopic_SubjectFragment;
 
-export type GQLProgrammeFragmentFragment = {
+export type GQLProgrammes_ProgrammePageFragment = {
   __typename?: "ProgrammePage";
   id: string;
   url: string;
   title: { __typename?: "Title"; title: string; language: string };
-  desktopImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  mobileImage?: { __typename?: "MetaImage"; url: string; alt: string };
 };
 
 export type GQLFrontpageDataQueryVariables = Exact<{
@@ -4445,7 +4443,7 @@ export type GQLFrontpageDataQueryVariables = Exact<{
 
 export type GQLFrontpageDataQuery = {
   __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage" } & GQLProgrammeFragmentFragment>;
+  programmes?: Array<{ __typename?: "ProgrammePage" } & GQLProgrammes_ProgrammePageFragment>;
   frontpage?: {
     __typename?: "FrontpageMenu";
     articleId: number;
