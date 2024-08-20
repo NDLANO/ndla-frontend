@@ -126,7 +126,7 @@ export type GQLArenaPost = {
   topicId: Scalars["Int"]["output"];
   upvoted: Scalars["Boolean"]["output"];
   upvotes: Scalars["Int"]["output"];
-  user: GQLArenaUser;
+  user?: Maybe<GQLArenaUser>;
 };
 
 export type GQLArenaPostV2 = {
@@ -1457,6 +1457,7 @@ export type GQLQuery = {
   arenaTopicsByUser: Array<GQLArenaTopic>;
   arenaTopicsByUserV2: GQLPaginatedTopics;
   arenaUser?: Maybe<GQLArenaUser>;
+  arenaUserById?: Maybe<GQLArenaUser>;
   arenaUserV2?: Maybe<GQLArenaUserV2>;
   article?: Maybe<GQLArticle>;
   articleResource?: Maybe<GQLResource>;
@@ -1562,6 +1563,10 @@ export type GQLQueryArenaTopicsByUserV2Args = {
 
 export type GQLQueryArenaUserArgs = {
   username: Scalars["String"]["input"];
+};
+
+export type GQLQueryArenaUserByIdArgs = {
+  id: Scalars["Int"]["input"];
 };
 
 export type GQLQueryArenaUserV2Args = {
@@ -1773,7 +1778,7 @@ export type GQLQueryTopicArgs = {
 };
 
 export type GQLQueryTopicsArgs = {
-  contentUri?: InputMaybe<Scalars["String"]["input"]>;
+  contentUri: Scalars["String"]["input"];
   filterVisible?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
@@ -4032,7 +4037,14 @@ export type GQLArenaRepliesFragment = {
   isMainPost: boolean;
   deleted: boolean;
   toPid?: number;
-  user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+  user?: {
+    __typename?: "ArenaUser";
+    id: number;
+    displayName: string;
+    profilePicture?: string;
+    username: string;
+    location?: string;
+  };
 };
 
 export type GQLArenaPostFragment = {
@@ -4046,17 +4058,24 @@ export type GQLArenaPostFragment = {
   upvoted: boolean;
   deleted: boolean;
   toPid?: number;
-  user: { __typename?: "ArenaUser"; displayName: string; profilePicture?: string; username: string; location?: string };
+  user?: {
+    __typename?: "ArenaUser";
+    id: number;
+    displayName: string;
+    profilePicture?: string;
+    username: string;
+    location?: string;
+  };
   replies: Array<{ __typename?: "ArenaPost" } & GQLArenaRepliesFragment>;
 };
 
 export type GQLArenaUserQueryVariables = Exact<{
-  username: Scalars["String"]["input"];
+  id: Scalars["Int"]["input"];
 }>;
 
 export type GQLArenaUserQuery = {
   __typename?: "Query";
-  arenaUser?: { __typename?: "ArenaUser" } & GQLArenaUserFragment;
+  arenaUserById?: { __typename?: "ArenaUser" } & GQLArenaUserFragment;
 };
 
 export type GQLArenaPageQueryVariables = Exact<{ [key: string]: never }>;
@@ -4165,7 +4184,6 @@ export type GQLPlainArticleContainer_ArticleFragment = {
 
 export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 

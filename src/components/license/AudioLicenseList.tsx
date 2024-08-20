@@ -15,7 +15,6 @@ import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -124,20 +123,18 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         resourceUrl={audio.src}
         locale={i18n.language}
       >
-        <MediaListItemActions>
-          <MediaListContent>
-            <MediaListItemMeta items={items} />
-            {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
-          </MediaListContent>
-        </MediaListItemActions>
+        <MediaListContent>
+          <MediaListItemMeta items={items} />
+          {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
+            <CopyTextButton
+              stringToCopy={copyText}
+              copyTitle={t("license.copyTitle")}
+              hasCopiedTitle={t("license.hasCopiedTitle")}
+            >
+              <FileCopyLine />
+            </CopyTextButton>
+          )}
+        </MediaListContent>
       </MediaListItemBody>
     </MediaListItem>
   );
@@ -152,7 +149,7 @@ const AudioLicenseList = ({ audios }: Props) => {
   return (
     <MediaList>
       {unique.map((audio) => (
-        <AudioLicenseInfo audio={audio} key={uuid()} />
+        <AudioLicenseInfo audio={audio} key={`audio-${audio.id}`} />
       ))}
     </MediaList>
   );
