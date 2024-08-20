@@ -73,16 +73,16 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
   return (
     <>
       {licenseContent.map((content, index) => (
-        <>
-          {index + 1 >= licenseContent.length && <Divider />}
+        <div key={index}>
+          {index >= licenseContent.length - 1 && licenseContent.length > 1 && <Divider />}
           <Wrapper
             key={index}
-            data-padding-top={index + 1 >= licenseContent.length}
+            data-padding-top={index >= licenseContent.length - 1 && licenseContent.length > 1}
             data-padding-bottom={index < licenseContent.length - 1}
           >
             {content}
           </Wrapper>
-        </>
+        </div>
       ))}
     </>
   );
