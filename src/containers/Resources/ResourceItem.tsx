@@ -122,6 +122,7 @@ export const ResourceItem = ({
               src={article?.metaImage?.url ?? ""}
               alt={article?.metaImage?.alt ?? ""}
               sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+              css={{ "&[src='']": { opacity: "0" } }}
             />
             <ListItemHeading asChild consumeCss>
               <StyledSafeLink
