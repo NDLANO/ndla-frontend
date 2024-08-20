@@ -8,8 +8,9 @@
 
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { breakpoints } from "@ndla/core";
 import { PresentationLine } from "@ndla/icons/common";
-import { Badge, ListItemContent, ListItemHeading, ListItemRoot } from "@ndla/primitives";
+import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -41,6 +42,14 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "small",
+  },
+});
+
 const InfoContainer = styled(HStack, {
   base: {
     flexShrink: "0",
@@ -63,6 +72,9 @@ export type Resource = {
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
+  article?: {
+    metaImage?: { url?: string; alt?: string };
+  };
 };
 
 export const ResourceItem = ({
@@ -74,6 +86,7 @@ export const ResourceItem = ({
   showAdditionalResources,
   access,
   language,
+  article,
 }: Props & Resource) => {
   const { t } = useTranslation();
   const relevanceElId = useId();
@@ -104,19 +117,26 @@ export const ResourceItem = ({
         hidden={hidden && !active}
       >
         <StyledListItemContent>
-          <ListItemHeading asChild consumeCss>
-            <StyledSafeLink
-              to={path}
-              unstyled
-              css={linkOverlay.raw()}
-              lang={language === "nb" ? "no" : language}
-              aria-current={active ? "page" : undefined}
-              title={name}
-              aria-describedby={describedBy}
-            >
-              {name}
-            </StyledSafeLink>
-          </ListItemHeading>
+          <TitleWrapper>
+            <ListItemImage
+              src={article?.metaImage?.url ?? ""}
+              alt={article?.metaImage?.alt ?? ""}
+              sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+            />
+            <ListItemHeading asChild consumeCss>
+              <StyledSafeLink
+                to={path}
+                unstyled
+                css={linkOverlay.raw()}
+                lang={language === "nb" ? "no" : language}
+                aria-current={active ? "page" : undefined}
+                title={name}
+                aria-describedby={describedBy}
+              >
+                {name}
+              </StyledSafeLink>
+            </ListItemHeading>
+          </TitleWrapper>
           <InfoContainer gap="xxsmall">
             {teacherOnly && (
               <StyledPresentationLine

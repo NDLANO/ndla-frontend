@@ -4293,6 +4293,7 @@ export type GQLResources_ResourceFragment = {
   rank?: number;
   language?: string;
   relevanceId?: string;
+  article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
