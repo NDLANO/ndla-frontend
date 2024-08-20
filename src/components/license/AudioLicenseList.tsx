@@ -105,12 +105,12 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         </MediaListLicense>
         {!isCopyrighted(audio.copyright.license.license) && (
           <MediaListItemActions>
-            <SafeLinkButton to={audio.src} download variant="secondary">
+            <SafeLinkButton to={audio.src} download variant="secondary" size="small">
               <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
             {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                 <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>

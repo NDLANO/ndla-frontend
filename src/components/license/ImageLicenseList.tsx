@@ -117,7 +117,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         <Image alt={image.altText} src={image.src} />
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>
-            <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
+            <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
               <DownloadLine />
               {t("license.download")}
             </SafeLinkButton>
@@ -127,7 +127,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
               hasCopiedTitle={t("license.embedCopied")}
             />
             {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                 <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>

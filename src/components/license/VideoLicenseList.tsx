@@ -93,7 +93,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
-              <SafeLinkButton to={video.download} download variant="secondary">
+              <SafeLinkButton to={video.download} download variant="secondary" size="small">
                 <DownloadLine />
                 {t("license.download")}
               </SafeLinkButton>
@@ -104,7 +104,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
               hasCopiedTitle={t("license.embedCopied")}
             />
             {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                 <ShareBoxLine />
                 {t("license.openLink")}
               </SafeLinkButton>
