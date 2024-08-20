@@ -14,6 +14,7 @@ import { PaginationContext } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import {
   Text,
+  Badge,
   Button,
   PaginationEllipsis,
   PaginationItem,
@@ -46,12 +47,23 @@ export const StyledRow = styled("li", {
 
 export const StyledHeaderRow = styled("div", { base: { backgroundColor: "surface.brand.1" } });
 
-export const StatusBox = styled("span", {
+export const StatusBox = styled(Badge, {
   base: {
     color: "surface.default",
-    padding: "4xsmall",
-    borderRadius: "xsmall",
-    width: "fit-content",
+  },
+});
+
+export const StyledSafeLink = styled(SafeLink, {
+  base: {
+    textDecoration: "none",
+    "& [data-title='']": {
+      textDecoration: "underline",
+    },
+    _hover: {
+      "& [data-title='']": {
+        textDecoration: "none",
+      },
+    },
   },
 });
 
@@ -124,9 +136,9 @@ const FlaggedPosts = () => {
           const count = `${resolvedFlags.length}/${flags.length}`;
 
           return (
-            <SafeLink to={`${post.id}`} key={`btn-${post.id}`}>
+            <StyledSafeLink to={`${post.id}`} key={`btn-${post.id}`}>
               <StyledRow key={`post-${post.id}`} css={rowStyle}>
-                <div>Post {post.id}</div>
+                <div data-title="">Post {post.id}</div>
                 <div>{count}</div>
                 {<div>{lastFlagAt}</div>}
                 {
@@ -143,7 +155,7 @@ const FlaggedPosts = () => {
                   </div>
                 }
               </StyledRow>
-            </SafeLink>
+            </StyledSafeLink>
           );
         })}
       </div>

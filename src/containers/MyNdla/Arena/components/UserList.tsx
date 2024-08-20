@@ -8,8 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Spinner } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
-import { rowStyle, StatusBox, StyledRow } from "./FlaggedPosts";
+import { rowStyle, StatusBox, StyledRow, StyledSafeLink } from "./FlaggedPosts";
 import { Cell } from "./Users";
 import { isArenaModerator } from "../../../../components/AuthenticationContext";
 import { GQLArenaUserV2Fragment, GQLPaginatedArenaUsers } from "../../../../graphqlTypes";
@@ -38,16 +37,16 @@ const UserList = ({ loading, users }: Props) => {
     <>
       {users?.items.map((user) => {
         return (
-          <SafeLink to={routes.myNdla.arenaUser(user.username)} key={`btn-${user.id}`}>
+          <StyledSafeLink to={routes.myNdla.arenaUser(user.username)} key={`btn-${user.id}`}>
             <StyledRow css={rowStyle}>
-              <Cell>{user.username}</Cell>
+              <Cell data-title="">{user.username}</Cell>
               <Cell>{user.displayName}</Cell>
               <Cell>{user.location}</Cell>
               <Cell>
                 <ModTag user={user} />
               </Cell>
             </StyledRow>
-          </SafeLink>
+          </StyledSafeLink>
         );
       })}
     </>
