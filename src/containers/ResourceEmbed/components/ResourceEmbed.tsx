@@ -13,9 +13,9 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { Heading, HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import {
-  ArticleContent,
   ArticleFooter,
   ArticleHeader,
   ArticleWrapper,
@@ -25,6 +25,7 @@ import {
   OneColumn,
   ArticleHGroup,
   ArticleActionWrapper,
+  ArticlePadding,
 } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
@@ -57,6 +58,12 @@ interface MetaProperies {
   imageUrl?: string;
   type: StandaloneEmbed | "gloss" | "podcast";
 }
+
+const StyledArticlePadding = styled(ArticlePadding, {
+  base: {
+    background: "surface.default",
+  },
+});
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
@@ -222,13 +229,13 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   </Heading>
                 </ArticleHGroup>
               </ArticleHeader>
-              <ArticleContent padded>
+              <StyledArticlePadding>
                 {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) ? (
                   <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
                 ) : (
                   transformedContent
                 )}
-              </ArticleContent>
+              </StyledArticlePadding>
               <ArticleFooter padded>
                 {isOembed && (
                   <CreatedBy
