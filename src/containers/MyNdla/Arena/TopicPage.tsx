@@ -64,9 +64,13 @@ const StyledCardContainer = styled("li", {
 
 const HeaderWrapper = styled("div", {
   base: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
+    marginBlockEnd: "medium",
+    marginBlockStart: "large",
+    "& > h1": {
+      alignItems: "center",
+      display: "flex",
+      flexDirection: "row",
+    },
   },
 });
 
@@ -83,13 +87,6 @@ const ButtonContainer = styled("div", {
     display: "flex",
     flexDirection: "row",
     gap: "3xsmall",
-  },
-});
-
-const StyledHeading = styled(Heading, {
-  base: {
-    marginBlockEnd: "medium",
-    marginBlockStart: "large",
   },
 });
 
@@ -123,7 +120,7 @@ const TopicPage = () => {
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       </BreadcrumbWrapper>
       <HeaderWrapper>
-        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
+        <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
           {arenaCategory?.title}
           {user?.isModerator && !arenaCategory?.visible && (
             <StyledEye
@@ -132,7 +129,7 @@ const TopicPage = () => {
               aria-hidden={false}
             />
           )}
-        </StyledHeading>
+        </Heading>
       </HeaderWrapper>
       <Text>{arenaCategory?.description}</Text>
       {showCategories && (

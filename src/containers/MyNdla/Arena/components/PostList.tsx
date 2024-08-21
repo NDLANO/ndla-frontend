@@ -26,8 +26,6 @@ const StyledOl = styled("ol", {
 
 const StyledLi = styled("li", {
   base: {
-    display: "flex",
-    flexDirection: "column",
     padding: "unset",
   },
 });

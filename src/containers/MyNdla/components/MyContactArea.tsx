@@ -48,9 +48,9 @@ const AvatarContainer = styled("div", {
 const MobileButtonContainer = styled("div", {
   base: {
     paddingBlockStart: "4xsmall",
-    display: "none",
+    display: "block",
     tablet: {
-      display: "unset",
+      display: "none",
     },
   },
 });

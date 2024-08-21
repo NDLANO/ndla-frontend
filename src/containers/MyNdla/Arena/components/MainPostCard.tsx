@@ -133,7 +133,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
               <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
             </ContentWrapper>
             <FlexLine>
-              <Text textStyle="body.small">
+              <Text textStyle="body.small" asChild consumeCss>
                 <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
               </Text>
               <FlexLine>

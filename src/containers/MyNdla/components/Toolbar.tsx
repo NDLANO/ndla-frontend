@@ -52,11 +52,8 @@ const ButtonContainer = styled("div", {
 const DropdownWrapper = styled("div", {
   base: {
     display: "none",
-    mobileWide: {
+    mobileWideToDesktop: {
       display: "unset",
-    },
-    desktop: {
-      display: "none",
     },
   },
 });

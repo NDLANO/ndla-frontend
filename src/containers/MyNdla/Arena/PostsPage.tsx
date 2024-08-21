@@ -160,15 +160,13 @@ const PostsPage = () => {
             setReplyingTo={setReplyingTo}
           />
         </div>
-        <div>
-          <StyledReplyButton
-            aria-expanded={!!replyingTo}
-            onClick={() => setReplyingTo(arenaTopic?.id)}
-            hidden={!!replyingTo || !!arenaTopic?.isLocked}
-          >
-            {t("myNdla.arena.new.post")}
-          </StyledReplyButton>
-        </div>
+        <StyledReplyButton
+          aria-expanded={!!replyingTo}
+          onClick={() => setReplyingTo(arenaTopic?.id)}
+          hidden={!!replyingTo || !!arenaTopic?.isLocked}
+        >
+          {t("myNdla.arena.new.post")}
+        </StyledReplyButton>
       </PageWrapper>
     </MyNdlaPageWrapper>
   );

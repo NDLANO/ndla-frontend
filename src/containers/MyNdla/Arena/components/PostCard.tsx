@@ -74,7 +74,7 @@ export const FlexLine = styled("div", {
 export const Content = styled(Text, {
   base: {
     wordBreak: "break-word",
-    "& ul, ol": {
+    "& ul, & ol": {
       paddingInlineStart: "medium",
     },
   },
@@ -116,7 +116,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const postTime = useMemo(
     () => (
-      <Text textStyle="body.small">
+      <Text textStyle="body.small" asChild consumeCss>
         <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
       </Text>
     ),
