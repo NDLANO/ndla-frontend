@@ -31,8 +31,40 @@ import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
-export const StyledTable = styled(Table, { base: { padding: "xsmall", display: "table" } });
-export const StyledHeaderRow = styled("tr", { base: { textAlign: "left" } });
+export const StyledTable = styled(Table, {
+  base: {
+    padding: "xsmall",
+    display: "table",
+  },
+});
+
+export const StyledHeaderRow = styled("tr", {
+  base: {
+    textAlign: "left",
+
+    "& th": {
+      border: "none",
+      borderWidth: "0",
+      paddingInline: "0",
+      mobileWide: {
+        paddingInline: "xsmall",
+      },
+      _firstOfType: {
+        paddingInlineStart: "0",
+        mobileWide: {
+          paddingInlineStart: "xsmall",
+        },
+      },
+      _lastOfType: {
+        paddingInlineEnd: "0",
+        mobileWide: {
+          paddingInlineEnd: "xsmall",
+        },
+      },
+    },
+  },
+});
+
 export const StyledRow = styled("tr", {
   base: {
     position: "relative",
@@ -40,14 +72,27 @@ export const StyledRow = styled("tr", {
     borderBlockEnd: "1px solid",
     borderColor: "surface.brand.1.subtle",
 
-    "&:last-child": {
-      borderBlockEnd: "none",
-    },
-
     "& td": {
       border: "none",
-      borderWidth: "0px",
+      borderWidth: "0",
+      paddingInline: "0",
+      mobileWide: {
+        paddingInline: "xsmall",
+      },
+      _firstOfType: {
+        paddingInlineStart: "0",
+        mobileWide: {
+          paddingInlineStart: "xsmall",
+        },
+      },
+      _lastOfType: {
+        paddingInlineEnd: "0",
+        mobileWide: {
+          paddingInlineEnd: "xsmall",
+        },
+      },
     },
+
     "& [data-title='']": {
       textDecoration: "underline",
     },
@@ -59,6 +104,7 @@ export const StyledRow = styled("tr", {
     },
   },
 });
+
 export const StyledSafeLink = styled(SafeLink, {
   base: {
     // Make link clickable on whole row
