@@ -19,12 +19,14 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
+import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
+import { getSubjectType } from "../../../routeHelpers";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
@@ -36,7 +38,6 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
 
 type Props = {
   topicId: string;
-  subjectId?: string;
   subTopicId?: string;
   index?: number;
   showResources?: boolean;
@@ -46,19 +47,11 @@ type Props = {
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
 };
 
-const SubjectTopic = ({
-  topicId,
-  subjectId,
-  subTopicId,
-  topic,
-  resourceTypes,
-  showResources,
-  loading,
-  subject,
-}: Props) => {
+const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources, loading, subject }: Props) => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
+  const subjectType = subject?.id ? getSubjectType(subject?.id) : undefined;
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
@@ -139,7 +132,7 @@ const SubjectTopic = ({
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       >
-        {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+        {subjectType === "multiDisciplinary" && topic.context?.parentIds.length === 2 && topic.id === topicId ? (
           <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
         ) : subTopics?.length ? (
           <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
@@ -168,8 +161,9 @@ export const topicFragments = {
         id
         name
         relevanceId
-        url
         path
+        url
+        ...MultidisciplinaryArticleList_Topic
       }
       meta {
         metaDescription

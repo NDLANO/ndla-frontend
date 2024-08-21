@@ -13,6 +13,7 @@ import { CardContent, CardHeading, CardRoot, Text, Heading, CardImage } from "@n
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import config from "../../../config";
 import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
@@ -50,32 +51,35 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
         <h2>{t("multidisciplinary.casesCount", { count: topics.length })}</h2>
       </Heading>
       <CardList>
-        {topics.map((topic) => (
-          <li key={topic.id}>
-            <CardRoot css={{ height: "100%" }}>
-              {!!topic.meta?.metaImage && (
-                <CardImage
-                  src={topic.meta.metaImage.url}
-                  alt={topic.meta.metaImage.alt}
-                  height={200}
-                  fallbackWidth={360}
-                />
-              )}
-              <CardContent>
-                <CardHeading asChild consumeCss>
-                  <h3>
-                    <SafeLink to={topic.path ?? ""} css={linkOverlay.raw()}>
-                      {topic.name}
-                    </SafeLink>
-                  </h3>
-                </CardHeading>
-                <Text textStyle="body.large" css={{ flex: "1" }}>
-                  {topic.meta?.metaDescription ?? ""}
-                </Text>
-              </CardContent>
-            </CardRoot>
-          </li>
-        ))}
+        {topics.map((topic) => {
+          const path = config.enablePrettyUrls ? topic.url : topic.path;
+          return (
+            <li key={topic.id}>
+              <CardRoot css={{ height: "100%" }}>
+                {!!topic.meta?.metaImage && (
+                  <CardImage
+                    src={topic.meta.metaImage.url}
+                    alt={topic.meta.metaImage.alt}
+                    height={200}
+                    fallbackWidth={360}
+                  />
+                )}
+                <CardContent>
+                  <CardHeading asChild consumeCss>
+                    <h3>
+                      <SafeLink to={path ?? ""} css={linkOverlay.raw()}>
+                        {topic.name}
+                      </SafeLink>
+                    </h3>
+                  </CardHeading>
+                  <Text textStyle="body.large" css={{ flex: "1" }}>
+                    {topic.meta?.metaDescription ?? ""}
+                  </Text>
+                </CardContent>
+              </CardRoot>
+            </li>
+          );
+        })}
       </CardList>
     </ListWrapper>
   );
@@ -84,9 +88,10 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
 MultidisciplinaryArticleList.fragments = {
   topic: gql`
     fragment MultidisciplinaryArticleList_Topic on Node {
-      name
       id
+      name
       path
+      url
       meta {
         metaDescription
         metaImage {

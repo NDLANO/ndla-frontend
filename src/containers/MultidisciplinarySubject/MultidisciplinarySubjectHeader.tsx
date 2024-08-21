@@ -61,9 +61,6 @@ const MultidisciplinarySubjectHeader = ({ subjectsLinks = [], breadcrumbs = [] }
       <ContentWrapper>
         <TextWrapper>
           <HomeBreadcrumb items={breadcrumbs} />
-          <Text element="span" textStyle="meta-text-medium">
-            {t("frontpageMultidisciplinarySubject.heading")}
-          </Text>
           <SubjectsWrapper>
             <Text textStyle="content-alt" element="span" margin="none">
               {t("multidisciplinarySubject.subjectsLinksDescription")}:{" "}
