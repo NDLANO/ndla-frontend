@@ -24,7 +24,6 @@ import {
   HomeBreadcrumb,
   OneColumn,
   ArticleHGroup,
-  ArticleActionWrapper,
   ArticlePadding,
 } from "@ndla/ui";
 import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
@@ -224,7 +223,6 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               <ArticleHeader padded>
                 <ArticleHGroup>
                   {!!type && <ContentTypeBadgeNew contentType={type} />}
-                  {!isOembed && <ArticleActionWrapper></ArticleActionWrapper>}
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {properties.title}
                   </Heading>
