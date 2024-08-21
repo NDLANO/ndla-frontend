@@ -71,18 +71,6 @@ export const StyledSafeLink = styled(SafeLink, {
   },
 });
 
-// export const rowStyle = css.raw({
-//   display: "grid",
-//   gridTemplateColumns: "repeat(4,1fr)",
-//   marginBlock: "xxsmall",
-//   padding: "xxsmall",
-//   borderRadius: "xsmall",
-//   border: "1px solid",
-//   borderColor: "stroke.subtle",
-// });
-
-// export const StyledHeaderRows = styled("div", { base: { backgroundColor: "surface.brand.1" } });
-
 export const StatusBox = styled(Badge, {
   base: {
     display: "inline-block",
