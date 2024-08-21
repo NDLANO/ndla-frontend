@@ -21,6 +21,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { PROGRAMME_PATH } from "../../../constants";
 import { GQLProgrammes_ProgrammePageFragment } from "../../../graphqlTypes";
 
 const StyledWrapper = styled("div", {
@@ -184,7 +185,7 @@ const Programmes = ({ programmes }: Props) => {
                 <StyledList>
                   {programmes.map((programme) => (
                     <StyledLi key={programme.id}>
-                      <StyledSafeLinkButton to={programme.url} variant="secondary">
+                      <StyledSafeLinkButton to={`${PROGRAMME_PATH}${programme.url}`} variant="secondary">
                         {programme.title.title}
                         <ArrowRightLine />
                       </StyledSafeLinkButton>
