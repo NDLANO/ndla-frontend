@@ -85,6 +85,7 @@ export const StyledSafeLink = styled(SafeLink, {
 
 export const StatusBox = styled(Badge, {
   base: {
+    display: "inline-block",
     color: "surface.default",
   },
 });
@@ -140,7 +141,7 @@ const FlaggedPosts = () => {
             <th>{t("myNdla.arena.admin.flags.postId")}</th>
             <th>{t("myNdla.arena.admin.flags.numFlags")}</th>
             <th>{t("myNdla.arena.admin.flags.latestFlag")}</th>
-            <th>{t("myNdla.arena.admin.flags.status.title")}</th>
+            <th style={{ textAlign: "right" }}>{t("myNdla.arena.admin.flags.status.title")}</th>
           </StyledHeaderRow>
         </thead>
         <tbody>
@@ -165,7 +166,8 @@ const FlaggedPosts = () => {
                 <td data-title="">Post {post.id}</td>
                 <td>{count}</td>
                 <td>{lastFlagAt}</td>
-                <td>
+                <td style={{ textAlign: "right" }}>
+                  <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
                   {resolvedFlags.length === flags.length ? (
                     <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
                       {t(`myNdla.arena.admin.flags.status.resolved`)}
@@ -175,7 +177,6 @@ const FlaggedPosts = () => {
                       {t(`myNdla.arena.admin.flags.status.unresolved`)}
                     </StatusBox>
                   )}
-                  <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
                 </td>
               </StyledRow>
             );
