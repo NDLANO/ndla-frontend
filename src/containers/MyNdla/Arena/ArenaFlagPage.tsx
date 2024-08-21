@@ -54,9 +54,7 @@ const ArenaFlagPage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large">
         {t("myNdla.arena.admin.flags.title")}
       </Heading>
-      <Text asChild consumeCss>
-        <p>{t("myNdla.arena.admin.flags.description")}</p>
-      </Text>
+      <Text>{t("myNdla.arena.admin.flags.description")}</Text>
       <StyledCardContainer>
         <FlaggedPosts />
       </StyledCardContainer>
