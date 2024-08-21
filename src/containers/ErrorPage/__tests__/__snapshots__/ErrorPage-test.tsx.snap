@@ -2,23 +2,7 @@
 
 exports[`ErrorPage renderers correctly 1`] = `
 <DocumentFragment>
-  .emotion-0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-}
-
-.emotion-1 {
-  z-index: 10;
-}
-
-<div
+  <div
     class="min-h_100vh d_flex flex-d_column tablet:bg-c_#f8f8f8"
   >
     <div
@@ -30,7 +14,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         class="d_flex jc_space-between ai_center py_small px_medium gap_xsmall ta_center tabletDown:p_small"
       >
         <div
-          class="emotion-0"
+          class="d_flex w_100% jc_center"
         >
           <a
             aria-label="Nasjonal digital læringsarena"
@@ -70,7 +54,9 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
     </div>
-    <div>
+    <div
+      class="pbe_4xlarge"
+    >
       <div
         class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
       >
@@ -113,7 +99,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="pos_relative bg_primary c_text.onAction"
     >
       <button
-        class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24 pos_absolute right_xxlarge top_-medium z_docked"
+        class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong px_xsmall py_xxsmall min-h_24 pos_absolute right_xxlarge top_-medium z_docked"
         id="zendesk"
         type="button"
       >
@@ -137,7 +123,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default max-w_1150px"
       >
         <svg
-          class="c_icon.onAction flex-sh_0"
+          class="c_icon.onAction flex-sh_0 print:c_icon.strong"
           height="383"
           viewBox="0 0 260.29 611.89"
           width="163"
@@ -537,17 +523,6 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
     </footer>
-    <div
-      class="emotion-1"
-    >
-      <button
-        class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.active px_xsmall py_xxsmall min-h_24"
-        id="zendeskButton"
-        type="button"
-      >
-        Spør NDLA
-      </button>
-    </div>
   </div>
 </DocumentFragment>
 `;

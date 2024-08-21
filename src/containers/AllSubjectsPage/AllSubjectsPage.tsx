@@ -55,7 +55,6 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, OTHER, false),
     value: OTHER,
   },
-  // TODO: Consider if all should be removed as a option with new filter logic
   {
     label: `${t("contentTypes.all")} ${t("common.subject", {
       count: 2,
@@ -128,10 +127,11 @@ const AllSubjectsPage = () => {
 
   const setFilter = (value: string[]) => {
     const searchObject = parse(location.search);
-    _setFilter(value);
+    const updatedValue = value.length ? value : [ACTIVE_SUBJECTS];
+    _setFilter(updatedValue);
     const search = stringify({
       ...searchObject,
-      filter: value,
+      filter: updatedValue,
     });
     navigate(`${location.pathname}?${search}`);
   };

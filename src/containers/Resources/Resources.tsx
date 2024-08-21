@@ -208,6 +208,12 @@ const resourceFragment = gql`
     rank
     language
     relevanceId
+    article {
+      metaImage {
+        url
+        alt
+      }
+    }
     resourceTypes {
       id
       name

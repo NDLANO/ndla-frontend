@@ -181,6 +181,7 @@ export const aboutPageFragments = {
     fragment AboutPage_Article on Article {
       id
       introduction
+      grepCodes
       htmlIntroduction
       created
       updated

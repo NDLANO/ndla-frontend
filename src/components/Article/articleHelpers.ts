@@ -6,13 +6,20 @@
  *
  */
 
+import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";
+import { MastheadHeightPx } from "../../constants";
 import { GQLArticle } from "../../graphqlTypes";
 
-export const useArticleCopyText = (article: Pick<GQLArticle, "id" | "title" | "published" | "copyright">) => {
+export const useArticleCopyText = (
+  article: Pick<GQLArticle, "id" | "title" | "published" | "copyright"> | undefined,
+) => {
   const { t, i18n } = useTranslation();
+  if (!article) return undefined;
   const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
   return webpageReferenceApa7CopyString(
@@ -25,4 +32,29 @@ export const useArticleCopyText = (article: Pick<GQLArticle, "id" | "title" | "p
     "",
     (id: string) => t(id),
   );
+};
+
+// Scroll to element with ID passed in as a query-parameter.
+// We use query-params instead of the regular fragments since
+// the article doesn't exist on initial page load (At least without SSR).
+export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash && articleContent) {
+      setTimeout(() => {
+        const element = document.getElementById(location.hash.slice(1));
+        const elementTop = element?.getBoundingClientRect().top ?? 0;
+        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const absoluteTop = elementTop - bodyTop;
+        const scrollPosition = absoluteTop - height - 20;
+
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: "smooth",
+        });
+      }, 400);
+    }
+  }, [articleContent, location, height]);
 };

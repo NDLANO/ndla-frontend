@@ -241,7 +241,7 @@ export const subjectContextContainerFragments = {
             url
           }
         }
-        ...SubjectLinks_Subject
+        ...SubjectLinks_SubjectPage
       }
       topics: children(nodeType: TOPIC) {
         id
@@ -250,7 +250,7 @@ export const subjectContextContainerFragments = {
         path
       }
     }
-    ${SubjectLinks.fragments.links}
+    ${SubjectLinks.fragments.subjectPage}
   `,
   topic: gql`
     fragment SubjectContextContainer_Topic on Node {

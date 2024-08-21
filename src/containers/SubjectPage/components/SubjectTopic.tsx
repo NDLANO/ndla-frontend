@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
@@ -14,23 +15,19 @@ import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
-import ArticleContents from "../../../components/Article/ArticleContents";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
-import TopicArticle from "../../../components/Topic/TopicArticle";
-import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { getArticleScripts } from "../../../util/getArticleScripts";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import { transformArticle } from "../../../util/transformArticle";
+import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../../Resources/Resources";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
@@ -59,7 +56,7 @@ const SubjectTopic = ({
   loading,
   subject,
 }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
 
@@ -81,14 +78,9 @@ const SubjectTopic = ({
   }, [topic?.article?.transformedContent?.visualElementEmbed?.content]);
 
   const visualElement = useMemo(() => {
-    if (!embedMeta || !topic.article?.transformedContent?.visualElementEmbed?.meta) return undefined;
-    return (
-      <TopicVisualElementContent
-        embed={embedMeta}
-        metadata={topic.article?.transformedContent?.visualElementEmbed?.meta}
-      />
-    );
-  }, [embedMeta, topic.article?.transformedContent?.visualElementEmbed?.meta]);
+    if (!embedMeta) return undefined;
+    return <TopicVisualElementContent embed={embedMeta} />;
+  }, [embedMeta]);
 
   const resources = useMemo(() => {
     if (topic.subtopics) {
@@ -106,18 +98,7 @@ const SubjectTopic = ({
     return null;
   }, [resourceTypes, topic, subject]);
 
-  const [article, scripts] = useMemo(() => {
-    if (!topic.article) return [undefined, undefined];
-    return [
-      transformArticle(topic.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${topic.article?.id}`,
-        subject: subjectId,
-      }),
-      getArticleScripts(topic.article, i18n.language),
-    ];
-  }, [i18n.language, subjectId, topic.article]);
-
-  if (!topic.article || !article) {
+  if (!topic.article) {
     return null;
   }
 
@@ -154,18 +135,15 @@ const SubjectTopic = ({
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
         id={topic.id === topicId ? SKIP_TO_CONTENT_ID : undefined}
-        title={article.transformedContent.title}
-        introduction={article.transformedContent.introduction}
-        metaImage={article.metaImage}
-        isLoading={false}
+        title={parse(topic.article.htmlTitle ?? "")}
+        introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
       >
-        {topic.article?.transformedContent?.content !== "" && (
-          <TopicArticle>
-            <ArticleContents article={article} scripts={scripts} oembed={article.oembed} />
-          </TopicArticle>
-        )}
-        {!!subTopics?.length && <NavigationBox colorMode="light" heading={t("navigation.topics")} items={subTopics} />}
+        {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+          <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
+        ) : subTopics?.length ? (
+          <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
+        ) : null}
         {resources}
       </Topic>
     </>
@@ -215,6 +193,10 @@ export const topicFragments = {
         }
       }
       article {
+        id
+        htmlTitle
+        htmlIntroduction
+        grepCodes
         oembed
         metaImage {
           url
@@ -223,18 +205,13 @@ export const topicFragments = {
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {
             content
-            meta {
-              ...TopicVisualElementContent_Meta
-            }
           }
         }
         revisionDate
-        ...ArticleContents_Article
       }
       ...Resources_Topic
     }
-    ${TopicVisualElementContent.fragments.metadata}
-    ${ArticleContents.fragments.article}
+    ${MultidisciplinaryArticleList.fragments.topic}
     ${Resources.fragments.topic}
   `,
   resourceType: gql`

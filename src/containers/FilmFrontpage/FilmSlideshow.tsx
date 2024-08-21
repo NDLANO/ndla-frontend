@@ -53,6 +53,7 @@ const StyledSafeLinkCard = styled(SafeLink, {
     borderColor: "stroke.default",
     backgroundColor: "surface.default",
     borderRadius: "xsmall",
+    overflow: "hidden",
 
     transition: "all 200ms",
     transform: "translateY(10%)",
@@ -77,7 +78,6 @@ const StyledImg = styled("img", {
     width: "30vw",
     height: "15vw",
     objectFit: "cover",
-    borderTopRadius: "4",
   },
 });
 

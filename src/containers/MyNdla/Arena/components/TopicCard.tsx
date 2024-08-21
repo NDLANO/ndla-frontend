@@ -6,11 +6,10 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { LockFill } from "@ndla/icons/common";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../../routeHelpers";
 import { formatDateTime } from "../../../../util/formatDate";
 
@@ -21,81 +20,88 @@ interface Props {
   count: number;
   locked?: boolean;
 }
-const StyledSafelink = styled(SafeLink)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal} ${spacing.medium};
-  padding-left: ${spacing.large};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  background-color: ${colors.background.lightBlue};
-  &:hover,
-  &:focus-visible {
-    background-color: ${colors.brand.lighter};
-    [data-name="hover"] {
-      text-decoration: none;
-    }
-  }
-`;
+const StyledSafelink = styled(SafeLink, {
+  base: {
+    alignItems: "center",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "row",
+    gap: "medium",
+    justifyContent: "space-between",
+    paddingBlock: "medium",
+    paddingInlineStart: "xxlarge",
+    paddingInlineEnd: "large",
 
-const StyledHeader = styled(Text)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  overflow-wrap: break-word;
-  cursor: pointer;
-`;
+    _hover: {
+      backgroundColor: "surface.hover",
+      "& [data-title]": {
+        textDecoration: "none",
+      },
+    },
+  },
+});
 
-const StyledText = styled(Text)`
-  color: ${colors.text.primary};
-  padding-top: ${spacing.xsmall};
-`;
+const StyledHeader = styled(Text, {
+  base: {
+    overflowWrap: "break-word",
+    textDecoration: "underline",
+  },
+});
 
-const StyledCountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: ${colors.text.primary};
-`;
+const StyledCountContainer = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
-const StyledLockedIcon = styled(LockFill)`
-  width: ${spacing.normal};
-  height: ${spacing.normal};
-  color: ${colors.brand.primary};
-`;
+const StyledLockedIcon = styled(LockFill, {
+  base: {
+    color: "stroke.default",
+  },
+});
 
-const CountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+const CountContainer = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
+
+const TitleContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
 const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
-      <div>
-        <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
+      <TitleContainer>
+        <StyledHeader data-title="" textStyle="title.small" color="text.strong">
           {title}
         </StyledHeader>
-        <StyledText element="p" textStyle="meta-text-small" margin="none">
-          {timestamp && formatDateTime(timestamp, i18n.language)}
-        </StyledText>
-      </div>
+        <Text textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
+      </TitleContainer>
       <StyledCountContainer>
         {locked ? (
           <StyledLockedIcon />
         ) : (
           <CountContainer aria-label={`${count} ${t("myNdla.arena.topic.responses")}`}>
-            <Text element="p" textStyle="content-alt" margin="none" aria-hidden>
+            <Text textStyle="body.medium" aria-hidden color="text.strong">
               {count}
             </Text>
-            <StyledText textStyle="meta-text-small" margin="none" aria-hidden>
+            <Text aria-hidden textStyle="body.small">
               {t("myNdla.arena.topic.responses")}
-            </StyledText>
+            </Text>
           </CountContainer>
         )}
       </StyledCountContainer>

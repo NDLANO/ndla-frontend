@@ -126,6 +126,7 @@ const MastheadContainer = () => {
           <MastheadDrawer subject={data?.subject} crumbs={crumbs} />
           <MastheadSearch />
         </DrawerWrapper>
+        {/* TODO: We're supposed to have another logo here on smaller screens. */}
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
           <NdlaLogoText />
         </SafeLink>

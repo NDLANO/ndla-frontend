@@ -13,8 +13,6 @@ import uniq from "lodash/uniq";
 import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -30,7 +28,7 @@ import {
   InputContainer,
   Text,
 } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import {
   TagSelectorClearTrigger,
   TagSelectorControl,
@@ -66,35 +64,29 @@ interface Props {
   defaultOpenFolder?: GQLFolder;
 }
 
-export const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const AddResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-export const AddResourceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledComboboxContent = styled(ComboboxContent, {
+  base: {
+    display: "flex",
+    maxHeight: "320px",
+    overflow: "hidden",
+  },
+});
 
-export const ComboboxContainer = styled.div`
-  display: flex;
-  max-height: 320px;
-  overflow: hidden;
-`;
-
-const StyledComboboxContent = styled(ComboboxContent)`
-  display: flex;
-  max-height: 320px;
-  overflow: hidden;
-`;
-
-const StyledInfoMessages = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledInfoMessages = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
@@ -270,7 +262,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           </TagSelectorRoot>
         </>
       )}
-      <ButtonRow>
+      <HStack justify="flex-end" gap="xsmall">
         <Button
           variant="secondary"
           onClick={onClose}
@@ -297,7 +289,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("myNdla.resource.save")}
         </Button>
-      </ButtonRow>
+      </HStack>
     </AddResourceContainer>
   );
 };

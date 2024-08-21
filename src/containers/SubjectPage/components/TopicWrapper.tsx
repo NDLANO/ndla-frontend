@@ -89,7 +89,6 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       topic={data.topic}
       resourceTypes={data.resourceTypes}
       topicId={topicId}
-      subjectId={subjectId}
       subTopicId={subTopicId}
       showResources={showResources}
       subject={subject}

@@ -70,7 +70,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
 
   const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
   return (
-    <>
+    <div>
       <MediaListLicenseButtonWrapper>
         {title && (
           <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
@@ -87,7 +87,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
         </Text>
       )}
       <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
-    </>
+    </div>
   );
 };
 
@@ -100,7 +100,7 @@ export const MediaListItem = styled("li", {
   },
 });
 
-export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "xsmall" } });
+export const MediaListContent = styled("div", { base: { display: "flex", flexDirection: "column", gap: "3xsmall" } });
 
 interface MediaListItemBodyProps {
   children: ReactNode;
@@ -144,6 +144,7 @@ export const MediaListItemActions = styled("div", {
     display: "flex",
     flexWrap: "wrap",
     gap: "xsmall",
+    marginBlockStart: "3xsmall",
     "& > a": {
       width: "fit-content",
     },
@@ -211,6 +212,12 @@ const isAttributionItem = (item: ItemType): item is ItemTypeWithDescription => {
   return attributionTypes.some((type) => type === item.metaType);
 };
 
+const StyledListItem = styled("li", {
+  base: {
+    wordBreak: "break-word",
+  },
+});
+
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
   const attributionItems = items.filter(isAttributionItem);
   const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
@@ -219,10 +226,18 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
     // eslint-disable-next-line react/no-unknown-property
     <ul property="cc:attributionName" content={attributionMeta}>
       {items.map((item) => (
-        <li key={item.label}>
+        <StyledListItem key={item.label}>
           <ItemText item={item} />
-        </li>
+        </StyledListItem>
       ))}
     </ul>
   );
 };
+
+export const ImageAndLicenseWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});

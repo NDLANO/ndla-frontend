@@ -9,8 +9,8 @@
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import Article from "../../components/Article";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
