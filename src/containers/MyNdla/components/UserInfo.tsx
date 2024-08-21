@@ -36,6 +36,7 @@ const StyledUl = styled("ul", {
   base: {
     paddingInlineStart: "xlarge",
     paddingBlockEnd: "xxsmall",
+    listStyleType: "unset",
   },
 });
 
@@ -54,7 +55,7 @@ export const UserInfo = ({ user }: Props) => {
       <ShortInfoDiv>
         <Text>
           {t("user.username")}: {user?.username}
-        </Text>{" "}
+        </Text>
         <Text>
           {t("user.name")}: {user?.displayName}
         </Text>

@@ -84,9 +84,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
         <Heading id="myProfileTitle" textStyle="title.large" asChild consumeCss>
           <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
         </Heading>
-        <Text asChild consumeCss>
-          <p>{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</p>
-        </Text>
+        <Text>{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
@@ -94,9 +92,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             <Heading id="myProfileTitle" textStyle="title.large" asChild consumeCss>
               <h2>{t("myNdla.myProfile.preferenceTitle")}</h2>
             </Heading>
-            <Text asChild consumeCss>
-              <p>{t("myNdla.myProfile.preferenceText")}</p>
-            </Text>
+            <Text>{t("myNdla.myProfile.preferenceText")}</Text>
           </OptionContainer>
           <form>
             {/* TODO: Do optimistic update and revert if it fails */}
