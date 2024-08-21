@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticlePadding, OneColumn } from "@ndla/ui";
 import { findBreadcrumb } from "./AboutPageContent";
+import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { GQLAboutPageFooter_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 
@@ -41,29 +41,6 @@ const StyledOuterListItem = styled("li", {
 const StyledListItem = styled("li", {
   base: {
     flexGrow: "1",
-  },
-});
-
-// TODO: Fix handling of active safeLinkButton when implemented
-const StyledSafeLinkButtonPrimary = styled(SafeLinkButton, {
-  base: { width: "100%", justifyContent: "start" },
-  variants: {
-    active: {
-      true: {
-        backgroundColor: "surface.action.active",
-      },
-    },
-  },
-});
-// TODO: Fix handling of active safeLinkButton when implemented
-const StyledSafeLinkButtonSecondary = styled(SafeLinkButton, {
-  base: { width: "100%", justifyContent: "start" },
-  variants: {
-    active: {
-      true: {
-        backgroundColor: "surface.actionSubtle.active",
-      },
-    },
   },
 });
 
@@ -104,28 +81,19 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                     </Heading>
                     <StyledList aria-labelledby={`${item.article.slug}-title`}>
                       {item.menu?.map((m) => {
-                        const current = crumb.some((c) => c.article.slug === m.article.slug);
                         return (
                           <StyledListItem key={m.article.slug}>
-                            {index === 0 ? (
-                              <StyledSafeLinkButtonPrimary
-                                to={toAbout(m.article.slug)}
-                                aria-current={current}
-                                active={current}
-                                variant="primary"
-                              >
-                                {m.article.title}
-                              </StyledSafeLinkButtonPrimary>
-                            ) : (
-                              <StyledSafeLinkButtonSecondary
-                                to={toAbout(m.article.slug)}
-                                aria-current={current}
-                                active={current}
-                                variant="secondary"
-                              >
-                                {m.article.title}
-                              </StyledSafeLinkButtonSecondary>
-                            )}
+                            <NavigationSafeLinkButton
+                              to={toAbout(m.article.slug)}
+                              variant={index === 0 ? "primary" : "secondary"}
+                              data-variant={index === 0 ? "primary" : "secondary"}
+                              aria-selected={crumb.some((c) => c.article.slug === m.article.slug)}
+                              aria-current={
+                                crumb[crumb.length - 1]?.article.slug === m.article.slug ? "page" : undefined
+                              }
+                            >
+                              {m.article.title}
+                            </NavigationSafeLinkButton>
                           </StyledListItem>
                         );
                       })}

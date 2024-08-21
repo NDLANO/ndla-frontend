@@ -6,7 +6,6 @@
  *
  */
 
-import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -16,14 +15,15 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxRoot,
-  Text,
+  FieldsetLegend,
+  FieldsetRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
   base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
 });
-const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
+const StyledFieldsetRoot = styled(FieldsetRoot, { base: { display: "flex", gap: "small" } });
 
 interface Option {
   value: string;
@@ -38,14 +38,10 @@ interface Props {
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
-  const tabFilterLabelId = useId();
   return (
-    <div>
-      {/* TODO: Update to Fieldset */}
-      <StyledText textStyle="title.small" id={tabFilterLabelId}>
-        {t("subjectsPage.tabFilter")}
-      </StyledText>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={onChange} aria-labelledby={tabFilterLabelId}>
+    <StyledFieldsetRoot>
+      <FieldsetLegend textStyle="title.small">{t("subjectsPage.tabFilter")}</FieldsetLegend>
+      <StyledCheckboxGroup value={selectedValue} onValueChange={onChange}>
         {options.map((item) => (
           <CheckboxRoot key={item.value} value={item.value} variant="chip">
             <CheckboxControl>
@@ -58,7 +54,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
           </CheckboxRoot>
         ))}
       </StyledCheckboxGroup>
-    </div>
+    </StyledFieldsetRoot>
   );
 };
 

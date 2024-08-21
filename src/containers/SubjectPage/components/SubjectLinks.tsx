@@ -6,93 +6,90 @@
  *
  */
 
-import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { GQLSubjectLinks_SubjectPageFragment } from "../../../graphqlTypes";
 
-const ComponentRoot = styled.ul`
-  padding: 0 0 ${spacing.medium} 0;
-  list-style: none;
-`;
+const LinksWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const SubComponentRoot = styled.li`
-  padding: 0;
-`;
-
-const LinkElement = styled.span`
-  display: inline-block;
-  margin-right: ${spacing.xsmall};
-`;
-
-const LinkSetTitle = styled.span`
-  font-weight: 600;
-  margin-right: ${spacing.xsmall};
-`;
-
-const Conjunction = styled.span`
-  margin-right: ${spacing.xsmall};
-`;
+const StyledText = styled(Text, {
+  base: {
+    alignItems: "center",
+    "& > *:not(:first-child)": {
+      marginInlineStart: "xxsmall",
+    },
+  },
+});
 
 type SubjectLinkItem = {
   name?: string;
   path?: string;
 };
 
-type SubjectLinkSetProps = {
+interface SubjectLinkSetProps {
   set: string;
   subjects: SubjectLinkItem[];
   title: string;
-};
-
-type SubjectLinksProps = {
-  buildsOn: SubjectLinkItem[];
-  connectedTo: SubjectLinkItem[];
-  leadsTo: SubjectLinkItem[];
-};
+}
 
 const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
   const { t } = useTranslation();
 
   return (
-    <SubComponentRoot>
-      <LinkSetTitle>{title}:</LinkSetTitle>
+    <StyledText textStyle="label.medium">
+      <b>{title}:</b>
       {subjects.map((subject, index) => (
-        <Fragment key={`${set}-${index}`}>
-          <LinkElement>
-            {subject.path ? <SafeLink to={subject.path}>{subject.name}</SafeLink> : <span>{subject.name}</span>}
-
-            {index < subjects.length - 2 && ","}
-          </LinkElement>
-          {index === subjects.length - 2 && <Conjunction>{t("article.conjunction")}</Conjunction>}
-        </Fragment>
+        <StyledText textStyle="body.link" key={`${set}-${index}`} asChild consumeCss>
+          <span>
+            {subject.path ? (
+              <SafeLink to={subject.path}>
+                {subject.name}
+                {index < subjects.length - 2 ? "," : null}
+              </SafeLink>
+            ) : (
+              <span>
+                {subject.name}
+                {index < subjects.length - 2 ? "," : null}
+              </span>
+            )}
+            {index === subjects.length - 2 && <span>{t("article.conjunction")}</span>}
+          </span>
+        </StyledText>
       ))}
-    </SubComponentRoot>
+    </StyledText>
   );
 };
 
+interface SubjectLinksProps extends GQLSubjectLinks_SubjectPageFragment {}
+
 const SubjectLinks = ({ buildsOn, connectedTo, leadsTo }: SubjectLinksProps) => {
   const { t } = useTranslation();
+  if (!connectedTo.length && !buildsOn.length && !leadsTo.length) return null;
   return (
-    <ComponentRoot>
-      {connectedTo.length > 0 ? (
+    <LinksWrapper>
+      {!!connectedTo.length && (
         <SubjectLinkSet set="connectedTo" subjects={connectedTo} title={t("subjectFrontPage.connectedTo")} />
-      ) : null}
-      {buildsOn.length > 0 ? (
+      )}
+      {!!buildsOn.length && (
         <SubjectLinkSet set="buildsOn" subjects={buildsOn} title={t("subjectFrontPage.buildsOn")} />
-      ) : null}
-      {leadsTo.length > 0 ? (
-        <SubjectLinkSet set="leadsTo" subjects={leadsTo} title={t("subjectFrontPage.leadsTo")} />
-      ) : null}
-    </ComponentRoot>
+      )}
+      {!!leadsTo.length && <SubjectLinkSet set="leadsTo" subjects={leadsTo} title={t("subjectFrontPage.leadsTo")} />}
+    </LinksWrapper>
   );
 };
 
 SubjectLinks.fragments = {
-  links: gql`
-    fragment SubjectLinks_Subject on SubjectPage {
+  subjectPage: gql`
+    fragment SubjectLinks_SubjectPage on SubjectPage {
       buildsOn {
         name
         path

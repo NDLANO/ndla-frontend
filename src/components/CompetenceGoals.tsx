@@ -9,7 +9,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { CompassFill } from "@ndla/icons/common";
 import {
   Button,
   DialogBody,
@@ -60,17 +59,6 @@ const StyledDialogBody = styled(DialogBody, {
     paddingInline: "0",
   },
 });
-
-// const CompetenceGoalsWrapper = styled.div`
-//   height: 100%;
-//   max-width: 960px;
-//   width: 100%;
-//   margin: 0 auto;
-//   padding: 32px;
-//   ${mq.range({ from: breakpoints.mobile })} {
-//     padding: 0;
-//   }
-// `;
 
 const getUniqueCurriculums = (
   competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
@@ -222,10 +210,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
         <DialogContent>
           <OneColumn wide>
             <StyledDialogHeader>
-              <DialogTitle>
-                <CompassFill />
-                {t("competenceGoals.modalText")}
-              </DialogTitle>
+              <DialogTitle>{t("competenceGoals.modalText")}</DialogTitle>
               <DialogCloseButton />
             </StyledDialogHeader>
             <StyledDialogBody>

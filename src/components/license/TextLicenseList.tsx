@@ -76,13 +76,13 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
             sourceTitle={text.title}
             sourceType="text"
           />
-          <MediaListItemActions>
-            {printUrl && (
+          {printUrl && (
+            <MediaListItemActions>
               <Button variant="secondary" onClick={() => printPage(printUrl)}>
                 {t("article.printPage")}
               </Button>
-            )}
-          </MediaListItemActions>
+            </MediaListItemActions>
+          )}
         </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>

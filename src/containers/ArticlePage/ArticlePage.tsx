@@ -13,12 +13,29 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, constants, ContentTypeHero, HomeBreadcrumb } from "@ndla/ui";
+import {
+  OneColumn,
+  constants,
+  ContentTypeHero,
+  HomeBreadcrumb,
+  ArticleWrapper,
+  ArticleTitle,
+  ArticleContent,
+  ArticleFooter,
+  ArticleByline,
+  ArticlePadding,
+} from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
+import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
+import LicenseBox from "../../components/license/LicenseBox";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -50,6 +67,27 @@ interface Props {
   loading?: boolean;
   skipToContentId?: string;
 }
+
+const ResourcesWrapper = styled("div", {
+  base: {
+    background: "background.subtle",
+    paddingBlockEnd: "xxlarge",
+  },
+});
+
+const RelativeOneColumn = styled(OneColumn, {
+  base: {
+    position: "relative",
+  },
+});
+
+const StyledHeroContent = styled(HeroContent, {
+  base: {
+    "& a:focus-within": {
+      outlineColor: "currentcolor",
+    },
+  },
+});
 
 const ArticlePage = ({
   resource,
@@ -92,6 +130,10 @@ const ArticlePage = ({
     ];
   }, [subject?.id, resource?.article, i18n.language])!;
 
+  const copyText = useArticleCopyText(article);
+
+  useNavigateToHash(article?.transformedContent.content);
+
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
@@ -131,6 +173,11 @@ const ArticlePage = ({
 
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
 
+  const authors =
+    article.copyright?.creators.length || article.copyright?.rightsholders.length
+      ? article.copyright.creators
+      : article.copyright?.processors;
+
   return (
     <main>
       <Helmet>
@@ -162,20 +209,67 @@ const ArticlePage = ({
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <OneColumn>
-          <HeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</HeroContent>
-          <Article
-            path={resource.path}
-            id={skipToContentId}
-            article={article}
-            printUrl={printUrl}
-            subjectId={subject?.id}
-            showFavoriteButton
-            oembed={article.oembed}
-            contentType={contentType}
-          >
-            {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
-          </Article>
+          <StyledHeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </OneColumn>
+        <ArticleWrapper>
+          <RelativeOneColumn>
+            <ArticleTitle
+              id={skipToContentId ?? article.id.toString()}
+              contentType={contentType}
+              heartButton={
+                resource.path && (
+                  <AddResourceToFolderModal
+                    resource={{
+                      id: article.id.toString(),
+                      path: resource.path,
+                      resourceType: "article",
+                    }}
+                  >
+                    <FavoriteButton path={resource.path} />
+                  </AddResourceToFolderModal>
+                )
+              }
+              title={article.transformedContent.title}
+              introduction={article.transformedContent.introduction}
+              competenceGoals={
+                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                  <CompetenceGoals
+                    codes={article.grepCodes}
+                    subjectId={subject?.id}
+                    supportedLanguages={article.supportedLanguages}
+                  />
+                )
+              }
+              lang={article.language === "nb" ? "no" : article.language}
+            />
+            <ArticleContent padded>{article.transformedContent.content ?? ""}</ArticleContent>
+          </RelativeOneColumn>
+          <ArticleFooter>
+            <OneColumn>
+              <ArticlePadding>
+                <ArticleByline
+                  footnotes={article.transformedContent.metaData?.footnotes ?? []}
+                  authors={authors}
+                  suppliers={article.copyright?.rightsholders}
+                  published={article.published}
+                  license={article.copyright?.license?.license ?? ""}
+                  licenseBox={
+                    <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
+                  }
+                />
+              </ArticlePadding>
+            </OneColumn>
+            {topic && (
+              <ResourcesWrapper>
+                <OneColumn>
+                  <ArticlePadding padStart padEnd>
+                    <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                  </ArticlePadding>
+                </OneColumn>
+              </ResourcesWrapper>
+            )}
+          </ArticleFooter>
+        </ArticleWrapper>
       </ContentTypeHero>
     </main>
   );

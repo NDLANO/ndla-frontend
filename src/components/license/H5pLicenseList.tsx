@@ -15,7 +15,6 @@ import { FileCopyLine } from "@ndla/icons/action";
 import { ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -124,7 +123,7 @@ const H5pLicenseList = ({ h5ps }: Props) => {
   return (
     <MediaList>
       {unique.map((h5p) => (
-        <H5pLicenseInfo h5p={h5p} key={uuid()} />
+        <H5pLicenseInfo h5p={h5p} key={`h5p-${h5p.id}`} />
       ))}
     </MediaList>
   );

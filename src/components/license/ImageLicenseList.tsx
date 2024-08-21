@@ -33,6 +33,7 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
+  ImageAndLicenseWrapper,
 } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
@@ -102,25 +103,27 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListLicense
-            licenseType={image.copyright.license.license}
-            title={t("license.images.rules")}
-            sourceTitle={image.title}
-            sourceType="images"
-          >
-            {!isCopyrighted(image.copyright.license.license) && (
-              <AddResourceToFolderModal
-                resource={{
-                  id: image.id,
-                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
-                  resourceType: "image",
-                }}
-              >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
-              </AddResourceToFolderModal>
-            )}
-          </MediaListLicense>
-          <Image alt={image.altText} src={image.src} />
+          <ImageAndLicenseWrapper>
+            <MediaListLicense
+              licenseType={image.copyright.license.license}
+              title={t("license.images.rules")}
+              sourceTitle={image.title}
+              sourceType="images"
+            >
+              {!isCopyrighted(image.copyright.license.license) && (
+                <AddResourceToFolderModal
+                  resource={{
+                    id: image.id,
+                    path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                    resourceType: "image",
+                  }}
+                >
+                  <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+                </AddResourceToFolderModal>
+              )}
+            </MediaListLicense>
+            <Image alt={image.altText} src={image.src} />
+          </ImageAndLicenseWrapper>
           {!isCopyrighted(image.copyright.license.license) && (
             <MediaListItemActions>
               <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>

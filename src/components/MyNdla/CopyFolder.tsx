@@ -10,7 +10,7 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InformationLine, AlertLine } from "@ndla/icons/common";
 import { Button, Text, MessageBox, DialogContent, DialogHeader, DialogTitle, DialogBody } from "@ndla/primitives";
-import { AddResourceContainer, ButtonRow } from "./AddResourceToFolder";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
@@ -25,6 +25,14 @@ interface Props {
   folder: GQLFolder;
   onClose: () => void;
 }
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 const CopyFolder = ({ folder, onClose }: Props) => {
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
@@ -53,64 +61,62 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         <DialogTitle>{t("myNdla.resource.copyToMyNdla")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
-      <DialogBody>
-        <AddResourceContainer>
-          <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
-          {examLock ? (
+      <StyledDialogBody>
+        <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+        {examLock ? (
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{t("myNdla.examLockInfo")}</Text>
+          </MessageBox>
+        ) : (
+          <>
+            <FolderSelect
+              folders={folders}
+              loading={loading}
+              selectedFolderId={selectedFolderId}
+              setSelectedFolderId={setSelectedFolderId}
+            />
             <MessageBox variant="warning">
               <InformationLine />
-              <Text>{t("myNdla.examLockInfo")}</Text>
+              <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
             </MessageBox>
-          ) : (
-            <>
-              <FolderSelect
-                folders={folders}
-                loading={loading}
-                selectedFolderId={selectedFolderId}
-                setSelectedFolderId={setSelectedFolderId}
-              />
-              <MessageBox variant="warning">
-                <InformationLine />
-                <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
+            {copySharedFolderMutation.error && (
+              <MessageBox variant="error">
+                <AlertLine />
+                <Text>{t("errorMessage.description")}</Text>
               </MessageBox>
-              {copySharedFolderMutation.error && (
-                <MessageBox variant="error">
-                  <AlertLine />
-                  <Text>{t("errorMessage.description")}</Text>
-                </MessageBox>
-              )}
-            </>
-          )}
-          <ButtonRow>
-            <Button
-              variant="secondary"
-              onClick={onClose}
-              onMouseDown={(e) => {
-                e.preventDefault();
-              }}
-              onMouseUp={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {t("cancel")}
-            </Button>
-            <Button
-              loading={copySharedFolderMutation.loading}
-              disabled={examLock}
-              onMouseDown={(e) => {
-                e.preventDefault();
-              }}
-              onMouseUp={(e) => {
-                e.preventDefault();
-              }}
-              onClick={onSave}
-              aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
-            >
-              {t("myNdla.resource.save")}
-            </Button>
-          </ButtonRow>
-        </AddResourceContainer>
-      </DialogBody>
+            )}
+          </>
+        )}
+        <HStack justify="flex-end" gap="xsmall">
+          <Button
+            variant="secondary"
+            onClick={onClose}
+            onMouseDown={(e) => {
+              e.preventDefault();
+            }}
+            onMouseUp={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {t("cancel")}
+          </Button>
+          <Button
+            loading={copySharedFolderMutation.loading}
+            disabled={examLock}
+            onMouseDown={(e) => {
+              e.preventDefault();
+            }}
+            onMouseUp={(e) => {
+              e.preventDefault();
+            }}
+            onClick={onSave}
+            aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
+          >
+            {t("myNdla.resource.save")}
+          </Button>
+        </HStack>
+      </StyledDialogBody>
     </DialogContent>
   );
 };
