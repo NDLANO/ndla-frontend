@@ -22,48 +22,70 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Spinner,
+  Table,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
 import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
-export const rowStyle = css.raw({
-  display: "grid",
-  gridTemplateColumns: "repeat(4,1fr)",
-  marginBlock: "xxsmall",
-  padding: "xxsmall",
-  borderRadius: "xsmall",
-  border: "1px solid",
-  borderColor: "stroke.subtle",
-});
-
-export const StyledRow = styled("li", {
-  base: { _hover: { backgroundColor: "surface.hover" } },
-});
-
-export const StyledHeaderRow = styled("div", { base: { backgroundColor: "surface.brand.1" } });
-
-export const StatusBox = styled(Badge, {
+export const StyledTable = styled(Table, { base: { padding: "xsmall", display: "table" } });
+export const StyledHeaderRow = styled("tr", { base: { textAlign: "left" } });
+export const StyledRow = styled("tr", {
   base: {
-    color: "surface.default",
-  },
-});
+    position: "relative",
+    border: "none",
+    borderBlockEnd: "1px solid",
+    borderColor: "surface.brand.1.subtle",
 
-export const StyledSafeLink = styled(SafeLink, {
-  base: {
-    textDecoration: "none",
+    "&:last-child": {
+      borderBlockEnd: "none",
+    },
+
+    "& td": {
+      border: "none",
+      borderWidth: "0px",
+    },
     "& [data-title='']": {
       textDecoration: "underline",
     },
     _hover: {
+      backgroundColor: "surface.infoSubtle",
       "& [data-title='']": {
         textDecoration: "none",
       },
     },
+  },
+});
+export const StyledSafeLink = styled(SafeLink, {
+  base: {
+    // Make link clickable on whole row
+    position: "absolute",
+    zIndex: 1,
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+});
+
+// export const rowStyle = css.raw({
+//   display: "grid",
+//   gridTemplateColumns: "repeat(4,1fr)",
+//   marginBlock: "xxsmall",
+//   padding: "xxsmall",
+//   borderRadius: "xsmall",
+//   border: "1px solid",
+//   borderColor: "stroke.subtle",
+// });
+
+// export const StyledHeaderRows = styled("div", { base: { backgroundColor: "surface.brand.1" } });
+
+export const StatusBox = styled(Badge, {
+  base: {
+    color: "surface.default",
   },
 });
 
@@ -112,53 +134,54 @@ const FlaggedPosts = () => {
 
   return (
     <>
-      <div>
-        <StyledHeaderRow css={rowStyle}>
-          <div>{t("myNdla.arena.admin.flags.postId")}</div>
-          <div>{t("myNdla.arena.admin.flags.numFlags")}</div>
-          <div>{t("myNdla.arena.admin.flags.latestFlag")}</div>
-          <div>{t("myNdla.arena.admin.flags.status.title")}</div>
-        </StyledHeaderRow>
-        {arenaAllFlags?.items.map((post) => {
-          const flags = (post.flags ?? []).map((f) => {
-            return {
-              ...f,
-              createdObject: new Date(f.created),
-            };
-          });
-          const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
+      <StyledTable>
+        <thead>
+          <StyledHeaderRow>
+            <th>{t("myNdla.arena.admin.flags.postId")}</th>
+            <th>{t("myNdla.arena.admin.flags.numFlags")}</th>
+            <th>{t("myNdla.arena.admin.flags.latestFlag")}</th>
+            <th>{t("myNdla.arena.admin.flags.status.title")}</th>
+          </StyledHeaderRow>
+        </thead>
+        <tbody>
+          {arenaAllFlags?.items.map((post) => {
+            const flags = (post.flags ?? []).map((f) => {
+              return {
+                ...f,
+                createdObject: new Date(f.created),
+              };
+            });
+            const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
 
-          const lastFlagAt = sortedFlags[0]?.createdObject
-            ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
-            : "";
+            const lastFlagAt = sortedFlags[0]?.createdObject
+              ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
+              : "";
 
-          const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
-          const count = `${resolvedFlags.length}/${flags.length}`;
+            const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
+            const count = `${resolvedFlags.length}/${flags.length}`;
 
-          return (
-            <StyledSafeLink to={`${post.id}`} key={`btn-${post.id}`}>
-              <StyledRow key={`post-${post.id}`} css={rowStyle}>
-                <div data-title="">Post {post.id}</div>
-                <div>{count}</div>
-                {<div>{lastFlagAt}</div>}
-                {
-                  <div>
-                    {resolvedFlags.length === flags.length ? (
-                      <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
-                        {t(`myNdla.arena.admin.flags.status.resolved`)}
-                      </StatusBox>
-                    ) : (
-                      <StatusBox css={{ backgroundColor: "surface.danger" }}>
-                        {t(`myNdla.arena.admin.flags.status.unresolved`)}
-                      </StatusBox>
-                    )}
-                  </div>
-                }
+            return (
+              <StyledRow key={`btn-${post.id}`} consumeCss>
+                <td data-title="">Post {post.id}</td>
+                <td>{count}</td>
+                <td>{lastFlagAt}</td>
+                <td>
+                  {resolvedFlags.length === flags.length ? (
+                    <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
+                      {t(`myNdla.arena.admin.flags.status.resolved`)}
+                    </StatusBox>
+                  ) : (
+                    <StatusBox css={{ backgroundColor: "surface.danger" }}>
+                      {t(`myNdla.arena.admin.flags.status.unresolved`)}
+                    </StatusBox>
+                  )}
+                  <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
+                </td>
               </StyledRow>
-            </StyledSafeLink>
-          );
-        })}
-      </div>
+            );
+          })}
+        </tbody>
+      </StyledTable>
       <PaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
