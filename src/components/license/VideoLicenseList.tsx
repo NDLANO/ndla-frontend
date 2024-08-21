@@ -16,7 +16,6 @@ import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uuid } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -147,7 +146,7 @@ const VideoLicenseList = ({ videos }: Props) => {
   return (
     <MediaList>
       {unique.map((video) => (
-        <VideoLicenseInfo video={video} key={uuid()} />
+        <VideoLicenseInfo video={video} key={`video-${video.id}`} />
       ))}
     </MediaList>
   );

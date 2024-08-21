@@ -7,26 +7,34 @@
  */
 
 import { HTMLAttributes, ReactNode } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
+import { OneColumn } from "@ndla/ui";
 import Toolbar from "./Toolbar";
-import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
 import { ViewType } from "../Folders/FoldersPage";
 
-const ContentWrapper = styled.main`
-  display: flex;
-  justify-content: center;
-  margin: ${spacing.nsmall} ${spacing.nsmall} ${spacing.xlarge};
+const ContentWrapper = styled("main", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    marginInline: "small",
+    marginBlockStart: "small",
+    marginBlockEnd: "3xlarge",
+    tablet: {
+      marginInline: "xxlarge",
+      marginBlockStart: "0",
+      marginBlockEnd: "3xlarge",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin: 0 ${spacing.large} ${spacing.xlarge};
-  }
-`;
-
-export const Content = styled.div`
-  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
-  width: 100%;
-`;
+export const Content = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    width: "100%",
+  },
+});
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   dropDownMenu?: ReactNode;
@@ -47,7 +55,9 @@ const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, 
         showButtons={showButtons}
       />
       <ContentWrapper>
-        <Content>{children}</Content>
+        <OneColumn>
+          <Content>{children}</Content>
+        </OneColumn>
       </ContentWrapper>
     </>
   );

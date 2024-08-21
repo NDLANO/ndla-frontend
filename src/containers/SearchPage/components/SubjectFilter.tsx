@@ -11,8 +11,6 @@ import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { mq, breakpoints, spacing } from "@ndla/core";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -30,29 +28,33 @@ import {
   FieldsetRoot,
   FieldsetLegend,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 
-const OuterList = styled.ul`
-  list-style: none;
-  padding: 0;
-  ${mq.range({ from: breakpoints.tablet })} {
-    column-count: 2;
-    gap: ${spacing.normal};
-  }
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    column-count: 3;
-    gap: ${spacing.normal};
-  }
-`;
+const OuterList = styled("ul", {
+  base: {
+    listStyle: "none",
+    tablet: {
+      columnCount: "2",
+      gap: "medium",
+    },
+    tabletWide: {
+      columnCount: "3",
+    },
+  },
+});
 
-const OuterListItem = styled.li`
-  padding: 0;
-  break-inside: avoid;
-`;
+const OuterListItem = styled("li", {
+  base: {
+    breakInside: "avoid",
+  },
+});
 
-const MessageBoxWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    marginBlockStart: "medium",
+  },
+});
 
 interface Category {
   type?: string;
@@ -89,6 +91,7 @@ const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: Subje
                     key={subject.name}
                     checked={selectedSubjects.includes(subject.id)}
                     onCheckedChange={() => onToggleSubject(subject.id)}
+                    css={{ paddingBlock: "4xsmall" }}
                   >
                     <CheckboxControl>
                       <CheckboxIndicator asChild>
@@ -130,11 +133,9 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
           content: (
             <>
               {category.message && (
-                <MessageBoxWrapper>
-                  <MessageBox variant="warning">
-                    <Text>{category.message}</Text>
-                  </MessageBox>
-                </MessageBoxWrapper>
+                <StyledMessageBox variant="warning">
+                  <Text>{category.message}</Text>
+                </StyledMessageBox>
               )}
               <SubjectList
                 subjects={groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase())}

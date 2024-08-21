@@ -45,9 +45,9 @@ const messages = {
     episodes: "Episoder",
     podcast: "Podkast",
     podcasts: "Podkaster",
-    pageInfo: "Side {{page}} av {{lastPage}}",
     noResults: "...Ingen episoder",
     subtitle: "Lytt og lær!",
+    pagination: "Podkastsider",
   },
   subjectsPage: { tabFilter: "Kva fag vil du visa?" },
   searchPage: {
