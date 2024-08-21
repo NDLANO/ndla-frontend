@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
+import { HeroBackground, HeroContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
@@ -36,6 +36,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -161,7 +162,7 @@ const ArticlePage = ({
   });
 
   if (loading) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   if (error) {

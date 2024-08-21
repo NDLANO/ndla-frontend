@@ -21,6 +21,7 @@ import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -28,7 +29,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { getSubjectType, useIsNdlaFilm } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -87,7 +88,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
-  const { subjectType } = useUrnIds();
+  const subjectType = getSubjectType(subject.id);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
@@ -116,18 +117,11 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       to: "/",
     },
     {
-      to: `${removeUrn(subject.id)}`,
+      to: config.enablePrettyUrls ? subject.url : subject.path,
       name: subject.name,
     },
     ...topicCrumbs,
-  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-    crumbs.push({
-      name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
-    });
-
-    return crumbs;
-  }, []);
+  ];
 
   const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
 

@@ -2866,27 +2866,6 @@ export type GQLMastHeadQuery = {
   subject?: { __typename?: "Node" } & GQLMastheadDrawer_SubjectFragment;
 };
 
-export type GQLRootQueryVariables = Exact<{
-  contextId: Scalars["String"]["input"];
-}>;
-
-export type GQLRootQuery = {
-  __typename?: "Query";
-  node?: {
-    __typename?: "Node";
-    id: string;
-    nodeType: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      rootId: string;
-      parentIds: Array<string>;
-      path: string;
-      url: string;
-    };
-  };
-};
-
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
   articleId: number;
@@ -4575,6 +4554,7 @@ export type GQLSubjectContextContainer_TopicFragment = {
   name: string;
   path: string;
   url: string;
+  contextId?: string;
   supportedLanguages: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   topics?: Array<{ __typename?: "Node"; id: string; name: string; url: string; path: string }>;
@@ -4627,8 +4607,11 @@ export type GQLSubjectPageTestQueryVariables = Exact<{
 
 export type GQLSubjectPageTestQuery = {
   __typename?: "Query";
-  subject?: { __typename?: "Node" } & GQLSubjectContainer_SubjectFragment;
-  topic?: { __typename?: "Node"; alternateTopics?: Array<{ __typename?: "Node" } & GQLMovedTopicPage_TopicFragment> };
+  subject?: { __typename?: "Node" } & GQLNodeFragmentFragment & GQLSubjectContainer_SubjectFragment;
+  topic?: {
+    __typename?: "Node";
+    alternateTopics?: Array<{ __typename?: "Node" } & GQLMovedTopicPage_TopicFragment>;
+  } & GQLNodeFragmentFragment;
   subjects?: Array<{
     __typename?: "Node";
     path: string;
@@ -4805,6 +4788,27 @@ export type GQLIframePageQuery = {
   __typename?: "Query";
   article?: { __typename?: "Article" } & GQLIframeArticlePage_ArticleFragment;
   articleResource?: { __typename?: "Node" } & GQLIframeArticlePage_ResourceFragment;
+};
+
+export type GQLContextQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLContextQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      parentIds: Array<string>;
+      path: string;
+      url: string;
+    };
+  };
 };
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };

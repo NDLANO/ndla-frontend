@@ -15,9 +15,27 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+
+const nodeFragment = gql`
+  fragment NodeFragment on Node {
+    id
+    name
+    path
+    url
+    context {
+      contextId
+      rootId
+      crumbs {
+        id
+        name
+        url
+        path
+      }
+    }
+  }
+`;
 
 const subjectPageQuery = gql`
   query subjectPageTest(
@@ -28,9 +46,11 @@ const subjectPageQuery = gql`
     $metadataFilterValue: String
   ) {
     subject: node(id: $subjectId) {
+      ...NodeFragment
       ...SubjectContainer_Subject
     }
     topic: node(id: $topicId, rootId: $subjectId) @include(if: $includeTopic) {
+      ...NodeFragment
       alternateTopics: alternateNodes {
         ...MovedTopicPage_Topic
       }
@@ -46,13 +66,17 @@ const subjectPageQuery = gql`
       }
     }
   }
+  ${nodeFragment}
   ${MovedTopicPage.fragments.topic}
   ${subjectContainerFragments.subject}
 `;
 
-const SubjectPage = () => {
-  const { subjectId, topicId, topicList } = useUrnIds();
-
+interface Props {
+  subjectId?: string;
+  topicId?: string;
+  topicList: string[];
+}
+const SubjectPage = ({ subjectId, topicId, topicList: tList }: Props) => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
@@ -79,6 +103,11 @@ const SubjectPage = () => {
   if (!data) {
     return <ContentPlaceholder />;
   }
+
+  const topicList = (
+    (data.topic?.context?.crumbs && data.topic?.context?.crumbs?.slice(1).map((crumb) => crumb.id)) ??
+    tList
+  ).concat(data.topic?.id ? [data.topic.id] : []);
 
   const alternateTopics = data.topic?.alternateTopics;
   if (alternateTopics && alternateTopics.length >= 1) {

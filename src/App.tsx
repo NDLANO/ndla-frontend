@@ -53,7 +53,6 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectContextPage from "./containers/SubjectPage/SubjectContextPage";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -127,9 +126,14 @@ const AppRoutes = ({ base }: AppProps) => {
                   {resourceRoutes}
                 </Route>
                 <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
-                <Route path=":name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
-                <Route path=":root/:name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
-                <Route path=":root/:name/e/:contextId" element={<SubjectContextPage nodeType="TOPIC" />} />
+                {
+                  // <Route path=":name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
+                  // <Route path=":root/:name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
+                  // <Route path=":root/:name/e/:contextId" element={<SubjectContextPage nodeType="TOPIC" />} />
+                }
+                <Route path=":name/f/:contextId" element={<SubjectRouting />} />
+                <Route path=":root/:name/f/:contextId" element={<SubjectRouting />} />
+                <Route path=":root/:name/e/:contextId" element={<SubjectRouting />} />
                 <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic1" element={null}>
@@ -188,7 +192,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
-
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

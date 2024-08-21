@@ -22,9 +22,15 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMastHeadQuery, GQLMastHeadQueryVariables, GQLRootQuery, GQLRootQueryVariables } from "../../graphqlTypes";
+import {
+  GQLMastHeadQuery,
+  GQLMastHeadQueryVariables,
+  GQLContextQuery,
+  GQLContextQueryVariables,
+} from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
+import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import ErrorBoundary from "../ErrorPage/ErrorBoundary";
@@ -73,28 +79,12 @@ const mastheadQuery = gql`
   ${MastheadDrawer.fragments.subject}
 `;
 
-const rootQuery = gql`
-  query root($contextId: String!) {
-    node(contextId: $contextId) {
-      id
-      nodeType
-      context {
-        contextId
-        rootId
-        parentIds
-        path
-        url
-      }
-    }
-  }
-`;
-
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
   const { contextId, subjectId, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
-  const { data: rootData } = useGraphQuery<GQLRootQuery, GQLRootQueryVariables>(rootQuery, {
+  const { data: rootData } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
       contextId: contextId!,
     },
