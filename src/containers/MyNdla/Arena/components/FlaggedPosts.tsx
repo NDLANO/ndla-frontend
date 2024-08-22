@@ -167,6 +167,43 @@ const FlaggedPosts = () => {
   if (loading) return <Spinner />;
   if ((arenaAllFlags?.items?.length ?? 0) === 0) return <p>{t("myNdla.arena.admin.flags.noflags")}</p>;
 
+  const arenaFlags = arenaAllFlags?.items.map((post) => {
+    const flags = (post.flags ?? []).map((f) => {
+      return {
+        ...f,
+        createdObject: new Date(f.created),
+      };
+    });
+    const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
+
+    const lastFlagAt = sortedFlags[0]?.createdObject
+      ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
+      : "";
+
+    const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
+    const count = `${resolvedFlags.length}/${flags.length}`;
+
+    return (
+      <StyledRow key={`btn-${post.id}`} consumeCss>
+        <td data-title="">Post {post.id}</td>
+        <td>{count}</td>
+        <td>{lastFlagAt}</td>
+        <td style={{ textAlign: "right" }}>
+          <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
+          {resolvedFlags.length === flags.length ? (
+            <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
+              {t(`myNdla.arena.admin.flags.status.resolved`)}
+            </StatusBox>
+          ) : (
+            <StatusBox css={{ backgroundColor: "surface.danger" }}>
+              {t(`myNdla.arena.admin.flags.status.unresolved`)}
+            </StatusBox>
+          )}
+        </td>
+      </StyledRow>
+    );
+  });
+
   return (
     <>
       <StyledTable>
@@ -178,44 +215,7 @@ const FlaggedPosts = () => {
             <th style={{ textAlign: "right" }}>{t("myNdla.arena.admin.flags.status.title")}</th>
           </StyledHeaderRow>
         </thead>
-        <tbody>
-          {arenaAllFlags?.items.map((post) => {
-            const flags = (post.flags ?? []).map((f) => {
-              return {
-                ...f,
-                createdObject: new Date(f.created),
-              };
-            });
-            const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
-
-            const lastFlagAt = sortedFlags[0]?.createdObject
-              ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
-              : "";
-
-            const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
-            const count = `${resolvedFlags.length}/${flags.length}`;
-
-            return (
-              <StyledRow key={`btn-${post.id}`} consumeCss>
-                <td data-title="">Post {post.id}</td>
-                <td>{count}</td>
-                <td>{lastFlagAt}</td>
-                <td style={{ textAlign: "right" }}>
-                  <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
-                  {resolvedFlags.length === flags.length ? (
-                    <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
-                      {t(`myNdla.arena.admin.flags.status.resolved`)}
-                    </StatusBox>
-                  ) : (
-                    <StatusBox css={{ backgroundColor: "surface.danger" }}>
-                      {t(`myNdla.arena.admin.flags.status.unresolved`)}
-                    </StatusBox>
-                  )}
-                </td>
-              </StyledRow>
-            );
-          })}
-        </tbody>
+        <tbody>{arenaFlags}</tbody>
       </StyledTable>
       <PaginationRoot
         page={page}
