@@ -6,7 +6,7 @@
  *
  */
 
-import ResourceIdsPage from "./ResourceIdsPage";
+import ResourcePageContent from "./ResourcePageContent";
 import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
@@ -28,7 +28,7 @@ const ResourcePage = () => {
   const resourceId = node?.id || rId;
   const topicId = node?.context?.parentIds?.slice(-1)?.[0] || tId;
 
-  return <ResourceIdsPage subjectId={subjectId} topicId={topicId} resourceId={resourceId} />;
+  return <ResourcePageContent subjectId={subjectId} topicId={topicId} resourceId={resourceId} />;
 };
 
 export default ResourcePage;
