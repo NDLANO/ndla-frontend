@@ -46,7 +46,7 @@ import { copyrightInfoFragment } from "../../queries";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
-import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLicenseBox";
+import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 interface RouteParams extends TypedParams {
   id: string;
@@ -229,7 +229,7 @@ const PodcastSeriesPage = () => {
                         </h2>
                       </Heading>
                       <AccordionItemContent>
-                        <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
+                        <ResourceEmbedLicenseContent metaData={podcastSeries.content.meta} />
                       </AccordionItemContent>
                     </AccordionItem>
                   </AccordionRoot>
@@ -260,7 +260,7 @@ const podcastSeriesPageQuery = gql`
       content {
         content
         meta {
-      ...ResourceEmbedLicenseBox_Meta
+      ...ResourceEmbedLicenseContent_Meta
         }
       }
       episodes {
@@ -284,7 +284,7 @@ const podcastSeriesPageQuery = gql`
       }
       hasRSS
     }
-    ${ResourceEmbedLicenseBox.fragments.metaData}
+    ${ResourceEmbedLicenseContent.fragments.metaData}
     ${copyrightInfoFragment}
   }
 `;

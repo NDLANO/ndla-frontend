@@ -15,10 +15,10 @@ import H5pLicenseList from "../../../components/license/H5pLicenseList";
 import ImageLicenseList from "../../../components/license/ImageLicenseList";
 import PodcastLicenseList from "../../../components/license/PodcastLicenseList";
 import VideoLicenseList from "../../../components/license/VideoLicenseList";
-import { GQLResourceEmbedLicenseBox_MetaFragment } from "../../../graphqlTypes";
+import { GQLResourceEmbedLicenseContent_MetaFragment } from "../../../graphqlTypes";
 
 interface Props {
-  metaData: GQLResourceEmbedLicenseBox_MetaFragment;
+  metaData: GQLResourceEmbedLicenseContent_MetaFragment;
 }
 
 const Container = styled("div", {
@@ -34,7 +34,7 @@ const Container = styled("div", {
   },
 });
 
-const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment) => {
+const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseContent_MetaFragment) => {
   const licenseContent: ReactNode[] = [];
 
   if (metaData.podcasts?.length) {
@@ -62,7 +62,7 @@ const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseBox_MetaFragment) 
   return licenseContent;
 };
 
-const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
+const ResourceEmbedLicenseContent = ({ metaData }: Props) => {
   const licenseContent = useMemo(() => buildLicenseTabList(metaData), [metaData]);
 
   return (
@@ -74,9 +74,9 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
   );
 };
 
-ResourceEmbedLicenseBox.fragments = {
+ResourceEmbedLicenseContent.fragments = {
   metaData: gql`
-    fragment ResourceEmbedLicenseBox_Meta on ResourceMetaData {
+    fragment ResourceEmbedLicenseContent_Meta on ResourceMetaData {
       concepts {
         content
         metaImageUrl
@@ -116,4 +116,4 @@ ResourceEmbedLicenseBox.fragments = {
   `,
 };
 
-export default ResourceEmbedLicenseBox;
+export default ResourceEmbedLicenseContent;

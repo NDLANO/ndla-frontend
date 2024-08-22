@@ -4162,7 +4162,7 @@ export type GQLPodcastSeriesPageQuery = {
     content?: {
       __typename?: "ResourceEmbed";
       content: string;
-      meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseBox_MetaFragment;
+      meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
     };
     episodes?: Array<{
       __typename?: "Audio";
@@ -4226,11 +4226,11 @@ export type GQLResourceEmbedQuery = {
   resourceEmbed: {
     __typename?: "ResourceEmbed";
     content: string;
-    meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseBox_MetaFragment;
+    meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
   };
 };
 
-export type GQLResourceEmbedLicenseBox_MetaFragment = {
+export type GQLResourceEmbedLicenseContent_MetaFragment = {
   __typename?: "ResourceMetaData";
   concepts?: Array<
     {

@@ -26,14 +26,14 @@ import {
   ArticleHGroup,
   ArticlePadding,
 } from "@ndla/ui";
-import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
+import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
-  GQLResourceEmbedLicenseBox_MetaFragment,
+  GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
@@ -65,7 +65,7 @@ const StyledArticlePadding = styled(ArticlePadding, {
 });
 
 const metaToProperties = (
-  meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
+  meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
   type: StandaloneEmbed,
 ): MetaProperies | undefined => {
   if (!meta) {
@@ -119,7 +119,7 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
@@ -230,7 +230,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               <StyledArticlePadding padStart>
                 {transformedContent}
                 {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
+                  <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
                 )}
               </StyledArticlePadding>
               <ArticleFooter padded>
@@ -262,11 +262,11 @@ export const ResourceEmbedQuery = gql`
     resourceEmbed(id: $id, type: $type) {
       content
       meta {
-        ...ResourceEmbedLicenseBox_Meta
+        ...ResourceEmbedLicenseContent_Meta
       }
     }
   }
-  ${ResourceEmbedLicenseBox.fragments.metaData}
+  ${ResourceEmbedLicenseContent.fragments.metaData}
 `;
 
 export default ResourceEmbed;
