@@ -204,10 +204,17 @@ const resourceFragment = gql`
     contentUri
     path
     url
-    paths
     rank
     language
     relevanceId
+    context {
+      contextId
+      breadcrumbs
+      name
+      path
+      url
+      rootId
+    }
     article {
       metaImage {
         url

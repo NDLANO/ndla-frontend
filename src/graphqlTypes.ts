@@ -2979,7 +2979,14 @@ export type GQLMovedResourcePage_ResourceFragment = {
   name: string;
   path: string;
   paths: Array<string>;
-  contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; path: string; breadcrumbs: Array<string> }>;
+  url: string;
+  contexts: Array<{
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    path: string;
+    url: string;
+    breadcrumbs: Array<string>;
+  }>;
   article?: {
     __typename?: "Article";
     id: number;
@@ -4446,7 +4453,6 @@ export type GQLResourcePageQuery = {
     __typename?: "Node";
     id: string;
     relevanceId?: string;
-    paths: Array<string>;
     contextId?: string;
     context?: {
       __typename?: "TaxonomyContext";
@@ -4454,6 +4460,7 @@ export type GQLResourcePageQuery = {
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
+      url: string;
       crumbs?: Array<{
         __typename?: "TaxonomyCrumb";
         contextId: string;
@@ -4463,6 +4470,7 @@ export type GQLResourcePageQuery = {
         url: string;
       }>;
     };
+    contexts: Array<{ __typename?: "TaxonomyContext"; path: string; url: string }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
     GQLLearningpathPage_ResourceFragment;
@@ -4475,10 +4483,18 @@ export type GQLResources_ResourceFragment = {
   contentUri?: string;
   path: string;
   url: string;
-  paths: Array<string>;
   rank?: number;
   language?: string;
   relevanceId?: string;
+  context?: {
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    breadcrumbs: Array<string>;
+    name: string;
+    path: string;
+    url: string;
+    rootId: string;
+  };
   article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
@@ -4554,7 +4570,6 @@ export type GQLSubjectContextContainer_TopicFragment = {
   name: string;
   path: string;
   url: string;
-  contextId?: string;
   supportedLanguages: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   topics?: Array<{ __typename?: "Node"; id: string; name: string; url: string; path: string }>;
@@ -4928,7 +4943,13 @@ export type GQLMovedResourceQuery = {
   __typename?: "Query";
   resource?: {
     __typename?: "Resource";
-    contexts: Array<{ __typename?: "TaxonomyContext"; path: string; breadcrumbs: Array<string> }>;
+    contexts: Array<{
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      path: string;
+      url: string;
+      breadcrumbs: Array<string>;
+    }>;
   };
 };
 

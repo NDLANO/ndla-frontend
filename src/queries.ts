@@ -193,7 +193,9 @@ export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
       contexts {
+        contextId
         path
+        url
         breadcrumbs
       }
     }

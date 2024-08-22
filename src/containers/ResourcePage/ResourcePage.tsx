@@ -6,16 +6,29 @@
  *
  */
 
-import ResourceContextPage from "./ResourceContextPage";
 import ResourceIdsPage from "./ResourceIdsPage";
+import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
+import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 
 const ResourcePage = () => {
-  const { contextId } = useUrnIds();
-  if (contextId) {
-    return <ResourceContextPage />;
+  const { contextId, subjectId: subId, resourceId: rId, topicId: tId } = useUrnIds();
+  const { loading, data } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
+    variables: {
+      contextId: contextId ?? "",
+    },
+    skip: contextId === undefined,
+  });
+  if (loading) {
+    return null;
   }
-  return <ResourceIdsPage />;
+  const node = data?.node;
+  const subjectId = node?.context?.rootId || subId;
+  const resourceId = node?.id || rId;
+  const topicId = node?.context?.parentIds?.slice(-1)?.[0] || tId;
+
+  return <ResourceIdsPage subjectId={subjectId} topicId={topicId} resourceId={resourceId} />;
 };
 
 export default ResourcePage;

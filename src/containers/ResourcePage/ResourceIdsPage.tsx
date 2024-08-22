@@ -14,8 +14,9 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
+import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
+import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
@@ -27,8 +28,11 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) => {
-  return resource.paths?.find((p) => location.pathname.includes(p));
+const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "path" | "url">[]) => {
+  return contexts?.find((c) => {
+    const path = config.enablePrettyUrls ? c.url : c.path;
+    return location.pathname.includes(path);
+  });
 };
 
 const resourcePageQuery = gql`
@@ -53,13 +57,13 @@ const resourcePageQuery = gql`
     resource: node(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
       id
       relevanceId
-      paths
       contextId
       context {
         contextId
         breadcrumbs
         parentIds
         path
+        url
         crumbs {
           contextId
           id
@@ -67,6 +71,10 @@ const resourcePageQuery = gql`
           path
           url
         }
+      }
+      contexts {
+        path
+        url
       }
       ...MovedResourcePage_Resource
       ...ArticlePage_Resource
@@ -83,10 +91,16 @@ const resourcePageQuery = gql`
   ${learningpathPageFragments.resource}
   ${learningpathPageFragments.subject}
 `;
-const ResourceIdsPage = () => {
+type Props = {
+  subjectId?: string;
+  topicId?: string;
+  resourceId?: string;
+};
+const ResourceIdsPage = ({ subjectId, topicId, resourceId }: Props) => {
   const { t } = useTranslation();
-  const { subjectId, resourceId, topicId, stepId } = useUrnIds();
+  const { stepId } = useUrnIds();
   const location = useLocation();
+
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
       subjectId,
@@ -130,7 +144,7 @@ const ResourceIdsPage = () => {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInPaths(location, data.resource)) {
+  if (data.resource && !urlInContexts(location, data.resource.contexts)) {
     if (data.resource.paths?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {

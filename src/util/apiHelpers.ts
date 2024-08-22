@@ -152,7 +152,7 @@ const typePolicies: TypePolicies = {
     },
   },
   SearchContext: {
-    keyFields: ["path"],
+    keyFields: ["contextId"],
   },
   GroupSearchResult: {
     keyFields: ["path"],
