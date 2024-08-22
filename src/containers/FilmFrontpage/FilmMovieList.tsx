@@ -45,7 +45,7 @@ const FilmMovieList = ({ name, movies = [], loading }: Props) => {
         <StyledCarousel>
           {new Array(5).fill(0).map((_, idx) => (
             <Skeleton key={idx}>
-              <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
+              <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "", url: "" }} />
             </Skeleton>
           ))}
         </StyledCarousel>

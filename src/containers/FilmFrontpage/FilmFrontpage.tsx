@@ -24,7 +24,8 @@ import FilmSlideshow from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID, FILM_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
@@ -98,7 +99,7 @@ const FilmFrontpage = () => {
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
+    variables: { subjectId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -142,11 +143,14 @@ const FilmFrontpage = () => {
               {loading ? (
                 <TopicLoadingShimmer />
               ) : (
-                subject?.topics?.map((topic) => (
-                  <li key={topic.id}>
-                    <StyledSafeLinkButton to={topic.path}>{topic.name}</StyledSafeLinkButton>
-                  </li>
-                ))
+                subject?.topics?.map((topic) => {
+                  const path = config.enablePrettyUrls ? topic.url : topic.path;
+                  return (
+                    <li key={topic.id}>
+                      <StyledSafeLinkButton to={path}>{topic.name}</StyledSafeLinkButton>
+                    </li>
+                  );
+                })
               )}
             </StyledUl>
           </StyledNav>

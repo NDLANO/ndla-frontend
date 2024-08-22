@@ -14,6 +14,8 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
 import { movieResourceTypes } from "./resourceTypes";
+import config from "../../config";
+import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -152,22 +154,23 @@ const AllMoviesAlphabetically = () => {
             >
               <h2>{letter}</h2>
             </LetterHeading>
-            {movies.map((movie) => (
-              <StyledSafeLink
-                to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
-                key={movie.id}
-              >
-                {movie.metaImage?.url && (
-                  <MovieImage alt="" loading="lazy" fallbackWidth={150} src={movie.metaImage.url} />
-                )}
-                <MovieTextWrapper>
-                  <Heading textStyle="title.small" asChild consumeCss data-title="">
-                    <h3>{movie.title}</h3>
-                  </Heading>
-                  <Text textStyle="body.small">{movie.metaDescription}</Text>
-                </MovieTextWrapper>
-              </StyledSafeLink>
-            ))}
+            {movies.map((movie) => {
+              const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+              const to = (config.enablePrettyUrls ? context?.url : context?.path) ?? "";
+              return (
+                <StyledSafeLink to={to} key={movie.id}>
+                  {movie.metaImage?.url && (
+                    <MovieImage alt="" loading="lazy" fallbackWidth={150} src={movie.metaImage.url} />
+                  )}
+                  <MovieTextWrapper>
+                    <Heading textStyle="title.small" asChild consumeCss data-title="">
+                      <h3>{movie.title}</h3>
+                    </Heading>
+                    <Text textStyle="body.small">{movie.metaDescription}</Text>
+                  </MovieTextWrapper>
+                </StyledSafeLink>
+              );
+            })}
           </MovieGroup>
         ))}
       </OneColumn>
@@ -195,8 +198,9 @@ const allMoviesQuery = gql`
         title
         contexts {
           contextId
-          contextType
+          rootId
           path
+          url
         }
       }
     }
