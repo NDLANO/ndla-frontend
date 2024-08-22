@@ -21,21 +21,16 @@ interface Props {
   metaData: GQLResourceEmbedLicenseBox_MetaFragment;
 }
 
-const Wrapper = styled("div", {
+const Container = styled("div", {
   base: {
-    "&[data-padding-top='true']": {
-      paddingBlockStart: "xsmall",
-    },
-    "&[data-padding-bottom='true']": {
+    "& > :not(:last-child)": {
       paddingBlockEnd: "xlarge",
     },
-  },
-});
-
-const Divider = styled("div", {
-  base: {
-    height: "1px",
-    backgroundColor: "stroke.subtle",
+    "& > :not(:first-child)": {
+      paddingBlockStart: "xsmall",
+      borderTop: "1px solid",
+      borderTopColor: "stroke.subtle",
+    },
   },
 });
 
@@ -71,20 +66,11 @@ const ResourceEmbedLicenseBox = ({ metaData }: Props) => {
   const licenseContent = useMemo(() => buildLicenseTabList(metaData), [metaData]);
 
   return (
-    <>
+    <Container>
       {licenseContent.map((content, index) => (
-        <div key={index}>
-          {index >= licenseContent.length - 1 && licenseContent.length > 1 && <Divider />}
-          <Wrapper
-            key={index}
-            data-padding-top={index >= licenseContent.length - 1 && licenseContent.length > 1}
-            data-padding-bottom={index < licenseContent.length - 1}
-          >
-            {content}
-          </Wrapper>
-        </div>
+        <div key={index}>{content}</div>
       ))}
-    </>
+    </Container>
   );
 };
 
