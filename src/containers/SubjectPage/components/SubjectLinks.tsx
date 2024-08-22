@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import config from "../../../config";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLSubjectLinks_SubjectPageFragment } from "../../../graphqlTypes";
 
 const LinksWrapper = styled("div", {
@@ -44,18 +44,19 @@ interface SubjectLinkSetProps {
 }
 
 const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
 
   return (
     <StyledText textStyle="label.medium">
       <b>{title}:</b>
       {subjects.map((subject, index) => {
-        const path = config.enablePrettyUrls ? subject.url : subject.path;
+        const to = enablePrettyUrls ? subject.url : subject.path;
         return (
           <StyledText textStyle="body.link" key={`${set}-${index}`} asChild consumeCss>
             <span>
-              {path ? (
-                <SafeLink to={path}>
+              {to ? (
+                <SafeLink to={to}>
                   {subject.name}
                   {index < subjects.length - 2 ? "," : null}
                 </SafeLink>

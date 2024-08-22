@@ -13,7 +13,7 @@ import { CardContent, CardHeading, CardRoot, Text, Heading, CardImage } from "@n
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import config from "../../../config";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
@@ -43,6 +43,7 @@ const ListWrapper = styled("nav", {
 });
 
 const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const id = useId();
   return (
@@ -52,7 +53,7 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
       </Heading>
       <CardList>
         {topics.map((topic) => {
-          const path = config.enablePrettyUrls ? topic.url : topic.path;
+          const to = enablePrettyUrls ? topic.url : topic.path;
           return (
             <li key={topic.id}>
               <CardRoot css={{ height: "100%" }}>
@@ -67,7 +68,7 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
                 <CardContent>
                   <CardHeading asChild consumeCss>
                     <h3>
-                      <SafeLink to={path ?? ""} css={linkOverlay.raw()}>
+                      <SafeLink to={to ?? ""} css={linkOverlay.raw()}>
                         {topic.name}
                       </SafeLink>
                     </h3>

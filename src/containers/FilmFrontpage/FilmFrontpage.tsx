@@ -23,8 +23,8 @@ import FilmMovieList from "./FilmMovieList";
 import FilmSlideshow from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import config from "../../config";
 import { SKIP_TO_CONTENT_ID, FILM_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -94,6 +94,7 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
@@ -144,7 +145,7 @@ const FilmFrontpage = () => {
                 <TopicLoadingShimmer />
               ) : (
                 subject?.topics?.map((topic) => {
-                  const path = config.enablePrettyUrls ? topic.url : topic.path;
+                  const path = enablePrettyUrls ? topic.url : topic.path;
                   return (
                     <li key={topic.id}>
                       <StyledSafeLinkButton to={path}>{topic.name}</StyledSafeLinkButton>

@@ -12,9 +12,9 @@ import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
-import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
@@ -28,9 +28,13 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "path" | "url">[]) => {
+const urlInContexts = (
+  location: Location,
+  contexts: Pick<GQLTaxonomyContext, "path" | "url">[],
+  enablePrettyUrls: boolean,
+) => {
   return contexts?.find((c) => {
-    const path = config.enablePrettyUrls ? c.url : c.path;
+    const path = enablePrettyUrls ? c.url : c.path;
     return location.pathname.includes(path);
   });
 };
@@ -96,7 +100,8 @@ type Props = {
   topicId?: string;
   resourceId?: string;
 };
-const ResourceIdsPage = ({ subjectId, topicId, resourceId }: Props) => {
+const ResourcePageContent = ({ subjectId, topicId, resourceId }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const { stepId } = useUrnIds();
   const location = useLocation();
@@ -144,7 +149,7 @@ const ResourceIdsPage = ({ subjectId, topicId, resourceId }: Props) => {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInContexts(location, data.resource.contexts)) {
+  if (data.resource && !urlInContexts(location, data.resource.contexts, enablePrettyUrls)) {
     if (data.resource.paths?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
@@ -192,4 +197,4 @@ const ResourceIdsPage = ({ subjectId, topicId, resourceId }: Props) => {
   );
 };
 
-export default ResourceIdsPage;
+export default ResourcePageContent;

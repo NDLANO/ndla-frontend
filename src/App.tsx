@@ -126,11 +126,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   {resourceRoutes}
                 </Route>
                 <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
-                {
-                  // <Route path=":name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
-                  // <Route path=":root/:name/f/:contextId" element={<SubjectContextPage nodeType="SUBJECT" />} />
-                  // <Route path=":root/:name/e/:contextId" element={<SubjectContextPage nodeType="TOPIC" />} />
-                }
                 <Route path=":name/f/:contextId" element={<SubjectRouting />} />
                 <Route path=":root/:name/f/:contextId" element={<SubjectRouting />} />
                 <Route path=":root/:name/e/:contextId" element={<SubjectRouting />} />

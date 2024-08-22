@@ -17,9 +17,9 @@ import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
-import config from "../../../config";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
@@ -48,6 +48,7 @@ type Props = {
 };
 
 const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources, loading, subject }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
@@ -100,7 +101,7 @@ const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources
       ...subtopic,
       label: subtopic.name,
       selected: subtopic.id === subTopicId,
-      url: config.enablePrettyUrls ? subtopic.url : subtopic.path,
+      url: enablePrettyUrls ? subtopic.url : subtopic.path,
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });

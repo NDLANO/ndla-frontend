@@ -19,7 +19,7 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import config from "../../../config";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
 
 interface Props {
@@ -56,6 +56,7 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
 };
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
@@ -106,7 +107,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const subjectPath = config.enablePrettyUrls ? subject?.url : subject?.path;
+  const subjectPath = enablePrettyUrls ? subject?.url : subject?.path;
   const path = subjectPath ?? "";
 
   return (
@@ -130,7 +131,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             </DrawerListItem>
 
             {groupedTopics.map((t) => {
-              const path = config.enablePrettyUrls ? t.url : t.path;
+              const path = enablePrettyUrls ? t.url : t.path;
               return (
                 <DrawerMenuItem
                   id={t.id}

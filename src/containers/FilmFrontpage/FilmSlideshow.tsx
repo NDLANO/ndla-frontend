@@ -13,7 +13,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
-import config from "../../config";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
 interface Props {
@@ -126,6 +126,7 @@ const MainImageShimmer = () => (
 );
 
 const FilmSlideshow = ({ slideshow }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -159,7 +160,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           <LoadingShimmer />
         ) : (
           slideshow.map((movie) => {
-            const path = config.enablePrettyUrls ? movie.url : movie.path;
+            const path = enablePrettyUrls ? movie.url : movie.path;
             return (
               <StyledSafeLinkCard
                 data-current={movie.id === currentSlide?.id}

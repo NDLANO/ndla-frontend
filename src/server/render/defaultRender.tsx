@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import url from "url";
+import { Request } from "express";
 import { getSelectorsByUserAgent } from "react-device-detect";
 import { FilledContext, HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
@@ -18,6 +20,7 @@ import { i18nInstance } from "@ndla/ui";
 import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
+import { PrettyUrlsProvider } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
@@ -38,6 +41,14 @@ function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) 
   return abbreviation;
 }
 
+const enablePrettyUrls = (req: Request) => {
+  const urlParts = url.parse(req.url, true);
+  if (urlParts.query && urlParts.query.prettyUrls) {
+    return urlParts.query.prettyUrls === "true";
+  }
+  return config.enablePrettyUrls;
+};
+
 export const defaultRender: RenderFunc = async (req) => {
   const resCookie = req.headers["cookie"] ?? "";
 
@@ -54,6 +65,7 @@ export const defaultRender: RenderFunc = async (req) => {
   const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
+  const prettyUrls = enablePrettyUrls(req);
 
   if (noSSR) {
     return {
@@ -79,23 +91,25 @@ export const defaultRender: RenderFunc = async (req) => {
 
   const Page = (
     <RedirectContext.Provider value={redirectContext}>
-      <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <ResponseContext.Provider value={responseContext}>
-              <CacheProvider value={cache}>
-                <VersionHashProvider value={versionHash}>
-                  <UserAgentProvider value={userAgentSelectors}>
-                    <StaticRouter basename={basename} location={req.url}>
-                      <App key={locale} />
-                    </StaticRouter>
-                  </UserAgentProvider>
-                </VersionHashProvider>
-              </CacheProvider>
-            </ResponseContext.Provider>
-          </ApolloProvider>
-        </I18nextProvider>
-      </HelmetProvider>
+      <PrettyUrlsProvider value={prettyUrls}>
+        <HelmetProvider context={helmetContext}>
+          <I18nextProvider i18n={i18n}>
+            <ApolloProvider client={client}>
+              <ResponseContext.Provider value={responseContext}>
+                <CacheProvider value={cache}>
+                  <VersionHashProvider value={versionHash}>
+                    <UserAgentProvider value={userAgentSelectors}>
+                      <StaticRouter basename={basename} location={req.url}>
+                        <App key={locale} />
+                      </StaticRouter>
+                    </UserAgentProvider>
+                  </VersionHashProvider>
+                </CacheProvider>
+              </ResponseContext.Provider>
+            </ApolloProvider>
+          </I18nextProvider>
+        </HelmetProvider>
+      </PrettyUrlsProvider>
     </RedirectContext.Provider>
   );
 

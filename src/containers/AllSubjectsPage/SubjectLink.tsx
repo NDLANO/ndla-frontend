@@ -14,8 +14,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FavoriteButton from "../../components/MyNdla/FavoriteButton";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { useToast } from "../../components/ToastContext";
-import config from "../../config";
 import { GQLAllSubjects_SubjectFragment } from "../../graphqlTypes";
 import DeleteModalContent from "../MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../MyNdla/userMutations";
@@ -56,6 +56,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { authenticated } = useContext(AuthContext);
   const { updatePersonalData } = useUpdatePersonalData();
+  const enablePrettyUrls = useEnablePrettyUrls();
 
   const setFavorite = async () => {
     if (!favorites) {
@@ -129,16 +130,14 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
               <>
                 <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
                 <SafeLinkWrapper>
-                  <StyledSafeLink to={config.enablePrettyUrls ? subject.url : subject.path}>
-                    {subject.name}
-                  </StyledSafeLink>
+                  <StyledSafeLink to={enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
                 </SafeLinkWrapper>
               </>
             }
           />
         </DialogRoot>
       )}
-      <StyledSafeLink to={config.enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
+      <StyledSafeLink to={enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

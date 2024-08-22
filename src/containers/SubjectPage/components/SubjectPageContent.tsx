@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import TopicWrapper from "./TopicWrapper";
 import NavigationBox from "../../../components/NavigationBox";
-import config from "../../../config";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
 import { GQLSubjectPageContent_NodeFragment } from "../../../graphqlTypes";
 import { scrollToRef } from "../../../util/pageHelpers";
@@ -24,6 +24,7 @@ interface Props {
 }
 
 const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   useEffect(() => {
     if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
   }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -33,7 +34,7 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
       ...topic,
       label: topic?.name,
       selected: topic?.id === topicIds[0],
-      url: config.enablePrettyUrls ? topic.url : topic.path,
+      url: enablePrettyUrls ? topic.url : topic.path,
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };

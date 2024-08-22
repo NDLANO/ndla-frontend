@@ -15,7 +15,7 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
-import config from "../../config";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { RELEVANCE_CORE } from "../../constants";
 
 // TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
@@ -91,6 +91,7 @@ export const ResourceItem = ({
   language,
   article,
 }: Props & Resource) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const relevanceElId = useId();
   const accessId = useId();
@@ -129,7 +130,7 @@ export const ResourceItem = ({
             />
             <ListItemHeading asChild consumeCss>
               <StyledSafeLink
-                to={config.enablePrettyUrls ? url : path}
+                to={enablePrettyUrls ? url : path}
                 unstyled
                 css={linkOverlay.raw()}
                 lang={language === "nb" ? "no" : language}

@@ -15,8 +15,8 @@ import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLTaxBase,
@@ -49,6 +49,7 @@ interface Props {
 
 const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   useEffect(() => {
@@ -97,8 +98,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   }
 
   const breadcrumbItems = topicPath
-    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource])
-    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource]);
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls)
+    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource], enablePrettyUrls);
 
   return (
     <div>
@@ -120,7 +121,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         topic={topic}
         subjectId={subject?.id}
         resourceId={resource.id}
-        path={config.enablePrettyUrls ? resource.url : resource.path}
+        path={enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}

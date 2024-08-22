@@ -20,8 +20,8 @@ import SubjectLinks from "./components/SubjectLinks";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import config from "../../config";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -86,6 +86,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 };
 
 const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
   const subjectType = getSubjectType(subject.id);
@@ -117,7 +118,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       to: "/",
     },
     {
-      to: config.enablePrettyUrls ? subject.url : subject.path,
+      to: enablePrettyUrls ? subject.url : subject.path,
       name: subject.name,
     },
     ...topicCrumbs,

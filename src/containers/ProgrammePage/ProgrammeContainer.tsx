@@ -19,8 +19,8 @@ import { useTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import NavigationBox from "../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
@@ -50,7 +50,10 @@ interface Props {
   grade: string;
 }
 
-const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
+const mapGradesData = (
+  grades: GQLProgrammeContainer_ProgrammeFragment["grades"],
+  enablePrettyUrls: boolean,
+): GradesData[] => {
   if (!grades) return [];
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
@@ -59,7 +62,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
-          url: config.enablePrettyUrls ? subject.url : subject.path,
+          url: enablePrettyUrls ? subject.url : subject.path,
         };
       });
       return {
@@ -119,10 +122,11 @@ const MessageBoxWrapper = styled("div", {
 });
 
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const heading = programme.title.title;
-  const grades = mapGradesData(programme.grades || []);
+  const grades = mapGradesData(programme.grades || [], enablePrettyUrls);
   const socialMediaTitle = `${programme.title.title} - ${gradeProp}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";

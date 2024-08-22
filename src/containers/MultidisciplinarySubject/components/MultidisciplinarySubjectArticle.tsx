@@ -14,6 +14,7 @@ import { useTracker } from "@ndla/tracker";
 import { OneColumn } from "@ndla/ui";
 import Article from "../../../components/Article";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
@@ -36,6 +37,7 @@ interface Props {
 }
 
 const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
@@ -55,8 +57,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, topic]);
-  }, [t, topic, topicPath]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, topic], enablePrettyUrls);
+  }, [t, topic, topicPath, enablePrettyUrls]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];

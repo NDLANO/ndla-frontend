@@ -10,7 +10,6 @@ import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
 import { constants } from "@ndla/ui";
-import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import {
   GQLGroupSearchQuery,
@@ -129,6 +128,7 @@ export const mapResourcesToItems = (
   ltiData: LtiData | undefined,
   isLti: boolean,
   language: LocaleType | undefined,
+  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchItem[] =>
   resources.map((resource) => ({
@@ -138,11 +138,11 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
       : resource.contexts?.length
-        ? (config.enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) || resource.path
+        ? (enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) || resource.path
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: config.enablePrettyUrls ? context.url ?? context.path : context.path,
+      url: enablePrettyUrls ? context.url ?? context.path : context.path,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
@@ -198,11 +198,12 @@ export const mapSearchDataToGroups = (
   ltiData: LtiData | undefined,
   isLti: boolean | undefined,
   language: LocaleType | undefined,
+  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchGroup[] => {
   if (!searchData) return [];
   return searchData.map((result) => ({
-    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, t),
+    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, enablePrettyUrls, t),
     resourceTypes: getResourceTypeFilters(
       resourceTypes?.find((type) => type.id === result.resourceType),
       result.aggregations?.[0]?.values?.map((value) => value.value),
@@ -212,14 +213,17 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
+export const mapSubjectDataToGroup = (
+  subjectData: GQLSubjectInfoFragment[] | undefined,
+  enablePrettyUrls: boolean,
+): SearchGroup[] => {
   if (!subjectData) return [];
   return [
     {
       items: subjectData.map((subject) => ({
         id: subject.id,
         title: subject.name,
-        url: config.enablePrettyUrls ? subject.url : subject.path,
+        url: enablePrettyUrls ? subject.url : subject.path,
       })),
       resourceTypes: [],
       totalCount: subjectData.length,

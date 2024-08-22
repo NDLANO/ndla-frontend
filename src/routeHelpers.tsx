@@ -8,7 +8,6 @@
 
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
-import config from "./config";
 import {
   ABOUT_PATH,
   FILM_ID,
@@ -152,11 +151,15 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export function toBreadcrumbItems(rootName: string, paths: (GQLTaxBase | undefined)[]): Breadcrumb[] {
+export function toBreadcrumbItems(
+  rootName: string,
+  paths: (GQLTaxBase | undefined)[],
+  enablePrettyUrls = false,
+): Breadcrumb[] {
   const safePaths = paths.filter((p) => p !== undefined);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
-    const to = config.enablePrettyUrls ? crumb?.url : crumb?.path;
+    const to = enablePrettyUrls ? crumb?.url : crumb?.path;
     return {
       to: to ?? "",
       name: crumb?.name ?? "",

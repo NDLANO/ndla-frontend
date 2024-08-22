@@ -13,7 +13,7 @@ import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
 import { PageSpinner } from "../../../components/PageSpinner";
-import config from "../../../config";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLTaxBase, GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables } from "../../../graphqlTypes";
 import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
@@ -42,6 +42,7 @@ const topicWrapperQuery = gql`
 `;
 
 const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const navigate = useNavigate();
   const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
     topicWrapperQuery,
@@ -59,12 +60,12 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
           const topicPath = topic.context?.crumbs ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: config.enablePrettyUrls ? tp.url : tp.path,
+              to: enablePrettyUrls ? tp.url : tp.path,
               name: tp.name,
             }))
             .slice(1);
           setBreadCrumb(
-            newCrumbs.concat({ to: config.enablePrettyUrls ? topic.url ?? topic.path : topic.path, name: topic.name }),
+            newCrumbs.concat({ to: enablePrettyUrls ? topic.url ?? topic.path : topic.path, name: topic.name }),
           );
         }
       },
