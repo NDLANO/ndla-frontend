@@ -65,7 +65,7 @@ const ArenaAdminPage = () => {
         <Text>{t("myNdla.arena.admin.description")}</Text>
         <StyledCardContainer>
           <AdminNavLink
-            to={"flags"}
+            to="flags"
             title={t("myNdla.arena.admin.flags.title")}
             subText={t("myNdla.arena.admin.flags.description")}
             icon={<AlertLine css={iconStyles} />}
