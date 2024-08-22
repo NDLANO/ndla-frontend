@@ -71,7 +71,7 @@ const ArenaAdminPage = () => {
             icon={<AlertLine css={iconStyles} />}
           />
           <AdminNavLink
-            to={"users"}
+            to="users"
             title={t("myNdla.arena.admin.users.title")}
             subText={t("myNdla.arena.admin.users.shortDescription")}
             icon={<UserLine css={iconStyles} />}
