@@ -45,22 +45,20 @@ export const StyledHeaderRow = styled("tr", {
     "& th": {
       border: "none",
       borderWidth: "0",
-      paddingInline: "0",
-      mobileWide: {
-        paddingInline: "xsmall",
+      borderColor: "surface.default",
+      mobileWideDown: {
+        paddingInline: "0",
       },
-      _firstOfType: {
-        paddingInlineStart: "0",
-        mobileWide: {
-          paddingInlineStart: "xsmall",
-        },
-      },
-      _lastOfType: {
-        paddingInlineEnd: "0",
-        mobileWide: {
-          paddingInlineEnd: "xsmall",
-        },
-      },
+    },
+
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
+
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
     },
   },
 });
@@ -75,22 +73,6 @@ export const StyledRow = styled("tr", {
     "& td": {
       border: "none",
       borderWidth: "0",
-      paddingInline: "0",
-      mobileWide: {
-        paddingInline: "xsmall",
-      },
-      _firstOfType: {
-        paddingInlineStart: "0",
-        mobileWide: {
-          paddingInlineStart: "xsmall",
-        },
-      },
-      _lastOfType: {
-        paddingInlineEnd: "0",
-        mobileWide: {
-          paddingInlineEnd: "xsmall",
-        },
-      },
     },
 
     "& [data-title='']": {
@@ -101,6 +83,16 @@ export const StyledRow = styled("tr", {
       "& [data-title='']": {
         textDecoration: "none",
       },
+    },
+
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
+
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
     },
   },
 });
@@ -188,7 +180,7 @@ const FlaggedPosts = () => {
         <td data-title="">Post {post.id}</td>
         <td>{count}</td>
         <td>{lastFlagAt}</td>
-        <td style={{ textAlign: "right" }}>
+        <td>
           <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
           {resolvedFlags.length === flags.length ? (
             <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
@@ -212,7 +204,7 @@ const FlaggedPosts = () => {
             <th>{t("myNdla.arena.admin.flags.postId")}</th>
             <th>{t("myNdla.arena.admin.flags.numFlags")}</th>
             <th>{t("myNdla.arena.admin.flags.latestFlag")}</th>
-            <th style={{ textAlign: "right" }}>{t("myNdla.arena.admin.flags.status.title")}</th>
+            <th>{t("myNdla.arena.admin.flags.status.title")}</th>
           </StyledHeaderRow>
         </thead>
         <tbody>{arenaFlags}</tbody>
