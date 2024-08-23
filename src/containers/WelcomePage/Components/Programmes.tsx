@@ -6,9 +6,10 @@
  *
  */
 
-import { useId, useMemo } from "react";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { gql } from "@apollo/client";
+import { ArrowDownShortLine, ArrowRightLine } from "@ndla/icons/common";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -18,9 +19,10 @@ import {
   Heading,
   Text,
 } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ProgrammeCard, ProgrammeV2 } from "@ndla/ui";
-import { useUserAgent } from "../../../UserAgentContext";
+import { PROGRAMME_PATH } from "../../../constants";
+import { GQLProgrammes_ProgrammePageFragment } from "../../../graphqlTypes";
 
 const StyledWrapper = styled("div", {
   base: {
@@ -60,15 +62,25 @@ const HeadingWrapper = styled("div", {
 });
 
 const StyledList = styled("ul", {
-  base: { display: "flex", flexDirection: "column", alignItems: "center", gap: "small" },
+  base: {
+    display: "grid",
+    columnGap: "xsmall",
+    rowGap: "small",
+    listStyle: "none",
+    gridTemplateColumns: "1fr",
+    tablet: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+  },
 });
 
 const StyledLi = styled("li", {
   base: {
-    listStyle: "none",
-    padding: "0",
-    lineHeight: "unset",
-    "&[data-mobile=false]": { minHeight: "350px", minWidth: "250px", maxHeight: "350px", width: "250px" },
+    width: "100%",
+    height: "100%",
   },
 });
 
@@ -79,15 +91,62 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   },
 });
 
+const StyledAccordionItemTrigger = styled(AccordionItemTrigger, {
+  base: {
+    _open: {
+      background: "surface.default",
+    },
+  },
+});
+
 const StyledAccordionItemContent = styled(AccordionItemContent, {
   base: {
+    paddingBlock: "small",
+    paddingInline: "small",
     background: "surface.default",
+    desktop: {
+      paddingBlock: "medium",
+      paddingInline: "medium",
+    },
+  },
+});
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    position: "relative",
+    paddingInline: "small",
+    paddingBlock: "medium",
+    justifyContent: "space-between",
+    textAlign: "start",
+    width: "100%",
+    height: "4xlarge",
+    _after: {
+      transitionDuration: "normal",
+      transitionTimingFunction: "ease-out",
+      transitionProperty: "opacity",
+      opacity: "0",
+      inset: "0",
+      borderRadius: "xsmall",
+      position: "absolute",
+      content: "''",
+      boxShadow: "none",
+    },
+    "&:not(:active)": {
+      _hover: {
+        transform: "translateY(-5px)",
+        _after: {
+          opacity: "1",
+          boxShadow: "full",
+        },
+      },
+    },
   },
 });
 
 const FullWidth = styled("div", { base: { width: "100%" } });
+
 interface Props {
-  programmes: ProgrammeV2[];
+  programmes: GQLProgrammes_ProgrammePageFragment[];
 }
 
 const Description = styled(Text, { base: { fontWeight: "normal" } });
@@ -95,22 +154,7 @@ const Description = styled(Text, { base: { fontWeight: "normal" } });
 // TODO: Needs to be updated according to new design
 const Programmes = ({ programmes }: Props) => {
   const { t } = useTranslation();
-  const selectors = useUserAgent();
   const accordionHeader = useId();
-
-  const programmeCards = useMemo(() => {
-    return programmes.map((programme) => (
-      <StyledLi key={programme.id} data-mobile={!!selectors?.isMobile}>
-        <ProgrammeCard
-          id={programme.id}
-          title={programme.title}
-          wideImage={selectors?.isMobile ? programme.wideImage : undefined}
-          narrowImage={selectors?.isMobile ? undefined : programme.narrowImage}
-          url={programme.url}
-        />
-      </StyledLi>
-    ));
-  }, [selectors?.isMobile, programmes]);
 
   return (
     <StyledWrapper>
@@ -128,17 +172,26 @@ const Programmes = ({ programmes }: Props) => {
           <AccordionItem value="1">
             <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
               <h2>
-                <AccordionItemTrigger id={accordionHeader} data-testid="accordion-header">
+                <StyledAccordionItemTrigger id={accordionHeader} data-testid="accordion-header">
                   {t("programmes.header")}
                   <AccordionItemIndicator asChild>
                     <ArrowDownShortLine size="medium" />
                   </AccordionItemIndicator>
-                </AccordionItemTrigger>
+                </StyledAccordionItemTrigger>
               </h2>
             </Heading>
             <StyledAccordionItemContent>
               <nav aria-labelledby="accordionHeader">
-                <StyledList>{programmeCards}</StyledList>
+                <StyledList>
+                  {programmes.map((programme) => (
+                    <StyledLi key={programme.id}>
+                      <StyledSafeLinkButton to={`${PROGRAMME_PATH}${programme.url}`} variant="secondary">
+                        {programme.title.title}
+                        <ArrowRightLine />
+                      </StyledSafeLinkButton>
+                    </StyledLi>
+                  ))}
+                </StyledList>
               </nav>
             </StyledAccordionItemContent>
           </AccordionItem>
@@ -146,6 +199,19 @@ const Programmes = ({ programmes }: Props) => {
       </FullWidth>
     </StyledWrapper>
   );
+};
+
+Programmes.fragments = {
+  programmePage: gql`
+    fragment Programmes_ProgrammePage on ProgrammePage {
+      id
+      title {
+        title
+        language
+      }
+      url
+    }
+  `,
 };
 
 export default Programmes;

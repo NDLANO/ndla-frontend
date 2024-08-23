@@ -12,14 +12,14 @@ import { gql } from "@apollo/client";
 import { Heading, Hero, HeroBackground } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ProgrammeV2, OneColumn, ArticleWrapper, ArticleContent } from "@ndla/ui";
+import { OneColumn, ArticleWrapper, ArticleContent } from "@ndla/ui";
 import Programmes from "./Components/Programmes";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFrontpageDataQuery, GQLProgrammePage } from "../../graphqlTypes";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { useGraphQuery } from "../../util/runQueries";
@@ -53,29 +53,10 @@ const StyledHeroBackground = styled(HeroBackground, {
   },
 });
 
-export const programmeFragment = gql`
-  fragment ProgrammeFragment on ProgrammePage {
-    id
-    title {
-      title
-      language
-    }
-    desktopImage {
-      url
-      alt
-    }
-    mobileImage {
-      url
-      alt
-    }
-    url
-  }
-`;
-
 const frontpageQuery = gql`
   query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
-      ...ProgrammeFragment
+      ...Programmes_ProgrammePage
     }
     frontpage {
       articleId
@@ -98,26 +79,8 @@ const frontpageQuery = gql`
   }
   ${LicenseBox.fragments.article}
   ${structuredArticleDataFragment}
-  ${programmeFragment}
+  ${Programmes.fragments.programmePage}
 `;
-
-const formatProgrammes = (data: GQLProgrammePage[]): ProgrammeV2[] => {
-  return data.map((p) => {
-    return {
-      id: p.id,
-      title: p.title,
-      wideImage: {
-        src: p.desktopImage?.url || "",
-        alt: p.desktopImage?.alt || "",
-      },
-      narrowImage: {
-        src: p.mobileImage?.url || "",
-        alt: p.mobileImage?.alt || "",
-      },
-      url: `${PROGRAMME_PATH}${p.url}` || "",
-    };
-  });
-};
 
 const WelcomePage = () => {
   const { t, i18n } = useTranslation();
@@ -134,13 +97,6 @@ const WelcomePage = () => {
   }, [authContextLoaded, t, trackPageView, user]);
 
   const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery);
-
-  const programmes = useMemo(() => {
-    if (fpQuery.data?.programmes) {
-      return formatProgrammes(fpQuery.data.programmes);
-    }
-    return [];
-  }, [fpQuery.data?.programmes]);
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;
@@ -193,7 +149,7 @@ const WelcomePage = () => {
         <Hero absolute={false} variant="brand1">
           <StyledHeroBackground>
             <StyledOneColumn wide data-testid="programme-list">
-              <Programmes programmes={programmes} />
+              <Programmes programmes={fpQuery.data?.programmes ?? []} />
             </StyledOneColumn>
           </StyledHeroBackground>
         </Hero>

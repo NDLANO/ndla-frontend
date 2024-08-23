@@ -92,14 +92,10 @@ const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
             <StyledHeader data-name="hover" color="text.strong" asChild consumeCss>
               <label>{title}</label>
             </StyledHeader>
-            <StyledDescriptionText asChild consumeCss>
-              <p>{subText}</p>
-            </StyledDescriptionText>
+            <StyledDescriptionText>{subText}</StyledDescriptionText>
           </div>
           <StyledCountContainer>
-            <Text asChild consumeCss>
-              <p>{rightText}</p>
-            </Text>
+            <Text>{rightText}</Text>
           </StyledCountContainer>
         </SpacingContainer>
       </StyledSafelink>

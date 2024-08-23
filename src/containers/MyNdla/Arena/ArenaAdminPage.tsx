@@ -10,11 +10,10 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { UserLine, AlertLine } from "@ndla/icons/common";
-import { Heading } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
 import AdminNavLink from "./components/AdminNavLink";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -62,18 +61,16 @@ const ArenaAdminPage = () => {
         <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
           {t("myNdla.arena.admin.title")}
         </Heading>
-        <Text element="p" textStyle="content-alt">
-          {t("myNdla.arena.admin.description")}
-        </Text>
+        <Text>{t("myNdla.arena.admin.description")}</Text>
         <StyledCardContainer>
           <AdminNavLink
-            to={"flags"}
+            to="flags"
             title={t("myNdla.arena.admin.flags.title")}
             subText={t("myNdla.arena.admin.flags.description")}
             icon={<AlertLine css={iconStyles} />}
           />
           <AdminNavLink
-            to={"users"}
+            to="users"
             title={t("myNdla.arena.admin.users.title")}
             subText={t("myNdla.arena.admin.users.shortDescription")}
             icon={<UserLine css={iconStyles} />}
