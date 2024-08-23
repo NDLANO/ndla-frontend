@@ -44,7 +44,7 @@ const InfoPart = ({ icon, title, children }: Props) => {
     <InfoPartWrapper>
       <InfoPartHeader>
         {icon}
-        <Heading id="myProfileTitle" textStyle="title.large" asChild consumeCss>
+        <Heading id="myProfileTitle" textStyle="heading.small" asChild consumeCss>
           <h2>{title}</h2>
         </Heading>
       </InfoPartHeader>

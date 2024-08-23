@@ -122,7 +122,7 @@ const MyProfilePage = () => {
           </Text>
         </InfoContainer>
         <ButtonContainer>
-          <Heading id="deleteUserTitle" textStyle="title.large" asChild consumeCss>
+          <Heading id="deleteUserTitle" textStyle="heading.small" asChild consumeCss>
             <h2>{t("myNdla.myPage.wishToDelete")}</h2>
           </Heading>
           <DialogRoot>
