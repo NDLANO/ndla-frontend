@@ -15,7 +15,7 @@ import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrate
 import DraggableFolder from "./DraggableFolder";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { useSortFoldersMutation } from "../../folderMutations";
 import { BlockWrapper } from "../FoldersPage";
@@ -30,6 +30,12 @@ interface Props {
   isFavorited?: boolean;
 }
 
+export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
+  folders.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
+    acc[curr.id] = getTotalCountForFolder(curr);
+    return acc;
+  }, {});
+
 const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const { sortFolders } = useSortFoldersMutation();
@@ -40,14 +46,7 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
     setSortedFolders(folders);
   }, [folders]);
 
-  const foldersCount = useMemo(
-    () =>
-      folders?.reduce<Record<string, FolderTotalCount>>((acc, curr) => {
-        acc[curr.id] = getTotalCountForFolder(curr);
-        return acc;
-      }, {}),
-    [folders],
-  );
+  const foldersCount = useMemo(() => getFolderCount(folders), [folders]);
 
   const updateCache = (newOrder: string[]) => {
     const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {

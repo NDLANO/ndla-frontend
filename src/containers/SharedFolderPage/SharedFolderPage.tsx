@@ -31,6 +31,7 @@ import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
+import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -114,7 +115,9 @@ const SharedFolderPage = () => {
     includeSubfolders: true,
   });
 
-  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+    skip: !folder || !authenticated,
+  });
 
   const { data } = useFolderResourceMetaSearch(
     flattenResources(folder).map((res) => ({
@@ -145,6 +148,8 @@ const SharedFolderPage = () => {
     () => folderData?.folders.sharedFolders.some((f) => f.id === folderId),
     [folderData?.folders.sharedFolders, folderId],
   );
+
+  const folderCount = useMemo(() => getFolderCount(folder?.subfolders ?? []), [folder?.subfolders]);
 
   if (loading) {
     return <PageSpinner />;
@@ -196,7 +201,11 @@ const SharedFolderPage = () => {
               {folder.subfolders.map((subFolder) =>
                 containsFolder(subFolder) ? (
                   <li key={`folder-${subFolder.id}`}>
-                    <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
+                    <Folder
+                      folder={subFolder}
+                      link={routes.folder(subFolder.id)}
+                      foldersCount={folderCount?.[subFolder.id]}
+                    />
                   </li>
                 ) : null,
               )}
