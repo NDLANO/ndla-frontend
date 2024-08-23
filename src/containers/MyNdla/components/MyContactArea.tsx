@@ -6,8 +6,9 @@
  *
  */
 
-import { Text, Heading } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import styled from "@emotion/styled";
+import { colors, spacing, breakpoints, mq } from "@ndla/core";
+import { Heading } from "@ndla/typography";
 import UserAvatar from "./UserAvatar";
 import { isStudent, withRole } from "../Folders/util";
 import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
@@ -24,42 +25,42 @@ type MyContractAreaProps = {
   showProfileButton?: boolean;
 };
 
-const MyContactAreaContainer = styled("div", {
-  base: {
-    alignItems: "center",
-    backgroundColor: "surface.brand.1.subtle",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "small",
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-    padding: "xlarge",
-  },
-});
+const MyContactAreaContainer = styled.div`
+  max-width: 100%;
+  max-height: fit-content;
+  padding: ${spacing.large} 0;
+  border: 1px solid ${colors.brand.lighter};
+  border-radius: ${spacing.small};
+  background-color: ${colors.background.lightBlue};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${spacing.small};
+`;
 
-const AvatarContainer = styled("div", {
-  base: {
-    maxHeight: "surface.xsmall",
-    maxWidth: "surface.xsmall",
-  },
-});
+const AvatarContainer = styled.div`
+  max-width: 250px;
+  max-height: 250px;
+`;
 
-const MobileButtonContainer = styled("div", {
-  base: {
-    paddingBlockStart: "4xsmall",
-    display: "block",
-    tablet: {
-      display: "none",
-    },
-  },
-});
+const UserInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xxsmall};
+  align-items: center;
+`;
 
-const StyledText = styled(Text, {
-  base: {
-    textTransform: "uppercase",
-  },
-});
+const UserWorkPlaceText = styled(Heading)`
+  color: ${colors.brand.primary};
+`;
+
+const MobileButtonContainer = styled.div`
+  padding-top: ${spacing.xxsmall};
+  ${mq.range({ from: breakpoints.tablet })} {
+    display: none;
+  }
+`;
+
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
@@ -68,12 +69,14 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
           <UserAvatar userName={user.displayName} />
         </AvatarContainer>
       )}
-      <Heading id="userName" textStyle="title.medium" asChild consumeCss>
-        <h2>{user.displayName}</h2>
+      <Heading element="h2" id="userName" margin="none" headingStyle="h2">
+        {user.displayName}
       </Heading>
-      <StyledText textStyle="title.small" color="stroke.hover">
-        {user.primaryOrg}
-      </StyledText>
+      <UserInfoContainer>
+        <UserWorkPlaceText element="p" headingStyle="list-title" margin="none">
+          {user.primaryOrg}
+        </UserWorkPlaceText>
+      </UserInfoContainer>
       {showProfileButton && (
         <>
           {!isStudent(user as withRole) && (
