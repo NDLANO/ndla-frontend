@@ -6,7 +6,8 @@
  *
  */
 
-import { styled } from "@ndla/styled-system/jsx";
+import styled from "@emotion/styled";
+import { breakpoints, misc, mq } from "@ndla/core";
 import Avatar from "./Avatar";
 import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
@@ -15,26 +16,20 @@ type UserAvatarProps = {
   showProfileButton?: boolean;
 };
 
-const UserAvatarContainer = styled("div", {
-  base: {
-    position: "relative",
-  },
-});
+const UserAvatarContainer = styled.div`
+  position: relative;
+`;
 
-const DesktopButtonContainer = styled("div", {
-  base: {
-    bottom: "unset",
-    display: "none",
-    left: "unset",
-    position: "unset",
-    tablet: {
-      bottom: "0",
-      display: "block",
-      left: "50%",
-      position: "absolute",
-    },
-  },
-});
+const DesktopButtonContainer = styled.div`
+  ${mq.range({ until: breakpoints.tablet })} {
+    display: none;
+  }
+  ${mq.range({ from: breakpoints.tablet })} {
+    position: absolute;
+    bottom: 0px;
+    left: ${misc.borderRadiusLarge};
+  }
+`;
 
 const UserAvatar = ({ userName, showProfileButton }: UserAvatarProps) => {
   const profilePicture = undefined;
