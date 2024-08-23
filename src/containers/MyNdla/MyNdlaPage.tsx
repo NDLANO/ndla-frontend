@@ -45,7 +45,6 @@ const StyledResourceList = styled.ul`
   display: flex;
   flex-direction: column;
   list-style: none;
-  gap: ${spacing.xsmall};
   li {
     padding: 0px;
   }
@@ -269,6 +268,7 @@ const MyNdlaPage = () => {
                 return (
                   <ListItem key={res.id}>
                     <ListResource
+                      variant="list"
                       id={res.id}
                       isLoading={loading}
                       key={res.id}

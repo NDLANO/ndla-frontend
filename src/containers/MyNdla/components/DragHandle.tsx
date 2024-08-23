@@ -9,10 +9,9 @@
 import { HTMLProps } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
 import { Draggable } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   sortableId: string;
@@ -20,17 +19,19 @@ interface Props extends HTMLProps<HTMLButtonElement> {
   name: string;
 }
 
-const StyledDragHandle = styled(IconButton)`
-  touch-action: none;
-  ${mq.range({ from: breakpoints.tablet })} {
-    position: absolute;
-    left: -${spacing.xxsmall};
-    transform: translateX(-100%);
-  }
-  :disabled {
-    display: none;
-  }
-`;
+const StyledDragHandle = styled(IconButton, {
+  base: {
+    touchAction: "none",
+    tablet: {
+      left: "-4xsmall",
+      position: "absolute",
+      translate: "-100%",
+    },
+    _disabled: {
+      display: "none",
+    },
+  },
+});
 
 const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
   const { t } = useTranslation();
