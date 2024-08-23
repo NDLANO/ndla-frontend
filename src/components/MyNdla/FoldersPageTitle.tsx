@@ -7,27 +7,40 @@
  */
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { FolderUserLine } from "@ndla/icons/contentType";
 import { FolderLine } from "@ndla/icons/editor";
-import { ContentLoader } from "@ndla/ui";
+import { Skeleton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";
 import MyNdlaTitle from "../../containers/MyNdla/components/MyNdlaTitle";
 import TitleWrapper from "../../containers/MyNdla/components/TitleWrapper";
 import { GQLFolder } from "../../graphqlTypes";
-import WhileLoading from "../WhileLoading";
 
-const TitleRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const TitleRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
 
-const StyledContentLoader = styled(ContentLoader)`
-  max-width: 500px;
-  min-width: 500px;
-`;
+const StyledSkeleton = styled(Skeleton, {
+  base: {
+    maxWidth: "surface.medium",
+    minWidth: "surface.medium",
+  },
+  defaultVariants: { selectedFolder: false },
+  variants: {
+    selectedFolder: {
+      true: {
+        height: "xxlarge",
+      },
+      false: {
+        height: "medium",
+      },
+    },
+  },
+});
 
 interface Props {
   loading?: boolean;
@@ -38,34 +51,21 @@ interface Props {
 const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = true }: Props) => {
   const { t } = useTranslation();
 
+  if (loading) {
+    return (
+      <TitleWrapper>
+        {!!selectedFolder && enableBreadcrumb && <StyledSkeleton />}
+        <StyledSkeleton selectedFolder={!!selectedFolder} />
+      </TitleWrapper>
+    );
+  }
+
   return (
     <TitleWrapper>
-      {enableBreadcrumb && (
-        <WhileLoading
-          isLoading={loading}
-          fallback={
-            !!selectedFolder && (
-              <ContentLoader width={500} height={30}>
-                <rect x="0" y="2" rx="3" ry="3" width="400" height="25" key="rect-1" />
-              </ContentLoader>
-            )
-          }
-        >
-          <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />
-        </WhileLoading>
-      )}
+      {enableBreadcrumb && <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />}
       <TitleRow>
-        <WhileLoading
-          fallback={
-            <StyledContentLoader width={500} height={selectedFolder ? 44 : 28}>
-              <rect x="0" y="2" rx="3" ry="3" width="300" height={selectedFolder ? "40" : "24"} key="rect-1" />
-            </StyledContentLoader>
-          }
-          isLoading={loading}
-        >
-          {selectedFolder ? selectedFolder.status === "shared" ? <FolderUserLine /> : <FolderLine /> : null}
-          <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />
-        </WhileLoading>
+        {selectedFolder ? selectedFolder.status === "shared" ? <FolderUserLine /> : <FolderLine /> : null}
+        <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />
       </TitleRow>
     </TitleWrapper>
   );
