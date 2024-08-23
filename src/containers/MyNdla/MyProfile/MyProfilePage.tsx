@@ -8,6 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -127,7 +128,10 @@ const MyProfilePage = () => {
           </Heading>
           <DialogRoot>
             <DialogTrigger asChild>
-              <Button variant="danger">{t("myNdla.myPage.deleteAccount")}</Button>
+              <Button variant="danger">
+                <DeleteBinLine />
+                {t("myNdla.myPage.deleteAccount")}
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

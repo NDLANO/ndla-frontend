@@ -32,6 +32,14 @@ const ShortInfoDiv = styled("div", {
   },
 });
 
+const ShortInfoLine = styled("span", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "4xsmall",
+  },
+});
+
 const StyledUl = styled("ul", {
   base: {
     paddingInlineStart: "xlarge",
@@ -53,15 +61,18 @@ export const UserInfo = ({ user }: Props) => {
         </Text>
       }
       <ShortInfoDiv>
-        <Text>
-          {t("user.username")}: {user?.username}
-        </Text>
-        <Text>
-          {t("user.name")}: {user?.displayName}
-        </Text>
-        <Text>
-          {t("user.mail")}: {user?.email}
-        </Text>
+        <ShortInfoLine>
+          <Text fontWeight="bold">{t("user.name")}:</Text>
+          <Text>{user?.displayName}</Text>
+        </ShortInfoLine>
+        <ShortInfoLine>
+          <Text fontWeight="bold">{t("user.username")}:</Text>
+          <Text>{user?.username}</Text>
+        </ShortInfoLine>
+        <ShortInfoLine>
+          <Text fontWeight="bold">{t("user.mail")}:</Text>
+          <Text>{user?.email}</Text>
+        </ShortInfoLine>
       </ShortInfoDiv>
       <StyledUl>
         {user?.groups.map((org) => (
