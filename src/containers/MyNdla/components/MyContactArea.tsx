@@ -27,14 +27,12 @@ type MyContractAreaProps = {
 const MyContactAreaContainer = styled("div", {
   base: {
     alignItems: "center",
-    backgroundColor: "surface.brand.1.subtle",
-    border: "1px solid",
-    borderColor: "stroke.default",
+    backgroundColor: "surface.brand.4",
     borderRadius: "small",
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
-    padding: "xlarge",
+    gap: "xsmall",
+    paddingBlock: "xxlarge",
   },
 });
 
@@ -55,11 +53,6 @@ const MobileButtonContainer = styled("div", {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    textTransform: "uppercase",
-  },
-});
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
@@ -68,12 +61,10 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
           <UserAvatar userName={user.displayName} />
         </AvatarContainer>
       )}
-      <Heading id="userName" textStyle="title.medium" asChild consumeCss>
+      <Heading id="userName" textStyle="heading.medium" asChild consumeCss>
         <h2>{user.displayName}</h2>
       </Heading>
-      <StyledText textStyle="title.small" color="stroke.hover">
-        {user.primaryOrg}
-      </StyledText>
+      <Text textStyle="title.medium">{user.primaryOrg}</Text>
       {showProfileButton && (
         <>
           {!isStudent(user as withRole) && (
