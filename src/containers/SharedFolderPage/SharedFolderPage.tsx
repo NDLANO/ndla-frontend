@@ -196,7 +196,7 @@ const SharedFolderPage = () => {
           <OptionsWrapper>
             <ListViewOptions type={viewType} onTypeChange={setViewType} />
           </OptionsWrapper>
-          {folder.subfolders.length > 0 && (
+          {!!folder.subfolders.length && (
             <BlockWrapper data-no-padding={true}>
               {folder.subfolders.map((subFolder) =>
                 containsFolder(subFolder) ? (
