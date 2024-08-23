@@ -41,10 +41,12 @@ export const StyledTable = styled(Table, {
 export const StyledHeaderRow = styled("tr", {
   base: {
     textAlign: "left",
+    borderBottom: "3px solid",
+    borderColor: "surface.brand.1.strong",
 
     "& th": {
       border: "none",
-      borderWidth: "0",
+      borderWidth: "0 !important",
       borderColor: "surface.default",
       mobileWideDown: {
         paddingInline: "0",
