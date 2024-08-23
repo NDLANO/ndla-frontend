@@ -118,7 +118,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
 
   const title = t("myNdla.showEditOptions");
 
-  const buttonSize = showSingle && menuItems?.length === 1 ? "default" : "small";
+  const buttonSize = showSingle && menuItems?.length === 1 ? "medium" : "small";
 
   const items = menuItems?.map((item) => (
     <li key={item.value}>
