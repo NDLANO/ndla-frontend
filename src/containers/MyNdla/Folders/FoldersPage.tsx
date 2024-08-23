@@ -51,6 +51,7 @@ const OptionsWrapper = styled.div`
 export const BlockWrapper = styled.ul`
   display: grid;
   height: 100%;
+  width: 100%;
   margin: 0;
   margin-bottom: ${spacing.medium};
   padding: 0 0 0 ${spacing.medium};
