@@ -8,8 +8,8 @@
 
 import { Dispatch, SetStateAction, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { PencilFill, DeleteBinLine } from "@ndla/icons/action";
-import { SpamLine, LockFill } from "@ndla/icons/common";
+import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
+import { SpamLine, LockLine } from "@ndla/icons/common";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -50,7 +50,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const update: MenuItemProps = {
     type: "action",
     value: "editPost",
-    icon: <PencilFill />,
+    icon: <PencilLine />,
     text: t("myNdla.arena.posts.dropdownMenu.edit"),
     disabled: disableModification,
     onClick: () => setIsEditing(true),
@@ -85,7 +85,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
   const lockUnlock: MenuItemProps = {
     type: "dialog",
     value: "lockPost",
-    icon: <LockFill />,
+    icon: <LockLine />,
     text: topic?.isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked"),
     variant: "destructive",
     modalContent: (close) => <LockModal topic={topic} post={post} onClose={close} />,
