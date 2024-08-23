@@ -65,6 +65,7 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
         <h2>{user.displayName}</h2>
       </Heading>
       <Text textStyle="title.medium">{user.primaryOrg}</Text>
+      {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
       {showProfileButton && (
         <>
           {!isStudent(user as withRole) && (
