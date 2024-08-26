@@ -23,7 +23,8 @@ interface Props {
   id: number;
   title: string;
   subText: string;
-  count?: number;
+  topicCount?: number;
+  reactionCount?: number;
   user: MyNDLAUserType | undefined;
   visible: boolean;
   isEditing: boolean;
@@ -164,7 +165,18 @@ const ArenaCardWrapper = styled("li", {
   },
 });
 
-const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing, refetchCategories }: Props) => {
+const ArenaCard = ({
+  id,
+  title,
+  index,
+  subText,
+  topicCount,
+  reactionCount,
+  user,
+  visible,
+  isEditing,
+  refetchCategories,
+}: Props) => {
   const { t } = useTranslation();
 
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
@@ -202,13 +214,23 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
               {isEditing && user?.isModerator && (
                 <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
               )}
-              {count !== undefined && (
-                <StyledCountContainer aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
+              {topicCount !== undefined && (
+                <StyledCountContainer aria-label={`${topicCount} ${t("myNdla.arena.category.posts")}`}>
                   <Text aria-hidden textStyle="body.medium">
-                    {count}
+                    {topicCount}
                   </Text>
                   <Text aria-hidden textStyle="body.small">
-                    {t("myNdla.arena.category.posts", { count })}
+                    {t("myNdla.arena.category.posts", { count: topicCount })}
+                  </Text>
+                </StyledCountContainer>
+              )}
+              {reactionCount !== undefined && (
+                <StyledCountContainer aria-label={`${reactionCount} ${t("myNdla.arena.category.reactions")}`}>
+                  <Text aria-hidden textStyle="body.medium">
+                    {reactionCount ?? 0}
+                  </Text>
+                  <Text aria-hidden textStyle="body.small">
+                    {t("myNdla.arena.category.reactions", { count: reactionCount })}
                   </Text>
                 </StyledCountContainer>
               )}
