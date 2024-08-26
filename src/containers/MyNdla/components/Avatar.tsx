@@ -26,21 +26,22 @@ const StyledAvatarContainer = styled("div", {
     border: "2px solid",
     borderColor: "stroke.default",
     borderRadius: "full",
+    flexShrink: "0",
     height: "xxlarge",
     justifyContent: "center",
     minWidth: "xxlarge",
-    "&[data-myprofile='true']": {
-      height: "250px",
-      width: "250px",
-      borderWidth: "4px",
-    },
   },
-});
-
-const UserInitials = styled(Text, {
-  base: {
-    "&[data-myprofile='true']": {
-      fontSize: "98px",
+  variants: {
+    variant: {
+      small: {},
+      big: {
+        height: "250px",
+        width: "250px",
+        borderWidth: "4px",
+        "& p": {
+          fontSize: "98px",
+        },
+      },
     },
   },
 });
@@ -67,13 +68,13 @@ const Avatar = ({ myProfile, displayName, profilePicture, ...rest }: AvatarProps
   const initials = useMemo(() => getFirstLastInitials(displayName), [displayName]);
 
   return (
-    <StyledAvatarContainer data-myprofile={myProfile} {...rest}>
+    <StyledAvatarContainer data-myprofile={myProfile} variant={myProfile ? "big" : "small"} {...rest}>
       {profilePicture ? (
         <UserPersonalPicture src={profilePicture} alt={t("myNdla.userPictureAltText")} />
       ) : (
-        <UserInitials color="text.strong" fontWeight="bold" data-myprofile={myProfile}>
+        <Text color="text.strong" fontWeight="bold" data-myprofile={myProfile}>
           {initials}
-        </UserInitials>
+        </Text>
       )}
     </StyledAvatarContainer>
   );
