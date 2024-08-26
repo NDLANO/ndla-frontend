@@ -20,6 +20,7 @@ const ListViewOptionsContainer = styled("div", {
     display: "flex",
     alignItems: "center",
     marginInlineStart: "auto",
+    gap: "xxsmall",
   },
 });
 
@@ -38,6 +39,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         onClick={() => onTypeChange("list")}
         aria-label={t("myNdla.listView")}
         title={t("myNdla.listView")}
+        size="small"
       >
         <MenuLine />
       </IconButton>
@@ -47,6 +49,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         onClick={() => onTypeChange("listLarger")}
         aria-label={t("myNdla.detailView")}
         title={t("myNdla.detailView")}
+        size="small"
       >
         <ListCheck />
       </IconButton>
@@ -56,6 +59,7 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         onClick={() => onTypeChange("block")}
         aria-label={t("myNdla.shortView")}
         title={t("myNdla.shortView")}
+        size="small"
       >
         <GridFill />
       </IconButton>
