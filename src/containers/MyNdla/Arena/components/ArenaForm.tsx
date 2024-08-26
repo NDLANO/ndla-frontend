@@ -9,9 +9,7 @@
 import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationOutline } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   FieldErrorMessage,
@@ -25,8 +23,10 @@ import {
   CheckboxLabel,
   CheckboxRoot,
   Button,
+  MessageBox,
+  Text,
 } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
@@ -35,38 +35,32 @@ import FieldLength from "../../components/FieldLength";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
-export const ArenaFormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
-  background-color: ${colors.background.lightBlue};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-`;
+export const ArenaFormWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+    borderRadius: "small",
+    border: "1px solid",
+    borderColor: "stroke.info",
+  },
+});
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledForm = styled("form", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
-
-const InformationLabel = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
-
-const StyledInformationOutline = styled(InformationLine)`
-  overflow: unset !important;
-`;
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    display: "flex",
+    alignItems: "center",
+  },
+});
 
 interface ArenaFormProps {
   type: "topic" | "post";
@@ -178,6 +172,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
                 initialValue={initialContent ?? ""}
                 {...field}
               />
+              <FieldLength value={field.value.length ?? 0} maxLength={contentMaxLength} />
             </Suspense>
           </FieldRoot>
         )}
@@ -211,16 +206,14 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           )}
         />
       )}
-      <InformationLabel>
-        <StyledInformationOutline size="small" />
-        <Text margin="none" textStyle="content">
-          {t(`myNdla.arena.warning.${type}`)}
-        </Text>
-      </InformationLabel>
-      <ButtonRow>
+      <StyledMessageBox variant="info">
+        <InformationOutline />
+        <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
+      </StyledMessageBox>
+      <HStack gap="small" justify="flex-end">
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <Button type="submit">{t("myNdla.arena.publish")}</Button>
-      </ButtonRow>
+      </HStack>
     </StyledForm>
   );
 };

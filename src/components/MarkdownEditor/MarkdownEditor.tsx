@@ -9,7 +9,6 @@
 import { $getRoot, EditorState } from "lexical";
 import { ComponentProps, forwardRef, useRef, useState } from "react";
 import { useFieldContext } from "@ark-ui/react";
-import styled from "@emotion/styled";
 import { $generateNodesFromDOM } from "@lexical/html";
 import { $convertToMarkdownString } from "@lexical/markdown";
 import { LexicalComposer, InitialConfigType } from "@lexical/react/LexicalComposer";
@@ -20,7 +19,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { colors, misc, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import { AutoLink } from "./AutoLinkPlugin";
 import { editorTheme } from "./editorTheme";
 import { EditorToolbar } from "./EditorToolbar";
@@ -33,53 +32,59 @@ const onError = (error: any) => {
   console.error(error);
 };
 
-const EditableWrapper = styled.div`
-  border-bottom-left-radius: ${misc.borderRadius};
-  border-bottom-right-radius: ${misc.borderRadius};
-  background-color: ${colors.white};
-  min-height: 115px;
-  display: flex;
-  flex-direction: column;
+const EditableWrapper = styled("div", {
+  base: {
+    borderBottomLeftRadius: "small",
+    borderBottomRightRadius: "small",
+  },
+});
 
-  [contenteditable] {
-    padding: ${spacing.small};
-    flex: 1;
-    p {
-      margin: 0px;
-    }
-    li {
-      margin: 0px;
-    }
-    ul,
-    ol {
-      padding: 0px;
-      padding-left: ${spacing.normal};
-      margin: 0px;
-    }
-  }
-`;
+const OuterEditorContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    borderRadius: "small",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
 
-const StyledEditorContainer = styled.div`
-  position: relative;
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  border-radius: ${misc.borderRadius};
-  border: 1px solid ${colors.brand.grey};
-`;
+const InnerEditorContainer = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
-const InnerEditorContainer = styled.div`
-  position: relative;
-`;
-
-const StyledContentEditable = styled(ContentEditable)`
-  &:focus-visible {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: ${colors.brand.primary};
-    border-radius: ${misc.borderRadius};
-  }
-`;
+const StyledContentEditable = styled(
+  ContentEditable,
+  {
+    base: {
+      minHeight: "surface.3xsmall",
+      padding: "xsmall",
+      _focusVisible: {
+        outlineStyle: "solid",
+        outlineColor: "stroke.subtle",
+        borderBottomLeftRadius: "small",
+        borderBottomRightRadius: "small",
+      },
+      "& > li": {
+        display: "list-item",
+      },
+      "& ul": {
+        paddingLeft: "medium",
+        listStyle: "initial",
+        margin: "initial",
+      },
+      "& ol": {
+        paddingLeft: "medium",
+        listStyle: "numeric",
+        margin: "initial",
+      },
+    },
+  },
+  { baseComponent: true },
+);
 
 interface Props extends ComponentProps<"div"> {
   setContentWritten: (data: string) => void;
@@ -87,87 +92,89 @@ interface Props extends ComponentProps<"div"> {
   name: string;
 }
 
-const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, initialValue, ...rest }, ref) => {
-  const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
-  const [editorFocused, setEditorFocused] = useState(false);
+const MarkdownEditor = forwardRef<HTMLDivElement, Props>(
+  ({ setContentWritten, initialValue, ref: unusedRef, ...rest }, ref) => {
+    const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
+    const [editorFocused, setEditorFocused] = useState(false);
 
-  const field = useFieldContext();
+    const field = useFieldContext();
 
-  const textAreaProps = field?.getTextareaProps() ?? {};
+    const textAreaProps = field?.getTextareaProps() ?? {};
 
-  const initialConfig: InitialConfigType = {
-    namespace: "MyEditor",
-    onError,
-    nodes: editorNodes,
-    theme: editorTheme,
-    editorState: (editor) => {
-      const parser = new DOMParser();
-      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
-      $getRoot().select().insertNodes(nodes);
-      setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
-    },
-  };
+    const initialConfig: InitialConfigType = {
+      namespace: "MyEditor",
+      onError,
+      nodes: editorNodes,
+      theme: editorTheme,
+      editorState: (editor) => {
+        const parser = new DOMParser();
+        const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
+        $getRoot().select().insertNodes(nodes);
+        setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
+      },
+    };
 
-  /**
-   * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
-   * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
-   * */
-  const onChange = (editorState: EditorState) => {
-    editorState.read(() => {
-      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-      setContentWritten(markdown);
-    });
-  };
+    /**
+     * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+     * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+     * */
+    const onChange = (editorState: EditorState) => {
+      editorState.read(() => {
+        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+        setContentWritten(markdown);
+      });
+    };
 
-  return (
-    <StyledEditorContainer>
-      <LexicalComposer initialConfig={initialConfig}>
-        <EditorToolbar editorIsFocused={editorFocused} />
-        <InnerEditorContainer>
-          <RichTextPlugin
-            contentEditable={
-              <EditableWrapper ref={floatingAnchorElem}>
-                <StyledContentEditable
-                  id="markdown-editor"
-                  role="textbox"
-                  ariaDescribedBy={textAreaProps["aria-describedby"]}
-                  aria-invalid={textAreaProps["aria-invalid"]}
-                  ariaRequired={textAreaProps["aria-required"]}
-                  aria-readonly={textAreaProps["aria-readonly"]}
-                  readOnly={textAreaProps.readOnly}
-                  required={textAreaProps.required}
-                  disabled={textAreaProps.disabled}
-                  onFocus={(e) => {
-                    setEditorFocused(true);
-                    rest.onFocus?.(e);
-                  }}
-                  onBlur={(e) => {
-                    setEditorFocused(false);
-                    rest.onBlur?.(e);
-                  }}
-                  {...rest}
-                />
-              </EditableWrapper>
-            }
-            placeholder={<span />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-        </InnerEditorContainer>
-        {floatingAnchorElem.current ? (
-          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem.current} editorIsFocused={editorFocused} />
-        ) : (
-          ""
-        )}
-        <RefPlugin ref={ref} />
-        <AutoLink />
-        <ListPlugin />
-        <LinkPlugin />
-        <MarkdownPlugin />
-        <HistoryPlugin />
-        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
-      </LexicalComposer>
-    </StyledEditorContainer>
-  );
-});
+    return (
+      <OuterEditorContainer>
+        <LexicalComposer initialConfig={initialConfig}>
+          <EditorToolbar editorIsFocused={editorFocused} />
+          <InnerEditorContainer>
+            <RichTextPlugin
+              contentEditable={
+                <EditableWrapper ref={floatingAnchorElem}>
+                  <StyledContentEditable
+                    id="markdown-editor"
+                    role="textbox"
+                    ariaDescribedBy={textAreaProps["aria-describedby"]}
+                    aria-invalid={textAreaProps["aria-invalid"]}
+                    ariaRequired={textAreaProps["aria-required"]}
+                    aria-readonly={textAreaProps["aria-readonly"]}
+                    readOnly={textAreaProps.readOnly}
+                    required={textAreaProps.required}
+                    disabled={textAreaProps.disabled}
+                    onFocus={(e) => {
+                      setEditorFocused(true);
+                      rest.onFocus?.(e);
+                    }}
+                    onBlur={(e) => {
+                      setEditorFocused(false);
+                      rest.onBlur?.(e);
+                    }}
+                    {...rest}
+                  />
+                </EditableWrapper>
+              }
+              placeholder={<span />}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+          </InnerEditorContainer>
+          {floatingAnchorElem.current ? (
+            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem.current} editorIsFocused={editorFocused} />
+          ) : (
+            ""
+          )}
+          <RefPlugin ref={ref} />
+          <AutoLink />
+          <ListPlugin />
+          <LinkPlugin />
+          <MarkdownPlugin />
+          <HistoryPlugin />
+          <OnChangePlugin ignoreSelectionChange onChange={onChange} />
+        </LexicalComposer>
+      </OuterEditorContainer>
+    );
+  },
+);
 
 export default MarkdownEditor;

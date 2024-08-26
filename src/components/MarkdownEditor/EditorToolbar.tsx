@@ -21,7 +21,6 @@ import {
 } from "lexical";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $isListNode,
@@ -33,21 +32,24 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
-import { colors, misc, spacing } from "@ndla/core";
 import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
 import { IconButton } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
 
-const ButtonRow = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  background-color: ${colors.white};
-  border-top-left-radius: ${misc.borderRadius};
-  border-top-right-radius: ${misc.borderRadius};
-  border-bottom: 1px solid ${colors.brand.grey};
-  padding: ${spacing.small};
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    backgroundColor: "surface.infoSubtle",
+    borderTopLeftRadius: "small",
+    borderTopRightRadius: "small",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+    padding: "3xsmall",
+    gap: "3xsmall",
+  },
+});
 
 export const getSelectedNode = (selection: RangeSelection): TextNode | ElementNode => {
   const anchor = selection.anchor;
@@ -205,47 +207,53 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   return (
     <ButtonRow>
       <IconButton
-        // TODO: Fix handling of active according to design
-        variant={isBold ? "primary" : "tertiary"}
+        variant={isBold ? "secondary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+        aria-selected={isBold}
+        size="small"
       >
         <Bold />
       </IconButton>
       <IconButton
-        // TODO: Fix handling of active according to design
-        variant={isItalic ? "primary" : "tertiary"}
+        variant={isItalic ? "secondary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
+        aria-selected={isItalic}
+        size="small"
       >
         <Italic />
       </IconButton>
       <IconButton
-        // TODO: Fix handling of active according to design
-        variant={isUnorderedList ? "primary" : "tertiary"}
+        variant={isUnorderedList ? "secondary" : "tertiary"}
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
+        aria-selected={isUnorderedList}
+        size="small"
       >
         <ListUnordered />
       </IconButton>
+
       <IconButton
-        // TODO: Fix handling of active according to design
-        variant={isNumberedList ? "primary" : "tertiary"}
+        variant={isNumberedList ? "secondary" : "tertiary"}
         onClick={formatNumberedList}
         aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
+        aria-selected={isNumberedList}
+        size="small"
       >
         <ListOrdered />
       </IconButton>
       <IconButton
-        // TODO: Fix handling of active according to design
-        variant={isLink ? "primary" : "tertiary"}
+        variant={isLink ? "secondary" : "tertiary"}
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
+        aria-selected={isLink}
+        size="small"
       >
         <LinkMedium />
       </IconButton>
