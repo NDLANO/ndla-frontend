@@ -50,6 +50,15 @@ const ButtonRow = styled("div", {
     gap: "3xsmall",
   },
 });
+const StyledIconButton = styled(IconButton, {
+  base: {
+    _selected: {
+      backgroundColor: "surface.actionSubtle.active",
+      borderColor: "stroke.default",
+      border: "1px solid",
+    },
+  },
+});
 
 export const getSelectedNode = (selection: RangeSelection): TextNode | ElementNode => {
   const anchor = selection.anchor;
@@ -206,8 +215,8 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
   return (
     <ButtonRow>
-      <IconButton
-        variant={isBold ? "secondary" : "tertiary"}
+      <StyledIconButton
+        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
@@ -215,9 +224,9 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         size="small"
       >
         <Bold />
-      </IconButton>
-      <IconButton
-        variant={isItalic ? "secondary" : "tertiary"}
+      </StyledIconButton>
+      <StyledIconButton
+        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
@@ -225,9 +234,9 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         size="small"
       >
         <Italic />
-      </IconButton>
-      <IconButton
-        variant={isUnorderedList ? "secondary" : "tertiary"}
+      </StyledIconButton>
+      <StyledIconButton
+        variant="tertiary"
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
@@ -235,10 +244,9 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         size="small"
       >
         <ListUnordered />
-      </IconButton>
-
-      <IconButton
-        variant={isNumberedList ? "secondary" : "tertiary"}
+      </StyledIconButton>
+      <StyledIconButton
+        variant="tertiary"
         onClick={formatNumberedList}
         aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
@@ -246,9 +254,9 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         size="small"
       >
         <ListOrdered />
-      </IconButton>
-      <IconButton
-        variant={isLink ? "secondary" : "tertiary"}
+      </StyledIconButton>
+      <StyledIconButton
+        variant="tertiary"
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
@@ -256,7 +264,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         size="small"
       >
         <LinkMedium />
-      </IconButton>
+      </StyledIconButton>
     </ButtonRow>
   );
 };

@@ -131,7 +131,9 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           }}
           render={({ field, fieldState }) => (
             <FieldRoot required invalid={!!fieldState.error?.message}>
-              <FieldLabel>{t("title")}</FieldLabel>
+              <FieldLabel textStyle="label.large" fontWeight="bold">
+                {t("title")}
+              </FieldLabel>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <FieldInput {...field} />
               <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
