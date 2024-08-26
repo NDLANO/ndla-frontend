@@ -219,7 +219,7 @@ const ArenaCard = ({
                   <Text aria-hidden textStyle="body.medium">
                     {topicCount}
                   </Text>
-                  <Text aria-hidden textStyle="body.small">
+                  <Text aria-hidden textStyle="label.small">
                     {t("myNdla.arena.category.posts", { count: topicCount })}
                   </Text>
                 </StyledCountContainer>
@@ -227,9 +227,9 @@ const ArenaCard = ({
               {reactionCount !== undefined && (
                 <StyledCountContainer aria-label={`${reactionCount} ${t("myNdla.arena.category.reactions")}`}>
                   <Text aria-hidden textStyle="body.medium">
-                    {reactionCount ?? 0}
+                    {reactionCount}
                   </Text>
-                  <Text aria-hidden textStyle="body.small">
+                  <Text aria-hidden textStyle="label.small">
                     {t("myNdla.arena.category.reactions", { count: reactionCount })}
                   </Text>
                 </StyledCountContainer>

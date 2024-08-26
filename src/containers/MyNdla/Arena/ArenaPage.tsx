@@ -74,12 +74,12 @@ const ArenaPage = () => {
       dropDownMenu={user?.isModerator && <TopicActions />}
     >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
-      <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
+      <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.arena.title")}
       </StyledHeading>
-      <Text>{parse(t("myNdla.arena.notification.description"))}</Text>
+      <Text textStyle="body.xlarge">{parse(t("myNdla.arena.notification.description"))}</Text>
       <StyledContainer>
-        <Heading textStyle="title.large" asChild consumeCss>
+        <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.arena.category.title")}</h2>
         </Heading>
         {user?.isModerator && (
@@ -99,7 +99,7 @@ const ArenaPage = () => {
           refetchCategories={refetchCategories}
         />
       ) : null}
-      <Text>
+      <Text textStyle="label.medium">
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
