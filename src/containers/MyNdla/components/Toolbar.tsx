@@ -33,7 +33,7 @@ const ToolbarContainer = styled("div", {
   },
 });
 
-const ButtonContainer = styled("div", {
+const ButtonContainer = styled("ul", {
   base: {
     display: "none",
     flexDirection: "row",
@@ -65,9 +65,6 @@ const Wrapper = styled("div", {
     flexGrow: "1",
     justifyContent: "space-between",
     maxWidth: "surface.4xlarge",
-    "& > div": {
-      flexGrow: "1",
-    },
   },
 });
 
