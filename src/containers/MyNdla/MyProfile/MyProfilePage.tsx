@@ -108,13 +108,13 @@ const MyProfilePage = () => {
           {user && (
             <InfoPart title={t("myNdla.myPage.feide")}>
               <UserInfo user={user} />
-              <Text>
+              <Text textStyle="body.large">
                 {t("user.wrongUserInfoDisclaimer")}
                 <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
               </Text>
             </InfoPart>
           )}
-          <Text>
+          <Text textStyle="body.large">
             {`${t("myNdla.myPage.read.read")} `}
             <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
               {t("myNdla.myPage.privacy")}

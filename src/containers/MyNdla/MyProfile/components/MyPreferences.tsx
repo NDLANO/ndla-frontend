@@ -84,7 +84,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
         <Heading id="myProfileTitle" textStyle="heading.small" asChild consumeCss>
           <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
         </Heading>
-        <Text>{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
+        <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
@@ -92,7 +92,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
             <Heading id="myProfileTitle" textStyle="heading.small" asChild consumeCss>
               <h2>{t("myNdla.myProfile.preferenceTitle")}</h2>
             </Heading>
-            <Text>{t("myNdla.myProfile.preferenceText")}</Text>
+            <Text textStyle="body.large">{t("myNdla.myProfile.preferenceText")}</Text>
           </OptionContainer>
           <form>
             {/* TODO: Do optimistic update and revert if it fails */}
@@ -105,7 +105,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
               {preferenceOptions.map((option) => (
                 <RadioGroupItem value={option.value} key={option.value}>
                   <RadioGroupItemControl />
-                  <RadioGroupItemText>{option.title}</RadioGroupItemText>
+                  <RadioGroupItemText textStyle="body.large">{option.title}</RadioGroupItemText>
                   <RadioGroupItemHiddenInput />
                 </RadioGroupItem>
               ))}

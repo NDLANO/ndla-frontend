@@ -28,7 +28,7 @@ const MyContactAreaContainer = styled("div", {
   base: {
     alignItems: "center",
     backgroundColor: "surface.brand.4",
-    borderRadius: "small",
+    borderRadius: "medium",
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",

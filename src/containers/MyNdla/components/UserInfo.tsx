@@ -32,14 +32,6 @@ const ShortInfoDiv = styled("div", {
   },
 });
 
-const ShortInfoLine = styled("span", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "4xsmall",
-  },
-});
-
 const StyledUl = styled("ul", {
   base: {
     paddingInlineStart: "xlarge",
@@ -48,35 +40,43 @@ const StyledUl = styled("ul", {
   },
 });
 
+const UserInfoWrapper = styled("span", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    gap: "4xsmall",
+  },
+});
+
+const ShortInfoLine = ({ label, value }: { label: string; value?: string }) => (
+  <UserInfoWrapper>
+    <Text textStyle="body.large">
+      <strong>{label}:</strong>
+    </Text>
+    <Text textStyle="body.large">{value}</Text>
+  </UserInfoWrapper>
+);
+
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
 
   return (
     <StyledComponentContainer>
       {
-        <Text>
+        <Text textStyle="body.large">
           {t("user.loggedInAs", {
             role: t(`user.role.${user?.role}`),
           })}
         </Text>
       }
       <ShortInfoDiv>
-        <ShortInfoLine>
-          <Text fontWeight="bold">{t("user.name")}:</Text>
-          <Text>{user?.displayName}</Text>
-        </ShortInfoLine>
-        <ShortInfoLine>
-          <Text fontWeight="bold">{t("user.username")}:</Text>
-          <Text>{user?.username}</Text>
-        </ShortInfoLine>
-        <ShortInfoLine>
-          <Text fontWeight="bold">{t("user.mail")}:</Text>
-          <Text>{user?.email}</Text>
-        </ShortInfoLine>
+        <ShortInfoLine label={t("user.name")} value={user?.displayName} />
+        <ShortInfoLine label={t("user.username")} value={user?.username} />
+        <ShortInfoLine label={t("user.mail")} value={user?.email} />
       </ShortInfoDiv>
       <StyledUl>
         {user?.groups.map((org) => (
-          <Text key={org.id} asChild consumeCss>
+          <Text key={org.id} textStyle="body.large" asChild consumeCss>
             <li>{`${org.displayName}${org.isPrimarySchool ? ` (${t("user.primarySchool")})` : ""}`}</li>
           </Text>
         ))}

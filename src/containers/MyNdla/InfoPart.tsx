@@ -33,12 +33,6 @@ const InfoPartHeader = styled("div", {
   },
 });
 
-export const InfoPartText = styled("p", {
-  base: {
-    margin: 0,
-  },
-});
-
 const InfoPart = ({ icon, title, children }: Props) => {
   return (
     <InfoPartWrapper>

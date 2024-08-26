@@ -23,15 +23,12 @@ const UserAvatarContainer = styled("div", {
 
 const DesktopButtonContainer = styled("div", {
   base: {
-    bottom: "unset",
-    display: "none",
-    left: "unset",
-    position: "unset",
-    tablet: {
-      bottom: "0",
-      display: "block",
-      left: "50%",
-      position: "absolute",
+    bottom: "0",
+    display: "block",
+    left: "50%",
+    position: "absolute",
+    tabletDown: {
+      display: "none",
     },
   },
 });
