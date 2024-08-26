@@ -41,9 +41,8 @@ const PageWrapper = styled("div", {
 
 const iconStyles = css.raw({
   color: "icon.strong",
-  display: "none",
-  mobileWide: {
-    display: "block",
+  mobileWideDown: {
+    display: "none",
   },
 });
 

@@ -26,7 +26,6 @@ const StyledCardContainer = styled("div", {
     flexDirection: "column",
     gap: "3xsmall",
     paddingBlock: "medium",
-    paddingInline: 0,
   },
 });
 

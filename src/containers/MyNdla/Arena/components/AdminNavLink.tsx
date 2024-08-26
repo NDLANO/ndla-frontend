@@ -63,9 +63,8 @@ const StyledHeader = styled(Text, {
 
 const StyledDescriptionText = styled(Text, {
   base: {
-    display: "none",
-    mobileWide: {
-      display: "block",
+    mobileWideDown: {
+      display: "none",
     },
   },
 });
