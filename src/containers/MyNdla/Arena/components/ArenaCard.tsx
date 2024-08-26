@@ -121,7 +121,7 @@ const StyledSafeLink = styled(SafeLink, {
       "& > div": {
         backgroundColor: "surface.hover",
         "&[data-visible='false']": {
-          backgroundColor: "surface.disabled",
+          backgroundColor: "surface.disabled", //TODO: Avsjekke om det fortsatt skal være egen bakgrunnsfarge på ikke-synlige topics
         },
       },
       "& [data-title='hover']": {
