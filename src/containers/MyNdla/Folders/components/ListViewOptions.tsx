@@ -20,7 +20,7 @@ const ListViewOptionsContainer = styled("div", {
     display: "flex",
     alignItems: "center",
     marginInlineStart: "auto",
-    gap: "xxsmall",
+    gap: "3xsmall",
   },
 });
 
