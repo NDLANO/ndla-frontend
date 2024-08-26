@@ -220,7 +220,7 @@ const ItemText = ({ item }: { item: ItemType }) => {
 
   return (
     <Text textStyle="body.medium">
-      {item.label}:{" "}
+      {`${item.label}: `}
       <HandleLink url={item.description} type={item.metaType}>
         {item.description}
       </HandleLink>
