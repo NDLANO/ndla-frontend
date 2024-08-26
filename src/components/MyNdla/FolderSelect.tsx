@@ -85,10 +85,9 @@ const FolderSelect = ({
         label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
-        type="picker"
         targetResource={storedResource as IResource | undefined}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
+        newFolderInput={({ parentId, onCancel, onCreate }) => (
+          <NewFolder parentId={parentId} onClose={onCancel} onCreate={onCreate} />
         )}
         ariaDescribedby="treestructure-error-label"
       />

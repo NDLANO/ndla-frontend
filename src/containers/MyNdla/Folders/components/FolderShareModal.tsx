@@ -8,8 +8,6 @@
 
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
 import {
   Button,
@@ -19,48 +17,52 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Text,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import FolderAndResourceCount from "./FolderAndResourceCount";
+import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { Folder } from "../../../../components/MyNdla/Folder";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
+import { getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { sharedFolderLink } from "../util";
 
-const GapWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
+const GapWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const FolderName = styled.span`
-  ${fonts.size.text.metaText.medium};
-  color: ${colors.brand.primary};
-  font-weight: ${fonts.weight.semibold};
-  padding: ${spacing.small};
-  align-items: center;
-  border: 1px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
-`;
+const CopyLinkButton = styled(Button, {
+  base: {
+    justifyContent: "space-between",
+    overflowWrap: "anywhere",
+  },
+});
 
-const CopyLinkButton = styled(Button)`
-  justify-content: space-between;
-`;
+const StyledButtonRow = styled("div", {
+  base: {
+    paddingBlockStart: "small",
+    display: "flex",
+    justifyContent: "space-between",
+    mobileWideDown: {
+      flexDirection: "column",
+      gap: "xsmall",
+    },
+  },
+});
 
-const CopyLinkHeader = styled.span`
-  ${fonts.size.text.metaText.medium};
-  font-weight: ${fonts.weight.semibold};
-`;
-
-const StyledButtonRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    flex-direction: column;
-    gap: ${spacing.xsmall};
-  }
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 interface BaseProps {
   folder: GQLFolder;
@@ -85,21 +87,14 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
         <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
-      <DialogBody>
+      <StyledDialogBody>
+        <Folder folder={folder} variant="standalone" foldersCount={getTotalCountForFolder(folder)} />
+        <Text textStyle="body.large">{t("myNdla.folder.sharing.description.private")}</Text>
+        <Text textStyle="body.large">{t("myNdla.folder.sharing.description.shared")}</Text>
         <GapWrapper>
-          <FolderName aria-label={folder.name}>{folder.name}</FolderName>
-          <FolderAndResourceCount
-            selectedFolder={folder}
-            hasSelectedFolder={!!folder}
-            folders={folder.subfolders}
-            folderData={folder.subfolders}
-            loading={false}
-          />
-        </GapWrapper>
-        {t("myNdla.folder.sharing.description.private")}
-        <div>{t("myNdla.folder.sharing.description.shared")}</div>
-        <GapWrapper>
-          <CopyLinkHeader>{t("myNdla.folder.sharing.description.copy")}</CopyLinkHeader>
+          <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+            <span>{t("myNdla.folder.sharing.description.copy")}</span>
+          </Text>
           <CopyLinkButton
             aria-label={t("myNdla.folder.sharing.button.shareLink")}
             title={t("myNdla.folder.sharing.button.shareLink")}
@@ -116,7 +111,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
           </CopyLinkButton>
         </GapWrapper>
         <StyledButtonRow>
-          <SafeLinkButton to={routes.folder(folder.id)} variant="secondary">
+          <SafeLinkButton to={routes.folder(folder.id)} variant="tertiary">
             {t("myNdla.folder.sharing.button.preview")}
           </SafeLinkButton>
           <Button
@@ -128,7 +123,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
             {t("finished")}
           </Button>
         </StyledButtonRow>
-      </DialogBody>
+      </StyledDialogBody>
     </DialogContent>
   );
 };

@@ -6,14 +6,13 @@
  *
  */
 
-import { HTMLProps } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { Draggable } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-interface Props extends HTMLProps<HTMLButtonElement> {
+interface Props extends Omit<IconButtonProps, "type"> {
   sortableId: string;
   type: "folder" | "resource" | "category";
   name: string;

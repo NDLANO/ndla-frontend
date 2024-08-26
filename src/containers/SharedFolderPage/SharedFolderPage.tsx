@@ -7,16 +7,14 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, colors, misc, mq, spacing } from "@ndla/core";
 import { FileCopyLine } from "@ndla/icons/action";
 import { PresentationLine } from "@ndla/icons/common";
-import { Button } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { Button, Text } from "@ndla/primitives";
+import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { OneColumn } from "@ndla/ui";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -27,11 +25,13 @@ import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
 import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 import ErrorPage from "../ErrorPage";
-import { useGetSharedFolder, useFolderResourceMetaSearch } from "../MyNdla/folderMutations";
+import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
+import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
 import NotFound from "../NotFoundPage/NotFoundPage";
@@ -41,65 +41,62 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 
   return (folder?.resources ?? []).concat(subResources);
 };
-const FoldersPageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
 
-const OptionsWrapper = styled.div`
-  display: none;
-  flex: 1;
+const OptionsWrapper = styled(HStack, {
+  base: {
+    width: "100%",
+    paddingBlock: "small",
+    tabletDown: {
+      display: "none",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: flex;
-  }
-`;
+const SharedFolderInformationWrapper = styled("div", {
+  base: {
+    maxWidth: "surface.xxlarge",
+    display: "flex",
+    backgroundColor: "background.subtle",
+    alignItems: "center",
+    gap: "xsmall",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    borderRadius: "4px",
 
-const SharedFolderInformationWrapper = styled.div`
-  max-width: 800px;
-  display: flex;
-  background-color: ${colors.brand.greyLightest};
-  align-items: center;
-  gap: ${spacing.nsmall};
-  padding: ${spacing.normal};
-  border: 2px solid ${colors.brand.neutral7};
-  border-radius: ${misc.borderRadius};
+    paddingBlock: "small",
+    paddingInline: "medium",
+  },
+});
 
-  margin: ${spacing.small} 0;
+const FolderDescription = styled(Text, {
+  base: {
+    fontStyle: "italic",
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    margin: ${spacing.large} 0;
-  }
-`;
+const Wrapper = styled(VStack, {
+  base: {
+    alignItems: "start",
+    paddingBlockStart: "3xlarge",
+    paddingBlockEnd: "xlarge",
+    width: "100%",
+    tabletDown: {
+      paddingBlockStart: "medium",
+      paddingBlockEnd: "small",
+    },
+  },
+});
 
-const StyledRow = styled.div`
-  margin: ${spacing.small} 0;
-  gap: ${spacing.nsmall};
-  display: flex;
-  justify-content: space-between;
-`;
+const InformationWrapper = styled(VStack, {
+  base: {
+    alignItems: "start",
+    paddingBlockEnd: "xlarge",
 
-const StyledInformationIcon = styled(PresentationLine)`
-  height: ${spacing.mediumlarge};
-  width: ${spacing.mediumlarge};
-`;
-
-const FolderDescription = styled(Text)`
-  font-style: italic;
-`;
-
-const ListItem = styled.li`
-  padding: 0;
-  list-style: none;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  padding: ${spacing.normal} 0;
-  margin-bottom: ${spacing.normal};
-  gap: ${spacing.small};
-`;
+    tabletDown: {
+      paddingBlockEnd: "small",
+    },
+  },
+});
 
 const containsFolder = (folder: GQLFolder): boolean => {
   return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
@@ -116,6 +113,10 @@ const SharedFolderPage = () => {
     id: folderId,
     includeResources: true,
     includeSubfolders: true,
+  });
+
+  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+    skip: !folder || !authenticated,
   });
 
   const { data } = useFolderResourceMetaSearch(
@@ -143,6 +144,13 @@ const SharedFolderPage = () => {
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
+  const folderLinkIsSaved = useMemo(
+    () => folderData?.folders.sharedFolders.some((f) => f.id === folderId),
+    [folderData?.folders.sharedFolders, folderId],
+  );
+
+  const folderCount = useMemo(() => getFolderCount(folder?.subfolders ?? []), [folder?.subfolders]);
+
   if (loading) {
     return <PageSpinner />;
   }
@@ -156,76 +164,74 @@ const SharedFolderPage = () => {
   return (
     <main>
       <OneColumn>
-        <FoldersPageContainer>
-          <div>
-            <Helmet title={folder.name} />
-            <SocialMediaMetadata
-              type="website"
-              title={folder.name}
-              imageUrl={metaWithMetaImage?.metaImage?.url}
-              description={t("myNdla.sharedFolder.description.info")}
-            >
-              <meta name="robots" content="noindex, nofollow" />
-            </SocialMediaMetadata>
-            <div>
-              <SharedFolderInformationWrapper>
-                <StyledInformationIcon />
-                <Text margin="none" textStyle="meta-text-medium">
-                  {warningText}
-                </Text>
-              </SharedFolderInformationWrapper>
-              <ButtonContainer>
-                <CopyFolderModal folder={folder}>
-                  <Button variant="tertiary">
-                    <FileCopyLine />
-                    {t("myNdla.folder.copy")}
-                  </Button>
-                </CopyFolderModal>
-                <SaveLink folder={folder} hideTrigger={() => {}} />
-              </ButtonContainer>
-            </div>
-            <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
-            <FolderDescription margin="none" textStyle="content-alt">
-              {folder.description ?? t("myNdla.folder.defaultPageDescription")}
-            </FolderDescription>
-            <StyledRow>
-              <OptionsWrapper>
-                <ListViewOptions type={viewType} onTypeChange={setViewType} />
-              </OptionsWrapper>
-            </StyledRow>
-            {folder.subfolders.length > 0 && (
-              <BlockWrapper data-no-padding={true}>
-                {folder.subfolders.map((subFolder) =>
-                  containsFolder(subFolder) ? (
-                    <ListItem key={`folder-${subFolder.id}`}>
-                      <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
-                    </ListItem>
-                  ) : null,
-                )}
-              </BlockWrapper>
-            )}
-            <BlockWrapper data-type={viewType} data-no-padding={true}>
-              {folder.resources.map((resource) => {
-                const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-                return resourceMeta ? (
-                  <ListItem key={resource.id}>
-                    <Resource
-                      id={resource.id}
-                      resourceImage={{
-                        src: resourceMeta?.metaImage?.url ?? "",
-                        alt: "",
-                      }}
-                      link={getResourceMetaPath(resource, resourceMeta)}
-                      resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
-                      title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                      description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+        <Wrapper gap="xsmall">
+          <Helmet title={folder.name} />
+          <SocialMediaMetadata
+            type="website"
+            title={folder.name}
+            imageUrl={metaWithMetaImage?.metaImage?.url}
+            description={t("myNdla.sharedFolder.description.info")}
+          >
+            <meta name="robots" content="noindex, nofollow" />
+          </SocialMediaMetadata>
+          <InformationWrapper gap="large">
+            <SharedFolderInformationWrapper>
+              <PresentationLine size="medium" />
+              <Text textStyle="label.large">{warningText}</Text>
+            </SharedFolderInformationWrapper>
+            <HStack gap="small">
+              <CopyFolderModal folder={folder}>
+                <Button variant="tertiary">
+                  <FileCopyLine />
+                  {t("myNdla.folder.copy")}
+                </Button>
+              </CopyFolderModal>
+              {!folderLinkIsSaved ? <SaveLink folder={folder} /> : null}
+            </HStack>
+          </InformationWrapper>
+          <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
+          <FolderDescription textStyle="label.large">
+            {folder.description ?? t("myNdla.folder.defaultPageDescription")}
+          </FolderDescription>
+          <OptionsWrapper>
+            <ListViewOptions type={viewType} onTypeChange={setViewType} />
+          </OptionsWrapper>
+          {!!folder.subfolders.length && (
+            <BlockWrapper data-no-padding={true}>
+              {folder.subfolders.map((subFolder) =>
+                containsFolder(subFolder) ? (
+                  <li key={`folder-${subFolder.id}`}>
+                    <Folder
+                      folder={subFolder}
+                      link={routes.folder(subFolder.id)}
+                      foldersCount={folderCount?.[subFolder.id]}
                     />
-                  </ListItem>
-                ) : null;
-              })}
+                  </li>
+                ) : null,
+              )}
             </BlockWrapper>
-          </div>
-        </FoldersPageContainer>
+          )}
+          <BlockWrapper data-type={viewType} data-no-padding={true}>
+            {folder.resources.map((resource) => {
+              const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+              return resourceMeta ? (
+                <li key={resource.id}>
+                  <Resource
+                    id={resource.id}
+                    resourceImage={{
+                      src: resourceMeta?.metaImage?.url ?? "",
+                      alt: "",
+                    }}
+                    link={getResourceMetaPath(resource, resourceMeta)}
+                    resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
+                    title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+                    description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+                  />
+                </li>
+              ) : null;
+            })}
+          </BlockWrapper>
+        </Wrapper>
       </OneColumn>
     </main>
   );

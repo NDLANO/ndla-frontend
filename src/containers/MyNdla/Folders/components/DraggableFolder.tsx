@@ -9,8 +9,7 @@
 import { Dispatch, SetStateAction, memo, useMemo } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import styled from "@emotion/styled";
-import { colors, spacing, stackOrder } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import FolderActions from "./FolderActions";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -27,24 +26,24 @@ interface Props {
   isFavorited?: boolean;
 }
 
-export const DraggableListItem = styled.li`
-  display: flex;
-  position: relative;
-  list-style: none;
-  padding: 0;
-  align-items: center;
-  gap: ${spacing.xsmall};
-  &[data-is-dragging="true"] {
-    z-index: ${stackOrder.offsetSingle};
-  }
-`;
+export const DraggableListItem = styled("li", {
+  base: {
+    display: "flex",
+    position: "relative",
+    listStyle: "none",
+    alignItems: "center",
+    gap: "xxsmall",
+  },
+});
 
-export const DragWrapper = styled.div`
-  max-width: 100%;
-  height: 100%;
-  background-color: ${colors.white};
-  flex-grow: 1;
-`;
+export const DragWrapper = styled("div", {
+  base: {
+    maxWidth: "100%",
+    height: "100%",
+    background: "surface.default",
+    flexGrow: "1",
+  },
+});
 
 const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, folderRefId, isFavorited }: Props) => {
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({

@@ -9,6 +9,7 @@
 import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { InformationLine } from "@ndla/icons/common";
 import {
   Button,
   DialogCloseTrigger,
@@ -17,6 +18,7 @@ import {
   FieldLabel,
   FieldRoot,
   FieldTextArea,
+  MessageBox,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -92,7 +94,7 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
         }}
         render={({ field, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldLabel>{t("validation.fields.name")}</FieldLabel>
+            <FieldLabel fontWeight="bold">{t("validation.fields.name")}</FieldLabel>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={nameMaxLength} />
@@ -121,7 +123,10 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
           </FieldRoot>
         )}
       />
-      <Text>{t("myNdla.folder.sharedWarning")}</Text>
+      <MessageBox>
+        <InformationLine />
+        <Text>{t("myNdla.folder.sharedWarning")}</Text>
+      </MessageBox>
       <ButtonRow>
         <DialogCloseTrigger asChild>
           <Button variant="secondary">{t("cancel")}</Button>

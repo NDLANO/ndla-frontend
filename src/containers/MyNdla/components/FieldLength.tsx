@@ -6,6 +6,7 @@
  *
  */
 
+import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 interface FieldLengthProps {
@@ -13,16 +14,19 @@ interface FieldLengthProps {
   maxLength: number;
 }
 
-const StyledSpan = styled("span", {
+const StyledText = styled(Text, {
   base: {
-    display: "block",
     textAlign: "right",
   },
 });
 
 // TODO Update component to be more UU friendly
 const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
-  return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
+  return (
+    <StyledText textStyle="body.small" asChild consumeCss>
+      <span>{`${value}/${maxLength}`}</span>
+    </StyledText>
+  );
 };
 
 export default FieldLength;
