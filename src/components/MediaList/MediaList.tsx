@@ -171,8 +171,8 @@ const licenceTag = (type: ItemTypeWithDescription["metaType"]): string | undefin
   ({
     title: "dct:title",
     author: "cc:attributionName",
-    copyrightHolder: undefined,
-    contributor: undefined,
+    copyrightHolder: "cc:copyrightHolder",
+    contributor: "cc:contributor",
     other: "cc:attributionURL",
     //@ts-ignore
   })[type];
