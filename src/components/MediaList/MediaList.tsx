@@ -167,18 +167,19 @@ interface HandleLinkProps {
   children: ReactNode;
   type: ItemTypeWithDescription["metaType"];
 }
-const licenceTag = (type: ItemTypeWithDescription["metaType"]): string | undefined =>
+
+const licenceTag = (type: ItemTypeWithDescription["metaType"], url: boolean): string | undefined =>
   ({
     title: "dct:title",
     author: "cc:attributionName",
     copyrightHolder: "cc:copyrightHolder",
     contributor: "cc:contributor",
-    other: "cc:attributionURL",
+    other: url ? "cc:attributionURL" : undefined,
     //@ts-ignore
   })[type];
 
 export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
-  const tag = licenceTag(type);
+  const tag = licenceTag(type, isLink(url));
 
   if (isLink(url)) {
     return (
@@ -190,8 +191,6 @@ export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
   // eslint-disable-next-line react/no-unknown-property
   return <span property={tag}>{children}</span>;
 };
-
-const attributionTypes = [metaTypes.author, metaTypes.copyrightHolder, metaTypes.contributor];
 
 export type ItemType = ItemTypeWithDescription | DescriptionlessItemType;
 
@@ -228,11 +227,6 @@ const ItemText = ({ item }: { item: ItemType }) => {
   );
 };
 
-const isAttributionItem = (item: ItemType): item is ItemTypeWithDescription => {
-  if (isOtherWithoutDescription(item)) return false;
-  return attributionTypes.some((type) => type === item.metaType);
-};
-
 const StyledListItem = styled("li", {
   base: {
     wordBreak: "break-word",
@@ -240,11 +234,8 @@ const StyledListItem = styled("li", {
 });
 
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
-  const attributionItems = items.filter(isAttributionItem);
-  const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
-
   return (
-    <ul content={attributionMeta}>
+    <ul>
       {items.map((item) => (
         <StyledListItem key={item.label}>
           <ItemText item={item} />
