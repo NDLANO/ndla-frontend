@@ -7,29 +7,38 @@
  */
 
 import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
 import DeletedPostCard from "./DeletedPostCard";
 import PostCard from "./PostCard";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 
-const StyledOl = styled.ol`
-  list-style: none;
-  margin-left: ${spacing.xlarge};
-  padding: unset;
+const StyledOl = styled("ol", {
+  base: {
+    listStyle: "none",
+    marginInlineStart: "large",
+    padding: "unset",
+    mobileWide: {
+      marginInlineStart: "3xlarge",
+    },
+  },
+});
 
-  li {
-    padding: unset;
-  }
-`;
+const StyledLi = styled("li", {
+  base: {
+    padding: "unset",
+  },
+});
 
-const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
-  margin-bottom: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-left: ${spacing.xlarge};
-  }
-`;
+const StyledArenaFormWrapper = styled(ArenaFormWrapper, {
+  base: {
+    marginBlockEnd: "medium",
+    marginInlineStart: "3xlarge",
+    tablet: {
+      marginInlineStart: "unset",
+    },
+  },
+});
 
 const calculateNextPostId = (
   posts: GQLArenaPostV2Fragment[] | Omit<GQLArenaPostV2Fragment, "replies">[],
@@ -74,7 +83,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
         {posts.map((post) => {
           const hasReplies = "replies" in post;
           return (
-            <li key={post.id}>
+            <StyledLi key={post.id}>
               {"deleted" in post && post.deleted ? (
                 <DeletedPostCard />
               ) : (
@@ -97,7 +106,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                   setReplyingTo={setIsReplyingChild}
                 />
               )}
-            </li>
+            </StyledLi>
           );
         })}
       </StyledOl>

@@ -33,14 +33,14 @@ interface Props {
 
 const StyledCardWrapper = styled("div", {
   base: {
+    alignItems: "center",
     backgroundColor: "surface.default",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
     display: "flex",
     flexDirection: "row",
     gap: "medium",
-    padding: "medium",
+    padding: "small",
     paddingInlineEnd: "large",
     position: "relative",
   },
@@ -78,7 +78,6 @@ const StyledCountContainer = styled("div", {
 
 const StyledQuestionAnswerLine = styled(QuestionAnswerLine, {
   base: {
-    color: "icon.strong",
     mobileWide: {
       display: "none",
     },
@@ -86,7 +85,6 @@ const StyledQuestionAnswerLine = styled(QuestionAnswerLine, {
 });
 const StyledQuestionAnswerFill = styled(QuestionAnswerFill, {
   base: {
-    color: "icon.strong",
     mobileWide: {
       display: "none",
     },
@@ -197,10 +195,8 @@ const ArenaCard = ({ id, title, index, subText, count, user, visible, isEditing,
           <StyledQuestionAnswerFill data-hover-icon="" />
           <SpacingContainer>
             <div>
-              <StyledHeader data-title="hover" color="text.strong">
-                {title}
-              </StyledHeader>
-              <StyledDescriptionText>{subText}</StyledDescriptionText>
+              <StyledHeader data-title="hover">{title}</StyledHeader>
+              <StyledDescriptionText textStyle="body.small">{subText}</StyledDescriptionText>
             </div>
             <RightSideContainer>
               {isEditing && user?.isModerator && (

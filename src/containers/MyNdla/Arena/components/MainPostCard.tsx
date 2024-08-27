@@ -11,11 +11,11 @@ import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useState, useRef, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb } from "@ndla/primitives";
+import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { Heading } from "@ndla/typography";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine, TimestampText } from "./PostCard";
+import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -130,14 +130,12 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
               <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
                 {topic?.title}
               </Heading>
-              <Content element="div" textStyle="content-alt" margin="none">
-                {parse(contentAsHTML!)}
-              </Content>
+              <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
             </ContentWrapper>
             <FlexLine>
-              <TimestampText element="span" textStyle="content-alt" margin="none">
+              <Text textStyle="body.small" asChild consumeCss>
                 <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-              </TimestampText>
+              </Text>
               <FlexLine>
                 <VotePost post={post} />
                 <PostAction
