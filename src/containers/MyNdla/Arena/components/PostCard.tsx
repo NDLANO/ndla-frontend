@@ -24,25 +24,15 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-export const PostWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
-
 export const PostCardWrapper = styled("div", {
   base: {
     backgroundColor: "surface.default",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
     display: "flex",
     flexDirection: "column",
     gap: "medium",
     padding: "medium",
-    marginBlock: "xxsmall",
+    borderBottom: "1px solid",
+    borderColor: "icon.subtle",
   },
 });
 
@@ -166,34 +156,32 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
   );
 
   return (
-    <PostWrapper>
-      <PostCardWrapper id={`post-${postId}`}>
-        {isEditing ? (
-          <ArenaForm
-            id={postId}
-            type={"post"}
-            initialContent={post.content}
-            onAbort={() => setIsEditing(false)}
-            onSave={async (values) => {
-              await updatePost({
-                variables: { postId, content: values.content ?? "" },
-              });
-              setIsEditing(false);
-            }}
-          />
-        ) : (
-          <>
-            <PostHeader>
-              <UserProfileTag user={post.owner} />
-            </PostHeader>
-            <ContentWrapper>
-              <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
-            </ContentWrapper>
-            {options}
-          </>
-        )}
-      </PostCardWrapper>
-    </PostWrapper>
+    <PostCardWrapper id={`post-${postId}`}>
+      {isEditing ? (
+        <ArenaForm
+          id={postId}
+          type={"post"}
+          initialContent={post.content}
+          onAbort={() => setIsEditing(false)}
+          onSave={async (values) => {
+            await updatePost({
+              variables: { postId, content: values.content ?? "" },
+            });
+            setIsEditing(false);
+          }}
+        />
+      ) : (
+        <>
+          <PostHeader>
+            <UserProfileTag user={post.owner} />
+          </PostHeader>
+          <ContentWrapper>
+            <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
+          </ContentWrapper>
+          {options}
+        </>
+      )}
+    </PostCardWrapper>
   );
 };
 

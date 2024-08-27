@@ -8,14 +8,22 @@
 
 import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
-import { Dispatch, SetStateAction, useState, useRef, useCallback, useMemo } from "react";
+import { Dispatch, SetStateAction, useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { Button, SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
-import { Heading } from "@ndla/typography";
+import {
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { PostWrapper, PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine } from "./PostCard";
+import { PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -28,6 +36,12 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
+const MainPostCardWrapper = styled(PostCardWrapper, {
+  base: {
+    backgroundColor: "surface.infoSubtle",
+  },
+});
+
 interface Props {
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
   post: Omit<GQLArenaPostV2Fragment, "replies">;
@@ -37,10 +51,9 @@ interface Props {
   isReplying: boolean;
 }
 
-const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, isReplying }: Props) => {
+const MainPostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
-  const replyToRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const toast = useToast();
@@ -101,66 +114,55 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
   );
 
   return (
-    <PostWrapper>
-      <PostCardWrapper id={`post-${postId}`}>
-        {isEditing ? (
-          <ArenaForm
-            id={postId}
-            type={"topic"}
-            initialTitle={topic?.title}
-            initialLocked={topic?.isLocked}
-            initialContent={post.content}
-            onAbort={() => setIsEditing(false)}
-            onSave={async (values) => {
-              await updateTopic({
-                variables: {
-                  topicId,
-                  title: values.title ?? "",
-                  content: values.content ?? "",
-                  isLocked: values.locked ?? false,
-                },
-              });
-              setIsEditing(false);
-            }}
-          />
-        ) : (
-          <>
-            <PostHeader>{header}</PostHeader>
-            <ContentWrapper>
-              <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
-                {topic?.title}
-              </Heading>
-              <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
-            </ContentWrapper>
+    <MainPostCardWrapper id={`post-${postId}`}>
+      {isEditing ? (
+        <ArenaForm
+          id={postId}
+          type={"topic"}
+          initialTitle={topic?.title}
+          initialLocked={topic?.isLocked}
+          initialContent={post.content}
+          onAbort={() => setIsEditing(false)}
+          onSave={async (values) => {
+            await updateTopic({
+              variables: {
+                topicId,
+                title: values.title ?? "",
+                content: values.content ?? "",
+                isLocked: values.locked ?? false,
+              },
+            });
+            setIsEditing(false);
+          }}
+        />
+      ) : (
+        <>
+          <PostHeader>{header}</PostHeader>
+          <ContentWrapper>
+            <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large" fontWeight="bold">
+              {topic?.title}
+            </Heading>
+            <Content textStyle="body.large">{parse(contentAsHTML!)}</Content>
+          </ContentWrapper>
+          <FlexLine>
+            <Text textStyle="body.small" asChild consumeCss>
+              <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+            </Text>
             <FlexLine>
-              <Text textStyle="body.small" asChild consumeCss>
-                <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-              </Text>
-              <FlexLine>
-                <VotePost post={post} />
-                <PostAction
-                  topic={topic}
-                  post={post}
-                  type={"topic"}
-                  setFocusId={setFocusId}
-                  setIsEditing={setIsEditing}
-                  onDelete={deleteTopicCallback}
-                />
-                <Button
-                  variant="primary"
-                  size="small"
-                  ref={replyToRef}
-                  onClick={setReplyingTo}
-                  disabled={isReplying || topic?.isLocked}
-                >
-                  {t("myNdla.arena.new.post")}
-                </Button>
-              </FlexLine>
+              <VotePost post={post} />
+              <PostAction
+                topic={topic}
+                post={post}
+                type={"topic"}
+                setFocusId={setFocusId}
+                setIsEditing={setIsEditing}
+                onDelete={deleteTopicCallback}
+              />
             </FlexLine>
-          </>
-        )}
-      </PostCardWrapper>
-    </PostWrapper>
+          </FlexLine>
+        </>
+      )}
+    </MainPostCardWrapper>
   );
 };
 
