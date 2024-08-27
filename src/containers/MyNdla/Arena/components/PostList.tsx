@@ -14,19 +14,36 @@ import PostCard from "./PostCard";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 
 const StyledOl = styled("ol", {
-  base: {
-    listStyle: "none",
-    marginInlineStart: "large",
-    padding: "unset",
-    mobileWide: {
-      marginInlineStart: "3xlarge",
-    },
-  },
+  base: {},
 });
 
 const StyledLi = styled("li", {
   base: {
-    padding: "unset",
+    position: "relative",
+    paddingBlockStart: "xsmall",
+    paddingInlineStart: "large",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.default",
+    "&:last-of-type": {
+      borderInlineStart: "unset",
+    },
+    "&:not(:last-of-type)": {
+      _after: {
+        borderInlineStart: "unset",
+      },
+    },
+    _after: {
+      borderInlineStart: "1px solid",
+      borderBlockEnd: "1px solid",
+      borderColor: "stroke.default",
+      borderBottomLeftRadius: "small",
+      position: "absolute",
+      content: "''",
+      width: "large",
+      height: "3xlarge",
+      left: "0px",
+      top: "-xsmall",
+    },
   },
 });
 

@@ -42,7 +42,6 @@ export const PostCardWrapper = styled("div", {
     flexDirection: "column",
     gap: "medium",
     padding: "medium",
-    marginBlock: "xxsmall",
   },
 });
 
