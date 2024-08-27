@@ -11,8 +11,9 @@ import queryString from "query-string";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PageContent } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { OneColumn, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { converSearchStringToObject, convertSearchParam } from "./searchHelpers";
 import SearchInnerPage from "./SearchInnerPage";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -78,7 +79,7 @@ const SearchPage = () => {
   return (
     <>
       <HelmetWithTracker title={t("htmlTitles.searchPage")} />
-      <OneColumn wide>
+      <PageContent>
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}
           query={searchParams.query}
@@ -90,7 +91,7 @@ const SearchPage = () => {
           resourceTypes={data?.resourceTypes}
           location={location}
         />
-      </OneColumn>
+      </PageContent>
     </>
   );
 };

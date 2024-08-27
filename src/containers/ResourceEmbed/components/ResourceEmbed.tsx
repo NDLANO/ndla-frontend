@@ -12,8 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { Heading, HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import {
   ArticleFooter,
@@ -22,9 +21,8 @@ import {
   ContentTypeBadgeNew,
   ContentTypeHero,
   HomeBreadcrumb,
-  OneColumn,
   ArticleHGroup,
-  ArticlePadding,
+  ArticleContent,
 } from "@ndla/ui";
 import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
@@ -57,12 +55,6 @@ interface MetaProperies {
   imageUrl?: string;
   type: StandaloneEmbed | "gloss" | "podcast";
 }
-
-const StyledArticlePadding = styled(ArticlePadding, {
-  base: {
-    background: "surface.default",
-  },
-});
 
 const metaToProperties = (
   meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
@@ -201,7 +193,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
       <main>
         <ContentTypeHero contentType={type}>
           {!isOembed && <HeroBackground />}
-          <OneColumn>
+          <PageContent variant="article">
             {!isOembed && (
               <HeroContent>
                 <HomeBreadcrumb
@@ -218,32 +210,36 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                 />
               </HeroContent>
             )}
-            <ArticleWrapper>
-              <ArticleHeader padded>
-                <ArticleHGroup>
-                  {!!type && <ContentTypeBadgeNew contentType={type} />}
-                  <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-                    {properties.title}
-                  </Heading>
-                </ArticleHGroup>
-              </ArticleHeader>
-              <StyledArticlePadding padStart>
-                {transformedContent}
-                {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                  <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
-                )}
-              </StyledArticlePadding>
-              <ArticleFooter padded>
-                {isOembed && (
-                  <CreatedBy
-                    name={t("createdBy.content")}
-                    description={t("createdBy.text")}
-                    url={`${config.ndlaFrontendDomain}/${type}/${id}`}
-                  />
-                )}
-              </ArticleFooter>
-            </ArticleWrapper>
-          </OneColumn>
+          </PageContent>
+          <PageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <ArticleWrapper>
+                <ArticleHeader>
+                  <ArticleHGroup>
+                    {!!type && <ContentTypeBadgeNew contentType={type} />}
+                    <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                      {properties.title}
+                    </Heading>
+                  </ArticleHGroup>
+                </ArticleHeader>
+                <ArticleContent>
+                  <section>{transformedContent}</section>
+                </ArticleContent>
+                <ArticleFooter>
+                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
+                  )}
+                  {isOembed && (
+                    <CreatedBy
+                      name={t("createdBy.content")}
+                      description={t("createdBy.text")}
+                      url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+                    />
+                  )}
+                </ArticleFooter>
+              </ArticleWrapper>
+            </PageContent>
+          </PageContent>
         </ContentTypeHero>
       </main>
     </>
