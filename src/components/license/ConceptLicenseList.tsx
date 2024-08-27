@@ -118,7 +118,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 hasCopiedTitle={t("license.embedCopied")}
               />
               {shouldShowLink && (
-                <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
+                <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary" size="small">
                   <ShareBoxLine />
                   {t("license.openLink")}
                 </SafeLinkButton>

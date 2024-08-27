@@ -15,7 +15,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
-import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -33,7 +32,6 @@ import {
   ItemType,
   MediaListLicense,
   MediaListContent,
-  ImageAndLicenseWrapper,
 } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
@@ -103,30 +101,27 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <ImageAndLicenseWrapper>
-            <MediaListLicense
-              licenseType={image.copyright.license.license}
-              title={t("license.images.rules")}
-              sourceTitle={image.title}
-              sourceType="images"
-            >
-              {!isCopyrighted(image.copyright.license.license) && (
-                <AddResourceToFolderModal
-                  resource={{
-                    id: image.id,
-                    path: `${config.ndlaFrontendDomain}/image/${image.id}`,
-                    resourceType: "image",
-                  }}
-                >
-                  <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
-                </AddResourceToFolderModal>
-              )}
-            </MediaListLicense>
-            <Image alt={image.altText} src={image.src} />
-          </ImageAndLicenseWrapper>
+          <MediaListLicense
+            licenseType={image.copyright.license.license}
+            title={t("license.images.rules")}
+            sourceTitle={image.title}
+            sourceType="images"
+          >
+            {!isCopyrighted(image.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: image.id,
+                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                  resourceType: "image",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
           {!isCopyrighted(image.copyright.license.license) && (
             <MediaListItemActions>
-              <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download>
+              <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
                 <DownloadLine />
                 {t("license.download")}
               </SafeLinkButton>
@@ -136,7 +131,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
                 hasCopiedTitle={t("license.embedCopied")}
               />
               {shouldShowLink && (
-                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ShareBoxLine />
                   {t("license.openLink")}
                 </SafeLinkButton>

@@ -8,15 +8,17 @@
 
 import { useTranslation } from "react-i18next";
 import { useDialogContext } from "@ark-ui/react";
-import styled from "@emotion/styled";
 import { AddLine } from "@ndla/icons/action";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import SettingsMenu from "../components/SettingsMenu";
 
-const StyledListItem = styled.li`
-  margin: 0;
-  padding: 0;
-`;
+const StyledListItem = styled("li", {
+  base: {
+    margin: 0,
+    padding: 0,
+  },
+});
 
 export const PostActions = () => {
   const { t } = useTranslation();

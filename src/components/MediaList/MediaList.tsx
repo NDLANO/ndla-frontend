@@ -253,11 +253,3 @@ export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
     </ul>
   );
 };
-
-export const ImageAndLicenseWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});

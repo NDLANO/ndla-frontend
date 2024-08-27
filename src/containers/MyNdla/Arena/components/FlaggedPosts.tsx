@@ -14,6 +14,7 @@ import { PaginationContext } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
 import {
   Text,
+  Badge,
   Button,
   PaginationEllipsis,
   PaginationItem,
@@ -21,37 +22,99 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
   Spinner,
+  Table,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
 import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
-export const rowStyle = css.raw({
-  display: "grid",
-  gridTemplateColumns: "repeat(4,1fr)",
-  marginBlock: "xxsmall",
-  padding: "xxsmall",
-  borderRadius: "xsmall",
-  border: "1px solid",
-  borderColor: "stroke.subtle",
-});
-
-export const StyledRow = styled("li", {
-  base: { _hover: { backgroundColor: "surface.hover" } },
-});
-
-export const StyledHeaderRow = styled("div", { base: { backgroundColor: "surface.brand.1" } });
-
-export const StatusBox = styled("span", {
+export const StyledTable = styled(Table, {
   base: {
+    padding: "xsmall",
+    display: "table",
+  },
+});
+
+export const StyledHeaderRow = styled("tr", {
+  base: {
+    textAlign: "left",
+    borderBottom: "3px solid",
+    borderColor: "surface.brand.1.strong",
+
+    "& th": {
+      border: "none",
+      borderWidth: "0 !important",
+      borderColor: "surface.default",
+      mobileWideDown: {
+        paddingInline: "0",
+      },
+    },
+
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
+
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
+    },
+  },
+});
+
+export const StyledRow = styled("tr", {
+  base: {
+    position: "relative",
+    border: "none",
+    borderBlockEnd: "1px solid",
+    borderColor: "surface.brand.1.subtle",
+
+    "& td": {
+      border: "none",
+      borderWidth: "0",
+    },
+
+    "& [data-title='']": {
+      textDecoration: "underline",
+    },
+    _hover: {
+      backgroundColor: "surface.infoSubtle",
+      "& [data-title='']": {
+        textDecoration: "none",
+      },
+    },
+
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
+
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
+    },
+  },
+});
+
+export const StyledSafeLink = styled(SafeLink, {
+  base: {
+    // Make link clickable on whole row
+    position: "absolute",
+    zIndex: 1,
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+});
+
+export const StatusBox = styled(Badge, {
+  base: {
+    display: "inline-block",
     color: "surface.default",
-    padding: "4xsmall",
-    borderRadius: "xsmall",
-    width: "fit-content",
   },
 });
 
@@ -98,55 +161,56 @@ const FlaggedPosts = () => {
   if (loading) return <Spinner />;
   if ((arenaAllFlags?.items?.length ?? 0) === 0) return <p>{t("myNdla.arena.admin.flags.noflags")}</p>;
 
+  const arenaFlags = arenaAllFlags?.items.map((post) => {
+    const flags = (post.flags ?? []).map((f) => {
+      return {
+        ...f,
+        createdObject: new Date(f.created),
+      };
+    });
+    const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
+
+    const lastFlagAt = sortedFlags[0]?.createdObject
+      ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
+      : "";
+
+    const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
+    const count = `${resolvedFlags.length}/${flags.length}`;
+
+    return (
+      <StyledRow key={`btn-${post.id}`} consumeCss>
+        <td data-title="">Post {post.id}</td>
+        <td>{count}</td>
+        <td>{lastFlagAt}</td>
+        <td>
+          <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
+          {resolvedFlags.length === flags.length ? (
+            <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
+              {t(`myNdla.arena.admin.flags.status.resolved`)}
+            </StatusBox>
+          ) : (
+            <StatusBox css={{ backgroundColor: "surface.danger" }}>
+              {t(`myNdla.arena.admin.flags.status.unresolved`)}
+            </StatusBox>
+          )}
+        </td>
+      </StyledRow>
+    );
+  });
+
   return (
     <>
-      <div>
-        <StyledHeaderRow css={rowStyle}>
-          <div>{t("myNdla.arena.admin.flags.postId")}</div>
-          <div>{t("myNdla.arena.admin.flags.numFlags")}</div>
-          <div>{t("myNdla.arena.admin.flags.latestFlag")}</div>
-          <div>{t("myNdla.arena.admin.flags.status.title")}</div>
-        </StyledHeaderRow>
-        {arenaAllFlags?.items.map((post) => {
-          const flags = (post.flags ?? []).map((f) => {
-            return {
-              ...f,
-              createdObject: new Date(f.created),
-            };
-          });
-          const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
-
-          const lastFlagAt = sortedFlags[0]?.createdObject
-            ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
-            : "";
-
-          const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
-          const count = `${resolvedFlags.length}/${flags.length}`;
-
-          return (
-            <SafeLink to={`${post.id}`} key={`btn-${post.id}`}>
-              <StyledRow key={`post-${post.id}`} css={rowStyle}>
-                <div>Post {post.id}</div>
-                <div>{count}</div>
-                {<div>{lastFlagAt}</div>}
-                {
-                  <div>
-                    {resolvedFlags.length === flags.length ? (
-                      <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
-                        {t(`myNdla.arena.admin.flags.status.resolved`)}
-                      </StatusBox>
-                    ) : (
-                      <StatusBox css={{ backgroundColor: "surface.danger" }}>
-                        {t(`myNdla.arena.admin.flags.status.unresolved`)}
-                      </StatusBox>
-                    )}
-                  </div>
-                }
-              </StyledRow>
-            </SafeLink>
-          );
-        })}
-      </div>
+      <StyledTable>
+        <thead>
+          <StyledHeaderRow>
+            <th>{t("myNdla.arena.admin.flags.postId")}</th>
+            <th>{t("myNdla.arena.admin.flags.numFlags")}</th>
+            <th>{t("myNdla.arena.admin.flags.latestFlag")}</th>
+            <th>{t("myNdla.arena.admin.flags.status.title")}</th>
+          </StyledHeaderRow>
+        </thead>
+        <tbody>{arenaFlags}</tbody>
+      </StyledTable>
       <PaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}

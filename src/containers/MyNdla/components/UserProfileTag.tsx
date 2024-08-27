@@ -8,11 +8,9 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import Avatar from "./Avatar";
 import { isArenaModerator } from "../../../components/AuthenticationContext";
 import config from "../../../config";
@@ -24,55 +22,58 @@ type UserProfileTagProps = {
   user: GQLArenaUserV2 | undefined;
 };
 
-const Name = styled(Text)`
-  text-decoration: underline;
-`;
+const Name = styled(Text, {
+  base: {
+    textDecoration: "underline",
+  },
+});
 
-const userProfileTagContainerStyle = css`
-  display: flex;
-  gap: ${spacing.normal};
-  color: ${colors.text.primary};
-  height: fit-content;
-  width: fit-content;
-  text-decoration: none;
-  box-shadow: none;
-  padding: ${spacing.xsmall};
-`;
+const UserProfileTagContainer = styled(SafeLink, {
+  base: {
+    color: "text.strong",
+    display: "flex",
+    gap: "medium",
+    _hover: {
+      "& [data-name='hover']": {
+        textDecoration: "none",
+      },
+    },
+  },
+});
 
-const UserProfileTagContainer = styled(SafeLink)`
-  &:hover {
-    [data-name="hover"] {
-      text-decoration: none;
-    }
-  }
+const UserProfileTagContainerNoLink = styled("div", {
+  base: {
+    color: "text.strong",
+    display: "flex",
+    gap: "medium",
+  },
+});
 
-  ${userProfileTagContainerStyle}
-`;
+const UserInformationContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
 
-const UserProfileTagContainerNoLink = styled.div`
-  ${userProfileTagContainerStyle}
-`;
+const NameAndTagContainer = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    gap: "xsmall",
+  },
+});
 
-const UserInformationContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
-`;
-
-const NameAndTagContainer = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
-
-const ModeratorTag = styled(Text)`
-  border-radius: ${misc.borderRadius};
-  padding: 2px ${spacing.small};
-  background-color: ${colors.brand.primary};
-  width: fit-content;
-  height: fit-content;
-  color: ${colors.white};
-`;
+const ModeratorTag = styled(Text, {
+  base: {
+    backgroundColor: "surface.action",
+    borderRadius: "xsmall",
+    height: "fit-content",
+    paddingBlock: "3xsmall",
+    paddingInline: "xxsmall",
+  },
+});
 
 const getUserLink = (user: GQLArenaUserV2 | undefined) => {
   if (!user) return null;
@@ -105,20 +106,16 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
       <Avatar aria-hidden={!profilePicture} displayName={displayName} profilePicture={profilePicture} />
       <UserInformationContainer>
         <NameAndTagContainer>
-          <Name textStyle="meta-text-large" margin="none" data-name="hover">
+          <Name textStyle="title.small" data-name="hover">
             {displayName}
           </Name>
           {isArenaModerator(arenaUser.groups) && (
-            <ModeratorTag textStyle="meta-text-xsmall" margin="none">
+            <ModeratorTag textStyle="label.xsmall" color="text.onAction">
               {t("user.moderator")}
             </ModeratorTag>
           )}
         </NameAndTagContainer>
-        {user?.location && (
-          <Text textStyle="meta-text-small" margin="none">
-            {user?.location}
-          </Text>
-        )}
+        {user?.location && <Text textStyle="body.small">{user?.location}</Text>}
       </UserInformationContainer>
     </TagContainer>
   );

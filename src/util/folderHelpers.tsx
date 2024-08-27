@@ -9,7 +9,7 @@
 import type { TFunction } from "i18next";
 import uniq from "lodash/uniq";
 import uniqBy from "lodash/uniqBy";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceResourceType } from "../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceResourceType, GQLSharedFolder } from "../graphqlTypes";
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
   const allTags = allFolders.flatMap((f) => f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)));
@@ -30,7 +30,7 @@ export interface FolderTotalCount {
   resources: number;
 }
 
-export const getTotalCountForFolder = (folder: GQLFolder): FolderTotalCount => {
+export const getTotalCountForFolder = (folder: GQLFolder | GQLSharedFolder): FolderTotalCount => {
   return folder.subfolders.reduce<FolderTotalCount>(
     (acc, curr) => {
       const subTotal = getTotalCountForFolder(curr);

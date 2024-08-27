@@ -45,7 +45,16 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(({ notificat
   const newNotifications = useMemo(() => notifications?.filter(({ isRead }) => !isRead).length, [notifications]);
 
   return (
-    <Button variant="tertiary" ref={ref} {...rest}>
+    <Button
+      variant="tertiary"
+      ref={ref}
+      aria-label={
+        newNotifications
+          ? t("myNdla.arena.notification.button.showNew", { count: newNotifications })
+          : t("myNdla.arena.notification.button.show")
+      }
+      {...rest}
+    >
       {t("myNdla.arena.notification.title")}
       <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
     </Button>

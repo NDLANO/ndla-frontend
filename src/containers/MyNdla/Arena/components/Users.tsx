@@ -24,7 +24,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePaginationTranslations } from "@ndla/ui";
-import { rowStyle, StyledHeaderRow } from "./FlaggedPosts";
+import { StyledTable, StyledHeaderRow } from "./FlaggedPosts";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
@@ -85,13 +85,17 @@ const Users = () => {
             navigate(routes.myNdla.adminUsers + "?page=1"); // Reset page number when searching
           }}
         />
-        <StyledHeaderRow css={rowStyle}>
-          <Cell>{t("myNdla.arena.admin.users.username")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.displayName")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.location")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.isAdmin")}</Cell>
-        </StyledHeaderRow>
-        <UserList loading={loading} users={users} />
+        <StyledTable>
+          <thead>
+            <StyledHeaderRow>
+              <th>{t("myNdla.arena.admin.users.username")}</th>
+              <th>{t("myNdla.arena.admin.users.displayName")}</th>
+              <th>{t("myNdla.arena.admin.users.location")}</th>
+              <th>{t("myNdla.arena.admin.users.isAdmin")}</th>
+            </StyledHeaderRow>
+          </thead>
+          <UserList loading={loading} users={users} />
+        </StyledTable>
       </div>
       <PaginationRoot
         page={page}

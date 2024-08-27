@@ -10,11 +10,9 @@ import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { Reply } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { IconButton, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
@@ -26,51 +24,61 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-export const PostWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+export const PostWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-export const PostCardWrapper = styled.div`
-  background-color: ${colors.background.lightBlue};
-  border: ${colors.brand.light} solid 1px;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.normal};
-  margin-bottom: ${spacing.normal};
-`;
+export const PostCardWrapper = styled("div", {
+  base: {
+    backgroundColor: "surface.default",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+    marginBlock: "xxsmall",
+  },
+});
 
-export const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
+export const PostHeader = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+});
 
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin: ${spacing.normal} 0;
-`;
+export const ContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
-export const FlexLine = styled.div`
-  display: flex;
-  gap: ${spacing.nsmall};
-  justify-content: space-between;
-  align-items: center;
-`;
+export const FlexLine = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    gap: "small",
+    justifyContent: "space-between",
+  },
+});
 
-export const TimestampText = styled(Text)`
-  align-self: center;
-`;
-
-export const Content = styled(Text)`
-  ul,
-  ol {
-    padding-left: ${spacing.normal};
-  }
-  word-break: break-word;
-`;
+export const Content = styled(Text, {
+  base: {
+    wordBreak: "break-word",
+    "& ul, & ol": {
+      paddingInlineStart: "medium",
+    },
+  },
+});
 
 interface Props {
   post: Omit<GQLArenaPostV2Fragment, "replies">;
@@ -108,9 +116,9 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const postTime = useMemo(
     () => (
-      <TimestampText element="span" textStyle="content-alt" margin="none">
+      <Text textStyle="body.small" asChild consumeCss>
         <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-      </TimestampText>
+      </Text>
     ),
     [created, i18n.language, timeDistance],
   );
@@ -179,9 +187,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
               <UserProfileTag user={post.owner} />
             </PostHeader>
             <ContentWrapper>
-              <Content element="div" textStyle="content-alt" margin="none">
-                {parse(contentAsHTML!)}
-              </Content>
+              <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
             </ContentWrapper>
             {options}
           </>

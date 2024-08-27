@@ -7,10 +7,9 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   to: string;
@@ -20,75 +19,68 @@ interface Props {
   icon: ReactNode;
 }
 
-const StyledSafelink = styled(SafeLink)`
-  color: ${colors.text.primary};
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
-  padding-right: ${spacing.medium};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
+const StyledSafelink = styled(SafeLink, {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "row",
+    gap: "medium",
+    padding: "medium",
+    paddingInlineEnd: "large",
 
-  [data-hover-icon=""] {
-    display: none;
-  }
+    _hover: {
+      "& [data-name='hover']": {
+        textDecoration: "none",
+      },
+    },
 
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    [data-name="hover"] {
-      text-decoration: none;
-    }
-  }
+    mobileWide: {
+      backgroundColor: "surface.default",
+      _hover: {
+        backgroundColor: "surface.infoSubtle",
+      },
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    &:hover,
-    &:focus-within {
-      [data-hover-icon=""] {
-        display: block;
-      }
-    }
-  }
+const SpacingContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+});
 
-  svg {
-    width: ${spacing.large};
-    height: ${spacing.large};
-    color: ${colors.brand.primary};
-    ${mq.range({ until: breakpoints.mobileWide })} {
-      display: none;
-    }
-  }
-`;
+const StyledHeader = styled(Text, {
+  base: {
+    cursor: "pointer",
+    textDecoration: "underline",
+  },
+});
 
-const SpacingContainer = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  justify-content: space-between;
-  width: 100%;
-`;
+const StyledDescriptionText = styled(Text, {
+  base: {
+    mobileWideDown: {
+      display: "none",
+    },
+  },
+});
 
-const StyledHeader = styled(Text)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  cursor: pointer;
-`;
+const StyledCountContainer = styled("div", {
+  base: {
+    textAlign: "center",
+  },
+});
 
-const StyledDescriptionText = styled(Text)`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
-
-const StyledCountContainer = styled.div`
-  text-align: center;
-`;
-
-const NavWrapper = styled.li`
-  list-style: none;
-  margin: 0;
-`;
+const NavWrapper = styled("li", {
+  base: {
+    listStyle: "none",
+    margin: 0,
+  },
+});
 
 const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
   return (
@@ -97,17 +89,13 @@ const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
         {icon}
         <SpacingContainer>
           <div>
-            <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
-              {title}
+            <StyledHeader data-name="hover" color="text.strong" asChild consumeCss>
+              <label>{title}</label>
             </StyledHeader>
-            <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
-              {subText}
-            </StyledDescriptionText>
+            <StyledDescriptionText>{subText}</StyledDescriptionText>
           </div>
           <StyledCountContainer>
-            <Text element="p" textStyle="content-alt" margin="none">
-              {rightText}
-            </Text>
+            <Text>{rightText}</Text>
           </StyledCountContainer>
         </SpacingContainer>
       </StyledSafelink>

@@ -8,20 +8,18 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
 import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
 import { LtiItem } from "../../interfaces";
 
-const MarginLeftParagraph = styled.p`
-  margin-left: 26px;
-`;
-
-const CodeWithBreakWord = styled.code`
-  word-break: break-word;
-`;
+const BreakableCode = styled("code", {
+  base: {
+    wordBreak: "break-word",
+  },
+});
 
 interface Props {
   item: LtiItem;
@@ -57,9 +55,9 @@ const LtiDefault = ({ item }: Props) => {
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>
-          <MarginLeftParagraph>{t("lti.notSupported")}</MarginLeftParagraph>
+          <Text>{t("lti.notSupported")}</Text>
           <pre>
-            <CodeWithBreakWord>{embedCode}</CodeWithBreakWord>
+            <BreakableCode>{embedCode}</BreakableCode>
           </pre>
         </DialogBody>
       </DialogContent>

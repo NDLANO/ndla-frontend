@@ -111,7 +111,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
           </MediaListLicense>
           {!isCopyrighted(podcast.copyright.license.license) && (
             <MediaListItemActions>
-              <SafeLinkButton to={podcast.src} download variant="secondary">
+              <SafeLinkButton to={podcast.src} download variant="secondary" size="small">
                 <DownloadLine />
                 {t("license.download")}
               </SafeLinkButton>
@@ -121,7 +121,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 hasCopiedTitle={t("license.embedCopied")}
               />
               {shouldShowLink && (
-                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer">
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ShareBoxLine />
                   {t("license.openLink")}
                 </SafeLinkButton>
