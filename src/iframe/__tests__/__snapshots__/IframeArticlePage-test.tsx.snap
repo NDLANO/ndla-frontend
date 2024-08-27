@@ -241,9 +241,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               <div
                                 class="d_flex flex-d_column gap_3xsmall"
                               >
-                                <ul
-                                  content="Opphaver: Forfatter Someone"
-                                >
+                                <ul>
                                   <li
                                     class="wb_break-word"
                                   >
@@ -251,9 +249,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       class="textStyle_body.medium"
                                     >
                                       Tittel: 
-                                      <span
-                                        property="cc:attributionURL"
-                                      >
+                                      <span>
                                         Politiske skillelinjer
                                       </span>
                                     </p>
@@ -279,9 +275,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                       class="textStyle_body.medium"
                                     >
                                       Sist faglig oppdatert: 
-                                      <span
-                                        property="cc:attributionURL"
-                                      >
+                                      <span>
                                         09.01.2018
                                       </span>
                                     </p>
