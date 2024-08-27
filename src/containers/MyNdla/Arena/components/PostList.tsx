@@ -72,7 +72,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
     <>
       <StyledOl>
         {posts.map((post) => {
-          const hasReplies = "replies" in post;
+          const hasReplies = "replies" in post && !!post.replies?.length;
           return (
             <li key={post.id}>
               {"deleted" in post && post.deleted ? (

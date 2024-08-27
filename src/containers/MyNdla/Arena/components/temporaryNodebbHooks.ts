@@ -184,8 +184,8 @@ export const useArenaTopic = (topicId: string | undefined, postPage: number, pos
           contentAsHTML: reply.content,
           created: reply.timestamp,
           updated: reply.timestamp,
-          upvotes: post.upvotes,
-          upvoted: post.upvoted,
+          upvotes: reply.upvotes,
+          upvoted: reply.upvoted,
           owner: replyOwner,
         };
       }),
