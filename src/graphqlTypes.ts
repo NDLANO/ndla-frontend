@@ -4043,6 +4043,8 @@ export type GQLArenaRepliesFragment = {
   timestamp: string;
   topicId: number;
   isMainPost: boolean;
+  upvotes: number;
+  upvoted: boolean;
   deleted: boolean;
   toPid?: number;
   user?: {

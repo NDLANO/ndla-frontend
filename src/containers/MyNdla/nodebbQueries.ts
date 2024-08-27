@@ -111,6 +111,8 @@ export const arenaRepliesFragment = gql`
     timestamp
     topicId
     isMainPost
+    upvotes
+    upvoted
     user {
       id
       displayName
