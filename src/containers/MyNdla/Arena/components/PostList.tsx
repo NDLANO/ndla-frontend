@@ -15,15 +15,21 @@ import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../gr
 
 const StyledOl = styled("ol", {
   base: {
-    marginInlineStart: "medium",
+    marginInlineStart: "xsmall",
+    tablet: {
+      marginInlineStart: "small",
+    },
+    desktop: {
+      marginInlineStart: "medium",
+    },
   },
 });
 
 const StyledLi = styled("li", {
   base: {
     position: "relative",
-    paddingBlockStart: "medium",
-    paddingInlineStart: "large",
+    paddingBlockStart: "2xsmall",
+    paddingInlineStart: "xsmall",
     borderInlineStart: "1px solid",
     borderColor: "stroke.subtle",
     "&:last-of-type": {
@@ -41,10 +47,28 @@ const StyledLi = styled("li", {
       borderBottomLeftRadius: "xsmall",
       position: "absolute",
       content: "''",
-      width: "large",
+      width: "xsmall",
       height: "3xlarge",
       left: "0px",
-      top: "-xsmall",
+      top: "-medium",
+    },
+    tablet: {
+      paddingBlockStart: "small",
+      paddingInlineStart: "medium",
+      _after: {
+        width: "large",
+        height: "3xlarge",
+        top: "-xsmall",
+      },
+    },
+    desktop: {
+      paddingBlockStart: "medium",
+      paddingInlineStart: "large",
+      _after: {
+        width: "large",
+        height: "3xlarge",
+        top: "-xsmall",
+      },
     },
   },
 });
