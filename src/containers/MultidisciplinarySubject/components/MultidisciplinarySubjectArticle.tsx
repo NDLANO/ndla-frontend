@@ -41,7 +41,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => topic.context?.crumbs ?? [], [topic]);
+  const topicPath = useMemo(() => topic.context?.parents ?? [], [topic]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -122,7 +122,7 @@ export const multidisciplinarySubjectArticleFragments = {
         breadcrumbs
         parentIds
         path
-        crumbs {
+        parents {
           contextId
           id
           name

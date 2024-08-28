@@ -27,7 +27,7 @@ const nodeFragment = gql`
     context {
       contextId
       rootId
-      crumbs {
+      parents {
         id
         name
         url
@@ -105,7 +105,7 @@ const SubjectPage = ({ subjectId, topicId, topicList: tList }: Props) => {
   }
 
   const topicList = (
-    (data.topic?.context?.crumbs && data.topic?.context?.crumbs?.slice(1).map((crumb) => crumb.id)) ??
+    (data.topic?.context?.parents && data.topic?.context?.parents?.slice(1).map((crumb) => crumb.id)) ??
     tList
   ).concat(data.topic?.id ? [data.topic.id] : []);
 

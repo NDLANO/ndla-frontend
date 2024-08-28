@@ -57,7 +57,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          const topicPath = topic.context?.crumbs ?? [];
+          const topicPath = topic.context?.parents ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
               to: enablePrettyUrls ? tp.url : tp.path,

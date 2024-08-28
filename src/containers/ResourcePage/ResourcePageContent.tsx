@@ -68,7 +68,7 @@ const resourcePageQuery = gql`
         parentIds
         path
         url
-        crumbs {
+        parents {
           contextId
           id
           name
@@ -121,7 +121,7 @@ const ResourcePageContent = ({ subjectId, topicId, resourceId }: Props) => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return data?.resource.context?.crumbs ?? [];
+    return data?.resource.context?.parents ?? [];
   }, [data?.resource?.context, data?.resource?.path]);
 
   if (loading) {

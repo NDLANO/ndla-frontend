@@ -2108,9 +2108,9 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
-  crumbs?: Maybe<Array<GQLTaxonomyCrumb>>;
   name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
+  parents?: Maybe<Array<GQLTaxonomyCrumb>>;
   path: Scalars["String"]["output"];
   relevance: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
@@ -3075,7 +3075,7 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
-    crumbs?: Array<{
+    parents?: Array<{
       __typename?: "TaxonomyCrumb";
       contextId: string;
       id: string;
@@ -4431,7 +4431,7 @@ export type GQLResourcePageQuery = {
       parentIds: Array<string>;
       path: string;
       url: string;
-      crumbs?: Array<{
+      parents?: Array<{
         __typename?: "TaxonomyCrumb";
         contextId: string;
         id: string;
@@ -4522,7 +4522,7 @@ export type GQLNodeFragmentFragment = {
     __typename?: "TaxonomyContext";
     contextId: string;
     rootId: string;
-    crumbs?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string; path: string }>;
+    parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string; path: string }>;
   };
 };
 
@@ -4613,7 +4613,7 @@ export type GQLTopic_TopicFragment = {
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
-    crumbs?: Array<{
+    parents?: Array<{
       __typename?: "TaxonomyCrumb";
       contextId: string;
       id: string;

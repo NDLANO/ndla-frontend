@@ -179,7 +179,7 @@ export const topicFragments = {
         breadcrumbs
         parentIds
         path
-        crumbs {
+        parents {
           contextId
           id
           name
