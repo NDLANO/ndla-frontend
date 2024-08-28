@@ -41,10 +41,7 @@ const PageWrapper = styled("div", {
 
 const StyledReplyButton = styled(Button, {
   base: {
-    float: "right",
-    "&[hidden]": {
-      display: "none",
-    },
+    alignSelf: "flex-end",
   },
 });
 
