@@ -8,7 +8,7 @@
 
 import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
-import { Dispatch, SetStateAction, useState, useCallback, useMemo } from "react";
+import { Dispatch, SetStateAction, useState, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
@@ -19,11 +19,12 @@ import {
   SwitchThumb,
   Text,
   Heading,
+  Button,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { PostCardWrapper, Content, PostHeader, ContentWrapper, FlexLine } from "./PostCard";
+import { PostCardWrapper, Content, PostHeader, ContentWrapper } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -31,7 +32,6 @@ import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
 import { routes } from "../../../../routeHelpers";
-import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
@@ -39,6 +39,7 @@ import { capitalizeFirstLetter } from "../utils";
 const MainPostCardWrapper = styled(PostCardWrapper, {
   base: {
     backgroundColor: "surface.infoSubtle",
+    borderTopRadius: "xsmall",
   },
 });
 
@@ -51,15 +52,15 @@ interface Props {
   isReplying: boolean;
 }
 
-const MainPostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
+const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, isReplying }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
+  const replyToRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
   const { updateTopic } = useArenaUpdateTopic(topicId);
   const toast = useToast();
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
   const navigate = useNavigate();
-  const selectors = useUserAgent();
 
   const deleteTopicCallback = useCallback(
     async (close: VoidFunction) => {
@@ -97,28 +98,12 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
 
   const profileTag = useMemo(() => <UserProfileTag user={post.owner} />, [post.owner]);
 
-  const header = useMemo(
-    () =>
-      selectors?.isMobile ? (
-        <>
-          {followSwitch}
-          {profileTag}
-        </>
-      ) : (
-        <>
-          {profileTag}
-          {followSwitch}
-        </>
-      ),
-    [followSwitch, profileTag, selectors?.isMobile],
-  );
-
   return (
     <MainPostCardWrapper id={`post-${postId}`}>
       {isEditing ? (
         <ArenaForm
           id={postId}
-          type={"topic"}
+          type="topic"
           initialTitle={topic?.title}
           initialLocked={topic?.isLocked}
           initialContent={post.content}
@@ -137,29 +122,41 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId }: Props) => {
         />
       ) : (
         <>
-          <PostHeader>{header}</PostHeader>
+          <PostHeader>
+            {profileTag}
+            {followSwitch}
+          </PostHeader>
           <ContentWrapper>
             <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large" fontWeight="bold">
               {topic?.title}
             </Heading>
             <Content textStyle="body.large">{parse(contentAsHTML!)}</Content>
           </ContentWrapper>
-          <FlexLine>
+          <HStack justify="space-between">
             <Text textStyle="body.small" asChild consumeCss>
               <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
             </Text>
-            <FlexLine>
+            <HStack gap="medium">
               <VotePost post={post} />
               <PostAction
                 topic={topic}
                 post={post}
-                type={"topic"}
+                type="topic"
                 setFocusId={setFocusId}
                 setIsEditing={setIsEditing}
                 onDelete={deleteTopicCallback}
               />
-            </FlexLine>
-          </FlexLine>
+              <Button
+                variant="primary"
+                size="small"
+                ref={replyToRef}
+                onClick={setReplyingTo}
+                disabled={isReplying || topic?.isLocked}
+              >
+                {t("myNdla.arena.new.post")}
+              </Button>
+            </HStack>
+          </HStack>
         </>
       )}
     </MainPostCardWrapper>

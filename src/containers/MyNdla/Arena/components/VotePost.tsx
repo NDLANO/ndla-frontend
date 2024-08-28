@@ -9,9 +9,8 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { ThumbFilled, Thumb } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
+import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Text } from "@ndla/typography";
 import { useArenaPostUpvote, useArenaPostRemoveUpvote } from "./temporaryNodebbHooks";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
@@ -21,7 +20,7 @@ const UpvoteWrapper = styled("div", {
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    gap: "small",
+    gap: "xsmall",
   },
 });
 
@@ -54,13 +53,13 @@ const VotePost = ({ post }: Props) => {
       </IconButton>
 
       <Text
-        element="span"
-        textStyle="content-alt"
-        margin="none"
+        textStyle="body.large"
         aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
         title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+        consumeCss
+        asChild
       >
-        {post.upvotes ?? 0}
+        <span>{post.upvotes ?? 0}</span>
       </Text>
     </UpvoteWrapper>
   );
