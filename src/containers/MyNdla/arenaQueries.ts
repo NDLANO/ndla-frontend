@@ -61,6 +61,7 @@ export const arenaCategoryV2Fragment = gql`
     description
     topicCount
     postCount
+    voteCount
     visible
     isFollowing
     parentCategoryId
@@ -107,6 +108,7 @@ export const arenaTopicV2Fragment = gql`
     __typename
     id
     postCount
+    voteCount
     created
     updated
     title

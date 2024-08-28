@@ -24,6 +24,7 @@ type ArenaCategory {
   slug: String!
   topicCount: Int!
   topics: [ArenaTopic!]
+  voteCount: Int
 }
 
 type ArenaCategoryV2 implements ArenaCategoryV2Base {
@@ -39,6 +40,7 @@ type ArenaCategoryV2 implements ArenaCategoryV2Base {
   topicCount: Int!
   topics: [ArenaTopicV2!]
   visible: Boolean!
+  voteCount: Int
 }
 
 interface ArenaCategoryV2Base {
@@ -51,6 +53,7 @@ interface ArenaCategoryV2Base {
   title: String!
   topicCount: Int!
   visible: Boolean!
+  voteCount: Int
 }
 
 type ArenaFlag {
@@ -131,6 +134,7 @@ type ArenaTopic {
   slug: String!
   timestamp: String!
   title: String!
+  voteCount: Int!
 }
 
 type ArenaTopicV2 {
@@ -144,6 +148,7 @@ type ArenaTopicV2 {
   posts: PaginatedPosts
   title: String!
   updated: String!
+  voteCount: Int
 }
 
 type ArenaUser {
@@ -1506,6 +1511,7 @@ type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {
   title: String!
   topicCount: Int!
   visible: Boolean!
+  voteCount: Int
 }
 
 type Transcription {

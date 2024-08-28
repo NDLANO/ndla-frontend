@@ -44,6 +44,7 @@ export type GQLArenaCategory = {
   slug: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopic>>;
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
@@ -60,6 +61,7 @@ export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopicV2>>;
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaCategoryV2Base = {
@@ -72,6 +74,7 @@ export type GQLArenaCategoryV2Base = {
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaFlag = {
@@ -158,6 +161,7 @@ export type GQLArenaTopic = {
   slug: Scalars["String"]["output"];
   timestamp: Scalars["String"]["output"];
   title: Scalars["String"]["output"];
+  voteCount: Scalars["Int"]["output"];
 };
 
 export type GQLArenaTopicV2 = {
@@ -172,6 +176,7 @@ export type GQLArenaTopicV2 = {
   posts?: Maybe<GQLPaginatedPosts>;
   title: Scalars["String"]["output"];
   updated: Scalars["String"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaUser = {
@@ -2121,6 +2126,7 @@ export type GQLTopiclessArenaCategoryV2 = GQLArenaCategoryV2Base & {
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLTranscription = {
@@ -3143,6 +3149,7 @@ export type GQLArenaCategoryV2Fragment = {
   description: string;
   topicCount: number;
   postCount: number;
+  voteCount?: number;
   visible: boolean;
   isFollowing: boolean;
   parentCategoryId?: number;
@@ -3203,6 +3210,7 @@ export type GQLArenaTopicV2Fragment = {
   __typename: "ArenaTopicV2";
   id: number;
   postCount: number;
+  voteCount?: number;
   created: string;
   updated: string;
   title: string;
@@ -3882,6 +3890,7 @@ export type GQLArenaCategoryChildFragment = {
   id: number;
   name: string;
   topicCount: number;
+  voteCount?: number;
   slug: string;
   parentCategoryId?: number;
   breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
@@ -3895,6 +3904,7 @@ export type GQLArenaCategoryFragment = {
   id: number;
   name: string;
   topicCount: number;
+  voteCount?: number;
   slug: string;
   parentCategoryId?: number;
   children?: Array<

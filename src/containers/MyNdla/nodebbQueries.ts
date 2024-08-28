@@ -42,6 +42,7 @@ export const arenaChildCategoryFragment = gql`
     id
     name
     topicCount
+    voteCount
     slug
     parentCategoryId
     breadcrumbs {
@@ -60,6 +61,7 @@ export const arenaCategoriesFragment = gql`
     id
     name
     topicCount
+    voteCount
     slug
     parentCategoryId
     children {
