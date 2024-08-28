@@ -12,7 +12,7 @@ import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { Reply } from "@ndla/icons/action";
 import { IconButton, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
@@ -24,25 +24,15 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-export const PostWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
-
 export const PostCardWrapper = styled("div", {
   base: {
     backgroundColor: "surface.default",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
     display: "flex",
     flexDirection: "column",
     gap: "medium",
     padding: "medium",
-    marginBlock: "xxsmall",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
   },
 });
 
@@ -51,6 +41,7 @@ export const PostHeader = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     flexWrap: "wrap",
+    gap: "small",
   },
 });
 
@@ -58,16 +49,7 @@ export const ContentWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
-  },
-});
-
-export const FlexLine = styled("div", {
-  base: {
-    alignItems: "center",
-    display: "flex",
-    gap: "small",
-    justifyContent: "space-between",
+    gap: "xsmall",
   },
 });
 
@@ -128,7 +110,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
     () => (
       <PostAction
         post={post}
-        type={"post"}
+        type="post"
         setFocusId={setFocusId}
         setIsEditing={setIsEditing}
         onDelete={deletePostCallback}
@@ -153,47 +135,47 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const options = useMemo(
     () => (
-      <FlexLine>
+      <HStack justify="space-between">
         {postTime}
-        <FlexLine>
+        <HStack gap="medium">
           {postUpvotes}
-          {replyButton}
-          {menu}
-        </FlexLine>
-      </FlexLine>
+          <HStack gap="3xsmall">
+            {replyButton}
+            {menu}
+          </HStack>
+        </HStack>
+      </HStack>
     ),
     [menu, postTime, postUpvotes, replyButton],
   );
 
   return (
-    <PostWrapper>
-      <PostCardWrapper id={`post-${postId}`}>
-        {isEditing ? (
-          <ArenaForm
-            id={postId}
-            type={"post"}
-            initialContent={post.content}
-            onAbort={() => setIsEditing(false)}
-            onSave={async (values) => {
-              await updatePost({
-                variables: { postId, content: values.content ?? "" },
-              });
-              setIsEditing(false);
-            }}
-          />
-        ) : (
-          <>
-            <PostHeader>
-              <UserProfileTag user={post.owner} />
-            </PostHeader>
-            <ContentWrapper>
-              <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
-            </ContentWrapper>
-            {options}
-          </>
-        )}
-      </PostCardWrapper>
-    </PostWrapper>
+    <PostCardWrapper id={`post-${postId}`}>
+      {isEditing ? (
+        <ArenaForm
+          id={postId}
+          type="post"
+          initialContent={post.content}
+          onAbort={() => setIsEditing(false)}
+          onSave={async (values) => {
+            await updatePost({
+              variables: { postId, content: values.content ?? "" },
+            });
+            setIsEditing(false);
+          }}
+        />
+      ) : (
+        <>
+          <PostHeader>
+            <UserProfileTag user={post.owner} />
+          </PostHeader>
+          <ContentWrapper>
+            <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
+          </ContentWrapper>
+          {options}
+        </>
+      )}
+    </PostCardWrapper>
   );
 };
 
