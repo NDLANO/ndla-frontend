@@ -36,7 +36,7 @@ const StyledLi = styled("li", {
       borderInlineStart: "1px solid",
       borderBlockEnd: "1px solid",
       borderColor: "stroke.default",
-      borderBottomLeftRadius: "small",
+      borderBottomLeftRadius: "xsmall",
       position: "absolute",
       content: "''",
       width: "large",
