@@ -17,7 +17,8 @@ interface Props {
   id: number;
   title: string;
   timestamp: string;
-  count: number;
+  postCount: number;
+  voteCount: number;
   locked?: boolean;
 }
 const StyledSafelink = styled(SafeLink, {
@@ -54,7 +55,8 @@ const StyledCountContainer = styled("div", {
   base: {
     alignItems: "center",
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    gap: "small",
   },
 });
 
@@ -81,7 +83,7 @@ const TitleContainer = styled("div", {
   },
 });
 
-const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
+const TopicCard = ({ id, title, locked, timestamp, postCount, voteCount }: Props) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
@@ -89,20 +91,30 @@ const TopicCard = ({ id, title, locked, timestamp, count }: Props) => {
         <StyledHeader data-title="" textStyle="title.small" color="text.strong">
           {title}
         </StyledHeader>
-        <Text textStyle="body.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
+        <Text textStyle="label.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
       </TitleContainer>
       <StyledCountContainer>
         {locked ? (
           <StyledLockedIcon />
         ) : (
-          <CountContainer aria-label={`${count} ${t("myNdla.arena.topic.responses")}`}>
-            <Text textStyle="body.medium" aria-hidden color="text.strong">
-              {count}
-            </Text>
-            <Text aria-hidden textStyle="body.small">
-              {t("myNdla.arena.topic.responses")}
-            </Text>
-          </CountContainer>
+          <>
+            <CountContainer aria-label={`${postCount} ${t("myNdla.arena.topic.responses")}`}>
+              <Text textStyle="body.medium" aria-hidden color="text.strong">
+                {postCount}
+              </Text>
+              <Text aria-hidden textStyle="label.small">
+                {t("myNdla.arena.topic.responses")}
+              </Text>
+            </CountContainer>
+            <CountContainer aria-label={`${voteCount} ${t("myNdla.arena.topic.responses")}`}>
+              <Text textStyle="body.medium" aria-hidden color="text.strong">
+                {voteCount}
+              </Text>
+              <Text aria-hidden textStyle="label.small">
+                {t("myNdla.arena.topic.responses")}
+              </Text>
+            </CountContainer>
+          </>
         )}
       </StyledCountContainer>
     </StyledSafelink>

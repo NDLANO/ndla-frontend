@@ -203,7 +203,13 @@ const MyNdlaPage = () => {
             <StyledTopicList>
               {recentArenaTopicsQuery.data?.items?.map((topic) => (
                 <li key={topic.id}>
-                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
+                  <TopicCard
+                    id={topic.id}
+                    postCount={topic.postCount}
+                    voteCount={topic.voteCount}
+                    title={topic.title}
+                    timestamp={topic.created}
+                  />
                 </li>
               ))}
             </StyledTopicList>

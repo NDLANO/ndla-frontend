@@ -176,7 +176,7 @@ export type GQLArenaTopicV2 = {
   posts?: Maybe<GQLPaginatedPosts>;
   title: Scalars["String"]["output"];
   updated: Scalars["String"]["output"];
-  voteCount?: Maybe<Scalars["Int"]["output"]>;
+  voteCount: Scalars["Int"]["output"];
 };
 
 export type GQLArenaUser = {
@@ -3210,7 +3210,7 @@ export type GQLArenaTopicV2Fragment = {
   __typename: "ArenaTopicV2";
   id: number;
   postCount: number;
-  voteCount?: number;
+  voteCount: number;
   created: string;
   updated: string;
   title: string;
@@ -3942,6 +3942,7 @@ export type GQLArenaTopicFragment = {
   id: number;
   locked: boolean;
   postCount: number;
+  voteCount: number;
   slug: string;
   timestamp: string;
   title: string;

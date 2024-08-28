@@ -148,7 +148,7 @@ type ArenaTopicV2 {
   posts: PaginatedPosts
   title: String!
   updated: String!
-  voteCount: Int
+  voteCount: Int!
 }
 
 type ArenaUser {

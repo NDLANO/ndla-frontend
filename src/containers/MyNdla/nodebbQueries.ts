@@ -97,6 +97,7 @@ export const arenaTopicFragment = gql`
     id
     locked
     postCount
+    voteCount
     slug
     timestamp
     title
