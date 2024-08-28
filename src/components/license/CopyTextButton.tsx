@@ -57,7 +57,7 @@ class CopyTextButton extends Component<Props, State> {
           this.buttonContainer = r;
         }}
       >
-        <Button variant="secondary" disabled={hasCopied} onClick={this.handleClick}>
+        <Button variant="secondary" disabled={hasCopied} onClick={this.handleClick} size="small">
           {children}
           {hasCopied ? hasCopiedTitle : copyTitle}
         </Button>

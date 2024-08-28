@@ -12,21 +12,10 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import {
-  AccordionItem,
-  AccordionItemContent,
-  AccordionItemIndicator,
-  AccordionItemTrigger,
-  AccordionRoot,
-  Heading,
-  HeroBackground,
-  HeroContent,
-  Spinner,
-} from "@ndla/primitives";
+import { Heading, HeroBackground, HeroContent, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import {
-  ArticleContent,
   ArticleFooter,
   ArticleHeader,
   ArticleWrapper,
@@ -35,18 +24,16 @@ import {
   HomeBreadcrumb,
   OneColumn,
   ArticleHGroup,
-  ArticleActionWrapper,
+  ArticlePadding,
 } from "@ndla/ui";
-import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
+import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
-import FavoritesButton from "../../../components/Article/FavoritesButton";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
-  GQLResourceEmbedLicenseBox_MetaFragment,
+  GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
@@ -71,8 +58,14 @@ interface MetaProperies {
   type: StandaloneEmbed | "gloss" | "podcast";
 }
 
+const StyledArticlePadding = styled(ArticlePadding, {
+  base: {
+    background: "surface.default",
+  },
+});
+
 const metaToProperties = (
-  meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
+  meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
   type: StandaloneEmbed,
 ): MetaProperies | undefined => {
   if (!meta) {
@@ -126,7 +119,7 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
@@ -229,45 +222,18 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               <ArticleHeader padded>
                 <ArticleHGroup>
                   {!!type && <ContentTypeBadgeNew contentType={type} />}
-                  {!isOembed && (
-                    <ArticleActionWrapper>
-                      <AddResourceToFolderModal
-                        resource={{
-                          id: id,
-                          path,
-                          resourceType: type,
-                        }}
-                      >
-                        <FavoritesButton path={path} />
-                      </AddResourceToFolderModal>
-                    </ArticleActionWrapper>
-                  )}
                   <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                     {properties.title}
                   </Heading>
                 </ArticleHGroup>
               </ArticleHeader>
-              <ArticleContent padded>{transformedContent}</ArticleContent>
+              <StyledArticlePadding padStart>
+                {transformedContent}
+                {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                  <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
+                )}
+              </StyledArticlePadding>
               <ArticleFooter padded>
-                <AccordionRoot multiple>
-                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                    <AccordionItem value="rulesForUse">
-                      <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                        <h2>
-                          <AccordionItemTrigger>
-                            {t("article.useContent")}
-                            <AccordionItemIndicator asChild>
-                              <ArrowDownShortLine size="medium" />
-                            </AccordionItemIndicator>
-                          </AccordionItemTrigger>
-                        </h2>
-                      </Heading>
-                      <AccordionItemContent>
-                        <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                      </AccordionItemContent>
-                    </AccordionItem>
-                  )}
-                </AccordionRoot>
                 {isOembed && (
                   <CreatedBy
                     name={t("createdBy.content")}
@@ -296,11 +262,11 @@ export const ResourceEmbedQuery = gql`
     resourceEmbed(id: $id, type: $type) {
       content
       meta {
-        ...ResourceEmbedLicenseBox_Meta
+        ...ResourceEmbedLicenseContent_Meta
       }
     }
   }
-  ${ResourceEmbedLicenseBox.fragments.metaData}
+  ${ResourceEmbedLicenseContent.fragments.metaData}
 `;
 
 export default ResourceEmbed;
