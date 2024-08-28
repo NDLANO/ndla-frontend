@@ -31,7 +31,7 @@ const PreferenceContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
+    gap: "xxlarge",
     maxWidth: "surface.xlarge",
   },
 });
@@ -40,7 +40,7 @@ const DisclaimerContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "xsmall",
   },
 });
 
@@ -48,7 +48,7 @@ const OptionContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "xsmall",
   },
 });
 
@@ -105,7 +105,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
               {preferenceOptions.map((option) => (
                 <RadioGroupItem value={option.value} key={option.value}>
                   <RadioGroupItemControl />
-                  <RadioGroupItemText textStyle="body.large">{option.title}</RadioGroupItemText>
+                  <RadioGroupItemText>{option.title}</RadioGroupItemText>
                   <RadioGroupItemHiddenInput />
                 </RadioGroupItem>
               ))}

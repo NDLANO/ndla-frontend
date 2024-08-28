@@ -34,9 +34,12 @@ const ShortInfoDiv = styled("div", {
 
 const StyledUl = styled("ul", {
   base: {
-    paddingInlineStart: "xlarge",
-    paddingBlockEnd: "xxsmall",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
     listStyleType: "unset",
+    paddingBlockEnd: "xsmall",
+    paddingInlineStart: "xlarge",
   },
 });
 
@@ -51,9 +54,9 @@ const UserInfoWrapper = styled("span", {
 const ShortInfoLine = ({ label, value }: { label: string; value?: string }) => (
   <UserInfoWrapper>
     <Text textStyle="body.large">
-      <strong>{label}:</strong>
+      <strong>{label}: </strong>
+      {value}
     </Text>
-    <Text textStyle="body.large">{value}</Text>
   </UserInfoWrapper>
 );
 
@@ -62,13 +65,11 @@ export const UserInfo = ({ user }: Props) => {
 
   return (
     <StyledComponentContainer>
-      {
-        <Text textStyle="body.large">
-          {t("user.loggedInAs", {
-            role: t(`user.role.${user?.role}`),
-          })}
-        </Text>
-      }
+      <Text textStyle="body.large">
+        {t("user.loggedInAs", {
+          role: t(`user.role.${user?.role}`),
+        })}
+      </Text>
       <ShortInfoDiv>
         <ShortInfoLine label={t("user.name")} value={user?.displayName} />
         <ShortInfoLine label={t("user.username")} value={user?.username} />

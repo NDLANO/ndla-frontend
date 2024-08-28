@@ -67,7 +67,7 @@ const ButtonContainer = styled("div", {
     alignItems: "baseline",
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "medium",
   },
 });
 

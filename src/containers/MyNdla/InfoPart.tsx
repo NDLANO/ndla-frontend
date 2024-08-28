@@ -20,7 +20,7 @@ const InfoPartWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "xsmall",
     maxWidth: "surface.xlarge",
   },
 });
