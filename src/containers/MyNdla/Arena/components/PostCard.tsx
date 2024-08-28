@@ -32,7 +32,7 @@ export const PostCardWrapper = styled("div", {
     gap: "medium",
     padding: "medium",
     borderBottom: "1px solid",
-    borderColor: "icon.subtle",
+    borderColor: "stroke.subtle",
   },
 });
 
