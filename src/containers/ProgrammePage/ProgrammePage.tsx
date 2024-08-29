@@ -9,8 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
-import { PageSpinner } from "../../components/PageSpinner";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
@@ -51,7 +51,7 @@ const ProgrammePage = () => {
   });
 
   if (loading) {
-    return <PageSpinner />;
+    return <ContentPlaceholder />;
   }
 
   if (!data) {
