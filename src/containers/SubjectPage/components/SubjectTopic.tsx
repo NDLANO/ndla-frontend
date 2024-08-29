@@ -66,7 +66,7 @@ const SubjectTopic = ({
 
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
-      topicRef.current.scrollIntoView({ behavior: "smooth" });
+      topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [topicId, topicList]);
 
