@@ -43,7 +43,7 @@ const AboutPage = () => {
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === GONE) && redirectContext) {

@@ -82,7 +82,7 @@ const PodcastSeriesPage = () => {
   };
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (!podcastSeries) {

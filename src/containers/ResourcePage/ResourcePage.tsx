@@ -97,7 +97,7 @@ const ResourcePage = () => {
   }, [data?.resource]);
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (isAccessDeniedError(error)) {
