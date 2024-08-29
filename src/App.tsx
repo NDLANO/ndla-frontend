@@ -7,7 +7,7 @@
  */
 
 import { Component, ErrorInfo, ReactNode } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
@@ -106,6 +106,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="utdanning/*" element={<ProgrammePage />} />
+                <Route path="utdanning" element={<Navigate to="/" />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
