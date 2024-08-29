@@ -17,7 +17,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
           >
             <div
-              class="d_flex flex-d_row ai_center jc_space-between gap_small w_100%"
+              class="d_flex flex-d_row ai_center jc_space-between gap_small w_100% min-h_xxlarge"
             />
             <h1
               class="textStyle_heading.large"
