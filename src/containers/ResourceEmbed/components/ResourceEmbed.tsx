@@ -12,18 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { Heading, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
+import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import {
-  ArticleFooter,
-  ArticleHeader,
-  ArticleWrapper,
-  ContentTypeBadgeNew,
-  ContentTypeHero,
-  HomeBreadcrumb,
-  ArticleHGroup,
-  ArticleContent,
-} from "@ndla/ui";
+import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -214,14 +205,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
           <PageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
-                <ArticleHeader>
-                  <ArticleHGroup>
-                    {!!type && <ContentTypeBadgeNew contentType={type} />}
-                    <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-                      {properties.title}
-                    </Heading>
-                  </ArticleHGroup>
-                </ArticleHeader>
+                <ArticleTitle title={properties.title} id={SKIP_TO_CONTENT_ID} contentType={type} />
                 <ArticleContent>
                   <section>{transformedContent}</section>
                 </ArticleContent>
