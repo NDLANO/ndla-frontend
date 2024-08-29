@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { gql } from "@apollo/client";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import TopicWrapper from "./TopicWrapper";
@@ -14,20 +14,14 @@ import NavigationBox from "../../../components/NavigationBox";
 import { RELEVANCE_SUPPLEMENTARY } from "../../../constants";
 import { GQLSubjectPageContent_SubjectFragment } from "../../../graphqlTypes";
 import { toTopic } from "../../../routeHelpers";
-import { scrollToRef } from "../subjectPageHelpers";
 
 interface Props {
   subject: GQLSubjectPageContent_SubjectFragment;
   topicIds: Array<string>;
-  refs: Array<RefObject<HTMLDivElement>>;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
 }
 
-const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) => {
-  useEffect(() => {
-    if (topicIds.length) scrollToRef(refs[topicIds.length - 1]!);
-  }, [topicIds]); // eslint-disable-line react-hooks/exhaustive-deps
-
+const SubjectPageContent = ({ subject, topicIds, setBreadCrumb }: Props) => {
   const mainTopics = subject?.topics?.map((topic) => {
     return {
       ...topic,
@@ -44,16 +38,15 @@ const SubjectPageContent = ({ subject, topicIds, refs, setBreadCrumb }: Props) =
       <NavigationBox items={mainTopics || []} />
       {topicIds.map((topicId, index) => {
         return (
-          <div ref={refs[index]} key={index}>
-            <TopicWrapper
-              topicId={topicId}
-              subjectId={subject.id}
-              setBreadCrumb={setBreadCrumb}
-              subTopicId={topicIds[index + 1]}
-              showResources={!topicIds[index + 1]}
-              subject={subject}
-            />
-          </div>
+          <TopicWrapper
+            key={topicId}
+            topicId={topicId}
+            subjectId={subject.id}
+            setBreadCrumb={setBreadCrumb}
+            subTopicId={topicIds[index + 1]}
+            showResources={!topicIds[index + 1]}
+            subject={subject}
+          />
         );
       })}
     </>

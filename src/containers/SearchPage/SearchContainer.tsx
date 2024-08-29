@@ -61,7 +61,7 @@ const SearchPanel = styled("div", {
 const StyledMain = styled("main", {
   base: {
     marginBlockStart: "xxlarge",
-    marginBlockEnd: "4xlarge",
+    marginBlockEnd: "5xlarge",
     display: "flex",
     flexDirection: "column",
     gap: "xxlarge",

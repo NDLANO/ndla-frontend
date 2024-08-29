@@ -51,7 +51,6 @@ const AllSubjectsPersonIllustration = styled("div", {
 const ImageWrapper = styled("div", {
   base: {
     width: "100%",
-    height: "100%",
     display: "flex",
     justifyContent: "center",
   },

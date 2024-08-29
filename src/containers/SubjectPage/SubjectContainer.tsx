@@ -7,20 +7,20 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, createRef, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, MessageBox, Text } from "@ndla/primitives";
+import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { constants, OneColumn, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
-import SubjectLinks from "./components/SubjectLinks";
+import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
@@ -47,12 +47,12 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const StyledOneColumn = styled(OneColumn, {
+const StyledPageContent = styled(PageContent, {
   base: {
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
-    paddingBlock: "xxlarge",
+    paddingBlockStart: "xxlarge",
+    overflowX: "hidden",
+    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -129,8 +129,6 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
     return crumbs;
   }, []);
 
-  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
-
   const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
 
   const customFields = subject?.metadata.customFields || {};
@@ -148,7 +146,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
-      <StyledOneColumn wide>
+      <StyledPageContent>
         {!topicIds.length && (
           <SocialMediaMetadata
             title={subject.name}
@@ -189,8 +187,8 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
-        <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
-      </StyledOneColumn>
+        <SubjectPageContent subject={subject} topicIds={topicIds} setBreadCrumb={setTopicCrumbs} />
+      </StyledPageContent>
     </main>
   );
 };
