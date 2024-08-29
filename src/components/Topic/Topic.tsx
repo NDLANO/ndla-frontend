@@ -24,6 +24,10 @@ const TopicContent = styled("div", {
       gridTemplateColumns: "auto 360px",
     },
     "& figure": {
+      "& img": {
+        aspectRatio: "4/3",
+        objectFit: "cover",
+      },
       maxWidth: "360px",
     },
   },
