@@ -24,7 +24,7 @@ interface Props {
   title: string;
   subText: string;
   topicCount?: number;
-  reactionCount?: number;
+  voteCount?: number;
   user: MyNDLAUserType | undefined;
   visible: boolean;
   isEditing: boolean;
@@ -171,7 +171,7 @@ const ArenaCard = ({
   index,
   subText,
   topicCount,
-  reactionCount,
+  voteCount,
   user,
   visible,
   isEditing,
@@ -224,13 +224,15 @@ const ArenaCard = ({
                   </Text>
                 </StyledCountContainer>
               )}
-              {reactionCount !== undefined && (
-                <StyledCountContainer aria-label={`${reactionCount} ${t("myNdla.arena.category.reactions")}`}>
+              {voteCount !== undefined && (
+                <StyledCountContainer
+                  aria-label={`${voteCount} ${t(`myNdla.arena.category.vote${voteCount === 1 ? "Singular" : "Plural"}`)}`}
+                >
                   <Text aria-hidden textStyle="body.medium">
-                    {reactionCount}
+                    {voteCount}
                   </Text>
                   <Text aria-hidden textStyle="label.small">
-                    {t("myNdla.arena.category.reactions", { count: reactionCount })}
+                    {t(`myNdla.arena.category.vote${voteCount === 1 ? "Singular" : "Plural"}`, { count: voteCount })}
                   </Text>
                 </StyledCountContainer>
               )}
