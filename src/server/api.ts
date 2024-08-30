@@ -53,6 +53,10 @@ router.get("/film", (_, res) => {
   res.redirect(FILM_PAGE_PATH);
 });
 
+router.get("/utdanning", (_, res) => {
+  res.redirect("/");
+});
+
 router.get("/ukr", (_req, res) => {
   res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
   res.redirect(`/en${UKR_PAGE_PATH}`);
