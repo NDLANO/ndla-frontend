@@ -11,8 +11,8 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
+import { PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -88,9 +88,9 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
-      <OneColumn>
+      <PageContent variant="content">
         <Article id={skipToContentId} article={article} oembed={undefined} />
-      </OneColumn>
+      </PageContent>
     </div>
   );
 };
