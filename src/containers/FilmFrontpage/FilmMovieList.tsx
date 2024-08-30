@@ -37,15 +37,15 @@ const FilmMovieList = ({ name, movies = [], loading }: Props) => {
   if (loading) {
     return (
       <section>
-        <Skeleton css={{ width: "surface.small" }}>
-          <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+          <Skeleton css={{ width: "surface.small" }} asChild consumeCss>
             <h3>{name}</h3>
-          </StyledHeading>
-        </Skeleton>
+          </Skeleton>
+        </StyledHeading>
         <StyledCarousel>
           {new Array(5).fill(0).map((_, idx) => (
             <Skeleton key={idx}>
-              <FilmContentCard key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
+              <FilmContentCard autoSize key={idx} movie={{ id: "", title: "", resourceTypes: [], path: "" }} />
             </Skeleton>
           ))}
         </StyledCarousel>
@@ -62,7 +62,7 @@ const FilmMovieList = ({ name, movies = [], loading }: Props) => {
       )}
       <StyledCarousel>
         {movies.map((movie) => (
-          <FilmContentCard key={movie.id} movie={movie} />
+          <FilmContentCard key={movie.id} autoSize movie={movie} />
         ))}
       </StyledCarousel>
     </section>
