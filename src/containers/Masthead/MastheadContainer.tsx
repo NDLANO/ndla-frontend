@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Feide } from "@ndla/icons/common";
+import { Feide, UserLine } from "@ndla/icons/common";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -111,7 +111,7 @@ const MastheadContainer = () => {
           />
           <FeideLoginButton>
             <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-            <Feide />
+            {user ? <UserLine /> : <Feide />}
           </FeideLoginButton>
         </ButtonWrapper>
       </Masthead>
