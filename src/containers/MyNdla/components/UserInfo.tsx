@@ -43,23 +43,6 @@ const StyledUl = styled("ul", {
   },
 });
 
-const UserInfoWrapper = styled("span", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "4xsmall",
-  },
-});
-
-const ShortInfoLine = ({ label, value }: { label: string; value?: string }) => (
-  <UserInfoWrapper>
-    <Text textStyle="body.large">
-      <strong>{label}: </strong>
-      {value}
-    </Text>
-  </UserInfoWrapper>
-);
-
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
 
@@ -71,9 +54,18 @@ export const UserInfo = ({ user }: Props) => {
         })}
       </Text>
       <ShortInfoDiv>
-        <ShortInfoLine label={t("user.name")} value={user?.displayName} />
-        <ShortInfoLine label={t("user.username")} value={user?.username} />
-        <ShortInfoLine label={t("user.mail")} value={user?.email} />
+        <Text textStyle="body.large">
+          <strong>{t("user.name")}: </strong>
+          {user?.displayName}
+        </Text>
+        <Text textStyle="body.large">
+          <strong>{t("user.username")}: </strong>
+          {user?.username}
+        </Text>
+        <Text textStyle="body.large">
+          <strong>{t("user.mail")}: </strong>
+          {user?.email}
+        </Text>
       </ShortInfoDiv>
       <StyledUl>
         {user?.groups.map((org) => (
