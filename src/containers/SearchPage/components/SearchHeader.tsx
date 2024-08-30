@@ -27,6 +27,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
 
@@ -116,7 +117,11 @@ const SearchHeader = ({
 
   return (
     <Wrapper>
-      {!isLti && <Heading>{t("searchPage.title")}</Heading>}
+      {!isLti && (
+        <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+          {t("searchPage.title")}
+        </Heading>
+      )}
       <div>
         <form action="/search/" onSubmit={handleSearchSubmit}>
           <StyledSearchWrapper>

@@ -23,7 +23,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { SearchGroup, TypeFilter } from "../searchHelpers";
 
 const StyledSection = styled("section", {
@@ -115,7 +114,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
 
   return (
     <StyledSection key={`searchresult-${group.type}`}>
-      <HeaderWrapper id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+      <HeaderWrapper>
         <Heading textStyle="title.large" id={headingId} asChild consumeCss>
           <h2>{group.type ? t(`contentTypes.${group.type}`) : t("searchPage.resultType.allContentTypes")}</h2>
         </Heading>
