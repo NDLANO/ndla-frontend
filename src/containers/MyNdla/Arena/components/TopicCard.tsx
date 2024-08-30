@@ -6,12 +6,12 @@
  *
  */
 import { useTranslation } from "react-i18next";
-import { LockFill } from "@ndla/icons/common";
+import { ChatHeartFill, ChatHeartLine, LockFill } from "@ndla/icons/common";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../../routeHelpers";
-import { formatDateTime } from "../../../../util/formatDate";
+import formatDate from "../../../../util/formatDate";
 
 interface Props {
   id: number;
@@ -20,26 +20,40 @@ interface Props {
   postCount: number;
   voteCount: number;
   locked?: boolean;
+  category?: string;
 }
 const StyledSafelink = styled(SafeLink, {
   base: {
     alignItems: "center",
-    border: "1px solid",
+    borderBottom: "1px solid",
     borderColor: "stroke.default",
-    borderRadius: "xsmall",
     display: "flex",
     flexDirection: "row",
     gap: "medium",
     justifyContent: "space-between",
-    paddingBlock: "medium",
-    paddingInlineStart: "xxlarge",
-    paddingInlineEnd: "large",
+    padding: "small",
+
+    "& [data-hover-icon]": {
+      display: "none",
+    },
 
     _hover: {
       backgroundColor: "surface.hover",
       "& [data-title]": {
         textDecoration: "none",
       },
+      "& [data-normal-icon]": {
+        display: "none",
+      },
+      "& [data-hover-icon]": {
+        display: "block",
+      },
+    },
+
+    tabletWideDown: {
+      alignItems: "flex-start",
+      flexDirection: "column",
+      gap: "3xsmall",
     },
   },
 });
@@ -57,6 +71,11 @@ const StyledCountContainer = styled("div", {
     display: "flex",
     flexDirection: "row",
     gap: "small",
+    justifyContent: "flex-end",
+    minWidth: "surface.4xsmall",
+    tabletWideDown: {
+      marginInlineStart: "xlarge",
+    },
   },
 });
 
@@ -71,7 +90,10 @@ const CountContainer = styled("div", {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
+    minWidth: "3xlarge",
+    tabletWideDown: {
+      minWidth: "xxlarge",
+    },
   },
 });
 
@@ -79,20 +101,33 @@ const TitleContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
   },
 });
 
-const TopicCard = ({ id, title, locked, timestamp, postCount, voteCount }: Props) => {
+const TitleWrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: "small",
+  },
+});
+
+const TopicCard = ({ id, title, locked, timestamp, postCount, voteCount, category }: Props) => {
   const { t, i18n } = useTranslation();
   return (
     <StyledSafelink to={routes.myNdla.arenaTopic(id)}>
-      <TitleContainer>
-        <StyledHeader data-title="" textStyle="title.small" color="text.strong">
-          {title}
-        </StyledHeader>
-        <Text textStyle="label.small">{timestamp && formatDateTime(timestamp, i18n.language)}</Text>
-      </TitleContainer>
+      <TitleWrapper>
+        <ChatHeartLine data-normal-icon="" />
+        <ChatHeartFill data-hover-icon="" />
+        <TitleContainer>
+          <StyledHeader data-title="">{title}</StyledHeader>
+          <Text textStyle="label.small">
+            {category && `${category} | `}
+            {timestamp && formatDate(timestamp, i18n.language)}
+          </Text>
+        </TitleContainer>
+      </TitleWrapper>
       <StyledCountContainer>
         {locked ? (
           <StyledLockedIcon />
@@ -106,12 +141,14 @@ const TopicCard = ({ id, title, locked, timestamp, postCount, voteCount }: Props
                 {t("myNdla.arena.topic.responses")}
               </Text>
             </CountContainer>
-            <CountContainer aria-label={`${voteCount} ${t("myNdla.arena.topic.responses")}`}>
+            <CountContainer
+              aria-label={`${voteCount} ${t(`myNdla.arena.topic.vote${voteCount === 1 ? "Singular" : "Plural"}`)}`}
+            >
               <Text textStyle="body.medium" aria-hidden color="text.strong">
                 {voteCount}
               </Text>
               <Text aria-hidden textStyle="label.small">
-                {t("myNdla.arena.topic.responses")}
+                {t(`myNdla.arena.topic.vote${voteCount === 1 ? "Singular" : "Plural"}`)}
               </Text>
             </CountContainer>
           </>

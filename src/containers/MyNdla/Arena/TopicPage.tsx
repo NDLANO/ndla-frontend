@@ -37,7 +37,6 @@ const ListWrapper = styled("ul", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
     margin: "0",
     padding: "0",
   },
@@ -175,6 +174,7 @@ const TopicPage = () => {
         {arenaCategory?.topics?.map((topic) => (
           <StyledCardContainer key={`topicContainer-${topic.id}`}>
             <TopicCard
+              category={arenaCategory.title}
               key={`topic-${topic.id}`}
               id={topic.id}
               title={topic.title}
