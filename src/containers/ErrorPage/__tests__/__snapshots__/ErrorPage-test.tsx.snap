@@ -490,26 +490,30 @@ exports[`ErrorPage renderers correctly 1`] = `
                         </svg>
                       </a>
                     </li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none w_100%"
-                      href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
+                    <li
+                      class="w_100%"
                     >
-                      Meld deg på vårt nyhetsbrev 
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
+                      <a
+                        class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                        href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
                       >
-                        <path
-                          d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m17 4.24-7.93 7.1L4 7.22V19h16zM4.51 5l7.55 6.66L19.5 5z"
-                        />
-                      </svg>
-                    </a>
+                        Meld deg på vårt nyhetsbrev 
+                        <svg
+                          aria-hidden="true"
+                          class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                          data-icon=""
+                          data-license="Apache License 2.0"
+                          data-source="RemixIcon"
+                          fill="currentColor"
+                          preserveAspectRatio="xMidYMid meet"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m17 4.24-7.93 7.1L4 7.22V19h16zM4.51 5l7.55 6.66L19.5 5z"
+                          />
+                        </svg>
+                      </a>
+                    </li>
                   </ul>
                 </nav>
               </div>
