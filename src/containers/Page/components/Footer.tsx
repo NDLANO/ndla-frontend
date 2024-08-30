@@ -172,15 +172,11 @@ const FooterSocialMedia = () => {
       <nav aria-labelledby={id}>
         <SocialMediaLinkList>
           {links.map((link) => (
-            <SafeLinkIconButton
-              variant="clearSubtle"
-              to={link.to}
-              title={link.text}
-              aria-label={link.text}
-              key={link.to}
-            >
-              {link.icon}
-            </SafeLinkIconButton>
+            <li key={link.to}>
+              <SafeLinkIconButton variant="clearSubtle" to={link.to} title={link.text} aria-label={link.text}>
+                {link.icon}
+              </SafeLinkIconButton>
+            </li>
           ))}
           <StyledSafeLink
             css={{ width: "100%" }}
