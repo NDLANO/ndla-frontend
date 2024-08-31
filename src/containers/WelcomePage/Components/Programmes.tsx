@@ -150,7 +150,6 @@ interface Props {
 
 const Description = styled(Text, { base: { fontWeight: "normal" } });
 
-// TODO: Needs to be updated according to new design
 const Programmes = ({ programmes }: Props) => {
   const { t } = useTranslation();
   const accordionHeader = useId();
