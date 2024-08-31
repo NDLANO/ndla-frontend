@@ -24,7 +24,7 @@ const TopicContent = styled("div", {
       gridTemplateColumns: "auto 360px",
     },
     "& figure": {
-      "& img": {
+      "& img, iframe": {
         aspectRatio: "4/3",
         objectFit: "cover",
       },
