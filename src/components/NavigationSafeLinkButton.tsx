@@ -19,14 +19,14 @@ const navigationSafeLinkButtonRecipe = cva({
   variants: {
     variant: {
       primary: {
-        _selected: {
+        "&[aria-current='true'], &[aria-current='page']": {
           background: "surface.action.selected",
           color: "text.onAction",
         },
       },
       secondary: {
         background: "surface.actionSubtle",
-        _selected: {
+        "&[aria-current='true'], &[aria-current='page']": {
           background: "surface.actionSubtle.active",
           color: "text.strong",
         },

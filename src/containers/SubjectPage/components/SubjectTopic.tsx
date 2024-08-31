@@ -36,6 +36,8 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
 
+const PAGE = "page" as const;
+
 type Props = {
   topicId: string;
   subjectId: string;
@@ -112,7 +114,10 @@ const SubjectTopic = ({
     return {
       ...subtopic,
       label: subtopic.name,
-      selected: subtopic.id === subTopicId,
+      current:
+        subtopic.id === subTopicId && subtopic.id === topicList[topicList.length - 1]
+          ? PAGE
+          : subtopic.id === subTopicId,
       url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };

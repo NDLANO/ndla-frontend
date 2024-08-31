@@ -38,7 +38,7 @@ interface ItemProps {
   url?: string;
   label: string;
   id?: string;
-  selected?: boolean;
+  current?: "page" | boolean;
   isAdditionalResource?: boolean;
   isRestrictedResource?: boolean;
 }
@@ -61,7 +61,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
       <StyledList data-testid="nav-box-list">
         {items?.map((item) => (
           <li key={item.label} data-testid="nav-box-item">
-            <NavigationSafeLinkButton to={item.url ?? ""} aria-selected={item.selected} variant={variant}>
+            <NavigationSafeLinkButton to={item.url ?? ""} aria-current={item.current} variant={variant}>
               {item.isAdditionalResource && (
                 <Additional
                   aria-label={t("resource.additionalTooltip")}

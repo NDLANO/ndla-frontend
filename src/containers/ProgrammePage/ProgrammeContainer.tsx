@@ -170,7 +170,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
                     <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.name.toLowerCase())}
                       variant="secondary"
-                      aria-selected={item.name.toLowerCase() === selectedGrade}
+                      aria-current={item.name.toLowerCase() === selectedGrade ? "page" : undefined}
                     >
                       {item.name}
                     </StyledNavigationSafeLinkButton>

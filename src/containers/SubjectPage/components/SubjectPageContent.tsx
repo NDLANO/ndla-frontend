@@ -21,12 +21,14 @@ interface Props {
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
 }
 
+const PAGE = "page" as const;
+
 const SubjectPageContent = ({ subject, topicIds, setBreadCrumb }: Props) => {
   const mainTopics = subject?.topics?.map((topic) => {
     return {
       ...topic,
       label: topic?.name,
-      selected: topic?.id === topicIds[0],
+      current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
       url: toTopic(subject.id, topic?.id),
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
