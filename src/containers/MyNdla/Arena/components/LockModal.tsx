@@ -31,7 +31,7 @@ const StyledButtonRow = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-end",
-    gap: "3small",
+    gap: "3xsmall",
   },
 });
 
