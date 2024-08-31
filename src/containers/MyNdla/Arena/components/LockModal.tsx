@@ -7,9 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Text } from "@ndla/typography";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
 import { useUpdateTopicV2 } from "../../arenaMutations";
@@ -56,7 +63,7 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <Text>{description}</Text>
+        <Text textStyle="body.large">{description}</Text>
         <StyledButtonRow>
           <DialogCloseTrigger asChild>
             <Button variant="secondary">{t("cancel")}</Button>
