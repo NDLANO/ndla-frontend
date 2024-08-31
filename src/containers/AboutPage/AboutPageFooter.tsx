@@ -92,8 +92,11 @@ const AboutPageFooter = ({ frontpage }: Props) => {
                     to={toAbout(m.article.slug)}
                     variant={index === 0 ? "primary" : "secondary"}
                     data-variant={index === 0 ? "primary" : "secondary"}
-                    aria-selected={crumb.some((c) => c.article.slug === m.article.slug)}
-                    aria-current={crumb[crumb.length - 1]?.article.slug === m.article.slug ? "page" : undefined}
+                    aria-current={
+                      crumb[crumb.length - 1]?.article.slug === m.article.slug
+                        ? "page"
+                        : crumb.some((c) => c.article.slug === m.article.slug)
+                    }
                   >
                     {m.article.title}
                   </NavigationSafeLinkButton>
