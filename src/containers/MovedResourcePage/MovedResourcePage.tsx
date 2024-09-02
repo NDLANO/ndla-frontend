@@ -8,10 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Text } from "@ndla/primitives";
+import { Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
@@ -20,13 +19,11 @@ import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 
-const Wrapper = styled("div", {
+const StyledPageContent = styled(PageContent, {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
     gap: "xsmall",
-    paddingBlock: "medium",
+    paddingBlockStart: "xxlarge",
+    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -77,28 +74,24 @@ const MovedResourcePage = ({ resource }: Props) => {
   const result = convertResourceToResult(resource);
 
   return (
-    <>
+    <StyledPageContent>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
-      <OneColumn>
-        <Wrapper>
-          <Heading>
-            {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
-          </Heading>
-          {result ? (
-            <MovedNodeCard
-              title={result.title}
-              contentType={result.contentType}
-              url={result.url}
-              ingress={result.ingress}
-              metaImage={result.metaImage}
-              subjects={result.subjects}
-            />
-          ) : (
-            <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
-          )}
-        </Wrapper>
-      </OneColumn>
-    </>
+      <Heading>
+        {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
+      </Heading>
+      {result ? (
+        <MovedNodeCard
+          title={result.title}
+          contentType={result.contentType}
+          url={result.url}
+          ingress={result.ingress}
+          metaImage={result.metaImage}
+          subjects={result.subjects}
+        />
+      ) : (
+        <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+      )}
+    </StyledPageContent>
   );
 };
 

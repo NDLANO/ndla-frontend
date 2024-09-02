@@ -6,33 +6,37 @@
  *
  */
 
-import { Skeleton } from "@ndla/primitives";
+import { forwardRef } from "react";
+import { HTMLArkProps } from "@ark-ui/react";
+import { PageContent, PageContentVariantProps, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
+import { JsxStyleProps } from "@ndla/styled-system/types";
 
-const Wrapper = styled("div", {
+const StyledPageContent = styled(PageContent, {
   base: {
-    padding: "100px",
     minHeight: "100vh",
+    paddingBlockStart: "4xlarge",
+    paddingBlockEnd: "5xlarge",
   },
 });
 
-export const ContentPlaceholder = () => {
+export const ContentPlaceholder = forwardRef<
+  HTMLDivElement,
+  HTMLArkProps<"div"> & JsxStyleProps & PageContentVariantProps
+>((props, ref) => {
   return (
-    <OneColumn>
-      <Wrapper>
-        <Skeleton css={{ width: "15%", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "55%", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "xxlarge" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "surface.small", marginBottom: "large" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-        <Skeleton css={{ width: "55%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-      </Wrapper>
-    </OneColumn>
+    <StyledPageContent {...props} ref={ref}>
+      <Skeleton css={{ width: "15%", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "55%", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "xxlarge" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "surface.small", marginBottom: "large" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+      <Skeleton css={{ width: "55%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
+    </StyledPageContent>
   );
-};
+});

@@ -14,12 +14,10 @@ import { TreeStructure } from "@ndla/ui";
 import NewFolder from "./NewFolder";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
-// TODO: Refactor this once TreeStructure is updated
 const ComboboxContainer = styled("div", {
   base: {
     display: "flex",
-    maxHeight: "320px",
-    overflow: "hidden",
+    maxHeight: "surface.xsmall",
   },
 });
 

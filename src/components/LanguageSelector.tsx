@@ -15,6 +15,7 @@ import {
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
+  SelectLabel,
   SelectPositioner,
   SelectRoot,
   SelectRootProps,
@@ -34,6 +35,7 @@ export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
   const { t, i18n } = useTranslation();
   return (
     <SelectRoot {...props} value={[i18n.language]} itemToString={(item) => t(`languages.${item}`)}>
+      <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>
       <LanguageSelectTrigger asChild>
         <Button variant="tertiary">
           {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />

@@ -13,10 +13,10 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Heading } from "@ndla/primitives";
+import { Heading, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, OneColumn, constants } from "@ndla/ui";
+import { ErrorMessage, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
@@ -63,13 +63,11 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
-const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
-
-const StyledColumn = styled(OneColumn, {
+const StyledPageContent = styled(PageContent, {
   base: {
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
+    paddingBlockStart: "xxlarge",
+    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -156,9 +154,9 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <StyledMain>
-      <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
-      <StyledColumn wide>
+    <StyledPageContent asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("subjectsPage.allSubjects")}
@@ -172,8 +170,8 @@ const AllSubjectsPage = () => {
             <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
           ))}
         </StyledList>
-      </StyledColumn>
-    </StyledMain>
+      </main>
+    </StyledPageContent>
   );
 };
 

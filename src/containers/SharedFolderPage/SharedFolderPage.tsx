@@ -13,9 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { FileCopyLine } from "@ndla/icons/action";
 import { PresentationLine } from "@ndla/icons/common";
-import { Button, Text } from "@ndla/primitives";
+import { Button, PageContent, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import BlockResource from "../../components/MyNdla/BlockResource";
@@ -74,15 +73,13 @@ const FolderDescription = styled(Text, {
   },
 });
 
-const Wrapper = styled(VStack, {
+const StyledPageContent = styled(PageContent, {
   base: {
-    alignItems: "start",
+    gap: "xsmall",
     paddingBlockStart: "3xlarge",
-    paddingBlockEnd: "xlarge",
-    width: "100%",
+    paddingBlockEnd: "5xlarge",
     tabletDown: {
       paddingBlockStart: "medium",
-      paddingBlockEnd: "small",
     },
   },
 });
@@ -162,78 +159,76 @@ const SharedFolderPage = () => {
   }
 
   return (
-    <main>
-      <OneColumn>
-        <Wrapper gap="xsmall">
-          <Helmet title={folder.name} />
-          <SocialMediaMetadata
-            type="website"
-            title={folder.name}
-            imageUrl={metaWithMetaImage?.metaImage?.url}
-            description={t("myNdla.sharedFolder.description.info")}
-          >
-            <meta name="robots" content="noindex, nofollow" />
-          </SocialMediaMetadata>
-          <InformationWrapper gap="large">
-            <SharedFolderInformationWrapper>
-              <PresentationLine size="medium" />
-              <Text textStyle="label.large">{warningText}</Text>
-            </SharedFolderInformationWrapper>
-            <HStack gap="small">
-              <CopyFolderModal folder={folder}>
-                <Button variant="tertiary">
-                  <FileCopyLine />
-                  {t("myNdla.folder.copy")}
-                </Button>
-              </CopyFolderModal>
-              {!folderLinkIsSaved ? <SaveLink folder={folder} /> : null}
-            </HStack>
-          </InformationWrapper>
-          <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
-          <FolderDescription textStyle="label.large">
-            {folder.description ?? t("myNdla.folder.defaultPageDescription")}
-          </FolderDescription>
-          <OptionsWrapper>
-            <ListViewOptions type={viewType} onTypeChange={setViewType} />
-          </OptionsWrapper>
-          {!!folder.subfolders.length && (
-            <BlockWrapper data-no-padding={true}>
-              {folder.subfolders.map((subFolder) =>
-                containsFolder(subFolder) ? (
-                  <li key={`folder-${subFolder.id}`}>
-                    <Folder
-                      folder={subFolder}
-                      link={routes.folder(subFolder.id)}
-                      foldersCount={folderCount?.[subFolder.id]}
-                    />
-                  </li>
-                ) : null,
-              )}
-            </BlockWrapper>
-          )}
-          <BlockWrapper data-type={viewType} data-no-padding={true}>
-            {folder.resources.map((resource) => {
-              const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-              return resourceMeta ? (
-                <li key={resource.id}>
-                  <Resource
-                    id={resource.id}
-                    resourceImage={{
-                      src: resourceMeta?.metaImage?.url ?? "",
-                      alt: "",
-                    }}
-                    link={getResourceMetaPath(resource, resourceMeta)}
-                    resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
-                    title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                    description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+    <StyledPageContent asChild consumeCss>
+      <main>
+        <Helmet title={folder.name} />
+        <SocialMediaMetadata
+          type="website"
+          title={folder.name}
+          imageUrl={metaWithMetaImage?.metaImage?.url}
+          description={t("myNdla.sharedFolder.description.info")}
+        >
+          <meta name="robots" content="noindex, nofollow" />
+        </SocialMediaMetadata>
+        <InformationWrapper gap="large">
+          <SharedFolderInformationWrapper>
+            <PresentationLine size="medium" />
+            <Text textStyle="label.large">{warningText}</Text>
+          </SharedFolderInformationWrapper>
+          <HStack gap="small">
+            <CopyFolderModal folder={folder}>
+              <Button variant="tertiary">
+                <FileCopyLine />
+                {t("myNdla.folder.copy")}
+              </Button>
+            </CopyFolderModal>
+            {!folderLinkIsSaved ? <SaveLink folder={folder} /> : null}
+          </HStack>
+        </InformationWrapper>
+        <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
+        <FolderDescription textStyle="label.large">
+          {folder.description ?? t("myNdla.folder.defaultPageDescription")}
+        </FolderDescription>
+        <OptionsWrapper>
+          <ListViewOptions type={viewType} onTypeChange={setViewType} />
+        </OptionsWrapper>
+        {!!folder.subfolders.length && (
+          <BlockWrapper data-no-padding={true}>
+            {folder.subfolders.map((subFolder) =>
+              containsFolder(subFolder) ? (
+                <li key={`folder-${subFolder.id}`}>
+                  <Folder
+                    folder={subFolder}
+                    link={routes.folder(subFolder.id)}
+                    foldersCount={folderCount?.[subFolder.id]}
                   />
                 </li>
-              ) : null;
-            })}
+              ) : null,
+            )}
           </BlockWrapper>
-        </Wrapper>
-      </OneColumn>
-    </main>
+        )}
+        <BlockWrapper data-type={viewType} data-no-padding={true}>
+          {folder.resources.map((resource) => {
+            const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+            return resourceMeta ? (
+              <li key={resource.id}>
+                <Resource
+                  id={resource.id}
+                  resourceImage={{
+                    src: resourceMeta?.metaImage?.url ?? "",
+                    alt: "",
+                  }}
+                  link={getResourceMetaPath(resource, resourceMeta)}
+                  resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
+                  title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+                  description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+                />
+              </li>
+            ) : null;
+          })}
+        </BlockWrapper>
+      </main>
+    </StyledPageContent>
   );
 };
 
