@@ -24,6 +24,7 @@ import {
   ArticleContent,
   ArticleFooter,
   ArticleByline,
+  licenseAttributes,
 } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
@@ -188,6 +189,8 @@ const ArticlePage = ({
       ? article.copyright.creators
       : article.copyright?.processors;
 
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, window.location.href);
+
   return (
     <main>
       <Helmet>
@@ -223,7 +226,7 @@ const ArticlePage = ({
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
-            <ArticleWrapper>
+            <ArticleWrapper {...licenseProps}>
               <ArticleTitle
                 id={skipToContentId ?? article.id.toString()}
                 contentType={contentType}
