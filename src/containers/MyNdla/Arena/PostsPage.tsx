@@ -12,7 +12,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ArenaFormValues } from "./components/ArenaForm";
+import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
 import PostList from "./components/PostList";
 import {
@@ -55,6 +55,7 @@ const PostsPage = () => {
   const navigate = useNavigate();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const [replyingTo, setReplyingTo] = useState<number | undefined>(undefined);
+  const [isReplying, setIsReplying] = useState(false);
   const { arenaTopic, loading, error } = useArenaTopic(topicId, POST_PAGE, POST_PAGE_SIZE);
 
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
@@ -157,13 +158,32 @@ const PostsPage = () => {
             setReplyingTo={setReplyingTo}
           />
         </div>
-        <StyledReplyButton
-          aria-expanded={!!replyingTo}
-          onClick={() => setReplyingTo(arenaTopic?.id)}
-          hidden={!!replyingTo || !!arenaTopic?.isLocked}
-        >
-          {t("myNdla.arena.new.post")}
-        </StyledReplyButton>
+        <>
+          <StyledReplyButton
+            aria-expanded={!!isReplying}
+            onClick={() => {
+              setReplyingTo(undefined);
+              setIsReplying(true);
+            }}
+            hidden={!!arenaTopic?.isLocked || isReplying}
+          >
+            {t("myNdla.arena.new.post")}
+          </StyledReplyButton>
+          {isReplying && (
+            <ArenaFormWrapper>
+              <ArenaForm
+                type="post"
+                onAbort={() => {
+                  setIsReplying(false);
+                }}
+                onSave={async (values) => {
+                  await createReply(values);
+                  setIsReplying(false);
+                }}
+              />
+            </ArenaFormWrapper>
+          )}
+        </>
       </PageWrapper>
     </MyNdlaPageWrapper>
   );

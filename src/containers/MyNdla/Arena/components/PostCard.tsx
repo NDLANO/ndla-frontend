@@ -130,7 +130,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
           <Reply />
         </IconButton>
       ) : null,
-    [setIsReplying, isRoot, t, post.owner?.username],
+    [isRoot, post.owner?.username, t, setIsReplying],
   );
 
   const options = useMemo(

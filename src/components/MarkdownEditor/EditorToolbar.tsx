@@ -206,6 +206,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
     <ButtonRow>
       <IconButton
         // TODO: Fix handling of active according to design
+        size="small"
         variant={isBold ? "primary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
@@ -215,6 +216,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
+        size="small"
         variant={isItalic ? "primary" : "tertiary"}
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
@@ -224,6 +226,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
+        size="small"
         variant={isUnorderedList ? "primary" : "tertiary"}
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
@@ -233,6 +236,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
+        size="small"
         variant={isNumberedList ? "primary" : "tertiary"}
         onClick={formatNumberedList}
         aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
@@ -242,6 +246,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       </IconButton>
       <IconButton
         // TODO: Fix handling of active according to design
+        size="small"
         variant={isLink ? "primary" : "tertiary"}
         onClick={insertLink}
         aria-label={linkLabel}

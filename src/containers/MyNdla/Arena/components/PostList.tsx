@@ -28,7 +28,7 @@ const StyledOl = styled("ol", {
 const StyledLi = styled("li", {
   base: {
     position: "relative",
-    paddingBlockStart: "2xsmall",
+    paddingBlockStart: "xxsmall",
     paddingInlineStart: "xsmall",
     borderInlineStart: "1px solid",
     borderColor: "stroke.subtle",
@@ -40,6 +40,9 @@ const StyledLi = styled("li", {
         borderInlineStart: "unset",
       },
     },
+    "&[data-padding='true']": {
+      paddingInlineStart: "none",
+    },
     _after: {
       borderInlineStart: "1px solid",
       borderBlockEnd: "1px solid",
@@ -48,9 +51,9 @@ const StyledLi = styled("li", {
       position: "absolute",
       content: "''",
       width: "xsmall",
-      height: "3xlarge",
+      height: "xxlarge",
       left: "0px",
-      top: "-medium",
+      top: "0px",
     },
     tablet: {
       paddingBlockStart: "small",
@@ -58,7 +61,6 @@ const StyledLi = styled("li", {
       _after: {
         width: "large",
         height: "3xlarge",
-        top: "-xsmall",
       },
     },
     desktop: {
@@ -67,17 +69,34 @@ const StyledLi = styled("li", {
       _after: {
         width: "large",
         height: "3xlarge",
-        top: "-xsmall",
       },
+    },
+  },
+});
+
+const EditorWrapper = styled("div", {
+  base: {
+    paddingBlockStart: "medium",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.subtle",
+
+    marginInlineStart: "xsmall",
+    paddingInlineStart: "xsmall",
+    tablet: {
+      paddingInlineStart: "medium",
+      marginInlineStart: "small",
+    },
+    desktop: {
+      paddingInlineStart: "large",
+      marginInlineStart: "medium",
     },
   },
 });
 
 const StyledArenaFormWrapper = styled(ArenaFormWrapper, {
   base: {
-    marginBlockStart: "medium",
     marginInlineStart: "3xlarge",
-    tablet: {
+    mobile: {
       marginInlineStart: "unset",
     },
   },
@@ -122,6 +141,24 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
 
   return (
     <>
+      {isReplyingTo === replyToId && (
+        <EditorWrapper>
+          <StyledArenaFormWrapper ref={formRef}>
+            <ArenaForm
+              type="post"
+              onAbort={() => {
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+              onSave={async (values) => {
+                await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+            />
+          </StyledArenaFormWrapper>
+        </EditorWrapper>
+      )}
       <StyledOl>
         {posts.map((post) => {
           const hasReplies = "replies" in post;
@@ -153,22 +190,6 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
           );
         })}
       </StyledOl>
-      {isReplyingTo === replyToId && (
-        <StyledArenaFormWrapper ref={formRef}>
-          <ArenaForm
-            type="post"
-            onAbort={() => {
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-            onSave={async (values) => {
-              await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-          />
-        </StyledArenaFormWrapper>
-      )}
     </>
   );
 };
