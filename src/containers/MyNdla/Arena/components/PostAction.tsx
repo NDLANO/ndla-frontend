@@ -6,15 +6,19 @@
  *
  */
 
-import { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
 import { SpamLine, LockLine } from "@ndla/icons/common";
+import { ArenaFormValues } from "./ArenaForm";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
+import { ReplyModalContent } from "./ReplyModal";
+import { useArenaUpdatePost, useArenaUpdateTopic } from "./temporaryNodebbHooks";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
+import { useUserAgent } from "../../../../UserAgentContext";
 import DeleteModalContent from "../../components/DeleteModalContent";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 
@@ -42,19 +46,63 @@ interface PostActionProps {
 export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostActionProps) => {
   const { id: postId, owner } = post;
   const { t } = useTranslation();
+  const userAgent = useUserAgent();
   const { user } = useContext(AuthContext);
+  const { updateTopic } = useArenaUpdateTopic(post.topicId);
+  const { updatePost } = useArenaUpdatePost(postId);
 
   const isOwnPost = compareUsernames(user?.username, owner?.username);
   const disableModification = topic?.isLocked && !user?.isModerator;
 
-  const update: MenuItemProps = {
-    type: "action",
-    value: "editPost",
-    icon: <PencilLine />,
-    text: t("myNdla.arena.posts.dropdownMenu.edit"),
-    disabled: disableModification,
-    onClick: () => setIsEditing(true),
-  };
+  const saveTopic = useCallback(
+    async (value: Partial<ArenaFormValues>) => {
+      await updateTopic({
+        variables: {
+          topicId: post.topicId,
+          title: value.title ?? "",
+          content: value.content ?? "",
+        },
+      });
+    },
+    [updateTopic, post.topicId],
+  );
+
+  const savePost = useCallback(
+    async (value: Partial<ArenaFormValues>) => {
+      await updatePost({
+        variables: {
+          postId: postId,
+          content: value.content ?? "",
+        },
+      });
+    },
+    [postId, updatePost],
+  );
+
+  const update = useMemo(() => {
+    const updateBase: Omit<MenuItemProps, "type"> = {
+      value: "editPost",
+      icon: <PencilLine />,
+      text: t("myNdla.arena.posts.dropdownMenu.edit"),
+      disabled: disableModification,
+    };
+
+    const updateMobile: MenuItemProps = {
+      ...updateBase,
+      type: "dialog",
+      modalContent: (close) => (
+        <ReplyModalContent type={type} onSave={type === "post" ? savePost : saveTopic} onAbort={close} />
+      ),
+    };
+
+    const updateDefault: MenuItemProps = {
+      ...updateBase,
+      type: "action",
+      onClick: () => setIsEditing(true),
+    };
+
+    return userAgent?.isMobile ? updateMobile : updateDefault;
+  }, [disableModification, savePost, saveTopic, setIsEditing, t, type, userAgent?.isMobile]);
 
   const deleteItem: MenuItemProps = {
     type: "dialog",

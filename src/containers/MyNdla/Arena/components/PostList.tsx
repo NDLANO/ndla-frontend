@@ -169,6 +169,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
               ) : (
                 <PostCard
                   post={post}
+                  topic={topic}
                   setFocusId={setFocusId}
                   nextPostId={calculateNextPostId(posts, post, topic) ?? topic?.id ?? 0}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}

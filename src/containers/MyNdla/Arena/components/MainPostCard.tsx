@@ -25,6 +25,7 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { PostCardWrapper, Content, PostHeader, ContentWrapper } from "./PostCard";
+import { ReplyModal } from "./ReplyModal";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -32,6 +33,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
 import { routes } from "../../../../routeHelpers";
+import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
@@ -57,9 +59,10 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
   const { id: postId, topicId, created, contentAsHTML } = post;
   const replyToRef = useRef<HTMLButtonElement | null>(null);
   const { t, i18n } = useTranslation();
+  const userAgent = useUserAgent();
   const { updateTopic } = useArenaUpdateTopic(topicId);
-  const toast = useToast();
   const { deleteTopic } = useArenaDeleteTopic(topic?.categoryId);
+  const toast = useToast();
   const navigate = useNavigate();
 
   const deleteTopicCallback = useCallback(
@@ -146,15 +149,23 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                 setIsEditing={setIsEditing}
                 onDelete={deleteTopicCallback}
               />
-              <Button
-                variant="primary"
-                size="small"
-                ref={replyToRef}
-                onClick={setReplyingTo}
-                disabled={isReplying || topic?.isLocked}
-              >
-                {t("myNdla.arena.new.post")}
-              </Button>
+              {userAgent?.isMobile ? (
+                <ReplyModal formType="post" topicId={topicId}>
+                  <Button variant="primary" size="small" ref={replyToRef} disabled={topic?.isLocked}>
+                    {t("myNdla.arena.new.post")}
+                  </Button>
+                </ReplyModal>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="small"
+                  ref={replyToRef}
+                  onClick={setReplyingTo}
+                  disabled={isReplying || topic?.isLocked}
+                >
+                  {t("myNdla.arena.new.post")}
+                </Button>
+              )}
             </HStack>
           </HStack>
         </>

@@ -15,6 +15,7 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
 import PostList from "./components/PostList";
+import { ReplyModal } from "./components/ReplyModal";
 import {
   useArenaTopic,
   useArenaCategory,
@@ -26,6 +27,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { routes } from "../../../routeHelpers";
+import { useUserAgent } from "../../../UserAgentContext";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -58,6 +60,7 @@ const PostsPage = () => {
   const [isReplying, setIsReplying] = useState(false);
   const { arenaTopic, loading, error } = useArenaTopic(topicId, POST_PAGE, POST_PAGE_SIZE);
 
+  const userAgent = useUserAgent();
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
@@ -158,7 +161,13 @@ const PostsPage = () => {
             setReplyingTo={setReplyingTo}
           />
         </div>
-        <>
+        {userAgent?.isMobile ? (
+          <ReplyModal formType="post" topicId={arenaTopic.id}>
+            <StyledReplyButton aria-expanded={!!isReplying} hidden={!!arenaTopic?.isLocked}>
+              {t("myNdla.arena.new.post")}
+            </StyledReplyButton>
+          </ReplyModal>
+        ) : (
           <StyledReplyButton
             aria-expanded={!!isReplying}
             onClick={() => {
@@ -169,21 +178,21 @@ const PostsPage = () => {
           >
             {t("myNdla.arena.new.post")}
           </StyledReplyButton>
-          {isReplying && (
-            <ArenaFormWrapper>
-              <ArenaForm
-                type="post"
-                onAbort={() => {
-                  setIsReplying(false);
-                }}
-                onSave={async (values) => {
-                  await createReply(values);
-                  setIsReplying(false);
-                }}
-              />
-            </ArenaFormWrapper>
-          )}
-        </>
+        )}
+        {isReplying && (
+          <ArenaFormWrapper>
+            <ArenaForm
+              type="post"
+              onAbort={() => {
+                setIsReplying(false);
+              }}
+              onSave={async (values) => {
+                await createReply(values);
+                setIsReplying(false);
+              }}
+            />
+          </ArenaFormWrapper>
+        )}
       </PageWrapper>
     </MyNdlaPageWrapper>
   );

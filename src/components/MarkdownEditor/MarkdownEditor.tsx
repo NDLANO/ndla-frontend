@@ -60,6 +60,7 @@ const EditableWrapper = styled.div`
 `;
 
 const StyledEditorContainer = styled.div`
+  position: relative;
   display: flex;
   width: 100%;
   flex-direction: column;
