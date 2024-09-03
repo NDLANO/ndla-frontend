@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import {
   Heading,
-  PageContent,
   RadioGroupItem,
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
@@ -29,6 +28,7 @@ import FilmMovieList from "./FilmMovieList";
 import FilmSlideshow from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -44,9 +44,9 @@ const Wrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockEnd: "5xlarge",
+    paddingBlockStart: "0px",
     gap: "xxlarge",
   },
 });
@@ -109,7 +109,7 @@ const FilmFrontpage = () => {
         <title>{getDocumentTitle(t, subject)}</title>
       </Helmet>
       <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
-      <StyledPageContent asChild consumeCss>
+      <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />
           <Wrapper>
@@ -155,7 +155,7 @@ const FilmFrontpage = () => {
           />
           {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
         </main>
-      </StyledPageContent>
+      </StyledPageContainer>
     </>
   );
 };

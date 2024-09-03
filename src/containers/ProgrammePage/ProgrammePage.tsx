@@ -51,7 +51,7 @@ const ProgrammePage = () => {
   });
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder padding="large" />;
   }
 
   if (!data) {

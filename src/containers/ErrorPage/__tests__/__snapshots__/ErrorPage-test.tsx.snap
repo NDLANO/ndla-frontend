@@ -5,55 +5,57 @@ exports[`ErrorPage renderers correctly 1`] = `
   <div
     class="min-h_100vh d_flex flex-d_column tablet:bg-c_#f8f8f8"
   >
-    <div
-      class="bg_surface.default bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
-      data-fixed="true"
-      id="masthead"
-    >
+    <header>
       <div
-        class="d_flex jc_space-between ai_center py_small px_medium gap_xsmall ta_center tabletDown:p_small"
+        class="bg_surface.default bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
+        data-fixed="true"
+        id="masthead"
       >
         <div
-          class="d_flex w_100% jc_center"
+          class="d_flex jc_space-between ai_center py_small px_medium gap_xsmall ta_center tabletDown:p_small"
         >
-          <a
-            aria-label="Nasjonal digital læringsarena"
-            class=""
-            data-unstyled=""
-            href="/"
+          <div
+            class="d_flex w_100% jc_center"
           >
-            <svg
-              class="c_primary"
-              height="32"
-              viewBox="0 0 1104 280"
-              width="126"
-              xmlns="http://www.w3.org/2000/svg"
+            <a
+              aria-label="Nasjonal digital læringsarena"
+              class=""
+              data-unstyled=""
+              href="/"
             >
-              <g
-                fill="currentColor"
+              <svg
+                class="c_primary"
+                height="32"
+                viewBox="0 0 1104 280"
+                width="126"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <rect
-                  height="280"
-                  width="52"
-                />
-                <polygon
-                  points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
-                />
-                <path
-                  d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
-                />
-                <polygon
-                  points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
-                />
-                <path
-                  d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
-                />
-              </g>
-            </svg>
-          </a>
+                <g
+                  fill="currentColor"
+                >
+                  <rect
+                    height="280"
+                    width="52"
+                  />
+                  <polygon
+                    points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
+                  />
+                  <path
+                    d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
+                  />
+                  <polygon
+                    points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
+                  />
+                  <path
+                    d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
+                  />
+                </g>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
     <div
       class="pbe_4xlarge"
     >

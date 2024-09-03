@@ -13,7 +13,7 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Heading, PageContent } from "@ndla/primitives";
+import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, constants } from "@ndla/ui";
@@ -23,6 +23,7 @@ import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -63,11 +64,9 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xxlarge",
-    paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -154,7 +153,7 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer asChild consumeCss>
       <main>
         <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
@@ -171,7 +170,7 @@ const AllSubjectsPage = () => {
           ))}
         </StyledList>
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 

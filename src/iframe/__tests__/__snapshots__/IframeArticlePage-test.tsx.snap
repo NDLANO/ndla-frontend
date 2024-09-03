@@ -380,7 +380,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
   <div
-    class="min-h_100vh d_flex flex-d_column"
+    class="min-h_calc(100vh_-_56px)"
   >
     <div
       class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"

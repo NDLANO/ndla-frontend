@@ -12,13 +12,14 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { Heading, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import SubjectPageContent from "./components/SubjectPageContent";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
@@ -47,12 +48,10 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xxlarge",
-    paddingBlockStart: "xxlarge",
     overflowX: "hidden",
-    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -138,15 +137,15 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
   return (
-    <main>
-      <Helmet>
-        {!topicIds.length && <title>{pageTitle}</title>}
-        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
-      </Helmet>
-      <StyledPageContent>
+    <StyledPageContainer asChild consumeCss>
+      <main>
+        <Helmet>
+          {!topicIds.length && <title>{pageTitle}</title>}
+          {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
+            customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+            <meta name="robots" content="noindex, nofollow" />
+          )}
+        </Helmet>
         {!topicIds.length && (
           <SocialMediaMetadata
             title={subject.name}
@@ -188,8 +187,8 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             </MessageBox>
           )}
         <SubjectPageContent subject={subject} topicIds={topicIds} setBreadCrumb={setTopicCrumbs} />
-      </StyledPageContent>
-    </main>
+      </main>
+    </StyledPageContainer>
   );
 };
 

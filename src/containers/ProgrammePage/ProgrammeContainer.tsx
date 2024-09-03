@@ -12,10 +12,11 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, Image, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -108,10 +109,8 @@ const MessageBoxWrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockStart: "4xlarge",
-    paddingBlockEnd: "5xlarge",
     gap: "xxlarge",
   },
 });
@@ -151,7 +150,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   );
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer padding="large" asChild consumeCss>
       <main>
         <Helmet>
           <title>{pageTitle}</title>
@@ -195,7 +194,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
           <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
         ))}
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 
