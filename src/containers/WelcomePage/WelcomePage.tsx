@@ -147,7 +147,7 @@ const WelcomePage = () => {
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
       <StyledMain>
-        <Hero absolute={false} variant="brand1">
+        <Hero absolute={false} variant="brand1Subtle">
           <StyledHeroBackground>
             <StyledPageContent data-testid="programme-list">
               <Programmes programmes={fpQuery.data?.programmes ?? []} />
