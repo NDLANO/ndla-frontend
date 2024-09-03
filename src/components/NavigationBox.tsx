@@ -54,7 +54,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
   return (
     <StyledWrapper aria-labelledby={headingId}>
       {heading && (
-        <Heading id={headingId} asChild consumeCss textStyle="label.large" fontWeight="bold">
+        <Heading id={headingId} asChild consumeCss textStyle="heading.small" fontWeight="bold">
           <h2>{heading}</h2>
         </Heading>
       )}

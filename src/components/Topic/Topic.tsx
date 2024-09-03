@@ -71,7 +71,7 @@ const Topic = forwardRef<HTMLDivElement, TopicProps>(
       <TopicContent ref={ref}>
         <TopicIntroductionWrapper>
           <HeadingWrapper>
-            <Heading textStyle="heading.small" id={id} tabIndex={-1}>
+            <Heading textStyle="heading.medium" id={id} tabIndex={-1}>
               {title}
             </Heading>
             {isAdditionalTopic && <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>}
