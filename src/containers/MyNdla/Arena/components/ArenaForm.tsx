@@ -41,7 +41,7 @@ export const ArenaFormWrapper = styled("div", {
     flexDirection: "column",
     gap: "medium",
     padding: "medium",
-    borderRadius: "small",
+    borderRadius: "xsmall",
     border: "1px solid",
     borderColor: "stroke.info",
   },
@@ -51,7 +51,7 @@ const StyledForm = styled("form", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "small",
+    gap: "medium",
   },
 });
 
@@ -212,7 +212,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         <InformationOutline />
         <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
       </StyledMessageBox>
-      <HStack gap="small" justify="flex-end">
+      <HStack gap="xsmall" justify="flex-end">
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </HStack>

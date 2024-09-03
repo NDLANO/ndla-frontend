@@ -34,8 +34,8 @@ const onError = (error: any) => {
 
 const EditableWrapper = styled("div", {
   base: {
-    borderBottomLeftRadius: "small",
-    borderBottomRightRadius: "small",
+    borderBottomLeftRadius: "xsmall",
+    borderBottomRightRadius: "xsmall",
   },
 });
 
@@ -44,7 +44,7 @@ const OuterEditorContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    borderRadius: "small",
+    borderRadius: "xsmall",
     border: "1px solid",
     borderColor: "stroke.subtle",
   },
@@ -65,8 +65,8 @@ const StyledContentEditable = styled(
       _focusVisible: {
         outlineStyle: "solid",
         outlineColor: "stroke.subtle",
-        borderBottomLeftRadius: "small",
-        borderBottomRightRadius: "small",
+        borderBottomLeftRadius: "xsmall",
+        borderBottomRightRadius: "xsmall",
       },
       "& > li": {
         display: "list-item",
