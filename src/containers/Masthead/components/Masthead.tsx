@@ -71,7 +71,7 @@ export const Masthead = ({ children, fixed, skipToMainContentId, messages, onClo
   const { t } = useTranslation();
 
   return (
-    <>
+    <header>
       {skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
       <StyledMasthead data-fixed={!!fixed} id="masthead">
         {messages?.map((message) => (
@@ -91,7 +91,7 @@ export const Masthead = ({ children, fixed, skipToMainContentId, messages, onClo
         ))}
         <MastheadContent>{children}</MastheadContent>
       </StyledMasthead>
-    </>
+    </header>
   );
 };
 

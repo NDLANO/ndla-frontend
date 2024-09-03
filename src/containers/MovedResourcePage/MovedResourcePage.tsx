@@ -8,24 +8,16 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, PageContent, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-
-const StyledPageContent = styled(PageContent, {
-  base: {
-    gap: "xsmall",
-    paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "5xlarge",
-  },
-});
 
 interface Props {
   resource: GQLMovedResourcePage_ResourceFragment;
@@ -74,7 +66,7 @@ const MovedResourcePage = ({ resource }: Props) => {
   const result = convertResourceToResult(resource);
 
   return (
-    <StyledPageContent>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
       <Heading>
         {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
@@ -91,7 +83,7 @@ const MovedResourcePage = ({ resource }: Props) => {
       ) : (
         <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
       )}
-    </StyledPageContent>
+    </PageContainer>
   );
 };
 

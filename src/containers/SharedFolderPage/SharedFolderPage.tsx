@@ -13,10 +13,11 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { FileCopyLine } from "@ndla/icons/action";
 import { PresentationLine } from "@ndla/icons/common";
-import { Button, PageContent, Text } from "@ndla/primitives";
+import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import BlockResource from "../../components/MyNdla/BlockResource";
 import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
@@ -73,14 +74,9 @@ const FolderDescription = styled(Text, {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xsmall",
-    paddingBlockStart: "3xlarge",
-    paddingBlockEnd: "5xlarge",
-    tabletDown: {
-      paddingBlockStart: "medium",
-    },
   },
 });
 
@@ -159,7 +155,7 @@ const SharedFolderPage = () => {
   }
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer asChild consumeCss>
       <main>
         <Helmet title={folder.name} />
         <SocialMediaMetadata
@@ -228,7 +224,7 @@ const SharedFolderPage = () => {
           })}
         </BlockWrapper>
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 
