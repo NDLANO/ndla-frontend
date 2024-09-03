@@ -277,6 +277,8 @@ const MastheadSearch = () => {
       size="xsmall"
       onOpenChange={setDialogState}
       initialFocusEl={() => inputRef.current}
+      lazyMount={false}
+      unmountOnExit={false}
     >
       <DialogTrigger asChild>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>

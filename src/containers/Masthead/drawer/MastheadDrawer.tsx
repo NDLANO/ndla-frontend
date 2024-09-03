@@ -213,6 +213,8 @@ const MastheadDrawer = ({ subject }: Props) => {
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
+      lazyMount={false}
+      unmountOnExit={false}
     >
       <DialogTrigger asChild>
         <DrawerButton
