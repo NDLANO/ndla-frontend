@@ -13,6 +13,8 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { BleedPageContent, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -35,6 +37,15 @@ import Resources from "../../Resources/Resources";
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
+
+// Handles cases where several topics have resources.
+const StyledBleedPageContent = styled(BleedPageContent, {
+  base: {
+    "&:not(:last-child)": {
+      paddingBlockStart: "4xlarge",
+    },
+  },
+});
 
 const PAGE = "page" as const;
 
@@ -156,7 +167,11 @@ const SubjectTopic = ({
       ) : subTopics?.length ? (
         <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
       ) : null}
-      {resources}
+      {!!resources && (
+        <StyledBleedPageContent>
+          <PageContent variant="article">{resources}</PageContent>
+        </StyledBleedPageContent>
+      )}
     </>
   );
 };

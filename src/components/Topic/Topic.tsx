@@ -17,11 +17,14 @@ const TopicContent = styled("div", {
     display: "grid",
     gridTemplateColumns: "1fr",
     gap: "medium",
-    paddingBlockStart: "medium",
+    paddingBlockStart: "4xlarge",
     paddingBlockEnd: "xsmall",
     justifyItems: "center",
     tabletWide: {
       gridTemplateColumns: "auto 360px",
+    },
+    _first: {
+      paddingBlockStart: "xxlarge",
     },
     "& figure": {
       "& img, iframe": {
