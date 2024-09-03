@@ -177,6 +177,9 @@ const messages = {
   aboutPage: {
     nav: "Informasjonsider",
   },
+  subjectPage: {
+    topicsTitle: "Emne i {{topic}}",
+  },
 };
 
 export default messages;

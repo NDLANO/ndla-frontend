@@ -155,7 +155,11 @@ const SubjectTopic = ({
       {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
         <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
       ) : subTopics?.length ? (
-        <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
+        <NavigationBox
+          variant="secondary"
+          heading={t("subjectPage.topicsTitle", { topic: topic.name })}
+          items={subTopics}
+        />
       ) : null}
       {!!resources && (
         <BleedPageContent data-resource-section="">
