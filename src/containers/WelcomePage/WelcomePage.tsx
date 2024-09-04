@@ -34,7 +34,7 @@ const StyledMain = styled("main", {
 
 const ContentWrapper = styled("div", {
   base: {
-    paddingBlockStart: "medium",
+    paddingBlockStart: "xxlarge",
   },
 });
 
