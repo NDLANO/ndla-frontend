@@ -9,11 +9,11 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, Facebook } from "@ndla/icons/common";
-import { Heading, NdlaLogoEn, NdlaLogoNb, Text } from "@ndla/primitives";
+import { Heading, NdlaLogoEn, NdlaLogoNb, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn, ZendeskButton } from "@ndla/ui";
+import { ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
 
 // TODO: Add new translations for the footer.
@@ -26,7 +26,7 @@ export const FooterBlock = styled("footer", {
   },
 });
 
-export const StyledOneColumn = styled(OneColumn, {
+const FooterWrapper = styled("div", {
   base: {
     position: "relative",
     display: "flex",
@@ -172,22 +172,17 @@ const FooterSocialMedia = () => {
       <nav aria-labelledby={id}>
         <SocialMediaLinkList>
           {links.map((link) => (
-            <SafeLinkIconButton
-              variant="clearSubtle"
-              to={link.to}
-              title={link.text}
-              aria-label={link.text}
-              key={link.to}
-            >
-              {link.icon}
-            </SafeLinkIconButton>
+            <li key={link.to}>
+              <SafeLinkIconButton variant="clearSubtle" to={link.to} title={link.text} aria-label={link.text}>
+                {link.icon}
+              </SafeLinkIconButton>
+            </li>
           ))}
-          <StyledSafeLink
-            css={{ width: "100%" }}
-            to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
-          >
-            {t("footer.socialMediaLinks.newsletter")} <MailLine />
-          </StyledSafeLink>
+          <styled.li css={{ width: "100%" }}>
+            <StyledSafeLink to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea">
+              {t("footer.socialMediaLinks.newsletter")} <MailLine />
+            </StyledSafeLink>
+          </styled.li>
         </SocialMediaLinkList>
       </nav>
     </StyledLinkBlock>
@@ -266,28 +261,30 @@ export const Footer = () => {
           {t("askNDLA")}
         </StyledZendesk>
       )}
-      <StyledOneColumn wide>
-        <Logo css={logoStyle} />
-        <ContentWrapper>
-          {/* TODO: Consider if this should be an actual heading */}
-          <StyledHeading asChild consumeCss textStyle="heading.small">
-            <span>{t("footer.vision")}</span>
-          </StyledHeading>
-          <FooterGrid>
-            <FooterLinkBlock links={commonLinks} label={t("footer.linksHeader")} />
-            <FooterLinkBlock links={privacyLinks} label={t("footer.aboutWebsite")} />
-            <div></div>
-            {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
-            <FooterSocialMedia />
-            <FooterTextWrapper>
-              <Text textStyle="body.large">{t("footer.info")}</Text>
-              <Text textStyle="body.large">
-                <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
-              </Text>
-            </FooterTextWrapper>
-          </FooterGrid>
-        </ContentWrapper>
-      </StyledOneColumn>
+      <PageContent>
+        <FooterWrapper>
+          <Logo css={logoStyle} />
+          <ContentWrapper>
+            {/* TODO: Consider if this should be an actual heading */}
+            <StyledHeading asChild consumeCss textStyle="heading.small">
+              <span>{t("footer.vision")}</span>
+            </StyledHeading>
+            <FooterGrid>
+              <FooterLinkBlock links={commonLinks} label={t("footer.linksHeader")} />
+              <FooterLinkBlock links={privacyLinks} label={t("footer.aboutWebsite")} />
+              <div></div>
+              {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
+              <FooterSocialMedia />
+              <FooterTextWrapper>
+                <Text textStyle="body.large">{t("footer.info")}</Text>
+                <Text textStyle="body.large">
+                  <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
+                </Text>
+              </FooterTextWrapper>
+            </FooterGrid>
+          </ContentWrapper>
+        </FooterWrapper>
+      </PageContent>
     </FooterBlock>
   );
 };

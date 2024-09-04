@@ -27,7 +27,6 @@ const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 const StyledListItemContent = styled(ListItemContent, {
   base: {
     flexDirection: "column",
-    placeSelf: "flex-start",
     alignItems: "center",
     justifyContent: "center",
     gap: "4xsmall",

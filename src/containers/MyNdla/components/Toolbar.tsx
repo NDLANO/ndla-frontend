@@ -7,60 +7,66 @@
  */
 
 import { ReactNode, useContext } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
 import { ViewType } from "../Folders/FoldersPage";
 
-const ToolbarContainer = styled.div`
-  display: none;
-  justify-content: center;
-  border-bottom: 1px solid ${colors.brand.lightest};
-  padding: ${spacing.small} ${spacing.large};
-  min-height: fit-content;
+const ToolbarContainer = styled("div", {
+  base: {
+    borderBottomColor: "stroke.subtle",
+    borderBottom: "1px solid",
+    display: "none",
+    justifyContent: "center",
+    minHeight: "fit-content",
+    paddingBlock: "xxsmall",
+    paddingInline: "xxlarge",
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: flex;
-  }
+    mobileWide: {
+      display: "flex",
+    },
 
-  &[data-visible="false"] {
-    display: none !important;
-  }
-`;
+    "&[data-visible='false']": {
+      display: "none !important",
+    },
+  },
+});
 
-const ButtonContainer = styled.ul`
-  list-style: none;
-  display: none;
-  flex-direction: row;
-  gap: ${spacing.xxsmall};
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
+const ButtonContainer = styled("ul", {
+  base: {
+    display: "none",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "4xsmall",
+    listStyle: "none",
+    margin: "0",
+    padding: "0",
 
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: flex;
-  }
-`;
+    desktop: {
+      display: "flex",
+    },
+  },
+});
 
-const DropdownWrapper = styled.div`
-  display: none;
+const DropdownWrapper = styled("div", {
+  base: {
+    display: "none",
+    mobileWideToDesktop: {
+      display: "unset",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
-    display: unset;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
-  align-items: center;
-
-  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
-`;
+const Wrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexGrow: "1",
+    justifyContent: "space-between",
+    maxWidth: "surface.4xlarge",
+  },
+});
 
 interface Props {
   buttons?: ReactNode;

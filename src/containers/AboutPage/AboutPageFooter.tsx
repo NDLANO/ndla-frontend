@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticlePadding, OneColumn } from "@ndla/ui";
 import { findBreadcrumb } from "./AboutPageContent";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { GQLAboutPageFooter_FrontpageMenuFragment } from "../../graphqlTypes";
@@ -47,16 +46,27 @@ const StyledListItem = styled("li", {
 const StyledOuterList = styled("ul", {
   base: {
     paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "4xlarge",
     display: "flex",
     flexDirection: "column",
     gap: "medium",
   },
 });
 
-const Wrapper = styled("div", {
+const StyledNav = styled("nav", {
   base: {
+    position: "relative",
     backgroundColor: "surface.brand.3.subtle",
+    zIndex: "base",
+    _after: {
+      content: '""',
+      position: "absolute",
+      top: "0",
+      bottom: "0",
+      left: "-100vw",
+      right: "-100vw",
+      zIndex: "hide",
+      background: "inherit",
+    },
   },
 });
 
@@ -65,46 +75,38 @@ const AboutPageFooter = ({ frontpage }: Props) => {
   const { t } = useTranslation();
 
   const crumb = useMemo(() => findBreadcrumb(frontpage.menu ?? [], slug), [frontpage.menu, slug]);
+  const nonEmptyCrumbs = crumb.filter((item) => !!item.menu?.length);
 
   return (
-    <Wrapper>
-      <OneColumn>
-        <ArticlePadding asChild consumeCss>
-          <nav aria-label={t("aboutPage.nav")}>
-            <StyledOuterList>
-              {crumb
-                .filter((item) => !!item.menu?.length)
-                .map((item, index) => (
-                  <StyledOuterListItem key={item.article.slug}>
-                    <Heading id={`${item.article.slug}-title`} asChild consumeCss textStyle="title.large">
-                      <h2>{item.article.title}</h2>
-                    </Heading>
-                    <StyledList aria-labelledby={`${item.article.slug}-title`}>
-                      {item.menu?.map((m) => {
-                        return (
-                          <StyledListItem key={m.article.slug}>
-                            <NavigationSafeLinkButton
-                              to={toAbout(m.article.slug)}
-                              variant={index === 0 ? "primary" : "secondary"}
-                              data-variant={index === 0 ? "primary" : "secondary"}
-                              aria-selected={crumb.some((c) => c.article.slug === m.article.slug)}
-                              aria-current={
-                                crumb[crumb.length - 1]?.article.slug === m.article.slug ? "page" : undefined
-                              }
-                            >
-                              {m.article.title}
-                            </NavigationSafeLinkButton>
-                          </StyledListItem>
-                        );
-                      })}
-                    </StyledList>
-                  </StyledOuterListItem>
-                ))}
-            </StyledOuterList>
-          </nav>
-        </ArticlePadding>
-      </OneColumn>
-    </Wrapper>
+    <StyledNav aria-label={t("aboutPage.nav")}>
+      <StyledOuterList>
+        {nonEmptyCrumbs.map((item, index) => (
+          <StyledOuterListItem key={item.article.slug}>
+            <Heading id={`${item.article.slug}-title`} asChild consumeCss textStyle="title.large">
+              <h2>{item.article.title}</h2>
+            </Heading>
+            <StyledList aria-labelledby={`${item.article.slug}-title`}>
+              {item.menu?.map((m) => (
+                <StyledListItem key={m.article.slug}>
+                  <NavigationSafeLinkButton
+                    to={toAbout(m.article.slug)}
+                    variant={index === 0 ? "primary" : "secondary"}
+                    data-variant={index === 0 ? "primary" : "secondary"}
+                    aria-current={
+                      crumb[crumb.length - 1]?.article.slug === m.article.slug
+                        ? "page"
+                        : crumb.some((c) => c.article.slug === m.article.slug)
+                    }
+                  >
+                    {m.article.title}
+                  </NavigationSafeLinkButton>
+                </StyledListItem>
+              ))}
+            </StyledList>
+          </StyledOuterListItem>
+        ))}
+      </StyledOuterList>
+    </StyledNav>
   );
 };
 

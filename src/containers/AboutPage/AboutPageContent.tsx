@@ -11,16 +11,15 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, Text } from "@ndla/primitives";
+import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
   ArticleContent,
   ArticleFooter,
   ArticleHeader,
-  ArticlePadding,
   ArticleWrapper,
   HomeBreadcrumb,
-  OneColumn,
   ArticleBylineAccordionItem,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
@@ -40,6 +39,12 @@ interface Props {
   article: GQLAboutPage_ArticleFragment;
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "hidden",
+  },
+});
 
 export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
@@ -139,24 +144,24 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
       />
       <Hero variant="primary">
         <HeroBackground />
-        <OneColumn>
+        <PageContent variant="article">
           <HeroContent>
             <HomeBreadcrumb items={crumbs} />
           </HeroContent>
-        </OneColumn>
-        <ArticleWrapper>
-          <OneColumn>
-            <ArticleHeader padded>
-              <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-                {article.transformedContent.title}
-              </Heading>
-              <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
-            </ArticleHeader>
-            <ArticleContent padded>{article.transformedContent.content}</ArticleContent>
-          </OneColumn>
-          <ArticleFooter>
-            <OneColumn>
-              <ArticlePadding asChild>
+        </PageContent>
+        <StyledPageContent variant="article" gutters="tabletUp">
+          <PageContent variant="content" asChild>
+            <ArticleWrapper>
+              <ArticleHeader>
+                <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                  {article.transformedContent.title}
+                </Heading>
+                {!!article.transformedContent.introduction && (
+                  <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
+                )}
+              </ArticleHeader>
+              <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              <ArticleFooter>
                 <AccordionRoot multiple>
                   <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
                     <LicenseBox
@@ -166,11 +171,11 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
                     />
                   </ArticleBylineAccordionItem>
                 </AccordionRoot>
-              </ArticlePadding>
-            </OneColumn>
-            <AboutPageFooter frontpage={frontpage} />
-          </ArticleFooter>
-        </ArticleWrapper>
+                <AboutPageFooter frontpage={frontpage} />
+              </ArticleFooter>
+            </ArticleWrapper>
+          </PageContent>
+        </StyledPageContent>
       </Hero>
     </main>
   );

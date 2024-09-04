@@ -22,6 +22,7 @@ import {
   Hero,
   HeroBackground,
   HeroContent,
+  PageContent,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -34,7 +35,6 @@ import {
   ArticleWrapper,
   ContentTypeBadgeNew,
   HomeBreadcrumb,
-  OneColumn,
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
@@ -46,7 +46,7 @@ import { copyrightInfoFragment } from "../../queries";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
-import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLicenseBox";
+import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 interface RouteParams extends TypedParams {
   id: string;
@@ -82,7 +82,7 @@ const PodcastSeriesPage = () => {
   };
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (!podcastSeries) {
@@ -173,7 +173,7 @@ const PodcastSeriesPage = () => {
       <main>
         <Hero content="primary">
           <HeroBackground />
-          <OneColumn>
+          <PageContent variant="article">
             <HeroContent>
               <HomeBreadcrumb
                 items={[
@@ -192,51 +192,55 @@ const PodcastSeriesPage = () => {
                 ]}
               />
             </HeroContent>
-            <ArticleWrapper>
-              <ArticleHeader padded>
-                <ArticleHGroup>
-                  <ContentTypeBadgeNew contentType={"podcast"} />
-                  <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-                    {podcastSeries.title.title}
-                  </Heading>
-                </ArticleHGroup>
-                <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
-              </ArticleHeader>
-              <ArticleContent padded>
-                {podcastSeries.content ? (
-                  <StyledPodcastSeriesWrapper>
-                    <Heading asChild consumeCss textStyle="title.medium">
-                      <h2>{t("podcastPage.episodes")}</h2>
+          </PageContent>
+          <PageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <ArticleWrapper>
+                <ArticleHeader>
+                  <ArticleHGroup>
+                    <ContentTypeBadgeNew contentType={"podcast"} />
+                    <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                      {podcastSeries.title.title}
                     </Heading>
-                    {embeds}
-                  </StyledPodcastSeriesWrapper>
-                ) : (
-                  <Text>{t("podcastPage.noResults")}</Text>
-                )}
-              </ArticleContent>
-              {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
-                <ArticleFooter padded>
-                  <AccordionRoot multiple>
-                    <AccordionItem value="rulesForUse">
-                      <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                        <h2>
-                          <AccordionItemTrigger>
-                            {t("article.useContent")}
-                            <AccordionItemIndicator asChild>
-                              <ArrowDownShortLine size="medium" />
-                            </AccordionItemIndicator>
-                          </AccordionItemTrigger>
-                        </h2>
+                  </ArticleHGroup>
+                  <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
+                </ArticleHeader>
+                <ArticleContent>
+                  {podcastSeries.content ? (
+                    <StyledPodcastSeriesWrapper>
+                      <Heading asChild consumeCss textStyle="title.medium">
+                        <h2>{t("podcastPage.episodes")}</h2>
                       </Heading>
-                      <AccordionItemContent>
-                        <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
-                      </AccordionItemContent>
-                    </AccordionItem>
-                  </AccordionRoot>
-                </ArticleFooter>
-              )}
-            </ArticleWrapper>
-          </OneColumn>
+                      {embeds}
+                    </StyledPodcastSeriesWrapper>
+                  ) : (
+                    <Text>{t("podcastPage.noResults")}</Text>
+                  )}
+                </ArticleContent>
+                {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
+                  <ArticleFooter>
+                    <AccordionRoot multiple>
+                      <AccordionItem value="rulesForUse">
+                        <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                          <h2>
+                            <AccordionItemTrigger>
+                              {t("article.useContent")}
+                              <AccordionItemIndicator asChild>
+                                <ArrowDownShortLine size="medium" />
+                              </AccordionItemIndicator>
+                            </AccordionItemTrigger>
+                          </h2>
+                        </Heading>
+                        <AccordionItemContent>
+                          <ResourceEmbedLicenseContent metaData={podcastSeries.content.meta} />
+                        </AccordionItemContent>
+                      </AccordionItem>
+                    </AccordionRoot>
+                  </ArticleFooter>
+                )}
+              </ArticleWrapper>
+            </PageContent>
+          </PageContent>
         </Hero>
       </main>
     </>
@@ -260,7 +264,7 @@ const podcastSeriesPageQuery = gql`
       content {
         content
         meta {
-      ...ResourceEmbedLicenseBox_Meta
+      ...ResourceEmbedLicenseContent_Meta
         }
       }
       episodes {
@@ -284,7 +288,7 @@ const podcastSeriesPageQuery = gql`
       }
       hasRSS
     }
-    ${ResourceEmbedLicenseBox.fragments.metaData}
+    ${ResourceEmbedLicenseContent.fragments.metaData}
     ${copyrightInfoFragment}
   }
 `;

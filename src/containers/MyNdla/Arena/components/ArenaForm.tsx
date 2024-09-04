@@ -37,13 +37,13 @@ const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/
 
 export const ArenaFormWrapper = styled("div", {
   base: {
+    border: "1px solid",
+    borderColor: "stroke.info",
+    borderRadius: "xsmall",
     display: "flex",
     flexDirection: "column",
     gap: "medium",
     padding: "medium",
-    borderRadius: "xsmall",
-    border: "1px solid",
-    borderColor: "stroke.info",
   },
 });
 

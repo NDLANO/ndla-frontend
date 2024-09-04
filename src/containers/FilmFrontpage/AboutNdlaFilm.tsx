@@ -20,18 +20,20 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
+// TODO: Awful black borders
 const StyledAside = styled("aside", {
   base: {
-    display: "flex",
-    padding: "medium",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    paddingInline: "medium",
+    gap: "small",
     tabletDown: {
-      flexDirection: "column",
+      gridTemplateColumns: "1fr",
     },
   },
 });
@@ -40,11 +42,6 @@ const StyledDiv = styled("div", {
   base: {
     padding: "small",
     width: "100%",
-    tabletDown: {
-      _firstOfType: {
-        paddingBottom: "0",
-      },
-    },
   },
 });
 
@@ -104,12 +101,6 @@ interface AboutNdlaFilmProps {
   article?: BaseArticle;
 }
 
-const StyledOneColumn = styled(OneColumn, {
-  base: {
-    marginTop: "3xlarge",
-  },
-});
-
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
@@ -122,40 +113,38 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <StyledOneColumn>
-      <StyledAside aria-labelledby={titleId}>
-        {aboutNDLAVideo?.visualElement && (
-          <StyledDiv>
-            <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
-          </StyledDiv>
-        )}
+    <StyledAside aria-labelledby={titleId}>
+      {aboutNDLAVideo?.visualElement && (
         <StyledDiv>
-          <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
-            <h2>{aboutNDLAVideo?.title}</h2>
-          </StyledHeading>
-          <StyledText asChild consumeCss>
-            <p>{aboutNDLAVideo?.description}</p>
-          </StyledText>
-          {transformedArticle && (
-            <DialogRoot size="full">
-              <DialogTrigger asChild>
-                <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  {/* TODO: Consider moving title up here? */}
-                  <div />
-                  <DialogCloseButton />
-                </DialogHeader>
-                <DialogBody>
-                  <Article article={transformedArticle} oembed={undefined} />
-                </DialogBody>
-              </DialogContent>
-            </DialogRoot>
-          )}
+          <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
         </StyledDiv>
-      </StyledAside>
-    </StyledOneColumn>
+      )}
+      <StyledDiv>
+        <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
+          <h2>{aboutNDLAVideo?.title}</h2>
+        </StyledHeading>
+        <StyledText asChild consumeCss>
+          <p>{aboutNDLAVideo?.description}</p>
+        </StyledText>
+        {transformedArticle && (
+          <DialogRoot size="full">
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                {/* TODO: Consider moving title up here? */}
+                <div />
+                <DialogCloseButton />
+              </DialogHeader>
+              <DialogBody>
+                <Article article={transformedArticle} oembed={undefined} />
+              </DialogBody>
+            </DialogContent>
+          </DialogRoot>
+        )}
+      </StyledDiv>
+    </StyledAside>
   );
 };
 

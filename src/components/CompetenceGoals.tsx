@@ -17,6 +17,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  PageContent,
   TabsContent,
   TabsIndicator,
   TabsList,
@@ -24,7 +25,6 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
@@ -208,7 +208,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
       </DialogTrigger>
       <Portal>
         <DialogContent>
-          <OneColumn wide>
+          <PageContent>
             <StyledDialogHeader>
               <DialogTitle>{t("competenceGoals.modalText")}</DialogTitle>
               <DialogCloseButton />
@@ -235,7 +235,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
                 ))}
               </TabsRoot>
             </StyledDialogBody>
-          </OneColumn>
+          </PageContent>
         </DialogContent>
       </Portal>
     </DialogRoot>
