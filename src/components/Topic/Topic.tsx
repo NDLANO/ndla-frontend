@@ -17,8 +17,7 @@ const TopicContent = styled("div", {
     display: "grid",
     gridTemplateColumns: "1fr",
     gap: "medium",
-    paddingBlockStart: "4xlarge",
-    paddingBlockEnd: "xsmall",
+    paddingBlock: "xsmall",
     justifyItems: "center",
     tabletWide: {
       gridTemplateColumns: "auto 360px",
@@ -68,7 +67,7 @@ const Topic = forwardRef<HTMLDivElement, TopicProps>(
     const { t } = useTranslation();
 
     return (
-      <TopicContent ref={ref}>
+      <TopicContent ref={ref} data-topic="">
         <TopicIntroductionWrapper>
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={id} tabIndex={-1}>
