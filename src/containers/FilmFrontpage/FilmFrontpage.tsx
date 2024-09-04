@@ -140,7 +140,7 @@ const FilmFrontpage = () => {
                 {options.map((category, index) => (
                   <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
                     <RadioGroupItemControl />
-                    <RadioGroupItemText fontWeight="bold">{t(category.name)}</RadioGroupItemText>
+                    <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
                   </RadioGroupItem>
                 ))}
