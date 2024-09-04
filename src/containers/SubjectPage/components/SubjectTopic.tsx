@@ -199,6 +199,7 @@ export const topicFragments = {
         metaDescription
         metaImage {
           url
+          alt
         }
       }
       supportedLanguages
