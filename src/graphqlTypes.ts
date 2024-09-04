@@ -4385,7 +4385,11 @@ export type GQLTopic_TopicFragment = {
       relevanceId?: string;
     } & GQLMultidisciplinaryArticleList_TopicFragment
   >;
-  meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
   contexts: Array<{
     __typename?: "TaxonomyContext";
     breadcrumbs: Array<string>;
