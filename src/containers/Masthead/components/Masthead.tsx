@@ -28,7 +28,7 @@ const MastheadContent = styled("div", {
   },
 });
 
-const StyledMasthead = styled("div", {
+const StyledMasthead = styled("header", {
   base: {
     background: "surface.default",
     borderColor: "stroke.subtle",
@@ -71,27 +71,25 @@ export const Masthead = ({ children, fixed, skipToMainContentId, messages, onClo
   const { t } = useTranslation();
 
   return (
-    <>
+    <StyledMasthead data-fixed={!!fixed} id="masthead">
       {skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
-      <StyledMasthead data-fixed={!!fixed} id="masthead">
-        {messages?.map((message) => (
-          <MessageBannerWrapper key={message.number}>
-            <StyledText textStyle="body.large">{message.content}</StyledText>
-            {message.closable && (
-              <StyledCloseButton
-                variant="clear"
-                onClick={() => onCloseAlert?.(message.number)}
-                aria-label={t("close")}
-                title={t("close")}
-              >
-                <CloseLine />
-              </StyledCloseButton>
-            )}
-          </MessageBannerWrapper>
-        ))}
-        <MastheadContent>{children}</MastheadContent>
-      </StyledMasthead>
-    </>
+      {messages?.map((message) => (
+        <MessageBannerWrapper key={message.number}>
+          <StyledText textStyle="body.large">{message.content}</StyledText>
+          {message.closable && (
+            <StyledCloseButton
+              variant="clear"
+              onClick={() => onCloseAlert?.(message.number)}
+              aria-label={t("close")}
+              title={t("close")}
+            >
+              <CloseLine />
+            </StyledCloseButton>
+          )}
+        </MessageBannerWrapper>
+      ))}
+      <MastheadContent>{children}</MastheadContent>
+    </StyledMasthead>
   );
 };
 

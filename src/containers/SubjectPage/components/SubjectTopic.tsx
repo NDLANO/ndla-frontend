@@ -8,11 +8,13 @@
 
 import parse from "html-react-parser";
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { BleedPageContent, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -35,6 +37,17 @@ import Resources from "../../Resources/Resources";
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
+
+// Handles cases where several topics have resources.
+const StyledBleedPageContent = styled(BleedPageContent, {
+  base: {
+    "&:not(:last-child)": {
+      paddingBlockStart: "4xlarge",
+    },
+  },
+});
+
+const PAGE = "page" as const;
 
 type Props = {
   topicId: string;
@@ -62,6 +75,13 @@ const SubjectTopic = ({
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
+  const topicRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (topicList[topicList.length - 1] === topicId && topicRef.current) {
+      topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [topicId, topicList]);
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
@@ -91,7 +111,7 @@ const SubjectTopic = ({
   }, [embedMeta]);
 
   const resources = useMemo(() => {
-    if (topic.subtopics) {
+    if (topic.coreResources?.length || topic.supplementaryResources?.length) {
       return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
     }
     return null;
@@ -105,7 +125,10 @@ const SubjectTopic = ({
     return {
       ...subtopic,
       label: subtopic.name,
-      selected: subtopic.id === subTopicId,
+      current:
+        subtopic.id === subTopicId && subtopic.id === topicList[topicList.length - 1]
+          ? PAGE
+          : subtopic.id === subTopicId,
       url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
@@ -137,14 +160,18 @@ const SubjectTopic = ({
         title={parse(topic.article.htmlTitle ?? "")}
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-      >
-        {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
-          <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
-        ) : subTopics?.length ? (
-          <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
-        ) : null}
-        {resources}
-      </Topic>
+        ref={topicRef}
+      />
+      {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+        <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
+      ) : subTopics?.length ? (
+        <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
+      ) : null}
+      {!!resources && (
+        <StyledBleedPageContent>
+          <PageContent variant="article">{resources}</PageContent>
+        </StyledBleedPageContent>
+      )}
     </>
   );
 };

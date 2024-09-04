@@ -11,8 +11,6 @@ import { useContext, useEffect, useState } from "react";
 import { FormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import {
   Button,
   DialogBody,
@@ -21,9 +19,9 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Text,
 } from "@ndla/primitives";
 import { HStack } from "@ndla/styled-system/jsx";
-import { Text } from "@ndla/typography";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { supportedLanguages } from "../../../../i18n";
 
@@ -51,10 +49,6 @@ const useBlocker = (blocker: Blocker, when = true): void => {
     return unblock;
   }, [navigator, blocker, when]);
 };
-
-const StyledWarningText = styled(Text)`
-  padding: ${spacing.large} 0 ${spacing.large} ${spacing.normal};
-`;
 
 interface Props {
   onAbort: VoidFunction;
@@ -117,15 +111,13 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
         </Button>
       </DialogTrigger>
       <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t(`myNdla.arena.cancel.title.${type}`)}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
         <DialogBody>
-          <DialogHeader>
-            <DialogTitle>{t(`myNdla.arena.cancel.title.${type}`)}</DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <StyledWarningText margin="none" textStyle="meta-text-medium">
-            {t(`myNdla.arena.cancel.content.${type}`)}
-          </StyledWarningText>
-          <HStack justify="flex-end" gap="xsmall">
+          <Text textStyle="body.large">{t(`myNdla.arena.cancel.content.${type}`)}</Text>
+          <HStack justify="flex-end" gap="3xsmall">
             <Button variant="secondary" onClick={onCancel}>
               {t(`myNdla.arena.cancel.continue.${type}`)}
             </Button>

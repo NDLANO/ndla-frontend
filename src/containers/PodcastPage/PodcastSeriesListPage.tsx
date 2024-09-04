@@ -26,9 +26,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { HomeBreadcrumb, OneColumn, usePaginationTranslations } from "@ndla/ui";
+import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -38,18 +39,9 @@ type SearchObject = {
   "page-size": string;
 };
 
-// TODO: Currently copied from SearchPage, consider if this shoule be exported from @ndla/ui
-const StyledMain = styled("main", {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    marginBlockStart: "xxlarge",
-    marginBlockEnd: "4xlarge",
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
-    tabletDown: {
-      marginBlockStart: "medium",
-      marginBlockEnd: "xlarge",
-    },
   },
 });
 
@@ -133,89 +125,87 @@ const PodcastSeriesListPage = () => {
   }
 
   return (
-    <>
-      <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
-      <OneColumn wide>
-        <StyledMain>
-          <HomeBreadcrumb
-            items={[
-              {
-                name: t("breadcrumb.toFrontpage"),
-                to: "/",
-              },
-              {
-                name: t("podcastPage.podcasts"),
-                to: "/podkast",
-              },
-            ]}
-          />
-          <StyledHeader>
-            <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-              {t("podcastPage.podcasts")}
+    <StyledPageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
+        <HomeBreadcrumb
+          items={[
+            {
+              name: t("breadcrumb.toFrontpage"),
+              to: "/",
+            },
+            {
+              name: t("podcastPage.podcasts"),
+              to: "/podkast",
+            },
+          ]}
+        />
+        <StyledHeader>
+          <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+            {t("podcastPage.podcasts")}
+          </Heading>
+          {!!results?.length && (
+            <Heading asChild consumeCss textStyle="title.medium">
+              <h2>{t("podcastPage.subtitle")}</h2>
             </Heading>
-            {!!results?.length && (
-              <Heading asChild consumeCss textStyle="title.medium">
-                <h2>{t("podcastPage.subtitle")}</h2>
-              </Heading>
-            )}
-          </StyledHeader>
-          <section>
-            {loading ? (
-              <SpinnerWrapper>
-                <Spinner aria-label={t("loading")} />
-              </SpinnerWrapper>
-            ) : results?.length ? (
-              <ul>
-                {results.map((series) => {
-                  return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
-                })}
-              </ul>
-            ) : (
-              <Text>{t("podcastPage.noResults")}</Text>
-            )}
-          </section>
-          <PaginationRoot
-            page={page}
-            onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
-            count={data?.podcastSeriesSearch?.totalCount ?? 0}
-            pageSize={pageSize}
-            translations={componentTranslations}
-            siblingCount={2}
-            aria-label={t("podcastPage.paginationNav")}
-          >
-            <PaginationPrevTrigger asChild>
-              <Button variant="tertiary">
-                <ArrowLeftShortLine />
-                {t("pagination.prev")}
-              </Button>
-            </PaginationPrevTrigger>
-            <PaginationContext>
-              {(pagination) =>
-                pagination.pages.map((page, index) =>
-                  page.type === "page" ? (
-                    <PaginationItem key={index} {...page} asChild>
-                      <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
-                    </PaginationItem>
-                  ) : (
-                    <PaginationEllipsis key={index} index={index} asChild>
-                      <Text asChild consumeCss>
-                        <div>&#8230;</div>
-                      </Text>
-                    </PaginationEllipsis>
-                  ),
-                )
-              }
-            </PaginationContext>
-            <PaginationNextTrigger asChild>
-              <Button variant="tertiary">
-                {t("pagination.next")}
-                <ArrowRightShortLine />
-              </Button>
-            </PaginationNextTrigger>
-          </PaginationRoot>
-        </StyledMain>
-      </OneColumn>
-    </>
+          )}
+        </StyledHeader>
+        <section>
+          {loading ? (
+            <SpinnerWrapper>
+              <Spinner aria-label={t("loading")} />
+            </SpinnerWrapper>
+          ) : results?.length ? (
+            <ul>
+              {results.map((series) => {
+                return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
+              })}
+            </ul>
+          ) : (
+            <Text>{t("podcastPage.noResults")}</Text>
+          )}
+        </section>
+        <PaginationRoot
+          page={page}
+          onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+          count={data?.podcastSeriesSearch?.totalCount ?? 0}
+          pageSize={pageSize}
+          translations={componentTranslations}
+          siblingCount={2}
+          aria-label={t("podcastPage.paginationNav")}
+        >
+          <PaginationPrevTrigger asChild>
+            <Button variant="tertiary">
+              <ArrowLeftShortLine />
+              {t("pagination.prev")}
+            </Button>
+          </PaginationPrevTrigger>
+          <PaginationContext>
+            {(pagination) =>
+              pagination.pages.map((page, index) =>
+                page.type === "page" ? (
+                  <PaginationItem key={index} {...page} asChild>
+                    <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                  </PaginationItem>
+                ) : (
+                  <PaginationEllipsis key={index} index={index} asChild>
+                    <Text asChild consumeCss>
+                      <div>&#8230;</div>
+                    </Text>
+                  </PaginationEllipsis>
+                ),
+              )
+            }
+          </PaginationContext>
+          <PaginationNextTrigger asChild>
+            <Button variant="tertiary">
+              {t("pagination.next")}
+              <ArrowRightShortLine />
+            </Button>
+          </PaginationNextTrigger>
+        </PaginationRoot>
+      </main>
+    </StyledPageContainer>
   );
 };
 

@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { GQLSubjectLinks_SubjectPageFragment } from "../../../graphqlTypes";
+import { GQLSubjectLinks_SubjectPageFragment } from "../../graphqlTypes";
 
 const LinksWrapper = styled("div", {
   base: {
@@ -41,7 +41,7 @@ interface SubjectLinkSetProps {
   title: string;
 }
 
-const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
+export const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) => {
   const { t } = useTranslation();
 
   return (

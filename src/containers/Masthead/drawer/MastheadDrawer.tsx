@@ -212,7 +212,6 @@ const MastheadDrawer = ({ subject }: Props) => {
       size="medium"
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
-      onEscapeKeyDown={close}
       initialFocusEl={getHeaderElement}
     >
       <DialogTrigger asChild>

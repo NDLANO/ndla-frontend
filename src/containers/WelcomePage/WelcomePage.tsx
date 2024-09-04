@@ -9,10 +9,10 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Hero, HeroBackground } from "@ndla/primitives";
+import { Heading, Hero, HeroBackground, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { OneColumn, ArticleWrapper, ArticleContent } from "@ndla/ui";
+import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import Programmes from "./Components/Programmes";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
@@ -28,7 +28,7 @@ import { transformArticle } from "../../util/transformArticle";
 
 const StyledMain = styled("main", {
   base: {
-    paddingBlockEnd: "3xlarge",
+    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -38,8 +38,9 @@ const ContentWrapper = styled("div", {
   },
 });
 
-const StyledOneColumn = styled(OneColumn, {
+const StyledPageContent = styled(PageContent, {
   base: {
+    width: "100%",
     paddingBlockStart: "medium",
     paddingBlockEnd: "surface.4xsmall",
   },
@@ -146,20 +147,20 @@ const WelcomePage = () => {
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
       <StyledMain>
-        <Hero absolute={false} variant="brand1">
+        <Hero absolute={false} variant="brand1Subtle">
           <StyledHeroBackground>
-            <StyledOneColumn wide data-testid="programme-list">
+            <StyledPageContent data-testid="programme-list">
               <Programmes programmes={fpQuery.data?.programmes ?? []} />
-            </StyledOneColumn>
+            </StyledPageContent>
           </StyledHeroBackground>
         </Hero>
         {article && (
           <ContentWrapper>
-            <OneColumn wide>
+            <PageContent>
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
-                <ArticleContent padded>{article.transformedContent.content}</ArticleContent>
+                <ArticleContent>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>
-            </OneColumn>
+            </PageContent>
           </ContentWrapper>
         )}
       </StyledMain>

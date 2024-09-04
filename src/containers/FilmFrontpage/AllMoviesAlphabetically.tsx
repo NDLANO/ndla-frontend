@@ -11,8 +11,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HStack, styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
 import { movieResourceTypes } from "./resourceTypes";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -86,37 +85,35 @@ const groupMovies = (movies: MovieType[]) => {
 
 const LoadingShimmer = () => {
   return (
-    <HStack justify="center">
-      <OneColumn wide>
-        {["#", "A", "B", "C"].map((letter, idx) => {
-          return (
-            <MovieGroup key={`Loading-${idx}`}>
-              <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
-                <h2>{letter}</h2>
-              </LetterHeading>
-              {new Array(4).fill(0).map((_, idx2) => {
-                return (
-                  <StyledSafeLink to="" disabled={true} key={idx2}>
-                    <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />
-                    <MovieTextWrapper>
-                      <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
-                        <Heading textStyle="title.small" asChild consumeCss data-title="">
-                          <h3>&nbsp;</h3>
-                        </Heading>
-                      </Skeleton>
-                      <Skeleton css={{ width: "surface.medium" }}>
-                        <Text textStyle="body.small">&nbsp;</Text>
-                        <Text textStyle="body.small">&nbsp;</Text>
-                      </Skeleton>
-                    </MovieTextWrapper>
-                  </StyledSafeLink>
-                );
-              })}
-            </MovieGroup>
-          );
-        })}
-      </OneColumn>
-    </HStack>
+    <div>
+      {["#", "A", "B", "C"].map((letter, idx) => {
+        return (
+          <MovieGroup key={`Loading-${idx}`}>
+            <LetterHeading textStyle="title.medium" fontWeight="bold" asChild consumeCss>
+              <h2>{letter}</h2>
+            </LetterHeading>
+            {new Array(4).fill(0).map((_, idx2) => {
+              return (
+                <StyledSafeLink to="" disabled={true} key={idx2}>
+                  <Skeleton css={{ width: "surface.3xsmall", minWidth: "surface.3xsmall", height: "75px" }} />
+                  <MovieTextWrapper>
+                    <Skeleton css={{ marginBottom: "xxsmall", width: "surface.xsmall" }}>
+                      <Heading textStyle="title.small" asChild consumeCss data-title="">
+                        <h3>&nbsp;</h3>
+                      </Heading>
+                    </Skeleton>
+                    <Skeleton css={{ width: "surface.medium" }}>
+                      <Text textStyle="body.small">&nbsp;</Text>
+                      <Text textStyle="body.small">&nbsp;</Text>
+                    </Skeleton>
+                  </MovieTextWrapper>
+                </StyledSafeLink>
+              );
+            })}
+          </MovieGroup>
+        );
+      })}
+    </div>
   );
 };
 
@@ -139,39 +136,35 @@ const AllMoviesAlphabetically = () => {
   }
 
   return (
-    <HStack justify="center">
-      <OneColumn wide>
-        {groupedMovies.map(({ letter, movies }) => (
-          <MovieGroup key={letter}>
-            <LetterHeading
-              textStyle="title.medium"
-              fontWeight="bold"
-              aria-label={t("filmfrontpage.allMovieGroupTitleLabel", { letter })}
-              asChild
-              consumeCss
+    <>
+      {groupedMovies.map(({ letter, movies }) => (
+        <MovieGroup key={letter}>
+          <LetterHeading
+            textStyle="title.medium"
+            fontWeight="bold"
+            aria-label={t("filmfrontpage.allMovieGroupTitleLabel", { letter })}
+            asChild
+            consumeCss
+          >
+            <h2>{letter}</h2>
+          </LetterHeading>
+          {movies.map((movie) => (
+            <StyledSafeLink
+              to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
+              key={movie.id}
             >
-              <h2>{letter}</h2>
-            </LetterHeading>
-            {movies.map((movie) => (
-              <StyledSafeLink
-                to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
-                key={movie.id}
-              >
-                {movie.metaImage?.url && (
-                  <MovieImage alt="" loading="lazy" fallbackWidth={150} src={movie.metaImage.url} />
-                )}
-                <MovieTextWrapper>
-                  <Heading textStyle="title.small" asChild consumeCss data-title="">
-                    <h3>{movie.title}</h3>
-                  </Heading>
-                  <Text textStyle="body.small">{movie.metaDescription}</Text>
-                </MovieTextWrapper>
-              </StyledSafeLink>
-            ))}
-          </MovieGroup>
-        ))}
-      </OneColumn>
-    </HStack>
+              {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
+              <MovieTextWrapper>
+                <Heading textStyle="title.small" asChild consumeCss data-title="">
+                  <h3>{movie.title}</h3>
+                </Heading>
+                <Text textStyle="body.small">{movie.metaDescription}</Text>
+              </MovieTextWrapper>
+            </StyledSafeLink>
+          ))}
+        </MovieGroup>
+      ))}
+    </>
   );
 };
 

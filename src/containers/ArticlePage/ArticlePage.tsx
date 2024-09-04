@@ -12,11 +12,10 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { HeroBackground, HeroContent } from "@ndla/primitives";
+import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
-  OneColumn,
   constants,
   ContentTypeHero,
   HomeBreadcrumb,
@@ -25,7 +24,6 @@ import {
   ArticleContent,
   ArticleFooter,
   ArticleByline,
-  ArticlePadding,
 } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
@@ -68,16 +66,28 @@ interface Props {
   skipToContentId?: string;
 }
 
-const ResourcesWrapper = styled("div", {
+const ResourcesPageContent = styled("div", {
   base: {
+    position: "relative",
     background: "background.subtle",
-    paddingBlockEnd: "xxlarge",
+    paddingBlock: "xxlarge",
+    zIndex: "base",
+    _after: {
+      content: '""',
+      position: "absolute",
+      top: "0",
+      bottom: "0",
+      left: "-100vw",
+      right: "-100vw",
+      zIndex: "hide",
+      background: "inherit",
+    },
   },
 });
 
-const RelativeOneColumn = styled(OneColumn, {
+const StyledPageContent = styled(PageContent, {
   base: {
-    position: "relative",
+    overflowX: "hidden",
   },
 });
 
@@ -208,45 +218,43 @@ const ArticlePage = ({
       />
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
-        <OneColumn>
+        <PageContent variant="article" asChild>
           <StyledHeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
-        </OneColumn>
-        <ArticleWrapper>
-          <RelativeOneColumn>
-            <ArticleTitle
-              id={skipToContentId ?? article.id.toString()}
-              contentType={contentType}
-              heartButton={
-                resource.path && (
-                  <AddResourceToFolderModal
-                    resource={{
-                      id: article.id.toString(),
-                      path: resource.path,
-                      resourceType: "article",
-                    }}
-                  >
-                    <FavoriteButton path={resource.path} />
-                  </AddResourceToFolderModal>
-                )
-              }
-              title={article.transformedContent.title}
-              introduction={article.transformedContent.introduction}
-              competenceGoals={
-                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-                  <CompetenceGoals
-                    codes={article.grepCodes}
-                    subjectId={subject?.id}
-                    supportedLanguages={article.supportedLanguages}
-                  />
-                )
-              }
-              lang={article.language === "nb" ? "no" : article.language}
-            />
-            <ArticleContent padded>{article.transformedContent.content ?? ""}</ArticleContent>
-          </RelativeOneColumn>
-          <ArticleFooter>
-            <OneColumn>
-              <ArticlePadding>
+        </PageContent>
+        <StyledPageContent variant="article" gutters="tabletUp">
+          <PageContent variant="content" asChild>
+            <ArticleWrapper>
+              <ArticleTitle
+                id={skipToContentId ?? article.id.toString()}
+                contentType={contentType}
+                heartButton={
+                  resource.path && (
+                    <AddResourceToFolderModal
+                      resource={{
+                        id: article.id.toString(),
+                        path: resource.path,
+                        resourceType: "article",
+                      }}
+                    >
+                      <FavoriteButton path={resource.path} />
+                    </AddResourceToFolderModal>
+                  )
+                }
+                title={article.transformedContent.title}
+                introduction={article.transformedContent.introduction}
+                competenceGoals={
+                  !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                    <CompetenceGoals
+                      codes={article.grepCodes}
+                      subjectId={subject?.id}
+                      supportedLanguages={article.supportedLanguages}
+                    />
+                  )
+                }
+                lang={article.language === "nb" ? "no" : article.language}
+              />
+              <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+              <ArticleFooter>
                 <ArticleByline
                   footnotes={article.transformedContent.metaData?.footnotes ?? []}
                   authors={authors}
@@ -257,19 +265,15 @@ const ArticlePage = ({
                     <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
                   }
                 />
-              </ArticlePadding>
-            </OneColumn>
-            {topic && (
-              <ResourcesWrapper>
-                <OneColumn>
-                  <ArticlePadding padStart padEnd>
+                {topic && (
+                  <ResourcesPageContent>
                     <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-                  </ArticlePadding>
-                </OneColumn>
-              </ResourcesWrapper>
-            )}
-          </ArticleFooter>
-        </ArticleWrapper>
+                  </ResourcesPageContent>
+                )}
+              </ArticleFooter>
+            </ArticleWrapper>
+          </PageContent>
+        </StyledPageContent>
       </ContentTypeHero>
     </main>
   );

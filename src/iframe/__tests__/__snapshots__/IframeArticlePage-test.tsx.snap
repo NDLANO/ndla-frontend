@@ -3,19 +3,22 @@
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
   <div
-    class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+    class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"
   >
     <main>
       <article
-        class="d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="bg_background.default d_flex flex-d_column gap_xxlarge c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
-          class="d_flex flex-d_column bg_surface.default gap_medium ai_flex-start w_100% px_8% pbs_xsmall tablet:pbs_medium desktop:pbs_xxlarge"
+          class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge"
         >
           <hgroup
-            class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
+            class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
           >
+            <div
+              class="d_flex flex-d_row ai_center jc_space-between gap_small w_100% min-h_xxlarge"
+            />
             <h1
               class="textStyle_heading.large"
               id="54"
@@ -34,7 +37,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="bg_surface.default px_8% pbs_xsmall tablet:pbe_medium desktop:pbe_xxlarge pbe_xsmall ndla-article"
+          class="ndla-article"
         >
           <section>
             <p
@@ -46,7 +49,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </section>
         </section>
         <footer
-          class="d_flex flex-d_column bg_surface.default gap_xxlarge w_100% px_8% pbe_xsmall tablet:pbe_medium desktop:pbe_xxlarge"
+          class="d_flex flex-d_column gap_xxlarge w_100% [&_>_:is(:last-child)]:pbe_5xlarge"
         >
           <div
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
@@ -377,10 +380,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
   <div
-    class="min-h_100vh d_flex flex-d_column"
+    class="min-h_calc(100vh_-_56px)"
   >
     <div
-      class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+      class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"
     >
       <article
         class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
