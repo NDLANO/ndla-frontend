@@ -66,7 +66,7 @@ const LoadingCardRoot = styled(CardRoot, {
 
 const StyledCardImage = styled(CardImage, {
   base: {
-    height: "surface.4xsmall",
+    height: "surface.3xsmall",
   },
 });
 
