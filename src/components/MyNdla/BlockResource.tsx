@@ -72,7 +72,7 @@ const StyledCardImage = styled(CardImage, {
 
 const StyledCardContent = styled(CardContent, {
   base: {
-    justifyContent: "space-between",
+    justifyContent: "end",
     paddingInline: "xsmall",
   },
   variants: {
