@@ -6,7 +6,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     class="min-h_100vh d_flex flex-d_column tablet:bg-c_#f8f8f8"
   >
     <header
-      class="bg_surface.default bd-c_stroke.subtle bd-b_1px_solid z_banner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
+      class="bg_surface.default z_banner bx-sh_inner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
       data-fixed="true"
       id="masthead"
     >
