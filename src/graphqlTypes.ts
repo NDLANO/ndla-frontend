@@ -4301,6 +4301,7 @@ export type GQLResources_ResourceFragment = {
   language?: string;
   relevanceId?: string;
   article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
+  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 

@@ -180,6 +180,11 @@ const resourceFragment = gql`
         alt
       }
     }
+    learningpath {
+      coverphoto {
+        url
+      }
+    }
     resourceTypes {
       id
       name
