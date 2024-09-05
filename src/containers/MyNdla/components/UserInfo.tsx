@@ -34,9 +34,6 @@ const ShortInfoDiv = styled("div", {
 
 const StyledUl = styled("ul", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
     listStyleType: "unset",
     paddingBlockEnd: "xsmall",
     paddingInlineStart: "xlarge",

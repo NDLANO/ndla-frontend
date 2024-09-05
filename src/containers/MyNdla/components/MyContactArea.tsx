@@ -7,6 +7,7 @@
  */
 
 import { Text, Heading } from "@ndla/primitives";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import UserAvatar from "./UserAvatar";
 import { isStudent, withRole } from "../Folders/util";
@@ -33,6 +34,7 @@ const MyContactAreaContainer = styled("div", {
     flexDirection: "column",
     gap: "xsmall",
     paddingBlock: "xxlarge",
+    paddingInline: "xsmall",
   },
 });
 
@@ -53,6 +55,10 @@ const MobileButtonContainer = styled("div", {
   },
 });
 
+const centeredText = css.raw({
+  textAlign: "center",
+});
+
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
@@ -61,10 +67,12 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
           <UserAvatar userName={user.displayName} />
         </AvatarContainer>
       )}
-      <Heading id="userName" textStyle="heading.medium" asChild consumeCss>
+      <Heading id="userName" textStyle="heading.medium" asChild consumeCss css={centeredText}>
         <h2>{user.displayName}</h2>
       </Heading>
-      <Text textStyle="title.medium">{user.primaryOrg}</Text>
+      <Text textStyle="title.medium" css={centeredText}>
+        {user.primaryOrg}
+      </Text>
       {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
       {showProfileButton && (
         <>
