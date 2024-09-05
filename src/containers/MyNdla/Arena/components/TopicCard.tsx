@@ -139,14 +139,12 @@ const TopicCard = ({ id, title, locked, timestamp, postCount, voteCount, categor
                     {t("myNdla.arena.topic.responses")}
                   </Text>
                 </CountContainer>
-                <CountContainer
-                  aria-label={`${voteCount} ${t(`myNdla.arena.topic.vote${voteCount === 1 ? "Singular" : "Plural"}`)}`}
-                >
+                <CountContainer aria-label={`${voteCount} ${t("myNdla.arena.topic.votes", { count: voteCount })}`}>
                   <Text textStyle="body.medium" aria-hidden color="text.strong">
                     {voteCount}
                   </Text>
                   <Text aria-hidden textStyle="label.small">
-                    {t(`myNdla.arena.topic.vote${voteCount === 1 ? "Singular" : "Plural"}`)}
+                    {t("myNdla.arena.topic.votes", { count: voteCount })}
                   </Text>
                 </CountContainer>
               </>

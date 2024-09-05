@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { QuestionAnswerFill, QuestionAnswerLine } from "@ndla/icons/common";
-import { Text } from "@ndla/primitives";
+import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -31,30 +31,6 @@ interface Props {
   index: number;
   refetchCategories: (() => void) | undefined;
 }
-
-const StyledCardWrapper = styled("div", {
-  base: {
-    alignItems: "center",
-    backgroundColor: "surface.default",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    display: "flex",
-    flexDirection: "row",
-    gap: "medium",
-    padding: "small",
-    paddingInlineEnd: "large",
-    position: "relative",
-  },
-});
-
-const SpacingContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
 
 const StyledHeader = styled(Text, {
   base: {
@@ -119,7 +95,6 @@ const StyledSafeLink = styled(SafeLink, {
 
     _hover: {
       "& > div": {
-        backgroundColor: "surface.hover",
         "&[data-visible='false']": {
           backgroundColor: "surface.disabled", //TODO: Avsjekke om det fortsatt skal være egen bakgrunnsfarge på ikke-synlige topics
         },
@@ -165,6 +140,32 @@ const ArenaCardWrapper = styled("li", {
   },
 });
 
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    tabletWideDown: {
+      alignItems: "flex-start",
+      flexDirection: "column",
+      gap: "3xsmall",
+    },
+  },
+});
+
+const TitleWrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: "small",
+  },
+});
+
+const TitleContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
+
 const ArenaCard = ({
   id,
   title,
@@ -202,14 +203,16 @@ const ArenaCard = ({
         {...attributes}
       />
       <StyledSafeLink to={routes.myNdla.arenaCategory(id)} css={linkOverlay.raw()}>
-        <StyledCardWrapper data-visible={visible}>
-          <StyledQuestionAnswerLine data-normal-icon="" />
-          <StyledQuestionAnswerFill data-hover-icon="" />
-          <SpacingContainer>
-            <div>
-              <StyledHeader data-title="hover">{title}</StyledHeader>
-              <StyledDescriptionText textStyle="body.small">{subText}</StyledDescriptionText>
-            </div>
+        <ListItemRoot data-visible={visible} variant="list">
+          <StyledListItemContent>
+            <TitleWrapper>
+              <StyledQuestionAnswerLine data-normal-icon="" />
+              <StyledQuestionAnswerFill data-hover-icon="" />
+              <TitleContainer>
+                <StyledHeader data-title="hover">{title}</StyledHeader>
+                <StyledDescriptionText textStyle="body.small">{subText}</StyledDescriptionText>
+              </TitleContainer>
+            </TitleWrapper>
             <RightSideContainer>
               {isEditing && user?.isModerator && (
                 <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
@@ -226,19 +229,19 @@ const ArenaCard = ({
               )}
               {voteCount !== undefined && (
                 <StyledCountContainer
-                  aria-label={`${voteCount} ${t(`myNdla.arena.category.vote${voteCount === 1 ? "Singular" : "Plural"}`)}`}
+                  aria-label={`${voteCount} ${t("myNdla.arena.category.votes", { count: voteCount })}`}
                 >
                   <Text aria-hidden textStyle="body.medium">
                     {voteCount}
                   </Text>
                   <Text aria-hidden textStyle="label.small">
-                    {t(`myNdla.arena.category.vote${voteCount === 1 ? "Singular" : "Plural"}`, { count: voteCount })}
+                    {t("myNdla.arena.category.votes", { count: voteCount })}
                   </Text>
                 </StyledCountContainer>
               )}
             </RightSideContainer>
-          </SpacingContainer>
-        </StyledCardWrapper>
+          </StyledListItemContent>
+        </ListItemRoot>
       </StyledSafeLink>
     </ArenaCardWrapper>
   );
