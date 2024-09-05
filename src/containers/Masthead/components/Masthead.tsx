@@ -31,9 +31,8 @@ const MastheadContent = styled("div", {
 const StyledMasthead = styled("header", {
   base: {
     background: "surface.default",
-    borderColor: "stroke.subtle",
-    borderBottom: "1px solid",
     zIndex: "banner",
+    boxShadow: "inner",
 
     "&[data-fixed=true]": { top: 0, position: "sticky", _print: { position: "relative" } },
   },
