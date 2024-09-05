@@ -16,13 +16,14 @@ import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, OneColumn, constants } from "@ndla/ui";
+import { ErrorMessage, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -63,12 +64,8 @@ const createFilters = (t: TFunction) => [
   },
 ];
 
-const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
-
-const StyledColumn = styled(OneColumn, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
   },
 });
@@ -156,9 +153,9 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <StyledMain>
-      <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
-      <StyledColumn wide>
+    <StyledPageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("subjectsPage.allSubjects")}
@@ -172,8 +169,8 @@ const AllSubjectsPage = () => {
             <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
           ))}
         </StyledList>
-      </StyledColumn>
-    </StyledMain>
+      </main>
+    </StyledPageContainer>
   );
 };
 

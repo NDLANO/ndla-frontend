@@ -6,39 +6,39 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { LayoutItem } from "@ndla/ui";
 
-// TODO: Figure out how we should handle margin here.
-
-const Wrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-    paddingBlockStart: "medium",
-    paddingBlockEnd: "xsmall",
-  },
-});
-
-const TopicContent = styled(LayoutItem, {
+const TopicContent = styled("div", {
   base: {
     display: "grid",
     gridTemplateColumns: "1fr",
     gap: "medium",
-    justifyContent: "space-between",
-    desktop: {
-      gridTemplateColumns: "1fr 1fr",
+    paddingBlockStart: "4xlarge",
+    paddingBlockEnd: "xsmall",
+    justifyItems: "center",
+    tabletWide: {
+      gridTemplateColumns: "auto 360px",
+    },
+    _first: {
+      paddingBlockStart: "xxlarge",
+    },
+    "& figure": {
+      "& img, iframe": {
+        aspectRatio: "4/3",
+        objectFit: "cover",
+      },
+      maxWidth: "360px",
     },
   },
 });
 
 const TopicIntroductionWrapper = styled("div", {
   base: {
+    maxWidth: "surface.contentMax",
     display: "flex",
     flexDirection: "column",
     gap: "small",
@@ -60,19 +60,18 @@ export type TopicProps = {
   introduction: ReactNode;
   visualElementEmbedMeta?: EmbedMetaData;
   isAdditionalTopic?: boolean;
-  children?: ReactNode;
   visualElement?: ReactNode;
 };
 
-const Topic = ({ id, title, introduction, isAdditionalTopic, children, visualElement }: TopicProps) => {
-  const { t } = useTranslation();
+const Topic = forwardRef<HTMLDivElement, TopicProps>(
+  ({ id, title, introduction, isAdditionalTopic, visualElement }, ref) => {
+    const { t } = useTranslation();
 
-  return (
-    <Wrapper>
-      <TopicContent layout="extend">
+    return (
+      <TopicContent ref={ref}>
         <TopicIntroductionWrapper>
           <HeadingWrapper>
-            <Heading textStyle="heading.small" id={id} tabIndex={-1}>
+            <Heading textStyle="heading.medium" id={id} tabIndex={-1}>
               {title}
             </Heading>
             {isAdditionalTopic && <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>}
@@ -83,9 +82,8 @@ const Topic = ({ id, title, introduction, isAdditionalTopic, children, visualEle
         </TopicIntroductionWrapper>
         {visualElement}
       </TopicContent>
-      {children}
-    </Wrapper>
-  );
-};
+    );
+  },
+);
 
 export default Topic;

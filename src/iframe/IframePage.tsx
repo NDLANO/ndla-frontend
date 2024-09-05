@@ -10,7 +10,8 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { PageContent } from "@ndla/primitives";
+import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
@@ -24,7 +25,7 @@ const Error = () => {
   const { t } = useTranslation();
   return (
     <Status code={INTERNAL_SERVER_ERROR}>
-      <OneColumn>
+      <PageContent>
         <ErrorMessage
           illustration={{
             url: "/static/oops.gif",
@@ -35,7 +36,7 @@ const Error = () => {
             description: t("errorMessage.description"),
           }}
         />
-      </OneColumn>
+      </PageContent>
     </Status>
   );
 };

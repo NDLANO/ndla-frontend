@@ -51,7 +51,6 @@ const SliderWrapper = styled("div", {
   base: {
     display: "flex",
     overflowX: "scroll",
-    paddingBlock: "xxsmall",
     scrollbarWidth: "none",
     "&::-webkit-scrollbar": {
       display: "none",
