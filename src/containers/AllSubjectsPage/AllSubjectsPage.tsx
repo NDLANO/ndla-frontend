@@ -41,6 +41,12 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
 
 const createFilters = (t: TFunction) => [
   {
+    label: `${t("contentTypes.all")} ${t("common.subject", {
+      count: 2,
+    })}`,
+    value: "all",
+  },
+  {
     label: createFilterTranslation(t, ACTIVE_SUBJECTS),
     value: ACTIVE_SUBJECTS,
   },
@@ -55,12 +61,6 @@ const createFilters = (t: TFunction) => [
   {
     label: createFilterTranslation(t, OTHER, false),
     value: OTHER,
-  },
-  {
-    label: `${t("contentTypes.all")} ${t("common.subject", {
-      count: 2,
-    })}`,
-    value: "all",
   },
 ];
 
@@ -98,7 +98,7 @@ const allSubjectsQuery = gql`
 `;
 
 const filterDefaults = (value: string | string[]): string[] => {
-  if (!value) return [ACTIVE_SUBJECTS];
+  if (!value) return ["all"];
   return Array.isArray(value) ? value : [value];
 };
 
@@ -114,8 +114,15 @@ const AllSubjectsPage = () => {
   const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
 
   const setFilter = (value: string[]) => {
+    // When last added element is all, remove all other filters
+    const lastAdded = value[value.length - 1];
+    if (lastAdded === "all" || !value.length) {
+      _setFilter(["all"]);
+      navigate(location.pathname);
+      return;
+    }
     const searchObject = parse(location.search);
-    const updatedValue = value.length ? value : [ACTIVE_SUBJECTS];
+    const updatedValue = value.filter((v) => v !== "all");
     _setFilter(updatedValue);
     const search = stringify({
       ...searchObject,
