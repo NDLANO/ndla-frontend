@@ -139,6 +139,7 @@ const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
   const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
   return (
     <TabsRoot
+      css={{ paddingBlockEnd: "medium" }}
       defaultValue={tabs[0]?.id}
       orientation="horizontal"
       variant="line"
