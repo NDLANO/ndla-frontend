@@ -15,7 +15,7 @@ const UnpublishedResource = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
-      <HelmetWithTracker title={t("htmlTitles.notFound")} />
+      <HelmetWithTracker title={t("htmlTitles.unpublished")} />
       <OneColumn>
         <ErrorMessage
           illustration={{
