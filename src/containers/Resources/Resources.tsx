@@ -55,6 +55,7 @@ const TitleWrapper = styled("div", {
     alignItems: "center",
     borderBottom: "1px solid",
     borderColor: "stroke.subtle",
+    paddingBlockEnd: "3xsmall",
   },
 });
 
@@ -64,7 +65,6 @@ const StyledHGroup = styled("hgroup", {
     gap: "xsmall",
     flexWrap: "wrap",
     alignItems: "center",
-    marginBlockEnd: "3xsmall",
   },
 });
 
@@ -73,6 +73,12 @@ const ListWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+  },
+});
+
+const StyledForm = styled("form", {
+  base: {
+    marginInlineStart: "auto",
   },
 });
 
@@ -133,7 +139,7 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
           <Text textStyle="label.medium">{topic.name}</Text>
         </StyledHGroup>
         {!!supplementaryResources.length && (
-          <form>
+          <StyledForm>
             <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
               <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
               <SwitchControl>
@@ -141,7 +147,7 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
               </SwitchControl>
               <SwitchHiddenInput />
             </SwitchRoot>
-          </form>
+          </StyledForm>
         )}
       </TitleWrapper>
       {!isGrouped ? (
