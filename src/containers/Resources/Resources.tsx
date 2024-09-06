@@ -40,6 +40,9 @@ const StyledNav = styled("nav", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
+    "& > :first-child": {
+      marginBlockEnd: "-xsmall",
+    },
   },
 });
 
@@ -50,6 +53,8 @@ const TitleWrapper = styled("div", {
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
   },
 });
 
@@ -59,6 +64,7 @@ const StyledHGroup = styled("hgroup", {
     gap: "xsmall",
     flexWrap: "wrap",
     alignItems: "center",
+    marginBlockEnd: "3xsmall",
   },
 });
 
