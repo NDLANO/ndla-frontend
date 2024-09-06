@@ -141,7 +141,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   style="--height: 0px; --width: 0px;"
                 >
                   <div
-                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row"
+                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row pbe_medium"
                     data-orientation="horizontal"
                     data-part="root"
                     data-scope="tabs"
