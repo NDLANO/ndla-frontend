@@ -13,6 +13,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import ListItemImageFallback from "../../components/ListItemImageFallback";
 import { contentTypeMapping } from "../../util/getContentType";
 
 const resourceEmbedTypes = constants.resourceEmbedTypeMapping;
@@ -84,12 +85,6 @@ const StyledCardContent = styled(CardContent, {
   },
 });
 
-const StyledCardRoot = styled(CardRoot, {
-  base: {
-    height: "100%",
-  },
-});
-
 const TitleWrapper = styled("hgroup", {
   base: {
     display: "flex",
@@ -135,10 +130,14 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
       </LoadingCardRoot>
     );
   }
-
+  // {resourceImage.src && <StyledCardImage src={resourceImage.src} height={100} alt={resourceImage.alt} />}
   return (
-    <StyledCardRoot id={id}>
-      {!!resourceImage.src && <StyledCardImage src={resourceImage.src} height={100} alt={resourceImage.alt} />}
+    <CardRoot id={id}>
+      {resourceImage.src ? (
+        <StyledCardImage src={resourceImage.src} height={100} alt={resourceImage.alt} />
+      ) : (
+        <ListItemImageFallback iconSize="large" contentType={contentType} />
+      )}
       <StyledCardContent fullSize={!resourceImage.src}>
         <TitleWrapper>
           <ContentTypeBadgeNew contentType={contentType} />
@@ -159,7 +158,7 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
           <ActionsWrapper>{menu}</ActionsWrapper>
         </DescriptionWrapper>
       </StyledCardContent>
-    </StyledCardRoot>
+    </CardRoot>
   );
 };
 

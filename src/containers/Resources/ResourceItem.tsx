@@ -15,6 +15,7 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import ListItemImageFallback from "../../components/ListItemImageFallback";
 import { RELEVANCE_CORE } from "../../constants";
 
 // TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
@@ -122,12 +123,16 @@ export const ResourceItem = ({
       >
         <StyledListItemContent>
           <TitleWrapper>
-            <ListItemImage
-              src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
-              alt={article?.metaImage?.alt ?? ""}
-              sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
-              css={{ "&[src='']": { opacity: "0" } }}
-            />
+            {(article && article?.metaImage?.url !== undefined) ||
+            (learningpath && learningpath?.coverphoto?.url !== undefined) ? (
+              <ListItemImage
+                src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+                alt={article?.metaImage?.alt ?? ""}
+                sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+              />
+            ) : (
+              <ListItemImageFallback iconSize="small" />
+            )}
             <ListItemHeading asChild consumeCss>
               <StyledSafeLink
                 to={path}

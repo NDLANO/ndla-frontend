@@ -21,6 +21,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import ListItemImageFallback from "../../components/ListItemImageFallback";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
@@ -151,13 +152,15 @@ const ListResource = ({
 
   return (
     <ListItemRoot id={id} variant={variant}>
-      <ImageComponent
-        src={resourceImage.src}
-        alt={resourceImage.alt}
-        fallbackWidth={imageType === "compact" ? 56 : 136}
-        // Hide image borders when no image is present. We still want it to take up space
-        css={{ "&[src='']": { opacity: "0" } }}
-      />
+      {resourceImage.src !== "" ? (
+        <ImageComponent
+          src={resourceImage.src}
+          alt={resourceImage.alt}
+          fallbackWidth={imageType === "compact" ? 56 : 136}
+        />
+      ) : (
+        <ListItemImageFallback contentType={contentType} iconSize={imageType === "compact" ? "small" : "medium"} />
+      )}
       <StyledListItemContent>
         <TitleWrapper>
           <ListItemHeading
