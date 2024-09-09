@@ -54,6 +54,10 @@ const StyledTopicWrapper = styled(PageContainer, {
   base: {
     paddingBlockStart: "0",
     overflowX: "hidden",
+    // TODO: There's a bunch of tricky compositions for nested topics. This won't be necessary once we separate each topic out into their own page.
+    "& > [data-nav-box] + :is([data-resource-section], [data-topic]), > [data-resource-section] + [data-topic]": {
+      paddingBlockStart: "4xlarge",
+    },
   },
 });
 
