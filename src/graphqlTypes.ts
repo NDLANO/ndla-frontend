@@ -4301,6 +4301,7 @@ export type GQLResources_ResourceFragment = {
   language?: string;
   relevanceId?: string;
   article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
+  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
@@ -4385,7 +4386,11 @@ export type GQLTopic_TopicFragment = {
       relevanceId?: string;
     } & GQLMultidisciplinaryArticleList_TopicFragment
   >;
-  meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
   contexts: Array<{
     __typename?: "TaxonomyContext";
     breadcrumbs: Array<string>;

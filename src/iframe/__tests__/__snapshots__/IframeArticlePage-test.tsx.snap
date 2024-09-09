@@ -7,7 +7,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   >
     <main>
       <article
-        class="bg_background.default d_flex flex-d_column gap_xxlarge c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
@@ -16,13 +16,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <hgroup
             class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
           >
-            <div
-              class="d_flex flex-d_row ai_center jc_space-between gap_small w_100% min-h_xxlarge"
-            />
             <h1
-              class="textStyle_heading.large"
+              class="textStyle_heading.medium"
               id="54"
               lang="no"
+              property="dct:title"
             >
               Politiske skillelinjer
             </h1>
@@ -41,7 +39,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         >
           <section>
             <p
-              class="[&[data-align="center"]]:ta_center [&:has(span[dir="rtl"])]:direction_rtl"
               lang="no"
             >
               Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
@@ -63,7 +60,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <span>
                   by-sa
                 </span>
-                <span>
+                <span
+                  property="cc:attributionName"
+                >
                   Skrevet av Someone. 
                 </span>
               </div>

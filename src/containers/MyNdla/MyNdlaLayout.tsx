@@ -15,8 +15,8 @@ import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
   BookReadFill,
   BookReadLine,
-  QuestionAnswerFill,
-  QuestionAnswerLine,
+  Forum,
+  ForumOutlined,
   HomeFill,
   HomeLine,
   LogoutBoxRightLine,
@@ -188,14 +188,6 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     iconFilled: <HomeFill />,
   },
   {
-    id: "folders",
-    to: routes.myNdla.folders,
-    name: t("myNdla.myFolders"),
-    shortName: t("myNdla.iconMenu.folders"),
-    icon: <FolderLine />,
-    iconFilled: <FolderFill />,
-  },
-  {
     id: "subjects",
     to: routes.myNdla.subjects,
     name: t("myNdla.favoriteSubjects.title"),
@@ -204,12 +196,20 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     iconFilled: <BookReadFill />,
   },
   {
+    id: "folders",
+    to: routes.myNdla.folders,
+    name: t("myNdla.myFolders"),
+    shortName: t("myNdla.iconMenu.folders"),
+    icon: <FolderLine />,
+    iconFilled: <FolderFill />,
+  },
+  {
     id: "arena",
     to: routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
-    icon: <QuestionAnswerLine />,
-    iconFilled: <QuestionAnswerFill />,
+    icon: <ForumOutlined />,
+    iconFilled: <Forum />,
     shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled,
   },
   {

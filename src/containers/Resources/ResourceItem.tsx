@@ -75,6 +75,9 @@ export type Resource = {
   article?: {
     metaImage?: { url?: string; alt?: string };
   };
+  learningpath?: {
+    coverphoto?: { url?: string };
+  };
 };
 
 export const ResourceItem = ({
@@ -87,6 +90,7 @@ export const ResourceItem = ({
   access,
   language,
   article,
+  learningpath,
 }: Props & Resource) => {
   const { t } = useTranslation();
   const relevanceElId = useId();
@@ -119,7 +123,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <TitleWrapper>
             <ListItemImage
-              src={article?.metaImage?.url ?? ""}
+              src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
               alt={article?.metaImage?.alt ?? ""}
               sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
               css={{ "&[src='']": { opacity: "0" } }}

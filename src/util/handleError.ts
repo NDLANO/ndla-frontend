@@ -110,6 +110,8 @@ const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
   const statusCodes = getErrorStatuses(error);
   const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
 
+  if (logLevels.length === 0) return undefined;
+
   if (logLevels.every((l) => l === "info")) return "info";
   if (logLevels.every((l) => l === "warn" || "info")) return "warn";
   if (logLevels.includes("error")) return "error";
