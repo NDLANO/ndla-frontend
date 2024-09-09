@@ -39,10 +39,7 @@ const StyledNav = styled("nav", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
-    "& > :first-child": {
-      marginBlockEnd: "-xsmall",
-    },
+    gap: "xsmall",
   },
 });
 
@@ -79,6 +76,14 @@ const ListWrapper = styled("div", {
 const StyledForm = styled("form", {
   base: {
     marginInlineStart: "auto",
+  },
+});
+
+const ResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
   },
 });
 
@@ -150,28 +155,30 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
           </StyledForm>
         )}
       </TitleWrapper>
-      {!isGrouped ? (
-        <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
-      ) : (
-        groupedResources.map((type) => (
-          <StableId key={type.id}>
-            {(id) => (
-              <ListWrapper>
-                <Heading id={id} textStyle="title.medium" asChild consumeCss>
-                  <SubHeadingType>{type.name}</SubHeadingType>
-                </Heading>
-                <ResourceList
-                  headingId={id}
-                  title={type.name}
-                  showAdditionalResources={showAdditionalResources}
-                  contentType={type.contentType}
-                  resources={type.resources ?? []}
-                />
-              </ListWrapper>
-            )}
-          </StableId>
-        ))
-      )}
+      <ResourceContainer>
+        {!isGrouped ? (
+          <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
+        ) : (
+          groupedResources.map((type) => (
+            <StableId key={type.id}>
+              {(id) => (
+                <ListWrapper>
+                  <Heading id={id} textStyle="title.medium" asChild consumeCss>
+                    <SubHeadingType>{type.name}</SubHeadingType>
+                  </Heading>
+                  <ResourceList
+                    headingId={id}
+                    title={type.name}
+                    showAdditionalResources={showAdditionalResources}
+                    contentType={type.contentType}
+                    resources={type.resources ?? []}
+                  />
+                </ListWrapper>
+              )}
+            </StableId>
+          ))
+        )}
+      </ResourceContainer>
     </StyledNav>
   );
 };
