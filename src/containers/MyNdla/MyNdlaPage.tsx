@@ -155,7 +155,9 @@ const MyNdlaPage = () => {
   return (
     <MyNdlaPageWrapper>
       <StyledPageContentContainer>
-        <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
+        <HelmetWithTracker title={t("htmlTitles.myNdlaPage")}>
+          <meta name="description" content={t("myNdla.description")} />
+        </HelmetWithTracker>
         <div>
           <TitleWrapper>
             <MyNdlaTitle title={t("myNdla.myNDLA")} />
