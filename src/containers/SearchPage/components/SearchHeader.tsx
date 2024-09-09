@@ -13,7 +13,6 @@ import { SearchLine } from "@ndla/icons/common";
 import {
   Button,
   IconButton,
-  Input,
   InputContainer,
   Text,
   Heading,
