@@ -180,6 +180,9 @@ const messages = {
   aboutPage: {
     nav: "Informasjonssider",
   },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
 };
 
 export default messages;

@@ -176,6 +176,9 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
   },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
 };
 
 export default messages;

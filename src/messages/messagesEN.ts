@@ -180,6 +180,9 @@ const messages = {
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
   },
+  welcomePage: {
+    programmes: "Programmes",
+  },
 };
 
 export default messages;
