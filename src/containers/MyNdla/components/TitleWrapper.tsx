@@ -15,6 +15,9 @@ const TitleWrapper = styled("div", {
     flexDirection: "column",
     gap: "small",
     paddingBlockStart: "medium",
+    "& a": {
+      color: "text.default",
+    },
   },
 });
 

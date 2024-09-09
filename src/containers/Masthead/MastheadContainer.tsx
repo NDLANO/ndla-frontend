@@ -31,7 +31,7 @@ import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled("span", {
   base: {
-    mobileWideDown: {
+    tabletDown: {
       display: "none",
     },
   },
@@ -59,8 +59,11 @@ const DrawerWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-start",
-    gap: "small",
+    gap: "4xsmall",
     flex: "1",
+    tablet: {
+      gap: "small",
+    },
   },
 });
 

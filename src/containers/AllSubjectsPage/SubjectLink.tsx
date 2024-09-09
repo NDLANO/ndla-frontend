@@ -24,7 +24,7 @@ const SubjectLinkWrapper = styled("li", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "xsmall",
+    gap: "small",
   },
 });
 
