@@ -8,58 +8,58 @@
 
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, mq, fonts } from "@ndla/core";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../routeHelpers";
 
-const StyledSafeLink = styled(SafeLinkButton)`
-  display: flex;
-  align-self: center;
-  justify-content: flex-start;
+const StyledSafeLink = styled(SafeLinkButton, {
+  base: {
+    display: "flex",
+    justifyContent: "flex-start",
+    color: "text.default",
+    fontWeight: "normal",
+    paddingInline: "xsmall",
+    height: "100%",
+    desktopDown: {
+      flexDirection: "column",
+      textStyle: "label.xsmall",
+    },
+    tabletDown: {
+      paddingInline: "3xsmall",
+    },
+    _currentPage: {
+      fontWeight: "bold",
+    },
+  },
+});
 
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column;
-  }
-`;
+const LongText = styled("span", {
+  base: {
+    desktopDown: {
+      display: "none",
+    },
+  },
+});
 
-const IconWrapper = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LongText = styled(Text)`
-  font-weight: ${fonts.weight.semibold};
-  &[data-current="true"] {
-    font-weight: ${fonts.weight.bold};
-  }
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-    width: 0px;
-  }
-`;
-
-const ShortText = styled(Text)`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
-`;
+const ShortText = styled("span", {
+  base: {
+    desktop: {
+      display: "none",
+    },
+  },
+});
 
 interface Props extends Omit<SafeLinkButtonProps, "children"> {
-  id: string;
   icon: ReactNode;
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
 }
 
-const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
+const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
   const location = useLocation();
-  const selected = id
-    ? location.pathname.startsWith(`${routes.myNdla.root}/${id}`)
-    : location.pathname === routes.myNdla.root;
+  const selected =
+    to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(to);
   const selectedIcon = selected ? iconFilled ?? icon : icon;
 
   return (
@@ -70,13 +70,9 @@ const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to, re
       reloadDocument={reloadDocument}
       onClick={onClick}
     >
-      <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-small" margin="none" data-current={selected}>
-        {name}
-      </LongText>
-      <ShortText textStyle="meta-text-xxsmall" margin="none">
-        {shortName}
-      </ShortText>
+      {selectedIcon}
+      <LongText>{name}</LongText>
+      <ShortText>{shortName}</ShortText>
     </StyledSafeLink>
   );
 };

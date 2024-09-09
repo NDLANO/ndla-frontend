@@ -10,8 +10,6 @@ import { TFunction } from "i18next";
 import { useMemo, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
   BookReadFill,
   BookReadLine,
@@ -28,93 +26,105 @@ import {
 } from "@ndla/icons/common";
 import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
-import { Button, DialogRoot, DialogTrigger, MessageBox } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { Button, DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
 
-const StyledLayout = styled.div`
-  display: flex;
-  min-height: 60vh;
-  flex-direction: row;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    flex-direction: column;
-  }
-`;
+const StyledLayout = styled(PageLayout, {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    mobileWideDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
-const StyledNavList = styled.ul`
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  grid-gap: ${spacing.xsmall};
-  margin: 0px;
-  padding: 0 ${spacing.xsmall} 0 0;
-  justify-content: space-between;
+const StyledNavList = styled("ul", {
+  base: {
+    display: "grid",
+    listStyle: "none",
+    gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
+    gap: "4xsmall",
+    justifyContent: "space-between",
+    mobileWide: {
+      display: "flex",
+      flexDirection: "column",
+      width: "100%",
+    },
+    desktop: {
+      alignItems: "flex-start",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    align-items: flex-start;
-  }
-`;
+const StyledLi = styled("li", {
+  base: {
+    // Menubar on phone should only display first 4 links and the the rest when the modal is open.
+    mobileWideDown: {
+      "&:not(:nth-of-type(-n + 4))": {
+        display: "none",
+      },
+    },
+    desktop: {
+      width: "100%",
+    },
+  },
+});
 
-const StyledLi = styled.li`
-  /* Menubar on phone should only display first 4 
-  links and the rest when the modal is open */
-  &:not(:nth-of-type(-n + 4)) {
-    display: none;
-  }
+const StyledContent = styled("div", {
+  base: {
+    width: "100%",
+  },
+});
 
-  padding: 0;
-  margin: 0;
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: unset !important;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    width: 100%;
-  }
-`;
+const StyledSideBar = styled("div", {
+  base: {
+    display: "flex",
+    flexShrink: "0",
+    flexDirection: "row",
+    justifyContent: "center",
+    background: "background.subtle",
+    gap: "4xsmall",
+    mobileWideDown: {
+      paddingBlock: "4xsmall",
+      borderBottom: "1px solid",
+      borderColor: "stroke.subtle",
+      paddingInline: "4xsmall",
+      display: "grid",
+      gridTemplateColumns: "4fr 1fr",
+    },
+    mobileWide: {
+      padding: "3xsmall",
+      borderRight: "1px solid",
+      borderColor: "stroke.subtle",
+    },
+    desktop: {
+      justifyContent: "flex-start",
+      gap: "medium",
+      flexDirection: "column",
+      minWidth: "surface.xsmall",
+    },
+  },
+});
 
-const StyledContent = styled.div`
-  width: 100%;
-`;
-
-const StyledSideBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid ${colors.brand.lightest};
-  background: ${colors.background.lightBlue};
-  justify-content: center;
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    padding: ${spacing.nsmall};
-    border-right: 1px solid ${colors.brand.lightest};
-    border-bottom: unset;
-  }
-
-  ${mq.range({ from: breakpoints.desktop })} {
-    justify-content: flex-start;
-    gap: ${spacing.normal};
-    flex-direction: column;
-    min-width: 300px;
-    border-right: 1px solid ${colors.brand.lightest};
-    border-bottom: unset;
-  }
-`;
-
-const MoreButton = styled(Button)`
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
+const MoreButton = styled(Button, {
+  base: {
+    color: "text.default",
+    display: "flex",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+    paddingInline: "3xsmall",
+    textStyle: "label.xsmall",
+    mobileWide: {
+      display: "none",
+    },
+  },
+});
 
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
@@ -132,7 +142,6 @@ const MyNdlaLayout = () => {
           return (
             <StyledLi key={id}>
               <NavigationLink
-                id={id}
                 name={name}
                 shortName={shortName}
                 icon={icon}
@@ -157,9 +166,7 @@ const MyNdlaLayout = () => {
           <DialogTrigger asChild>
             <MoreButton variant="tertiary">
               <MoreLine />
-              <Text margin="none" textStyle="meta-text-xxsmall">
-                {t("myNdla.iconMenu.more")}
-              </Text>
+              <Text textStyle="label.xsmall">{t("myNdla.iconMenu.more")}</Text>
             </MoreButton>
           </DialogTrigger>
         </StyledSideBar>
