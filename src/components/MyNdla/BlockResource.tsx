@@ -130,7 +130,7 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
       </LoadingCardRoot>
     );
   }
-  // {resourceImage.src && <StyledCardImage src={resourceImage.src} height={100} alt={resourceImage.alt} />}
+
   return (
     <CardRoot id={id}>
       {resourceImage.src ? (
