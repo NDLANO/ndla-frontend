@@ -65,9 +65,9 @@ const StyledLi = styled("li", {
     },
     desktop: {
       paddingBlockStart: "medium",
-      paddingInlineStart: "large",
+      paddingInlineStart: "xxlarge",
       _after: {
-        width: "large",
+        width: "xxlarge",
         height: "3xlarge",
       },
     },

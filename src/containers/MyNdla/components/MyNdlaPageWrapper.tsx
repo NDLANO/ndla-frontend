@@ -24,9 +24,6 @@ const ContentWrapper = styled("main", {
       marginBlockStart: "0",
       marginBlockEnd: "3xlarge",
     },
-    mobile: {
-      marginInline: "unset",
-    },
   },
 });
 
