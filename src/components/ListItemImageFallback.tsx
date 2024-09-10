@@ -61,7 +61,7 @@ const IconWrapper = styled("div", {
         },
       },
       large: {
-        height: "surface.4xsmall",
+        height: "surface.3xsmall",
       },
     },
   },
