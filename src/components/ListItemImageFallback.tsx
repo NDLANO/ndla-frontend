@@ -17,6 +17,25 @@ interface Props {
   iconSize?: "small" | "medium" | "large";
 }
 
+const getIcon = (contentType: string) => {
+  switch (contentType) {
+    case "learning-path":
+      return <LearningPath />;
+    case "image":
+      return <ImageLine />;
+    case "video":
+      return <PlayBoxOutline />;
+    case "h5p":
+      return <H5P />;
+    case "podcast":
+      return <HeadphoneLine />;
+    case "audio":
+      return <VolumeUp />;
+    default:
+      return <ImageLine />;
+  }
+};
+
 const IconWrapper = styled("div", {
   base: {
     display: "flex",
@@ -48,24 +67,9 @@ const IconWrapper = styled("div", {
   },
 });
 
-const ListItemImageFallback = ({ contentType, iconSize = "small" }: Props) => {
+const ListItemImageFallback = ({ contentType = "image", iconSize = "small" }: Props) => {
   const icon = useMemo(() => {
-    switch (contentType) {
-      case "learning-path":
-        return <LearningPath />;
-      case "image":
-        return <ImageLine />;
-      case "video":
-        return <PlayBoxOutline />;
-      case "h5p":
-        return <H5P />;
-      case "podcast":
-        return <HeadphoneLine />;
-      case "audio":
-        return <VolumeUp />;
-      default:
-        return <ImageLine />;
-    }
+    return getIcon(contentType);
   }, [contentType]);
 
   return <IconWrapper sizes={iconSize}>{icon}</IconWrapper>;
