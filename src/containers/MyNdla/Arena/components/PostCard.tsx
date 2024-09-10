@@ -45,17 +45,6 @@ export const PostHeader = styled("div", {
   },
 });
 
-export const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-    "& > p": {
-      textStyle: "body.medium",
-    },
-  },
-});
-
 export const Content = styled(Text, {
   base: {
     wordBreak: "break-word",
@@ -172,7 +161,9 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
           <PostHeader>
             <UserProfileTag user={post.owner} />
           </PostHeader>
-          <ContentWrapper>{parse(contentAsHTML!)}</ContentWrapper>
+          <Text asChild consumeCss>
+            <div>{parse(contentAsHTML!)}</div>
+          </Text>
           {options}
         </>
       )}

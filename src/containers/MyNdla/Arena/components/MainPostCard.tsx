@@ -21,10 +21,10 @@ import {
   Heading,
   Button,
 } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { PostCardWrapper, Content, PostHeader, ContentWrapper } from "./PostCard";
+import { PostCardWrapper, Content, PostHeader } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -126,12 +126,12 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
             {profileTag}
             {followSwitch}
           </PostHeader>
-          <ContentWrapper>
+          <Stack gap="xsmall">
             <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large" fontWeight="bold">
               {topic?.title}
             </Heading>
             <Content textStyle="body.large">{parse(contentAsHTML!)}</Content>
-          </ContentWrapper>
+          </Stack>
           <HStack justify="space-between">
             <Text textStyle="body.small" asChild consumeCss>
               <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
