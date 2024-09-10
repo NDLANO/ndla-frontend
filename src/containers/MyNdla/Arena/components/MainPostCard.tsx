@@ -153,7 +153,9 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
             <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large" fontWeight="bold">
               {topic?.title}
             </Heading>
-            <Content textStyle="body.large">{parse(contentAsHTML!)}</Content>
+            <Content textStyle="body.large" asChild consumeCss>
+              <div>{parse(contentAsHTML!)}</div>
+            </Content>
           </Stack>
           <HStack justify="space-between">
             <Text textStyle="body.small" asChild consumeCss>

@@ -71,18 +71,24 @@ interface EditorToolbarProps {
   editorIsFocused: boolean;
 }
 
-const selectionHasFormat = (
+const toggleToolbarState = (
   isActive: boolean,
   format: TextFormatType | "link",
   setToolbarValues: Dispatch<SetStateAction<string[]>>,
   condition?: boolean,
 ) => {
   if (!condition && isActive) {
-    return setToolbarValues((prev) => [...prev.filter((val) => val !== format)]);
+    return setToolbarValues((prev) => prev.filter((val) => val !== format));
   } else if (condition && !isActive) {
-    return setToolbarValues((prev) => [...prev, format]);
+    return setToolbarValues((prev) => prev.concat(format));
   }
 };
+
+const BOLD = "bold";
+const ITALIC = "italic";
+const UNORDERED = "unordered";
+const ORDERED = "ordered";
+const LINK = "link";
 
 export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   const { t } = useTranslation();
@@ -93,11 +99,11 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
   const [toolbarValues, setToolbarValues] = useState<string[]>([]);
 
-  const isBold = useMemo(() => toolbarValues.includes("bold"), [toolbarValues]);
-  const isItalic = useMemo(() => toolbarValues.includes("italic"), [toolbarValues]);
-  const isUnorderedList = useMemo(() => toolbarValues.includes("unordered"), [toolbarValues]);
-  const isOrderedList = useMemo(() => toolbarValues.includes("ordered"), [toolbarValues]);
-  const isLink = useMemo(() => toolbarValues.includes("link"), [toolbarValues]);
+  const isBold = useMemo(() => toolbarValues.includes(BOLD), [toolbarValues]);
+  const isItalic = useMemo(() => toolbarValues.includes(ITALIC), [toolbarValues]);
+  const isUnorderedList = useMemo(() => toolbarValues.includes(UNORDERED), [toolbarValues]);
+  const isOrderedList = useMemo(() => toolbarValues.includes(ORDERED), [toolbarValues]);
+  const isLink = useMemo(() => toolbarValues.includes(LINK), [toolbarValues]);
 
   const osCtrl = useCallback(
     (key: string) => {
@@ -155,24 +161,24 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
 
       setHasSelectedText(selection.anchor.offset !== selection.focus.offset);
 
-      selectionHasFormat(isBold, "bold", setToolbarValues, selection.hasFormat("bold"));
-      selectionHasFormat(isItalic, "italic", setToolbarValues, selection.hasFormat("italic"));
+      toggleToolbarState(isBold, BOLD, setToolbarValues, selection.hasFormat(BOLD));
+      toggleToolbarState(isItalic, ITALIC, setToolbarValues, selection.hasFormat(ITALIC));
 
       const node = getSelectedNode(selection);
       const parent = node.getParent();
 
-      selectionHasFormat(isLink, "link", setToolbarValues, $isLinkNode(node) || $isLinkNode(parent));
+      toggleToolbarState(isLink, LINK, setToolbarValues, $isLinkNode(node) || $isLinkNode(parent));
 
       if (elementDOM !== null) {
-        const filterList = (val: string) => val !== "unordered" && val !== "ordered";
+        const filterList = (val: string) => val !== UNORDERED && val !== ORDERED;
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
           const type = parentList ? parentList.getListType() : element.getListType();
 
           if (type === "bullet") {
-            return !isUnorderedList && setToolbarValues((prev) => [...prev.filter(filterList), "unordered"]);
+            return !isUnorderedList && setToolbarValues((prev) => prev.filter(filterList).concat(UNORDERED));
           } else {
-            return !isOrderedList && setToolbarValues((prev) => [...prev.filter(filterList), "ordered"]);
+            return !isOrderedList && setToolbarValues((prev) => prev.filter(filterList).concat(ORDERED));
           }
         } else {
           return setToolbarValues((prev) => prev.filter(filterList));
@@ -227,7 +233,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   return (
     <StyledToggleGroupRoot multiple value={toolbarValues}>
       <ToggleGroupItem
-        value="bold"
+        value={BOLD}
         variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
@@ -237,7 +243,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         <Bold />
       </ToggleGroupItem>
       <ToggleGroupItem
-        value="italic"
+        value={ITALIC}
         variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
@@ -247,7 +253,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         <Italic />
       </ToggleGroupItem>
       <ToggleGroupItem
-        value="unordered"
+        value={UNORDERED}
         variant="tertiary"
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
@@ -262,7 +268,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         aria-label={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
         size="small"
-        value="ordered"
+        value={ORDERED}
       >
         <ListOrdered />
       </ToggleGroupItem>
@@ -273,7 +279,7 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         title={linkLabel}
         aria-selected={isLink}
         size="small"
-        value="link"
+        value={LINK}
       >
         <LinkMedium />
       </ToggleGroupItem>
