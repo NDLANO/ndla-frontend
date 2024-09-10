@@ -81,7 +81,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
-        <Heading id="myProfileTitle" textStyle="heading.small" asChild consumeCss>
+        <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
         </Heading>
         <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
@@ -89,7 +89,7 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
       {!isStudent(user) && (
         <>
           <OptionContainer>
-            <Heading id="myProfileTitle" textStyle="heading.small" asChild consumeCss>
+            <Heading textStyle="heading.small" asChild consumeCss>
               <h2>{t("myNdla.myProfile.preferenceTitle")}</h2>
             </Heading>
             <Text textStyle="body.large">{t("myNdla.myProfile.preferenceText")}</Text>

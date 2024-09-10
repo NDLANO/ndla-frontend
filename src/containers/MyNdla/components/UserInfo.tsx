@@ -28,7 +28,6 @@ const ShortInfoDiv = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
-    maxWidth: "surface.xlarge",
   },
 });
 

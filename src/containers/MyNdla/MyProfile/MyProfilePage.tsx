@@ -22,7 +22,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -34,15 +34,11 @@ import MyContactArea from "../components/MyContactArea";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import { UserInfo } from "../components/UserInfo";
-import InfoPart from "../InfoPart";
 import { useDeletePersonalData } from "../userMutations";
 
-const StyledPageContentContainer = styled("div", {
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
-    marginBlockStart: "medium",
   },
 });
 
@@ -59,15 +55,16 @@ const InfoContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
+    maxWidth: "surface.xlarge",
   },
 });
 
-const ButtonContainer = styled("div", {
+const HeadingWrapper = styled("div", {
   base: {
     alignItems: "baseline",
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
+    gap: "xsmall",
   },
 });
 
@@ -91,69 +88,72 @@ const MyProfilePage = () => {
   };
 
   return (
-    <MyNdlaPageWrapper>
-      <StyledPageContentContainer>
-        <HelmetWithTracker title={t("myNdla.myProfile.title")} />
-        <MyNdlaTitle title={t("myNdla.myProfile.title")} />
-        <MyContactArea
-          user={{
-            username: user?.username,
-            displayName: user?.displayName,
-            role: user?.role,
-            primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
-          }}
-        />
-        {user && <MyPreferences user={user} />}
-        <InfoContainer>
-          {user && (
-            <InfoPart title={t("myNdla.myPage.feide")}>
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={t("myNdla.myProfile.title")} />
+      <MyNdlaTitle title={t("myNdla.myProfile.title")} />
+      <MyContactArea
+        user={{
+          username: user?.username,
+          displayName: user?.displayName,
+          role: user?.role,
+          primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
+        }}
+      />
+      {user && <MyPreferences user={user} />}
+      <InfoContainer>
+        {user && (
+          <>
+            <HeadingWrapper>
+              <Heading textStyle="heading.small" asChild consumeCss>
+                <h2>{t("myNdla.myPage.feide")}</h2>
+              </Heading>
               <UserInfo user={user} />
-              <Text textStyle="body.large">
-                {t("user.wrongUserInfoDisclaimer")}
-                <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
-              </Text>
-            </InfoPart>
-          )}
-          <Text textStyle="body.large">
-            {`${t("myNdla.myPage.read.read")} `}
-            <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
-              {t("myNdla.myPage.privacy")}
-            </SafeLink>
-            {`${t("myNdla.myPage.read.our")} `}
-          </Text>
-        </InfoContainer>
-        <ButtonContainer>
-          <Heading id="deleteUserTitle" textStyle="heading.small" asChild consumeCss>
-            <h2>{t("myNdla.myPage.wishToDelete")}</h2>
-          </Heading>
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button variant="danger">
-                <DeleteBinLine />
-                {t("myNdla.myPage.deleteAccount")}
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t("myNdla.myPage.deleteAccount")}</DialogTitle>
-                <DialogCloseButton />
-              </DialogHeader>
-              <DialogBody>
-                <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
-                <ButtonRow>
-                  <DialogCloseTrigger asChild>
-                    <Button variant="secondary">{t("cancel")}</Button>
-                  </DialogCloseTrigger>
-                  <Button variant="danger" onClick={onDeleteAccount}>
-                    {t("myNdla.myPage.confirmDeleteAccountButton")}
-                  </Button>
-                </ButtonRow>
-              </DialogBody>
-            </DialogContent>
-          </DialogRoot>
-        </ButtonContainer>
-      </StyledPageContentContainer>
-    </MyNdlaPageWrapper>
+            </HeadingWrapper>
+            <Text textStyle="body.large">
+              {t("user.wrongUserInfoDisclaimer")}
+              <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
+            </Text>
+          </>
+        )}
+        <Text textStyle="body.large">
+          {`${t("myNdla.myPage.read.read")} `}
+          <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
+            {t("myNdla.myPage.privacy")}
+          </SafeLink>
+          {`${t("myNdla.myPage.read.our")} `}
+        </Text>
+      </InfoContainer>
+      <Stack gap="medium" align="flex-start">
+        <Heading textStyle="heading.small" asChild consumeCss>
+          <h2>{t("myNdla.myPage.wishToDelete")}</h2>
+        </Heading>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <Button variant="danger">
+              <DeleteBinLine />
+              {t("myNdla.myPage.deleteAccount")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("myNdla.myPage.deleteAccount")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
+              <ButtonRow>
+                <DialogCloseTrigger asChild>
+                  <Button variant="secondary">{t("cancel")}</Button>
+                </DialogCloseTrigger>
+                <Button variant="danger" onClick={onDeleteAccount}>
+                  {t("myNdla.myPage.confirmDeleteAccountButton")}
+                </Button>
+              </ButtonRow>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
+      </Stack>
+    </StyledMyNdlaPageWrapper>
   );
 };
 
