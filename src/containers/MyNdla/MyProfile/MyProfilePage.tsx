@@ -8,8 +8,6 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import {
   Button,
   DialogBody,
@@ -19,10 +17,12 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Heading,
+  Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
@@ -36,31 +36,39 @@ import { UserInfo } from "../components/UserInfo";
 import InfoPart from "../InfoPart";
 import { useDeletePersonalData } from "../userMutations";
 
-const StyledPageContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: ${spacing.normal};
-  gap: ${spacing.large};
-`;
+const StyledPageContentContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    marginBlockStart: "medium",
+  },
+});
 
-const ButtonRow = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  justify-content: flex-end;
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    justifyContent: "flex-end",
+  },
+});
 
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const InfoContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const ButtonContainer = styled("div", {
+  base: {
+    alignItems: "baseline",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
 const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
@@ -99,13 +107,13 @@ const MyProfilePage = () => {
           {user && (
             <InfoPart title={t("myNdla.myPage.feide")}>
               <UserInfo user={user} />
-              <Text element="p" textStyle="content-alt" margin="none">
+              <Text>
                 {t("user.wrongUserInfoDisclaimer")}
                 <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
               </Text>
             </InfoPart>
           )}
-          <Text element="p" textStyle="content-alt" margin="none">
+          <Text>
             {`${t("myNdla.myPage.read.read")} `}
             <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
               {t("myNdla.myPage.privacy")}
@@ -114,8 +122,8 @@ const MyProfilePage = () => {
           </Text>
         </InfoContainer>
         <ButtonContainer>
-          <Heading element="h2" id="deleteUserTitle" margin="none" headingStyle="h2">
-            {t("myNdla.myPage.wishToDelete")}
+          <Heading id="deleteUserTitle" textStyle="title.large" asChild consumeCss>
+            <h2>{t("myNdla.myPage.wishToDelete")}</h2>
           </Heading>
           <DialogRoot>
             <DialogTrigger asChild>

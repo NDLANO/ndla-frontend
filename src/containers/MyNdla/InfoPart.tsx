@@ -7,10 +7,8 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { misc, spacing } from "@ndla/core";
-import { Icon } from "@ndla/icons";
-import { Heading } from "@ndla/typography";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   icon?: ReactNode;
@@ -18,35 +16,36 @@ interface Props {
   children?: ReactNode;
 }
 
-const InfoPartWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  max-width: ${misc.maxTextWidth};
-`;
+const InfoPartWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+    maxWidth: "surface.xlarge",
+  },
+});
 
-const InfoPartHeader = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: ${spacing.nsmall};
-`;
+const InfoPartHeader = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    gap: "xxsmall",
+  },
+});
 
-export const InfoPartText = styled.p`
-  margin: 0;
-`;
-
-export const InfoPartIcon = styled(Icon)`
-  width: 30px;
-  height: 30px;
-`;
+export const InfoPartText = styled("p", {
+  base: {
+    margin: 0,
+  },
+});
 
 const InfoPart = ({ icon, title, children }: Props) => {
   return (
     <InfoPartWrapper>
       <InfoPartHeader>
         {icon}
-        <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-          {title}
+        <Heading id="myProfileTitle" textStyle="title.large" asChild consumeCss>
+          <h2>{title}</h2>
         </Heading>
       </InfoPartHeader>
       {children}

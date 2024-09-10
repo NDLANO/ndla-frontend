@@ -7,32 +7,37 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { misc, spacing } from "@ndla/core";
-import { Text } from "@ndla/typography";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 
 interface Props {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
 }
 
-const StyledComponentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  max-width: ${misc.maxTextWidth};
-`;
+const StyledComponentContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const ShortInfoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
-`;
+const ShortInfoDiv = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+    maxWidth: "surface.xlarge",
+  },
+});
 
-const StyledUl = styled.ul`
-  padding-left: ${spacing.mediumlarge};
-  padding-bottom: ${spacing.small};
-`;
+const StyledUl = styled("ul", {
+  base: {
+    paddingInlineStart: "xlarge",
+    paddingBlockEnd: "xxsmall",
+  },
+});
 
 export const UserInfo = ({ user }: Props) => {
   const { t } = useTranslation();
@@ -40,27 +45,27 @@ export const UserInfo = ({ user }: Props) => {
   return (
     <StyledComponentContainer>
       {
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text>
           {t("user.loggedInAs", {
             role: t(`user.role.${user?.role}`),
           })}
         </Text>
       }
       <ShortInfoDiv>
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text>
           {t("user.username")}: {user?.username}
-        </Text>
-        <Text element="p" textStyle="content-alt" margin="none">
+        </Text>{" "}
+        <Text>
           {t("user.name")}: {user?.displayName}
         </Text>
-        <Text element="p" textStyle="content-alt" margin="none">
+        <Text>
           {t("user.mail")}: {user?.email}
         </Text>
       </ShortInfoDiv>
       <StyledUl>
         {user?.groups.map((org) => (
-          <Text element="li" textStyle="content-alt" margin="none" key={org.id}>
-            {`${org.displayName}${org.isPrimarySchool ? ` (${t("user.primarySchool")})` : ""}`}
+          <Text key={org.id} asChild consumeCss>
+            <li>{`${org.displayName}${org.isPrimarySchool ? ` (${t("user.primarySchool")})` : ""}`}</li>
           </Text>
         ))}
       </StyledUl>
