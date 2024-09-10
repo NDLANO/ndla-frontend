@@ -17,11 +17,13 @@ const TopicContent = styled("div", {
     display: "grid",
     gridTemplateColumns: "1fr",
     gap: "medium",
-    paddingBlockStart: "medium",
-    paddingBlockEnd: "xsmall",
+    paddingBlock: "xsmall",
     justifyItems: "center",
     tabletWide: {
       gridTemplateColumns: "auto 360px",
+    },
+    _first: {
+      paddingBlockStart: "xxlarge",
     },
     "& figure": {
       "& img, iframe": {
@@ -65,10 +67,10 @@ const Topic = forwardRef<HTMLDivElement, TopicProps>(
     const { t } = useTranslation();
 
     return (
-      <TopicContent ref={ref}>
+      <TopicContent ref={ref} data-topic="">
         <TopicIntroductionWrapper>
           <HeadingWrapper>
-            <Heading textStyle="heading.small" id={id} tabIndex={-1}>
+            <Heading textStyle="heading.medium" id={id} tabIndex={-1}>
               {title}
             </Heading>
             {isAdditionalTopic && <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>}

@@ -7,25 +7,12 @@
  */
 
 import { forwardRef } from "react";
-import { HTMLArkProps } from "@ark-ui/react";
-import { PageContent, PageContentVariantProps, Skeleton } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps } from "@ndla/styled-system/types";
+import { Skeleton } from "@ndla/primitives";
+import { PageContainer, PageContainerProps } from "./Layout/PageContainer";
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    minHeight: "100vh",
-    paddingBlockStart: "4xlarge",
-    paddingBlockEnd: "5xlarge",
-  },
-});
-
-export const ContentPlaceholder = forwardRef<
-  HTMLDivElement,
-  HTMLArkProps<"div"> & JsxStyleProps & PageContentVariantProps
->((props, ref) => {
+export const ContentPlaceholder = forwardRef<HTMLDivElement, PageContainerProps>((props, ref) => {
   return (
-    <StyledPageContent {...props} ref={ref}>
+    <PageContainer {...props} ref={ref}>
       <Skeleton css={{ width: "15%", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "55%", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
@@ -37,6 +24,6 @@ export const ContentPlaceholder = forwardRef<
       <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "100%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "55%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
-    </StyledPageContent>
+    </PageContainer>
   );
 });

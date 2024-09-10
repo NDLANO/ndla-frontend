@@ -2397,6 +2397,13 @@ export type GQLLearningpathMenu_LearningpathStepFragment = {
 
 export type GQLLearningpathMenu_ResourceFragment = { __typename?: "Resource"; id: string; path: string };
 
+export type GQLSubjectLinks_SubjectPageFragment = {
+  __typename?: "SubjectPage";
+  buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
+  connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
+  leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
+};
+
 export type GQLAudioLicenseList_AudioLicenseFragment = {
   __typename?: "AudioLicense";
   id: string;
@@ -4294,6 +4301,7 @@ export type GQLResources_ResourceFragment = {
   language?: string;
   relevanceId?: string;
   article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
+  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
@@ -4316,6 +4324,7 @@ export type GQLSubjectContainer_SubjectFragment = {
   supportedLanguages: Array<string>;
   grepCodes?: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  topics?: Array<{ __typename?: "Topic"; name: string; id: string; availability?: string; relevanceId?: string }>;
   subjectpage?: {
     __typename?: "SubjectPage";
     id: number;
@@ -4326,7 +4335,7 @@ export type GQLSubjectContainer_SubjectFragment = {
       visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
     };
   } & GQLSubjectLinks_SubjectPageFragment;
-} & GQLSubjectPageContent_SubjectFragment;
+} & GQLTopicWrapper_SubjectFragment;
 
 export type GQLSubjectPageTestQueryVariables = Exact<{
   subjectId: Scalars["String"]["input"];
@@ -4360,18 +4369,6 @@ export type GQLMovedTopicPage_TopicFragment = {
   contexts: Array<{ __typename?: "TaxonomyContext"; breadcrumbs: Array<string> }>;
 };
 
-export type GQLSubjectLinks_SubjectPageFragment = {
-  __typename?: "SubjectPage";
-  buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
-  connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
-  leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string }>;
-};
-
-export type GQLSubjectPageContent_SubjectFragment = {
-  __typename?: "Subject";
-  topics?: Array<{ __typename?: "Topic"; name: string; id: string; availability?: string; relevanceId?: string }>;
-} & GQLTopicWrapper_SubjectFragment;
-
 export type GQLTopic_SubjectFragment = { __typename?: "Subject"; id: string; name: string };
 
 export type GQLTopic_TopicFragment = {
@@ -4389,7 +4386,11 @@ export type GQLTopic_TopicFragment = {
       relevanceId?: string;
     } & GQLMultidisciplinaryArticleList_TopicFragment
   >;
-  meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
   contexts: Array<{
     __typename?: "TaxonomyContext";
     breadcrumbs: Array<string>;

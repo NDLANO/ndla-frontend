@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  BleedPageContent,
   Button,
   DialogBody,
   DialogContent,
@@ -17,10 +18,10 @@ import {
   DialogTrigger,
   Heading,
   Image,
+  PageContent,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import Article from "../../components/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
@@ -28,43 +29,27 @@ import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../uti
 
 const StyledAside = styled("aside", {
   base: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "medium",
+    tabletDown: {
+      gridTemplateColumns: "1fr",
+    },
+  },
+});
+
+const StyledContent = styled("div", {
+  base: {
     display: "flex",
-    padding: "medium",
-    tabletDown: {
-      flexDirection: "column",
-    },
-  },
-});
-
-const StyledDiv = styled("div", {
-  base: {
-    padding: "small",
-    width: "100%",
-    tabletDown: {
-      _firstOfType: {
-        paddingBottom: "0",
-      },
-    },
-  },
-});
-
-const StyledHeading = styled(Heading, {
-  base: {
-    marginBottom: "medium",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    marginBottom: "xxlarge",
-    tabletDown: {
-      marginBottom: "0",
-    },
+    flexDirection: "column",
+    gap: "medium",
+    alignItems: "flex-start",
   },
 });
 
 const StyledIframe = styled("iframe", {
   base: {
+    aspectRatio: "16/9",
     height: "100%",
     width: "100%",
   },
@@ -104,12 +89,6 @@ interface AboutNdlaFilmProps {
   article?: BaseArticle;
 }
 
-const StyledOneColumn = styled(OneColumn, {
-  base: {
-    marginTop: "3xlarge",
-  },
-});
-
 const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
@@ -122,40 +101,42 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <StyledOneColumn>
-      <StyledAside aria-labelledby={titleId}>
-        {aboutNDLAVideo?.visualElement && (
-          <StyledDiv>
-            <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
-          </StyledDiv>
-        )}
-        <StyledDiv>
-          <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
-            <h2>{aboutNDLAVideo?.title}</h2>
-          </StyledHeading>
-          <StyledText asChild consumeCss>
-            <p>{aboutNDLAVideo?.description}</p>
-          </StyledText>
-          {transformedArticle && (
-            <DialogRoot size="full">
-              <DialogTrigger asChild>
-                <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  {/* TODO: Consider moving title up here? */}
-                  <div />
-                  <DialogCloseButton />
-                </DialogHeader>
-                <DialogBody>
-                  <Article article={transformedArticle} oembed={undefined} />
-                </DialogBody>
-              </DialogContent>
-            </DialogRoot>
+    <BleedPageContent asChild>
+      <PageContent variant="article">
+        <StyledAside aria-labelledby={titleId}>
+          {aboutNDLAVideo?.visualElement && (
+            <StyledContent>
+              <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
+            </StyledContent>
           )}
-        </StyledDiv>
-      </StyledAside>
-    </StyledOneColumn>
+          <StyledContent>
+            <Heading textStyle="title.large" id={titleId} asChild consumeCss>
+              <h2>{aboutNDLAVideo?.title}</h2>
+            </Heading>
+            <Text asChild consumeCss>
+              <p>{aboutNDLAVideo?.description}</p>
+            </Text>
+            {transformedArticle && (
+              <DialogRoot size="full">
+                <DialogTrigger asChild>
+                  <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    {/* TODO: Consider moving title up here? */}
+                    <div />
+                    <DialogCloseButton />
+                  </DialogHeader>
+                  <DialogBody>
+                    <Article article={transformedArticle} oembed={undefined} />
+                  </DialogBody>
+                </DialogContent>
+              </DialogRoot>
+            )}
+          </StyledContent>
+        </StyledAside>
+      </PageContent>
+    </BleedPageContent>
   );
 };
 

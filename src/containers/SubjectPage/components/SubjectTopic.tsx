@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { BleedPageContent, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -156,7 +157,11 @@ const SubjectTopic = ({
       ) : subTopics?.length ? (
         <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
       ) : null}
-      {resources}
+      {!!resources && (
+        <BleedPageContent data-resource-section="">
+          <PageContent variant="article">{resources}</PageContent>
+        </BleedPageContent>
+      )}
     </>
   );
 };
@@ -184,6 +189,7 @@ export const topicFragments = {
         metaDescription
         metaImage {
           url
+          alt
         }
       }
       supportedLanguages

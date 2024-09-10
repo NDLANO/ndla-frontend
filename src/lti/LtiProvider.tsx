@@ -10,8 +10,10 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
+import { styled } from "@ndla/styled-system/jsx";
 import { setCookie } from "@ndla/util";
 
+import { PageLayout } from "../components/Layout/PageContainer";
 import { useLtiData } from "../components/LtiContext";
 import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import ErrorBoundary from "../containers/ErrorPage/ErrorBoundary";
@@ -23,6 +25,13 @@ import { searchPageQuery } from "../queries";
 import { createApolloLinks } from "../util/apiHelpers";
 import handleError from "../util/handleError";
 import { useGraphQuery } from "../util/runQueries";
+
+const StyledPageLayout = styled(PageLayout, {
+  base: {
+    paddingBlockStart: "xxlarge",
+    paddingBlockEnd: "5xlarge",
+  },
+});
 
 interface Props {
   locale?: LocaleType;
@@ -84,18 +93,20 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
       <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }}>
         <title>{`${t("htmlTitles.lti")}`}</title>
       </Helmet>
-      <SearchInnerPage
-        handleSearchParamsChange={handleSearchParamsChange}
-        query={searchParams.query}
-        subjectIds={searchParams.subjects}
-        selectedFilters={searchParams.selectedFilters.length ? searchParams.selectedFilters : ["all"]}
-        activeSubFilters={searchParams.activeSubFilters}
-        subjects={data?.subjects}
-        subjectItems={[]}
-        resourceTypes={data?.resourceTypes?.filter((type) => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
-        ltiData={ltiContext?.ltiData}
-        isLti
-      />
+      <StyledPageLayout>
+        <SearchInnerPage
+          handleSearchParamsChange={handleSearchParamsChange}
+          query={searchParams.query}
+          subjectIds={searchParams.subjects}
+          selectedFilters={searchParams.selectedFilters.length ? searchParams.selectedFilters : ["all"]}
+          activeSubFilters={searchParams.activeSubFilters}
+          subjects={data?.subjects}
+          subjectItems={[]}
+          resourceTypes={data?.resourceTypes?.filter((type) => type.id !== RESOURCE_TYPE_LEARNING_PATH)}
+          ltiData={ltiContext?.ltiData}
+          isLti
+        />
+      </StyledPageLayout>
     </ErrorBoundary>
   );
 };

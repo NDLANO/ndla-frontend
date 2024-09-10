@@ -12,10 +12,11 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, Image, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -87,9 +88,6 @@ const HeadingWrapper = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
-    tablet: {
-      paddingInline: "xxlarge",
-    },
   },
 });
 
@@ -108,10 +106,9 @@ const MessageBoxWrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockStart: "4xlarge",
-    paddingBlockEnd: "5xlarge",
+    paddingBlockStart: "0",
     gap: "xxlarge",
   },
 });
@@ -151,7 +148,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   );
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer padding="large" asChild consumeCss>
       <main>
         <Helmet>
           <title>{pageTitle}</title>
@@ -160,7 +157,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         <div>
           <Image src={programme.desktopImage?.url ?? ""} alt="" />
           <HeadingWrapper>
-            <Heading textStyle="heading.large" id={SKIP_TO_CONTENT_ID}>
+            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
             </Heading>
             {!!grades.length && (
@@ -182,7 +179,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </div>
         {grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
-            <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+            <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>
             </Heading>
             <MessageBox variant="info">
@@ -195,7 +192,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
           <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
         ))}
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 

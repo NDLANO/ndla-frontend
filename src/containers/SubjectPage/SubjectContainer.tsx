@@ -16,19 +16,22 @@ import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
-import SubjectPageContent from "./components/SubjectPageContent";
+import TopicWrapper from "./components/TopicWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
+  RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { removeUrn, toTopic, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -47,12 +50,22 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledTopicWrapper = styled(PageContainer, {
   base: {
-    gap: "xxlarge",
-    paddingBlockStart: "xxlarge",
+    paddingBlockStart: "0",
     overflowX: "hidden",
-    paddingBlockEnd: "5xlarge",
+    // TODO: There's a bunch of tricky compositions for nested topics. This won't be necessary once we separate each topic out into their own page.
+    "& > [data-nav-box] + :is([data-resource-section], [data-topic]), > [data-resource-section] + [data-topic]": {
+      paddingBlockStart: "4xlarge",
+    },
+  },
+});
+
+const StyledSubjectWrapper = styled(PageContent, {
+  base: {
+    paddingBlock: "xxlarge",
+    gap: "xxlarge",
+    background: "surface.brand.1.subtle",
   },
 });
 
@@ -61,6 +74,8 @@ const IntroductionText = styled(Text, {
     maxWidth: "surface.xlarge",
   },
 });
+
+const PAGE = "page" as const;
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
@@ -137,6 +152,17 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
+  const mainTopics = subject?.topics?.map((topic) => {
+    return {
+      ...topic,
+      label: topic?.name,
+      current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
+      url: toTopic(subject.id, topic?.id),
+      isRestrictedResource: topic.availability !== "everyone",
+      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+    };
+  });
+
   return (
     <main>
       <Helmet>
@@ -146,15 +172,15 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
-      <StyledPageContent>
-        {!topicIds.length && (
-          <SocialMediaMetadata
-            title={subject.name}
-            description={subject.subjectpage?.metaDescription}
-            imageUrl={about?.visualElement.url}
-            trackableContent={{ supportedLanguages: subject.supportedLanguages }}
-          />
-        )}
+      {!topicIds.length && (
+        <SocialMediaMetadata
+          title={subject.name}
+          description={subject.subjectpage?.metaDescription}
+          imageUrl={about?.visualElement.url}
+          trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+        />
+      )}
+      <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined} tabIndex={-1}>
@@ -187,8 +213,21 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
-        <SubjectPageContent subject={subject} topicIds={topicIds} setBreadCrumb={setTopicCrumbs} />
-      </StyledPageContent>
+        <NavigationBox items={mainTopics || []} />
+      </StyledSubjectWrapper>
+      <StyledTopicWrapper>
+        {topicIds.map((topicId, index) => (
+          <TopicWrapper
+            key={topicId}
+            topicId={topicId}
+            subjectId={subject.id}
+            setBreadCrumb={setTopicCrumbs}
+            subTopicId={topicIds[index + 1]}
+            showResources={!topicIds[index + 1]}
+            subject={subject}
+          />
+        ))}
+      </StyledTopicWrapper>
     </main>
   );
 };
@@ -201,6 +240,12 @@ export const subjectContainerFragments = {
         customFields
       }
       grepCodes
+      topics {
+        name
+        id
+        availability
+        relevanceId
+      }
       subjectpage {
         id
         metaDescription
@@ -212,9 +257,9 @@ export const subjectContainerFragments = {
         }
         ...SubjectLinks_SubjectPage
       }
-      ...SubjectPageContent_Subject
+      ...TopicWrapper_Subject
     }
-    ${SubjectPageContent.fragments.subject}
+    ${TopicWrapper.fragments.subject}
     ${SubjectLinks.fragments.subjectPage}
   `,
 };

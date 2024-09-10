@@ -13,7 +13,7 @@ import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Heading, PageContent } from "@ndla/primitives";
+import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, constants } from "@ndla/ui";
@@ -23,6 +23,7 @@ import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -40,6 +41,12 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
 
 const createFilters = (t: TFunction) => [
   {
+    label: `${t("contentTypes.all")} ${t("common.subject", {
+      count: 2,
+    })}`,
+    value: "all",
+  },
+  {
     label: createFilterTranslation(t, ACTIVE_SUBJECTS),
     value: ACTIVE_SUBJECTS,
   },
@@ -55,19 +62,11 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, OTHER, false),
     value: OTHER,
   },
-  {
-    label: `${t("contentTypes.all")} ${t("common.subject", {
-      count: 2,
-    })}`,
-    value: "all",
-  },
 ];
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xxlarge",
-    paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "5xlarge",
   },
 });
 
@@ -99,7 +98,7 @@ const allSubjectsQuery = gql`
 `;
 
 const filterDefaults = (value: string | string[]): string[] => {
-  if (!value) return [ACTIVE_SUBJECTS];
+  if (!value) return ["all"];
   return Array.isArray(value) ? value : [value];
 };
 
@@ -115,8 +114,15 @@ const AllSubjectsPage = () => {
   const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
 
   const setFilter = (value: string[]) => {
+    // When last added element is all, remove all other filters
+    const lastAdded = value[value.length - 1];
+    if (lastAdded === "all" || !value.length) {
+      _setFilter(["all"]);
+      navigate(location.pathname);
+      return;
+    }
     const searchObject = parse(location.search);
-    const updatedValue = value.length ? value : [ACTIVE_SUBJECTS];
+    const updatedValue = value.filter((v) => v !== "all");
     _setFilter(updatedValue);
     const search = stringify({
       ...searchObject,
@@ -154,7 +160,7 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer asChild consumeCss>
       <main>
         <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
@@ -171,7 +177,7 @@ const AllSubjectsPage = () => {
           ))}
         </StyledList>
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 

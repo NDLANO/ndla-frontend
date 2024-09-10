@@ -23,13 +23,13 @@ import {
   Heading,
   PaginationContext,
   Spinner,
-  PageContent,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -39,14 +39,9 @@ type SearchObject = {
   "page-size": string;
 };
 
-const StyledPageContent = styled(PageContent, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xxlarge",
-    paddingBlockStart: "medium",
-    paddingBlockEnd: "5xlarge",
-    tablet: {
-      paddingBlockStart: "xxlarge",
-    },
   },
 });
 
@@ -130,7 +125,7 @@ const PodcastSeriesListPage = () => {
   }
 
   return (
-    <StyledPageContent asChild consumeCss>
+    <StyledPageContainer asChild consumeCss>
       <main>
         <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
         <HomeBreadcrumb
@@ -210,7 +205,7 @@ const PodcastSeriesListPage = () => {
           </PaginationNextTrigger>
         </PaginationRoot>
       </main>
-    </StyledPageContent>
+    </StyledPageContainer>
   );
 };
 

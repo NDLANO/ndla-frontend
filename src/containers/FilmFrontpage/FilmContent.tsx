@@ -7,6 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { BleedPageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";
 import FilmMovieList from "./FilmMovieList";
@@ -21,6 +23,16 @@ interface Props {
   loading: boolean;
 }
 
+const StyledBleedPageContent = styled(BleedPageContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
+
+const movieArray = new Array(5).fill(0);
+
 export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Props) => {
   const { i18n } = useTranslation();
 
@@ -33,17 +45,25 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Prop
   }
 
   if (loading) {
-    return new Array(5).fill(0).map((_, idx) => {
-      return <FilmMovieList key={idx} loading={true} movies={[]} name="temp" />;
-    });
+    return (
+      <StyledBleedPageContent>
+        {movieArray.map((_, idx) => (
+          <FilmMovieList key={idx} loading={true} movies={[]} name="temp" />
+        ))}
+      </StyledBleedPageContent>
+    );
   }
 
-  return movieThemes?.map((theme) => (
-    <FilmMovieList
-      key={theme.name[0]?.name}
-      loading={false}
-      name={findName(theme.name ?? [], i18n.language)}
-      movies={theme.movies}
-    />
-  ));
+  return (
+    <StyledBleedPageContent>
+      {movieThemes?.map((theme) => (
+        <FilmMovieList
+          key={theme.name[0]?.name}
+          loading={false}
+          name={findName(theme.name ?? [], i18n.language)}
+          movies={theme.movies}
+        />
+      ))}
+    </StyledBleedPageContent>
+  );
 };
