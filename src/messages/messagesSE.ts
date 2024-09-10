@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fága",
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,

@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
     podcast: `Podkast - Side {{page}} - ${titleTemplate}`,

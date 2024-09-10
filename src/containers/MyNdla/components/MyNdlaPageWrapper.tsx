@@ -6,37 +6,14 @@
  *
  */
 
-import { HTMLAttributes, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
+import { JsxStyleProps } from "@ndla/styled-system/types";
 import Toolbar from "./Toolbar";
+import { PageContainer } from "../../../components/Layout/PageContainer";
 import { ViewType } from "../Folders/FoldersPage";
 
-const ContentWrapper = styled("main", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-    marginInline: "small",
-    marginBlockStart: "small",
-    marginBlockEnd: "3xlarge",
-    tablet: {
-      marginInline: "xxlarge",
-      marginBlockStart: "0",
-      marginBlockEnd: "3xlarge",
-    },
-  },
-});
-
-export const Content = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    width: "100%",
-  },
-});
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
   dropDownMenu?: ReactNode;
   buttons?: ReactNode;
   viewType?: ViewType;
@@ -44,7 +21,21 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showButtons?: boolean;
 }
 
-const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons, children }: Props) => {
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    gap: "medium",
+  },
+});
+
+const MyNdlaPageWrapper = ({
+  buttons,
+  dropDownMenu,
+  onViewTypeChange,
+  viewType,
+  showButtons,
+  children,
+  ...rest
+}: Props) => {
   return (
     <>
       <Toolbar
@@ -54,11 +45,9 @@ const MyNdlaPageWrapper = ({ buttons, dropDownMenu, onViewTypeChange, viewType, 
         viewType={viewType}
         showButtons={showButtons}
       />
-      <ContentWrapper>
-        <OneColumn>
-          <Content>{children}</Content>
-        </OneColumn>
-      </ContentWrapper>
+      <StyledPageContainer {...rest} padding="small" asChild consumeCss>
+        <main>{children}</main>
+      </StyledPageContainer>
     </>
   );
 };
