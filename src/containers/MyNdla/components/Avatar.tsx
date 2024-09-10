@@ -8,9 +8,8 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { fonts, colors, spacing, misc } from "@ndla/core";
-import { Text } from "@ndla/typography";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 type AvatarProps = {
   myProfile?: boolean;
@@ -19,35 +18,42 @@ type AvatarProps = {
   rest?: Record<string, any>;
 };
 
-const StyledAvatarContainer = styled.div`
-  min-width: ${spacing.large};
-  height: ${spacing.large};
-  border-radius: ${misc.borderRadiusLarge};
-  border: 1px solid ${colors.brand.tertiary};
-  &[data-myprofile="true"] {
-    width: 250px;
-    height: 250px;
-    border: ${misc.borderRadius} solid ${colors.brand.tertiary};
-  }
-  background-color: ${colors.background.default};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const StyledAvatarContainer = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    backgroundColor: "surface.default",
+    border: "2px solid",
+    borderColor: "stroke.default",
+    borderRadius: "full",
+    flexShrink: "0",
+    height: "xxlarge",
+    justifyContent: "center",
+    minWidth: "xxlarge",
+  },
+  variants: {
+    variant: {
+      small: {},
+      big: {
+        height: "250px",
+        width: "250px",
+        borderWidth: "4px",
+        "& p": {
+          fontSize: "98px",
+        },
+      },
+    },
+  },
+});
 
-const UserInitials = styled(Text)`
-  color: ${colors.brand.dark};
-  &[data-myprofile="true"] {
-    ${fonts.sizes("130px")};
-  }
-`;
-
-const UserPersonalPicture = styled.img`
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1/1;
-  border-radius: ${misc.borderRadiusLarge};
-`;
+const UserPersonalPicture = styled("img", {
+  base: {
+    aspectRatio: "1/1",
+    borderRadius: "full",
+    height: "100%",
+    width: "100%",
+  },
+});
 
 // a function to split up displayName, get the initials of first and last names and merge them
 export const getFirstLastInitials = (userName: string | undefined) => {
@@ -62,13 +68,13 @@ const Avatar = ({ myProfile, displayName, profilePicture, ...rest }: AvatarProps
   const initials = useMemo(() => getFirstLastInitials(displayName), [displayName]);
 
   return (
-    <StyledAvatarContainer data-myprofile={myProfile} {...rest}>
+    <StyledAvatarContainer data-myprofile={myProfile} variant={myProfile ? "big" : "small"} {...rest}>
       {profilePicture ? (
         <UserPersonalPicture src={profilePicture} alt={t("myNdla.userPictureAltText")} />
       ) : (
-        <UserInitials element="p" textStyle="ingress" margin="none" data-myprofile={myProfile}>
+        <Text color="text.strong" fontWeight="bold" data-myprofile={myProfile}>
           {initials}
-        </UserInitials>
+        </Text>
       )}
     </StyledAvatarContainer>
   );
