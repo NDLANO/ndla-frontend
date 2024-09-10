@@ -18,8 +18,9 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_NORMAL,
   KEY_MODIFIER_COMMAND,
+  TextFormatType,
 } from "lexical";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
@@ -33,14 +34,13 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
 import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
 
-const ButtonRow = styled("div", {
+const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
   base: {
-    display: "flex",
     backgroundColor: "surface.infoSubtle",
     borderTopLeftRadius: "small",
     borderTopRightRadius: "small",
@@ -48,15 +48,6 @@ const ButtonRow = styled("div", {
     borderColor: "stroke.subtle",
     padding: "3xsmall",
     gap: "3xsmall",
-  },
-});
-const StyledIconButton = styled(IconButton, {
-  base: {
-    _selected: {
-      backgroundColor: "surface.actionSubtle.active",
-      borderColor: "stroke.default",
-      border: "1px solid",
-    },
   },
 });
 
@@ -80,17 +71,33 @@ interface EditorToolbarProps {
   editorIsFocused: boolean;
 }
 
+const selectionHasFormat = (
+  isActive: boolean,
+  format: TextFormatType | "link",
+  setToolbarValues: Dispatch<SetStateAction<string[]>>,
+  condition?: boolean,
+) => {
+  if (!condition && isActive) {
+    return setToolbarValues((prev) => [...prev.filter((val) => val !== format)]);
+  } else if (condition && !isActive) {
+    return setToolbarValues((prev) => [...prev, format]);
+  }
+};
+
 export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isLink, setIsLink] = useState(false);
-  const [isUnorderedList, setIsUnorderedList] = useState(false);
-  const [isNumberedList, setIsNumberedList] = useState(false);
   const [hasSelectedText, setHasSelectedText] = useState(false);
   const selectors = useUserAgent();
+
+  const [toolbarValues, setToolbarValues] = useState<string[]>([]);
+
+  const isBold = useMemo(() => toolbarValues.includes("bold"), [toolbarValues]);
+  const isItalic = useMemo(() => toolbarValues.includes("italic"), [toolbarValues]);
+  const isUnorderedList = useMemo(() => toolbarValues.includes("unordered"), [toolbarValues]);
+  const isOrderedList = useMemo(() => toolbarValues.includes("ordered"), [toolbarValues]);
+  const isLink = useMemo(() => toolbarValues.includes("link"), [toolbarValues]);
 
   const osCtrl = useCallback(
     (key: string) => {
@@ -120,12 +127,12 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   }, [editor, isUnorderedList]);
 
   const formatNumberedList = useCallback(() => {
-    if (!isNumberedList) {
+    if (!isOrderedList) {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
-  }, [editor, isNumberedList]);
+  }, [editor, isOrderedList]);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -146,29 +153,33 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
 
-      setIsBold(selection.hasFormat("bold"));
-      setIsItalic(selection.hasFormat("italic"));
-
       setHasSelectedText(selection.anchor.offset !== selection.focus.offset);
+
+      selectionHasFormat(isBold, "bold", setToolbarValues, selection.hasFormat("bold"));
+      selectionHasFormat(isItalic, "italic", setToolbarValues, selection.hasFormat("italic"));
 
       const node = getSelectedNode(selection);
       const parent = node.getParent();
-      const isLink = $isLinkNode(node) || $isLinkNode(parent);
-      setIsLink(isLink);
+
+      selectionHasFormat(isLink, "link", setToolbarValues, $isLinkNode(node) || $isLinkNode(parent));
 
       if (elementDOM !== null) {
+        const filterList = (val: string) => val !== "unordered" && val !== "ordered";
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
           const type = parentList ? parentList.getListType() : element.getListType();
-          setIsUnorderedList(type === "bullet");
-          setIsNumberedList(type === "number");
+
+          if (type === "bullet") {
+            return !isUnorderedList && setToolbarValues((prev) => [...prev.filter(filterList), "unordered"]);
+          } else {
+            return !isOrderedList && setToolbarValues((prev) => [...prev.filter(filterList), "ordered"]);
+          }
         } else {
-          setIsUnorderedList(false);
-          setIsNumberedList(false);
+          return setToolbarValues((prev) => prev.filter(filterList));
         }
       }
     }
-  }, [activeEditor, editorIsFocused]);
+  }, [editorIsFocused, activeEditor, isBold, isItalic, isLink, isUnorderedList, isOrderedList]);
 
   useEffect(() => {
     return editor.registerCommand(
@@ -214,57 +225,58 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   }, [$updateToolbar, activeEditor, editor]);
 
   return (
-    <ButtonRow>
-      <StyledIconButton
+    <StyledToggleGroupRoot multiple value={toolbarValues}>
+      <ToggleGroupItem
+        value="bold"
         variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-        aria-selected={isBold}
         size="small"
       >
         <Bold />
-      </StyledIconButton>
-      <StyledIconButton
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value="italic"
         variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
-        aria-selected={isItalic}
         size="small"
       >
         <Italic />
-      </StyledIconButton>
-      <StyledIconButton
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value="unordered"
         variant="tertiary"
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
-        aria-selected={isUnorderedList}
         size="small"
       >
         <ListUnordered />
-      </StyledIconButton>
-      <StyledIconButton
+      </ToggleGroupItem>
+      <ToggleGroupItem
         variant="tertiary"
         onClick={formatNumberedList}
-        aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
-        title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
-        aria-selected={isNumberedList}
+        aria-label={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
+        title={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
         size="small"
+        value="ordered"
       >
         <ListOrdered />
-      </StyledIconButton>
-      <StyledIconButton
+      </ToggleGroupItem>
+      <ToggleGroupItem
         variant="tertiary"
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
         aria-selected={isLink}
         size="small"
+        value="link"
       >
         <LinkMedium />
-      </StyledIconButton>
-    </ButtonRow>
+      </ToggleGroupItem>
+    </StyledToggleGroupRoot>
   );
 };

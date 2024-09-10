@@ -171,7 +171,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
                     shouldDirty: true,
                   });
                 }}
-                initialValue={initialContent ?? ""}
+                initialValue={initialContent ?? "<p></p>"}
                 {...field}
               />
               <FieldLength value={field.value.length ?? 0} maxLength={contentMaxLength} />

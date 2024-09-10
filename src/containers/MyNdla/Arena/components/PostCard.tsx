@@ -50,6 +50,9 @@ export const ContentWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+    "& > p": {
+      textStyle: "body.medium",
+    },
   },
 });
 
@@ -169,9 +172,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
           <PostHeader>
             <UserProfileTag user={post.owner} />
           </PostHeader>
-          <ContentWrapper>
-            <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
-          </ContentWrapper>
+          <ContentWrapper>{parse(contentAsHTML!)}</ContentWrapper>
           {options}
         </>
       )}
