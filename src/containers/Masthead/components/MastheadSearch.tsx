@@ -111,7 +111,7 @@ const StyledComboboxItem = styled(ComboboxItem, {
 
 const StyledButton = styled(Button, {
   base: {
-    mobileWideDown: {
+    tabletDown: {
       "& span": {
         display: "none",
       },

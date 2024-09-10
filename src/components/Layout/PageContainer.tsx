@@ -34,15 +34,16 @@ export const ErrorLayoutWrapper = styled("div", {
 });
 
 const pageContainerRecipe = cva({
-  base: {
-    height: "100%",
-  },
   defaultVariants: {
     padding: "medium",
   },
   variants: {
     padding: {
       none: {},
+      small: {
+        paddingBlockStart: "medium",
+        paddingBlockEnd: "5xlarge",
+      },
       medium: {
         paddingBlockStart: "xxlarge",
         paddingBlockEnd: "5xlarge",

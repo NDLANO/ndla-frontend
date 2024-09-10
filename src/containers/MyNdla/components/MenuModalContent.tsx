@@ -25,22 +25,12 @@ import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNod
 import { ViewType } from "../Folders/FoldersPage";
 import { menuLinks } from "../MyNdlaLayout";
 
-const StyledText = styled(Text, {
-  base: {
-    paddingInlineStart: "xsmall",
-    textTransform: "uppercase",
-  },
-});
-
 const MenuItems = styled("ul", {
   base: {
     display: "grid",
     gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
+    gap: "4xsmall",
     justifyContent: "space-between",
-    paddingBlockEnd: "xsmall",
-    borderBottom: "1px solid",
-    borderColor: "surface.brand.2.moderate",
-    background: "surface.brand.2.subtle",
   },
 });
 
@@ -50,13 +40,8 @@ const ToolMenu = styled("ul", {
     "& > li": {
       display: "flex",
       flexDirection: "column",
-    },
-    "& li": {
-      borderTop: "1px solid",
-      borderColor: "surface.brand.2.moderate",
-      _last: {
-        borderBottom: "1px solid",
-        borderColor: "surface.brand.2.moderate",
+      "& a, button": {
+        justifyContent: "flex-start",
       },
     },
   },
@@ -66,7 +51,6 @@ const ViewButtonWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "4xsmall",
-    paddingInlineStart: "xsmall",
   },
 });
 
@@ -78,16 +62,34 @@ const ViewButton = styled(Button, {
   },
 });
 
-const StyledDialogBody = styled(DialogBody, {
+const StyledDialogHeader = styled(DialogHeader, {
   base: {
-    paddingBlockStart: "0",
-    paddingInline: "0",
+    background: "background.subtle",
   },
 });
 
-const StyledDialogHeader = styled(DialogHeader, {
+const StyledDialogBody = styled(DialogBody, {
   base: {
-    background: "surface.brand.2.subtle",
+    height: "100%",
+    paddingInline: "0",
+    paddingBlock: "0",
+  },
+});
+
+const ContentWrapper = styled("div", {
+  base: {
+    paddingInline: "medium",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledNav = styled("nav", {
+  base: {
+    paddingBlock: "small",
+    background: "background.subtle",
+    paddingInline: "xsmall",
   },
 });
 
@@ -114,7 +116,6 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
           return (
             <li key={id}>
               <NavigationLink
-                id={id}
                 to={to}
                 name={name}
                 icon={icon}
@@ -153,55 +154,64 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
           <DialogCloseButton />
         </StyledDialogHeader>
         <StyledDialogBody>
-          <nav aria-label={t("myNdla.myNDLAMenu")}>
+          <StyledNav aria-label={t("myNdla.myNDLAMenu")}>
             <MenuItems role="tablist">{links}</MenuItems>
-          </nav>
-          {showButtons && (!!buttons || user?.arenaEnabled) && (
-            <>
-              <StyledText textStyle="title.medium">{t("myNdla.tools")}</StyledText>
-              <ToolMenu>
-                {buttons}
-                {user?.arenaEnabled && notificationLink}
-              </ToolMenu>
-            </>
-          )}
-          {!!viewType && (
-            <>
-              <StyledText textStyle="title.medium">{t("myNdla.selectView")}</StyledText>
-              <ViewButtonWrapper>
-                <ViewButton
-                  // TODO: Fix handling of active according to design
-                  variant={viewType === "list" ? "primary" : "secondary"}
-                  aria-label={t("myNdla.listView")}
-                  aria-current={viewType === "list"}
-                  onClick={() => onViewTypeChange?.("list")}
-                >
-                  <MenuLine />
-                  <Text textStyle="label.xsmall">{t("myNdla.simpleList")}</Text>
-                </ViewButton>
-                <ViewButton
-                  // TODO: Fix handling of active according to design
-                  variant={viewType === "listLarger" ? "primary" : "secondary"}
-                  aria-label={t("myNdla.detailView")}
-                  aria-current={viewType === "listLarger"}
-                  onClick={() => onViewTypeChange?.("listLarger")}
-                >
-                  <ListCheck />
-                  <Text textStyle="label.xsmall">{t("myNdla.detailedList")}</Text>
-                </ViewButton>
-                <ViewButton
-                  // TODO: Fix handling of active according to design
-                  variant={viewType === "block" ? "primary" : "secondary"}
-                  onClick={() => onViewTypeChange?.("block")}
-                  aria-label={t("myNdla.shortView")}
-                  title={t("myNdla.shortView")}
-                >
-                  <GridFill />
-                  <Text textStyle="label.xsmall">{t("myNdla.shortView")}</Text>
-                </ViewButton>
-              </ViewButtonWrapper>
-            </>
-          )}
+          </StyledNav>
+          <ContentWrapper>
+            {showButtons && (!!buttons || user?.arenaEnabled) && (
+              <>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("myNdla.tools")}
+                </Text>
+                <ToolMenu>
+                  {buttons}
+                  {user?.arenaEnabled && notificationLink}
+                </ToolMenu>
+              </>
+            )}
+            {!!viewType && (
+              <>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("myNdla.selectView")}
+                </Text>
+                <ViewButtonWrapper>
+                  <ViewButton
+                    // TODO: Fix handling of active according to design
+                    variant={viewType === "list" ? "primary" : "secondary"}
+                    aria-label={t("myNdla.listView")}
+                    title={t("myNdla.listView")}
+                    aria-current={viewType === "list"}
+                    onClick={() => onViewTypeChange?.("list")}
+                  >
+                    <MenuLine />
+                    <Text textStyle="label.xsmall">{t("myNdla.simpleList")}</Text>
+                  </ViewButton>
+                  <ViewButton
+                    // TODO: Fix handling of active according to design
+                    variant={viewType === "listLarger" ? "primary" : "secondary"}
+                    aria-label={t("myNdla.detailView")}
+                    title={t("myNdla.detailView")}
+                    aria-current={viewType === "listLarger"}
+                    onClick={() => onViewTypeChange?.("listLarger")}
+                  >
+                    <ListCheck />
+                    <Text textStyle="label.xsmall">{t("myNdla.detailedList")}</Text>
+                  </ViewButton>
+                  <ViewButton
+                    // TODO: Fix handling of active according to design
+                    variant={viewType === "block" ? "primary" : "secondary"}
+                    onClick={() => onViewTypeChange?.("block")}
+                    aria-label={t("myNdla.shortView")}
+                    aria-current={viewType === "block"}
+                    title={t("myNdla.shortView")}
+                  >
+                    <GridFill />
+                    <Text textStyle="label.xsmall">{t("myNdla.shortView")}</Text>
+                  </ViewButton>
+                </ViewButtonWrapper>
+              </>
+            )}
+          </ContentWrapper>
         </StyledDialogBody>
       </DialogContent>
     </Portal>
