@@ -186,7 +186,7 @@ SubjectMenu.fragments = {
       name
       path
       url
-      allTopics: children(nodeType: TOPIC, recursive: true) {
+      allTopics: children(nodeType: "TOPIC", recursive: true) {
         id
         name
         parentId

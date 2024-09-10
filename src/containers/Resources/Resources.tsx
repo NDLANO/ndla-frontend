@@ -241,7 +241,7 @@ Resources.fragments = {
       name
       path
       url
-      children(nodeType: RESOURCE) {
+      children(nodeType: "RESOURCE") {
         ...Resources_Resource
       }
       metadata {

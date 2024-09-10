@@ -209,7 +209,7 @@ const filmFrontPageQuery = gql`
     subject: node(id: $subjectId) {
       id
       name
-      topics: children(nodeType: TOPIC) {
+      topics: children(nodeType: "TOPIC") {
         id
         name
         path

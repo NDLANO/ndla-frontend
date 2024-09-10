@@ -68,7 +68,7 @@ SubjectPageContent.fragments = {
       name
       path
       url
-      topics: children(nodeType: TOPIC) {
+      topics: children(nodeType: "TOPIC") {
         id
         name
         url

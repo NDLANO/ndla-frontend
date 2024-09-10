@@ -158,7 +158,7 @@ export const topicFragments = {
       url
       name
       relevanceId
-      subtopics: children(nodeType: TOPIC) {
+      subtopics: children(nodeType: "TOPIC") {
         id
         name
         relevanceId

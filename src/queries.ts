@@ -174,7 +174,7 @@ export const subjectInfoFragment = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects: nodes(nodeType: SUBJECT, filterVisible: true) {
+    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {
