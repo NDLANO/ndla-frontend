@@ -24,7 +24,6 @@ import {
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { PostCardWrapper, Content, PostHeader } from "./PostCard";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -36,10 +35,34 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-const MainPostCardWrapper = styled(PostCardWrapper, {
+const MainPostCardWrapper = styled("div", {
   base: {
     backgroundColor: "surface.infoSubtle",
     borderTopRadius: "xsmall",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
+
+const PostHeader = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: "small",
+  },
+});
+
+const Content = styled(Text, {
+  base: {
+    wordBreak: "break-word",
+    "& ul, & ol": {
+      paddingInlineStart: "medium",
+    },
   },
 });
 
