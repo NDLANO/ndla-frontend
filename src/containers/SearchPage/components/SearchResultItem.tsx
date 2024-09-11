@@ -51,7 +51,7 @@ const StyledButton = styled(Button, {
     position: "relative",
     minHeight: "0",
     paddingBlock: "0",
-    paddingInlineStart: "4xsmall",
+    marginInlineStart: "4xsmall",
   },
 });
 
