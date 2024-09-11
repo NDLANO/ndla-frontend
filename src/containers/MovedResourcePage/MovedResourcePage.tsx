@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import NavigationBox from "../../components/NavigationBox";

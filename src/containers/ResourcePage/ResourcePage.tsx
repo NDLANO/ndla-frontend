@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -20,11 +20,11 @@ import { useUrnIds } from "../../routeHelpers";
 import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
+import { AccessDenied } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage, { articlePageFragments } from "../ArticlePage/ArticlePage";
 import LearningpathPage, { learningpathPageFragments } from "../LearningpathPage/LearningpathPage";
 import MovedResourcePage from "../MovedResourcePage/MovedResourcePage";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
@@ -102,7 +102,7 @@ const ResourcePage = () => {
   }
 
   if (isAccessDeniedError(error)) {
-    return <AccessDeniedPage />;
+    return <AccessDenied />;
   }
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
@@ -119,7 +119,7 @@ const ResourcePage = () => {
   }
 
   if (!data.resource || !data.resource.path) {
-    return <NotFoundPage />;
+    return <NotFound />;
   }
 
   if (data.resource && !urlInPaths(location, data.resource)) {

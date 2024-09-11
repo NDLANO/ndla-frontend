@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
-import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
 import { PageSpinner } from "../../../components/PageSpinner";
 import {
   GQLTopicWrapperQuery,
@@ -79,7 +79,9 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       navigate("/403", { replace: true });
     } else if (isNotFoundError(error)) {
       navigate("/404", { replace: true });
-    } else return <DefaultErrorMessage />;
+    } else {
+      return <DefaultErrorMessage skipRedirect />;
+    }
   }
 
   if (loading || !data?.topic?.article) {

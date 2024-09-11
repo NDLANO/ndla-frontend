@@ -13,7 +13,7 @@ import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
 } from "./components/MultidisciplinarySubjectArticle";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {

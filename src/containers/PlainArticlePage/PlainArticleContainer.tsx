@@ -23,7 +23,7 @@ import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
@@ -65,7 +65,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
     ];
   }, [propArticle, i18n.language]);
 
-  if (!article) return <NotFoundPage />;
+  if (!article) return <NotFound />;
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (

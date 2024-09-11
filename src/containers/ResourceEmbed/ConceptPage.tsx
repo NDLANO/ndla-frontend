@@ -7,7 +7,7 @@
  */
 import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 
 const ConceptPage = () => {
   const { conceptId } = useParams();

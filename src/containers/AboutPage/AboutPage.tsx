@@ -10,13 +10,13 @@ import { useContext } from "react";
 import { gql } from "@apollo/client";
 import AboutPageContent, { aboutPageFragments } from "./AboutPageContent";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
 import { GONE } from "../../statusCodes";
 import { useGraphQuery } from "../../util/runQueries";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
@@ -51,7 +51,7 @@ const AboutPage = () => {
   }
 
   if (!data?.article || !data.frontpage) {
-    return <NotFoundPage />;
+    return <NotFound />;
   } else if (error) {
     return <DefaultErrorMessage />;
   }

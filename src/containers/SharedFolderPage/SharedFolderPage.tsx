@@ -35,7 +35,7 @@ import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } fro
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { ViewType } from "../MyNdla/Folders/FoldersPage";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];

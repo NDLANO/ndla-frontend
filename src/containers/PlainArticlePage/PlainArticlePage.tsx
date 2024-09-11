@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import RedirectContext from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -19,8 +19,8 @@ import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { AccessDenied } from "../AccessDeniedPage/AccessDeniedPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 interface MatchParams extends TypedParams {
@@ -69,7 +69,7 @@ const PlainArticlePage = () => {
 
   if (error) {
     if (isAccessDeniedError(error)) {
-      return <AccessDeniedPage />;
+      return <AccessDenied />;
     }
     return <DefaultErrorMessage />;
   }
@@ -79,7 +79,7 @@ const PlainArticlePage = () => {
   }
 
   if (!data.article) {
-    return <NotFoundPage />;
+    return <NotFound />;
   }
 
   return <PlainArticleContainer article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;

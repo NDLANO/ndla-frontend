@@ -7,36 +7,50 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageContent,
+  ErrorMessageTitle,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { Status } from "../components";
 
-interface Props {
-  minimal?: boolean;
-}
+const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
+  base: {
+    marginBlock: "4xlarge",
+  },
+});
 
-const DefaultErrorMessage = ({ minimal }: Props) => {
+const MessageRoot = () => {
   const { t } = useTranslation();
-  const illustrations = minimal
-    ? undefined
-    : {
-        url: "/static/oops.gif",
-        altText: t("errorMessage.title"),
-      };
-  const messages = {
-    title: t("errorMessage.title"),
-    description: t("errorMessage.description"),
-    ...(!minimal && {
-      linksTitle: t("errorMessage.linksTitle"),
-      goToFrontPage: t("errorMessage.goToFrontPage"),
-    }),
-  };
 
   return (
-    <>
-      <OneColumn>
-        <ErrorMessage illustration={illustrations} messages={messages} />
-      </OneColumn>
-    </>
+    <StyledErrorMessageRoot>
+      <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
+      <ErrorMessageContent>
+        <ErrorMessageTitle>{t("errorMessage.title")}</ErrorMessageTitle>
+        <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+      </ErrorMessageContent>
+      <ErrorMessageActions>
+        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+      </ErrorMessageActions>
+    </StyledErrorMessageRoot>
   );
 };
 
-export default DefaultErrorMessage;
+interface Props {
+  skipRedirect?: boolean;
+}
+
+export const DefaultErrorMessage = ({ skipRedirect }: Props) => {
+  if (skipRedirect) return <MessageRoot />;
+
+  return (
+    <Status code={500}>
+      <MessageRoot />
+    </Status>
+  );
+};

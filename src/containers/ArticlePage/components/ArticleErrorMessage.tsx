@@ -6,40 +6,19 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { OneColumn, ErrorMessage, ArticleWrapper } from "@ndla/ui";
+import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
 import { AccessDeniedCodes } from "../../../util/handleError";
-import AccessDeniedPage from "../../AccessDeniedPage/AccessDeniedPage";
+import { AccessDenied } from "../../AccessDeniedPage/AccessDeniedPage";
+import { NotFound } from "../../NotFoundPage/NotFoundPage";
 
 interface Props {
   status?: number;
-  children?: ReactNode;
 }
 
-const ArticleErrorMessage = ({ status, children }: Props) => {
-  const { t } = useTranslation();
-
-  if (AccessDeniedCodes.includes(status ?? 0)) return <AccessDeniedPage />;
-
-  return (
-    <OneColumn>
-      <ArticleWrapper>
-        <ErrorMessage
-          illustration={{
-            url: status === 404 ? "/static/not-exist.gif" : "/static/oops.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("errorMessage.title"),
-            description: status === 404 ? t("articlePage.error404Description") : t("articlePage.errorDescription"),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
-        {children}
-      </ArticleWrapper>
-    </OneColumn>
-  );
+export const ArticleErrorMessage = ({ status }: Props) => {
+  if (AccessDeniedCodes.includes(status ?? 0)) return <AccessDenied />;
+  if (status === 404) return <NotFound />;
+  return <DefaultErrorMessage />;
 };
 
 export default ArticleErrorMessage;

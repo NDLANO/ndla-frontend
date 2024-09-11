@@ -7,32 +7,42 @@
  */
 
 import { useTranslation } from "react-i18next";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  ErrorMessageContent,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
 import { Status } from "../../components";
+
+const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
+  base: {
+    marginBlockStart: "4xlarge",
+  },
+});
 
 const UnpublishedResource = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
       <HelmetWithTracker title={t("htmlTitles.unpublished")} />
-      <OneColumn>
-        <ErrorMessage
-          illustration={{
-            url: "/static/not-exist.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t(`unpublishedResourcePage.title`),
-            description: t(`unpublishedResourcePage.errorDescription`),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
-      </OneColumn>
+      <HelmetWithTracker title={t("htmlTitles.notFound")} />
+      <StyledErrorMessageRoot>
+        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
+          <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </StyledErrorMessageRoot>
     </Status>
   );
 };
-
-UnpublishedResource.propTypes = {};
 
 export default UnpublishedResource;

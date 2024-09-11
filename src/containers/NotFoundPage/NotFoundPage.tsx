@@ -7,32 +7,48 @@
  */
 
 import { useTranslation } from "react-i18next";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  ErrorMessageContent,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
 import { Status } from "../../components";
 
-const NotFound = () => {
+const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
+  base: {
+    marginBlock: "4xlarge",
+  },
+});
+
+const BaseNotFound = () => {
   const { t } = useTranslation();
   return (
-    <Status code={404}>
+    <>
       <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <OneColumn>
-        <ErrorMessage
-          illustration={{
-            url: "/static/not-exist.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("notFoundPage.title"),
-            description: t("notFoundPage.errorDescription"),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
-      </OneColumn>
-    </Status>
+      <StyledErrorMessageRoot>
+        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle>{t("notFoundPage.title")}</ErrorMessageTitle>
+          <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </StyledErrorMessageRoot>
+    </>
   );
 };
 
-NotFound.propTypes = {};
-
-export default NotFound;
+export const NotFound = ({ skipRedirect }: { skipRedirect?: boolean }) => {
+  if (skipRedirect) return <BaseNotFound />;
+  return (
+    <Status code={404}>
+      <BaseNotFound />
+    </Status>
+  );
+};

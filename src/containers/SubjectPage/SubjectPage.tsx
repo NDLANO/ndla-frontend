@@ -12,12 +12,12 @@ import { gql } from "@apollo/client";
 import MovedTopicPage from "./components/MovedTopicPage";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFound } from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
   query subjectPageTest(
@@ -87,7 +87,7 @@ const SubjectPage = () => {
   if (!data.subject || !subjectId) {
     const redirect = data.subjects?.[0];
     if (!redirect) {
-      return <NotFoundPage />;
+      return <NotFound />;
     } else {
       return <Navigate to={redirect.path || ""} replace />;
     }

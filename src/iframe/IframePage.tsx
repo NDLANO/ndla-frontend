@@ -15,7 +15,7 @@ import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
-import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { NotFound } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { useGraphQuery } from "../util/runQueries";

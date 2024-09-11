@@ -8,7 +8,7 @@
 
 import PostResizeMessage from "./PostResizeMessage";
 import Scripts from "../components/Scripts/Scripts";
-import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { NotFound } from "../containers/NotFoundPage/NotFoundPage";
 import ResourceEmbed, { StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 
 interface Props {
