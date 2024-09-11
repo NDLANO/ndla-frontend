@@ -202,7 +202,12 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   return (
     <DialogRoot size="full">
       <DialogTrigger asChild>
-        <Button aria-busy={competenceGoalsLoading} disabled={competenceGoalsLoading} variant="secondary" size="small">
+        <Button
+          loading={competenceGoalsLoading}
+          aria-label={competenceGoalsLoading ? t("loading") : undefined}
+          variant="secondary"
+          size="small"
+        >
           {t("competenceGoals.showCompetenceGoals")}
         </Button>
       </DialogTrigger>

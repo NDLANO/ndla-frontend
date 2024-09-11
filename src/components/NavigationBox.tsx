@@ -52,7 +52,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
   const { t } = useTranslation();
   const headingId = useId();
   return (
-    <StyledWrapper aria-labelledby={headingId}>
+    <StyledWrapper aria-labelledby={headingId} data-nav-box="">
       {heading && (
         <Heading id={headingId} asChild consumeCss textStyle="heading.small" fontWeight="bold">
           <h2>{heading}</h2>

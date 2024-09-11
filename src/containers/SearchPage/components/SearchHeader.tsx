@@ -13,7 +13,6 @@ import { SearchLine } from "@ndla/icons/common";
 import {
   Button,
   IconButton,
-  Input,
   InputContainer,
   Text,
   Heading,
@@ -23,6 +22,9 @@ import {
   DialogBody,
   DialogHeader,
   DialogTitle,
+  FieldRoot,
+  FieldLabel,
+  FieldInput,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
@@ -59,6 +61,12 @@ const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", fl
 const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
 const StyledHitsWrapper = styled("div", { base: { marginTop: "xsmall" } });
+
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
 
 const SearchHeader = ({
   query,
@@ -125,31 +133,33 @@ const SearchHeader = ({
       <div>
         <form action="/search/" onSubmit={handleSearchSubmit}>
           <StyledSearchWrapper>
-            <InputContainer>
-              <Input
-                ref={inputRef}
-                type="search"
-                autoComplete="off"
-                id="search"
-                name="search"
-                placeholder={t("searchPage.searchFieldPlaceholder")}
-                value={searchValue}
-                onChange={(e) => onSearchValueChange(e.target.value)}
-              />
-              {searchValue && (
-                <IconButton
-                  variant="clear"
-                  aria-label={t("welcomePage.resetSearch")}
-                  value={t("welcomePage.resetSearch")}
-                  onClick={() => {
-                    onSearchValueChange("");
-                    inputRef.current?.focus();
-                  }}
-                >
-                  <CloseLine />
-                </IconButton>
-              )}
-            </InputContainer>
+            <StyledFieldRoot>
+              <FieldLabel srOnly>{t("searchPage.title")}</FieldLabel>
+              <InputContainer>
+                <FieldInput
+                  ref={inputRef}
+                  type="search"
+                  autoComplete="off"
+                  name="search"
+                  placeholder={t("searchPage.searchFieldPlaceholder")}
+                  value={searchValue}
+                  onChange={(e) => onSearchValueChange(e.target.value)}
+                />
+                {searchValue && (
+                  <IconButton
+                    variant="clear"
+                    aria-label={t("welcomePage.resetSearch")}
+                    value={t("welcomePage.resetSearch")}
+                    onClick={() => {
+                      onSearchValueChange("");
+                      inputRef.current?.focus();
+                    }}
+                  >
+                    <CloseLine />
+                  </IconButton>
+                )}
+              </InputContainer>
+            </StyledFieldRoot>
             <IconButton
               variant="primary"
               type="submit"

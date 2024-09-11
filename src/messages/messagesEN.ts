@@ -50,7 +50,7 @@ const messages = {
     subtitle: "Listen and learn!",
     pagination: "Podcast pages",
   },
-  subjectsPage: { tabFilter: "Which subjects would you like to show?" },
+  subjectsPage: { tabFilter: { label: "Which subjects would you like to show?", all: "All subjects and resources" } },
   searchPage: {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",

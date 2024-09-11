@@ -10,13 +10,11 @@ import format from "date-fns/format";
 import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, fonts, spacing } from "@ndla/core";
 import { Feide, ArrowRightLine } from "@ndla/icons/common";
-import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import { CampaignBlock } from "@ndla/ui";
 import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
 import TopicCard from "./Arena/components/TopicCard";
@@ -32,81 +30,40 @@ import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
+import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
 
-const StyledPageContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.large};
-`;
+const StyledList = styled("ul", {
+  base: {
+    listStyle: "none",
+  },
+});
 
-const StyledResourceList = styled.ul`
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  li {
-    padding: 0px;
-  }
-`;
+const SectionWrapper = styled("section", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StyledTopicList = styled(StyledResourceList)`
-  gap: 0px;
-`;
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xxlarge",
+  },
+});
 
-const SectionWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledText = styled(Text, {
+  base: {
+    maxWidth: "surface.contentMax",
+  },
+});
 
-const StyledSafeLink = styled(SafeLink)`
-  display: block;
-  box-shadow: none;
-  text-decoration: underline;
-  color: ${colors.brand.primary};
-  text-underline-offset: ${spacing.xsmall};
-  svg {
-    width: 20px;
-    height: 20px;
-    margin-left: ${spacing.xsmall};
-  }
-  &:focus-within,
-  &:hover {
-    text-decoration: none;
-  }
-`;
-
-const ListItem = styled.li`
-  list-style: none;
-  margin: 0;
-`;
-
-const LoginButton = styled(Button)`
-  align-self: center;
-  margin-block: ${spacing.normal} ${spacing.large};
-`;
-
-const StyledCampaignBlock = styled(CampaignBlock)`
-  max-width: 100%;
-`;
-
-const StyledText = styled(Text)`
-  font-weight: ${fonts.weight.normal};
-`;
-
-const StyledUl = styled.ul`
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-`;
-
-const StyledSubjectLink = styled(SubjectLink)`
-  padding: 0;
-  border-radius: 2px;
-  width: 100%;
-`;
+const StyledArrowRightLine = styled(ArrowRightLine, {
+  base: {
+    marginInlineStart: "xxsmall",
+  },
+});
 
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
@@ -153,145 +110,139 @@ const MyNdlaPage = () => {
     user?.organization === "Rogaland fylkeskommune" ? `https://ndlarobot.org/${token}` : `https://ai.ndla.no/${aiLang}`;
 
   return (
-    <MyNdlaPageWrapper>
-      <StyledPageContentContainer>
-        <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
-        <div>
-          <TitleWrapper>
-            <MyNdlaTitle title={t("myNdla.myNDLA")} />
-          </TitleWrapper>
-          <StyledText margin="small" textStyle="label-large">
-            {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
-          </StyledText>
-        </div>
-        {!authenticated && (
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <LoginButton variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
-                {t("myNdla.myPage.loginPitchButton")}
-                <Feide />
-              </LoginButton>
-            </DialogTrigger>
-            <LoginModalContent masthead />
-          </DialogRoot>
-        )}
-        <StyledCampaignBlock
-          title={t("myndla.campaignBlock.title")}
-          headingLevel="h2"
-          image={{
-            src: "/static/ndla-ai.png",
-            alt: "",
-          }}
-          imageSide="left"
-          url={{
-            url: authenticated ? aiUrl : undefined,
-            text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
-          }}
-          description={
-            !authenticated
-              ? t("myndla.campaignBlock.ingressUnauthenticated")
-              : isStudent(user)
-                ? t("myndla.campaignBlock.ingressStudent")
-                : t("myndla.campaignBlock.ingress")
-          }
-        />
-        {!!recentArenaTopicsQuery.data?.items?.length && (
-          <SectionWrapper>
-            <Heading element="h2" headingStyle="h2" margin="small">
-              {t("myNdla.myPage.recentArenaPosts.title")}
-            </Heading>
-            <StyledTopicList>
-              {recentArenaTopicsQuery.data?.items?.map((topic) => (
-                <li key={topic.id}>
-                  <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
-                </li>
-              ))}
-            </StyledTopicList>
-            <StyledSafeLink to="arena">
-              {t("myNdla.myPage.recentArenaPosts.link")}
-              <ArrowRightLine />
-            </StyledSafeLink>
-          </SectionWrapper>
-        )}
-        {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
-          <SectionWrapper>
-            <Heading element="h2" headingStyle="h2" margin="none">
-              {t("myNdla.favoriteSubjects.title")}
-            </Heading>
-            <StyledUl>
-              {sortedSubjects.map((subject) => (
-                <StyledSubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
-              ))}
-            </StyledUl>
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")}>
+        <meta name="description" content={t("myNdla.description")} />
+      </HelmetWithTracker>
+      <TitleWrapper>
+        <MyNdlaTitle title={t("myNdla.myNDLA")} />
+        <StyledText textStyle="body.xlarge">
+          {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
+        </StyledText>
+      </TitleWrapper>
+      {!authenticated && (
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <Button variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
+              {t("myNdla.myPage.loginPitchButton")}
+              <Feide />
+            </Button>
+          </DialogTrigger>
+          <LoginModalContent masthead />
+        </DialogRoot>
+      )}
+      <CampaignBlock
+        title={t("myndla.campaignBlock.title")}
+        headingLevel="h2"
+        image={{
+          src: "/static/ndla-ai.png",
+          alt: "",
+        }}
+        imageSide="right"
+        url={{
+          url: authenticated ? aiUrl : undefined,
+          text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
+        }}
+        description={
+          !authenticated
+            ? t("myndla.campaignBlock.ingressUnauthenticated")
+            : isStudent(user)
+              ? t("myndla.campaignBlock.ingressStudent")
+              : t("myndla.campaignBlock.ingress")
+        }
+      />
+      {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
+        <SectionWrapper>
+          <Heading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myNdla.favoriteSubjects.title")}</h2>
+          </Heading>
+          <GridList>
+            {sortedSubjects.map((subject) => (
+              <SubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
+            ))}
+          </GridList>
 
-            <StyledSafeLink to={routes.myNdla.subjects}>
-              {t("myNdla.myPage.favouriteSubjects.viewAll")}
-              <ArrowRightLine />
-            </StyledSafeLink>
-          </SectionWrapper>
-        )}
-        {!authenticated ? (
-          <>
-            <SectionWrapper>
-              <Heading element="h2" headingStyle="h2" margin="small">
-                {t("myNdla.favoriteSubjects.title")}
-              </Heading>
-              <Text margin="none" textStyle="content-alt">
-                {t("myNdla.myPage.favouriteSubjects.noFavorites")}
-              </Text>
-              <StyledSafeLink to="/subjects">
-                {t("myNdla.myPage.favouriteSubjects.search")}
-                <ArrowRightLine />
-              </StyledSafeLink>
-            </SectionWrapper>
-            <SectionWrapper>
-              <Heading element="h2" headingStyle="h2" margin="small">
-                {t("myNdla.myPage.recentFavourites.title")}
-              </Heading>
-              <Text margin="none" textStyle="content-alt">
-                {t("myNdla.myPage.recentFavourites.unauthorized")}
-              </Text>
-              <StyledSafeLink to="/search">
-                {t("myNdla.myPage.recentFavourites.search")}
-                <ArrowRightLine />
-              </StyledSafeLink>
-            </SectionWrapper>
-          </>
-        ) : !!allFolderResources && allFolderResources?.length > 0 ? (
+          <SafeLink to={routes.myNdla.subjects}>
+            {t("myNdla.myPage.favouriteSubjects.viewAll")}
+            <StyledArrowRightLine />
+          </SafeLink>
+        </SectionWrapper>
+      )}
+      {!!recentArenaTopicsQuery.data?.items?.length && (
+        <SectionWrapper>
+          <Heading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myNdla.myPage.recentArenaPosts.title")}</h2>
+          </Heading>
+          <StyledList>
+            {recentArenaTopicsQuery.data?.items?.map((topic) => (
+              <li key={topic.id}>
+                <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
+              </li>
+            ))}
+          </StyledList>
+          <SafeLink to="arena">
+            {t("myNdla.myPage.recentArenaPosts.link")}
+            <StyledArrowRightLine />
+          </SafeLink>
+        </SectionWrapper>
+      )}
+      {!authenticated ? (
+        <>
           <SectionWrapper>
-            <Heading element="h2" headingStyle="h2" margin="small">
-              {t("myNdla.myPage.recentFavourites.title")}
+            <Heading asChild consumeCss>
+              <h2>{t("myNdla.favoriteSubjects.title")}</h2>
             </Heading>
-            <StyledResourceList>
-              {allFolderResources.map((res) => {
-                const meta = keyedData[`${res.resourceType}${res.resourceId}`];
-                return (
-                  <ListItem key={res.id}>
-                    <ListResource
-                      variant="list"
-                      id={res.id}
-                      isLoading={loading}
-                      key={res.id}
-                      link={res.path}
-                      title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                      resourceImage={{
-                        src: meta?.metaImage?.url ?? "",
-                        alt: "",
-                      }}
-                      resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}
-                    />
-                  </ListItem>
-                );
-              })}
-            </StyledResourceList>
-            <StyledSafeLink to="folders">
-              {t("myNdla.myPage.recentFavourites.link")}
-              <ArrowRightLine />
-            </StyledSafeLink>
+            <Text textStyle="body.large">{t("myNdla.myPage.favouriteSubjects.noFavorites")}</Text>
+            <SafeLink to="/subjects">
+              {t("myNdla.myPage.favouriteSubjects.search")}
+              <StyledArrowRightLine />
+            </SafeLink>
           </SectionWrapper>
-        ) : null}
-      </StyledPageContentContainer>
-    </MyNdlaPageWrapper>
+          <SectionWrapper>
+            <Heading asChild consumeCss textStyle="heading.small">
+              <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
+            </Heading>
+            <Text textStyle="body.large">{t("myNdla.myPage.recentFavourites.unauthorized")}</Text>
+            <SafeLink to="/search">
+              {t("myNdla.myPage.recentFavourites.search")}
+              <StyledArrowRightLine />
+            </SafeLink>
+          </SectionWrapper>
+        </>
+      ) : !!allFolderResources && allFolderResources?.length > 0 ? (
+        <SectionWrapper>
+          <Heading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
+          </Heading>
+          <StyledList>
+            {allFolderResources.map((res) => {
+              const meta = keyedData[`${res.resourceType}${res.resourceId}`];
+              return (
+                <li key={res.id}>
+                  <ListResource
+                    variant="list"
+                    id={res.id}
+                    isLoading={loading}
+                    key={res.id}
+                    link={res.path}
+                    title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
+                    resourceImage={{
+                      src: meta?.metaImage?.url ?? "",
+                      alt: "",
+                    }}
+                    resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}
+                  />
+                </li>
+              );
+            })}
+          </StyledList>
+          <SafeLink to="folders">
+            {t("myNdla.myPage.recentFavourites.link")}
+            <StyledArrowRightLine />
+          </SafeLink>
+        </SectionWrapper>
+      ) : null}
+    </StyledMyNdlaPageWrapper>
   );
 };
 
