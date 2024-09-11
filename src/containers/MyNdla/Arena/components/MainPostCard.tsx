@@ -151,14 +151,13 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
               />
               {userAgent?.isMobile ? (
                 <ReplyModal formType="post" topicId={topicId}>
-                  <Button variant="primary" size="small" ref={replyToRef} disabled={topic?.isLocked}>
+                  <Button variant="primary" ref={replyToRef} disabled={topic?.isLocked}>
                     {t("myNdla.arena.new.post")}
                   </Button>
                 </ReplyModal>
               ) : (
                 <Button
                   variant="primary"
-                  size="small"
                   ref={replyToRef}
                   onClick={setReplyingTo}
                   disabled={isReplying || topic?.isLocked}
