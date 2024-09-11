@@ -91,6 +91,8 @@ const SocialMediaMetadata = ({
       {children}
       {trackableContent?.tags && <meta property="keywords" content={`${trackableContent?.tags}`} />}
       <meta property="og:type" content={type} />
+      <meta name="twitter:site" content="@ndla_no" />
+      <meta name="twitter:creator" content="@ndla_no" />
       <meta property="og:url" content={getOgUrl(location, basename)} />
       {title && <meta property="og:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
