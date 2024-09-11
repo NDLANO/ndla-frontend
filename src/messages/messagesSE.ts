@@ -49,7 +49,7 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
