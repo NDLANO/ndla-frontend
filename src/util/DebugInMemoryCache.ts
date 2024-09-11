@@ -10,6 +10,11 @@ import { OperationVariables } from "@apollo/client";
 import { Cache, InMemoryCache } from "@apollo/client/core";
 import handleError from "./handleError";
 
+/**
+ * DebugInMemoryCache extends the InMemoryCache and adds a diff method that will log an error if a partial match is found in the cache.
+ * This is useful for debugging cache issues where a part of some object is found in the cache, but not the whole object.
+ * Can be enabled with `DEBUG_GRAPHQL_CACHE=true` environment variable.
+ */
 export class DebugInMemoryCache extends InMemoryCache {
   findNestedStrings(obj: any, path: string[], error: Error) {
     for (const [key, value] of Object.entries(obj)) {
