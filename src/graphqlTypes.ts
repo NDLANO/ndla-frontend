@@ -4431,20 +4431,18 @@ export type GQLTopicWrapperQuery = {
 
 export type GQLTopicWrapper_SubjectFragment = { __typename?: "Subject" } & GQLTopic_SubjectFragment;
 
-export type GQLProgrammes_ProgrammePageFragment = {
-  __typename?: "ProgrammePage";
-  id: string;
-  url: string;
-  title: { __typename?: "Title"; title: string; language: string };
-};
-
 export type GQLFrontpageDataQueryVariables = Exact<{
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
 export type GQLFrontpageDataQuery = {
   __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage" } & GQLProgrammes_ProgrammePageFragment>;
+  programmes?: Array<{
+    __typename?: "ProgrammePage";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string; language: string };
+  }>;
   frontpage?: {
     __typename?: "FrontpageMenu";
     articleId: number;

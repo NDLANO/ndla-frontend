@@ -11,7 +11,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         data-ndla-article=""
       >
         <header
-          class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge"
+          class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge ov-wrap_break-word hy_auto"
         >
           <hgroup
             class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
