@@ -57,43 +57,38 @@ exports[`ErrorPage renderers correctly 1`] = `
     <div
       class="pbe_4xlarge"
     >
-      <div
-        class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+      <article
+        class="d_flex flex-d_column gap_xxlarge ai_center my_4xlarge"
       >
-        <article
-          class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
+        <img
+          alt="Ops, noe gikk galt"
+          src="/static/oops.gif"
+        />
+        <div
+          class="d_flex flex-d_column gap_medium ai_center"
         >
-          <div
-            class="d_flex jc_center mb_medium tablet:mt_xxlarge"
+          <h1
+            class="textStyle_heading.small ta_center"
           >
-            <img
-              alt="Ops, noe gikk galt"
-              src="/static/oops.gif"
-            />
-          </div>
-          <h1>
             Ops, noe gikk galt
           </h1>
           <p
-            class="textStyle_body.medium mb_medium tablet:mb_xxlarge"
+            class="textStyle_body.xlarge ta_center"
           >
             Beklager, en feil oppstod.
           </p>
-          <h2>
-            Kom igang:
-          </h2>
-          <div
-            class="mt_3xsmall"
+        </div>
+        <div
+          class="d_flex flex-d_column gap_xsmall ai_center"
+        >
+          <a
+            class=""
+            href="/"
           >
-            <a
-              class=""
-              href="/"
-            >
-              Gå til forsiden
-            </a>
-          </div>
-        </article>
-      </div>
+            Gå til forsiden
+          </a>
+        </div>
+      </article>
     </div>
     <footer
       class="pos_relative bg_primary c_text.onAction"
