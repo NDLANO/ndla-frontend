@@ -16,9 +16,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ModeratorButtonWrapper } from "./ArenaPage";
 import { PostActions, PostButtons } from "./ArenaToolbar";
+import { TopicListItem } from "./components/ArenaListItem";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
-import TopicCard from "./components/TopicCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -35,11 +35,7 @@ const BreadcrumbWrapper = styled("div", {
 
 const ListWrapper = styled("ul", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    margin: "0",
-    padding: "0",
+    listStyle: "none",
   },
 });
 
@@ -51,14 +47,6 @@ const StyledContainer = styled("div", {
     margin: "0",
     marginBlockEnd: "xlarge",
     marginBlockStart: "medium",
-  },
-});
-
-const StyledCardContainer = styled("li", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "0",
   },
 });
 
@@ -173,16 +161,19 @@ const TopicPage = () => {
       </StyledContainer>
       <ListWrapper>
         {arenaCategory?.topics?.map((topic) => (
-          <StyledCardContainer key={`topicContainer-${topic.id}`}>
-            <TopicCard
+          <li key={`topicContainer-${topic.id}`}>
+            <TopicListItem
+              variant="list"
               key={`topic-${topic.id}`}
               id={topic.id}
               title={topic.title}
               timestamp={topic.created}
-              count={topic.postCount}
+              postCount={topic.postCount}
+              voteCount={topic.voteCount}
+              category={arenaCategory.title}
               locked={topic.isLocked}
             />
-          </StyledCardContainer>
+          </li>
         ))}
       </ListWrapper>
     </MyNdlaPageWrapper>
