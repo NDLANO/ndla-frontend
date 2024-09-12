@@ -6,6 +6,7 @@
  *
  */
 
+import ListItemImageFallback from "components/ListItemImageFallback";
 import { gql } from "@apollo/client";
 import { breakpoints } from "@ndla/core";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
@@ -35,11 +36,15 @@ const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_
   return (
     <ListItemRoot asChild consumeCss variant="list">
       <li>
-        <BigListItemImage
-          alt={coverPhoto.altText}
-          src={coverPhoto.url}
-          sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
-        />
+        {coverPhoto.url !== "" ? (
+          <BigListItemImage
+            alt={coverPhoto.altText}
+            src={coverPhoto.url}
+            sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
+          />
+        ) : (
+          <ListItemImageFallback contentType="podcast" iconSize="xlarge" />
+        )}
         <ListItemContent>
           <div>
             <ListItemHeading asChild consumeCss>
