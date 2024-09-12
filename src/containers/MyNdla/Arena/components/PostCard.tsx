@@ -24,7 +24,7 @@ import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-export const PostCardWrapper = styled("div", {
+const PostCardWrapper = styled("div", {
   base: {
     backgroundColor: "surface.default",
     display: "flex",
@@ -33,32 +33,6 @@ export const PostCardWrapper = styled("div", {
     padding: "medium",
     borderBottom: "1px solid",
     borderColor: "stroke.subtle",
-  },
-});
-
-export const PostHeader = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: "small",
-  },
-});
-
-export const ContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
-export const Content = styled(Text, {
-  base: {
-    wordBreak: "break-word",
-    "& ul, & ol": {
-      paddingInlineStart: "medium",
-    },
   },
 });
 
@@ -166,12 +140,10 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
         />
       ) : (
         <>
-          <PostHeader>
-            <UserProfileTag user={post.owner} />
-          </PostHeader>
-          <ContentWrapper>
-            <Content textStyle="body.medium">{parse(contentAsHTML!)}</Content>
-          </ContentWrapper>
+          <UserProfileTag user={post.owner} />
+          <Text asChild consumeCss>
+            <div>{parse(contentAsHTML!)}</div>
+          </Text>
           {options}
         </>
       )}
