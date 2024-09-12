@@ -30,7 +30,7 @@ import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister, $findMatchingParent } from "@lexical/utils";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
-import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
@@ -59,12 +59,12 @@ const FloatingContainer = styled("div", {
   },
 });
 
-const ButtonRow = styled(HStack, {
+const ButtonRow = styled("div", {
   base: {
     width: "100%",
-    "& > button": {
-      flexGrow: "1",
-    },
+    gap: "xsmall",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
   },
 });
 
@@ -423,7 +423,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
           />
         </FieldRoot>
       </Stack>
-      <ButtonRow gap="xsmall">
+      <ButtonRow>
         <Button variant="secondary" onClick={handleLinkDeletion} disabled={!editedLinkElement}>
           {t("myNdla.resource.remove")}
         </Button>

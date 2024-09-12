@@ -277,7 +277,6 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
-        aria-selected={isLink}
         size="small"
         value={LINK}
       >
