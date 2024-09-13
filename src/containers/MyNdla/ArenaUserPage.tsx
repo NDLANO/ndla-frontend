@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { TopicListItem } from "./Arena/components/ArenaListItem";
 import { useArenaTopicsByUser, useArenaUser } from "./Arena/components/temporaryNodebbHooks";
-import TopicCard from "./Arena/components/TopicCard";
 import UserProfileAdministration from "./Arena/components/UserProfileAdministration";
 import MyContactArea from "./components/MyContactArea";
 import MyNdlaBreadcrumb from "./components/MyNdlaBreadcrumb";
@@ -83,12 +83,14 @@ const ArenaUserPage = () => {
       <StyledUlWrapper>
         {arenaTopicsByUser?.items?.map((topic) => (
           <CardListItem key={`topicContainer-${topic.id}`}>
-            <TopicCard
+            <TopicListItem
               key={`topic-${topic.id}`}
+              variant="list"
               id={topic.id}
               title={topic.title}
               timestamp={topic.created}
-              count={topic.postCount}
+              postCount={topic.postCount}
+              voteCount={topic.voteCount}
             />
           </CardListItem>
         ))}
