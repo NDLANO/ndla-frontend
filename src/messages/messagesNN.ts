@@ -57,6 +57,7 @@ const messages = {
     subjectLetter: "Fag som startar på {{letter}}",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv praterobotane våre",
       linkText: "Prøv NDLAs praterobotar",

@@ -79,7 +79,7 @@ const FoldersTagsPage = () => {
       <HelmetWithTracker title={title} />
       <TitleWrapper>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
-        <MyNdlaTitle title={tag} />
+        <MyNdlaTitle title={`#${tag}`} />
       </TitleWrapper>
       {resources && <Resources resources={resources} />}
     </StyledMyNdlaPageWrapper>
