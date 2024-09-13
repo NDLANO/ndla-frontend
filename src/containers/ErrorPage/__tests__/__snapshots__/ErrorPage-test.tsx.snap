@@ -126,7 +126,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           class="pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default"
         >
           <svg
-            class="c_icon.onAction flex-sh_0 print:c_icon.strong"
+            class="c_icon.onAction flex-sh_0 print:c_icon.strong d_none desktop:d_block"
             height="383"
             viewBox="0 0 260.29 611.89"
             width="163"
@@ -281,8 +281,35 @@ exports[`ErrorPage renderers correctly 1`] = `
               </g>
             </g>
           </svg>
+          <svg
+            class="c_icon.onAction d_block w_100% tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 1104 280"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              fill="currentColor"
+            >
+              <rect
+                height="280"
+                width="52"
+              />
+              <polygon
+                points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
+              />
+              <path
+                d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
+              />
+              <polygon
+                points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
+              />
+              <path
+                d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
+              />
+            </g>
+          </svg>
           <div
-            class="d_flex flex-d_column jc_space-between gap_xxlarge ps_xxsmall desktop:ps_4xlarge"
+            class="d_flex flex-d_column jc_space-between gap_xxlarge w_100% desktop:ps_4xlarge"
           >
             <span
               class="textStyle_heading.small desktopDown:ta_center"
@@ -518,7 +545,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                 </nav>
               </div>
               <div
-                class="tabletWide:as_flex-end desktop:grid-c_span_2"
+                class="tabletWide:as_flex-end grid-c_span_2 tabletToDesktop:px_xxlarge"
               >
                 <p
                   class="textStyle_body.large"
