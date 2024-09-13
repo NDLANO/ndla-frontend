@@ -32,18 +32,15 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const PageWrapper = styled("div", {
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-    paddingBlock: "medium",
+    gap: "xxlarge",
   },
 });
 
 const StyledReplyButton = styled(Button, {
   base: {
-    alignSelf: "flex-end",
+    justifySelf: "flex-end",
   },
 });
 
@@ -138,63 +135,61 @@ const PostsPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <MyNdlaPageWrapper>
-      <PageWrapper>
-        <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
-        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-        <div>
-          <MainPostCard
-            post={arenaTopic?.posts?.items[0]!}
-            topic={arenaTopic}
-            onFollowChange={onFollowChange}
-            setFocusId={setFocusId}
-            setReplyingTo={() => setReplyingTo(arenaTopic.id)}
-            isReplying={!!replyingTo}
-          />
-          <PostList
-            posts={arenaTopic?.posts?.items.slice(1)}
-            topic={arenaTopic}
-            setFocusId={setFocusId}
-            createReply={createReply}
-            replyToId={arenaTopic.id}
-            isReplyingTo={replyingTo}
-            setReplyingTo={setReplyingTo}
-          />
-        </div>
-        {userAgent?.isMobile ? (
-          <ReplyModal formType="post" topicId={arenaTopic.id}>
-            <StyledReplyButton aria-expanded={!!isReplying} hidden={!!arenaTopic?.isLocked}>
-              {t("myNdla.arena.new.post")}
-            </StyledReplyButton>
-          </ReplyModal>
-        ) : (
-          <StyledReplyButton
-            aria-expanded={!!isReplying}
-            onClick={() => {
-              setReplyingTo(undefined);
-              setIsReplying(true);
-            }}
-            hidden={!!arenaTopic?.isLocked || isReplying}
-          >
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
+      <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
+      <div>
+        <MainPostCard
+          post={arenaTopic?.posts?.items[0]!}
+          topic={arenaTopic}
+          onFollowChange={onFollowChange}
+          setFocusId={setFocusId}
+          setReplyingTo={() => setReplyingTo(arenaTopic.id)}
+          isReplying={!!replyingTo}
+        />
+        <PostList
+          posts={arenaTopic?.posts?.items.slice(1)}
+          topic={arenaTopic}
+          setFocusId={setFocusId}
+          createReply={createReply}
+          replyToId={arenaTopic.id}
+          isReplyingTo={replyingTo}
+          setReplyingTo={setReplyingTo}
+        />
+      </div>
+      {userAgent?.isMobile ? (
+        <ReplyModal formType="post" topicId={arenaTopic.id}>
+          <StyledReplyButton aria-expanded={!!isReplying} hidden={!!arenaTopic?.isLocked}>
             {t("myNdla.arena.new.post")}
           </StyledReplyButton>
-        )}
-        {isReplying && (
-          <ArenaFormWrapper>
-            <ArenaForm
-              type="post"
-              onAbort={() => {
-                setIsReplying(false);
-              }}
-              onSave={async (values) => {
-                await createReply(values);
-                setIsReplying(false);
-              }}
-            />
-          </ArenaFormWrapper>
-        )}
-      </PageWrapper>
-    </MyNdlaPageWrapper>
+        </ReplyModal>
+      ) : (
+        <StyledReplyButton
+          aria-expanded={!!isReplying}
+          onClick={() => {
+            setReplyingTo(undefined);
+            setIsReplying(true);
+          }}
+          hidden={!!arenaTopic?.isLocked || isReplying}
+        >
+          {t("myNdla.arena.new.post")}
+        </StyledReplyButton>
+      )}
+      {isReplying && (
+        <ArenaFormWrapper>
+          <ArenaForm
+            type="post"
+            onAbort={() => {
+              setIsReplying(false);
+            }}
+            onSave={async (values) => {
+              await createReply(values);
+              setIsReplying(false);
+            }}
+          />
+        </ArenaFormWrapper>
+      )}
+    </StyledMyNdlaPageWrapper>
   );
 };
 
