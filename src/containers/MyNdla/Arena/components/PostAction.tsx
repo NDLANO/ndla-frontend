@@ -13,7 +13,7 @@ import { SpamLine, LockLine } from "@ndla/icons/common";
 import { ArenaFormValues } from "./ArenaForm";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";
-import { ReplyModalContent } from "./ReplyModal";
+import { ReplyDialogContent } from "./ReplyDialog";
 import { useArenaUpdatePost, useArenaUpdateTopic } from "./temporaryNodebbHooks";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
@@ -91,7 +91,7 @@ export const PostAction = ({ post, topic, type, setIsEditing, onDelete }: PostAc
       ...updateBase,
       type: "dialog",
       modalContent: (close) => (
-        <ReplyModalContent type={type} onSave={type === "post" ? savePost : saveTopic} onAbort={close} />
+        <ReplyDialogContent type={type} onSave={type === "post" ? savePost : saveTopic} onAbort={close} />
       ),
     };
 

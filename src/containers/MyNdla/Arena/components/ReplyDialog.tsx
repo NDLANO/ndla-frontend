@@ -21,7 +21,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const ReplyModal = forwardRef<HTMLButtonElement, Props>(
+export const ReplyDialog = forwardRef<HTMLButtonElement, Props>(
   ({ children, formType, initialTitle, initialContent, topicId, postId }, ref) => {
     const [open, setOpen] = useState(false);
     const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
@@ -40,7 +40,7 @@ export const ReplyModal = forwardRef<HTMLButtonElement, Props>(
         <DialogTrigger ref={ref} asChild>
           {children}
         </DialogTrigger>
-        <ReplyModalContent
+        <ReplyDialogContent
           type={formType}
           initialContent={initialContent}
           initialTitle={initialTitle}
@@ -62,7 +62,7 @@ interface ContentProps {
   onSave: (data: Partial<ArenaFormValues>) => Promise<void>;
   onAbort: () => void;
 }
-export const ReplyModalContent = ({ type, initialTitle, initialContent, onSave, onAbort }: ContentProps) => {
+export const ReplyDialogContent = ({ type, initialTitle, initialContent, onSave, onAbort }: ContentProps) => {
   return (
     <DialogContent>
       <DialogBody>

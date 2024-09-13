@@ -32,16 +32,13 @@ const StyledLi = styled("li", {
     paddingInlineStart: "xsmall",
     borderInlineStart: "1px solid",
     borderColor: "stroke.subtle",
-    "&:last-of-type": {
+    _lastOfType: {
       borderInlineStart: "unset",
     },
     "&:not(:last-of-type)": {
       _after: {
         borderInlineStart: "unset",
       },
-    },
-    "&[data-padding='true']": {
-      paddingInlineStart: "none",
     },
     _after: {
       borderInlineStart: "1px solid",
@@ -74,7 +71,7 @@ const StyledLi = styled("li", {
   },
 });
 
-const EditorWrapper = styled("div", {
+const SpacingWrapperEditor = styled("div", {
   base: {
     paddingBlockStart: "medium",
     borderInlineStart: "1px solid",
@@ -113,9 +110,7 @@ const calculateNextPostId = (
   if (previousPostId || nextPostId) {
     return nextPostId ?? previousPostId;
   }
-  return rootPosts?.posts?.items.find(({ replies }) => {
-    return replies?.find(({ id }) => id === post.id);
-  })?.id;
+  return rootPosts?.posts?.items.find(({ replies }) => replies?.find(({ id }) => id === post.id))?.id;
 };
 
 interface Props {
@@ -130,7 +125,6 @@ interface Props {
 
 const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplyingTo, setReplyingTo }: Props) => {
   const [isReplyingChild, setIsReplyingChild] = useState<number | undefined>(undefined);
-
   const formRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -142,7 +136,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
   return (
     <>
       {isReplyingTo === replyToId && (
-        <EditorWrapper>
+        <SpacingWrapperEditor id={`reply-form-${replyToId}`}>
           <StyledArenaFormWrapper ref={formRef}>
             <ArenaForm
               type="post"
@@ -157,7 +151,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
               }}
             />
           </StyledArenaFormWrapper>
-        </EditorWrapper>
+        </SpacingWrapperEditor>
       )}
       <StyledOl>
         {posts.map((post) => {
@@ -173,6 +167,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                   setFocusId={setFocusId}
                   nextPostId={calculateNextPostId(posts, post, topic) ?? topic?.id ?? 0}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}
+                  isReplyingTo={isReplyingChild}
                   isRoot={hasReplies}
                 />
               )}

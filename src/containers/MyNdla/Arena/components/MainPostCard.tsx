@@ -24,7 +24,7 @@ import {
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { ReplyModal } from "./ReplyModal";
+import { ReplyDialog } from "./ReplyDialog";
 import { useArenaUpdateTopic, useArenaDeleteTopic } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -194,17 +194,19 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                 onDelete={deleteTopicCallback}
               />
               {userAgent?.isMobile ? (
-                <ReplyModal formType="post" topicId={topicId} ref={replyToRef}>
+                <ReplyDialog formType="post" topicId={topicId} ref={replyToRef}>
                   <Button variant="primary" disabled={topic?.isLocked}>
                     {t("myNdla.arena.new.post")}
                   </Button>
-                </ReplyModal>
+                </ReplyDialog>
               ) : (
                 <Button
                   variant="primary"
                   ref={replyToRef}
                   onClick={setReplyingTo}
                   disabled={isReplying || topic?.isLocked}
+                  aria-controls={`reply-form-${topicId}`}
+                  aria-expanded={!!isReplying}
                 >
                   {t("myNdla.arena.new.post")}
                 </Button>

@@ -15,7 +15,7 @@ import { IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
-import { ReplyModal } from "./ReplyModal";
+import { ReplyDialog } from "./ReplyDialog";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
@@ -45,9 +45,10 @@ interface Props {
   nextPostId: number;
   isRoot?: boolean;
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
+  isReplyingTo?: number;
 }
 
-const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isRoot }: Props) => {
+const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isReplyingTo, isRoot }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const toast = useToast();
@@ -101,7 +102,7 @@ const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isRoot }
     () =>
       isRoot && !topic?.isLocked ? (
         userAgent?.isMobile ? (
-          <ReplyModal formType="post" topicId={post.topicId} postId={post.id}>
+          <ReplyDialog formType="post" topicId={post.topicId} postId={post.id}>
             <IconButton
               variant="tertiary"
               title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
@@ -109,19 +110,32 @@ const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isRoot }
             >
               <Reply />
             </IconButton>
-          </ReplyModal>
+          </ReplyDialog>
         ) : (
           <IconButton
             variant="tertiary"
             title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
             aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
             onClick={setIsReplying}
+            aria-expanded={isReplyingTo === post.id}
+            aria-controls={`reply-form-${postId}`}
           >
             <Reply />
           </IconButton>
         )
       ) : null,
-    [isRoot, post, setIsReplying, t, topic?.isLocked, userAgent?.isMobile],
+    [
+      isRoot,
+      post.id,
+      post.owner?.username,
+      post.topicId,
+      postId,
+      isReplyingTo,
+      setIsReplying,
+      t,
+      topic?.isLocked,
+      userAgent?.isMobile,
+    ],
   );
 
   const options = useMemo(

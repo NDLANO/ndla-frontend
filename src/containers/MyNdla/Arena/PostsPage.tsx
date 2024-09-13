@@ -15,7 +15,7 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
 import PostList from "./components/PostList";
-import { ReplyModal } from "./components/ReplyModal";
+import { ReplyDialog } from "./components/ReplyDialog";
 import {
   useArenaTopic,
   useArenaCategory,
@@ -46,6 +46,7 @@ const StyledReplyButton = styled(Button, {
 
 const POST_PAGE = 1;
 const POST_PAGE_SIZE = 100;
+const REPLY_FORM = "reply-form";
 
 const PostsPage = () => {
   const { t } = useTranslation();
@@ -158,13 +159,14 @@ const PostsPage = () => {
         />
       </div>
       {userAgent?.isMobile ? (
-        <ReplyModal formType="post" topicId={arenaTopic.id}>
+        <ReplyDialog formType="post" topicId={arenaTopic.id}>
           <StyledReplyButton aria-expanded={!!isReplying} hidden={!!arenaTopic?.isLocked}>
             {t("myNdla.arena.new.post")}
           </StyledReplyButton>
-        </ReplyModal>
+        </ReplyDialog>
       ) : (
         <StyledReplyButton
+          aria-controls={REPLY_FORM}
           aria-expanded={!!isReplying}
           onClick={() => {
             setReplyingTo(undefined);
@@ -175,20 +177,18 @@ const PostsPage = () => {
           {t("myNdla.arena.new.post")}
         </StyledReplyButton>
       )}
-      {isReplying && (
-        <ArenaFormWrapper>
-          <ArenaForm
-            type="post"
-            onAbort={() => {
-              setIsReplying(false);
-            }}
-            onSave={async (values) => {
-              await createReply(values);
-              setIsReplying(false);
-            }}
-          />
-        </ArenaFormWrapper>
-      )}
+      <ArenaFormWrapper id={REPLY_FORM} hidden={!isReplying}>
+        <ArenaForm
+          type="post"
+          onAbort={() => {
+            setIsReplying(false);
+          }}
+          onSave={async (values) => {
+            await createReply(values);
+            setIsReplying(false);
+          }}
+        />
+      </ArenaFormWrapper>
     </StyledMyNdlaPageWrapper>
   );
 };
