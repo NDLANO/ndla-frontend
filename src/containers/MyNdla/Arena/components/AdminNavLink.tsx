@@ -8,98 +8,50 @@
 
 import { ReactNode } from "react";
 import { Text } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   to: string;
   title: string;
   subText: string;
-  rightText?: string;
   icon: ReactNode;
 }
 
-const StyledSafelink = styled(SafeLink, {
+const TextWrapper = styled("div", {
   base: {
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
     display: "flex",
-    flexDirection: "row",
-    gap: "medium",
-    padding: "medium",
-    paddingInlineEnd: "large",
+    flexDirection: "column",
+    gap: "3xsmall",
+    alignItems: "flex-start",
+    textAlign: "left",
+  },
+});
 
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    justifyContent: "flex-start",
+    gap: "small",
+    "& span": {
+      textDecoration: "underline",
+    },
     _hover: {
-      "& [data-name='hover']": {
+      "& span": {
         textDecoration: "none",
       },
     },
-
-    mobileWide: {
-      backgroundColor: "surface.default",
-      _hover: {
-        backgroundColor: "surface.infoSubtle",
-      },
-    },
   },
 });
 
-const SpacingContainer = styled("div", {
-  base: {
-    display: "flex",
-    gap: "medium",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
-
-const StyledHeader = styled(Text, {
-  base: {
-    cursor: "pointer",
-    textDecoration: "underline",
-  },
-});
-
-const StyledDescriptionText = styled(Text, {
-  base: {
-    mobileWideDown: {
-      display: "none",
-    },
-  },
-});
-
-const StyledCountContainer = styled("div", {
-  base: {
-    textAlign: "center",
-  },
-});
-
-const NavWrapper = styled("li", {
-  base: {
-    listStyle: "none",
-    margin: 0,
-  },
-});
-
-const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
+const AdminNavLink = ({ to, title, subText, icon }: Props) => {
   return (
-    <NavWrapper>
-      <StyledSafelink to={to}>
-        {icon}
-        <SpacingContainer>
-          <div>
-            <StyledHeader data-name="hover" color="text.strong" asChild consumeCss>
-              <label>{title}</label>
-            </StyledHeader>
-            <StyledDescriptionText>{subText}</StyledDescriptionText>
-          </div>
-          <StyledCountContainer>
-            <Text>{rightText}</Text>
-          </StyledCountContainer>
-        </SpacingContainer>
-      </StyledSafelink>
-    </NavWrapper>
+    <StyledSafeLinkButton variant="secondary" to={to}>
+      {icon}
+      <TextWrapper>
+        <span>{title}</span>
+        <Text>{subText}</Text>
+      </TextWrapper>
+    </StyledSafeLinkButton>
   );
 };
 
