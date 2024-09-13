@@ -7,7 +7,7 @@
  */
 
 import { $getRoot, EditorState } from "lexical";
-import { ComponentProps, forwardRef, useRef, useState } from "react";
+import { ComponentPropsWithRef, forwardRef, useRef, useState } from "react";
 import { useFieldContext } from "@ark-ui/react";
 import { $generateNodesFromDOM } from "@lexical/html";
 import { $convertToMarkdownString } from "@lexical/markdown";
@@ -86,95 +86,94 @@ const StyledContentEditable = styled(
   { baseComponent: true },
 );
 
-interface Props extends ComponentProps<"div"> {
+// ContentEditable has some weird types. Omitting ref from props fixes this. TODO: Revise this for react 19
+interface Props extends Omit<ComponentPropsWithRef<"div">, "ref"> {
   setContentWritten: (data: string) => void;
   initialValue: string;
   name: string;
 }
 
-const MarkdownEditor = forwardRef<HTMLDivElement, Props>(
-  ({ setContentWritten, initialValue, ref: unusedRef, ...rest }, ref) => {
-    const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
-    const [editorFocused, setEditorFocused] = useState(false);
+const MarkdownEditor = forwardRef<HTMLDivElement, Props>(({ setContentWritten, initialValue, ...rest }, ref) => {
+  const floatingAnchorElem = useRef<HTMLDivElement | null>(null);
+  const [editorFocused, setEditorFocused] = useState(false);
 
-    const field = useFieldContext();
+  const field = useFieldContext();
 
-    const textAreaProps = field?.getTextareaProps() ?? {};
+  const textAreaProps = field?.getTextareaProps() ?? {};
 
-    const initialConfig: InitialConfigType = {
-      namespace: "MyEditor",
-      onError,
-      nodes: editorNodes,
-      theme: editorTheme,
-      editorState: (editor) => {
-        const parser = new DOMParser();
-        const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
-        $getRoot().select().insertNodes(nodes);
-        setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
-      },
-    };
+  const initialConfig: InitialConfigType = {
+    namespace: "MyEditor",
+    onError,
+    nodes: editorNodes,
+    theme: editorTheme,
+    editorState: (editor) => {
+      const parser = new DOMParser();
+      const nodes = $generateNodesFromDOM(editor, parser.parseFromString(initialValue, "text/html"));
+      $getRoot().select().insertNodes(nodes);
+      setContentWritten($convertToMarkdownString(PLAYGROUND_TRANSFORMERS));
+    },
+  };
 
-    /**
-     * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
-     * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
-     * */
-    const onChange = (editorState: EditorState) => {
-      editorState.read(() => {
-        const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
-        setContentWritten(markdown);
-      });
-    };
+  /**
+   * ConvertToMarkDownString length also includes markdown markup to get correct content length we use $rootTextContent.
+   * Usage inspired by https://github.com/facebook/lexical/blob/main/packages/lexical-react/src/shared/useCharacterLimit.ts
+   * */
+  const onChange = (editorState: EditorState) => {
+    editorState.read(() => {
+      const markdown = $convertToMarkdownString(PLAYGROUND_TRANSFORMERS);
+      setContentWritten(markdown);
+    });
+  };
 
-    return (
-      <OuterEditorContainer>
-        <LexicalComposer initialConfig={initialConfig}>
-          <EditorToolbar editorIsFocused={editorFocused} />
-          <InnerEditorContainer>
-            <RichTextPlugin
-              contentEditable={
-                <EditableWrapper ref={floatingAnchorElem}>
-                  <StyledContentEditable
-                    id="markdown-editor"
-                    role="textbox"
-                    ariaDescribedBy={textAreaProps["aria-describedby"]}
-                    aria-invalid={textAreaProps["aria-invalid"]}
-                    ariaRequired={textAreaProps["aria-required"]}
-                    aria-readonly={textAreaProps["aria-readonly"]}
-                    readOnly={textAreaProps.readOnly}
-                    required={textAreaProps.required}
-                    disabled={textAreaProps.disabled}
-                    onFocus={(e) => {
-                      setEditorFocused(true);
-                      rest.onFocus?.(e);
-                    }}
-                    onBlur={(e) => {
-                      setEditorFocused(false);
-                      rest.onBlur?.(e);
-                    }}
-                    {...rest}
-                  />
-                </EditableWrapper>
-              }
-              placeholder={<span />}
-              ErrorBoundary={LexicalErrorBoundary}
-            />
-          </InnerEditorContainer>
-          {floatingAnchorElem.current ? (
-            <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem.current} editorIsFocused={editorFocused} />
-          ) : (
-            ""
-          )}
-          <RefPlugin ref={ref} />
-          <AutoLink />
-          <ListPlugin />
-          <LinkPlugin />
-          <MarkdownPlugin />
-          <HistoryPlugin />
-          <OnChangePlugin ignoreSelectionChange onChange={onChange} />
-        </LexicalComposer>
-      </OuterEditorContainer>
-    );
-  },
-);
+  return (
+    <OuterEditorContainer>
+      <LexicalComposer initialConfig={initialConfig}>
+        <EditorToolbar editorIsFocused={editorFocused} />
+        <InnerEditorContainer>
+          <RichTextPlugin
+            contentEditable={
+              <EditableWrapper ref={floatingAnchorElem}>
+                <StyledContentEditable
+                  id="markdown-editor"
+                  role="textbox"
+                  ariaDescribedBy={textAreaProps["aria-describedby"]}
+                  aria-invalid={textAreaProps["aria-invalid"]}
+                  ariaRequired={textAreaProps["aria-required"]}
+                  aria-readonly={textAreaProps["aria-readonly"]}
+                  readOnly={textAreaProps.readOnly}
+                  required={textAreaProps.required}
+                  disabled={textAreaProps.disabled}
+                  onFocus={(e) => {
+                    setEditorFocused(true);
+                    rest.onFocus?.(e);
+                  }}
+                  onBlur={(e) => {
+                    setEditorFocused(false);
+                    rest.onBlur?.(e);
+                  }}
+                  {...rest}
+                />
+              </EditableWrapper>
+            }
+            placeholder={<span />}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+        </InnerEditorContainer>
+        {floatingAnchorElem.current ? (
+          <FloatingLinkEditorPlugin anchorElement={floatingAnchorElem.current} editorIsFocused={editorFocused} />
+        ) : (
+          ""
+        )}
+        <RefPlugin ref={ref} />
+        <AutoLink />
+        <ListPlugin />
+        <LinkPlugin />
+        <MarkdownPlugin />
+        <HistoryPlugin />
+        <OnChangePlugin ignoreSelectionChange onChange={onChange} />
+      </LexicalComposer>
+    </OuterEditorContainer>
+  );
+});
 
 export default MarkdownEditor;

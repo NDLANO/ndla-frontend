@@ -20,7 +20,7 @@ const UpvoteWrapper = styled("div", {
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    gap: "xsmall",
+    gap: "xxsmall",
   },
 });
 

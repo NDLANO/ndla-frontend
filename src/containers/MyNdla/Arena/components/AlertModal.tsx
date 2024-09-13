@@ -100,7 +100,13 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button variant="secondary" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
+        <Button
+          variant="secondary"
+          onClick={(e) => {
+            e.preventDefault();
+            shouldBlock ? setOpen(true) : onAbort();
+          }}
+        >
           {t("cancel")}
         </Button>
       </DialogTrigger>

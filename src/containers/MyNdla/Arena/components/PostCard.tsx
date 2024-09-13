@@ -15,11 +15,13 @@ import { IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
+import { ReplyDialog } from "./ReplyDialog";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
+import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
+import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
@@ -42,13 +44,16 @@ interface Props {
   setIsReplying: VoidFunction;
   nextPostId: number;
   isRoot?: boolean;
+  topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
+  isReplyingTo?: number;
 }
 
-const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props) => {
+const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isReplyingTo, isRoot }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const toast = useToast();
   const { t, i18n } = useTranslation();
+  const userAgent = useUserAgent();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
 
@@ -95,16 +100,42 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const replyButton = useMemo(
     () =>
-      isRoot ? (
-        <IconButton
-          variant="tertiary"
-          aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
-          onClick={setIsReplying}
-        >
-          <Reply />
-        </IconButton>
+      isRoot && !topic?.isLocked ? (
+        userAgent?.isMobile ? (
+          <ReplyDialog formType="post" topicId={post.topicId} postId={post.id}>
+            <IconButton
+              variant="tertiary"
+              title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+              aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            >
+              <Reply />
+            </IconButton>
+          </ReplyDialog>
+        ) : (
+          <IconButton
+            variant="tertiary"
+            title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            onClick={setIsReplying}
+            aria-expanded={isReplyingTo === post.id}
+            aria-controls={`reply-form-${postId}`}
+          >
+            <Reply />
+          </IconButton>
+        )
       ) : null,
-    [setIsReplying, isRoot, t, post.owner?.username],
+    [
+      isRoot,
+      post.id,
+      post.owner?.username,
+      post.topicId,
+      postId,
+      isReplyingTo,
+      setIsReplying,
+      t,
+      topic?.isLocked,
+      userAgent?.isMobile,
+    ],
   );
 
   const options = useMemo(
