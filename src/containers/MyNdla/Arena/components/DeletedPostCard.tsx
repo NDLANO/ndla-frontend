@@ -7,25 +7,24 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, misc, spacing } from "@ndla/core";
-import { Text } from "@ndla/typography";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-const StyledDeletedCard = styled.div`
-  background-color: ${colors.brand.greyLightest};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.normal};
-  margin-bottom: ${spacing.normal};
-`;
+const StyledDeletedCard = styled("div", {
+  base: {
+    backgroundColor: "surface.disabled.subtle",
+    borderColor: "stroke.info",
+    border: "1px solid",
+    borderRadius: "xsmall",
+    padding: "medium",
+  },
+});
 
 const DeletedPostCard = () => {
   const { t } = useTranslation();
   return (
     <StyledDeletedCard>
-      <Text textStyle="content-alt" margin="none">
-        {t("myNdla.arena.posts.deleted")}
-      </Text>
+      <Text>{t("myNdla.arena.posts.deleted")}</Text>
     </StyledDeletedCard>
   );
 };
