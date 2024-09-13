@@ -21,7 +21,7 @@ import {
   Heading,
   Button,
 } from "@ndla/primitives";
-import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
 import { ReplyModal } from "./ReplyModal";
@@ -65,6 +65,25 @@ const Content = styled(Text, {
     "& ul, & ol": {
       paddingInlineStart: "medium",
     },
+  },
+});
+
+const StyledBottomRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
+
+const ActionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "medium",
+    marginInlineStart: "auto",
   },
 });
 
@@ -160,11 +179,11 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
               <div>{parse(contentAsHTML!)}</div>
             </Content>
           </Stack>
-          <HStack justify="space-between">
+          <StyledBottomRow>
             <Text textStyle="body.small" asChild consumeCss>
               <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
             </Text>
-            <HStack gap="medium">
+            <ActionsWrapper>
               <VotePost post={post} />
               <PostAction
                 topic={topic}
@@ -190,8 +209,8 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                   {t("myNdla.arena.new.post")}
                 </Button>
               )}
-            </HStack>
-          </HStack>
+            </ActionsWrapper>
+          </StyledBottomRow>
         </>
       )}
     </MainPostCardWrapper>
