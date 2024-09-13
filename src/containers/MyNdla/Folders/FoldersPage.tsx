@@ -59,7 +59,6 @@ export const BlockWrapper = styled.ul`
   width: 100%;
   margin: 0;
   margin-bottom: ${spacing.medium};
-  padding: 0 0 0 ${spacing.medium};
 
   &[data-type="block"] {
     padding: 0;

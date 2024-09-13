@@ -16,8 +16,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { CampaignBlock } from "@ndla/ui";
+import { TopicListItem } from "./Arena/components/ArenaListItem";
 import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
-import TopicCard from "./Arena/components/TopicCard";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";
@@ -176,7 +176,14 @@ const MyNdlaPage = () => {
           <StyledList>
             {recentArenaTopicsQuery.data?.items?.map((topic) => (
               <li key={topic.id}>
-                <TopicCard id={topic.id} count={topic.postCount} title={topic.title} timestamp={topic.created} />
+                <TopicListItem
+                  id={topic.id}
+                  variant="list"
+                  postCount={topic.postCount}
+                  voteCount={topic.voteCount}
+                  title={topic.title}
+                  timestamp={topic.created}
+                />
               </li>
             ))}
           </StyledList>
