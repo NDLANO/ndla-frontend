@@ -177,6 +177,12 @@ const messages = {
   aboutPage: {
     nav: "Informasjonsider",
   },
+  subjectPage: {
+    topicsTitle: "Emne i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
 };
 
 export default messages;

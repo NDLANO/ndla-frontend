@@ -18,10 +18,10 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_NORMAL,
   KEY_MODIFIER_COMMAND,
+  TextFormatType,
 } from "lexical";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $isListNode,
@@ -33,21 +33,23 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
-import { colors, misc, spacing } from "@ndla/core";
 import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
 
-const ButtonRow = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  background-color: ${colors.white};
-  border-top-left-radius: ${misc.borderRadius};
-  border-top-right-radius: ${misc.borderRadius};
-  border-bottom: 1px solid ${colors.brand.grey};
-  padding: ${spacing.small};
-`;
+const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
+  base: {
+    backgroundColor: "surface.infoSubtle",
+    borderTopLeftRadius: "small",
+    borderTopRightRadius: "small",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+    padding: "3xsmall",
+    gap: "3xsmall",
+  },
+});
 
 export const getSelectedNode = (selection: RangeSelection): TextNode | ElementNode => {
   const anchor = selection.anchor;
@@ -69,17 +71,39 @@ interface EditorToolbarProps {
   editorIsFocused: boolean;
 }
 
+const toggleToolbarState = (
+  isActive: boolean,
+  format: TextFormatType | "link",
+  setToolbarValues: Dispatch<SetStateAction<string[]>>,
+  condition?: boolean,
+) => {
+  if (!condition && isActive) {
+    return setToolbarValues((prev) => prev.filter((val) => val !== format));
+  } else if (condition && !isActive) {
+    return setToolbarValues((prev) => prev.concat(format));
+  }
+};
+
+const BOLD = "bold";
+const ITALIC = "italic";
+const UNORDERED = "unordered";
+const ORDERED = "ordered";
+const LINK = "link";
+
 export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   const { t } = useTranslation();
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isLink, setIsLink] = useState(false);
-  const [isUnorderedList, setIsUnorderedList] = useState(false);
-  const [isNumberedList, setIsNumberedList] = useState(false);
   const [hasSelectedText, setHasSelectedText] = useState(false);
   const selectors = useUserAgent();
+
+  const [toolbarValues, setToolbarValues] = useState<string[]>([]);
+
+  const isBold = useMemo(() => toolbarValues.includes(BOLD), [toolbarValues]);
+  const isItalic = useMemo(() => toolbarValues.includes(ITALIC), [toolbarValues]);
+  const isUnorderedList = useMemo(() => toolbarValues.includes(UNORDERED), [toolbarValues]);
+  const isOrderedList = useMemo(() => toolbarValues.includes(ORDERED), [toolbarValues]);
+  const isLink = useMemo(() => toolbarValues.includes(LINK), [toolbarValues]);
 
   const osCtrl = useCallback(
     (key: string) => {
@@ -109,12 +133,12 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   }, [editor, isUnorderedList]);
 
   const formatNumberedList = useCallback(() => {
-    if (!isNumberedList) {
+    if (!isOrderedList) {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
     }
-  }, [editor, isNumberedList]);
+  }, [editor, isOrderedList]);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -135,29 +159,33 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
       const elementKey = element.getKey();
       const elementDOM = activeEditor.getElementByKey(elementKey);
 
-      setIsBold(selection.hasFormat("bold"));
-      setIsItalic(selection.hasFormat("italic"));
-
       setHasSelectedText(selection.anchor.offset !== selection.focus.offset);
+
+      toggleToolbarState(isBold, BOLD, setToolbarValues, selection.hasFormat(BOLD));
+      toggleToolbarState(isItalic, ITALIC, setToolbarValues, selection.hasFormat(ITALIC));
 
       const node = getSelectedNode(selection);
       const parent = node.getParent();
-      const isLink = $isLinkNode(node) || $isLinkNode(parent);
-      setIsLink(isLink);
+
+      toggleToolbarState(isLink, LINK, setToolbarValues, $isLinkNode(node) || $isLinkNode(parent));
 
       if (elementDOM !== null) {
+        const filterList = (val: string) => val !== UNORDERED && val !== ORDERED;
         if ($isListNode(element)) {
           const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
           const type = parentList ? parentList.getListType() : element.getListType();
-          setIsUnorderedList(type === "bullet");
-          setIsNumberedList(type === "number");
+
+          if (type === "bullet") {
+            return !isUnorderedList && setToolbarValues((prev) => prev.filter(filterList).concat(UNORDERED));
+          } else {
+            return !isOrderedList && setToolbarValues((prev) => prev.filter(filterList).concat(ORDERED));
+          }
         } else {
-          setIsUnorderedList(false);
-          setIsNumberedList(false);
+          return setToolbarValues((prev) => prev.filter(filterList));
         }
       }
     }
-  }, [activeEditor, editorIsFocused]);
+  }, [editorIsFocused, activeEditor, isBold, isItalic, isLink, isUnorderedList, isOrderedList]);
 
   useEffect(() => {
     return editor.registerCommand(
@@ -203,57 +231,57 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
   }, [$updateToolbar, activeEditor, editor]);
 
   return (
-    <ButtonRow>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        size="small"
-        variant={isBold ? "primary" : "tertiary"}
+    <StyledToggleGroupRoot multiple value={toolbarValues}>
+      <ToggleGroupItem
+        value={BOLD}
+        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+        size="small"
       >
         <Bold />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        size="small"
-        variant={isItalic ? "primary" : "tertiary"}
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value={ITALIC}
+        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
+        size="small"
       >
         <Italic />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        size="small"
-        variant={isUnorderedList ? "primary" : "tertiary"}
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value={UNORDERED}
+        variant="tertiary"
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
+        size="small"
       >
         <ListUnordered />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        size="small"
-        variant={isNumberedList ? "primary" : "tertiary"}
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        variant="tertiary"
         onClick={formatNumberedList}
-        aria-label={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
-        title={t(`markdownEditor.toolbar.orderedList.${isNumberedList ? "active" : "inactive"}`)}
+        aria-label={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
+        title={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
+        size="small"
+        value={ORDERED}
       >
         <ListOrdered />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        size="small"
-        variant={isLink ? "primary" : "tertiary"}
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        variant="tertiary"
         onClick={insertLink}
         aria-label={linkLabel}
         title={linkLabel}
+        size="small"
+        value={LINK}
       >
         <LinkMedium />
-      </IconButton>
-    </ButtonRow>
+      </ToggleGroupItem>
+    </StyledToggleGroupRoot>
   );
 };

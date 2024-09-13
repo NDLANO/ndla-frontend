@@ -177,6 +177,12 @@ const messages = {
   aboutPage: {
     nav: "Information pages",
   },
+  subjectPage: {
+    topicsTitle: "Topics in {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Programmes",
+  },
 };
 
 export default messages;

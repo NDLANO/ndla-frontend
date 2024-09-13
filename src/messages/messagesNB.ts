@@ -174,8 +174,14 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
   },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
   },
 };
 
