@@ -6,13 +6,13 @@
  *
  */
 
-import ListItemImageFallback from "components/ListItemImageFallback";
 import { gql } from "@apollo/client";
 import { breakpoints } from "@ndla/core";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import ListItemImageFallback from "../../components/ListItemImageFallback";
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
 const StyledText = styled(Text, { base: { lineClamp: "3" } });
