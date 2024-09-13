@@ -7,7 +7,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   >
     <main>
       <article
-        class="bg_background.default d_flex flex-d_column gap_xxlarge c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
@@ -16,13 +16,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           <hgroup
             class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
           >
-            <div
-              class="d_flex flex-d_row ai_center jc_space-between gap_small w_100% min-h_xxlarge"
-            />
             <h1
-              class="textStyle_heading.large"
+              class="textStyle_heading.medium"
               id="54"
               lang="no"
+              property="dct:title"
             >
               Politiske skillelinjer
             </h1>
@@ -41,7 +39,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
         >
           <section>
             <p
-              class="[&[data-align="center"]]:ta_center [&:has(span[dir="rtl"])]:direction_rtl"
               lang="no"
             >
               Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
@@ -63,7 +60,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <span>
                   by-sa
                 </span>
-                <span>
+                <span
+                  property="cc:attributionName"
+                >
                   Skrevet av Someone. 
                 </span>
               </div>
@@ -92,7 +91,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   aria-controls="accordion::r0::content:rulesForUse"
                   aria-disabled="false"
                   aria-expanded="false"
-                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_2px_var(--shadow-color)"
+                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
                   data-orientation="vertical"
                   data-ownedby="accordion::r0:"
                   data-part="item-trigger"
@@ -141,7 +140,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   style="--height: 0px; --width: 0px;"
                 >
                   <div
-                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row pbe_medium"
+                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row"
                     data-orientation="horizontal"
                     data-part="root"
                     data-scope="tabs"
@@ -190,7 +189,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     </div>
                     <div
                       aria-labelledby="tabs::r2::trigger-text"
-                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
+                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default pbe_medium"
                       data-orientation="horizontal"
                       data-ownedby="tabs::r2::list"
                       data-part="content"
@@ -283,7 +282,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               </ul>
                               <span>
                                 <button
-                                  class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.small fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong min-h_19 px_small py_3xsmall"
+                                  class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.small min-h_large px_xsmall py_4xsmall"
                                   type="button"
                                 >
                                   <svg
