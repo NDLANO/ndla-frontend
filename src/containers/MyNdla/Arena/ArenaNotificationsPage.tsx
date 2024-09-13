@@ -68,7 +68,7 @@ const ArenaNotificationPage = () => {
       />
       <TitleWrapper>
         <MyNdlaTitle title={t("myNdla.arena.notification.myNotification")} />
-        <Button variant="link" onClick={markAllRead}>
+        <Button variant="link" size="small" onClick={markAllRead}>
           {t("myNdla.arena.notification.markAll")}
         </Button>
       </TitleWrapper>

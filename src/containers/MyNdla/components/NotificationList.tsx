@@ -25,6 +25,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     paddingBlock: "xsmall",
     paddingInline: "xsmall",
     boxShadowColor: "stroke.subtle",
+    gap: "xsmall",
   },
   variants: {
     unread: {
@@ -61,6 +62,14 @@ const StyledKeyboardReturn = styled(CornerDownLeftLine, {
   },
 });
 
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
+
 interface Props {
   notifications?: GQLArenaNotificationV2Fragment[];
   close?: VoidFunction;
@@ -87,7 +96,7 @@ const NotificationList = ({ notifications, close }: Props) => {
           >
             <Notification>
               <StyledKeyboardReturn />
-              <div>
+              <TextWrapper>
                 <Text textStyle="label.large" fontWeight="bold" color="text.default">
                   {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
                   <Trans
@@ -105,7 +114,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                     }),
                   )}`}
                 </Text>
-              </div>
+              </TextWrapper>
             </Notification>
             {!notification.isRead && <CircleFill size="small" />}
           </StyledSafeLinkButton>

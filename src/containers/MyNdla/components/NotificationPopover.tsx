@@ -34,6 +34,7 @@ const TitleWrapper = styled("div", {
     justifyContent: "space-between",
     alignItems: "center",
     gap: "xsmall",
+    paddingBlockEnd: "4xsmall",
   },
 });
 
@@ -62,7 +63,7 @@ const NotificationPopover = () => {
           <Heading asChild consumeCss textStyle="title.medium">
             <PopoverTitle>{t("myNdla.arena.notification.title")}</PopoverTitle>
           </Heading>
-          <Button variant="link" onClick={markAllRead}>
+          <Button variant="link" size="small" onClick={markAllRead}>
             {t("myNdla.arena.notification.markAll")}
           </Button>
         </TitleWrapper>
