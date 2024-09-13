@@ -46,7 +46,7 @@ const StyledCardContainer = styled("ul", {
   base: {
     display: "flex",
     flexDirection: "column",
-    paddingBlock: "medium",
+    paddingBlockStart: "medium",
   },
 });
 

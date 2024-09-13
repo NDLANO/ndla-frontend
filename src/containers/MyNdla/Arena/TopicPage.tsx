@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { EyeFill } from "@ndla/icons/editor";
 import { Button, Heading, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ModeratorButtonWrapper } from "./ArenaPage";
@@ -27,9 +27,9 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const BreadcrumbWrapper = styled("div", {
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
-    paddingBlockStart: "medium",
+    gap: "xxlarge",
   },
 });
 
@@ -42,36 +42,41 @@ const ListWrapper = styled("ul", {
 const StyledContainer = styled("div", {
   base: {
     display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
     gap: "xsmall",
     justifyContent: "space-between",
-    margin: "0",
-    marginBlockEnd: "xlarge",
-    marginBlockStart: "medium",
+    alignItems: "center",
+    flexWrap: "wrap",
   },
 });
 
-const HeaderWrapper = styled("div", {
+const Introduction = styled("div", {
   base: {
-    marginBlockEnd: "medium",
-    marginBlockStart: "large",
-    "& > h1": {
-      alignItems: "center",
-      display: "flex",
-      flexDirection: "row",
-    },
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
-const StyledEye = styled(EyeFill, {
+const StyledHeading = styled(Heading, {
   base: {
-    height: "medium",
-    marginInlineStart: "xxsmall",
-    width: "medium",
+    marginBlockStart: "xsmall",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
 const ButtonContainer = styled("div", {
   base: {
+    marginInlineStart: "auto",
     display: "flex",
     flexDirection: "row",
     gap: "3xsmall",
@@ -102,33 +107,31 @@ const TopicPage = () => {
   const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;
 
   return (
-    <MyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
+    <StyledMyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
       <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
-      <BreadcrumbWrapper>
+      <Introduction>
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-      </BreadcrumbWrapper>
-      <HeaderWrapper>
-        <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
           {arenaCategory?.title}
           {user?.isModerator && !arenaCategory?.visible && (
-            <StyledEye
+            <EyeFill
               title={t("myNdla.arena.admin.category.notVisible")}
               aria-label={t("myNdla.arena.admin.category.notVisible")}
               aria-hidden={false}
             />
           )}
-        </Heading>
-      </HeaderWrapper>
-      <Text>{arenaCategory?.description}</Text>
+        </StyledHeading>
+        {!!arenaCategory?.description && <Text textStyle="body.xlarge">{arenaCategory.description}</Text>}
+      </Introduction>
       {showCategories && (
-        <>
-          <StyledContainer>
-            <Heading textStyle="title.large" asChild consumeCss>
+        <StyledContainer>
+          <HeadingWrapper>
+            <Heading textStyle="heading.small" asChild consumeCss>
               <h2>{t("myNdla.arena.category.subcategory")}</h2>
             </Heading>
             {user?.isModerator && (
               <ModeratorButtonWrapper>
-                <Button size="small" onClick={() => setIsEditing((prev) => !prev)}>
+                <Button onClick={() => setIsEditing((prev) => !prev)}>
                   {isEditing
                     ? t("myNdla.arena.admin.category.stopEditing")
                     : t("myNdla.arena.admin.category.startEditing")}
@@ -138,7 +141,7 @@ const TopicPage = () => {
                 </SafeLinkButton>
               </ModeratorButtonWrapper>
             )}
-          </StyledContainer>
+          </HeadingWrapper>
           {arenaCategory.subcategories && (
             <SortableArenaCards
               isEditing={isEditing}
@@ -148,35 +151,41 @@ const TopicPage = () => {
               refetchCategories={refetchCategory}
             />
           )}
-        </>
+          <Text textStyle="label.medium">
+            {t("myNdla.arena.bottomText")}
+            <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
+          </Text>
+        </StyledContainer>
       )}
       <StyledContainer>
-        <Heading textStyle="title.large" asChild consumeCss>
-          <h2>{t("myNdla.arena.posts.title")}</h2>
-        </Heading>
-        <ButtonContainer>
-          {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
-          <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
-        </ButtonContainer>
+        <HeadingWrapper>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.arena.posts.title")}</h2>
+          </Heading>
+          <ButtonContainer>
+            {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+            <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
+          </ButtonContainer>
+        </HeadingWrapper>
+        <ListWrapper>
+          {arenaCategory?.topics?.map((topic) => (
+            <li key={`topicContainer-${topic.id}`}>
+              <TopicListItem
+                variant="list"
+                key={`topic-${topic.id}`}
+                id={topic.id}
+                title={topic.title}
+                timestamp={topic.created}
+                postCount={topic.postCount}
+                voteCount={topic.voteCount}
+                category={arenaCategory.title}
+                locked={topic.isLocked}
+              />
+            </li>
+          ))}
+        </ListWrapper>
       </StyledContainer>
-      <ListWrapper>
-        {arenaCategory?.topics?.map((topic) => (
-          <li key={`topicContainer-${topic.id}`}>
-            <TopicListItem
-              variant="list"
-              key={`topic-${topic.id}`}
-              id={topic.id}
-              title={topic.title}
-              timestamp={topic.created}
-              postCount={topic.postCount}
-              voteCount={topic.voteCount}
-              category={arenaCategory.title}
-              locked={topic.isLocked}
-            />
-          </li>
-        ))}
-      </ListWrapper>
-    </MyNdlaPageWrapper>
+    </StyledMyNdlaPageWrapper>
   );
 };
 

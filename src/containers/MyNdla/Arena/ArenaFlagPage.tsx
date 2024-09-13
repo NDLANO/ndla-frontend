@@ -10,7 +10,6 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { Heading, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import FlaggedPosts from "./components/FlaggedPosts";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -19,15 +18,6 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const StyledCardContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "3xsmall",
-    paddingBlock: "medium",
-  },
-});
 
 const ArenaFlagPage = () => {
   const { t } = useTranslation();
@@ -54,9 +44,7 @@ const ArenaFlagPage = () => {
         {t("myNdla.arena.admin.flags.title")}
       </Heading>
       <Text>{t("myNdla.arena.admin.flags.description")}</Text>
-      <StyledCardContainer>
-        <FlaggedPosts />
-      </StyledCardContainer>
+      <FlaggedPosts />
     </MyNdlaPageWrapper>
   );
 };
