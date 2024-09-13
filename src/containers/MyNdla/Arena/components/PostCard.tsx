@@ -128,13 +128,18 @@ const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isRoot }
       isRoot && !topic?.isLocked ? (
         userAgent?.isMobile ? (
           <ReplyModal formType="post" topicId={post.topicId} postId={post.id}>
-            <IconButton variant="tertiary" aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}>
+            <IconButton
+              variant="tertiary"
+              title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+              aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            >
               <Reply />
             </IconButton>
           </ReplyModal>
         ) : (
           <IconButton
             variant="tertiary"
+            title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
             aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
             onClick={setIsReplying}
           >

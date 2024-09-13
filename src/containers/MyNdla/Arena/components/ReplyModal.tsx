@@ -6,18 +6,19 @@
  *
  */
 
-import { ComponentPropsWithoutRef, useCallback, useState } from "react";
+import { ReactNode, useCallback, useState } from "react";
 import { DialogTrigger } from "@ark-ui/react";
 import { DialogBody, DialogContent, DialogRoot } from "@ndla/primitives";
 import ArenaForm, { ArenaFormValues } from "./ArenaForm";
 import { useArenaReplyToTopicMutation } from "./temporaryNodebbHooks";
 
-interface Props extends ComponentPropsWithoutRef<"button"> {
+interface Props {
   formType: "topic" | "post";
   initialTitle?: string;
   initialContent?: string;
   postId?: number;
   topicId: number;
+  children: ReactNode;
 }
 
 export const ReplyModal = ({ children, formType, initialTitle, initialContent, topicId, postId }: Props) => {
