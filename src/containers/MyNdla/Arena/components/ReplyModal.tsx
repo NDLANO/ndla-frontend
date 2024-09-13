@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, forwardRef, useCallback, useState } from "react";
 import { DialogTrigger } from "@ark-ui/react";
 import { DialogBody, DialogContent, DialogRoot } from "@ndla/primitives";
 import ArenaForm, { ArenaFormValues } from "./ArenaForm";
@@ -21,35 +21,39 @@ interface Props {
   children: ReactNode;
 }
 
-export const ReplyModal = ({ children, formType, initialTitle, initialContent, topicId, postId }: Props) => {
-  const [open, setOpen] = useState(false);
-  const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
+export const ReplyModal = forwardRef<HTMLButtonElement, Props>(
+  ({ children, formType, initialTitle, initialContent, topicId, postId }, ref) => {
+    const [open, setOpen] = useState(false);
+    const { replyToTopic } = useArenaReplyToTopicMutation(topicId);
 
-  const createReply = useCallback(
-    async (data: Partial<ArenaFormValues>) => {
-      await replyToTopic({
-        variables: { topicId: topicId, content: data.content ?? "", postId: postId },
-      });
-    },
-    [replyToTopic, topicId, postId],
-  );
+    const createReply = useCallback(
+      async (data: Partial<ArenaFormValues>) => {
+        await replyToTopic({
+          variables: { topicId: topicId, content: data.content ?? "", postId: postId },
+        });
+      },
+      [replyToTopic, topicId, postId],
+    );
 
-  return (
-    <DialogRoot open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <ReplyModalContent
-        type={formType}
-        initialContent={initialContent}
-        initialTitle={initialTitle}
-        onSave={async (values) => {
-          await createReply(values);
-          setOpen(false);
-        }}
-        onAbort={() => setOpen(false)}
-      />
-    </DialogRoot>
-  );
-};
+    return (
+      <DialogRoot open={open} onOpenChange={() => setOpen(!open)}>
+        <DialogTrigger ref={ref} asChild>
+          {children}
+        </DialogTrigger>
+        <ReplyModalContent
+          type={formType}
+          initialContent={initialContent}
+          initialTitle={initialTitle}
+          onSave={async (values) => {
+            await createReply(values);
+            setOpen(false);
+          }}
+          onAbort={() => setOpen(false)}
+        />
+      </DialogRoot>
+    );
+  },
+);
 
 interface ContentProps {
   type: "topic" | "post";

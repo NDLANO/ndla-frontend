@@ -175,8 +175,8 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
                 onDelete={deleteTopicCallback}
               />
               {userAgent?.isMobile ? (
-                <ReplyModal formType="post" topicId={topicId}>
-                  <Button variant="primary" ref={replyToRef} disabled={topic?.isLocked}>
+                <ReplyModal formType="post" topicId={topicId} ref={replyToRef}>
+                  <Button variant="primary" disabled={topic?.isLocked}>
                     {t("myNdla.arena.new.post")}
                   </Button>
                 </ReplyModal>
