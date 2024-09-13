@@ -35,12 +35,10 @@ interface Props {
 const ResourceTypeList = ({ name, id, children }: Props) => {
   return (
     <DrawerListItem role="none" id={`li-${id}`} data-resource-group>
+      <StyledHeading id={`header-${id}`} textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+        <span>{name}</span>
+      </StyledHeading>
       <StyledResourceTypeList id={id} role="group" aria-labelledby={`header-${id}`}>
-        <DrawerListItem role="none">
-          <StyledHeading id={`header-${id}`} textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-            <span>{name}</span>
-          </StyledHeading>
-        </DrawerListItem>
         {children}
       </StyledResourceTypeList>
     </DrawerListItem>
