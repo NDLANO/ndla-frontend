@@ -13,12 +13,12 @@ import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, us
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import DraggableFolder from "./DraggableFolder";
+import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { useSortFoldersMutation } from "../../folderMutations";
-import { BlockWrapper } from "../FoldersPage";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 interface Props {
@@ -88,7 +88,7 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
   return (
     <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
       {folders.length > 0 && (
-        <BlockWrapper data-no-padding={folders.length === 1}>
+        <BlockWrapper>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}

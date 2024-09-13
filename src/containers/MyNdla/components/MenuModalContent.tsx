@@ -10,10 +10,7 @@ import { ReactNode, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Portal, useDialogContext } from "@ark-ui/react";
-import { MenuLine } from "@ndla/icons/action";
-import { GridFill } from "@ndla/icons/common";
-import { ListCheck } from "@ndla/icons/editor";
-import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
@@ -22,7 +19,6 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
-import { ViewType } from "../Folders/FoldersPage";
 import { menuLinks } from "../MyNdlaLayout";
 
 const MenuItems = styled("ul", {
@@ -44,21 +40,6 @@ const ToolMenu = styled("ul", {
         justifyContent: "flex-start",
       },
     },
-  },
-});
-
-const ViewButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "4xsmall",
-  },
-});
-
-const ViewButton = styled(Button, {
-  base: {
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: "column",
   },
 });
 
@@ -94,13 +75,11 @@ const StyledNav = styled("nav", {
 });
 
 interface Props {
-  onViewTypeChange?: (val: ViewType) => void;
-  viewType?: ViewType;
   buttons?: ReactNode;
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
+const MenuModalContent = ({ buttons, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { setOpen } = useDialogContext();
@@ -167,48 +146,6 @@ const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = t
                   {buttons}
                   {user?.arenaEnabled && notificationLink}
                 </ToolMenu>
-              </>
-            )}
-            {!!viewType && (
-              <>
-                <Text textStyle="label.medium" fontWeight="bold">
-                  {t("myNdla.selectView")}
-                </Text>
-                <ViewButtonWrapper>
-                  <ViewButton
-                    // TODO: Fix handling of active according to design
-                    variant={viewType === "list" ? "primary" : "secondary"}
-                    aria-label={t("myNdla.listView")}
-                    title={t("myNdla.listView")}
-                    aria-current={viewType === "list"}
-                    onClick={() => onViewTypeChange?.("list")}
-                  >
-                    <MenuLine />
-                    <Text textStyle="label.xsmall">{t("myNdla.simpleList")}</Text>
-                  </ViewButton>
-                  <ViewButton
-                    // TODO: Fix handling of active according to design
-                    variant={viewType === "listLarger" ? "primary" : "secondary"}
-                    aria-label={t("myNdla.detailView")}
-                    title={t("myNdla.detailView")}
-                    aria-current={viewType === "listLarger"}
-                    onClick={() => onViewTypeChange?.("listLarger")}
-                  >
-                    <ListCheck />
-                    <Text textStyle="label.xsmall">{t("myNdla.detailedList")}</Text>
-                  </ViewButton>
-                  <ViewButton
-                    // TODO: Fix handling of active according to design
-                    variant={viewType === "block" ? "primary" : "secondary"}
-                    onClick={() => onViewTypeChange?.("block")}
-                    aria-label={t("myNdla.shortView")}
-                    aria-current={viewType === "block"}
-                    title={t("myNdla.shortView")}
-                  >
-                    <GridFill />
-                    <Text textStyle="label.xsmall">{t("myNdla.shortView")}</Text>
-                  </ViewButton>
-                </ViewButtonWrapper>
               </>
             )}
           </ContentWrapper>

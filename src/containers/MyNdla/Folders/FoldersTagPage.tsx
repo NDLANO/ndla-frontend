@@ -10,16 +10,15 @@ import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { FileTextLine } from "@ndla/icons/common";
 import { FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ListViewOptions from "./components/ListViewOptions";
-import { ViewType, BlockWrapper } from "./FoldersPage";
+import { ViewType } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import BlockResource from "../../../components/MyNdla/BlockResource";
+import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import ListResource from "../../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
@@ -38,18 +37,11 @@ import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 import TitleWrapper from "../components/TitleWrapper";
 import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
-const TagsPageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  flex: 1;
-`;
-
-const CountWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-`;
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xsmall",
+  },
+});
 
 const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -83,16 +75,14 @@ const FoldersTagsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
-      <TagsPageContainer>
-        <HelmetWithTracker title={title} />
-        <TitleWrapper>
-          <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
-          <MyNdlaTitle title={tag ? tag : t("myNdla.myTags")} />
-        </TitleWrapper>
-        {tag && resources && <Resources resources={resources} />}
-      </TagsPageContainer>
-    </MyNdlaPageWrapper>
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={title} />
+      <TitleWrapper>
+        <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
+        <MyNdlaTitle title={tag} />
+      </TitleWrapper>
+      {resources && <Resources resources={resources} />}
+    </StyledMyNdlaPageWrapper>
   );
 };
 
@@ -161,12 +151,8 @@ const Resources = ({ resources }: ResourcesProps) => {
 
   return (
     <>
-      <CountWrapper>
-        <FileTextLine />
-        <span>{t("myNdla.resources", { count: resources.length })}</span>
-      </CountWrapper>
       <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper data-type={viewType}>
+      <BlockWrapper variant={viewType}>
         {resources.map((resource) => {
           const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
