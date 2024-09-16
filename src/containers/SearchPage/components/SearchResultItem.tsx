@@ -45,12 +45,9 @@ const LtiWrapper = styled("div", {
   },
 });
 
-// TODO: Should this styling be updated?
 const StyledButton = styled(Button, {
   base: {
     position: "relative",
-    minHeight: "0",
-    paddingBlock: "0",
     marginInlineStart: "4xsmall",
   },
 });
