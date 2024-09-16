@@ -65,8 +65,12 @@ interface Props {
 
 const StyledDialogContent = styled(DialogContent, {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
     maxHeight: "100%",
     borderTopRadius: "xsmall!",
+    paddingBlockEnd: "medium",
     tabletDown: {
       minHeight: "20%",
     },
@@ -80,15 +84,14 @@ const StyledList = styled("ul", {
   variants: {
     mobile: {
       true: {
-        "& > li": {
-          padding: "4xsmall",
-          borderBottom: "1px solid",
-          borderColor: "surface.brand.2.moderate",
-          "& a, button": {
-            display: "flex",
-            justifyContent: "flex-start",
-            width: "100%",
-          },
+        display: "flex",
+        flexDirection: "column",
+        gap: "3xsmall",
+        paddingInline: "xsmall",
+        "& a, button": {
+          display: "flex",
+          justifyContent: "flex-start",
+          width: "100%",
         },
       },
     },
@@ -118,14 +121,12 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
 
   const title = t("myNdla.showEditOptions");
 
-  const buttonSize = showSingle && menuItems?.length === 1 ? "medium" : "small";
-
   const items = menuItems?.map((item) => (
     <li key={item.value}>
       <Button
         disabled={item.disabled}
         variant={item.variant === "destructive" ? "danger" : "tertiary"}
-        size={buttonSize}
+        size="medium"
         asChild={item.type !== "action"}
         onClick={(e) => {
           if (item.onClick) {

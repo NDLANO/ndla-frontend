@@ -57,6 +57,7 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
   },
   myndla: {
+    tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbot",
       linkText: "Try NDLAs chatbots",

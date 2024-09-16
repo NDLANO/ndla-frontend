@@ -11,13 +11,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 import Toolbar from "./Toolbar";
 import { PageContainer } from "../../../components/Layout/PageContainer";
-import { ViewType } from "../Folders/FoldersPage";
 
 interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
   dropDownMenu?: ReactNode;
   buttons?: ReactNode;
-  viewType?: ViewType;
-  onViewTypeChange?: (val: ViewType) => void;
   showButtons?: boolean;
 }
 
@@ -27,24 +24,10 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-const MyNdlaPageWrapper = ({
-  buttons,
-  dropDownMenu,
-  onViewTypeChange,
-  viewType,
-  showButtons,
-  children,
-  ...rest
-}: Props) => {
+const MyNdlaPageWrapper = ({ buttons, dropDownMenu, showButtons, children, ...rest }: Props) => {
   return (
     <>
-      <Toolbar
-        buttons={buttons}
-        dropDownMenu={dropDownMenu}
-        onViewTypeChange={onViewTypeChange}
-        viewType={viewType}
-        showButtons={showButtons}
-      />
+      <Toolbar buttons={buttons} dropDownMenu={dropDownMenu} showButtons={showButtons} />
       <StyledPageContainer {...rest} padding="small" asChild consumeCss>
         <main>{children}</main>
       </StyledPageContainer>

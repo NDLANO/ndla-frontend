@@ -15,11 +15,19 @@ import { Reference } from "@apollo/client/cache";
 import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { styled } from "@ndla/styled-system/jsx";
 import DraggableResource from "./DraggableResource";
+import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
-import { ViewType, BlockWrapper } from "../FoldersPage";
+import { ViewType } from "../FoldersPage";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
+
+const StyledBlockWrapper = styled(BlockWrapper, {
+  base: {
+    marginBlockStart: "xxlarge",
+  },
+});
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -98,7 +106,7 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
   return (
-    <BlockWrapper data-type={viewType}>
+    <StyledBlockWrapper variant={viewType}>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -130,7 +138,7 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
           })}
         </SortableContext>
       </DndContext>
-    </BlockWrapper>
+    </StyledBlockWrapper>
   );
 };
 
