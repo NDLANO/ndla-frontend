@@ -12,6 +12,7 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
+import { StatusError } from "./error";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
@@ -32,10 +33,6 @@ export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function createErrorPayload(status: number, message: string, json: any) {
-  return Object.assign(new Error(message), { status, json });
-}
-
 export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | undefined> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
@@ -44,7 +41,9 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
     return res
       .json()
       .then((json) => {
-        const payload = createErrorPayload(res.status, json.message ?? res.statusText, json);
+        const errorMessage = json.message ?? res.statusText;
+        const msg = `Got error with message '${errorMessage}' and status ${res.status} when requesting '${res.url}'`;
+        const payload = new StatusError(msg, res.status, json);
         reject(payload);
       })
       .catch(reject);

@@ -68,27 +68,45 @@ export const isInternalServerError = (error: ErrorType | undefined | null): bool
   return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
 };
 
+const getMessage = (error: ErrorType): string => {
+  if (error instanceof StatusError && error.message) return error.message;
+  if (error instanceof Error && error.message) return error.message;
+  if (typeof error === "string" && error) return error;
+  return "Got error without message";
+};
+
 const getErrorLog = (
   error: ErrorType,
   extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
-  if (!error) return { message: `Unknown error: ${JSON.stringify(error)}`, ...extraContext };
+  if (!error) return { ...extraContext, message: `Unknown error: ${JSON.stringify(error)}` };
+
+  if (error instanceof StatusError) {
+    return {
+      ...extraContext,
+      message: getMessage(error),
+      json: error.json,
+      status: error.status,
+      stack: error.stack,
+      name: error.name,
+    };
+  }
 
   if (error instanceof Error) {
     return {
-      message: error.message,
+      ...extraContext,
+      message: getMessage(error),
       stack: error.stack,
       name: error.name,
-      ...extraContext,
     };
   }
 
   if (typeof error === "object") {
-    return { ...error, ...extraContext };
+    return { ...error, ...extraContext, message: getMessage(error) };
   }
 
   if (typeof error === "string") {
-    return { message: error, ...extraContext };
+    return { ...extraContext, message: getMessage(error) };
   }
 
   return error;
