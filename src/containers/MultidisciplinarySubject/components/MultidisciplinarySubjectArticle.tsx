@@ -19,8 +19,8 @@ import { useArticleCopyText, useNavigateToHash } from "../../../components/Artic
 import { AuthContext } from "../../../components/AuthenticationContext";
 import CompetenceGoals from "../../../components/CompetenceGoals";
 import LicenseBox from "../../../components/license/LicenseBox";
-import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
+import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
@@ -182,7 +182,14 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources topicId={topic.id} subjectId={subject.id} topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                <Resources
+                  topicId={topic.id}
+                  subjectId={subject.id}
+                  topic={topic}
+                  resourceTypes={resourceTypes}
+                  headingType="h2"
+                  subHeadingType="h3"
+                />
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>

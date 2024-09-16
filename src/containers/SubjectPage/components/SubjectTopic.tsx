@@ -37,8 +37,6 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
 
-const PAGE = "page" as const;
-
 type Props = {
   topicId: string;
   subTopicId?: string;
@@ -55,6 +53,7 @@ const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
+  const topicRef = useRef<HTMLDivElement>(null);
   const subjectType = subject?.id ? getSubjectType(subject?.id) : undefined;
 
   useEffect(() => {
@@ -137,11 +136,11 @@ const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
         ref={topicRef}
       />
-        {subjectType === "multiDisciplinary" && topic.context?.parentIds.length === 2 && topic.id === topicId ? (
-          <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
-        ) : subTopics?.length ? (
-          <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
-        ) : null}
+      {subjectType === "multiDisciplinary" && topic.context?.parentIds.length === 2 && topic.id === topicId ? (
+        <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
+      ) : subTopics?.length ? (
+        <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
+      ) : null}
       {!!resources && (
         <BleedPageContent data-resource-section="">
           <PageContent variant="article">{resources}</PageContent>

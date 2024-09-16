@@ -177,7 +177,7 @@ const resourceQuery = gql`
       metadata {
         customFields
       }
-      children(nodeType: RESOURCE) {
+      children(nodeType: "RESOURCE") {
         ...TopicMenu_Resource
         rank
         relevanceId

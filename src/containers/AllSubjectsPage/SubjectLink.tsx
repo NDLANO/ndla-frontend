@@ -38,7 +38,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       <FavoriteSubject
         subject={subject}
         favorites={favorites}
-        subjectLinkOrText={<StyledSafeLink to={enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>}
+        subjectLinkOrText={
+          <StyledSafeLink to={enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
+        }
       />
       <StyledSafeLink to={enablePrettyUrls ? subject.url : subject.path}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>

@@ -160,7 +160,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       ...topic,
       label: topic?.name,
       current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
-      url: toTopic(subject.id, topic?.id),
+      url: enablePrettyUrls ? topic?.url : topic?.path,
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
@@ -249,14 +249,20 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 export const subjectContainerFragments = {
   subject: gql`
     fragment SubjectContainer_Subject on Node {
+      id
+      name
+      url
+      path
       supportedLanguages
       metadata {
         customFields
       }
       grepCodes
-      topics {
-        name
+      topics: children(nodeType: "TOPIC") {
         id
+        name
+        url
+        path
         availability
         relevanceId
       }
@@ -271,9 +277,7 @@ export const subjectContainerFragments = {
         }
         ...SubjectLinks_SubjectPage
       }
-      ...SubjectPageContent_Node
     }
-    ${TopicWrapper.fragments.subject}
     ${SubjectLinks.fragments.subjectPage}
   `,
 };

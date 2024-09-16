@@ -7,6 +7,7 @@
  */
 
 import ResourcePageContent from "./ResourcePageContent";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";

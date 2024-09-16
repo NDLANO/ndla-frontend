@@ -96,21 +96,21 @@ const MovieGrid = ({ resourceType }: Props) => {
           <LoadingShimmer />
         ) : (
           resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-          const context = movie.contexts.find((c) => c.rootId === FILM_ID);
-          return (
-            <StyledFilmContentCard
-              style={{ "--index": index } as CSSProperties}
-              key={`${resourceType.id}-${index}`}
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: context?.path ?? "",
-                url: context?.url ?? "",
-              }}
-            />
-          );
+            const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+            return (
+              <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
+                key={`${resourceType.id}-${index}`}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  path: context?.path ?? "",
+                  url: context?.url ?? "",
+                }}
+              />
+            );
           })
         )}
       </MovieListing>

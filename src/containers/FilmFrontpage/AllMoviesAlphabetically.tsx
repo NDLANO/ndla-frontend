@@ -155,18 +155,15 @@ const AllMoviesAlphabetically = () => {
             const context = movie.contexts.find((c) => c.rootId === FILM_ID);
             const to = (enablePrettyUrls ? context?.url : context?.path) ?? "";
             return (
-            <StyledSafeLink
-              to={to}
-              key={movie.id}
-            >
-              {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
-              <MovieTextWrapper>
-                <Heading textStyle="title.small" asChild consumeCss data-title="">
-                  <h3>{movie.title}</h3>
-                </Heading>
-                <Text textStyle="body.small">{movie.metaDescription}</Text>
-              </MovieTextWrapper>
-            </StyledSafeLink>
+              <StyledSafeLink to={to} key={movie.id}>
+                {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
+                <MovieTextWrapper>
+                  <Heading textStyle="title.small" asChild consumeCss data-title="">
+                    <h3>{movie.title}</h3>
+                  </Heading>
+                  <Text textStyle="body.small">{movie.metaDescription}</Text>
+                </MovieTextWrapper>
+              </StyledSafeLink>
             );
           })}
         </MovieGroup>

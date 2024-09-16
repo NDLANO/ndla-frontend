@@ -156,33 +156,34 @@ const FilmSlideshow = ({ slideshow }: Props) => {
             <LoadingShimmer />
           ) : (
             slideshow.map((movie) => {
-            const path = enablePrettyUrls ? movie.url : movie.path;
-            return (
-              <StyledSafeLinkCard
-                data-current={movie.id === currentSlide?.id}
-                key={movie.id}
-                onMouseDown={(e) => e.preventDefault()}
-                onMouseEnter={() => onHover(movie)}
-                onMouseLeave={() => {
-                  if (hoverCallback) {
-                    clearTimeout(hoverCallback);
-                    setHoverCallback(undefined);
-                  }
-                }}
-                onFocus={() => setCurrentSlide(movie)}
-                aria-describedby={"currentMovieDescription"}
-                to={path}
-              >
-                <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
-                <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
-                  {movie.title}
-                </StyledText>
-              </StyledSafeLinkCard>
-            );
-          })
-        )}
-      </StyledCarousel>
-    </section>
+              const path = enablePrettyUrls ? movie.url : movie.path;
+              return (
+                <StyledSafeLinkCard
+                  data-current={movie.id === currentSlide?.id}
+                  key={movie.id}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseEnter={() => onHover(movie)}
+                  onMouseLeave={() => {
+                    if (hoverCallback) {
+                      clearTimeout(hoverCallback);
+                      setHoverCallback(undefined);
+                    }
+                  }}
+                  onFocus={() => setCurrentSlide(movie)}
+                  aria-describedby={"currentMovieDescription"}
+                  to={path}
+                >
+                  <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} loading="eager" alt="" />
+                  <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
+                    {movie.title}
+                  </StyledText>
+                </StyledSafeLinkCard>
+              );
+            })
+          )}
+        </StyledCarousel>
+      </section>
+    </BleedPageContent>
   );
 };
 

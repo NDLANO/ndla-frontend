@@ -98,7 +98,7 @@ export const allSubectsFragment = gql`
 
 const allSubjectsQuery = gql`
   query allSubjects {
-    subjects: nodes(nodeType: SUBJECT, filterVisible: true) {
+    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
       ...AllSubjects_Subject
     }
   }

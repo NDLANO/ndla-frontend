@@ -254,7 +254,9 @@ const ArticlePage = ({
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <PageContent variant="article" asChild>
-          <StyledHeroContent><HomeBreadcrumb items={breadcrumbItems} /></StyledHeroContent>
+          <StyledHeroContent>
+            <HomeBreadcrumb items={breadcrumbItems} />
+          </StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>

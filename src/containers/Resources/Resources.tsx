@@ -107,7 +107,6 @@ const Resources = ({
   subHeadingType: SubHeadingType,
   currentResourceContentType,
 }: Props) => {
-  const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();

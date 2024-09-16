@@ -129,12 +129,11 @@ const FilmFrontpage = () => {
             <NavigationBox
               heading={t("ndlaFilm.topics")}
               items={subject?.topics?.map((topic) => {
-              const path = enablePrettyUrls ? topic.url : topic.path;
-              return (
-              {
-                label: topic.name,
-                url: path,
-              });
+                const path = enablePrettyUrls ? topic.url : topic.path;
+                return {
+                  label: topic.name,
+                  url: path,
+                };
               })}
             />
           </Wrapper>

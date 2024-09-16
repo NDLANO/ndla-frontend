@@ -991,7 +991,7 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   article: Article
   availability: String
   breadcrumbs: [String!]!
-  children(nodeType: NodeType, recursive: Boolean): [Node!]
+  children(nodeType: String, recursive: Boolean): [Node!]
   connectionId: String
   contentUri: String
   context: TaxonomyContext
@@ -1014,14 +1014,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   url: String!
-}
-
-enum NodeType {
-  NODE
-  PROGRAMME
-  RESOURCE
-  SUBJECT
-  TOPIC
 }
 
 type Owner {
@@ -1207,7 +1199,7 @@ type Query {
     ids: [String!]
     metadataFilterKey: String
     metadataFilterValue: String
-    nodeType: NodeType
+    nodeType: String
   ): [Node!]
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
