@@ -186,7 +186,6 @@ const SearchHeader = ({
               {suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
-                  {/* TODO: Check if we should include an option for link variant to remove all padding */}
                   <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
                     [{suggestion}]
                   </Button>
