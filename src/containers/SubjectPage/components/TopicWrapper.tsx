@@ -80,7 +80,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
     } else if (isNotFoundError(error)) {
       navigate("/404", { replace: true });
     } else {
-      return <DefaultErrorMessage skipRedirect />;
+      return <DefaultErrorMessage />;
     }
   }
 

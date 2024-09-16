@@ -20,40 +20,34 @@ import { Status } from "../components";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 
 interface MessageRootProps {
-  applySkipToContentId: boolean;
+  applySkipToContentId?: boolean;
 }
 
-const MessageRoot = ({ applySkipToContentId }: MessageRootProps) => {
+export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) => {
   const { t } = useTranslation();
 
   return (
-    <PageContainer>
-      <ErrorMessageRoot>
-        <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
-        <ErrorMessageContent>
-          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-            {t("errorMessage.title")}
-          </ErrorMessageTitle>
-          <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
-        </ErrorMessageContent>
-        <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-        </ErrorMessageActions>
-      </ErrorMessageRoot>
-    </PageContainer>
+    <ErrorMessageRoot>
+      <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
+      <ErrorMessageContent>
+        <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+          {t("errorMessage.title")}
+        </ErrorMessageTitle>
+        <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+      </ErrorMessageContent>
+      <ErrorMessageActions>
+        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+      </ErrorMessageActions>
+    </ErrorMessageRoot>
   );
 };
 
-interface Props {
-  skipRedirect?: boolean;
-}
-
-export const DefaultErrorMessage = ({ skipRedirect }: Props) => {
-  if (skipRedirect) return <MessageRoot applySkipToContentId={false} />;
-
+export const DefaultErrorMessagePage = () => {
   return (
     <Status code={500}>
-      <MessageRoot applySkipToContentId={true} />
+      <PageContainer>
+        <DefaultErrorMessage applySkipToContentId={true} />
+      </PageContainer>
     </Status>
   );
 };

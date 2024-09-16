@@ -35,42 +35,46 @@ const StyledPresentationLine = styled(PresentationLine, {
   },
 });
 
-export const AccessDenied = ({ skipRedirect }: { skipRedirect?: boolean }) => {
+export const AccessDeniedPage = () => {
   const { authenticated } = useContext(AuthContext);
   const statusCode = authenticated ? 403 : 401;
 
-  if (skipRedirect) return <BaseAccessDenied />;
-
   return (
     <Status code={statusCode}>
-      <BaseAccessDenied />
+      <PageContainer>
+        <AccessDenied />
+      </PageContainer>
     </Status>
   );
 };
 
-const BaseAccessDenied = () => {
+interface AccessDeniedProps {
+  applySkipToContentId?: boolean;
+}
+
+export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
   const { t } = useTranslation();
   const location = useLocation();
 
   return (
-    <PageContainer>
+    <ErrorMessageRoot>
       <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
-      <ErrorMessageRoot>
-        <StyledPresentationLine />
-        <ErrorMessageContent>
-          <ErrorMessageDescription id={SKIP_TO_CONTENT_ID}>{t("user.resource.accessDenied")}</ErrorMessageDescription>
-        </ErrorMessageContent>
-        <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
-          {t("user.buttonLogIn")}
-          <LoginBoxLine />
-        </SafeLinkButton>
-        <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-          <Button variant="link" onClick={() => window.history.back()}>
-            {t("errorMessage.back")}
-          </Button>
-        </ErrorMessageActions>
-      </ErrorMessageRoot>
-    </PageContainer>
+      <StyledPresentationLine />
+      <ErrorMessageContent>
+        <ErrorMessageDescription id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+          {t("user.resource.accessDenied")}
+        </ErrorMessageDescription>
+      </ErrorMessageContent>
+      <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
+        {t("user.buttonLogIn")}
+        <LoginBoxLine />
+      </SafeLinkButton>
+      <ErrorMessageActions>
+        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        <Button variant="link" onClick={() => window.history.back()}>
+          {t("errorMessage.back")}
+        </Button>
+      </ErrorMessageActions>
+    </ErrorMessageRoot>
   );
 };

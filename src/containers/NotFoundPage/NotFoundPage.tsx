@@ -20,35 +20,35 @@ import { Status } from "../../components";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
-interface BaseNotFoundProps {
-  applySkipToContentId: boolean;
+interface NotFoundProps {
+  applySkipToContentId?: boolean;
 }
-const BaseNotFound = ({ applySkipToContentId }: BaseNotFoundProps) => {
+
+const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   const { t } = useTranslation();
   return (
-    <PageContainer>
+    <ErrorMessageRoot>
       <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <ErrorMessageRoot>
-        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-        <ErrorMessageContent>
-          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-            {t("notFoundPage.title")}
-          </ErrorMessageTitle>
-          <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
-        </ErrorMessageContent>
-        <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-        </ErrorMessageActions>
-      </ErrorMessageRoot>
-    </PageContainer>
+      <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+      <ErrorMessageContent>
+        <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+          {t("notFoundPage.title")}
+        </ErrorMessageTitle>
+        <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
+      </ErrorMessageContent>
+      <ErrorMessageActions>
+        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+      </ErrorMessageActions>
+    </ErrorMessageRoot>
   );
 };
 
-export const NotFound = ({ skipRedirect }: { skipRedirect?: boolean }) => {
-  if (skipRedirect) return <BaseNotFound applySkipToContentId={false} />;
+export const NotFoundPage = () => {
   return (
     <Status code={404}>
-      <BaseNotFound applySkipToContentId={true} />
+      <PageContainer>
+        <NotFound applySkipToContentId={true} />
+      </PageContainer>
     </Status>
   );
 };

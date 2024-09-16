@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -20,13 +20,13 @@ import { useUrnIds } from "../../routeHelpers";
 import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-import { AccessDenied } from "../AccessDeniedPage/AccessDeniedPage";
+import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage, { articlePageFragments } from "../ArticlePage/ArticlePage";
 import LearningpathPage, { learningpathPageFragments } from "../LearningpathPage/LearningpathPage";
 import MovedResourcePage from "../MovedResourcePage/MovedResourcePage";
-import { NotFound } from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
-import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
+import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) => {
   return resource.paths?.find((p) => location.pathname.includes(p));
@@ -102,24 +102,24 @@ const ResourcePage = () => {
   }
 
   if (isAccessDeniedError(error)) {
-    return <AccessDenied />;
+    return <AccessDeniedPage />;
   }
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
-    return <UnpublishedResource />;
+    return <UnpublishedResourcePage />;
   }
 
   if (responseContext?.status === 410) {
-    return <UnpublishedResource />;
+    return <UnpublishedResourcePage />;
   }
 
   if (!data) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data.resource || !data.resource.path) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   if (data.resource && !urlInPaths(location, data.resource)) {

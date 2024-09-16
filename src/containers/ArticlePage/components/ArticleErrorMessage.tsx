@@ -6,19 +6,19 @@
  *
  */
 
-import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { AccessDeniedCodes } from "../../../util/handleError";
-import { AccessDenied } from "../../AccessDeniedPage/AccessDeniedPage";
-import { NotFound } from "../../NotFoundPage/NotFoundPage";
+import { AccessDeniedPage } from "../../AccessDeniedPage/AccessDeniedPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
 interface Props {
   status?: number;
 }
 
 export const ArticleErrorMessage = ({ status }: Props) => {
-  if (AccessDeniedCodes.includes(status ?? 0)) return <AccessDenied />;
-  if (status === 404) return <NotFound />;
-  return <DefaultErrorMessage />;
+  if (AccessDeniedCodes.includes(status ?? 0)) return <AccessDeniedPage />;
+  if (status === 404) return <NotFoundPage />;
+  return <DefaultErrorMessagePage />;
 };
 
 export default ArticleErrorMessage;

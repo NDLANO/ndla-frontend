@@ -7,7 +7,7 @@
  */
 
 import { Component, ErrorInfo, ReactNode } from "react";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import handleError from "../../util/handleError";
 
 interface State {
@@ -36,7 +36,7 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <DefaultErrorMessage />;
+      return <DefaultErrorMessagePage />;
     }
 
     return this.props.children;

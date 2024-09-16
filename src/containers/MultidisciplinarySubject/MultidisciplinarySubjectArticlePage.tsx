@@ -13,7 +13,7 @@ import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
 } from "./components/MultidisciplinarySubjectArticle";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -77,7 +77,7 @@ const MultidisciplinarySubjectArticlePage = () => {
   }
 
   if (!data?.topic || !data?.subject) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   const { topic, subject, resourceTypes } = data;

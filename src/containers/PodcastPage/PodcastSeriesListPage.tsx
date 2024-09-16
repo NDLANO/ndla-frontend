@@ -28,7 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
@@ -121,7 +121,7 @@ const PodcastSeriesListPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (

@@ -8,7 +8,7 @@
 
 import PostResizeMessage from "./PostResizeMessage";
 import Scripts from "../components/Scripts/Scripts";
-import { NotFound } from "../containers/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import ResourceEmbed, { StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 
 interface Props {
@@ -28,7 +28,7 @@ const EmbedIframePage = ({ embedId, embedType }: Props) => {
     );
   }
 
-  return <NotFound />;
+  return <NotFoundPage />;
 };
 
 export default EmbedIframePage;

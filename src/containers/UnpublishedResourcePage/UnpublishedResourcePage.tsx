@@ -20,7 +20,7 @@ import { Status } from "../../components";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
-const UnpublishedResource = () => {
+export const UnpublishedResourcePage = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
@@ -40,5 +40,3 @@ const UnpublishedResource = () => {
     </Status>
   );
 };
-
-export default UnpublishedResource;

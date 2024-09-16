@@ -36,7 +36,7 @@ import {
   HomeBreadcrumb,
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -81,7 +81,7 @@ const PodcastSeriesPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;

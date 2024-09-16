@@ -10,11 +10,11 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import { NotFound } from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
   "*": string;
@@ -55,11 +55,11 @@ const ProgrammePage = () => {
   }
 
   if (!data) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data.programme) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   const selectedGrade =

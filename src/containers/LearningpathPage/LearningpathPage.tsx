@@ -13,7 +13,7 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -84,7 +84,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     !data.subject ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
   const { resource, topic, resourceTypes, subject, topicPath } = data;
   const learningpath = resource.learningpath!;
