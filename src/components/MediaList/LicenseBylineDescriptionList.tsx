@@ -17,7 +17,7 @@ interface LicenseDescriptionListProps {
 const StyledList = styled("ul", {
   base: {
     listStyleType: "disc",
-    listStylePosition: "inside",
+    marginInlineStart: "medium",
   },
 });
 
