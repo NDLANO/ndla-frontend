@@ -30,7 +30,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
 
 interface Props {
@@ -39,8 +39,6 @@ interface Props {
   suggestion?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
-  competenceGoals: GQLCompetenceGoal[];
-  coreElements: GQLCoreElement[];
   noResults: boolean;
   loading: boolean;
   isLti?: boolean;
@@ -75,8 +73,6 @@ const SearchHeader = ({
   handleSearchParamsChange,
   subjects,
   noResults,
-  competenceGoals,
-  coreElements,
   loading,
   isLti,
 }: Props) => {
@@ -90,8 +86,6 @@ const SearchHeader = ({
   }, [subjectIds, subjects]);
 
   const localeSubjectCategories = useMemo(() => getSubjectsCategories(t, subjects), [t, subjects]);
-
-  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
   useEffect(() => {
     setSearchValue(query ?? "");
@@ -108,12 +102,6 @@ const SearchHeader = ({
     } else {
       handleSearchParamsChange({ subjects: subjectIds.concat(subjectId) });
     }
-  };
-
-  const onGrepRemove = (grepValue: string) => {
-    handleSearchParamsChange({
-      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
-    });
   };
 
   const onSearchValueChange = (value: string) => {
@@ -231,16 +219,6 @@ const SearchHeader = ({
           </DialogBody>
         </DialogContent>
       </DialogRoot>
-      {!!grepElements.length && (
-        <FiltersWrapper>
-          {grepElements.map((grep) => (
-            <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
-              {grep.id}
-              <CloseLine />
-            </Button>
-          ))}
-        </FiltersWrapper>
-      )}
     </Wrapper>
   );
 };

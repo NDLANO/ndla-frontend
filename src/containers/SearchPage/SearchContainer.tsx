@@ -6,8 +6,9 @@
  *
  */
 
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { CloseLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -19,6 +20,7 @@ import {
   Spinner,
   Text,
   Heading,
+  Button,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
@@ -47,6 +49,14 @@ const CompetenceItemWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xxsmall",
+  },
+});
+
+const FiltersWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
   },
 });
 
@@ -127,6 +137,7 @@ const SearchContainer = ({
 }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeFilterId = useId();
+  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
   const filterButtonItems = Object.keys(typeFilter).reduce(
     (acc, cur) => {
@@ -137,6 +148,12 @@ const SearchContainer = ({
     },
     [{ value: "all", label: t("searchPage.resultType.all") }] as { value: string; label: string }[],
   );
+
+  const onGrepRemove = (grepValue: string) => {
+    handleSearchParamsChange({
+      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
+    });
+  };
 
   const sortedFilterItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
@@ -171,8 +188,6 @@ const SearchContainer = ({
           handleSearchParamsChange={handleSearchParamsChange}
           subjects={subjects}
           noResults={!(sortedFilterItems.length > 1)}
-          competenceGoals={competenceGoals}
-          coreElements={coreElements}
           loading={loading}
           isLti={isLti}
         />
@@ -195,6 +210,16 @@ const SearchContainer = ({
                 </Heading>
                 <CompetenceItem item={{ elements: mappedCoreElements }} />
               </CompetenceItemWrapper>
+            )}
+            {!!grepElements.length && (
+              <FiltersWrapper>
+                {grepElements.map((grep) => (
+                  <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
+                    {grep.id}
+                    <CloseLine />
+                  </Button>
+                ))}
+              </FiltersWrapper>
             )}
           </CompetenceWrapper>
         )}
