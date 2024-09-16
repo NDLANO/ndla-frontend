@@ -26,7 +26,7 @@ const messages = {
     myFoldersPage: `Mine mapper - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mine emneknaggar - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
@@ -57,7 +57,7 @@ const messages = {
     subjectLetter: "Fag som startar på {{letter}}",
   },
   myndla: {
-    tagsTitle: "Mine emneknagger",
+    tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv praterobotane våre",
       linkText: "Prøv NDLAs praterobotar",
