@@ -7,76 +7,68 @@
  */
 
 import { formatDistanceStrict } from "date-fns";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing, colors, fonts } from "@ndla/core";
 import { CircleFill, CornerDownLeftLine } from "@ndla/icons/common";
-import { Button } from "@ndla/primitives";
+import { Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
 import { DateFNSLocales } from "../../../i18n";
 import { routes } from "../../../routeHelpers";
-import { useArenaMarkNotificationsAsRead } from "../Arena/components/temporaryNodebbHooks";
 import { capitalizeFirstLetter } from "../Arena/utils";
 
-const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: ${spacing.normal};
-  padding-top: ${spacing.large};
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    paddingBlock: "xsmall",
+    paddingInline: "xsmall",
+    boxShadowColor: "stroke.subtle",
+    gap: "xsmall",
+  },
+  variants: {
+    unread: {
+      true: {
+        background: "surface.actionSubtle.active",
+      },
+    },
+  },
+});
 
-  &[data-popover="true"] {
-    padding-top: unset;
-  }
-`;
+const Notification = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "flex-start",
+    gap: "xsmall",
+    textAlign: "start",
+  },
+});
 
-const StyledDot = styled(CircleFill)`
-  width: ${spacing.small};
-  height: ${spacing.small};
-  color: ${colors.brand.primary};
-`;
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+    listStyle: "none",
+  },
+});
 
-const StyledLink = styled(SafeLinkButton)`
-  display: flex;
-  justify-content: space-between;
+const StyledKeyboardReturn = styled(CornerDownLeftLine, {
+  base: {
+    transform: "scaleY(-1)",
+    color: "icon.default",
+  },
+});
 
-  &[data-not-viewed="true"] {
-    background-color: ${colors.background.lightBlue};
-    border: solid 1px ${colors.brand.secondary};
-  }
-`;
-
-const Notification = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: ${spacing.small};
-  text-align: start;
-`;
-
-const StyledList = styled.ul`
-  list-style: none;
-  gap: ${spacing.xxsmall};
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 ${spacing.small} 0;
-`;
-
-const StyledLi = styled.li`
-  padding: 0;
-`;
-
-const StyledText = styled(Text)`
-  font-weight: ${fonts.weight.semibold};
-`;
-
-const StyledKeyboardReturn = styled(CornerDownLeftLine)`
-  transform: scaleY(-1);
-  min-width: ${spacing.normal};
-  min-height: ${spacing.normal};
-`;
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
 
 interface Props {
   notifications?: GQLArenaNotificationV2Fragment[];
@@ -84,17 +76,8 @@ interface Props {
 }
 
 const NotificationList = ({ notifications, close }: Props) => {
-  const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
   const { t, i18n } = useTranslation();
   const now = new Date();
-
-  const markAllRead = useCallback(async () => {
-    const topicIdsToBeMarkedRead = notifications?.filter(({ isRead }) => !isRead)?.map(({ topicId }) => topicId) ?? [];
-
-    await markNotificationsAsRead({
-      variables: { topicIds: topicIdsToBeMarkedRead },
-    });
-  }, [notifications, markNotificationsAsRead]);
 
   const notifcationsToShow = useMemo(
     () => (close ? notifications?.slice(0, 5) : notifications),
@@ -102,61 +85,42 @@ const NotificationList = ({ notifications, close }: Props) => {
   );
 
   return (
-    <>
-      <TitleWrapper data-popover={!!close}>
-        {close ? (
-          <Heading element="h4" headingStyle="h4" margin="none">
-            {t("myNdla.arena.notification.title")}
-          </Heading>
-        ) : (
-          <Heading element="h2" headingStyle="list-title" margin="none">
-            {t("myNdla.arena.notification.title")}
-          </Heading>
-        )}
-        {/* TODO: Check if we should include an option for link variant to remove all padding */}
-        <Button variant="link" onClick={markAllRead}>
-          {t("myNdla.arena.notification.markAll")}
-        </Button>
-      </TitleWrapper>
-      <StyledList>
-        {notifcationsToShow?.map((notification, index) => {
-          return (
-            <StyledLi key={index}>
-              <StyledLink
-                variant="secondary"
-                data-not-viewed={!notification.isRead}
-                to={routes.myNdla.arenaTopic(notification.topicId)}
-                onClick={() => close?.()}
-              >
-                <Notification>
-                  <StyledKeyboardReturn />
-                  <div>
-                    <StyledText textStyle="meta-text-medium" margin="none">
-                      {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
-                      <Trans
-                        i18nKey={"myNdla.arena.notification.commentedOn"}
-                        tOptions={{ title: notification.topicTitle }}
-                        t={t}
-                      />
-                    </StyledText>
-                    <Text textStyle="meta-text-small" margin="none">
-                      {`${capitalizeFirstLetter(
-                        formatDistanceStrict(Date.parse(notification.notificationTime), now, {
-                          addSuffix: true,
-                          locale: DateFNSLocales[i18n.language],
-                          roundingMethod: "floor",
-                        }),
-                      )}`}
-                    </Text>
-                  </div>
-                </Notification>
-                {!notification.isRead && <StyledDot />}
-              </StyledLink>
-            </StyledLi>
-          );
-        })}
-      </StyledList>
-    </>
+    <StyledList>
+      {notifcationsToShow?.map((notification, index) => (
+        <li key={index}>
+          <StyledSafeLinkButton
+            variant="secondary"
+            to={routes.myNdla.arenaTopic(notification.topicId)}
+            onClick={() => close?.()}
+            unread={!notification.isRead}
+          >
+            <Notification>
+              <StyledKeyboardReturn />
+              <TextWrapper>
+                <Text textStyle="label.large" fontWeight="bold" color="text.default">
+                  {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
+                  <Trans
+                    i18nKey={"myNdla.arena.notification.commentedOn"}
+                    tOptions={{ title: notification.topicTitle }}
+                    t={t}
+                  />
+                </Text>
+                <Text color="text.default">
+                  {`${capitalizeFirstLetter(
+                    formatDistanceStrict(Date.parse(notification.notificationTime), now, {
+                      addSuffix: true,
+                      locale: DateFNSLocales[i18n.language],
+                      roundingMethod: "floor",
+                    }),
+                  )}`}
+                </Text>
+              </TextWrapper>
+            </Notification>
+            {!notification.isRead && <CircleFill size="small" />}
+          </StyledSafeLinkButton>
+        </li>
+      ))}
+    </StyledList>
   );
 };
 

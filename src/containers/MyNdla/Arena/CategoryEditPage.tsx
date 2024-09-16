@@ -9,11 +9,9 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
-import { Heading } from "@ndla/typography";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
@@ -24,16 +22,6 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import { useEditArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
-
-const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.large};
-`;
 
 const CategoryEditPage = () => {
   const { t } = useTranslation();
@@ -83,37 +71,31 @@ const CategoryEditPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageWrapper>
-        <BreadcrumbWrapper>
-          <MyNdlaBreadcrumb
-            breadcrumbs={[
-              {
-                name: arenaCategory?.title ?? "",
-                id: `category/${categoryId}`,
-              },
-              {
-                name: t("myNdla.arena.admin.category.form.editCategory"),
-                id: "editCategory",
-              },
-            ]}
-            page={"arena"}
-          />
-        </BreadcrumbWrapper>
-        <HelmetWithTracker title={t("htmlTitles.arenaEditCategoryPage")} />
-        <ArenaFormWrapper>
-          <Heading element="h1" headingStyle="h1-resource" margin="none">
-            {t("myNdla.arena.admin.category.form.editCategory")}
-          </Heading>
-          <ArenaCategoryForm
-            onAbort={onAbort}
-            onSave={onSave}
-            initialTitle={arenaCategory?.title}
-            initialDescription={arenaCategory?.description}
-            initialVisible={arenaCategory?.visible}
-            initialParentCategoryId={arenaCategory?.parentCategoryId}
-          />
-        </ArenaFormWrapper>
-      </PageWrapper>
+      <MyNdlaBreadcrumb
+        breadcrumbs={[
+          {
+            name: arenaCategory?.title ?? "",
+            id: `category/${categoryId}`,
+          },
+          {
+            name: t("myNdla.arena.admin.category.form.editCategory"),
+            id: "editCategory",
+          },
+        ]}
+        page={"arena"}
+      />
+      <HelmetWithTracker title={t("htmlTitles.arenaEditCategoryPage")} />
+      <ArenaFormWrapper>
+        <Heading textStyle="heading.medium">{t("myNdla.arena.admin.category.form.editCategory")}</Heading>
+        <ArenaCategoryForm
+          onAbort={onAbort}
+          onSave={onSave}
+          initialTitle={arenaCategory?.title}
+          initialDescription={arenaCategory?.description}
+          initialVisible={arenaCategory?.visible}
+          initialParentCategoryId={arenaCategory?.parentCategoryId}
+        />
+      </ArenaFormWrapper>
     </MyNdlaPageWrapper>
   );
 };

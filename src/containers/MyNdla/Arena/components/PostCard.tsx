@@ -10,67 +10,33 @@ import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
 import { Reply } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { IconButton, Text } from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";
 import { PostAction } from "./PostAction";
+import { ReplyDialog } from "./ReplyDialog";
 import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
+import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
+import { useUserAgent } from "../../../../UserAgentContext";
 import { formatDateTime } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
-export const PostWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
-
-export const PostCardWrapper = styled.div`
-  background-color: ${colors.background.lightBlue};
-  border: ${colors.brand.light} solid 1px;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.normal};
-  margin-bottom: ${spacing.normal};
-`;
-
-export const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin: ${spacing.normal} 0;
-`;
-
-export const FlexLine = styled.div`
-  display: flex;
-  gap: ${spacing.nsmall};
-  justify-content: space-between;
-  align-items: center;
-`;
-
-export const TimestampText = styled(Text)`
-  align-self: center;
-`;
-
-export const Content = styled(Text)`
-  ul,
-  ol {
-    padding-left: ${spacing.normal};
-  }
-  word-break: break-word;
-`;
+const PostCardWrapper = styled("div", {
+  base: {
+    backgroundColor: "surface.default",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
 
 interface Props {
   post: Omit<GQLArenaPostV2Fragment, "replies">;
@@ -78,13 +44,16 @@ interface Props {
   setIsReplying: VoidFunction;
   nextPostId: number;
   isRoot?: boolean;
+  topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
+  isReplyingTo?: number;
 }
 
-const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props) => {
+const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isReplyingTo, isRoot }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const { id: postId, topicId, created, contentAsHTML } = post;
   const toast = useToast();
   const { t, i18n } = useTranslation();
+  const userAgent = useUserAgent();
   const { updatePost } = useArenaUpdatePost(topicId);
   const { deletePost } = useArenaDeletePost(topicId);
 
@@ -108,9 +77,9 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const postTime = useMemo(
     () => (
-      <TimestampText element="span" textStyle="content-alt" margin="none">
+      <Text textStyle="body.small" asChild consumeCss>
         <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-      </TimestampText>
+      </Text>
     ),
     [created, i18n.language, timeDistance],
   );
@@ -120,7 +89,7 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
     () => (
       <PostAction
         post={post}
-        type={"post"}
+        type="post"
         setFocusId={setFocusId}
         setIsEditing={setIsEditing}
         onDelete={deletePostCallback}
@@ -131,63 +100,85 @@ const PostCard = ({ nextPostId, post, setFocusId, setIsReplying, isRoot }: Props
 
   const replyButton = useMemo(
     () =>
-      isRoot ? (
-        <IconButton
-          variant="tertiary"
-          aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
-          onClick={setIsReplying}
-        >
-          <Reply />
-        </IconButton>
+      isRoot && !topic?.isLocked ? (
+        userAgent?.isMobile ? (
+          <ReplyDialog formType="post" topicId={post.topicId} postId={post.id}>
+            <IconButton
+              variant="tertiary"
+              title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+              aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            >
+              <Reply />
+            </IconButton>
+          </ReplyDialog>
+        ) : (
+          <IconButton
+            variant="tertiary"
+            title={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            aria-label={t("myNdla.arena.posts.reply", { name: post.owner?.username })}
+            onClick={setIsReplying}
+            aria-expanded={isReplyingTo === post.id}
+            aria-controls={`reply-form-${postId}`}
+          >
+            <Reply />
+          </IconButton>
+        )
       ) : null,
-    [setIsReplying, isRoot, t, post.owner?.username],
+    [
+      isRoot,
+      post.id,
+      post.owner?.username,
+      post.topicId,
+      postId,
+      isReplyingTo,
+      setIsReplying,
+      t,
+      topic?.isLocked,
+      userAgent?.isMobile,
+    ],
   );
 
   const options = useMemo(
     () => (
-      <FlexLine>
+      <HStack justify="space-between">
         {postTime}
-        <FlexLine>
+        <HStack gap="medium">
           {postUpvotes}
-          {replyButton}
-          {menu}
-        </FlexLine>
-      </FlexLine>
+          <HStack gap="3xsmall">
+            {replyButton}
+            {menu}
+          </HStack>
+        </HStack>
+      </HStack>
     ),
     [menu, postTime, postUpvotes, replyButton],
   );
 
   return (
-    <PostWrapper>
-      <PostCardWrapper id={`post-${postId}`}>
-        {isEditing ? (
-          <ArenaForm
-            id={postId}
-            type={"post"}
-            initialContent={post.content}
-            onAbort={() => setIsEditing(false)}
-            onSave={async (values) => {
-              await updatePost({
-                variables: { postId, content: values.content ?? "" },
-              });
-              setIsEditing(false);
-            }}
-          />
-        ) : (
-          <>
-            <PostHeader>
-              <UserProfileTag user={post.owner} />
-            </PostHeader>
-            <ContentWrapper>
-              <Content element="div" textStyle="content-alt" margin="none">
-                {parse(contentAsHTML!)}
-              </Content>
-            </ContentWrapper>
-            {options}
-          </>
-        )}
-      </PostCardWrapper>
-    </PostWrapper>
+    <PostCardWrapper id={`post-${postId}`}>
+      {isEditing ? (
+        <ArenaForm
+          id={postId}
+          type="post"
+          initialContent={post.content}
+          onAbort={() => setIsEditing(false)}
+          onSave={async (values) => {
+            await updatePost({
+              variables: { postId, content: values.content ?? "" },
+            });
+            setIsEditing(false);
+          }}
+        />
+      ) : (
+        <>
+          <UserProfileTag user={post.owner} />
+          <Text asChild consumeCss>
+            <div>{parse(contentAsHTML!)}</div>
+          </Text>
+          {options}
+        </>
+      )}
+    </PostCardWrapper>
   );
 };
 

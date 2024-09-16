@@ -12,7 +12,6 @@ import { test, mockWaitResponse } from "../../apiMock";
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 
-  await page.getByTestId("accordion-header").click();
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
   await mockWaitResponse(page, "**/graphql-api/graphql");
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();

@@ -8,7 +8,7 @@
 
 import { forwardRef, useMemo, ComponentPropsWithRef } from "react";
 import { useTranslation } from "react-i18next";
-import { NotificationFill } from "@ndla/icons/common";
+import { NotificationLine } from "@ndla/icons/common";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
@@ -45,7 +45,16 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(({ notificat
   const newNotifications = useMemo(() => notifications?.filter(({ isRead }) => !isRead).length, [notifications]);
 
   return (
-    <Button variant="tertiary" ref={ref} {...rest}>
+    <Button
+      variant="tertiary"
+      ref={ref}
+      aria-label={
+        newNotifications
+          ? t("myNdla.arena.notification.button.showNew", { count: newNotifications })
+          : t("myNdla.arena.notification.button.show")
+      }
+      {...rest}
+    >
       {t("myNdla.arena.notification.title")}
       <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
     </Button>
@@ -61,7 +70,7 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <NotificationFill size="small" />
+      <NotificationLine size="small" />
       {amountOfUnreadNotifications !== 0 && (
         <NotificationCounter textStyle="label.xsmall" color="text.onAction" data-left={!!left} asChild consumeCss>
           <div>{amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}</div>

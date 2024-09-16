@@ -6,15 +6,19 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: ${spacing.nsmall};
-  padding-top: ${spacing.normal};
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+    paddingBlockStart: "medium",
+    "& a": {
+      color: "text.default",
+    },
+  },
+});
 
 export default TitleWrapper;

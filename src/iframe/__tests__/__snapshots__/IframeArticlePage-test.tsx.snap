@@ -3,23 +3,24 @@
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
   <div
-    class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+    class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"
   >
     <main>
       <article
-        class="d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
       >
         <header
-          class="d_flex flex-d_column bg_surface.default gap_medium ai_flex-start w_100% px_8% pbs_xsmall tablet:pbs_medium desktop:pbs_xxlarge"
+          class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge ov-wrap_break-word hy_auto"
         >
           <hgroup
-            class="d_flex w_100% flex-d_column ai_flex-start gap_xsmall [&_h1]:ov-wrap_anywhere"
+            class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
           >
             <h1
-              class="textStyle_heading.large"
+              class="textStyle_heading.medium"
               id="54"
               lang="no"
+              property="dct:title"
             >
               Politiske skillelinjer
             </h1>
@@ -34,11 +35,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
         </header>
         <section
-          class="bg_surface.default px_8% pbs_xsmall tablet:pbe_medium desktop:pbe_xxlarge pbe_xsmall ndla-article"
+          class="ndla-article"
         >
           <section>
             <p
-              class="[&[data-align="center"]]:ta_center [&:has(span[dir="rtl"])]:direction_rtl"
               lang="no"
             >
               Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
@@ -46,7 +46,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </section>
         </section>
         <footer
-          class="d_flex flex-d_column bg_surface.default gap_xxlarge w_100% px_8% pbe_xsmall tablet:pbe_medium desktop:pbe_xxlarge"
+          class="d_flex flex-d_column gap_xxlarge w_100% [&_>_:is(:last-child)]:pbe_5xlarge"
         >
           <div
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
@@ -60,7 +60,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <span>
                   by-sa
                 </span>
-                <span>
+                <span
+                  property="cc:attributionName"
+                >
                   Skrevet av Someone. 
                 </span>
               </div>
@@ -89,7 +91,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   aria-controls="accordion::r0::content:rulesForUse"
                   aria-disabled="false"
                   aria-expanded="false"
-                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_2px_var(--shadow-color)"
+                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
                   data-orientation="vertical"
                   data-ownedby="accordion::r0:"
                   data-part="item-trigger"
@@ -280,7 +282,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               </ul>
                               <span>
                                 <button
-                                  class="d_inline-flex ai_center jc_center gap_xsmall cursor_pointer td_none textStyle_label.medium fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong px_xsmall py_xxsmall min-h_24"
+                                  class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.small min-h_large px_xsmall py_4xsmall"
                                   type="button"
                                 >
                                   <svg
@@ -377,10 +379,10 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
 exports[`IframePage with article displays error message on status === error 1`] = `
 <DocumentFragment>
   <div
-    class="min-h_100vh d_flex flex-d_column"
+    class="min-h_calc(100vh_-_56px)"
   >
     <div
-      class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+      class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"
     >
       <article
         class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"

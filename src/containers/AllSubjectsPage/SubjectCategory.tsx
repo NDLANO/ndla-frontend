@@ -18,7 +18,6 @@ export const GridList = styled("ul", {
     display: "grid",
     gridTemplateColumns: "repeat(2,1fr)",
     gap: "small",
-    marginBlock: "xsmall",
     tabletDown: {
       display: "flex",
       flexDirection: "column",
@@ -33,6 +32,13 @@ const LetterHeader = styled("div", {
     borderColor: "stroke.subtle",
     border: "1px solid",
     padding: "xsmall",
+  },
+});
+
+const StyledGridList = styled(GridList, {
+  base: {
+    marginBlockStart: "xsmall",
+    marginBlockEnd: "large",
   },
 });
 
@@ -52,7 +58,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
           <h2>{label.toUpperCase()}</h2>
         </Heading>
       </LetterHeader>
-      <GridList
+      <StyledGridList
         id={`subject-${label}`}
         aria-label={t("subjectsPage.subjectGroup", {
           category: label === "#" ? t("labels.other") : label,
@@ -61,7 +67,7 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
         {subjects.map((subject) => (
           <SubjectLink favorites={favorites} key={subject.id} subject={subject} />
         ))}
-      </GridList>
+      </StyledGridList>
     </li>
   );
 };

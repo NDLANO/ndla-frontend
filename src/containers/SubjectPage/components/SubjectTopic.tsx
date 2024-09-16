@@ -8,11 +8,12 @@
 
 import parse from "html-react-parser";
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { BleedPageContent, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -35,6 +36,8 @@ import Resources from "../../Resources/Resources";
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
 };
+
+const PAGE = "page" as const;
 
 type Props = {
   topicId: string;
@@ -132,14 +135,18 @@ const SubjectTopic = ({ topicId, subTopicId, topic, resourceTypes, showResources
         title={parse(topic.article.htmlTitle ?? "")}
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
-      >
+        ref={topicRef}
+      />
         {subjectType === "multiDisciplinary" && topic.context?.parentIds.length === 2 && topic.id === topicId ? (
           <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
         ) : subTopics?.length ? (
           <NavigationBox variant="secondary" heading={t("navigation.topics")} items={subTopics} />
         ) : null}
-        {resources}
-      </Topic>
+      {!!resources && (
+        <BleedPageContent data-resource-section="">
+          <PageContent variant="article">{resources}</PageContent>
+        </BleedPageContent>
+      )}
     </>
   );
 };
@@ -170,6 +177,7 @@ export const topicFragments = {
         metaDescription
         metaImage {
           url
+          alt
         }
       }
       supportedLanguages

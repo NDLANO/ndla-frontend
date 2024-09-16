@@ -32,16 +32,23 @@ const StyledContainer = styled("div", {
   },
 });
 
-const StyledHeading = styled(Heading, {
+const HeadingWrapper = styled("div", {
   base: {
-    marginBlockStart: "large",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "medium",
   },
 });
 
 export const ModeratorButtonWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
     gap: "3xsmall",
   },
@@ -69,17 +76,19 @@ const ArenaPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <MyNdlaPageWrapper
+    <StyledMyNdlaPageWrapper
       buttons={user?.isModerator && <TopicButtons />}
       dropDownMenu={user?.isModerator && <TopicActions />}
     >
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
-      <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.small">
-        {t("myNdla.arena.title")}
-      </StyledHeading>
-      <Text>{parse(t("myNdla.arena.notification.description"))}</Text>
+      <HeadingWrapper>
+        <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
+          {t("myNdla.arena.title")}
+        </Heading>
+        <Text textStyle="body.xlarge">{parse(t("myNdla.arena.notification.description"))}</Text>
+      </HeadingWrapper>
       <StyledContainer>
-        <Heading textStyle="title.large" asChild consumeCss>
+        <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.arena.category.title")}</h2>
         </Heading>
         {user?.isModerator && (
@@ -87,7 +96,9 @@ const ArenaPage = () => {
             <Button size="small" onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}
             </Button>
-            <SafeLinkButton to="category/new">{t("myNdla.arena.admin.category.form.newCategory")}</SafeLinkButton>
+            <SafeLinkButton size="small" to="category/new">
+              {t("myNdla.arena.admin.category.form.newCategory")}
+            </SafeLinkButton>
           </ModeratorButtonWrapper>
         )}
       </StyledContainer>
@@ -99,11 +110,11 @@ const ArenaPage = () => {
           refetchCategories={refetchCategories}
         />
       ) : null}
-      <Text>
+      <Text textStyle="label.medium">
         {t("myNdla.arena.bottomText")}
         <SafeLink to={`mailto:${t("myNdla.arena.moderatorEmail")}`}>{t("myNdla.arena.moderatorEmail")}</SafeLink>
       </Text>
-    </MyNdlaPageWrapper>
+    </StyledMyNdlaPageWrapper>
   );
 };
 

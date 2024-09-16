@@ -9,9 +9,9 @@
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseLine, PencilFill, AddLine } from "@ndla/icons/action";
-import { ShareFill, ShareArrow } from "@ndla/icons/common";
-import { DeleteForever, LinkMedium } from "@ndla/icons/editor";
+import { CloseLine, AddLine, PencilLine, DeleteBinLine } from "@ndla/icons/action";
+import { ShareLine, ArrowRightLine } from "@ndla/icons/common";
+import { LinkMedium } from "@ndla/icons/editor";
 import { CreateModalContent } from "./FolderCreateModal";
 import { EditFolderModalContent } from "./FolderEditModal";
 import { FolderFormValues } from "./FolderForm";
@@ -167,7 +167,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const editFolder: MenuItemProps = {
       type: "dialog",
       value: "editFolder",
-      icon: <PencilFill />,
+      icon: <PencilLine />,
       text: t("myNdla.folder.editShort"),
       modalContent: (close) => (
         <EditFolderModalContent onClose={close} onSaved={onFolderUpdated} folder={selectedFolder} />
@@ -177,7 +177,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const share: MenuItemProps = {
       type: "dialog",
       value: "shareFolder",
-      icon: <ShareFill />,
+      icon: <ShareLine />,
       text: t("myNdla.folder.sharing.button.shareShort"),
       modalContent: (close) => (
         <FolderShareModalContent
@@ -204,7 +204,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const previewFolder: MenuItemProps = {
       type: "link",
       value: "previewFolder",
-      icon: <ShareArrow />,
+      icon: <ArrowRightLine />,
       link: routes.folder(selectedFolder.id),
       text: t("myNdla.folder.sharing.button.goTo"),
       onClick: () => {
@@ -260,7 +260,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const deleteOpt: MenuItemProps = {
       type: "dialog",
       value: "deleteFolder",
-      icon: <DeleteForever />,
+      icon: <DeleteBinLine />,
       text: t("myNdla.folder.deleteShort"),
       variant: "destructive",
       modalContent: (close) => (

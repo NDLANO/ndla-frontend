@@ -9,24 +9,15 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { UserLine, AlertLine } from "@ndla/icons/common";
+import { Heading, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import AdminNavLink from "./components/AdminNavLink";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const StyledCardContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
-`;
 
 const ArenaAdminPage = () => {
   const { t } = useTranslation();
@@ -39,26 +30,22 @@ const ArenaAdminPage = () => {
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.arenaAdminPage")} />
-      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.arena.admin.title")}
       </Heading>
-      <Text element="p" textStyle="content-alt">
-        {t("myNdla.arena.admin.description")}
-      </Text>
-      <StyledCardContainer>
-        <AdminNavLink
-          to={"flags"}
-          title={t("myNdla.arena.admin.flags.title")}
-          subText={t("myNdla.arena.admin.flags.description")}
-          icon={<AlertLine />}
-        />
-        <AdminNavLink
-          to={"users"}
-          title={t("myNdla.arena.admin.users.title")}
-          subText={t("myNdla.arena.admin.users.shortDescription")}
-          icon={<UserLine />}
-        />
-      </StyledCardContainer>
+      <Text>{t("myNdla.arena.admin.description")}</Text>
+      <AdminNavLink
+        to="flags"
+        title={t("myNdla.arena.admin.flags.title")}
+        subText={t("myNdla.arena.admin.flags.description")}
+        icon={<AlertLine />}
+      />
+      <AdminNavLink
+        to="users"
+        title={t("myNdla.arena.admin.users.title")}
+        subText={t("myNdla.arena.admin.users.shortDescription")}
+        icon={<UserLine />}
+      />
     </MyNdlaPageWrapper>
   );
 };

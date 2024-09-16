@@ -9,10 +9,8 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import FlaggedPosts from "./components/FlaggedPosts";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -20,13 +18,6 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const StyledCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
-`;
 
 const ArenaFlagPage = () => {
   const { t } = useTranslation();
@@ -49,15 +40,11 @@ const ArenaFlagPage = () => {
         ]}
         page="admin"
       />
-      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
+      <Heading id={SKIP_TO_CONTENT_ID} textStyle="title.large">
         {t("myNdla.arena.admin.flags.title")}
       </Heading>
-      <Text element="p" textStyle="content-alt">
-        {t("myNdla.arena.admin.flags.description")}
-      </Text>
-      <StyledCardContainer>
-        <FlaggedPosts />
-      </StyledCardContainer>
+      <Text>{t("myNdla.arena.admin.flags.description")}</Text>
+      <FlaggedPosts />
     </MyNdlaPageWrapper>
   );
 };

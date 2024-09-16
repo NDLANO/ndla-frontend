@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Feide } from "@ndla/icons/common";
+import { Feide, UserLine } from "@ndla/icons/common";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -37,7 +37,7 @@ import ErrorBoundary from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled("span", {
   base: {
-    mobileWideDown: {
+    tabletDown: {
       display: "none",
     },
   },
@@ -65,8 +65,11 @@ const DrawerWrapper = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-start",
-    gap: "small",
+    gap: "4xsmall",
     flex: "1",
+    tablet: {
+      gap: "small",
+    },
   },
 });
 
@@ -127,7 +130,7 @@ const MastheadContainer = () => {
           />
           <FeideLoginButton>
             <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-            <Feide />
+            {user ? <UserLine /> : <Feide />}
           </FeideLoginButton>
         </ButtonWrapper>
       </Masthead>

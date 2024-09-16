@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons/common";
-import { Button } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, constants, LayoutItem } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
@@ -78,7 +78,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         ? constants.contentTypes.TOPIC
         : undefined;
   return (
-    <OneColumn>
+    <PageContent variant="content">
       <Helmet>
         <title>{getDocumentTitle({ article: propArticle })}</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -98,12 +98,10 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <PostResizeMessage />
       <main>
         {!!ltiData && (
-          <LayoutItem layout="center">
-            <Button variant="link" onClick={() => navigate(-1)}>
-              <ArrowLeftLine />
-              {t("lti.goBack")}
-            </Button>
-          </LayoutItem>
+          <Button variant="link" onClick={() => navigate(-1)}>
+            <ArrowLeftLine />
+            {t("lti.goBack")}
+          </Button>
         )}
         <Article
           article={article}
@@ -115,7 +113,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
       </main>
-    </OneColumn>
+    </PageContent>
   );
 };
 

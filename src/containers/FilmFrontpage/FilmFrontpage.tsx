@@ -7,22 +7,29 @@
  */
 
 import { TFunction } from "i18next";
-import { useId, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Skeleton } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import {
+  Heading,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import AboutNdlaFilm from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
-import FilmFiltering from "./FilmFiltering";
 import { ALL_MOVIES_ID } from "./filmHelper";
 import FilmMovieList from "./FilmMovieList";
 import FilmSlideshow from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import NavigationBox from "../../components/NavigationBox";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID, FILM_ID } from "../../constants";
@@ -30,39 +37,34 @@ import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
-const StyledUl = styled("ul", {
-  base: {
-    display: "grid",
-    gap: "medium",
-
-    gridTemplateColumns: "1fr 1fr 1fr",
-    tabletDown: {
-      gridTemplateColumns: "1fr 1fr",
-    },
-  },
-});
-
-const StyledSafeLinkButton = styled(SafeLinkButton, {
-  base: {
-    width: "100%",
-    justifyContent: "flex-start",
-  },
-});
-
-const StyledNav = styled("nav", {
+const Wrapper = styled("div", {
   base: {
     display: "flex",
-    gap: "4xsmall",
     flexDirection: "column",
-    paddingTop: "medium",
-    paddingBottom: "xxlarge",
+    gap: "medium",
   },
 });
 
-const ContentWrapper = styled("div", {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    width: "100%",
-    marginTop: "medium",
+    paddingBlockStart: "0px",
+    gap: "xxlarge",
+  },
+});
+
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
+
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
   },
 });
 
@@ -72,16 +74,6 @@ const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"
 const fromNdla = {
   id: "fromNdla",
   name: "ndlaFilm.search.categoryFromNdla",
-};
-
-const TopicLoadingShimmer = () => {
-  return new Array(8).fill(0).map((_, idx) => (
-    <li key={idx}>
-      <Skeleton>
-        <StyledSafeLinkButton to={""}>loading</StyledSafeLinkButton>
-      </Skeleton>
-    </li>
-  ));
 };
 
 const FilmFrontpage = () => {
@@ -121,56 +113,63 @@ const FilmFrontpage = () => {
     return [fromNdla, allResources].concat(movieResourceTypes);
   }, [allResources]);
 
-  const navHeadingId = useId();
-
   return (
     <>
       <Helmet>
         <title>{getDocumentTitle(t, subject)}</title>
       </Helmet>
       <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
-      <main>
-        <FilmSlideshow slideshow={definedSlideshowMovies} />
-        <OneColumn wide>
-          <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-            {t("ndlaFilm.heading")}
-          </Heading>
-          <StyledNav aria-labelledby={navHeadingId}>
-            <Heading id={navHeadingId} textStyle="title.large" fontWeight="bold" asChild consumeCss>
-              <h2>{t("ndlaFilm.topics")}</h2>
+      <StyledPageContainer asChild consumeCss>
+        <main>
+          <FilmSlideshow slideshow={definedSlideshowMovies} />
+          <Wrapper>
+            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+              {t("ndlaFilm.heading")}
             </Heading>
-            {/* TODO: Investigate if this should look like `transportsider` in figma instead of this design */}
-            <StyledUl data-testid="film-subject-list">
-              {loading ? (
-                <TopicLoadingShimmer />
-              ) : (
-                subject?.topics?.map((topic) => {
-                  const path = enablePrettyUrls ? topic.url : topic.path;
-                  return (
-                    <li key={topic.id}>
-                      <StyledSafeLinkButton to={path}>{topic.name}</StyledSafeLinkButton>
-                    </li>
-                  );
-                })
-              )}
-            </StyledUl>
-          </StyledNav>
-          <FilmFiltering
-            options={options}
-            onOptionSelected={onChangeResourceType}
-            selectedOption={resourceTypeSelected}
-          />
-        </OneColumn>
-        <ContentWrapper ref={movieListRef}>
+            <NavigationBox
+              heading={t("ndlaFilm.topics")}
+              items={subject?.topics?.map((topic) => {
+              const path = enablePrettyUrls ? topic.url : topic.path;
+              return (
+              {
+                label: topic.name,
+                url: path,
+              });
+              })}
+            />
+          </Wrapper>
+          <Wrapper>
+            <Heading textStyle="heading.small" consumeCss asChild>
+              <h2>{t("ndlaFilm.films")}</h2>
+            </Heading>
+            <StyledRadioGroupRoot
+              orientation="horizontal"
+              defaultValue={resourceTypeSelected?.id}
+              onValueChange={(details) => onChangeResourceType(options.find((option) => option.id === details.value)!)}
+            >
+              <RadioGroupLabel textStyle="label.large" fontWeight="bold">
+                {t("ndlaFilm.filterFilms")}
+              </RadioGroupLabel>
+              <RadioButtonWrapper>
+                {options.map((category, index) => (
+                  <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
+                    <RadioGroupItemControl />
+                    <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
+                    <RadioGroupItemHiddenInput />
+                  </RadioGroupItem>
+                ))}
+              </RadioButtonWrapper>
+            </StyledRadioGroupRoot>
+          </Wrapper>
           <FilmContent
             resourceTypeSelected={resourceTypeSelected}
             movieThemes={filmfrontpage?.movieThemes}
             loading={loading}
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
-        </ContentWrapper>
-        {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
-      </main>
+          {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+        </main>
+      </StyledPageContainer>
     </>
   );
 };

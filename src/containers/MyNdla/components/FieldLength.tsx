@@ -6,20 +6,27 @@
  *
  */
 
-import styled from "@emotion/styled";
+import { Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface FieldLengthProps {
   value: number;
   maxLength: number;
 }
 
-const StyledSpan = styled.span`
-  display: block;
-  text-align: right;
-`;
+const StyledText = styled(Text, {
+  base: {
+    textAlign: "right",
+  },
+});
+
 // TODO Update component to be more UU friendly
 const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
-  return <StyledSpan>{`${value}/${maxLength}`}</StyledSpan>;
+  return (
+    <StyledText textStyle="label.small" asChild consumeCss>
+      <span>{`${value}/${maxLength}`}</span>
+    </StyledText>
+  );
 };
 
 export default FieldLength;

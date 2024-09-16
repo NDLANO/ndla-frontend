@@ -14,12 +14,10 @@ import { TreeStructure } from "@ndla/ui";
 import NewFolder from "./NewFolder";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
-// TODO: Refactor this once TreeStructure is updated
 const ComboboxContainer = styled("div", {
   base: {
     display: "flex",
-    maxHeight: "320px",
-    overflow: "hidden",
+    maxHeight: "surface.xsmall",
   },
 });
 
@@ -85,10 +83,9 @@ const FolderSelect = ({
         label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
-        type="picker"
         targetResource={storedResource as IResource | undefined}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
+        newFolderInput={({ parentId, onCancel, onCreate }) => (
+          <NewFolder parentId={parentId} onClose={onCancel} onCreate={onCreate} />
         )}
         ariaDescribedby="treestructure-error-label"
       />

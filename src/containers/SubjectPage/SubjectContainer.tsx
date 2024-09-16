@@ -7,22 +7,26 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, createRef, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, MessageBox, Text } from "@ndla/primitives";
+import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { constants, OneColumn, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
-import SubjectLinks from "./components/SubjectLinks";
-import SubjectPageContent from "./components/SubjectPageContent";
+import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
+import TopicWrapper from "./components/TopicWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import FavoriteSubject from "../../components/FavoriteSubject";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import NavigationBox from "../../components/NavigationBox";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
+  RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
@@ -48,12 +52,29 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const StyledOneColumn = styled(OneColumn, {
+const HeaderWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
+    gap: "medium",
+  },
+});
+
+const StyledTopicWrapper = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0",
+    overflowX: "hidden",
+    // TODO: There's a bunch of tricky compositions for nested topics. This won't be necessary once we separate each topic out into their own page.
+    "& > [data-nav-box] + :is([data-resource-section], [data-topic]), > [data-resource-section] + [data-topic]": {
+      paddingBlockStart: "4xlarge",
+    },
+  },
+});
+
+const StyledSubjectWrapper = styled(PageContent, {
+  base: {
     paddingBlock: "xxlarge",
+    gap: "xxlarge",
+    background: "surface.brand.1.subtle",
   },
 });
 
@@ -62,6 +83,8 @@ const IntroductionText = styled(Text, {
     maxWidth: "surface.xlarge",
   },
 });
+
+const PAGE = "page" as const;
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
@@ -124,8 +147,6 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
     ...topicCrumbs,
   ];
 
-  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
-
   const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
 
   const customFields = subject?.metadata.customFields || {};
@@ -133,6 +154,17 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
+
+  const mainTopics = subject?.topics?.map((topic) => {
+    return {
+      ...topic,
+      label: topic?.name,
+      current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
+      url: toTopic(subject.id, topic?.id),
+      isRestrictedResource: topic.availability !== "everyone",
+      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+    };
+  });
 
   return (
     <main>
@@ -143,20 +175,31 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
-      <StyledOneColumn wide>
-        {!topicIds.length && (
-          <SocialMediaMetadata
-            title={subject.name}
-            description={subject.subjectpage?.metaDescription}
-            imageUrl={about?.visualElement.url}
-            trackableContent={{ supportedLanguages: subject.supportedLanguages }}
-          />
-        )}
+      {!topicIds.length && (
+        <SocialMediaMetadata
+          title={subject.name}
+          description={subject.subjectpage?.metaDescription}
+          imageUrl={about?.visualElement.url}
+          trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+        />
+      )}
+      <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
         <HeadingWrapper>
-          <Heading textStyle="heading.medium" id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined} tabIndex={-1}>
-            {subject.name}
-          </Heading>
+          <HeaderWrapper>
+            <Heading
+              textStyle="heading.medium"
+              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
+            >
+              {subject.name}
+            </Heading>
+            <FavoriteSubject
+              subject={subject}
+              favorites={user?.favoriteSubjects}
+              subjectLinkOrText={<Text>{subject.name}</Text>}
+            />
+          </HeaderWrapper>
           <SubjectLinks
             buildsOn={subject.subjectpage?.buildsOn ?? []}
             connectedTo={subject.subjectpage?.connectedTo ?? []}
@@ -184,8 +227,21 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
-        <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
-      </StyledOneColumn>
+        <NavigationBox items={mainTopics || []} />
+      </StyledSubjectWrapper>
+      <StyledTopicWrapper>
+        {topicIds.map((topicId, index) => (
+          <TopicWrapper
+            key={topicId}
+            topicId={topicId}
+            subjectId={subject.id}
+            setBreadCrumb={setTopicCrumbs}
+            subTopicId={topicIds[index + 1]}
+            showResources={!topicIds[index + 1]}
+            subject={subject}
+          />
+        ))}
+      </StyledTopicWrapper>
     </main>
   );
 };
@@ -198,6 +254,12 @@ export const subjectContainerFragments = {
         customFields
       }
       grepCodes
+      topics {
+        name
+        id
+        availability
+        relevanceId
+      }
       subjectpage {
         id
         metaDescription
@@ -211,7 +273,7 @@ export const subjectContainerFragments = {
       }
       ...SubjectPageContent_Node
     }
-    ${SubjectPageContent.fragments.subject}
+    ${TopicWrapper.fragments.subject}
     ${SubjectLinks.fragments.subjectPage}
   `,
 };

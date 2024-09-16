@@ -12,8 +12,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -41,28 +39,35 @@ import {
   SelectClearTrigger,
   IconButton,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
 import FieldLength from "../../components/FieldLength";
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledForm = styled("form", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: "xxsmall",
+  },
+});
 
-const FullWidthButton = styled(Button)`
-  width: 100%;
-`;
+const FullWidthButton = styled(Button, {
+  base: {
+    width: "100%",
+  },
+});
 
 interface ArenaFormProps {
   initialTitle?: string;

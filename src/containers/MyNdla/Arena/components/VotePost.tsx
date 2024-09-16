@@ -8,24 +8,21 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { ThumbFilled, Thumb } from "@ndla/icons/action";
-import { IconButton } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import { IconButton, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useArenaPostUpvote, useArenaPostRemoveUpvote } from "./temporaryNodebbHooks";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { GQLArenaPostV2Fragment } from "../../../../graphqlTypes";
 
-const UpvoteWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.nsmall};
-`;
-
-const AmountOfUpvotes = styled(Text)`
-  align-self: center;
-`;
+const UpvoteWrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    gap: "xxsmall",
+  },
+});
 
 interface Props {
   post: Omit<GQLArenaPostV2Fragment, "replies">;
@@ -55,15 +52,15 @@ const VotePost = ({ post }: Props) => {
         {post.upvoted || isOwner ? <ThumbFilled /> : <Thumb />}
       </IconButton>
 
-      <AmountOfUpvotes
-        element="span"
-        textStyle="content-alt"
-        margin="none"
+      <Text
+        textStyle="body.large"
         aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
         title={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
+        consumeCss
+        asChild
       >
-        {post.upvotes ?? 0}
-      </AmountOfUpvotes>
+        <span>{post.upvotes ?? 0}</span>
+      </Text>
     </UpvoteWrapper>
   );
 };

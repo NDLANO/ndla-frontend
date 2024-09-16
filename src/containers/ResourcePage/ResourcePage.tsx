@@ -21,7 +21,7 @@ const ResourcePage = () => {
     skip: contextId === undefined,
   });
   if (loading) {
-    return null;
+    return <ContentPlaceholder variant="article" />;
   }
   const node = data?.node;
   const subjectId = node?.context?.rootId || subId;

@@ -9,34 +9,32 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { TopicListItem } from "./Arena/components/ArenaListItem";
 import { useArenaTopicsByUser, useArenaUser } from "./Arena/components/temporaryNodebbHooks";
-import TopicCard from "./Arena/components/TopicCard";
 import UserProfileAdministration from "./Arena/components/UserProfileAdministration";
 import MyContactArea from "./components/MyContactArea";
 import MyNdlaBreadcrumb from "./components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
+import TitleWrapper from "./components/TitleWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageSpinner } from "../../components/PageSpinner";
 import { routes } from "../../routeHelpers";
 
-const BreadcrumbWrapper = styled.div`
-  padding-top: ${spacing.normal};
-`;
+const StyledUlWrapper = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const MyContactAreaWrapper = styled.div`
-  margin: ${spacing.large} 0 ${spacing.normal};
-`;
-
-const StyledUlWrapper = styled.ul`
-  padding: 0px;
-`;
-
-const CardListItem = styled.li`
-  list-style: none;
-`;
+const CardListItem = styled("li", {
+  base: {
+    listStyle: "none",
+  },
+});
 
 const ArenaUserPage = () => {
   const { t } = useTranslation();
@@ -57,7 +55,7 @@ const ArenaUserPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <BreadcrumbWrapper>
+      <TitleWrapper>
         <MyNdlaBreadcrumb
           breadcrumbs={
             username
@@ -71,28 +69,28 @@ const ArenaUserPage = () => {
           }
           page="arena"
         />
-      </BreadcrumbWrapper>
-      <MyContactAreaWrapper>
-        <MyContactArea
-          user={{
-            username: arenaUser?.displayName,
-            displayName: arenaUser?.displayName,
-            primaryOrg: arenaUser?.location,
-          }}
-        />
-      </MyContactAreaWrapper>
-      <Heading element="h2" headingStyle="h2" margin="normal">
-        {`${t("myNdla.arena.topicsBy")} ${arenaUser?.displayName}`}
+      </TitleWrapper>
+      <MyContactArea
+        user={{
+          username: arenaUser?.displayName,
+          displayName: arenaUser?.displayName,
+          primaryOrg: arenaUser?.location,
+        }}
+      />
+      <Heading textStyle="heading.small" asChild consumeCss>
+        <h2>{`${t("myNdla.arena.topicsBy")} ${arenaUser?.displayName}`}</h2>
       </Heading>
       <StyledUlWrapper>
         {arenaTopicsByUser?.items?.map((topic) => (
           <CardListItem key={`topicContainer-${topic.id}`}>
-            <TopicCard
+            <TopicListItem
               key={`topic-${topic.id}`}
+              variant="list"
               id={topic.id}
               title={topic.title}
               timestamp={topic.created}
-              count={topic.postCount}
+              postCount={topic.postCount}
+              voteCount={topic.voteCount}
             />
           </CardListItem>
         ))}

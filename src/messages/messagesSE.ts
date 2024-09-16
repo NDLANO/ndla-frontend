@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fága",
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
@@ -48,7 +49,7 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
@@ -171,6 +172,12 @@ const messages = {
   },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
   },
 };
 

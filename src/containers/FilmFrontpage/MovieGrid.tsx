@@ -19,13 +19,6 @@ import { useGraphQuery } from "../../util/runQueries";
 const StyledSection = styled("section", {
   base: {
     display: "flex",
-    justifyContent: "center",
-  },
-});
-
-const ColumnWrapper = styled("div", {
-  base: {
-    display: "flex",
     flexDirection: "column",
   },
 });
@@ -34,9 +27,13 @@ const MovieListing = styled("div", {
   base: {
     display: "grid",
     gap: "medium",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    desktopDown: { gridTemplateColumns: "repeat(3, 1fr)" },
-    tabletDown: { gridTemplateColumns: "repeat(2, 1fr)" },
+    gridTemplateColumns: "repeat(2, 1fr)",
+    tablet: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(4, 1fr)",
+    },
   },
 });
 
@@ -91,34 +88,32 @@ const MovieGrid = ({ resourceType }: Props) => {
 
   return (
     <StyledSection>
-      <ColumnWrapper>
-        <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-          <h3>{t(resourceType.name)}</h3>
-        </StyledHeading>
-        <MovieListing>
-          {resourceTypeMovies.loading ? (
-            <LoadingShimmer />
-          ) : (
-            resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-              const context = movie.contexts.find((c) => c.rootId === FILM_ID);
-              return (
-                <StyledFilmContentCard
-                  style={{ "--index": index } as CSSProperties}
-                  key={`${resourceType.id}-${index}`}
-                  movie={{
-                    id: movie.id,
-                    metaImage: movie.metaImage,
-                    resourceTypes: [],
-                    title: movie.title,
-                    path: context?.path ?? "",
-                    url: context?.url ?? "",
-                  }}
-                />
-              );
-            })
-          )}
-        </MovieListing>
-      </ColumnWrapper>
+      <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <h3>{t(resourceType.name)}</h3>
+      </StyledHeading>
+      <MovieListing>
+        {resourceTypeMovies.loading ? (
+          <LoadingShimmer />
+        ) : (
+          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+          const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+          return (
+            <StyledFilmContentCard
+              style={{ "--index": index } as CSSProperties}
+              key={`${resourceType.id}-${index}`}
+              movie={{
+                id: movie.id,
+                metaImage: movie.metaImage,
+                resourceTypes: [],
+                title: movie.title,
+                path: context?.path ?? "",
+                url: context?.url ?? "",
+              }}
+            />
+          );
+          })
+        )}
+      </MovieListing>
     </StyledSection>
   );
 };

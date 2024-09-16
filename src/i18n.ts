@@ -45,7 +45,7 @@ const SE: LocaleObject = {
 };
 
 export const appLocales = [NB, NN, EN, SE];
-export const preferredLocales = [NB, NN, SE];
+export const preferredLocales = [NB, NN];
 
 export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
   const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);

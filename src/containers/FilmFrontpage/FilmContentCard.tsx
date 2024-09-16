@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { Text, Image } from "@ndla/primitives";
 import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps } from "@ndla/styled-system/types";
+import { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
 import { movieResourceTypes } from "./resourceTypes";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 
@@ -28,7 +28,7 @@ interface MovieType {
   url: string;
 }
 
-interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to"> {
+interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to">, StyledVariantProps<typeof StyledSafeLink> {
   movie: MovieType;
 }
 
@@ -36,7 +36,6 @@ const ImageWrapper = styled("div", {
   base: {
     position: "relative",
     overflow: "hidden",
-    borderRadius: "xsmall",
   },
 });
 
@@ -54,14 +53,6 @@ const StyledSafeLink = styled(SafeLink, {
     flexDirection: "column",
     gap: "xsmall",
 
-    width: "40vw",
-    tabletToDesktop: {
-      width: "28vw",
-    },
-    desktop: {
-      width: "20vw",
-    },
-
     "&:hover,&:active,&:focus-within": {
       "& [data-content-cards]": {
         opacity: "1",
@@ -71,6 +62,19 @@ const StyledSafeLink = styled(SafeLink, {
       },
       "& [data-title]": {
         textDecoration: "none",
+      },
+    },
+  },
+  variants: {
+    autoSize: {
+      true: {
+        width: "40vw",
+        tabletToDesktop: {
+          width: "28vw",
+        },
+        desktop: {
+          width: "20vw",
+        },
       },
     },
   },
@@ -120,7 +124,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, url, resourceTyp
   return (
     <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={to}>
       <ImageWrapper>
-        <StyledImage src={metaImage?.url ?? ""} loading="lazy" alt="" />
+        <StyledImage src={metaImage?.url ?? ""} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">
           {resources.map((resource) => (
             <StyledMovieTags textStyle="label.small" key={resource}>

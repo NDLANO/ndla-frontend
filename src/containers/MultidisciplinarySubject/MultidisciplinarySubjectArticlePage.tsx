@@ -80,7 +80,7 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId: maybeSubjectId, topicI
   });
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (!data?.topic || !data?.subject) {

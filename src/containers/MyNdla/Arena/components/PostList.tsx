@@ -7,29 +7,97 @@
  */
 
 import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./ArenaForm";
 import DeletedPostCard from "./DeletedPostCard";
 import PostCard from "./PostCard";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 
-const StyledOl = styled.ol`
-  list-style: none;
-  margin-left: ${spacing.xlarge};
-  padding: unset;
+const StyledOl = styled("ol", {
+  base: {
+    marginInlineStart: "xsmall",
+    tablet: {
+      marginInlineStart: "small",
+    },
+    desktop: {
+      marginInlineStart: "medium",
+    },
+  },
+});
 
-  li {
-    padding: unset;
-  }
-`;
+const StyledLi = styled("li", {
+  base: {
+    position: "relative",
+    paddingBlockStart: "xxsmall",
+    paddingInlineStart: "xsmall",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.subtle",
+    _lastOfType: {
+      borderInlineStart: "unset",
+    },
+    "&:not(:last-of-type)": {
+      _after: {
+        borderInlineStart: "unset",
+      },
+    },
+    _after: {
+      borderInlineStart: "1px solid",
+      borderBlockEnd: "1px solid",
+      borderColor: "stroke.subtle",
+      borderBottomLeftRadius: "xsmall",
+      position: "absolute",
+      content: "''",
+      width: "xsmall",
+      height: "xxlarge",
+      left: "0px",
+      top: "0px",
+    },
+    tablet: {
+      paddingBlockStart: "small",
+      paddingInlineStart: "medium",
+      _after: {
+        width: "large",
+        height: "3xlarge",
+      },
+    },
+    desktop: {
+      paddingBlockStart: "medium",
+      paddingInlineStart: "xxlarge",
+      _after: {
+        width: "xxlarge",
+        height: "3xlarge",
+      },
+    },
+  },
+});
 
-const StyledArenaFormWrapper = styled(ArenaFormWrapper)`
-  margin-bottom: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-left: ${spacing.xlarge};
-  }
-`;
+const SpacingWrapperEditor = styled("div", {
+  base: {
+    paddingBlockStart: "medium",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.subtle",
+
+    marginInlineStart: "xsmall",
+    paddingInlineStart: "xsmall",
+    tablet: {
+      paddingInlineStart: "medium",
+      marginInlineStart: "small",
+    },
+    desktop: {
+      paddingInlineStart: "large",
+      marginInlineStart: "medium",
+    },
+  },
+});
+
+const StyledArenaFormWrapper = styled(ArenaFormWrapper, {
+  base: {
+    marginInlineStart: "3xlarge",
+    mobile: {
+      marginInlineStart: "unset",
+    },
+  },
+});
 
 const calculateNextPostId = (
   posts: GQLArenaPostV2Fragment[] | Omit<GQLArenaPostV2Fragment, "replies">[],
@@ -42,9 +110,7 @@ const calculateNextPostId = (
   if (previousPostId || nextPostId) {
     return nextPostId ?? previousPostId;
   }
-  return rootPosts?.posts?.items.find(({ replies }) => {
-    return replies?.find(({ id }) => id === post.id);
-  })?.id;
+  return rootPosts?.posts?.items.find(({ replies }) => replies?.find(({ id }) => id === post.id))?.id;
 };
 
 interface Props {
@@ -59,7 +125,6 @@ interface Props {
 
 const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplyingTo, setReplyingTo }: Props) => {
   const [isReplyingChild, setIsReplyingChild] = useState<number | undefined>(undefined);
-
   const formRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -70,19 +135,39 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
 
   return (
     <>
+      {isReplyingTo === replyToId && (
+        <SpacingWrapperEditor id={`reply-form-${replyToId}`}>
+          <StyledArenaFormWrapper ref={formRef}>
+            <ArenaForm
+              type="post"
+              onAbort={() => {
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+              onSave={async (values) => {
+                await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+            />
+          </StyledArenaFormWrapper>
+        </SpacingWrapperEditor>
+      )}
       <StyledOl>
         {posts.map((post) => {
           const hasReplies = "replies" in post;
           return (
-            <li key={post.id}>
+            <StyledLi key={post.id}>
               {"deleted" in post && post.deleted ? (
                 <DeletedPostCard />
               ) : (
                 <PostCard
                   post={post}
+                  topic={topic}
                   setFocusId={setFocusId}
                   nextPostId={calculateNextPostId(posts, post, topic) ?? topic?.id ?? 0}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}
+                  isReplyingTo={isReplyingChild}
                   isRoot={hasReplies}
                 />
               )}
@@ -97,26 +182,10 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                   setReplyingTo={setIsReplyingChild}
                 />
               )}
-            </li>
+            </StyledLi>
           );
         })}
       </StyledOl>
-      {isReplyingTo === replyToId && (
-        <StyledArenaFormWrapper ref={formRef}>
-          <ArenaForm
-            type="post"
-            onAbort={() => {
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-            onSave={async (values) => {
-              await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-          />
-        </StyledArenaFormWrapper>
-      )}
     </>
   );
 };

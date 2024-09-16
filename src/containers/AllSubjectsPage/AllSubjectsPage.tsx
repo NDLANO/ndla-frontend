@@ -16,13 +16,14 @@ import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, OneColumn, constants } from "@ndla/ui";
+import { ErrorMessage, constants } from "@ndla/ui";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { useGraphQuery } from "../../util/runQueries";
@@ -33,7 +34,7 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
     ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
         count: 2,
-      })}`
+      }).toLowerCase()}`
     : t(`subjectCategories.${key}`);
   return label;
 };
@@ -47,6 +48,7 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, ARCHIVE_SUBJECTS),
     value: ARCHIVE_SUBJECTS,
   },
+
   {
     label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
@@ -56,19 +58,13 @@ const createFilters = (t: TFunction) => [
     value: OTHER,
   },
   {
-    label: `${t("contentTypes.all")} ${t("common.subject", {
-      count: 2,
-    })}`,
+    label: t("subjectsPage.tabFilter.all"),
     value: "all",
   },
 ];
 
-const StyledMain = styled("main", { base: { paddingTop: "xxlarge" } });
-
-const StyledColumn = styled(OneColumn, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    display: "flex",
-    flexDirection: "column",
     gap: "xxlarge",
   },
 });
@@ -109,11 +105,6 @@ const allSubjectsQuery = gql`
   ${allSubectsFragment}
 `;
 
-const filterDefaults = (value: string | string[]): string[] => {
-  if (!value) return [ACTIVE_SUBJECTS];
-  return Array.isArray(value) ? value : [value];
-};
-
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -123,15 +114,14 @@ const AllSubjectsPage = () => {
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
+  const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);
 
-  const setFilter = (value: string[]) => {
+  const setFilter = (value: string) => {
     const searchObject = parse(location.search);
-    const updatedValue = value.length ? value : [ACTIVE_SUBJECTS];
-    _setFilter(updatedValue);
+    _setFilter(value);
     const search = stringify({
       ...searchObject,
-      filter: updatedValue,
+      filter: value,
     });
     navigate(`${location.pathname}?${search}`);
   };
@@ -165,9 +155,9 @@ const AllSubjectsPage = () => {
     );
 
   return (
-    <StyledMain>
-      <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
-      <StyledColumn wide>
+    <StyledPageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("subjectsPage.allSubjects")}
@@ -181,8 +171,8 @@ const AllSubjectsPage = () => {
             <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
           ))}
         </StyledList>
-      </StyledColumn>
-    </StyledMain>
+      </main>
+    </StyledPageContainer>
   );
 };
 

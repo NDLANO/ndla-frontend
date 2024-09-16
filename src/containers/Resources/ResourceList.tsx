@@ -9,6 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentType } from "@ndla/ui";
 import { type Resource, ResourceItem } from "./ResourceItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
@@ -24,9 +25,17 @@ interface ResourceListProps {
   title?: string;
   showAdditionalResources?: boolean;
   headingId?: string;
+  currentResourceContentType?: ContentType;
 }
 
-const ResourceList = ({ resources, contentType, headingId, title, showAdditionalResources }: ResourceListProps) => {
+const ResourceList = ({
+  resources,
+  contentType,
+  headingId,
+  title,
+  showAdditionalResources,
+  currentResourceContentType,
+}: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
     !showAdditionalResources &&
@@ -40,6 +49,7 @@ const ResourceList = ({ resources, contentType, headingId, title, showAdditional
             key={resource.id}
             contentType={contentType}
             showAdditionalResources={showAdditionalResources}
+            currentResourceContentType={currentResourceContentType}
             {...resource}
           />
         ))}

@@ -17,7 +17,6 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { Heading } from "@ndla/typography";
 import FolderActions from "./components/FolderActions";
-import { ResourceCountContainer } from "./components/FolderAndResourceCount";
 import FolderButtons from "./components/FolderButtons";
 import FolderList from "./components/FolderList";
 import ListViewOptions from "./components/ListViewOptions";
@@ -32,6 +31,12 @@ import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
+
+const ResourceCountContainer = styled.div`
+  display: flex;
+  gap: ${spacing.xsmall};
+  align-items: center;
+`;
 
 const FoldersPageContainer = styled.div`
   display: flex;
@@ -51,9 +56,9 @@ const OptionsWrapper = styled.div`
 export const BlockWrapper = styled.ul`
   display: grid;
   height: 100%;
+  width: 100%;
   margin: 0;
   margin-bottom: ${spacing.medium};
-  padding: 0 0 0 ${spacing.medium};
 
   &[data-type="block"] {
     padding: 0;

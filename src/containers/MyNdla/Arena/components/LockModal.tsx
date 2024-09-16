@@ -7,10 +7,16 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Button, DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { Text } from "@ndla/typography";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
 import { useUpdateTopicV2 } from "../../arenaMutations";
@@ -21,11 +27,13 @@ interface Props {
   onClose?: (e?: Event) => void;
 }
 
-const StyledButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const StyledButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "3xsmall",
+  },
+});
 
 const LockModal = ({ topic, post, onClose }: Props) => {
   const { t } = useTranslation();
@@ -55,7 +63,7 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <Text>{description}</Text>
+        <Text textStyle="body.large">{description}</Text>
         <StyledButtonRow>
           <DialogCloseTrigger asChild>
             <Button variant="secondary">{t("cancel")}</Button>

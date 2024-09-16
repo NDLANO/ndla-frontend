@@ -7,111 +7,51 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { colors, spacing, breakpoints, mq, misc } from "@ndla/core";
-import { SafeLink } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   to: string;
   title: string;
   subText: string;
-  rightText?: string;
   icon: ReactNode;
 }
 
-const StyledSafelink = styled(SafeLink)`
-  color: ${colors.text.primary};
-  display: flex;
-  flex-direction: row;
-  gap: ${spacing.normal};
-  padding: ${spacing.normal};
-  padding-right: ${spacing.medium};
-  border: 1px solid ${colors.brand.light};
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    alignItems: "flex-start",
+    textAlign: "left",
+  },
+});
 
-  [data-hover-icon=""] {
-    display: none;
-  }
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    justifyContent: "flex-start",
+    gap: "small",
+    "& span": {
+      textDecoration: "underline",
+    },
+    _hover: {
+      "& span": {
+        textDecoration: "none",
+      },
+    },
+  },
+});
 
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    [data-name="hover"] {
-      text-decoration: none;
-    }
-  }
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    &:hover,
-    &:focus-within {
-      [data-hover-icon=""] {
-        display: block;
-      }
-    }
-  }
-
-  svg {
-    width: ${spacing.large};
-    height: ${spacing.large};
-    color: ${colors.brand.primary};
-    ${mq.range({ until: breakpoints.mobileWide })} {
-      display: none;
-    }
-  }
-`;
-
-const SpacingContainer = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const StyledHeader = styled(Text)`
-  color: ${colors.brand.primary};
-  text-decoration: underline;
-  cursor: pointer;
-`;
-
-const StyledDescriptionText = styled(Text)`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
-
-const StyledCountContainer = styled.div`
-  text-align: center;
-`;
-
-const NavWrapper = styled.li`
-  list-style: none;
-  margin: 0;
-`;
-
-const AdminNavLink = ({ to, title, subText, rightText, icon }: Props) => {
+const AdminNavLink = ({ to, title, subText, icon }: Props) => {
   return (
-    <NavWrapper>
-      <StyledSafelink to={to}>
-        {icon}
-        <SpacingContainer>
-          <div>
-            <StyledHeader element="label" textStyle="label-small" margin="none" data-name="hover">
-              {title}
-            </StyledHeader>
-            <StyledDescriptionText element="p" textStyle="meta-text-small" margin="none">
-              {subText}
-            </StyledDescriptionText>
-          </div>
-          <StyledCountContainer>
-            <Text element="p" textStyle="content-alt" margin="none">
-              {rightText}
-            </Text>
-          </StyledCountContainer>
-        </SpacingContainer>
-      </StyledSafelink>
-    </NavWrapper>
+    <StyledSafeLinkButton variant="secondary" to={to}>
+      {icon}
+      <TextWrapper>
+        <span>{title}</span>
+        <Text>{subText}</Text>
+      </TextWrapper>
+    </StyledSafeLinkButton>
   );
 };
 

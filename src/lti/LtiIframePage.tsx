@@ -8,15 +8,15 @@
 
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
-import { PageContainer } from "@ndla/ui";
+import { PageLayout } from "../components/Layout/PageContainer";
 import IframePage from "../iframe/IframePage";
 
 export const LtiIframePage = () => {
   const { taxonomyId, articleId, lang } = useParams();
   return (
-    <PageContainer>
+    <PageLayout>
       <Helmet htmlAttributes={{ lang: lang === "nb" ? "no" : lang }} />
       <IframePage status="success" taxonomyId={taxonomyId} articleId={articleId} />
-    </PageContainer>
+    </PageLayout>
   );
 };

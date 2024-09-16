@@ -8,9 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Text } from "@ndla/primitives";
+import { Heading, Text, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { OneColumn } from "@ndla/ui";
 import { MovedNodeCard } from "../../../components/MovedNodeCard";
 import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
 
@@ -82,7 +81,7 @@ const MovedTopicPage = ({ topics }: Props) => {
   const results = mergeTopicSubjects(topicsAsResults);
 
   return (
-    <OneColumn>
+    <PageContent>
       <Wrapper>
         <Heading>
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
@@ -106,7 +105,7 @@ const MovedTopicPage = ({ topics }: Props) => {
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
       </Wrapper>
-    </OneColumn>
+    </PageContent>
   );
 };
 

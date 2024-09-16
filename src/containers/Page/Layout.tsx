@@ -9,11 +9,11 @@
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { matchPath, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
-import { PageContainer } from "@ndla/ui";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
@@ -26,7 +26,6 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -53,7 +52,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <PageContainer backgroundWide={backgroundWide}>
+    <>
       <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
@@ -62,9 +61,11 @@ const Layout = () => {
         {metaChildren}
       </Helmet>
       <Masthead />
-      <Outlet />
+      <PageLayout>
+        <Outlet />
+      </PageLayout>
       <Footer />
-    </PageContainer>
+    </>
   );
 };
 export default Layout;

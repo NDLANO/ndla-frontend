@@ -169,7 +169,7 @@ const NewAboutMenuPortion = ({
             to={toAbout(item.article.slug)}
             onClick={onClose}
             id={`header-${item.article.slug}`}
-            data-active={!selected}
+            aria-current={!!selected}
             variant="link"
           >
             {item.article.title}

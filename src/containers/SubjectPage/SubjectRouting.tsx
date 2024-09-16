@@ -40,7 +40,7 @@ const SubjectRouting = () => {
   } else if (subjectType === "multiDisciplinary" && topicList.length === 3) {
     return <MultidisciplinarySubjectArticlePage subjectId={subjectId} topicId={topicId} />;
   }
-  return <SubjectPage subjectId={subjectId} topicId={topicId} topicList={topicList} />;
+  return <SubjectPage key={subjectId} subjectId={subjectId} topicId={topicId} topicList={topicList} />;
 };
 
 export default SubjectRouting;

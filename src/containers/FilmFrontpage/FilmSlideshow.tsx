@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { gql } from "@apollo/client";
-import { Image, Skeleton, Text } from "@ndla/primitives";
+import { BleedPageContent, Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
@@ -73,7 +73,7 @@ const StyledSafeLinkCard = styled(SafeLink, {
   },
 });
 
-const StyledImg = styled("img", {
+const StyledImg = styled(Image, {
   base: {
     minWidth: "surface.3xsmall",
     width: "30vw",
@@ -85,7 +85,6 @@ const StyledImg = styled("img", {
 const StyledCarousel = styled(Carousel, {
   base: {
     justifyContent: "center",
-    paddingBlockEnd: "medium",
     marginBlockStart: "-large",
     tablet: {
       marginBlockStart: "-xlarge",
@@ -143,23 +142,20 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   }, [currentSlide, slideshow]);
 
   return (
-    <section>
-      <SafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
-        {!currentSlide?.metaImage?.url ? (
-          <MainImageShimmer />
-        ) : (
-          <StyledImage
-            src={currentSlide?.metaImage?.url ?? ""}
-            sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw"
-            alt=""
-          />
-        )}
-      </SafeLink>
-      <StyledCarousel>
-        {!slideshow ? (
-          <LoadingShimmer />
-        ) : (
-          slideshow.map((movie) => {
+    <BleedPageContent asChild consumeCss>
+      <section>
+        <SafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
+          {!currentSlide?.metaImage?.url ? (
+            <MainImageShimmer />
+          ) : (
+            <StyledImage src={currentSlide?.metaImage?.url ?? ""} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
+          )}
+        </SafeLink>
+        <StyledCarousel>
+          {!slideshow ? (
+            <LoadingShimmer />
+          ) : (
+            slideshow.map((movie) => {
             const path = enablePrettyUrls ? movie.url : movie.path;
             return (
               <StyledSafeLinkCard

@@ -12,13 +12,13 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons/common";
-import { Heading, Hero, HeroBackground, Image, MessageBox, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
+import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -79,21 +79,19 @@ const mapGradesData = (
   });
 };
 
-const StyledHeroBackground = styled(HeroBackground, {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-    height: "unset",
-  },
-});
-
 const HeadingWrapper = styled("div", {
   base: {
-    paddingBlockStart: "4xlarge",
     display: "flex",
     flexDirection: "column",
+    gap: "medium",
+    marginBlockEnd: "xxlarge",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    borderRadius: "xsmall",
+    boxShadow: "full",
+    paddingInline: "medium",
+    paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
-    gap: "large",
   },
 });
 
@@ -104,20 +102,25 @@ const GradesList = styled("ul", {
   },
 });
 
-const ContentOneColumn = styled(OneColumn, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-    paddingBlockEnd: "4xlarge",
-  },
-});
-
 const MessageBoxWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+  },
+});
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0",
+    gap: "xxlarge",
+  },
+});
+
+const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
+  base: {
+    minWidth: "3xlarge",
+    justifyContent: "center",
   },
 });
 
@@ -150,43 +153,38 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   );
 
   return (
-    <main>
-      <Helmet>
-        <title>{pageTitle}</title>
-      </Helmet>
-      <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
-      <Hero absolute={false} variant="brand1">
-        <StyledHeroBackground>
-          <OneColumn>
-            <Image src={programme.desktopImage?.url ?? ""} alt="" />
-          </OneColumn>
-        </StyledHeroBackground>
-      </Hero>
-      <ContentOneColumn>
-        <HeadingWrapper>
-          <Heading textStyle="heading.large" id={SKIP_TO_CONTENT_ID}>
-            {heading}
-          </Heading>
-          {!!grades.length && (
-            <GradesList aria-label={t("programme.grades")}>
-              {grades?.map((item) => (
-                <li key={item.name}>
-                  <SafeLinkButton
-                    to={toProgramme(programme.url, item.name.toLowerCase())}
-                    // TODO: Fix handling of active safeLinkButton according to design
-                    variant={item.name.toLowerCase() === selectedGrade ? "primary" : "secondary"}
-                    aria-current={item.name.toLowerCase() === selectedGrade}
-                  >
-                    {item.name}
-                  </SafeLinkButton>
-                </li>
-              ))}
-            </GradesList>
-          )}
-        </HeadingWrapper>
+    <StyledPageContainer padding="large" asChild consumeCss>
+      <main>
+        <Helmet>
+          <title>{pageTitle}</title>
+        </Helmet>
+        <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
+        <div>
+          <Image src={programme.desktopImage?.url ?? ""} alt="" />
+          <HeadingWrapper>
+            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+              {heading}
+            </Heading>
+            {!!grades.length && (
+              <GradesList aria-label={t("programme.grades")}>
+                {grades?.map((item) => (
+                  <li key={item.name}>
+                    <StyledNavigationSafeLinkButton
+                      to={toProgramme(programme.url, item.name.toLowerCase())}
+                      variant="secondary"
+                      aria-current={item.name.toLowerCase() === selectedGrade ? "page" : undefined}
+                    >
+                      {item.name}
+                    </StyledNavigationSafeLinkButton>
+                  </li>
+                ))}
+              </GradesList>
+            )}
+          </HeadingWrapper>
+        </div>
         {grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
-            <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+            <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>
             </Heading>
             <MessageBox variant="info">
@@ -198,8 +196,8 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         {grade?.categories?.map((category) => (
           <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
         ))}
-      </ContentOneColumn>
-    </main>
+      </main>
+    </StyledPageContainer>
   );
 };
 

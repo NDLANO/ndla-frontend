@@ -91,19 +91,14 @@ const SocialMediaMetadata = ({
       {children}
       {trackableContent?.tags && <meta property="keywords" content={`${trackableContent?.tags}`} />}
       <meta property="og:type" content={type} />
-      <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
       <meta property="og:url" content={getOgUrl(location, basename)} />
       {title && <meta property="og:title" content={`${title} - NDLA`} />}
-      {title && <meta name="twitter:title" content={`${title} - NDLA`} />}
       {description && <meta property="og:description" content={description} />}
       {description && <meta name="description" content={description} />}
-      {description && <meta name="twitter:description" content={description} />}
       {audioUrl && <meta property="og:audio" content={audioUrl} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
-      {imageUrl && <meta name="twitter:image" content={imageUrl} />}
-      {!imageUrl ? <meta name="twitter:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
       {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
       <meta property="og:site_name" content="ndla.no" />
     </Helmet>
