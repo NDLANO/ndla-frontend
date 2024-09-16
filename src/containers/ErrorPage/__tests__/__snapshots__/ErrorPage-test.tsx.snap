@@ -69,6 +69,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         >
           <h1
             class="textStyle_heading.small ta_center"
+            id="SkipToContentId"
           >
             Ops, noe gikk galt
           </h1>

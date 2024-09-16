@@ -18,6 +18,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 
 const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
   base: {
@@ -33,7 +34,7 @@ const UnpublishedResource = () => {
       <StyledErrorMessageRoot>
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
-          <ErrorMessageTitle>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
+          <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
           <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
         </ErrorMessageContent>
         <ErrorMessageActions>

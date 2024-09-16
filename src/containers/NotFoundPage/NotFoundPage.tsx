@@ -18,6 +18,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 
 const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
   base: {
@@ -25,7 +26,10 @@ const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
   },
 });
 
-const BaseNotFound = () => {
+interface BaseNotFoundProps {
+  applySkipToContentId: boolean;
+}
+const BaseNotFound = ({ applySkipToContentId }: BaseNotFoundProps) => {
   const { t } = useTranslation();
   return (
     <>
@@ -33,7 +37,9 @@ const BaseNotFound = () => {
       <StyledErrorMessageRoot>
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
-          <ErrorMessageTitle>{t("notFoundPage.title")}</ErrorMessageTitle>
+          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("notFoundPage.title")}
+          </ErrorMessageTitle>
           <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
         </ErrorMessageContent>
         <ErrorMessageActions>
@@ -45,10 +51,10 @@ const BaseNotFound = () => {
 };
 
 export const NotFound = ({ skipRedirect }: { skipRedirect?: boolean }) => {
-  if (skipRedirect) return <BaseNotFound />;
+  if (skipRedirect) return <BaseNotFound applySkipToContentId={false} />;
   return (
     <Status code={404}>
-      <BaseNotFound />
+      <BaseNotFound applySkipToContentId={true} />
     </Status>
   );
 };

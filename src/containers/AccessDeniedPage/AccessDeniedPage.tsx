@@ -23,6 +23,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { toHref } from "../../util/urlHelper";
 
 const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
@@ -62,7 +63,7 @@ const BaseAccessDenied = () => {
       <StyledErrorMessageRoot>
         <StyledPresentationLine />
         <ErrorMessageContent>
-          <ErrorMessageDescription>{t("user.resource.accessDenied")}</ErrorMessageDescription>
+          <ErrorMessageDescription id={SKIP_TO_CONTENT_ID}>{t("user.resource.accessDenied")}</ErrorMessageDescription>
         </ErrorMessageContent>
         <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
           {t("user.buttonLogIn")}
