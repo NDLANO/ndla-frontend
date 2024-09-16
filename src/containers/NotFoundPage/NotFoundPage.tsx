@@ -15,16 +15,10 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-
-const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
-  base: {
-    marginBlock: "4xlarge",
-  },
-});
 
 interface BaseNotFoundProps {
   applySkipToContentId: boolean;
@@ -32,9 +26,9 @@ interface BaseNotFoundProps {
 const BaseNotFound = ({ applySkipToContentId }: BaseNotFoundProps) => {
   const { t } = useTranslation();
   return (
-    <>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <StyledErrorMessageRoot>
+      <ErrorMessageRoot>
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
           <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
@@ -45,8 +39,8 @@ const BaseNotFound = ({ applySkipToContentId }: BaseNotFoundProps) => {
         <ErrorMessageActions>
           <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
         </ErrorMessageActions>
-      </StyledErrorMessageRoot>
-    </>
+      </ErrorMessageRoot>
+    </PageContainer>
   );
 };
 

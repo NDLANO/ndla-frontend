@@ -23,14 +23,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { toHref } from "../../util/urlHelper";
-
-const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
-  base: {
-    marginBlock: "4xlarge",
-  },
-});
 
 const StyledPresentationLine = styled(PresentationLine, {
   base: {
@@ -58,9 +53,9 @@ const BaseAccessDenied = () => {
   const location = useLocation();
 
   return (
-    <>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
-      <StyledErrorMessageRoot>
+      <ErrorMessageRoot>
         <StyledPresentationLine />
         <ErrorMessageContent>
           <ErrorMessageDescription id={SKIP_TO_CONTENT_ID}>{t("user.resource.accessDenied")}</ErrorMessageDescription>
@@ -75,7 +70,7 @@ const BaseAccessDenied = () => {
             {t("errorMessage.back")}
           </Button>
         </ErrorMessageActions>
-      </StyledErrorMessageRoot>
-    </>
+      </ErrorMessageRoot>
+    </PageContainer>
   );
 };

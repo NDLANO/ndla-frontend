@@ -15,32 +15,28 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../../components";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-
-const StyledErrorMessageRoot = styled(ErrorMessageRoot, {
-  base: {
-    marginBlockStart: "4xlarge",
-  },
-});
 
 const UnpublishedResource = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
-      <HelmetWithTracker title={t("htmlTitles.unpublished")} />
-      <StyledErrorMessageRoot>
-        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-        <ErrorMessageContent>
-          <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
-          <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
-        </ErrorMessageContent>
-        <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-        </ErrorMessageActions>
-      </StyledErrorMessageRoot>
+      <PageContainer>
+        <HelmetWithTracker title={t("htmlTitles.unpublished")} />
+        <ErrorMessageRoot>
+          <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+          <ErrorMessageContent>
+            <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
+            <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
+          </ErrorMessageContent>
+          <ErrorMessageActions>
+            <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+          </ErrorMessageActions>
+        </ErrorMessageRoot>
+      </PageContainer>
     </Status>
   );
 };
