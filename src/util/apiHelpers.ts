@@ -11,6 +11,7 @@ import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { DebugInMemoryCache } from "./DebugInMemoryCache";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
@@ -187,7 +188,8 @@ const typePolicies: TypePolicies = {
 };
 
 function getCache() {
-  const cache = new InMemoryCache({ possibleTypes, typePolicies });
+  const CacheType = config.debugGraphQLCache ? DebugInMemoryCache : InMemoryCache;
+  const cache: InMemoryCache = new CacheType({ possibleTypes, typePolicies });
   if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }
