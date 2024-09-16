@@ -203,7 +203,6 @@ const SearchHeader = ({
               <AddLine />
             </Button>
           </DialogTrigger>
-          {/* TODO: Should these be pills? */}
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
             <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
               {subject.name}
@@ -234,7 +233,6 @@ const SearchHeader = ({
       </DialogRoot>
       {!!grepElements.length && (
         <FiltersWrapper>
-          {/* TODO: Probably needs special handling */}
           {grepElements.map((grep) => (
             <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
               {grep.id}
