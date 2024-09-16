@@ -6,16 +6,16 @@
  *
  */
 
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { OneColumn } from "@ndla/ui";
-import LearningpathIframe, { urlIsNDLAUrl } from "./LearningpathIframe";
+import { PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
@@ -31,22 +31,21 @@ import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
-import { PageSpinner } from "../PageSpinner";
+import { ContentPlaceholder } from "../ContentPlaceholder";
 
-interface StyledIframeContainerProps {
-  oembedWidth: number;
-  oembedHeight: number;
-}
-const StyledIframeContainer = styled.div<StyledIframeContainerProps>`
-  margin-bottom: ${spacing.normal};
-  & > iframe {
-    padding-top: 1em;
-    border: 0 none;
-    max-width: 100%;
-    width: ${(p) => p.oembedWidth}px;
-    height: ${(p) => p.oembedHeight}px;
-  }
-`;
+export const EmbedPageContent = styled(PageContent, {
+  base: {
+    background: "background.default",
+    tablet: {
+      borderRadius: "xsmall",
+    },
+  },
+});
+
+const urlIsNDLAApiUrl = (url: string) => /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
+const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
+const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
+const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
 
 const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
@@ -69,8 +68,9 @@ interface Props {
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
+  children?: ReactNode;
 }
-const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems }: Props) => {
+const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems, children }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [taxId, articleId] =
@@ -91,7 +91,6 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
         resourceId: taxId ?? "",
         includeResource: !!taxId,
-        subjectId,
         transformArgs: {
           path: location.pathname,
           subjectId,
@@ -130,18 +129,45 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     oembed.html
   ) {
     return (
-      <StyledIframeContainer oembedWidth={oembed.width} oembedHeight={oembed.height}>
-        <LearningpathIframe html={oembed.html} url={embedUrl.url} />
-      </StyledIframeContainer>
+      <EmbedPageContent variant="content">
+        <ArticleWrapper>
+          <ArticleTitle
+            id={skipToContentId ?? SKIP_TO_CONTENT_ID}
+            contentType="external"
+            title={learningpathStep.title}
+          />
+          <ArticleContent>
+            <section>
+              <ExternalEmbed
+                embed={{
+                  resource: "external",
+                  status: "success",
+                  embedData: {
+                    resource: "external",
+                    url: embedUrl.url,
+                  },
+                  data: {
+                    oembed,
+                  },
+                }}
+              />
+            </section>
+          </ArticleContent>
+        </ArticleWrapper>
+      </EmbedPageContent>
+    );
+  }
+
+  if (loading) {
+    return (
+      <EmbedPageContent>
+        <ContentPlaceholder variant="article" />
+      </EmbedPageContent>
     );
   }
 
   if (!article || !scripts) {
     return null;
-  }
-
-  if (loading) {
-    return <PageSpinner />;
   }
 
   const learningpathStepResource = learningpathStep.resource ?? data;
@@ -153,7 +179,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   }
 
   return (
-    <>
+    <EmbedPageContent variant="content">
       <Helmet>
         {article && article.metaDescription && <meta name="description" content={article.metaDescription} />}
         {scripts.map((script) => (
@@ -164,21 +190,16 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
           {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
         </script>
       </Helmet>
-      <OneColumn>
-        <Article
-          id={skipToContentId}
-          article={article}
-          oembed={data?.article?.oembed}
-          contentType={getContentType(resource)}
-        >
-          {path ? (
-            <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
-          ) : (
-            <></>
-          )}
-        </Article>
-      </OneColumn>
-    </>
+      <Article
+        id={skipToContentId}
+        article={article}
+        oembed={data?.article?.oembed}
+        contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
+      >
+        {children}
+        {!!path && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
+      </Article>
+    </EmbedPageContent>
   );
 };
 
@@ -188,6 +209,7 @@ const articleFragment = gql`
     metaDescription
     created
     updated
+    articleType
     metaDescription
     requiredLibraries {
       name
@@ -205,6 +227,8 @@ LearningpathEmbed.fragments = {
   article: articleFragment,
   learningpathStep: gql`
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
+      id
+      title
       resource {
         id
         path
@@ -220,6 +244,8 @@ LearningpathEmbed.fragments = {
         html
         width
         height
+        type
+        version
       }
     }
     ${articleFragment}
@@ -233,7 +259,6 @@ const learningpathStepQuery = gql`
     $articleId: String!
     $resourceId: String!
     $includeResource: Boolean!
-    $subjectId: String
     $transformArgs: TransformedArticleContentInput
   ) {
     article(id: $articleId) {

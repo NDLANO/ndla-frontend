@@ -184,6 +184,11 @@ const messages = {
   welcomePage: {
     programmes: "Utdanningsprogram",
   },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
 };
 
 export default messages;

@@ -18,7 +18,7 @@ test("contains content", async ({ page }) => {
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 
-  const menuIntro = page.getByRole("heading").getByText("Sirkulasjonssystemet");
+  const menuIntro = page.getByTestId("learningpath-meta");
   expect(menuIntro).toBeDefined();
   await expect(menuIntro).toBeVisible();
 });

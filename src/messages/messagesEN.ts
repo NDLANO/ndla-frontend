@@ -184,6 +184,11 @@ const messages = {
   welcomePage: {
     programmes: "Programmes",
   },
+  learningpathPage: {
+    accordionTitle: "Learning path content",
+    learningsteps: "Steps",
+    stepCompleted: "Completed",
+  },
 };
 
 export default messages;
