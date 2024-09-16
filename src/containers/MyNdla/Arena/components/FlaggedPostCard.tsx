@@ -9,10 +9,9 @@
 import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, spacing, misc, mq, breakpoints } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Text, Heading } from "@ndla/typography";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { DateFNSLocales } from "../../../../i18n";
@@ -26,81 +25,58 @@ interface Props {
   topic: GQLArenaTopicByIdV2Query["arenaTopicV2"];
 }
 
-const PostCardWrapper = styled.div`
-  background-color: ${colors.background.lightBlue};
-  border: ${colors.brand.light} solid 1px;
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.normal};
-`;
+const PostCardWrapper = styled("div", {
+  base: {
+    backgroundColor: "surface.default",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    padding: "medium",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
 
-const PostHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column-reverse;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin: ${spacing.normal} 0;
-`;
-
-const FlexLine = styled.div`
-  display: flex;
-  gap: ${spacing.normal};
-  justify-content: space-between;
-`;
-
-const TimestampText = styled(Text)`
-  align-self: center;
-`;
-
-const StyledContent = styled(Text)`
-  word-wrap: break-word;
-`;
+const StyledBottomRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
 
 const PostCard = ({ topic, post }: Props) => {
   const { id: postId, topicId, created, contentAsHTML } = post;
 
-  const {
-    t,
-    i18n: { language },
-  } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
     addSuffix: true,
-    locale: DateFNSLocales[language],
+    locale: DateFNSLocales[i18n.language],
     roundingMethod: "floor",
   });
 
-  const postTime = (
-    <TimestampText element="span" textStyle="content-alt" margin="none">
-      <span title={formatDateTime(created, language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
-    </TimestampText>
-  );
-
   return (
     <PostCardWrapper id={`post-${postId}`}>
-      <PostHeader>
-        <UserProfileTag user={post.owner} />
-      </PostHeader>
-      <ContentWrapper>
-        <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h4" margin="none">
-          {topic?.title}
+      <UserProfileTag user={post.owner} />
+      <Stack gap="xsmall">
+        <Heading asChild consumeCss id={SKIP_TO_CONTENT_ID} textStyle="title.large">
+          <h3>{topic?.title}</h3>
         </Heading>
-        <StyledContent element="div" textStyle="content-alt" margin="none">
-          {parse(contentAsHTML!)}
-        </StyledContent>
-      </ContentWrapper>
-      <FlexLine>
-        <FlexLine>{postTime}</FlexLine>
+        <Text asChild consumeCss>
+          <div>{parse(contentAsHTML!)}</div>
+        </Text>
+      </Stack>
+      <StyledBottomRow>
+        <Text textStyle="body.small" asChild consumeCss>
+          <span title={formatDateTime(created, i18n.language)}>{`${capitalizeFirstLetter(timeDistance)}`}</span>
+        </Text>
         <SafeLinkButton to={routes.myNdla.arenaTopic(topicId)}>
           {t("myNdla.arena.admin.flags.goToTopic")}
         </SafeLinkButton>
-      </FlexLine>
+      </StyledBottomRow>
     </PostCardWrapper>
   );
 };
