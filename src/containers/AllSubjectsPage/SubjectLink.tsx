@@ -20,7 +20,6 @@ const SubjectLinkWrapper = styled("li", {
   },
 });
 
-// TODO: Remove/update this custom SafeLink styling?
 const StyledSafeLink = styled(SafeLink, {
   base: { color: "text.default", textDecoration: "underline", _hover: { textDecoration: "none" } },
 });
