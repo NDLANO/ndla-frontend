@@ -30,7 +30,6 @@ const UnpublishedResource = () => {
   return (
     <Status code={410}>
       <HelmetWithTracker title={t("htmlTitles.unpublished")} />
-      <HelmetWithTracker title={t("htmlTitles.notFound")} />
       <StyledErrorMessageRoot>
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
