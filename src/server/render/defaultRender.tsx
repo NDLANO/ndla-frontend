@@ -11,9 +11,6 @@ import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client/react";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
-import createEmotionServer from "@emotion/server/create-instance";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
@@ -22,7 +19,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
@@ -70,7 +67,6 @@ export const defaultRender: RenderFunc = async (req) => {
   }
 
   const client = createApolloClient(locale, versionHash, req.path);
-  const cache = createCache({ key: EmotionCacheKey });
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
@@ -83,15 +79,13 @@ export const defaultRender: RenderFunc = async (req) => {
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <ResponseContext.Provider value={responseContext}>
-              <CacheProvider value={cache}>
-                <VersionHashProvider value={versionHash}>
-                  <UserAgentProvider value={userAgentSelectors}>
-                    <StaticRouter basename={basename} location={req.url}>
-                      <App key={locale} />
-                    </StaticRouter>
-                  </UserAgentProvider>
-                </VersionHashProvider>
-              </CacheProvider>
+              <VersionHashProvider value={versionHash}>
+                <UserAgentProvider value={userAgentSelectors}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App key={locale} />
+                  </StaticRouter>
+                </UserAgentProvider>
+              </VersionHashProvider>
             </ResponseContext.Provider>
           </ApolloProvider>
         </I18nextProvider>
@@ -99,7 +93,6 @@ export const defaultRender: RenderFunc = async (req) => {
     </RedirectContext.Provider>
   );
 
-  const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
   const html = await renderToStringWithData(Page);
 
   if (redirectContext.url) {
@@ -109,14 +102,11 @@ export const defaultRender: RenderFunc = async (req) => {
     };
   }
 
-  const chunks = extractCriticalToChunks(html);
-  const styles = constructStyleTagsFromChunks(chunks);
   const apolloState = client.extract();
 
   return {
     status: redirectContext.status ?? OK,
     data: {
-      styles,
       helmetContext,
       htmlContent: html,
       data: {
