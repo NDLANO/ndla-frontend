@@ -13,7 +13,7 @@ import { MissingRouterContext, SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageContainer } from "@ndla/ui";
 import { Status } from "../../components";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
 import { Footer } from "../Page/components/Footer";
@@ -51,7 +51,7 @@ const ErrorPage = () => {
             </LogoWrapper>
           </Masthead>
           <ErrorMessageWrapper>
-            <DefaultErrorMessagePage />
+            <DefaultErrorMessage applySkipToContentId />
           </ErrorMessageWrapper>
           <Footer />
         </PageContainer>

@@ -36,17 +36,12 @@ const StyledPresentationLine = styled(PresentationLine, {
 });
 
 export const AccessDeniedPage = () => {
-  const { authenticated } = useContext(AuthContext);
-  const statusCode = authenticated ? 403 : 401;
-
   return (
-    <Status code={statusCode}>
-      <PageContainer asChild consumeCss>
-        <main>
-          <AccessDenied applySkipToContentId={true} />
-        </main>
-      </PageContainer>
-    </Status>
+    <PageContainer asChild consumeCss>
+      <main>
+        <AccessDenied applySkipToContentId={true} />
+      </main>
+    </PageContainer>
   );
 };
 
@@ -57,26 +52,30 @@ interface AccessDeniedProps {
 export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const { authenticated } = useContext(AuthContext);
+  const statusCode = authenticated ? 403 : 401;
 
   return (
-    <ErrorMessageRoot>
-      <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
-      <StyledPresentationLine />
-      <ErrorMessageContent>
-        <ErrorMessageDescription id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-          {t("user.resource.accessDenied")}
-        </ErrorMessageDescription>
-      </ErrorMessageContent>
-      <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
-        {t("user.buttonLogIn")}
-        <LoginBoxLine />
-      </SafeLinkButton>
-      <ErrorMessageActions>
-        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-        <Button variant="link" onClick={() => window.history.back()}>
-          {t("errorMessage.back")}
-        </Button>
-      </ErrorMessageActions>
-    </ErrorMessageRoot>
+    <Status code={statusCode}>
+      <ErrorMessageRoot>
+        <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
+        <StyledPresentationLine />
+        <ErrorMessageContent>
+          <ErrorMessageDescription id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("user.resource.accessDenied")}
+          </ErrorMessageDescription>
+        </ErrorMessageContent>
+        <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
+          {t("user.buttonLogIn")}
+          <LoginBoxLine />
+        </SafeLinkButton>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+          <Button variant="link" onClick={() => window.history.back()}>
+            {t("errorMessage.back")}
+          </Button>
+        </ErrorMessageActions>
+      </ErrorMessageRoot>
+    </Status>
   );
 };

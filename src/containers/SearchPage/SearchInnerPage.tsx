@@ -19,7 +19,7 @@ import {
   TypeFilter,
   mapSubjectDataToGroup,
 } from "./searchHelpers";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { LtiData } from "../../interfaces";
@@ -210,7 +210,7 @@ const SearchInnerPage = ({
 
   if (error) {
     handleError(error);
-    return <DefaultErrorMessagePage />;
+    return <DefaultErrorMessage />;
   }
 
   const suggestion = data?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;

@@ -27,29 +27,29 @@ export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) 
   const { t } = useTranslation();
 
   return (
-    <ErrorMessageRoot>
-      <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
-      <ErrorMessageContent>
-        <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-          {t("errorMessage.title")}
-        </ErrorMessageTitle>
-        <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
-      </ErrorMessageContent>
-      <ErrorMessageActions>
-        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-      </ErrorMessageActions>
-    </ErrorMessageRoot>
+    <Status code={500}>
+      <ErrorMessageRoot>
+        <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("errorMessage.title")}
+          </ErrorMessageTitle>
+          <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </ErrorMessageRoot>
+    </Status>
   );
 };
 
 export const DefaultErrorMessagePage = () => {
   return (
-    <Status code={500}>
-      <PageContainer asChild consumeCss>
-        <main>
-          <DefaultErrorMessage applySkipToContentId={true} />
-        </main>
-      </PageContainer>
-    </Status>
+    <PageContainer asChild consumeCss>
+      <main>
+        <DefaultErrorMessage applySkipToContentId={true} />
+      </main>
+    </PageContainer>
   );
 };

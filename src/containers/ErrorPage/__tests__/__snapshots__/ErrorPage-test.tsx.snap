@@ -58,7 +58,7 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="pbe_4xlarge"
     >
       <article
-        class="d_flex flex-d_column gap_xxlarge ai_center my_4xlarge"
+        class="d_flex flex-d_column gap_xxlarge ai_center"
       >
         <img
           alt="Ops, noe gikk galt"

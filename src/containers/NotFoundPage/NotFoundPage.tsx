@@ -27,30 +27,30 @@ interface NotFoundProps {
 const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   const { t } = useTranslation();
   return (
-    <ErrorMessageRoot>
-      <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-      <ErrorMessageContent>
-        <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
-          {t("notFoundPage.title")}
-        </ErrorMessageTitle>
-        <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
-      </ErrorMessageContent>
-      <ErrorMessageActions>
-        <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-      </ErrorMessageActions>
-    </ErrorMessageRoot>
+    <Status code={404}>
+      <ErrorMessageRoot>
+        <HelmetWithTracker title={t("htmlTitles.notFound")} />
+        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("notFoundPage.title")}
+          </ErrorMessageTitle>
+          <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </ErrorMessageRoot>
+    </Status>
   );
 };
 
 export const NotFoundPage = () => {
   return (
-    <Status code={404}>
-      <PageContainer asChild consumeCss>
-        <main>
-          <NotFound applySkipToContentId={true} />
-        </main>
-      </PageContainer>
-    </Status>
+    <PageContainer asChild consumeCss>
+      <main>
+        <NotFound applySkipToContentId={true} />
+      </main>
+    </PageContainer>
   );
 };

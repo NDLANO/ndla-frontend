@@ -17,7 +17,6 @@ import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@nd
 import LearningpathIframe from "./LearningpathIframe";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import ErrorPage from "../../containers/ErrorPage";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathStepQuery,
@@ -33,6 +32,7 @@ import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
 import { ContentPlaceholder } from "../ContentPlaceholder";
+import { DefaultErrorMessage } from "../DefaultErrorMessage";
 
 export const EmbedPageContent = styled(PageContent, {
   base: {
@@ -183,7 +183,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
-    return <ErrorPage />;
+    return <DefaultErrorMessage />;
   }
 
   return (
