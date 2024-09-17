@@ -189,7 +189,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     </div>
                     <div
                       aria-labelledby="tabs::r2::trigger-text"
-                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
+                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default pbe_medium"
                       data-orientation="horizontal"
                       data-ownedby="tabs::r2::list"
                       data-part="content"
