@@ -7,23 +7,31 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons/editor";
 import {
-  CheckboxControl,
-  CheckboxGroup,
-  CheckboxHiddenInput,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxRoot,
-  FieldsetLegend,
-  FieldsetRoot,
+  RadioGroupRoot,
+  RadioGroupLabel,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemText,
+  RadioGroupItemHiddenInput,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-const StyledCheckboxGroup = styled(CheckboxGroup, {
-  base: { display: "flex", flexDirection: "row", flexWrap: "wrap" },
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
 });
-const StyledFieldsetRoot = styled(FieldsetRoot, { base: { display: "flex", gap: "small" } });
+
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
 
 interface Option {
   value: string;
@@ -31,30 +39,31 @@ interface Option {
 }
 
 interface Props {
-  value: string[];
-  onChange: (value: string[]) => void;
+  value: string;
+  onChange: (value: string) => void;
   options: Option[];
 }
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
+
   return (
-    <StyledFieldsetRoot>
-      <FieldsetLegend textStyle="title.small">{t("subjectsPage.tabFilter")}</FieldsetLegend>
-      <StyledCheckboxGroup value={selectedValue} onValueChange={onChange}>
-        {options.map((item) => (
-          <CheckboxRoot key={item.value} value={item.value} variant="chip">
-            <CheckboxControl>
-              <CheckboxIndicator asChild>
-                <CheckLine />
-              </CheckboxIndicator>
-            </CheckboxControl>
-            <CheckboxLabel>{item.label}</CheckboxLabel>
-            <CheckboxHiddenInput />
-          </CheckboxRoot>
+    <StyledRadioGroupRoot
+      orientation="horizontal"
+      value={selectedValue}
+      onValueChange={(details) => onChange(details.value)}
+    >
+      <RadioGroupLabel>{t("subjectsPage.tabFilter.label")}</RadioGroupLabel>
+      <RadioButtonWrapper>
+        {options.map((option) => (
+          <RadioGroupItem value={option.value} key={option.value}>
+            <RadioGroupItemControl />
+            <RadioGroupItemText>{option.label}</RadioGroupItemText>
+            <RadioGroupItemHiddenInput />
+          </RadioGroupItem>
         ))}
-      </StyledCheckboxGroup>
-    </StyledFieldsetRoot>
+      </RadioButtonWrapper>
+    </StyledRadioGroupRoot>
   );
 };
 

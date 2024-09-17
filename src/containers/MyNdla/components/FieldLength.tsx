@@ -23,7 +23,7 @@ const StyledText = styled(Text, {
 // TODO Update component to be more UU friendly
 const FieldLength = ({ value, maxLength }: FieldLengthProps) => {
   return (
-    <StyledText textStyle="body.small" asChild consumeCss>
+    <StyledText textStyle="label.small" asChild consumeCss>
       <span>{`${value}/${maxLength}`}</span>
     </StyledText>
   );

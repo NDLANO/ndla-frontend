@@ -15,26 +15,85 @@ import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../gr
 
 const StyledOl = styled("ol", {
   base: {
-    listStyle: "none",
-    marginInlineStart: "large",
-    padding: "unset",
-    mobileWide: {
-      marginInlineStart: "3xlarge",
+    marginInlineStart: "xsmall",
+    tablet: {
+      marginInlineStart: "small",
+    },
+    desktop: {
+      marginInlineStart: "medium",
     },
   },
 });
 
 const StyledLi = styled("li", {
   base: {
-    padding: "unset",
+    position: "relative",
+    paddingBlockStart: "xxsmall",
+    paddingInlineStart: "xsmall",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.subtle",
+    _lastOfType: {
+      borderInlineStart: "unset",
+    },
+    "&:not(:last-of-type)": {
+      _after: {
+        borderInlineStart: "unset",
+      },
+    },
+    _after: {
+      borderInlineStart: "1px solid",
+      borderBlockEnd: "1px solid",
+      borderColor: "stroke.subtle",
+      borderBottomLeftRadius: "xsmall",
+      position: "absolute",
+      content: "''",
+      width: "xsmall",
+      height: "xxlarge",
+      left: "0px",
+      top: "0px",
+    },
+    tablet: {
+      paddingBlockStart: "small",
+      paddingInlineStart: "medium",
+      _after: {
+        width: "large",
+        height: "3xlarge",
+      },
+    },
+    desktop: {
+      paddingBlockStart: "medium",
+      paddingInlineStart: "xxlarge",
+      _after: {
+        width: "xxlarge",
+        height: "3xlarge",
+      },
+    },
+  },
+});
+
+const SpacingWrapperEditor = styled("div", {
+  base: {
+    paddingBlockStart: "medium",
+    borderInlineStart: "1px solid",
+    borderColor: "stroke.subtle",
+
+    marginInlineStart: "xsmall",
+    paddingInlineStart: "xsmall",
+    tablet: {
+      paddingInlineStart: "medium",
+      marginInlineStart: "small",
+    },
+    desktop: {
+      paddingInlineStart: "large",
+      marginInlineStart: "medium",
+    },
   },
 });
 
 const StyledArenaFormWrapper = styled(ArenaFormWrapper, {
   base: {
-    marginBlockEnd: "medium",
     marginInlineStart: "3xlarge",
-    tablet: {
+    mobile: {
       marginInlineStart: "unset",
     },
   },
@@ -51,9 +110,7 @@ const calculateNextPostId = (
   if (previousPostId || nextPostId) {
     return nextPostId ?? previousPostId;
   }
-  return rootPosts?.posts?.items.find(({ replies }) => {
-    return replies?.find(({ id }) => id === post.id);
-  })?.id;
+  return rootPosts?.posts?.items.find(({ replies }) => replies?.find(({ id }) => id === post.id))?.id;
 };
 
 interface Props {
@@ -68,7 +125,6 @@ interface Props {
 
 const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplyingTo, setReplyingTo }: Props) => {
   const [isReplyingChild, setIsReplyingChild] = useState<number | undefined>(undefined);
-
   const formRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -79,6 +135,24 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
 
   return (
     <>
+      {isReplyingTo === replyToId && (
+        <SpacingWrapperEditor id={`reply-form-${replyToId}`}>
+          <StyledArenaFormWrapper ref={formRef}>
+            <ArenaForm
+              type="post"
+              onAbort={() => {
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+              onSave={async (values) => {
+                await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
+                setIsReplyingChild(undefined);
+                setReplyingTo(undefined);
+              }}
+            />
+          </StyledArenaFormWrapper>
+        </SpacingWrapperEditor>
+      )}
       <StyledOl>
         {posts.map((post) => {
           const hasReplies = "replies" in post;
@@ -89,9 +163,11 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
               ) : (
                 <PostCard
                   post={post}
+                  topic={topic}
                   setFocusId={setFocusId}
                   nextPostId={calculateNextPostId(posts, post, topic) ?? topic?.id ?? 0}
                   setIsReplying={() => (hasReplies ? setIsReplyingChild(post.id) : setReplyingTo(replyToId))}
+                  isReplyingTo={isReplyingChild}
                   isRoot={hasReplies}
                 />
               )}
@@ -110,22 +186,6 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
           );
         })}
       </StyledOl>
-      {isReplyingTo === replyToId && (
-        <StyledArenaFormWrapper ref={formRef}>
-          <ArenaForm
-            type="post"
-            onAbort={() => {
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-            onSave={async (values) => {
-              await createReply(values, replyToId !== topic?.id ? replyToId : undefined);
-              setIsReplyingChild(undefined);
-              setReplyingTo(undefined);
-            }}
-          />
-        </StyledArenaFormWrapper>
-      )}
     </>
   );
 };

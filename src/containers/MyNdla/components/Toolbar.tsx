@@ -7,6 +7,7 @@
  */
 
 import { ReactNode, useContext } from "react";
+import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
@@ -21,7 +22,6 @@ const ToolbarContainer = styled("div", {
     justifyContent: "center",
     minHeight: "fit-content",
     paddingBlock: "xxsmall",
-    paddingInline: "xxlarge",
 
     mobileWide: {
       display: "flex",
@@ -64,7 +64,12 @@ const Wrapper = styled("div", {
     display: "flex",
     flexGrow: "1",
     justifyContent: "space-between",
-    maxWidth: "surface.4xlarge",
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    width: "100%",
   },
 });
 
@@ -80,13 +85,15 @@ const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButton
   const { user } = useContext(AuthContext);
   return (
     <ToolbarContainer data-visible={!!buttons || !!dropDownMenu || !!user?.arenaEnabled}>
-      <Wrapper>
-        <div>
-          <ButtonContainer>{buttons}</ButtonContainer>
-          <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
-        </div>
-        {user?.arenaEnabled && <NotificationPopover />}
-      </Wrapper>
+      <StyledPageContent>
+        <Wrapper>
+          <div>
+            <ButtonContainer>{buttons}</ButtonContainer>
+            <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
+          </div>
+          {user?.arenaEnabled && <NotificationPopover />}
+        </Wrapper>
+      </StyledPageContent>
       <MenuModalContent
         onViewTypeChange={onViewTypeChange}
         buttons={buttons}

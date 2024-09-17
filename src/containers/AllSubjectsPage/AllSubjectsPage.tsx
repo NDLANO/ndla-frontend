@@ -34,7 +34,7 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
     ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
         count: 2,
-      })}`
+      }).toLowerCase()}`
     : t(`subjectCategories.${key}`);
   return label;
 };
@@ -48,6 +48,7 @@ const createFilters = (t: TFunction) => [
     label: createFilterTranslation(t, ARCHIVE_SUBJECTS),
     value: ARCHIVE_SUBJECTS,
   },
+
   {
     label: createFilterTranslation(t, BETA_SUBJECTS),
     value: BETA_SUBJECTS,
@@ -57,9 +58,7 @@ const createFilters = (t: TFunction) => [
     value: OTHER,
   },
   {
-    label: `${t("contentTypes.all")} ${t("common.subject", {
-      count: 2,
-    })}`,
+    label: t("subjectsPage.tabFilter.all"),
     value: "all",
   },
 ];
@@ -97,11 +96,6 @@ const allSubjectsQuery = gql`
   }
 `;
 
-const filterDefaults = (value: string | string[]): string[] => {
-  if (!value) return [ACTIVE_SUBJECTS];
-  return Array.isArray(value) ? value : [value];
-};
-
 const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -111,15 +105,14 @@ const AllSubjectsPage = () => {
   const subjectsQuery = useGraphQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const [filter, _setFilter] = useState<string[]>(filterDefaults(parse(location.search).filter));
+  const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);
 
-  const setFilter = (value: string[]) => {
+  const setFilter = (value: string) => {
     const searchObject = parse(location.search);
-    const updatedValue = value.length ? value : [ACTIVE_SUBJECTS];
-    _setFilter(updatedValue);
+    _setFilter(value);
     const search = stringify({
       ...searchObject,
-      filter: updatedValue,
+      filter: value,
     });
     navigate(`${location.pathname}?${search}`);
   };

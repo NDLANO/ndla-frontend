@@ -9,10 +9,9 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate } from "react-router-dom";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { INewCategory } from "@ndla/types-backend/myndla-api";
-import { Heading } from "@ndla/typography";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -22,15 +21,6 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import { useCreateArenaCategory } from "../arenaMutations";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const PageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-    paddingBlock: "medium",
-  },
-});
 
 export const NewCategoryPage = () => {
   const { t } = useTranslation();
@@ -72,24 +62,20 @@ export const NewCategoryPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageWrapper>
-        <MyNdlaBreadcrumb
-          breadcrumbs={[
-            {
-              name: t("myNdla.arena.admin.category.form.newCategory"),
-              id: "newCategory",
-            },
-          ]}
-          page={"arena"}
-        />
-        <HelmetWithTracker title={t("htmlTitles.arenaNewCategoryPage")} />
-        <ArenaFormWrapper>
-          <Heading element="h1" headingStyle="h1-resource" margin="none">
-            {t("myNdla.arena.admin.category.form.newCategory")}
-          </Heading>
-          <ArenaCategoryForm onAbort={onAbort} onSave={onSave} />
-        </ArenaFormWrapper>
-      </PageWrapper>
+      <MyNdlaBreadcrumb
+        breadcrumbs={[
+          {
+            name: t("myNdla.arena.admin.category.form.newCategory"),
+            id: "newCategory",
+          },
+        ]}
+        page={"arena"}
+      />
+      <HelmetWithTracker title={t("htmlTitles.arenaNewCategoryPage")} />
+      <ArenaFormWrapper>
+        <Heading textStyle="heading.medium">{t("myNdla.arena.admin.category.form.newCategory")}</Heading>
+        <ArenaCategoryForm onAbort={onAbort} onSave={onSave} />
+      </ArenaFormWrapper>
     </MyNdlaPageWrapper>
   );
 };

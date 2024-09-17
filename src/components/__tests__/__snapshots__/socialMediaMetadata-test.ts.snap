@@ -13,6 +13,5 @@ exports[`getAlternateLanguages without article 1`] = `
 [
   "nb",
   "nn",
-  "se",
 ]
 `;

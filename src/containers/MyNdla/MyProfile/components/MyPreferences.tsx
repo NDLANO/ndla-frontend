@@ -7,8 +7,6 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { misc, spacing } from "@ndla/core";
 import {
   RadioGroupItem,
   RadioGroupItemControl,
@@ -16,8 +14,10 @@ import {
   RadioGroupItemText,
   RadioGroupLabel,
   RadioGroupRoot,
+  Heading,
+  Text,
 } from "@ndla/primitives";
-import { Heading, Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../../graphqlTypes";
 import { useUpdatePersonalData } from "../../../MyNdla/userMutations";
@@ -27,24 +27,30 @@ type MyPreferencesProps = {
   user: GQLMyNdlaPersonalDataFragmentFragment;
 };
 
-const PreferenceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  max-width: ${misc.maxTextWidth};
-`;
+const PreferenceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    maxWidth: "surface.xlarge",
+  },
+});
 
-const DisclaimerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const DisclaimerContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const OptionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const OptionContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const MyPreferences = ({ user }: MyPreferencesProps) => {
   const { t } = useTranslation();
@@ -75,22 +81,18 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
-        <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-          {t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}
+        <Heading textStyle="heading.small" asChild consumeCss>
+          <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
         </Heading>
-        <Text element="p" textStyle="content-alt" margin="none">
-          {t(`myNdla.myProfile.disclaimerText.${user.role}`)}
-        </Text>
+        <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
           <OptionContainer>
-            <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-              {t("myNdla.myProfile.preferenceTitle")}
+            <Heading textStyle="heading.small" asChild consumeCss>
+              <h2>{t("myNdla.myProfile.preferenceTitle")}</h2>
             </Heading>
-            <Text element="p" textStyle="content-alt" margin="none">
-              {t("myNdla.myProfile.preferenceText")}
-            </Text>
+            <Text textStyle="body.large">{t("myNdla.myProfile.preferenceText")}</Text>
           </OptionContainer>
           <form>
             {/* TODO: Do optimistic update and revert if it fails */}

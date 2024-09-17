@@ -9,7 +9,7 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, Facebook } from "@ndla/icons/common";
-import { Heading, NdlaLogoEn, NdlaLogoNb, PageContent, Text } from "@ndla/primitives";
+import { Heading, NdlaLogoEn, NdlaLogoNb, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
@@ -51,8 +51,9 @@ const FooterTextWrapper = styled("div", {
     tabletWide: {
       alignSelf: "flex-end",
     },
-    desktop: {
-      gridColumn: "span 2",
+    gridColumn: "span 2",
+    tabletToDesktop: {
+      paddingInline: "xxlarge",
     },
   },
 });
@@ -205,6 +206,26 @@ const logoStyle = css.raw({
   },
 });
 
+const desktopLogoStyle = css.raw({
+  display: "none",
+  desktop: {
+    display: "block",
+  },
+});
+
+const MobileLogo = styled(NdlaLogoText, {
+  base: {
+    display: "block",
+    width: "100%",
+    tabletToDesktop: {
+      paddingInline: "xxlarge",
+    },
+    desktop: {
+      display: "none",
+    },
+  },
+});
+
 export const Footer = () => {
   const { t, i18n } = useTranslation();
   const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
@@ -263,7 +284,8 @@ export const Footer = () => {
       )}
       <PageContent>
         <FooterWrapper>
-          <Logo css={logoStyle} />
+          <Logo css={[logoStyle, desktopLogoStyle]} />
+          <MobileLogo css={logoStyle} width={undefined} height={undefined} preserveAspectRatio="xMidYMid meet" />
           <ContentWrapper>
             {/* TODO: Consider if this should be an actual heading */}
             <StyledHeading asChild consumeCss textStyle="heading.small">
@@ -313,7 +335,7 @@ const ContentWrapper = styled("div", {
     flexDirection: "column",
     justifyContent: "space-between",
     gap: "xxlarge",
-    paddingInlineStart: "xxsmall",
+    width: "100%",
     desktop: {
       paddingInlineStart: "4xlarge",
     },

@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    unpublished: `Resource is unpublished - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: "Subject",
     podcast: `Podcast - Page {{page}} - ${titleTemplate}`,
@@ -49,7 +50,7 @@ const messages = {
     subtitle: "Listen and learn!",
     pagination: "Podcast pages",
   },
-  subjectsPage: { tabFilter: "Which subjects would you like to show?" },
+  subjectsPage: { tabFilter: { label: "Which subjects would you like to show?", all: "All subjects and resources" } },
   searchPage: {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
@@ -175,6 +176,12 @@ const messages = {
   },
   aboutPage: {
     nav: "Information pages",
+  },
+  subjectPage: {
+    topicsTitle: "Topics in {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Programmes",
   },
 };
 

@@ -10,12 +10,21 @@ import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
 import { PresentationLine } from "@ndla/icons/common";
-import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
+import {
+  Badge,
+  ListItemContent,
+  ListItemHeading,
+  ListItemImage,
+  ListItemRoot,
+  ListItemVariantProps,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
 import { RELEVANCE_CORE } from "../../constants";
+
+const { contentTypes } = constants;
 
 // TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
 
@@ -63,6 +72,7 @@ interface Props {
   showAdditionalResources?: boolean;
   language?: string;
   access?: "teacher";
+  currentResourceContentType?: ContentType;
 }
 
 export type Resource = {
@@ -75,6 +85,20 @@ export type Resource = {
   article?: {
     metaImage?: { url?: string; alt?: string };
   };
+  learningpath?: {
+    coverphoto?: { url?: string };
+  };
+};
+
+const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemVariantProps["colorTheme"]> => {
+  switch (contentType) {
+    case contentTypes.TASKS_AND_ACTIVITIES:
+    case contentTypes.ASSESSMENT_RESOURCES:
+    case contentTypes.EXTERNAL:
+      return "brand2";
+    default:
+      return "brand1";
+  }
 };
 
 export const ResourceItem = ({
@@ -87,6 +111,8 @@ export const ResourceItem = ({
   access,
   language,
   article,
+  learningpath,
+  currentResourceContentType,
 }: Props & Resource) => {
   const { t } = useTranslation();
   const relevanceElId = useId();
@@ -94,7 +120,7 @@ export const ResourceItem = ({
   const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
   const teacherOnly = access === "teacher";
-  const contentTypeDescription = additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic");
+  const additionalLabel = t("resource.tooltipAdditionalTopic");
 
   const describedBy = useMemo(() => {
     const elements = [];
@@ -111,7 +137,7 @@ export const ResourceItem = ({
     <li>
       <ListItemRoot
         variant="list"
-        colorTheme="brand1"
+        colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
         hidden={hidden && !active}
@@ -119,7 +145,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <TitleWrapper>
             <ListItemImage
-              src={article?.metaImage?.url ?? ""}
+              src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
               alt={article?.metaImage?.alt ?? ""}
               sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
               css={{ "&[src='']": { opacity: "0" } }}
@@ -148,7 +174,7 @@ export const ResourceItem = ({
               />
             )}
             <ContentTypeBadgeNew contentType={contentType} />
-            {!!showAdditionalResources && <Badge id={relevanceElId}>{contentTypeDescription}</Badge>}
+            {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
       </ListItemRoot>

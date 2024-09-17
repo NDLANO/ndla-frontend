@@ -8,8 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
+import { DeleteBinLine } from "@ndla/icons/action";
 import {
   Button,
   DialogBody,
@@ -19,10 +18,12 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Heading,
+  Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
@@ -33,34 +34,39 @@ import MyContactArea from "../components/MyContactArea";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
 import { UserInfo } from "../components/UserInfo";
-import InfoPart from "../InfoPart";
 import { useDeletePersonalData } from "../userMutations";
 
-const StyledPageContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: ${spacing.normal};
-  gap: ${spacing.large};
-`;
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xxlarge",
+  },
+});
 
-const ButtonRow = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  justify-content: flex-end;
-`;
+const ButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    justifyContent: "flex-end",
+  },
+});
 
-const InfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const InfoContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    maxWidth: "surface.xlarge",
+  },
+});
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const HeadingWrapper = styled("div", {
+  base: {
+    alignItems: "baseline",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
@@ -82,66 +88,72 @@ const MyProfilePage = () => {
   };
 
   return (
-    <MyNdlaPageWrapper>
-      <StyledPageContentContainer>
-        <HelmetWithTracker title={t("myNdla.myProfile.title")} />
-        <MyNdlaTitle title={t("myNdla.myProfile.title")} />
-        <MyContactArea
-          user={{
-            username: user?.username,
-            displayName: user?.displayName,
-            role: user?.role,
-            primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
-          }}
-        />
-        {user && <MyPreferences user={user} />}
-        <InfoContainer>
-          {user && (
-            <InfoPart title={t("myNdla.myPage.feide")}>
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={t("myNdla.myProfile.title")} />
+      <MyNdlaTitle title={t("myNdla.myProfile.title")} />
+      <MyContactArea
+        user={{
+          username: user?.username,
+          displayName: user?.displayName,
+          role: user?.role,
+          primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
+        }}
+      />
+      {user && <MyPreferences user={user} />}
+      <InfoContainer>
+        {user && (
+          <>
+            <HeadingWrapper>
+              <Heading textStyle="heading.small" asChild consumeCss>
+                <h2>{t("myNdla.myPage.feide")}</h2>
+              </Heading>
               <UserInfo user={user} />
-              <Text element="p" textStyle="content-alt" margin="none">
-                {t("user.wrongUserInfoDisclaimer")}
-                <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
-              </Text>
-            </InfoPart>
-          )}
-          <Text element="p" textStyle="content-alt" margin="none">
-            {`${t("myNdla.myPage.read.read")} `}
-            <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
-              {t("myNdla.myPage.privacy")}
-            </SafeLink>
-            {`${t("myNdla.myPage.read.our")} `}
-          </Text>
-        </InfoContainer>
-        <ButtonContainer>
-          <Heading element="h2" id="deleteUserTitle" margin="none" headingStyle="h2">
-            {t("myNdla.myPage.wishToDelete")}
-          </Heading>
-          <DialogRoot>
-            <DialogTrigger asChild>
-              <Button variant="danger">{t("myNdla.myPage.deleteAccount")}</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{t("myNdla.myPage.deleteAccount")}</DialogTitle>
-                <DialogCloseButton />
-              </DialogHeader>
-              <DialogBody>
-                <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
-                <ButtonRow>
-                  <DialogCloseTrigger asChild>
-                    <Button variant="secondary">{t("cancel")}</Button>
-                  </DialogCloseTrigger>
-                  <Button variant="danger" onClick={onDeleteAccount}>
-                    {t("myNdla.myPage.confirmDeleteAccountButton")}
-                  </Button>
-                </ButtonRow>
-              </DialogBody>
-            </DialogContent>
-          </DialogRoot>
-        </ButtonContainer>
-      </StyledPageContentContainer>
-    </MyNdlaPageWrapper>
+            </HeadingWrapper>
+            <Text textStyle="body.large">
+              {t("user.wrongUserInfoDisclaimer")}
+              <SafeLink to="https://feide.no/brukerstotte">feide.no/brukerstotte</SafeLink>
+            </Text>
+          </>
+        )}
+        <Text textStyle="body.large">
+          {`${t("myNdla.myPage.read.read")} `}
+          <SafeLink target="_blank" to={t("myNdla.myPage.privacyLink")}>
+            {t("myNdla.myPage.privacy")}
+          </SafeLink>
+          {`${t("myNdla.myPage.read.our")} `}
+        </Text>
+      </InfoContainer>
+      <Stack gap="medium" align="flex-start">
+        <Heading textStyle="heading.small" asChild consumeCss>
+          <h2>{t("myNdla.myPage.wishToDelete")}</h2>
+        </Heading>
+        <DialogRoot>
+          <DialogTrigger asChild>
+            <Button variant="danger">
+              <DeleteBinLine />
+              {t("myNdla.myPage.deleteAccount")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t("myNdla.myPage.deleteAccount")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
+            <DialogBody>
+              <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
+              <ButtonRow>
+                <DialogCloseTrigger asChild>
+                  <Button variant="secondary">{t("cancel")}</Button>
+                </DialogCloseTrigger>
+                <Button variant="danger" onClick={onDeleteAccount}>
+                  {t("myNdla.myPage.confirmDeleteAccountButton")}
+                </Button>
+              </ButtonRow>
+            </DialogBody>
+          </DialogContent>
+        </DialogRoot>
+      </Stack>
+    </StyledMyNdlaPageWrapper>
   );
 };
 

@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Siden finnes ikke - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
     podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
@@ -49,7 +50,7 @@ const messages = {
     subtitle: "Lytt og lær!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
@@ -173,8 +174,14 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
   },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
   },
 };
 

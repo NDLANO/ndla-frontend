@@ -88,9 +88,6 @@ const HeadingWrapper = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
-    tablet: {
-      paddingInline: "xxlarge",
-    },
   },
 });
 
@@ -111,6 +108,7 @@ const MessageBoxWrapper = styled("div", {
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
+    paddingBlockStart: "0",
     gap: "xxlarge",
   },
 });
@@ -159,7 +157,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         <div>
           <Image src={programme.desktopImage?.url ?? ""} alt="" />
           <HeadingWrapper>
-            <Heading textStyle="heading.large" id={SKIP_TO_CONTENT_ID}>
+            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
             </Heading>
             {!!grades.length && (
@@ -181,7 +179,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </div>
         {grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
-            <Heading asChild consumeCss textStyle="label.large" fontWeight="bold">
+            <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>
             </Heading>
             <MessageBox variant="info">

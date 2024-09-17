@@ -19,6 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
@@ -33,13 +34,14 @@ interface Props {
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
+  currentResourceContentType?: ContentType;
 }
 
 const StyledNav = styled("nav", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
+    gap: "xsmall",
   },
 });
 
@@ -50,6 +52,9 @@ const TitleWrapper = styled("div", {
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+    paddingBlockEnd: "3xsmall",
   },
 });
 
@@ -70,7 +75,27 @@ const ListWrapper = styled("div", {
   },
 });
 
-const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingType: SubHeadingType }: Props) => {
+const StyledForm = styled("form", {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
+const ResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const Resources = ({
+  topic,
+  resourceTypes,
+  headingType: HeadingType,
+  subHeadingType: SubHeadingType,
+  currentResourceContentType,
+}: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
@@ -127,7 +152,7 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
           <Text textStyle="label.medium">{topic.name}</Text>
         </StyledHGroup>
         {!!supplementaryResources.length && (
-          <form>
+          <StyledForm>
             <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
               <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
               <SwitchControl>
@@ -135,31 +160,38 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
               </SwitchControl>
               <SwitchHiddenInput />
             </SwitchRoot>
-          </form>
+          </StyledForm>
         )}
       </TitleWrapper>
-      {!isGrouped ? (
-        <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
-      ) : (
-        groupedResources.map((type) => (
-          <StableId key={type.id}>
-            {(id) => (
-              <ListWrapper>
-                <Heading id={id} textStyle="title.medium" asChild consumeCss>
-                  <SubHeadingType>{type.name}</SubHeadingType>
-                </Heading>
-                <ResourceList
-                  headingId={id}
-                  title={type.name}
-                  showAdditionalResources={showAdditionalResources}
-                  contentType={type.contentType}
-                  resources={type.resources ?? []}
-                />
-              </ListWrapper>
-            )}
-          </StableId>
-        ))
-      )}
+      <ResourceContainer>
+        {!isGrouped ? (
+          <ResourceList
+            resources={ungroupedResources}
+            showAdditionalResources={showAdditionalResources}
+            currentResourceContentType={currentResourceContentType}
+          />
+        ) : (
+          groupedResources.map((type) => (
+            <StableId key={type.id}>
+              {(id) => (
+                <ListWrapper>
+                  <Heading id={id} textStyle="title.medium" asChild consumeCss>
+                    <SubHeadingType>{type.name}</SubHeadingType>
+                  </Heading>
+                  <ResourceList
+                    headingId={id}
+                    title={type.name}
+                    showAdditionalResources={showAdditionalResources}
+                    contentType={type.contentType}
+                    resources={type.resources ?? []}
+                    currentResourceContentType={currentResourceContentType}
+                  />
+                </ListWrapper>
+              )}
+            </StableId>
+          ))
+        )}
+      </ResourceContainer>
     </StyledNav>
   );
 };
@@ -178,6 +210,11 @@ const resourceFragment = gql`
       metaImage {
         url
         alt
+      }
+    }
+    learningpath {
+      coverphoto {
+        url
       }
     }
     resourceTypes {

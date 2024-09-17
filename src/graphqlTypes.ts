@@ -44,6 +44,7 @@ export type GQLArenaCategory = {
   slug: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopic>>;
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
@@ -60,6 +61,7 @@ export type GQLArenaCategoryV2 = GQLArenaCategoryV2Base & {
   topicCount: Scalars["Int"]["output"];
   topics?: Maybe<Array<GQLArenaTopicV2>>;
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaCategoryV2Base = {
@@ -72,6 +74,7 @@ export type GQLArenaCategoryV2Base = {
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLArenaFlag = {
@@ -158,6 +161,7 @@ export type GQLArenaTopic = {
   slug: Scalars["String"]["output"];
   timestamp: Scalars["String"]["output"];
   title: Scalars["String"]["output"];
+  voteCount: Scalars["Int"]["output"];
 };
 
 export type GQLArenaTopicV2 = {
@@ -172,6 +176,7 @@ export type GQLArenaTopicV2 = {
   posts?: Maybe<GQLPaginatedPosts>;
   title: Scalars["String"]["output"];
   updated: Scalars["String"]["output"];
+  voteCount: Scalars["Int"]["output"];
 };
 
 export type GQLArenaUser = {
@@ -2121,6 +2126,7 @@ export type GQLTopiclessArenaCategoryV2 = GQLArenaCategoryV2Base & {
   title: Scalars["String"]["output"];
   topicCount: Scalars["Int"]["output"];
   visible: Scalars["Boolean"]["output"];
+  voteCount?: Maybe<Scalars["Int"]["output"]>;
 };
 
 export type GQLTranscription = {
@@ -3150,6 +3156,7 @@ export type GQLArenaCategoryV2Fragment = {
   description: string;
   topicCount: number;
   postCount: number;
+  voteCount?: number;
   visible: boolean;
   isFollowing: boolean;
   parentCategoryId?: number;
@@ -3210,6 +3217,7 @@ export type GQLArenaTopicV2Fragment = {
   __typename: "ArenaTopicV2";
   id: number;
   postCount: number;
+  voteCount: number;
   created: string;
   updated: string;
   title: string;
@@ -3889,6 +3897,7 @@ export type GQLArenaCategoryChildFragment = {
   id: number;
   name: string;
   topicCount: number;
+  voteCount?: number;
   slug: string;
   parentCategoryId?: number;
   breadcrumbs: Array<{ __typename?: "CategoryBreadcrumb"; id: number; title: string }>;
@@ -3902,6 +3911,7 @@ export type GQLArenaCategoryFragment = {
   id: number;
   name: string;
   topicCount: number;
+  voteCount?: number;
   slug: string;
   parentCategoryId?: number;
   children?: Array<
@@ -3939,6 +3949,7 @@ export type GQLArenaTopicFragment = {
   id: number;
   locked: boolean;
   postCount: number;
+  voteCount: number;
   slug: string;
   timestamp: string;
   title: string;
@@ -4301,6 +4312,7 @@ export type GQLResources_ResourceFragment = {
   language?: string;
   relevanceId?: string;
   article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
+  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
@@ -4385,7 +4397,11 @@ export type GQLTopic_TopicFragment = {
       relevanceId?: string;
     } & GQLMultidisciplinaryArticleList_TopicFragment
   >;
-  meta?: { __typename?: "Meta"; metaDescription?: string; metaImage?: { __typename?: "MetaImage"; url: string } };
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
   contexts: Array<{
     __typename?: "TaxonomyContext";
     breadcrumbs: Array<string>;
@@ -4426,20 +4442,18 @@ export type GQLTopicWrapperQuery = {
 
 export type GQLTopicWrapper_SubjectFragment = { __typename?: "Subject" } & GQLTopic_SubjectFragment;
 
-export type GQLProgrammes_ProgrammePageFragment = {
-  __typename?: "ProgrammePage";
-  id: string;
-  url: string;
-  title: { __typename?: "Title"; title: string; language: string };
-};
-
 export type GQLFrontpageDataQueryVariables = Exact<{
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
 export type GQLFrontpageDataQuery = {
   __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage" } & GQLProgrammes_ProgrammePageFragment>;
+  programmes?: Array<{
+    __typename?: "ProgrammePage";
+    id: string;
+    url: string;
+    title: { __typename?: "Title"; title: string; language: string };
+  }>;
   frontpage?: {
     __typename?: "FrontpageMenu";
     articleId: number;

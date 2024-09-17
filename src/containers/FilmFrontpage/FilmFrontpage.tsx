@@ -59,6 +59,14 @@ const RadioButtonWrapper = styled("div", {
   },
 });
 
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
+});
+
 const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
   htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
 
@@ -128,8 +136,8 @@ const FilmFrontpage = () => {
             <Heading textStyle="heading.small" consumeCss asChild>
               <h2>{t("ndlaFilm.films")}</h2>
             </Heading>
-            <RadioGroupRoot
-              orientation="vertical"
+            <StyledRadioGroupRoot
+              orientation="horizontal"
               defaultValue={resourceTypeSelected?.id}
               onValueChange={(details) => onChangeResourceType(options.find((option) => option.id === details.value)!)}
             >
@@ -140,12 +148,12 @@ const FilmFrontpage = () => {
                 {options.map((category, index) => (
                   <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
                     <RadioGroupItemControl />
-                    <RadioGroupItemText fontWeight="bold">{t(category.name)}</RadioGroupItemText>
+                    <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
                   </RadioGroupItem>
                 ))}
               </RadioButtonWrapper>
-            </RadioGroupRoot>
+            </StyledRadioGroupRoot>
           </Wrapper>
           <FilmContent
             resourceTypeSelected={resourceTypeSelected}

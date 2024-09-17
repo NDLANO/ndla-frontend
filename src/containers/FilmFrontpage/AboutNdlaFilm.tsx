@@ -9,6 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  BleedPageContent,
   Button,
   DialogBody,
   DialogContent,
@@ -17,6 +18,7 @@ import {
   DialogTrigger,
   Heading,
   Image,
+  PageContent,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -25,43 +27,29 @@ import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
-// TODO: Awful black borders
 const StyledAside = styled("aside", {
   base: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr",
-    paddingInline: "medium",
-    gap: "small",
+    gap: "medium",
     tabletDown: {
       gridTemplateColumns: "1fr",
     },
   },
 });
 
-const StyledDiv = styled("div", {
+const StyledContent = styled("div", {
   base: {
-    padding: "small",
-    width: "100%",
-  },
-});
-
-const StyledHeading = styled(Heading, {
-  base: {
-    marginBottom: "medium",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    marginBottom: "xxlarge",
-    tabletDown: {
-      marginBottom: "0",
-    },
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    alignItems: "flex-start",
   },
 });
 
 const StyledIframe = styled("iframe", {
   base: {
+    aspectRatio: "16/9",
     height: "100%",
     width: "100%",
   },
@@ -78,7 +66,7 @@ interface VisualElementProps {
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
   if (type === "image") {
-    return <Image src={url} alt={alt ?? ""} />;
+    return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
     return <StyledIframe allowFullScreen={true} src={url} />;
   } else {
@@ -113,38 +101,42 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <StyledAside aria-labelledby={titleId}>
-      {aboutNDLAVideo?.visualElement && (
-        <StyledDiv>
-          <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
-        </StyledDiv>
-      )}
-      <StyledDiv>
-        <StyledHeading textStyle="title.large" id={titleId} asChild consumeCss>
-          <h2>{aboutNDLAVideo?.title}</h2>
-        </StyledHeading>
-        <StyledText asChild consumeCss>
-          <p>{aboutNDLAVideo?.description}</p>
-        </StyledText>
-        {transformedArticle && (
-          <DialogRoot size="full">
-            <DialogTrigger asChild>
-              <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                {/* TODO: Consider moving title up here? */}
-                <div />
-                <DialogCloseButton />
-              </DialogHeader>
-              <DialogBody>
-                <Article article={transformedArticle} oembed={undefined} />
-              </DialogBody>
-            </DialogContent>
-          </DialogRoot>
-        )}
-      </StyledDiv>
-    </StyledAside>
+    <BleedPageContent asChild>
+      <PageContent variant="article">
+        <StyledAside aria-labelledby={titleId}>
+          {aboutNDLAVideo?.visualElement && (
+            <StyledContent>
+              <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
+            </StyledContent>
+          )}
+          <StyledContent>
+            <Heading textStyle="title.large" id={titleId} asChild consumeCss>
+              <h2>{aboutNDLAVideo?.title}</h2>
+            </Heading>
+            <Text asChild consumeCss>
+              <p>{aboutNDLAVideo?.description}</p>
+            </Text>
+            {transformedArticle && (
+              <DialogRoot size="full">
+                <DialogTrigger asChild>
+                  <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    {/* TODO: Consider moving title up here? */}
+                    <div />
+                    <DialogCloseButton />
+                  </DialogHeader>
+                  <DialogBody>
+                    <Article article={transformedArticle} oembed={undefined} />
+                  </DialogBody>
+                </DialogContent>
+              </DialogRoot>
+            )}
+          </StyledContent>
+        </StyledAside>
+      </PageContent>
+    </BleedPageContent>
   );
 };
 
