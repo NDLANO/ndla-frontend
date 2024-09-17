@@ -25,7 +25,6 @@ import {
   PageContent,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import {
   ArticleContent,
@@ -51,14 +50,6 @@ import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmb
 interface RouteParams extends TypedParams {
   id: string;
 }
-
-const StyledPodcastSeriesWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
@@ -207,12 +198,10 @@ const PodcastSeriesPage = () => {
                 </ArticleHeader>
                 <ArticleContent>
                   {podcastSeries.content ? (
-                    <StyledPodcastSeriesWrapper>
-                      <Heading asChild consumeCss textStyle="title.medium">
-                        <h2>{t("podcastPage.episodes")}</h2>
-                      </Heading>
+                    <section>
+                      <h2>{t("podcastPage.episodes")}</h2>
                       {embeds}
-                    </StyledPodcastSeriesWrapper>
+                    </section>
                   ) : (
                     <Text>{t("podcastPage.noResults")}</Text>
                   )}
