@@ -10,7 +10,6 @@ import isEqual from "lodash/isEqual";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { HashTag } from "@ndla/icons/common";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -61,6 +60,20 @@ const TagsHeading = styled(Heading, {
 const SharedHeading = styled(Heading, {
   base: {
     marginBlock: "xsmall",
+  },
+});
+
+const TagSafeLink = styled(SafeLinkButton, {
+  base: {
+    color: "text.default",
+    background: "surface.action.myNdla",
+    boxShadowColor: "stroke.warning",
+    _hover: {
+      background: "surface.action.myNdla.hover",
+    },
+    _active: {
+      background: "surface.action.myNdla",
+    },
   },
 });
 
@@ -201,11 +214,9 @@ const FoldersPage = () => {
             <StyledUl>
               {tags?.map((tag) => (
                 <li key={tag}>
-                  {/* TODO: This should be updated according to design */}
-                  <SafeLinkButton variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
-                    <HashTag />
+                  <TagSafeLink variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
                     {tag}
-                  </SafeLinkButton>
+                  </TagSafeLink>
                 </li>
               ))}
             </StyledUl>
