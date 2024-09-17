@@ -41,8 +41,10 @@ export const AccessDeniedPage = () => {
 
   return (
     <Status code={statusCode}>
-      <PageContainer>
-        <AccessDenied />
+      <PageContainer asChild consumeCss>
+        <main>
+          <AccessDenied applySkipToContentId={true} />
+        </main>
       </PageContainer>
     </Status>
   );

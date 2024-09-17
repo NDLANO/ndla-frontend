@@ -45,8 +45,10 @@ export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) 
 export const DefaultErrorMessagePage = () => {
   return (
     <Status code={500}>
-      <PageContainer>
-        <DefaultErrorMessage applySkipToContentId={true} />
+      <PageContainer asChild consumeCss>
+        <main>
+          <DefaultErrorMessage applySkipToContentId={true} />
+        </main>
       </PageContainer>
     </Status>
   );

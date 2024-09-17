@@ -24,18 +24,20 @@ export const UnpublishedResourcePage = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
-      <PageContainer>
-        <HelmetWithTracker title={t("htmlTitles.unpublished")} />
-        <ErrorMessageRoot>
-          <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
-          <ErrorMessageContent>
-            <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
-            <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
-          </ErrorMessageContent>
-          <ErrorMessageActions>
-            <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
-          </ErrorMessageActions>
-        </ErrorMessageRoot>
+      <PageContainer asChild consumeCss>
+        <main>
+          <HelmetWithTracker title={t("htmlTitles.unpublished")} />
+          <ErrorMessageRoot>
+            <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+            <ErrorMessageContent>
+              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
+              <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
+            </ErrorMessageContent>
+            <ErrorMessageActions>
+              <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+            </ErrorMessageActions>
+          </ErrorMessageRoot>
+        </main>
       </PageContainer>
     </Status>
   );

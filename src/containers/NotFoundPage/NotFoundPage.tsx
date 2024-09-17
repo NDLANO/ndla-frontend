@@ -46,8 +46,10 @@ const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
 export const NotFoundPage = () => {
   return (
     <Status code={404}>
-      <PageContainer>
-        <NotFound applySkipToContentId={true} />
+      <PageContainer asChild consumeCss>
+        <main>
+          <NotFound applySkipToContentId={true} />
+        </main>
       </PageContainer>
     </Status>
   );
