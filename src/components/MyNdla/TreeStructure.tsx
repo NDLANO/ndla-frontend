@@ -266,7 +266,7 @@ export const TreeStructure = ({
         </LabelHStack>
         <PopoverRoot
           open={open}
-          positioning={{ sameWidth: true }}
+          positioning={{ sameWidth: true, strategy: "fixed" }}
           onOpenChange={onOpenChange}
           persistentElements={[() => newFolderButtonRef.current]}
           initialFocusEl={() => contentRef.current?.querySelector("input") ?? null}
