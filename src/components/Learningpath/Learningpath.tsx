@@ -226,7 +226,7 @@ const Learningpath = ({
           </MetaWrapper>
           <StyledAccordionRoot
             ref={accordionRef}
-            key={learningpathStep.id}
+            id={learningpathStep.id.toString()}
             value={accordionValue}
             onValueChange={(details) => setAccordionValue(details.value)}
             variant="bordered"
