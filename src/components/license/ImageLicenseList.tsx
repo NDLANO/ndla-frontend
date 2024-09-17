@@ -15,6 +15,7 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -44,9 +45,10 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
+  embedPage?: boolean;
 }
 
-const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
+const ImageLicenseInfo = ({ image, embedPage }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
@@ -113,6 +115,7 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
+        {!embedPage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
@@ -158,14 +161,15 @@ const ImageLicenseInfo = ({ image }: ImageLicenseInfoProps) => {
 
 interface Props {
   images: GQLImageLicenseList_ImageLicenseFragment[];
+  embedPage?: boolean;
 }
 
-const ImageLicenseList = ({ images }: Props) => {
+const ImageLicenseList = ({ images, embedPage }: Props) => {
   const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <MediaList>
       {unique.map((image, index) => (
-        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} />
+        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} embedPage={embedPage} />
       ))}
     </MediaList>
   );
