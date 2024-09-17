@@ -38,16 +38,7 @@ export default defineConfig(() => {
       },
     },
     resolve: {
-      dedupe: [
-        "react-router",
-        "react-router-dom",
-        "react-helmet-async",
-        "i18next",
-        "react-i18next",
-        "@emotion/react",
-        "@emotion/styled",
-        "@ark-ui/react",
-      ],
+      dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next", "@ark-ui/react"],
     },
   };
 });
