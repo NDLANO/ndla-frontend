@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
+import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -116,7 +116,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             />
             {shouldShowLink && (
               <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                <ShareBoxLine />
+                <ExternalLinkLine />
                 {t("license.openLink")}
               </SafeLinkButton>
             )}
