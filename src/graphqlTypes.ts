@@ -2306,11 +2306,6 @@ export type GQLLearningpath_LearningpathStepFragment = {
 } & GQLLearningpathEmbed_LearningpathStepFragment &
   GQLLearningpathMenu_LearningpathStepFragment;
 
-export type GQLLearningpath_ResourceFragment = {
-  __typename?: "Resource";
-  path: string;
-} & GQLLearningpathMenu_ResourceFragment;
-
 export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
 } & GQLLearningpathMenu_LearningpathFragment;
@@ -2382,13 +2377,7 @@ export type GQLLearningpathMenu_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
   id: number;
   seqNo: number;
-  showTitle: boolean;
-  title: string;
-  description?: string;
-  license?: { __typename?: "License"; license: string };
 };
-
-export type GQLLearningpathMenu_ResourceFragment = { __typename?: "Resource"; id: string; path: string };
 
 export type GQLSubjectLinks_SubjectPageFragment = {
   __typename?: "SubjectPage";
@@ -2736,6 +2725,7 @@ export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
 export type GQLLearningpathPage_ResourceFragment = {
   __typename?: "Resource";
   id: string;
+  path: string;
   learningpath?: {
     __typename?: "Learningpath";
     supportedLanguages: Array<string>;
@@ -2744,7 +2734,7 @@ export type GQLLearningpathPage_ResourceFragment = {
     coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
     learningsteps: Array<{ __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
-} & GQLLearningpath_ResourceFragment;
+};
 
 export type GQLMastHeadQueryVariables = Exact<{
   subjectId: Scalars["String"]["input"];

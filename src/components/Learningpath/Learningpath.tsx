@@ -41,7 +41,6 @@ import { MastheadHeightPx } from "../../constants";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
@@ -60,9 +59,9 @@ interface Props {
   topicPath?: TopicPath[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
-  resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
+  resourcePath?: string;
 }
 
 const StyledPageContainer = styled(PageContainer, {
@@ -173,7 +172,7 @@ const BreadcrumbWrapper = styled("div", {
 const Learningpath = ({
   learningpath,
   learningpathStep,
-  resource,
+  resourcePath,
   topic,
   subject,
   topicPath,
@@ -190,8 +189,8 @@ const Learningpath = ({
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
   const menu = useMemo(
-    () => <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />,
-    [learningpath, learningpathStep, resource],
+    () => <LearningpathMenu resourcePath={resourcePath} learningpath={learningpath} currentStep={learningpathStep} />,
+    [learningpath, learningpathStep, resourcePath],
   );
 
   return (
@@ -206,15 +205,15 @@ const Learningpath = ({
           <MetaWrapper data-testid="learningpath-meta">
             <ContentTypeWrapper>
               <ContentTypeBadgeNew contentType="learning-path" />
-              {!!resource?.path && (
+              {!!resourcePath && (
                 <AddResourceToFolderModal
                   resource={{
                     id: learningpath.id.toString(),
-                    path: resource.path,
+                    path: resourcePath,
                     resourceType: "learningpath",
                   }}
                 >
-                  <FavoriteButton path={resource.path} />
+                  <FavoriteButton path={resourcePath} />
                 </AddResourceToFolderModal>
               )}
             </ContentTypeWrapper>
@@ -291,7 +290,7 @@ const Learningpath = ({
             <PageButtonsContainer>
               {previousStep ? (
                 <SafeLinkButton
-                  to={toLearningPath(learningpath.id, previousStep.id, resource)}
+                  to={toLearningPath(learningpath.id, previousStep.id, resourcePath)}
                   variant="secondary"
                   aria-label={t("learningPath.previousArrow")}
                 >
@@ -303,7 +302,7 @@ const Learningpath = ({
               )}
               {nextStep ? (
                 <SafeLinkButton
-                  to={toLearningPath(learningpath.id, nextStep.id, resource)}
+                  to={toLearningPath(learningpath.id, nextStep.id, resourcePath)}
                   variant="secondary"
                   aria-label={t("learningPath.nextArrow")}
                 >
@@ -356,13 +355,6 @@ Learningpath.fragments = {
     }
     ${LearningpathMenu.fragments.step}
     ${LearningpathEmbed.fragments.learningpathStep}
-  `,
-  resource: gql`
-    fragment Learningpath_Resource on Resource {
-      path
-      ...LearningpathMenu_Resource
-    }
-    ${LearningpathMenu.fragments.resource}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

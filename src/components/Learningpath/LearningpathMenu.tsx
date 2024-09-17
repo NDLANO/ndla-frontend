@@ -16,12 +16,11 @@ import { ArticleByline } from "@ndla/ui";
 import {
   GQLLearningpathMenu_LearningpathFragment,
   GQLLearningpathMenu_LearningpathStepFragment,
-  GQLLearningpathMenu_ResourceFragment,
 } from "../../graphqlTypes";
 import { toLearningPath } from "../../routeHelpers";
 
 interface Props {
-  resource: GQLLearningpathMenu_ResourceFragment | undefined;
+  resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
 }
@@ -141,7 +140,7 @@ const ListItem = styled("li", {
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
 
@@ -175,7 +174,7 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
           {learningpath.learningsteps.map((step, index) => (
             <ListItem key={step.id}>
               <StyledSafeLink
-                to={toLearningPath(learningpath.id, step.id, resource)}
+                to={toLearningPath(learningpath.id, step.id, resourcePath)}
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
@@ -225,12 +224,6 @@ LearningpathMenu.fragments = {
     fragment LearningpathMenu_LearningpathStep on LearningpathStep {
       id
       seqNo
-    }
-  `,
-  resource: gql`
-    fragment LearningpathMenu_Resource on Resource {
-      id
-      path
     }
   `,
 };
