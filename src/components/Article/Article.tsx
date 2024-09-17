@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { gql } from "@apollo/client";
 import { Article as UIArticle } from "@ndla/ui";
 import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
@@ -21,7 +21,7 @@ interface Props {
   id?: string;
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   isTopicArticle?: boolean;
-  children?: ReactElement;
+  children?: ReactNode;
   contentType?: string;
   printUrl?: string;
   subjectId?: string;

@@ -105,9 +105,9 @@ type Resource = {
   id: string;
 };
 
-export function toLearningPath(pathId?: string | number, stepId?: string | number, resource?: Pick<Resource, "path">) {
-  if (resource) {
-    return stepId ? `${resource.path}/${stepId}` : resource.path;
+export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string) {
+  if (resourcePath) {
+    return stepId ? `${resourcePath}/${stepId}` : resourcePath;
   }
   if (pathId && stepId) {
     return `${LEARNINGPATHS}/${pathId}/steps/${stepId}`;

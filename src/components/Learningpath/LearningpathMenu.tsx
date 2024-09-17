@@ -6,139 +6,143 @@
  *
  */
 
-import { CSSProperties, useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, misc, spacing, stackOrder } from "@ndla/core";
 import { CheckLine } from "@ndla/icons/editor";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
-import { ArticleByline, ContentTypeBadge, constants } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArticleByline } from "@ndla/ui";
 import {
   GQLLearningpathMenu_LearningpathFragment,
   GQLLearningpathMenu_LearningpathStepFragment,
-  GQLLearningpathMenu_ResourceFragment,
 } from "../../graphqlTypes";
 import { toLearningPath } from "../../routeHelpers";
-import { getContentType } from "../../util/getContentType";
-import FavoriteButton from "../Article/FavoritesButton";
-import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
-
-const { contentTypes } = constants;
 
 interface Props {
-  resource: GQLLearningpathMenu_ResourceFragment | undefined;
+  resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
 }
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
+const StepperList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StepperList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  padding: 0;
-  list-style: none;
-`;
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    position: "relative",
+    zIndex: "1",
+    gap: "xxsmall",
+    textStyle: "body.link",
+    _hover: {
+      "& [data-indicator]": {
+        background: "surface.actionSubtle.hover",
+      },
+    },
+    _active: {
+      "& [data-indicator]": {
+        background: "surface.actionSubtle.hover.strong",
+      },
+    },
+    _currentPage: {
+      "& [data-indicator]": {
+        background: "surface.actionSubtle.active",
+      },
+    },
+    "& [data-link-text]": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+    },
+  },
+});
 
-const StepperListItem = styled.li`
-  padding: 0;
-  margin: 0;
-  padding-left: ${spacing.small};
-  &:has([aria-current="page"]) {
-    background-color: ${colors.white};
-  }
-`;
+const StyledNav = styled("nav", {
+  base: {
+    position: "relative",
+  },
+});
 
-const StyledSafeLink = styled(SafeLink)`
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-  gap: ${spacing.nsmall};
-  color: ${colors.brand.primary};
-  padding: ${spacing.small} 0px;
-  box-shadow: none;
-  &:hover,
-  &:focus-within {
-    text-decoration: underline;
-    text-underline-offset: 5px;
-  }
+const Track = styled("div", {
+  base: {
+    position: "absolute",
+    height: "100%",
+    width: "1px",
+    background: "stroke.default",
+    left: "xsmall",
+  },
+});
 
-  &:not([data-last="true"]) {
-    &::after {
-      content: "";
-      top: 50%;
-      position: absolute;
-      height: 100%;
-      width: var(--width);
-      background-color: var(--color);
-      left: calc((${spacing.mediumlarge} / 2) - (var(--width) / 2));
-      z-index: ${stackOrder.offsetSingle};
-    }
-  }
-`;
+const StepIndicatorWrapper = styled("div", {
+  base: {
+    minHeight: "xlarge",
+    height: "100%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    background: "background.default",
+    desktop: {
+      background: "background.subtle",
+    },
+  },
+});
 
-const ContentTypeBadgeWrapper = styled.div`
-  position: relative;
-`;
+const StepIndicator = styled("div", {
+  base: {
+    background: "background.default",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "full",
+    width: "medium",
+    height: "medium",
+    border: "1px solid",
+    borderColor: "stroke.default",
+    flexShrink: "0",
+    transitionProperty: "background",
+    transitionDuration: "fast",
+    transitionTimingFunction: "default",
+    desktop: {
+      background: "background.subtle",
+    },
+    "&[data-completed='true']": {
+      background: "surface.brand.3.moderate",
+    },
+  },
+});
 
-const StyledContentTypeBadge = styled(ContentTypeBadge)`
-  position: relative;
-  min-width: ${spacing.mediumlarge};
-  max-width: ${spacing.mediumlarge};
-  min-height: ${spacing.mediumlarge};
-  max-height: ${spacing.mediumlarge};
-  z-index: ${stackOrder.offsetDouble};
-`;
-
-const StyledRead = styled(CheckLine)`
-  position: absolute;
-  z-index: ${stackOrder.offsetDouble};
-  right: -${spacing.xsmall};
-  top: -2px;
-  background-color: ${colors.brand.secondary};
-  color: ${colors.white};
-  border-radius: ${misc.borderRadiusLarge};
-  padding: 2px;
-  min-width: ${spacing.nsmall};
-  min-height: ${spacing.nsmall};
-`;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  max-width: 300px;
-  min-width: 300px;
-  padding-top: ${spacing.normal};
-  padding-right: ${spacing.small};
-`;
-
-const LearningpathText = styled(Text)`
-  color: ${colors.text.light};
-  text-transform: uppercase;
-`;
-
-const StyledText = styled(Text)`
-  top: 50%;
-  left: 150%;
-`;
+const ListItem = styled("li", {
+  base: {
+    position: "relative",
+    _last: {
+      _after: {
+        content: '""',
+        background: "background.default",
+        position: "absolute",
+        bottom: "0",
+        width: "100%",
+        height: "50%",
+        desktop: {
+          background: "background.subtle",
+        },
+      },
+    },
+  },
+});
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const getResourceType = (resource?: GQLLearningpathMenu_LearningpathFragment["learningsteps"][0]["resource"]) =>
-  resource ? getContentType(resource) ?? contentTypes.LEARNING_PATH : contentTypes.LEARNING_PATH;
-
-const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
-  const headingId = useId();
 
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
 
@@ -163,61 +167,35 @@ const LearningpathMenu = ({ resource, learningpath, currentStep }: Props) => {
   }, [currentStep.id]);
 
   return (
-    <MenuWrapper>
-      <LearningpathText margin="none" textStyle="meta-text-small">
-        {t("learningPath.youAreInALearningPath")}
-      </LearningpathText>
-      <HeaderWrapper>
-        <Heading element="h1" headingStyle="h4" margin="none" id={headingId}>
-          {learningpath.title}
-        </Heading>
-        {!!resource?.path && (
-          <AddResourceToFolderModal
-            resource={{
-              id: learningpath.id.toString(),
-              path: resource.path,
-              resourceType: "learningpath",
-            }}
-          >
-            <FavoriteButton path={resource.path} />
-          </AddResourceToFolderModal>
-        )}
-      </HeaderWrapper>
-      <nav aria-describedby={headingId}>
+    <>
+      <StyledNav aria-label={t("learningpathPage.learningsteps")}>
+        <Track />
         <StepperList>
           {learningpath.learningsteps.map((step, index) => (
-            <StepperListItem
-              key={step.id}
-              style={
-                {
-                  "--width": index >= currentStep.seqNo ? "2px" : "4px",
-                  "--color": index >= currentStep.seqNo ? colors.brand.greyLighter : colors.text.primary,
-                } as CSSProperties
-              }
-            >
+            <ListItem key={step.id}>
               <StyledSafeLink
-                to={toLearningPath(learningpath.id, step.id, resource)}
+                to={toLearningPath(learningpath.id, step.id, resourcePath)}
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
+                aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
-                <ContentTypeBadgeWrapper>
-                  <StyledContentTypeBadge background type={getResourceType(step.resource)} />
-                  {viewedSteps[step.id] && <StyledRead size="small" />}
-                </ContentTypeBadgeWrapper>
-                <StyledText element="span" margin="none" textStyle="meta-text-small">
-                  {step.title}
-                </StyledText>
+                <StepIndicatorWrapper>
+                  <StepIndicator data-indicator="" data-completed={!!viewedSteps[step.id]} aria-hidden>
+                    {viewedSteps[step.id] ? <CheckLine size="small" /> : index + 1}
+                  </StepIndicator>
+                </StepIndicatorWrapper>
+                <span data-link-text="">{step.title}</span>
               </StyledSafeLink>
-            </StepperListItem>
+            </ListItem>
           ))}
         </StepperList>
-      </nav>
+      </StyledNav>
       <ArticleByline
         authors={learningpath.copyright.contributors}
         published={lastUpdatedString}
         bylineType="learningPath"
       />
-    </MenuWrapper>
+    </>
   );
 };
 
@@ -239,13 +217,6 @@ LearningpathMenu.fragments = {
       learningsteps {
         id
         title
-        resource {
-          id
-          resourceTypes {
-            id
-            name
-          }
-        }
       }
     }
   `,
@@ -253,18 +224,6 @@ LearningpathMenu.fragments = {
     fragment LearningpathMenu_LearningpathStep on LearningpathStep {
       id
       seqNo
-      showTitle
-      title
-      description
-      license {
-        license
-      }
-    }
-  `,
-  resource: gql`
-    fragment LearningpathMenu_Resource on Resource {
-      id
-      path
     }
   `,
 };

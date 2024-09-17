@@ -274,6 +274,7 @@ export const structuredArticleDataFragment = gql`
     }
     metaImage {
       url
+      alt
     }
     availability
     competenceGoals {

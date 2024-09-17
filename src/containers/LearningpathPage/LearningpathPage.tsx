@@ -124,7 +124,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        resource={resource}
+        resourcePath={resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
@@ -181,7 +181,7 @@ export const learningpathPageFragments = {
   resource: gql`
     fragment LearningpathPage_Resource on Resource {
       id
-      ...Learningpath_Resource
+      path
       learningpath {
         supportedLanguages
         tags
@@ -199,7 +199,6 @@ export const learningpathPageFragments = {
     }
     ${Learningpath.fragments.learningpathStep}
     ${Learningpath.fragments.learningpath}
-    ${Learningpath.fragments.resource}
   `,
 };
 
