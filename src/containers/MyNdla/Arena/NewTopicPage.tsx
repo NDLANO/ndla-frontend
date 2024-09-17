@@ -9,8 +9,8 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory, useArenaCreateTopic } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -76,9 +76,7 @@ export const NewTopicPage = () => {
       <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       <HelmetWithTracker title={t("htmlTitles.arenaNewTopicPage")} />
       <ArenaFormWrapper>
-        <Heading element="h1" headingStyle="h1-resource" margin="none">
-          {t("myNdla.arena.new.topic")}
-        </Heading>
+        <Heading textStyle="heading.medium">{t("myNdla.arena.new.topic")}</Heading>
         <ArenaForm onAbort={onAbort} type="topic" onSave={onSave} />
       </ArenaFormWrapper>
     </MyNdlaPageWrapper>
