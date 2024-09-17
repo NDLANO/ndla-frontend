@@ -153,7 +153,7 @@ const ListResource = ({
     <ListItemRoot id={id} variant={variant}>
       <ImageComponent
         src={resourceImage.src}
-        alt={resourceImage.alt}
+        alt=""
         fallbackWidth={imageType === "compact" ? 56 : 136}
         // Hide image borders when no image is present. We still want it to take up space
         css={{ "&[src='']": { opacity: "0" } }}

@@ -78,7 +78,7 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
+        {item.img && <CardImage alt="" height={200} src={item.img.url} />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>

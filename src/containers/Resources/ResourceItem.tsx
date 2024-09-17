@@ -146,7 +146,7 @@ export const ResourceItem = ({
           <TitleWrapper>
             <ListItemImage
               src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
-              alt={article?.metaImage?.alt ?? ""}
+              alt=""
               sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
               css={{ "&[src='']": { opacity: "0" } }}
             />
