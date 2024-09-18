@@ -272,6 +272,7 @@ const Learningpath = ({
               </EmbedPageContent>
             )}
             <LearningpathEmbed
+              key={learningpathStep.id}
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
               subjectId={subject?.id}
               learningpathStep={learningpathStep}
