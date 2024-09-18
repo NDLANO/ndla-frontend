@@ -107,7 +107,7 @@ const MenuWrapper = styled("div", {
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
+    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
