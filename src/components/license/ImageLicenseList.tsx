@@ -45,10 +45,10 @@ export const downloadUrl = (imageSrc: string) => {
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
-  resourcePage?: boolean;
+  isResourcePage?: boolean;
 }
 
-const ImageLicenseInfo = ({ image, resourcePage }: ImageLicenseInfoProps) => {
+const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
@@ -115,7 +115,7 @@ const ImageLicenseInfo = ({ image, resourcePage }: ImageLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
-        {!resourcePage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
+        {!isResourcePage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
         {!isCopyrighted(image.copyright.license.license) && (
           <MediaListItemActions>
             <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
@@ -161,15 +161,15 @@ const ImageLicenseInfo = ({ image, resourcePage }: ImageLicenseInfoProps) => {
 
 interface Props {
   images: GQLImageLicenseList_ImageLicenseFragment[];
-  resourcePage?: boolean;
+  isResourcePage?: boolean;
 }
 
-const ImageLicenseList = ({ images, resourcePage }: Props) => {
+const ImageLicenseList = ({ images, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <MediaList>
       {unique.map((image, index) => (
-        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} resourcePage={resourcePage} />
+        <ImageLicenseInfo image={image} key={`${image.id}-${index}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );
