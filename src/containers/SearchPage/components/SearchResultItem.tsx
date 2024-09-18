@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import { Additional, Core } from "@ndla/icons/common";
 import {
   Button,
   CardContent,
@@ -116,8 +115,6 @@ const SearchResultItem = ({ item, type }: Props) => {
                               aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
                             >
                               {context.breadcrumb.join(" › ")}
-                              &nbsp;
-                              {context.isAdditional ? <Additional /> : <Core />}
                             </Text>
                           </li>
                         ))}
