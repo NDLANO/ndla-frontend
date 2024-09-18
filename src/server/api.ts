@@ -182,8 +182,6 @@ router.post("/lti/oauth", async (req, res) => {
   },
 );
 
-router.get("/favicon.ico");
-
 router.get("/*/search/apachesolr_search*", (_, res) => {
   sendResponse(res, undefined, 410);
 });

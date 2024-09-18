@@ -15,10 +15,6 @@
       "destination": "build/public/static/$1"
     },
     {
-      "source": "/favicon.ico",
-      "destination": "build/public/favicon.ico"
-    },
-    {
       "source": "/(.*)",
       "destination": "/build/server.mjs"
     }
@@ -26,15 +22,6 @@
   "headers": [
     {
       "source": "/static/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=86400"
-        }
-      ]
-    },
-    {
-      "source": "/favicon.ico",
       "headers": [
         {
           "key": "Cache-Control",
