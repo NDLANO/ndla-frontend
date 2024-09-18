@@ -37,6 +37,12 @@ const HeadingWrapper = styled("div", {
   },
 });
 
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const StyledList = styled("ul", {
   base: {
     display: "grid",
@@ -198,9 +204,9 @@ const WelcomePage = () => {
         <StyledPageContainer asChild consumeCss>
           <main>
             <HeadingWrapper>
-              <Heading asChild consumeCss textStyle="heading.large" id="programmes-heading">
+              <StyledHeading asChild consumeCss textStyle="heading.large" id="programmes-heading">
                 <h2>{t("programmes.header")}</h2>
-              </Heading>
+              </StyledHeading>
               <Text textStyle="title.medium" fontWeight="normal">
                 {t("programmes.description")}
               </Text>
