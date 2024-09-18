@@ -14,6 +14,7 @@ import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
 import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -35,9 +36,10 @@ import {
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
+  isResourcePage?: boolean;
 }
 
-const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
+const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
@@ -87,6 +89,7 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
+        {video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
@@ -134,14 +137,15 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
 interface Props {
   videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const VideoLicenseList = ({ videos }: Props) => {
+const VideoLicenseList = ({ videos, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <MediaList>
       {unique.map((video) => (
-        <VideoLicenseInfo video={video} key={`video-${video.id}`} />
+        <VideoLicenseInfo video={video} key={`video-${video.id}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );
