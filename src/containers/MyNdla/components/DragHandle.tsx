@@ -24,6 +24,9 @@ const StyledDragHandle = styled(IconButton, {
     _disabled: {
       display: "none",
     },
+    tabletDown: {
+      display: "none",
+    },
   },
 });
 
