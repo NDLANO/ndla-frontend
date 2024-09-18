@@ -218,7 +218,7 @@ const SharedFolderPage = () => {
                   link={getResourceMetaPath(resource, resourceMeta)}
                   resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
                   title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                  description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+                  description={resourceMeta?.description ?? ""}
                 />
               </li>
             ) : null;

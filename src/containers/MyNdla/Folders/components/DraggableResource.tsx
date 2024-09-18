@@ -241,7 +241,7 @@ const DraggableResource = ({
           link={resourcePath}
           resourceTypes={resourceTypes}
           title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
-          description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+          description={resourceMeta?.description ?? ""}
           menu={menu}
         />
       </DragWrapper>

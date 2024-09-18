@@ -162,7 +162,7 @@ const Resources = ({ resources }: ResourcesProps) => {
               key={resource.id}
               link={resource.path}
               title={meta?.title ?? ""}
-              description={viewType !== "list" ? meta?.description ?? "" : undefined}
+              description={meta?.description ?? ""}
               resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
               resourceImage={{
                 src: meta?.metaImage?.url ?? "",
