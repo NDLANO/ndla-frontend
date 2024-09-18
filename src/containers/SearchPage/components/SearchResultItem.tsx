@@ -46,12 +46,9 @@ const LtiWrapper = styled("div", {
   },
 });
 
-// TODO: Should this styling be updated?
 const StyledButton = styled(Button, {
   base: {
     position: "relative",
-    minHeight: "0",
-    paddingBlock: "0",
     marginInlineStart: "4xsmall",
   },
 });
@@ -82,11 +79,7 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img ? (
-          <CardImage alt={item.img.alt} height={200} src={item.img.url} />
-        ) : (
-          <ListItemImageFallback iconSize="xxlarge" />
-        )}
+        {item.img ? <CardImage alt="" height={200} src={item.img.url} /> : <ListItemImageFallback iconSize="xxlarge" />}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>

@@ -9,7 +9,7 @@
 import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationOutline } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
   FieldErrorMessage,
@@ -23,9 +23,10 @@ import {
   CheckboxLabel,
   CheckboxRoot,
   Button,
+  MessageBox,
+  Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
-import { Text } from "@ndla/typography";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import AlertModal from "./AlertModal";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import config from "../../../../config";
@@ -37,7 +38,7 @@ const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/
 export const ArenaFormWrapper = styled("div", {
   base: {
     border: "1px solid",
-    borderColor: "stroke.default",
+    borderColor: "stroke.info",
     borderRadius: "xsmall",
     display: "flex",
     flexDirection: "column",
@@ -50,30 +51,14 @@ const StyledForm = styled("form", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "medium",
   },
 });
 
-const ButtonRow = styled("div", {
+const StyledMessageBox = styled(MessageBox, {
   base: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: "xxsmall",
-  },
-});
-
-const InformationLabel = styled("div", {
-  base: {
     alignItems: "center",
-    display: "flex",
-    gap: "xxsmall",
-  },
-});
-
-const StyledInformationOutline = styled(InformationLine, {
-  base: {
-    overflow: "unset",
   },
 });
 
@@ -146,7 +131,9 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           }}
           render={({ field, fieldState }) => (
             <FieldRoot required invalid={!!fieldState.error?.message}>
-              <FieldLabel>{t("title")}</FieldLabel>
+              <FieldLabel textStyle="label.large" fontWeight="bold">
+                {t("title")}
+              </FieldLabel>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <FieldInput {...field} />
               <FieldLength value={field.value.length ?? 0} maxLength={titleMaxLength} />
@@ -184,9 +171,10 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
                     shouldDirty: true,
                   });
                 }}
-                initialValue={initialContent ?? ""}
+                initialValue={initialContent ?? "<p></p>"}
                 {...field}
               />
+              <FieldLength value={field.value.length ?? 0} maxLength={contentMaxLength} />
             </Suspense>
           </FieldRoot>
         )}
@@ -220,16 +208,14 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           )}
         />
       )}
-      <InformationLabel>
-        <StyledInformationOutline size="small" />
-        <Text margin="none" textStyle="content">
-          {t(`myNdla.arena.warning.${type}`)}
-        </Text>
-      </InformationLabel>
-      <ButtonRow>
+      <StyledMessageBox variant="info">
+        <InformationOutline />
+        <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
+      </StyledMessageBox>
+      <HStack gap="xsmall" justify="flex-end">
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <Button type="submit">{t("myNdla.arena.publish")}</Button>
-      </ButtonRow>
+      </HStack>
     </StyledForm>
   );
 };

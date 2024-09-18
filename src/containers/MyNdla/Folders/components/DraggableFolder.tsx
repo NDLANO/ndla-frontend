@@ -34,6 +34,13 @@ export const DraggableListItem = styled("li", {
     alignItems: "center",
     gap: "xxsmall",
   },
+  variants: {
+    isDragging: {
+      true: {
+        zIndex: "docked",
+      },
+    },
+  },
 });
 
 export const DragWrapper = styled("div", {
@@ -74,7 +81,7 @@ const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, fol
   );
 
   return (
-    <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} data-is-dragging={isDragging}>
+    <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
       {!isFavorited && (
         <DragHandle
           sortableId={folder.id}

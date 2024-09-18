@@ -14,7 +14,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("menu is displayed", async ({ page }) => {
-  await page.getByTestId("accordion-header").click();
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
   await mockWaitResponse(page, "**/graphql-api/graphql");
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();

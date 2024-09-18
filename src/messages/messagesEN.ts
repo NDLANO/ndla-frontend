@@ -57,6 +57,7 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
   },
   myndla: {
+    tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbot",
       linkText: "Try NDLAs chatbots",
@@ -176,6 +177,17 @@ const messages = {
   },
   aboutPage: {
     nav: "Information pages",
+  },
+  subjectPage: {
+    topicsTitle: "Topics in {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Programmes",
+  },
+  learningpathPage: {
+    accordionTitle: "Learning path content",
+    learningsteps: "Steps",
+    stepCompleted: "Completed",
   },
 };
 

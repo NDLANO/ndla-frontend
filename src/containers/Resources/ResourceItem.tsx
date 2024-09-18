@@ -121,7 +121,7 @@ export const ResourceItem = ({
   const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
   const teacherOnly = access === "teacher";
-  const contentTypeDescription = additional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic");
+  const additionalLabel = t("resource.tooltipAdditionalTopic");
 
   const describedBy = useMemo(() => {
     const elements = [];
@@ -149,7 +149,7 @@ export const ResourceItem = ({
             (learningpath && learningpath?.coverphoto?.url !== undefined) ? (
               <ListItemImage
                 src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
-                alt={article?.metaImage?.alt ?? ""}
+                alt=""
                 sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
               />
             ) : (
@@ -179,7 +179,7 @@ export const ResourceItem = ({
               />
             )}
             <ContentTypeBadgeNew contentType={contentType} />
-            {!!showAdditionalResources && <Badge id={relevanceElId}>{contentTypeDescription}</Badge>}
+            {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
       </ListItemRoot>

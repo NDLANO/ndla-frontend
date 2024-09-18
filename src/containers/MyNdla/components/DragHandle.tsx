@@ -21,11 +21,6 @@ interface Props extends Omit<IconButtonProps, "type"> {
 const StyledDragHandle = styled(IconButton, {
   base: {
     touchAction: "none",
-    tablet: {
-      left: "-4xsmall",
-      position: "absolute",
-      translate: "-100%",
-    },
     _disabled: {
       display: "none",
     },

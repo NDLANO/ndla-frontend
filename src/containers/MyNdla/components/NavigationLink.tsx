@@ -20,6 +20,8 @@ const StyledSafeLink = styled(SafeLinkButton, {
     fontWeight: "normal",
     paddingInline: "xsmall",
     height: "100%",
+    boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+    boxShadowColor: "transparent",
     desktopDown: {
       flexDirection: "column",
       textStyle: "label.xsmall",
@@ -29,6 +31,16 @@ const StyledSafeLink = styled(SafeLinkButton, {
     },
     _currentPage: {
       fontWeight: "bold",
+    },
+    _hover: {
+      background: "surface.action.myNdla.hover",
+      boxShadowColor: "stroke.warning",
+    },
+    _active: {
+      background: "surface.action.myNdla",
+    },
+    _focusVisible: {
+      boxShadowColor: "stroke.default",
     },
   },
 });

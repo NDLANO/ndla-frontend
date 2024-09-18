@@ -26,12 +26,11 @@ import {
 import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister, $findMatchingParent } from "@lexical/utils";
-import { colors, misc, shadows, spacing, stackOrder } from "@ndla/core";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
@@ -39,41 +38,35 @@ const HORIZONTAL_OFFSET = 5;
 
 export const ADD_LINK_COMMAND: LexicalCommand<null> = createCommand();
 
-const FloatingContainer = styled.div`
-  position: absolute;
-  z-index: ${stackOrder.popover};
-  display: none;
-  align-items: end;
-  gap: ${spacing.small};
-  background-color: ${colors.white};
-  border: 1px solid ${colors.brand.greyLight};
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
-  box-shadow: ${shadows.levitate1};
-  &[data-visible="true"] {
-    display: flex;
-    flex-direction: column;
-    transform: translate(0, 40px);
-  }
-`;
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const ButtonWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  gap: ${spacing.small};
-  > button {
-    flex: 1;
-  }
-`;
+const FloatingContainer = styled("div", {
+  base: {
+    position: "absolute",
+    zIndex: "popover",
+    display: "none",
+    alignItems: "end",
+    gap: "xsmall",
+    backgroundColor: "surface.default",
+    border: "1px solid",
+    borderColor: "stroke.info",
+    borderRadius: "xsmall",
+    padding: "xsmall",
 
-const StyledFieldErrorMessage = styled(FieldErrorMessage)`
-  &[data-disabled="true"] {
-    color: ${colors.black};
-  }
-`;
+    "&[data-visible='true']": {
+      display: "flex",
+      flexDirection: "column",
+      transform: "translate(0, -100px)",
+    },
+  },
+});
+
+const ButtonRow = styled("div", {
+  base: {
+    width: "100%",
+    gap: "xsmall",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+  },
+});
 
 export const setFloatingElemPositionForLinkEditor = (
   targetRect: DOMRect | null,
@@ -396,10 +389,10 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
 
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
-      <InputWrapper>
+      <Stack>
         <FieldRoot required invalid={!!textError}>
           <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
-          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
+          <FieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</FieldErrorMessage>
           <FieldInput
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
@@ -415,7 +408,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
         </FieldRoot>
         <FieldRoot required invalid={!!urlError}>
           <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
-          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
+          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</FieldErrorMessage>
           <FieldInput
             name="url"
             ref={inputRef}
@@ -429,15 +422,15 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
             }}
           />
         </FieldRoot>
-      </InputWrapper>
-      <ButtonWrapper>
+      </Stack>
+      <ButtonRow>
         <Button variant="secondary" onClick={handleLinkDeletion} disabled={!editedLinkElement}>
           {t("myNdla.resource.remove")}
         </Button>
         <Button variant="primary" onClick={handleLinkSubmission} disabled={!isDirty || !!urlError}>
           {t("save")}
         </Button>
-      </ButtonWrapper>
+      </ButtonRow>
     </FloatingContainer>
   ) : null;
 };

@@ -10,6 +10,7 @@ import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import AudioLicenseList from "./AudioLicenseList";
 import ConceptLicenseList, { GlossLicenseList } from "./ConceptLicenseList";
 import H5pLicenseList from "./H5pLicenseList";
@@ -19,6 +20,12 @@ import PodcastLicenseList from "./PodcastLicenseList";
 import TextLicenseList, { TextItem } from "./TextLicenseList";
 import VideoLicenseList from "./VideoLicenseList";
 import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
+
+const StyledTabsContent = styled(TabsContent, {
+  base: {
+    paddingBlockEnd: "medium",
+  },
+});
 
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
@@ -153,9 +160,9 @@ const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
         <TabsIndicator />
       </TabsList>
       {tabs.map((tab) => (
-        <TabsContent key={tab.id} value={tab.id}>
+        <StyledTabsContent key={tab.id} value={tab.id}>
           {tab.content}
-        </TabsContent>
+        </StyledTabsContent>
       ))}
     </TabsRoot>
   );

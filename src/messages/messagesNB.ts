@@ -57,6 +57,7 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv vår praterobot",
       linkText: "Prøv NDLAs prateroboter",
@@ -174,8 +175,19 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
   },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
   },
 };
 

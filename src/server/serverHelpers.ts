@@ -20,7 +20,6 @@ export interface RenderDataReturn {
   data: {
     htmlContent: string;
     helmetContext?: FilledContext;
-    styles?: string;
     data?: any;
   };
 }

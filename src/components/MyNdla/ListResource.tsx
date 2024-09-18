@@ -153,11 +153,7 @@ const ListResource = ({
   return (
     <ListItemRoot id={id} variant={variant}>
       {resourceImage.src !== "" ? (
-        <ImageComponent
-          src={resourceImage.src}
-          alt={resourceImage.alt}
-          fallbackWidth={imageType === "compact" ? 56 : 136}
-        />
+        <ImageComponent src={resourceImage.src} alt="" fallbackWidth={imageType === "compact" ? 56 : 136} />
       ) : (
         <ListItemImageFallback contentType={contentType} iconSize={imageType === "compact" ? "small" : "medium"} />
       )}

@@ -12,7 +12,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { ViewType } from "../Folders/FoldersPage";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -76,12 +75,10 @@ const StyledPageContent = styled(PageContent, {
 interface Props {
   buttons?: ReactNode;
   dropDownMenu?: ReactNode;
-  viewType?: ViewType;
-  onViewTypeChange?: (val: ViewType) => void;
   showButtons?: boolean;
 }
 
-const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons }: Props) => {
+const Toolbar = ({ buttons, dropDownMenu, showButtons }: Props) => {
   const { user } = useContext(AuthContext);
   return (
     <ToolbarContainer data-visible={!!buttons || !!dropDownMenu || !!user?.arenaEnabled}>
@@ -94,12 +91,7 @@ const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButton
           {user?.arenaEnabled && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
-      <MenuModalContent
-        onViewTypeChange={onViewTypeChange}
-        buttons={buttons}
-        viewType={viewType}
-        showButtons={showButtons}
-      />
+      <MenuModalContent buttons={buttons} showButtons={showButtons} />
     </ToolbarContainer>
   );
 };

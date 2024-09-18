@@ -44,6 +44,7 @@
     }
   ],
   "env": {
-    "IS_VERCEL": "true"
+    "IS_VERCEL": "true",
+    "NODE_ENV": "production"
   }
 }

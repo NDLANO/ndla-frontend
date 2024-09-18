@@ -9,9 +9,8 @@
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { styled } from "@ndla/styled-system/jsx";
+import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory, useArenaCreateTopic } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -20,15 +19,6 @@ import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-
-const PageWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-    paddingBlock: "medium",
-  },
-});
 
 export const NewTopicPage = () => {
   const { t } = useTranslation();
@@ -83,16 +73,12 @@ export const NewTopicPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageWrapper>
-        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-        <HelmetWithTracker title={t("htmlTitles.arenaNewTopicPage")} />
-        <ArenaFormWrapper>
-          <Heading element="h1" headingStyle="h1-resource" margin="none">
-            {t("myNdla.arena.new.topic")}
-          </Heading>
-          <ArenaForm onAbort={onAbort} type="topic" onSave={onSave} />
-        </ArenaFormWrapper>
-      </PageWrapper>
+      <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
+      <HelmetWithTracker title={t("htmlTitles.arenaNewTopicPage")} />
+      <ArenaFormWrapper>
+        <Heading textStyle="heading.medium">{t("myNdla.arena.new.topic")}</Heading>
+        <ArenaForm onAbort={onAbort} type="topic" onSave={onSave} />
+      </ArenaFormWrapper>
     </MyNdlaPageWrapper>
   );
 };

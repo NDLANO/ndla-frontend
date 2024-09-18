@@ -7,11 +7,16 @@
  */
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
 import { CheckLine } from "@ndla/icons/editor";
-import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
-import { Heading } from "@ndla/typography";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
@@ -33,11 +38,13 @@ const getNewGroups = (newIsModerator: boolean, oldGroups: string[]): string[] =>
   return oldGroups.filter((g) => g !== "ADMIN");
 };
 
-const SettingsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const SettingsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const UserProfileAdministration = ({ userToAdmin }: Props) => {
   const toast = useToast();
@@ -70,8 +77,8 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
 
   return (
     <>
-      <Heading element="h2" headingStyle="h2" margin="normal">
-        {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
+      <Heading asChild consumeCss textStyle="title.medium">
+        <h2>{`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}</h2>
       </Heading>
       <SettingsWrapper>
         <CheckboxRoot

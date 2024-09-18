@@ -56,6 +56,7 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
       linkText: "Geahččal NDLA ságastallanrobohta",
@@ -172,6 +173,17 @@ const messages = {
   },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
   },
 };
 

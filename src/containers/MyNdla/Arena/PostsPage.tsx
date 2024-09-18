@@ -12,9 +12,10 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ArenaFormValues } from "./components/ArenaForm";
+import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
 import MainPostCard from "./components/MainPostCard";
 import PostList from "./components/PostList";
+import { ReplyDialog } from "./components/ReplyDialog";
 import {
   useArenaTopic,
   useArenaCategory,
@@ -26,30 +27,26 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { routes } from "../../../routeHelpers";
+import { useUserAgent } from "../../../UserAgentContext";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const PageWrapper = styled("div", {
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "large",
-    paddingBlock: "medium",
+    gap: "xxlarge",
   },
 });
 
 const StyledReplyButton = styled(Button, {
   base: {
-    float: "right",
-    "&[hidden]": {
-      display: "none",
-    },
+    justifySelf: "flex-end",
   },
 });
 
 const POST_PAGE = 1;
 const POST_PAGE_SIZE = 100;
+const REPLY_FORM = "reply-form";
 
 const PostsPage = () => {
   const { t } = useTranslation();
@@ -58,8 +55,10 @@ const PostsPage = () => {
   const navigate = useNavigate();
   const [focusId, setFocusId] = useState<number | undefined>(undefined);
   const [replyingTo, setReplyingTo] = useState<number | undefined>(undefined);
+  const [isReplying, setIsReplying] = useState(false);
   const { arenaTopic, loading, error } = useArenaTopic(topicId, POST_PAGE, POST_PAGE_SIZE);
 
+  const userAgent = useUserAgent();
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
@@ -137,38 +136,60 @@ const PostsPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <MyNdlaPageWrapper>
-      <PageWrapper>
-        <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
-        <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
-        <div>
-          <MainPostCard
-            post={arenaTopic?.posts?.items[0]!}
-            topic={arenaTopic}
-            onFollowChange={onFollowChange}
-            setFocusId={setFocusId}
-            setReplyingTo={() => setReplyingTo(arenaTopic.id)}
-            isReplying={!!replyingTo}
-          />
-          <PostList
-            posts={arenaTopic?.posts?.items.slice(1)}
-            topic={arenaTopic}
-            setFocusId={setFocusId}
-            createReply={createReply}
-            replyToId={arenaTopic.id}
-            isReplyingTo={replyingTo}
-            setReplyingTo={setReplyingTo}
-          />
-        </div>
+    <StyledMyNdlaPageWrapper>
+      <HelmetWithTracker title={t("htmlTitles.arenaPostPage", { name: arenaTopic?.title })} />
+      <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
+      <div>
+        <MainPostCard
+          post={arenaTopic?.posts?.items[0]!}
+          topic={arenaTopic}
+          onFollowChange={onFollowChange}
+          setFocusId={setFocusId}
+          setReplyingTo={() => setReplyingTo(arenaTopic.id)}
+          isReplying={!!replyingTo}
+        />
+        <PostList
+          posts={arenaTopic?.posts?.items.slice(1)}
+          topic={arenaTopic}
+          setFocusId={setFocusId}
+          createReply={createReply}
+          replyToId={arenaTopic.id}
+          isReplyingTo={replyingTo}
+          setReplyingTo={setReplyingTo}
+        />
+      </div>
+      {userAgent?.isMobile ? (
+        <ReplyDialog formType="post" topicId={arenaTopic.id}>
+          <StyledReplyButton aria-expanded={!!isReplying} hidden={!!arenaTopic?.isLocked}>
+            {t("myNdla.arena.new.post")}
+          </StyledReplyButton>
+        </ReplyDialog>
+      ) : (
         <StyledReplyButton
-          aria-expanded={!!replyingTo}
-          onClick={() => setReplyingTo(arenaTopic?.id)}
-          hidden={!!replyingTo || !!arenaTopic?.isLocked}
+          aria-controls={REPLY_FORM}
+          aria-expanded={!!isReplying}
+          onClick={() => {
+            setReplyingTo(undefined);
+            setIsReplying(true);
+          }}
+          hidden={!!arenaTopic?.isLocked || isReplying}
         >
           {t("myNdla.arena.new.post")}
         </StyledReplyButton>
-      </PageWrapper>
-    </MyNdlaPageWrapper>
+      )}
+      <ArenaFormWrapper id={REPLY_FORM} hidden={!isReplying}>
+        <ArenaForm
+          type="post"
+          onAbort={() => {
+            setIsReplying(false);
+          }}
+          onSave={async (values) => {
+            await createReply(values);
+            setIsReplying(false);
+          }}
+        />
+      </ArenaFormWrapper>
+    </StyledMyNdlaPageWrapper>
   );
 };
 
