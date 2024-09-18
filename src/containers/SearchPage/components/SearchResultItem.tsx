@@ -28,6 +28,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import ListItemImageFallback from "../../../components/ListItemImageFallback";
 import { SearchItem } from "../searchHelpers";
 
 interface Props {
@@ -81,7 +82,11 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
+        {item.img ? (
+          <CardImage alt={item.img.alt} height={200} src={item.img.url} />
+        ) : (
+          <ListItemImageFallback iconSize="xxlarge" />
+        )}
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>

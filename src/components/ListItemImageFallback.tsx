@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   contentType?: string;
-  iconSize?: "small" | "medium" | "large" | "xlarge";
+  iconSize?: "small" | "medium" | "large" | "xlarge" | "xxlarge";
 }
 
 const getIcon = (contentType: string) => {
@@ -74,6 +74,9 @@ const IconWrapper = styled("div", {
           maxHeight: "3xlarge",
           minHeight: "3xlarge",
         },
+      },
+      xxlarge: {
+        height: "surface.xxsmall",
       },
     },
   },
