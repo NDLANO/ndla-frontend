@@ -36,10 +36,10 @@ import {
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
-  showImage?: boolean;
+  resourcePage?: boolean;
 }
 
-const VideoLicenseInfo = ({ video, showImage }: VideoLicenseInfoProps) => {
+const VideoLicenseInfo = ({ video, resourcePage }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
@@ -89,7 +89,7 @@ const VideoLicenseInfo = ({ video, showImage }: VideoLicenseInfoProps) => {
             </AddResourceToFolderModal>
           )}
         </MediaListLicense>
-        {video.cover && !showImage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+        {video.cover && !resourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
         {!isCopyrighted(video.copyright?.license.license) && (
           <MediaListItemActions>
             {video.download && (
@@ -137,15 +137,15 @@ const VideoLicenseInfo = ({ video, showImage }: VideoLicenseInfoProps) => {
 
 interface Props {
   videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
-  showImage?: boolean;
+  resourcePage?: boolean;
 }
 
-const VideoLicenseList = ({ videos, showImage }: Props) => {
+const VideoLicenseList = ({ videos, resourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <MediaList>
       {unique.map((video) => (
-        <VideoLicenseInfo video={video} key={`video-${video.id}`} showImage={showImage} />
+        <VideoLicenseInfo video={video} key={`video-${video.id}`} resourcePage={resourcePage} />
       ))}
     </MediaList>
   );
