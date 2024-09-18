@@ -181,7 +181,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
               >
                 <StepIndicatorWrapper>
                   <StepIndicator data-indicator="" data-completed={!!viewedSteps[step.id]} aria-hidden>
-                    {viewedSteps[step.id] ? <CheckLine size="small" /> : index + 1}
+                    {viewedSteps[step.id] && index !== currentStep.seqNo ? <CheckLine size="small" /> : index + 1}
                   </StepIndicator>
                 </StepIndicatorWrapper>
                 <span data-link-text="">{step.title}</span>
