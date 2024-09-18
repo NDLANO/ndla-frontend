@@ -6,7 +6,7 @@
  *
  */
 
-import { useId } from "react";
+import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -16,47 +16,15 @@ import { ContentTypeBadgeNew } from "@ndla/ui";
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
-    border: "0",
+    height: "100%",
+    width: "360px",
   },
 });
 
-// TODO: Consider if ingress should be renderer as HTML.
-// TODO: Consider if we should render additional here.
-
-const Wrapper = styled("div", {
+const StyledText = styled(Text, {
   base: {
-    display: "flex",
-    flexDirection: "column-reverse",
-    tablet: {
-      flexDirection: "row",
-    },
-  },
-});
-
-const StyledList = styled("ul", {
-  base: {
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    rowGap: "xxsmall",
-    tablet: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      columnGap: "xsmall",
-    },
-  },
-});
-
-const StyledLi = styled("li", {
-  base: {
-    tablet: {
-      paddingInlineEnd: "xsmall",
-      borderRight: "1px solid",
-      borderColor: "stroke.subtle",
-      _last: {
-        paddingInlineEnd: "0px",
-        borderInlineEnd: "0",
-      },
+    "& > div": {
+      color: "text.default",
     },
   },
 });
@@ -74,44 +42,33 @@ interface Props {
     url?: string;
     title?: string;
   }[];
+  breadcrumbs?: string[];
 }
 
-export const MovedNodeCard = ({ title, url, ingress, subjects, contentType, metaImage }: Props) => {
-  const urlLabelId = useId();
+export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledCardRoot>
-      <Wrapper>
+    <>
+      <StyledCardRoot>
+        {metaImage && metaImage.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
         <CardContent>
-          {!!contentType && <ContentTypeBadgeNew contentType={contentType} />}
+          <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
-            <h2>
-              <SafeLink to={url} css={linkOverlay.raw()}>
+            <h3>
+              <SafeLink to={url} unstyled css={linkOverlay.raw()}>
                 {title}
               </SafeLink>
-            </h2>
+            </h3>
           </CardHeading>
-          <Text>{ingress}</Text>
+          {!!ingress && <Text>{parse(ingress)}</Text>}
+          {breadcrumbs && (
+            <StyledText color="text.subtle" textStyle="label.small">
+              {breadcrumbs.join(" › ")}
+            </StyledText>
+          )}
         </CardContent>
-        {!!metaImage?.url && <CardImage src={metaImage.url} width={300} alt={metaImage?.alt ?? ""} />}
-      </Wrapper>
-      {!!subjects?.length && (
-        <CardContent>
-          <Text id={urlLabelId} textStyle="label.medium" fontWeight="bold">
-            {t("searchPage.searchResultListMessages.subjectsLabel")}
-          </Text>
-          <nav aria-labelledby={urlLabelId}>
-            <StyledList>
-              {subjects.map((subject) => (
-                <StyledLi key={subject.url}>
-                  <SafeLink to={subject.url ?? ""}>{subject.title}</SafeLink>
-                </StyledLi>
-              ))}
-            </StyledList>
-          </nav>
-        </CardContent>
-      )}
-    </StyledCardRoot>
+      </StyledCardRoot>
+    </>
   );
 };

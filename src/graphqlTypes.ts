@@ -2861,6 +2861,7 @@ export type GQLMovedResourcePage_ResourceFragment = {
   name: string;
   path: string;
   paths: Array<string>;
+  breadcrumbs: Array<string>;
   contexts: Array<{ __typename?: "TaxonomyContext"; path: string; breadcrumbs: Array<string> }>;
   article?: {
     __typename?: "Article";
@@ -4267,6 +4268,7 @@ export type GQLResourcePageQuery = {
     __typename?: "Resource";
     relevanceId?: string;
     paths: Array<string>;
+    breadcrumbs: Array<string>;
     contexts: Array<{
       __typename?: "TaxonomyContext";
       breadcrumbs: Array<string>;
@@ -4349,6 +4351,7 @@ export type GQLMovedTopicPage_TopicFragment = {
   id: string;
   path: string;
   name: string;
+  breadcrumbs: Array<string>;
   meta?: {
     __typename?: "Meta";
     metaDescription?: string;

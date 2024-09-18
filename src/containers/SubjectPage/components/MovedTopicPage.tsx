@@ -8,8 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Text, PageContent } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { PageContainer } from "../../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../../components/MovedNodeCard";
 import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
 
@@ -20,6 +21,7 @@ interface GQLSearchResultExtended
     title: string;
     breadcrumb: string[];
   }[];
+  breadcrumbs: string[];
   ingress: string;
   id: string;
   contentType: string;
@@ -32,6 +34,7 @@ const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearch
     url: topic.path || "",
     id: topic.id,
     ingress: topic.meta?.metaDescription ?? "",
+    breadcrumbs: topic.breadcrumbs,
     subjects: topic.contexts?.map(({ breadcrumbs }) => ({
       url: topic.path,
       title: breadcrumbs[0]!,
@@ -60,17 +63,16 @@ interface Props {
 const Wrapper = styled("div", {
   base: {
     display: "flex",
+    gap: "xxlarge",
     flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xsmall",
-    paddingBlock: "medium",
   },
 });
 
 const SearchResultListWrapper = styled("ul", {
   base: {
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "center",
+    flexWrap: "wrap",
     gap: "xsmall",
   },
 });
@@ -81,9 +83,9 @@ const MovedTopicPage = ({ topics }: Props) => {
   const results = mergeTopicSubjects(topicsAsResults);
 
   return (
-    <PageContent>
+    <PageContainer>
       <Wrapper>
-        <Heading>
+        <Heading css={{ textAlign: "center" }} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
         </Heading>
         {results.length ? (
@@ -92,11 +94,11 @@ const MovedTopicPage = ({ topics }: Props) => {
               <li key={result.id}>
                 <MovedNodeCard
                   title={result.title}
+                  breadcrumbs={result.breadcrumbs}
                   url={result.url}
                   ingress={result.ingress}
                   contentType={result.contentType}
                   metaImage={result.metaImage}
-                  subjects={result.subjects}
                 />
               </li>
             ))}
@@ -105,7 +107,7 @@ const MovedTopicPage = ({ topics }: Props) => {
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
       </Wrapper>
-    </PageContent>
+    </PageContainer>
   );
 };
 
@@ -115,6 +117,7 @@ MovedTopicPage.fragments = {
       id
       path
       name
+      breadcrumbs
       meta {
         metaDescription
         metaImage {

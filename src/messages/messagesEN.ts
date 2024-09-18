@@ -189,6 +189,10 @@ const messages = {
     learningsteps: "Steps",
     stepCompleted: "Completed",
   },
+  movedResourcePage: {
+    title: "The page has moved, but you can find it here:",
+    openInSubject: "Open the article in a subject:",
+  },
 };
 
 export default messages;

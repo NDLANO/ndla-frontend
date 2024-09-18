@@ -185,6 +185,10 @@ const messages = {
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
   },
+  movedResourcePage: {
+    title: "Siden har flyttet men du finner den her:",
+    openInSubject: "Åpne artikkelen i et fag:",
+  },
 };
 
 export default messages;

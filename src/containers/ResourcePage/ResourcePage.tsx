@@ -54,6 +54,7 @@ const resourcePageQuery = gql`
     resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
       relevanceId
       paths
+      breadcrumbs
       contexts {
         breadcrumbs
         parentIds
