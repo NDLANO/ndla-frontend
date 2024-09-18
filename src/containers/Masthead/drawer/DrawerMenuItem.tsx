@@ -42,7 +42,7 @@ export const StyledButton = styled(Button, {
     paddingInline: "small",
     "&[data-current-selected='true']": {
       background: "surface.selected",
-      border: "none",
+      boxShadow: "inset 0 0 0 1px var(--shadow-color)",
     },
   },
 });
