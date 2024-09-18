@@ -14,6 +14,7 @@ import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
+import LearningpathIframe from "./LearningpathIframe";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import ErrorPage from "../../containers/ErrorPage";
@@ -96,7 +97,10 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
           subjectId,
         },
       },
-      skip: !!learningpathStep.resource?.article || (!learningpathStep.embedUrl && !learningpathStep.resource),
+      skip:
+        !!learningpathStep.resource?.article ||
+        !articleId ||
+        (!learningpathStep.embedUrl && !learningpathStep.resource),
     },
   );
 
@@ -128,6 +132,10 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     oembed &&
     oembed.html
   ) {
+    if (urlIsNDLAUrl(embedUrl.url)) {
+      return <LearningpathIframe url={embedUrl.url} html={oembed.html} />;
+    }
+
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
