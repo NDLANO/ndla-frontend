@@ -10,8 +10,8 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
 import { IFolderData, IResource } from "@ndla/types-backend/myndla-api";
-import { TreeStructure } from "@ndla/ui";
 import NewFolder from "./NewFolder";
+import { TreeStructure } from "./TreeStructure";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
 const ComboboxContainer = styled("div", {
