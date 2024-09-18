@@ -169,7 +169,11 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   }
 
   return (
-    <MenuRoot open={open} positioning={{ placement: "bottom-end" }} onOpenChange={(details) => setOpen(details.open)}>
+    <MenuRoot
+      open={open}
+      positioning={{ placement: "bottom-end", strategy: "fixed" }}
+      onOpenChange={(details) => setOpen(details.open)}
+    >
       <MenuTrigger asChild ref={dropdownTriggerRef}>
         <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
           <MoreLine />
