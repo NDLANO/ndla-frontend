@@ -47,10 +47,10 @@ const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseContent_MetaFragme
     licenseContent.push(<ConceptLicenseList concepts={metaData.concepts} />);
   }
   if (metaData.images?.length) {
-    licenseContent.push(<ImageLicenseList images={metaData.images} embedPage />);
+    licenseContent.push(<ImageLicenseList images={metaData.images} showImage />);
   }
   if (metaData.brightcoves?.length) {
-    licenseContent.push(<VideoLicenseList videos={metaData.brightcoves} embedPage />);
+    licenseContent.push(<VideoLicenseList videos={metaData.brightcoves} showImage />);
   }
   if (metaData.h5ps?.length) {
     licenseContent.push(<H5pLicenseList h5ps={metaData.h5ps} />);
