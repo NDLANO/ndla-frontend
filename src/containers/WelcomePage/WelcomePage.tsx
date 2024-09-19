@@ -79,12 +79,15 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
       content: "''",
       boxShadow: "none",
     },
-    "&:not(:active)": {
-      _hover: {
-        transform: "translateY(-5px)",
-        _after: {
-          opacity: "1",
-          boxShadow: "full",
+    // Disable this hover effect on touch devices
+    "@media(pointer: fine)": {
+      "&:not(:active)": {
+        _hover: {
+          transform: "translateY(-5px)",
+          _after: {
+            opacity: "1",
+            boxShadow: "full",
+          },
         },
       },
     },
