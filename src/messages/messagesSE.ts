@@ -186,7 +186,7 @@ const messages = {
     stepCompleted: "Fullført",
   },
   movedResourcePage: {
-    title: "Siden har flyttet men du finner den her:",
+    title: "Siden har flyttet, men du finner den her:",
     openInSubject: "Åpne artikkelen i et fag:",
   },
 };
