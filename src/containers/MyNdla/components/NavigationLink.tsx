@@ -8,41 +8,49 @@
 
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
+import { Button } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
+import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../routeHelpers";
 
-const StyledSafeLink = styled(SafeLinkButton, {
-  base: {
-    display: "flex",
-    justifyContent: "flex-start",
-    color: "text.default",
-    fontWeight: "normal",
-    paddingInline: "xsmall",
-    height: "100%",
-    boxShadow: "inset 0 0 0 1px var(--shadow-color)",
-    boxShadowColor: "transparent",
-    desktopDown: {
-      flexDirection: "column",
-      textStyle: "label.xsmall",
-    },
-    tabletDown: {
-      paddingInline: "3xsmall",
-    },
-    _currentPage: {
-      fontWeight: "bold",
-    },
-    _hover: {
-      background: "surface.action.myNdla.hover",
-      boxShadowColor: "stroke.warning",
-    },
-    _active: {
-      background: "surface.action.myNdla",
-    },
-    _focusVisible: {
-      boxShadowColor: "stroke.default",
-    },
+const myNdlaButton = css.raw({
+  display: "flex",
+  justifyContent: "flex-start",
+  color: "text.default",
+  fontWeight: "normal",
+  paddingInline: "xsmall",
+  height: "100%",
+  boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+  boxShadowColor: "transparent",
+  desktopDown: {
+    flexDirection: "column",
+    textStyle: "label.xsmall",
   },
+  tabletDown: {
+    paddingInline: "3xsmall",
+  },
+  _currentPage: {
+    fontWeight: "bold",
+  },
+  _hover: {
+    background: "surface.action.myNdla.hover",
+    boxShadowColor: "stroke.warning",
+  },
+  _active: {
+    background: "surface.action.myNdla",
+  },
+  _focusVisible: {
+    boxShadowColor: "stroke.default",
+  },
+});
+
+export const MoreButton = styled(Button, {
+  base: myNdlaButton,
+});
+
+const StyledSafeLink = styled(SafeLinkButton, {
+  base: myNdlaButton,
 });
 
 const LongText = styled("span", {
