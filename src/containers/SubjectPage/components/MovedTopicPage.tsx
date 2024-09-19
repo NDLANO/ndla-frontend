@@ -12,6 +12,7 @@ import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageContainer } from "../../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../../components/MovedNodeCard";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
 
 interface GQLSearchResultExtended
@@ -85,7 +86,7 @@ const MovedTopicPage = ({ topics }: Props) => {
   return (
     <PageContainer>
       <Wrapper>
-        <Heading css={{ textAlign: "center" }} textStyle="heading.large">
+        <Heading id={SKIP_TO_CONTENT_ID} css={{ textAlign: "center" }} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
         </Heading>
         {results.length ? (

@@ -15,6 +15,7 @@ import DefaultErrorMessage from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import NavigationBox from "../../components/NavigationBox";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
@@ -85,7 +86,7 @@ const MovedResourcePage = ({ resource }: Props) => {
     <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
       <Wrapper>
-        <Heading css={{ textAlign: "center" }} textStyle="heading.large">
+        <Heading id={SKIP_TO_CONTENT_ID} css={{ textAlign: "center" }} textStyle="heading.large">
           {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
         </Heading>
         {result ? (
