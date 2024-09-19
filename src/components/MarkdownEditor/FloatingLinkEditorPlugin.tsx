@@ -68,7 +68,7 @@ const ButtonRow = styled("div", {
   },
 });
 
-export const setFloatingElemPositionForLinkEditor = (
+const setFloatingElemPositionForLinkEditor = (
   targetRect: DOMRect | null,
   floatingElem: HTMLElement,
   anchorElem: HTMLElement,
@@ -91,14 +91,13 @@ export const setFloatingElemPositionForLinkEditor = (
   let left = targetRect.left - horizontalOffset;
 
   if (top < editorScrollerRect.top) {
-    top += floatingElemRect.height + targetRect.height + verticalGap * 2;
+    top += floatingElemRect.height + targetRect.height;
   }
 
   if (left + floatingElemRect.width > editorScrollerRect.right) {
     left = editorScrollerRect.right - floatingElemRect.width - horizontalOffset;
   }
-
-  top -= anchorElementRect.top;
+  top -= anchorElementRect.top + floatingElemRect.height / 1.5 - verticalGap * 2;
   left -= anchorElementRect.left;
 
   floatingElem.style.opacity = "1";
