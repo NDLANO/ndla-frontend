@@ -55,6 +55,7 @@ const messages = {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
+    resourceTypeFilter: "Resource types",
   },
   myndla: {
     tagsTitle: "My tags",
