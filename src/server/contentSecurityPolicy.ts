@@ -234,6 +234,9 @@ const contentSecurityPolicy = {
         if (req.url?.includes("-iframe") || req.url?.includes("lti")) {
           return "*";
         }
+        if (config.ndlaEnvironment === "test") {
+          return "'self' https://tall.test.ndla.no";
+        }
         return "'self' https://tall.ndla.no";
       },
     ],
