@@ -287,9 +287,8 @@ const MastheadSearch = () => {
             </LabelContainer>
             <ComboboxControl>
               <InputContainer>
-                <ComboboxInput asChild>
+                <ComboboxInput asChild ref={inputRef}>
                   <Input
-                    ref={inputRef}
                     placeholder={t("searchPage.searchFieldPlaceholder")}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !highlightedValue) {
