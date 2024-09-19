@@ -7,7 +7,6 @@
  */
 
 import parse from "html-react-parser";
-import { useTranslation } from "react-i18next";
 import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -39,24 +38,22 @@ interface Props {
 
 export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
   return (
-    <>
-      <StyledCardRoot>
-        {metaImage && metaImage.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
-        <CardContent>
-          <ContentTypeBadgeNew contentType={contentType} />
-          <CardHeading asChild consumeCss>
-            <SafeLink to={url} unstyled css={linkOverlay.raw()}>
-              {title}
-            </SafeLink>
-          </CardHeading>
-          {!!ingress && <Text>{parse(ingress)}</Text>}
-          {breadcrumbs && (
-            <Text color="text.subtle" textStyle="label.small">
-              {breadcrumbs.join(" › ")}
-            </Text>
-          )}
-        </CardContent>
-      </StyledCardRoot>
-    </>
+    <StyledCardRoot>
+      {metaImage && metaImage.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
+      <CardContent>
+        <ContentTypeBadgeNew contentType={contentType} />
+        <CardHeading asChild consumeCss>
+          <SafeLink to={url} unstyled css={linkOverlay.raw()}>
+            {title}
+          </SafeLink>
+        </CardHeading>
+        {!!ingress && <Text>{parse(ingress)}</Text>}
+        {breadcrumbs && (
+          <Text color="text.subtle" textStyle="label.small">
+            {breadcrumbs.join(" › ")}
+          </Text>
+        )}
+      </CardContent>
+    </StyledCardRoot>
   );
 };
