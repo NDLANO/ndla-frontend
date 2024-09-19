@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",
-    "@ark-ui/react": "^3.11.1",
+    "@ark-ui/react": "^3.12.0",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "7.0.2",
