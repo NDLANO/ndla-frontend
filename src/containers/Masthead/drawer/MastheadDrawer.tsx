@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CloseLine, MenuLine } from "@ndla/icons/action";
@@ -127,6 +127,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const { t, i18n } = useTranslation();
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
@@ -213,6 +214,11 @@ const MastheadDrawer = ({ subject }: Props) => {
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
+      onFocusOutside={(e) => {
+        if (contentRef.current?.contains(document.activeElement)) {
+          e.preventDefault();
+        }
+      }}
     >
       <DialogTrigger asChild>
         <DrawerButton
@@ -227,7 +233,7 @@ const MastheadDrawer = ({ subject }: Props) => {
         </DrawerButton>
       </DialogTrigger>
       <StyledDrawer aria-label={t("masthead.menu.modalLabel")}>
-        <MainMenu>
+        <MainMenu ref={contentRef}>
           <HeadWrapper>
             <DialogCloseTrigger asChild>
               <Button variant="tertiary">
@@ -251,19 +257,17 @@ const MastheadDrawer = ({ subject }: Props) => {
                   subject={subject}
                   type={type}
                 />
-                {type && (
-                  <DrawerContent
-                    onClose={close}
-                    type={type}
-                    menuItems={frontpageMenu}
-                    topicPath={topicPath}
-                    subject={subject}
-                    setFrontpageMenu={setFrontpageMenu}
-                    setTopicPathIds={setTopicPath}
-                    onCloseMenuPortion={onCloseMenuPortion}
-                    programmes={programmesQuery.data?.programmes ?? []}
-                  />
-                )}
+                <DrawerContent
+                  onClose={close}
+                  type={type}
+                  menuItems={frontpageMenu}
+                  topicPath={topicPath}
+                  subject={subject}
+                  setFrontpageMenu={setFrontpageMenu}
+                  setTopicPathIds={setTopicPath}
+                  onCloseMenuPortion={onCloseMenuPortion}
+                  programmes={programmesQuery.data?.programmes ?? []}
+                />
               </DrawerProvider>
             </DrawerContainer>
             {!type && (

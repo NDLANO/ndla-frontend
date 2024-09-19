@@ -89,80 +89,80 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
     multilevel: true,
   });
 
-  if (type) {
-    return (
-      <StyledCollapsedMenu>
-        <IconButton onClick={setShouldCloseLevel} aria-label={t("menu.goBack")} variant="secondary">
-          <ArrowLeftLine />
-        </IconButton>
-      </StyledCollapsedMenu>
-    );
-  }
   return (
-    <StyledDrawerPortion>
-      <DrawerList>
-        <DrawerListItem>
-          <DrawerHeader textStyle="label.large" fontWeight="bold" tabIndex={-1} asChild consumeCss>
-            <span>{t("menu.subjectAndProgramme")}</span>
-          </DrawerHeader>
-        </DrawerListItem>
-        <DrawerRowHeader
-          ownsId="programme-menu"
-          id="programme"
-          type="button"
-          title={t("masthead.menuOptions.programme")}
-          onClick={() => setActiveMenu("programme")}
-        />
-        {subject && (
+    <>
+      {!!type && (
+        <StyledCollapsedMenu>
+          <IconButton onClick={setShouldCloseLevel} aria-label={t("menu.goBack")} variant="secondary">
+            <ArrowLeftLine />
+          </IconButton>
+        </StyledCollapsedMenu>
+      )}
+      <StyledDrawerPortion hidden={!!type}>
+        <DrawerList>
+          <DrawerListItem>
+            <DrawerHeader textStyle="label.large" fontWeight="bold" tabIndex={-1} asChild consumeCss>
+              <span>{t("menu.subjectAndProgramme")}</span>
+            </DrawerHeader>
+          </DrawerListItem>
           <DrawerRowHeader
-            ownsId="subject-menu"
-            id="subject"
+            ownsId="programme-menu"
+            id="programme"
             type="button"
-            title={subject.name}
-            onClick={() => setActiveMenu("subject")}
+            title={t("masthead.menuOptions.programme")}
+            onClick={() => setActiveMenu("programme")}
           />
-        )}
-        <DrawerRowHeader
-          type="link"
-          id="subjects"
-          to="/subjects"
-          title={t("masthead.menuOptions.subjects")}
-          onClose={onClose}
-        />
-        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
-          {t("masthead.menuOptions.film")}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
-          {t("masthead.menuOptions.multidisciplinarySubjects")}
-        </DrawerMenuItem>
-        <DrawerListItem>
-          <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
-            <span>{t("menu.tipsAndAdvice")}</span>
-          </DrawerHeader>
-        </DrawerListItem>
-        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
-          {t("masthead.menuOptions.toolboxStudents")}
-        </DrawerMenuItem>
-        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
-          {t("masthead.menuOptions.toolboxTeachers")}
-        </DrawerMenuItem>
-        <DrawerListItem>
-          <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
-            <span>{t("menu.about")}</span>
-          </DrawerHeader>
-        </DrawerListItem>
-        {dynamicMenus.map((menu) => (
+          {subject && (
+            <DrawerRowHeader
+              ownsId="subject-menu"
+              id="subject"
+              type="button"
+              title={subject.name}
+              onClick={() => setActiveMenu("subject")}
+            />
+          )}
           <DrawerRowHeader
-            key={menu.article.slug}
-            ownsId={`${menu.article.slug}-menu`}
-            id={`${menu.article.slug}-dynamic`}
-            type="button"
-            title={menu.article.title}
-            onClick={() => setFrontpageMenu(menu)}
+            type="link"
+            id="subjects"
+            to="/subjects"
+            title={t("masthead.menuOptions.subjects")}
+            onClose={onClose}
           />
-        ))}
-      </DrawerList>
-    </StyledDrawerPortion>
+          <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
+            {t("masthead.menuOptions.film")}
+          </DrawerMenuItem>
+          <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
+            {t("masthead.menuOptions.multidisciplinarySubjects")}
+          </DrawerMenuItem>
+          <DrawerListItem>
+            <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
+              <span>{t("menu.tipsAndAdvice")}</span>
+            </DrawerHeader>
+          </DrawerListItem>
+          <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
+            {t("masthead.menuOptions.toolboxStudents")}
+          </DrawerMenuItem>
+          <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
+            {t("masthead.menuOptions.toolboxTeachers")}
+          </DrawerMenuItem>
+          <DrawerListItem>
+            <DrawerHeader textStyle="label.large" tabIndex={-1} fontWeight="bold" asChild consumeCss>
+              <span>{t("menu.about")}</span>
+            </DrawerHeader>
+          </DrawerListItem>
+          {dynamicMenus.map((menu) => (
+            <DrawerRowHeader
+              key={menu.article.slug}
+              ownsId={`${menu.article.slug}-menu`}
+              id={`${menu.article.slug}-dynamic`}
+              type="button"
+              title={menu.article.title}
+              onClick={() => setFrontpageMenu(menu)}
+            />
+          ))}
+        </DrawerList>
+      </StyledDrawerPortion>
+    </>
   );
 };
 
