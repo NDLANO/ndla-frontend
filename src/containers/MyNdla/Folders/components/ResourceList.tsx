@@ -25,7 +25,7 @@ import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {
   base: {
-    marginBlockStart: "xxlarge",
+    paddingBlockStart: "xxlarge",
   },
 });
 

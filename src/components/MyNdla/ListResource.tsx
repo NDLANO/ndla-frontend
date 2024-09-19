@@ -29,7 +29,7 @@ const StyledListItemContent = styled(ListItemContent, {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "4xsmall",
+    gap: "3xsmall",
     width: "100%",
   },
 });
@@ -47,7 +47,7 @@ export interface ListResourceProps {
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
+    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
@@ -62,14 +62,28 @@ const StyledDescription = styled(Text, {
 
 const ActionWrapper = styled("div", {
   base: {
+    marginInlineStart: "auto",
     "& > button, & > a": {
       position: "relative",
     },
   },
 });
 
+const DescriptionWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "3xsmall",
+    width: "100%",
+  },
+});
+
 const BigListItemImage = styled(ListItemImage, {
   base: {
+    // Hide image borders when no image is present. We still want it to take up space
+    "&[src='']": {
+      opacity: "0",
+    },
     tabletWide: {
       minWidth: "102px",
       maxWidth: "102px",
@@ -82,21 +96,26 @@ const BigListItemImage = styled(ListItemImage, {
 const TitleWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
     width: "100%",
     justifyContent: "space-between",
-    gap: "4xsmall",
-    alignSelf: "flex-start",
+    gap: "3xsmall",
     alignItems: "flex-start",
-    tablet: {
-      flexDirection: "row",
-    },
   },
 });
 
 const LoadingListItemRoot = styled(ListItemRoot, {
   base: {
     pointerEvents: "none",
+  },
+});
+
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    tabletDown: {
+      "& picture": {
+        display: "none",
+      },
+    },
   },
 });
 
@@ -112,11 +131,7 @@ const ListResource = ({
   isLoading = false,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
-  const showDescription = description !== undefined;
-  const imageType = showDescription ? "normal" : "compact";
   const firstContentType = resourceTypes?.[0]?.id ?? "";
-
-  const ImageComponent = imageType === "compact" ? ListItemImage : BigListItemImage;
 
   const contentType = useMemo(() => {
     if (!firstContentType) {
@@ -150,14 +165,8 @@ const ListResource = ({
   }
 
   return (
-    <ListItemRoot id={id} variant={variant}>
-      <ImageComponent
-        src={resourceImage.src}
-        alt=""
-        fallbackWidth={imageType === "compact" ? 56 : 136}
-        // Hide image borders when no image is present. We still want it to take up space
-        css={{ "&[src='']": { opacity: "0" } }}
-      />
+    <StyledListItemRoot id={id} variant={variant}>
+      <BigListItemImage src={resourceImage.src} alt="" fallbackWidth={136} />
       <StyledListItemContent>
         <TitleWrapper>
           <ListItemHeading
@@ -173,10 +182,12 @@ const ListResource = ({
           </ListItemHeading>
           <ContentTypeBadgeNew contentType={contentType} />
         </TitleWrapper>
-        {!!description && <StyledDescription>{description}</StyledDescription>}
+        <DescriptionWrapper>
+          {!!description && <StyledDescription>{description}</StyledDescription>}
+          <ActionWrapper>{menu}</ActionWrapper>
+        </DescriptionWrapper>
       </StyledListItemContent>
-      <ActionWrapper>{menu}</ActionWrapper>
-    </ListItemRoot>
+    </StyledListItemRoot>
   );
 };
 

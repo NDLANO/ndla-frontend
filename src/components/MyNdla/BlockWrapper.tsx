@@ -17,7 +17,6 @@ export const BlockWrapper = styled("ul", {
   variants: {
     variant: {
       list: {},
-      listLarger: {},
       block: {
         gap: "medium",
         gridTemplateColumns: "repeat(1, 1fr)",

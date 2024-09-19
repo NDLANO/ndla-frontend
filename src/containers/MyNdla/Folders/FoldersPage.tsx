@@ -77,7 +77,7 @@ const TagSafeLink = styled(SafeLinkButton, {
   },
 });
 
-export type ViewType = "list" | "block" | "listLarger";
+export type ViewType = "block" | "list";
 
 const FoldersPage = () => {
   const { t } = useTranslation();

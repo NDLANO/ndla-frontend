@@ -10,7 +10,6 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { MenuLine } from "@ndla/icons/action";
 import { GridFill } from "@ndla/icons/common";
-import { ListCheck } from "@ndla/icons/editor";
 import { ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ViewType } from "../FoldersPage";
@@ -26,11 +25,13 @@ interface Props {
   type: ViewType;
 }
 
+const VALID_VIEW_TYPES = ["list", "block"] as const;
+
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledToggleGroupRoot
-      value={[type]}
+      value={VALID_VIEW_TYPES.includes(type) ? [type] : undefined}
       defaultValue={["list"]}
       onValueChange={(details) => {
         if (details.value[0]) {
@@ -46,15 +47,6 @@ const ListViewOptions = ({ onTypeChange, type }: Props) => {
         size="small"
       >
         <MenuLine />
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="listLarger"
-        variant="tertiary"
-        aria-label={t("myNdla.detailView")}
-        title={t("myNdla.detailView")}
-        size="small"
-      >
-        <ListCheck />
       </ToggleGroupItem>
       <ToggleGroupItem
         value="block"

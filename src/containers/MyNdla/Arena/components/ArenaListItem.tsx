@@ -21,6 +21,7 @@ import { formatDateTime } from "../../../../util/formatDate";
 const StyledListItemContent = styled(ListItemContent, {
   base: {
     alignItems: "center",
+    flexWrap: "wrap",
   },
 });
 
@@ -62,13 +63,19 @@ const ContentWrapper = styled("div", {
 
 const NumberText = styled(Text, {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
     textAlign: "center",
+    tabletDown: {
+      flexDirection: "row",
+    },
   },
 });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
+    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
@@ -110,7 +117,7 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
     const { t, i18n } = useTranslation();
     return (
       <StyledListItemRoot {...props} colorTheme="brand3" ref={ref}>
-        <ListItemContent>
+        <StyledListItemContent>
           <ContentWrapper>
             <QuestionAnswerLine />
             <TextWrapper>
@@ -140,7 +147,6 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
               {postCount != null && (
                 <NumberText textStyle="label.small" aria-label={`${postCount} ${t("myNdla.arena.topic.responses")}`}>
                   <strong>{postCount}</strong>
-                  <br />
                   {t("myNdla.arena.topic.responses")}
                 </NumberText>
               )}
@@ -150,13 +156,12 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
                   aria-label={`${voteCount} ${t("myNdla.arena.topic.votes", { count: voteCount })}`}
                 >
                   <strong>{voteCount}</strong>
-                  <br />
                   {t("myNdla.arena.topic.votes", { count: voteCount })}
                 </NumberText>
               )}
             </ContentWrapper>
           ) : null}
-        </ListItemContent>
+        </StyledListItemContent>
       </StyledListItemRoot>
     );
   },

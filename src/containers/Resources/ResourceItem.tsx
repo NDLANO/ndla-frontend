@@ -37,30 +37,19 @@ const StyledPresentationLine = styled(PresentationLine, {
 const StyledSafeLink = styled(SafeLink, {
   base: {
     wordWrap: "anywhere",
-    mobileWide: {
-      lineClamp: "1",
-    },
+    lineClamp: "2",
   },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
-    mobileWideDown: {
-      flexDirection: "column",
-    },
-  },
-});
-
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "small",
+    flexWrap: "wrap",
   },
 });
 
 const InfoContainer = styled(HStack, {
   base: {
+    marginInlineStart: "auto",
     flexShrink: "0",
   },
 });
@@ -101,6 +90,16 @@ const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemV
   }
 };
 
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    mobileWideDown: {
+      "& picture": {
+        display: "none",
+      },
+    },
+  },
+});
+
 export const ResourceItem = ({
   name,
   path,
@@ -135,35 +134,33 @@ export const ResourceItem = ({
 
   return (
     <li>
-      <ListItemRoot
+      <StyledListItemRoot
         variant="list"
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
         hidden={hidden && !active}
       >
+        <ListItemImage
+          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+          alt=""
+          sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+          css={{ "&[src='']": { opacity: "0" } }}
+        />
         <StyledListItemContent>
-          <TitleWrapper>
-            <ListItemImage
-              src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
-              alt=""
-              sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
-              css={{ "&[src='']": { opacity: "0" } }}
-            />
-            <ListItemHeading asChild consumeCss>
-              <StyledSafeLink
-                to={path}
-                unstyled
-                css={linkOverlay.raw()}
-                lang={language === "nb" ? "no" : language}
-                aria-current={active ? "page" : undefined}
-                title={name}
-                aria-describedby={describedBy}
-              >
-                {name}
-              </StyledSafeLink>
-            </ListItemHeading>
-          </TitleWrapper>
+          <ListItemHeading asChild consumeCss>
+            <StyledSafeLink
+              to={path}
+              unstyled
+              css={linkOverlay.raw()}
+              lang={language === "nb" ? "no" : language}
+              aria-current={active ? "page" : undefined}
+              title={name}
+              aria-describedby={describedBy}
+            >
+              {name}
+            </StyledSafeLink>
+          </ListItemHeading>
           <InfoContainer gap="xxsmall">
             {teacherOnly && (
               <StyledPresentationLine
@@ -177,7 +174,7 @@ export const ResourceItem = ({
             {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
-      </ListItemRoot>
+      </StyledListItemRoot>
     </li>
   );
 };
