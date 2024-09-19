@@ -152,6 +152,7 @@ const MastheadSearch = () => {
   const formId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const comboboxTranslations = useComboboxTranslations();
+  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setQuery("");
@@ -242,8 +243,9 @@ const MastheadSearch = () => {
       size="xsmall"
       onOpenChange={setDialogState}
       initialFocusEl={() => inputRef.current}
+      finalFocusEl={() => dialogTriggerRef.current}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger asChild ref={dialogTriggerRef}>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <SearchLine />
           <span>{t("masthead.menu.search")}</span>
