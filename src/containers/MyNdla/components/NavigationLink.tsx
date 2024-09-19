@@ -46,7 +46,12 @@ const myNdlaButton = css.raw({
 });
 
 export const MoreButton = styled(Button, {
-  base: myNdlaButton,
+  base: {
+    ...myNdlaButton,
+    mobileWide: {
+      display: "none",
+    },
+  },
 });
 
 const StyledSafeLink = styled(SafeLinkButton, {
