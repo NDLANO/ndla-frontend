@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CloseLine, MenuLine } from "@ndla/icons/action";
@@ -129,6 +129,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const { t, i18n } = useTranslation();
   const userAgent = useUserAgent();
+  const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
@@ -215,9 +216,10 @@ const MastheadDrawer = ({ subject }: Props) => {
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
+      finalFocusEl={() => drawerTriggerRef.current}
       closeOnInteractOutside={!userAgent?.isMobile}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton
           aria-haspopup="menu"
           variant="tertiary"
