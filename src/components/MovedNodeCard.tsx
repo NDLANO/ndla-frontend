@@ -21,14 +21,6 @@ const StyledCardRoot = styled(CardRoot, {
   },
 });
 
-const StyledText = styled(Text, {
-  base: {
-    "& > div": {
-      color: "text.default",
-    },
-  },
-});
-
 interface Props {
   title: string;
   url: string;
@@ -63,9 +55,9 @@ export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, m
           </CardHeading>
           {!!ingress && <Text>{parse(ingress)}</Text>}
           {breadcrumbs && (
-            <StyledText color="text.subtle" textStyle="label.small">
+            <Text color="text.subtle" textStyle="label.small">
               {breadcrumbs.join(" › ")}
-            </StyledText>
+            </Text>
           )}
         </CardContent>
       </StyledCardRoot>
