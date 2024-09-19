@@ -38,14 +38,12 @@ interface Props {
 }
 
 export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
-  const { t } = useTranslation();
-
   return (
     <>
       <StyledCardRoot>
         {metaImage && metaImage.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
         <CardContent>
-          <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
+          <ContentTypeBadgeNew contentType={contentType} />
           <CardHeading asChild consumeCss>
             <SafeLink to={url} unstyled css={linkOverlay.raw()}>
               {title}
