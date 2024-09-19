@@ -7,10 +7,9 @@
  */
 
 import parse from "html-react-parser";
-import { CSSProperties, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { useComponentSize } from "@ndla/hooks";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
@@ -37,7 +36,6 @@ import { contains } from "@ndla/util";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
 import LearningpathMenu from "./LearningpathMenu";
-import { MastheadHeightPx } from "../../constants";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -183,7 +181,6 @@ const Learningpath = ({
   const { t, i18n } = useTranslation();
   const [accordionValue, setAccordionValue] = useState<string[]>();
   const accordionRef = useRef<HTMLDivElement>(null);
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
@@ -229,7 +226,6 @@ const Learningpath = ({
             value={accordionValue}
             onValueChange={(details) => setAccordionValue(details.value)}
             variant="bordered"
-            style={{ "--masthead-height": `${height}px` } as CSSProperties}
             multiple
             onBlur={(e) => {
               // automatically close the accordion when focus leaves the accordion on mobile.

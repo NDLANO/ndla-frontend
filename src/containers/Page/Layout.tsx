@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
@@ -47,6 +47,8 @@ const Layout = () => {
     }
   }, [height]);
 
+  const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
+
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
@@ -61,7 +63,7 @@ const Layout = () => {
         {metaChildren}
       </Helmet>
       <Masthead />
-      <PageLayout>
+      <PageLayout style={mastheadHeightVar}>
         <Outlet />
       </PageLayout>
       <Footer />
