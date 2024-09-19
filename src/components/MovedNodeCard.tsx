@@ -47,11 +47,9 @@ export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, m
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
-            <h3>
-              <SafeLink to={url} unstyled css={linkOverlay.raw()}>
-                {title}
-              </SafeLink>
-            </h3>
+            <SafeLink to={url} unstyled css={linkOverlay.raw()}>
+              {title}
+            </SafeLink>
           </CardHeading>
           {!!ingress && <Text>{parse(ingress)}</Text>}
           {breadcrumbs && (
