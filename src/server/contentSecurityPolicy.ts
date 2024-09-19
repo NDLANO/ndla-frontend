@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { IncomingMessage, ServerResponse } from "http";
 import config from "../config";
 
 const connectSrc = (() => {
@@ -228,7 +229,14 @@ const contentSecurityPolicy = {
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
-    frameAncestors: null,
+    frameAncestors: [
+      (req: IncomingMessage, _: ServerResponse) => {
+        if (req.url?.includes("-iframe") || req.url?.includes("lti")) {
+          return "*";
+        }
+        return "'self' https://tall.ndla.no";
+      },
+    ],
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
