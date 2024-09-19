@@ -78,6 +78,12 @@ const SearchResultListWrapper = styled("ul", {
   },
 });
 
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const MovedTopicPage = ({ topics }: Props) => {
   const { t } = useTranslation();
   const topicsAsResults = topics.map(convertTopicToResult);
@@ -86,9 +92,9 @@ const MovedTopicPage = ({ topics }: Props) => {
   return (
     <PageContainer>
       <Wrapper>
-        <Heading id={SKIP_TO_CONTENT_ID} css={{ textAlign: "center" }} textStyle="heading.large">
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
-        </Heading>
+        </StyledHeading>
         {results.length ? (
           <SearchResultListWrapper>
             {results.map((result) => (

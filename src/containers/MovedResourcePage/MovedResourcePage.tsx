@@ -35,6 +35,12 @@ const Wrapper = styled("div", {
   },
 });
 
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
@@ -86,9 +92,9 @@ const MovedResourcePage = ({ resource }: Props) => {
     <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
       <Wrapper>
-        <Heading id={SKIP_TO_CONTENT_ID} css={{ textAlign: "center" }} textStyle="heading.large">
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
-        </Heading>
+        </StyledHeading>
         {result ? (
           <MovedNodeCard
             title={result.title}
