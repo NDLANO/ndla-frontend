@@ -278,7 +278,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             </g>
           </svg>
           <svg
-            class="c_icon.onAction d_block w_100% tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
+            class="c_icon.onAction d_block w_surface.xsmall tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 1104 280"
             xmlns="http://www.w3.org/2000/svg"
