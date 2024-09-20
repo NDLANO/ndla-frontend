@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
   DialogTrigger,
   Heading,
   Image,
@@ -52,6 +53,12 @@ const StyledIframe = styled("iframe", {
     aspectRatio: "16/9",
     height: "100%",
     width: "100%",
+  },
+});
+
+const StyledDialogCloseButton = styled(DialogCloseButton, {
+  base: {
+    marginInlineStart: "auto",
   },
 });
 
@@ -121,16 +128,17 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                 <DialogTrigger asChild>
                   <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
                 </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    {/* TODO: Consider moving title up here? */}
-                    <div />
-                    <DialogCloseButton />
-                  </DialogHeader>
-                  <DialogBody>
-                    <Article article={transformedArticle} oembed={undefined} />
-                  </DialogBody>
-                </DialogContent>
+                <PageContent variant="content" asChild>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle srOnly>{transformedArticle.title}</DialogTitle>
+                      <StyledDialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <Article article={transformedArticle} oembed={undefined} />
+                    </DialogBody>
+                  </DialogContent>
+                </PageContent>
               </DialogRoot>
             )}
           </StyledContent>
