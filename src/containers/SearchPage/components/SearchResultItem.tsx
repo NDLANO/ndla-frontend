@@ -26,6 +26,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
 
@@ -77,7 +78,12 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img && <CardImage alt="" height={200} src={item.img.url} />}
+        <CardImage
+          alt=""
+          height={200}
+          src={item.img?.url ?? ""}
+          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+        />
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>

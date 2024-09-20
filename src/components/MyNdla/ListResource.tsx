@@ -21,6 +21,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
@@ -80,9 +81,8 @@ const DescriptionWrapper = styled("div", {
 
 const BigListItemImage = styled(ListItemImage, {
   base: {
-    // Hide image borders when no image is present. We still want it to take up space
-    "&[src='']": {
-      opacity: "0",
+    tabletDown: {
+      display: "none",
     },
     tabletWide: {
       minWidth: "102px",
@@ -115,6 +115,14 @@ const StyledListItemRoot = styled(ListItemRoot, {
       "& picture": {
         display: "none",
       },
+    },
+  },
+});
+
+const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
+  base: {
+    tabletDown: {
+      display: "none",
     },
   },
 });
@@ -166,7 +174,12 @@ const ListResource = ({
 
   return (
     <StyledListItemRoot id={id} variant={variant}>
-      <BigListItemImage src={resourceImage.src} alt="" fallbackWidth={136} />
+      <BigListItemImage
+        src={resourceImage.src}
+        alt=""
+        fallbackWidth={136}
+        fallbackElement={<StyledContentTypeFallbackIcon contentType={contentType} />}
+      />
       <StyledListItemContent>
         <TitleWrapper>
           <ListItemHeading
