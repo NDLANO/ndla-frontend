@@ -35,7 +35,7 @@ import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } fro
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
 import { ViewType } from "../MyNdla/Folders/FoldersPage";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];
@@ -149,7 +149,7 @@ const SharedFolderPage = () => {
     return <PageSpinner />;
   }
   if (error?.graphQLErrors[0]?.extensions?.status === 404) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
   if (error || !folder) {
     return <ErrorPage />;

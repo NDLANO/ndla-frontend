@@ -8,13 +8,13 @@
 
 import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const H5pPage = () => {
   const { h5pId } = useParams();
 
   if (!h5pId) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   return <ResourceEmbed id={h5pId} type="h5p" />;

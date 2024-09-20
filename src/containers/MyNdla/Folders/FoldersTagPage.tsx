@@ -29,7 +29,7 @@ import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
-import NotFoundPage from "../../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";

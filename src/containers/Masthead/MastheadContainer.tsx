@@ -27,7 +27,7 @@ import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import ErrorBoundary from "../ErrorPage/ErrorBoundary";
+import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled("span", {
   base: {

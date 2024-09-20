@@ -164,16 +164,7 @@ const ArticlePage = ({
   }
   if (!resource?.article || !article) {
     const error = errors?.find((e) => e.path?.includes("resource"));
-    return (
-      <div>
-        <ArticleErrorMessage
-          //@ts-ignore
-          status={error?.status}
-        >
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
-        </ArticleErrorMessage>
-      </div>
-    );
+    return <ArticleErrorMessage status={(error as any)?.status} />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;

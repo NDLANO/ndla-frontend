@@ -7,36 +7,49 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageContent,
+  ErrorMessageTitle,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { PageContainer } from "./Layout/PageContainer";
+import { Status } from "../components";
+import { SKIP_TO_CONTENT_ID } from "../constants";
 
-interface Props {
-  minimal?: boolean;
+interface MessageRootProps {
+  applySkipToContentId?: boolean;
 }
 
-const DefaultErrorMessage = ({ minimal }: Props) => {
+export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) => {
   const { t } = useTranslation();
-  const illustrations = minimal
-    ? undefined
-    : {
-        url: "/static/oops.gif",
-        altText: t("errorMessage.title"),
-      };
-  const messages = {
-    title: t("errorMessage.title"),
-    description: t("errorMessage.description"),
-    ...(!minimal && {
-      linksTitle: t("errorMessage.linksTitle"),
-      goToFrontPage: t("errorMessage.goToFrontPage"),
-    }),
-  };
 
   return (
-    <>
-      <OneColumn>
-        <ErrorMessage illustration={illustrations} messages={messages} />
-      </OneColumn>
-    </>
+    <Status code={500}>
+      <ErrorMessageRoot>
+        <img src={"/static/oops.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("errorMessage.title")}
+          </ErrorMessageTitle>
+          <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </ErrorMessageRoot>
+    </Status>
   );
 };
 
-export default DefaultErrorMessage;
+export const DefaultErrorMessagePage = () => {
+  return (
+    <PageContainer asChild consumeCss>
+      <main>
+        <DefaultErrorMessage applySkipToContentId={true} />
+      </main>
+    </PageContainer>
+  );
+};
