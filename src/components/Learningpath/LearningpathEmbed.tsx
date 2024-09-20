@@ -183,6 +183,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
+    // TODO: This could need a skip-ID
     return <DefaultErrorMessage />;
   }
 
