@@ -178,7 +178,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         Tekst
                       </button>
                       <div
-                        class="bg_transparent ring_3px_solid ring-c_stroke.default ring-o_-3px peerFocusVisible:h_var(--height) peerFocusVisible:w_var(--width) peerFocusVisible:horizontal:bdr-t_xsmall peerFocusVisible:vertical:bdr-r_xsmall horizontal:top_calc(var(--top)_+_var(--height)_-_6px) horizontal:peerFocusVisible:top_var(--top) horizontal:h_3 horizontal:w_var(--width) vertical:h_var(--height) vertical:left_0 vertical:w_3"
+                        class="bg_stroke.default peerFocusVisible:h_var(--height) peerFocusVisible:w_var(--width) peerFocusVisible:ring_3px_solid peerFocusVisible:ring-o_-3px peerFocusVisible:ring-c_stroke.default peerFocusVisible:bg_transparent peerFocusVisible:horizontal:bdr-t_xsmall peerFocusVisible:vertical:bdr-r_xsmall horizontal:top_calc(var(--top)_+_var(--height)_-_6px) horizontal:h_3 horizontal:w_var(--width) horizontal:peerFocusVisible:top_var(--top) vertical:h_var(--height) vertical:left_0 vertical:w_3"
                         data-orientation="horizontal"
                         data-part="indicator"
                         data-scope="tabs"
@@ -282,7 +282,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                               </ul>
                               <span>
                                 <button
-                                  class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.small min-h_large px_xsmall py_4xsmall"
+                                  class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.small min-h_large px_xsmall py_4xsmall [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_small [&_svg]:h_small"
                                   type="button"
                                 >
                                   <svg
