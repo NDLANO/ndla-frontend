@@ -70,6 +70,9 @@ const SubjectTopic = ({
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
       topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (document.activeElement?.nodeName !== "BODY") {
+        document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
+      }
     }
   }, [topicId, topicList]);
 
