@@ -27,8 +27,6 @@ import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
 
-// TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
-
 const StyledPresentationLine = styled(PresentationLine, {
   base: {
     position: "relative",
