@@ -270,7 +270,13 @@ const ArticlePage = ({
                 />
                 {topic && (
                   <ResourcesPageContent>
-                    <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                    <Resources
+                      topic={topic}
+                      resourceTypes={resourceTypes}
+                      headingType="h2"
+                      subHeadingType="h3"
+                      currentResourceContentType={contentType}
+                    />
                   </ResourcesPageContent>
                 )}
               </ArticleFooter>

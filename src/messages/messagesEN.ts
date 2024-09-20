@@ -50,13 +50,15 @@ const messages = {
     subtitle: "Listen and learn!",
     pagination: "Podcast pages",
   },
-  subjectsPage: { tabFilter: "Which subjects would you like to show?" },
+  subjectsPage: { tabFilter: { label: "Which subjects would you like to show?", all: "All subjects and resources" } },
   searchPage: {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
+    resourceTypeFilter: "Resource types",
   },
   myndla: {
+    tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbot",
       linkText: "Try NDLAs chatbots",
@@ -176,6 +178,21 @@ const messages = {
   },
   aboutPage: {
     nav: "Information pages",
+  },
+  subjectPage: {
+    topicsTitle: "Topics in {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Programmes",
+  },
+  learningpathPage: {
+    accordionTitle: "Learning path content",
+    learningsteps: "Steps",
+    stepCompleted: "Completed",
+  },
+  movedResourcePage: {
+    title: "The page has moved, but you can find it here:",
+    openInSubject: "Open the article in a subject:",
   },
 };
 

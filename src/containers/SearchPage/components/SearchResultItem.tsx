@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import { Additional, Core } from "@ndla/icons/common";
 import {
   Button,
   CardContent,
@@ -27,6 +26,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
 
@@ -45,12 +45,10 @@ const LtiWrapper = styled("div", {
   },
 });
 
-// TODO: Should this styling be updated?
 const StyledButton = styled(Button, {
   base: {
     position: "relative",
-    minHeight: "0",
-    paddingBlock: "0",
+    marginInlineStart: "4xsmall",
   },
 });
 
@@ -80,7 +78,12 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
+        <CardImage
+          alt=""
+          height={200}
+          src={item.img?.url ?? ""}
+          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+        />
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
@@ -118,8 +121,6 @@ const SearchResultItem = ({ item, type }: Props) => {
                               aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
                             >
                               {context.breadcrumb.join(" › ")}
-                              &nbsp;
-                              {context.isAdditional ? <Additional /> : <Core />}
                             </Text>
                           </li>
                         ))}

@@ -49,13 +49,15 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som starter på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
       linkText: "Geahččal NDLA ságastallanrobohta",
@@ -172,6 +174,21 @@ const messages = {
   },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Siden har flyttet, men du finner den her:",
+    openInSubject: "Åpne artikkelen i et fag:",
   },
 };
 

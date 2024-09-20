@@ -6,8 +6,9 @@
  *
  */
 
-import { useId } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { CloseLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
 import {
   CheckboxControl,
@@ -17,8 +18,10 @@ import {
   CheckboxLabel,
   CheckboxRoot,
   Spinner,
-  Text,
   Heading,
+  Button,
+  FieldsetRoot,
+  FieldsetLegend,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
@@ -47,6 +50,14 @@ const CompetenceItemWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xxsmall",
+  },
+});
+
+const FiltersWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
   },
 });
 
@@ -81,7 +92,12 @@ const StyledCheckboxGroup = styled(CheckboxGroup, {
     flexWrap: "wrap",
   },
 });
-const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    gap: "small",
+  },
+});
 
 const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
   const showAll = selectedFilters.includes("all");
@@ -126,7 +142,7 @@ const SearchContainer = ({
   selectedFilters,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const resourceTypeFilterId = useId();
+  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
   const filterButtonItems = Object.keys(typeFilter).reduce(
     (acc, cur) => {
@@ -137,6 +153,12 @@ const SearchContainer = ({
     },
     [{ value: "all", label: t("searchPage.resultType.all") }] as { value: string; label: string }[],
   );
+
+  const onGrepRemove = (grepValue: string) => {
+    handleSearchParamsChange({
+      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
+    });
+  };
 
   const sortedFilterItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
@@ -171,8 +193,6 @@ const SearchContainer = ({
           handleSearchParamsChange={handleSearchParamsChange}
           subjects={subjects}
           noResults={!(sortedFilterItems.length > 1)}
-          competenceGoals={competenceGoals}
-          coreElements={coreElements}
           loading={loading}
           isLti={isLti}
         />
@@ -196,19 +216,23 @@ const SearchContainer = ({
                 <CompetenceItem item={{ elements: mappedCoreElements }} />
               </CompetenceItemWrapper>
             )}
+            {!!grepElements.length && (
+              <FiltersWrapper>
+                {grepElements.map((grep) => (
+                  <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
+                    {grep.id}
+                    <CloseLine />
+                  </Button>
+                ))}
+              </FiltersWrapper>
+            )}
           </CompetenceWrapper>
         )}
         <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
         {sortedFilterItems.length > 1 && (
-          <div>
-            <StyledText textStyle="title.small" id={resourceTypeFilterId}>
-              {t("searchPage.filterSearch")}
-            </StyledText>
-            <StyledCheckboxGroup
-              value={selectedFilters}
-              onValueChange={handleFilterToggle}
-              aria-labelledby={resourceTypeFilterId}
-            >
+          <StyledFieldsetRoot>
+            <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
+            <StyledCheckboxGroup value={selectedFilters} onValueChange={handleFilterToggle}>
               {sortedFilterItems.map((item) => (
                 <CheckboxRoot key={item.value} value={item.value} variant="chip">
                   <CheckboxControl>
@@ -221,7 +245,7 @@ const SearchContainer = ({
                 </CheckboxRoot>
               ))}
             </StyledCheckboxGroup>
-          </div>
+          </StyledFieldsetRoot>
         )}
       </SearchPanel>
       {!!searchGroups?.length && (

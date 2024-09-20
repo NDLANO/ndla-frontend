@@ -10,17 +10,13 @@ import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { MenuLine } from "@ndla/icons/action";
 import { GridFill } from "@ndla/icons/common";
-import { ListCheck } from "@ndla/icons/editor";
-import { IconButton } from "@ndla/primitives";
+import { ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ViewType } from "../FoldersPage";
 
-const ListViewOptionsContainer = styled("div", {
+const StyledToggleGroupRoot = styled(ToggleGroupRoot, {
   base: {
-    display: "flex",
-    alignItems: "center",
     marginInlineStart: "auto",
-    gap: "3xsmall",
   },
 });
 
@@ -29,41 +25,39 @@ interface Props {
   type: ViewType;
 }
 
+const VALID_VIEW_TYPES = ["list", "block"] as const;
+
 const ListViewOptions = ({ onTypeChange, type }: Props) => {
   const { t } = useTranslation();
   return (
-    <ListViewOptionsContainer>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        variant={type === "list" ? "primary" : "tertiary"}
-        onClick={() => onTypeChange("list")}
+    <StyledToggleGroupRoot
+      value={VALID_VIEW_TYPES.includes(type) ? [type] : undefined}
+      defaultValue={["list"]}
+      onValueChange={(details) => {
+        if (details.value[0]) {
+          onTypeChange(details.value[0] as ViewType);
+        }
+      }}
+    >
+      <ToggleGroupItem
+        value="list"
+        variant="tertiary"
         aria-label={t("myNdla.listView")}
         title={t("myNdla.listView")}
         size="small"
       >
         <MenuLine />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        variant={type === "listLarger" ? "primary" : "tertiary"}
-        onClick={() => onTypeChange("listLarger")}
-        aria-label={t("myNdla.detailView")}
-        title={t("myNdla.detailView")}
-        size="small"
-      >
-        <ListCheck />
-      </IconButton>
-      <IconButton
-        // TODO: Fix handling of active according to design
-        variant={type === "block" ? "primary" : "tertiary"}
-        onClick={() => onTypeChange("block")}
+      </ToggleGroupItem>
+      <ToggleGroupItem
+        value="block"
+        variant="tertiary"
         aria-label={t("myNdla.shortView")}
         title={t("myNdla.shortView")}
         size="small"
       >
         <GridFill />
-      </IconButton>
-    </ListViewOptionsContainer>
+      </ToggleGroupItem>
+    </StyledToggleGroupRoot>
   );
 };
 

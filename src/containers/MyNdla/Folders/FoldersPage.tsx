@@ -10,12 +10,10 @@ import isEqual from "lodash/isEqual";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { FileTextLine, HashTag } from "@ndla/icons/common";
+import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
 import FolderActions from "./components/FolderActions";
 import FolderButtons from "./components/FolderButtons";
 import FolderList from "./components/FolderList";
@@ -32,100 +30,54 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
 
-const ResourceCountContainer = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-`;
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xsmall",
+  },
+});
 
-const FoldersPageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-`;
+const StyledEm = styled("em", {
+  base: {
+    whiteSpace: "pre-wrap",
+  },
+});
 
-const OptionsWrapper = styled.div`
-  display: none;
-  flex: 1;
+const StyledUl = styled("ul", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "xsmall",
+    listStyle: "none",
+  },
+});
 
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: flex;
-  }
-`;
+const TagsHeading = styled(Heading, {
+  base: {
+    marginBlockStart: "xlarge",
+  },
+});
 
-export const BlockWrapper = styled.ul`
-  display: grid;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  margin-bottom: ${spacing.medium};
-  padding: 0 0 0 ${spacing.medium};
+const SharedHeading = styled(Heading, {
+  base: {
+    marginBlock: "xsmall",
+  },
+});
 
-  &[data-type="block"] {
-    padding: 0;
-    gap: ${spacing.normal};
-    margin-top: ${spacing.normal};
-    grid-template-columns: repeat(1, 1fr);
+const TagSafeLink = styled(SafeLinkButton, {
+  base: {
+    color: "text.default",
+    background: "surface.action.myNdla",
+    boxShadowColor: "stroke.warning",
+    _hover: {
+      background: "surface.action.myNdla.hover",
+    },
+    _active: {
+      background: "surface.action.myNdla",
+    },
+  },
+});
 
-    ${mq.range({ from: breakpoints.tabletWide })} {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    ${mq.range({ from: breakpoints.wide })} {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  ${mq.range({ until: breakpoints.tablet })} {
-    padding: 0;
-  }
-
-  &[data-no-padding="true"] {
-    padding: 0;
-  }
-`;
-
-export const ListItem = styled.li`
-  overflow: hidden;
-  list-style: none;
-  width: 100%;
-  padding: 0;
-`;
-
-const StyledHeading = styled(Heading)`
-  margin-top: 0;
-  margin-bottom: ${spacing.xsmall};
-`;
-
-const StyledRow = styled.div`
-  margin: ${spacing.small} 0;
-  gap: ${spacing.nsmall};
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
-
-const StyledEm = styled.em`
-  white-space: pre-wrap;
-`;
-
-const StyledUl = styled.ul`
-  list-style: none;
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
-
-const StyledLi = styled.li`
-  padding: 0;
-`;
-
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  width: fit-content;
-  display: flex;
-  align-items: center;
-`;
-
-export type ViewType = "list" | "block" | "listLarger";
+export type ViewType = "block" | "list";
 
 const FoldersPage = () => {
   const { t } = useTranslation();
@@ -215,83 +167,63 @@ const FoldersPage = () => {
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
   return (
-    <MyNdlaPageWrapper
+    <StyledMyNdlaPageWrapper
       dropDownMenu={dropDownMenu}
       buttons={folderButtons}
-      viewType={viewType}
-      onViewTypeChange={setViewType}
       showButtons={!examLock || !!selectedFolder}
     >
-      <FoldersPageContainer>
-        <HelmetWithTracker title={title} />
-        <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
-        {selectedFolder && (
-          <p>
-            <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
-          </p>
-        )}
-        <StyledRow>
-          <OptionsWrapper>
-            <ListViewOptions type={viewType} onTypeChange={setViewType} />
-          </OptionsWrapper>
-        </StyledRow>
-        <FolderList
-          folders={folders}
-          loading={loading}
-          folderId={folderId}
-          setFocusId={setFocusId}
-          folderRefId={folderRefId}
-        />
-        {!!selectedFolder?.resources.length && (
-          <ResourceCountContainer>
-            <FileTextLine />
-            <span>
-              {t("myNdla.resources", {
-                count: selectedFolder?.resources.length,
-              })}
-            </span>
-          </ResourceCountContainer>
-        )}
-        {selectedFolder && (
-          <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
-        )}
-        {!selectedFolder && sharedByOthersFolders?.length > 0 && (
-          <>
-            <StyledHeading element="h2" headingStyle="h2">
-              {t("myNdla.sharedByOthersFolders")}
-            </StyledHeading>
-            <FolderList
-              folders={sharedByOthersFolders as unknown as GQLFolder[]}
-              loading={loading}
-              folderId={folderId}
-              setFocusId={setFocusId}
-              folderRefId={folderRefId}
-              isFavorited={true}
-            />
-          </>
-        )}
-        {!selectedFolder && tags.length ? (
-          <>
-            <StyledHeading element="h2" headingStyle="h2" id="tags-header">
-              {t("htmlTitles.myTagsPage")}
-            </StyledHeading>
-            <nav aria-labelledby="tags-header">
-              <StyledUl>
-                {tags?.map((tag) => (
-                  <StyledLi key={tag}>
-                    {/* TODO: This should be updated according to design */}
-                    <StyledSafeLinkButton variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
-                      <HashTag />
-                      {tag}
-                    </StyledSafeLinkButton>
-                  </StyledLi>
-                ))}
-              </StyledUl>
-            </nav>
-          </>
-        ) : null}
-      </FoldersPageContainer>
-    </MyNdlaPageWrapper>
+      <HelmetWithTracker title={title} />
+      <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
+      {selectedFolder && (
+        <p>
+          <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
+        </p>
+      )}
+      <ListViewOptions type={viewType} onTypeChange={setViewType} />
+      <FolderList
+        folders={folders}
+        loading={loading}
+        folderId={folderId}
+        setFocusId={setFocusId}
+        folderRefId={folderRefId}
+      />
+      {selectedFolder && (
+        <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
+      )}
+      {!selectedFolder && sharedByOthersFolders?.length > 0 && (
+        <>
+          <SharedHeading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myNdla.sharedByOthersFolders")}</h2>
+          </SharedHeading>
+          <FolderList
+            folders={sharedByOthersFolders as unknown as GQLFolder[]}
+            loading={loading}
+            folderId={folderId}
+            setFocusId={setFocusId}
+            folderRefId={folderRefId}
+            isFavorited={true}
+          />
+        </>
+      )}
+      {!selectedFolder && tags.length ? (
+        <>
+          <TagsHeading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myndla.tagsTitle")}</h2>
+          </TagsHeading>
+          <nav aria-labelledby="tags-header">
+            <StyledUl>
+              {tags?.map((tag) => (
+                <li key={tag}>
+                  <TagSafeLink variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
+                    {tag}
+                  </TagSafeLink>
+                </li>
+              ))}
+            </StyledUl>
+          </nav>
+        </>
+      ) : null}
+    </StyledMyNdlaPageWrapper>
   );
 };
 

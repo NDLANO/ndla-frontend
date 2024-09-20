@@ -98,14 +98,13 @@ const favicons = `
 `;
 
 const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
-  const { helmetContext, htmlContent, styles, data } = renderData;
+  const { helmetContext, htmlContent, data } = renderData;
   const meta = `
   ${helmetContext?.helmet.title.toString() ?? ""}
   ${helmetContext?.helmet.meta.toString() ?? ""}
   ${helmetContext?.helmet.link.toString() ?? ""}
   ${favicons}
   ${helmetContext?.helmet.script.toString() ?? ""}
-  ${styles ?? ""}
   `;
 
   const serializedData = serialize({

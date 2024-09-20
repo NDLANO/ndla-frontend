@@ -13,6 +13,7 @@ import { RecipeVariantProps, css, cva } from "@ndla/styled-system/css";
 const navigationSafeLinkButtonRecipe = cva({
   base: {
     justifyContent: "start",
+    textAlign: "start",
     width: "100%",
   },
   defaultVariants: { variant: "primary" },

@@ -33,9 +33,11 @@ import {
   DialogTitle,
   NdlaLogoText,
   Text,
+  ListItemRoot,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -61,51 +63,14 @@ const StyledComboboxContent = styled(ComboboxContent, {
 
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "xxsmall",
-    transitionProperty: "background-color, border-color",
-    transitionDuration: "superFast",
-    transitionTimingFunction: "ease-in-out",
-    borderTop: "1px solid",
-    borderTopColor: "stroke.subtle",
-    borderBottom: "1px solid",
-    borderBottomColor: "transparent",
     borderRadius: "0",
-    _first: {
-      borderTopColor: "transparent",
-      _hover: {
-        borderTopColor: "stroke.hover",
-      },
-      _highlighted: {
-        borderTopColor: "stroke.hover",
-      },
-    },
-    _last: {
-      borderBottomColor: "stroke.subtle",
-    },
-    "&:hover + &": {
-      borderTopColor: "stroke.hover",
-    },
-    "&[data-highlighted] + &": {
-      borderTopColor: "stroke.hover",
-    },
-    _hover: {
-      borderBottomColor: "transparent",
-      background: "surface.brand.1.subtle",
-      borderTopColor: "stroke.hover",
-      _last: {
-        borderBottomColor: "stroke.hover",
-      },
-    },
-    _highlighted: {
-      background: "surface.brand.1.subtle",
-      borderTopColor: "stroke.hover",
-      _last: {
-        borderBottomColor: "stroke.hover",
-      },
-    },
+  },
+});
+
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    minHeight: "unset",
+    textAlign: "start",
   },
 });
 
@@ -187,6 +152,7 @@ const MastheadSearch = () => {
   const formId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const comboboxTranslations = useComboboxTranslations();
+  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setQuery("");
@@ -277,8 +243,9 @@ const MastheadSearch = () => {
       size="xsmall"
       onOpenChange={setDialogState}
       initialFocusEl={() => inputRef.current}
+      finalFocusEl={() => dialogTriggerRef.current}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger asChild ref={dialogTriggerRef}>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <SearchLine />
           <span>{t("masthead.menu.search")}</span>
@@ -320,9 +287,8 @@ const MastheadSearch = () => {
             </LabelContainer>
             <ComboboxControl>
               <InputContainer>
-                <ComboboxInput asChild>
+                <ComboboxInput asChild ref={inputRef}>
                   <Input
-                    ref={inputRef}
                     placeholder={t("searchPage.searchFieldPlaceholder")}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !highlightedValue) {
@@ -347,10 +313,14 @@ const MastheadSearch = () => {
                   <Spinner />
                 ) : (
                   mappedItems.map((resource) => (
-                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
-                      <SafeLink to={resource.path} onClick={onNavigate}>
+                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <StyledListItemRoot variant="list">
                         <TextWrapper>
-                          <ComboboxItemText>{resource.name}</ComboboxItemText>
+                          <ComboboxItemText>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                              {resource.name}
+                            </SafeLink>
+                          </ComboboxItemText>
                           {!!resource.contexts[0] && (
                             <Text
                               textStyle="label.small"
@@ -363,7 +333,7 @@ const MastheadSearch = () => {
                           )}
                         </TextWrapper>
                         <ContentTypeBadgeNew contentType={resource.contentType} />
-                      </SafeLink>
+                      </StyledListItemRoot>
                     </StyledComboboxItem>
                   ))
                 )}

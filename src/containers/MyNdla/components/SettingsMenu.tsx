@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef } from "react";
+import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons/contentType";
@@ -65,8 +65,12 @@ interface Props {
 
 const StyledDialogContent = styled(DialogContent, {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
     maxHeight: "100%",
     borderTopRadius: "xsmall!",
+    paddingBlockEnd: "medium",
     tabletDown: {
       minHeight: "20%",
     },
@@ -80,15 +84,14 @@ const StyledList = styled("ul", {
   variants: {
     mobile: {
       true: {
-        "& > li": {
-          padding: "4xsmall",
-          borderBottom: "1px solid",
-          borderColor: "surface.brand.2.moderate",
-          "& a, button": {
-            display: "flex",
-            justifyContent: "flex-start",
-            width: "100%",
-          },
+        display: "flex",
+        flexDirection: "column",
+        gap: "3xsmall",
+        paddingInline: "xsmall",
+        "& a, button": {
+          display: "flex",
+          justifyContent: "flex-start",
+          width: "100%",
         },
       },
     },
@@ -118,14 +121,12 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
 
   const title = t("myNdla.showEditOptions");
 
-  const buttonSize = showSingle && menuItems?.length === 1 ? "medium" : "small";
-
   const items = menuItems?.map((item) => (
     <li key={item.value}>
       <Button
         disabled={item.disabled}
         variant={item.variant === "destructive" ? "danger" : "tertiary"}
-        size={buttonSize}
+        size="medium"
         asChild={item.type !== "action"}
         onClick={(e) => {
           if (item.onClick) {
@@ -168,7 +169,11 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   }
 
   return (
-    <MenuRoot open={open} positioning={{ placement: "bottom-end" }} onOpenChange={(details) => setOpen(details.open)}>
+    <MenuRoot
+      open={open}
+      positioning={{ placement: "bottom-end", strategy: "fixed" }}
+      onOpenChange={(details) => setOpen(details.open)}
+    >
       <MenuTrigger asChild ref={dropdownTriggerRef}>
         <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
           <MoreLine />
@@ -187,7 +192,11 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               asChild={item.type !== "action"}
               consumeCss
             >
-              <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
+              <Item
+                item={item}
+                handleDialogItemOpenChange={handleDialogItemOpenChange}
+                dropdownTriggerRef={dropdownTriggerRef}
+              >
                 {item.icon}
                 {item.text}
               </Item>
@@ -203,9 +212,10 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
+  dropdownTriggerRef?: RefObject<HTMLButtonElement>;
 }
 
-const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps) => {
+const Item = ({ handleDialogItemOpenChange, children, item, dropdownTriggerRef, ...rest }: ItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onOpenChange = useCallback(
@@ -231,7 +241,11 @@ const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps
   }
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      finalFocusEl={dropdownTriggerRef ? () => dropdownTriggerRef.current : undefined}
+    >
       <DialogTrigger css={{ all: "unset" }} {...rest}>
         {children}
       </DialogTrigger>

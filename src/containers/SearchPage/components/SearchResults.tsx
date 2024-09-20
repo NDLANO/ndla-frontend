@@ -20,6 +20,8 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
   CheckboxHiddenInput,
+  FieldsetRoot,
+  FieldsetLegend,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SearchResultItem from "./SearchResultItem";
@@ -122,21 +124,23 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
           <Text textStyle="label.large">{t("searchPage.resultType.hits", { count: group.totalCount })}</Text>
         )}
       </HeaderWrapper>
-      {/* TODO: Checkboxgroup should be associated with some kind of label (fieldset or labelledby) */}
       {groupFilter?.filters.length ? (
-        <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
-          {filters.map((filter) => (
-            <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
-              <CheckboxControl>
-                <CheckboxIndicator asChild>
-                  <CheckLine />
-                </CheckboxIndicator>
-              </CheckboxControl>
-              <CheckboxLabel>{filter.name}</CheckboxLabel>
-              <CheckboxHiddenInput />
-            </CheckboxRoot>
-          ))}
-        </StyledCheckboxGroup>
+        <FieldsetRoot>
+          <FieldsetLegend srOnly>{t("searchPage.resourceTypeFilter")}</FieldsetLegend>
+          <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
+            {filters.map((filter) => (
+              <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
+                <CheckboxControl>
+                  <CheckboxIndicator asChild>
+                    <CheckLine />
+                  </CheckboxIndicator>
+                </CheckboxControl>
+                <CheckboxLabel>{filter.name}</CheckboxLabel>
+                <CheckboxHiddenInput />
+              </CheckboxRoot>
+            ))}
+          </StyledCheckboxGroup>
+        </FieldsetRoot>
       ) : null}
       <SearchResultsList>
         {group.items.slice(0, toCount).map((item) => (

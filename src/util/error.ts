@@ -13,10 +13,12 @@ export type LogLevel = "error" | "warn" | "info";
 
 export class StatusError extends Error {
   status: number | undefined;
+  json: unknown | undefined;
   logLevel: LogLevel = "error";
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, json?: unknown) {
     super(message);
     this.status = status;
+    this.json = json;
   }
 }
 

@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogRoot,
+  DialogTitle,
   DialogTrigger,
   Heading,
   Image,
@@ -55,6 +56,12 @@ const StyledIframe = styled("iframe", {
   },
 });
 
+const StyledDialogCloseButton = styled(DialogCloseButton, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
 interface VisualElementProps {
   visualElement: {
     alt?: string;
@@ -66,7 +73,7 @@ interface VisualElementProps {
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
   if (type === "image") {
-    return <Image src={url} alt={alt ?? ""} />;
+    return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
     return <StyledIframe allowFullScreen={true} src={url} />;
   } else {
@@ -121,16 +128,17 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
                 <DialogTrigger asChild>
                   <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
                 </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    {/* TODO: Consider moving title up here? */}
-                    <div />
-                    <DialogCloseButton />
-                  </DialogHeader>
-                  <DialogBody>
-                    <Article article={transformedArticle} oembed={undefined} />
-                  </DialogBody>
-                </DialogContent>
+                <PageContent variant="content" asChild>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle srOnly>{transformedArticle.title}</DialogTitle>
+                      <StyledDialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <Article article={transformedArticle} oembed={undefined} />
+                    </DialogBody>
+                  </DialogContent>
+                </PageContent>
               </DialogRoot>
             )}
           </StyledContent>

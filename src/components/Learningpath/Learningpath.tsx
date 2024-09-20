@@ -7,29 +7,50 @@
  */
 
 import parse from "html-react-parser";
+import { CSSProperties, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing, spacingUnit } from "@ndla/core";
-import { useWindowSize } from "@ndla/hooks";
+import { useComponentSize } from "@ndla/hooks";
+import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
-import { HeroContent } from "@ndla/primitives";
-import { Heading, Text } from "@ndla/typography";
-import { HomeBreadcrumb, OneColumn, LicenseLink, LayoutItem, LearningPathBadge } from "@ndla/ui";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+  PageContent,
+  Text,
+} from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import {
+  ArticleContent,
+  ArticleHeader,
+  ArticleWrapper,
+  ContentTypeBadgeNew,
+  HomeBreadcrumb,
+  LicenseLink,
+} from "@ndla/ui";
+import { contains } from "@ndla/util";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
-import LearningpathEmbed from "./LearningpathEmbed";
-import LearningpathFooter from "./LearningpathFooter";
+import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
 import LearningpathMenu from "./LearningpathMenu";
+import { MastheadHeightPx } from "../../constants";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
+import { toLearningPath } from "../../routeHelpers";
 import { TopicPath } from "../../util/getTopicPath";
+import FavoriteButton from "../Article/FavoritesButton";
+import { PageContainer, PageLayout } from "../Layout/PageContainer";
+import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -38,54 +59,120 @@ interface Props {
   topicPath?: TopicPath[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
-  resource?: GQLLearningpath_ResourceFragment;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
+  resourcePath?: string;
 }
 
-const StyledHeroContent = styled(HeroContent)`
-  display: none;
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    position: "relative",
+    background: "background.subtle",
+    gap: "large",
+  },
+});
 
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: flex;
-    min-height: ${spacing.xxlarge}; //TODO: Temporary fix until design is finished
-    align-items: end;
-    padding: ${spacing.small} 0 ${spacing.xxsmall};
-  }
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateRows: "auto auto 1fr",
+    gridAutoFlow: "column dense",
+    gridTemplateColumns: "minmax(200px, 1fr) minmax(300px, 3fr)",
+    gridTemplateAreas: `
+"meta   content"
+"steps  content"
+".      content"
+`,
+    gap: "medium",
+    desktopDown: {
+      display: "flex",
+      flexDirection: "column",
+    },
+  },
+});
 
-const StyledLearningpathContent = styled.div`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: flex;
-    border-top: 1px solid ${colors.brand.greyLight};
-    margin-top: ${spacing.small};
-    padding-top: ${spacing.nsmall};
-  }
-`;
+const PageButtonsContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "medium",
+    height: "fit-content",
+  },
+});
 
-const LearningPathContent = styled.div`
-  width: 100%;
-`;
+const StyledPageContent = styled(PageContent, {
+  base: {
+    gridArea: "content",
+    gap: "medium",
+  },
+});
 
-const MobileHeaderWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  background: ${colors.brand.lighter};
-  margin: 0 -${spacing.normal} ${spacing.medium};
-  padding: ${spacing.small} ${spacing.normal};
-  align-items: center;
-`;
+const ContentTypeWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "center",
+  },
+});
 
-const LearningPathWrapper = styled.section`
-  max-width: ${1402 + spacingUnit}px;
-  padding: 0 ${spacing.normal};
-  margin: 0 auto;
-`;
+const StyledAccordionItemContent = styled(AccordionItemContent, {
+  base: {
+    background: "background.default",
+  },
+});
+
+const StyledAccordionRoot = styled(AccordionRoot, {
+  base: {
+    display: "block",
+    gridArea: "steps",
+    position: "sticky",
+    zIndex: "docked",
+    top: "calc(var(--masthead-height) + token(spacing.xsmall))",
+    marginInline: "small",
+    desktop: {
+      display: "none",
+    },
+  },
+});
+
+const StyledAccordionItem = styled(AccordionItem, {
+  base: {
+    borderRadius: "xsmall",
+    boxShadow: "small",
+  },
+});
+
+const MetaWrapper = styled("div", {
+  base: {
+    gridArea: "meta",
+    tabletDown: {
+      paddingInline: "xsmall",
+    },
+  },
+});
+
+const MenuWrapper = styled("div", {
+  base: {
+    display: "none",
+    desktop: {
+      display: "block",
+    },
+  },
+});
+
+const BreadcrumbWrapper = styled("div", {
+  base: {
+    tabletDown: {
+      paddingInline: "xsmall",
+    },
+  },
+});
 
 const Learningpath = ({
   learningpath,
   learningpathStep,
-  resource,
+  resourcePath,
   topic,
   subject,
   topicPath,
@@ -94,78 +181,143 @@ const Learningpath = ({
   breadcrumbItems,
 }: Props) => {
   const { t, i18n } = useTranslation();
+  const [accordionValue, setAccordionValue] = useState<string[]>();
+  const accordionRef = useRef<HTMLDivElement>(null);
+  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
-  const { innerWidth } = useWindowSize(100);
-  const mobileView = innerWidth < 981;
-
-  const learningpathMenu = (
-    <LearningpathMenu resource={resource} learningpath={learningpath} currentStep={learningpathStep} />
-  );
   const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
   const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
 
+  const menu = useMemo(
+    () => <LearningpathMenu resourcePath={resourcePath} learningpath={learningpath} currentStep={learningpathStep} />,
+    [learningpath, learningpathStep, resourcePath],
+  );
+
   return (
-    <LearningPathWrapper>
-      <StyledHeroContent>
-        <section>
-          <HomeBreadcrumb items={breadcrumbItems} />
-        </section>
-      </StyledHeroContent>
-      <StyledLearningpathContent>
-        {mobileView ? (
-          <MobileHeaderWrapper>
-            <LearningPathBadge size="small" background />
-            <Text margin="none" textStyle="meta-text-small">
-              {t("learningPath.youAreInALearningPath")}
-            </Text>
-          </MobileHeaderWrapper>
-        ) : (
-          learningpathMenu
+    <PageLayout asChild>
+      <StyledPageContainer variant="wide" gutters="tabletUp">
+        {!!breadcrumbItems.length && (
+          <BreadcrumbWrapper>
+            <HomeBreadcrumb items={breadcrumbItems} />
+          </BreadcrumbWrapper>
         )}
-        {learningpathStep && (
-          <LearningPathContent data-testid="learningpath-content">
+        <ContentWrapper>
+          <MetaWrapper data-testid="learningpath-meta">
+            <ContentTypeWrapper>
+              <ContentTypeBadgeNew contentType="learning-path" />
+              {!!resourcePath && (
+                <AddResourceToFolderModal
+                  resource={{
+                    id: learningpath.id.toString(),
+                    path: resourcePath,
+                    resourceType: "learningpath",
+                  }}
+                >
+                  <FavoriteButton path={resourcePath} />
+                </AddResourceToFolderModal>
+              )}
+            </ContentTypeWrapper>
+            <Text textStyle="label.large">
+              {`${t("learningPath.youAreInALearningPath")}:`}
+              <br />
+              <strong>{learningpath.title}</strong>
+            </Text>
+          </MetaWrapper>
+          <StyledAccordionRoot
+            ref={accordionRef}
+            id={learningpathStep.id.toString()}
+            value={accordionValue}
+            onValueChange={(details) => setAccordionValue(details.value)}
+            variant="bordered"
+            style={{ "--masthead-height": `${height}px` } as CSSProperties}
+            multiple
+            onBlur={(e) => {
+              // automatically close the accordion when focus leaves the accordion on mobile.
+              if (!contains(accordionRef.current, e.relatedTarget)) {
+                setAccordionValue([]);
+              }
+            }}
+          >
+            <StyledAccordionItem value="menu">
+              <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+                <h2>
+                  <AccordionItemTrigger>
+                    {t("learningpathPage.accordionTitle")}
+                    <AccordionItemIndicator asChild>
+                      <ArrowDownShortLine />
+                    </AccordionItemIndicator>
+                  </AccordionItemTrigger>
+                </h2>
+              </Heading>
+              <StyledAccordionItemContent>{menu}</StyledAccordionItemContent>
+            </StyledAccordionItem>
+          </StyledAccordionRoot>
+          <MenuWrapper>{menu}</MenuWrapper>
+          <StyledPageContent variant="article" gutters="never">
             {learningpathStep.showTitle && (
-              <OneColumn>
-                <LayoutItem layout="center">
-                  <Heading element="h1" headingStyle="h1-resource" margin="large" id={skipToContentId}>
-                    {learningpathStep.title}
-                  </Heading>
-                  <LicenseLink
-                    license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
-                  />
-                  {!!learningpathStep.description && <div>{parse(learningpathStep.description)}</div>}
-                </LayoutItem>
-              </OneColumn>
+              <EmbedPageContent variant="content">
+                <ArticleWrapper>
+                  <ArticleHeader>
+                    <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
+                      {learningpathStep.title}
+                    </Heading>
+                    <LicenseLink
+                      license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
+                    />
+                  </ArticleHeader>
+                  <ArticleContent>
+                    {!!learningpathStep.description && <section>{parse(learningpathStep.description)}</section>}
+                  </ArticleContent>
+                </ArticleWrapper>
+              </EmbedPageContent>
             )}
             <LearningpathEmbed
+              key={learningpathStep.id}
               skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
               subjectId={subject?.id}
               learningpathStep={learningpathStep}
               breadcrumbItems={breadcrumbItems}
-            />
-            <LastLearningpathStepInfo
-              topic={topic}
-              topicPath={topicPath}
-              resourceTypes={resourceTypes}
-              seqNo={learningpathStep.seqNo}
-              numberOfLearningSteps={learningpath.learningsteps.length - 1}
-              title={learningpath.title}
-              subject={subject}
-            />
-          </LearningPathContent>
-        )}
-      </StyledLearningpathContent>
-      <LearningpathFooter
-        resource={resource}
-        mobileView={mobileView}
-        learningPathMenu={learningpathMenu}
-        learningPath={learningpath}
-        totalSteps={learningpath.learningsteps.length}
-        currentStep={learningpathStep.seqNo + 1}
-        previousStep={previousStep}
-        nextStep={nextStep}
-      />
-    </LearningPathWrapper>
+            >
+              <LastLearningpathStepInfo
+                topic={topic}
+                topicPath={topicPath}
+                resourceTypes={resourceTypes}
+                seqNo={learningpathStep.seqNo}
+                numberOfLearningSteps={learningpath.learningsteps.length - 1}
+                title={learningpath.title}
+                subject={subject}
+              />
+            </LearningpathEmbed>
+            <PageButtonsContainer>
+              {previousStep ? (
+                <SafeLinkButton
+                  to={toLearningPath(learningpath.id, previousStep.id, resourcePath)}
+                  variant="secondary"
+                  aria-label={t("learningPath.previousArrow")}
+                >
+                  <ArrowLeftLine />
+                  {previousStep.title}
+                </SafeLinkButton>
+              ) : (
+                <div />
+              )}
+              {nextStep ? (
+                <SafeLinkButton
+                  to={toLearningPath(learningpath.id, nextStep.id, resourcePath)}
+                  variant="secondary"
+                  aria-label={t("learningPath.nextArrow")}
+                >
+                  {nextStep.title}
+                  <ArrowRightLine />
+                </SafeLinkButton>
+              ) : (
+                <div />
+              )}
+            </PageButtonsContainer>
+          </StyledPageContent>
+        </ContentWrapper>
+      </StyledPageContainer>
+    </PageLayout>
   );
 };
 
@@ -201,28 +353,15 @@ Learningpath.fragments = {
       }
       ...LearningpathEmbed_LearningpathStep
       ...LearningpathMenu_LearningpathStep
-      ...LearningpathFooter_LearningpathStep
     }
     ${LearningpathMenu.fragments.step}
-    ${LearningpathFooter.fragments.learningpathStep}
     ${LearningpathEmbed.fragments.learningpathStep}
-  `,
-  resource: gql`
-    fragment Learningpath_Resource on Resource {
-      path
-      ...LearningpathMenu_Resource
-      ...LearningpathFooter_Resource
-    }
-    ${LearningpathMenu.fragments.resource}
-    ${LearningpathFooter.fragments.resource}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {
       ...LearningpathMenu_Learningpath
-      ...LearningpathFooter_Learningpath
     }
     ${LearningpathMenu.fragments.learningpath}
-    ${LearningpathFooter.fragments.learningpath}
   `,
 };
 

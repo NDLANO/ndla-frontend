@@ -112,6 +112,7 @@ export type ConfigType = {
   enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
+  debugGraphQLCache: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -144,6 +145,7 @@ const getServerSideConfig = (): ConfigType => {
     enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
+    debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
   };
 };
 

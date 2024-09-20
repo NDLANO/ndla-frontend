@@ -19,6 +19,7 @@ import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import BlockResource from "../../components/MyNdla/BlockResource";
+import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
 import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
 import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
@@ -33,7 +34,7 @@ import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
-import { BlockWrapper, ViewType } from "../MyNdla/Folders/FoldersPage";
+import { ViewType } from "../MyNdla/Folders/FoldersPage";
 import NotFound from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
@@ -189,7 +190,7 @@ const SharedFolderPage = () => {
           <ListViewOptions type={viewType} onTypeChange={setViewType} />
         </OptionsWrapper>
         {!!folder.subfolders.length && (
-          <BlockWrapper data-no-padding={true}>
+          <BlockWrapper>
             {folder.subfolders.map((subFolder) =>
               containsFolder(subFolder) ? (
                 <li key={`folder-${subFolder.id}`}>
@@ -203,7 +204,7 @@ const SharedFolderPage = () => {
             )}
           </BlockWrapper>
         )}
-        <BlockWrapper data-type={viewType} data-no-padding={true}>
+        <BlockWrapper variant={viewType}>
           {folder.resources.map((resource) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return resourceMeta ? (
@@ -217,7 +218,7 @@ const SharedFolderPage = () => {
                   link={getResourceMetaPath(resource, resourceMeta)}
                   resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
                   title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                  description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+                  description={resourceMeta?.description ?? ""}
                 />
               </li>
             ) : null;

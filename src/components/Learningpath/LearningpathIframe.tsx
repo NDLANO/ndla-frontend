@@ -8,6 +8,7 @@
 
 import parse from "html-react-parser";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { styled } from "@ndla/styled-system/jsx";
 
 export const urlIsNDLAApiUrl = (url: string) =>
   /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
@@ -19,6 +20,23 @@ interface Props {
   html: string;
   url: string;
 }
+
+const IframeWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    maxWidth: "100%",
+    "& > iframe": {
+      width: "100%",
+      minHeight: "surface.medium",
+      tablet: {
+        borderRadius: "xsmall",
+      },
+    },
+  },
+});
 
 const LearningpathIframe = ({ html, url }: Props) => {
   const iframeRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -95,7 +113,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     }
   };
 
-  return <div ref={iframeRef}>{parse(html)}</div>;
+  return <IframeWrapper ref={iframeRef}>{parse(html)}</IframeWrapper>;
 };
 
 export default LearningpathIframe;

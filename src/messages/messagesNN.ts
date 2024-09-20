@@ -26,7 +26,7 @@ const messages = {
     myFoldersPage: `Mine mapper - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mine emneknaggar - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
@@ -50,13 +50,15 @@ const messages = {
     subtitle: "Lytt og lær!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Kva fag vil du visa?" },
+  subjectsPage: { tabFilter: { label: "Kva fag vil du visa?", all: "Alle fag og ressursar" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som startar på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
+    tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv praterobotane våre",
       linkText: "Prøv NDLAs praterobotar",
@@ -176,6 +178,21 @@ const messages = {
   },
   aboutPage: {
     nav: "Informasjonsider",
+  },
+  subjectPage: {
+    topicsTitle: "Emne i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Sida har flytta, men du finn den her:",
+    openInSubject: "Opne artikkelen i eit fag:",
   },
 };
 

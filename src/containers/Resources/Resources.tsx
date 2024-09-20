@@ -19,6 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
@@ -33,6 +34,7 @@ interface Props {
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
+  currentResourceContentType?: ContentType;
 }
 
 const StyledNav = styled("nav", {
@@ -61,7 +63,7 @@ const StyledHGroup = styled("hgroup", {
     display: "flex",
     gap: "xsmall",
     flexWrap: "wrap",
-    alignItems: "center",
+    alignItems: "baseline",
   },
 });
 
@@ -87,7 +89,13 @@ const ResourceContainer = styled("div", {
   },
 });
 
-const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingType: SubHeadingType }: Props) => {
+const Resources = ({
+  topic,
+  resourceTypes,
+  headingType: HeadingType,
+  subHeadingType: SubHeadingType,
+  currentResourceContentType,
+}: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
@@ -157,7 +165,11 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
       </TitleWrapper>
       <ResourceContainer>
         {!isGrouped ? (
-          <ResourceList resources={ungroupedResources} showAdditionalResources={showAdditionalResources} />
+          <ResourceList
+            resources={ungroupedResources}
+            showAdditionalResources={showAdditionalResources}
+            currentResourceContentType={currentResourceContentType}
+          />
         ) : (
           groupedResources.map((type) => (
             <StableId key={type.id}>
@@ -172,6 +184,7 @@ const Resources = ({ topic, resourceTypes, headingType: HeadingType, subHeadingT
                     showAdditionalResources={showAdditionalResources}
                     contentType={type.contentType}
                     resources={type.resources ?? []}
+                    currentResourceContentType={currentResourceContentType}
                   />
                 </ListWrapper>
               )}

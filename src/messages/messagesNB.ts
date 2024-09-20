@@ -50,13 +50,15 @@ const messages = {
     subtitle: "Lytt og lær!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: "Hvilke fag vil du vise?" },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som starter på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv vår praterobot",
       linkText: "Prøv NDLAs prateroboter",
@@ -174,8 +176,23 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
   },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
   aboutPage: {
     nav: "Informasjonssider",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Siden har flyttet, men du finner den her:",
+    openInSubject: "Åpne artikkelen i et fag:",
   },
 };
 

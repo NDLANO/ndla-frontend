@@ -67,6 +67,8 @@ export const DrawerListItem = styled("li", {
   base: {
     listStyle: "none",
     display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
 });
 

@@ -47,6 +47,14 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
+const StyledHeroContent = styled(HeroContent, {
+  base: {
+    "& a:focus-within": {
+      outlineColor: "currentcolor",
+    },
+  },
+});
+
 export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
   slug: string | undefined,
@@ -148,9 +156,9 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
       <Hero variant="primary">
         <HeroBackground />
         <PageContent variant="article">
-          <HeroContent>
+          <StyledHeroContent>
             <HomeBreadcrumb items={crumbs} />
-          </HeroContent>
+          </StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>

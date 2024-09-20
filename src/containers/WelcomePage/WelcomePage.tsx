@@ -9,16 +9,18 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Heading, Hero, HeroBackground, PageContent } from "@ndla/primitives";
+import { ArrowRightLine } from "@ndla/icons/common";
+import { Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
-import Programmes from "./Components/Programmes";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
@@ -26,38 +28,93 @@ import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
-const StyledMain = styled("main", {
+const HeadingWrapper = styled("div", {
   base: {
-    paddingBlockEnd: "5xlarge",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "medium",
   },
 });
 
-const ContentWrapper = styled("div", {
+const StyledHeading = styled(Heading, {
   base: {
-    paddingBlockStart: "medium",
+    textAlign: "center",
   },
 });
 
-const StyledPageContent = styled(PageContent, {
+const StyledList = styled("ul", {
   base: {
+    display: "grid",
+    columnGap: "xsmall",
+    rowGap: "small",
+    listStyle: "none",
+    gridTemplateColumns: "1fr",
+    tablet: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+  },
+});
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    position: "relative",
+    paddingInline: "small",
+    paddingBlock: "medium",
+    justifyContent: "space-between",
+    textAlign: "start",
     width: "100%",
-    paddingBlockStart: "medium",
-    paddingBlockEnd: "surface.4xsmall",
+    height: "4xlarge",
+    _after: {
+      transitionDuration: "normal",
+      transitionTimingFunction: "ease-out",
+      transitionProperty: "opacity",
+      opacity: "0",
+      inset: "0",
+      borderRadius: "xsmall",
+      position: "absolute",
+      content: "''",
+      boxShadow: "none",
+    },
+    // Disable this hover effect on touch devices
+    "@media(pointer: fine)": {
+      "&:not(:active)": {
+        _hover: {
+          transform: "translateY(-5px)",
+          _after: {
+            opacity: "1",
+            boxShadow: "full",
+          },
+        },
+      },
+    },
+  },
+});
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    gap: "xxlarge",
   },
 });
 
 const StyledHeroBackground = styled(HeroBackground, {
   base: {
-    display: "flex",
-    justifyContent: "center",
-    height: "unset",
+    height: "surface.large",
   },
 });
 
 const frontpageQuery = gql`
   query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
-      ...Programmes_ProgrammePage
+      id
+      title {
+        title
+        language
+      }
+      url
     }
     frontpage {
       articleId
@@ -80,7 +137,6 @@ const frontpageQuery = gql`
   }
   ${LicenseBox.fragments.article}
   ${structuredArticleDataFragment}
-  ${Programmes.fragments.programmePage}
 `;
 
 const WelcomePage = () => {
@@ -146,24 +202,38 @@ const WelcomePage = () => {
       >
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
-      <StyledMain>
-        <Hero absolute={false} variant="brand1Subtle">
-          <StyledHeroBackground>
-            <StyledPageContent data-testid="programme-list">
-              <Programmes programmes={fpQuery.data?.programmes ?? []} />
-            </StyledPageContent>
-          </StyledHeroBackground>
-        </Hero>
-        {article && (
-          <ContentWrapper>
-            <PageContent>
+      <Hero variant="brand1Moderate">
+        <StyledHeroBackground />
+        <StyledPageContainer asChild consumeCss>
+          <main>
+            <HeadingWrapper>
+              <StyledHeading asChild consumeCss textStyle="heading.large" id="programmes-heading">
+                <h2>{t("programmes.header")}</h2>
+              </StyledHeading>
+              <Text textStyle="title.medium" fontWeight="normal">
+                {t("programmes.description")}
+              </Text>
+            </HeadingWrapper>
+            <nav aria-label={t("welcomePage.programmes")} data-testid="programme-list">
+              <StyledList>
+                {fpQuery.data?.programmes?.map((programme) => (
+                  <li key={programme.id}>
+                    <StyledSafeLinkButton to={`${PROGRAMME_PATH}${programme.url}`} variant="secondary">
+                      {programme.title.title}
+                      <ArrowRightLine />
+                    </StyledSafeLinkButton>
+                  </li>
+                ))}
+              </StyledList>
+            </nav>
+            {article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>
-            </PageContent>
-          </ContentWrapper>
-        )}
-      </StyledMain>
+            )}
+          </main>
+        </StyledPageContainer>
+      </Hero>
     </>
   );
 };

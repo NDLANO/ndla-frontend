@@ -19,6 +19,7 @@ import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import TopicWrapper from "./components/TopicWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -46,6 +47,13 @@ const HeadingWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
+    gap: "medium",
+  },
+});
+
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
     gap: "medium",
   },
 });
@@ -183,9 +191,20 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
         <HeadingWrapper>
-          <Heading textStyle="heading.medium" id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined} tabIndex={-1}>
-            {subject.name}
-          </Heading>
+          <HeaderWrapper>
+            <Heading
+              textStyle="heading.medium"
+              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
+              tabIndex={-1}
+            >
+              {subject.name}
+            </Heading>
+            <FavoriteSubject
+              subject={subject}
+              favorites={user?.favoriteSubjects}
+              subjectLinkOrText={<Text>{subject.name}</Text>}
+            />
+          </HeaderWrapper>
           <SubjectLinks
             buildsOn={subject.subjectpage?.buildsOn ?? []}
             connectedTo={subject.subjectpage?.connectedTo ?? []}

@@ -14,7 +14,7 @@ import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons/common";
 import { Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { constants, LayoutItem } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
@@ -98,12 +98,10 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <PostResizeMessage />
       <main>
         {!!ltiData && (
-          <LayoutItem layout="center">
-            <Button variant="link" onClick={() => navigate(-1)}>
-              <ArrowLeftLine />
-              {t("lti.goBack")}
-            </Button>
-          </LayoutItem>
+          <Button variant="link" onClick={() => navigate(-1)}>
+            <ArrowLeftLine />
+            {t("lti.goBack")}
+          </Button>
         )}
         <Article
           article={article}

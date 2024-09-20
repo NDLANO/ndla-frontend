@@ -26,9 +26,9 @@ import {
 } from "@ndla/icons/common";
 import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
-import { Button, DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import NavigationLink from "./components/NavigationLink";
+import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { routes } from "../../routeHelpers";
@@ -108,20 +108,6 @@ const StyledSideBar = styled("div", {
       gap: "medium",
       flexDirection: "column",
       minWidth: "surface.xsmall",
-    },
-  },
-});
-
-const MoreButton = styled(Button, {
-  base: {
-    color: "text.default",
-    display: "flex",
-    justifyContent: "flex-start",
-    flexDirection: "column",
-    paddingInline: "3xsmall",
-    textStyle: "label.xsmall",
-    mobileWide: {
-      display: "none",
     },
   },
 });

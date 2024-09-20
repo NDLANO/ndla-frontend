@@ -61,10 +61,10 @@ export const groupSubjects = <T extends BaseSubject>(subjects: T[]): GroupedSubj
     .sort((a, b) => (a.label > b.label ? 1 : -1));
 };
 
-export const filterSubjects = <T extends Pick<GQLSubject, "id" | "metadata">>(allSubjects: T[], status: string[]) => {
+export const filterSubjects = <T extends Pick<GQLSubject, "id" | "metadata">>(allSubjects: T[], status: string) => {
   const subjects = allSubjects.filter((subject) => subject.metadata.customFields.forklaringsfag !== "true");
-  if (status.includes("all")) {
+  if (status === "all") {
     return subjects.filter((subject) => subject.metadata.customFields.subjectCategory);
   }
-  return subjects.filter((subject) => status.includes(subject.metadata.customFields.subjectCategory));
+  return subjects.filter((subject) => subject.metadata.customFields.subjectCategory === status);
 };
