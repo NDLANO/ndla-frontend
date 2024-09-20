@@ -54,6 +54,7 @@ const messages = {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som starter på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
     tagsTitle: "Mine emneknagger",
