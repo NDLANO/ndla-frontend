@@ -83,11 +83,23 @@ export const DrawerHeader = styled(Heading, {
 
 export const DrawerHeaderLink = styled(SafeLinkButton, {
   base: {
+    position: "relative",
     textAlign: "start",
     color: "text.default",
     textStyle: "title.medium",
     fontWeight: "bold",
     paddingInline: "small",
     paddingBlockEnd: "small",
+    _currentPage: {
+      borderRadius: "0",
+      _before: {
+        position: "absolute",
+        left: "0",
+        content: '""',
+        height: "100%",
+        borderInlineStart: "6px solid",
+        borderColor: "stroke.default",
+      },
+    },
   },
 });
