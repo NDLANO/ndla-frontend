@@ -216,7 +216,7 @@ const desktopLogoStyle = css.raw({
 const MobileLogo = styled(NdlaLogoText, {
   base: {
     display: "block",
-    width: "100%",
+    width: "surface.xsmall",
     tabletToDesktop: {
       paddingInline: "xxlarge",
     },
