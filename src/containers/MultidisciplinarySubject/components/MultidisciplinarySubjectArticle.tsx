@@ -9,6 +9,7 @@
 import { useMemo, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { Divider, styled } from "@ndla/styled-system/jsx";
@@ -96,6 +97,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -147,7 +149,11 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       ? article.copyright.creators
       : article.copyright?.processors;
 
-  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, window.location.href);
+  const licenseProps = licenseAttributes(
+    article.copyright?.license?.license,
+    article.language,
+    `${config.ndlaFrontendDomain}/${pathname}`,
+  );
 
   return (
     <StyledPageContent variant="article" asChild consumeCss>
