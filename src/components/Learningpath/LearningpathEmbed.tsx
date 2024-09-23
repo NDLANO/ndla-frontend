@@ -118,10 +118,11 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
         articleLanguage: article.language,
+        contentType: getContentType(learningpathStep.resource),
       }),
       getArticleScripts(article, i18n.language),
     ];
-  }, [data?.article, i18n.language, learningpathStep.resource?.article, subjectId]);
+  }, [data?.article, i18n.language, learningpathStep.resource, subjectId]);
 
   if (!learningpathStep || (!learningpathStep.resource && (!learningpathStep.embedUrl || !learningpathStep.oembed))) {
     return null;

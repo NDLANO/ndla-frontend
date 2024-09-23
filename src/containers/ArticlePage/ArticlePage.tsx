@@ -135,10 +135,11 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
         articleLanguage: resource.article.language,
+        contentType: getContentType(resource),
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [subject?.id, resource?.article, i18n.language])!;
+  }, [resource, i18n.language, subject?.id])!;
 
   const copyText = useArticleCopyText(article);
 
