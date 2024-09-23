@@ -231,13 +231,10 @@ const contentSecurityPolicy = {
     frameSrc,
     frameAncestors: [
       (req: IncomingMessage, _: ServerResponse) => {
-        if (req.url?.includes("-iframe") || req.url?.includes("lti")) {
+        if (req.url?.includes("-iframe") || req.url?.includes("/lti")) {
           return "*";
         }
-        if (config.ndlaEnvironment === "test") {
-          return "'self' https://tall.test.ndla.no";
-        }
-        return "'self' https://tall.ndla.no";
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no";
       },
     ],
     styleSrc: [
