@@ -120,6 +120,12 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   },
 });
 
+const StyledImage = styled(Image, {
+  base: {
+    width: "100%",
+  },
+});
+
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -155,7 +161,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </Helmet>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
-          <Image src={programme.desktopImage?.url ?? ""} alt="" />
+          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
