@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { useComponentSize } from "@ndla/hooks";
 import { BleedPageContent, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
@@ -62,6 +63,7 @@ const SubjectTopic = ({
   subject,
 }: Props) => {
   const { t } = useTranslation();
+  const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
@@ -69,9 +71,12 @@ const SubjectTopic = ({
 
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
-      topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      window.scrollTo({
+        top: topicRef.current.offsetTop - mastheadHeightPx,
+        behavior: "smooth",
+      });
     }
-  }, [topicId, topicList]);
+  }, [mastheadHeightPx, topicId, topicList]);
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
