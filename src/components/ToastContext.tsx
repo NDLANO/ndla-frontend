@@ -41,7 +41,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
             <ToastTitle>{toast.title}</ToastTitle>
             <ToastDescription>{toast.description}</ToastDescription>
             <ToastCloseTrigger asChild>
-              <IconButton variant="clearSubtle">
+              <IconButton variant="clear">
                 <CloseLine />
               </IconButton>
             </ToastCloseTrigger>
