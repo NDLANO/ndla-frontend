@@ -19,7 +19,7 @@ import {
   TypeFilter,
   mapSubjectDataToGroup,
 } from "./searchHelpers";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { LtiData } from "../../interfaces";

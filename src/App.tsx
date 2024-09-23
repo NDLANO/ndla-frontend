@@ -16,7 +16,7 @@ import Scripts from "./components/Scripts/Scripts";
 import { ToastProvider } from "./components/ToastContext";
 import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
-import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
+import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
@@ -37,7 +37,7 @@ import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
-import NotFound from "./containers/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "./containers/NotFoundPage/NotFoundPage";
 import Layout from "./containers/Page/Layout";
 import PlainArticlePage from "./containers/PlainArticlePage/PlainArticlePage";
 import PlainLearningpathPage from "./containers/PlainLearningpathPage/PlainLearningpathPage";
@@ -188,9 +188,9 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />
                 </Route>
-                <Route path="404" element={<NotFound />} />
-                <Route path="403" element={<AccessDenied />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="404" element={<NotFoundPage />} />
+                <Route path="403" element={<AccessDeniedPage />} />
+                <Route path="*" element={<NotFoundPage />} />
                 <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>

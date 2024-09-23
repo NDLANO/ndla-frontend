@@ -23,7 +23,7 @@ import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
