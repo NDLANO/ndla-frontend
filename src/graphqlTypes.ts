@@ -2329,6 +2329,7 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
     __typename?: "Resource";
     id: string;
     path: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
   };
   embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };

@@ -186,6 +186,8 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   const resource = learningpathStep.resource ?? data?.resource;
   const stepArticle = learningpathStepResource?.article;
 
+  console.log(learningpathStep.resource, data?.resource);
+
   if (!stepArticle) {
     // TODO: This could need a skip-ID
     return <DefaultErrorMessage />;
@@ -245,6 +247,10 @@ LearningpathEmbed.fragments = {
       resource {
         id
         path
+        resourceTypes {
+          id
+          name
+        }
         article {
           ...LearningpathEmbed_Article
         }
