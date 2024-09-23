@@ -38,6 +38,9 @@ export const EmbedPageContent = styled(PageContent, {
   base: {
     background: "background.default",
     tablet: {
+      border: "1px solid",
+      borderColor: "stroke.subtle",
+      boxShadow: "small",
       borderRadius: "xsmall",
     },
   },
