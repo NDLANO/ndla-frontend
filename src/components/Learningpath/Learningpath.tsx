@@ -126,7 +126,7 @@ const StyledAccordionRoot = styled(AccordionRoot, {
     gridArea: "steps",
     position: "sticky",
     zIndex: "docked",
-    top: "calc(var(--masthead-height) + token(spacing.xsmall))",
+    top: "var(--masthead-height)",
     marginInline: "small",
     desktop: {
       display: "none",
