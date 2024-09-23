@@ -3123,9 +3123,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.39-alpha.0":
-  version: 10.0.39-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.39-alpha.0"
+"@ndla/article-converter@npm:^10.0.40-alpha.0":
+  version: 10.0.40-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.40-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.34-alpha.0"
     "@ndla/ui": "npm:^56.0.37-alpha.0"
@@ -3136,7 +3136,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^14.1.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/52a8cbc0b25b1fabdd4f0fce6a1ee579b245e47d1cc7420a1db3a9f344d1b67d9fed863df794f2675f7bde6ca8aaee6d7360ce1d68a6742c4f24277f0a0b68a0
+  checksum: 10c0/f110913d230cb4d8b9ba769bcb9f4963842870514bde7f6f4a0f4125f7cf3b838be3f67cafce25ebdbe2be4091ee2e793834afad7785dd25aae32cfee48cdd33
   languageName: node
   linkType: hard
 
@@ -11192,7 +11192,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.2.0"
     "@graphql-eslint/eslint-plugin": "npm:^3.20.1"
     "@lexical/react": "npm:^0.12.4"
-    "@ndla/article-converter": "npm:^10.0.39-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.40-alpha.0"
     "@ndla/core": "npm:^5.0.2"
     "@ndla/error-reporter": "npm:^2.0.4"
     "@ndla/hooks": "npm:^2.1.9"
