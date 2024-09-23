@@ -14,6 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
 import { contentTypeMapping } from "../../util/getContentType";
+import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypes = constants.resourceEmbedTypeMapping;
 
@@ -66,7 +67,7 @@ const LoadingCardRoot = styled(CardRoot, {
 
 const StyledCardImage = styled(CardImage, {
   base: {
-    height: "surface.4xsmall",
+    height: "surface.3xsmall",
   },
 });
 
@@ -74,13 +75,6 @@ const StyledCardContent = styled(CardContent, {
   base: {
     justifyContent: "space-between",
     paddingInline: "xsmall",
-  },
-  variants: {
-    fullSize: {
-      true: {
-        height: "100%",
-      },
-    },
   },
 });
 
@@ -138,8 +132,13 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
 
   return (
     <StyledCardRoot id={id}>
-      {!!resourceImage.src && <StyledCardImage src={resourceImage.src} height={100} alt={resourceImage.alt} />}
-      <StyledCardContent fullSize={!resourceImage.src}>
+      <StyledCardImage
+        src={resourceImage.src}
+        height={100}
+        alt={resourceImage.alt}
+        fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+      />
+      <StyledCardContent>
         <TitleWrapper>
           <ContentTypeBadgeNew contentType={contentType} />
           <CardHeading

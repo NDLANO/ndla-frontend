@@ -7,32 +7,50 @@
  */
 
 import { useTranslation } from "react-i18next";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  ErrorMessageContent,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
 import { Status } from "../../components";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 
-const NotFound = () => {
+interface NotFoundProps {
+  applySkipToContentId?: boolean;
+}
+
+const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   const { t } = useTranslation();
   return (
     <Status code={404}>
-      <HelmetWithTracker title={t("htmlTitles.notFound")} />
-      <OneColumn>
-        <ErrorMessage
-          illustration={{
-            url: "/static/not-exist.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("notFoundPage.title"),
-            description: t("notFoundPage.errorDescription"),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
-      </OneColumn>
+      <ErrorMessageRoot>
+        <HelmetWithTracker title={t("htmlTitles.notFound")} />
+        <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+        <ErrorMessageContent>
+          <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>
+            {t("notFoundPage.title")}
+          </ErrorMessageTitle>
+          <ErrorMessageDescription>{t("notFoundPage.errorDescription")}</ErrorMessageDescription>
+        </ErrorMessageContent>
+        <ErrorMessageActions>
+          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+        </ErrorMessageActions>
+      </ErrorMessageRoot>
     </Status>
   );
 };
 
-NotFound.propTypes = {};
-
-export default NotFound;
+export const NotFoundPage = () => {
+  return (
+    <PageContainer asChild consumeCss>
+      <main>
+        <NotFound applySkipToContentId={true} />
+      </main>
+    </PageContainer>
+  );
+};

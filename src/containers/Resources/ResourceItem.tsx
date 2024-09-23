@@ -22,11 +22,10 @@ import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
-
-// TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
 
 const StyledPresentationLine = styled(PresentationLine, {
   base: {
@@ -100,6 +99,14 @@ const StyledListItemRoot = styled(ListItemRoot, {
   },
 });
 
+const StyledListItemImage = styled(ListItemImage, {
+  base: {
+    mobileWideDown: {
+      display: "none",
+    },
+  },
+});
+
 export const ResourceItem = ({
   name,
   path,
@@ -141,11 +148,11 @@ export const ResourceItem = ({
         aria-current={active ? "page" : undefined}
         hidden={hidden && !active}
       >
-        <ListItemImage
+        <StyledListItemImage
           src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
           alt=""
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
-          css={{ "&[src='']": { opacity: "0" } }}
+          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>

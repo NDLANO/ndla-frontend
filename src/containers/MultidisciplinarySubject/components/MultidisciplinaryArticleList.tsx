@@ -13,6 +13,7 @@ import { CardContent, CardHeading, CardRoot, Text, Heading, CardImage } from "@n
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
@@ -59,6 +60,7 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
                   alt={topic.meta.metaImage.alt}
                   height={200}
                   fallbackWidth={360}
+                  fallbackElement={<ContentTypeFallbackIcon />}
                 />
               )}
               <CardContent>

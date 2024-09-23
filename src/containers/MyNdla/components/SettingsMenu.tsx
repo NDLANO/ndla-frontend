@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef } from "react";
+import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons/contentType";
@@ -192,7 +192,11 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               asChild={item.type !== "action"}
               consumeCss
             >
-              <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
+              <Item
+                item={item}
+                handleDialogItemOpenChange={handleDialogItemOpenChange}
+                dropdownTriggerRef={dropdownTriggerRef}
+              >
                 {item.icon}
                 {item.text}
               </Item>
@@ -208,9 +212,10 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
+  dropdownTriggerRef?: RefObject<HTMLButtonElement>;
 }
 
-const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps) => {
+const Item = ({ handleDialogItemOpenChange, children, item, dropdownTriggerRef, ...rest }: ItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onOpenChange = useCallback(
@@ -236,7 +241,11 @@ const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps
   }
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      finalFocusEl={dropdownTriggerRef ? () => dropdownTriggerRef.current : undefined}
+    >
       <DialogTrigger css={{ all: "unset" }} {...rest}>
         {children}
       </DialogTrigger>

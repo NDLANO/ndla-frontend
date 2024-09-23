@@ -90,7 +90,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         <DrawerListItem role="none" data-list-item>
           <DrawerHeaderLink
             variant="link"
-            aria-current={location.pathname === topic.path ? "page" : undefined}
+            aria-current={location.pathname.replaceAll("/", "") === topic.path.replaceAll("/", "") ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
             to={topic.path}

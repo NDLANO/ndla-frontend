@@ -16,7 +16,7 @@ import { setCookie } from "@ndla/util";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { useLtiData } from "../components/LtiContext";
 import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
-import ErrorBoundary from "../containers/ErrorPage/ErrorBoundary";
+import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 import ErrorPage from "../containers/ErrorPage/ErrorPage";
 import SearchInnerPage from "../containers/SearchPage/SearchInnerPage";
 import { GQLSearchPageQuery } from "../graphqlTypes";
@@ -89,7 +89,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
   }
 
   return (
-    <ErrorBoundary>
+    <PageErrorBoundary>
       <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }}>
         <title>{`${t("htmlTitles.lti")}`}</title>
       </Helmet>
@@ -107,7 +107,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
           isLti
         />
       </StyledPageLayout>
-    </ErrorBoundary>
+    </PageErrorBoundary>
   );
 };
 

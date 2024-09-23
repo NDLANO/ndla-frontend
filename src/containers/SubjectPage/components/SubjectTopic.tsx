@@ -33,6 +33,7 @@ import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../../Resources/Resources";
+import { scrollToRef } from "../subjectPageHelpers";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
@@ -71,10 +72,10 @@ const SubjectTopic = ({
 
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
-      window.scrollTo({
-        top: topicRef.current.offsetTop - mastheadHeightPx,
-        behavior: "smooth",
-      });
+      scrollToRef(topicRef, mastheadHeightPx);
+      if (document.activeElement?.nodeName !== "BODY") {
+        document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
+      }
     }
   }, [mastheadHeightPx, topicId, topicList]);
 

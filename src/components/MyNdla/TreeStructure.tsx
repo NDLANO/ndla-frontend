@@ -190,8 +190,7 @@ export const TreeStructure = ({
     onExpandedChange: (details) => setExpandedValue(details.expandedValue),
     selectedValue: [selectedValue],
     onSelectionChange: (details) => {
-      // TODO: This is currently a bug in zag. The TreeView component simply expects the already selected value to remain selected. As such, always choose the "last" selected value.
-      const val = details.selectedValue[details.selectedValue.length - 1];
+      const val = details.selectedValue[0];
       if (!val) return;
       if (val === selectedValue && details.focusedValue === selectedValue) {
         setOpen(false);

@@ -15,7 +15,7 @@ import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
-import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { useGraphQuery } from "../util/runQueries";
@@ -91,7 +91,7 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
   const { article, articleResource } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
   return <IframeArticlePage resource={articleResource} article={article} />;
 };
