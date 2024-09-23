@@ -89,7 +89,10 @@ export const DrawerHeaderLink = styled(SafeLinkButton, {
     textStyle: "title.medium",
     fontWeight: "bold",
     paddingInline: "small",
-    paddingBlockEnd: "small",
+    paddingBlock: "xxsmall",
+    tabletDown: {
+      marginBlockStart: "xsmall",
+    },
     _currentPage: {
       borderRadius: "0",
       _before: {
