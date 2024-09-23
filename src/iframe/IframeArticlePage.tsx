@@ -55,10 +55,11 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
         articleLanguage: propArticle.language,
+        contentType: getContentType(resource),
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale]);
+  }, [propArticle, locale, resource]);
 
   useEffect(() => {
     if (propArticle?.id) return;
