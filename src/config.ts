@@ -113,6 +113,7 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
+  enablePrettyUrls: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -146,6 +147,7 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
+    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", false),
   };
 };
 

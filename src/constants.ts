@@ -18,6 +18,7 @@ export const RELEVANCE_SUPPLEMENTARY = "urn:relevance:supplementary";
 export const NOT_FOUND_PAGE_PATH = "/404";
 export const FILM_PAGE_PATH = "/subject:20";
 export const UKR_PAGE_PATH = "/subject:27e8623d-c092-4f00-9a6f-066438d6c466";
+export const FILM_ID = "urn:subject:20";
 export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
 export const TOOLBOX_TEACHER_SUBJECT_ID = "urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc";
 export const TOOLBOX_STUDENT_SUBJECT_ID = "urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4";
