@@ -183,7 +183,6 @@ export interface ArenaListItemProps extends Omit<ComponentPropsWithRef<"div">, "
   visible?: boolean;
   description?: string;
 }
-// TODO: Confirm visible design
 
 export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, ArenaListItemProps>>(
   ({ title, id, isEditing, visible, user, refetchCategories, count, description, ...props }, ref) => {
