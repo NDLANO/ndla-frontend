@@ -175,7 +175,6 @@ const licenceTag = (type: ItemTypeWithDescription["metaType"], url: boolean): st
     copyrightHolder: "cc:copyrightHolder",
     contributor: "cc:contributor",
     other: url ? "cc:attributionURL" : undefined,
-    //@ts-ignore
   })[type];
 
 export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
@@ -197,7 +196,7 @@ export type ItemType = ItemTypeWithDescription | DescriptionlessItemType;
 interface ItemTypeWithDescription {
   label: string;
   description: string;
-  metaType: Omit<MetaType, "otherWithoutDescription">;
+  metaType: Exclude<MetaType, "otherWithoutDescription">;
 }
 
 interface DescriptionlessItemType {
