@@ -56,6 +56,7 @@ const resourcePageQuery = gql`
       paths
       breadcrumbs
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path

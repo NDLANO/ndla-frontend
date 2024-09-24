@@ -23,6 +23,7 @@ export const GroupSearchResourceFragment = gql`
     ingress
     traits
     contexts {
+      contextId
       language
       path
       breadcrumbs
@@ -173,6 +174,7 @@ export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource(id: $resourceId) {
       contexts {
+        contextId
         path
         breadcrumbs
       }

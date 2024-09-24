@@ -204,6 +204,7 @@ export const topicFragments = {
       }
       supportedLanguages
       contexts {
+        contextId
         breadcrumbs
         parentIds
         path
