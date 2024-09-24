@@ -11,7 +11,6 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -115,7 +114,6 @@ const ArticlePage = ({
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
-  const { pathname } = useLocation();
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
@@ -182,11 +180,7 @@ const ArticlePage = ({
       ? article.copyright.creators
       : article.copyright?.processors;
 
-  const licenseProps = licenseAttributes(
-    article.copyright?.license?.license,
-    article.language,
-    `${config.ndlaFrontendDomain}/${pathname}`,
-  );
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
   return (
     <main>

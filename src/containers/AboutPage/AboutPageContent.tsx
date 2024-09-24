@@ -10,7 +10,6 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -98,7 +97,6 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
   const crumbs = useMemo(() => getBreadcrumb(_article.slug, frontpage, t), [_article.slug, frontpage, t]);
-  const { pathname } = useLocation();
 
   useEffect(() => {
     if (_article && authContextLoaded) {
@@ -134,11 +132,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     }
   });
 
-  const licenseProps = licenseAttributes(
-    article.copyright?.license?.license,
-    i18n.language,
-    `${config.ndlaFrontendDomain}/${pathname}`,
-  );
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
   return (
     <main>
