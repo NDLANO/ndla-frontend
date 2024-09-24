@@ -229,7 +229,7 @@ const Learningpath = ({
             multiple
             onBlur={(e) => {
               // automatically close the accordion when focus leaves the accordion on mobile.
-              if (!contains(accordionRef.current, e.relatedTarget)) {
+              if (!contains(accordionRef.current, e.relatedTarget ?? e.target)) {
                 setAccordionValue([]);
               }
             }}
