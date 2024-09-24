@@ -77,6 +77,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
 const StyledButton = styled(Button, {
   base: {
     tabletDown: {
+      paddingInline: "xsmall",
       "& span": {
         display: "none",
       },
