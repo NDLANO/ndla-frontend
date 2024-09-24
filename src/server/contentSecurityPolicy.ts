@@ -231,7 +231,7 @@ const contentSecurityPolicy = {
     frameSrc,
     frameAncestors: [
       (req: IncomingMessage, _: ServerResponse) => {
-        if (req.url?.includes("-iframe") || req.url?.includes("/lti")) {
+        if (req.url?.includes("-iframe") || req.url?.startsWith("/lti")) {
           return "*";
         }
         return "'self' https://tall.ndla.no https://tall.test.ndla.no";
