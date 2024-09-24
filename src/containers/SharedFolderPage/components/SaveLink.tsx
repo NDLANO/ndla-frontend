@@ -14,6 +14,7 @@ import {
   Button,
   DialogBody,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
@@ -21,7 +22,6 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
@@ -31,16 +31,6 @@ import { GQLFolder } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
-
-const ButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: "xsmall",
-    paddingBlockStart: "xxlarge",
-  },
-});
 
 interface SaveLinkProps {
   folder: GQLFolder;
@@ -84,15 +74,15 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
               <InformationLine />
               <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
             </MessageBox>
-            <ButtonRow>
-              <Button variant="secondary" onClick={() => setOpen(false)}>
-                {t("close")}
-              </Button>
-              <Button variant="primary" onClick={() => onSaveLink(name)}>
-                {t("myNdla.folder.sharing.button.saveLink")}
-              </Button>
-            </ButtonRow>
           </DialogBody>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setOpen(false)}>
+              {t("close")}
+            </Button>
+            <Button variant="primary" onClick={() => onSaveLink(name)}>
+              {t("myNdla.folder.sharing.button.saveLink")}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       ) : (
         <LoginModalContent
