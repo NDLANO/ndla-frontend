@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { useComponentSize } from "@ndla/hooks";
 import { BleedPageContent, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
@@ -32,6 +33,7 @@ import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../../Resources/Resources";
+import { scrollToRef } from "../subjectPageHelpers";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
@@ -62,6 +64,7 @@ const SubjectTopic = ({
   subject,
 }: Props) => {
   const { t } = useTranslation();
+  const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
@@ -69,12 +72,12 @@ const SubjectTopic = ({
 
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
-      topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      scrollToRef(topicRef, mastheadHeightPx);
       if (document.activeElement?.nodeName !== "BODY") {
         document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
       }
     }
-  }, [topicId, topicList]);
+  }, [mastheadHeightPx, topicId, topicList]);
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
