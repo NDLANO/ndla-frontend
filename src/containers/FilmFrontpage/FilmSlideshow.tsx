@@ -114,9 +114,9 @@ const StyledCarousel = styled(Carousel, {
 const StyledInfoContainer = styled("div", {
   base: {
     position: "absolute",
-    top: "30%",
-    right: "medium",
-    maxWidth: "surface.medium",
+    top: "35%",
+    right: "max(token(spacing.medium), 5%)",
+    maxWidth: "surface.large",
     marginInlineStart: "medium",
     display: "flex",
     flexDirection: "column",
@@ -180,7 +180,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           {!!currentSlide && (
             <StyledInfoContainer>
               <Text textStyle="heading.medium">{currentSlide?.title}</Text>
-              <Text>{currentSlide.metaDescription}</Text>
+              <Text textStyle="body.xlarge">{currentSlide.metaDescription}</Text>
             </StyledInfoContainer>
           )}
         </StyledSafeLink>
