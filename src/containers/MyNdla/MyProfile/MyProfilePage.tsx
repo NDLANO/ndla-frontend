@@ -14,6 +14,7 @@ import {
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
@@ -39,14 +40,6 @@ import { useDeletePersonalData } from "../userMutations";
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
     gap: "xxlarge",
-  },
-});
-
-const ButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xxsmall",
-    justifyContent: "flex-end",
   },
 });
 
@@ -140,16 +133,16 @@ const MyProfilePage = () => {
               <DialogCloseButton />
             </DialogHeader>
             <DialogBody>
-              <p>{t("myNdla.myPage.confirmDeleteAccount")}</p>
-              <ButtonRow>
-                <DialogCloseTrigger asChild>
-                  <Button variant="secondary">{t("cancel")}</Button>
-                </DialogCloseTrigger>
-                <Button variant="danger" onClick={onDeleteAccount}>
-                  {t("myNdla.myPage.confirmDeleteAccountButton")}
-                </Button>
-              </ButtonRow>
+              <Text>{t("myNdla.myPage.confirmDeleteAccount")}</Text>
             </DialogBody>
+            <DialogFooter>
+              <DialogCloseTrigger asChild>
+                <Button variant="secondary">{t("cancel")}</Button>
+              </DialogCloseTrigger>
+              <Button variant="danger" onClick={onDeleteAccount}>
+                {t("myNdla.myPage.confirmDeleteAccountButton")}
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </DialogRoot>
       </Stack>

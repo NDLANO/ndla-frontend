@@ -37,7 +37,8 @@ const ButtonRow = styled("div", {
   base: {
     display: "flex",
     justifyContent: "flex-end",
-    gap: "xsmall",
+    gap: "3xsmall",
+    paddingBlockStart: "small",
   },
 });
 
@@ -45,7 +46,7 @@ const StyledForm = styled("form", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xsmall",
+    gap: "medium",
   },
 });
 

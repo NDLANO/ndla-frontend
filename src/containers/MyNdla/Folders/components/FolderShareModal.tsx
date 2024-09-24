@@ -13,6 +13,7 @@ import {
   Button,
   DialogBody,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
@@ -44,14 +45,12 @@ const CopyLinkButton = styled(Button, {
   },
 });
 
-const StyledButtonRow = styled("div", {
+const StyledDialogFooter = styled(DialogFooter, {
   base: {
-    paddingBlockStart: "small",
-    display: "flex",
     justifyContent: "space-between",
     mobileWideDown: {
       flexDirection: "column",
-      gap: "xsmall",
+      alignItems: "initial",
     },
   },
 });
@@ -110,20 +109,20 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
             <FileCopyLine />
           </CopyLinkButton>
         </GapWrapper>
-        <StyledButtonRow>
-          <SafeLinkButton to={routes.folder(folder.id)} variant="tertiary">
-            {t("myNdla.folder.sharing.button.preview")}
-          </SafeLinkButton>
-          <Button
-            variant="primary"
-            onClick={() => {
-              onClose();
-            }}
-          >
-            {t("finished")}
-          </Button>
-        </StyledButtonRow>
       </StyledDialogBody>
+      <StyledDialogFooter>
+        <SafeLinkButton to={routes.folder(folder.id)} variant="tertiary">
+          {t("myNdla.folder.sharing.button.preview")}
+        </SafeLinkButton>
+        <Button
+          variant="primary"
+          onClick={() => {
+            onClose();
+          }}
+        >
+          {t("finished")}
+        </Button>
+      </StyledDialogFooter>
     </DialogContent>
   );
 };
