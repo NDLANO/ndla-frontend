@@ -73,6 +73,7 @@ const HeadWrapper = styled("div", {
 const DrawerButton = styled(Button, {
   base: {
     tabletDown: {
+      paddingInline: "xsmall",
       "& span": {
         display: "none",
       },
