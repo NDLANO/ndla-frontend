@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
   ABOUT_PATH,
+  FILM_ID,
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
@@ -84,7 +85,7 @@ export const getSubjectType = (subjectId: string): SubjectType => {
     return "multiDisciplinary";
   } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
     return "toolbox";
-  } else if (subjectId === "urn:subject:20") {
+  } else if (subjectId === FILM_ID) {
     return "film";
   } else if (typeof subjectId === "string") {
     return "standard";

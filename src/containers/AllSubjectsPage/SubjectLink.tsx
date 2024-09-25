@@ -10,7 +10,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Subject } from "./interfaces";
 import FavoriteSubject from "../../components/FavoriteSubject";
-import { toSubject } from "../../routeHelpers";
 
 const SubjectLinkWrapper = styled("li", {
   base: {
@@ -36,9 +35,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       <FavoriteSubject
         subject={subject}
         favorites={favorites}
-        subjectLinkOrText={<StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>}
+        subjectLinkOrText={<StyledSafeLink to={subject.path}>{subject.name}</StyledSafeLink>}
       />
-      <StyledSafeLink to={toSubject(subject.id)}>{subject.name}</StyledSafeLink>
+      <StyledSafeLink to={subject.path}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

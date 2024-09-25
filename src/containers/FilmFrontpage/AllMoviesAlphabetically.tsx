@@ -13,6 +13,7 @@ import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { movieResourceTypes } from "./resourceTypes";
+import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -148,20 +149,20 @@ const AllMoviesAlphabetically = () => {
           >
             <h2>{letter}</h2>
           </LetterHeading>
-          {movies.map((movie) => (
-            <StyledSafeLink
-              to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
-              key={movie.id}
-            >
-              {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
-              <MovieTextWrapper>
-                <Heading textStyle="title.small" asChild consumeCss data-title="">
-                  <h3>{movie.title}</h3>
-                </Heading>
-                <Text textStyle="body.small">{movie.metaDescription}</Text>
-              </MovieTextWrapper>
-            </StyledSafeLink>
-          ))}
+          {movies.map((movie) => {
+            const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+            return (
+              <StyledSafeLink to={context?.path ?? ""} key={movie.id}>
+                {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
+                <MovieTextWrapper>
+                  <Heading textStyle="title.small" asChild consumeCss data-title="">
+                    <h3>{movie.title}</h3>
+                  </Heading>
+                  <Text textStyle="body.small">{movie.metaDescription}</Text>
+                </MovieTextWrapper>
+              </StyledSafeLink>
+            );
+          })}
         </MovieGroup>
       ))}
     </>
@@ -190,6 +191,8 @@ const allMoviesQuery = gql`
           contextId
           contextType
           path
+          url
+          rootId
         }
       }
     }

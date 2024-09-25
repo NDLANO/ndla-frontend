@@ -179,11 +179,14 @@ SubjectMenu.fragments = {
     fragment SubjectMenu_Subject on Subject {
       id
       name
+      path
+      url
       allTopics {
         id
         name
         parentId
         path
+        url
       }
       ...TopicMenu_Subject
     }

@@ -298,6 +298,8 @@ export const articlePageFragments = {
     fragment ArticlePage_Subject on Subject {
       id
       name
+      path
+      url
       metadata {
         customFields
       }
@@ -314,6 +316,7 @@ export const articlePageFragments = {
       id
       name
       path
+      url
       contentUri
       article {
         created
@@ -330,7 +333,10 @@ export const articlePageFragments = {
   `,
   topic: gql`
     fragment ArticlePage_Topic on Topic {
+      id
+      name
       path
+      url
       ...Resources_Topic
     }
     ${Resources.fragments.topic}

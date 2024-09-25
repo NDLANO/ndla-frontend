@@ -197,13 +197,16 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
     fragment MultidisciplinarySubjectArticle_Topic on Topic {
-      path
       id
+      name
+      path
+      url
       contexts {
         contextId
         breadcrumbs
         parentIds
         path
+        url
       }
       article {
         created
@@ -222,9 +225,10 @@ export const multidisciplinarySubjectArticleFragments = {
   `,
   subject: gql`
     fragment MultidisciplinarySubjectArticle_Subject on Subject {
-      name
       id
+      name
       path
+      url
       subjectpage {
         id
         about {

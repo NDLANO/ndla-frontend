@@ -35,6 +35,9 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     }
     topic(id: $topicId, subjectId: $subjectId) {
       id
+      name
+      path
+      url
       article {
         introduction
         metaDescription

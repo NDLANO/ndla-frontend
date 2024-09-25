@@ -153,6 +153,8 @@ TopicMenu.fragments = {
     fragment TopicMenu_Subject on Subject {
       id
       name
+      path
+      url
     }
   `,
   resource: gql`
@@ -160,6 +162,7 @@ TopicMenu.fragments = {
       id
       name
       path
+      url
       relevanceId
       rank
     }
@@ -175,6 +178,7 @@ const resourceQuery = gql`
       coreResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
         rank
+        relevanceId
         resourceTypes {
           id
           name
@@ -183,6 +187,7 @@ const resourceQuery = gql`
       supplementaryResources(subjectId: $subjectId) {
         ...TopicMenu_Resource
         rank
+        relevanceId
         resourceTypes {
           id
           name

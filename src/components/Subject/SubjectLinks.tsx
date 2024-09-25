@@ -33,6 +33,7 @@ const StyledText = styled(Text, {
 type SubjectLinkItem = {
   name?: string;
   path?: string;
+  url?: string;
 };
 
 interface SubjectLinkSetProps {
@@ -93,14 +94,17 @@ SubjectLinks.fragments = {
       buildsOn {
         name
         path
+        url
       }
       connectedTo {
         name
         path
+        url
       }
       leadsTo {
         name
         path
+        url
       }
     }
   `,

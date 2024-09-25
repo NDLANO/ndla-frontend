@@ -84,16 +84,25 @@ const StyledList = styled("ul", {
   },
 });
 
+export const allSubectsFragment = gql`
+  fragment AllSubjects_Subject on Subject {
+    id
+    name
+    path
+    url
+    metadata {
+      customFields
+    }
+  }
+`;
+
 const allSubjectsQuery = gql`
   query allSubjects {
     subjects(filterVisible: true) {
-      id
-      name
-      metadata {
-        customFields
-      }
+      ...AllSubjects_Subject
     }
   }
+  ${allSubectsFragment}
 `;
 
 const AllSubjectsPage = () => {

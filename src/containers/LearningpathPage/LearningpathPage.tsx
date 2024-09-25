@@ -159,6 +159,9 @@ export const learningpathPageFragments = {
   subject: gql`
     fragment LearningpathPage_Subject on Subject {
       id
+      name
+      path
+      url
       metadata {
         customFields
       }
@@ -181,7 +184,9 @@ export const learningpathPageFragments = {
   resource: gql`
     fragment LearningpathPage_Resource on Resource {
       id
+      name
       path
+      url
       learningpath {
         supportedLanguages
         tags

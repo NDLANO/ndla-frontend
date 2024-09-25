@@ -31,7 +31,7 @@ import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
@@ -90,7 +90,7 @@ const FilmFrontpage = () => {
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
+    variables: { subjectId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -202,10 +202,13 @@ const filmFrontPageQuery = gql`
     subject(id: $subjectId) {
       id
       name
+      path
+      url
       topics {
         id
-        path
         name
+        path
+        url
       }
     }
   }

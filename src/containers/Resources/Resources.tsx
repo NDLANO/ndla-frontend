@@ -202,6 +202,7 @@ const resourceFragment = gql`
     name
     contentUri
     path
+    url
     paths
     rank
     language
@@ -233,7 +234,10 @@ Resources.fragments = {
   `,
   topic: gql`
     fragment Resources_Topic on Topic {
+      id
       name
+      path
+      url
       coreResources(subjectId: $subjectId) {
         ...Resources_Resource
       }

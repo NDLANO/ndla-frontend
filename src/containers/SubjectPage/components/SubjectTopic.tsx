@@ -186,12 +186,15 @@ export const topicFragments = {
   topic: gql`
     fragment Topic_Topic on Topic {
       id
-      path
       name
+      path
+      url
       relevanceId
       subtopics {
         id
         name
+        path
+        url
         relevanceId
         ...MultidisciplinaryArticleList_Topic
       }
@@ -208,6 +211,7 @@ export const topicFragments = {
         breadcrumbs
         parentIds
         path
+        url
       }
       article {
         id

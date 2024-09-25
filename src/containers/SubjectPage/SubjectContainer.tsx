@@ -254,14 +254,20 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
 export const subjectContainerFragments = {
   subject: gql`
     fragment SubjectContainer_Subject on Subject {
+      id
+      name
+      path
+      url
       supportedLanguages
       metadata {
         customFields
       }
       grepCodes
       topics {
-        name
         id
+        name
+        path
+        url
         availability
         relevanceId
       }

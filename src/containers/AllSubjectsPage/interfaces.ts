@@ -9,4 +9,6 @@
 export interface Subject {
   id: string;
   name: string;
+  path: string;
+  url: string;
 }

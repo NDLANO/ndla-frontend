@@ -86,9 +86,10 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
 MultidisciplinaryArticleList.fragments = {
   topic: gql`
     fragment MultidisciplinaryArticleList_Topic on Topic {
-      name
       id
+      name
       path
+      url
       meta {
         metaDescription
         metaImage {

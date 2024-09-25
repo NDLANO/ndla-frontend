@@ -122,7 +122,9 @@ MovedTopicPage.fragments = {
   topic: gql`
     fragment MovedTopicPage_Topic on Topic {
       id
+      name
       path
+      url
       name
       breadcrumbs
       meta {

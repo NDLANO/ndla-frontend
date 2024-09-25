@@ -18,14 +18,16 @@ export const contributorInfoFragment = gql`
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
-    path
     name
+    path
+    url
     ingress
     traits
     contexts {
       contextId
       language
       path
+      url
       breadcrumbs
       rootId
       root
@@ -138,6 +140,7 @@ export const subjectInfoFragment = gql`
     id
     name
     path
+    url
     metadata {
       customFields
     }
@@ -176,6 +179,7 @@ export const movedResourceQuery = gql`
       contexts {
         contextId
         path
+        url
         breadcrumbs
       }
     }
