@@ -37,6 +37,36 @@ const SearchInput = styled(Input, { base: { width: "35%" } });
 
 export const Cell = styled("div", { base: { whiteSpace: "nowrap" } });
 
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    tabletWideDown: {
+      paddingInline: "xsmall",
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
+
+const StyledPaginationItem = styled(PaginationItem, {
+  base: {
+    tabletWideDown: {
+      "&:nth-child(2)": {
+        display: "none",
+      },
+      "&:nth-last-child(2)": {
+        display: "none",
+      },
+    },
+  },
+});
+
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
@@ -97,27 +127,26 @@ const Users = () => {
           <UserList loading={loading} users={users} />
         </StyledTable>
       </div>
-      <PaginationRoot
+      <StyledPaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
         count={users?.totalCount ?? 0}
         pageSize={pageSize}
         translations={componentTranslations}
-        siblingCount={2}
       >
         <PaginationPrevTrigger asChild>
-          <Button variant="tertiary">
+          <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
             <ArrowLeftShortLine />
-            {t("pagination.prev")}
-          </Button>
+            <span>{t("pagination.prev")}</span>
+          </StyledButton>
         </PaginationPrevTrigger>
         <PaginationContext>
           {(pagination) =>
             pagination.pages.map((page, index) =>
               page.type === "page" ? (
-                <PaginationItem key={index} {...page} asChild>
+                <StyledPaginationItem key={index} {...page} asChild>
                   <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
-                </PaginationItem>
+                </StyledPaginationItem>
               ) : (
                 <PaginationEllipsis key={index} index={index} asChild>
                   <Text asChild consumeCss>
@@ -129,12 +158,12 @@ const Users = () => {
           }
         </PaginationContext>
         <PaginationNextTrigger asChild>
-          <Button variant="tertiary">
-            {t("pagination.next")}
+          <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+            <span>{t("pagination.next")}</span>
             <ArrowRightShortLine />
-          </Button>
+          </StyledButton>
         </PaginationNextTrigger>
-      </PaginationRoot>
+      </StyledPaginationRoot>
     </>
   );
 };
