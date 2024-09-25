@@ -6,15 +6,15 @@
  *
  */
 
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
+import { MenuItemProps } from "./SettingsMenu";
 import Toolbar from "./Toolbar";
 import { PageContainer } from "../../../components/Layout/PageContainer";
 
 interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
-  dropDownMenu?: ReactNode;
-  buttons?: ReactNode;
+  menuItems?: MenuItemProps[];
   showButtons?: boolean;
 }
 
@@ -24,10 +24,10 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-const MyNdlaPageWrapper = ({ buttons, dropDownMenu, showButtons, children, ...rest }: Props) => {
+const MyNdlaPageWrapper = ({ menuItems, showButtons, children, ...rest }: Props) => {
   return (
     <>
-      <Toolbar buttons={buttons} dropDownMenu={dropDownMenu} showButtons={showButtons} />
+      <Toolbar menuItems={menuItems} showButtons={showButtons} />
       <StyledPageContainer {...rest} padding="small" asChild consumeCss>
         <main>{children}</main>
       </StyledPageContainer>

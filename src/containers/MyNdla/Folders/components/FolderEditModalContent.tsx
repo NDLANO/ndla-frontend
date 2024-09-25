@@ -6,19 +6,10 @@
  *
  */
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { PencilFill } from "@ndla/icons/action";
-import {
-  Button,
-  DialogBody,
-  DialogContent,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-} from "@ndla/primitives";
+import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import FolderForm from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -26,35 +17,11 @@ import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMuta
 
 interface Props {
   folder?: GQLFolder;
-  onSaved: () => void;
-}
-
-const FolderEditModal = ({ folder, onSaved }: Props) => {
-  const [open, setOpen] = useState(false);
-  const { t } = useTranslation();
-
-  return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
-      <DialogTrigger asChild>
-        <Button variant="tertiary" aria-label={t("myNdla.folder.edit")} title={t("myNdla.folder.edit")}>
-          <PencilFill size="small" />
-          {t("myNdla.folder.editShort")}
-        </Button>
-      </DialogTrigger>
-      <EditFolderModalContent folder={folder} onClose={() => setOpen(false)} onSaved={onSaved} />
-    </DialogRoot>
-  );
-};
-
-export default FolderEditModal;
-
-interface ContentProps {
-  folder?: GQLFolder;
   onClose: () => void;
   onSaved: () => void;
 }
 
-export const EditFolderModalContent = ({ folder, onClose, onSaved }: ContentProps) => {
+export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
   const { t } = useTranslation();
   const { updateFolder, loading } = useUpdateFolderMutation();
   const { cache } = useApolloClient();
@@ -96,3 +63,5 @@ export const EditFolderModalContent = ({ folder, onClose, onSaved }: ContentProp
     </DialogContent>
   );
 };
+
+export default FolderEditModalContent;

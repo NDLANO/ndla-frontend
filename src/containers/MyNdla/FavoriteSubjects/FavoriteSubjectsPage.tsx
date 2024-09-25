@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ArrowRightLine } from "@ndla/icons/common";
 import { Skeleton } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -20,7 +19,7 @@ import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
-import SettingsMenu from "../components/SettingsMenu";
+import { MenuItemProps } from "../components/SettingsMenu";
 import { useFavouriteSubjects } from "../folderMutations";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
@@ -70,38 +69,19 @@ const FavoriteSubjectsPage = () => {
     });
   }, [authContextLoaded, t, trackPageView, user]);
 
-  const allSubjects = useMemo(
-    () => (
-      <li key="allSubjects">
-        <SafeLinkButton variant="tertiary" to="/subjects">
-          {t("subjectsPage.allSubjects")}
-          <ArrowRightLine size="small" />
-        </SafeLinkButton>
-      </li>
-    ),
-    [t],
-  );
-
-  const dropDown = useMemo(
-    () => (
-      <SettingsMenu
-        menuItems={[
-          {
-            type: "action",
-            value: "allSubjects",
-            text: t("subjectsPage.allSubjects"),
-            icon: <ArrowRightLine size="small" />,
-            onClick: () => navigate("/subjects"),
-          },
-        ]}
-        modalHeader={t("myNdla.tools")}
-      />
-    ),
-    [t, navigate],
-  );
+  const menuItems: MenuItemProps[] = [
+    {
+      type: "link",
+      value: "allSubjects",
+      icon: <ArrowRightLine size="small" />,
+      text: t("subjectsPage.allSubjects"),
+      link: "/subjects",
+      onClick: () => navigate("/subjects"),
+    },
+  ];
 
   return (
-    <StyledMyNdlaPageWrapper buttons={allSubjects} dropDownMenu={dropDown}>
+    <StyledMyNdlaPageWrapper menuItems={menuItems}>
       <HelmetWithTracker title={t("myNdla.favoriteSubjects.title")} />
       <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
       {favouriteSubjectsQuery.loading ? (

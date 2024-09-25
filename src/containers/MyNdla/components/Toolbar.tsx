@@ -6,11 +6,13 @@
  *
  */
 
-import { ReactNode, useContext } from "react";
-import { PageContent } from "@ndla/primitives";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
+import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 
 const ToolbarContainer = styled("div", {
@@ -32,7 +34,7 @@ const ToolbarContainer = styled("div", {
   },
 });
 
-const ButtonContainer = styled("ul", {
+const StyledButtonList = styled("ul", {
   base: {
     display: "none",
     flexDirection: "row",
@@ -48,7 +50,7 @@ const ButtonContainer = styled("ul", {
   },
 });
 
-const DropdownWrapper = styled("div", {
+const SettingsMenuWrapper = styled("div", {
   base: {
     display: "none",
     mobileWideToDesktop: {
@@ -73,25 +75,51 @@ const StyledPageContent = styled(PageContent, {
 });
 
 interface Props {
-  buttons?: ReactNode;
-  dropDownMenu?: ReactNode;
+  menuItems?: MenuItemProps[];
   showButtons?: boolean;
 }
 
-const Toolbar = ({ buttons, dropDownMenu, showButtons }: Props) => {
+const Toolbar = ({ menuItems, showButtons }: Props) => {
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
+
   return (
-    <ToolbarContainer data-visible={!!buttons || !!dropDownMenu || !!user?.arenaEnabled}>
+    <ToolbarContainer data-visible={!!menuItems?.length || !!user?.arenaEnabled}>
       <StyledPageContent>
         <Wrapper>
           <div>
-            <ButtonContainer>{buttons}</ButtonContainer>
-            <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
+            <StyledButtonList>
+              {menuItems?.map((item) => (
+                <li key={item.value}>
+                  <Button
+                    disabled={item.disabled}
+                    variant={item.variant === "destructive" ? "danger" : "tertiary"}
+                    size="small"
+                    asChild={item.type !== "action"}
+                    onClick={(e) => {
+                      if (item.onClick) {
+                        item.onClick(e);
+                      }
+                    }}
+                  >
+                    <MenuItemElement item={item}>
+                      {item.icon}
+                      {item.text}
+                    </MenuItemElement>
+                  </Button>
+                </li>
+              ))}
+            </StyledButtonList>
+            {!!menuItems?.length && (
+              <SettingsMenuWrapper>
+                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} showSingle elementSize="small" />
+              </SettingsMenuWrapper>
+            )}
           </div>
           {user?.arenaEnabled && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
-      <MenuModalContent buttons={buttons} showButtons={showButtons} />
+      <MenuModalContent menuItems={menuItems} showButtons={showButtons} />
     </ToolbarContainer>
   );
 };
