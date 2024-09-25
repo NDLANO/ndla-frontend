@@ -8,6 +8,22 @@
 
 import { gql } from "@apollo/client/core";
 
+export const contextQuery = gql`
+  query Context($contextId: String!) {
+    node(contextId: $contextId) {
+      id
+      nodeType
+      context {
+        contextId
+        rootId
+        parentIds
+        path
+        url
+      }
+    }
+  }
+`;
+
 export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name

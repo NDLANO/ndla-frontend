@@ -24,7 +24,10 @@ import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
   topicId: string;
+  topicIds: string[];
+  activeTopic: boolean;
   subjectId: string;
+  subjectType?: string;
   subTopicId?: string;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   showResources: boolean;
@@ -45,7 +48,17 @@ const topicWrapperQuery = gql`
   ${topicFragments.resourceType}
 `;
 
-const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject }: Props) => {
+const TopicWrapper = ({
+  topicId,
+  topicIds,
+  activeTopic,
+  subjectId,
+  subjectType,
+  subTopicId,
+  setBreadCrumb,
+  showResources,
+  subject,
+}: Props) => {
   const navigate = useNavigate();
   const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
     topicWrapperQuery,
@@ -90,10 +103,13 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
 
   return (
     <SubjectTopic
+      key={topicId}
+      topicIds={topicIds}
       topic={data.topic}
       resourceTypes={data.resourceTypes}
-      topicId={topicId}
+      activeTopic={activeTopic}
       subjectId={subjectId}
+      subjectType={subjectType}
       subTopicId={subTopicId}
       showResources={showResources}
       subject={subject}

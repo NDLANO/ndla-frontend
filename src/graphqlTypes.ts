@@ -4527,7 +4527,15 @@ export type GQLSubjectPageTestQueryVariables = Exact<{
 export type GQLSubjectPageTestQuery = {
   __typename?: "Query";
   subject?: { __typename?: "Subject" } & GQLSubjectContainer_SubjectFragment;
-  topic?: { __typename?: "Topic"; alternateTopics?: Array<{ __typename?: "Topic" } & GQLMovedTopicPage_TopicFragment> };
+  topic?: {
+    __typename?: "Topic";
+    id: string;
+    name: string;
+    path: string;
+    url: string;
+    context?: { __typename?: "TaxonomyContext"; contextId: string; rootId: string; parentIds: Array<string> };
+    alternateTopics?: Array<{ __typename?: "Topic" } & GQLMovedTopicPage_TopicFragment>;
+  };
   subjects?: Array<{
     __typename?: "Subject";
     path: string;
@@ -4678,6 +4686,27 @@ export type GQLIframePageQuery = {
   __typename?: "Query";
   article?: { __typename?: "Article" } & GQLIframeArticlePage_ArticleFragment;
   articleResource?: { __typename?: "Resource" } & GQLIframeArticlePage_ResourceFragment;
+};
+
+export type GQLContextQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLContextQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      parentIds: Array<string>;
+      path: string;
+      url: string;
+    };
+  };
 };
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };

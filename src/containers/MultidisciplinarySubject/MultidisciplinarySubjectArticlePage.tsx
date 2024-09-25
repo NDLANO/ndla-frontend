@@ -57,9 +57,15 @@ const multidisciplinarySubjectArticlePageQuery = gql`
   ${multidisciplinarySubjectArticleFragments.subject}
 `;
 
-const MultidisciplinarySubjectArticlePage = () => {
+interface Props {
+  subjectId: string;
+  topicId?: string;
+}
+
+const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId }: Props) => {
   const { t } = useTranslation();
-  const { topicId, subjectId } = useUrnIds();
+  const { topicId: tId } = useUrnIds();
+  const topicId = maybeTopicId ?? tId;
 
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinarySubjectArticlePageQuery,

@@ -32,13 +32,15 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, toTopic, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { fixEndSlash } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
-  topicIds: string[];
   subject: GQLSubjectContainer_SubjectFragment;
+  subjectType?: string;
+  topicId?: string;
+  topicIds: string[];
   loading?: boolean;
 };
 
@@ -107,10 +109,8 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
+const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
-  const ndlaFilm = useIsNdlaFilm();
-  const { subjectType } = useUrnIds();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
@@ -139,8 +139,8 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       to: "/",
     },
     {
-      to: `${removeUrn(subject.id)}`,
       name: subject.name,
+      to: subject.path,
     },
     ...topicCrumbs,
   ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
@@ -165,7 +165,7 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       ...topic,
       label: topic?.name,
       current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
-      url: toTopic(subject.id, topic?.id),
+      url: fixEndSlash(topic?.path),
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
@@ -217,29 +217,29 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
             <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
           ) : null}
         </HeadingWrapper>
-        {!ndlaFilm && subjectType !== "multiDisciplinary" && subjectType !== "toolbox" && nonRegularSubjectMessage && (
+        {subjectType === "standard" && nonRegularSubjectMessage && (
           <MessageBox variant="warning">
             <InformationLine />
             <Text>{nonRegularSubjectMessage}</Text>
           </MessageBox>
         )}
-        {!ndlaFilm &&
-          subjectType !== "multiDisciplinary" &&
-          subjectType !== "toolbox" &&
-          nonRegularSubjectTypeMessage && (
-            <MessageBox variant="warning">
-              <InformationLine />
-              <Text>{nonRegularSubjectTypeMessage}</Text>
-            </MessageBox>
-          )}
+        {subjectType === "standard" && nonRegularSubjectTypeMessage && (
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{nonRegularSubjectTypeMessage}</Text>
+          </MessageBox>
+        )}
         <NavigationBox items={mainTopics || []} />
       </StyledSubjectWrapper>
       <StyledTopicWrapper>
-        {topicIds.map((topicId, index) => (
+        {topicIds.map((id, index) => (
           <TopicWrapper
-            key={topicId}
-            topicId={topicId}
+            key={id}
+            topicId={id}
+            topicIds={topicIds}
+            activeTopic={topicId === id}
             subjectId={subject.id}
+            subjectType={subjectType}
             setBreadCrumb={setTopicCrumbs}
             subTopicId={topicIds[index + 1]}
             showResources={!topicIds[index + 1]}

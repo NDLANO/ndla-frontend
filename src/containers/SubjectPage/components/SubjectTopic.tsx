@@ -27,7 +27,7 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useUrnIds } from "../../../routeHelpers";
+import { toTopic } from "../../../routeHelpers";
 import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -42,10 +42,11 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
 const PAGE = "page" as const;
 
 type Props = {
-  topicId: string;
+  topicIds: string[];
+  activeTopic: boolean;
   subjectId: string;
+  subjectType?: string;
   subTopicId?: string;
-  index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
   loading?: boolean;
@@ -54,8 +55,10 @@ type Props = {
 };
 
 const SubjectTopic = ({
-  topicId,
+  topicIds,
+  activeTopic,
   subjectId,
+  subjectType,
   subTopicId,
   topic,
   resourceTypes,
@@ -66,18 +69,17 @@ const SubjectTopic = ({
   const { t } = useTranslation();
   const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
   const topicRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (topicList[topicList.length - 1] === topicId && topicRef.current) {
+    if (activeTopic && topicRef.current) {
       scrollToRef(topicRef, mastheadHeightPx);
       if (document.activeElement?.nodeName !== "BODY") {
         document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
       }
     }
-  }, [mastheadHeightPx, topicId, topicList]);
+  }, [mastheadHeightPx, activeTopic]);
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
@@ -122,9 +124,7 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       current:
-        subtopic.id === subTopicId && subtopic.id === topicList[topicList.length - 1]
-          ? PAGE
-          : subtopic.id === subTopicId,
+        subtopic.id === subTopicId && subtopic.id === topicIds[topicIds.length - 1] ? PAGE : subtopic.id === subTopicId,
       url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
@@ -136,7 +136,7 @@ const SubjectTopic = ({
 
   return (
     <>
-      {urnTopicId === topicId && (
+      {activeTopic && (
         <>
           <Helmet>
             <title>{pageTitle}</title>
@@ -152,13 +152,13 @@ const SubjectTopic = ({
       <Topic
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
-        id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
+        id={activeTopic ? SKIP_TO_CONTENT_ID : undefined}
         title={parse(topic.article.htmlTitle ?? "")}
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
         ref={topicRef}
       />
-      {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+      {subjectType === "multiDisciplinary" && topicIds.length === 2 && activeTopic ? (
         <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
       ) : subTopics?.length ? (
         <NavigationBox

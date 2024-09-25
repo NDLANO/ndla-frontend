@@ -96,11 +96,6 @@ export const getSubjectType = (subjectId: string): SubjectType => {
   return undefined;
 };
 
-export const useIsNdlaFilm = () => {
-  const { subjectType } = useUrnIds();
-  return subjectType === "film";
-};
-
 const LEARNINGPATHS = "/learningpaths";
 
 type Resource = {

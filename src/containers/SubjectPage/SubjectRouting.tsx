@@ -8,29 +8,50 @@
 
 import { Navigate } from "react-router-dom";
 import SubjectPage from "./SubjectPage";
-import { useUrnIds } from "../../routeHelpers";
+import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
+import { contextQuery } from "../../queries";
+import { getSubjectType, useUrnIds } from "../../routeHelpers";
+import { useGraphQuery } from "../../util/runQueries";
 import FilmFrontpage from "../FilmFrontpage/FilmFrontpage";
 import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 
 const SubjectRouting = () => {
-  const { topicList, subjectId, subjectType } = useUrnIds();
+  const { contextId, subjectId: subId, topicId: tId, topicList: tList } = useUrnIds();
+  const { loading, data } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
+    variables: {
+      contextId: contextId ?? "",
+    },
+    skip: contextId === undefined,
+  });
 
-  if (subjectType === "standard") {
-    return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "multiDisciplinary") {
-    if (topicList.length === 3) {
-      return <MultidisciplinarySubjectArticlePage />;
-    }
-    return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "toolbox") {
-    return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "film" && topicList.length === 0) {
-    return <FilmFrontpage />;
-  } else if (subjectType === "film") {
-    return <SubjectPage key={subjectId} />;
+  if (loading) {
+    return null;
   }
 
-  return <Navigate to="/404" replace />;
+  const node = data?.node;
+  const subjectId = node?.context?.rootId ?? subId ?? "";
+  if (!subjectId) {
+    return <Navigate to="/404" replace />;
+  }
+
+  const topicId = node?.nodeType === "TOPIC" ? node?.id : tId;
+  const topicList = node?.context?.parentIds ?? tList;
+  const subjectType = getSubjectType(subjectId);
+
+  if (subjectType === "film" && topicList.length === 0) {
+    return <FilmFrontpage />;
+  } else if (subjectType === "multiDisciplinary" && topicList.length === 3) {
+    return <MultidisciplinarySubjectArticlePage subjectId={subjectId} topicId={topicId} />;
+  }
+  return (
+    <SubjectPage
+      key={subjectId}
+      subjectType={subjectType}
+      subjectId={subjectId}
+      topicId={topicId}
+      topicList={topicList}
+    />
+  );
 };
 
 export default SubjectRouting;

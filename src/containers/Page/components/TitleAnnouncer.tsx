@@ -17,6 +17,7 @@ const TitleAnnouncer = () => {
   const titleRef = useRef<HTMLParagraphElement | null>(null);
   const onTopicPage = useOnTopicPage();
 
+  // TODO: Rewrite to not use useOnTopicPage
   useEffect(() => {
     if (!!title && title !== prevTitle.current) {
       if (!onTopicPage) {

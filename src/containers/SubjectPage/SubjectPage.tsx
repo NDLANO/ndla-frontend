@@ -15,7 +15,6 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -31,6 +30,15 @@ const subjectPageQuery = gql`
       ...SubjectContainer_Subject
     }
     topic(id: $topicId) @include(if: $includeTopic) {
+      id
+      name
+      path
+      url
+      context {
+        contextId
+        rootId
+        parentIds
+      }
       alternateTopics {
         ...MovedTopicPage_Topic
       }
@@ -46,9 +54,14 @@ const subjectPageQuery = gql`
   ${subjectContainerFragments.subject}
 `;
 
-const SubjectPage = () => {
-  const { subjectId, topicId, topicList } = useUrnIds();
+interface Props {
+  subjectId: string;
+  subjectType?: string;
+  topicId?: string;
+  topicList: string[];
+}
 
+const SubjectPage = ({ subjectType, subjectId, topicId, topicList: tList }: Props) => {
   const initialLoad = useRef(true);
   const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
@@ -76,6 +89,8 @@ const SubjectPage = () => {
     return <ContentPlaceholder />;
   }
 
+  const topicList = (data.topic?.context?.parentIds?.slice(1) ?? tList).concat(data.topic?.id ? [data.topic.id] : []);
+
   const alternateTopics = data.topic?.alternateTopics;
   if (alternateTopics && alternateTopics.length >= 1) {
     // if (alternateTopics.length === 1) {
@@ -101,7 +116,15 @@ const SubjectPage = () => {
 
   initialLoad.current = false;
 
-  return <SubjectContainer topicIds={topicList} subject={data.subject} loading={loading} />;
+  return (
+    <SubjectContainer
+      subject={data.subject}
+      subjectType={subjectType}
+      topicId={topicId}
+      topicIds={topicList}
+      loading={loading}
+    />
+  );
 };
 
 export default SubjectPage;
