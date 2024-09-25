@@ -22,9 +22,15 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
+import {
+  GQLContextQuery,
+  GQLContextQueryVariables,
+  GQLMastHeadQuery,
+  GQLMastHeadQueryVariables,
+} from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
+import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
@@ -78,14 +84,28 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const { subjectId } = useUrnIds();
+  const { contextId, subjectId: subId, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
+  const { data: rootData, loading: rootLoading } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(
+    contextQuery,
+    {
+      variables: {
+        contextId: contextId ?? "",
+      },
+      skip: contextId === undefined || typeof window === "undefined",
+    },
+  );
+  const maybeTopicId = rootData?.node?.nodeType === "TOPIC" ? rootData?.node?.id : undefined;
+  const subjectId = rootData?.node?.context?.rootId || subId;
+  const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== subjectId) ?? [];
+  const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds || topicList;
+
   const { data: freshData, previousData } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
     },
-    skip: !subjectId || typeof window === "undefined",
+    skip: rootLoading || !subjectId || typeof window === "undefined",
   });
 
   const data = subjectId ? freshData ?? previousData : undefined;
@@ -100,7 +120,7 @@ const MastheadContainer = () => {
     <ErrorBoundary>
       <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
-          <MastheadDrawer subject={data?.subject} />
+          <MastheadDrawer subject={data?.subject} crumbs={crumbs} />
           <MastheadSearch />
         </DrawerWrapper>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">

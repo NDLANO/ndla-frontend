@@ -19,8 +19,7 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { GQLSubjectMenu_SubjectFragment, GQLTaxBase } from "../../../graphqlTypes";
 
 interface Props {
   subject?: GQLSubjectMenu_SubjectFragment;
@@ -53,6 +52,11 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
     return [];
   }
   return [topic].concat(constructTopicPath(topic.subtopics, topicList.slice(1)));
+};
+
+export const isCurrent = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
+  const path = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  return path === taxBase.path || path === taxBase.url;
 };
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
@@ -106,7 +110,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject ? `/${removeUrn(subject.id)}` : "";
+  const path = subject?.path ?? "";
 
   return (
     <>
@@ -117,7 +121,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
                 variant="link"
-                aria-current={path === location.pathname ? "page" : undefined}
+                aria-current={isCurrent(location.pathname, subject) ? "page" : undefined}
                 id={`header-${subject.id}`}
                 to={path}
                 onClick={onClose}
@@ -133,7 +137,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
                 id={t.id}
                 key={t.id}
                 type="button"
-                current={t.path === location.pathname}
+                current={isCurrent(location.pathname, t)}
                 onClick={(expanded) => {
                   if (expanded) {
                     setTopicPathIds([]);

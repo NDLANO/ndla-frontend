@@ -14,7 +14,7 @@ import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
-import { TopicWithSubTopics } from "./SubjectMenu";
+import { isCurrent, TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
@@ -90,7 +90,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         <DrawerListItem role="none" data-list-item>
           <DrawerHeaderLink
             variant="link"
-            aria-current={location.pathname.replaceAll("/", "") === topic.path.replaceAll("/", "") ? "page" : undefined}
+            aria-current={isCurrent(location.pathname, topic) ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
             to={topic.path}
@@ -105,7 +105,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             id={t.id}
             key={t.id}
             type="button"
-            current={t.path === location.pathname}
+            current={isCurrent(location.pathname, t)}
             active={levelId === t.id}
             onClick={(expanded) => (expanded ? removeTopic(level) : addTopic(t, level))}
           >
@@ -120,7 +120,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                     id={`${topic.id}-${res.id}`}
                     type="link"
                     to={res.path}
-                    current={res.path === location.pathname}
+                    current={isCurrent(location.pathname, res)}
                     onClose={onClose}
                     key={res.id}
                   >
@@ -135,7 +135,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                   id={`${topic.id}-${res.id}`}
                   type="link"
                   to={res.path}
-                  current={res.path === location.pathname}
+                  current={isCurrent(location.pathname, res)}
                   onClose={onClose}
                   key={res.id}
                 >

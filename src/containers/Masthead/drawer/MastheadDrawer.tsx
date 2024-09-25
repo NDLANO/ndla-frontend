@@ -101,6 +101,7 @@ const StyledDrawer = styled(DialogContent, {
 
 interface Props {
   subject?: GQLMastheadDrawer_SubjectFragment;
+  crumbs: string[];
 }
 
 const mastheadFrontpageQuery = gql`
@@ -121,10 +122,12 @@ const mastheadProgrammeQuery = gql`
   ${DrawerContent.fragments.programmeMenu}
 `;
 
-const MastheadDrawer = ({ subject }: Props) => {
+const MastheadDrawer = ({ subject, crumbs }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
-  const { subjectId, topicList, programme, slug } = useUrnIds();
+  const { subjectId: maybeSubjectId, topicList: tL, programme, slug } = useUrnIds();
+  const subjectId = subject?.id || maybeSubjectId;
+  const topicList = tL.length > 0 ? tL : crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
