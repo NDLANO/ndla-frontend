@@ -4447,6 +4447,7 @@ export type GQLResourcePageQuery = {
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
+      url: string;
     }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
