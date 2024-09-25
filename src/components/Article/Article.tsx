@@ -26,6 +26,7 @@ interface Props {
   printUrl?: string;
   subjectId?: string;
   isOembed?: boolean;
+  contentTypeLabel?: ReactNode;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
@@ -44,6 +45,7 @@ const Article = ({
   isOembed = false,
   showFavoriteButton,
   myNdlaResourceType = "article",
+  contentTypeLabel,
   oembed,
 }: Props) => {
   const copyText = useArticleCopyText(article);
@@ -67,6 +69,7 @@ const Article = ({
       id={id ?? article.id.toString()}
       article={art}
       contentType={contentType}
+      contentTypeLabel={contentTypeLabel}
       licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
       competenceGoals={
         !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (

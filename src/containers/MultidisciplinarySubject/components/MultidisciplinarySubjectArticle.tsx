@@ -172,6 +172,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
               id={skipToContentId ?? article.id.toString()}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
+              contentTypeLabel={topic.resourceTypes?.[0]?.name}
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
@@ -213,6 +214,10 @@ export const multidisciplinarySubjectArticleFragments = {
         breadcrumbs
         parentIds
         path
+      }
+      resourceTypes {
+        id
+        name
       }
       article {
         created
