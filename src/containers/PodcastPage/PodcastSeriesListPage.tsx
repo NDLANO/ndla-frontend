@@ -53,6 +53,16 @@ const StyledHeader = styled("header", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    tabletDown: {
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
+
 export const getPageSize = (searchObject: SearchObject) => {
   return Number(searchObject["page-size"]) || 5;
 };
@@ -175,10 +185,10 @@ const PodcastSeriesListPage = () => {
           aria-label={t("podcastPage.paginationNav")}
         >
           <PaginationPrevTrigger asChild>
-            <Button variant="tertiary">
+            <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
               <ArrowLeftShortLine />
-              {t("pagination.prev")}
-            </Button>
+              <span>{t("pagination.prev")}</span>
+            </StyledButton>
           </PaginationPrevTrigger>
           <PaginationContext>
             {(pagination) =>
@@ -198,10 +208,10 @@ const PodcastSeriesListPage = () => {
             }
           </PaginationContext>
           <PaginationNextTrigger asChild>
-            <Button variant="tertiary">
-              {t("pagination.next")}
+            <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+              <span>{t("pagination.next")}</span>
               <ArrowRightShortLine />
-            </Button>
+            </StyledButton>
           </PaginationNextTrigger>
         </PaginationRoot>
       </main>
