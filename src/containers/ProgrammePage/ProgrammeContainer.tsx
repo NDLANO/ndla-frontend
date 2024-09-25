@@ -88,6 +88,14 @@ const HeadingWrapper = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
+
+    tabletDown: {
+      gap: "xsmall",
+      paddingBlockStart: "medium",
+      paddingInline: "xsmall",
+      paddingBlockEnd: "small",
+      marginBlockEnd: "medium",
+    },
   },
 });
 
