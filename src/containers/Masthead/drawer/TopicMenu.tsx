@@ -74,10 +74,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(data?.topic?.coreResources?.concat(data?.topic?.supplementaryResources ?? []) ?? []),
-    [data?.topic?.coreResources, data?.topic?.supplementaryResources],
-  );
+  const { sortedResources } = useMemo(() => getResourceGroupings(data?.topic?.children ?? []), [data?.topic?.children]);
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
   const groupedResources = useMemo(
@@ -158,7 +155,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
 
 TopicMenu.fragments = {
   subject: gql`
-    fragment TopicMenu_Subject on Subject {
+    fragment TopicMenu_Subject on Node {
       id
       name
       path
@@ -166,7 +163,7 @@ TopicMenu.fragments = {
     }
   `,
   resource: gql`
-    fragment TopicMenu_Resource on Resource {
+    fragment TopicMenu_Resource on Node {
       id
       name
       path
@@ -179,20 +176,11 @@ TopicMenu.fragments = {
 
 const resourceQuery = gql`
   query topicMenuResources($subjectId: String!, $topicId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       metadata {
         customFields
       }
-      coreResources(subjectId: $subjectId) {
-        ...TopicMenu_Resource
-        rank
-        relevanceId
-        resourceTypes {
-          id
-          name
-        }
-      }
-      supplementaryResources(subjectId: $subjectId) {
+      children(nodeType: "RESOURCE") {
         ...TopicMenu_Resource
         rank
         relevanceId

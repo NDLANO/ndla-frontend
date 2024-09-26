@@ -26,10 +26,10 @@ const subjectPageQuery = gql`
     $metadataFilterKey: String
     $metadataFilterValue: String
   ) {
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...SubjectContainer_Subject
     }
-    topic(id: $topicId) @include(if: $includeTopic) {
+    topic: node(id: $topicId) @include(if: $includeTopic) {
       id
       name
       path
@@ -39,11 +39,15 @@ const subjectPageQuery = gql`
         rootId
         parentIds
       }
-      alternateTopics {
+      alternateTopics: alternateNodes {
         ...MovedTopicPage_Topic
       }
     }
-    subjects(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
+    subjects: nodes(
+      metadataFilterKey: $metadataFilterKey
+      metadataFilterValue: $metadataFilterValue
+      filterVisible: true
+    ) {
       path
       metadata {
         customFields

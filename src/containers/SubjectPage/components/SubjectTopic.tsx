@@ -102,7 +102,7 @@ const SubjectTopic = ({
   }, [embedMeta]);
 
   const resources = useMemo(() => {
-    if (topic.coreResources?.length || topic.supplementaryResources?.length) {
+    if (topic.children?.length) {
       return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
     }
     return null;
@@ -171,19 +171,19 @@ const SubjectTopic = ({
 
 export const topicFragments = {
   subject: gql`
-    fragment Topic_Subject on Subject {
+    fragment Topic_Subject on Node {
       id
       name
     }
   `,
   topic: gql`
-    fragment Topic_Topic on Topic {
+    fragment Topic_Topic on Node {
       id
       name
       path
       url
       relevanceId
-      subtopics {
+      subtopics: children(nodeType: "TOPIC") {
         id
         name
         path

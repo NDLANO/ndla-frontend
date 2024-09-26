@@ -152,7 +152,7 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Subject {
+  fragment SubjectInfo on Node {
     id
     name
     path
@@ -174,7 +174,7 @@ export const subjectInfoFragment = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects(filterVisible: true) {
+    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {
@@ -191,7 +191,7 @@ export const searchPageQuery = gql`
 
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
-    resource(id: $resourceId) {
+    resource: node(id: $resourceId) {
       contexts {
         contextId
         path

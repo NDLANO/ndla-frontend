@@ -281,7 +281,7 @@ const learningpathStepQuery = gql`
       oembed
       ...LearningpathEmbed_Article
     }
-    resource(id: $resourceId) @include(if: $includeResource) {
+    resource: node(id: $resourceId) @include(if: $includeResource) {
       id
       path
       resourceTypes {

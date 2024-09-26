@@ -149,13 +149,13 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
 
 export const learningpathPageFragments = {
   topic: gql`
-    fragment LearningpathPage_Topic on Topic {
+    fragment LearningpathPage_Topic on Node {
       ...Learningpath_Topic
     }
     ${Learningpath.fragments.topic}
   `,
   subject: gql`
-    fragment LearningpathPage_Subject on Subject {
+    fragment LearningpathPage_Subject on Node {
       id
       name
       path
@@ -180,7 +180,7 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.resourceType}
   `,
   resource: gql`
-    fragment LearningpathPage_Resource on Resource {
+    fragment LearningpathPage_Resource on Node {
       id
       name
       path

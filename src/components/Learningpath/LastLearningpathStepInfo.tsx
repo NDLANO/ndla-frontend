@@ -77,7 +77,7 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
           </Text>
         )}
       </LinksWrapper>
-      {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
+      {resourceTypes && !!topic?.children?.length && (
         <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
       )}
     </>
@@ -86,7 +86,7 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
 
 LastLearningpathStepInfo.fragments = {
   topic: gql`
-    fragment LastLearningpathStepInfo_Topic on Topic {
+    fragment LastLearningpathStepInfo_Topic on Node {
       id
       ...Resources_Topic
     }

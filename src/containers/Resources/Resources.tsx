@@ -102,8 +102,8 @@ const Resources = ({
   const navHeadingId = useId();
 
   const { supplementaryResources, sortedResources } = useMemo(
-    () => getResourceGroupings(topic.coreResources?.concat(topic.supplementaryResources ?? []) ?? [], resourceId),
-    [resourceId, topic.coreResources, topic.supplementaryResources],
+    () => getResourceGroupings(topic.children ?? [], resourceId),
+    [resourceId, topic.children],
   );
 
   const isGrouped = useMemo(
@@ -197,7 +197,7 @@ const Resources = ({
 };
 
 const resourceFragment = gql`
-  fragment Resources_Resource on Resource {
+  fragment Resources_Resource on Node {
     id
     name
     contentUri
@@ -233,15 +233,12 @@ Resources.fragments = {
     }
   `,
   topic: gql`
-    fragment Resources_Topic on Topic {
+    fragment Resources_Topic on Node {
       id
       name
       path
       url
-      coreResources(subjectId: $subjectId) {
-        ...Resources_Resource
-      }
-      supplementaryResources(subjectId: $subjectId) {
+      children(nodeType: "RESOURCE") {
         ...Resources_Resource
       }
       metadata {

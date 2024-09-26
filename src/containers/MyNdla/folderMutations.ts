@@ -449,7 +449,7 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
 
 export const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
-    subjects(ids: $ids) {
+    subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
       ...AllSubjects_Subject
     }
   }

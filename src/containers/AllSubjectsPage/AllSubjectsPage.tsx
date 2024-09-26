@@ -85,7 +85,7 @@ const StyledList = styled("ul", {
 });
 
 export const allSubectsFragment = gql`
-  fragment AllSubjects_Subject on Subject {
+  fragment AllSubjects_Subject on Node {
     id
     name
     path
@@ -98,7 +98,7 @@ export const allSubectsFragment = gql`
 
 const allSubjectsQuery = gql`
   query allSubjects {
-    subjects(filterVisible: true) {
+    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
       ...AllSubjects_Subject
     }
   }

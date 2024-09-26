@@ -194,7 +194,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 
 export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
-    fragment MultidisciplinarySubjectArticle_Topic on Topic {
+    fragment MultidisciplinarySubjectArticle_Topic on Node {
       id
       name
       path
@@ -229,7 +229,7 @@ export const multidisciplinarySubjectArticleFragments = {
     ${Article.fragments.article}
   `,
   subject: gql`
-    fragment MultidisciplinarySubjectArticle_Subject on Subject {
+    fragment MultidisciplinarySubjectArticle_Subject on Node {
       id
       name
       path

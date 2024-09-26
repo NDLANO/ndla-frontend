@@ -297,7 +297,7 @@ export const articlePageFragments = {
     ${Resources.fragments.resourceType}
   `,
   subject: gql`
-    fragment ArticlePage_Subject on Subject {
+    fragment ArticlePage_Subject on Node {
       id
       name
       path
@@ -314,7 +314,7 @@ export const articlePageFragments = {
     }
   `,
   resource: gql`
-    fragment ArticlePage_Resource on Resource {
+    fragment ArticlePage_Resource on Node {
       id
       name
       path
@@ -334,7 +334,7 @@ export const articlePageFragments = {
     ${Article.fragments.article}
   `,
   topic: gql`
-    fragment ArticlePage_Topic on Topic {
+    fragment ArticlePage_Topic on Node {
       id
       name
       path

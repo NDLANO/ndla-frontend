@@ -204,12 +204,12 @@ const filmFrontPageQuery = gql`
         ...Article_Article
       }
     }
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       id
       name
       path
       url
-      topics {
+      topics: children(nodeType: "TOPIC") {
         id
         name
         path

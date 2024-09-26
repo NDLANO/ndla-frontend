@@ -183,12 +183,12 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
 
 SubjectMenu.fragments = {
   subject: gql`
-    fragment SubjectMenu_Subject on Subject {
+    fragment SubjectMenu_Subject on Node {
       id
       name
       path
       url
-      allTopics {
+      allTopics: children(nodeType: "TOPIC", recursive: true) {
         id
         name
         parentId

@@ -248,7 +248,7 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
 
 export const subjectContainerFragments = {
   subject: gql`
-    fragment SubjectContainer_Subject on Subject {
+    fragment SubjectContainer_Subject on Node {
       id
       name
       path
@@ -258,7 +258,7 @@ export const subjectContainerFragments = {
         customFields
       }
       grepCodes
-      topics {
+      topics: children(nodeType: "TOPIC") {
         id
         name
         path

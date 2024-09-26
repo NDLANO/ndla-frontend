@@ -67,7 +67,7 @@ const DrawerContent = ({
 
 DrawerContent.fragments = {
   subject: gql`
-    fragment DrawerContent_Subject on Subject {
+    fragment DrawerContent_Subject on Node {
       ...SubjectMenu_Subject
     }
     ${SubjectMenu.fragments.subject}

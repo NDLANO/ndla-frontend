@@ -318,7 +318,7 @@ const Learningpath = ({
 
 Learningpath.fragments = {
   topic: gql`
-    fragment Learningpath_Topic on Topic {
+    fragment Learningpath_Topic on Node {
       ...LastLearningpathStepInfo_Topic
     }
     ${LastLearningpathStepInfo.fragments.topic}
@@ -330,7 +330,7 @@ Learningpath.fragments = {
     ${LastLearningpathStepInfo.fragments.resourceType}
   `,
   subject: gql`
-    fragment Learningpath_Subject on Subject {
+    fragment Learningpath_Subject on Node {
       id
     }
   `,

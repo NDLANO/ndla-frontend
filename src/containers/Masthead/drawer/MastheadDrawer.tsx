@@ -295,7 +295,7 @@ const MastheadDrawer = ({ subject, crumbs }: Props) => {
 
 MastheadDrawer.fragments = {
   subject: gql`
-    fragment MastheadDrawer_Subject on Subject {
+    fragment MastheadDrawer_Subject on Node {
       ...DefaultMenu_Subject
       ...DrawerContent_Subject
     }
