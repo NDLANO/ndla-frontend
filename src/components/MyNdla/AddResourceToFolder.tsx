@@ -28,6 +28,7 @@ import {
   InputContainer,
   Text,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import {
   TagSelectorClearTrigger,
@@ -48,6 +49,7 @@ import {
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
@@ -87,6 +89,21 @@ const StyledInfoMessages = styled("div", {
     gap: "xsmall",
   },
 });
+
+interface ResourceAddedSnackProps {
+  folder: GQLFolder;
+}
+
+const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      {t("myNdla.resource.addedToFolder")}
+      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+    </div>
+  );
+};
 
 const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
@@ -154,7 +171,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
       toast.create({
         title: t("myndla.resource.added"),
-        description: t("myndla.resource.addedToFolder", { folder: selectedFolder.name }),
+        description: <ResourceAddedSnack folder={selectedFolder} />,
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
