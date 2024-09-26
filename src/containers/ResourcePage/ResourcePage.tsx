@@ -133,7 +133,7 @@ const ResourcePage = () => {
     return data.resource.context?.parents ?? [];
   }, [data?.resource]);
 
-  if (loading) {
+  if (loading || rootLoading) {
     return <ContentPlaceholder variant="article" />;
   }
 

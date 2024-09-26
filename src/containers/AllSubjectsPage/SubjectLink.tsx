@@ -9,6 +9,7 @@
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import FavoriteSubject from "../../components/FavoriteSubject";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLTaxBase } from "../../graphqlTypes";
 
 const SubjectLinkWrapper = styled("li", {
@@ -30,14 +31,16 @@ interface Props {
 }
 
 const SubjectLink = ({ subject, favorites, className }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
+  const to = enablePrettyUrls ? subject.url : subject.path;
   return (
     <SubjectLinkWrapper className={className}>
       <FavoriteSubject
         subject={subject}
         favorites={favorites}
-        subjectLinkOrText={<StyledSafeLink to={subject.path}>{subject.name}</StyledSafeLink>}
+        subjectLinkOrText={<StyledSafeLink to={to}>{subject.name}</StyledSafeLink>}
       />
-      <StyledSafeLink to={subject.path}>{subject.name}</StyledSafeLink>
+      <StyledSafeLink to={to}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

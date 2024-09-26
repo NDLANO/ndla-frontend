@@ -62,6 +62,7 @@ const LoadingShimmer = () => {
           id: `dummy-${index}`,
           resourceTypes: [],
           path: "",
+          url: "",
           title: "",
         }}
       />
@@ -106,6 +107,7 @@ const MovieGrid = ({ resourceType }: Props) => {
                   resourceTypes: [],
                   title: movie.title,
                   path: context?.path ?? "",
+                  url: context?.url ?? "",
                 }}
               />
             );

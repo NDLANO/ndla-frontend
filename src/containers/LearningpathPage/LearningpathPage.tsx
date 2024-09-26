@@ -15,6 +15,7 @@ import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
@@ -49,6 +50,7 @@ interface Props {
 const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
@@ -97,13 +99,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems =
-    subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          ...topicPath,
-          { name: learningpath.title, id: `${learningpath.id}` },
-        ])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+  const breadcrumbItems = topicPath
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls)
+    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource], enablePrettyUrls);
 
   return (
     <div>
@@ -124,7 +122,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        resourcePath={resource.path}
+        resourcePath={enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}

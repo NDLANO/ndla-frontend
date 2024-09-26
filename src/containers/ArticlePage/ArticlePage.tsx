@@ -34,6 +34,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -111,6 +112,7 @@ const ArticlePage = ({
 }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
 
@@ -173,7 +175,7 @@ const ArticlePage = ({
   const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls);
 
   const authors =
     article.copyright?.creators.length || article.copyright?.rightsholders.length

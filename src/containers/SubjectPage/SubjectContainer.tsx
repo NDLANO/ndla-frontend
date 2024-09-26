@@ -22,6 +22,7 @@ import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
@@ -112,6 +113,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
 
@@ -140,7 +142,7 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
     },
     {
       name: subject.name,
-      to: subject.path,
+      to: enablePrettyUrls ? subject.url : subject.path,
     },
     ...topicCrumbs,
   ];
@@ -158,7 +160,7 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
       ...topic,
       label: topic?.name,
       current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
-      url: fixEndSlash(topic?.path),
+      url: enablePrettyUrls ? topic?.url : fixEndSlash(topic?.path),
       isRestrictedResource: topic.availability !== "everyone",
       isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };

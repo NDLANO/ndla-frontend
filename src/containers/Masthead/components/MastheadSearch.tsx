@@ -39,6 +39,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -148,6 +149,7 @@ const MastheadSearch = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -318,7 +320,12 @@ const MastheadSearch = () => {
                       <StyledListItemRoot variant="list">
                         <TextWrapper>
                           <ComboboxItemText>
-                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                            <SafeLink
+                              to={enablePrettyUrls ? resource.url : resource.path}
+                              onClick={onNavigate}
+                              unstyled
+                              css={linkOverlay.raw()}
+                            >
                               {resource.name}
                             </SafeLink>
                           </ComboboxItemText>

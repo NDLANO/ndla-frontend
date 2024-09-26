@@ -19,6 +19,7 @@ import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -63,6 +64,7 @@ const SubjectTopic = ({
   subject,
 }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
@@ -116,7 +118,7 @@ const SubjectTopic = ({
       label: subtopic.name,
       current:
         subtopic.id === subTopicId && subtopic.id === topicIds[topicIds.length - 1] ? PAGE : subtopic.id === subTopicId,
-      url: subtopic.path,
+      url: enablePrettyUrls ? subtopic.url : subtopic.path,
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });

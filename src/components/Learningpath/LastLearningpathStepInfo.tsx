@@ -11,6 +11,7 @@ import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
@@ -44,6 +45,7 @@ interface Props {
 }
 const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
 
   if (!isLastStep) {
@@ -64,12 +66,14 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
       <LinksWrapper>
         {!!root && (
           <Text>
-            {t("learningPath.lastStep.subjectHeading")} <SafeLink to={root.path}>{root.name}</SafeLink>
+            {t("learningPath.lastStep.subjectHeading")}{" "}
+            <SafeLink to={enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
           </Text>
         )}
         {!!parent && (
           <Text>
-            {t("learningPath.lastStep.topicHeading")} <SafeLink to={parent.path}>{parent.name}</SafeLink>
+            {t("learningPath.lastStep.topicHeading")}{" "}
+            <SafeLink to={enablePrettyUrls ? parent.url : parent.path}>{parent.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>

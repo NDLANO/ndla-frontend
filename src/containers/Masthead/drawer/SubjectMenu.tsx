@@ -19,6 +19,7 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLSubjectMenu_SubjectFragment, GQLTaxBase } from "../../../graphqlTypes";
 
 interface Props {
@@ -61,6 +62,7 @@ export const isCurrent = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
@@ -110,7 +112,8 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject?.path ?? "";
+  const subjectPath = enablePrettyUrls ? subject?.url : subject?.path;
+  const path = subjectPath ?? "";
 
   return (
     <>

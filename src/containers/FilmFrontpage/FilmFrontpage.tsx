@@ -30,6 +30,7 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
@@ -85,6 +86,7 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
@@ -126,10 +128,13 @@ const FilmFrontpage = () => {
             </Heading>
             <NavigationBox
               heading={t("ndlaFilm.topics")}
-              items={subject?.topics?.map((topic) => ({
-                label: topic.name,
-                url: topic.path,
-              }))}
+              items={subject?.topics?.map((topic) => {
+                const path = enablePrettyUrls ? topic.url : topic.path;
+                return {
+                  label: topic.name,
+                  url: path,
+                };
+              })}
             />
           </Wrapper>
           <Wrapper>

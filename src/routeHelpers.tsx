@@ -16,7 +16,7 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
+import { GQLTaxBase } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
 export function toSearch(searchString?: string) {
@@ -142,21 +142,20 @@ export function toTopic(subjectId: string, ...topicIds: string[]) {
   return t;
 }
 
-export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
-  const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
-  const [subject, ...rest] = safePaths;
-  if (!subject) return [];
-  // henter longname fra filter og bruk i stedet for første ledd i path
-  const breadcrumbSubject = safePaths[0]!;
-
-  const links = [breadcrumbSubject, ...rest];
-  const breadcrumbs = links
-    .reduce<Breadcrumb[]>((acc, link) => {
-      const prefix = acc.length ? acc[acc.length - 1]?.to : "";
-      const to = `${prefix}/${removeUrn(link.id)}`;
-      return acc.concat([{ to, name: link.name }]);
-    }, [])
-    .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
+export function toBreadcrumbItems(
+  rootName: string,
+  paths: (GQLTaxBase | undefined)[],
+  enablePrettyUrls = false,
+): Breadcrumb[] {
+  const safePaths = paths.filter((p) => p !== undefined);
+  if (safePaths.length === 0) return [];
+  const breadcrumbs = safePaths.map((crumb) => {
+    const to = enablePrettyUrls ? crumb?.url : crumb?.path;
+    return {
+      to: to ?? "",
+      name: crumb?.name ?? "",
+    };
+  });
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 

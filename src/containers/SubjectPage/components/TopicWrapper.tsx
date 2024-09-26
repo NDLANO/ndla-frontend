@@ -12,6 +12,7 @@ import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
 import { PageSpinner } from "../../../components/PageSpinner";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -57,6 +58,7 @@ const TopicWrapper = ({
   showResources,
   subject,
 }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const navigate = useNavigate();
   const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
     topicWrapperQuery,
@@ -74,11 +76,11 @@ const TopicWrapper = ({
           const topicPath = topic.context?.parents ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: tp.path,
+              to: enablePrettyUrls ? tp.url : tp.path,
               name: tp.name,
             }))
             .slice(1);
-          setBreadCrumb(newCrumbs.concat({ to: topic.path, name: topic.name }));
+          setBreadCrumb(newCrumbs.concat({ to: enablePrettyUrls ? topic.url : topic.path, name: topic.name }));
         }
       },
     },
