@@ -143,14 +143,7 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
       to: subject.path,
     },
     ...topicCrumbs,
-  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-    crumbs.push({
-      name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
-    });
-
-    return crumbs;
-  }, []);
+  ];
 
   const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
 

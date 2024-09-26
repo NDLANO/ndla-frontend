@@ -27,8 +27,6 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic } from "../../../routeHelpers";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
@@ -44,7 +42,6 @@ const PAGE = "page" as const;
 type Props = {
   topicIds: string[];
   activeTopic: boolean;
-  subjectId: string;
   subjectType?: string;
   subTopicId?: string;
   showResources?: boolean;
@@ -57,7 +54,6 @@ type Props = {
 const SubjectTopic = ({
   topicIds,
   activeTopic,
-  subjectId,
   subjectType,
   subTopicId,
   topic,
@@ -80,11 +76,6 @@ const SubjectTopic = ({
       }
     }
   }, [mastheadHeightPx, activeTopic]);
-
-  const topicPath = useMemo(() => {
-    if (!topic?.path) return [];
-    return getTopicPath(topic.path, topic.contexts);
-  }, [topic]);
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
@@ -125,7 +116,7 @@ const SubjectTopic = ({
       label: subtopic.name,
       current:
         subtopic.id === subTopicId && subtopic.id === topicIds[topicIds.length - 1] ? PAGE : subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+      url: subtopic.path,
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -206,12 +197,19 @@ export const topicFragments = {
         }
       }
       supportedLanguages
-      contexts {
+      context {
         contextId
         breadcrumbs
         parentIds
         path
         url
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       article {
         id

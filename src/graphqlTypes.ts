@@ -2372,8 +2372,6 @@ export type GQLLastLearningpathStepInfo_TopicFragment = {
   id: string;
 } & GQLResources_TopicFragment;
 
-export type GQLLastLearningpathStepInfo_SubjectFragment = { __typename?: "Subject"; path: string; name: string };
-
 export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
@@ -2384,10 +2382,7 @@ export type GQLLearningpath_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment;
 
-export type GQLLearningpath_SubjectFragment = {
-  __typename?: "Subject";
-  id: string;
-} & GQLLastLearningpathStepInfo_SubjectFragment;
+export type GQLLearningpath_SubjectFragment = { __typename?: "Subject"; id: string };
 
 export type GQLLearningpath_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
@@ -3087,14 +3082,22 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
   name: string;
   path: string;
   url: string;
-  contexts: Array<{
+  context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
     url: string;
-  }>;
+    parents?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
+  };
   article?: {
     __typename?: "Article";
     created: string;
@@ -4441,14 +4444,23 @@ export type GQLResourcePageQuery = {
     relevanceId?: string;
     paths: Array<string>;
     breadcrumbs: Array<string>;
-    contexts: Array<{
+    context?: {
       __typename?: "TaxonomyContext";
       contextId: string;
       breadcrumbs: Array<string>;
       parentIds: Array<string>;
       path: string;
       url: string;
-    }>;
+      parents?: Array<{
+        __typename?: "TaxonomyCrumb";
+        contextId: string;
+        id: string;
+        name: string;
+        path: string;
+        url: string;
+      }>;
+    };
+    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; path: string; url: string }>;
   } & GQLMovedResourcePage_ResourceFragment &
     GQLArticlePage_ResourceFragment &
     GQLLearningpathPage_ResourceFragment;
@@ -4584,14 +4596,22 @@ export type GQLTopic_TopicFragment = {
     metaDescription?: string;
     metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
   };
-  contexts: Array<{
+  context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
     breadcrumbs: Array<string>;
     parentIds: Array<string>;
     path: string;
     url: string;
-  }>;
+    parents?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
+  };
   article?: {
     __typename?: "Article";
     id: number;

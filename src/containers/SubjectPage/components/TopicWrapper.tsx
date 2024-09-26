@@ -17,8 +17,6 @@ import {
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
-import { getTopicPath } from "../../../util/getTopicPath";
 import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
@@ -73,14 +71,14 @@ const TopicWrapper = ({
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          const topicPath = getTopicPath(topic.path, topic.contexts);
+          const topicPath = topic.context?.parents ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: `/${removeUrn(tp.id)}`,
+              to: tp.path,
               name: tp.name,
             }))
             .slice(1);
-          setBreadCrumb(newCrumbs.concat({ to: topic.id, name: topic.name }));
+          setBreadCrumb(newCrumbs.concat({ to: topic.path, name: topic.name }));
         }
       },
     },
@@ -108,7 +106,6 @@ const TopicWrapper = ({
       topic={data.topic}
       resourceTypes={data.resourceTypes}
       activeTopic={activeTopic}
-      subjectId={subjectId}
       subjectType={subjectType}
       subTopicId={subTopicId}
       showResources={showResources}

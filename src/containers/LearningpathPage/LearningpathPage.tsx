@@ -24,16 +24,16 @@ import {
   GQLLearningpathPage_SubjectFragment,
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathStep,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: GQLTaxonomyCrumb[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;

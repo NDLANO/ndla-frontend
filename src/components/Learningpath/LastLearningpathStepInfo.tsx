@@ -14,11 +14,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
-import { toTopic } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 
 const LinksWrapper = styled("div", {
   base: {
@@ -38,22 +36,13 @@ const StyledHGroup = styled("hgroup", {
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
-  subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TopicPath[];
+  topicPath?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
 }
-const LastLearningpathStepInfo = ({
-  topic,
-  subject,
-  topicPath,
-  resourceTypes,
-  seqNo,
-  numberOfLearningSteps,
-  title,
-}: Props) => {
+const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
   const isLastStep = seqNo === numberOfLearningSteps;
 
@@ -61,13 +50,8 @@ const LastLearningpathStepInfo = ({
     return null;
   }
 
-  const linkTopic =
-    !!topicPath && topicPath.length > 1
-      ? {
-          path: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((tp) => tp.id)),
-          name: topicPath[topicPath.length - 1]?.name,
-        }
-      : undefined;
+  const root = topicPath?.[0];
+  const parent = topicPath?.toReversed()?.[0];
 
   return (
     <>
@@ -78,14 +62,14 @@ const LastLearningpathStepInfo = ({
         <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
       </StyledHGroup>
       <LinksWrapper>
-        {!!subject && (
+        {!!root && (
           <Text>
-            {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
+            {t("learningPath.lastStep.subjectHeading")} <SafeLink to={root.path}>{root.name}</SafeLink>
           </Text>
         )}
-        {!!linkTopic && (
+        {!!parent && (
           <Text>
-            {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+            {t("learningPath.lastStep.topicHeading")} <SafeLink to={parent.path}>{parent.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>
@@ -103,12 +87,6 @@ LastLearningpathStepInfo.fragments = {
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-  `,
-  subject: gql`
-    fragment LastLearningpathStepInfo_Subject on Subject {
-      path
-      name
-    }
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {

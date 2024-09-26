@@ -42,12 +42,12 @@ import {
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -57,7 +57,7 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: GQLTaxonomyCrumb[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
@@ -126,7 +126,7 @@ const ArticlePage = ({
         title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, subject, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];

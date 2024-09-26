@@ -23,7 +23,6 @@ import {
 } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -63,10 +62,22 @@ const resourcePageQuery = gql`
       relevanceId
       paths
       breadcrumbs
-      contexts {
+      context {
         contextId
         breadcrumbs
         parentIds
+        path
+        url
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
+      }
+      contexts {
+        contextId
         path
         url
       }
@@ -119,7 +130,7 @@ const ResourcePage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return getTopicPath(data.resource.path, data.resource.contexts);
+    return data.resource.context?.parents ?? [];
   }, [data?.resource]);
 
   if (loading) {

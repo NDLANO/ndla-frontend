@@ -42,10 +42,10 @@ import {
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_SubjectFragment,
   GQLLearningpath_TopicFragment,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
 import { toLearningPath } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 import FavoriteButton from "../Article/FavoritesButton";
 import { PageContainer, PageLayout } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
@@ -54,7 +54,7 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TopicPath[];
+  topicPath?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   subject?: GQLLearningpath_SubjectFragment;
   skipToContentId?: string;
@@ -281,7 +281,6 @@ const Learningpath = ({
                 seqNo={learningpathStep.seqNo}
                 numberOfLearningSteps={learningpath.learningsteps.length - 1}
                 title={learningpath.title}
-                subject={subject}
               />
             </LearningpathEmbed>
             <PageButtonsContainer>
@@ -333,9 +332,7 @@ Learningpath.fragments = {
   subject: gql`
     fragment Learningpath_Subject on Subject {
       id
-      ...LastLearningpathStepInfo_Subject
     }
-    ${LastLearningpathStepInfo.fragments.subject}
   `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {
