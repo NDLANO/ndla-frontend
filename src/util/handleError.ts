@@ -6,9 +6,8 @@
  *
  */
 
-import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
-import { ErrorReporter } from "@ndla/error-reporter";
+import * as Sentry from "@sentry/react";
 import { ErrorType, LogLevel, StatusError } from "./error";
 import config from "../config";
 
@@ -160,14 +159,9 @@ const logServerError = async (
   }
 };
 
-const handleError = async (
-  error: ErrorType,
-  info?: ErrorInfo | { clientTime: Date },
-  requestPath?: string,
-  extraContext: Record<string, unknown> = {},
-) => {
+const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
-    ErrorReporter.getInstance().captureError(error, info);
+    Sentry.captureException(error);
   } else if (config.runtimeType === "production" && !config.isClient) {
     await logServerError(error, requestPath, extraContext);
   } else {

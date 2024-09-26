@@ -26,6 +26,7 @@ const connectSrc = (() => {
     "cdn.jsdelivr.net",
     "https://*.dataporten.no",
     "https://*.clarity.ms",
+    "https://*.sentry.io",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -104,6 +105,8 @@ const scriptSrc = (() => {
     "https://*.dataporten.no",
     "https://*.clarity.ms",
     "https://app-script.monsido.com",
+    "https://browser.sentry-cdn.com",
+    "https://js.sentry-cdn.com",
   ];
   if (config.runtimeType === "development") {
     return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];

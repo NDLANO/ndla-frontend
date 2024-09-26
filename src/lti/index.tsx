@@ -11,7 +11,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-sans-pro/400-italic.css";
@@ -34,19 +33,13 @@ import Scripts from "../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { initializeI18n, isValidLocale } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
+import { initSentry } from "../util/sentry";
 
 const {
   DATA: { initialProps, config },
 } = window;
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-  ignoreUrls: [],
-});
+initSentry(config.sentrydsn);
 
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
 const language = isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale;

@@ -168,7 +168,7 @@ export async function oembedArticleRoute(req: express.Request) {
     const { html, title } = await getHTMLandTitle(match, req);
     return getOembedObject(req, title, html);
   } catch (error) {
-    handleError(error, undefined, req.path);
+    handleError(error, req.path);
 
     const typedError = error as { status?: number };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
