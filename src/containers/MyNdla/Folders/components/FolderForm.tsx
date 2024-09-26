@@ -58,7 +58,7 @@ export interface FolderFormValues {
 const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormValues => {
   return {
     name: folder?.name ?? "",
-    description: folder?.description ?? t("myNdla.sharedFolder.description.all"),
+    description: folder?.description ?? t("myNdla.sharedFolder.description"),
   };
 };
 
