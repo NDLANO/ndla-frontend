@@ -150,12 +150,7 @@ export const useFolderActions = (
       icon: <AddLine />,
       text: t("myNdla.newFolderShort"),
       modalContent: (close) => (
-        <FolderCreateModalContent
-          onClose={close}
-          folders={selectedFolder?.subfolders}
-          parentFolder={selectedFolder}
-          onCreate={onFolderAdded}
-        />
+        <FolderCreateModalContent onClose={close} parentFolder={selectedFolder} onCreate={onFolderAdded} />
       ),
     };
 

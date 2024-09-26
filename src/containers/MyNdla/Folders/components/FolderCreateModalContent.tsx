@@ -11,6 +11,7 @@ import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/prim
 import FolderForm, { FolderFormValues } from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
+import { useFolders } from "../../folderMutations";
 
 interface Props {
   onClose: (e?: Event) => void;
@@ -19,8 +20,9 @@ interface Props {
   parentFolder?: GQLFolder | null;
 }
 
-const FolderCreateModalContent = ({ onClose, parentFolder, folders, onCreate }: Props) => {
+const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) => {
   const { t } = useTranslation();
+  const { folders } = useFolders();
   return (
     <DialogContent>
       <DialogHeader>
