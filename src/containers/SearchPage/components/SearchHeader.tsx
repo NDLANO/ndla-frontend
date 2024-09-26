@@ -66,6 +66,12 @@ const StyledFieldRoot = styled(FieldRoot, {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
+
 const SearchHeader = ({
   query,
   suggestion,
@@ -174,9 +180,9 @@ const SearchHeader = ({
               {suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
-                  <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
+                  <StyledButton variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
                     [{suggestion}]
-                  </Button>
+                  </StyledButton>
                 </Text>
               )}
             </div>
