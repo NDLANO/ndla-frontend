@@ -53,6 +53,7 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(({ notificat
           ? t("myNdla.arena.notification.button.showNew", { count: newNotifications })
           : t("myNdla.arena.notification.button.show")
       }
+      size="small"
       {...rest}
     >
       {t("myNdla.arena.notification.title")}

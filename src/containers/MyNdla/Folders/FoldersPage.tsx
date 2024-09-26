@@ -14,8 +14,7 @@ import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import FolderActions from "./components/FolderActions";
-import FolderButtons from "./components/FolderButtons";
+import { useFolderActions } from "./components/FolderActionHooks";
 import FolderList from "./components/FolderList";
 import ListViewOptions from "./components/ListViewOptions";
 import ResourceList from "./components/ResourceList";
@@ -154,24 +153,12 @@ const FoldersPage = () => {
     localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
   }, []);
 
-  const dropDownMenu = useMemo(
-    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
-    [selectedFolder, folders, setFocusId],
-  );
-
-  const folderButtons = useMemo(
-    () => <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />,
-    [selectedFolder, setFocusId],
-  );
+  const menuItems = useFolderActions(selectedFolder, setFocusId, folders, true);
 
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
   return (
-    <StyledMyNdlaPageWrapper
-      dropDownMenu={dropDownMenu}
-      buttons={folderButtons}
-      showButtons={!examLock || !!selectedFolder}
-    >
+    <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
       <HelmetWithTracker title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
       {selectedFolder && (
