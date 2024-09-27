@@ -222,6 +222,7 @@ const ArticlePage = ({
               <ArticleTitle
                 id={skipToContentId ?? article.id.toString()}
                 contentType={contentType}
+                contentTypeLabel={resource.resourceTypes?.[0]?.name}
                 heartButton={
                   resource.path && (
                     <AddResourceToFolderModal
@@ -318,6 +319,10 @@ export const articlePageFragments = {
       name
       path
       contentUri
+      resourceTypes {
+        name
+        id
+      }
       article {
         created
         updated
