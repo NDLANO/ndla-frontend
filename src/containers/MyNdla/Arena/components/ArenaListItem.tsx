@@ -63,12 +63,25 @@ const ContentWrapper = styled("div", {
 
 const NumberText = styled(Text, {
   base: {
+    minWidth: "3xlarge",
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
     textAlign: "center",
     tabletDown: {
       flexDirection: "row",
+      minWidth: "unset",
+    },
+  },
+});
+
+const IconWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    minWidth: "3xlarge",
+    tabletDown: {
+      minWidth: "unset",
     },
   },
 });
@@ -141,7 +154,9 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
             </TextWrapper>
           </ContentWrapper>
           {locked ? (
-            <StyledLockedIcon />
+            <IconWrapper>
+              <StyledLockedIcon />
+            </IconWrapper>
           ) : postCount != null || voteCount != null ? (
             <ContentWrapper>
               {postCount != null && (
