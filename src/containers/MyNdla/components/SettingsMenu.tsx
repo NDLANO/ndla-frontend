@@ -176,13 +176,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "mediu
       onOpenChange={(details) => setOpen(details.open)}
     >
       <MenuTrigger asChild ref={dropdownTriggerRef}>
-        <IconButton
-          title={title}
-          aria-label={title}
-          variant="tertiary"
-          disabled={!menuItems?.length}
-          size={elementSize}
-        >
+        <IconButton title={title} aria-label={title} variant="clear" disabled={!menuItems?.length} size={elementSize}>
           <MoreLine />
         </IconButton>
       </MenuTrigger>
