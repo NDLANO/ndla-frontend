@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { IncomingMessage, ServerResponse } from "http";
+import { matchPath } from "react-router-dom";
 import config from "../config";
+import { embedRoutes } from "../routes";
 
 const connectSrc = (() => {
   const defaultConnectSrc = [
@@ -228,7 +231,15 @@ const contentSecurityPolicy = {
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
-    frameAncestors: null,
+    frameAncestors: [
+      (req: IncomingMessage, _: ServerResponse) => {
+        const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
+        if (isEmbeddable || req.url?.startsWith("/lti")) {
+          return "*";
+        }
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no";
+      },
+    ],
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
