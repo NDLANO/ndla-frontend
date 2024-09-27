@@ -84,45 +84,6 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={podcast.copyright.license.license}
-          title={t("license.podcast.rules")}
-          sourceTitle={podcast.title}
-          sourceType="podcast"
-        >
-          {!isCopyrighted(podcast.copyright.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: podcast.id,
-                path: `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
-                resourceType: "audio",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${podcast.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {!isCopyrighted(podcast.copyright.license.license) && (
-          <MediaListItemActions>
-            <SafeLinkButton to={podcast.src} download variant="secondary" size="small">
-              <DownloadLine />
-              {t("license.download")}
-            </SafeLinkButton>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${podcast.title}" aria-label="${podcast.title}" height="400" width="500" frameborder="0" src="${podcast.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={podcast.copyright.license?.license}
         resourceType="podcast"
@@ -130,17 +91,58 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
-            <CopyTextButton
-              stringToCopy={copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={podcast.copyright.license.license}
+            title={t("license.podcast.rules")}
+            sourceTitle={podcast.title}
+            sourceType="podcast"
+          >
+            {!isCopyrighted(podcast.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: podcast.id,
+                  path: `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
+                  resourceType: "audio",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${podcast.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {!isCopyrighted(podcast.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={podcast.src} download variant="secondary" size="small">
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${podcast.title}" aria-label="${podcast.title}" height="400" width="500" frameborder="0" src="${podcast.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );

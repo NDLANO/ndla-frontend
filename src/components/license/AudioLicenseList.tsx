@@ -83,40 +83,6 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={audio.copyright.license.license}
-          title={t("license.audio.rules")}
-          sourceTitle={audio.title}
-          sourceType="audio"
-        >
-          {!isCopyrighted(audio.copyright.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: audio.id,
-                path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
-                resourceType: "audio",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {!isCopyrighted(audio.copyright.license.license) && (
-          <MediaListItemActions>
-            <SafeLinkButton to={audio.src} download variant="secondary" size="small">
-              <DownloadLine />
-              {t("license.download")}
-            </SafeLinkButton>
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={audio.copyright.license.license}
         resourceType="audio"
@@ -124,17 +90,53 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
-            <CopyTextButton
-              stringToCopy={copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={audio.copyright.license.license}
+            title={t("license.audio.rules")}
+            sourceTitle={audio.title}
+            sourceType="audio"
+          >
+            {!isCopyrighted(audio.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: audio.id,
+                  path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+                  resourceType: "audio",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {!isCopyrighted(audio.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={audio.src} download variant="secondary" size="small">
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(audio.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );
