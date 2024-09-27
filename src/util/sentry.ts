@@ -7,7 +7,12 @@
  */
 
 import * as Sentry from "@sentry/react";
+import { ConfigType } from "../config";
 
-export const initSentry = (dsn: string) => {
-  Sentry.init({ dsn, integrations: [] });
+export const initSentry = (config: ConfigType) => {
+  Sentry.init({
+    dsn: config.sentrydsn,
+    environment: config.ndlaEnvironment,
+    integrations: [],
+  });
 };

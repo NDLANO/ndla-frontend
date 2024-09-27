@@ -39,7 +39,7 @@ const {
   DATA: { initialProps, config },
 } = window;
 
-initSentry(config.sentrydsn);
+initSentry(config);
 
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
 const language = isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale;

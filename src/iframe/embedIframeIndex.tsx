@@ -46,7 +46,7 @@ type EmbedInitialProps = {
 
 const { config, initialProps } = window.DATA;
 
-initSentry(config.sentrydsn);
+initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 

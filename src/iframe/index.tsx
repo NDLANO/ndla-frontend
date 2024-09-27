@@ -34,7 +34,7 @@ import { initSentry } from "../util/sentry";
 
 const { config, initialProps } = window.DATA;
 
-initSentry(config.sentrydsn);
+initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 

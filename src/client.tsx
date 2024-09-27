@@ -48,7 +48,7 @@ const {
   DATA: { config, serverPath, serverQuery, serverResponse },
 } = window;
 
-initSentry(config.sentrydsn);
+initSentry(config);
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 

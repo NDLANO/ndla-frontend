@@ -23,7 +23,7 @@ import { initSentry } from "../../util/sentry";
 
 const { config, serverPath } = window.DATA;
 
-initSentry(config.sentrydsn);
+initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 
