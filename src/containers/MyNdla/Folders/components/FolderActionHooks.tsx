@@ -66,6 +66,7 @@ export const useFolderActions = (
         },
       });
       const folder = res.data?.addFolder as GQLFolder | undefined;
+      navigate(routes.myNdla.folder(folder?.id ?? ""));
 
       if (folder) {
         toast.create({
@@ -73,10 +74,9 @@ export const useFolderActions = (
             folderName: folder.name,
           }),
         });
-        setFocusId(folder.id);
       }
     },
-    [addFolder, inToolbar, folderId, selectedFolder?.parentId, toast, t, setFocusId],
+    [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
   );
 
   const onDeleteFolder = useCallback(async () => {
