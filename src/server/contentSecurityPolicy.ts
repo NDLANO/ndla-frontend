@@ -6,7 +6,9 @@
  *
  */
 import { IncomingMessage, ServerResponse } from "http";
+import { matchPath } from "react-router-dom";
 import config from "../config";
+import { embedRoutes } from "../routes";
 
 const connectSrc = (() => {
   const defaultConnectSrc = [
@@ -231,7 +233,8 @@ const contentSecurityPolicy = {
     frameSrc,
     frameAncestors: [
       (req: IncomingMessage, _: ServerResponse) => {
-        if (req.url?.includes("-iframe") || req.url?.startsWith("/lti")) {
+        const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
+        if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";
         }
         return "'self' https://tall.ndla.no https://tall.test.ndla.no";
