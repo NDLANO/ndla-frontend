@@ -179,6 +179,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
     setLinkUrl("");
     setEditedLinkElement(null);
     setLastSelection(null);
+    setShowErrorMessage(false);
     setOpen(false);
   };
 
