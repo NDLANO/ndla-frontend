@@ -150,8 +150,10 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   const [editedLinkUrl, setEditedLinkUrl] = useState("");
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
   const [open, setOpen] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const urlError = useMemo(() => {
+    setShowErrorMessage(false);
     if (editedLinkUrl === "") {
       return t("markdownEditor.link.error.url.empty");
     } else if (!validateUrl(editedLinkUrl)) {
@@ -160,6 +162,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   }, [editedLinkUrl, t]);
 
   const textError = useMemo(() => {
+    setShowErrorMessage(false);
     if (editedLinkText === "") {
       return t("markdownEditor.link.error.text.empty");
     } else return undefined;
@@ -335,34 +338,38 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   };
 
   const handleLinkSubmission = () => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        const parent = getSelectedNode(selection).getParent();
-        let linkElement = editedLinkElement;
-        if (parent && $isAutoLinkNode(parent)) {
-          const linkNode = $createLinkNode(parent.getURL(), {
-            rel: parent.__rel,
-            target: parent.__target,
-            title: parent.__title,
-          });
-          parent.replace(linkNode, true);
-          linkElement = linkNode;
-          setEditedLinkElement(linkNode);
+    setShowErrorMessage(true);
+
+    if (!(!isDirty || !!urlError || !!textError)) {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const parent = getSelectedNode(selection).getParent();
+          let linkElement = editedLinkElement;
+          if (parent && $isAutoLinkNode(parent)) {
+            const linkNode = $createLinkNode(parent.getURL(), {
+              rel: parent.__rel,
+              target: parent.__target,
+              title: parent.__title,
+            });
+            parent.replace(linkNode, true);
+            linkElement = linkNode;
+            setEditedLinkElement(linkNode);
+          }
+          if (linkElement) {
+            linkElement.setURL(sanitizeUrl(editedLinkUrl));
+            linkElement.getFirstChild().setTextContent(editedLinkText);
+            setTimeout(() => editor.focus());
+          } else {
+            selection.removeText();
+            selection.insertRawText(editedLinkText);
+            toggleLink(sanitizeUrl(editedLinkUrl));
+          }
         }
-        if (linkElement) {
-          linkElement.setURL(sanitizeUrl(editedLinkUrl));
-          linkElement.getFirstChild().setTextContent(editedLinkText);
-          setTimeout(() => editor.focus());
-        } else {
-          selection.removeText();
-          selection.insertRawText(editedLinkText);
-          toggleLink(sanitizeUrl(editedLinkUrl));
-        }
-      }
-    });
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
-    closeLinkWindow();
+      });
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
+      closeLinkWindow();
+    }
   };
 
   const handleLinkDeletion = () => {
@@ -386,12 +393,24 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
     closeLinkWindow();
   };
 
+  const leftButton = editedLinkElement ? (
+    <Button variant="secondary" onClick={handleLinkDeletion}>
+      {t("myNdla.resource.remove")}
+    </Button>
+  ) : (
+    <Button variant="secondary" onClick={closeLinkWindow}>
+      {t("close")}
+    </Button>
+  );
+
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
       <Stack>
-        <FieldRoot required invalid={!!textError}>
+        <FieldRoot required invalid={showErrorMessage && !!textError}>
           <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
-          <FieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</FieldErrorMessage>
+          <FieldErrorMessage data-disabled={editedLinkText.length < 1}>
+            {showErrorMessage && textError}
+          </FieldErrorMessage>
           <FieldInput
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
@@ -405,9 +424,9 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
             }}
           />
         </FieldRoot>
-        <FieldRoot required invalid={!!urlError}>
+        <FieldRoot required invalid={showErrorMessage && !!urlError}>
           <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
-          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</FieldErrorMessage>
+          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{showErrorMessage && urlError}</FieldErrorMessage>
           <FieldInput
             name="url"
             ref={inputRef}
@@ -423,10 +442,8 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
         </FieldRoot>
       </Stack>
       <ButtonRow>
-        <Button variant="secondary" onClick={handleLinkDeletion} disabled={!editedLinkElement}>
-          {t("myNdla.resource.remove")}
-        </Button>
-        <Button variant="primary" onClick={handleLinkSubmission} disabled={!isDirty || !!urlError}>
+        {leftButton}
+        <Button variant="primary" onClick={handleLinkSubmission}>
           {t("save")}
         </Button>
       </ButtonRow>
