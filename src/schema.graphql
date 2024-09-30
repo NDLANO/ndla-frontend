@@ -72,6 +72,7 @@ type ArenaNewPostNotificationV2 {
   post: ArenaPostV2!
   topicId: Int!
   topicTitle: String!
+  type: String
 }
 
 type ArenaNotification {
@@ -85,7 +86,7 @@ type ArenaNotification {
   postId: Int!
   read: Boolean!
   readClass: String!
-  subject: String!
+  subject: String
   topicId: Int!
   topicTitle: String!
   type: String!

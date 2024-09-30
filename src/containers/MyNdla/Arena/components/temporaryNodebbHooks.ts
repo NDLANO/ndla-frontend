@@ -560,6 +560,7 @@ export const useTemporaryArenaNotifications = (skip?: boolean) => {
           topicTitle: notification.topicTitle,
           notificationTime: notification.datetimeISO,
           isRead: notification.read,
+          type: notification.type,
           post: {
             __typename: "ArenaPostV2",
             id: notification.postId,

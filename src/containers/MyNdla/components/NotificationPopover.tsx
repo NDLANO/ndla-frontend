@@ -67,7 +67,10 @@ const NotificationPopover = () => {
             {t("myNdla.arena.notification.markAll")}
           </Button>
         </TitleWrapper>
-        <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
+        <NotificationList
+          notifications={notifications?.items.filter(({ type }) => type === "new-reply" || type === "upvote")}
+          close={() => setOpen(false)}
+        />
         <SafeLinkButton to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
           {t("myNdla.arena.notification.showAll")}
         </SafeLinkButton>

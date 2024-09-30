@@ -95,6 +95,7 @@ export type GQLArenaNewPostNotificationV2 = {
   post: GQLArenaPostV2;
   topicId: Scalars["Int"]["output"];
   topicTitle: Scalars["String"]["output"];
+  type?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLArenaNotification = {
@@ -109,7 +110,7 @@ export type GQLArenaNotification = {
   postId: Scalars["Int"]["output"];
   read: Scalars["Boolean"]["output"];
   readClass: Scalars["String"]["output"];
-  subject: Scalars["String"]["output"];
+  subject?: Maybe<Scalars["String"]["output"]>;
   topicId: Scalars["Int"]["output"];
   topicTitle: Scalars["String"]["output"];
   type: Scalars["String"]["output"];
@@ -3319,6 +3320,7 @@ export type GQLArenaNotificationV2Fragment = {
   topicTitle: string;
   notificationTime: string;
   isRead: boolean;
+  type?: string;
   post: { __typename?: "ArenaPostV2" } & GQLArenaPostV2DataFragment;
 };
 
@@ -4048,7 +4050,7 @@ export type GQLArenaNotificationFragment = {
   postId: number;
   notificationId: string;
   topicTitle: string;
-  subject: string;
+  subject?: string;
   type: string;
   user: { __typename?: "ArenaUser"; displayName: string; id: number; slug: string };
 };

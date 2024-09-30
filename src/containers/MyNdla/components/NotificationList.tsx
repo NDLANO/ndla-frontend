@@ -83,7 +83,6 @@ const NotificationList = ({ notifications, close }: Props) => {
     () => (close ? notifications?.slice(0, 5) : notifications),
     [notifications, close],
   );
-
   return (
     <StyledList>
       {notifcationsToShow?.map((notification, index) => (
@@ -100,7 +99,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                 <Text textStyle="label.large" fontWeight="bold" color="text.default">
                   {`${notification.post?.owner?.displayName ?? t("user.deletedUser")} `}
                   <Trans
-                    i18nKey={"myNdla.arena.notification.commentedOn"}
+                    i18nKey={`myNdla.arena.notification.${notification.type}`}
                     tOptions={{ title: notification.topicTitle }}
                     t={t}
                   />

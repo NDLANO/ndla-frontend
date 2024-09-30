@@ -287,6 +287,7 @@ const arenaNotificationFragment = gql`
     topicTitle
     notificationTime
     isRead
+    type
     post {
       ...ArenaPostV2Data
     }

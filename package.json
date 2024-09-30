@@ -137,5 +137,36 @@
   "browserslist": [
     "> 0.25%",
     "not dead"
-  ]
+  ],
+  "resolutions": {
+    "@ndla/article-converter": "portal:/home/lars/projects/ndla/frontend-packages/packages/article-converter",
+    "@ndla/button": "portal:/home/lars/projects/ndla/frontend-packages/packages/button",
+    "@ndla/core": "portal:/home/lars/projects/ndla/frontend-packages/packages/core",
+    "@ndla/dropdown-menu": "portal:/home/lars/projects/ndla/frontend-packages/packages/dropdown-menu",
+    "eslint-config-ndla": "portal:/home/lars/projects/ndla/frontend-packages/packages/eslint-config-ndla",
+    "@ndla/hooks": "portal:/home/lars/projects/ndla/frontend-packages/packages/hooks",
+    "@ndla/accordion": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-accordion",
+    "@ndla/audio-search": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-audio-search",
+    "@ndla/error-reporter": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-error-reporter",
+    "@ndla/forms": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-forms",
+    "@ndla/icons": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-icons",
+    "@ndla/image-search": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-image-search",
+    "@ndla/licenses": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-licenses",
+    "@ndla/modal": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-modal",
+    "@ndla/pager": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-pager",
+    "@ndla/scripts": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-scripts",
+    "@ndla/tabs": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-tabs",
+    "@ndla/tracker": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-tracker",
+    "@ndla/ui": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-ui",
+    "@ndla/video-search": "portal:/home/lars/projects/ndla/frontend-packages/packages/ndla-video-search",
+    "@ndla/preset-panda": "portal:/home/lars/projects/ndla/frontend-packages/packages/preset-panda",
+    "@ndla/primitives": "portal:/home/lars/projects/ndla/frontend-packages/packages/primitives",
+    "@ndla/safelink": "portal:/home/lars/projects/ndla/frontend-packages/packages/safelink",
+    "@ndla/select": "portal:/home/lars/projects/ndla/frontend-packages/packages/select",
+    "@ndla/styled-system": "portal:/home/lars/projects/ndla/frontend-packages/packages/styled-system",
+    "@ndla/switch": "portal:/home/lars/projects/ndla/frontend-packages/packages/switch",
+    "@ndla/types-embed": "portal:/home/lars/projects/ndla/frontend-packages/packages/types-embed",
+    "@ndla/typography": "portal:/home/lars/projects/ndla/frontend-packages/packages/typography",
+    "@ndla/util": "portal:/home/lars/projects/ndla/frontend-packages/packages/util"
+  }
 }
