@@ -108,7 +108,7 @@ const MastheadContainer = () => {
         </SafeLink>
         <ButtonWrapper>
           <StyledLanguageSelector
-            items={supportedLanguages}
+            languages={supportedLanguages}
             onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
           />
           <FeideLoginButton>

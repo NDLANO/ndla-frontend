@@ -6,7 +6,9 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
 import {
@@ -31,10 +33,20 @@ const LanguageSelectTrigger = styled(SelectTrigger, {
   },
 });
 
-export const LanguageSelector = (props: SelectRootProps<LocaleType>) => {
+interface Props extends Omit<SelectRootProps<LocaleType>, "collection"> {
+  languages: LocaleType[];
+}
+
+export const LanguageSelector = ({ languages, ...props }: Props) => {
   const { t, i18n } = useTranslation();
+
+  const collection = useMemo(
+    () => createListCollection({ items: languages, itemToString: (item) => t(`languages.${item}`) }),
+    [languages, t],
+  );
+
   return (
-    <SelectRoot {...props} value={[i18n.language]} itemToString={(item) => t(`languages.${item}`)}>
+    <SelectRoot {...props} value={[i18n.language]} collection={collection}>
       <SelectLabel srOnly>{t("languages.prefixChangeLanguage")}</SelectLabel>
       <LanguageSelectTrigger asChild>
         <Button variant="tertiary">

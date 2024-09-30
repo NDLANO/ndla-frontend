@@ -10,9 +10,9 @@ import compact from "lodash/compact";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -138,6 +138,8 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
 
+  const allTagsCollection = useMemo(() => createListCollection({ items: allTags }), [allTags]);
+
   const alreadyAdded = selectedFolder?.resources.some((resource) => resource.id === storedResource?.id);
 
   const onSave = async () => {
@@ -223,7 +225,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           </StyledInfoMessages>
           <TagSelectorRoot
             value={selectedTags}
-            items={allTags}
+            collection={allTagsCollection}
             onInputValueChange={onInputValueChange}
             onValueChange={(details) => setSelectedTags(details.value)}
             translations={tagSelectorTranslations}

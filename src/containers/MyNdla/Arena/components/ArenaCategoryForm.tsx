@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
+import { createListCollection } from "@ark-ui/react/collection";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -116,6 +117,9 @@ const ArenaCategoryForm = ({
     if (loading) return [];
     return getAllCategoryPathAndIds(arenaCategories ?? []);
   }, [arenaCategories, loading]);
+
+  const possibleParentsCollection = useMemo(() => createListCollection({ items: possibleParents }), [possibleParents]);
+
   const location = useLocation();
   const query = parse(location.search);
   const preselectedParentId = initialParentCategoryId || query["parent-id"];
@@ -190,7 +194,7 @@ const ArenaCategoryForm = ({
         render={({ field, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message}>
             <SelectRoot
-              items={possibleParents}
+              collection={possibleParentsCollection}
               defaultValue={[field.value]}
               positioning={{
                 sameWidth: true,
