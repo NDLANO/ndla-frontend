@@ -96,46 +96,6 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={image.copyright.license.license}
-          title={t("license.images.rules")}
-          sourceTitle={image.title}
-          sourceType="images"
-        >
-          {!isCopyrighted(image.copyright.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: image.id,
-                path: `${config.ndlaFrontendDomain}/image/${image.id}`,
-                resourceType: "image",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {!isResourcePage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
-        {!isCopyrighted(image.copyright.license.license) && (
-          <MediaListItemActions>
-            <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
-              <DownloadLine />
-              {t("license.download")}
-            </SafeLinkButton>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                <ShareBoxLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={image.copyright.license?.license}
         resourceType="image"
@@ -143,17 +103,59 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(image.copyright.license.license) && !!copyText && (
-            <CopyTextButton
-              stringToCopy={copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={image.copyright.license.license}
+            title={t("license.images.rules")}
+            sourceTitle={image.title}
+            sourceType="images"
+          >
+            {!isCopyrighted(image.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: image.id,
+                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                  resourceType: "image",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {!isResourcePage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
+          {!isCopyrighted(image.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={downloadUrl(image.src)} variant="secondary" download size="small">
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(image.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );

@@ -31,6 +31,7 @@ const IconTextWrapper = styled(Text, {
     gap: "xxsmall",
     alignItems: "center",
     whiteSpace: "nowrap",
+    color: "text.subtle",
   },
 });
 

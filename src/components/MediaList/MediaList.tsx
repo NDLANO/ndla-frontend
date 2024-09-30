@@ -93,9 +93,6 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
 
 export const MediaListItem = styled("li", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
     "& img": { width: "100%" },
   },
 });
@@ -111,6 +108,14 @@ interface MediaListItemBodyProps {
 }
 
 const StyledSpan = styled("span", { base: { display: "none" } });
+
+const StyledWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 export const MediaListItemBody = ({
   children,
@@ -131,11 +136,11 @@ export const MediaListItemBody = ({
   const metaResourceType = getResourceTypeNamespace(resourceType);
 
   return (
-    <div {...containerProps}>
+    <StyledWrapper {...containerProps}>
       {/* @ts-ignore */}
       {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
-    </div>
+    </StyledWrapper>
   );
 };
 
@@ -160,27 +165,38 @@ const isLink = (url: string) => url.startsWith("http") || url.startsWith("https"
 interface HandleLinkProps {
   url: string;
   children: ReactNode;
+  type: ItemTypeWithDescription["metaType"];
 }
 
-export const HandleLink = ({ url, children }: HandleLinkProps) => {
+const licenceTag = (type: ItemTypeWithDescription["metaType"], url: boolean): string | undefined =>
+  ({
+    title: "dct:title",
+    author: "cc:attributionName",
+    copyrightHolder: "cc:copyrightHolder",
+    contributor: "cc:contributor",
+    other: url ? "cc:attributionURL" : undefined,
+  })[type];
+
+export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
+  const tag = licenceTag(type, isLink(url));
+
   if (isLink(url)) {
     return (
-      <SafeLink to={url} target="_blank" rel="noopener noreferrer">
+      <SafeLink to={url} target="_blank" rel={`noopener noreferrer ${tag}`}>
         {children}
       </SafeLink>
     );
   }
-  return <span>{children}</span>;
+  // eslint-disable-next-line react/no-unknown-property
+  return <span property={tag}>{children}</span>;
 };
-
-const attributionTypes = [metaTypes.author, metaTypes.copyrightHolder, metaTypes.contributor];
 
 export type ItemType = ItemTypeWithDescription | DescriptionlessItemType;
 
 interface ItemTypeWithDescription {
   label: string;
   description: string;
-  metaType: Omit<MetaType, "otherWithoutDescription">;
+  metaType: Exclude<MetaType, "otherWithoutDescription">;
 }
 
 interface DescriptionlessItemType {
@@ -202,14 +218,12 @@ const ItemText = ({ item }: { item: ItemType }) => {
 
   return (
     <Text textStyle="body.medium">
-      {item.label}: <HandleLink url={item.description}>{item.description}</HandleLink>
+      {`${item.label}: `}
+      <HandleLink url={item.description} type={item.metaType}>
+        {item.description}
+      </HandleLink>
     </Text>
   );
-};
-
-const isAttributionItem = (item: ItemType): item is ItemTypeWithDescription => {
-  if (isOtherWithoutDescription(item)) return false;
-  return attributionTypes.some((type) => type === item.metaType);
 };
 
 const StyledListItem = styled("li", {
@@ -219,12 +233,8 @@ const StyledListItem = styled("li", {
 });
 
 export const MediaListItemMeta = ({ items = [] }: MediaListItemMetaProps) => {
-  const attributionItems = items.filter(isAttributionItem);
-  const attributionMeta = attributionItems.map((item) => `${item.label}: ${item.description}`).join(", ");
-
   return (
-    // eslint-disable-next-line react/no-unknown-property
-    <ul property="cc:attributionName" content={attributionMeta}>
+    <ul>
       {items.map((item) => (
         <StyledListItem key={item.label}>
           <ItemText item={item} />

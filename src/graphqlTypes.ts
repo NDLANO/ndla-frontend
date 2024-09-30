@@ -2591,6 +2591,7 @@ export type GQLArticlePage_ResourceFragment = {
   name: string;
   path: string;
   contentUri?: string;
+  resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
   article?: {
     __typename?: "Article";
     created: string;
@@ -2926,6 +2927,7 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
     parentIds: Array<string>;
     path: string;
   }>;
+  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   article?: {
     __typename?: "Article";
     created: string;

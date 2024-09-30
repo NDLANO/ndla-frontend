@@ -6,15 +6,16 @@
  *
  */
 
-import { ReactNode, useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Portal, useDialogContext } from "@ark-ui/react";
-import { DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
+import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { routes } from "../../../routeHelpers";
@@ -75,11 +76,11 @@ const StyledNav = styled("nav", {
 });
 
 interface Props {
-  buttons?: ReactNode;
+  menuItems?: MenuItemProps[];
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({ buttons, showButtons = true }: Props) => {
+const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { setOpen } = useDialogContext();
@@ -137,13 +138,32 @@ const MenuModalContent = ({ buttons, showButtons = true }: Props) => {
             <MenuItems role="tablist">{links}</MenuItems>
           </StyledNav>
           <ContentWrapper>
-            {showButtons && (!!buttons || user?.arenaEnabled) && (
+            {showButtons && (!!menuItems?.length || user?.arenaEnabled) && (
               <>
                 <Text textStyle="label.medium" fontWeight="bold">
                   {t("myNdla.tools")}
                 </Text>
                 <ToolMenu>
-                  {buttons}
+                  {menuItems?.map((item) => (
+                    <li key={item.value}>
+                      <Button
+                        disabled={item.disabled}
+                        variant={item.variant === "destructive" ? "danger" : "tertiary"}
+                        size="medium"
+                        asChild={item.type !== "action"}
+                        onClick={(e) => {
+                          if (item.onClick) {
+                            item.onClick(e);
+                          }
+                        }}
+                      >
+                        <MenuItemElement item={item}>
+                          {item.icon}
+                          {item.text}
+                        </MenuItemElement>
+                      </Button>
+                    </li>
+                  ))}
                   {user?.arenaEnabled && notificationLink}
                 </ToolMenu>
               </>

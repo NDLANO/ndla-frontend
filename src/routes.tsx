@@ -78,6 +78,23 @@ export const routes = [
   ...privateRoutes,
 ];
 
+export const embedRoutes = [
+  "article-iframe/article/:articleId",
+  "article-iframe/:lang/article/:articleId",
+  "article-iframe/urn:topicOrResourceId/:articleId",
+  "article-iframe/:lang/urn:topicOrResourceId/:articleId",
+  "embed-iframe/video/:videoId",
+  "embed-iframe/audio/:audioId",
+  "embed-iframe/image/:imageId",
+  "embed-iframe/concept/:conceptId",
+  "embed-iframe/h5p/:h5pId",
+  "embed-iframe/:lang/video/:videoId",
+  "embed-iframe/:lang/audio/:audioId",
+  "embed-iframe/:lang/image/:imageId",
+  "embed-iframe/:lang/concept/:conceptId",
+  "embed-iframe/:lang/h5p/:h5pId",
+];
+
 export const oembedRoutes = [
   "subjects/subject:subjectId/topic:topicId",
   "subjects/subject:subjectId/topic:topicId/resource:resourceId",
@@ -110,23 +127,10 @@ export const oembedRoutes = [
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
   "article/:articleId",
-  "article-iframe/article/:articleId",
-  "article-iframe/:lang/article/:articleId",
-  "article-iframe/urn:topicOrResourceId/:articleId",
-  "article-iframe/:lang/urn:topicOrResourceId/:articleId",
   "video/:videoId",
   "image/:imageId",
   "concept/:conceptId",
   "audio/:audioId",
   "h5p/:h5pId",
-  "embed-iframe/video/:videoId",
-  "embed-iframe/audio/:audioId",
-  "embed-iframe/image/:imageId",
-  "embed-iframe/concept/:conceptId",
-  "embed-iframe/h5p/:h5pId",
-  "embed-iframe/:lang/video/:videoId",
-  "embed-iframe/:lang/audio/:audioId",
-  "embed-iframe/:lang/image/:imageId",
-  "embed-iframe/:lang/concept/:conceptId",
-  "embed-iframe/:lang/h5p/:h5pId",
+  ...embedRoutes,
 ];

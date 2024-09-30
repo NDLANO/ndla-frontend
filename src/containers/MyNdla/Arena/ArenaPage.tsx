@@ -10,11 +10,11 @@ import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
+import { AddLine } from "@ndla/icons/action";
 import { Button, Text, Heading } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { TopicActions, TopicButtons } from "./ArenaToolbar";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -23,6 +23,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { MenuItemProps } from "../components/SettingsMenu";
 
 const StyledContainer = styled("div", {
   base: {
@@ -75,11 +76,18 @@ const ArenaPage = () => {
 
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
+  const menuItems: MenuItemProps[] = [
+    {
+      type: "link",
+      value: "newCategory",
+      icon: <AddLine size="small" />,
+      text: t("myNdla.arena.admin.category.form.newCategory"),
+      link: "category/new",
+    },
+  ];
+
   return (
-    <StyledMyNdlaPageWrapper
-      buttons={user?.isModerator && <TopicButtons />}
-      dropDownMenu={user?.isModerator && <TopicActions />}
-    >
+    <StyledMyNdlaPageWrapper menuItems={user?.isModerator ? menuItems : []}>
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
       <HeadingWrapper>
         <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
