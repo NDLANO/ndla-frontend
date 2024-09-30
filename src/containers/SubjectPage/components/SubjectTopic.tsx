@@ -81,7 +81,7 @@ const SubjectTopic = ({
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
-    return getTopicPath(topic.path, topic.contexts);
+    return getTopicPath(topic.contexts, topic.path);
   }, [topic]);
 
   useEffect(() => {

@@ -23,6 +23,7 @@ export const GroupSearchResourceFragment = gql`
     ingress
     traits
     contexts {
+      publicId
       language
       path
       breadcrumbs

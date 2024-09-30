@@ -78,12 +78,12 @@ const LastLearningpathStepInfo = ({
         <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
       </StyledHGroup>
       <LinksWrapper>
-        {!!subject && (
+        {!!subject?.path && (
           <Text>
             {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
           </Text>
         )}
-        {!!linkTopic && (
+        {!!linkTopic?.path && (
           <Text>
             {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
           </Text>

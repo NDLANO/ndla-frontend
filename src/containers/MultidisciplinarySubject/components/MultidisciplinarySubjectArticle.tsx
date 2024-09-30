@@ -95,7 +95,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => getTopicPath(topic.contexts, topic.path), [topic.contexts, topic.path]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;

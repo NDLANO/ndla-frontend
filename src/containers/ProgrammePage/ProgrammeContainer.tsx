@@ -38,7 +38,7 @@ interface GradesData {
     name: string;
     subjects?: {
       label: string;
-      url: string;
+      url?: string;
     }[];
   }[];
 }

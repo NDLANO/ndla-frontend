@@ -162,15 +162,15 @@ export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: 
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 
-export function fixEndSlash(link: string) {
+export function fixEndSlash(link?: string) {
   const pattern = new RegExp(/resource/gi);
   if (link && !pattern.test(link) && !/\/$/.test(link)) {
     link = `${link}/`;
   }
-  return link;
+  return link || "";
 }
 
-export function toProgramme(programmePath: string, grade?: string) {
+export function toProgramme(programmePath?: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
   return `${PROGRAMME_PATH}${programmePath}${gradeString}`;
 }

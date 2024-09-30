@@ -66,7 +66,7 @@ interface Props {
 export type Resource = {
   id: string;
   name: string;
-  path: string;
+  path?: string;
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
@@ -157,7 +157,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
-              to={path}
+              to={path || ""}
               unstyled
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}

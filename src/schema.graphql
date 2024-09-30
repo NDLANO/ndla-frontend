@@ -614,7 +614,7 @@ type Grade {
   categories: [Category!]
   id: String!
   title: Title!
-  url: String!
+  url: String
 }
 
 type GroupSearch {
@@ -1095,7 +1095,7 @@ type ProgrammePage {
   metaDescription: String
   mobileImage: MetaImage
   title: Title!
-  url: String!
+  url: String
 }
 
 type Query {
@@ -1241,7 +1241,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   metadata: TaxonomyMetadata!
   name: String!
   parents: [Topic!]
-  path: String!
+  path: String
   paths: [String!]!
   rank: Int
   relevanceId: String
@@ -1310,7 +1310,7 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
-  url: String
+  url: String!
 }
 
 type SearchContextResourceTypes {
@@ -1372,7 +1372,7 @@ type Subject implements TaxonomyEntity {
   language: String
   metadata: TaxonomyMetadata!
   name: String!
-  path: String!
+  path: String
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1437,7 +1437,7 @@ type TaxonomyContext {
   breadcrumbs: [String!]!
   parentIds: [String!]!
   path: String!
-  url: String
+  url: String!
 }
 
 interface TaxonomyEntity {
@@ -1448,7 +1448,7 @@ interface TaxonomyEntity {
   language: String
   metadata: TaxonomyMetadata!
   name: String!
-  path: String!
+  path: String
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1488,7 +1488,7 @@ type Topic implements TaxonomyEntity & WithArticle {
   name: String!
   parent: String
   parentId: String
-  path: String!
+  path: String
   pathTopics: [[Topic!]!]
   paths: [String!]!
   relevanceId: String

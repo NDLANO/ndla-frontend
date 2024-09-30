@@ -94,7 +94,7 @@ const ResourcePage = () => {
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return getTopicPath(data.resource.path, data.resource.contexts);
+    return getTopicPath(data.resource.contexts, data.resource.path);
   }, [data?.resource]);
 
   if (loading) {
