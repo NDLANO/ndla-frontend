@@ -21,9 +21,15 @@ import TextLicenseList, { TextItem } from "./TextLicenseList";
 import VideoLicenseList from "./VideoLicenseList";
 import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 
+const StyledTabsRoot = styled(TabsRoot, {
+  base: {
+    paddingInline: "xxsmall",
+  },
+});
+
 const StyledTabsContent = styled(TabsContent, {
   base: {
-    paddingBlockEnd: "medium",
+    paddingBlockEnd: "xlarge",
   },
 });
 
@@ -145,7 +151,7 @@ const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
   const { t } = useTranslation();
   const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
   return (
-    <TabsRoot
+    <StyledTabsRoot
       defaultValue={tabs[0]?.id}
       orientation="horizontal"
       variant="line"
@@ -164,7 +170,7 @@ const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
           {tab.content}
         </StyledTabsContent>
       ))}
-    </TabsRoot>
+    </StyledTabsRoot>
   );
 };
 
