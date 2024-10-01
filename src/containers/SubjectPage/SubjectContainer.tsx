@@ -142,7 +142,7 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
     },
     {
       name: subject.name,
-      to: enablePrettyUrls ? subject.url : subject.path,
+      to: (enablePrettyUrls ? subject.url : subject.path) || "",
     },
     ...topicCrumbs,
   ];

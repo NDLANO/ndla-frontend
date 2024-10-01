@@ -38,9 +38,9 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
       <FavoriteSubject
         subject={subject}
         favorites={favorites}
-        subjectLinkOrText={<StyledSafeLink to={to}>{subject.name}</StyledSafeLink>}
+        subjectLinkOrText={<StyledSafeLink to={to || ""}>{subject.name}</StyledSafeLink>}
       />
-      <StyledSafeLink to={to}>{subject.name}</StyledSafeLink>
+      <StyledSafeLink to={to || ""}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
 };

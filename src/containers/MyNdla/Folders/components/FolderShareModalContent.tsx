@@ -6,20 +6,9 @@
  *
  */
 
-import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons/action";
-import {
-  Button,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  Text,
-} from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -72,11 +61,7 @@ interface FolderShareModalContentProps extends BaseProps {
   onClose: () => void;
 }
 
-interface FolderShareModalProps extends BaseProps {
-  children: ReactNode;
-}
-
-export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
+const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -127,15 +112,4 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
   );
 };
 
-const FolderShareModal = ({ children, folder, onCopyText }: FolderShareModalProps) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <FolderShareModalContent onClose={() => setOpen(false)} folder={folder} onCopyText={onCopyText} />
-    </DialogRoot>
-  );
-};
-
-export default FolderShareModal;
+export default FolderShareModalContent;

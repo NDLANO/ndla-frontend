@@ -39,7 +39,7 @@ interface GradesData {
     name: string;
     subjects?: {
       label: string;
-      url: string;
+      url?: string;
     }[];
   }[];
 }
@@ -92,6 +92,14 @@ const HeadingWrapper = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
+
+    tabletDown: {
+      gap: "xsmall",
+      paddingBlockStart: "medium",
+      paddingInline: "xsmall",
+      paddingBlockEnd: "small",
+      marginBlockEnd: "medium",
+    },
   },
 });
 

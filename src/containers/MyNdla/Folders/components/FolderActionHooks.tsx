@@ -9,20 +9,19 @@
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseLine, AddLine, PencilLine, DeleteBinLine } from "@ndla/icons/action";
+import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine } from "@ndla/icons/action";
 import { ShareLine, ArrowRightLine } from "@ndla/icons/common";
-import { LinkMedium } from "@ndla/icons/editor";
-import { CreateModalContent } from "./FolderCreateModal";
-import { EditFolderModalContent } from "./FolderEditModal";
+import FolderCreateModalContent from "./FolderCreateModalContent";
+import FolderEditModalContent from "./FolderEditModalContent";
 import { FolderFormValues } from "./FolderForm";
-import { FolderShareModalContent } from "./FolderShareModal";
+import FolderShareModalContent from "./FolderShareModalContent";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import DeleteModalContent from "../../components/DeleteModalContent";
-import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+import { MenuItemProps } from "../../components/SettingsMenu";
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
@@ -31,16 +30,14 @@ import {
 } from "../../folderMutations";
 import { copyFolderSharingLink, isStudent } from "../util";
 
-interface Props {
-  selectedFolder: GQLFolder | null;
-  folderRefId?: string;
-  setFocusId: Dispatch<SetStateAction<string | undefined>>;
-  inToolbar?: boolean;
-  folders: GQLFolder[];
-  isFavorited?: boolean;
-}
-
-const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false, folderRefId, isFavorited }: Props) => {
+export const useFolderActions = (
+  selectedFolder: GQLFolder | null,
+  setFocusId: Dispatch<SetStateAction<string | undefined>>,
+  folders: GQLFolder[],
+  inToolbar?: boolean,
+  folderRefId?: string,
+  isFavorited?: boolean,
+) => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const toast = useToast();
@@ -69,6 +66,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
         },
       });
       const folder = res.data?.addFolder as GQLFolder | undefined;
+      navigate(routes.myNdla.folder(folder?.id ?? ""));
 
       if (folder) {
         toast.create({
@@ -76,10 +74,9 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
             folderName: folder.name,
           }),
         });
-        setFocusId(folder.id);
       }
     },
-    [addFolder, inToolbar, folderId, selectedFolder?.parentId, toast, t, setFocusId],
+    [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
   );
 
   const onDeleteFolder = useCallback(async () => {
@@ -153,12 +150,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       icon: <AddLine />,
       text: t("myNdla.newFolderShort"),
       modalContent: (close) => (
-        <CreateModalContent
-          onClose={close}
-          folders={selectedFolder?.subfolders}
-          parentFolder={selectedFolder}
-          onCreate={onFolderAdded}
-        />
+        <FolderCreateModalContent onClose={close} parentFolder={selectedFolder} onCreate={onFolderAdded} />
       ),
     };
 
@@ -170,7 +162,7 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
       icon: <PencilLine />,
       text: t("myNdla.folder.editShort"),
       modalContent: (close) => (
-        <EditFolderModalContent onClose={close} onSaved={onFolderUpdated} folder={selectedFolder} />
+        <FolderEditModalContent onClose={close} onSaved={onFolderUpdated} folder={selectedFolder} />
       ),
     };
 
@@ -215,8 +207,8 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     const copyLink: MenuItemProps = {
       type: "action",
       value: "copyFolderLink",
-      icon: <LinkMedium />,
-      text: t("myNdla.folder.sharing.copyLink"),
+      icon: <FileCopyLine />,
+      text: t("myNdla.folder.sharing.button.shareLink"),
       onClick: () => {
         navigator.clipboard.writeText(`${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`);
         toast.create({
@@ -312,8 +304,5 @@ const FolderActions = ({ selectedFolder, setFocusId, folders, inToolbar = false,
     onUnFavoriteSharedFolder,
     onDeleteFolder,
   ]);
-
-  return <SettingsMenu menuItems={actionItems} modalHeader={t("myNdla.tools")} />;
+  return actionItems;
 };
-
-export default FolderActions;

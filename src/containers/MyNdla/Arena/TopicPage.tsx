@@ -9,13 +9,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
+import { AddLine } from "@ndla/icons/action";
 import { EyeFill } from "@ndla/icons/editor";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ModeratorButtonWrapper } from "./ArenaPage";
-import { PostActions, PostButtons } from "./ArenaToolbar";
 import { TopicListItem } from "./components/ArenaListItem";
 import SortableArenaCards from "./components/SortableArenaCards";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
@@ -26,6 +26,7 @@ import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { MenuItemProps } from "../components/SettingsMenu";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -106,8 +107,18 @@ const TopicPage = () => {
   const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;
 
+  const menuItems: MenuItemProps[] = [
+    {
+      type: "link",
+      value: "newTopic",
+      icon: <AddLine size="small" />,
+      text: t("myNdla.arena.new.topic"),
+      link: "topic/new",
+    },
+  ];
+
   return (
-    <StyledMyNdlaPageWrapper buttons={<PostButtons />} dropDownMenu={<PostActions />}>
+    <StyledMyNdlaPageWrapper menuItems={menuItems}>
       <HelmetWithTracker title={t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title })} />
       <Introduction>
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />

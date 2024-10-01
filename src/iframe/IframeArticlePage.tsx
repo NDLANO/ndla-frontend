@@ -110,6 +110,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isOembed
           oembed={article?.oembed}
           contentType={contentType}
+          contentTypeLabel={resource?.resourceTypes?.[0]?.name}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>

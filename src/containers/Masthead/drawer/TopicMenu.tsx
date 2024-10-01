@@ -94,7 +94,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             aria-current={isCurrent(location.pathname, topic) ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
-            to={to}
+            to={to || ""}
             onClick={onClose}
             id={`header-${topic.id}`}
           >
@@ -122,7 +122,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                     <DrawerMenuItem
                       id={`${topic.id}-${res.id}`}
                       type="link"
-                      to={to}
+                      to={to || ""}
                       current={isCurrent(location.pathname, res)}
                       onClose={onClose}
                       key={res.id}
@@ -139,7 +139,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                 <DrawerMenuItem
                   id={`${topic.id}-${res.id}`}
                   type="link"
-                  to={to}
+                  to={to || ""}
                   current={isCurrent(location.pathname, res)}
                   onClose={onClose}
                   key={res.id}

@@ -21,6 +21,7 @@ import {
   ArticleWrapper,
   HomeBreadcrumb,
   ArticleBylineAccordionItem,
+  licenseAttributes,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -131,6 +132,8 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     }
   });
 
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
+
   return (
     <main>
       <Helmet>
@@ -159,7 +162,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
-            <ArticleWrapper>
+            <ArticleWrapper {...licenseProps}>
               <ArticleHeader>
                 <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                   {article.transformedContent.title}

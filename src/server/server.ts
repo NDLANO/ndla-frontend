@@ -74,17 +74,12 @@ app.use(
     referrerPolicy: {
       policy: ["origin", "no-referrer-when-downgrade"],
     },
-    hsts: {
+    strictTransportSecurity: {
       maxAge: 31536000,
       includeSubDomains: true,
     },
     contentSecurityPolicy,
-    frameguard:
-      config.runtimeType === "development"
-        ? {
-            action: "sameorigin",
-          }
-        : { action: "deny" },
+    xFrameOptions: false,
   }),
 );
 
@@ -204,12 +199,10 @@ const iframeArticleRoute = async (req: Request) =>
   renderRoute(req, "iframe-article.html", iframeArticleTemplateHtml, "iframeArticle");
 
 app.get("/embed-iframe/:lang?/:embedType/:embedId", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, iframeEmbedRoute);
 });
 
 const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, iframeArticleRoute);
 };
 
@@ -219,12 +212,10 @@ app.post("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
 app.post("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
 
 app.post("/lti", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, ltiRoute);
 });
 
 app.get("/lti", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, ltiRoute);
 });
 

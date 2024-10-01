@@ -2689,6 +2689,7 @@ export type GQLArticlePage_ResourceFragment = {
   path?: string;
   url?: string;
   contentUri?: string;
+  resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
   article?: {
     __typename?: "Article";
     created: string;
@@ -3092,6 +3093,7 @@ export type GQLMultidisciplinarySubjectArticle_TopicFragment = {
       url: string;
     }>;
   };
+  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   article?: {
     __typename?: "Article";
     created: string;
@@ -4736,6 +4738,7 @@ export type GQLGroupSearchResourceFragment = {
   contexts: Array<{
     __typename?: "SearchContext";
     contextId: string;
+    publicId: string;
     language: string;
     path: string;
     url: string;

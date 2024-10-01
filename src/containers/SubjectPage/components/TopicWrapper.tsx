@@ -77,11 +77,11 @@ const TopicWrapper = ({
           const topicPath = topic.context?.parents ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: enablePrettyUrls ? tp.url : tp.path,
+              to: (enablePrettyUrls ? tp.url : tp.path) || "",
               name: tp.name,
             }))
             .slice(1);
-          setBreadCrumb(newCrumbs.concat({ to: enablePrettyUrls ? topic.url : topic.path, name: topic.name }));
+          setBreadCrumb(newCrumbs.concat({ to: (enablePrettyUrls ? topic.url : topic.path) || "", name: topic.name }));
         }
       },
     },

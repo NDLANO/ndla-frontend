@@ -164,10 +164,10 @@ export function fixEndSlash(link?: string) {
   if (link && !pattern.test(link) && !/\/$/.test(link)) {
     link = `${link}/`;
   }
-  return link;
+  return link || "";
 }
 
-export function toProgramme(programmePath: string, grade?: string) {
+export function toProgramme(programmePath?: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
   return `${PROGRAMME_PATH}${programmePath}${gradeString}`;
 }

@@ -88,7 +88,7 @@ const SearchResultItem = ({ item, type }: Props) => {
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
             <h3>
-              <SafeLink to={item.url} unstyled css={linkOverlay.raw()}>
+              <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
                 {item.title}
               </SafeLink>
             </h3>
@@ -115,7 +115,7 @@ const SearchResultItem = ({ item, type }: Props) => {
                       <ul>
                         {item.contexts.map((context) => (
                           <li key={context.url}>
-                            <SafeLink to={context.url}>{item.title}</SafeLink>
+                            <SafeLink to={context.url || ""}>{item.title}</SafeLink>
                             <Text
                               textStyle="label.small"
                               aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}

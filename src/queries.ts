@@ -41,6 +41,7 @@ export const GroupSearchResourceFragment = gql`
     traits
     contexts {
       contextId
+      publicId
       language
       path
       url

@@ -57,7 +57,7 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
 
 export const isCurrent = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
   const path = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
-  return path === taxBase.path || path === taxBase.url;
+  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
 };
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {

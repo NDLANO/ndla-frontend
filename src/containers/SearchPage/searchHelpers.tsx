@@ -89,10 +89,10 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
     return trait;
   }) ?? [];
 
-const getLtiUrl = (path: string, id: number, isContext: boolean, language?: LocaleType) => {
+const getLtiUrl = (id: number, publicId?: string, language?: LocaleType) => {
   const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
-  if (isContext) {
-    return `${commonPath}urn:${path.split("/").pop()}/${id}`;
+  if (publicId) {
+    return `${commonPath}${publicId}/${id}`;
   }
   return `${commonPath}article/${id}`;
 };
@@ -109,7 +109,7 @@ export interface SearchItem {
   id: number | string;
   title: string;
   ingress?: string;
-  url: string;
+  url?: string;
   labels?: string[];
   contexts?: {
     url: string;
@@ -136,7 +136,7 @@ export const mapResourcesToItems = (
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
+      ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
         ? (enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) || resource.path
         : plainUrl(resource.path),

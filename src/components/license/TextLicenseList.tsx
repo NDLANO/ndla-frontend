@@ -68,34 +68,36 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={text.copyright.license.license}
-          title={t("license.text.rules")}
-          sourceTitle={text.title}
-          sourceType="text"
-        />
-        {printUrl && (
-          <MediaListItemActions>
-            <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
-              {t("article.printPage")}
-            </Button>
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
-            <CopyTextButton
-              stringToCopy={text.copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={text.copyright.license.license}
+            title={t("license.text.rules")}
+            sourceTitle={text.title}
+            sourceType="text"
+          />
+          {printUrl && (
+            <MediaListItemActions>
+              <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
+                {t("article.printPage")}
+              </Button>
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
+              <CopyTextButton
+                stringToCopy={text.copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );
