@@ -229,7 +229,6 @@ export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, Ar
             {count != null && (
               <NumberText textStyle="label.small" aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
                 <strong>{count}</strong>
-                <br />
                 {t("myNdla.arena.category.posts", { count })}
               </NumberText>
             )}
