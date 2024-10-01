@@ -35,8 +35,9 @@ import { isLearningPathResource } from "../Resources/resourceHelpers";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "path" | "url">[]) => {
+  const pathname = decodeURIComponent(location.pathname);
   return contexts?.find((c) => {
-    return location.pathname.includes(c.path) || location.pathname.includes(c.url);
+    return pathname.includes(c.path) || pathname.includes(c.url);
   });
 };
 
