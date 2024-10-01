@@ -45,10 +45,8 @@ export interface ListResourceProps {
   menu?: ReactNode;
   isLoading?: boolean;
 }
-
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
