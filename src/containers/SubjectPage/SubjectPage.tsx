@@ -67,7 +67,7 @@ interface Props {
 
 const SubjectPage = ({ subjectType, subjectId, topicId, topicList: tList }: Props) => {
   const initialLoad = useRef(true);
-  const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
+  // const isFirstRenderWithTopicId = () => initialLoad.current && !!topicId;
 
   const {
     loading,
@@ -77,7 +77,7 @@ const SubjectPage = ({ subjectType, subjectId, topicId, topicList: tList }: Prop
     variables: {
       subjectId: subjectId!,
       topicId: topicId || "",
-      includeTopic: isFirstRenderWithTopicId(),
+      includeTopic: true,
       metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
       metadataFilterValue: subjectId,
     },
