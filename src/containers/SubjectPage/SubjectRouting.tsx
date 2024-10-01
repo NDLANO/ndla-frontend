@@ -17,16 +17,14 @@ import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/Mul
 
 const SubjectRouting = () => {
   const { contextId, subjectId: subId, topicId: tId, topicList: tList } = useUrnIds();
-  const { loading, data } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
+  const { data: newData, previousData } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
       contextId: contextId ?? "",
     },
     skip: contextId === undefined,
   });
 
-  if (loading) {
-    return null;
-  }
+  const data = newData ?? previousData;
 
   const node = data?.node;
   const subjectId = node?.context?.rootId ?? subId ?? "";
