@@ -47,12 +47,6 @@ interface Props {
   resourceTypes?: { id: string; name: string }[];
 }
 
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    lineClamp: "1",
-  },
-});
-
 const StyledDescription = styled(Text, {
   base: {
     lineClamp: "2",
@@ -146,11 +140,9 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
             consumeCss
             color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
           >
-            <h2>
-              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
-                {title}
-              </StyledSafeLink>
-            </h2>
+            <SafeLink to={link} unstyled css={linkOverlay.raw()}>
+              {title}
+            </SafeLink>
           </CardHeading>
         </TitleWrapper>
         <DescriptionWrapper>
