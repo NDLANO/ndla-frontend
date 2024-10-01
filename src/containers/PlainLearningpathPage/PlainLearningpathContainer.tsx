@@ -61,7 +61,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   }
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>{`${getDocumentTitle(learningpath, t)}`}</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -78,7 +78,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
         skipToContentId={skipToContentId}
         breadcrumbItems={[]}
       />
-    </div>
+    </>
   );
 };
 
