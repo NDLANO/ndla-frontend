@@ -23,7 +23,7 @@ import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
-import { BadRequestError } from "../util/error";
+import { BadRequestError } from "../util/error/StatusError";
 import { constructNewPath } from "../util/urlHelper";
 
 // To handle uncaught exceptions in async express
