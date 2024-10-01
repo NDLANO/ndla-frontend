@@ -147,7 +147,7 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
-    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", false),
+    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true), // TODO: Remove before merging to master!
   };
 };
 
