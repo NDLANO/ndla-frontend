@@ -8,6 +8,7 @@
 
 import { Navigate } from "react-router-dom";
 import SubjectPage from "./SubjectPage";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
@@ -17,7 +18,11 @@ import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/Mul
 
 const SubjectRouting = () => {
   const { contextId, subjectId: subId, topicId: tId, topicList: tList } = useUrnIds();
-  const { data: newData, previousData } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
+  const {
+    loading,
+    data: newData,
+    previousData,
+  } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
       contextId: contextId ?? "",
     },
@@ -25,6 +30,10 @@ const SubjectRouting = () => {
   });
 
   const data = newData ?? previousData;
+
+  if (loading && !data) {
+    return <ContentPlaceholder />;
+  }
 
   const node = data?.node;
   const subjectId = node?.context?.rootId ?? subId ?? "";
