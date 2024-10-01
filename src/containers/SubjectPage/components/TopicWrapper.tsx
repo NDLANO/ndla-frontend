@@ -60,7 +60,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          const topicPath = getTopicPath(topic.path, topic.contexts);
+          const topicPath = getTopicPath(topic.contexts, topic.path);
           const newCrumbs = topicPath
             .map((tp) => ({
               to: `/${removeUrn(tp.id)}`,

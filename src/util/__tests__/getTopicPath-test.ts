@@ -23,7 +23,7 @@ describe("getTopicPath", () => {
         path: "/subject:1/topic:2/resource:1",
       },
     ];
-    const res = getTopicPath(path, taxonomContexts);
+    const res = getTopicPath(taxonomContexts, path);
     expect(res).toEqual([
       { name: "Idéutvikling og mediedesign", id: "urn:subject:1" },
       { name: "Idéutvikling", id: "urn:topic:1" },
@@ -43,7 +43,7 @@ describe("getTopicPath", () => {
         path: "/subject:1/topic:1/topic:2/resource:1",
       },
     ];
-    const res = getTopicPath(path, taxonomContexts);
+    const res = getTopicPath(taxonomContexts, path);
     expect(res).toEqual([
       { name: "Idéutvikling og mediedesign", id: "urn:subject:1" },
       { name: "Idéutvikling", id: "urn:topic:1" },
@@ -64,7 +64,7 @@ describe("getTopicPath", () => {
         path: "/subject:1/topic:1/topic:2/",
       },
     ];
-    const res = getTopicPath(path, taxonomContexts);
+    const res = getTopicPath(taxonomContexts, path);
     expect(res).toEqual([
       { name: "Idéutvikling og mediedesign", id: "urn:subject:1" },
       { name: "Idéutvikling", id: "urn:topic:1" },
@@ -84,7 +84,7 @@ describe("getTopicPath", () => {
         path: "/subject:1/topic:1/topic:2/",
       },
     ];
-    const res = getTopicPath(path, taxonomContexts);
+    const res = getTopicPath(taxonomContexts, path);
     expect(res).toEqual([]);
   });
 
@@ -102,7 +102,7 @@ describe("getTopicPath", () => {
         path: "/subject:1/topic:2/resource:1",
       },
     ];
-    const res = getTopicPath(path, taxonomContexts);
+    const res = getTopicPath(taxonomContexts, path);
     expect(res).toEqual([
       { name: "Idéutvikling og mediedesign", id: "urn:subject:1" },
       { name: "Idéutvikling", id: "urn:topic:1" },
