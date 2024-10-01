@@ -140,7 +140,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   style="--height: 0px; --width: 0px;"
                 >
                   <div
-                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row"
+                    class="pos_relative d_flex w_100% horizontal:flex-d_column vertical:flex-d_row pbs_xsmall pbe_xlarge px_xxsmall"
                     data-orientation="horizontal"
                     data-part="root"
                     data-scope="tabs"
@@ -189,7 +189,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     </div>
                     <div
                       aria-labelledby="tabs::r2::trigger-text"
-                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default pbe_medium"
+                      class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
                       data-orientation="horizontal"
                       data-ownedby="tabs::r2::list"
                       data-part="content"
