@@ -23,13 +23,9 @@ import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 
 const StyledTabsRoot = styled(TabsRoot, {
   base: {
-    paddingInline: "xxsmall",
-  },
-});
-
-const StyledTabsContent = styled(TabsContent, {
-  base: {
+    paddingBlockStart: "xsmall",
     paddingBlockEnd: "xlarge",
+    paddingInline: "xxsmall",
   },
 });
 
@@ -166,9 +162,9 @@ const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
         <TabsIndicator />
       </TabsList>
       {tabs.map((tab) => (
-        <StyledTabsContent key={tab.id} value={tab.id}>
+        <TabsContent key={tab.id} value={tab.id}>
           {tab.content}
-        </StyledTabsContent>
+        </TabsContent>
       ))}
     </StyledTabsRoot>
   );
