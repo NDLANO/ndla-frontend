@@ -150,7 +150,7 @@ export function toBreadcrumbItems(
   const safePaths = paths.filter((p) => p !== undefined);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
-    const to = enablePrettyUrls ? crumb?.url : crumb?.path;
+    const to = enablePrettyUrls ? crumb?.url : fixEndSlash(crumb?.path);
     return {
       to: to ?? "",
       name: crumb?.name ?? "",
@@ -159,7 +159,7 @@ export function toBreadcrumbItems(
   return [{ to: "/", name: rootName }, ...breadcrumbs];
 }
 
-export function fixEndSlash(link: string) {
+export function fixEndSlash(link?: string) {
   const pattern = new RegExp(/resource/gi);
   if (link && !pattern.test(link) && !/\/$/.test(link)) {
     link = `${link}/`;

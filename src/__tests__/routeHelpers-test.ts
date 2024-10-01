@@ -27,8 +27,8 @@ const topics = [
     id: "urn:topic:1:170165",
     contextId: "3sda3kj3j2",
     name: "Samfunnsfaglige tenkemåter",
-    path: "/subject:3/topic:1:179373/topic:1:170165",
-    url: "/subject:3/topic:1:179373/topic:1:170165",
+    path: "/subject:9/topic:1:179373/topic:1:170165",
+    url: "/subject:9/topic:1:179373/topic:1:170165",
   },
 ];
 

@@ -614,7 +614,7 @@ type Grade {
   categories: [Category!]
   id: String!
   title: Title!
-  url: String!
+  url: String
 }
 
 type GroupSearch {
@@ -922,6 +922,7 @@ type Mutation {
     absoluteUrl: Boolean
     content: String!
     draftConcept: Boolean
+    prettyUrl: Boolean
     previewH5p: Boolean
     subject: String
     visualElement: String
@@ -1006,14 +1007,14 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String!
+  path: String
   paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
-  url: String!
+  url: String
 }
 
 type Owner {
@@ -1121,7 +1122,7 @@ type ProgrammePage {
   metaDescription: String
   mobileImage: MetaImage
   title: Title!
-  url: String!
+  url: String
 }
 
 type Query {
@@ -1280,13 +1281,13 @@ type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parents: [Topic!]
-  path: String!
+  path: String
   paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
-  url: String!
+  url: String
 }
 
 type ResourceEmbed {
@@ -1348,7 +1349,7 @@ type SearchContext {
   resourceTypes: [SearchContextResourceTypes!]!
   root: String!
   rootId: String!
-  url: String
+  url: String!
 }
 
 type SearchContextResourceTypes {
@@ -1413,14 +1414,14 @@ type Subject implements TaxBase & TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String!
+  path: String
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   topics(all: Boolean): [Topic!]
-  url: String!
+  url: String
 }
 
 type SubjectLink {
@@ -1478,8 +1479,8 @@ type Tags {
 interface TaxBase {
   id: String!
   name: String!
-  path: String!
-  url: String!
+  path: String
+  url: String
 }
 
 type TaxonomyContext {
@@ -1513,12 +1514,12 @@ interface TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String!
+  path: String
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
-  url: String!
+  url: String
 }
 
 type TaxonomyMetadata {
@@ -1555,14 +1556,14 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String!
+  path: String
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
-  url: String!
+  url: String
 }
 
 type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {
@@ -1597,6 +1598,7 @@ input TransformedArticleContentInput {
   draftConcept: Boolean
   isOembed: String
   path: String
+  prettyUrl: Boolean
   previewH5p: Boolean
   showVisualElement: String
   subjectId: String

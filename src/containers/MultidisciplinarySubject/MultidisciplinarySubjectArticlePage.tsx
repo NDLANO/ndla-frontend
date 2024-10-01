@@ -14,6 +14,7 @@ import MultidisciplinarySubjectArticle, {
 } from "./components/MultidisciplinarySubjectArticle";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -64,6 +65,7 @@ interface Props {
 
 const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { topicId: tId } = useUrnIds();
   const topicId = maybeTopicId ?? tId;
 
@@ -77,6 +79,7 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId 
       transformArgs: {
         subjectId: subjectId!,
         showVisualElement: "true",
+        prettyUrl: enablePrettyUrls,
       },
     },
   });

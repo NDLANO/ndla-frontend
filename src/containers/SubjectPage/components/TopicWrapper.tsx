@@ -68,6 +68,7 @@ const TopicWrapper = ({
         subjectId,
         transformArgs: {
           subjectId,
+          prettyUrl: enablePrettyUrls,
         },
       },
       onCompleted: (data) => {

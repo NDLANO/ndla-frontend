@@ -12,6 +12,7 @@ import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -98,6 +99,7 @@ const resourcePageQuery = gql`
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const { contextId, subjectId: subId, resourceId: rId, topicId: tId, stepId } = useUrnIds();
   const { data: rootData, loading: rootLoading } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(
@@ -121,6 +123,7 @@ const ResourcePage = () => {
       resourceId,
       transformArgs: {
         subjectId,
+        prettyUrl: enablePrettyUrls,
       },
     },
     skip: rootLoading,
