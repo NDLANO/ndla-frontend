@@ -144,11 +144,9 @@ export const Folder = ({
             aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
           />
           <ListItemHeading asChild consumeCss>
-            <h2>
-              <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
-                {name}
-              </StyledSafeLink>
-            </h2>
+            <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
+              {name}
+            </StyledSafeLink>
           </ListItemHeading>
         </TitleWrapper>
         <FolderInfo>

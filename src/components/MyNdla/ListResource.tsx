@@ -45,10 +45,8 @@ export interface ListResourceProps {
   menu?: ReactNode;
   isLoading?: boolean;
 }
-
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
@@ -187,11 +185,9 @@ const ListResource = ({
             consumeCss
             color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
           >
-            <h2>
-              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
-                {title}
-              </StyledSafeLink>
-            </h2>
+            <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
+              {title}
+            </StyledSafeLink>
           </ListItemHeading>
           <ContentTypeBadgeNew contentType={contentType} />
         </TitleWrapper>
