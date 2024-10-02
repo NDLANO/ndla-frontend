@@ -61,7 +61,7 @@ interface Props {
   topics: GQLMovedTopicPage_TopicFragment[];
 }
 
-const Wrapper = styled("div", {
+const StyledMain = styled("main", {
   base: {
     display: "flex",
     gap: "xxlarge",
@@ -91,7 +91,7 @@ const MovedTopicPage = ({ topics }: Props) => {
 
   return (
     <PageContainer>
-      <Wrapper>
+      <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
         </StyledHeading>
@@ -113,7 +113,7 @@ const MovedTopicPage = ({ topics }: Props) => {
         ) : (
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
-      </Wrapper>
+      </StyledMain>
     </PageContainer>
   );
 };

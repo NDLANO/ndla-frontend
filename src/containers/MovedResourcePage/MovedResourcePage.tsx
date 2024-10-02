@@ -26,7 +26,7 @@ interface Props {
   resource: GQLMovedResourcePage_ResourceFragment;
 }
 
-const Wrapper = styled("div", {
+const StyledMain = styled("main", {
   base: {
     display: "flex",
     gap: "xxlarge",
@@ -91,7 +91,7 @@ const MovedResourcePage = ({ resource }: Props) => {
   return (
     <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
-      <Wrapper>
+      <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
         </StyledHeading>
@@ -108,7 +108,7 @@ const MovedResourcePage = ({ resource }: Props) => {
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
         <NavigationBox heading={t("movedResourcePage.openInSubject")} items={navigationBoxItems} />
-      </Wrapper>
+      </StyledMain>
     </PageContainer>
   );
 };

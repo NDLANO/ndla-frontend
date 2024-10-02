@@ -17,6 +17,7 @@ import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import BlockResource from "../../components/MyNdla/BlockResource";
 import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
@@ -30,7 +31,6 @@ import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphql
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
@@ -152,7 +152,7 @@ const SharedFolderPage = () => {
     return <NotFoundPage />;
   }
   if (error || !folder) {
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (
