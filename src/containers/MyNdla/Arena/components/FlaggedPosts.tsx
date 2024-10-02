@@ -53,12 +53,12 @@ export const StyledHeaderRow = styled("tr", {
       },
     },
 
-    mobileWideToDesktop: {
+    tabletWideToDesktop: {
       display: "grid",
       gridTemplateColumns: "2",
     },
 
-    mobileWideDown: {
+    tabletWideDown: {
       display: "grid",
       gridTemplateColumns: "1",
     },
@@ -87,12 +87,12 @@ export const StyledRow = styled("tr", {
       },
     },
 
-    mobileWideToDesktop: {
+    tabletWideToDesktop: {
       display: "grid",
       gridTemplateColumns: "2",
     },
 
-    mobileWideDown: {
+    tabletWideDown: {
       display: "grid",
       gridTemplateColumns: "1",
     },
