@@ -75,7 +75,7 @@ export const StyledRow = styled("tr", {
     "& td": {
       border: "none",
       borderWidth: "0",
-        wordBreak: "break-all",
+      wordBreak: "break-all",
     },
 
     "& [data-title='']": {
