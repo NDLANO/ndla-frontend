@@ -26,7 +26,7 @@ const LogoWrapper = styled("div", {
   },
 });
 
-const ErrorMessageWrapper = styled("div", {
+const ErrorMessageMain = styled("main", {
   base: {
     paddingBlockEnd: "4xlarge",
   },
@@ -50,9 +50,9 @@ const ErrorPage = () => {
               </SafeLink>
             </LogoWrapper>
           </Masthead>
-          <ErrorMessageWrapper>
+          <ErrorMessageMain>
             <DefaultErrorMessage applySkipToContentId />
-          </ErrorMessageWrapper>
+          </ErrorMessageMain>
           <Footer />
         </PageContainer>
       </Status>

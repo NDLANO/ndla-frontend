@@ -11,6 +11,7 @@ import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
+import { createListCollection } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
 import {
@@ -238,6 +239,12 @@ const MastheadSearch = () => {
     navigate({ pathname: "/search", search: `?${searchString}` });
   };
 
+  const collection = useMemo(
+    () =>
+      createListCollection({ items: mappedItems, itemToValue: (item) => item.path, itemToString: (item) => item.name }),
+    [mappedItems],
+  );
+
   return (
     <DialogRoot
       open={dialogState.open}
@@ -261,12 +268,10 @@ const MastheadSearch = () => {
         <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
           <ComboboxRoot
             defaultOpen
-            items={mappedItems}
+            collection={collection}
             highlightedValue={highlightedValue}
             onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
             inputValue={query}
-            itemToValue={(item) => item.path}
-            itemToString={(item) => item.name}
             onInputValueChange={(details) => onQueryChange(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}

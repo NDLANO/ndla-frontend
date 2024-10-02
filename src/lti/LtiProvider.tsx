@@ -13,11 +13,11 @@ import { useApolloClient } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
 import { setCookie } from "@ndla/util";
 
+import { DefaultErrorMessagePage } from "../components/DefaultErrorMessage";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { useLtiData } from "../components/LtiContext";
 import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
-import ErrorPage from "../containers/ErrorPage/ErrorPage";
 import SearchInnerPage from "../containers/SearchPage/SearchInnerPage";
 import { GQLSearchPageQuery } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
@@ -85,7 +85,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
 
   if (error && !data) {
     handleError(error);
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (

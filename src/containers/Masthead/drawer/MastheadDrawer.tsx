@@ -278,7 +278,7 @@ const MastheadDrawer = ({ subject, crumbs }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  items={supportedLanguages}
+                  languages={supportedLanguages}
                   onValueChange={(details) => {
                     setOpen(false);
                     setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);
