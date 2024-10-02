@@ -38,20 +38,20 @@ const VotePost = ({ post }: Props) => {
 
   return (
     <UpvoteWrapper>
-      <IconButton
-        aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-        title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
-        variant="tertiary"
-        onClick={() =>
-          post.upvoted
-            ? removeUpvotePost({ variables: { postId: post.id } })
-            : upvotePost({ variables: { postId: post.id } })
-        }
-        disabled={isOwner}
-      >
-        {post.upvoted || isOwner ? <ThumbFilled /> : <Thumb />}
-      </IconButton>
-
+      {!isOwner && (
+        <IconButton
+          aria-label={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+          title={post.upvoted ? t("myNdla.arena.posts.removeUpvote") : t("myNdla.arena.posts.upvote")}
+          variant="tertiary"
+          onClick={() =>
+            post.upvoted
+              ? removeUpvotePost({ variables: { postId: post.id } })
+              : upvotePost({ variables: { postId: post.id } })
+          }
+        >
+          {post.upvoted || isOwner ? <ThumbFilled /> : <Thumb />}
+        </IconButton>
+      )}
       <Text
         textStyle="body.large"
         aria-label={t("myNdla.arena.posts.numberOfUpvotes", { count: post.upvotes })}
