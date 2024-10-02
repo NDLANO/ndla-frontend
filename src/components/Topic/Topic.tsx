@@ -38,6 +38,7 @@ const TopicContent = styled("div", {
 const TopicIntroductionWrapper = styled("div", {
   base: {
     maxWidth: "surface.contentMax",
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     gap: "small",
