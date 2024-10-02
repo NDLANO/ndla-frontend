@@ -37,13 +37,13 @@ test("have all options at the different pages", async ({ page }) => {
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
-  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Mine fag" }).click();
   await expect(page.getByRole("heading").getByText("Mine fag")).toBeVisible();
-  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Min profil" }).click();
   await expect(page.getByRole("heading").getByText("Min profil")).toBeVisible();
-  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
 });
