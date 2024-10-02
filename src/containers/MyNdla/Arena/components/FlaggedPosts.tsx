@@ -53,12 +53,12 @@ export const StyledHeaderRow = styled("tr", {
       },
     },
 
-    tabletWideToDesktop: {
+    mobileWideToDesktop: {
       display: "grid",
       gridTemplateColumns: "2",
     },
 
-    tabletWideDown: {
+    mobileWideDown: {
       display: "grid",
       gridTemplateColumns: "1",
     },
@@ -75,6 +75,9 @@ export const StyledRow = styled("tr", {
     "& td": {
       border: "none",
       borderWidth: "0",
+      "& div": {
+        wordBreak: "break-all",
+      },
     },
 
     "& [data-title='']": {
@@ -87,12 +90,12 @@ export const StyledRow = styled("tr", {
       },
     },
 
-    tabletWideToDesktop: {
+    mobileWideToDesktop: {
       display: "grid",
       gridTemplateColumns: "2",
     },
 
-    tabletWideDown: {
+    mobileWideDown: {
       display: "grid",
       gridTemplateColumns: "1",
     },
