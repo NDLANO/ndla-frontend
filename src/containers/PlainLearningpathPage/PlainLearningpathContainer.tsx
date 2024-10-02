@@ -13,12 +13,12 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
-import ErrorPage from "../ErrorPage";
 
 const getDocumentTitle = (learningpath: Props["learningpath"], t: TFunction) =>
   htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")]);
@@ -57,7 +57,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   const currentStep = stepId ? steps.find((step) => step.id.toString() === stepId) : steps[0];
 
   if (!currentStep) {
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (
