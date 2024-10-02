@@ -54,7 +54,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
     </header>
-    <div
+    <main
       class="pbe_4xlarge"
     >
       <article
@@ -90,7 +90,7 @@ exports[`ErrorPage renderers correctly 1`] = `
           </a>
         </div>
       </article>
-    </div>
+    </main>
     <footer
       class="pos_relative bg_primary c_text.onAction"
     >

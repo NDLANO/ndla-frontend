@@ -106,7 +106,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
       : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
         {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
@@ -129,7 +129,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
       />
-    </div>
+    </>
   );
 };
 

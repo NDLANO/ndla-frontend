@@ -22,7 +22,7 @@ const ToolbarContainer = styled("div", {
     display: "none",
     justifyContent: "center",
     minHeight: "fit-content",
-    paddingBlock: "xxsmall",
+    paddingBlock: "small",
 
     mobileWide: {
       display: "flex",
