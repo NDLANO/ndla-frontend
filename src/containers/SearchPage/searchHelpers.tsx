@@ -142,7 +142,7 @@ export const mapResourcesToItems = (
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: context.path,
+      url: enablePrettyUrls ? context.url : context.path,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
