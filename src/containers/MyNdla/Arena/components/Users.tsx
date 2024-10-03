@@ -107,7 +107,7 @@ const Users = () => {
 
   return (
     <>
-      <div>
+      <>
         <SearchInput
           placeholder={t("myNdla.arena.admin.users.search")}
           onChange={(e) => {
@@ -126,7 +126,7 @@ const Users = () => {
           </thead>
           <UserList loading={loading} users={users} />
         </StyledTable>
-      </div>
+      </>
       <StyledPaginationRoot
         page={page}
         onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
