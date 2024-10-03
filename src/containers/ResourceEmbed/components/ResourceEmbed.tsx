@@ -26,16 +26,9 @@ import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
-  GQLAudioLicenseList_AudioLicenseFragment,
-  GQLConceptLicenseList_ConceptLicenseFragment,
-  GQLGlossLicenseList_GlossLicenseFragment,
-  GQLH5pLicenseList_H5pLicenseFragment,
-  GQLImageLicenseList_ImageLicenseFragment,
-  GQLPodcastLicenseList_PodcastLicenseFragment,
   GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
-  GQLVideoLicenseList_BrightcoveLicenseFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -112,38 +105,43 @@ const metaToProperties = (
   }
 };
 
-type LicenseFragment =
-  | GQLImageLicenseList_ImageLicenseFragment
-  | GQLAudioLicenseList_AudioLicenseFragment
-  | GQLPodcastLicenseList_PodcastLicenseFragment
-  | GQLH5pLicenseList_H5pLicenseFragment
-  | GQLConceptLicenseList_ConceptLicenseFragment
-  | GQLVideoLicenseList_BrightcoveLicenseFragment
-  | GQLGlossLicenseList_GlossLicenseFragment;
-
-export const hasLicensedContent = (
-  meta: GQLResourceEmbedLicenseContent_MetaFragment,
-  verification = (val: LicenseFragment) => !!val.copyright,
-) => {
-  if (meta.h5ps?.some(verification)) {
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
+  if (meta.h5ps?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.images?.some(verification)) {
+  } else if (meta.images?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.audios?.some(verification)) {
+  } else if (meta.audios?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.concepts?.some(verification)) {
+  } else if (meta.concepts?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.glosses?.some(verification)) {
+  } else if (meta.glosses?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.brightcoves?.some(verification)) {
+  } else if (meta.brightcoves?.some((val) => val.copyright)) {
     return true;
-  } else if (meta.podcasts?.some(verification)) {
+  } else if (meta.podcasts?.some((val) => val.copyright)) {
     return true;
   }
   return false;
 };
 
-const checkIfCopyrighted = (val: LicenseFragment) => val.copyright?.license?.license === COPYRIGHTED;
+const isCopyrightedContent = (type: MetaProperies["type"], meta?: GQLResourceEmbedLicenseContent_MetaFragment) => {
+  if (type === "audio") {
+    return meta?.audios?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "image") {
+    return meta?.images?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "video") {
+    return meta?.brightcoves?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "concept") {
+    return meta?.concepts?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "h5p") {
+    return meta?.h5ps?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "gloss") {
+    return meta?.glosses?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "podcast") {
+    return meta?.podcasts?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  }
+  return false;
+};
 
 const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -234,7 +232,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   id={SKIP_TO_CONTENT_ID}
                   contentType={type}
                   heartButton={
-                    !hasLicensedContent(data?.resourceEmbed?.meta!, checkIfCopyrighted) && (
+                    !isCopyrightedContent(type, data?.resourceEmbed?.meta) && (
                       <AddResourceToFolderModal
                         resource={{
                           id: id,
