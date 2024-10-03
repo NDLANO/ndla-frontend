@@ -35,9 +35,10 @@ import {
 
 interface AudioLicenseInfoProps {
   audio: GQLAudioLicenseList_AudioLicenseFragment;
+  isResourcePage?: boolean;
 }
 
-const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
+const AudioLicenseInfo = ({ audio, isResourcePage }: AudioLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
@@ -96,7 +97,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
             sourceTitle={audio.title}
             sourceType="audio"
           >
-            {!isCopyrighted(audio.copyright.license.license) && (
+            {!isResourcePage && !isCopyrighted(audio.copyright.license.license) && (
               <AddResourceToFolderModal
                 resource={{
                   id: audio.id,
@@ -144,14 +145,15 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
 interface Props {
   audios: GQLAudioLicenseList_AudioLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const AudioLicenseList = ({ audios }: Props) => {
+const AudioLicenseList = ({ audios, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(audios, (audio) => audio.id), [audios]);
   return (
     <MediaList>
       {unique.map((audio) => (
-        <AudioLicenseInfo audio={audio} key={`audio-${audio.id}`} />
+        <AudioLicenseInfo audio={audio} key={`audio-${audio.id}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );

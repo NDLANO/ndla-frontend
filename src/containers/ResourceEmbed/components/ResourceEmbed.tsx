@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
+import { COPYRIGHTED } from "@ndla/licenses";
 import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
@@ -19,13 +20,22 @@ import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
+import FavoriteButton from "../../../components/MyNdla/FavoriteButton";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
+  GQLAudioLicenseList_AudioLicenseFragment,
+  GQLConceptLicenseList_ConceptLicenseFragment,
+  GQLGlossLicenseList_GlossLicenseFragment,
+  GQLH5pLicenseList_H5pLicenseFragment,
+  GQLImageLicenseList_ImageLicenseFragment,
+  GQLPodcastLicenseList_PodcastLicenseFragment,
   GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
+  GQLVideoLicenseList_BrightcoveLicenseFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -102,24 +112,38 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
-  if (meta.h5ps?.some((value) => value.copyright)) {
+type LicenseFragment =
+  | GQLImageLicenseList_ImageLicenseFragment
+  | GQLAudioLicenseList_AudioLicenseFragment
+  | GQLPodcastLicenseList_PodcastLicenseFragment
+  | GQLH5pLicenseList_H5pLicenseFragment
+  | GQLConceptLicenseList_ConceptLicenseFragment
+  | GQLVideoLicenseList_BrightcoveLicenseFragment
+  | GQLGlossLicenseList_GlossLicenseFragment;
+
+export const hasLicensedContent = (
+  meta: GQLResourceEmbedLicenseContent_MetaFragment,
+  verification = (val: LicenseFragment) => !!val.copyright,
+) => {
+  if (meta.h5ps?.some(verification)) {
     return true;
-  } else if (meta.images?.some((val) => val.copyright)) {
+  } else if (meta.images?.some(verification)) {
     return true;
-  } else if (meta.audios?.some((val) => val.copyright)) {
+  } else if (meta.audios?.some(verification)) {
     return true;
-  } else if (meta.concepts?.some((val) => val.copyright)) {
+  } else if (meta.concepts?.some(verification)) {
     return true;
-  } else if (meta.glosses?.some((val) => val.copyright)) {
+  } else if (meta.glosses?.some(verification)) {
     return true;
-  } else if (meta.brightcoves?.some((val) => val.copyright)) {
+  } else if (meta.brightcoves?.some(verification)) {
     return true;
-  } else if (meta.podcasts?.some((val) => val.copyright)) {
+  } else if (meta.podcasts?.some(verification)) {
     return true;
   }
   return false;
 };
+
+const checkIfCopyrighted = (val: LicenseFragment) => val.copyright?.license?.license === COPYRIGHTED;
 
 const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -205,13 +229,30 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
           <PageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
-                <ArticleTitle title={properties.title} id={SKIP_TO_CONTENT_ID} contentType={type} />
+                <ArticleTitle
+                  title={properties.title}
+                  id={SKIP_TO_CONTENT_ID}
+                  contentType={type}
+                  heartButton={
+                    !hasLicensedContent(data?.resourceEmbed?.meta!, checkIfCopyrighted) && (
+                      <AddResourceToFolderModal
+                        resource={{
+                          id: id,
+                          path: `${config.ndlaFrontendDomain}/${type}/${id}`,
+                          resourceType: type,
+                        }}
+                      >
+                        <FavoriteButton />
+                      </AddResourceToFolderModal>
+                    )
+                  }
+                />
                 <ArticleContent>
                   <section>{transformedContent}</section>
                 </ArticleContent>
                 <ArticleFooter>
                   {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
+                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} resourcePageType={type} />
                   )}
                   {isOembed && (
                     <CreatedBy

@@ -109,7 +109,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
             sourceTitle={image.title}
             sourceType="images"
           >
-            {!isCopyrighted(image.copyright.license.license) && (
+            {!isResourcePage && !isCopyrighted(image.copyright.license.license) && (
               <AddResourceToFolderModal
                 resource={{
                   id: image.id,

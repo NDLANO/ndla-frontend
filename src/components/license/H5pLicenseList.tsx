@@ -33,9 +33,10 @@ import {
 
 interface H5pLicenseInfoProps {
   h5p: GQLH5pLicenseList_H5pLicenseFragment;
+  isResourcePage?: boolean;
 }
 
-const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
+const H5pLicenseInfo = ({ h5p, isResourcePage }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const safeCopyright = licenseCopyrightToCopyrightType(h5p.copyright);
@@ -79,7 +80,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
             sourceTitle={h5p.title}
             sourceType="h5p"
           />
-          {!isCopyrighted(h5p.copyright?.license.license) && (
+          {!isResourcePage && !isCopyrighted(h5p.copyright?.license.license) && (
             <MediaListItemActions>
               <CopyTextButton
                 stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
@@ -116,14 +117,15 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
 interface Props {
   h5ps: GQLH5pLicenseList_H5pLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const H5pLicenseList = ({ h5ps }: Props) => {
+const H5pLicenseList = ({ h5ps, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(h5ps, (h5p) => h5p.id), [h5ps]);
   return (
     <MediaList>
       {unique.map((h5p) => (
-        <H5pLicenseInfo h5p={h5p} key={`h5p-${h5p.id}`} />
+        <H5pLicenseInfo h5p={h5p} key={`h5p-${h5p.id}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );

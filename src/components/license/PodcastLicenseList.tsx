@@ -35,9 +35,10 @@ import {
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
+  isResourcePage?: boolean;
 }
 
-const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
+const PodcastLicenseInfo = ({ podcast, isResourcePage }: PodcastLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
@@ -97,7 +98,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
             sourceTitle={podcast.title}
             sourceType="podcast"
           >
-            {!isCopyrighted(podcast.copyright.license.license) && (
+            {!isResourcePage && !isCopyrighted(podcast.copyright.license.license) && (
               <AddResourceToFolderModal
                 resource={{
                   id: podcast.id,
@@ -150,15 +151,16 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
 interface Props {
   podcasts: GQLPodcastLicenseList_PodcastLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const PodcastLicenseList = ({ podcasts }: Props) => {
+const PodcastLicenseList = ({ podcasts, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(podcasts, (p) => p.id), [podcasts]);
 
   return (
     <MediaList>
       {unique.map((podcast, index) => (
-        <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} />
+        <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );
