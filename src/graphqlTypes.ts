@@ -4576,7 +4576,11 @@ export type GQLSubjectInfoFragment = {
   subjectpage?: {
     __typename?: "SubjectPage";
     id: number;
-    about?: { __typename?: "SubjectPageAbout"; title: string };
+    about?: {
+      __typename?: "SubjectPageAbout";
+      title: string;
+      visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
+    };
     banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
   };
 };

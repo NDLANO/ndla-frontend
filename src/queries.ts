@@ -145,6 +145,9 @@ export const subjectInfoFragment = gql`
       id
       about {
         title
+        visualElement {
+          url
+        }
       }
       banner {
         desktopUrl

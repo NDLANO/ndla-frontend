@@ -122,6 +122,7 @@ export interface SearchItem {
     url: string;
     alt: string;
   };
+  metaImg?: string;
 }
 
 export const mapResourcesToItems = (
@@ -220,6 +221,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
         id: subject.id,
         title: subject.name,
         url: toSubject(subject.id),
+        metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],
       totalCount: subjectData.length,
