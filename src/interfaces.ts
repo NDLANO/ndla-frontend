@@ -34,7 +34,6 @@ export interface WindowData {
 
 export interface NDLAWindow {
   DATA: WindowData;
-  errorReporter: any;
 }
 
 export interface Author {

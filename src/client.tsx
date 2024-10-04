@@ -28,7 +28,6 @@ import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
@@ -40,6 +39,7 @@ import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguage
 import { NDLAWindow } from "./interfaces";
 import { UserAgentProvider } from "./UserAgentContext";
 import { createApolloClient, createApolloLinks } from "./util/apiHelpers";
+import { initSentry } from "./util/sentry";
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -48,6 +48,8 @@ declare global {
 const {
   DATA: { config, serverPath, serverQuery, serverResponse },
 } = window;
+
+initSentry(config);
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 
@@ -74,13 +76,6 @@ if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
 }
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
 const i18n = initializeI18n(i18nInstance, storedLanguage);
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey: config.logglyApiKey,
-  environment: config.ndlaEnvironment,
-  componentName: config.componentName,
-  ignoreUrls: [],
-});
 
 const client = createApolloClient(storedLanguage, versionHash);
 

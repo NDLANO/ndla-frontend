@@ -113,6 +113,7 @@ export type ConfigType = {
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
+  sentrydsn: string;
   enablePrettyUrls: boolean;
 };
 
@@ -147,6 +148,10 @@ const getServerSideConfig = (): ConfigType => {
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
+    sentrydsn: getEnvironmentVariabel(
+      "SENTRY_DSN",
+      "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
+    ),
     enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true), // TODO: Remove before merging to master!
   };
 };

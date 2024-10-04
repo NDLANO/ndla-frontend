@@ -12,7 +12,8 @@ import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
-import { StatusError } from "./error";
+import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
+import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
@@ -224,36 +225,15 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
   });
 
   const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-    const operationInfo = {
-      operationName: operation.operationName,
-      variables: operation.variables,
-    };
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-        if (!config.isClient || extensions?.status !== 404) {
-          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, {
-            requestPath,
-            graphqlError: {
-              operationInfo,
-              message,
-              locations,
-              path,
-              extensions,
-            },
-          });
+      graphQLErrors.forEach((err) => {
+        if (!config.isClient || err.extensions?.status !== 404) {
+          handleError(new NDLAGraphQLError(err, operation), requestPath);
         }
       });
     }
     if (networkError) {
-      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, {
-        requestPath,
-        stack: networkError.stack,
-        networkErrorMessage: networkError.message,
-        cause: networkError.cause,
-        graphqlError: {
-          operationInfo,
-        },
-      });
+      handleError(new NDLANetworkError(networkError, operation), requestPath);
     }
   });
 

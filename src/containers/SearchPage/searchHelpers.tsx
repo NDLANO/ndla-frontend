@@ -121,6 +121,7 @@ export interface SearchItem {
     url: string;
     alt: string;
   };
+  metaImg?: string;
 }
 
 export const mapResourcesToItems = (
@@ -224,6 +225,7 @@ export const mapSubjectDataToGroup = (
         id: subject.id,
         title: subject.name,
         url: enablePrettyUrls ? subject.url : subject.path,
+        metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],
       totalCount: subjectData.length,

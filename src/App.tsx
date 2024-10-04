@@ -6,7 +6,7 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
 import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
@@ -76,10 +76,10 @@ class App extends Component<AppProps, State> {
     };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
+  componentDidCatch(error: Error) {
     if (config.runtimeType === "production") {
       // React prints all errors that occurred during rendering to the console in development
-      handleError(error, info);
+      handleError(error);
     }
     this.setState({ hasError: true });
   }

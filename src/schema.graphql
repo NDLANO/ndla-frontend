@@ -917,6 +917,7 @@ type Mutation {
   sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
+  sortSavedSharedFolders(sortedIds: [String!]!): SortResult!
   subscribeToTopic(topicId: Int!): Int!
   transformArticleContent(
     absoluteUrl: Boolean

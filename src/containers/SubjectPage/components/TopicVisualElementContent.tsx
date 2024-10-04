@@ -15,7 +15,7 @@ interface Props {
 
 const TopicVisualElementContent = ({ embed }: Props) => {
   if (embed.resource === "image") {
-    return <ImageEmbed embed={embed} />;
+    return <ImageEmbed embed={{ ...embed, embedData: { ...embed.embedData, caption: "" } }} />;
   } else if (embed.resource === "brightcove") {
     return <BrightcoveEmbed embed={embed} />;
   } else if (embed.resource === "h5p") {
