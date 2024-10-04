@@ -13,7 +13,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
@@ -31,16 +30,11 @@ import "@fontsource/source-serif-pro/700.css";
 import IframePageContainer from "./IframePageContainer";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
+import { initSentry } from "../util/sentry";
 
 const { config, initialProps } = window.DATA;
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-});
+initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 

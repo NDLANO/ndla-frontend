@@ -13,7 +13,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
@@ -32,6 +31,7 @@ import EmbedIframePageContainer from "./EmbedIframePageContainer";
 import { initializeI18n } from "../i18n";
 import { LocaleType, LtiData } from "../interfaces";
 import { createApolloClient } from "../util/apiHelpers";
+import { initSentry } from "../util/sentry";
 
 type EmbedInitialProps = {
   embedId?: string;
@@ -46,13 +46,7 @@ type EmbedInitialProps = {
 
 const { config, initialProps } = window.DATA;
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-});
+initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import { DefaultErrorMessage, DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import handleError from "../../util/handleError";
 
@@ -29,9 +29,8 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // You can also log the error to an error reporting service
-    handleError(error, errorInfo);
+  componentDidCatch(error: Error) {
+    handleError(error);
   }
 
   render() {
@@ -55,9 +54,8 @@ export class PageErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // You can also log the error to an error reporting service
-    handleError(error, errorInfo);
+  componentDidCatch(error: Error) {
+    handleError(error);
   }
 
   render() {

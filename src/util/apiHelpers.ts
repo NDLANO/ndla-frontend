@@ -231,7 +231,7 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         if (!config.isClient || extensions?.status !== 404) {
-          handleError(`[GraphQL error]: ${message}`, undefined, requestPath, {
+          handleError(`[GraphQL error]: ${message}`, requestPath, {
             requestPath,
             graphqlError: {
               operationInfo,
@@ -245,7 +245,7 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
       });
     }
     if (networkError) {
-      handleError(`[Network error]: ${networkError}`, { clientTime: new Date() }, requestPath, {
+      handleError(`[Network error]: ${networkError}`, requestPath, {
         requestPath,
         stack: networkError.stack,
         networkErrorMessage: networkError.message,
