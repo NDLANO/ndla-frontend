@@ -53,18 +53,7 @@ const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 const StyledComboboxContent = styled(ComboboxContent, {
   base: {
-    boxShadow: "none",
-    borderRadius: "unset",
-    paddingBlock: "unset",
-    paddingInline: "unset",
-    gap: "0px",
     maxHeight: "surface.medium",
-  },
-});
-
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    borderRadius: "0",
   },
 });
 
@@ -273,7 +262,7 @@ const MastheadSearch = () => {
             onInputValueChange={(details) => onQueryChange(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}
-            variant="simple"
+            variant="composite"
             closeOnSelect
             form={formId}
             selectionBehavior="preserve"
@@ -319,7 +308,7 @@ const MastheadSearch = () => {
                   <Spinner />
                 ) : (
                   mappedItems.map((resource) => (
-                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot variant="list">
                         <TextWrapper>
                           <ComboboxItemText>
@@ -340,7 +329,7 @@ const MastheadSearch = () => {
                         </TextWrapper>
                         <ContentTypeBadgeNew contentType={resource.contentType} />
                       </StyledListItemRoot>
-                    </StyledComboboxItem>
+                    </ComboboxItem>
                   ))
                 )}
               </StyledComboboxContent>
