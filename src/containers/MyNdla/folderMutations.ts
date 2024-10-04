@@ -641,8 +641,8 @@ export const useUpdateFolderMutation = () => {
   return { updateFolder, loading };
 };
 
-export const useSortFoldersMutation = (favoriteFolders?: boolean) => {
-  const mutation = favoriteFolders ? sortSavedSharedFoldersMutation : sortFoldersMutation;
+export const useSortFoldersMutation = (options?: { type: "sharedFolder" | "folder" }) => {
+  const mutation = options?.type === "sharedFolder" ? sortSavedSharedFoldersMutation : sortFoldersMutation;
   const [sortFolders] = useMutation<GQLSortFoldersMutation, GQLMutationSortFoldersArgs>(mutation);
   return { sortFolders };
 };
