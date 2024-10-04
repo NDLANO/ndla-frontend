@@ -245,6 +245,14 @@ const sortFoldersMutation = gql`
   }
 `;
 
+const sortSavedSharedFoldersMutation = gql`
+  mutation sortSavedSharedFolders($sortedIds: [String!]!) {
+    sortSavedSharedFolders(sortedIds: $sortedIds) {
+      sortedIds
+    }
+  }
+`;
+
 const sortResourcesMutation = gql`
   mutation sortResources($parentId: String!, $sortedIds: [String!]!) {
     sortResources(parentId: $parentId, sortedIds: $sortedIds) {
@@ -633,8 +641,9 @@ export const useUpdateFolderMutation = () => {
   return { updateFolder, loading };
 };
 
-export const useSortFoldersMutation = () => {
-  const [sortFolders] = useMutation<GQLSortFoldersMutation, GQLMutationSortFoldersArgs>(sortFoldersMutation);
+export const useSortFoldersMutation = (options?: { type: "sharedFolder" | "folder" }) => {
+  const mutation = options?.type === "sharedFolder" ? sortSavedSharedFoldersMutation : sortFoldersMutation;
+  const [sortFolders] = useMutation<GQLSortFoldersMutation, GQLMutationSortFoldersArgs>(mutation);
   return { sortFolders };
 };
 

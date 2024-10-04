@@ -78,15 +78,7 @@ const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, fol
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
-      {!isFavorited && (
-        <DragHandle
-          sortableId={folder.id}
-          disabled={items.length < 2}
-          name={folder.name}
-          type="folder"
-          {...attributes}
-        />
-      )}
+      <DragHandle sortableId={folder.id} disabled={items.length < 2} name={folder.name} type="folder" {...attributes} />
       <DragWrapper>
         <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} />
       </DragWrapper>

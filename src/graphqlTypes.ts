@@ -1029,6 +1029,7 @@ export type GQLMutation = {
   sortArenaCategories: Array<GQLArenaCategoryV2>;
   sortFolders: GQLSortResult;
   sortResources: GQLSortResult;
+  sortSavedSharedFolders: GQLSortResult;
   subscribeToTopic: Scalars["Int"]["output"];
   transformArticleContent: Scalars["String"]["output"];
   unFavoriteSharedFolder: Scalars["String"]["output"];
@@ -1191,6 +1192,10 @@ export type GQLMutationSortFoldersArgs = {
 
 export type GQLMutationSortResourcesArgs = {
   parentId: Scalars["String"]["input"];
+  sortedIds: Array<Scalars["String"]["input"]>;
+};
+
+export type GQLMutationSortSavedSharedFoldersArgs = {
   sortedIds: Array<Scalars["String"]["input"]>;
 };
 
@@ -3574,6 +3579,16 @@ export type GQLSortFoldersMutationVariables = Exact<{
 export type GQLSortFoldersMutation = {
   __typename?: "Mutation";
   sortFolders: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
+};
+
+export type GQLSortSavedSharedFoldersMutationVariables = Exact<{
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
+}>;
+
+export type GQLSortSavedSharedFoldersMutation = {
+  __typename?: "Mutation";
+  sortSavedSharedFolders: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
 };
 
 export type GQLSortResourcesMutationVariables = Exact<{
