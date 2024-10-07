@@ -9,7 +9,6 @@
 import fs from "fs/promises";
 import { join } from "path";
 import express, { NextFunction, Request, Response } from "express";
-import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
@@ -25,9 +24,6 @@ import { privateRoutes, routes } from "../routes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
-
-// To handle uncaught exceptions in async express
-await import("express-async-errors");
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -53,13 +49,14 @@ if (!isProduction) {
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
 
-const metricsMiddleware = promBundle({
-  includeMethod: true,
-  includePath: false,
-  excludeRoutes: ["/health"],
-});
-
-app.use(metricsMiddleware);
+// TODO: Add metrics middleware when its ready for express 5.0
+// const metricsMiddleware = promBundle({
+//   includeMethod: true,
+//   includePath: false,
+//   excludeRoutes: ["/health"],
+// });
+//
+// app.use(metricsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -198,7 +195,7 @@ const iframeEmbedRoute = async (req: Request) =>
 const iframeArticleRoute = async (req: Request) =>
   renderRoute(req, "iframe-article.html", iframeArticleTemplateHtml, "iframeArticle");
 
-app.get("/embed-iframe/:lang?/:embedType/:embedId", async (req, res, next) => {
+app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
   handleRequest(req, res, next, iframeEmbedRoute);
 });
 
@@ -206,10 +203,24 @@ const iframeArticleCallback = async (req: Request, res: Response, next: NextFunc
   handleRequest(req, res, next, iframeArticleRoute);
 };
 
-app.get("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.get("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
+app.get(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
+app.post(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
 
 app.post("/lti", async (req, res, next) => {
   handleRequest(req, res, next, ltiRoute);
@@ -220,7 +231,7 @@ app.get("/lti", async (req, res, next) => {
 });
 
 app.get(
-  "/*",
+  ["/", "/*splat"],
   (req, res, next) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
@@ -229,12 +240,13 @@ app.get(
     const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
     const shouldRedirect = isPrivate && !isTokenValid;
+
     if (!route) {
       next("route"); // skip to next route (i.e. proxy)
     } else if (shouldRedirect) {
       return res.redirect(`/login?state=${req.path}`);
     } else {
-      next();
+      handleRequest(req, res, next, defaultRoute);
     }
   },
   (req, res, next) => handleRequest(req, res, next, defaultRoute),
@@ -273,10 +285,10 @@ const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) 
 
 app.use(errorHandler);
 
-app.get("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.get("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
-app.post("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.post("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 
