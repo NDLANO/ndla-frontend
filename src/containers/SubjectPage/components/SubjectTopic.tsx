@@ -103,8 +103,8 @@ const SubjectTopic = ({
 
   const visualElement = useMemo(() => {
     if (!embedMeta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} />;
-  }, [embedMeta]);
+    return <TopicVisualElementContent embed={embedMeta} metaImage={topic.article?.metaImage} />;
+  }, [embedMeta, topic.article?.metaImage]);
 
   const resources = useMemo(() => {
     if (topic.coreResources?.length || topic.supplementaryResources?.length) {

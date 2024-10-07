@@ -6,26 +6,27 @@
  *
  */
 
+import { Image } from "@ndla/primitives";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { BrightcoveEmbed, ExternalEmbed, H5pEmbed, IframeEmbed, ImageEmbed } from "@ndla/ui";
+import { ImageEmbed } from "@ndla/ui";
+import { GQLArticle } from "../../../graphqlTypes";
 
 interface Props {
   embed: EmbedMetaData;
+  metaImage: GQLArticle["metaImage"];
 }
 
-const TopicVisualElementContent = ({ embed }: Props) => {
+const TopicVisualElementContent = ({ embed, metaImage }: Props) => {
   if (embed.resource === "image") {
     return <ImageEmbed embed={{ ...embed, embedData: { ...embed.embedData, caption: "" } }} />;
-  } else if (embed.resource === "brightcove") {
-    return <BrightcoveEmbed embed={embed} />;
-  } else if (embed.resource === "h5p") {
-    return <H5pEmbed embed={embed} />;
-  } else if (embed.resource === "iframe") {
-    return <IframeEmbed embed={embed} />;
-  } else if (embed.resource === "external") {
-    return <ExternalEmbed embed={embed} />;
-  } else {
+  } else if (!metaImage) {
     return null;
+  } else {
+    return (
+      <figure>
+        <Image src={metaImage?.url ?? ""} alt={metaImage?.alt ?? ""} />
+      </figure>
+    );
   }
 };
 
