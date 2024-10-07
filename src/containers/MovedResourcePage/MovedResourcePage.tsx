@@ -115,14 +115,17 @@ const MovedResourcePage = ({ resource }: Props) => {
 
 MovedResourcePage.fragments = {
   resource: gql`
-    fragment MovedResourcePage_Resource on Resource {
+    fragment MovedResourcePage_Resource on Node {
       id
       name
       path
+      url
       paths
       breadcrumbs
       contexts {
+        contextId
         path
+        url
         breadcrumbs
       }
       article {

@@ -12,6 +12,7 @@ import { gql } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
+import { FILM_ID } from "../../constants";
 import { GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -61,6 +62,7 @@ const LoadingShimmer = () => {
           id: `dummy-${index}`,
           resourceTypes: [],
           path: "",
+          url: "",
           title: "",
         }}
       />
@@ -93,19 +95,23 @@ const MovieGrid = ({ resourceType }: Props) => {
         {resourceTypeMovies.loading ? (
           <LoadingShimmer />
         ) : (
-          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
-            <StyledFilmContentCard
-              style={{ "--index": index } as CSSProperties}
-              key={`${resourceType.id}-${index}`}
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
-              }}
-            />
-          ))
+          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+            const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+            return (
+              <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
+                key={`${resourceType.id}-${index}`}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  path: context?.path ?? "",
+                  url: context?.url ?? "",
+                }}
+              />
+            );
+          })
         )}
       </MovieListing>
     </StyledSection>
@@ -131,8 +137,11 @@ const resourceTypeMoviesQuery = gql`
         }
         title
         contexts {
+          contextId
           contextType
           path
+          url
+          rootId
         }
       }
     }

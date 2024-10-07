@@ -27,6 +27,7 @@ const Layout = () => {
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
 
+  // TODO: Rewrite this to not use params
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
       return;

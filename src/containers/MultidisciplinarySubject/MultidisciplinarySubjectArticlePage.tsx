@@ -14,6 +14,7 @@ import MultidisciplinarySubjectArticle, {
 } from "./components/MultidisciplinarySubjectArticle";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -30,11 +31,14 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     $subjectId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...MultidisciplinarySubjectArticle_Subject
     }
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id
+      name
+      path
+      url
       article {
         introduction
         metaDescription
@@ -54,9 +58,16 @@ const multidisciplinarySubjectArticlePageQuery = gql`
   ${multidisciplinarySubjectArticleFragments.subject}
 `;
 
-const MultidisciplinarySubjectArticlePage = () => {
+interface Props {
+  subjectId: string;
+  topicId?: string;
+}
+
+const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId }: Props) => {
   const { t } = useTranslation();
-  const { topicId, subjectId } = useUrnIds();
+  const enablePrettyUrls = useEnablePrettyUrls();
+  const { topicId: tId } = useUrnIds();
+  const topicId = maybeTopicId ?? tId;
 
   const { data, loading } = useGraphQuery<
     GQLMultidisciplinarySubjectArticlePageQuery,
@@ -68,6 +79,7 @@ const MultidisciplinarySubjectArticlePage = () => {
       transformArgs: {
         subjectId: subjectId!,
         showVisualElement: "true",
+        prettyUrl: enablePrettyUrls,
       },
     },
   });

@@ -12,12 +12,18 @@ import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
+import {
+  GQLContextQuery,
+  GQLContextQueryVariables,
+  GQLResourcePageQuery,
+  GQLTaxonomyContext,
+} from "../../graphqlTypes";
+import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPath } from "../../util/getTopicPath";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -28,8 +34,11 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) => {
-  return resource.paths?.find((p) => location.pathname.includes(p));
+const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "path" | "url">[]) => {
+  const pathname = decodeURIComponent(location.pathname);
+  return contexts?.find((c) => {
+    return pathname.includes(c.path) || pathname.includes(c.url);
+  });
 };
 
 const resourcePageQuery = gql`
@@ -39,7 +48,7 @@ const resourcePageQuery = gql`
     $resourceId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       ...LearningpathPage_Subject
       ...ArticlePage_Subject
     }
@@ -47,18 +56,32 @@ const resourcePageQuery = gql`
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       ...LearningpathPage_Topic
       ...ArticlePage_Topic
     }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
+    resource: node(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
       relevanceId
       paths
       breadcrumbs
-      contexts {
+      context {
+        contextId
         breadcrumbs
         parentIds
         path
+        url
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
+      }
+      contexts {
+        contextId
+        path
+        url
       }
       ...MovedResourcePage_Resource
       ...ArticlePage_Resource
@@ -77,8 +100,23 @@ const resourcePageQuery = gql`
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
-  const { subjectId, resourceId, topicId, stepId } = useUrnIds();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
+  const { contextId, subjectId: subId, resourceId: rId, topicId: tId, stepId } = useUrnIds();
+  const { data: rootData, loading: rootLoading } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(
+    contextQuery,
+    {
+      variables: {
+        contextId: contextId ?? "",
+      },
+      skip: contextId === undefined,
+    },
+  );
+  const node = rootData?.node;
+  const subjectId = node?.context?.rootId || subId;
+  const resourceId = node?.id || rId;
+  const topicId = node?.context?.parentIds?.slice(-1)?.[0] || tId;
+
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
       subjectId,
@@ -86,18 +124,20 @@ const ResourcePage = () => {
       resourceId,
       transformArgs: {
         subjectId,
+        prettyUrl: enablePrettyUrls,
       },
     },
+    skip: rootLoading,
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
 
   const topicPath = useMemo(() => {
     if (!data?.resource?.path) return [];
-    return getTopicPath(data.resource.contexts, data.resource.path);
+    return data.resource.context?.parents ?? [];
   }, [data?.resource]);
 
-  if (loading) {
+  if (loading || rootLoading) {
     return <ContentPlaceholder variant="article" />;
   }
 
@@ -122,7 +162,7 @@ const ResourcePage = () => {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInPaths(location, data.resource)) {
+  if (data.resource && !urlInContexts(location, data.resource.contexts)) {
     if (data.resource.paths?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {

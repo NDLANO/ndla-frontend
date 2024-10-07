@@ -11,14 +11,13 @@ import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_SubjectFragment,
   GQLLastLearningpathStepInfo_TopicFragment,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
-import { toTopic } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 
 const LinksWrapper = styled("div", {
   base: {
@@ -38,36 +37,23 @@ const StyledHGroup = styled("hgroup", {
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
-  subject?: GQLLastLearningpathStepInfo_SubjectFragment;
-  topicPath?: TopicPath[];
+  topicPath?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
 }
-const LastLearningpathStepInfo = ({
-  topic,
-  subject,
-  topicPath,
-  resourceTypes,
-  seqNo,
-  numberOfLearningSteps,
-  title,
-}: Props) => {
+const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
 
   if (!isLastStep) {
     return null;
   }
 
-  const linkTopic =
-    !!topicPath && topicPath.length > 1
-      ? {
-          path: toTopic(topicPath[0]!.id, ...topicPath.slice(1).map((tp) => tp.id)),
-          name: topicPath[topicPath.length - 1]?.name,
-        }
-      : undefined;
+  const root = topicPath?.[0];
+  const parent = topicPath?.toReversed()?.[0];
 
   return (
     <>
@@ -78,18 +64,20 @@ const LastLearningpathStepInfo = ({
         <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
       </StyledHGroup>
       <LinksWrapper>
-        {!!subject?.path && (
+        {!!root && (
           <Text>
-            {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
+            {t("learningPath.lastStep.subjectHeading")}{" "}
+            <SafeLink to={enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
           </Text>
         )}
-        {!!linkTopic?.path && (
+        {!!parent && (
           <Text>
-            {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+            {t("learningPath.lastStep.topicHeading")}{" "}
+            <SafeLink to={enablePrettyUrls ? parent.url : parent.path}>{parent.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>
-      {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
+      {resourceTypes && !!topic?.children?.length && (
         <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
       )}
     </>
@@ -98,17 +86,11 @@ const LastLearningpathStepInfo = ({
 
 LastLearningpathStepInfo.fragments = {
   topic: gql`
-    fragment LastLearningpathStepInfo_Topic on Topic {
+    fragment LastLearningpathStepInfo_Topic on Node {
       id
       ...Resources_Topic
     }
     ${Resources.fragments.topic}
-  `,
-  subject: gql`
-    fragment LastLearningpathStepInfo_Subject on Subject {
-      path
-      name
-    }
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {

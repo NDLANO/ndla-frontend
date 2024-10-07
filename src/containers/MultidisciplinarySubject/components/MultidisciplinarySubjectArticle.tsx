@@ -27,6 +27,7 @@ import { useArticleCopyText, useNavigateToHash } from "../../../components/Artic
 import { AuthContext } from "../../../components/AuthenticationContext";
 import CompetenceGoals from "../../../components/CompetenceGoals";
 import LicenseBox from "../../../components/license/LicenseBox";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import config from "../../../config";
 import {
@@ -34,9 +35,8 @@ import {
   GQLMultidisciplinarySubjectArticle_SubjectFragment,
   GQLMultidisciplinarySubjectArticle_TopicFragment,
 } from "../../../graphqlTypes";
-import { removeUrn, toBreadcrumbItems } from "../../../routeHelpers";
+import { toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
@@ -94,8 +94,9 @@ interface Props {
 const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => getTopicPath(topic.contexts, topic.path), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => topic.context?.parents ?? [], [topic]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -111,11 +112,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(
-      t("breadcrumb.toFrontpage"),
-      topicPath.concat({ name: topic.name, id: `/${removeUrn(topic.id)}` }),
-    );
-  }, [t, topic.id, topic.name, topicPath]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, topic], enablePrettyUrls);
+  }, [t, topic, topicPath, enablePrettyUrls]);
 
   const [article, scripts] = useMemo(() => {
     if (!topic.article) return [undefined, undefined];
@@ -207,13 +205,24 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 
 export const multidisciplinarySubjectArticleFragments = {
   topic: gql`
-    fragment MultidisciplinarySubjectArticle_Topic on Topic {
-      path
+    fragment MultidisciplinarySubjectArticle_Topic on Node {
       id
-      contexts {
+      name
+      path
+      url
+      context {
+        contextId
         breadcrumbs
         parentIds
         path
+        url
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       resourceTypes {
         id
@@ -235,10 +244,11 @@ export const multidisciplinarySubjectArticleFragments = {
     ${Article.fragments.article}
   `,
   subject: gql`
-    fragment MultidisciplinarySubjectArticle_Subject on Subject {
-      name
+    fragment MultidisciplinarySubjectArticle_Subject on Node {
       id
+      name
       path
+      url
       subjectpage {
         id
         about {

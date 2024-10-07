@@ -14,9 +14,9 @@ import { AuthContext } from "./AuthenticationContext";
 import FavoriteButton from "./MyNdla/FavoriteButton";
 import LoginModalContent from "./MyNdla/LoginModalContent";
 import { useToast } from "./ToastContext";
-import { Subject } from "../containers/AllSubjectsPage/interfaces";
 import DeleteModalContent from "../containers/MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../containers/MyNdla/userMutations";
+import { GQLTaxBase } from "../graphqlTypes";
 
 const SafeLinkWrapper = styled("div", {
   base: {
@@ -28,7 +28,7 @@ const SafeLinkWrapper = styled("div", {
 });
 
 interface Props {
-  subject: Subject;
+  subject: GQLTaxBase;
   favorites: string[] | undefined;
   subjectLinkOrText: ReactNode;
 }

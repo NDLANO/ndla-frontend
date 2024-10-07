@@ -12,6 +12,7 @@ import { gql } from "@apollo/client";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -39,6 +40,7 @@ const plainArticlePageQuery = gql`
 const PlainArticlePage = () => {
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const { loading, data, error } = useGraphQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
@@ -50,6 +52,7 @@ const PlainArticlePage = () => {
           showVisualElement: "true",
           path: pathname,
           isOembed: "false",
+          prettyUrl: enablePrettyUrls,
         },
       },
     },

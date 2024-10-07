@@ -15,6 +15,7 @@ import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
@@ -24,16 +25,16 @@ import {
   GQLLearningpathPage_SubjectFragment,
   GQLLearningpathPage_TopicFragment,
   GQLLearningpathStep,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
   topic?: GQLLearningpathPage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: GQLTaxonomyCrumb[];
   subject?: GQLLearningpathPage_SubjectFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_ResourceFragment;
@@ -49,6 +50,7 @@ interface Props {
 const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
@@ -97,13 +99,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems =
-    subject && topicPath
-      ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [
-          ...topicPath,
-          { name: learningpath.title, id: `${learningpath.id}` },
-        ])
-      : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
+  const breadcrumbItems = topicPath
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls)
+    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource], enablePrettyUrls);
 
   return (
     <>
@@ -124,7 +122,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        resourcePath={resource.path}
+        resourcePath={enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
@@ -151,14 +149,17 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
 
 export const learningpathPageFragments = {
   topic: gql`
-    fragment LearningpathPage_Topic on Topic {
+    fragment LearningpathPage_Topic on Node {
       ...Learningpath_Topic
     }
     ${Learningpath.fragments.topic}
   `,
   subject: gql`
-    fragment LearningpathPage_Subject on Subject {
+    fragment LearningpathPage_Subject on Node {
       id
+      name
+      path
+      url
       metadata {
         customFields
       }
@@ -179,9 +180,11 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.resourceType}
   `,
   resource: gql`
-    fragment LearningpathPage_Resource on Resource {
+    fragment LearningpathPage_Resource on Node {
       id
+      name
       path
+      url
       learningpath {
         supportedLanguages
         tags

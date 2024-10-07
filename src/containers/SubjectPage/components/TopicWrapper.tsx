@@ -12,19 +12,21 @@ import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
 import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
 import { PageSpinner } from "../../../components/PageSpinner";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_SubjectFragment,
 } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
-import { getTopicPath } from "../../../util/getTopicPath";
 import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
   topicId: string;
+  topicIds: string[];
+  activeTopic: boolean;
   subjectId: string;
+  subjectType?: string;
   subTopicId?: string;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   showResources: boolean;
@@ -33,7 +35,7 @@ type Props = {
 
 const topicWrapperQuery = gql`
   query topicWrapper($topicId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       id
       ...Topic_Topic
     }
@@ -45,7 +47,18 @@ const topicWrapperQuery = gql`
   ${topicFragments.resourceType}
 `;
 
-const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResources, subject }: Props) => {
+const TopicWrapper = ({
+  topicId,
+  topicIds,
+  activeTopic,
+  subjectId,
+  subjectType,
+  subTopicId,
+  setBreadCrumb,
+  showResources,
+  subject,
+}: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const navigate = useNavigate();
   const { data, loading, error } = useGraphQuery<GQLTopicWrapperQuery, GQLTopicWrapperQueryVariables>(
     topicWrapperQuery,
@@ -55,19 +68,20 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
         subjectId,
         transformArgs: {
           subjectId,
+          prettyUrl: enablePrettyUrls,
         },
       },
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          const topicPath = getTopicPath(topic.contexts, topic.path);
+          const topicPath = topic.context?.parents ?? [];
           const newCrumbs = topicPath
             .map((tp) => ({
-              to: `/${removeUrn(tp.id)}`,
+              to: (enablePrettyUrls ? tp.url : tp.path) || "",
               name: tp.name,
             }))
             .slice(1);
-          setBreadCrumb(newCrumbs.concat({ to: topic.id, name: topic.name }));
+          setBreadCrumb(newCrumbs.concat({ to: (enablePrettyUrls ? topic.url : topic.path) || "", name: topic.name }));
         }
       },
     },
@@ -90,10 +104,12 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
 
   return (
     <SubjectTopic
+      key={topicId}
+      topicIds={topicIds}
       topic={data.topic}
       resourceTypes={data.resourceTypes}
-      topicId={topicId}
-      subjectId={subjectId}
+      activeTopic={activeTopic}
+      subjectType={subjectType}
       subTopicId={subTopicId}
       showResources={showResources}
       subject={subject}
@@ -104,7 +120,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
 
 TopicWrapper.fragments = {
   subject: gql`
-    fragment TopicWrapper_Subject on Subject {
+    fragment TopicWrapper_Subject on Node {
       ...Topic_Subject
     }
     ${topicFragments.subject}

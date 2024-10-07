@@ -74,6 +74,11 @@ export const routes = [
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
+  ":name/f/:contextId",
+  ":root/:name/f/:contextId",
+  ":root/:name/e/:contextId",
+  ":root/:name/r/:contextId",
+  ":root/:name/r/:contextId/:stepId",
   "minndla",
   ...privateRoutes,
 ];

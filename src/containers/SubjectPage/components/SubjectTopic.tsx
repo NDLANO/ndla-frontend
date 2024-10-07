@@ -19,6 +19,7 @@ import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import NavigationBox from "../../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import Topic from "../../../components/Topic/Topic";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -27,8 +28,6 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
-import { toTopic, useUrnIds } from "../../../routeHelpers";
-import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
@@ -42,10 +41,10 @@ const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] })
 const PAGE = "page" as const;
 
 type Props = {
-  topicId: string;
-  subjectId: string;
+  topicIds: string[];
+  activeTopic: boolean;
+  subjectType?: string;
   subTopicId?: string;
-  index?: number;
   showResources?: boolean;
   subject?: GQLTopic_SubjectFragment;
   loading?: boolean;
@@ -54,8 +53,9 @@ type Props = {
 };
 
 const SubjectTopic = ({
-  topicId,
-  subjectId,
+  topicIds,
+  activeTopic,
+  subjectType,
   subTopicId,
   topic,
   resourceTypes,
@@ -64,25 +64,20 @@ const SubjectTopic = ({
   subject,
 }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
-  const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
   const topicRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (topicList[topicList.length - 1] === topicId && topicRef.current) {
+    if (activeTopic && topicRef.current) {
       scrollToRef(topicRef, mastheadHeightPx);
       if (document.activeElement?.nodeName !== "BODY") {
         document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
       }
     }
-  }, [mastheadHeightPx, topicId, topicList]);
-
-  const topicPath = useMemo(() => {
-    if (!topic?.path) return [];
-    return getTopicPath(topic.contexts, topic.path);
-  }, [topic]);
+  }, [mastheadHeightPx, activeTopic]);
 
   useEffect(() => {
     if (showResources && !loading && topic.article && authContextLoaded) {
@@ -107,7 +102,7 @@ const SubjectTopic = ({
   }, [embedMeta]);
 
   const resources = useMemo(() => {
-    if (topic.coreResources?.length || topic.supplementaryResources?.length) {
+    if (topic.children?.length) {
       return <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />;
     }
     return null;
@@ -122,10 +117,8 @@ const SubjectTopic = ({
       ...subtopic,
       label: subtopic.name,
       current:
-        subtopic.id === subTopicId && subtopic.id === topicList[topicList.length - 1]
-          ? PAGE
-          : subtopic.id === subTopicId,
-      url: toTopic(subjectId, ...topicPath.slice(1).map((t) => t.id), topic?.id, subtopic.id),
+        subtopic.id === subTopicId && subtopic.id === topicIds[topicIds.length - 1] ? PAGE : subtopic.id === subTopicId,
+      url: enablePrettyUrls ? subtopic.url : subtopic.path,
       isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
@@ -136,7 +129,7 @@ const SubjectTopic = ({
 
   return (
     <>
-      {urnTopicId === topicId && (
+      {activeTopic && (
         <>
           <Helmet>
             <title>{pageTitle}</title>
@@ -152,13 +145,13 @@ const SubjectTopic = ({
       <Topic
         visualElement={visualElement}
         visualElementEmbedMeta={embedMeta}
-        id={urnTopicId === topicId ? SKIP_TO_CONTENT_ID : undefined}
+        id={activeTopic ? SKIP_TO_CONTENT_ID : undefined}
         title={parse(topic.article.htmlTitle ?? "")}
         introduction={parse(topic.article.htmlIntroduction ?? "")}
         isAdditionalTopic={topic.relevanceId === RELEVANCE_SUPPLEMENTARY}
         ref={topicRef}
       />
-      {subjectType === "multiDisciplinary" && topicList.length === 2 && urnTopicId === topicId ? (
+      {subjectType === "multiDisciplinary" && topicIds.length === 2 && activeTopic ? (
         <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
       ) : subTopics?.length ? (
         <NavigationBox
@@ -178,20 +171,23 @@ const SubjectTopic = ({
 
 export const topicFragments = {
   subject: gql`
-    fragment Topic_Subject on Subject {
+    fragment Topic_Subject on Node {
       id
       name
     }
   `,
   topic: gql`
-    fragment Topic_Topic on Topic {
+    fragment Topic_Topic on Node {
       id
-      path
       name
+      path
+      url
       relevanceId
-      subtopics {
+      subtopics: children(nodeType: "TOPIC") {
         id
         name
+        path
+        url
         relevanceId
         ...MultidisciplinaryArticleList_Topic
       }
@@ -203,10 +199,19 @@ export const topicFragments = {
         }
       }
       supportedLanguages
-      contexts {
+      context {
+        contextId
         breadcrumbs
         parentIds
         path
+        url
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       article {
         id

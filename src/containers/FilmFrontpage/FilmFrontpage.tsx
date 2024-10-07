@@ -30,8 +30,9 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
@@ -85,12 +86,13 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
+    variables: { subjectId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -126,10 +128,13 @@ const FilmFrontpage = () => {
             </Heading>
             <NavigationBox
               heading={t("ndlaFilm.topics")}
-              items={subject?.topics?.map((topic) => ({
-                label: topic.name,
-                url: topic.path,
-              }))}
+              items={subject?.topics?.map((topic) => {
+                const path = enablePrettyUrls ? topic.url : topic.path;
+                return {
+                  label: topic.name,
+                  url: path,
+                };
+              })}
             />
           </Wrapper>
           <Wrapper>
@@ -199,13 +204,16 @@ const filmFrontPageQuery = gql`
         ...Article_Article
       }
     }
-    subject(id: $subjectId) {
+    subject: node(id: $subjectId) {
       id
       name
-      topics {
+      path
+      url
+      topics: children(nodeType: "TOPIC") {
         id
-        path
         name
+        path
+        url
       }
     }
   }

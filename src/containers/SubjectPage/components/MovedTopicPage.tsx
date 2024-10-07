@@ -120,9 +120,11 @@ const MovedTopicPage = ({ topics }: Props) => {
 
 MovedTopicPage.fragments = {
   topic: gql`
-    fragment MovedTopicPage_Topic on Topic {
+    fragment MovedTopicPage_Topic on Node {
       id
+      name
       path
+      url
       name
       breadcrumbs
       meta {
@@ -133,6 +135,7 @@ MovedTopicPage.fragments = {
         }
       }
       contexts {
+        contextId
         breadcrumbs
       }
     }

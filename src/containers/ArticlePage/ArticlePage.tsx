@@ -35,6 +35,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -43,12 +44,12 @@ import {
   GQLArticlePage_ResourceTypeFragment,
   GQLArticlePage_SubjectFragment,
   GQLArticlePage_TopicFragment,
+  GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -58,7 +59,7 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_ResourceFragment;
   topic?: GQLArticlePage_TopicFragment;
-  topicPath: TopicPath[];
+  topicPath: GQLTaxonomyCrumb[];
   relevance: string;
   subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
@@ -112,6 +113,7 @@ const ArticlePage = ({
 }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const subjectPageUrl = config.ndlaFrontendDomain;
 
@@ -127,7 +129,7 @@ const ArticlePage = ({
         title: getDocumentTitle(t, resource, subject),
       });
     }
-  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, subject, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
@@ -174,7 +176,7 @@ const ArticlePage = ({
   const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls);
 
   const authors =
     article.copyright?.creators.length || article.copyright?.rightsholders.length
@@ -299,9 +301,11 @@ export const articlePageFragments = {
     ${Resources.fragments.resourceType}
   `,
   subject: gql`
-    fragment ArticlePage_Subject on Subject {
+    fragment ArticlePage_Subject on Node {
       id
       name
+      path
+      url
       metadata {
         customFields
       }
@@ -314,10 +318,11 @@ export const articlePageFragments = {
     }
   `,
   resource: gql`
-    fragment ArticlePage_Resource on Resource {
+    fragment ArticlePage_Resource on Node {
       id
       name
       path
+      url
       contentUri
       resourceTypes {
         name
@@ -337,8 +342,11 @@ export const articlePageFragments = {
     ${Article.fragments.article}
   `,
   topic: gql`
-    fragment ArticlePage_Topic on Topic {
+    fragment ArticlePage_Topic on Node {
+      id
+      name
       path
+      url
       ...Resources_Topic
     }
     ${Resources.fragments.topic}

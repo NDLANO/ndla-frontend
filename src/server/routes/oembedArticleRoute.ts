@@ -25,6 +25,11 @@ const baseUrl = apiResourceUrl("/taxonomy/v1");
 const fetchNode = (id: string, locale: string): Promise<Node> =>
   fetch(`${baseUrl}/nodes/${id}?language=${locale}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<Node>);
 
+const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =>
+  fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`)
+    .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
+    .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
+
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
     data: {
@@ -39,7 +44,7 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
   };
 }
 
-type MatchParams = "resourceId" | "topicId" | "lang" | "articleId";
+type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
@@ -56,16 +61,16 @@ const getApolloClient = (locale: string, req: express.Request) => {
 
 const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Request) => {
   const {
-    params: { resourceId, topicId, lang = config.defaultLocale },
+    params: { contextId, resourceId, topicId, lang = config.defaultLocale },
   } = match;
-  if (!topicId && !resourceId) {
+  if (!contextId && !topicId && !resourceId) {
     return {};
   }
 
   const height = req.query.height || 480;
   const width = req.query.width || 854;
   const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
-  const node = await fetchNode(nodeId, lang);
+  const node = contextId ? await queryNodeByContexts(contextId, lang) : await fetchNode(nodeId, lang);
   const articleId = getArticleIdFromResource(node);
 
   return {
@@ -142,7 +147,17 @@ export async function oembedArticleRoute(req: express.Request) {
   }
 
   const {
-    params: { resourceId, audioId, conceptId, h5pId, videoId, imageId, topicId, lang = config.defaultLocale },
+    params: {
+      contextId,
+      resourceId,
+      audioId,
+      conceptId,
+      h5pId,
+      videoId,
+      imageId,
+      topicId,
+      lang = config.defaultLocale,
+    },
   } = match;
   try {
     if (conceptId) {
@@ -155,7 +170,7 @@ export async function oembedArticleRoute(req: express.Request) {
       return await getEmbedObject(lang, imageId, "image", req);
     } else if (h5pId) {
       return await getEmbedObject(lang, h5pId, "h5p", req);
-    } else if (!resourceId && !topicId) {
+    } else if (!resourceId && !topicId && !contextId) {
       const {
         params: { articleId },
       } = match;
