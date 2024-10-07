@@ -28,7 +28,7 @@ import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 
-const getStateSearchParams = (searchParams: Record<string, any>) => {
+export const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
   Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
