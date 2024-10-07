@@ -130,6 +130,7 @@ export const copyrightInfoFragment = gql`
       ...ContributorInfo
     }
     origin
+    processed
   }
 `;
 

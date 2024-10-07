@@ -7,14 +7,23 @@
  */
 
 import { Image } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { ImageEmbed } from "@ndla/ui";
+import { EmbedByline, ImageEmbed } from "@ndla/ui";
 import { GQLArticle } from "../../../graphqlTypes";
 
 interface Props {
   embed: EmbedMetaData;
-  metaImage: GQLArticle["metaImage"];
+  metaImage?: GQLArticle["metaImage"];
 }
+
+const StyledFigure = styled("figure", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+});
 
 const TopicVisualElementContent = ({ embed, metaImage }: Props) => {
   if (embed.resource === "image") {
@@ -23,9 +32,16 @@ const TopicVisualElementContent = ({ embed, metaImage }: Props) => {
     return null;
   } else {
     return (
-      <figure>
+      <StyledFigure>
         <Image src={metaImage?.url ?? ""} alt={metaImage?.alt ?? ""} />
-      </figure>
+        {metaImage.copyright ? (
+          <EmbedByline
+            type="image"
+            copyright={{ ...metaImage.copyright, processed: !!metaImage.copyright.processed }}
+            hideDescription
+          />
+        ) : null}
+      </StyledFigure>
     );
   }
 };
