@@ -19,7 +19,6 @@ import {
   TypeFilter,
   mapSubjectDataToGroup,
 } from "./searchHelpers";
-import { getStateSearchParams } from "./SearchPage";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
@@ -28,6 +27,14 @@ import { groupSearchQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
+
+export const getStateSearchParams = (searchParams: Record<string, any>) => {
+  const stateSearchParams: Record<string, any> = {};
+  Object.keys(searchParams).forEach((key) => {
+    stateSearchParams[key] = convertSearchParam(searchParams[key]);
+  });
+  return stateSearchParams;
+};
 
 export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>["competenceGoals"][0];
 
