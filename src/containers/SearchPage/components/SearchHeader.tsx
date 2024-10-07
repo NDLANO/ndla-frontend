@@ -173,7 +173,7 @@ const SearchHeader = ({
                   {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
                 </Text>
               ) : (
-                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")}${query}`}</Text>
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
               )}
               {suggestion && (
                 <Text textStyle="label.small">
