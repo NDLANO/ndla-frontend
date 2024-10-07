@@ -58,7 +58,7 @@ const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", fl
 
 const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledHitsWrapper = styled("div", { base: { marginTop: "xsmall" } });
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall" } });
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
