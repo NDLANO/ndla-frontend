@@ -90,15 +90,15 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
   return (
     <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
       {folders.length > 0 && (
-        <BlockWrapper>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={sortFolderIds}
-            accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-          >
-            <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={sortFolderIds}
+          accessibility={{ announcements }}
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        >
+          <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
+            <BlockWrapper>
               {folders.map((folder, index) => (
                 <DraggableFolder
                   key={`folder-${folder.id}`}
@@ -111,9 +111,9 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
                   isFavorited={isFavorited}
                 />
               ))}
-            </SortableContext>
-          </DndContext>
-        </BlockWrapper>
+            </BlockWrapper>
+          </SortableContext>
+        </DndContext>
       )}
     </WhileLoading>
   );

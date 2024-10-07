@@ -106,19 +106,19 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
   return (
-    <StyledBlockWrapper variant={viewType}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={sortResourceIds}
-        accessibility={{ announcements }}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={sortResourceIds}
+      accessibility={{ announcements }}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    >
+      <SortableContext
+        items={sortedResources}
+        disabled={sortedResources.length < 2}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={sortedResources}
-          disabled={sortedResources.length < 2}
-          strategy={verticalListSortingStrategy}
-        >
+        <StyledBlockWrapper variant={viewType}>
           {resources.map((resource, index) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return (
@@ -136,9 +136,9 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
               />
             );
           })}
-        </SortableContext>
-      </DndContext>
-    </StyledBlockWrapper>
+        </StyledBlockWrapper>
+      </SortableContext>
+    </DndContext>
   );
 };
 
