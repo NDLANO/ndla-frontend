@@ -24,7 +24,7 @@ import { useGraphQuery } from "../../util/runQueries";
 import { searchSubjects } from "../../util/searchHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 
-const getStateSearchParams = (searchParams: Record<string, any>) => {
+export const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
   Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
