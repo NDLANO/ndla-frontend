@@ -132,6 +132,14 @@ const TextWrapper = styled("div", {
   },
 });
 
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
+
+const SuggestionButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
+
 const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
@@ -232,6 +240,8 @@ const MastheadSearch = () => {
     [mappedItems],
   );
 
+  const suggestion = searchResult?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+
   return (
     <DialogRoot
       open={dialogState.open}
@@ -302,6 +312,27 @@ const MastheadSearch = () => {
                 <SearchLine />
               </IconButton>
             </ComboboxControl>
+            <StyledHitsWrapper aria-live="assertive">
+              {!loading && query && (
+                <div>
+                  {!(mappedItems.length > 1) ? (
+                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                  ) : (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.showingSearchPhrase")} &ldquo;{query}&rdquo;
+                    </Text>
+                  )}
+                  {suggestion && (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.searchPhraseSuggestion")}
+                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                        [{suggestion}]
+                      </SuggestionButton>
+                    </Text>
+                  )}
+                </div>
+              )}
+            </StyledHitsWrapper>
             {!!mappedItems.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
