@@ -318,9 +318,7 @@ const MastheadSearch = () => {
                   {!(mappedItems.length > 1) ? (
                     <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
                   ) : (
-                    <Text textStyle="label.small">
-                      {t("searchPage.resultType.showingSearchPhrase")} &ldquo;{query}&rdquo;
-                    </Text>
+                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")}${query}`}</Text>
                   )}
                   {suggestion && (
                     <Text textStyle="label.small">
