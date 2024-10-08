@@ -18,6 +18,7 @@
     "format-check": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --check",
     "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'tsx src/index.ts'",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start-minimal": "NODE_OPTIONS='--preserve-symlinks' tsx src/index.ts",
     "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
