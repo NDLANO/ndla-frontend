@@ -9,6 +9,7 @@
 import fs from "fs/promises";
 import { join } from "path";
 import express, { NextFunction, Request, Response } from "express";
+import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router-dom";
 import serialize from "serialize-javascript";
@@ -49,14 +50,13 @@ if (!isProduction) {
   app.use(base, sirv("./build/public", { extensions: [] }));
 }
 
-// TODO: Add metrics middleware when its ready for express 5.0
-// const metricsMiddleware = promBundle({
-//   includeMethod: true,
-//   includePath: false,
-//   excludeRoutes: ["/health"],
-// });
-//
-// app.use(metricsMiddleware);
+const metricsMiddleware = promBundle({
+  includeMethod: true,
+  includePath: false,
+  excludeRoutes: ["/health"],
+});
+
+app.use(metricsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
