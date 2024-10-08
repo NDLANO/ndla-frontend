@@ -27,6 +27,7 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
+import { copyrightInfoFragment } from "../../../queries";
 import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
@@ -103,8 +104,8 @@ const SubjectTopic = ({
 
   const visualElement = useMemo(() => {
     if (!embedMeta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} />;
-  }, [embedMeta]);
+    return <TopicVisualElementContent embed={embedMeta} metaImage={topic.article?.metaImage} />;
+  }, [embedMeta, topic.article?.metaImage]);
 
   const resources = useMemo(() => {
     if (topic.coreResources?.length || topic.supplementaryResources?.length) {
@@ -217,6 +218,9 @@ export const topicFragments = {
         metaImage {
           url
           alt
+          copyright {
+            ...CopyrightInfo
+          }
         }
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {
@@ -229,6 +233,7 @@ export const topicFragments = {
     }
     ${MultidisciplinaryArticleList.fragments.topic}
     ${Resources.fragments.topic}
+    ${copyrightInfoFragment}
   `,
   resourceType: gql`
     fragment Topic_ResourceTypeDefinition on ResourceTypeDefinition {

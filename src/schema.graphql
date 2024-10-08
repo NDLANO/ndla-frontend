@@ -194,7 +194,7 @@ type Article {
   introduction: String
   language: String!
   metaDescription: String!
-  metaImage: MetaImage
+  metaImage: MetaImageWithCopyright
   oembed: String
   oldNdlaUrl: String
   published: String!
@@ -790,7 +790,7 @@ type LearningpathStep {
   license: License
   metaUrl: String!
   oembed: LearningpathStepOembed
-  resource: Resource
+  resource(parentId: String, rootId: String): Resource
   revision: Int!
   seqNo: Int!
   showTitle: Boolean!
@@ -847,6 +847,12 @@ type MetaImage {
   url: String!
 }
 
+type MetaImageWithCopyright {
+  alt: String!
+  copyright: Copyright!
+  url: String!
+}
+
 type Movie {
   id: String!
   metaDescription: String!
@@ -854,17 +860,13 @@ type Movie {
   path: String!
   resourceTypes: [ResourceType!]!
   title: String!
+  url: String!
 }
 
 type MovieMeta {
   metaDescription: String
   metaImage: MetaImage
   title: String!
-}
-
-type MoviePath {
-  path: String
-  paths: [String!]
 }
 
 type MovieResourceTypes {
@@ -927,6 +929,7 @@ type Mutation {
     absoluteUrl: Boolean
     content: String!
     draftConcept: Boolean
+    prettyUrl: Boolean
     previewH5p: Boolean
     subject: String
     visualElement: String
@@ -989,6 +992,36 @@ type NewFolderResource {
   path: String!
   resourceType: String!
   tags: [String!]
+}
+
+type Node implements TaxBase & TaxonomyEntity & WithArticle {
+  alternateNodes: [Node!]
+  article: Article
+  availability: String
+  breadcrumbs: [String!]!
+  children(nodeType: String, recursive: Boolean): [Node!]
+  connectionId: String
+  contentUri: String
+  context: TaxonomyContext
+  contextId: String
+  contexts: [TaxonomyContext!]!
+  grepCodes: [String!]
+  id: String!
+  language: String
+  learningpath: Learningpath
+  meta: Meta
+  metadata: TaxonomyMetadata!
+  name: String!
+  nodeType: String!
+  parentId: String
+  path: String
+  paths: [String!]!
+  rank: Int
+  relevanceId: String
+  resourceTypes: [ResourceType!]
+  subjectpage: SubjectPage
+  supportedLanguages: [String!]!
+  url: String
 }
 
 type Owner {
@@ -1166,6 +1199,16 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
+  node(contextId: String, id: String, parentId: String, rootId: String): Node
+  nodeByArticleId(articleId: String, nodeId: String): Node
+  nodes(
+    contentUri: String
+    filterVisible: Boolean
+    ids: [String!]
+    metadataFilterKey: String
+    metadataFilterValue: String
+    nodeType: String
+  ): [Node!]
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes
@@ -1229,11 +1272,13 @@ type RelatedContent {
   url: String!
 }
 
-type Resource implements TaxonomyEntity & WithArticle {
+type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
+  contextId: String
   contexts: [TaxonomyContext!]!
   id: String!
   language: String
@@ -1241,6 +1286,7 @@ type Resource implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   parents: [Topic!]
   path: String
   paths: [String!]!
@@ -1275,7 +1321,6 @@ type ResourceMetaData {
 type ResourceType {
   id: String!
   name: String!
-  resources(topicId: String!): [Resource!]
 }
 
 type ResourceTypeDefinition {
@@ -1363,16 +1408,19 @@ type SortResult {
 
 scalar StringRecord
 
-type Subject implements TaxonomyEntity {
+type Subject implements TaxBase & TaxonomyEntity {
   allTopics: [Topic!]
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
+  contextId: String
   contexts: [TaxonomyContext!]!
   grepCodes: [String!]
   id: String!
   language: String
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   path: String
   paths: [String!]!
   relevanceId: String
@@ -1386,6 +1434,7 @@ type Subject implements TaxonomyEntity {
 type SubjectLink {
   name: String
   path: String
+  url: String
 }
 
 type SubjectPage {
@@ -1434,9 +1483,29 @@ type Tags {
   tags: [String!]!
 }
 
+interface TaxBase {
+  id: String!
+  name: String!
+  path: String
+  url: String
+}
+
 type TaxonomyContext {
   breadcrumbs: [String!]!
+  contextId: String!
+  name: String!
   parentIds: [String!]!
+  parents: [TaxonomyCrumb!]
+  path: String!
+  relevance: String!
+  rootId: String!
+  url: String!
+}
+
+type TaxonomyCrumb implements TaxBase {
+  contextId: String!
+  id: String!
+  name: String!
   path: String!
   url: String!
 }
@@ -1444,11 +1513,14 @@ type TaxonomyContext {
 interface TaxonomyEntity {
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
+  contextId: String
   contexts: [TaxonomyContext!]!
   id: String!
   language: String
   metadata: TaxonomyMetadata!
   name: String!
+  nodeType: String!
   path: String
   paths: [String!]!
   relevanceId: String
@@ -1473,12 +1545,14 @@ type Title {
   title: String!
 }
 
-type Topic implements TaxonomyEntity & WithArticle {
+type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   alternateTopics: [Topic!]
   article: Article
   availability: String
   breadcrumbs: [String!]!
   contentUri: String
+  context: TaxonomyContext
+  contextId: String
   contexts: [TaxonomyContext!]!
   coreResources(subjectId: String): [Resource!]
   id: String!
@@ -1487,10 +1561,9 @@ type Topic implements TaxonomyEntity & WithArticle {
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!
-  parent: String
+  nodeType: String!
   parentId: String
   path: String
-  pathTopics: [[Topic!]!]
   paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1532,6 +1605,7 @@ input TransformedArticleContentInput {
   draftConcept: Boolean
   isOembed: String
   path: String
+  prettyUrl: Boolean
   previewH5p: Boolean
   showVisualElement: String
   subjectId: String
@@ -1587,6 +1661,8 @@ type VisualElementOembed {
 }
 
 interface WithArticle {
+  article: Article
   availability: String
+  contentUri: String
   meta: Meta
 }
