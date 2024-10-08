@@ -46,13 +46,18 @@ interface SearchParams {
 }
 const LtiProvider = ({ locale: propsLocale }: Props) => {
   const ltiContext = useLtiData();
-  const [searchParams, setSearchParams] = useState<SearchParams>({
-    query: "",
-    subjects: [],
-    programs: [],
-    selectedFilters: [],
-    activeSubFilters: [],
-  });
+  const storageSearchParams = sessionStorage.getItem("searchParams");
+  const [searchParams, setSearchParams] = useState<SearchParams>(
+    storageSearchParams
+      ? JSON.parse(storageSearchParams)
+      : {
+          query: "",
+          subjects: [],
+          programs: [],
+          selectedFilters: [],
+          activeSubFilters: [],
+        },
+  );
   const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
 
@@ -70,7 +75,8 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
     document.documentElement.lang = lang;
   });
 
-  const handleSearchParamsChange = (searchParamUpdates: { selectedFilters?: string[] }) => {
+  const handleSearchParamsChange = (searchParamUpdates: Partial<SearchParams>) => {
+    sessionStorage.setItem("searchParams", JSON.stringify({ ...searchParams, ...searchParamUpdates }));
     const selectedFilters = searchParamUpdates.selectedFilters ?? [];
     setSearchParams((prevState) => ({
       ...prevState,
