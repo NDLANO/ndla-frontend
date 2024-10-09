@@ -26,9 +26,6 @@ import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { constructNewPath } from "../util/urlHelper";
 
-// To handle uncaught exceptions in async express
-await import("express-async-errors");
-
 const router = express.Router();
 
 router.get("/robots.txt", (req, res) => {
@@ -78,7 +75,7 @@ const getLang = (paramLang?: string, cookieLang?: string | null): string | undef
   return undefined;
 };
 
-router.get("/:lang?/login", async (req, res) => {
+router.get(["/:lang/login", "/login"], async (req, res) => {
   const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === "string" ? req.query.state : "";
@@ -122,7 +119,7 @@ router.get("/login/success", async (req, res) => {
   return res.redirect(state);
 });
 
-router.get("/:lang?/logout", async (req, res) => {
+router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === "string" ? req.query.state : "/";
@@ -146,7 +143,7 @@ router.get("/logout/session", (req, res) => {
   return res.redirect(redirect);
 });
 
-router.get("/:lang?/subjects/:path(*)", (req, res) => {
+router.get(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
   const { lang, path } = req.params;
   res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
 });
@@ -161,13 +158,12 @@ router.get("/utdanningsprogram-sitemap.txt", async (_req, res) => {
   sendResponse(res, undefined, 410);
 });
 
-router.get("/podkast/:seriesId/feed.xml", podcastFeedRoute);
-router.get("/podkast/:seriesId_:seriesTitle/feed.xml", podcastFeedRoute);
+router.get(["/podkast/:seriesId/feed.xml", `/podkast/:"seriesId"_:seriesTitle/feed.xml`], podcastFeedRoute);
 
 router.post("/lti/oauth", async (req, res) => {
   const { body, query } = req;
   if (!body || !query.url || typeof query.url !== "string") {
-    res.send(BAD_REQUEST);
+    res.sendStatus(BAD_REQUEST);
     return;
   }
   res.setHeader("Cache-Control", "private");
@@ -177,12 +173,14 @@ router.post("/lti/oauth", async (req, res) => {
 /** Handle different paths to a node in old ndla. */
 ["node", "printpdf", "easyreader", "contentbrowser/node", "print", "aktualitet", "oppgave", "fagstoff"].forEach(
   (path) => {
-    router.get(`/:lang?/${path}/:nodeId`, async (req, res, next) => forwardingRoute(req, res, next));
-    router.get(`/:lang?/${path}/:nodeId/*`, async (req, res, next) => forwardingRoute(req, res, next));
+    router.get(
+      [`/:lang/${path}/:nodeId`, `/:lang/${path}/:nodeId/*splat`, `/${path}/:nodeId`, `/${path}/:nodeId/*splat`],
+      async (req, res, next) => forwardingRoute(req, res, next),
+    );
   },
 );
 
-router.get("/*/search/apachesolr_search*", (_, res) => {
+router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);
 });
 

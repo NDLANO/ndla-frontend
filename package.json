@@ -18,6 +18,7 @@
     "format-check": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --check",
     "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'tsx src/index.ts'",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
+    "start-minimal": "NODE_OPTIONS='--preserve-symlinks' tsx src/index.ts",
     "start-without-ssr": "cross-env DISABLE_SSR=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-with-local-graphql": "cross-env LOCAL_GRAPHQL_API=true NODE_OPTIONS='--preserve-symlinks' yarn start",
     "start-prod": "cross-env NODE_ENV=production node build/server.mjs",
@@ -51,7 +52,7 @@
     "@sentry/vite-plugin": "^2.22.4",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^15.0.2",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
@@ -101,8 +102,7 @@
     "@sentry/react": "^8.32.0",
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
-    "express": "^4.19.2",
-    "express-async-errors": "^3.1.1",
+    "express": "^5.0.0",
     "express-prom-bundle": "^7.0.0",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
@@ -124,6 +124,9 @@
     "serialize-javascript": "^6.0.2",
     "source-map-support": "^0.5.9",
     "winston": "^3.12.0"
+  },
+  "resolutions": {
+    "express": "^5.0.0"
   },
   "repository": {
     "type": "git",
