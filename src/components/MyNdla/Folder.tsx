@@ -73,6 +73,7 @@ interface Props {
   foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
   link?: string;
+  nonInteractive?: boolean;
   variant?: NonNullable<ListItemVariantProps>["variant"];
 }
 
@@ -119,6 +120,7 @@ export const Folder = ({
   variant = "list",
   foldersCount,
   isFavorited,
+  nonInteractive,
   link,
 }: Props) => {
   const { t } = useTranslation();
@@ -127,7 +129,7 @@ export const Folder = ({
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot variant={variant} id={id}>
+    <ListItemRoot variant={variant} nonInteractive={nonInteractive} id={id}>
       <ListItemContent
         css={{
           alignItems: "center",
@@ -143,11 +145,15 @@ export const Folder = ({
             aria-hidden={false}
             aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
           />
-          <ListItemHeading asChild consumeCss>
-            <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
-              {name}
-            </StyledSafeLink>
-          </ListItemHeading>
+          {nonInteractive ? (
+            <ListItemHeading>{name}</ListItemHeading>
+          ) : (
+            <ListItemHeading asChild consumeCss>
+              <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
+                {name}
+              </StyledSafeLink>
+            </ListItemHeading>
+          )}
         </TitleWrapper>
         <FolderInfo>
           {isShared && (
