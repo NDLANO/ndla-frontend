@@ -101,7 +101,7 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
 
   if (isLoading) {
     return (
-      <LoadingCardRoot id={id} aria-label={t("loading")} aria-busy={true}>
+      <LoadingCardRoot id={id} aria-label={t("loading")} aria-busy={true} variant="subtle">
         <Skeleton>
           <CardImage src="" alt="" />
         </Skeleton>
@@ -125,7 +125,7 @@ const BlockResource = ({ id, link, title, resourceImage, description, menu, isLo
   }
 
   return (
-    <StyledCardRoot id={id}>
+    <StyledCardRoot id={id} variant="subtle">
       <StyledCardImage
         src={resourceImage.src}
         height={100}

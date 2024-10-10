@@ -42,7 +42,8 @@ const CopyFolderModal = ({ folder, children }: Props) => {
           content={
             folder && (
               <Folder
-                variant="standalone"
+                context="standalone"
+                variant="subtle"
                 nonInteractive
                 folder={folder}
                 foldersCount={folderCount}

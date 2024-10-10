@@ -243,6 +243,7 @@ const DraggableResource = ({
           title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={resourceMeta?.description ?? ""}
           menu={menu}
+          variant="subtle"
         />
       </DragWrapper>
     </DraggableListItem>

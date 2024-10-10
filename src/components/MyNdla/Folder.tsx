@@ -75,6 +75,7 @@ interface Props {
   link?: string;
   nonInteractive?: boolean;
   variant?: NonNullable<ListItemVariantProps>["variant"];
+  context?: NonNullable<ListItemVariantProps>["context"];
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -117,7 +118,8 @@ const StyledSafeLink = styled(SafeLink, {
 export const Folder = ({
   menu,
   folder: { id, status, name, owner },
-  variant = "list",
+  context = "list",
+  variant,
   foldersCount,
   isFavorited,
   nonInteractive,
@@ -129,7 +131,7 @@ export const Folder = ({
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot variant={variant} nonInteractive={nonInteractive} id={id}>
+    <ListItemRoot context={context} variant={variant} nonInteractive={nonInteractive} id={id}>
       <ListItemContent
         css={{
           alignItems: "center",
