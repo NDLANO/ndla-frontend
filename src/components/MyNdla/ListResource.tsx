@@ -133,7 +133,8 @@ const ListResource = ({
   resourceTypes,
   description,
   menu,
-  variant = "list",
+  variant,
+  context = "list",
   isLoading = false,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
@@ -152,7 +153,7 @@ const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} variant={variant}>
+      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} variant={variant} context={context}>
         <Skeleton>
           <ListItemImage src="" alt="" />
         </Skeleton>
@@ -171,7 +172,7 @@ const ListResource = ({
   }
 
   return (
-    <StyledListItemRoot id={id} variant={variant}>
+    <StyledListItemRoot id={id} variant={variant} context={context}>
       <BigListItemImage
         src={resourceImage.src}
         alt=""

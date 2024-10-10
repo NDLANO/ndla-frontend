@@ -199,7 +199,7 @@ const SortableArenaListItem = forwardRef<HTMLDivElement, SortableArenaListItemPr
           type="category"
           {...attributes}
         />
-        <ArenaListItem title={title} variant="list" id={id} isEditing={isEditing} {...props} ref={ref} />
+        <ArenaListItem title={title} context="list" id={id} isEditing={isEditing} {...props} ref={ref} />
       </StyledLi>
     );
   },

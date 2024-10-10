@@ -204,7 +204,7 @@ export const ResourceItem = ({
     <li>
       <ListItemRoot
         css={listItemRecipe.raw({ colorTheme: getListItemColorTheme(currentResourceContentType) })}
-        variant="list"
+        context="list"
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}

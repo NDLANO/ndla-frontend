@@ -70,7 +70,8 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
           </DialogHeader>
           <DialogBody>
             <Folder
-              variant="standalone"
+              context="standalone"
+              variant="subtle"
               nonInteractive
               folder={folder}
               foldersCount={folderCount}
@@ -95,7 +96,8 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
           title={t("myNdla.loginSaveFolderLinkPitch")}
           content={
             <Folder
-              variant="standalone"
+              context="standalone"
+              variant="subtle"
               nonInteractive
               folder={folder}
               foldersCount={folderCount}

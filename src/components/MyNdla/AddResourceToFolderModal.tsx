@@ -53,7 +53,8 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
           content={
             resource && (
               <ListResource
-                variant="standalone"
+                context="standalone"
+                variant="subtle"
                 isLoading={loading}
                 id={resource.id.toString()}
                 link={resource.path}

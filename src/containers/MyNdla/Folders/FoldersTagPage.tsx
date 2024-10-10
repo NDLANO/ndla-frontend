@@ -169,6 +169,7 @@ const Resources = ({ resources }: ResourcesProps) => {
                 alt: "",
               }}
               menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
+              variant="subtle"
             />
           );
         })}

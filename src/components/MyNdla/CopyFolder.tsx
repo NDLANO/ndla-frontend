@@ -72,7 +72,8 @@ const CopyFolder = ({ folder, onClose }: Props) => {
       </DialogHeader>
       <StyledDialogBody>
         <Folder
-          variant="standalone"
+          context="standalone"
+          variant="subtle"
           nonInteractive
           folder={folder}
           foldersCount={folderCount}

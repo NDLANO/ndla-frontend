@@ -338,7 +338,7 @@ const MastheadSearch = () => {
                 ) : (
                   mappedItems.map((resource) => (
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
-                      <StyledListItemRoot variant="list">
+                      <StyledListItemRoot context="list">
                         <TextWrapper>
                           <ComboboxItemText>
                             <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
