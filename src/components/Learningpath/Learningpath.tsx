@@ -6,10 +6,10 @@
  *
  */
 
-import parse from "html-react-parser";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
+import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
@@ -263,7 +263,9 @@ const Learningpath = ({
                       />
                     </ArticleHeader>
                     <ArticleContent>
-                      {!!learningpathStep.description && <section>{parse(learningpathStep.description)}</section>}
+                      {!!learningpathStep.description && (
+                        <section>{transform(learningpathStep.description, {})}</section>
+                      )}
                     </ArticleContent>
                   </ArticleWrapper>
                 </EmbedPageContent>
