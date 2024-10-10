@@ -41,7 +41,13 @@ const CopyFolderModal = ({ folder, children }: Props) => {
           title={t("myNdla.loginCopyFolderPitch")}
           content={
             folder && (
-              <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+              <Folder
+                variant="standalone"
+                nonInteractive
+                folder={folder}
+                foldersCount={folderCount}
+                link={routes.folder(folder.id)}
+              />
             )
           }
         />
