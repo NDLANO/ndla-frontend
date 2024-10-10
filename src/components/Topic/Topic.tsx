@@ -51,7 +51,7 @@ const HeadingWrapper = styled("hgroup", {
     flexWrap: "wrap",
     alignItems: "center",
     gap: "xsmall",
-    hyphens: "auto",
+    overflowWrap: "anywhere",
   },
 });
 
