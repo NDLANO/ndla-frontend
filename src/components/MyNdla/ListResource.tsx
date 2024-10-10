@@ -136,6 +136,7 @@ const ListResource = ({
   variant,
   context = "list",
   isLoading = false,
+  nonInteractive,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
   const firstContentType = resourceTypes?.[0]?.id ?? "";
@@ -153,7 +154,13 @@ const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} variant={variant} context={context}>
+      <LoadingListItemRoot
+        aria-label={t("loading")}
+        aria-busy={true}
+        variant={variant}
+        context={context}
+        nonInteractive={nonInteractive}
+      >
         <Skeleton>
           <ListItemImage src="" alt="" />
         </Skeleton>
@@ -172,7 +179,7 @@ const ListResource = ({
   }
 
   return (
-    <StyledListItemRoot id={id} variant={variant} context={context}>
+    <StyledListItemRoot id={id} variant={variant} context={context} nonInteractive={nonInteractive}>
       <BigListItemImage
         src={resourceImage.src}
         alt=""
@@ -181,15 +188,21 @@ const ListResource = ({
       />
       <StyledListItemContent>
         <TitleWrapper>
-          <ListItemHeading
-            asChild
-            consumeCss
-            color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
-          >
-            <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
+          {nonInteractive ? (
+            <ListItemHeading color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}>
               {title}
-            </StyledSafeLink>
-          </ListItemHeading>
+            </ListItemHeading>
+          ) : (
+            <ListItemHeading
+              asChild
+              consumeCss
+              color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
+            >
+              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
+                {title}
+              </StyledSafeLink>
+            </ListItemHeading>
+          )}
           <ContentTypeBadgeNew contentType={contentType} />
         </TitleWrapper>
         <DescriptionWrapper>

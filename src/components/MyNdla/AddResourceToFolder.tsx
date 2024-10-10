@@ -198,6 +198,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       <ListResource
         context="standalone"
         variant="subtle"
+        nonInteractive
         id={resource.id.toString()}
         isLoading={metaLoading}
         link={resource.path}
