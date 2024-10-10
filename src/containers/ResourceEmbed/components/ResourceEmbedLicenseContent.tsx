@@ -19,6 +19,7 @@ import { GQLResourceEmbedLicenseContent_MetaFragment } from "../../../graphqlTyp
 
 interface Props {
   metaData: GQLResourceEmbedLicenseContent_MetaFragment;
+  resourcePageType?: string;
 }
 
 const Container = styled("div", {
@@ -34,36 +35,42 @@ const Container = styled("div", {
   },
 });
 
-const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseContent_MetaFragment) => {
+const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseContent_MetaFragment, resourcePageType?: string) => {
   const licenseContent: ReactNode[] = [];
 
   if (metaData.podcasts?.length) {
-    licenseContent.push(<PodcastLicenseList podcasts={metaData.podcasts} />);
+    licenseContent.push(
+      <PodcastLicenseList podcasts={metaData.podcasts} isResourcePage={resourcePageType === "podcast"} />,
+    );
   }
   if (metaData.audios?.length) {
-    licenseContent.push(<AudioLicenseList audios={metaData.audios} />);
+    licenseContent.push(<AudioLicenseList audios={metaData.audios} isResourcePage={resourcePageType === "audio"} />);
   }
   if (metaData.concepts?.length) {
-    licenseContent.push(<ConceptLicenseList concepts={metaData.concepts} />);
+    licenseContent.push(
+      <ConceptLicenseList concepts={metaData.concepts} isResourcePage={resourcePageType === "concept"} />,
+    );
   }
   if (metaData.images?.length) {
-    licenseContent.push(<ImageLicenseList images={metaData.images} isResourcePage />);
+    licenseContent.push(<ImageLicenseList images={metaData.images} isResourcePage={resourcePageType === "image"} />);
   }
   if (metaData.brightcoves?.length) {
-    licenseContent.push(<VideoLicenseList videos={metaData.brightcoves} isResourcePage />);
+    licenseContent.push(
+      <VideoLicenseList videos={metaData.brightcoves} isResourcePage={resourcePageType === "video"} />,
+    );
   }
   if (metaData.h5ps?.length) {
-    licenseContent.push(<H5pLicenseList h5ps={metaData.h5ps} />);
+    licenseContent.push(<H5pLicenseList h5ps={metaData.h5ps} isResourcePage={resourcePageType === "h5p"} />);
   }
   if (metaData.glosses?.length) {
-    licenseContent.push(<GlossLicenseList glosses={metaData.glosses} />);
+    licenseContent.push(<GlossLicenseList glosses={metaData.glosses} isResourcePage={resourcePageType === "gloss"} />);
   }
 
   return licenseContent;
 };
 
-const ResourceEmbedLicenseContent = ({ metaData }: Props) => {
-  const licenseContent = useMemo(() => buildLicenseTabList(metaData), [metaData]);
+const ResourceEmbedLicenseContent = ({ metaData, resourcePageType }: Props) => {
+  const licenseContent = useMemo(() => buildLicenseTabList(metaData, resourcePageType), [metaData, resourcePageType]);
 
   return (
     <Container>

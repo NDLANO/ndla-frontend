@@ -38,9 +38,10 @@ import {
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;
   type: "gloss" | "concept";
+  isResourcePage?: boolean;
 }
 
-const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
+const ConceptLicenseInfo = ({ concept, type, isResourcePage }: ConceptLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
 
@@ -98,7 +99,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
             sourceTitle={concept.title}
             sourceType={type}
           >
-            {!isCopyrighted(concept.copyright?.license?.license) && (
+            {!isResourcePage && !isCopyrighted(concept.copyright?.license?.license) && (
               <AddResourceToFolderModal
                 resource={{
                   id: concept.id,
@@ -147,14 +148,15 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
 interface Props {
   concepts: GQLConceptLicenseList_ConceptLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const ConceptLicenseList = ({ concepts }: Props) => {
+const ConceptLicenseList = ({ concepts, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(concepts, (concept) => concept.id), [concepts]);
   return (
     <MediaList>
       {unique.map((concept, index) => (
-        <ConceptLicenseInfo type="concept" concept={concept} key={index} />
+        <ConceptLicenseInfo type="concept" concept={concept} key={index} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );
@@ -162,15 +164,16 @@ const ConceptLicenseList = ({ concepts }: Props) => {
 
 interface GlossLicenseListProps {
   glosses: GQLGlossLicenseList_GlossLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
+export const GlossLicenseList = ({ glosses, isResourcePage }: GlossLicenseListProps) => {
   const unique = useMemo(() => uniqBy(glosses, (gloss) => gloss.id), [glosses]);
 
   return (
     <MediaList>
       {unique.map((gloss, index) => (
-        <ConceptLicenseInfo type="gloss" concept={gloss} key={index} />
+        <ConceptLicenseInfo type="gloss" concept={gloss} key={index} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );

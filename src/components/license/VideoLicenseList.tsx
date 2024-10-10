@@ -96,7 +96,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
             )}
           </MediaListLicense>
           {video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
-          {!isCopyrighted(video.copyright?.license.license) && (
+          {!isResourcePage && !isCopyrighted(video.copyright?.license.license) && (
             <MediaListItemActions>
               {video.download && (
                 <SafeLinkButton to={video.download} download variant="secondary" size="small">

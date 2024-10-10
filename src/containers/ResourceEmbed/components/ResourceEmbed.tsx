@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
+import { COPYRIGHTED } from "@ndla/licenses";
 import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
@@ -19,6 +20,8 @@ import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import AddResourceToFolderModal from "../../../components/MyNdla/AddResourceToFolderModal";
+import FavoriteButton from "../../../components/MyNdla/FavoriteButton";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -103,7 +106,7 @@ const metaToProperties = (
 };
 
 export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
-  if (meta.h5ps?.some((value) => value.copyright)) {
+  if (meta.h5ps?.some((val) => val.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
     return true;
@@ -117,6 +120,25 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFrag
     return true;
   } else if (meta.podcasts?.some((val) => val.copyright)) {
     return true;
+  }
+  return false;
+};
+
+const isCopyrightedContent = (type: MetaProperies["type"], meta?: GQLResourceEmbedLicenseContent_MetaFragment) => {
+  if (type === "audio") {
+    return meta?.audios?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "image") {
+    return meta?.images?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "video") {
+    return meta?.brightcoves?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "concept") {
+    return meta?.concepts?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "h5p") {
+    return meta?.h5ps?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "gloss") {
+    return meta?.glosses?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
+  } else if (type === "podcast") {
+    return meta?.podcasts?.some((val) => val.copyright?.license?.license === COPYRIGHTED);
   }
   return false;
 };
@@ -205,13 +227,30 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
           <PageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
-                <ArticleTitle title={properties.title} id={SKIP_TO_CONTENT_ID} contentType={type} />
+                <ArticleTitle
+                  title={properties.title}
+                  id={SKIP_TO_CONTENT_ID}
+                  contentType={type}
+                  heartButton={
+                    !isCopyrightedContent(type, data?.resourceEmbed?.meta) && (
+                      <AddResourceToFolderModal
+                        resource={{
+                          id: id,
+                          path: `${config.ndlaFrontendDomain}/${type}/${id}`,
+                          resourceType: type,
+                        }}
+                      >
+                        <FavoriteButton />
+                      </AddResourceToFolderModal>
+                    )
+                  }
+                />
                 <ArticleContent>
                   <section>{transformedContent}</section>
                 </ArticleContent>
                 <ArticleFooter>
                   {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
+                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} resourcePageType={type} />
                   )}
                   {isOembed && (
                     <CreatedBy
