@@ -82,6 +82,7 @@ const SearchResultItem = ({ item, type }: Props) => {
           alt=""
           height={200}
           src={item.img?.url ?? item.metaImg ?? ""}
+          sizes={"480px"}
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <CardContent>
