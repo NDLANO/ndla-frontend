@@ -7,7 +7,7 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -19,7 +19,6 @@ import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import BlockResource from "../../components/MyNdla/BlockResource";
 import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
 import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
@@ -33,8 +32,6 @@ import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
-import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
-import { ViewType } from "../MyNdla/Folders/FoldersPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
@@ -42,16 +39,6 @@ const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
 
   return (folder?.resources ?? []).concat(subResources);
 };
-
-const OptionsWrapper = styled(HStack, {
-  base: {
-    width: "100%",
-    paddingBlock: "small",
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
 
 const SharedFolderInformationWrapper = styled("div", {
   base: {
@@ -97,7 +84,6 @@ const containsFolder = (folder: GQLFolder): boolean => {
 };
 
 const SharedFolderPage = () => {
-  const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
   const { t } = useTranslation();
 
@@ -124,8 +110,6 @@ const SharedFolderPage = () => {
 
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
-
-  const Resource = viewType === "block" ? BlockResource : ListResource;
 
   const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`, {
     name: folder?.owner?.name ?? t("myNdla.folder.professional"),
@@ -186,9 +170,6 @@ const SharedFolderPage = () => {
         <FolderDescription textStyle="label.large">
           {folder.description ?? t("myNdla.folder.defaultPageDescription")}
         </FolderDescription>
-        <OptionsWrapper>
-          <ListViewOptions type={viewType} onTypeChange={setViewType} />
-        </OptionsWrapper>
         {!!folder.subfolders.length && (
           <BlockWrapper>
             {folder.subfolders.map((subFolder) =>
@@ -204,12 +185,12 @@ const SharedFolderPage = () => {
             )}
           </BlockWrapper>
         )}
-        <BlockWrapper variant={viewType}>
+        <BlockWrapper>
           {folder.resources.map((resource) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return resourceMeta ? (
               <li key={resource.id}>
-                <Resource
+                <ListResource
                   id={resource.id}
                   resourceImage={{
                     src: resourceMeta?.metaImage?.url ?? "",
