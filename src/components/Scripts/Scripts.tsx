@@ -6,6 +6,7 @@
  *
  */
 
+import Formbricks from "./Formbricks";
 import Matomo from "./Matomo";
 import Monsido from "./Monsido";
 import Tagmanager from "./Tagmanager";
@@ -13,9 +14,10 @@ import Tagmanager from "./Tagmanager";
 const Scripts = () => {
   return (
     <>
+      <Formbricks />
       <Matomo />
-      <Tagmanager />
       <Monsido />
+      <Tagmanager />
     </>
   );
 };
