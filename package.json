@@ -103,7 +103,7 @@
     "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
     "express": "^5.0.0",
-    "express-prom-bundle": "^7.0.0",
+    "express-prom-bundle": "^8.0.0",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.0.0",
@@ -124,9 +124,6 @@
     "serialize-javascript": "^6.0.2",
     "source-map-support": "^0.5.9",
     "winston": "^3.12.0"
-  },
-  "resolutions": {
-    "express": "^5.0.0"
   },
   "repository": {
     "type": "git",
