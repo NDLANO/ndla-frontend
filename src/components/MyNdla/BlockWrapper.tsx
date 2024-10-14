@@ -14,19 +14,4 @@ export const BlockWrapper = styled("ul", {
     height: "100%",
     width: "100%",
   },
-  variants: {
-    variant: {
-      list: {},
-      block: {
-        gap: "medium",
-        gridTemplateColumns: "repeat(1, 1fr)",
-        tabletWide: {
-          gridTemplateColumns: "repeat(2, 1fr)",
-        },
-        wide: {
-          gridTemplateColumns: "repeat(3, 1fr)",
-        },
-      },
-    },
-  },
 });
