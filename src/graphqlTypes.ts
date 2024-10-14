@@ -2743,6 +2743,8 @@ export type GQLAllMoviesQuery = {
   };
 };
 
+export type GQLFilmContent_MovieFragment = { __typename?: "Movie" } & GQLSelectionMovieGrid_MovieFragment;
+
 export type GQLFilmContentCard_MovieFragment = {
   __typename?: "Movie";
   id: string;
@@ -2767,7 +2769,7 @@ export type GQLFilmFrontPageQuery = {
     movieThemes: Array<{
       __typename?: "MovieTheme";
       name: Array<{ __typename?: "Name"; name: string; language: string }>;
-      movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
+      movies: Array<{ __typename?: "Movie" } & GQLFilmContent_MovieFragment>;
     }>;
     about: Array<{
       __typename?: "FilmPageAbout";
@@ -2786,9 +2788,9 @@ export type GQLFilmFrontPageQuery = {
   };
 };
 
-export type GQLFilmMovieList_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
-
 export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLSelectionMovieGrid_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
 
 export type GQLResourceTypeMoviesQueryVariables = Exact<{
   resourceType: Scalars["String"]["input"];

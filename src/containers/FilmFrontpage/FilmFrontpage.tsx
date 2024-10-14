@@ -24,7 +24,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import AboutNdlaFilm from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
 import { ALL_MOVIES_ID } from "./filmHelper";
-import FilmMovieList from "./FilmMovieList";
 import FilmSlideshow from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
@@ -182,7 +181,7 @@ const filmFrontPageQuery = gql`
           language
         }
         movies {
-          ...FilmMovieList_Movie
+          ...FilmContent_Movie
         }
       }
       about {
@@ -209,7 +208,7 @@ const filmFrontPageQuery = gql`
       }
     }
   }
-  ${FilmMovieList.fragments.movie}
+  ${FilmContent.fragments.movie}
   ${FilmSlideshow.fragments.movie}
   ${Article.fragments.article}
 `;
