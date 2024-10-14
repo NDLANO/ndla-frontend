@@ -4224,18 +4224,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:^4.17.33":
-  version: 4.19.6
-  resolution: "@types/express-serve-static-core@npm:4.19.6"
-  dependencies:
-    "@types/node": "npm:*"
-    "@types/qs": "npm:*"
-    "@types/range-parser": "npm:*"
-    "@types/send": "npm:*"
-  checksum: 10c0/4281f4ead71723f376b3ddf64868ae26244d434d9906c101cf8d436d4b5c779d01bd046e4ea0ed1a394d3e402216fabfa22b1fa4dba501061cd7c81c54045983
-  languageName: node
-  linkType: hard
-
 "@types/express-serve-static-core@npm:^5.0.0":
   version: 5.0.0
   resolution: "@types/express-serve-static-core@npm:5.0.0"
@@ -4245,18 +4233,6 @@ __metadata:
     "@types/range-parser": "npm:*"
     "@types/send": "npm:*"
   checksum: 10c0/671a67a5b367e19aa634dcd515364212490f10efb938fc1097082085a883ccb11c81ec96a3c2b5cc67d5756e5cb1ccbf1de192806f8193bb7de341994beb4ea6
-  languageName: node
-  linkType: hard
-
-"@types/express@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "@types/express@npm:4.17.21"
-  dependencies:
-    "@types/body-parser": "npm:*"
-    "@types/express-serve-static-core": "npm:^4.17.33"
-    "@types/qs": "npm:*"
-    "@types/serve-static": "npm:*"
-  checksum: 10c0/12e562c4571da50c7d239e117e688dc434db1bac8be55613294762f84fd77fbd0658ccd553c7d3ab02408f385bc93980992369dd30e2ecd2c68c358e6af8fabf
   languageName: node
   linkType: hard
 
@@ -8701,17 +8677,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-prom-bundle@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "express-prom-bundle@npm:7.0.0"
+"express-prom-bundle@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "express-prom-bundle@npm:8.0.0"
   dependencies:
-    "@types/express": "npm:^4.17.21"
-    express: "npm:^4.18.2"
+    "@types/express": "npm:^5.0.0"
     on-finished: "npm:^2.3.0"
     url-value-parser: "npm:^2.0.0"
   peerDependencies:
     prom-client: ">=15.0.0"
-  checksum: 10c0/ac2a7fc1536f0a094c28b5eb7edbce83d0edbfe406efe06df74c8f8b1e939ec155d0c518ac83f65aae87bd296ca1ef626418664430313bb536b2a1f8f73fc567
+  checksum: 10c0/778406611bbecbd2e407a55279fe45c19b04b11e91f4629c447a8fb14418f9c23d60294563ab0d40c6b6f4ec0f6387723846e1464b2f2984ce42d97287d32eec
   languageName: node
   linkType: hard
 
@@ -11574,7 +11549,7 @@ __metadata:
     eslint: "npm:^8.57.0"
     eslint-config-ndla: "npm:^5.0.3"
     express: "npm:^5.0.0"
-    express-prom-bundle: "npm:^7.0.0"
+    express-prom-bundle: "npm:^8.0.0"
     graphql: "npm:^16.8.1"
     graphql-tag: "npm:^2.12.6"
     helmet: "npm:^7.0.0"
