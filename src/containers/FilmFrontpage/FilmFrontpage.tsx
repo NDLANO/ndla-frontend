@@ -107,7 +107,7 @@ const FilmFrontpage = () => {
   };
 
   const options = useMemo(() => {
-    return [fromNdla, allResources].concat(movieResourceTypes);
+    return [fromNdla].concat(movieResourceTypes).concat(allResources);
   }, [allResources]);
 
   return (
