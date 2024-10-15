@@ -104,9 +104,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ark-ui/react@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "@ark-ui/react@npm:4.1.1"
+"@ark-ui/react@npm:^4.1.1, @ark-ui/react@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "@ark-ui/react@npm:4.1.2"
   dependencies:
     "@internationalized/date": "npm:3.5.6"
     "@zag-js/accordion": "npm:0.74.2"
@@ -160,7 +160,7 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/c9b1d518015c77b1375eaf6659d5d232d386dd390e8b6257a8431e928f72dc228e4b2cc7402fa90c46cdc71c7af50e612bdf92242b5ce11fe44e6ba704882388
+  checksum: 10c0/d4aefebc034ef5056f9a00a20f4b40b9fe70fa6a5083b16dc2c4f5c9de6b572155ff20f1880cd713a167d22185ab0d47dbb1b73029c7acdacc0a6f3eee55a39f
   languageName: node
   linkType: hard
 
@@ -11497,7 +11497,7 @@ __metadata:
   resolution: "ndla-frontend@workspace:."
   dependencies:
     "@apollo/client": "npm:^3.9.11"
-    "@ark-ui/react": "npm:^4.1.1"
+    "@ark-ui/react": "npm:^4.1.2"
     "@babel/core": "npm:^7.24.5"
     "@dnd-kit/core": "npm:^6.0.8"
     "@dnd-kit/modifiers": "npm:^6.0.1"
