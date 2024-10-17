@@ -207,7 +207,7 @@ const MastheadSearch = () => {
     if (!query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
-        const context = result.contexts.find((context) => context.isPrimary);
+        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
         const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
