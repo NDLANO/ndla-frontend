@@ -272,7 +272,8 @@ const MastheadSearch = () => {
             onInputValueChange={(details) => onQueryChange(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}
-            variant="composite"
+            context="composite"
+            variant="complex"
             closeOnSelect
             form={formId}
             selectionBehavior="preserve"
