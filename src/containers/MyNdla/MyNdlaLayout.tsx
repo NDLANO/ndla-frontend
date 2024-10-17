@@ -198,7 +198,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "arena",
-    to: routes.myNdla.arena,
+    to: "https://grupper.test.ndla.no",
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
