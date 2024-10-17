@@ -200,6 +200,7 @@ const frameSrc = (() => {
     "kartiskolen.no",
     "norgeibilder.no",
     "video.qbrick.com",
+    "grupper.test.ndla.no",
   ];
   if (config.runtimeType === "development") {
     return [
