@@ -299,6 +299,9 @@ const MastheadSearch = () => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !highlightedValue) {
                         onSearch();
+                      } else if (e.key === "Enter" && highlightedValue) {
+                        onNavigate();
+                        navigate({ pathname: highlightedValue });
                       }
                     }}
                   />
