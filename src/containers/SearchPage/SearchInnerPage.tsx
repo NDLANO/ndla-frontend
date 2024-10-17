@@ -205,7 +205,8 @@ const SearchInnerPage = ({
       language,
       t,
     );
-    return subjectSearchGroup.concat(searchGroups);
+    const filteredSearchGroups = isLti ? searchGroups.filter((sg) => sg.type !== "topic-article") : searchGroups;
+    return subjectSearchGroup.concat(filteredSearchGroups);
   }, [data?.groupSearch, i18n.language, isLti, ltiData, previousData?.groupSearch, resourceTypes, subjectItems, t]);
 
   if (error) {
