@@ -207,13 +207,14 @@ const MastheadSearch = () => {
     if (!query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
-        const resourceType = result.contexts.find((context) => context.isPrimary)?.resourceTypes?.[0];
-        const contentType = contentTypeMapping?.[resourceType?.id ?? "default"];
+        const context = result.contexts.find((context) => context.isPrimary);
+        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
           id: result.id.toString(),
-          resourceType: resourceType?.id,
+          resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
+          path: { pathname: context?.path },
         };
       }) ?? []
     );
@@ -337,7 +338,7 @@ const MastheadSearch = () => {
                       <StyledListItemRoot context="list">
                         <TextWrapper>
                           <ComboboxItemText>
-                            <SafeLink to={resource.url} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
                               {resource.title}
                             </SafeLink>
                           </ComboboxItemText>
