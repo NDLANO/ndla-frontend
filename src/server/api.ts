@@ -108,7 +108,6 @@ router.get("/login/success", async (req, res) => {
   res.cookie("feide_auth", JSON.stringify(feideCookie), {
     expires: new Date(feideCookie.ndla_expires_at),
     encode: String,
-    domain: `.${config.feideDomain}`,
   });
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
