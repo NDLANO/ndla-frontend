@@ -43,9 +43,7 @@ export const LocaleValues = ["nb", "nn", "en", "se"] as const;
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 
 export const AcquireLicensePage =
-  "https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
-
-export const aboutNdlaUrl = "https://om.ndla.no/";
+  "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 
 export const MY_NDLA_CONTENT_WIDTH = 1440;
 
