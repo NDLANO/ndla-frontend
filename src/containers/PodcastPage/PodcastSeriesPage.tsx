@@ -143,9 +143,6 @@ const PodcastSeriesPage = () => {
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {podcastSeries.description.description && (
-          <meta name="description" content={podcastSeries.description.description} />
-        )}
         {podcastSeries.hasRSS && (
           <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}

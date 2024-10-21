@@ -43,6 +43,7 @@ const messages = {
     goBack: "Go back",
   },
   podcastPage: {
+    meta: "Listen and learn! NDLA offers more than 100 freely available podcasts for engaging use in upper secondary education.",
     episodes: "Episodes",
     podcast: "Podcast",
     podcasts: "Podcasts",
