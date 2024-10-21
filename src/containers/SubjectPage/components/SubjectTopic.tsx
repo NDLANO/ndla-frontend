@@ -164,7 +164,7 @@ const SubjectTopic = ({
       ) : subTopics?.length ? (
         <NavigationBox
           variant="secondary"
-          heading={t("subjectPage.topicsTitle", { topic: topic.name })}
+          heading={parse(t("subjectPage.topicsTitle", { topic: topic.name }))}
           items={subTopics}
         />
       ) : null}
