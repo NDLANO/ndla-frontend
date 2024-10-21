@@ -6,7 +6,7 @@
  *
  */
 
-import { useId } from "react";
+import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Additional, PresentationLine } from "@ndla/icons/common";
 import { Heading } from "@ndla/primitives";
@@ -44,7 +44,7 @@ interface ItemProps {
 }
 
 interface Props {
-  heading?: string;
+  heading?: ReactNode;
   items?: ItemProps[];
 }
 
