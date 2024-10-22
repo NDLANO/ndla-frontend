@@ -4615,6 +4615,20 @@ export type GQLIframePageQuery = {
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };
 
+export type GQLSearchContextFragment = {
+  __typename?: "SearchContext";
+  publicId: string;
+  language: string;
+  path: string;
+  breadcrumbs: Array<string>;
+  rootId: string;
+  root: string;
+  relevance: string;
+  relevanceId: string;
+  isPrimary: boolean;
+  resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+};
+
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
@@ -4622,19 +4636,82 @@ export type GQLGroupSearchResourceFragment = {
   name: string;
   ingress: string;
   traits: Array<string>;
-  contexts: Array<{
-    __typename?: "SearchContext";
-    publicId: string;
-    language: string;
-    path: string;
-    breadcrumbs: Array<string>;
-    rootId: string;
-    root: string;
-    relevance: string;
-    relevanceId: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-  }>;
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
   metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+};
+
+type GQLSearchResource_ArticleSearchResult_Fragment = {
+  __typename?: "ArticleSearchResult";
+  id: number;
+  title: string;
+  supportedLanguages: Array<string>;
+  url: string;
+  metaDescription: string;
+  traits: Array<string>;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
+};
+
+type GQLSearchResource_LearningpathSearchResult_Fragment = {
+  __typename?: "LearningpathSearchResult";
+  id: number;
+  title: string;
+  supportedLanguages: Array<string>;
+  url: string;
+  metaDescription: string;
+  traits: Array<string>;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
+};
+
+export type GQLSearchResourceFragment =
+  | GQLSearchResource_ArticleSearchResult_Fragment
+  | GQLSearchResource_LearningpathSearchResult_Fragment;
+
+export type GQLSearchQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
+  levels?: InputMaybe<Scalars["String"]["input"]>;
+  sort?: InputMaybe<Scalars["String"]["input"]>;
+  fallback?: InputMaybe<Scalars["String"]["input"]>;
+  subjects?: InputMaybe<Scalars["String"]["input"]>;
+  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
+  relevance?: InputMaybe<Scalars["String"]["input"]>;
+  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
+  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+}>;
+
+export type GQLSearchQuery = {
+  __typename?: "Query";
+  search?: {
+    __typename?: "Search";
+    pageSize: number;
+    page?: number;
+    language: string;
+    totalCount: number;
+    results: Array<
+      | ({ __typename?: "ArticleSearchResult" } & GQLSearchResource_ArticleSearchResult_Fragment)
+      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResource_LearningpathSearchResult_Fragment)
+    >;
+    suggestions: Array<{
+      __typename?: "SuggestionResult";
+      suggestions: Array<{
+        __typename?: "SearchSuggestion";
+        options: Array<{ __typename?: "SuggestOption"; text: string }>;
+      }>;
+    }>;
+    aggregations: Array<{
+      __typename?: "AggregationResult";
+      values: Array<{ __typename?: "BucketResult"; value: string }>;
+    }>;
+  };
 };
 
 export type GQLGroupSearchQueryVariables = Exact<{

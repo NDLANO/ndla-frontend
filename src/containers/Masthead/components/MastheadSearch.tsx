@@ -45,8 +45,8 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchQueryVariables } from "../../../graphqlTypes";
-import { groupSearchQuery } from "../../../queries";
+import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
@@ -173,10 +173,10 @@ const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
-    GQLGroupSearchQuery,
-    GQLGroupSearchQueryVariables
-  >(groupSearchQuery, { fetchPolicy: "no-cache" });
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
+    searchQuery,
+    { fetchPolicy: "no-cache" },
+  );
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -203,25 +203,22 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedResults = useMemo(() => {
+  const mappedItems = useMemo(() => {
     if (!query.length) return [];
     return (
-      searchResult.groupSearch?.map((result) => {
-        const contentType = contentTypeMapping[result.resourceType];
+      searchResult.search?.results.map((result) => {
+        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
+        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
-          resources: result.resources.map((resource) => ({
-            ...resource,
-            id: resource.id.toString(),
-            resourceType: result.resourceType,
-            contentType,
-          })),
+          id: result.id.toString(),
+          resourceType: context?.resourceTypes?.[0]?.id,
+          contentType,
+          path: { pathname: context?.path },
         };
       }) ?? []
     );
-  }, [query.length, searchResult.groupSearch]);
-
-  const mappedItems = useMemo(() => mappedResults.flatMap((result) => result.resources), [mappedResults]);
+  }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
@@ -236,11 +233,11 @@ const MastheadSearch = () => {
 
   const collection = useMemo(
     () =>
-      createListCollection({ items: mappedItems, itemToValue: (item) => item.path, itemToString: (item) => item.name }),
+      createListCollection({ items: mappedItems, itemToValue: (item) => item.url, itemToString: (item) => item.title }),
     [mappedItems],
   );
 
-  const suggestion = searchResult?.groupSearch?.[0]?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
     <DialogRoot
@@ -346,7 +343,7 @@ const MastheadSearch = () => {
                         <TextWrapper>
                           <ComboboxItemText>
                             <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                              {resource.name}
+                              {resource.title}
                             </SafeLink>
                           </ComboboxItemText>
                           {!!resource.contexts[0] && (
