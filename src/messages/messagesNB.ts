@@ -43,6 +43,7 @@ const messages = {
     goBack: "Gå tilbake",
   },
   podcastPage: {
+    meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
     episodes: "Episoder",
     podcast: "Podkast",
     podcasts: "Podkaster",
