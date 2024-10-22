@@ -105,10 +105,11 @@ router.get("/login/success", async (req, res) => {
     ...token,
     ndla_expires_at: (token.expires_at ?? 0) * 1000,
   };
+  const domain = req.hostname === config.feideDomain ? `.${config.feideDomain}` : req.hostname;
   res.cookie("feide_auth", JSON.stringify(feideCookie), {
     expires: new Date(feideCookie.ndla_expires_at),
     encode: String,
-    domain: `.${config.feideDomain}`,
+    domain,
   });
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
