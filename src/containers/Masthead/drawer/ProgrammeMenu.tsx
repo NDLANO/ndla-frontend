@@ -32,7 +32,7 @@ interface Props {
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
-  const { programme: urlProgramme } = useUrnIds();
+  const { programme, contextId } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const programmes = useMemo(
     () =>
@@ -51,7 +51,7 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
     }
   }, [shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
 
-  const programmePath = `/utdanning/${urlProgramme}`;
+  const programmePath = `/utdanning/${programme}/${contextId}`;
 
   useArrowNavigation(true, {
     initialFocused: programmes[0]?.path,

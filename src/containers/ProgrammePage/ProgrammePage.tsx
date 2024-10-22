@@ -17,7 +17,9 @@ import { useGraphQuery } from "../../util/runQueries";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
-  "*": string;
+  programme: string;
+  contextId: string;
+  grade?: string;
 }
 
 const programmePageQuery = gql`
@@ -36,15 +38,7 @@ const programmePageQuery = gql`
 
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
-  const { "*": splat } = useTypedParams<MatchParams>();
-  let contextId, path, gradeParam;
-  if (splat.includes("__")) {
-    [path = "", gradeParam] = splat.split("/");
-    contextId = path.split("__")[1];
-  } else {
-    contextId = splat.split("/")[1];
-    gradeParam = splat.split("/")[2];
-  }
+  const { contextId, grade: gradeParam } = useTypedParams<MatchParams>();
 
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
