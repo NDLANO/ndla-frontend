@@ -99,7 +99,7 @@ const SocialMediaMetadata = ({
       {description && <meta name="description" content={description} />}
       {audioUrl && <meta property="og:audio" content={audioUrl} />}
       {imageUrl && <meta property="og:image" content={imageUrl} />}
-      {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metalogo.jpg`} /> : ""}
+      {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metaimage.png`} /> : ""}
       <meta property="og:site_name" content="ndla.no" />
     </Helmet>
   );
