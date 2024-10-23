@@ -35,6 +35,7 @@ export const routes = [
   "403",
   "search",
   "utdanning",
+  "utdanning/:programme",
   "utdanning/:programme/:contextId",
   "utdanning/:programme/:contextId/:grade",
   "subjects",

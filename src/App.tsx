@@ -106,6 +106,7 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
                 <Route path="utdanning">
+                  <Route path=":programme" element={<ProgrammePage />} />
                   <Route path=":programme/:contextId" element={<ProgrammePage />}>
                     <Route path=":grade" element={null} />
                   </Route>
