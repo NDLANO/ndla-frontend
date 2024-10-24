@@ -7,8 +7,10 @@
  */
 
 import parse from "html-react-parser";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  BlockQuoteVariantProps,
   Button,
   CardContent,
   CardHeading,
@@ -25,10 +27,24 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentType } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
+
+const contentTypeToVariantMapping = {
+  "subject-material": "brand1",
+  "source-material": "brand1",
+  concept: "brand1",
+  "tasks-and-activities": "brand2",
+  "assessment-resources": "brand2",
+  subject: "info",
+  "topic-article": "info",
+  "learning-path": "brand3",
+} as Record<
+  ContentType | "subject" | "topic-article" | "learning-path",
+  NonNullable<BlockQuoteVariantProps>["variant"] | "brand3" | "info"
+>;
 
 interface Props {
   item: SearchItem;
@@ -58,8 +74,51 @@ const StyledListElement = styled("li", {
     minHeight: "surface.3xsmall",
   },
 });
+
 const StyledCardRoot = styled(CardRoot, {
   base: { height: "100%" },
+});
+
+const Metadata = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5xsmall",
+    paddingInline: "medium",
+    paddingBlockStart: "xsmall",
+    paddingBlockEnd: "small",
+    borderBlockStart: "1px solid",
+    borderBlockStartColor: "stroke.subtle",
+    boxShadow: "inner",
+    minHeight: "65px", // placeholder
+  },
+  variants: {
+    variant: {
+      neutral: {
+        borderColor: "stroke.subtle",
+        background: "surface.default",
+      },
+      brand1: {
+        background: "surface.brand.1.subtle",
+        borderColor: "surface.brand.1.strong",
+      },
+      brand2: {
+        background: "surface.brand.2.subtle",
+        borderColor: "surface.brand.2.strong",
+      },
+      brand3: {
+        background: "surface.brand.3.subtle",
+        borderColor: "surface.brand.3.strong",
+      },
+      info: {
+        background: "surface.infoSubtle",
+        borderColor: "surface.infoSubtle",
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "neutral",
+  },
 });
 
 const StyledText = styled(Text, {
@@ -75,6 +134,10 @@ const SearchResultItem = ({ item, type }: Props) => {
   const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
 
+  const itemLabel = useMemo(() => {
+    return item.labels && (item.labels?.length >= 2 ? item?.labels[item.labels?.length - 1] : item?.labels[0]);
+  }, [item.labels]);
+
   return (
     <StyledListElement>
       <StyledCardRoot>
@@ -85,8 +148,24 @@ const SearchResultItem = ({ item, type }: Props) => {
           sizes={"320px"}
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
+        <Metadata variant={contentTypeToVariantMapping[contentType]}>
+          <StyledText textStyle="label.small">
+            {t(`contentTypes.${contentType}`)}
+            {itemLabel && ` | ${itemLabel}`}
+          </StyledText>
+          {item.labels && item.labels?.length > 1 && (
+            <StyledText textStyle="label.xsmall">
+              {t(`searchPage.includes `)}
+              {item.labels?.map((label, index) => (
+                <span key={index}>
+                  {label}
+                  {item.labels && index < item.labels.length - 1 && ", "}
+                </span>
+              ))}
+            </StyledText>
+          )}
+        </Metadata>
         <CardContent>
-          <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
             <h3>
               <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
