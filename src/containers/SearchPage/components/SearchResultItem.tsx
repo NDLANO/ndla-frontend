@@ -76,7 +76,14 @@ const StyledListElement = styled("li", {
 });
 
 const StyledCardRoot = styled(CardRoot, {
-  base: { height: "100%" },
+  base: {
+    height: "100%",
+    _hover: {
+      backgroundColor: "surface.default",
+      borderColor: "stroke.hover",
+      boxShadow: "xsmall",
+    },
+  },
 });
 
 const Metadata = styled("div", {
