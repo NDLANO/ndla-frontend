@@ -1483,6 +1483,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
 export type GQLProgrammePage = {
   __typename?: "ProgrammePage";
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   desktopImage?: Maybe<GQLMetaImage>;
   grades?: Maybe<Array<GQLGrade>>;
   id: Scalars["String"]["output"];
@@ -2917,6 +2918,7 @@ export type GQLMastheadDrawer_SubjectFragment = { __typename?: "Subject" } & GQL
 export type GQLProgrammeMenu_ProgrammePageFragment = {
   __typename?: "ProgrammePage";
   id: string;
+  contextId?: string;
   url?: string;
   contentUri?: string;
   title: { __typename?: "Title"; title: string };
