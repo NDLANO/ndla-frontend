@@ -7,7 +7,6 @@
  */
 
 import parse from "html-react-parser";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   BlockQuoteVariantProps,
@@ -141,10 +140,6 @@ const SearchResultItem = ({ item, type }: Props) => {
   const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
 
-  const itemLabel = useMemo(() => {
-    return item.labels && (item.labels?.length >= 2 ? item?.labels[item.labels?.length - 1] : item?.labels[0]);
-  }, [item.labels]);
-
   return (
     <StyledListElement>
       <StyledCardRoot>
@@ -156,10 +151,7 @@ const SearchResultItem = ({ item, type }: Props) => {
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <Metadata variant={contentTypeToVariantMapping[contentType]}>
-          <StyledText textStyle="label.small">
-            {t(`contentTypes.${contentType}`)}
-            {itemLabel && ` | ${itemLabel}`}
-          </StyledText>
+          <StyledText textStyle="label.small">{t(`contentTypes.${contentType}`)}</StyledText>
           {item.labels && item.labels?.length > 1 && (
             <StyledText textStyle="label.xsmall">
               {t(`searchPage.includes `)}
