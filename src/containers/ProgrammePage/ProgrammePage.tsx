@@ -47,7 +47,6 @@ const ProgrammePage = () => {
   });
 
   if (programme?.includes("__")) {
-    //const [path = "", gradeParam] = programme.split("/");
     const [name = "", programmeId] = programme.split("__");
     let to = `/utdanning/${name}/${programmeId}`;
     if (contextId) {
