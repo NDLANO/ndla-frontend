@@ -63,7 +63,7 @@ const LoginModalContent = ({ title, content, masthead = false }: Props) => {
         <LinkText>
           {t("myNdla.myPage.loginText")}
           <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
-            {` ${t("myNdla.myPage.loginTextLink")}`}
+            {t("myNdla.myPage.loginTextLink")}
           </SafeLink>
         </LinkText>
       </StyledDialogBody>
