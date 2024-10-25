@@ -6,7 +6,6 @@
  *
  */
 
-import format from "date-fns/format";
 import { gql } from "@apollo/client";
 import { COPYRIGHTED, getLicenseByAbbreviation } from "@ndla/licenses";
 import config from "../config";
@@ -408,7 +407,7 @@ const createVideoData = (videos: GQLStructuredArticleData_BrightcoveLicenseFragm
       thumbnailUrl: video?.cover,
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
-      uploadDate: video?.uploadDate ? format(new Date(video?.uploadDate!), "yyyy-MM-dd") : undefined,
+      uploadDate: video?.uploadDate,
       ...getCopyrightData(video?.copyright!),
     };
   });
