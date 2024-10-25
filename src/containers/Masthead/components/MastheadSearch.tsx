@@ -214,7 +214,7 @@ const MastheadSearch = () => {
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
-          path: { pathname: context?.path },
+          path: context?.path ?? result.url,
         };
       }) ?? []
     );
@@ -233,7 +233,11 @@ const MastheadSearch = () => {
 
   const collection = useMemo(
     () =>
-      createListCollection({ items: mappedItems, itemToValue: (item) => item.url, itemToString: (item) => item.title }),
+      createListCollection({
+        items: mappedItems,
+        itemToValue: (item) => item.path,
+        itemToString: (item) => item.title,
+      }),
     [mappedItems],
   );
 
