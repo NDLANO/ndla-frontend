@@ -6,10 +6,11 @@
  *
  */
 
-import { ErrorInfo } from "react";
 import { ApolloError } from "@apollo/client";
-import { ErrorReporter } from "@ndla/error-reporter";
-import { ErrorType, LogLevel, StatusError } from "./error";
+import * as Sentry from "@sentry/react";
+import { ErrorType, LogLevel } from "./error";
+import { NDLAError } from "./error/NDLAError";
+import { StatusError } from "./error/StatusError";
 import config from "../config";
 
 let log: any | undefined;
@@ -25,7 +26,12 @@ if (config.runtimeType === "production" && import.meta.env.SSR) {
 
 type UnknownGQLError = {
   status?: number;
-  graphQLErrors?: { status?: number }[] | null;
+  graphQLErrors?:
+    | {
+        status?: number;
+        extensions?: { status?: number };
+      }[]
+    | null;
 };
 
 export const getErrorStatuses = (unknownError: ErrorType | null | undefined): number[] => {
@@ -38,7 +44,14 @@ export const getErrorStatuses = (unknownError: ErrorType | null | undefined): nu
       statuses.push(error.status);
     } else if (error.graphQLErrors) {
       error.graphQLErrors.forEach((e) => {
-        if (e.status) statuses.push(e.status);
+        if (e.status) {
+          statuses.push(e.status);
+          return;
+        }
+        if (e?.extensions?.status) {
+          statuses.push(e?.extensions.status);
+          return;
+        }
       });
     }
   }
@@ -116,14 +129,14 @@ const unreachable = (parameter: never): never => {
   throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
 };
 
-const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
+export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
   if ([401, 403, 404, 410].includes(statusCode)) return "info";
   if (statusCode < 500) return "warn";
   return "error";
 };
 
 const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
-  if (error instanceof StatusError) return error.logLevel;
+  if (error instanceof NDLAError) return error.logLevel;
 
   const statusCodes = getErrorStatuses(error);
   const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
@@ -136,12 +149,20 @@ const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
   return undefined;
 };
 
+const deriveContext = (error: ErrorType): Record<string, unknown> => {
+  if (error instanceof NDLAError) {
+    return error.logContext;
+  }
+  return {};
+};
+
 const logServerError = async (
   error: ErrorType,
   requestPath: string | undefined,
   extraContext: Record<string, unknown>,
 ) => {
-  const ctx = { ...extraContext, requestPath };
+  const derivedContext = deriveContext(error);
+  const ctx = { ...extraContext, requestPath, ...derivedContext };
   const logLevel = deriveLogLevel(error);
   const err = getErrorLog(error, ctx);
   switch (logLevel) {
@@ -160,14 +181,9 @@ const logServerError = async (
   }
 };
 
-const handleError = async (
-  error: ErrorType,
-  info?: ErrorInfo | { clientTime: Date },
-  requestPath?: string,
-  extraContext: Record<string, unknown> = {},
-) => {
+const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
-    ErrorReporter.getInstance().captureError(error, info);
+    Sentry.captureException(error);
   } else if (config.runtimeType === "production" && !config.isClient) {
     await logServerError(error, requestPath, extraContext);
   } else {

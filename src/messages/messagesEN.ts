@@ -43,6 +43,7 @@ const messages = {
     goBack: "Go back",
   },
   podcastPage: {
+    meta: "Listen and learn! NDLA offers more than 100 freely available podcasts for engaging use in upper secondary education.",
     episodes: "Episodes",
     podcast: "Podcast",
     podcasts: "Podcasts",
@@ -55,6 +56,7 @@ const messages = {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
+    resourceTypeFilter: "Resource types",
   },
   myndla: {
     tagsTitle: "My tags",
@@ -183,6 +185,15 @@ const messages = {
   },
   welcomePage: {
     programmes: "Programmes",
+  },
+  learningpathPage: {
+    accordionTitle: "Learning path content",
+    learningsteps: "Steps",
+    stepCompleted: "Completed",
+  },
+  movedResourcePage: {
+    title: "The page has moved, but you can find it here:",
+    openInSubject: "Open the article in a subject:",
   },
 };
 

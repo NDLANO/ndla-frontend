@@ -28,8 +28,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -50,6 +51,16 @@ const StyledHeader = styled("header", {
     display: "flex",
     flexDirection: "column",
     gap: "small",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    tabletDown: {
+      "& span": {
+        display: "none",
+      },
+    },
   },
 });
 
@@ -121,13 +132,14 @@ const PodcastSeriesListPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
         <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
+        <SocialMediaMetadata type="website" title={t("podcastPage.podcasts")} description={t("podcastPage.meta")} />
         <HomeBreadcrumb
           items={[
             {
@@ -175,10 +187,10 @@ const PodcastSeriesListPage = () => {
           aria-label={t("podcastPage.paginationNav")}
         >
           <PaginationPrevTrigger asChild>
-            <Button variant="tertiary">
+            <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
               <ArrowLeftShortLine />
-              {t("pagination.prev")}
-            </Button>
+              <span>{t("pagination.prev")}</span>
+            </StyledButton>
           </PaginationPrevTrigger>
           <PaginationContext>
             {(pagination) =>
@@ -198,10 +210,10 @@ const PodcastSeriesListPage = () => {
             }
           </PaginationContext>
           <PaginationNextTrigger asChild>
-            <Button variant="tertiary">
-              {t("pagination.next")}
+            <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+              <span>{t("pagination.next")}</span>
               <ArrowRightShortLine />
-            </Button>
+            </StyledButton>
           </PaginationNextTrigger>
         </PaginationRoot>
       </main>

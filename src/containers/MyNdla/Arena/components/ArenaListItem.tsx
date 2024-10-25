@@ -21,6 +21,7 @@ import { formatDateTime } from "../../../../util/formatDate";
 const StyledListItemContent = styled(ListItemContent, {
   base: {
     alignItems: "center",
+    flexWrap: "wrap",
   },
 });
 
@@ -62,13 +63,32 @@ const ContentWrapper = styled("div", {
 
 const NumberText = styled(Text, {
   base: {
+    minWidth: "3xlarge",
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
     textAlign: "center",
+    tabletDown: {
+      flexDirection: "row",
+      minWidth: "unset",
+    },
+  },
+});
+
+const IconWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    minWidth: "3xlarge",
+    tabletDown: {
+      minWidth: "unset",
+    },
   },
 });
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
+    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
@@ -110,7 +130,7 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
     const { t, i18n } = useTranslation();
     return (
       <StyledListItemRoot {...props} colorTheme="brand3" ref={ref}>
-        <ListItemContent>
+        <StyledListItemContent>
           <ContentWrapper>
             <QuestionAnswerLine />
             <TextWrapper>
@@ -134,13 +154,14 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
             </TextWrapper>
           </ContentWrapper>
           {locked ? (
-            <StyledLockedIcon />
+            <IconWrapper>
+              <StyledLockedIcon />
+            </IconWrapper>
           ) : postCount != null || voteCount != null ? (
             <ContentWrapper>
               {postCount != null && (
                 <NumberText textStyle="label.small" aria-label={`${postCount} ${t("myNdla.arena.topic.responses")}`}>
                   <strong>{postCount}</strong>
-                  <br />
                   {t("myNdla.arena.topic.responses")}
                 </NumberText>
               )}
@@ -150,13 +171,12 @@ export const TopicListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, To
                   aria-label={`${voteCount} ${t("myNdla.arena.topic.votes", { count: voteCount })}`}
                 >
                   <strong>{voteCount}</strong>
-                  <br />
                   {t("myNdla.arena.topic.votes", { count: voteCount })}
                 </NumberText>
               )}
             </ContentWrapper>
           ) : null}
-        </ListItemContent>
+        </StyledListItemContent>
       </StyledListItemRoot>
     );
   },
@@ -178,7 +198,6 @@ export interface ArenaListItemProps extends Omit<ComponentPropsWithRef<"div">, "
   visible?: boolean;
   description?: string;
 }
-// TODO: Confirm visible design
 
 export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, ArenaListItemProps>>(
   ({ title, id, isEditing, visible, user, refetchCategories, count, description, ...props }, ref) => {
@@ -210,7 +229,6 @@ export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, Ar
             {count != null && (
               <NumberText textStyle="label.small" aria-label={`${count} ${t("myNdla.arena.category.posts")}`}>
                 <strong>{count}</strong>
-                <br />
                 {t("myNdla.arena.category.posts", { count })}
               </NumberText>
             )}

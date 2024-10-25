@@ -15,6 +15,7 @@ import {
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   Text,
@@ -30,14 +31,6 @@ interface Props {
   content?: ReactNode;
   masthead?: boolean;
 }
-
-const ButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "xsmall",
-  },
-});
 
 const LinkText = styled(Text, {
   base: {
@@ -73,16 +66,16 @@ const LoginModalContent = ({ title, content, masthead = false }: Props) => {
             {` ${t("myNdla.myPage.loginTextLink")}`}
           </SafeLink>
         </LinkText>
-        <ButtonWrapper>
-          <DialogCloseTrigger asChild>
-            <Button variant="secondary">{t("cancel")}</Button>
-          </DialogCloseTrigger>
-
-          <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
-            {t("user.buttonLogIn")}
-          </SafeLinkButton>
-        </ButtonWrapper>
       </StyledDialogBody>
+      <DialogFooter>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("cancel")}</Button>
+        </DialogCloseTrigger>
+
+        <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
+          {t("user.buttonLogIn")}
+        </SafeLinkButton>
+      </DialogFooter>
     </DialogContent>
   );
 };

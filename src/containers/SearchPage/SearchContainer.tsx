@@ -6,7 +6,7 @@
  *
  */
 
-import { useId, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons/action";
 import { Done } from "@ndla/icons/editor";
@@ -18,9 +18,10 @@ import {
   CheckboxLabel,
   CheckboxRoot,
   Spinner,
-  Text,
   Heading,
   Button,
+  FieldsetRoot,
+  FieldsetLegend,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
@@ -91,7 +92,12 @@ const StyledCheckboxGroup = styled(CheckboxGroup, {
     flexWrap: "wrap",
   },
 });
-const StyledText = styled(Text, { base: { marginBlockEnd: "small" } });
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    gap: "small",
+  },
+});
 
 const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
   const showAll = selectedFilters.includes("all");
@@ -136,7 +142,6 @@ const SearchContainer = ({
   selectedFilters,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const resourceTypeFilterId = useId();
   const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
   const filterButtonItems = Object.keys(typeFilter).reduce(
@@ -225,15 +230,9 @@ const SearchContainer = ({
         )}
         <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
         {sortedFilterItems.length > 1 && (
-          <div>
-            <StyledText textStyle="title.small" id={resourceTypeFilterId}>
-              {t("searchPage.filterSearch")}
-            </StyledText>
-            <StyledCheckboxGroup
-              value={selectedFilters}
-              onValueChange={handleFilterToggle}
-              aria-labelledby={resourceTypeFilterId}
-            >
+          <StyledFieldsetRoot>
+            <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
+            <StyledCheckboxGroup value={selectedFilters} onValueChange={handleFilterToggle}>
               {sortedFilterItems.map((item) => (
                 <CheckboxRoot key={item.value} value={item.value} variant="chip">
                   <CheckboxControl>
@@ -246,7 +245,7 @@ const SearchContainer = ({
                 </CheckboxRoot>
               ))}
             </StyledCheckboxGroup>
-          </div>
+          </StyledFieldsetRoot>
         )}
       </SearchPanel>
       {!!searchGroups?.length && (
@@ -263,7 +262,7 @@ const SearchContainer = ({
           ))}
           {isLti && (
             <StyledLanguageSelector
-              items={supportedLanguages}
+              languages={supportedLanguages}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
             />
           )}

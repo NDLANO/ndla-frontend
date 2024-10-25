@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import { Additional, Core } from "@ndla/icons/common";
 import {
   Button,
   CardContent,
@@ -27,6 +26,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
 
@@ -78,12 +78,18 @@ const SearchResultItem = ({ item, type }: Props) => {
   return (
     <StyledListElement>
       <StyledCardRoot>
-        {item.img && <CardImage alt={item.img.alt} height={200} src={item.img.url} />}
+        <CardImage
+          alt=""
+          height={200}
+          src={item.img?.url ?? item.metaImg ?? ""}
+          sizes={"320px"}
+          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+        />
         <CardContent>
           <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
             <h3>
-              <SafeLink to={item.url} unstyled css={linkOverlay.raw()}>
+              <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
                 {item.title}
               </SafeLink>
             </h3>
@@ -110,14 +116,12 @@ const SearchResultItem = ({ item, type }: Props) => {
                       <ul>
                         {item.contexts.map((context) => (
                           <li key={context.url}>
-                            <SafeLink to={context.url}>{item.title}</SafeLink>
+                            <SafeLink to={context.url || ""}>{item.title}</SafeLink>
                             <Text
                               textStyle="label.small"
                               aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
                             >
                               {context.breadcrumb.join(" › ")}
-                              &nbsp;
-                              {context.isAdditional ? <Additional /> : <Core />}
                             </Text>
                           </li>
                         ))}

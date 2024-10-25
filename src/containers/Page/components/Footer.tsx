@@ -110,7 +110,6 @@ const FooterLinkBlock = ({ links, label }: FooterLinkBlockProps) => {
   const id = useId();
   return (
     <StyledLinkBlock>
-      {/* TODO: Consider if this should be an actual heading */}
       <Heading id={id} asChild consumeCss textStyle="label.large" fontWeight="bold">
         <span>{label}</span>
       </Heading>
@@ -166,7 +165,6 @@ const FooterSocialMedia = () => {
 
   return (
     <StyledLinkBlock>
-      {/* TODO: Consider if this should be an actual heading */}
       <Heading id={id} asChild consumeCss textStyle="label.large" fontWeight="bold">
         <span>{t("footer.followUs")}</span>
       </Heading>
@@ -216,7 +214,7 @@ const desktopLogoStyle = css.raw({
 const MobileLogo = styled(NdlaLogoText, {
   base: {
     display: "block",
-    width: "100%",
+    width: "surface.xsmall",
     tabletToDesktop: {
       paddingInline: "xxlarge",
     },
@@ -287,7 +285,6 @@ export const Footer = () => {
           <Logo css={[logoStyle, desktopLogoStyle]} />
           <MobileLogo css={logoStyle} width={undefined} height={undefined} preserveAspectRatio="xMidYMid meet" />
           <ContentWrapper>
-            {/* TODO: Consider if this should be an actual heading */}
             <StyledHeading asChild consumeCss textStyle="heading.small">
               <span>{t("footer.vision")}</span>
             </StyledHeading>

@@ -7,32 +7,38 @@
  */
 
 import { useTranslation } from "react-i18next";
+import {
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  ErrorMessageContent,
+  ErrorMessageActions,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
 import { Status } from "../../components";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 
-const UnpublishedResource = () => {
+export const UnpublishedResourcePage = () => {
   const { t } = useTranslation();
   return (
     <Status code={410}>
-      <HelmetWithTracker title={t("htmlTitles.unpublished")} />
-      <OneColumn>
-        <ErrorMessage
-          illustration={{
-            url: "/static/not-exist.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t(`unpublishedResourcePage.title`),
-            description: t(`unpublishedResourcePage.errorDescription`),
-            goToFrontPage: t("errorMessage.goToFrontPage"),
-          }}
-        />
-      </OneColumn>
+      <PageContainer asChild consumeCss>
+        <main>
+          <HelmetWithTracker title={t("htmlTitles.unpublished")} />
+          <ErrorMessageRoot>
+            <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
+            <ErrorMessageContent>
+              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("unpublishedResourcePage.title")}</ErrorMessageTitle>
+              <ErrorMessageDescription>{t("unpublishedResourcePage.errorDescription")}</ErrorMessageDescription>
+            </ErrorMessageContent>
+            <ErrorMessageActions>
+              <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+            </ErrorMessageActions>
+          </ErrorMessageRoot>
+        </main>
+      </PageContainer>
     </Status>
   );
 };
-
-UnpublishedResource.propTypes = {};
-
-export default UnpublishedResource;

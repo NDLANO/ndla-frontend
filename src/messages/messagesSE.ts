@@ -42,6 +42,7 @@ const messages = {
     goBack: "Gå tilbake",
   },
   podcastPage: {
+    meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
     episodes: "Jearahusat",
     podcast: "Podkast",
     podcasts: "Podkasttat",
@@ -54,6 +55,7 @@ const messages = {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som starter på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
     tagsTitle: "Mine emneknagger",
@@ -179,6 +181,15 @@ const messages = {
   },
   welcomePage: {
     programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Siden har flyttet, men du finner den her:",
+    openInSubject: "Åpne artikkelen i et fag:",
   },
 };
 

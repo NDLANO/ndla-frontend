@@ -12,8 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
+import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
@@ -35,9 +36,10 @@ import {
 
 interface VideoLicenseInfoProps {
   video: GQLVideoLicenseList_BrightcoveLicenseFragment;
+  isResourcePage?: boolean;
 }
 
-const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
+const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const pageUrl = useMemo(() => `/video/${video.id}`, [video.id]);
@@ -68,47 +70,6 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={video.copyright?.license?.license ?? ""}
-          title={t("license.video.rules")}
-          sourceTitle={video.title}
-          sourceType="video"
-        >
-          {!isCopyrighted(video.copyright?.license.license) && (
-            <AddResourceToFolderModal
-              resource={{
-                id: video.id,
-                path: `${config.ndlaFrontendDomain}/video/${video.id}`,
-                resourceType: "video",
-              }}
-            >
-              <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
-            </AddResourceToFolderModal>
-          )}
-        </MediaListLicense>
-        {!isCopyrighted(video.copyright?.license.license) && (
-          <MediaListItemActions>
-            {video.download && (
-              <SafeLinkButton to={video.download} download variant="secondary" size="small">
-                <DownloadLine />
-                {t("license.download")}
-              </SafeLinkButton>
-            )}
-            <CopyTextButton
-              stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                <ExternalLinkLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={video.copyright?.license?.license ?? ""}
         resourceType="video"
@@ -116,17 +77,61 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
-            <CopyTextButton
-              stringToCopy={copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={video.copyright?.license?.license ?? ""}
+            title={t("license.video.rules")}
+            sourceTitle={video.title}
+            sourceType="video"
+          >
+            {!isCopyrighted(video.copyright?.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: video.id,
+                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  resourceType: "video",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+              </AddResourceToFolderModal>
+            )}
+          </MediaListLicense>
+          {video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+          {!isCopyrighted(video.copyright?.license.license) && (
+            <MediaListItemActions>
+              {video.download && (
+                <SafeLinkButton to={video.download} download variant="secondary" size="small">
+                  <DownloadLine />
+                  {t("license.download")}
+                </SafeLinkButton>
+              )}
+              <CopyTextButton
+                stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(video.copyright?.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );
@@ -134,14 +139,15 @@ const VideoLicenseInfo = ({ video }: VideoLicenseInfoProps) => {
 
 interface Props {
   videos: GQLVideoLicenseList_BrightcoveLicenseFragment[];
+  isResourcePage?: boolean;
 }
 
-const VideoLicenseList = ({ videos }: Props) => {
+const VideoLicenseList = ({ videos, isResourcePage }: Props) => {
   const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <MediaList>
       {unique.map((video) => (
-        <VideoLicenseInfo video={video} key={`video-${video.id}`} />
+        <VideoLicenseInfo video={video} key={`video-${video.id}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>
   );

@@ -85,7 +85,7 @@ const ArenaUserPage = () => {
           <CardListItem key={`topicContainer-${topic.id}`}>
             <TopicListItem
               key={`topic-${topic.id}`}
-              variant="list"
+              context="list"
               id={topic.id}
               title={topic.title}
               timestamp={topic.created}

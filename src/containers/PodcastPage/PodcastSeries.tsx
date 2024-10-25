@@ -12,6 +12,7 @@ import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } f
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeBadgeNew } from "@ndla/ui";
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
 const StyledText = styled(Text, { base: { lineClamp: "3" } });
@@ -33,12 +34,13 @@ const BigListItemImage = styled(ListItemImage, {
 
 const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
-    <ListItemRoot asChild consumeCss variant="list">
+    <ListItemRoot asChild consumeCss context="list">
       <li>
         <BigListItemImage
           alt={coverPhoto.altText}
           src={coverPhoto.url}
           sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
+          fallbackElement={<ContentTypeBadgeNew contentType="podcast" />}
         />
         <ListItemContent>
           <div>

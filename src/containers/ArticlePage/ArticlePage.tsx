@@ -24,6 +24,7 @@ import {
   ArticleContent,
   ArticleFooter,
   ArticleByline,
+  licenseAttributes,
 } from "@ndla/ui";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
@@ -135,10 +136,11 @@ const ArticlePage = ({
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: subject?.id,
         articleLanguage: resource.article.language,
+        contentType: getContentType(resource),
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [subject?.id, resource?.article, i18n.language])!;
+  }, [resource, i18n.language, subject?.id])!;
 
   const copyText = useArticleCopyText(article);
 
@@ -164,16 +166,7 @@ const ArticlePage = ({
   }
   if (!resource?.article || !article) {
     const error = errors?.find((e) => e.path?.includes("resource"));
-    return (
-      <div>
-        <ArticleErrorMessage
-          //@ts-ignore
-          status={error?.status}
-        >
-          {topic && <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />}
-        </ArticleErrorMessage>
-      </div>
-    );
+    return <ArticleErrorMessage status={(error as any)?.status} />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
@@ -187,6 +180,8 @@ const ArticlePage = ({
     article.copyright?.creators.length || article.copyright?.rightsholders.length
       ? article.copyright.creators
       : article.copyright?.processors;
+
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
   return (
     <main>
@@ -223,10 +218,11 @@ const ArticlePage = ({
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
-            <ArticleWrapper>
+            <ArticleWrapper {...licenseProps}>
               <ArticleTitle
                 id={skipToContentId ?? article.id.toString()}
                 contentType={contentType}
+                contentTypeLabel={resource.resourceTypes?.[0]?.name}
                 heartButton={
                   resource.path && (
                     <AddResourceToFolderModal
@@ -323,6 +319,10 @@ export const articlePageFragments = {
       name
       path
       contentUri
+      resourceTypes {
+        name
+        id
+      }
       article {
         created
         updated

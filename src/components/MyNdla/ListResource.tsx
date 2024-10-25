@@ -21,6 +21,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
@@ -29,7 +30,7 @@ const StyledListItemContent = styled(ListItemContent, {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "4xsmall",
+    gap: "3xsmall",
     width: "100%",
   },
 });
@@ -44,10 +45,8 @@ export interface ListResourceProps {
   menu?: ReactNode;
   isLoading?: boolean;
 }
-
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
     overflowWrap: "anywhere",
   },
 });
@@ -62,14 +61,27 @@ const StyledDescription = styled(Text, {
 
 const ActionWrapper = styled("div", {
   base: {
+    marginInlineStart: "auto",
     "& > button, & > a": {
       position: "relative",
     },
   },
 });
 
+const DescriptionWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "3xsmall",
+    width: "100%",
+  },
+});
+
 const BigListItemImage = styled(ListItemImage, {
   base: {
+    tabletDown: {
+      display: "none",
+    },
     tabletWide: {
       minWidth: "102px",
       maxWidth: "102px",
@@ -82,21 +94,34 @@ const BigListItemImage = styled(ListItemImage, {
 const TitleWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "column",
     width: "100%",
     justifyContent: "space-between",
-    gap: "4xsmall",
-    alignSelf: "flex-start",
+    gap: "3xsmall",
     alignItems: "flex-start",
-    tablet: {
-      flexDirection: "row",
-    },
   },
 });
 
 const LoadingListItemRoot = styled(ListItemRoot, {
   base: {
     pointerEvents: "none",
+  },
+});
+
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    tabletDown: {
+      "& picture": {
+        display: "none",
+      },
+    },
+  },
+});
+
+const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
+  base: {
+    tabletDown: {
+      display: "none",
+    },
   },
 });
 
@@ -108,15 +133,13 @@ const ListResource = ({
   resourceTypes,
   description,
   menu,
-  variant = "list",
+  variant,
+  context = "list",
   isLoading = false,
+  nonInteractive,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
-  const showDescription = description !== undefined;
-  const imageType = showDescription ? "normal" : "compact";
   const firstContentType = resourceTypes?.[0]?.id ?? "";
-
-  const ImageComponent = imageType === "compact" ? ListItemImage : BigListItemImage;
 
   const contentType = useMemo(() => {
     if (!firstContentType) {
@@ -131,7 +154,13 @@ const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} variant={variant}>
+      <LoadingListItemRoot
+        aria-label={t("loading")}
+        aria-busy={true}
+        variant={variant}
+        context={context}
+        nonInteractive={nonInteractive}
+      >
         <Skeleton>
           <ListItemImage src="" alt="" />
         </Skeleton>
@@ -150,33 +179,38 @@ const ListResource = ({
   }
 
   return (
-    <ListItemRoot id={id} variant={variant}>
-      <ImageComponent
+    <StyledListItemRoot id={id} variant={variant} context={context} nonInteractive={nonInteractive}>
+      <BigListItemImage
         src={resourceImage.src}
-        alt={resourceImage.alt}
-        fallbackWidth={imageType === "compact" ? 56 : 136}
-        // Hide image borders when no image is present. We still want it to take up space
-        css={{ "&[src='']": { opacity: "0" } }}
+        alt=""
+        fallbackWidth={136}
+        fallbackElement={<StyledContentTypeFallbackIcon contentType={contentType} />}
       />
       <StyledListItemContent>
         <TitleWrapper>
-          <ListItemHeading
-            asChild
-            consumeCss
-            color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
-          >
-            <h2>
+          {nonInteractive ? (
+            <ListItemHeading color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}>
+              {title}
+            </ListItemHeading>
+          ) : (
+            <ListItemHeading
+              asChild
+              consumeCss
+              color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
+            >
               <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
                 {title}
               </StyledSafeLink>
-            </h2>
-          </ListItemHeading>
+            </ListItemHeading>
+          )}
           <ContentTypeBadgeNew contentType={contentType} />
         </TitleWrapper>
-        {!!description && <StyledDescription>{description}</StyledDescription>}
+        <DescriptionWrapper>
+          {!!description && <StyledDescription>{description}</StyledDescription>}
+          <ActionWrapper>{menu}</ActionWrapper>
+        </DescriptionWrapper>
       </StyledListItemContent>
-      <ActionWrapper>{menu}</ActionWrapper>
-    </ListItemRoot>
+    </StyledListItemRoot>
   );
 };
 

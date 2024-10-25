@@ -38,7 +38,7 @@ interface GradesData {
     name: string;
     subjects?: {
       label: string;
-      url: string;
+      url?: string;
     }[];
   }[];
 }
@@ -88,6 +88,14 @@ const HeadingWrapper = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xxlarge",
     paddingBlockEnd: "large",
+
+    tabletDown: {
+      gap: "xsmall",
+      paddingBlockStart: "medium",
+      paddingInline: "xsmall",
+      paddingBlockEnd: "small",
+      marginBlockEnd: "medium",
+    },
   },
 });
 
@@ -117,6 +125,12 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   base: {
     minWidth: "3xlarge",
     justifyContent: "center",
+  },
+});
+
+const StyledImage = styled(Image, {
+  base: {
+    width: "100%",
   },
 });
 
@@ -155,7 +169,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </Helmet>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
-          <Image src={programme.desktopImage?.url ?? ""} alt="" />
+          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}

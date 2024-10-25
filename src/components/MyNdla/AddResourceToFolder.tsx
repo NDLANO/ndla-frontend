@@ -10,9 +10,9 @@ import compact from "lodash/compact";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { ComboboxInputValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
 import { CheckLine } from "@ndla/icons/editor";
@@ -28,6 +28,7 @@ import {
   InputContainer,
   Text,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import {
   TagSelectorClearTrigger,
@@ -48,6 +49,7 @@ import {
   useUpdateFolderResourceMutation,
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
@@ -87,6 +89,21 @@ const StyledInfoMessages = styled("div", {
     gap: "xsmall",
   },
 });
+
+interface ResourceAddedSnackProps {
+  folder: GQLFolder;
+}
+
+const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      {t("myNdla.resource.addedToFolder")}
+      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+    </div>
+  );
+};
 
 const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
@@ -138,6 +155,8 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
 
+  const allTagsCollection = useMemo(() => createListCollection({ items: allTags }), [allTags]);
+
   const alreadyAdded = selectedFolder?.resources.some((resource) => resource.id === storedResource?.id);
 
   const onSave = async () => {
@@ -154,7 +173,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
       toast.create({
         title: t("myndla.resource.added"),
-        description: t("myndla.resource.addedToFolder", { folder: selectedFolder.name }),
+        description: <ResourceAddedSnack folder={selectedFolder} />,
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
@@ -177,7 +196,9 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   return (
     <AddResourceContainer>
       <ListResource
-        variant="standalone"
+        context="standalone"
+        variant="subtle"
+        nonInteractive
         id={resource.id.toString()}
         isLoading={metaLoading}
         link={resource.path}
@@ -223,7 +244,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           </StyledInfoMessages>
           <TagSelectorRoot
             value={selectedTags}
-            items={allTags}
+            collection={allTagsCollection}
             onInputValueChange={onInputValueChange}
             onValueChange={(details) => setSelectedTags(details.value)}
             translations={tagSelectorTranslations}

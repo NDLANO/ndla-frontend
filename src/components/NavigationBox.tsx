@@ -6,7 +6,7 @@
  *
  */
 
-import { useId } from "react";
+import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Additional, PresentationLine } from "@ndla/icons/common";
 import { Heading } from "@ndla/primitives";
@@ -44,7 +44,7 @@ interface ItemProps {
 }
 
 interface Props {
-  heading?: string;
+  heading?: ReactNode;
   items?: ItemProps[];
 }
 
@@ -52,7 +52,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
   const { t } = useTranslation();
   const headingId = useId();
   return (
-    <StyledWrapper aria-labelledby={headingId} data-nav-box="">
+    <StyledWrapper aria-labelledby={heading ? headingId : undefined} data-nav-box="">
       {heading && (
         <Heading id={headingId} asChild consumeCss textStyle="heading.small" fontWeight="bold">
           <h2>{heading}</h2>

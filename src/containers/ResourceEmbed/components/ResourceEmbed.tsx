@@ -18,6 +18,7 @@ import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, Article
 import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -28,8 +29,7 @@ import {
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import ErrorPage from "../../ErrorPage";
-import NotFound from "../../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
 
@@ -160,11 +160,11 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   }
 
   if (error?.graphQLErrors.some((e) => e?.extensions?.status === 404)) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   if (error || !transformedContent || !properties) {
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
   const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
   const path = `/${type}/${id}`;

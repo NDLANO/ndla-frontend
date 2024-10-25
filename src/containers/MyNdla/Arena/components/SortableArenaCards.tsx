@@ -121,19 +121,19 @@ const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, ca
   );
 
   return (
-    <StyledCardContainer>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-        accessibility={{ announcements }}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEnd}
+      accessibility={{ announcements }}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    >
+      <SortableContext
+        items={sortedCategories}
+        disabled={categories?.length < 2}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={sortedCategories}
-          disabled={categories?.length < 2}
-          strategy={verticalListSortingStrategy}
-        >
+        <StyledCardContainer>
           {categories?.map((category, categoryIndex) => (
             <SortableArenaListItem
               refetchCategories={refetchCategories}
@@ -148,9 +148,9 @@ const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, ca
               index={categoryIndex}
             />
           ))}
-        </SortableContext>
-      </DndContext>
-    </StyledCardContainer>
+        </StyledCardContainer>
+      </SortableContext>
+    </DndContext>
   );
 };
 
@@ -199,7 +199,7 @@ const SortableArenaListItem = forwardRef<HTMLDivElement, SortableArenaListItemPr
           type="category"
           {...attributes}
         />
-        <ArenaListItem title={title} variant="list" id={id} isEditing={isEditing} {...props} ref={ref} />
+        <ArenaListItem title={title} context="list" id={id} isEditing={isEditing} {...props} ref={ref} />
       </StyledLi>
     );
   },

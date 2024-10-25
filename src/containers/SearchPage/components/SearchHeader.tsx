@@ -58,11 +58,17 @@ const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", fl
 
 const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledHitsWrapper = styled("div", { base: { marginTop: "xsmall" } });
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall" } });
 
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
     width: "100%",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
   },
 });
 
@@ -167,16 +173,14 @@ const SearchHeader = ({
                   {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
                 </Text>
               ) : (
-                <Text textStyle="label.small">
-                  {t("searchPage.resultType.showingSearchPhrase")} &ldquo;{query}&rdquo;
-                </Text>
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
               )}
               {suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
-                  <Button variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
+                  <StyledButton variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
                     [{suggestion}]
-                  </Button>
+                  </StyledButton>
                 </Text>
               )}
             </div>

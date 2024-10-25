@@ -7,14 +7,16 @@
  */
 
 import { Dispatch, SetStateAction, memo, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { styled } from "@ndla/styled-system/jsx";
-import FolderActions from "./FolderActions";
+import { useFolderActions } from "./FolderActionHooks";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
 import DragHandle from "../../components/DragHandle";
+import SettingsMenu from "../../components/SettingsMenu";
 
 interface Props {
   folder: GQLFolder;
@@ -53,6 +55,7 @@ export const DragWrapper = styled("div", {
 });
 
 const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, folderRefId, isFavorited }: Props) => {
+  const { t } = useTranslation();
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
     id: folder.id,
     data: {
@@ -66,33 +69,18 @@ const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, fol
     transition,
   };
 
+  const folderMenuActions = useFolderActions(folder, setFocusId, folders, false, folderRefId, isFavorited);
+
   const menu = useMemo(
-    () => (
-      <FolderActions
-        folders={folders}
-        key={folder.id}
-        selectedFolder={folder}
-        setFocusId={setFocusId}
-        folderRefId={folderRefId}
-        isFavorited={isFavorited}
-      />
-    ),
-    [folder, folders, setFocusId, folderRefId, isFavorited],
+    () => <SettingsMenu menuItems={folderMenuActions} modalHeader={t("myNdla.tools")} />,
+    [folderMenuActions, t],
   );
 
   return (
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
-      {!isFavorited && (
-        <DragHandle
-          sortableId={folder.id}
-          disabled={items.length < 2}
-          name={folder.name}
-          type="folder"
-          {...attributes}
-        />
-      )}
+      <DragHandle sortableId={folder.id} disabled={items.length < 2} name={folder.name} type="folder" {...attributes} />
       <DragWrapper>
-        <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} />
+        <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} variant="subtle" />
       </DragWrapper>
     </DraggableListItem>
   );

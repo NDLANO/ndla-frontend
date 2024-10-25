@@ -25,7 +25,6 @@ import {
   PageContent,
   Text,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import {
   ArticleContent,
@@ -37,7 +36,7 @@ import {
   HomeBreadcrumb,
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -51,14 +50,6 @@ import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmb
 interface RouteParams extends TypedParams {
   id: string;
 }
-
-const StyledPodcastSeriesWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
@@ -90,7 +81,7 @@ const PodcastSeriesPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;
@@ -152,9 +143,6 @@ const PodcastSeriesPage = () => {
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {podcastSeries.description.description && (
-          <meta name="description" content={podcastSeries.description.description} />
-        )}
         {podcastSeries.hasRSS && (
           <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}
@@ -207,12 +195,10 @@ const PodcastSeriesPage = () => {
                 </ArticleHeader>
                 <ArticleContent>
                   {podcastSeries.content ? (
-                    <StyledPodcastSeriesWrapper>
-                      <Heading asChild consumeCss textStyle="title.medium">
-                        <h2>{t("podcastPage.episodes")}</h2>
-                      </Heading>
+                    <section>
+                      <h2>{t("podcastPage.episodes")}</h2>
                       {embeds}
-                    </StyledPodcastSeriesWrapper>
+                    </section>
                   ) : (
                     <Text>{t("podcastPage.noResults")}</Text>
                   )}

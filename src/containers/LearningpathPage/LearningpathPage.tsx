@@ -13,7 +13,7 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -84,7 +84,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     !data.subject ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
   const { resource, topic, resourceTypes, subject, topicPath } = data;
   const learningpath = resource.learningpath!;
@@ -106,7 +106,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
       : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [{ name: learningpath.title, id: `${learningpath.id}` }]);
 
   return (
-    <div>
+    <>
       <Helmet>
         <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
         {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
@@ -124,12 +124,12 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpathStep={learningpathStep}
         topic={topic}
         subject={subject}
-        resource={resource}
+        resourcePath={resource.path}
         resourceTypes={resourceTypes}
         topicPath={topicPath}
         breadcrumbItems={breadcrumbItems}
       />
-    </div>
+    </>
   );
 };
 
@@ -181,7 +181,7 @@ export const learningpathPageFragments = {
   resource: gql`
     fragment LearningpathPage_Resource on Resource {
       id
-      ...Learningpath_Resource
+      path
       learningpath {
         supportedLanguages
         tags
@@ -199,7 +199,6 @@ export const learningpathPageFragments = {
     }
     ${Learningpath.fragments.learningpathStep}
     ${Learningpath.fragments.learningpath}
-    ${Learningpath.fragments.resource}
   `,
 };
 

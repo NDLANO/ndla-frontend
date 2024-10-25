@@ -19,7 +19,7 @@ import {
   TypeFilter,
   mapSubjectDataToGroup,
 } from "./searchHelpers";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { LtiData } from "../../interfaces";
@@ -28,7 +28,7 @@ import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 
-const getStateSearchParams = (searchParams: Record<string, any>) => {
+export const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
   Object.keys(searchParams).forEach((key) => {
     stateSearchParams[key] = convertSearchParam(searchParams[key]);
@@ -92,7 +92,7 @@ const SearchInnerPage = ({
       language: i18n.language,
       page: 1,
       pageSize: 12,
-      ...getTypeParams([], resourceTypes),
+      ...getTypeParams([], resourceTypes, isLti),
       aggregatePaths: ["contexts.resourceTypes.id"],
       grepCodesList: searchParams.grepCodes,
       filterInactive: subjectIds.length === 0,
@@ -102,7 +102,7 @@ const SearchInnerPage = ({
       if (initialGQLCall.current && activeSubFiltersWithoutLeading.length !== 0) {
         await fetchMore({
           variables: {
-            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes),
+            ...getTypeParams(activeSubFiltersWithoutLeading, resourceTypes, isLti),
           },
         });
         initialGQLCall.current = false;
@@ -142,7 +142,7 @@ const SearchInnerPage = ({
       const updatedSearchParamKeys = getActiveSubFilters(updatedWithoutAllFilter);
       handleSearchParamsChange({ activeSubFilters: updatedSearchParamKeys });
       fetchMore({
-        variables: getTypeParams([], resourceTypes),
+        variables: getTypeParams([], resourceTypes, isLti),
       });
       return;
     }
@@ -153,7 +153,7 @@ const SearchInnerPage = ({
     updateTypeFilter(type, { page: 1, selected: filterIds.filter((t) => t !== "all") });
     handleSearchParamsChange({ activeSubFilters: updatedSearchParamKeys });
     fetchMore({
-      variables: getTypeParams(updatedWithoutAllFilter, resourceTypes),
+      variables: getTypeParams(updatedWithoutAllFilter, resourceTypes, isLti),
     });
   };
 
@@ -188,6 +188,7 @@ const SearchInnerPage = ({
           ...getTypeParams(
             activeFilters.length ? activeFilters : omitTypes.includes(type) ? [] : [type],
             omitTypes.includes(type) ? [] : resourceTypes,
+            isLti,
           ),
         },
       });

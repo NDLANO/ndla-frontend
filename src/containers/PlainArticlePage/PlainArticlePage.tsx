@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -19,9 +19,9 @@ import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isAccessDeniedError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-import AccessDeniedPage from "../AccessDeniedPage/AccessDeniedPage";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
-import UnpublishedResource from "../UnpublishedResourcePage/UnpublishedResourcePage";
+import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 interface MatchParams extends TypedParams {
   articleId: string;
@@ -60,22 +60,22 @@ const PlainArticlePage = () => {
   }
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
     redirectContext.status = 410;
-    return <UnpublishedResource />;
+    return <UnpublishedResourcePage />;
   }
 
   if (responseContext?.status === 410) {
-    return <UnpublishedResource />;
+    return <UnpublishedResourcePage />;
   }
 
   if (error) {
     if (isAccessDeniedError(error)) {
       return <AccessDeniedPage />;
     }
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data.article) {

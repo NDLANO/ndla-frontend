@@ -38,7 +38,7 @@ export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
 
 const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
-  const { sortFolders } = useSortFoldersMutation();
+  const { sortFolders } = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
   const client = useApolloClient();
   const [sortedFolders, setSortedFolders] = useState(folders);
 
@@ -49,8 +49,9 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
   const foldersCount = useMemo(() => getFolderCount(folders), [folders]);
 
   const updateCache = (newOrder: string[]) => {
+    const typeName = isFavorited ? "SharedFolder" : "Folder";
     const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
-      return newOrder.map((id) => existing.find((ef) => ef.__ref === `Folder:${id}`)!);
+      return newOrder.map((id) => existing.find((ef) => ef.__ref === `${typeName}:${id}`)!);
     };
 
     if (folderId) {
@@ -61,12 +62,13 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
         fields: { subfolders: sortCacheModifierFunction },
       });
     } else {
+      const field = isFavorited ? "sharedFolders" : "folders";
       client.cache.modify({
         fields: {
-          folders: ({ folders, ...rest }) => {
+          folders: (input) => {
             return {
-              folders: sortCacheModifierFunction(folders),
-              ...rest,
+              ...input,
+              [field]: sortCacheModifierFunction(input[field]),
             };
           },
         },
@@ -88,15 +90,15 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
   return (
     <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
       {folders.length > 0 && (
-        <BlockWrapper>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={sortFolderIds}
-            accessibility={{ announcements }}
-            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-          >
-            <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={sortFolderIds}
+          accessibility={{ announcements }}
+          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        >
+          <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
+            <BlockWrapper>
               {folders.map((folder, index) => (
                 <DraggableFolder
                   key={`folder-${folder.id}`}
@@ -109,9 +111,9 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
                   isFavorited={isFavorited}
                 />
               ))}
-            </SortableContext>
-          </DndContext>
-        </BlockWrapper>
+            </BlockWrapper>
+          </SortableContext>
+        </DndContext>
       )}
     </WhileLoading>
   );

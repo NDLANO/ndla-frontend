@@ -38,6 +38,7 @@ const TopicContent = styled("div", {
 const TopicIntroductionWrapper = styled("div", {
   base: {
     maxWidth: "surface.contentMax",
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     gap: "small",
@@ -50,6 +51,7 @@ const HeadingWrapper = styled("hgroup", {
     flexWrap: "wrap",
     alignItems: "center",
     gap: "xsmall",
+    overflowWrap: "anywhere",
   },
 });
 

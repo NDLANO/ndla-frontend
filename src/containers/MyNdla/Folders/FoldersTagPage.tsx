@@ -7,29 +7,25 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import ListViewOptions from "./components/ListViewOptions";
-import { ViewType } from "./FoldersPage";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
-import BlockResource from "../../../components/MyNdla/BlockResource";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import ListResource from "../../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
-import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolderResource } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
-import NotFoundPage from "../../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
@@ -91,9 +87,6 @@ interface ResourcesProps {
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
-  const [viewType, _setViewType] = useState<ViewType>(
-    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
-  );
   const toast = useToast();
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -106,13 +99,6 @@ const Resources = ({ resources }: ResourcesProps) => {
     { skip: resources.length === 0 },
   );
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
-
-  const setViewType = (type: ViewType) => {
-    _setViewType(type);
-    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
-  };
-
-  const Resource = viewType === "block" ? BlockResource : ListResource;
 
   const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
     if (examLock) return [];
@@ -151,24 +137,24 @@ const Resources = ({ resources }: ResourcesProps) => {
 
   return (
     <>
-      <ListViewOptions type={viewType} onTypeChange={setViewType} />
-      <BlockWrapper variant={viewType}>
+      <BlockWrapper>
         {resources.map((resource) => {
           const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
           return (
-            <Resource
+            <ListResource
               id={resource.id}
               isLoading={loading}
               key={resource.id}
               link={resource.path}
               title={meta?.title ?? ""}
-              description={viewType !== "list" ? meta?.description ?? "" : undefined}
+              description={meta?.description ?? ""}
               resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
               resourceImage={{
                 src: meta?.metaImage?.url ?? "",
                 alt: "",
               }}
               menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
+              variant="subtle"
             />
           );
         })}

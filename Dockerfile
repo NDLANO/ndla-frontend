@@ -1,8 +1,10 @@
 ### Build stage
-FROM node:20.13.1-alpine3.18 as builder
+FROM node:20.13.1-alpine3.18 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
+ARG SENTRY_AUTH_TOKEN
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 
 # Copy necessary files for installing dependencies
 COPY yarn.lock package.json .yarnrc.yml $APP_PATH/

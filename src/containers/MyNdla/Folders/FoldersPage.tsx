@@ -7,22 +7,18 @@
  */
 
 import isEqual from "lodash/isEqual";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { HashTag } from "@ndla/icons/common";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import FolderActions from "./components/FolderActions";
-import FolderButtons from "./components/FolderButtons";
+import { useFolderActions } from "./components/FolderActionHooks";
 import FolderList from "./components/FolderList";
-import ListViewOptions from "./components/ListViewOptions";
 import ResourceList from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
-import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
@@ -64,16 +60,25 @@ const SharedHeading = styled(Heading, {
   },
 });
 
-export type ViewType = "list" | "block" | "listLarger";
+const TagSafeLink = styled(SafeLinkButton, {
+  base: {
+    color: "text.default",
+    background: "surface.action.myNdla",
+    boxShadowColor: "stroke.warning",
+    _hover: {
+      background: "surface.action.myNdla.hover",
+    },
+    _active: {
+      background: "surface.action.myNdla",
+    },
+  },
+});
 
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const [viewType, _setViewType] = useState<ViewType>(
-    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
-  );
   const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
@@ -136,29 +141,12 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const setViewType = useCallback((type: ViewType) => {
-    _setViewType(type);
-    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
-  }, []);
-
-  const dropDownMenu = useMemo(
-    () => <FolderActions selectedFolder={selectedFolder} setFocusId={setFocusId} folders={folders} inToolbar />,
-    [selectedFolder, folders, setFocusId],
-  );
-
-  const folderButtons = useMemo(
-    () => <FolderButtons selectedFolder={selectedFolder} setFocusId={setFocusId} />,
-    [selectedFolder, setFocusId],
-  );
+  const menuItems = useFolderActions(selectedFolder, setFocusId, folders, true);
 
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
   return (
-    <StyledMyNdlaPageWrapper
-      dropDownMenu={dropDownMenu}
-      buttons={folderButtons}
-      showButtons={!examLock || !!selectedFolder}
-    >
+    <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
       <HelmetWithTracker title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
       {selectedFolder && (
@@ -166,7 +154,6 @@ const FoldersPage = () => {
           <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
         </p>
       )}
-      <ListViewOptions type={viewType} onTypeChange={setViewType} />
       <FolderList
         folders={folders}
         loading={loading}
@@ -174,9 +161,7 @@ const FoldersPage = () => {
         setFocusId={setFocusId}
         folderRefId={folderRefId}
       />
-      {selectedFolder && (
-        <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
-      )}
+      {selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
       {!selectedFolder && sharedByOthersFolders?.length > 0 && (
         <>
           <SharedHeading asChild consumeCss textStyle="heading.small">
@@ -201,11 +186,9 @@ const FoldersPage = () => {
             <StyledUl>
               {tags?.map((tag) => (
                 <li key={tag}>
-                  {/* TODO: This should be updated according to design */}
-                  <SafeLinkButton variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
-                    <HashTag />
+                  <TagSafeLink variant="secondary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
                     {tag}
-                  </SafeLinkButton>
+                  </TagSafeLink>
                 </li>
               ))}
             </StyledUl>

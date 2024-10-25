@@ -13,6 +13,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
+import { useComponentSize } from "@ndla/hooks";
 import { BleedPageContent, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import TopicVisualElementContent from "./TopicVisualElementContent";
@@ -26,12 +27,14 @@ import {
   GQLTopic_SubjectFragment,
   GQLTopic_TopicFragment,
 } from "../../../graphqlTypes";
+import { copyrightInfoFragment } from "../../../queries";
 import { toTopic, useUrnIds } from "../../../routeHelpers";
 import { getTopicPath } from "../../../util/getTopicPath";
 import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MultidisciplinaryArticleList from "../../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../../Resources/Resources";
+import { scrollToRef } from "../subjectPageHelpers";
 
 const getDocumentTitle = ({ t, topic }: { t: TFunction; topic: Props["topic"] }) => {
   return htmlTitle(topic?.name, [t("htmlTitles.titleTemplate")]);
@@ -62,6 +65,7 @@ const SubjectTopic = ({
   subject,
 }: Props) => {
   const { t } = useTranslation();
+  const { height: mastheadHeightPx } = useComponentSize("masthead");
   const { user, authContextLoaded } = useContext(AuthContext);
   const { topicId: urnTopicId, subjectType, topicList } = useUrnIds();
   const { trackPageView } = useTracker();
@@ -69,13 +73,16 @@ const SubjectTopic = ({
 
   useEffect(() => {
     if (topicList[topicList.length - 1] === topicId && topicRef.current) {
-      topicRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      scrollToRef(topicRef, mastheadHeightPx);
+      if (document.activeElement?.nodeName !== "BODY") {
+        document.getElementById(SKIP_TO_CONTENT_ID)?.focus();
+      }
     }
-  }, [topicId, topicList]);
+  }, [mastheadHeightPx, topicId, topicList]);
 
   const topicPath = useMemo(() => {
     if (!topic?.path) return [];
-    return getTopicPath(topic.path, topic.contexts);
+    return getTopicPath(topic.contexts, topic.path);
   }, [topic]);
 
   useEffect(() => {
@@ -97,8 +104,8 @@ const SubjectTopic = ({
 
   const visualElement = useMemo(() => {
     if (!embedMeta) return undefined;
-    return <TopicVisualElementContent embed={embedMeta} />;
-  }, [embedMeta]);
+    return <TopicVisualElementContent embed={embedMeta} metaImage={topic.article?.metaImage} />;
+  }, [embedMeta, topic.article?.metaImage]);
 
   const resources = useMemo(() => {
     if (topic.coreResources?.length || topic.supplementaryResources?.length) {
@@ -157,7 +164,7 @@ const SubjectTopic = ({
       ) : subTopics?.length ? (
         <NavigationBox
           variant="secondary"
-          heading={t("subjectPage.topicsTitle", { topic: topic.name })}
+          heading={parse(t("subjectPage.topicsTitle", { topic: topic.name }))}
           items={subTopics}
         />
       ) : null}
@@ -211,6 +218,9 @@ export const topicFragments = {
         metaImage {
           url
           alt
+          copyright {
+            ...CopyrightInfo
+          }
         }
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {
@@ -223,6 +233,7 @@ export const topicFragments = {
     }
     ${MultidisciplinaryArticleList.fragments.topic}
     ${Resources.fragments.topic}
+    ${copyrightInfoFragment}
   `,
   resourceType: gql`
     fragment Topic_ResourceTypeDefinition on ResourceTypeDefinition {

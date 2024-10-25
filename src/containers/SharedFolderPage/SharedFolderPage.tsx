@@ -7,7 +7,7 @@
  */
 
 import keyBy from "lodash/keyBy";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -17,8 +17,8 @@ import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import BlockResource from "../../components/MyNdla/BlockResource";
 import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
 import CopyFolderModal from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
@@ -30,28 +30,15 @@ import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphql
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import ErrorPage from "../ErrorPage";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
-import ListViewOptions from "../MyNdla/Folders/components/ListViewOptions";
-import { ViewType } from "../MyNdla/Folders/FoldersPage";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];
 
   return (folder?.resources ?? []).concat(subResources);
 };
-
-const OptionsWrapper = styled(HStack, {
-  base: {
-    width: "100%",
-    paddingBlock: "small",
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
 
 const SharedFolderInformationWrapper = styled("div", {
   base: {
@@ -97,7 +84,6 @@ const containsFolder = (folder: GQLFolder): boolean => {
 };
 
 const SharedFolderPage = () => {
-  const [viewType, setViewType] = useState<ViewType>("list");
   const { folderId = "" } = useParams();
   const { t } = useTranslation();
 
@@ -125,8 +111,6 @@ const SharedFolderPage = () => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
-  const Resource = viewType === "block" ? BlockResource : ListResource;
-
   const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`, {
     name: folder?.owner?.name ?? t("myNdla.folder.professional"),
   });
@@ -149,10 +133,10 @@ const SharedFolderPage = () => {
     return <PageSpinner />;
   }
   if (error?.graphQLErrors[0]?.extensions?.status === 404) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
   if (error || !folder) {
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (
@@ -163,7 +147,7 @@ const SharedFolderPage = () => {
           type="website"
           title={folder.name}
           imageUrl={metaWithMetaImage?.metaImage?.url}
-          description={t("myNdla.sharedFolder.description.info1")}
+          description={t("myNdla.sharedFolder.description")}
         >
           <meta name="robots" content="noindex, nofollow" />
         </SocialMediaMetadata>
@@ -186,9 +170,6 @@ const SharedFolderPage = () => {
         <FolderDescription textStyle="label.large">
           {folder.description ?? t("myNdla.folder.defaultPageDescription")}
         </FolderDescription>
-        <OptionsWrapper>
-          <ListViewOptions type={viewType} onTypeChange={setViewType} />
-        </OptionsWrapper>
         {!!folder.subfolders.length && (
           <BlockWrapper>
             {folder.subfolders.map((subFolder) =>
@@ -204,12 +185,12 @@ const SharedFolderPage = () => {
             )}
           </BlockWrapper>
         )}
-        <BlockWrapper variant={viewType}>
+        <BlockWrapper>
           {folder.resources.map((resource) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return resourceMeta ? (
               <li key={resource.id}>
-                <Resource
+                <ListResource
                   id={resource.id}
                   resourceImage={{
                     src: resourceMeta?.metaImage?.url ?? "",
@@ -218,7 +199,7 @@ const SharedFolderPage = () => {
                   link={getResourceMetaPath(resource, resourceMeta)}
                   resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
                   title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
-                  description={viewType !== "list" ? resourceMeta?.description ?? "" : undefined}
+                  description={resourceMeta?.description ?? ""}
                 />
               </li>
             ) : null;

@@ -7,6 +7,7 @@
  */
 
 import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(() => {
@@ -24,6 +25,13 @@ export default defineConfig(() => {
         },
       }),
       splitVendorChunkPlugin(),
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: process.env.SENTRY_ORG ?? "ndlano",
+        project: process.env.SENTRY_PROJECT ?? "ndla-frontend",
+        url: "https://sentry.io/",
+        telemetry: false,
+      }),
     ],
     ssr: {
       noExternal: ["@apollo/client"],
@@ -38,16 +46,7 @@ export default defineConfig(() => {
       },
     },
     resolve: {
-      dedupe: [
-        "react-router",
-        "react-router-dom",
-        "react-helmet-async",
-        "i18next",
-        "react-i18next",
-        "@emotion/react",
-        "@emotion/styled",
-        "@ark-ui/react",
-      ],
+      dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next", "@ark-ui/react"],
     },
   };
 });

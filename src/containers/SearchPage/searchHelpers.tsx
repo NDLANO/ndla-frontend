@@ -90,10 +90,10 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
     return trait;
   }) ?? [];
 
-const getLtiUrl = (path: string, id: number, isContext: boolean, language?: LocaleType) => {
+const getLtiUrl = (id: number, publicId?: string, language?: LocaleType) => {
   const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
-  if (isContext) {
-    return `${commonPath}urn:${path.split("/").pop()}/${id}`;
+  if (publicId) {
+    return `${commonPath}${publicId}/${id}`;
   }
   return `${commonPath}article/${id}`;
 };
@@ -110,7 +110,7 @@ export interface SearchItem {
   id: number | string;
   title: string;
   ingress?: string;
-  url: string;
+  url?: string;
   labels?: string[];
   contexts?: {
     url: string;
@@ -122,6 +122,7 @@ export interface SearchItem {
     url: string;
     alt: string;
   };
+  metaImg?: string;
 }
 
 export const mapResourcesToItems = (
@@ -136,7 +137,7 @@ export const mapResourcesToItems = (
     title: resource.name,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
+      ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
         ? resource.contexts[0]?.path || resource.path
         : plainUrl(resource.path),
@@ -220,6 +221,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
         id: subject.id,
         title: subject.name,
         url: toSubject(subject.id),
+        metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],
       totalCount: subjectData.length,
@@ -289,15 +291,15 @@ export const getTypeFilter = (
   return typeFilter;
 };
 
-export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[]) => {
+export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[], isLti?: boolean) => {
   if (!types?.length) {
     return {
       resourceTypes: allResourceTypes?.map((resourceType) => resourceType.id).join(),
-      contextTypes: "topic-article",
+      contextTypes: isLti ? undefined : "topic-article",
     };
   }
   const contextTypes = types.find((type) => type === "topic-article");
-  if (contextTypes) {
+  if (contextTypes && !isLti) {
     return {
       contextTypes,
     };

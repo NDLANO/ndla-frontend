@@ -63,7 +63,7 @@ const StyledHGroup = styled("hgroup", {
     display: "flex",
     gap: "xsmall",
     flexWrap: "wrap",
-    alignItems: "center",
+    alignItems: "baseline",
   },
 });
 

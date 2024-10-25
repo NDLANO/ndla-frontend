@@ -81,6 +81,13 @@ const StyledImg = styled(Image, {
   },
 });
 
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "block",
+    position: "relative",
+  },
+});
+
 const StyledCarousel = styled(Carousel, {
   base: {
     justifyContent: "center",
@@ -101,6 +108,28 @@ const StyledCarousel = styled(Carousel, {
         marginInline: "medium",
       },
     },
+  },
+});
+
+const StyledInfoContainer = styled("div", {
+  base: {
+    position: "absolute",
+    top: "35%",
+    right: "max(token(spacing.medium), 5%)",
+    maxWidth: "surface.large",
+    marginInlineStart: "medium",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    alignItems: "flex-start",
+    border: "1px solid",
+    borderColor: "surface.brand.1",
+    borderRadius: "xsmall",
+    paddingBlock: "large",
+    zIndex: "docked",
+    backgroundColor: "primary/90",
+    paddingInline: "medium",
+    color: "text.onAction",
   },
 });
 
@@ -142,13 +171,19 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   return (
     <BleedPageContent asChild consumeCss>
       <section>
-        <SafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
+        <StyledSafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
             <StyledImage src={currentSlide?.metaImage?.url ?? ""} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
           )}
-        </SafeLink>
+          {!!currentSlide && (
+            <StyledInfoContainer>
+              <Text textStyle="heading.medium">{currentSlide?.title}</Text>
+              <Text textStyle="body.xlarge">{currentSlide.metaDescription}</Text>
+            </StyledInfoContainer>
+          )}
+        </StyledSafeLink>
         <StyledCarousel>
           {!slideshow ? (
             <LoadingShimmer />

@@ -54,52 +54,48 @@ exports[`ErrorPage renderers correctly 1`] = `
         </div>
       </div>
     </header>
-    <div
+    <main
       class="pbe_4xlarge"
     >
-      <div
-        class="ml_auto mr_auto w_100% pl_18px pr_18px mobileWide:pl_medium mobileWide:pr_medium after:content_""! after:d_block! after:clear_both! max-w_1024px"
+      <article
+        class="d_flex flex-d_column gap_xxlarge ai_center"
       >
-        <article
-          class="ta_center [&_a]:c_text.strong [&_h1]:mt_0"
+        <img
+          alt="Ops, noe gikk galt"
+          src="/static/oops.gif"
+        />
+        <div
+          class="d_flex flex-d_column gap_medium ai_center"
         >
-          <div
-            class="d_flex jc_center mb_medium tablet:mt_xxlarge"
+          <h1
+            class="textStyle_heading.small ta_center"
+            id="SkipToContentId"
           >
-            <img
-              alt="Ops, noe gikk galt"
-              src="/static/oops.gif"
-            />
-          </div>
-          <h1>
             Ops, noe gikk galt
           </h1>
           <p
-            class="textStyle_body.medium mb_medium tablet:mb_xxlarge"
+            class="textStyle_body.xlarge ta_center"
           >
             Beklager, en feil oppstod.
           </p>
-          <h2>
-            Kom igang:
-          </h2>
-          <div
-            class="mt_3xsmall"
+        </div>
+        <div
+          class="d_flex flex-d_column gap_xsmall ai_center"
+        >
+          <a
+            class=""
+            href="/"
           >
-            <a
-              class=""
-              href="/"
-            >
-              Gå til forsiden
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
+            Gå til forsiden
+          </a>
+        </div>
+      </article>
+    </main>
     <footer
       class="pos_relative bg_primary c_text.onAction"
     >
       <button
-        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 pos_absolute right_xxlarge top_-medium z_docked"
+        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium pos_absolute right_xxlarge top_-medium z_docked"
         id="zendesk"
         type="button"
       >
@@ -120,7 +116,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         Spør NDLA
       </button>
       <div
-        class="d_grid trs-prop_all trs-dur_default trs-tmf_default grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 emotion-0 emotion-1 tablet:--gutter_spacing.medium"
+        class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
       >
         <div
           class="pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default"
@@ -282,7 +278,7 @@ exports[`ErrorPage renderers correctly 1`] = `
             </g>
           </svg>
           <svg
-            class="c_icon.onAction d_block w_100% tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
+            class="c_icon.onAction d_block w_surface.xsmall tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 1104 280"
             xmlns="http://www.w3.org/2000/svg"
@@ -428,7 +424,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <li>
                       <a
                         aria-label="NDLA på Facebook"
-                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                         href="https://www.facebook.com/ndla.no"
                         title="NDLA på Facebook"
                       >
@@ -451,7 +447,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <li>
                       <a
                         aria-label="NDLA på Instagram"
-                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                         href="https://instagram.com/ndla_no/"
                         title="NDLA på Instagram"
                       >
@@ -474,7 +470,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <li>
                       <a
                         aria-label="NDLA på LinkedIn"
-                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                         href="https://www.linkedin.com/company/ndla/"
                         title="NDLA på LinkedIn"
                       >
@@ -497,7 +493,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                     <li>
                       <a
                         aria-label="NDLA på YouTube"
-                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset emotion-2 h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                        class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                         href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
                         title="NDLA på YouTube"
                       >

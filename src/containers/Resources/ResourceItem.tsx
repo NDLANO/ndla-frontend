@@ -19,14 +19,14 @@ import {
   ListItemVariantProps,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { cva } from "@ndla/styled-system/css";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
-
-// TODO: Figure out if we NEED to show the meta image. This would force us to fetch n articles.
 
 const StyledPresentationLine = styled(PresentationLine, {
   base: {
@@ -37,30 +37,23 @@ const StyledPresentationLine = styled(PresentationLine, {
 const StyledSafeLink = styled(SafeLink, {
   base: {
     wordWrap: "anywhere",
-    mobileWide: {
-      lineClamp: "1",
+    lineClamp: "2",
+    _currentPage: {
+      fontWeight: "bold",
+      textDecoration: "none",
     },
   },
 });
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
-    mobileWideDown: {
-      flexDirection: "column",
-    },
-  },
-});
-
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "small",
+    flexWrap: "wrap",
   },
 });
 
 const InfoContainer = styled(HStack, {
   base: {
+    marginInlineStart: "auto",
     flexShrink: "0",
   },
 });
@@ -78,7 +71,7 @@ interface Props {
 export type Resource = {
   id: string;
   name: string;
-  path: string;
+  path?: string;
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
@@ -100,6 +93,80 @@ const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemV
       return "brand1";
   }
 };
+
+const listItemRecipe = cva({
+  base: {
+    _currentPage: {
+      background: "var(--background-current)",
+      color: "var(--color-current-hover)",
+      borderColor: "var(--border-color-current)",
+      position: "relative",
+
+      _before: {
+        content: "''",
+        position: "absolute",
+        borderInline: "6px solid",
+        borderColor: "var(--border-color-current)",
+        bottom: "-1px",
+        top: "-1px",
+        left: "0",
+        width: "100%",
+      },
+
+      _hover: {
+        background: "var(--background-hover)",
+        color: "text.default",
+        _before: {
+          display: "none",
+        },
+      },
+      _highlighted: {
+        background: "var(--background-hover)",
+        color: "text.default",
+      },
+      "& a:focus-visible": {
+        _focusVisible: {
+          outlineColor: "var(--color-current-hover)",
+        },
+      },
+      "& button:focus-visible": {
+        _focusVisible: {
+          boxShadowColor: "var(--color-current-hover)",
+        },
+      },
+    },
+    mobileWideDown: {
+      "& picture": {
+        display: "none",
+      },
+    },
+  },
+  defaultVariants: { colorTheme: "brand1" },
+  variants: {
+    colorTheme: {
+      brand1: {
+        "--background-current": "colors.surface.action.brand.1.selected",
+        "--color-current-hover": "colors.text.default",
+      },
+      brand2: {
+        "--background-current": "colors.surface.action.brand.2.selected",
+        "--color-current-hover": "colors.text.default",
+      },
+      brand3: {
+        "--background-current": "colors.surface.action.myNdla.current",
+        "--color-current-hover": "colors.text.default",
+      },
+    },
+  },
+});
+
+const StyledListItemImage = styled(ListItemImage, {
+  base: {
+    mobileWideDown: {
+      display: "none",
+    },
+  },
+});
 
 export const ResourceItem = ({
   name,
@@ -136,34 +203,33 @@ export const ResourceItem = ({
   return (
     <li>
       <ListItemRoot
-        variant="list"
+        css={listItemRecipe.raw({ colorTheme: getListItemColorTheme(currentResourceContentType) })}
+        context="list"
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
         hidden={hidden && !active}
       >
+        <StyledListItemImage
+          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+          alt=""
+          sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+        />
         <StyledListItemContent>
-          <TitleWrapper>
-            <ListItemImage
-              src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
-              alt={article?.metaImage?.alt ?? ""}
-              sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
-              css={{ "&[src='']": { opacity: "0" } }}
-            />
-            <ListItemHeading asChild consumeCss>
-              <StyledSafeLink
-                to={path}
-                unstyled
-                css={linkOverlay.raw()}
-                lang={language === "nb" ? "no" : language}
-                aria-current={active ? "page" : undefined}
-                title={name}
-                aria-describedby={describedBy}
-              >
-                {name}
-              </StyledSafeLink>
-            </ListItemHeading>
-          </TitleWrapper>
+          <ListItemHeading asChild consumeCss>
+            <StyledSafeLink
+              to={path || ""}
+              unstyled
+              css={linkOverlay.raw()}
+              lang={language === "nb" ? "no" : language}
+              aria-current={active ? "page" : undefined}
+              title={name}
+              aria-describedby={describedBy}
+            >
+              {name}
+            </StyledSafeLink>
+          </ListItemHeading>
           <InfoContainer gap="xxsmall">
             {teacherOnly && (
               <StyledPresentationLine

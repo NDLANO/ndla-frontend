@@ -17,8 +17,8 @@ export const PageLayout = styled(
   ark.div,
   {
     base: {
-      // TODO: Update this value to accurately reflect the masthead height.
-      minHeight: "calc(100vh - 56px)",
+      // The minimum page height should be 100vh - (masthead height - half of zendesk button)
+      minHeight: "calc(100vh - (var(--masthead-height, 80px) - token(spacing.medium)))",
     },
   },
   { baseComponent: true },

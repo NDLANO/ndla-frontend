@@ -21,6 +21,7 @@ import {
   ArticleWrapper,
   HomeBreadcrumb,
   ArticleBylineAccordionItem,
+  licenseAttributes,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -43,6 +44,14 @@ interface Props {
 const StyledPageContent = styled(PageContent, {
   base: {
     overflowX: "hidden",
+  },
+});
+
+const StyledHeroContent = styled(HeroContent, {
+  base: {
+    "& a:focus-within": {
+      outlineColor: "currentcolor",
+    },
   },
 });
 
@@ -123,6 +132,8 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     }
   });
 
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
+
   return (
     <main>
       <Helmet>
@@ -145,13 +156,13 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
       <Hero variant="primary">
         <HeroBackground />
         <PageContent variant="article">
-          <HeroContent>
+          <StyledHeroContent>
             <HomeBreadcrumb items={crumbs} />
-          </HeroContent>
+          </StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
-            <ArticleWrapper>
+            <ArticleWrapper {...licenseProps}>
               <ArticleHeader>
                 <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                   {article.transformedContent.title}

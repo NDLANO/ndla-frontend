@@ -15,13 +15,13 @@ import {
   Button,
   DialogBody,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogRoot,
   DialogTitle,
   DialogTrigger,
   Text,
 } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { supportedLanguages } from "../../../../i18n";
 
@@ -117,15 +117,15 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
         </DialogHeader>
         <DialogBody>
           <Text textStyle="body.large">{t(`myNdla.arena.cancel.content.${type}`)}</Text>
-          <HStack justify="flex-end" gap="3xsmall">
-            <Button variant="secondary" onClick={onCancel}>
-              {t(`myNdla.arena.cancel.continue.${type}`)}
-            </Button>
-            <Button variant="danger" onClick={onWillContinue}>
-              {t(`myNdla.arena.cancel.cancel.${type}`)}
-            </Button>
-          </HStack>
         </DialogBody>
+        <DialogFooter>
+          <Button variant="secondary" onClick={onCancel}>
+            {t(`myNdla.arena.cancel.continue.${type}`)}
+          </Button>
+          <Button variant="danger" onClick={onWillContinue}>
+            {t(`myNdla.arena.cancel.cancel.${type}`)}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </DialogRoot>
   );

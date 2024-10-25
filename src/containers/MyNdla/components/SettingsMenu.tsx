@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef } from "react";
+import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons/contentType";
@@ -61,6 +61,7 @@ interface Props {
   menuItems?: MenuItemProps[];
   modalHeader?: string;
   showSingle?: boolean;
+  elementSize?: "small" | "medium";
 }
 
 const StyledDialogContent = styled(DialogContent, {
@@ -105,7 +106,7 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
+const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "medium" }: Props) => {
   const [open, setOpen] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
   const selectors = useUserAgent();
@@ -126,7 +127,7 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
       <Button
         disabled={item.disabled}
         variant={item.variant === "destructive" ? "danger" : "tertiary"}
-        size="medium"
+        size={elementSize}
         asChild={item.type !== "action"}
         onClick={(e) => {
           if (item.onClick) {
@@ -137,10 +138,10 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
           }
         }}
       >
-        <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
+        <MenuItemElement item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
           {item.icon}
           {item.text}
-        </Item>
+        </MenuItemElement>
       </Button>
     </li>
   ));
@@ -169,9 +170,13 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
   }
 
   return (
-    <MenuRoot open={open} positioning={{ placement: "bottom-end" }} onOpenChange={(details) => setOpen(details.open)}>
+    <MenuRoot
+      open={open}
+      positioning={{ placement: "bottom-end", strategy: "fixed" }}
+      onOpenChange={(details) => setOpen(details.open)}
+    >
       <MenuTrigger asChild ref={dropdownTriggerRef}>
-        <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
+        <IconButton title={title} aria-label={title} variant="clear" disabled={!menuItems?.length} size={elementSize}>
           <MoreLine />
         </IconButton>
       </MenuTrigger>
@@ -188,10 +193,14 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle }: Props) => {
               asChild={item.type !== "action"}
               consumeCss
             >
-              <Item item={item} handleDialogItemOpenChange={handleDialogItemOpenChange}>
+              <MenuItemElement
+                item={item}
+                handleDialogItemOpenChange={handleDialogItemOpenChange}
+                dropdownTriggerRef={dropdownTriggerRef}
+              >
                 {item.icon}
                 {item.text}
-              </Item>
+              </MenuItemElement>
             </MenuItem>
           ))}
         </MenuContent>
@@ -204,9 +213,16 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
+  dropdownTriggerRef?: RefObject<HTMLButtonElement>;
 }
 
-const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps) => {
+export const MenuItemElement = ({
+  handleDialogItemOpenChange,
+  children,
+  item,
+  dropdownTriggerRef,
+  ...rest
+}: ItemProps) => {
   const [open, setOpen] = useState(false);
 
   const onOpenChange = useCallback(
@@ -232,7 +248,11 @@ const Item = ({ handleDialogItemOpenChange, children, item, ...rest }: ItemProps
   }
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => onOpenChange(details.open)}
+      finalFocusEl={dropdownTriggerRef ? () => dropdownTriggerRef.current : undefined}
+    >
       <DialogTrigger css={{ all: "unset" }} {...rest}>
         {children}
       </DialogTrigger>

@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CloseLine, MenuLine } from "@ndla/icons/action";
@@ -27,6 +27,7 @@ import {
 import { supportedLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
+import { useUserAgent } from "../../../UserAgentContext";
 import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
@@ -72,6 +73,7 @@ const HeadWrapper = styled("div", {
 const DrawerButton = styled(Button, {
   base: {
     tabletDown: {
+      paddingInline: "xsmall",
       "& span": {
         display: "none",
       },
@@ -127,6 +129,8 @@ const MastheadDrawer = ({ subject }: Props) => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const { t, i18n } = useTranslation();
+  const userAgent = useUserAgent();
+  const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
@@ -213,8 +217,10 @@ const MastheadDrawer = ({ subject }: Props) => {
       open={open}
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
+      finalFocusEl={() => drawerTriggerRef.current}
+      closeOnInteractOutside={!userAgent?.isMobile}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton
           aria-haspopup="menu"
           variant="tertiary"
@@ -269,7 +275,7 @@ const MastheadDrawer = ({ subject }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  items={supportedLanguages}
+                  languages={supportedLanguages}
                   onValueChange={(details) => {
                     setOpen(false);
                     setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);

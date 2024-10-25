@@ -13,7 +13,15 @@ import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { Divider, styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
+import {
+  ArticleByline,
+  ArticleContent,
+  ArticleFooter,
+  ArticleTitle,
+  ArticleWrapper,
+  HomeBreadcrumb,
+  licenseAttributes,
+} from "@ndla/ui";
 import Article from "../../../components/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../../components/Article/articleHelpers";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -87,7 +95,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => getTopicPath(topic.contexts, topic.path), [topic.contexts, topic.path]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -139,6 +147,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       ? article.copyright.creators
       : article.copyright?.processors;
 
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
+
   return (
     <StyledPageContent variant="article" asChild consumeCss>
       <main>
@@ -157,11 +167,12 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           <StyledDivider thickness="1px" color="stroke.default" />
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
-          <ArticleWrapper>
+          <ArticleWrapper {...licenseProps}>
             <ArticleTitle
               id={skipToContentId ?? article.id.toString()}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
+              contentTypeLabel={topic.resourceTypes?.[0]?.name}
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
@@ -203,6 +214,10 @@ export const multidisciplinarySubjectArticleFragments = {
         breadcrumbs
         parentIds
         path
+      }
+      resourceTypes {
+        id
+        name
       }
       article {
         created

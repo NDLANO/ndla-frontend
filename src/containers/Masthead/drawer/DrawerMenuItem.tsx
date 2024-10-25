@@ -34,27 +34,47 @@ interface DrawerMenuLinkProps extends BaseProps, Omit<SafeLinkProps, "id"> {
 
 export const StyledButton = styled(Button, {
   base: {
+    position: "relative",
     display: "flex",
     textStyle: "label.medium",
     fontWeight: "normal",
     color: "text.default",
     textAlign: "start",
     paddingInline: "small",
-    "&[data-current-selected='true']": {
-      background: "surface.selected",
-      border: "none",
+    "&[data-current-selected='true']&:not(:is(:hover, :active))": {
+      borderRadius: "0",
+      _before: {
+        position: "absolute",
+        left: "0",
+        content: '""',
+        height: "100%",
+        borderInlineStart: "6px solid",
+        borderColor: "stroke.default",
+      },
     },
   },
 });
 
 export const StyledSafeLink = styled(SafeLinkButton, {
   base: {
+    position: "relative",
     fontWeight: "normal",
     textStyle: "text.link",
     paddingInline: "small",
     paddingBlock: "3xsmall",
     textAlign: "start",
     textUnderlineOffset: "var(--spacing-4xsmall)",
+    _currentPage: {
+      borderRadius: "0",
+      _before: {
+        position: "absolute",
+        left: "0",
+        content: '""',
+        height: "100%",
+        borderInlineStart: "6px solid",
+        borderColor: "stroke.default",
+      },
+    },
   },
 });
 

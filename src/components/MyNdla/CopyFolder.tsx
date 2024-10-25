@@ -9,8 +9,17 @@
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InformationLine, AlertLine } from "@ndla/icons/common";
-import { Button, Text, MessageBox, DialogContent, DialogHeader, DialogTitle, DialogBody } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import {
+  Button,
+  Text,
+  MessageBox,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  DialogFooter,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
 import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
@@ -62,7 +71,14 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+        <Folder
+          context="standalone"
+          variant="subtle"
+          nonInteractive
+          folder={folder}
+          foldersCount={folderCount}
+          link={routes.folder(folder.id)}
+        />
         {examLock ? (
           <MessageBox variant="warning">
             <InformationLine />
@@ -88,35 +104,35 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             )}
           </>
         )}
-        <HStack justify="flex-end" gap="xsmall">
-          <Button
-            variant="secondary"
-            onClick={onClose}
-            onMouseDown={(e) => {
-              e.preventDefault();
-            }}
-            onMouseUp={(e) => {
-              e.preventDefault();
-            }}
-          >
-            {t("cancel")}
-          </Button>
-          <Button
-            loading={copySharedFolderMutation.loading}
-            disabled={examLock}
-            onMouseDown={(e) => {
-              e.preventDefault();
-            }}
-            onMouseUp={(e) => {
-              e.preventDefault();
-            }}
-            onClick={onSave}
-            aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
-          >
-            {t("myNdla.resource.save")}
-          </Button>
-        </HStack>
       </StyledDialogBody>
+      <DialogFooter>
+        <Button
+          variant="secondary"
+          onClick={onClose}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onMouseUp={(e) => {
+            e.preventDefault();
+          }}
+        >
+          {t("cancel")}
+        </Button>
+        <Button
+          loading={copySharedFolderMutation.loading}
+          disabled={examLock}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onMouseUp={(e) => {
+            e.preventDefault();
+          }}
+          onClick={onSave}
+          aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
+        >
+          {t("myNdla.resource.save")}
+        </Button>
+      </DialogFooter>
     </DialogContent>
   );
 };

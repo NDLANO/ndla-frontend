@@ -26,9 +26,6 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 
-// To handle uncaught exceptions in async express
-await import("express-async-errors");
-
 const base = "/";
 const isProduction = config.runtimeType === "production";
 
@@ -74,17 +71,12 @@ app.use(
     referrerPolicy: {
       policy: ["origin", "no-referrer-when-downgrade"],
     },
-    hsts: {
+    strictTransportSecurity: {
       maxAge: 31536000,
       includeSubDomains: true,
     },
     contentSecurityPolicy,
-    frameguard:
-      config.runtimeType === "development"
-        ? {
-            action: "sameorigin",
-          }
-        : { action: "deny" },
+    xFrameOptions: false,
   }),
 );
 
@@ -98,14 +90,13 @@ const favicons = `
 `;
 
 const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
-  const { helmetContext, htmlContent, styles, data } = renderData;
+  const { helmetContext, htmlContent, data } = renderData;
   const meta = `
   ${helmetContext?.helmet.title.toString() ?? ""}
   ${helmetContext?.helmet.meta.toString() ?? ""}
   ${helmetContext?.helmet.link.toString() ?? ""}
   ${favicons}
   ${helmetContext?.helmet.script.toString() ?? ""}
-  ${styles ?? ""}
   `;
 
   const serializedData = serialize({
@@ -171,11 +162,7 @@ type RouteFunc = (req: Request) => Promise<{ data: any; status: number }>;
 const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
   try {
     const { data, status } = await route(req);
-    if (status === INTERNAL_SERVER_ERROR) {
-      await sendInternalServerError(req, res);
-    } else {
-      sendResponse(res, data, status);
-    }
+    sendResponse(res, data, status);
   } catch (err) {
     next(err);
   }
@@ -208,33 +195,43 @@ const iframeEmbedRoute = async (req: Request) =>
 const iframeArticleRoute = async (req: Request) =>
   renderRoute(req, "iframe-article.html", iframeArticleTemplateHtml, "iframeArticle");
 
-app.get("/embed-iframe/:lang?/:embedType/:embedId", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
+app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
   handleRequest(req, res, next, iframeEmbedRoute);
 });
 
 const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, iframeArticleRoute);
 };
 
-app.get("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.get("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
+app.get(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
+app.post(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
 
 app.post("/lti", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, ltiRoute);
 });
 
 app.get("/lti", async (req, res, next) => {
-  res.removeHeader("X-Frame-Options");
   handleRequest(req, res, next, ltiRoute);
 });
 
 app.get(
-  "/*",
+  ["/", "/*splat"],
   (req, res, next) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
@@ -243,12 +240,13 @@ app.get(
     const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
     const shouldRedirect = isPrivate && !isTokenValid;
+
     if (!route) {
       next("route"); // skip to next route (i.e. proxy)
     } else if (shouldRedirect) {
       return res.redirect(`/login?state=${req.path}`);
     } else {
-      next();
+      handleRequest(req, res, next, defaultRoute);
     }
   },
   (req, res, next) => handleRequest(req, res, next, defaultRoute),
@@ -281,16 +279,16 @@ async function sendInternalServerError(req: Request, res: Response, err?: Error)
 
 const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
   vite?.ssrFixStacktrace(err);
-  handleError(err, undefined, req.path);
+  handleError(err, req.path);
   sendInternalServerError(req, res, err);
 };
 
 app.use(errorHandler);
 
-app.get("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.get("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
-app.post("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.post("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 

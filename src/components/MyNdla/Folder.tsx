@@ -31,6 +31,7 @@ const IconTextWrapper = styled(Text, {
     gap: "xxsmall",
     alignItems: "center",
     whiteSpace: "nowrap",
+    color: "text.subtle",
   },
 });
 
@@ -72,7 +73,9 @@ interface Props {
   foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
   link?: string;
+  nonInteractive?: boolean;
   variant?: NonNullable<ListItemVariantProps>["variant"];
+  context?: NonNullable<ListItemVariantProps>["context"];
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -107,7 +110,7 @@ const MenuWrapper = styled("div", {
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
-    lineClamp: "1",
+    lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
@@ -115,9 +118,11 @@ const StyledSafeLink = styled(SafeLink, {
 export const Folder = ({
   menu,
   folder: { id, status, name, owner },
-  variant = "list",
+  context = "list",
+  variant,
   foldersCount,
   isFavorited,
+  nonInteractive,
   link,
 }: Props) => {
   const { t } = useTranslation();
@@ -126,7 +131,7 @@ export const Folder = ({
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot variant={variant} id={id}>
+    <ListItemRoot context={context} variant={variant} nonInteractive={nonInteractive} id={id}>
       <ListItemContent
         css={{
           alignItems: "center",
@@ -142,13 +147,15 @@ export const Folder = ({
             aria-hidden={false}
             aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
           />
-          <ListItemHeading asChild consumeCss>
-            <h2>
+          {nonInteractive ? (
+            <ListItemHeading>{name}</ListItemHeading>
+          ) : (
+            <ListItemHeading asChild consumeCss>
               <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
                 {name}
               </StyledSafeLink>
-            </h2>
-          </ListItemHeading>
+            </ListItemHeading>
+          )}
         </TitleWrapper>
         <FolderInfo>
           {isShared && (

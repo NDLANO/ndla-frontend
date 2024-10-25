@@ -8,6 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { subjectLetters } from "./utils";
 
@@ -24,19 +25,9 @@ const LetterNavigationWrapper = styled("ul", {
   },
 });
 
-// TODO: Consider to create as a styled variant of SafeLinkIconButton
-const StyledLetter = styled("a", {
+const StyledLetter = styled(SafeLinkIconButton, {
   base: {
-    // TODO: Consider making this spacing.large
-    height: "17",
-    width: "17",
-    display: "inline-flex",
-    justifyContent: "center",
-    alignItems: "center",
-    outline: "none",
     borderRadius: "0px",
-    boxShadowColor: "stroke.default",
-    // TODO: Box shadow looks weird in Chrome mobile emulation
     boxShadow: "0px 2px -0px 0px var(--shadow-color)",
     transitionProperty: "all",
     transitionDuration: "superFast",
@@ -45,19 +36,19 @@ const StyledLetter = styled("a", {
       borderRadius: "xsmall",
       boxShadow: "0 0 0 1px var(--shadow-color)",
       background: "surface.actionSubtle.hover",
+      _disabled: {
+        background: "none",
+        boxShadow: "none",
+      },
     },
     _focusVisible: {
       borderRadius: "xsmall",
       boxShadow: "0 0 0 1px var(--shadow-color)",
       background: "surface.actionSubtle.active",
     },
-    _active: {
-      background: "surface.actionSubtle.active",
-    },
-    "&[aria-disabled='true']": {
-      cursor: "not-allowed",
+    _disabled: {
+      background: "none",
       boxShadow: "none",
-      _hover: { boxShadow: "none", background: "none" },
     },
     tabletWideDown: {
       minWidth: "xxlarge",
@@ -79,8 +70,11 @@ const LetterNavigation = ({ activeLetters }: Props) => {
         return (
           <li key={letter}>
             <StyledLetter
-              href={enabled ? `#subject-header-${letter}` : undefined}
-              aria-disabled={!enabled}
+              asAnchor
+              to={`#subject-header-${letter}`}
+              size="small"
+              variant="secondary"
+              disabled={!enabled}
               tabIndex={enabled ? 0 : -1}
               aria-label={`${t("subjectsPage.scrollToGroup")} "${letter === "#" ? t("labels.other") : letter}"`}
             >

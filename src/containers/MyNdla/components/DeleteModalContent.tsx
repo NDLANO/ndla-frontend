@@ -15,8 +15,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogCloseTrigger,
+  DialogFooter,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 
 interface Props {
@@ -26,14 +26,6 @@ interface Props {
   removeText: string;
   onClose?: (e?: Event) => void;
 }
-
-const StyledButtonRow = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "xsmall",
-  },
-});
 
 const DeleteModalContent = ({ onDelete, title, description, removeText }: Props) => {
   const { t } = useTranslation();
@@ -45,15 +37,15 @@ const DeleteModalContent = ({ onDelete, title, description, removeText }: Props)
       </DialogHeader>
       <DialogBody>
         <Text>{description}</Text>
-        <StyledButtonRow>
-          <DialogCloseTrigger asChild>
-            <Button variant="secondary">{t("cancel")}</Button>
-          </DialogCloseTrigger>
-          <Button variant="danger" onClick={onDelete}>
-            {removeText}
-          </Button>
-        </StyledButtonRow>
       </DialogBody>
+      <DialogFooter>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("cancel")}</Button>
+        </DialogCloseTrigger>
+        <Button variant="danger" onClick={onDelete}>
+          {removeText}
+        </Button>
+      </DialogFooter>
     </DialogContent>
   );
 };

@@ -37,6 +37,12 @@ const HeadingWrapper = styled("div", {
   },
 });
 
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const StyledList = styled("ul", {
   base: {
     display: "grid",
@@ -73,12 +79,15 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
       content: "''",
       boxShadow: "none",
     },
-    "&:not(:active)": {
-      _hover: {
-        transform: "translateY(-5px)",
-        _after: {
-          opacity: "1",
-          boxShadow: "full",
+    // Disable this hover effect on touch devices
+    "@media(pointer: fine)": {
+      "&:not(:active)": {
+        _hover: {
+          transform: "translateY(-5px)",
+          _after: {
+            opacity: "1",
+            boxShadow: "full",
+          },
         },
       },
     },
@@ -189,7 +198,7 @@ const WelcomePage = () => {
         type="website"
         title={t("welcomePage.heading.heading")}
         description={t("meta.description")}
-        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}
+        imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
       >
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
@@ -198,9 +207,9 @@ const WelcomePage = () => {
         <StyledPageContainer asChild consumeCss>
           <main>
             <HeadingWrapper>
-              <Heading asChild consumeCss textStyle="heading.large" id="programmes-heading">
+              <StyledHeading asChild consumeCss textStyle="heading.large" id="programmes-heading">
                 <h2>{t("programmes.header")}</h2>
-              </Heading>
+              </StyledHeading>
               <Text textStyle="title.medium" fontWeight="normal">
                 {t("programmes.description")}
               </Text>

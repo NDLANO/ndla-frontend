@@ -178,7 +178,7 @@ const MyNdlaPage = () => {
               <li key={topic.id}>
                 <TopicListItem
                   id={topic.id}
-                  variant="list"
+                  context="list"
                   postCount={topic.postCount}
                   voteCount={topic.voteCount}
                   title={topic.title}
@@ -227,7 +227,7 @@ const MyNdlaPage = () => {
               return (
                 <li key={res.id}>
                   <ListResource
-                    variant="list"
+                    context="list"
                     id={res.id}
                     isLoading={loading}
                     key={res.id}

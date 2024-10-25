@@ -117,7 +117,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
                 variant="link"
-                aria-current={path === location.pathname}
+                aria-current={path === location.pathname ? "page" : undefined}
                 id={`header-${subject.id}`}
                 to={path}
                 onClick={onClose}

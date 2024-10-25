@@ -6,12 +6,10 @@
  *
  */
 
-import { ApolloError } from "@apollo/client";
+import { LogLevel } from "./index";
+import { NDLAError } from "./NDLAError";
 
-export type ErrorType = ApolloError | Error | StatusError | BadRequestError | string | unknown;
-export type LogLevel = "error" | "warn" | "info";
-
-export class StatusError extends Error {
+export class StatusError extends NDLAError {
   status: number | undefined;
   json: unknown | undefined;
   logLevel: LogLevel = "error";

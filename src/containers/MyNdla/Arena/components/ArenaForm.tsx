@@ -212,7 +212,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         <InformationOutline />
         <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
       </StyledMessageBox>
-      <HStack gap="xsmall" justify="flex-end">
+      <HStack gap="3xsmall" justify="flex-end">
         <AlertModal onAbort={onAbort} postType={type} formState={formState} initialContent={initialContent} />
         <Button type="submit">{t("myNdla.arena.publish")}</Button>
       </HStack>

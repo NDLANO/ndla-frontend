@@ -11,6 +11,7 @@ import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
+import { createListCollection } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons/action";
 import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
 import {
@@ -33,85 +34,40 @@ import {
   DialogTitle,
   NdlaLogoText,
   Text,
+  ListItemRoot,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchQueryVariables } from "../../../graphqlTypes";
-import { groupSearchQuery } from "../../../queries";
+import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 const StyledComboboxContent = styled(ComboboxContent, {
   base: {
-    boxShadow: "none",
-    borderRadius: "unset",
-    paddingBlock: "unset",
-    paddingInline: "unset",
-    gap: "0px",
     maxHeight: "surface.medium",
   },
 });
 
-const StyledComboboxItem = styled(ComboboxItem, {
+const StyledListItemRoot = styled(ListItemRoot, {
   base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "xxsmall",
-    transitionProperty: "background-color, border-color",
-    transitionDuration: "superFast",
-    transitionTimingFunction: "ease-in-out",
-    borderTop: "1px solid",
-    borderTopColor: "stroke.subtle",
-    borderBottom: "1px solid",
-    borderBottomColor: "transparent",
-    borderRadius: "0",
-    _first: {
-      borderTopColor: "transparent",
-      _hover: {
-        borderTopColor: "stroke.hover",
-      },
-      _highlighted: {
-        borderTopColor: "stroke.hover",
-      },
-    },
-    _last: {
-      borderBottomColor: "stroke.subtle",
-    },
-    "&:hover + &": {
-      borderTopColor: "stroke.hover",
-    },
-    "&[data-highlighted] + &": {
-      borderTopColor: "stroke.hover",
-    },
-    _hover: {
-      borderBottomColor: "transparent",
-      background: "surface.brand.1.subtle",
-      borderTopColor: "stroke.hover",
-      _last: {
-        borderBottomColor: "stroke.hover",
-      },
-    },
-    _highlighted: {
-      background: "surface.brand.1.subtle",
-      borderTopColor: "stroke.hover",
-      _last: {
-        borderBottomColor: "stroke.hover",
-      },
-    },
+    minHeight: "unset",
+    textAlign: "start",
   },
 });
 
 const StyledButton = styled(Button, {
   base: {
     tabletDown: {
+      paddingInline: "xsmall",
       "& span": {
         display: "none",
       },
@@ -176,6 +132,14 @@ const TextWrapper = styled("div", {
   },
 });
 
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
+
+const SuggestionButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
+
 const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
@@ -187,6 +151,7 @@ const MastheadSearch = () => {
   const formId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const comboboxTranslations = useComboboxTranslations();
+  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setQuery("");
@@ -208,10 +173,10 @@ const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
-    GQLGroupSearchQuery,
-    GQLGroupSearchQueryVariables
-  >(groupSearchQuery, { fetchPolicy: "no-cache" });
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
+    searchQuery,
+    { fetchPolicy: "no-cache" },
+  );
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -238,25 +203,22 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedResults = useMemo(() => {
+  const mappedItems = useMemo(() => {
     if (!query.length) return [];
     return (
-      searchResult.groupSearch?.map((result) => {
-        const contentType = contentTypeMapping[result.resourceType];
+      searchResult.search?.results.map((result) => {
+        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
+        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
-          resources: result.resources.map((resource) => ({
-            ...resource,
-            id: resource.id.toString(),
-            resourceType: result.resourceType,
-            contentType,
-          })),
+          id: result.id.toString(),
+          resourceType: context?.resourceTypes?.[0]?.id,
+          contentType,
+          path: context?.path ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.groupSearch]);
-
-  const mappedItems = useMemo(() => mappedResults.flatMap((result) => result.resources), [mappedResults]);
+  }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
@@ -269,6 +231,18 @@ const MastheadSearch = () => {
     navigate({ pathname: "/search", search: `?${searchString}` });
   };
 
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: mappedItems,
+        itemToValue: (item) => item.path,
+        itemToString: (item) => item.title,
+      }),
+    [mappedItems],
+  );
+
+  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+
   return (
     <DialogRoot
       open={dialogState.open}
@@ -277,8 +251,9 @@ const MastheadSearch = () => {
       size="xsmall"
       onOpenChange={setDialogState}
       initialFocusEl={() => inputRef.current}
+      finalFocusEl={() => dialogTriggerRef.current}
     >
-      <DialogTrigger asChild>
+      <DialogTrigger asChild ref={dialogTriggerRef}>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <SearchLine />
           <span>{t("masthead.menu.search")}</span>
@@ -291,16 +266,15 @@ const MastheadSearch = () => {
         <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
           <ComboboxRoot
             defaultOpen
-            items={mappedItems}
+            collection={collection}
             highlightedValue={highlightedValue}
             onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
             inputValue={query}
-            itemToValue={(item) => item.path}
-            itemToString={(item) => item.name}
             onInputValueChange={(details) => onQueryChange(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}
-            variant="simple"
+            context="composite"
+            variant="complex"
             closeOnSelect
             form={formId}
             selectionBehavior="preserve"
@@ -320,13 +294,15 @@ const MastheadSearch = () => {
             </LabelContainer>
             <ComboboxControl>
               <InputContainer>
-                <ComboboxInput asChild>
+                <ComboboxInput asChild ref={inputRef}>
                   <Input
-                    ref={inputRef}
                     placeholder={t("searchPage.searchFieldPlaceholder")}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !highlightedValue) {
                         onSearch();
+                      } else if (e.key === "Enter" && highlightedValue) {
+                        onNavigate();
+                        navigate({ pathname: highlightedValue });
                       }
                     }}
                   />
@@ -341,16 +317,39 @@ const MastheadSearch = () => {
                 <SearchLine />
               </IconButton>
             </ComboboxControl>
+            <StyledHitsWrapper aria-live="assertive">
+              {!loading && query && (
+                <div>
+                  {!(mappedItems.length > 1) ? (
+                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                  ) : (
+                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                  )}
+                  {suggestion && (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.searchPhraseSuggestion")}
+                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                        [{suggestion}]
+                      </SuggestionButton>
+                    </Text>
+                  )}
+                </div>
+              )}
+            </StyledHitsWrapper>
             {!!mappedItems.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
                   <Spinner />
                 ) : (
                   mappedItems.map((resource) => (
-                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
-                      <SafeLink to={resource.path} onClick={onNavigate}>
+                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <StyledListItemRoot context="list">
                         <TextWrapper>
-                          <ComboboxItemText>{resource.name}</ComboboxItemText>
+                          <ComboboxItemText>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                              {resource.title}
+                            </SafeLink>
+                          </ComboboxItemText>
                           {!!resource.contexts[0] && (
                             <Text
                               textStyle="label.small"
@@ -363,8 +362,8 @@ const MastheadSearch = () => {
                           )}
                         </TextWrapper>
                         <ContentTypeBadgeNew contentType={resource.contentType} />
-                      </SafeLink>
-                    </StyledComboboxItem>
+                      </StyledListItemRoot>
+                    </ComboboxItem>
                   ))
                 )}
               </StyledComboboxContent>

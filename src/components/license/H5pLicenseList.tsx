@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
-import { ExternalLinkLine } from "@ndla/icons/common";
+import { ShareBoxLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -66,29 +66,6 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListContent>
-        <MediaListLicense
-          licenseType={h5p.copyright?.license?.license ?? ""}
-          title={t("license.h5p.rules")}
-          sourceTitle={h5p.title}
-          sourceType="h5p"
-        />
-        {!isCopyrighted(h5p.copyright?.license.license) && (
-          <MediaListItemActions>
-            <CopyTextButton
-              stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
-              copyTitle={t("license.embed")}
-              hasCopiedTitle={t("license.embedCopied")}
-            />
-            {shouldShowLink && (
-              <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary" size="small">
-                <ExternalLinkLine />
-                {t("license.openLink")}
-              </SafeLinkButton>
-            )}
-          </MediaListItemActions>
-        )}
-      </MediaListContent>
       <MediaListItemBody
         license={h5p.copyright?.license?.license ?? ""}
         resourceType="h5p"
@@ -96,17 +73,42 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         locale={i18n.language}
       >
         <MediaListContent>
-          <MediaListItemMeta items={items} />
-          {!isCopyrighted(h5p.copyright?.license.license) && !!copyText && (
-            <CopyTextButton
-              stringToCopy={copyText}
-              copyTitle={t("license.copyTitle")}
-              hasCopiedTitle={t("license.hasCopiedTitle")}
-            >
-              <FileCopyLine />
-            </CopyTextButton>
+          <MediaListLicense
+            licenseType={h5p.copyright?.license?.license ?? ""}
+            title={t("license.h5p.rules")}
+            sourceTitle={h5p.title}
+            sourceType="h5p"
+          />
+          {!isCopyrighted(h5p.copyright?.license.license) && (
+            <MediaListItemActions>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary" size="small">
+                  <ShareBoxLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
           )}
         </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(h5p.copyright?.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
+        </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
   );

@@ -27,7 +27,7 @@ import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import ErrorBoundary from "../ErrorPage/ErrorBoundary";
+import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled("span", {
   base: {
@@ -103,13 +103,12 @@ const MastheadContainer = () => {
           <MastheadDrawer subject={data?.subject} />
           <MastheadSearch />
         </DrawerWrapper>
-        {/* TODO: We're supposed to have another logo here on smaller screens. */}
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
           <NdlaLogoText />
         </SafeLink>
         <ButtonWrapper>
           <StyledLanguageSelector
-            items={supportedLanguages}
+            languages={supportedLanguages}
             onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
           />
           <FeideLoginButton>

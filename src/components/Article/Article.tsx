@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 import { gql } from "@apollo/client";
 import { Article as UIArticle } from "@ndla/ui";
 import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
@@ -21,11 +21,12 @@ interface Props {
   id?: string;
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   isTopicArticle?: boolean;
-  children?: ReactElement;
+  children?: ReactNode;
   contentType?: string;
   printUrl?: string;
   subjectId?: string;
   isOembed?: boolean;
+  contentTypeLabel?: ReactNode;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
@@ -44,6 +45,7 @@ const Article = ({
   isOembed = false,
   showFavoriteButton,
   myNdlaResourceType = "article",
+  contentTypeLabel,
   oembed,
 }: Props) => {
   const copyText = useArticleCopyText(article);
@@ -67,6 +69,7 @@ const Article = ({
       id={id ?? article.id.toString()}
       article={art}
       contentType={contentType}
+      contentTypeLabel={contentTypeLabel}
       licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
       competenceGoals={
         !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (

@@ -13,9 +13,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
@@ -31,23 +28,15 @@ import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import IframePageContainer from "./IframePageContainer";
-import { EmotionCacheKey } from "../constants";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
+import { initSentry } from "../util/sentry";
 
 const { config, initialProps } = window.DATA;
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-});
+initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
-
-const cache = createCache({ key: EmotionCacheKey });
 
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
@@ -65,13 +54,11 @@ renderOrHydrate(
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <CacheProvider value={cache}>
-          <BrowserRouter>
-            <MissingRouterContext.Provider value={true}>
-              <IframePageContainer {...initialProps} />
-            </MissingRouterContext.Provider>
-          </BrowserRouter>
-        </CacheProvider>
+        <BrowserRouter>
+          <MissingRouterContext.Provider value={true}>
+            <IframePageContainer {...initialProps} />
+          </MissingRouterContext.Provider>
+        </BrowserRouter>
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
