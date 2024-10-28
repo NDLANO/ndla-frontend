@@ -198,7 +198,7 @@ const WelcomePage = () => {
         type="website"
         title={t("welcomePage.heading.heading")}
         description={t("meta.description")}
-        imageUrl={`${config.ndlaFrontendDomain}/static/logo.png`}
+        imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
       >
         <meta name="keywords" content={t("meta.keywords")} />
       </SocialMediaMetadata>
