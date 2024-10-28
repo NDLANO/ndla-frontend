@@ -78,9 +78,10 @@ const StyledCardRoot = styled(CardRoot, {
   base: {
     height: "100%",
     _hover: {
-      backgroundColor: "surface.default",
-      borderColor: "stroke.hover",
       boxShadow: "xsmall",
+      "& > [data-block-start-border]": {
+        borderBlockStartColor: "stroke.hover",
+      },
     },
   },
 });
@@ -96,8 +97,7 @@ const Metadata = styled("div", {
     borderBlockStart: "1px solid",
     borderBlockStartColor: "stroke.subtle",
     boxShadow: "inner",
-    minHeight: "65px", // placeholder
-    borderColor: "stroke.subtle",
+    minHeight: "65px", //placeholder
   },
   variants: {
     variant: {
@@ -118,9 +118,6 @@ const Metadata = styled("div", {
       },
     },
   },
-  defaultVariants: {
-    variant: "neutral",
-  },
 });
 
 const StyledText = styled(Text, {
@@ -137,7 +134,7 @@ const SearchResultItem = ({ item, type }: Props) => {
 
   return (
     <StyledListElement>
-      <StyledCardRoot>
+      <StyledCardRoot variant="subtle">
         <CardImage
           alt=""
           height={200}
@@ -145,15 +142,15 @@ const SearchResultItem = ({ item, type }: Props) => {
           sizes={"320px"}
           fallbackElement={<ContentTypeFallbackIcon contentType={type} />}
         />
-        <Metadata variant={contentTypeToVariantMapping[type]}>
+        <Metadata data-block-start-border variant={contentTypeToVariantMapping[type]}>
           <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
-          {item.labels && item.labels?.length > 1 && (
+          {item.labels && item.labels?.length >= 1 && (
             <StyledText textStyle="label.xsmall">
               {t(`searchPage.includes `)}
-              {item.labels?.map((label, index) => (
+              {item.labels?.map((label, index, arr) => (
                 <span key={index}>
                   {label}
-                  {item.labels && index < item.labels.length - 1 && ", "}
+                  {index < arr.length - 1 && ", "}
                 </span>
               ))}
             </StyledText>
