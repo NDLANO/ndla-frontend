@@ -135,7 +135,7 @@ const MyNdlaPage = () => {
         title={t("myndla.campaignBlock.title")}
         headingLevel="h2"
         image={{
-          src: "/static/ndla-ai.png",
+          src: "/static/ndla-ai.jpg",
           alt: "",
         }}
         imageSide="right"
