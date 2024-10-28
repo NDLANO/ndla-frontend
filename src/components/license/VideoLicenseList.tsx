@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ShareBoxLine } from "@ndla/icons/common";
+import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -111,7 +111,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
               />
               {shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
-                  <ShareBoxLine />
+                  <ExternalLinkLine />
                   {t("license.openLink")}
                 </SafeLinkButton>
               )}
