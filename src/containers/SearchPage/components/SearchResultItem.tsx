@@ -97,28 +97,24 @@ const Metadata = styled("div", {
     borderBlockStartColor: "stroke.subtle",
     boxShadow: "inner",
     minHeight: "65px", // placeholder
+    borderColor: "stroke.subtle",
   },
   variants: {
     variant: {
       neutral: {
-        borderColor: "stroke.subtle",
         background: "surface.default",
       },
       brand1: {
         background: "surface.brand.1.subtle",
-        borderColor: "surface.brand.1.strong",
       },
       brand2: {
         background: "surface.brand.2.subtle",
-        borderColor: "surface.brand.2.strong",
       },
       brand3: {
         background: "surface.brand.3.subtle",
-        borderColor: "surface.brand.3.strong",
       },
       info: {
         background: "surface.infoSubtle",
-        borderColor: "surface.infoSubtle",
       },
     },
   },
@@ -137,7 +133,6 @@ const StyledText = styled(Text, {
 
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
-  const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
 
   return (
@@ -148,10 +143,10 @@ const SearchResultItem = ({ item, type }: Props) => {
           height={200}
           src={item.img?.url ?? item.metaImg ?? ""}
           sizes={"320px"}
-          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+          fallbackElement={<ContentTypeFallbackIcon contentType={type} />}
         />
-        <Metadata variant={contentTypeToVariantMapping[contentType]}>
-          <StyledText textStyle="label.small">{t(`contentTypes.${contentType}`)}</StyledText>
+        <Metadata variant={contentTypeToVariantMapping[type]}>
+          <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
           {item.labels && item.labels?.length > 1 && (
             <StyledText textStyle="label.xsmall">
               {t(`searchPage.includes `)}
