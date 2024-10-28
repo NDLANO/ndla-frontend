@@ -102,7 +102,7 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
-  const aiLang = i18n.language === "nn" ? "nn" : "";
+  const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
   const dateString = format(new Date(), "Y-MM-dd HH:mm:ss");
   const token = btoa(dateString);
