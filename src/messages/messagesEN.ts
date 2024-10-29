@@ -64,11 +64,11 @@ const messages = {
       title: "Try our chatbots",
       linkText: "Try NDLAs chatbots",
       ingressStudent:
-        "Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or creating illustrations? Try our chatbots and see if they can help you out! During exams the county may deny access to the chatbots.",
+        "Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or creating illustrations? Try our chatbots and see if they can help you out! During exams the counties may deny access to the chatbots.",
       ingress:
-        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county deny access to the chatbots.",
+        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots.",
       ingressUnauthenticated:
-        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county deny access to the chatbots. Log in to to access the chatbots.",
+        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots. Log in to to access the chatbots.",
     },
     resource: {
       addedToFolder: 'Resource added to "{{folder}}"',
