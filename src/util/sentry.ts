@@ -7,16 +7,25 @@
  */
 
 import * as Sentry from "@sentry/react";
+import { deriveLogLevel } from "./handleError";
 import { ConfigType } from "../config";
+
+const isInformationalError = (exception: unknown): boolean => {
+  const logLevel = deriveLogLevel(exception);
+  return logLevel === "info";
+};
 
 const beforeSend = (
   event: Sentry.ErrorEvent,
   hint: Sentry.EventHint,
 ): PromiseLike<Sentry.ErrorEvent | null> | Sentry.ErrorEvent | null => {
+  const exception = hint.originalException;
+  const infoError = isInformationalError(exception);
+  if (infoError) return null;
+
   if (
-    hint.originalException instanceof Error &&
-    (hint.originalException.message === "Failed to fetch" ||
-      hint.originalException.message === "[Network error]: Failed to fetch")
+    exception instanceof Error &&
+    (exception.message === "Failed to fetch" || exception.message === "[Network error]: Failed to fetch")
   ) {
     // Don't send network errors without more information
     // These are not really something we can fix, usually triggered by exceptions blocking requests
