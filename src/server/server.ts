@@ -261,8 +261,7 @@ const getStatusCodeToReturn = (err?: Error): number => {
   return INTERNAL_SERVER_ERROR;
 };
 
-async function sendInternalServerError(req: Request, res: Response, err?: Error) {
-  const statusCode = getStatusCodeToReturn(err);
+async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
   if (res.getHeader("Content-Type") === "application/json") {
     res.status(statusCode).json("Internal server error");
     return;
@@ -279,8 +278,9 @@ async function sendInternalServerError(req: Request, res: Response, err?: Error)
 
 const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
   vite?.ssrFixStacktrace(err);
-  handleError(err, req.path);
-  sendInternalServerError(req, res, err);
+  const statusCode = getStatusCodeToReturn(err);
+  handleError(err, req.path, { statusCode });
+  sendInternalServerError(req, res, statusCode);
 };
 
 app.use(errorHandler);
