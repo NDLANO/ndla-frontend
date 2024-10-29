@@ -61,14 +61,14 @@ const messages = {
   myndla: {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
-      title: "Prøv vår praterobot",
+      title: "Prøv robotene våre",
       linkText: "Prøv NDLAs prateroboter",
       ingressStudent:
-        "Lurer du på noe i faget ditt? Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller få forslag til en disposisjon? Prøv prateroboten vår og se om den kan hjelpe deg! I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene.",
+        "Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller lage illustrasjoner? Prøv robotene våre og se om de kan hjelpe deg! I perioder med eksamensgjennomføring kan det hende at fylkeskommunen stenger tilgangen til robotene.",
       ingress:
-        "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene.",
+        "Vil du bruke KI i undervisningen? NDLA har laget prateroboter og en bilderobot som trygt kan brukes i jobb og undervisning. I perioder med eksamensgjennomføring kan det hende at fylkeskommunen stenger tilgangen til robotene.",
       ingressUnauthenticated:
-        "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
+        "Vil du bruke KI i undervisningen? NDLA har laget prateroboter og en bilderobot som trygt kan brukes til jobb og i undervisning. Logg inn for å få tilgang til robotene.",
     },
     resource: {
       addedToFolder: 'Ressurs er lagt i "{{folder}}"',
