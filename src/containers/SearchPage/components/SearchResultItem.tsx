@@ -79,9 +79,6 @@ const StyledCardRoot = styled(CardRoot, {
     height: "100%",
     _hover: {
       boxShadow: "xsmall",
-      "& > [data-block-start-border]": {
-        borderBlockStartColor: "stroke.hover",
-      },
     },
   },
 });
@@ -94,10 +91,8 @@ const Metadata = styled("div", {
     paddingInline: "medium",
     paddingBlockStart: "xsmall",
     paddingBlockEnd: "small",
-    borderBlockStart: "1px solid",
-    borderBlockStartColor: "stroke.subtle",
     boxShadow: "inner",
-    minHeight: "65px", //placeholder
+    minHeight: "32",
   },
   variants: {
     variant: {
@@ -132,6 +127,8 @@ const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
   const mainContext = item.contexts?.[0];
 
+  const labels = item.labels?.join(", ");
+
   return (
     <StyledListElement>
       <StyledCardRoot variant="subtle">
@@ -142,17 +139,12 @@ const SearchResultItem = ({ item, type }: Props) => {
           sizes={"320px"}
           fallbackElement={<ContentTypeFallbackIcon contentType={type} />}
         />
-        <Metadata data-block-start-border variant={contentTypeToVariantMapping[type]}>
+        <Metadata variant={contentTypeToVariantMapping[type]}>
           <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
           {item.labels && item.labels?.length >= 1 && (
             <StyledText textStyle="label.xsmall">
               {t(`searchPage.includes `)}
-              {item.labels?.map((label, index, arr) => (
-                <span key={index}>
-                  {label}
-                  {index < arr.length - 1 && ", "}
-                </span>
-              ))}
+              {labels}
             </StyledText>
           )}
         </Metadata>
