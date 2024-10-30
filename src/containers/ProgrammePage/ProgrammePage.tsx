@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -17,7 +18,9 @@ import { useGraphQuery } from "../../util/runQueries";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
-  "*": string;
+  programme?: string;
+  contextId?: string;
+  grade?: string;
 }
 
 const programmePageQuery = gql`
@@ -36,19 +39,21 @@ const programmePageQuery = gql`
 
 const ProgrammePage = () => {
   const { i18n } = useTranslation();
-  const { "*": splat } = useTypedParams<MatchParams>();
-  let contextId, path, gradeParam;
-  if (splat.includes("__")) {
-    [path = "", gradeParam] = splat.split("/");
-    contextId = path.split("__")[1];
-  } else {
-    contextId = splat.split("/")[1];
-    gradeParam = splat.split("/")[2];
-  }
+  const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
+    skip: programme?.includes("__"),
   });
+
+  if (programme?.includes("__")) {
+    const [name = "", programmeId] = programme.split("__");
+    let to = `/utdanning/${name}/${programmeId}`;
+    if (contextId) {
+      to += `/${contextId}`;
+    }
+    return <Navigate to={to} replace />;
+  }
 
   if (loading) {
     return <ContentPlaceholder padding="large" />;
@@ -63,8 +68,7 @@ const ProgrammePage = () => {
   }
 
   const selectedGrade =
-    data.programme.grades?.find((grade) => grade.title.title.toLowerCase() === gradeParam) ??
-    data.programme.grades?.[0];
+    data.programme.grades?.find((g) => g.title.title.toLowerCase() === grade) ?? data.programme.grades?.[0];
 
   return (
     <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ""} locale={i18n.language} />
