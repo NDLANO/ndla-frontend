@@ -140,7 +140,7 @@ const SearchResultItem = ({ item, type }: Props) => {
         <Metadata variant={contentTypeToVariantMapping[type]}>
           <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
           {item.labels && item.labels?.length >= 1 ? (
-            <StyledText textStyle="label.xsmall">{t(`searchPage.includes ${labels}`)}</StyledText>
+            <StyledText textStyle="label.xsmall">{`${t(`searchPage.includes`)} ${labels}`}</StyledText>
           ) : (
             <StyledText textStyle="label.xsmall">
               <br />
