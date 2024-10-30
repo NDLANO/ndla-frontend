@@ -135,18 +135,20 @@ export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
   return "error";
 };
 
-const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
+export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
+  if (levels.length === 0) return undefined;
+  if (levels.every((l) => l === "info")) return "info";
+  if (levels.every((l) => l === "warn" || "info")) return "warn";
+  if (levels.includes("error")) return "error";
+  return undefined;
+};
+
+export const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
   if (error instanceof NDLAError) return error.logLevel;
 
   const statusCodes = getErrorStatuses(error);
   const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
-
-  if (logLevels.length === 0) return undefined;
-
-  if (logLevels.every((l) => l === "info")) return "info";
-  if (logLevels.every((l) => l === "warn" || "info")) return "warn";
-  if (logLevels.includes("error")) return "error";
-  return undefined;
+  return mergeLogLevels(logLevels);
 };
 
 const deriveContext = (error: ErrorType): Record<string, unknown> => {

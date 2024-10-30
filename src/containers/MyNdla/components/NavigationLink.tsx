@@ -79,6 +79,7 @@ interface Props extends Omit<SafeLinkButtonProps, "children"> {
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
+  to: string;
 }
 
 const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
