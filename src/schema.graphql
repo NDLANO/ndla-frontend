@@ -240,6 +240,7 @@ type ArticleRequiredLibrary {
 
 type ArticleSearchResult implements SearchResult {
   contexts: [SearchContext!]!
+  htmlTitle: String!
   id: Int!
   metaDescription: String!
   metaImage: MetaImage
@@ -630,11 +631,13 @@ type GroupSearch {
 
 type GroupSearchResult {
   contexts: [SearchContext!]!
+  htmlTitle: String!
   id: Int!
   ingress: String!
   metaImage: MetaImage
   name: String!
   path: String!
+  title: String!
   traits: [String!]!
   url: String!
 }
@@ -773,6 +776,7 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 
 type LearningpathSearchResult implements SearchResult {
   contexts: [SearchContext!]!
+  htmlTitle: String!
   id: Int!
   metaDescription: String!
   metaImage: MetaImage
@@ -1368,6 +1372,7 @@ type SearchContextResourceTypes {
 
 interface SearchResult {
   contexts: [SearchContext!]!
+  htmlTitle: String!
   id: Int!
   metaDescription: String!
   metaImage: MetaImage

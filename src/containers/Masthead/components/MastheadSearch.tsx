@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from "html-react-parser";
 import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
@@ -347,7 +349,7 @@ const MastheadSearch = () => {
                         <TextWrapper>
                           <ComboboxItemText>
                             <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                              {resource.title}
+                              {parse(resource.htmlTitle)}
                             </SafeLink>
                           </ComboboxItemText>
                           {!!resource.contexts[0] && (

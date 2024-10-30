@@ -287,6 +287,7 @@ export type GQLArticleRequiredLibrary = {
 export type GQLArticleSearchResult = GQLSearchResult & {
   __typename?: "ArticleSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -722,11 +723,13 @@ export type GQLGroupSearch = {
 export type GQLGroupSearchResult = {
   __typename?: "GroupSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   ingress: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   name: Scalars["String"]["output"];
   path: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
   traits: Array<Scalars["String"]["output"]>;
   url: Scalars["String"]["output"];
 };
@@ -879,6 +882,7 @@ export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
 export type GQLLearningpathSearchResult = GQLSearchResult & {
   __typename?: "LearningpathSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -1981,6 +1985,7 @@ export type GQLSearchContextResourceTypes = {
 
 export type GQLSearchResult = {
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -4635,7 +4640,8 @@ export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
   path: string;
-  name: string;
+  title: string;
+  htmlTitle: string;
   ingress: string;
   traits: Array<string>;
   contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
@@ -4646,6 +4652,7 @@ type GQLSearchResource_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
   id: number;
   title: string;
+  htmlTitle: string;
   supportedLanguages: Array<string>;
   url: string;
   metaDescription: string;
@@ -4658,6 +4665,7 @@ type GQLSearchResource_LearningpathSearchResult_Fragment = {
   __typename?: "LearningpathSearchResult";
   id: number;
   title: string;
+  htmlTitle: string;
   supportedLanguages: Array<string>;
   url: string;
   metaDescription: string;

@@ -32,6 +32,7 @@ const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearch
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
+    htmlTitle: topic.name,
     url: topic.path || "",
     id: topic.id,
     ingress: topic.meta?.metaDescription ?? "",

@@ -151,7 +151,7 @@ const SearchResultItem = ({ item, type }: Props) => {
           <CardHeading asChild consumeCss>
             <h3>
               <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
-                {item.title}
+                {parse(item.htmlTitle)}
               </SafeLink>
             </h3>
           </CardHeading>
