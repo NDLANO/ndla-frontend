@@ -19,7 +19,6 @@ import { DraggableListItem, DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
-import BlockResource from "../../../../components/MyNdla/BlockResource";
 import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
@@ -30,7 +29,6 @@ import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../../folderMutations";
-import { ViewType } from "../FoldersPage";
 
 const StyledTagsWrapper = styled("div", {
   base: {
@@ -45,7 +43,6 @@ interface Props {
   resource: GQLFolderResource;
   resources: GQLFolderResource[];
   selectedFolder: GQLFolder;
-  viewType: ViewType;
   loading?: boolean;
   index: number;
   resourceMeta?: GQLFolderResourceMeta;
@@ -56,7 +53,6 @@ interface Props {
 const DraggableResource = ({
   resource,
   loading,
-  viewType,
   index,
   resourceMeta,
   selectedFolder,
@@ -104,8 +100,6 @@ const DraggableResource = ({
     },
     [resources, deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t, resourceRefId, setFocusId],
   );
-
-  const Resource = viewType === "block" ? BlockResource : ListResource;
 
   const actions: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
@@ -224,13 +218,13 @@ const DraggableResource = ({
     >
       <DragHandle
         type="resource"
-        disabled={viewType === "block" || items.length < 2}
+        disabled={items.length < 2}
         name={resourceMeta?.title ?? ""}
         sortableId={resource.id}
         {...attributes}
       />
       <DragWrapper>
-        <Resource
+        <ListResource
           id={resource.id}
           isLoading={loading}
           key={resource.id}
@@ -243,6 +237,7 @@ const DraggableResource = ({
           title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={resourceMeta?.description ?? ""}
           menu={menu}
+          variant="subtle"
         />
       </DragWrapper>
     </DraggableListItem>

@@ -7,7 +7,7 @@
  */
 
 import isEqual from "lodash/isEqual";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
@@ -16,11 +16,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useFolderActions } from "./components/FolderActionHooks";
 import FolderList from "./components/FolderList";
-import ListViewOptions from "./components/ListViewOptions";
 import ResourceList from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
-import { STORED_RESOURCE_VIEW_SETTINGS } from "../../../constants";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
@@ -76,16 +74,11 @@ const TagSafeLink = styled(SafeLinkButton, {
   },
 });
 
-export type ViewType = "block" | "list";
-
 const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const [viewType, _setViewType] = useState<ViewType>(
-    (localStorage.getItem(STORED_RESOURCE_VIEW_SETTINGS) as ViewType) || "list",
-  );
   const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
@@ -148,11 +141,6 @@ const FoldersPage = () => {
     }
   }, [folders, focusId, previousFolders]);
 
-  const setViewType = useCallback((type: ViewType) => {
-    _setViewType(type);
-    localStorage.setItem(STORED_RESOURCE_VIEW_SETTINGS, type);
-  }, []);
-
   const menuItems = useFolderActions(selectedFolder, setFocusId, folders, true);
 
   const tags = useMemo(() => getAllTags(folders), [folders]);
@@ -166,7 +154,6 @@ const FoldersPage = () => {
           <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
         </p>
       )}
-      <ListViewOptions type={viewType} onTypeChange={setViewType} />
       <FolderList
         folders={folders}
         loading={loading}
@@ -174,9 +161,7 @@ const FoldersPage = () => {
         setFocusId={setFocusId}
         folderRefId={folderRefId}
       />
-      {selectedFolder && (
-        <ResourceList selectedFolder={selectedFolder} viewType={viewType} resourceRefId={resourceRefId} />
-      )}
+      {selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
       {!selectedFolder && sharedByOthersFolders?.length > 0 && (
         <>
           <SharedHeading asChild consumeCss textStyle="heading.small">

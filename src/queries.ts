@@ -31,6 +31,26 @@ export const contributorInfoFragment = gql`
   }
 `;
 
+const searchContextFragment = gql`
+  fragment SearchContext on SearchContext {
+    contextId
+    publicId
+    language
+    path
+    url
+    breadcrumbs
+    rootId
+    root
+    relevance
+    relevanceId
+    resourceTypes {
+      id
+      name
+    }
+    isPrimary
+  }
+`;
+
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
@@ -40,26 +60,96 @@ export const GroupSearchResourceFragment = gql`
     ingress
     traits
     contexts {
-      contextId
-      publicId
-      language
-      path
-      url
-      breadcrumbs
-      rootId
-      root
-      relevance
-      relevanceId
-      resourceTypes {
-        id
-        name
-      }
+      ...SearchContext
     }
     metaImage {
       url
       alt
     }
   }
+  ${searchContextFragment}
+`;
+
+const searchResultFragment = gql`
+  fragment SearchResource on SearchResult {
+    id
+    title
+    supportedLanguages
+    url
+    metaDescription
+    metaImage {
+      url
+      alt
+    }
+    traits
+    contexts {
+      ...SearchContext
+    }
+  }
+  ${searchContextFragment}
+`;
+
+export const searchQuery = gql`
+  query Search(
+    $query: String
+    $page: Int
+    $pageSize: Int
+    $contextTypes: String
+    $language: String
+    $ids: [Int!]
+    $resourceTypes: String
+    $contextFilters: String
+    $levels: String
+    $sort: String
+    $fallback: String
+    $subjects: String
+    $languageFilter: String
+    $relevance: String
+    $grepCodes: String
+    $aggregatePaths: [String!]
+    $filterInactive: Boolean
+  ) {
+    search(
+      query: $query
+      page: $page
+      pageSize: $pageSize
+      contextTypes: $contextTypes
+      language: $language
+      ids: $ids
+      resourceTypes: $resourceTypes
+      contextFilters: $contextFilters
+      levels: $levels
+      sort: $sort
+      fallback: $fallback
+      subjects: $subjects
+      languageFilter: $languageFilter
+      relevance: $relevance
+      grepCodes: $grepCodes
+      aggregatePaths: $aggregatePaths
+      filterInactive: $filterInactive
+    ) {
+      pageSize
+      page
+      language
+      totalCount
+      results {
+        ...SearchResource
+      }
+      suggestions {
+        suggestions {
+          options {
+            text
+          }
+        }
+      }
+      aggregations {
+        values {
+          value
+        }
+      }
+    }
+  }
+  ${searchResultFragment}
 `;
 
 export const groupSearchQuery = gql`
@@ -149,6 +239,7 @@ export const copyrightInfoFragment = gql`
       ...ContributorInfo
     }
     origin
+    processed
   }
 `;
 

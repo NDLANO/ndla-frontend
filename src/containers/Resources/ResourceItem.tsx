@@ -19,6 +19,7 @@ import {
   ListItemVariantProps,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { cva } from "@ndla/styled-system/css";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
@@ -38,6 +39,10 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     wordWrap: "anywhere",
     lineClamp: "2",
+    _currentPage: {
+      fontWeight: "bold",
+      textDecoration: "none",
+    },
   },
 });
 
@@ -91,11 +96,67 @@ const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemV
   }
 };
 
-const StyledListItemRoot = styled(ListItemRoot, {
+const listItemRecipe = cva({
   base: {
+    _currentPage: {
+      background: "var(--background-current)",
+      color: "var(--color-current-hover)",
+      borderColor: "var(--border-color-current)",
+      position: "relative",
+
+      _before: {
+        content: "''",
+        position: "absolute",
+        borderInline: "6px solid",
+        borderColor: "var(--border-color-current)",
+        bottom: "-1px",
+        top: "-1px",
+        left: "0",
+        width: "100%",
+      },
+
+      _hover: {
+        background: "var(--background-hover)",
+        color: "text.default",
+        _before: {
+          display: "none",
+        },
+      },
+      _highlighted: {
+        background: "var(--background-hover)",
+        color: "text.default",
+      },
+      "& a:focus-visible": {
+        _focusVisible: {
+          outlineColor: "var(--color-current-hover)",
+        },
+      },
+      "& button:focus-visible": {
+        _focusVisible: {
+          boxShadowColor: "var(--color-current-hover)",
+        },
+      },
+    },
     mobileWideDown: {
       "& picture": {
         display: "none",
+      },
+    },
+  },
+  defaultVariants: { colorTheme: "brand1" },
+  variants: {
+    colorTheme: {
+      brand1: {
+        "--background-current": "colors.surface.action.brand.1.selected",
+        "--color-current-hover": "colors.text.default",
+      },
+      brand2: {
+        "--background-current": "colors.surface.action.brand.2.selected",
+        "--color-current-hover": "colors.text.default",
+      },
+      brand3: {
+        "--background-current": "colors.surface.action.myNdla.current",
+        "--color-current-hover": "colors.text.default",
       },
     },
   },
@@ -145,8 +206,9 @@ export const ResourceItem = ({
 
   return (
     <li>
-      <StyledListItemRoot
-        variant="list"
+      <ListItemRoot
+        css={listItemRecipe.raw({ colorTheme: getListItemColorTheme(currentResourceContentType) })}
+        context="list"
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
@@ -185,7 +247,7 @@ export const ResourceItem = ({
             {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
-      </StyledListItemRoot>
+      </ListItemRoot>
     </li>
   );
 };

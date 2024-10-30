@@ -71,7 +71,14 @@ const CopyFolder = ({ folder, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <Folder variant="standalone" folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+        <Folder
+          context="standalone"
+          variant="subtle"
+          nonInteractive
+          folder={folder}
+          foldersCount={folderCount}
+          link={routes.folder(folder.id)}
+        />
         {examLock ? (
           <MessageBox variant="warning">
             <InformationLine />

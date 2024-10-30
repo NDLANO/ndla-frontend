@@ -12,14 +12,18 @@ import { gql } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
-import { FILM_ID } from "../../constants";
-import { GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables } from "../../graphqlTypes";
+import {
+  GQLResourceTypeMoviesQuery,
+  GQLResourceTypeMoviesQueryVariables,
+  GQLSelectionMovieGrid_MovieFragment,
+} from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 
 const StyledSection = styled("section", {
   base: {
     display: "flex",
     flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
@@ -46,35 +50,44 @@ const StyledFilmContentCard = styled(FilmContentCard, {
   },
 });
 
-const StyledHeading = styled(Heading, {
-  base: {
-    display: "flex",
-    gap: "small",
-    paddingBlockEnd: "xsmall",
-  },
-});
+interface MovieGridLoadingShimmerProps {
+  showHeading?: boolean;
+}
 
-const LoadingShimmer = () => {
-  return new Array(24).fill(0).map((_, index) => (
-    <Skeleton key={index}>
-      <StyledFilmContentCard
-        movie={{
-          id: `dummy-${index}`,
-          resourceTypes: [],
-          path: "",
-          url: "",
-          title: "",
-        }}
-      />
-    </Skeleton>
-  ));
+export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmerProps) => {
+  return (
+    <StyledSection>
+      {showHeading && (
+        <Skeleton>
+          <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+            <h3>&nbsp;</h3>
+          </Heading>
+        </Skeleton>
+      )}
+      <MovieListing>
+        {new Array(24).fill(0).map((_, index) => (
+          <Skeleton key={index}>
+            <StyledFilmContentCard
+              movie={{
+                id: `dummy-${index}`,
+                resourceTypes: [],
+                path: "",
+                url: "",
+                title: "",
+              }}
+            />
+          </Skeleton>
+        ))}
+      </MovieListing>
+    </StyledSection>
+  );
 };
 
 interface Props {
   resourceType: { id: string; name: string };
 }
 
-const MovieGrid = ({ resourceType }: Props) => {
+export const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
     resourceTypeMoviesQuery,
@@ -88,15 +101,15 @@ const MovieGrid = ({ resourceType }: Props) => {
 
   return (
     <StyledSection>
-      <StyledHeading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
         <h3>{t(resourceType.name)}</h3>
-      </StyledHeading>
-      <MovieListing>
-        {resourceTypeMovies.loading ? (
-          <LoadingShimmer />
-        ) : (
-          resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-            const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+      </Heading>
+      {resourceTypeMovies.loading ? (
+        <MovieGridLoadingShimmer />
+      ) : (
+        <MovieListing>
+          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+            const context = movie.contexts.find((c) => c.contextType === "standard");
             return (
               <StyledFilmContentCard
                 style={{ "--index": index } as CSSProperties}
@@ -107,18 +120,45 @@ const MovieGrid = ({ resourceType }: Props) => {
                   resourceTypes: [],
                   title: movie.title,
                   path: context?.path ?? "",
-                  url: context?.url ?? "",
+                  url: context?.path ?? "",
                 }}
               />
             );
-          })
-        )}
+          })}
+        </MovieListing>
+      )}
+    </StyledSection>
+  );
+};
+
+interface SelectionMovieGridProps {
+  name: string;
+  movies: GQLSelectionMovieGrid_MovieFragment[];
+}
+
+export const SelectionMovieGrid = ({ name, movies }: SelectionMovieGridProps) => {
+  return (
+    <StyledSection>
+      <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
+        <h3>{name}</h3>
+      </Heading>
+      <MovieListing>
+        {movies.map((movie, index) => (
+          <StyledFilmContentCard style={{ "--index": index } as CSSProperties} key={`${name}-${index}`} movie={movie} />
+        ))}
       </MovieListing>
     </StyledSection>
   );
 };
 
-export default MovieGrid;
+SelectionMovieGrid.fragments = {
+  movie: gql`
+    fragment SelectionMovieGrid_Movie on Movie {
+      ...FilmContentCard_Movie
+    }
+    ${FilmContentCard.fragments.movie}
+  `,
+};
 
 const resourceTypeMoviesQuery = gql`
   query resourceTypeMovies($resourceType: String!, $language: String!) {

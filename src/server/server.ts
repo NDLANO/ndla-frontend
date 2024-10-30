@@ -26,9 +26,6 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 
-// To handle uncaught exceptions in async express
-await import("express-async-errors");
-
 const base = "/";
 const isProduction = config.runtimeType === "production";
 
@@ -198,7 +195,7 @@ const iframeEmbedRoute = async (req: Request) =>
 const iframeArticleRoute = async (req: Request) =>
   renderRoute(req, "iframe-article.html", iframeArticleTemplateHtml, "iframeArticle");
 
-app.get("/embed-iframe/:lang?/:embedType/:embedId", async (req, res, next) => {
+app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
   handleRequest(req, res, next, iframeEmbedRoute);
 });
 
@@ -206,10 +203,24 @@ const iframeArticleCallback = async (req: Request, res: Response, next: NextFunc
   handleRequest(req, res, next, iframeArticleRoute);
 };
 
-app.get("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.get("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/article/:articleId", iframeArticleCallback);
-app.post("/article-iframe/:lang?/:taxonomyId/:articleId", iframeArticleCallback);
+app.get(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
+app.post(
+  [
+    "/article-iframe/:lang/article/:articleId",
+    "/article-iframe/:lang/:taxonomyId/:articleId",
+    "/article-iframe/article/:articleId",
+    "/article-iframe/:taxonomyId/:articleId",
+  ],
+  iframeArticleCallback,
+);
 
 app.post("/lti", async (req, res, next) => {
   handleRequest(req, res, next, ltiRoute);
@@ -220,7 +231,7 @@ app.get("/lti", async (req, res, next) => {
 });
 
 app.get(
-  "/*",
+  ["/", "/*splat"],
   (req, res, next) => {
     const { basepath: path } = getLocaleInfoFromPath(req.path);
     const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
@@ -229,12 +240,13 @@ app.get(
     const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
     const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
     const shouldRedirect = isPrivate && !isTokenValid;
+
     if (!route) {
       next("route"); // skip to next route (i.e. proxy)
     } else if (shouldRedirect) {
       return res.redirect(`/login?state=${req.path}`);
     } else {
-      next();
+      handleRequest(req, res, next, defaultRoute);
     }
   },
   (req, res, next) => handleRequest(req, res, next, defaultRoute),
@@ -249,8 +261,7 @@ const getStatusCodeToReturn = (err?: Error): number => {
   return INTERNAL_SERVER_ERROR;
 };
 
-async function sendInternalServerError(req: Request, res: Response, err?: Error) {
-  const statusCode = getStatusCodeToReturn(err);
+async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
   if (res.getHeader("Content-Type") === "application/json") {
     res.status(statusCode).json("Internal server error");
     return;
@@ -267,16 +278,17 @@ async function sendInternalServerError(req: Request, res: Response, err?: Error)
 
 const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
   vite?.ssrFixStacktrace(err);
-  handleError(err, req.path);
-  sendInternalServerError(req, res, err);
+  const statusCode = getStatusCodeToReturn(err);
+  handleError(err, req.path, { statusCode });
+  sendInternalServerError(req, res, statusCode);
 };
 
 app.use(errorHandler);
 
-app.get("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.get("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
-app.post("/*", (_req: Request, res: Response, _next: NextFunction) => {
+app.post("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 

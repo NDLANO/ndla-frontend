@@ -225,7 +225,7 @@ export type GQLArticle = {
   introduction?: Maybe<Scalars["String"]["output"]>;
   language: Scalars["String"]["output"];
   metaDescription: Scalars["String"]["output"];
-  metaImage?: Maybe<GQLMetaImage>;
+  metaImage?: Maybe<GQLMetaImageWithCopyright>;
   oembed?: Maybe<Scalars["String"]["output"]>;
   oldNdlaUrl?: Maybe<Scalars["String"]["output"]>;
   published: Scalars["String"]["output"];
@@ -287,6 +287,7 @@ export type GQLArticleRequiredLibrary = {
 export type GQLArticleSearchResult = GQLSearchResult & {
   __typename?: "ArticleSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -722,11 +723,13 @@ export type GQLGroupSearch = {
 export type GQLGroupSearchResult = {
   __typename?: "GroupSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   ingress: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
   name: Scalars["String"]["output"];
   path: Scalars["String"]["output"];
+  title: Scalars["String"]["output"];
   traits: Array<Scalars["String"]["output"]>;
   url: Scalars["String"]["output"];
 };
@@ -879,6 +882,7 @@ export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
 export type GQLLearningpathSearchResult = GQLSearchResult & {
   __typename?: "LearningpathSearchResult";
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -963,6 +967,13 @@ export type GQLMeta = {
 export type GQLMetaImage = {
   __typename?: "MetaImage";
   alt: Scalars["String"]["output"];
+  url: Scalars["String"]["output"];
+};
+
+export type GQLMetaImageWithCopyright = {
+  __typename?: "MetaImageWithCopyright";
+  alt: Scalars["String"]["output"];
+  copyright: GQLCopyright;
   url: Scalars["String"]["output"];
 };
 
@@ -1476,6 +1487,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
 export type GQLProgrammePage = {
   __typename?: "ProgrammePage";
   contentUri?: Maybe<Scalars["String"]["output"]>;
+  contextId?: Maybe<Scalars["String"]["output"]>;
   desktopImage?: Maybe<GQLMetaImage>;
   grades?: Maybe<Array<GQLGrade>>;
   id: Scalars["String"]["output"];
@@ -1973,6 +1985,7 @@ export type GQLSearchContextResourceTypes = {
 
 export type GQLSearchResult = {
   contexts: Array<GQLSearchContext>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
@@ -2758,6 +2771,8 @@ export type GQLAllMoviesQuery = {
   };
 };
 
+export type GQLFilmContent_MovieFragment = { __typename?: "Movie" } & GQLSelectionMovieGrid_MovieFragment;
+
 export type GQLFilmContentCard_MovieFragment = {
   __typename?: "Movie";
   id: string;
@@ -2782,7 +2797,7 @@ export type GQLFilmFrontPageQuery = {
     movieThemes: Array<{
       __typename?: "MovieTheme";
       name: Array<{ __typename?: "Name"; name: string; language: string }>;
-      movies: Array<{ __typename?: "Movie" } & GQLFilmMovieList_MovieFragment>;
+      movies: Array<{ __typename?: "Movie" } & GQLFilmContent_MovieFragment>;
     }>;
     about: Array<{
       __typename?: "FilmPageAbout";
@@ -2803,9 +2818,9 @@ export type GQLFilmFrontPageQuery = {
   };
 };
 
-export type GQLFilmMovieList_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
-
 export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+
+export type GQLSelectionMovieGrid_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
 
 export type GQLResourceTypeMoviesQueryVariables = Exact<{
   resourceType: Scalars["String"]["input"];
@@ -3024,7 +3039,7 @@ export type GQLMovedResourcePage_ResourceFragment = {
     __typename?: "Article";
     id: number;
     metaDescription: string;
-    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   };
   learningpath?: {
     __typename?: "Learningpath";
@@ -3055,7 +3070,7 @@ export type GQLMultidisciplinarySubjectArticlePageQuery = {
       introduction?: string;
       metaDescription: string;
       tags?: Array<string>;
-      metaImage?: { __typename?: "MetaImage"; url: string };
+      metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
     };
   } & GQLMultidisciplinarySubjectArticle_TopicFragment;
   resourceTypes?: Array<
@@ -3749,13 +3764,12 @@ export type GQLSortFoldersMutation = {
 };
 
 export type GQLSortSavedSharedFoldersMutationVariables = Exact<{
-  parentId?: InputMaybe<Scalars["String"]["input"]>;
   sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
 }>;
 
 export type GQLSortSavedSharedFoldersMutation = {
   __typename?: "Mutation";
-  sortSavedSharedFolders: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
+  sortSavedSharedFolders: { __typename?: "SortResult"; sortedIds: Array<string> };
 };
 
 export type GQLSortResourcesMutationVariables = Exact<{
@@ -4488,7 +4502,7 @@ export type GQLResources_ResourceFragment = {
   rank?: number;
   language?: string;
   relevanceId?: string;
-  article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImage"; url: string; alt: string } };
+  article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string } };
   learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
@@ -4630,7 +4644,12 @@ export type GQLTopic_TopicFragment = {
     grepCodes?: Array<string>;
     oembed?: string;
     revisionDate?: string;
-    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    metaImage?: {
+      __typename?: "MetaImageWithCopyright";
+      url: string;
+      alt: string;
+      copyright: { __typename?: "Copyright" } & GQLCopyrightInfoFragment;
+    };
     transformedContent: {
       __typename?: "TransformedArticleContent";
       visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
@@ -4696,7 +4715,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   metaDescription: string;
   oembed?: string;
   tags?: Array<string>;
-  metaImage?: { __typename?: "MetaImage"; url: string };
+  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -4742,6 +4761,22 @@ export type GQLContextQuery = {
 
 export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };
 
+export type GQLSearchContextFragment = {
+  __typename?: "SearchContext";
+  contextId: string;
+  publicId: string;
+  language: string;
+  path: string;
+  url: string;
+  breadcrumbs: Array<string>;
+  rootId: string;
+  root: string;
+  relevance: string;
+  relevanceId: string;
+  isPrimary: boolean;
+  resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+};
+
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
@@ -4750,21 +4785,82 @@ export type GQLGroupSearchResourceFragment = {
   url: string;
   ingress: string;
   traits: Array<string>;
-  contexts: Array<{
-    __typename?: "SearchContext";
-    contextId: string;
-    publicId: string;
-    language: string;
-    path: string;
-    url: string;
-    breadcrumbs: Array<string>;
-    rootId: string;
-    root: string;
-    relevance: string;
-    relevanceId: string;
-    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-  }>;
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
   metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+};
+
+type GQLSearchResource_ArticleSearchResult_Fragment = {
+  __typename?: "ArticleSearchResult";
+  id: number;
+  title: string;
+  supportedLanguages: Array<string>;
+  url: string;
+  metaDescription: string;
+  traits: Array<string>;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
+};
+
+type GQLSearchResource_LearningpathSearchResult_Fragment = {
+  __typename?: "LearningpathSearchResult";
+  id: number;
+  title: string;
+  supportedLanguages: Array<string>;
+  url: string;
+  metaDescription: string;
+  traits: Array<string>;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
+};
+
+export type GQLSearchResourceFragment =
+  | GQLSearchResource_ArticleSearchResult_Fragment
+  | GQLSearchResource_LearningpathSearchResult_Fragment;
+
+export type GQLSearchQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+  ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
+  levels?: InputMaybe<Scalars["String"]["input"]>;
+  sort?: InputMaybe<Scalars["String"]["input"]>;
+  fallback?: InputMaybe<Scalars["String"]["input"]>;
+  subjects?: InputMaybe<Scalars["String"]["input"]>;
+  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
+  relevance?: InputMaybe<Scalars["String"]["input"]>;
+  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
+  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+}>;
+
+export type GQLSearchQuery = {
+  __typename?: "Query";
+  search?: {
+    __typename?: "Search";
+    pageSize: number;
+    page?: number;
+    language: string;
+    totalCount: number;
+    results: Array<
+      | ({ __typename?: "ArticleSearchResult" } & GQLSearchResource_ArticleSearchResult_Fragment)
+      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResource_LearningpathSearchResult_Fragment)
+    >;
+    suggestions: Array<{
+      __typename?: "SuggestionResult";
+      suggestions: Array<{
+        __typename?: "SearchSuggestion";
+        options: Array<{ __typename?: "SuggestOption"; text: string }>;
+      }>;
+    }>;
+    aggregations: Array<{
+      __typename?: "AggregationResult";
+      values: Array<{ __typename?: "BucketResult"; value: string }>;
+    }>;
+  };
 };
 
 export type GQLGroupSearchQueryVariables = Exact<{
@@ -4816,6 +4912,7 @@ export type GQLGroupSearchQuery = {
 export type GQLCopyrightInfoFragment = {
   __typename?: "Copyright";
   origin?: string;
+  processed?: boolean;
   license: { __typename?: "License"; license: string; url?: string; description?: string };
   creators: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
   processors: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
@@ -5015,7 +5112,7 @@ export type GQLStructuredArticleDataFragment = {
   supportedLanguages?: Array<string>;
   availability?: string;
   copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
   transformedContent: {

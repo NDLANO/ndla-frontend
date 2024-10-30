@@ -30,6 +30,7 @@ import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import PodcastSeries from "./PodcastSeries";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -138,6 +139,7 @@ const PodcastSeriesListPage = () => {
     <StyledPageContainer asChild consumeCss>
       <main>
         <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
+        <SocialMediaMetadata type="website" title={t("podcastPage.podcasts")} description={t("podcastPage.meta")} />
         <HomeBreadcrumb
           items={[
             {

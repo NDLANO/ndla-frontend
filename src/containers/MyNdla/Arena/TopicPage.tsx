@@ -182,7 +182,7 @@ const TopicPage = () => {
           {arenaCategory?.topics?.map((topic) => (
             <li key={`topicContainer-${topic.id}`}>
               <TopicListItem
-                variant="list"
+                context="list"
                 key={`topic-${topic.id}`}
                 id={topic.id}
                 title={topic.title}

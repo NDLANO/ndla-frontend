@@ -295,15 +295,15 @@ export const getTypeFilter = (
   return typeFilter;
 };
 
-export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[]) => {
+export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[], isLti?: boolean) => {
   if (!types?.length) {
     return {
       resourceTypes: allResourceTypes?.map((resourceType) => resourceType.id).join(),
-      contextTypes: "topic-article",
+      contextTypes: isLti ? undefined : "topic-article",
     };
   }
   const contextTypes = types.find((type) => type === "topic-article");
-  if (contextTypes) {
+  if (contextTypes && !isLti) {
     return {
       contextTypes,
     };

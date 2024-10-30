@@ -26,7 +26,6 @@ export const TOOLBOX_STUDENT_SUBJECT_ID = "urn:subject:1:54b1727c-2d91-4512-901c
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
 export const STORED_LANGUAGE_COOKIE_KEY = "language";
-export const STORED_RESOURCE_VIEW_SETTINGS = "STORED_RESOURCE_VIEW_SETTINGS";
 
 export const PROGRAMME_PATH = "/utdanning";
 export const ABOUT_PATH = "/about";
@@ -45,9 +44,7 @@ export const LocaleValues = ["nb", "nn", "en", "se"] as const;
 export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
 
 export const AcquireLicensePage =
-  "https://ndla.zendesk.com/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
-
-export const aboutNdlaUrl = "https://om.ndla.no/";
+  "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 
 export const MY_NDLA_CONTENT_WIDTH = 1440;
 

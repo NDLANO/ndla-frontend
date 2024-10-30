@@ -13,8 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
-import { converSearchStringToObject, convertSearchParam } from "./searchHelpers";
-import SearchInnerPage from "./SearchInnerPage";
+import { converSearchStringToObject } from "./searchHelpers";
+import SearchInnerPage, { getStateSearchParams } from "./SearchInnerPage";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -23,14 +23,6 @@ import { searchPageQuery } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";
 import { searchSubjects } from "../../util/searchHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
-
-const getStateSearchParams = (searchParams: Record<string, any>) => {
-  const stateSearchParams: Record<string, any> = {};
-  Object.keys(searchParams).forEach((key) => {
-    stateSearchParams[key] = convertSearchParam(searchParams[key]);
-  });
-  return stateSearchParams;
-};
 
 const SearchPage = () => {
   const { t, i18n } = useTranslation();

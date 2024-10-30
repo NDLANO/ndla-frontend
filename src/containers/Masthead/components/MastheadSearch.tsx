@@ -46,26 +46,15 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchQueryVariables } from "../../../graphqlTypes";
-import { groupSearchQuery } from "../../../queries";
+import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
 const StyledComboboxContent = styled(ComboboxContent, {
   base: {
-    boxShadow: "none",
-    borderRadius: "unset",
-    paddingBlock: "unset",
-    paddingInline: "unset",
-    gap: "0px",
     maxHeight: "surface.medium",
-  },
-});
-
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    borderRadius: "0",
   },
 });
 
@@ -144,6 +133,14 @@ const TextWrapper = styled("div", {
   },
 });
 
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
+
+const SuggestionButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
+
 const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
@@ -178,10 +175,10 @@ const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
-    GQLGroupSearchQuery,
-    GQLGroupSearchQueryVariables
-  >(groupSearchQuery, { fetchPolicy: "no-cache" });
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
+    searchQuery,
+    { fetchPolicy: "no-cache" },
+  );
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
@@ -208,25 +205,22 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedResults = useMemo(() => {
+  const mappedItems = useMemo(() => {
     if (!query.length) return [];
     return (
-      searchResult.groupSearch?.map((result) => {
-        const contentType = contentTypeMapping[result.resourceType];
+      searchResult.search?.results.map((result) => {
+        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
+        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
-          resources: result.resources.map((resource) => ({
-            ...resource,
-            id: resource.id.toString(),
-            resourceType: result.resourceType,
-            contentType,
-          })),
+          id: result.id.toString(),
+          resourceType: context?.resourceTypes?.[0]?.id,
+          contentType,
+          path: context?.path ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.groupSearch]);
-
-  const mappedItems = useMemo(() => mappedResults.flatMap((result) => result.resources), [mappedResults]);
+  }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
@@ -241,9 +235,15 @@ const MastheadSearch = () => {
 
   const collection = useMemo(
     () =>
-      createListCollection({ items: mappedItems, itemToValue: (item) => item.path, itemToString: (item) => item.name }),
+      createListCollection({
+        items: mappedItems,
+        itemToValue: (item) => item.path,
+        itemToString: (item) => item.title,
+      }),
     [mappedItems],
   );
+
+  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
     <DialogRoot
@@ -275,7 +275,8 @@ const MastheadSearch = () => {
             onInputValueChange={(details) => onQueryChange(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}
-            variant="simple"
+            context="composite"
+            variant="complex"
             closeOnSelect
             form={formId}
             selectionBehavior="preserve"
@@ -301,6 +302,9 @@ const MastheadSearch = () => {
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !highlightedValue) {
                         onSearch();
+                      } else if (e.key === "Enter" && highlightedValue) {
+                        onNavigate();
+                        navigate({ pathname: highlightedValue });
                       }
                     }}
                   />
@@ -315,40 +319,57 @@ const MastheadSearch = () => {
                 <SearchLine />
               </IconButton>
             </ComboboxControl>
+            <StyledHitsWrapper aria-live="assertive">
+              {!loading && query && (
+                <div>
+                  {!(mappedItems.length > 1) ? (
+                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                  ) : (
+                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                  )}
+                  {suggestion && (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.searchPhraseSuggestion")}
+                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                        [{suggestion}]
+                      </SuggestionButton>
+                    </Text>
+                  )}
+                </div>
+              )}
+            </StyledHitsWrapper>
             {!!mappedItems.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
                   <Spinner />
                 ) : (
-                  mappedItems.map((resource) => (
-                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
-                      <StyledListItemRoot variant="list">
-                        <TextWrapper>
-                          <ComboboxItemText>
-                            <SafeLink
-                              to={enablePrettyUrls ? resource.url : resource.path}
-                              onClick={onNavigate}
-                              unstyled
-                              css={linkOverlay.raw()}
-                            >
-                              {resource.name}
-                            </SafeLink>
-                          </ComboboxItemText>
-                          {!!resource.contexts[0] && (
-                            <Text
-                              textStyle="label.small"
-                              color="text.subtle"
-                              css={{ textAlign: "start" }}
-                              aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                            >
-                              {resource.contexts[0].breadcrumbs.join(" > ")}
-                            </Text>
-                          )}
-                        </TextWrapper>
-                        <ContentTypeBadgeNew contentType={resource.contentType} />
-                      </StyledListItemRoot>
-                    </StyledComboboxItem>
-                  ))
+                  mappedItems.map((resource) => {
+                    const to = enablePrettyUrls ? resource.path : resource.url;
+                    return (
+                      <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                        <StyledListItemRoot context="list">
+                          <TextWrapper>
+                            <ComboboxItemText>
+                              <SafeLink to={to} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                                {resource.title}
+                              </SafeLink>
+                            </ComboboxItemText>
+                            {!!resource.contexts[0] && (
+                              <Text
+                                textStyle="label.small"
+                                color="text.subtle"
+                                css={{ textAlign: "start" }}
+                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                              >
+                                {resource.contexts[0].breadcrumbs.join(" > ")}
+                              </Text>
+                            )}
+                          </TextWrapper>
+                          <ContentTypeBadgeNew contentType={resource.contentType} />
+                        </StyledListItemRoot>
+                      </ComboboxItem>
+                    );
+                  })
                 )}
               </StyledComboboxContent>
             ) : null}

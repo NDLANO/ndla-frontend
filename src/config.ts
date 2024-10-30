@@ -114,6 +114,7 @@ export type ConfigType = {
   isClient: boolean;
   debugGraphQLCache: boolean;
   sentrydsn: string;
+  formbricksId: string;
   enablePrettyUrls: boolean;
 };
 
@@ -136,7 +137,7 @@ const getServerSideConfig = (): ConfigType => {
     zendeskWidgetKey: getEnvironmentVariabel("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
     saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
-    feideDomain: feideDomain(ndlaEnvironment),
+    feideDomain: getEnvironmentVariabel("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
@@ -152,6 +153,7 @@ const getServerSideConfig = (): ConfigType => {
       "SENTRY_DSN",
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
+    formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true), // TODO: Remove before merging to master!
   };
 };

@@ -20,7 +20,6 @@ import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
-import { ViewType } from "../FoldersPage";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {
@@ -31,11 +30,10 @@ const StyledBlockWrapper = styled(BlockWrapper, {
 
 interface Props {
   selectedFolder: GQLFolder;
-  viewType: ViewType;
   resourceRefId?: string;
 }
 
-const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
+const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
@@ -106,19 +104,19 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
   return (
-    <StyledBlockWrapper variant={viewType}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={sortResourceIds}
-        accessibility={{ announcements }}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={sortResourceIds}
+      accessibility={{ announcements }}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    >
+      <SortableContext
+        items={sortedResources}
+        disabled={sortedResources.length < 2}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={sortedResources}
-          disabled={sortedResources.length < 2}
-          strategy={verticalListSortingStrategy}
-        >
+        <StyledBlockWrapper>
           {resources.map((resource, index) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return (
@@ -127,7 +125,6 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
                 key={resource.id}
                 index={index}
                 loading={loading}
-                viewType={viewType}
                 resourceMeta={resourceMeta}
                 resources={resources}
                 setFocusId={setFocusId}
@@ -136,9 +133,9 @@ const ResourceList = ({ selectedFolder, viewType, resourceRefId }: Props) => {
               />
             );
           })}
-        </SortableContext>
-      </DndContext>
-    </StyledBlockWrapper>
+        </StyledBlockWrapper>
+      </SortableContext>
+    </DndContext>
   );
 };
 

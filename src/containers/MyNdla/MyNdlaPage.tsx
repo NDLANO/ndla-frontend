@@ -102,7 +102,7 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
-  const aiLang = i18n.language === "nn" ? "nn" : "";
+  const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
   const dateString = format(new Date(), "Y-MM-dd HH:mm:ss");
   const token = btoa(dateString);
@@ -135,7 +135,7 @@ const MyNdlaPage = () => {
         title={t("myndla.campaignBlock.title")}
         headingLevel="h2"
         image={{
-          src: "/static/ndla-ai.png",
+          src: "/static/ndla-ai.jpg",
           alt: "",
         }}
         imageSide="right"
@@ -178,7 +178,7 @@ const MyNdlaPage = () => {
               <li key={topic.id}>
                 <TopicListItem
                   id={topic.id}
-                  variant="list"
+                  context="list"
                   postCount={topic.postCount}
                   voteCount={topic.voteCount}
                   title={topic.title}
@@ -227,7 +227,7 @@ const MyNdlaPage = () => {
               return (
                 <li key={res.id}>
                   <ListResource
-                    variant="list"
+                    context="list"
                     id={res.id}
                     isLoading={loading}
                     key={res.id}
