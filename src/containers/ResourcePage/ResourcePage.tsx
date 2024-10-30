@@ -18,7 +18,7 @@ import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { getTopicPath } from "../../util/getTopicPath";
-import { isAccessDeniedError } from "../../util/handleError";
+import { findAccessDeniedErrors } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage, { articlePageFragments } from "../ArticlePage/ArticlePage";
@@ -101,8 +101,15 @@ const ResourcePage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (isAccessDeniedError(error)) {
-    return <AccessDeniedPage />;
+  const accessDeniedErrors = findAccessDeniedErrors(error);
+  if (accessDeniedErrors) {
+    const nonRecoverableError = accessDeniedErrors.some(
+      (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
+    );
+
+    if (nonRecoverableError) {
+      return <AccessDeniedPage />;
+    }
   }
 
   if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
