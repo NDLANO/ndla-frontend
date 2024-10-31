@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Siden finnes ikke - ${titleTemplate}`,
+    forbidden: `Tilgang nektet - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
@@ -94,6 +95,7 @@ const messages = {
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmer",
@@ -195,6 +197,10 @@ const messages = {
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
     openInSubject: "Åpne artikkelen i et fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nektet",
+    errorDescription: "Du har ikke tilgang til denne siden.",
   },
 };
 

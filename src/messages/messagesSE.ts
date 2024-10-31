@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
+    forbidden: `Tilgang nektet - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fága",
@@ -93,6 +94,7 @@ const messages = {
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmer",
@@ -191,6 +193,10 @@ const messages = {
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
     openInSubject: "Åpne artikkelen i et fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nekta",
+    errorDescription: "Du har ikke tilgang til denne sida",
   },
 };
 

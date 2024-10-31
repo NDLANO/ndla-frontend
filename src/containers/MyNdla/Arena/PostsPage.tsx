@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -61,7 +61,7 @@ const PostsPage = () => {
   const userAgent = useUserAgent();
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
   const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
@@ -101,12 +101,11 @@ const PostsPage = () => {
   }, [arenaTopic, unsubscribeFromTopic, toast, t, subscribeToTopic]);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
       title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaTopic?.title, loading, t, trackPageView, user]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {
@@ -132,8 +131,7 @@ const PostsPage = () => {
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
 
-  if (loading || !authContextLoaded || !arenaTopic?.posts?.items) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
+  if (loading || !arenaTopic?.posts?.items) return <PageSpinner />;
 
   return (
     <StyledMyNdlaPageWrapper>

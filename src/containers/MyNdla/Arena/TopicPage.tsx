@@ -90,19 +90,17 @@ const TopicPage = () => {
   const { trackPageView } = useTracker();
 
   const { loading, arenaCategory, refetch: refetchCategory } = useArenaCategory(categoryId);
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
       title: t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaCategory?.title, loading, t, trackPageView, user]);
 
-  if (loading || !authContextLoaded) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
+  if (loading) return <PageSpinner />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
   const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;

@@ -109,10 +109,10 @@ const AuthenticationContext = ({ children }: Props) => {
       window.setTimeout(() => {
         setAuthenticated(false);
       }, timeoutMillis);
-    } else {
+    } else if (!myNdlaData.loading) {
       setLoaded(true);
     }
-  }, [myNdlaData.data]);
+  }, [myNdlaData]);
 
   const login = useCallback(() => setAuthenticated(true), []);
   const logout = useCallback(() => setAuthenticated(false), []);
