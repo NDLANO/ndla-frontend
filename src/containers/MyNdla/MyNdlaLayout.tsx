@@ -23,8 +23,10 @@ import {
   ShieldUserLine,
   ShieldUserFill,
   LoginBoxLine,
+  RouteLine,
+  RouteFill,
 } from "@ndla/icons/common";
-import { LearningPath, MoreLine } from "@ndla/icons/contentType";
+import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
 import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -213,7 +215,8 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     to: routes.myNdla.learningpath,
     name: t("myNdla.learningpath.title"),
     shortName: t("myNdla.iconMeny.learningpath"),
-    icon: <LearningPath />,
+    icon: <RouteLine />,
+    iconFilled: <RouteFill />,
     shownForUser: (user) => config.learningpathEnabled && user?.role === "employee",
   },
   {
