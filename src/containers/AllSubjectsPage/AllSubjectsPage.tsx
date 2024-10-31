@@ -84,8 +84,8 @@ const StyledList = styled("ul", {
   },
 });
 
-export const allSubectsFragment = gql`
-  fragment AllSubjects_Subject on Node {
+export const allSubjectsFragment = gql`
+  fragment AllSubjects_Node on Node {
     id
     name
     path
@@ -98,11 +98,11 @@ export const allSubectsFragment = gql`
 
 const allSubjectsQuery = gql`
   query allSubjects {
-    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
-      ...AllSubjects_Subject
+    nodes(nodeType: "SUBJECT", filterVisible: true) {
+      ...AllSubjects_Node
     }
   }
-  ${allSubectsFragment}
+  ${allSubjectsFragment}
 `;
 
 const AllSubjectsPage = () => {
@@ -127,10 +127,7 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
-  const sortedSubjects = useMemo(
-    () => sortBy(subjectsQuery.data?.subjects, (s) => s.name),
-    [subjectsQuery.data?.subjects],
-  );
+  const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);

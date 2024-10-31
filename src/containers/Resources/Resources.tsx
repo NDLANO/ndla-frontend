@@ -24,13 +24,13 @@ import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./ge
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
+import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_ParentFragment } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
-  topic: GQLResources_TopicFragment;
+  topic: GQLResources_ParentFragment;
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
@@ -197,7 +197,7 @@ const Resources = ({
 };
 
 const resourceFragment = gql`
-  fragment Resources_Resource on Node {
+  fragment Resources_Node on Node {
     id
     name
     contentUri
@@ -232,14 +232,14 @@ Resources.fragments = {
       name
     }
   `,
-  topic: gql`
-    fragment Resources_Topic on Node {
+  parent: gql`
+    fragment Resources_Parent on Node {
       id
       name
       path
       url
       children(nodeType: "RESOURCE") {
-        ...Resources_Resource
+        ...Resources_Node
       }
       metadata {
         customFields

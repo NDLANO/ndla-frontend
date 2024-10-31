@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
+import { GQLMultidisciplinaryArticleList_ParentFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
   base: {
@@ -32,7 +32,7 @@ const CardList = styled("ul", {
 });
 
 export type ListProps = {
-  topics: GQLMultidisciplinaryArticleList_TopicFragment[];
+  topics: GQLMultidisciplinaryArticleList_ParentFragment[];
 };
 
 const ListWrapper = styled("nav", {
@@ -89,8 +89,8 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
 };
 
 MultidisciplinaryArticleList.fragments = {
-  topic: gql`
-    fragment MultidisciplinaryArticleList_Topic on Node {
+  parent: gql`
+    fragment MultidisciplinaryArticleList_Parent on Node {
       id
       name
       path

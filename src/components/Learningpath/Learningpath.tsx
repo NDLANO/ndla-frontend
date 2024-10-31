@@ -40,8 +40,8 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_SubjectFragment,
-  GQLLearningpath_TopicFragment,
+  GQLLearningpath_NodeFragment,
+  GQLLearningpath_ParentFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
@@ -53,10 +53,10 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  topic?: GQLLearningpath_TopicFragment;
+  topic?: GQLLearningpath_ParentFragment;
   topicPath?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  subject?: GQLLearningpath_SubjectFragment;
+  subject?: GQLLearningpath_NodeFragment;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
@@ -321,9 +321,9 @@ const Learningpath = ({
 };
 
 Learningpath.fragments = {
-  topic: gql`
-    fragment Learningpath_Topic on Node {
-      ...LastLearningpathStepInfo_Topic
+  parent: gql`
+    fragment Learningpath_Parent on Node {
+      ...LastLearningpathStepInfo_Node
     }
     ${LastLearningpathStepInfo.fragments.topic}
   `,
@@ -333,8 +333,8 @@ Learningpath.fragments = {
     }
     ${LastLearningpathStepInfo.fragments.resourceType}
   `,
-  subject: gql`
-    fragment Learningpath_Subject on Node {
+  root: gql`
+    fragment Learningpath_Node on Node {
       id
     }
   `,

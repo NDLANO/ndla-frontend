@@ -15,7 +15,7 @@ import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_TopicFragment,
+  GQLLastLearningpathStepInfo_NodeFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 
@@ -36,7 +36,7 @@ const StyledHGroup = styled("hgroup", {
 });
 
 interface Props {
-  topic?: GQLLastLearningpathStepInfo_TopicFragment;
+  topic?: GQLLastLearningpathStepInfo_NodeFragment;
   topicPath?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
@@ -86,11 +86,11 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
 
 LastLearningpathStepInfo.fragments = {
   topic: gql`
-    fragment LastLearningpathStepInfo_Topic on Node {
+    fragment LastLearningpathStepInfo_Node on Node {
       id
-      ...Resources_Topic
+      ...Resources_Parent
     }
-    ${Resources.fragments.topic}
+    ${Resources.fragments.parent}
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {

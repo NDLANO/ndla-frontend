@@ -33,7 +33,7 @@ test("can navigate to profile", async ({ page }) => {
 
 test("have all options at the different pages", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql");
-  await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Logg ut" })).toBeVisible();
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();

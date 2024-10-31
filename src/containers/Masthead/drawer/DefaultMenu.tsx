@@ -24,7 +24,7 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "../../../constants";
-import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
+import { GQLDefaultMenu_RootFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
 import { removeUrn } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 
@@ -59,7 +59,7 @@ interface Props {
   setFrontpageMenu: (menu: GQLDrawerContent_FrontpageMenuFragment) => void;
   dynamicMenus: GQLDrawerContent_FrontpageMenuFragment[];
   dynamicId?: string;
-  subject?: GQLDefaultMenu_SubjectFragment;
+  subject?: GQLDefaultMenu_RootFragment;
   type?: MenuType;
   onCloseMenuPortion: () => void;
 }
@@ -167,8 +167,8 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
 };
 
 DefaultMenu.fragments = {
-  subject: gql`
-    fragment DefaultMenu_Subject on Node {
+  root: gql`
+    fragment DefaultMenu_Root on Node {
       id
       name
     }

@@ -55,7 +55,7 @@ const iframePageQuery = gql`
       ...IframeArticlePage_Article
     }
     articleResource: nodeByArticleId(nodeId: $taxonomyId, articleId: $articleId) {
-      ...IframeArticlePage_Resource
+      ...IframeArticlePage_Node
     }
   }
   ${iframeArticlePageFragments.resource}

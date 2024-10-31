@@ -296,11 +296,11 @@ const MastheadDrawer = ({ subject, crumbs }: Props) => {
 MastheadDrawer.fragments = {
   subject: gql`
     fragment MastheadDrawer_Subject on Node {
-      ...DefaultMenu_Subject
-      ...DrawerContent_Subject
+      ...DefaultMenu_Root
+      ...DrawerContent_Root
     }
-    ${DefaultMenu.fragments.subject}
-    ${DrawerContent.fragments.subject}
+    ${DefaultMenu.fragments.root}
+    ${DrawerContent.fragments.root}
   `,
 };
 

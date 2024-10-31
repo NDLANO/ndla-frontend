@@ -40,10 +40,10 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
-  GQLArticlePage_ResourceFragment,
+  GQLArticlePage_NodeFragment,
   GQLArticlePage_ResourceTypeFragment,
-  GQLArticlePage_SubjectFragment,
-  GQLArticlePage_TopicFragment,
+  GQLArticlePage_RootFragment,
+  GQLArticlePage_ParentFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
@@ -57,11 +57,11 @@ import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resou
 import Resources from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_ResourceFragment;
-  topic?: GQLArticlePage_TopicFragment;
+  resource?: GQLArticlePage_NodeFragment;
+  topic?: GQLArticlePage_ParentFragment;
   topicPath: GQLTaxonomyCrumb[];
   relevance: string;
-  subject?: GQLArticlePage_SubjectFragment;
+  subject?: GQLArticlePage_RootFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
@@ -285,8 +285,8 @@ const ArticlePage = ({
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_ResourceFragment,
-  subject?: GQLArticlePage_SubjectFragment,
+  resource?: GQLArticlePage_NodeFragment,
+  subject?: GQLArticlePage_RootFragment,
 ) =>
   htmlTitle(resource?.article?.title, [
     subject?.subjectpage?.about?.title || subject?.name,
@@ -300,8 +300,8 @@ export const articlePageFragments = {
     }
     ${Resources.fragments.resourceType}
   `,
-  subject: gql`
-    fragment ArticlePage_Subject on Node {
+  root: gql`
+    fragment ArticlePage_Root on Node {
       id
       name
       path
@@ -318,7 +318,7 @@ export const articlePageFragments = {
     }
   `,
   resource: gql`
-    fragment ArticlePage_Resource on Node {
+    fragment ArticlePage_Node on Node {
       id
       name
       path
@@ -341,15 +341,15 @@ export const articlePageFragments = {
     ${structuredArticleDataFragment}
     ${Article.fragments.article}
   `,
-  topic: gql`
-    fragment ArticlePage_Topic on Node {
+  parent: gql`
+    fragment ArticlePage_Parent on Node {
       id
       name
       path
       url
-      ...Resources_Topic
+      ...Resources_Parent
     }
-    ${Resources.fragments.topic}
+    ${Resources.fragments.parent}
   `,
 };
 

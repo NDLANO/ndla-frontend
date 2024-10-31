@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { PageContainer } from "../../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../../components/MovedNodeCard";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
+import { GQLMovedTopicPage_NodeFragment, GQLSearchResult } from "../../../graphqlTypes";
 
 interface GQLSearchResultExtended
   extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
@@ -28,7 +28,7 @@ interface GQLSearchResultExtended
   contentType: string;
 }
 
-const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearchResultExtended => {
+const convertTopicToResult = (topic: GQLMovedTopicPage_NodeFragment): GQLSearchResultExtended => {
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
@@ -59,7 +59,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
 };
 
 interface Props {
-  topics: GQLMovedTopicPage_TopicFragment[];
+  topics: GQLMovedTopicPage_NodeFragment[];
 }
 
 const StyledMain = styled("main", {
@@ -121,7 +121,7 @@ const MovedTopicPage = ({ topics }: Props) => {
 
 MovedTopicPage.fragments = {
   topic: gql`
-    fragment MovedTopicPage_Topic on Node {
+    fragment MovedTopicPage_Node on Node {
       id
       name
       path

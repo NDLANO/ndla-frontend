@@ -16,7 +16,7 @@ import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
-  GQLTopicWrapper_SubjectFragment,
+  GQLTopicWrapper_RootFragment,
 } from "../../../graphqlTypes";
 import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
@@ -30,20 +30,20 @@ type Props = {
   subTopicId?: string;
   setBreadCrumb: Dispatch<SetStateAction<SimpleBreadcrumbItem[]>>;
   showResources: boolean;
-  subject: GQLTopicWrapper_SubjectFragment;
+  subject: GQLTopicWrapper_RootFragment;
 };
 
 const topicWrapperQuery = gql`
   query topicWrapper($topicId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
     topic: node(id: $topicId, rootId: $subjectId) {
       id
-      ...Topic_Topic
+      ...Topic_Parent
     }
     resourceTypes {
       ...Topic_ResourceTypeDefinition
     }
   }
-  ${topicFragments.topic}
+  ${topicFragments.parent}
   ${topicFragments.resourceType}
 `;
 
@@ -110,7 +110,7 @@ const TopicWrapper = ({
       resourceTypes={data.resourceTypes}
       activeTopic={activeTopic}
       subjectType={subjectType}
-      subTopicId={subTopicId}
+      childId={subTopicId}
       showResources={showResources}
       subject={subject}
       loading={loading}
@@ -119,11 +119,11 @@ const TopicWrapper = ({
 };
 
 TopicWrapper.fragments = {
-  subject: gql`
-    fragment TopicWrapper_Subject on Node {
-      ...Topic_Subject
+  root: gql`
+    fragment TopicWrapper_Root on Node {
+      ...Topic_Root
     }
-    ${topicFragments.subject}
+    ${topicFragments.root}
   `,
 };
 export default TopicWrapper;

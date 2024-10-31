@@ -20,10 +20,10 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLLearningpath,
-  GQLLearningpathPage_ResourceFragment,
+  GQLLearningpathPage_NodeFragment,
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
-  GQLLearningpathPage_SubjectFragment,
-  GQLLearningpathPage_TopicFragment,
+  GQLLearningpathPage_RootFragment,
+  GQLLearningpathPage_ParentFragment,
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
@@ -33,11 +33,11 @@ import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
-  topic?: GQLLearningpathPage_TopicFragment;
+  topic?: GQLLearningpathPage_ParentFragment;
   topicPath: GQLTaxonomyCrumb[];
-  subject?: GQLLearningpathPage_SubjectFragment;
+  subject?: GQLLearningpathPage_RootFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
-  resource?: GQLLearningpathPage_ResourceFragment;
+  resource?: GQLLearningpathPage_NodeFragment;
 }
 
 interface Props {
@@ -132,7 +132,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 };
 
 const getTitle = (
-  subject?: Pick<GQLLearningpathPage_SubjectFragment, "name" | "subjectpage">,
+  subject?: Pick<GQLLearningpathPage_RootFragment, "name" | "subjectpage">,
   learningpath?: Pick<GQLLearningpath, "title">,
   learningpathStep?: Pick<GQLLearningpathStep, "title">,
 ) => {
@@ -148,14 +148,14 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
 };
 
 export const learningpathPageFragments = {
-  topic: gql`
-    fragment LearningpathPage_Topic on Node {
-      ...Learningpath_Topic
+  parent: gql`
+    fragment LearningpathPage_Parent on Node {
+      ...Learningpath_Parent
     }
-    ${Learningpath.fragments.topic}
+    ${Learningpath.fragments.parent}
   `,
-  subject: gql`
-    fragment LearningpathPage_Subject on Node {
+  root: gql`
+    fragment LearningpathPage_Root on Node {
       id
       name
       path
@@ -169,9 +169,9 @@ export const learningpathPageFragments = {
           title
         }
       }
-      ...Learningpath_Subject
+      ...Learningpath_Node
     }
-    ${Learningpath.fragments.subject}
+    ${Learningpath.fragments.root}
   `,
   resourceType: gql`
     fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
@@ -180,7 +180,7 @@ export const learningpathPageFragments = {
     ${Learningpath.fragments.resourceType}
   `,
   resource: gql`
-    fragment LearningpathPage_Resource on Node {
+    fragment LearningpathPage_Node on Node {
       id
       name
       path

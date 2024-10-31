@@ -21,14 +21,14 @@ import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
-  GQLTopicMenu_SubjectFragment,
+  GQLTopicMenu_RootFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
 interface Props {
   topic: TopicWithSubTopics;
-  subject: GQLTopicMenu_SubjectFragment;
+  subject: GQLTopicMenu_RootFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPath: TopicWithSubTopics[];
@@ -154,8 +154,8 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
 };
 
 TopicMenu.fragments = {
-  subject: gql`
-    fragment TopicMenu_Subject on Node {
+  root: gql`
+    fragment TopicMenu_Root on Node {
       id
       name
       path
@@ -163,7 +163,7 @@ TopicMenu.fragments = {
     }
   `,
   resource: gql`
-    fragment TopicMenu_Resource on Node {
+    fragment TopicMenu_Node on Node {
       id
       name
       path
@@ -181,7 +181,7 @@ const resourceQuery = gql`
         customFields
       }
       children(nodeType: "RESOURCE") {
-        ...TopicMenu_Resource
+        ...TopicMenu_Node
         rank
         relevanceId
         resourceTypes {

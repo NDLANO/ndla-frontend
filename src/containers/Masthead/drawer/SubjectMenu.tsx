@@ -20,17 +20,17 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { GQLSubjectMenu_SubjectFragment, GQLTaxBase } from "../../../graphqlTypes";
+import { GQLSubjectMenu_RootFragment, GQLTaxBase } from "../../../graphqlTypes";
 
 interface Props {
-  subject?: GQLSubjectMenu_SubjectFragment;
+  subject?: GQLSubjectMenu_RootFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPathIds: string[];
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
-type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment["allTopics"]>[0];
+type AllTopicsType = NonNullable<GQLSubjectMenu_RootFragment["allTopics"]>[0];
 
 export type TopicWithSubTopics = AllTopicsType & {
   subtopics: TopicWithSubTopics[];
@@ -182,8 +182,8 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
 };
 
 SubjectMenu.fragments = {
-  subject: gql`
-    fragment SubjectMenu_Subject on Node {
+  root: gql`
+    fragment SubjectMenu_Root on Node {
       id
       name
       path
@@ -195,9 +195,9 @@ SubjectMenu.fragments = {
         path
         url
       }
-      ...TopicMenu_Subject
+      ...TopicMenu_Root
     }
-    ${TopicMenu.fragments.subject}
+    ${TopicMenu.fragments.root}
   `,
 };
 

@@ -238,9 +238,9 @@ export const multidisciplinarySubjectArticleFragments = {
         }
         ...Article_Article
       }
-      ...Resources_Topic
+      ...Resources_Parent
     }
-    ${Resources.fragments.topic}
+    ${Resources.fragments.parent}
     ${Article.fragments.article}
   `,
   subject: gql`

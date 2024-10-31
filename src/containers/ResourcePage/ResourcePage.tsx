@@ -49,16 +49,16 @@ const resourcePageQuery = gql`
     $transformArgs: TransformedArticleContentInput
   ) {
     subject: node(id: $subjectId) {
-      ...LearningpathPage_Subject
-      ...ArticlePage_Subject
+      ...LearningpathPage_Root
+      ...ArticlePage_Root
     }
     resourceTypes {
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
     topic: node(id: $topicId, rootId: $subjectId) {
-      ...LearningpathPage_Topic
-      ...ArticlePage_Topic
+      ...LearningpathPage_Parent
+      ...ArticlePage_Parent
     }
     resource: node(id: $resourceId, rootId: $subjectId, parentId: $topicId) {
       relevanceId
@@ -84,19 +84,19 @@ const resourcePageQuery = gql`
         url
       }
       ...MovedResourcePage_Resource
-      ...ArticlePage_Resource
-      ...LearningpathPage_Resource
+      ...ArticlePage_Node
+      ...LearningpathPage_Node
     }
   }
-  ${articlePageFragments.topic}
+  ${articlePageFragments.parent}
   ${MovedResourcePage.fragments.resource}
   ${articlePageFragments.resource}
   ${articlePageFragments.resourceType}
-  ${articlePageFragments.subject}
-  ${learningpathPageFragments.topic}
+  ${articlePageFragments.root}
+  ${learningpathPageFragments.parent}
   ${learningpathPageFragments.resourceType}
   ${learningpathPageFragments.resource}
-  ${learningpathPageFragments.subject}
+  ${learningpathPageFragments.root}
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();

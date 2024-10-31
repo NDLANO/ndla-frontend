@@ -27,7 +27,7 @@ const subjectPageQuery = gql`
     $metadataFilterValue: String
   ) {
     subject: node(id: $subjectId) {
-      ...SubjectContainer_Subject
+      ...SubjectContainer_Root
     }
     topic: node(id: $topicId) @include(if: $includeTopic) {
       id
@@ -39,8 +39,8 @@ const subjectPageQuery = gql`
         rootId
         parentIds
       }
-      alternateTopics: alternateNodes {
-        ...MovedTopicPage_Topic
+      alternateNodes {
+        ...MovedTopicPage_Node
       }
     }
     subjects: nodes(
@@ -55,7 +55,7 @@ const subjectPageQuery = gql`
     }
   }
   ${MovedTopicPage.fragments.topic}
-  ${subjectContainerFragments.subject}
+  ${subjectContainerFragments.root}
 `;
 
 interface Props {
@@ -95,7 +95,7 @@ const SubjectPage = ({ subjectType, subjectId, topicId, topicList: tList }: Prop
 
   const topicList = (data.topic?.context?.parentIds?.slice(1) ?? tList).concat(data.topic?.id ? [data.topic.id] : []);
 
-  const alternateTopics = data.topic?.alternateTopics;
+  const alternateTopics = data.topic?.alternateNodes;
   if (alternateTopics && alternateTopics.length >= 1) {
     // if (alternateTopics.length === 1) {
     //   return <Navigate to={alternateTopics[0]!.path!} replace />;

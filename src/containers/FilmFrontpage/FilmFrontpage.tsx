@@ -67,8 +67,8 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   },
 });
 
-const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
-  htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (t: TFunction, node: GQLFilmFrontPageQuery["node"]) =>
+  htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
 const fromNdla = {
   id: "fromNdla",
@@ -90,8 +90,8 @@ const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
+  const { data: { filmfrontpage, node } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -115,9 +115,9 @@ const FilmFrontpage = () => {
   return (
     <>
       <Helmet>
-        <title>{getDocumentTitle(t, subject)}</title>
+        <title>{getDocumentTitle(t, node)}</title>
       </Helmet>
-      <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
+      <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
       <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />
@@ -127,10 +127,10 @@ const FilmFrontpage = () => {
             </Heading>
             <NavigationBox
               heading={t("ndlaFilm.topics")}
-              items={subject?.topics?.map((topic) => {
-                const path = enablePrettyUrls ? topic.url : topic.path;
+              items={node?.children?.map((child) => {
+                const path = enablePrettyUrls ? child.url : child.path;
                 return {
-                  label: topic.name,
+                  label: child.name,
                   url: path,
                 };
               })}
@@ -175,7 +175,7 @@ const FilmFrontpage = () => {
 export default FilmFrontpage;
 
 const filmFrontPageQuery = gql`
-  query filmFrontPage($subjectId: String!, $transformArgs: TransformedArticleContentInput) {
+  query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       slideShow {
         ...FilmSlideshow_Movie
@@ -203,12 +203,12 @@ const filmFrontPageQuery = gql`
         ...Article_Article
       }
     }
-    subject: node(id: $subjectId) {
+    node(id: $nodeId) {
       id
       name
       path
       url
-      topics: children(nodeType: "TOPIC") {
+      children(nodeType: "TOPIC") {
         id
         name
         path

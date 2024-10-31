@@ -25,8 +25,8 @@ import Topic from "../../../components/Topic/Topic";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLTopic_ResourceTypeDefinitionFragment,
-  GQLTopic_SubjectFragment,
-  GQLTopic_TopicFragment,
+  GQLTopic_RootFragment,
+  GQLTopic_ParentFragment,
 } from "../../../graphqlTypes";
 import { copyrightInfoFragment } from "../../../queries";
 import { htmlTitle } from "../../../util/titleHelper";
@@ -45,11 +45,11 @@ type Props = {
   topicIds: string[];
   activeTopic: boolean;
   subjectType?: string;
-  subTopicId?: string;
+  childId?: string;
   showResources?: boolean;
-  subject?: GQLTopic_SubjectFragment;
+  subject?: GQLTopic_RootFragment;
   loading?: boolean;
-  topic: GQLTopic_TopicFragment;
+  topic: GQLTopic_ParentFragment;
   resourceTypes?: GQLTopic_ResourceTypeDefinitionFragment[];
 };
 
@@ -57,7 +57,7 @@ const SubjectTopic = ({
   topicIds,
   activeTopic,
   subjectType,
-  subTopicId,
+  childId,
   topic,
   resourceTypes,
   showResources,
@@ -113,14 +113,13 @@ const SubjectTopic = ({
     return null;
   }
 
-  const subTopics = topic?.subtopics?.map((subtopic) => {
+  const children = topic?.subtopics?.map((child) => {
     return {
-      ...subtopic,
-      label: subtopic.name,
-      current:
-        subtopic.id === subTopicId && subtopic.id === topicIds[topicIds.length - 1] ? PAGE : subtopic.id === subTopicId,
-      url: enablePrettyUrls ? subtopic.url : subtopic.path,
-      isAdditionalResource: subtopic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+      ...child,
+      label: child.name,
+      current: child.id === childId && child.id === topicIds[topicIds.length - 1] ? PAGE : child.id === childId,
+      url: enablePrettyUrls ? child.url : child.path,
+      isAdditionalResource: child.relevanceId === RELEVANCE_SUPPLEMENTARY,
     };
   });
 
@@ -154,11 +153,11 @@ const SubjectTopic = ({
       />
       {subjectType === "multiDisciplinary" && topicIds.length === 2 && activeTopic ? (
         <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
-      ) : subTopics?.length ? (
+      ) : children?.length ? (
         <NavigationBox
           variant="secondary"
           heading={parse(t("subjectPage.topicsTitle", { topic: topic.name }))}
-          items={subTopics}
+          items={children}
         />
       ) : null}
       {!!resources && (
@@ -171,14 +170,14 @@ const SubjectTopic = ({
 };
 
 export const topicFragments = {
-  subject: gql`
-    fragment Topic_Subject on Node {
+  root: gql`
+    fragment Topic_Root on Node {
       id
       name
     }
   `,
-  topic: gql`
-    fragment Topic_Topic on Node {
+  parent: gql`
+    fragment Topic_Parent on Node {
       id
       name
       path
@@ -190,7 +189,7 @@ export const topicFragments = {
         path
         url
         relevanceId
-        ...MultidisciplinaryArticleList_Topic
+        ...MultidisciplinaryArticleList_Parent
       }
       meta {
         metaDescription
@@ -234,10 +233,10 @@ export const topicFragments = {
         }
         revisionDate
       }
-      ...Resources_Topic
+      ...Resources_Parent
     }
-    ${MultidisciplinaryArticleList.fragments.topic}
-    ${Resources.fragments.topic}
+    ${MultidisciplinaryArticleList.fragments.parent}
+    ${Resources.fragments.parent}
     ${copyrightInfoFragment}
   `,
   resourceType: gql`

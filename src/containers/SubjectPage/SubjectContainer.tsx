@@ -32,13 +32,13 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
+import { GQLSubjectContainer_RootFragment } from "../../graphqlTypes";
 import { fixEndSlash } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
-  subject: GQLSubjectContainer_SubjectFragment;
+  subject: GQLSubjectContainer_RootFragment;
   subjectType?: string;
   topicId?: string;
   topicIds: string[];
@@ -247,8 +247,8 @@ const SubjectContainer = ({ subject, subjectType, topicId, topicIds, loading }: 
 };
 
 export const subjectContainerFragments = {
-  subject: gql`
-    fragment SubjectContainer_Subject on Node {
+  root: gql`
+    fragment SubjectContainer_Root on Node {
       id
       name
       path
@@ -277,9 +277,9 @@ export const subjectContainerFragments = {
         }
         ...SubjectLinks_SubjectPage
       }
-      ...TopicWrapper_Subject
+      ...TopicWrapper_Root
     }
-    ${TopicWrapper.fragments.subject}
+    ${TopicWrapper.fragments.root}
     ${SubjectLinks.fragments.subjectPage}
   `,
 };
