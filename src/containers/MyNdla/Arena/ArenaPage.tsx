@@ -12,11 +12,11 @@ import { Navigate } from "react-router-dom";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { PageContainer } from "../../../components/Layout/PageContainer";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "medium",
   },
@@ -46,10 +46,10 @@ const ArenaPage = () => {
   if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   return (
-    <StyledMyNdlaPageWrapper menuItems={[]}>
+    <StyledPageContainer>
       <HelmetWithTracker title={t("htmlTitles.arenaPage")} />
-      <iframe title="Arena" src="https://grupper.test.ndla.no" width="100%" height="1000" allowFullScreen />
-    </StyledMyNdlaPageWrapper>
+      <iframe title="Arena" src="https://grupper.staging.ndla.no" width="100%" height="1000" allowFullScreen />
+    </StyledPageContainer>
   );
 };
 
