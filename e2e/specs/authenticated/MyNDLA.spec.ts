@@ -38,5 +38,5 @@ test("have new posts in arena", async ({ page }) => {
   await expect(toArena).toBeVisible();
   await toArena.click();
   await page.waitForURL("/minndla/arena");
-  await expect(page.getByRole("heading", { name: "Arena" })).toBeVisible();
+  await expect(page.getByTitle("Arena")).toBeVisible();
 });
