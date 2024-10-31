@@ -6,8 +6,9 @@
  *
  */
 
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { LinkProps, useNavigate } from "react-router-dom";
 import {
   Button,
   ErrorMessageActions,
@@ -24,11 +25,13 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 
 interface Props {
   applySkipToContentId?: boolean;
+  navigationLink?: LinkProps & { children: ReactNode };
 }
 
-export const Forbidden = ({ applySkipToContentId }: Props) => {
+export const Forbidden = ({ applySkipToContentId, navigationLink }: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { children, ...linkProps } = navigationLink ?? { to: "/", children: t("errorMessage.goToFrontPage") };
 
   return (
     <Status code={403}>
@@ -42,9 +45,9 @@ export const Forbidden = ({ applySkipToContentId }: Props) => {
           <ErrorMessageDescription>{t("forbiddenPage.errorDescription")}</ErrorMessageDescription>
         </ErrorMessageContent>
         <ErrorMessageActions>
-          <SafeLink to="/">{t("errorMessage.goToFrontPage")}</SafeLink>
+          <SafeLink {...linkProps}>{children}</SafeLink>
           <Button variant="link" onClick={() => navigate(-1)}>
-            {t("errorMessage.goBack")}
+            {t("errorMessage.back")}
           </Button>
         </ErrorMessageActions>
       </ErrorMessageRoot>
@@ -52,11 +55,11 @@ export const Forbidden = ({ applySkipToContentId }: Props) => {
   );
 };
 
-export const ForbiddenPage = () => {
+export const ForbiddenPage = (props: Props) => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <Forbidden applySkipToContentId={true} />
+        <Forbidden applySkipToContentId={true} {...props} />
       </main>
     </PageContainer>
   );

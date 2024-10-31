@@ -16,7 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
-    forbidden: `Tilgang nektet - ${titleTemplate}`,
+    forbidden: `Tilgang nekta - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
@@ -95,6 +95,7 @@ const messages = {
       error: "Ein feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmar",

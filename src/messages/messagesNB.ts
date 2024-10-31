@@ -95,6 +95,7 @@ const messages = {
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmer",
