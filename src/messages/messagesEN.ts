@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    forbidden: `Access denied - ${titleTemplate}`,
     unpublished: `Resource is unpublished - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: "Subject",
@@ -195,6 +196,10 @@ const messages = {
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
+  },
+  forbiddenPage: {
+    title: "Access denied",
+    errorDescription: "You do not have access to this page.",
   },
 };
 
