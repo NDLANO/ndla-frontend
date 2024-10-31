@@ -9,15 +9,15 @@
 import { useRef } from "react";
 import { Navigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import MovedTopicPage from "./components/MovedTopicPage";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import { GQLSubjectPageTestQuery, GQLSubjectPageTestQueryVariables } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
   query subjectPageTest(
@@ -69,7 +69,7 @@ const SubjectPage = () => {
   const data = newData ?? previousData;
 
   if (!data && !loading) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data) {
@@ -77,10 +77,10 @@ const SubjectPage = () => {
   }
 
   const alternateTopics = data.topic?.alternateTopics;
-  if (!data?.subject && alternateTopics && alternateTopics.length >= 1) {
-    if (alternateTopics.length === 1) {
-      return <Navigate to={alternateTopics[0]!.path!} replace />;
-    }
+  if (alternateTopics && alternateTopics.length >= 1) {
+    // if (alternateTopics.length === 1) {
+    //   return <Navigate to={alternateTopics[0]!.path!} replace />;
+    // }
     return <MovedTopicPage topics={alternateTopics} />;
   }
 

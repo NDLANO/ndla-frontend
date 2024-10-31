@@ -10,55 +10,62 @@ import parse from "html-react-parser";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { Feide } from "@ndla/icons/common";
-import { LanguageSelector, Logo } from "@ndla/ui";
+import { Feide, UserLine } from "@ndla/icons/common";
+import { NdlaLogoText } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import Masthead from "./components/Masthead";
 import MastheadSearch from "./components/MastheadSearch";
 import MastheadDrawer from "./drawer/MastheadDrawer";
 import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
-import config from "../../config";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMastHeadQuery, GQLMastHeadQueryVariables } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
-import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { LocaleType } from "../../interfaces";
+import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import ErrorBoundary from "../ErrorPage/ErrorBoundary";
+import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
-const FeideLoginLabel = styled.span`
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
+const FeideLoginLabel = styled("span", {
+  base: {
+    tabletDown: {
+      display: "none",
+    },
+  },
+});
 
-const LanguageSelectWrapper = styled.div`
-  margin-left: ${spacing.xxsmall};
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-  }
-`;
+const StyledLanguageSelector = styled(LanguageSelector, {
+  base: {
+    desktopDown: {
+      display: "none",
+    },
+  },
+});
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  align-items: center;
-  justify-content: flex-end;
-  flex: 1;
-`;
+const ButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flex: "1",
+  },
+});
 
-const DrawerWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex: 1;
-`;
-
-const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+const DrawerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-start",
+    gap: "4xsmall",
+    flex: "1",
+    tablet: {
+      gap: "small",
+    },
+  },
+});
 
 const mastheadQuery = gql`
   query mastHead($subjectId: String!) {
@@ -71,11 +78,9 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const locale = i18n.language;
   const { subjectId } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
-  const ndlaFilm = useIsNdlaFilm();
   const { data: freshData, previousData } = useGraphQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
@@ -93,30 +98,23 @@ const MastheadContainer = () => {
 
   return (
     <ErrorBoundary>
-      <Masthead
-        fixed
-        ndlaFilm={ndlaFilm}
-        skipToMainContentId={SKIP_TO_CONTENT_ID}
-        onCloseAlert={(id) => closeAlert(id)}
-        messages={alerts}
-      >
+      <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer subject={data?.subject} />
+          <MastheadSearch />
         </DrawerWrapper>
-        <LogoWrapper>
-          <Logo to="/" locale={locale} label="NDLA" cssModifier={ndlaFilm ? "white" : ""} />
-        </LogoWrapper>
+        <SafeLink to="/" aria-label="NDLA" title="NDLA">
+          <NdlaLogoText />
+        </SafeLink>
         <ButtonWrapper>
-          <MastheadSearch subject={data?.subject} />
-          <LanguageSelectWrapper>
-            <LanguageSelector inverted={ndlaFilm} locales={supportedLanguages} onSelect={i18n.changeLanguage} />
-          </LanguageSelectWrapper>
-          {config.feideEnabled && (
-            <FeideLoginButton>
-              <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-              <Feide />
-            </FeideLoginButton>
-          )}
+          <StyledLanguageSelector
+            languages={supportedLanguages}
+            onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+          />
+          <FeideLoginButton>
+            <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
+            {user ? <UserLine /> : <Feide />}
+          </FeideLoginButton>
         </ButtonWrapper>
       </Masthead>
     </ErrorBoundary>

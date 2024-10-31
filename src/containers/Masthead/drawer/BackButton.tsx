@@ -6,10 +6,9 @@
  *
  */
 
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Back, Home } from "@ndla/icons/common";
+import { ArrowLeftLine, HomeFill } from "@ndla/icons/common";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
 interface Props {
   onGoBack: () => void;
@@ -17,22 +16,21 @@ interface Props {
   homeButton?: boolean;
 }
 
-const StyledButton = styled(ButtonV2)`
-  display: flex;
-  gap: ${spacing.small};
-  border-bottom: 1px solid ${colors.brand.neutral7};
-  color: ${colors.brand.primary};
-  justify-content: flex-start;
-  padding: ${spacing.small} ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    display: none;
-  }
-`;
+const StyledButton = styled(Button, {
+  base: {
+    display: "flex",
+    gap: "small",
+    justifyContent: "flex-start",
+    tablet: {
+      display: "none",
+    },
+  },
+});
 
 const BackButton = ({ onGoBack, title, homeButton }: Props) => {
-  const Icon = homeButton ? Home : Back;
+  const Icon = homeButton ? HomeFill : ArrowLeftLine;
   return (
-    <StyledButton onClick={onGoBack} variant="ghost">
+    <StyledButton onClick={onGoBack} variant="secondary">
       <Icon />
       {title}
     </StyledButton>

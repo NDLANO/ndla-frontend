@@ -11,12 +11,18 @@ import { useContext, useEffect, useState } from "react";
 import { FormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Text } from "@ndla/typography";
-import { ButtonRow } from "../../../../components/MyNdla/AddResourceToFolder";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Text,
+} from "@ndla/primitives";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { supportedLanguages } from "../../../../i18n";
 
 // TODO: Remove when upgrading react-router
@@ -43,10 +49,6 @@ const useBlocker = (blocker: Blocker, when = true): void => {
     return unblock;
   }, [navigator, blocker, when]);
 };
-
-const StyledWarningText = styled(Text)`
-  padding: ${spacing.large} 0 ${spacing.large} ${spacing.normal};
-`;
 
 interface Props {
   onAbort: VoidFunction;
@@ -96,32 +98,36 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
   }, [shouldBlock, nextLocation, navigate]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
-        <ButtonV2 variant="outline" onClick={() => (shouldBlock ? setOpen(true) : onAbort())}>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>
+        <Button
+          variant="secondary"
+          onClick={(e) => {
+            e.preventDefault();
+            shouldBlock ? setOpen(true) : onAbort();
+          }}
+        >
           {t("cancel")}
-        </ButtonV2>
-      </ModalTrigger>
-      <ModalContent>
-        <ModalBody>
-          <ModalHeader>
-            <ModalTitle>{t(`myNdla.arena.cancel.title.${type}`)}</ModalTitle>
-            <ModalCloseButton title={t("modal.closeModal")} />
-          </ModalHeader>
-          <StyledWarningText margin="none" textStyle="meta-text-medium">
-            {t(`myNdla.arena.cancel.content.${type}`)}
-          </StyledWarningText>
-          <ButtonRow>
-            <ButtonV2 variant="outline" onClick={onCancel}>
-              {t(`myNdla.arena.cancel.continue.${type}`)}
-            </ButtonV2>
-            <ButtonV2 colorTheme="danger" onClick={onWillContinue}>
-              {t(`myNdla.arena.cancel.cancel.${type}`)}
-            </ButtonV2>
-          </ButtonRow>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t(`myNdla.arena.cancel.title.${type}`)}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
+          <Text textStyle="body.large">{t(`myNdla.arena.cancel.content.${type}`)}</Text>
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="secondary" onClick={onCancel}>
+            {t(`myNdla.arena.cancel.continue.${type}`)}
+          </Button>
+          <Button variant="danger" onClick={onWillContinue}>
+            {t(`myNdla.arena.cancel.cancel.${type}`)}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

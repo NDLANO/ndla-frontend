@@ -11,19 +11,20 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
-import { Back } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons/common";
+import { Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn, CreatedBy, constants, LayoutItem } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
+import { CreatedBy } from "../components/Article/CreatedBy";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
-import { getArticleProps } from "../util/getArticleProps";
 import { getArticleScripts } from "../util/getArticleScripts";
+import { getContentType } from "../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
 import { getAllDimensions } from "../util/trackingUtil";
 import { transformArticle } from "../util/transformArticle";
@@ -54,10 +55,11 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
         articleLanguage: propArticle.language,
+        contentType: getContentType(resource),
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale]);
+  }, [propArticle, locale, resource]);
 
   useEffect(() => {
     if (propArticle?.id) return;
@@ -70,17 +72,14 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
 
   const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
 
-  const articleProps =
+  const contentType =
     article.articleType === "standard"
-      ? getArticleProps(resource)
+      ? getContentType(resource)
       : article.articleType === "topic-article"
-        ? {
-            label: t("topicPage.topic"),
-            contentType: constants.contentTypes.TOPIC,
-          }
-        : { label: "" };
+        ? constants.contentTypes.TOPIC
+        : undefined;
   return (
-    <OneColumn>
+    <PageContent variant="content">
       <Helmet>
         <title>{getDocumentTitle({ article: propArticle })}</title>
         <meta name="robots" content="noindex, nofollow" />
@@ -100,26 +99,23 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       <PostResizeMessage />
       <main>
         {!!ltiData && (
-          <LayoutItem layout="center">
-            <ButtonV2 variant="link" onClick={() => navigate(-1)}>
-              <Back />
-              {t("lti.goBack")}
-            </ButtonV2>
-          </LayoutItem>
+          <Button variant="link" onClick={() => navigate(-1)}>
+            <ArrowLeftLine />
+            {t("lti.goBack")}
+          </Button>
         )}
         <Article
           article={article}
           isTopicArticle={article.articleType === "topic-article"}
-          isPlainArticle
           isOembed
           oembed={article?.oembed}
-          modifier="clean"
-          {...articleProps}
+          contentType={contentType}
+          contentTypeLabel={resource?.resourceTypes?.[0]?.name}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
       </main>
-    </OneColumn>
+    </PageContent>
   );
 };
 

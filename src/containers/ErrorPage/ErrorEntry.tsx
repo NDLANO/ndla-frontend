@@ -12,7 +12,6 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
@@ -20,16 +19,11 @@ import ErrorPage from "./ErrorPage";
 import Scripts from "../../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { initSentry } from "../../util/sentry";
 
 const { config, serverPath } = window.DATA;
 
-const { logglyApiKey, logEnvironment: environment, componentName } = config;
-
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey,
-  environment,
-  componentName,
-});
+initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 

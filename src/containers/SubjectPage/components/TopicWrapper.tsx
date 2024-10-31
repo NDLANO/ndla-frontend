@@ -8,10 +8,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Spinner } from "@ndla/icons";
 import { SimpleBreadcrumbItem } from "@ndla/ui";
 import SubjectTopic, { topicFragments } from "./SubjectTopic";
-import DefaultErrorMessage from "../../../components/DefaultErrorMessage";
+import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
+import { PageSpinner } from "../../../components/PageSpinner";
 import {
   GQLTopicWrapperQuery,
   GQLTopicWrapperQueryVariables,
@@ -60,7 +60,7 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       onCompleted: (data) => {
         const topic = data.topic;
         if (topic) {
-          const topicPath = getTopicPath(topic.path, topic.contexts);
+          const topicPath = getTopicPath(topic.contexts, topic.path);
           const newCrumbs = topicPath
             .map((tp) => ({
               to: `/${removeUrn(tp.id)}`,
@@ -79,11 +79,13 @@ const TopicWrapper = ({ subTopicId, topicId, subjectId, setBreadCrumb, showResou
       navigate("/403", { replace: true });
     } else if (isNotFoundError(error)) {
       navigate("/404", { replace: true });
-    } else return <DefaultErrorMessage />;
+    } else {
+      return <DefaultErrorMessage />;
+    }
   }
 
   if (loading || !data?.topic?.article) {
-    return <Spinner />;
+    return <PageSpinner />;
   }
 
   return (

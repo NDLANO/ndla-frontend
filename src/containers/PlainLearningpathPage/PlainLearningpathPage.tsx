@@ -7,9 +7,9 @@
  */
 
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import PlainLearningpathContainer, { plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
@@ -21,7 +21,7 @@ interface MatchParams extends TypedParams {
 }
 
 const plainLearningpathPageQuery = gql`
-  query plainLearningpathPage($pathId: String!, $subjectId: String, $transformArgs: TransformedArticleContentInput) {
+  query plainLearningpathPage($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     learningpath(pathId: $pathId) {
       ...PlainLearningpathContainer_Learningpath
     }
@@ -45,7 +45,7 @@ const PlainLearningpathPage = () => {
     return <ContentPlaceholder />;
   }
   if (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   return (

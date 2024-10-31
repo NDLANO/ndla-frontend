@@ -6,17 +6,17 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
-import { SnackbarProvider } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
 import Scripts from "./components/Scripts/Scripts";
+import { ToastProvider } from "./components/ToastContext";
 import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
-import AccessDenied from "./containers/AccessDeniedPage/AccessDeniedPage";
+import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
@@ -33,12 +33,11 @@ import TopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
-import PreviewFoldersPage from "./containers/MyNdla/Folders/PreviewFoldersPage";
+import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
-import TagsPage from "./containers/MyNdla/Tags/TagsPage";
-import NotFound from "./containers/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "./containers/NotFoundPage/NotFoundPage";
 import Layout from "./containers/Page/Layout";
 import PlainArticlePage from "./containers/PlainArticlePage/PlainArticlePage";
 import PlainLearningpathPage from "./containers/PlainLearningpathPage/PlainLearningpathPage";
@@ -54,7 +53,6 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SharedFolderPageV2 from "./containers/SharedFolderPage/SharedFolderPageV2";
 import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
@@ -78,10 +76,10 @@ class App extends Component<AppProps, State> {
     };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
+  componentDidCatch(error: Error) {
     if (config.runtimeType === "production") {
       // React prints all errors that occurred during rendering to the console in development
-      handleError(error, info);
+      handleError(error);
     }
     this.setState({ hasError: true });
   }
@@ -100,14 +98,19 @@ const AppRoutes = ({ base }: AppProps) => {
     <AlertsProvider>
       <BaseNameProvider value={base}>
         <AuthenticationContext>
-          <SnackbarProvider>
+          <ToastProvider>
             <Scripts />
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="utdanning/*" element={<ProgrammePage />} />
+                <Route path="utdanning">
+                  <Route path=":programme" element={<ProgrammePage />} />
+                  <Route path=":programme/:contextId" element={<ProgrammePage />}>
+                    <Route path=":grade" element={null} />
+                  </Route>
+                </Route>
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
@@ -158,14 +161,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<MyNdlaPage />} />
                   <Route path="folders">
                     <Route index element={<PrivateRoute element={<FoldersPage />} />} />
-                    <Route path="preview/:folderId">
-                      <Route index element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                      <Route path=":subfolderId" element={<PrivateRoute element={<PreviewFoldersPage />} />} />
-                      <Route
-                        path=":subfolderId/:resourceId"
-                        element={<PrivateRoute element={<PreviewFoldersPage />} />}
-                      />
-                    </Route>
+                    <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
                   <Route path="arena">
@@ -188,34 +184,22 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  <Route path="tags">
-                    <Route index element={<PrivateRoute element={<TagsPage />} />} />
-                    <Route path=":tag" element={<PrivateRoute element={<TagsPage />} />} />
-                  </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
 
-                {config.folderRedesign ? (
-                  <Route path="folder/:folderId">
-                    <Route index element={<SharedFolderPageV2 />} />
-                    <Route path="*" element={<SharedFolderPageV2 />} />
-                  </Route>
-                ) : (
-                  <Route path="folder/:folderId">
-                    <Route index element={<SharedFolderPage />} />
-                    <Route path=":subfolderId" element={<SharedFolderPage />} />
-                    <Route path=":subfolderId/:resourceId" element={<SharedFolderPage />} />
-                  </Route>
-                )}
-                <Route path="404" element={<NotFound />} />
-                <Route path="403" element={<AccessDenied />} />
-                <Route path="*" element={<NotFound />} />
+                <Route path="folder/:folderId">
+                  <Route index element={<SharedFolderPage />} />
+                  <Route path="*" element={<SharedFolderPage />} />
+                </Route>
+                <Route path="404" element={<NotFoundPage />} />
+                <Route path="403" element={<AccessDeniedPage />} />
+                <Route path="*" element={<NotFoundPage />} />
                 <Route path="p/:articleId" element={<PlainArticlePage />} />
               </Route>
             </Routes>
-          </SnackbarProvider>
+          </ToastProvider>
         </AuthenticationContext>
       </BaseNameProvider>
     </AlertsProvider>

@@ -7,12 +7,18 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { colors, misc, spacing, stackOrder } from "@ndla/core";
-import { Fieldset, FormControl, Label, Legend, RadioButtonGroup, RadioButtonItem } from "@ndla/forms";
-import { Heading, Text } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
-import { uuid } from "@ndla/util";
+import {
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
+  Heading,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../../graphqlTypes";
 import { useUpdatePersonalData } from "../../../MyNdla/userMutations";
 import { isStudent } from "../../Folders/util";
@@ -21,70 +27,43 @@ type MyPreferencesProps = {
   user: GQLMyNdlaPersonalDataFragmentFragment;
 };
 
-const PreferenceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-  max-width: ${misc.maxTextWidth};
-`;
+const PreferenceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+    maxWidth: "surface.xlarge",
+  },
+});
 
-const DisclaimerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const DisclaimerContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const OptionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledRadioButtonGroup = styled(RadioButtonGroup)`
-  gap: 0px;
-  max-width: 400px;
-  padding: 0;
-`;
-
-const RadioButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  flex-direction: row;
-  color: ${colors.brand.primary};
-  position: relative;
-  border: 1px solid ${colors.brand.greyLight};
-  padding: ${spacing.small} ${spacing.normal};
-  border-color: ${colors.brand.light};
-  &:focus-within,
-  &[data-state="checked"] {
-    border-color: ${colors.brand.primary};
-    z-index: ${stackOrder.offsetSingle};
-  }
-  &:first-of-type {
-    border-radius: ${misc.borderRadius} ${misc.borderRadius} 0px 0px;
-  }
-  &:not(:first-of-type) {
-    margin-top: -1px;
-  }
-  &:last-of-type {
-    border-radius: 0px 0px ${misc.borderRadius} ${misc.borderRadius};
-  }
-`;
+const OptionContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const MyPreferences = ({ user }: MyPreferencesProps) => {
   const { t } = useTranslation();
   const { updatePersonalData } = useUpdatePersonalData();
-  const { addSnack } = useSnack();
+  const toast = useToast();
 
   const setUserPref = async (value: string) => {
-    const newPref = value === "showName" ? true : false;
+    const newPref = value === "showName";
     await updatePersonalData({
       variables: { shareName: newPref },
     });
-    addSnack({
-      id: uuid(),
-      content: t(`myNdla.myProfile.namePreference.${newPref ? "onNameShown" : "onNameHidden"}`),
+    toast.create({
+      title: t(`myNdla.myProfile.namePreference.${newPref ? "onNameShown" : "onNameHidden"}`),
     });
   };
 
@@ -102,43 +81,35 @@ const MyPreferences = ({ user }: MyPreferencesProps) => {
   return (
     <PreferenceContainer>
       <DisclaimerContainer>
-        <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-          {t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}
+        <Heading textStyle="heading.small" asChild consumeCss>
+          <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
         </Heading>
-        <Text element="p" textStyle="content-alt" margin="none">
-          {t(`myNdla.myProfile.disclaimerText.${user.role}`)}
-        </Text>
+        <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
       </DisclaimerContainer>
       {!isStudent(user) && (
         <>
           <OptionContainer>
-            <Heading element="h2" id="myProfileTitle" margin="none" headingStyle="h2">
-              {t("myNdla.myProfile.preferenceTitle")}
+            <Heading textStyle="heading.small" asChild consumeCss>
+              <h2>{t("myNdla.myProfile.preferenceTitle")}</h2>
             </Heading>
-            <Text element="p" textStyle="content-alt" margin="none">
-              {t("myNdla.myProfile.preferenceText")}
-            </Text>
+            <Text textStyle="body.large">{t("myNdla.myProfile.preferenceText")}</Text>
           </OptionContainer>
           <form>
-            <FormControl id="nameControl">
-              <StyledRadioButtonGroup
-                onValueChange={setUserPref}
-                defaultValue={user.shareName ? "showName" : "dontShowName"}
-                asChild
-              >
-                <Fieldset>
-                  <Legend visuallyHidden>{t("myNdla.myProfile.preferenceTitle")}</Legend>
-                  {preferenceOptions.map((option) => (
-                    <RadioButtonWrapper key={option.value}>
-                      <RadioButtonItem value={option.value} id={`name-${option.value}`} />
-                      <Label margin="none" htmlFor={`name-${option.value}`} textStyle="label-small">
-                        {option.title}
-                      </Label>
-                    </RadioButtonWrapper>
-                  ))}
-                </Fieldset>
-              </StyledRadioButtonGroup>
-            </FormControl>
+            {/* TODO: Do optimistic update and revert if it fails */}
+            <RadioGroupRoot
+              orientation="vertical"
+              defaultValue={user.shareName ? "showName" : "dontShowName"}
+              onValueChange={(v) => setUserPref(v.value)}
+            >
+              <RadioGroupLabel srOnly>{t("myNdla.myProfile.preferenceTitle")}</RadioGroupLabel>
+              {preferenceOptions.map((option) => (
+                <RadioGroupItem value={option.value} key={option.value}>
+                  <RadioGroupItemControl />
+                  <RadioGroupItemText>{option.title}</RadioGroupItemText>
+                  <RadioGroupItemHiddenInput />
+                </RadioGroupItem>
+              ))}
+            </RadioGroupRoot>
           </form>
         </>
       )}

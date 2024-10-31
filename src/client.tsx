@@ -16,8 +16,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { ApolloProvider, useApolloClient } from "@apollo/client";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-code-pro/index.css";
@@ -30,17 +28,17 @@ import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
-import { ErrorReporter } from "@ndla/error-reporter";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
 import ResponseContext from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
-import { EmotionCacheKey, STORED_LANGUAGE_COOKIE_KEY } from "./constants";
+import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from "./i18n";
 import { NDLAWindow } from "./interfaces";
 import { UserAgentProvider } from "./UserAgentContext";
 import { createApolloClient, createApolloLinks } from "./util/apiHelpers";
+import { initSentry } from "./util/sentry";
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -49,6 +47,8 @@ declare global {
 const {
   DATA: { config, serverPath, serverQuery, serverResponse },
 } = window;
+
+initSentry(config);
 
 const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 
@@ -75,15 +75,7 @@ if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
 const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
 const i18n = initializeI18n(i18nInstance, storedLanguage);
 
-window.errorReporter = ErrorReporter.getInstance({
-  logglyApiKey: config.logglyApiKey,
-  environment: config.ndlaEnvironment,
-  componentName: config.componentName,
-  ignoreUrls: [],
-});
-
 const client = createApolloClient(storedLanguage, versionHash);
-const cache = createCache({ key: EmotionCacheKey });
 
 // Use memory router if running under google translate
 const testLocation = locationFromServer?.pathname + locationFromServer?.search;
@@ -194,11 +186,9 @@ renderOrHydrate(
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <ResponseContext.Provider value={{ status: serverResponse }}>
-          <CacheProvider value={cache}>
-            <VersionHashProvider value={versionHash}>
-              <LanguageWrapper basename={basename} />
-            </VersionHashProvider>
-          </CacheProvider>
+          <VersionHashProvider value={versionHash}>
+            <LanguageWrapper basename={basename} />
+          </VersionHashProvider>
         </ResponseContext.Provider>
       </ApolloProvider>
     </I18nextProvider>

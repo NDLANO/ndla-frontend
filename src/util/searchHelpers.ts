@@ -8,18 +8,17 @@
 
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
 import { GQLSubjectInfoFragment } from "../graphqlTypes";
-import { toSubject } from "../routeHelpers";
 
-export const searchSubjects = <
-  T extends Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "path">,
->(
-  query?: string,
-  subjects?: T[],
-) => {
+type SubjectType = Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "path">;
+
+export const searchSubjects = <T extends SubjectType>(query?: string, subjects?: T[], subjectsFilter?: string[]) => {
   const trimmedQuery = query?.trim().toLowerCase();
-  if (!trimmedQuery || trimmedQuery?.length < 2) {
-    return [];
+
+  if (subjectsFilter?.length) {
+    const filtered = subjects?.filter((subject) => subjectsFilter.includes(subject.id));
+    return filtered;
   }
+  if (!trimmedQuery || trimmedQuery?.length < 2) return subjects;
 
   const filtered = subjects?.filter(
     (subject) =>
@@ -27,15 +26,5 @@ export const searchSubjects = <
       subject.metadata.customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] !== undefined,
   );
 
-  const foundInSubjects = filtered?.filter((subject) => subject.name.toLowerCase().includes(trimmedQuery));
-
-  return foundInSubjects?.map((subject) => {
-    return {
-      ...subject,
-      id: subject.id,
-      url: toSubject(subject.id),
-      title: subject.name,
-      img: { url: subject.subjectpage?.banner?.desktopUrl ?? "" },
-    };
-  });
+  return filtered?.filter((subject) => subject.name.toLowerCase().includes(trimmedQuery));
 };

@@ -8,11 +8,18 @@
 
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 import { IFolderData, IResource } from "@ndla/types-backend/myndla-api";
-import { TreeStructure } from "@ndla/ui";
-import { ComboboxContainer } from "./AddResourceToFolder";
 import NewFolder from "./NewFolder";
+import { TreeStructure } from "./TreeStructure";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+
+const ComboboxContainer = styled("div", {
+  base: {
+    display: "flex",
+    maxHeight: "surface.xsmall",
+  },
+});
 
 interface Props {
   folders: GQLFolder[];
@@ -76,10 +83,9 @@ const FolderSelect = ({
         label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
         defaultOpenFolders={defaultOpenFolders}
-        type="picker"
         targetResource={storedResource as IResource | undefined}
-        newFolderInput={({ parentId, onClose, onCreate }) => (
-          <NewFolder parentId={parentId} onClose={onClose} onCreate={onCreate} />
+        newFolderInput={({ parentId, onCancel, onCreate }) => (
+          <NewFolder parentId={parentId} onClose={onCancel} onCreate={onCreate} />
         )}
         ariaDescribedby="treestructure-error-label"
       />

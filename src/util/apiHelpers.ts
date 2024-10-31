@@ -6,17 +6,14 @@
  *
  */
 
-import {
-  ApolloClient,
-  ApolloLink,
-  FieldFunctionOptions,
-  HttpLink,
-  InMemoryCache,
-  TypePolicies,
-} from "@apollo/client/core";
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
+import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { DebugInMemoryCache } from "./DebugInMemoryCache";
+import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
+import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
@@ -37,10 +34,6 @@ export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function createErrorPayload(status: number, message: string, json: any) {
-  return Object.assign(new Error(message), { status, json });
-}
-
 export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | undefined> {
   return new Promise((resolve, reject) => {
     if (res.ok) {
@@ -49,7 +42,9 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
     return res
       .json()
       .then((json) => {
-        const payload = createErrorPayload(res.status, json.message ?? res.statusText, json);
+        const errorMessage = json.message ?? res.statusText;
+        const msg = `Got error with message '${errorMessage}' and status ${res.status} when requesting '${res.url}'`;
+        const payload = new StatusError(msg, res.status, json);
         reject(payload);
       })
       .catch(reject);
@@ -193,7 +188,8 @@ const typePolicies: TypePolicies = {
 };
 
 function getCache() {
-  const cache = new InMemoryCache({ possibleTypes, typePolicies });
+  const CacheType = config.debugGraphQLCache ? DebugInMemoryCache : InMemoryCache;
+  const cache: InMemoryCache = new CacheType({ possibleTypes, typePolicies });
   if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }
@@ -201,16 +197,16 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = "nb", versionHash?: string) => {
+export const createApolloClient = (language = "nb", versionHash?: string, path?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
-    link: createApolloLinks(language, versionHash),
+    link: createApolloLinks(language, versionHash, path),
     cache,
   });
 };
 
-export const createApolloLinks = (lang: string, versionHash?: string) => {
+export const createApolloLinks = (lang: string, versionHash?: string, requestPath?: string) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
@@ -227,26 +223,21 @@ export const createApolloLinks = (lang: string, versionHash?: string) => {
       },
     };
   });
-  return ApolloLink.from([
-    onError(({ graphQLErrors, networkError }) => {
-      if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-          if (!config.isClient || extensions?.status !== 404) {
-            handleError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
-          }
-        });
-      }
-      if (networkError) {
-        handleError(`[Network error]: ${networkError}`, {
-          clientTime: new Date(),
-        });
-      }
-    }),
-    headersLink,
-    new HttpLink({
-      uri,
-    }),
-  ]);
+
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach((err) => {
+        if (!config.isClient || err.extensions?.status !== 404) {
+          handleError(new NDLAGraphQLError(err, operation), requestPath);
+        }
+      });
+    }
+    if (networkError) {
+      handleError(new NDLANetworkError(networkError, operation), requestPath);
+    }
+  });
+
+  return ApolloLink.from([errorLink, headersLink, new BatchHttpLink({ uri })]);
 };
 
 type HttpHeaders = {

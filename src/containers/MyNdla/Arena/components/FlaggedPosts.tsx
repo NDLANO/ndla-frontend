@@ -10,62 +10,114 @@ import { compareDesc } from "date-fns";
 import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Pager } from "@ndla/pager";
+import { PaginationContext } from "@ark-ui/react";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import {
+  Text,
+  Badge,
+  Button,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Spinner,
+  Table,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { usePaginationTranslations } from "@ndla/ui";
 import { routes } from "../../../../routeHelpers";
 import { formateDateObject } from "../../../../util/formatDate";
 import { useArenaFlags } from "../../arenaQueries";
 
-const rowStyle = css`
-  color: ${colors.text.primary};
-  display: grid;
-  border: 1px solid ${colors.brand.light};
-  grid-template-columns: repeat(4, 1fr);
-  margin: ${spacing.xxsmall} 0px;
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  line-height: unset;
+export const StyledTable = styled(Table, {
+  base: {
+    padding: "xsmall",
+    display: "table",
+  },
+});
 
-  padding: 10px;
-`;
+export const StyledHeaderRow = styled("tr", {
+  base: {
+    textAlign: "left",
+    borderBottom: "3px solid",
+    borderColor: "surface.brand.1.strong",
 
-const StyledRow = styled.li`
-  &:hover,
-  &:focus-within {
-    background-color: ${colors.background.lightBlue};
-    text-decoration: underline;
-  }
+    "& th": {
+      border: "none",
+      borderWidth: "0 !important",
+      borderColor: "surface.default",
+      mobileWideDown: {
+        paddingInline: "0",
+      },
+    },
 
-  ${rowStyle}
-`;
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
 
-const StyledHeaderRow = styled.div`
-  background-color: ${colors.brand.lighter};
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
+    },
+  },
+});
 
-  ${rowStyle}
-`;
+export const StyledRow = styled("tr", {
+  base: {
+    position: "relative",
+    border: "none",
+    borderBlockEnd: "1px solid",
+    borderColor: "surface.brand.1.subtle",
 
-const stateBoxStyle = css`
-  color: ${colors.white};
-  padding: ${spacing.xxsmall};
-  border-radius: ${misc.borderRadius};
-`;
+    "& td": {
+      border: "none",
+      borderWidth: "0",
+      wordBreak: "break-all",
+    },
 
-const ResolvedBox = styled.span`
-  background-color: ${colors.support.green};
+    "& [data-title='']": {
+      textDecoration: "underline",
+    },
+    _hover: {
+      backgroundColor: "surface.infoSubtle",
+      "& [data-title='']": {
+        textDecoration: "none",
+      },
+    },
 
-  ${stateBoxStyle}
-`;
+    mobileWideToDesktop: {
+      display: "grid",
+      gridTemplateColumns: "2",
+    },
 
-const UnresolvedBox = styled.span`
-  background-color: ${colors.support.red};
+    mobileWideDown: {
+      display: "grid",
+      gridTemplateColumns: "1",
+    },
+  },
+});
 
-  ${stateBoxStyle}
-`;
+export const StyledSafeLink = styled(SafeLink, {
+  base: {
+    // Make link clickable on whole row
+    position: "absolute",
+    zIndex: 1,
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+  },
+});
+
+export const StatusBox = styled(Badge, {
+  base: {
+    display: "inline-block",
+    color: "surface.default",
+  },
+});
 
 type SearchObject = {
   page: string;
@@ -89,7 +141,7 @@ const FlaggedPosts = () => {
       pageSize,
     },
   });
-  const lastPage = Math.ceil((arenaAllFlags?.totalCount ?? 0) / pageSize);
+  const componentTranslations = usePaginationTranslations();
 
   const onQueryPush = (newSearchObject: object) => {
     const oldSearchObject = parse(location.search);
@@ -110,57 +162,94 @@ const FlaggedPosts = () => {
   if (loading) return <Spinner />;
   if ((arenaAllFlags?.items?.length ?? 0) === 0) return <p>{t("myNdla.arena.admin.flags.noflags")}</p>;
 
+  const arenaFlags = arenaAllFlags?.items.map((post) => {
+    const flags = (post.flags ?? []).map((f) => {
+      return {
+        ...f,
+        createdObject: new Date(f.created),
+      };
+    });
+    const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
+
+    const lastFlagAt = sortedFlags[0]?.createdObject
+      ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
+      : "";
+
+    const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
+    const count = `${resolvedFlags.length}/${flags.length}`;
+
+    return (
+      <StyledRow key={`btn-${post.id}`} consumeCss>
+        <td data-title="">Post {post.id}</td>
+        <td>{count}</td>
+        <td>{lastFlagAt}</td>
+        <td>
+          <StyledSafeLink to={`${post.id}`}></StyledSafeLink>
+          {resolvedFlags.length === flags.length ? (
+            <StatusBox css={{ backgroundColor: "surface.success.hover" }}>
+              {t(`myNdla.arena.admin.flags.status.resolved`)}
+            </StatusBox>
+          ) : (
+            <StatusBox css={{ backgroundColor: "surface.danger" }}>
+              {t(`myNdla.arena.admin.flags.status.unresolved`)}
+            </StatusBox>
+          )}
+        </td>
+      </StyledRow>
+    );
+  });
+
   return (
     <>
-      <div>
-        <StyledHeaderRow>
-          <div>{t("myNdla.arena.admin.flags.postId")}</div>
-          <div>{t("myNdla.arena.admin.flags.numFlags")}</div>
-          <div>{t("myNdla.arena.admin.flags.latestFlag")}</div>
-          <div>{t("myNdla.arena.admin.flags.status.title")}</div>
-        </StyledHeaderRow>
-        {arenaAllFlags?.items.map((post) => {
-          const flags = (post.flags ?? []).map((f) => {
-            return {
-              ...f,
-              createdObject: new Date(f.created),
-            };
-          });
-          const sortedFlags = flags.sort((flagA, flagB) => compareDesc(flagA.createdObject, flagB.createdObject));
-
-          const lastFlagAt = sortedFlags[0]?.createdObject
-            ? formateDateObject(sortedFlags[0]?.createdObject, i18n.language)
-            : "";
-
-          const resolvedFlags = sortedFlags.filter((flag) => flag.isResolved);
-          const count = `${resolvedFlags.length}/${flags.length}`;
-
-          const state =
-            resolvedFlags.length === flags.length ? (
-              <ResolvedBox>{t(`myNdla.arena.admin.flags.status.resolved`)}</ResolvedBox>
-            ) : (
-              <UnresolvedBox>{t(`myNdla.arena.admin.flags.status.unresolved`)}</UnresolvedBox>
-            );
-
-          return (
-            <SafeLink to={`${post.id}`} key={`btn-${post.id}`}>
-              <StyledRow key={`post-${post.id}`}>
-                <div>Post {post.id}</div>
-                <div>{count}</div>
-                {<div>{lastFlagAt}</div>}
-                {<div>{state}</div>}
-              </StyledRow>
-            </SafeLink>
-          );
-        })}
-      </div>
-      <Pager
+      <StyledTable>
+        <thead>
+          <StyledHeaderRow>
+            <th>{t("myNdla.arena.admin.flags.postId")}</th>
+            <th>{t("myNdla.arena.admin.flags.numFlags")}</th>
+            <th>{t("myNdla.arena.admin.flags.latestFlag")}</th>
+            <th>{t("myNdla.arena.admin.flags.status.title")}</th>
+          </StyledHeaderRow>
+        </thead>
+        <tbody>{arenaFlags}</tbody>
+      </StyledTable>
+      <PaginationRoot
         page={page}
-        lastPage={lastPage}
-        pageItemComponentClass="button"
-        query={searchObject}
-        onClick={onQueryPush}
-      />
+        onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+        translations={componentTranslations}
+        count={arenaAllFlags?.totalCount ?? 0}
+        siblingCount={2}
+        pageSize={pageSize}
+      >
+        <PaginationPrevTrigger asChild>
+          <Button variant="tertiary">
+            <ArrowLeftShortLine />
+            {t("pagination.prev")}
+          </Button>
+        </PaginationPrevTrigger>
+        <PaginationContext>
+          {(pagination) =>
+            pagination.pages.map((page, index) =>
+              page.type === "page" ? (
+                <PaginationItem key={index} {...page} asChild>
+                  <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                </PaginationItem>
+              ) : (
+                <PaginationEllipsis key={index} index={index} asChild>
+                  <Text asChild consumeCss>
+                    <div>&#8230;</div>
+                  </Text>
+                </PaginationEllipsis>
+              ),
+            )
+          }
+        </PaginationContext>
+        <PaginationNextTrigger asChild>
+          <Button variant="tertiary">
+            {t("pagination.next")}
+            <ArrowRightShortLine />
+          </Button>
+        </PaginationNextTrigger>
+      </PaginationRoot>
     </>
   );
 };

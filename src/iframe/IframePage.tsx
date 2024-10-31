@@ -10,11 +10,12 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { OneColumn, ErrorMessage } from "@ndla/ui";
+import { PageContent } from "@ndla/primitives";
+import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
-import NotFound from "../containers/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { useGraphQuery } from "../util/runQueries";
@@ -24,7 +25,7 @@ const Error = () => {
   const { t } = useTranslation();
   return (
     <Status code={INTERNAL_SERVER_ERROR}>
-      <OneColumn>
+      <PageContent>
         <ErrorMessage
           illustration={{
             url: "/static/oops.gif",
@@ -35,7 +36,7 @@ const Error = () => {
             description: t("errorMessage.description"),
           }}
         />
-      </OneColumn>
+      </PageContent>
     </Status>
   );
 };
@@ -48,12 +49,7 @@ interface Props {
 }
 
 const iframePageQuery = gql`
-  query iframePage(
-    $articleId: String!
-    $subjectId: String
-    $taxonomyId: String!
-    $transformArgs: TransformedArticleContentInput
-  ) {
+  query iframePage($articleId: String!, $taxonomyId: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }
@@ -95,7 +91,7 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
   const { article, articleResource } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
   return <IframeArticlePage resource={articleResource} article={article} />;
 };

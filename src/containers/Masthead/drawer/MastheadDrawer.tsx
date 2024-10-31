@@ -6,20 +6,18 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { Menu } from "@ndla/icons/common";
-import { Drawer, Modal, ModalCloseButton, ModalTrigger } from "@ndla/modal";
-import { LanguageSelector } from "@ndla/ui";
+import { CloseLine, MenuLine } from "@ndla/icons/action";
+import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
 import { MenuType } from "./drawerMenuTypes";
+import { LanguageSelector } from "../../../components/LanguageSelector";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLMastheadDrawer_SubjectFragment,
@@ -27,56 +25,79 @@ import {
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
-import { useIsNdlaFilm, useUrnIds } from "../../../routeHelpers";
+import { LocaleType } from "../../../interfaces";
+import { useUrnIds } from "../../../routeHelpers";
+import { useUserAgent } from "../../../UserAgentContext";
 import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
 
-const MainMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100%;
-  max-height: 100%;
-  overflow-y: hidden;
-`;
+const MainMenu = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
+});
 
-const MenuLanguageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`;
+const MenuLanguageContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    "&[data-default-menu='true']": {
+      height: "100%",
+    },
+  },
+});
 
-const DrawerContainer = styled.nav`
-  display: flex;
-  flex: 1;
-  height: 100%;
-  max-height: 100%;
-  overflow-y: hidden;
-`;
+const DrawerContainer = styled("nav", {
+  base: {
+    display: "flex",
+    flex: "1",
+  },
+});
 
-const HeadWrapper = styled.div`
-  padding-top: 22px;
-  padding-left: ${spacing.small};
-  padding-bottom: 22px;
-  ${mq.range({ from: breakpoints.tablet })} {
-    padding-left: ${spacing.normal};
-  }
-`;
+const HeadWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-start",
+    paddingBlock: "medium",
+    paddingInlineStart: "small",
+    tablet: {
+      paddingInlineStart: "medium",
+    },
+  },
+});
 
-const DrawerButton = styled(ButtonV2)`
-  ${mq.range({ until: breakpoints.tablet })} {
-    span {
-      display: none;
-    }
-  }
-`;
+const DrawerButton = styled(Button, {
+  base: {
+    tabletDown: {
+      paddingInline: "xsmall",
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-const LanguageSelectWrapper = styled.div`
-  margin-top: ${spacing.medium};
-  margin-left: ${spacing.small};
-`;
+const LanguageSelectWrapper = styled("div", {
+  base: {
+    paddingBlockEnd: "medium",
+    paddingInlineStart: "large",
+    width: "max-content",
+    mobileWide: {
+      paddingBlockStart: "medium",
+    },
+  },
+});
+
+const StyledDrawer = styled(DialogContent, {
+  base: {
+    display: "flex",
+    width: "max-content",
+  },
+});
 
 interface Props {
   subject?: GQLMastheadDrawer_SubjectFragment;
@@ -107,8 +128,9 @@ const MastheadDrawer = ({ subject }: Props) => {
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
-  const ndlaFilm = useIsNdlaFilm();
   const { t, i18n } = useTranslation();
+  const userAgent = useUserAgent();
+  const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
@@ -132,7 +154,10 @@ const MastheadDrawer = ({ subject }: Props) => {
       const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType("about");
-      setFrontpageMenu((menuItems.length > 0 ? menuItems : [crumb[0]]) as GQLDrawerContent_FrontpageMenuFragment[]);
+      const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
+      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
+      const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
+      setFrontpageMenu(menuItem as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
       setType(undefined);
     }
@@ -150,12 +175,6 @@ const MastheadDrawer = ({ subject }: Props) => {
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
-
-  const closeSubMenu = useCallback(() => {
-    setTopicPath([]);
-    setFrontpageMenu([]);
-    setType(undefined);
-  }, []);
 
   const onCloseMenuPortion = useCallback(() => {
     if (type === "about") {
@@ -176,37 +195,58 @@ const MastheadDrawer = ({ subject }: Props) => {
     }
   }, [frontpageMenu, topicPath, type]);
 
+  const getHeaderElement = () => {
+    if (!type) {
+      return document.getElementById("header-programme");
+    } else if (type === "about") {
+      const articleTitle = frontpageMenu[frontpageMenu.length - 1]?.article.slug;
+      return document.getElementById(`header-${articleTitle}`);
+    } else if (type !== "subject" || !topicPath.length) {
+      const links = document.getElementsByTagName("a");
+      return links.item(0)?.href.endsWith(SKIP_TO_CONTENT_ID) ? links.item(1) : links.item(0);
+    } else {
+      return document.getElementById(`header-${topicPath[topicPath.length - 1]}`);
+    }
+  };
+
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>
+    <DialogRoot
+      variant="drawer"
+      position="left"
+      size="medium"
+      open={open}
+      onOpenChange={() => setOpen((prev) => !prev)}
+      initialFocusEl={getHeaderElement}
+      finalFocusEl={() => drawerTriggerRef.current}
+      closeOnInteractOutside={!userAgent?.isMobile}
+    >
+      <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton
           aria-haspopup="menu"
-          inverted={ndlaFilm}
-          shape="pill"
-          variant="outline"
+          variant="tertiary"
           data-testid="masthead-menu-button"
           aria-label={t("masthead.menu.title")}
           title={t("masthead.menu.title")}
         >
-          <Menu />
+          <MenuLine />
           <span>{t("masthead.menu.button")}</span>
         </DrawerButton>
-      </ModalTrigger>
-      <Drawer expands position="left" size="xsmall" animationDuration={100} aria-label={t("masthead.menu.modalLabel")}>
+      </DialogTrigger>
+      <StyledDrawer aria-label={t("masthead.menu.modalLabel")}>
         <MainMenu>
           <HeadWrapper>
-            <ModalCloseButton>
-              <ButtonV2 variant="outline" shape="pill">
-                <Cross />
+            <DialogCloseTrigger asChild>
+              <Button variant="tertiary">
+                <CloseLine />
                 {t("close")}
-              </ButtonV2>
-            </ModalCloseButton>
+              </Button>
+            </DialogCloseTrigger>
           </HeadWrapper>
-          <MenuLanguageContainer>
+          <MenuLanguageContainer data-default-menu={!!type}>
             <DrawerContainer aria-label={t("myNdla.mainMenu")}>
               <DrawerProvider>
                 <DefaultMenu
-                  dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article.slug}-dynamic` : undefined}
+                  dynamicId={frontpageMenu?.[0] ? `${frontpageMenu[0].article?.slug}-dynamic` : undefined}
                   onClose={close}
                   onCloseMenuPortion={onCloseMenuPortion}
                   setActiveMenu={setType}
@@ -216,7 +256,6 @@ const MastheadDrawer = ({ subject }: Props) => {
                   }
                   subject={subject}
                   type={type}
-                  closeSubMenu={closeSubMenu}
                 />
                 {type && (
                   <DrawerContent
@@ -236,18 +275,18 @@ const MastheadDrawer = ({ subject }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  locales={supportedLanguages}
-                  onSelect={(lang) => {
+                  languages={supportedLanguages}
+                  onValueChange={(details) => {
                     setOpen(false);
-                    setTimeout(() => i18n.changeLanguage(lang), 0);
+                    setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);
                   }}
                 />
               </LanguageSelectWrapper>
             )}
           </MenuLanguageContainer>
         </MainMenu>
-      </Drawer>
-    </Modal>
+      </StyledDrawer>
+    </DialogRoot>
   );
 };
 

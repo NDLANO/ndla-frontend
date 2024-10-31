@@ -8,30 +8,38 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { SearchResultList, OneColumn } from "@ndla/ui";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import { MovedNodeCard } from "../../components/MovedNodeCard";
+import NavigationBox from "../../components/NavigationBox";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
-import { resultsWithContentTypeBadgeAndImage } from "../SearchPage/searchHelpers";
 
 interface Props {
   resource: GQLMovedResourcePage_ResourceFragment;
 }
 
-const StyledSearchResultListWrapper = styled.div`
-  padding-bottom: ${spacing.medium};
-  margin-bottom: ${spacing.large};
-  border: 1px solid ${colors.brand.greyLight};
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: ${spacing.medium};
-  }
-`;
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    gap: "xxlarge",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
@@ -43,37 +51,26 @@ const MovedResourcePage = ({ resource }: Props) => {
 
   const convertResourceToResult = (resource: GQLMovedResourcePage_ResourceFragment) => {
     const resultId = isLearningpath ? resource.learningpath?.id : resource.article?.id;
-    if (!resultId) return [];
-    return [
-      {
-        title: resource.name,
-        url: resource.path ?? "",
-        contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
-        type: resource.resourceTypes?.find((type) => !contentTypeMapping[type.id])?.name,
-        subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
-          url: path,
-          title: breadcrumbs[0] ?? "",
-          breadcrumb: breadcrumbs,
-        })),
-        ...(isLearningpath
-          ? {
-              id: resultId,
-              ingress: resource?.learningpath?.description ?? "",
-              metaImage: {
-                url: resource.learningpath?.coverphoto?.url,
-                alt: "",
-              },
-            }
-          : {
-              id: resultId,
-              ingress: resource?.article?.metaDescription ?? "",
-              metaImage: {
-                url: resource.article?.metaImage?.url,
-                alt: resource.article?.metaImage?.alt,
-              },
-            }),
-      },
-    ];
+    if (!resultId) return undefined;
+
+    const ingress = isLearningpath ? resource.learningpath?.description : resource.article?.metaDescription;
+    const metaImage = isLearningpath
+      ? { url: resource.learningpath?.coverphoto?.url, alt: "" }
+      : resource.article?.metaImage;
+
+    return {
+      id: resultId,
+      title: resource.name,
+      url: resource.path ?? "",
+      contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
+      ingress: ingress ?? "",
+      metaImage,
+      breadcrumbs: resource.breadcrumbs,
+      subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
+        url: path,
+        title: breadcrumbs[0] ?? "",
+      })),
+    };
   };
 
   if (loading) {
@@ -82,21 +79,37 @@ const MovedResourcePage = ({ resource }: Props) => {
 
   if (error) {
     handleError(error);
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
-  const results = resultsWithContentTypeBadgeAndImage(convertResourceToResult(resource), t);
+  const result = convertResourceToResult(resource);
+  const navigationBoxItems = result?.subjects?.map((subject) => ({
+    label: subject.title ?? "",
+    url: subject.url ?? "",
+  }));
 
   return (
-    <>
+    <PageContainer>
       <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
-      <OneColumn>
-        <h1>{t("movedResourcePage.title")}</h1>
-        <StyledSearchResultListWrapper>
-          <SearchResultList results={results} />
-        </StyledSearchResultListWrapper>
-      </OneColumn>
-    </>
+      <StyledMain>
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
+          {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
+        </StyledHeading>
+        {result ? (
+          <MovedNodeCard
+            title={result.title}
+            contentType={result.contentType}
+            url={result.url}
+            ingress={result.ingress}
+            metaImage={result.metaImage}
+            breadcrumbs={result.breadcrumbs}
+          />
+        ) : (
+          <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+        )}
+        <NavigationBox heading={t("movedResourcePage.openInSubject")} items={navigationBoxItems} />
+      </StyledMain>
+    </PageContainer>
   );
 };
 
@@ -107,6 +120,7 @@ MovedResourcePage.fragments = {
       name
       path
       paths
+      breadcrumbs
       contexts {
         path
         breadcrumbs

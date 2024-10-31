@@ -15,10 +15,6 @@
       "destination": "build/public/static/$1"
     },
     {
-      "source": "/favicon.ico",
-      "destination": "build/public/favicon.ico"
-    },
-    {
       "source": "/(.*)",
       "destination": "/build/server.mjs"
     }
@@ -32,18 +28,10 @@
           "value": "s-maxage=86400"
         }
       ]
-    },
-    {
-      "source": "/favicon.ico",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=86400"
-        }
-      ]
     }
   ],
   "env": {
-    "IS_VERCEL": "true"
+    "IS_VERCEL": "true",
+    "NODE_ENV": "production"
   }
 }

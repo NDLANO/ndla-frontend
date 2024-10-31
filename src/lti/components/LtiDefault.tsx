@@ -8,20 +8,18 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
 import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
 import { LtiItem } from "../../interfaces";
 
-const MarginLeftParagraph = styled.p`
-  margin-left: 26px;
-`;
-
-const CodeWithBreakWord = styled.code`
-  word-break: break-word;
-`;
+const BreakableCode = styled("code", {
+  base: {
+    wordBreak: "break-word",
+  },
+});
 
 interface Props {
   item: LtiItem;
@@ -46,22 +44,24 @@ const LtiDefault = ({ item }: Props) => {
   );
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalTrigger>
-        <ButtonV2>{t("lti.embed")}</ButtonV2>
-      </ModalTrigger>
-      <ModalContent size="normal">
-        <ModalHeader>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <MarginLeftParagraph>{t("lti.notSupported")}</MarginLeftParagraph>
+    <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
+      <DialogTrigger asChild>
+        <Button variant="primary">{t("lti.embed")}</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          {/* TODO: We should probably have a dialog title here. */}
+          <div />
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
+          <Text>{t("lti.notSupported")}</Text>
           <pre>
-            <CodeWithBreakWord>{embedCode}</CodeWithBreakWord>
+            <BreakableCode>{embedCode}</BreakableCode>
           </pre>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

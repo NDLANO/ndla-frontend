@@ -9,27 +9,26 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Heading, Text } from "@ndla/typography";
 import Flags from "./components/FlagCard";
 import FlaggedPostCard from "./components/FlaggedPostCard";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { useArenaPostInContext } from "../arenaQueries";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const StyledCardContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
-`;
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+  },
+});
 
 const ArenaSingleFlagPage = () => {
   const { postId } = useParams();
@@ -43,7 +42,7 @@ const ArenaSingleFlagPage = () => {
   });
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (loading || !authContextLoaded) return <Spinner />;
+  if (loading || !authContextLoaded) return <PageSpinner />;
 
   const flaggedPost = topic?.posts?.items[0];
 
@@ -68,28 +67,21 @@ const ArenaSingleFlagPage = () => {
         ]}
         page="admin"
       />
-      <Heading element="h1" id={SKIP_TO_CONTENT_ID} headingStyle="h1-resource" margin="small">
-        {t("myNdla.arena.admin.flags.singleFlagTitle", { postId })}
-      </Heading>
-      <Text element="p" textStyle="content-alt">
-        {t("myNdla.arena.admin.flags.singleFlagDescription")}
+      <Heading textStyle="heading.medium">{t("myNdla.arena.admin.flags.singleFlagTitle", { postId })}</Heading>
+      <Text>{t("myNdla.arena.admin.flags.singleFlagDescription")}</Text>
+      <Text>
+        {t("myNdla.arena.admin.flags.inThread")}{" "}
+        <SafeLink to={routes.myNdla.arenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
       </Text>
-      <StyledCardContainer>
-        <Heading element="h2" headingStyle="h2" margin="small">
-          {t("myNdla.arena.admin.flags.flaggedPost")}
-        </Heading>
-        <Text element="p" margin="small">
-          {t("myNdla.arena.admin.flags.inThread")}{" "}
-          <SafeLink to={routes.myNdla.arenaTopic(topic.id)}>{`"${topic.title}"`}</SafeLink>
-        </Text>
-        <FlaggedPostCard post={flaggedPost} topic={topic} />
-        <Heading element="h2" headingStyle="h2" margin="small">
-          {t("myNdla.arena.admin.flags.postFlags")}
-        </Heading>
+      <FlaggedPostCard post={flaggedPost} topic={topic} />
+      <Heading asChild consumeCss textStyle="title.small">
+        <h2>{t("myNdla.arena.admin.flags.postFlags")}</h2>
+      </Heading>
+      <StyledList>
         {flaggedPost.flags?.map((flag) => {
           return <Flags key={flag.id} flag={flag} />;
         })}
-      </StyledCardContainer>
+      </StyledList>
     </MyNdlaPageWrapper>
   );
 };

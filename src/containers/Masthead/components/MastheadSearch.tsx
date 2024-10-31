@@ -5,90 +5,155 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from "html-react-parser";
 import debounce from "lodash/debounce";
 import queryString from "query-string";
-import { useState, useRef, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { gql, useLazyQuery } from "@apollo/client";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Cross } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
-import { Drawer, Modal, ModalTrigger } from "@ndla/modal";
-import { SearchField, SearchResultSleeve, SearchFieldForm } from "@ndla/ui";
+import { useLazyQuery } from "@apollo/client";
+import { createListCollection } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
+import {
+  Button,
+  ComboboxControl,
+  ComboboxInput,
+  ComboboxLabel,
+  ComboboxRoot,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+  IconButton,
+  InputContainer,
+  Input,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxItemText,
+  Spinner,
+  DialogTitle,
+  NdlaLogoText,
+  Text,
+  ListItemRoot,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import {
-  GQLGroupSearchQuery,
-  GQLGroupSearchQueryVariables,
-  GQLMastheadSearch_SubjectFragment,
-} from "../../../graphqlTypes";
-import { groupSearchQuery } from "../../../queries";
-import { toSearch, useIsNdlaFilm } from "../../../routeHelpers";
+import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
-import { searchResultToLinkProps } from "../../SearchPage/searchHelpers";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
-interface Props {
-  subject?: GQLMastheadSearch_SubjectFragment;
-}
+const StyledComboboxContent = styled(ComboboxContent, {
+  base: {
+    maxHeight: "surface.medium",
+  },
+});
 
-const StyledButton = styled(ButtonV2)`
-  padding: ${spacing.small} ${spacing.normal};
-  gap: ${spacing.medium};
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    minHeight: "unset",
+    textAlign: "start",
+  },
+});
 
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    border-radius: 100%;
-    background: transparent;
-    border-color: transparent;
-    padding: ${spacing.xsmall};
-    span {
-      display: none;
-    }
-  }
-`;
+const StyledButton = styled(Button, {
+  base: {
+    tabletDown: {
+      paddingInline: "xsmall",
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
 
-const StyledCloseButton = styled(IconButtonV2)`
-  margin-top: ${spacing.xsmall};
-`;
+const StyledForm = styled("form", {
+  base: {
+    width: "100%",
+    flex: "1",
+    paddingBlock: "medium",
+    paddingInline: "medium",
+    display: "flex",
+    alignItems: "flex-start",
+    flexDirection: "column",
+    gap: "3xsmall",
+    desktop: {
+      width: "60%",
+    },
+  },
+});
 
-const SearchWrapper = styled.div`
-  width: 100%;
-  padding: ${spacing.normal} ${spacing.normal};
-  display: flex;
-  align-items: flex-start;
-  gap: ${spacing.xsmall};
-  ${mq.range({ from: breakpoints.desktop })} {
-    width: 60%;
-  }
-`;
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "unset",
+  },
+});
 
-const StyledDrawer = styled(Drawer)`
-  background-color: ${colors.brand.greyLightest};
-  display: flex;
-  justify-content: center;
-`;
+const LogoWrapper = styled("div", {
+  base: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+    paddingBlock: "medium",
+  },
+});
 
-const MastheadSearch = ({ subject }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const ndlaFilm = useIsNdlaFilm();
+const LabelContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});
+
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "4xsmall",
+    flex: "1",
+  },
+});
+
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
+
+const SuggestionButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
+
+const MastheadSearch = () => {
+  const [dialogState, setDialogState] = useState({ open: false });
+  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const inputRef = useRef(null);
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
-  const [subjects, setSubjects] = useState(subject ? subject.id : undefined);
+  const formId = useId();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const comboboxTranslations = useComboboxTranslations();
+  const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setQuery("");
@@ -100,31 +165,26 @@ const MastheadSearch = ({ subject }: Props) => {
         evt.key === "/" &&
         !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
-        !isOpen
+        !dialogState.open
       ) {
         evt.preventDefault();
-        setIsOpen(true);
+        setDialogState({ open: true });
       }
     };
     window.addEventListener("keydown", onSlashPressed);
     return () => window.removeEventListener("keydown", onSlashPressed);
-  }, [isOpen]);
+  }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {}, error }] = useLazyQuery<
-    GQLGroupSearchQuery,
-    GQLGroupSearchQueryVariables
-  >(groupSearchQuery, { fetchPolicy: "no-cache" });
-
-  useEffect(() => {
-    setSubjects(subject?.id);
-  }, [subject]);
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
+    searchQuery,
+    { fetchPolicy: "no-cache" },
+  );
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
       runSearch({
         variables: {
           query: delayedSearchQuery,
-          subjects,
           resourceTypes: [
             RESOURCE_TYPE_LEARNING_PATH,
             RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -135,120 +195,192 @@ const MastheadSearch = ({ subject }: Props) => {
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onFilterRemove = () => {
-    setSubjects(undefined);
-  };
-
-  const onQueryChange = (evt: string) => {
-    const query = evt;
+  const onQueryChange = (query: string) => {
     setQuery(query);
     debounceCall(() => setDelayedQuery(query));
   };
 
   const onNavigate = () => {
-    setIsOpen(false);
+    setDialogState({ open: false });
     setQuery("");
   };
 
-  type MapResultsType = Pick<Required<GQLGroupSearchQuery>["groupSearch"][0], "resourceType" | "resources">;
-
-  const mapResults = (results: MapResultsType[] = []) =>
-    query.length > 1
-      ? results.map((result) => {
-          const contentType = contentTypeMapping[result.resourceType];
-          return {
-            ...result,
-            resources: result.resources.map((resource) => ({
-              ...resource,
-              id: resource.id.toString(),
-              resourceType: result.resourceType,
-            })),
-            contentType,
-            title: t(`contentTypes.${contentType}`),
-          };
-        })
-      : [];
+  const mappedItems = useMemo(() => {
+    if (!query.length) return [];
+    return (
+      searchResult.search?.results.map((result) => {
+        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
+        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
+        return {
+          ...result,
+          id: result.id.toString(),
+          resourceType: context?.resourceTypes?.[0]?.id,
+          contentType,
+          path: context?.path ?? result.url,
+        };
+      }) ?? []
+    );
+  }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
-    subjects,
   });
 
-  const onSearch = (evt: FormEvent) => {
-    evt.preventDefault();
+  const onSearch = (evt?: FormEvent) => {
+    evt?.preventDefault();
 
+    setDialogState({ open: false });
     navigate({ pathname: "/search", search: `?${searchString}` });
-    setIsOpen(false);
   };
 
-  const filters = subjects && subject ? [{ title: subject.name, value: subject.id }] : [];
+  const collection = useMemo(
+    () =>
+      createListCollection({
+        items: mappedItems,
+        itemToValue: (item) => item.path,
+        itemToString: (item) => item.title,
+      }),
+    [mappedItems],
+  );
+
+  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen}>
-      <ModalTrigger>
-        <StyledButton
-          colorTheme={ndlaFilm ? "primary" : "greyLighter"}
-          aria-label={t("masthead.menu.search")}
-          title={t("masthead.menu.search")}
-          fontWeight="normal"
-        >
+    <DialogRoot
+      open={dialogState.open}
+      variant="drawer"
+      position="top"
+      size="xsmall"
+      onOpenChange={setDialogState}
+      initialFocusEl={() => inputRef.current}
+      finalFocusEl={() => dialogTriggerRef.current}
+    >
+      <DialogTrigger asChild ref={dialogTriggerRef}>
+        <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
+          <SearchLine />
           <span>{t("masthead.menu.search")}</span>
-          <Search />
         </StyledButton>
-      </ModalTrigger>
-      <StyledDrawer
-        aria-label={t("searchPage.searchFieldPlaceholder")}
-        position="top"
-        expands
-        size="small"
-        animationDuration={200}
-      >
-        <SearchWrapper>
-          {!error ? (
-            <SearchFieldForm onSubmit={onSearch}>
-              <SearchField
-                placeholder={t("searchPage.searchFieldPlaceholder")}
-                value={query}
-                inputRef={inputRef}
-                onChange={onQueryChange}
-                filters={filters}
-                onFilterRemove={onFilterRemove}
-                loading={loading}
-              />
-              {query.length > 2 && (
-                <SearchResultSleeve
-                  result={mapResults(searchResult.groupSearch)}
-                  searchString={query}
-                  allResultUrl={toSearch(searchString)}
-                  resourceToLinkProps={searchResultToLinkProps}
-                  onNavigate={onNavigate}
-                  loading={loading}
-                />
-              )}
-            </SearchFieldForm>
-          ) : null}
-          <StyledCloseButton
-            aria-label={t("close")}
-            title={t("close")}
-            variant="ghost"
-            colorTheme="light"
-            onClick={() => setIsOpen(false)}
+      </DialogTrigger>
+      <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
+        <LogoWrapper>
+          <NdlaLogoText />
+        </LogoWrapper>
+        <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
+          <ComboboxRoot
+            defaultOpen
+            collection={collection}
+            highlightedValue={highlightedValue}
+            onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
+            inputValue={query}
+            onInputValueChange={(details) => onQueryChange(details.inputValue)}
+            onInteractOutside={(e) => e.preventDefault()}
+            positioning={{ strategy: "fixed" }}
+            context="composite"
+            variant="complex"
+            closeOnSelect
+            form={formId}
+            selectionBehavior="preserve"
+            translations={comboboxTranslations}
+            css={{ width: "100%" }}
           >
-            <Cross />
-          </StyledCloseButton>
-        </SearchWrapper>
-      </StyledDrawer>
-    </Modal>
+            <LabelContainer>
+              <DialogTitle asChild>
+                <ComboboxLabel>{t("masthead.search")}</ComboboxLabel>
+              </DialogTitle>
+              <DialogCloseTrigger asChild>
+                <Button variant="tertiary">
+                  {t("siteNav.close")}
+                  <CloseLine />
+                </Button>
+              </DialogCloseTrigger>
+            </LabelContainer>
+            <ComboboxControl>
+              <InputContainer>
+                <ComboboxInput asChild ref={inputRef}>
+                  <Input
+                    placeholder={t("searchPage.searchFieldPlaceholder")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !highlightedValue) {
+                        onSearch();
+                      } else if (e.key === "Enter" && highlightedValue) {
+                        onNavigate();
+                        navigate({ pathname: highlightedValue });
+                      }
+                    }}
+                  />
+                </ComboboxInput>
+              </InputContainer>
+              <IconButton
+                variant="secondary"
+                type="submit"
+                aria-label={t("searchPage.search")}
+                title={t("searchPage.search")}
+              >
+                <SearchLine />
+              </IconButton>
+            </ComboboxControl>
+            <StyledHitsWrapper aria-live="assertive">
+              {!loading && query && (
+                <div>
+                  {!(mappedItems.length > 1) ? (
+                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                  ) : (
+                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                  )}
+                  {suggestion && (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.searchPhraseSuggestion")}
+                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                        [{suggestion}]
+                      </SuggestionButton>
+                    </Text>
+                  )}
+                </div>
+              )}
+            </StyledHitsWrapper>
+            {!!mappedItems.length || loading ? (
+              <StyledComboboxContent>
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  mappedItems.map((resource) => (
+                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <StyledListItemRoot context="list">
+                        <TextWrapper>
+                          <ComboboxItemText>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                              {parse(resource.htmlTitle)}
+                            </SafeLink>
+                          </ComboboxItemText>
+                          {!!resource.contexts[0] && (
+                            <Text
+                              textStyle="label.small"
+                              color="text.subtle"
+                              css={{ textAlign: "start" }}
+                              aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                            >
+                              {resource.contexts[0].breadcrumbs.join(" > ")}
+                            </Text>
+                          )}
+                        </TextWrapper>
+                        <ContentTypeBadgeNew contentType={resource.contentType} />
+                      </StyledListItemRoot>
+                    </ComboboxItem>
+                  ))
+                )}
+              </StyledComboboxContent>
+            ) : null}
+          </ComboboxRoot>
+          {!!mappedItems.length && !loading && (
+            <Button variant="secondary" type="submit">
+              {t("masthead.moreHits")}
+              <ArrowRightLine />
+            </Button>
+          )}
+        </StyledForm>
+      </StyledDialogContent>
+    </DialogRoot>
   );
-};
-
-MastheadSearch.fragments = {
-  subject: gql`
-    fragment MastheadSearch_Subject on Subject {
-      id
-      name
-    }
-  `,
 };
 
 export default MastheadSearch;

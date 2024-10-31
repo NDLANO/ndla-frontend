@@ -7,12 +7,18 @@
  */
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { CheckboxItem, FormControl, Label } from "@ndla/forms";
-import { Heading } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Heading,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext, isArenaModerator } from "../../../../components/AuthenticationContext";
+import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { useUpdateOtherUser } from "../../arenaMutations";
 
@@ -32,20 +38,16 @@ const getNewGroups = (newIsModerator: boolean, oldGroups: string[]): string[] =>
   return oldGroups.filter((g) => g !== "ADMIN");
 };
 
-const SettingsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const CheckboxWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  align-items: center;
-`;
+const SettingsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const UserProfileAdministration = ({ userToAdmin }: Props) => {
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const { t } = useTranslation();
   const { user: currentUser } = useContext(AuthContext);
   const isModerator = isArenaModerator(userToAdmin?.groups);
@@ -53,44 +55,49 @@ const UserProfileAdministration = ({ userToAdmin }: Props) => {
 
   if (!currentUser?.isModerator || !userToAdmin || config.enableNodeBB) return null;
 
+  const onCheckedChange = async () => {
+    if (!userToAdmin.id || !userToAdmin.groups) return;
+    const newGroups = getNewGroups(!isModerator, userToAdmin?.groups);
+    const becameAdmin = newGroups.includes(config.arenaAdminGroup);
+    await updateUser({
+      variables: {
+        userId: userToAdmin.id,
+        user: {
+          arenaGroups: newGroups,
+        },
+      },
+    });
+    toast.create({
+      title: t("myNdla.arena.userUpdated"),
+      description: becameAdmin
+        ? t("myNdla.arena.admin.users.becameAdmin", { user: userToAdmin?.displayName })
+        : t("myNdla.arena.admin.users.becameNormalUser", { user: userToAdmin?.displayName }),
+    });
+  };
+
   return (
     <>
-      <Heading element="h2" headingStyle="h2" margin="normal">
-        {`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}
+      <Heading asChild consumeCss textStyle="title.medium">
+        <h2>{`${t("myNdla.arena.admin.administrate")} ${userToAdmin?.displayName}`}</h2>
       </Heading>
       <SettingsWrapper>
-        <FormControl id="adminForm">
-          <CheckboxWrapper>
-            <CheckboxItem
-              disabled={userToAdmin.id === currentUser.id}
-              checked={isModerator}
-              onCheckedChange={async () => {
-                if (!userToAdmin.id || !userToAdmin.groups) return;
-                const newGroups = getNewGroups(!isModerator, userToAdmin?.groups);
-                const becameAdmin = newGroups.includes(config.arenaAdminGroup);
-                await updateUser({
-                  variables: {
-                    userId: userToAdmin.id,
-                    user: {
-                      arenaGroups: newGroups,
-                    },
-                  },
-                });
-                addSnack({
-                  content: becameAdmin
-                    ? t("myNdla.arena.admin.users.becameAdmin", { user: userToAdmin?.displayName })
-                    : t("myNdla.arena.admin.users.becameNormalUser", { user: userToAdmin?.displayName }),
-                  id: "updatedAdminStatus",
-                });
-              }}
-            />
-            <Label textStyle="label-small" margin="none">
-              {t(`myNdla.arena.admin.users.selectAdministrator`, {
-                user: userToAdmin.displayName,
-              })}
-            </Label>
-          </CheckboxWrapper>
-        </FormControl>
+        <CheckboxRoot
+          onCheckedChange={onCheckedChange}
+          checked={isModerator}
+          disabled={userToAdmin.id === currentUser.id}
+        >
+          <CheckboxControl>
+            <CheckboxIndicator asChild>
+              <CheckLine />
+            </CheckboxIndicator>
+          </CheckboxControl>
+          <CheckboxLabel>
+            {t(`myNdla.arena.admin.users.selectAdministrator`, {
+              user: userToAdmin.displayName,
+            })}
+          </CheckboxLabel>
+          <CheckboxHiddenInput />
+        </CheckboxRoot>
       </SettingsWrapper>
     </>
   );

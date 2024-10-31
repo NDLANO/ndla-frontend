@@ -8,32 +8,33 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ButtonV2 } from "@ndla/button";
-import { FileDocumentOutline } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { Button } from "@ndla/primitives";
+import { printPage } from "@ndla/util";
+import CopyTextButton from "./CopyTextButton";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-} from "@ndla/ui";
-import type { ItemType } from "@ndla/ui";
-import { printPage } from "@ndla/util";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
-import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
+  ItemType,
+  MediaListLicense,
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 interface TextLicenseInfoProps {
   text: TextItem;
+  printUrl?: string;
 }
-const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
+const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
+
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
   if (text.title) {
     items.unshift({
@@ -52,7 +53,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
 
   if (text.copyright.origin) {
     items.push({
-      label: t("license.source"),
+      label: t("source"),
       description: text.copyright.origin,
       metaType: metaTypes.other,
     });
@@ -67,26 +68,35 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage>
-        <FileDocumentOutline css={mediaListIcon} />
-      </MediaListItemImage>
-      <MediaListItemBody
-        license={text.copyright.license?.license}
-        title={t("license.text.rules")}
-        resourceType="text"
-        locale={i18n.language}
-      >
+      <MediaListItemBody license={text.copyright.license?.license} resourceType="text" locale={i18n.language}>
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={text.copyright.license.license}
+            title={t("license.text.rules")}
+            sourceTitle={text.title}
+            sourceType="text"
+          />
+          {printUrl && (
+            <MediaListItemActions>
+              <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
+                {t("article.printPage")}
+              </Button>
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
         <MediaListItemActions>
-          <MediaListRef>
+          <MediaListContent>
             <MediaListItemMeta items={items} />
-            {text.copyText && (
+            {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
               <CopyTextButton
                 stringToCopy={text.copyText}
                 copyTitle={t("license.copyTitle")}
                 hasCopiedTitle={t("license.hasCopiedTitle")}
-              />
+              >
+                <FileCopyLine />
+              </CopyTextButton>
             )}
-          </MediaListRef>
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
@@ -106,21 +116,12 @@ interface Props {
 }
 
 const TextLicenseList = ({ texts, printUrl }: Props) => {
-  const { t } = useTranslation();
   return (
-    <div>
-      <LicenseDescription>{t("license.text.description")}</LicenseDescription>
-      {printUrl && (
-        <ButtonV2 variant="outline" onClick={() => printPage(printUrl)}>
-          {t("article.printPage")}
-        </ButtonV2>
-      )}
-      <MediaList>
-        {texts.map((text, index) => (
-          <TextLicenseInfo text={text} key={index} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {texts.map((text, index) => (
+        <TextLicenseInfo text={text} key={index} printUrl={printUrl} />
+      ))}
+    </MediaList>
   );
 };
 

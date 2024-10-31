@@ -7,10 +7,23 @@
  */
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ButtonV2 } from "@ndla/button";
+import { Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import config from "../../config";
 import { LtiData, LtiItem } from "../../interfaces";
 import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";
+
+const StyledButton = styled(Button, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledForm = styled("form", {
+  base: {
+    width: "100%",
+  },
+});
 
 const getSignature = async (contentItemReturnUrl: string | undefined, postData: LtiPostData) => {
   const url = contentItemReturnUrl ? encodeURI(contentItemReturnUrl) : "";
@@ -113,7 +126,7 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
   };
 
   return (
-    <form method="POST" action={ltiData?.content_item_return_url} encType="application/x-www-form-urlencoded">
+    <StyledForm method="POST" action={ltiData?.content_item_return_url} encType="application/x-www-form-urlencoded">
       {Object.keys(postData).map((key) => (
         <input
           type="hidden"
@@ -122,8 +135,11 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
           value={postData[key] instanceof Object ? JSON.stringify(postData[key]) : postData[key]}
         />
       ))}
-      <ButtonV2 type="submit">{t("lti.embed")}</ButtonV2>
-    </form>
+      {/* TODO: Not sure if this works. It's display properly though! */}
+      <StyledButton variant="primary" type="submit">
+        {t("lti.embed")}
+      </StyledButton>
+    </StyledForm>
   );
 };
 

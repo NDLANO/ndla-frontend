@@ -11,47 +11,32 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
-import { DynamicComponents, transform } from "@ndla/article-converter";
-import { colors, spacing } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
+import { transform } from "@ndla/article-converter";
+import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
-import { CreatedBy } from "@ndla/ui";
-import ResourceEmbedLicenseBox from "./ResourceEmbedLicenseBox";
-import ResourceEmbedWrapper from "./ResourceEmbedWrapper";
+import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
+import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
+import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
-  GQLFolder,
-  GQLResourceEmbedLicenseBox_MetaFragment,
+  GQLResourceEmbedLicenseContent_MetaFragment,
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import ErrorPage from "../../ErrorPage";
-import NotFound from "../../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
-
-const CreatedByWrapper = styled.div`
-  margin-top: ${spacing.small};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-`;
 
 interface Props {
   id: string;
   isOembed?: boolean;
   type: StandaloneEmbed;
-  folder?: GQLFolder | null;
-  noBackground?: boolean;
 }
 
 interface MetaProperies {
@@ -62,12 +47,8 @@ interface MetaProperies {
   type: StandaloneEmbed | "gloss" | "podcast";
 }
 
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
-
 const metaToProperties = (
-  meta: GQLResourceEmbedLicenseBox_MetaFragment | undefined,
+  meta: GQLResourceEmbedLicenseContent_MetaFragment | undefined,
   type: StandaloneEmbed,
 ): MetaProperies | undefined => {
   if (!meta) {
@@ -121,7 +102,7 @@ const metaToProperties = (
   }
 };
 
-export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment) => {
+export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFragment) => {
   if (meta.h5ps?.some((value) => value.copyright)) {
     return true;
   } else if (meta.images?.some((val) => val.copyright)) {
@@ -140,7 +121,7 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseBox_MetaFragment
   return false;
 };
 
-const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
+const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
@@ -162,34 +143,35 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
     }
     return transform(data.resourceEmbed.content, {
       frontendDomain: "",
-      components: isOembed ? undefined : converterComponents,
       path: pathname,
       renderContext: "embed",
     });
-  }, [data?.resourceEmbed.content, isOembed, pathname]);
+  }, [data?.resourceEmbed.content, pathname]);
 
   useEffect(() => {
     if (!authContextLoaded || !properties) return;
     const dimensions = getAllDimensions({ user });
-    const title = getDocumentTitle(folder?.name, properties.title, properties.type, t);
+    const title = getDocumentTitle(properties.title, properties.type, t);
     trackPageView({ dimensions, title });
-  }, [authContextLoaded, properties, t, trackPageView, user, folder]);
+  }, [authContextLoaded, properties, t, trackPageView, user]);
 
   if (loading) {
     return <Spinner />;
   }
 
   if (error?.graphQLErrors.some((e) => e?.extensions?.status === 404)) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   if (error || !transformedContent || !properties) {
-    return <ErrorPage />;
+    return <DefaultErrorMessagePage />;
   }
   const socialMediaTitle = `${properties.title} - ${t(`embed.type.${properties.type}`)}`;
+  const path = `/${type}/${id}`;
+
   return (
     <>
-      <HelmetWithTracker title={getDocumentTitle(folder?.name, properties.title, properties.type, t)} />
+      <HelmetWithTracker title={getDocumentTitle(properties.title, properties.type, t)} />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
@@ -200,42 +182,58 @@ const ResourceEmbed = ({ id, type, noBackground, isOembed, folder }: Props) => {
         <meta name="robots" content="noindex, nofollow" />
       </SocialMediaMetadata>
       <main>
-        <ResourceEmbedWrapper type={properties?.type} title={properties?.title} noBackground={noBackground}>
-          {transformedContent}
-          <AccordionRoot type="single" collapsible>
-            {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-              <AccordionItem value="rulesForUse">
-                <StyledAccordionHeader headingLevel="h2">
-                  <Text element="span" textStyle="button" margin="none">
-                    {t("article.useContent")}
-                  </Text>
-                </StyledAccordionHeader>
-                <AccordionContent>
-                  <ResourceEmbedLicenseBox metaData={data.resourceEmbed.meta} />
-                </AccordionContent>
-              </AccordionItem>
+        <ContentTypeHero contentType={type}>
+          {!isOembed && <HeroBackground />}
+          <PageContent variant="article">
+            {!isOembed && (
+              <HeroContent>
+                <HomeBreadcrumb
+                  items={[
+                    {
+                      name: t("breadcrumb.toFrontpage"),
+                      to: "/",
+                    },
+                    {
+                      name: properties.title,
+                      to: path,
+                    },
+                  ]}
+                />
+              </HeroContent>
             )}
-          </AccordionRoot>
-          {isOembed && (
-            <CreatedByWrapper>
-              <CreatedBy
-                name={t("createdBy.content")}
-                description={t("createdBy.text")}
-                url={`${config.ndlaFrontendDomain}/${type}/${id}`}
-              />
-            </CreatedByWrapper>
-          )}
-        </ResourceEmbedWrapper>
+          </PageContent>
+          <PageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <ArticleWrapper>
+                <ArticleTitle title={properties.title} id={SKIP_TO_CONTENT_ID} contentType={type} />
+                <ArticleContent>
+                  <section>{transformedContent}</section>
+                </ArticleContent>
+                <ArticleFooter>
+                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
+                  )}
+                  {isOembed && (
+                    <CreatedBy
+                      name={t("createdBy.content")}
+                      description={t("createdBy.text")}
+                      url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+                    />
+                  )}
+                </ArticleFooter>
+              </ArticleWrapper>
+            </PageContent>
+          </PageContent>
+        </ContentTypeHero>
       </main>
     </>
   );
 };
 
-const getDocumentTitle = (folderName: string | undefined, title: string, type: string | undefined, t: TFunction) => {
-  const maybeFolder = folderName ? `${folderName} - ` : "";
+const getDocumentTitle = (title: string, type: string | undefined, t: TFunction) => {
   const maybeType = type ? ` - ${t(`embed.type.${type}`)}` : "";
   return t("htmlTitles.sharedFolderPage", {
-    name: `${maybeFolder}${title}${maybeType}`,
+    name: `${title}${maybeType}`,
   });
 };
 
@@ -244,11 +242,11 @@ export const ResourceEmbedQuery = gql`
     resourceEmbed(id: $id, type: $type) {
       content
       meta {
-        ...ResourceEmbedLicenseBox_Meta
+        ...ResourceEmbedLicenseContent_Meta
       }
     }
   }
-  ${ResourceEmbedLicenseBox.fragments.metaData}
+  ${ResourceEmbedLicenseContent.fragments.metaData}
 `;
 
 export default ResourceEmbed;

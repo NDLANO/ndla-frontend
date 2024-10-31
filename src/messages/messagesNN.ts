@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
     podcast: `Podkast - Side {{page}} - ${titleTemplate}`,
@@ -25,7 +26,7 @@ const messages = {
     myFoldersPage: `Mine mapper - ${titleTemplate}`,
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
-    myTagsPage: `Mine emneknagger - ${titleTemplate}`,
+    myTagsPage: `Mine emneknaggar - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
     arenaPage: `Arena - ${titleTemplate}`,
@@ -35,24 +36,47 @@ const messages = {
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "Om oss",
+    subjectAndProgramme: "Fag og utdanningsprogram",
+    tipsAndAdvice: "Tips og råd",
+    goBack: "Gå tilbake",
+  },
   podcastPage: {
+    meta: "Lytt og lær! NDLA har meir enn 100 fritt tilgjengelege podkastar for engasjerande bruk i vidaregåande opplæring.",
     episodes: "Episoder",
     podcast: "Podkast",
     podcasts: "Podkaster",
-    pageInfo: "Side {{page}} av {{lastPage}}",
     noResults: "...Ingen episoder",
     subtitle: "Lytt og lær!",
+    pagination: "Podkastsider",
+  },
+  subjectsPage: { tabFilter: { label: "Kva fag vil du visa?", all: "Alle fag og ressursar" } },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som startar på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
+    tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv praterobotane våre",
-      linkText: "Prøv NDLAs praterobotar",
+      linkText: "Prøv praterobotar på NDLA",
       ingressStudent:
-        "Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg! I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.",
+        "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
       ingress:
-        "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.",
+        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast i jobb og undervisning. I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
       ingressUnauthenticated:
-        "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane. Logg inn for å få tilgang til praterobotane.",
+        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
+    },
+    resource: {
+      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
+      added: "Lagt til",
+      removed: "Fjernet",
+      showTags: "Vis emneknaggar",
+      tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
+      noTags: "Ingen emneknaggar.",
     },
   },
   myNdla: {
@@ -65,7 +89,15 @@ const messages = {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
       },
+      reported: "Innhald rapportert",
+      error: "Ein feil oppstod",
+      userUpdated: "Bruker oppdatert",
     },
+  },
+  ndlaFilm: {
+    films: "Filmar",
+    topics: "Emner",
+    filterFilms: "Filtrer filmar",
   },
   validation: {
     fields: {
@@ -128,6 +160,40 @@ const messages = {
         inactive: "Legg til lenke",
       },
     },
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
+  },
+  tabs: {
+    competenceGoals: "Kategoriar",
+    licenseBox: "Innholdstypar",
+    subjectFilter: "Fagkategoriar",
+  },
+  masthead: {
+    search: "Søk på ndla.no",
+    moreHits: "Vis fleire treff",
+  },
+  pagination: { next: "Neste", prev: "Forrige" },
+  programmePage: {
+    programmeSubjects: "Programfag",
+  },
+  aboutPage: {
+    nav: "Informasjonsider",
+  },
+  subjectPage: {
+    topicsTitle: "Emne i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Sida har flytta, men du finn den her:",
+    openInSubject: "Opne artikkelen i eit fag:",
   },
 };
 

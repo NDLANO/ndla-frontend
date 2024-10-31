@@ -7,179 +7,164 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useState, Dispatch, SetStateAction } from "react";
+import { useMemo, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
 import {
-  Book,
-  BookOutlined,
+  BookReadFill,
+  BookReadLine,
   Forum,
   ForumOutlined,
-  HashTag,
-  Home,
-  HomeOutline,
-  LogOut,
-  ProfilePerson,
-  ProfilePersonOutlined,
-  AdminPanelSettings,
-  AdminPanelSettingsFilled,
-  LogIn,
+  HomeFill,
+  HomeLine,
+  LogoutBoxRightLine,
+  UserFill,
+  UserLine,
+  ShieldUserLine,
+  ShieldUserFill,
+  LoginBoxLine,
 } from "@ndla/icons/common";
-import { FolderOutlined, HorizontalMenu } from "@ndla/icons/contentType";
-import { Folder } from "@ndla/icons/editor";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Text } from "@ndla/typography";
-import { MessageBox } from "@ndla/ui";
-import NavigationLink from "./components/NavigationLink";
+import { MoreLine } from "@ndla/icons/contentType";
+import { FolderFill, FolderLine } from "@ndla/icons/editor";
+import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
+import { PageLayout } from "../../components/Layout/PageContainer";
+import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
 
-const StyledLayout = styled.div`
-  display: flex;
-  min-height: 60vh;
-  flex-direction: row;
-  ${mq.range({ until: breakpoints.mobileWide })} {
-    flex-direction: column;
-  }
-`;
+const StyledLayout = styled(PageLayout, {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    mobileWideDown: {
+      flexDirection: "column",
+    },
+  },
+});
 
-const StyledNavList = styled.ul`
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  grid-gap: ${spacing.xsmall};
-  margin: 0px;
-  padding: 0 ${spacing.xsmall} 0 0;
-  justify-content: space-between;
+const StyledNavList = styled("ul", {
+  base: {
+    display: "grid",
+    listStyle: "none",
+    gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
+    gap: "4xsmall",
+    justifyContent: "space-between",
+    mobileWide: {
+      display: "flex",
+      flexDirection: "column",
+      width: "100%",
+    },
+    desktop: {
+      alignItems: "flex-start",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    align-items: flex-start;
-  }
-`;
+const StyledLi = styled("li", {
+  base: {
+    // Menubar on phone should only display first 4 links and the the rest when the modal is open.
+    mobileWideDown: {
+      "&:not(:nth-of-type(-n + 4))": {
+        display: "none",
+      },
+    },
+    desktop: {
+      width: "100%",
+    },
+  },
+});
 
-const StyledLi = styled.li`
-  /* Menubar on phone should only display first 4 
-  links and the rest when the modal is open */
-  &:not(:nth-of-type(-n + 4)) {
-    display: none;
-  }
+const StyledContent = styled("div", {
+  base: {
+    width: "100%",
+  },
+});
 
-  padding: 0;
-  margin: 0;
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: unset !important;
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    width: 100%;
-  }
-`;
-
-const StyledContent = styled.div`
-  width: 100%;
-`;
-
-const StyledSideBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid ${colors.brand.lightest};
-  background: ${colors.background.lightBlue};
-  justify-content: center;
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    padding: ${spacing.nsmall};
-    border-right: 1px solid ${colors.brand.lightest};
-    border-bottom: unset;
-  }
-
-  ${mq.range({ from: breakpoints.desktop })} {
-    justify-content: flex-start;
-    gap: ${spacing.normal};
-    flex-direction: column;
-    min-width: 300px;
-    border-right: 1px solid ${colors.brand.lightest};
-    border-bottom: unset;
-  }
-`;
-
-const MessageboxWrapper = styled.div`
-  margin-bottom: ${spacing.nsmall};
-`;
-
-const MoreButton = styled(IconButtonV2)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: ${spacing.xxsmall} ${spacing.small};
-  gap: ${spacing.xsmall};
-  color: ${colors.brand.primary};
-  border-radius: ${spacing.xxsmall};
-
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: none;
-  }
-`;
-
-export interface OutletContext {
-  setResetFocus: Dispatch<SetStateAction<boolean>>;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  resetFocus: boolean;
-}
+const StyledSideBar = styled("div", {
+  base: {
+    display: "flex",
+    flexShrink: "0",
+    flexDirection: "row",
+    justifyContent: "center",
+    background: "background.subtle",
+    gap: "4xsmall",
+    mobileWideDown: {
+      paddingBlock: "4xsmall",
+      borderBottom: "1px solid",
+      borderColor: "stroke.subtle",
+      paddingInline: "4xsmall",
+      display: "grid",
+      gridTemplateColumns: "4fr 1fr",
+    },
+    mobileWide: {
+      padding: "3xsmall",
+      borderRight: "1px solid",
+      borderColor: "stroke.subtle",
+    },
+    desktop: {
+      justifyContent: "flex-start",
+      gap: "medium",
+      flexDirection: "column",
+      minWidth: "surface.xsmall",
+    },
+  },
+});
 
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { user, examLock } = useContext(AuthContext);
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [resetFocus, setResetFocus] = useState(false);
 
   const menuLink = useMemo(
     () =>
-      menuLinks(t, location, user).map(({ name, shortName, id, icon, to, iconFilled, shownForUser }) => {
-        if (shownForUser && !shownForUser(user)) {
-          return null;
-        }
-        return (
-          <StyledLi key={id}>
-            <NavigationLink id={id} name={name} shortName={shortName} icon={icon} to={to} iconFilled={iconFilled} />
-          </StyledLi>
-        );
-      }),
+      menuLinks(t, location, user).map(
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser, reloadDocument }) => {
+          if (shownForUser && !shownForUser(user)) {
+            return null;
+          }
+          return (
+            <StyledLi key={id}>
+              <NavigationLink
+                name={name}
+                shortName={shortName}
+                icon={icon}
+                to={to}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+              />
+            </StyledLi>
+          );
+        },
+      ),
     [location, t, user],
   );
 
   return (
     <StyledLayout>
-      <Modal open={isOpen} onOpenChange={setIsOpen}>
+      <DialogRoot key={location.pathname} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
             <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
           </nav>
-          <ModalTrigger>
-            <MoreButton variant="stripped" aria-label={t("myNdla.iconMenu.more")}>
-              <HorizontalMenu />
-              <Text margin="none" textStyle="meta-text-xxsmall">
-                {t("myNdla.iconMenu.more")}
-              </Text>
+          <DialogTrigger asChild>
+            <MoreButton variant="tertiary">
+              <MoreLine />
+              <Text textStyle="label.xsmall">{t("myNdla.iconMenu.more")}</Text>
             </MoreButton>
-          </ModalTrigger>
+          </DialogTrigger>
         </StyledSideBar>
         <StyledContent>
           {examLock && (
-            <MessageboxWrapper>
-              <MessageBox>{t("myNdla.examLockInfo")}</MessageBox>
-            </MessageboxWrapper>
+            <MessageBox variant="warning">
+              <Text>{t("myNdla.examLockInfo")}</Text>
+            </MessageBox>
           )}
-          <Outlet context={{ setIsOpen, resetFocus, setResetFocus }} />
+          <Outlet />
         </StyledContent>
-      </Modal>
+      </DialogRoot>
     </StyledLayout>
   );
 };
@@ -188,34 +173,32 @@ export default MyNdlaLayout;
 
 export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined) => [
   {
-    id: "",
+    id: "root",
+    to: routes.myNdla.root,
     name: t("myNdla.myNDLA"),
     shortName: t("myNdla.myNDLA"),
-    icon: <HomeOutline />,
-    iconFilled: <Home />,
-  },
-  {
-    id: "folders",
-    name: t("myNdla.myFolders"),
-    shortName: t("myNdla.iconMenu.folders"),
-    icon: <FolderOutlined />,
-    iconFilled: <Folder />,
+    icon: <HomeLine />,
+    iconFilled: <HomeFill />,
   },
   {
     id: "subjects",
+    to: routes.myNdla.subjects,
     name: t("myNdla.favoriteSubjects.title"),
     shortName: t("myNdla.iconMenu.subjects"),
-    icon: <BookOutlined />,
-    iconFilled: <Book />,
+    icon: <BookReadLine />,
+    iconFilled: <BookReadFill />,
   },
   {
-    id: "tags",
-    name: t("myNdla.myTags"),
-    shortName: t("myNdla.iconMenu.tags"),
-    icon: <HashTag />,
+    id: "folders",
+    to: routes.myNdla.folders,
+    name: t("myNdla.myFolders"),
+    shortName: t("myNdla.iconMenu.folders"),
+    icon: <FolderLine />,
+    iconFilled: <FolderFill />,
   },
   {
     id: "arena",
+    to: routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
@@ -224,24 +207,27 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "admin",
+    to: routes.myNdla.admin,
     name: t("myNdla.arena.admin.title"),
     shortName: t("myNdla.arena.admin.title"),
-    icon: <AdminPanelSettings />,
-    iconFilled: <AdminPanelSettingsFilled />,
+    icon: <ShieldUserLine />,
+    iconFilled: <ShieldUserFill />,
     shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled && user?.isModerator,
   },
   {
     id: "profile",
+    to: routes.myNdla.profile,
     name: t("myNdla.myProfile.title"),
     shortName: t("myNdla.iconMenu.profile"),
-    icon: <ProfilePersonOutlined />,
-    iconFilled: <ProfilePerson />,
+    icon: <UserLine />,
+    iconFilled: <UserFill />,
   },
   {
     id: "logout-path",
     name: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
-    icon: user ? <LogOut /> : <LogIn />,
+    icon: user ? <LogoutBoxRightLine /> : <LoginBoxLine />,
     to: user ? `/logout?state=${toHref(location)}` : `/login?state=${toHref(location)}`,
+    reloadDocument: true,
   },
 ];

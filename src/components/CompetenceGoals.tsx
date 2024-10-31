@@ -8,13 +8,25 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { breakpoints, mq } from "@ndla/core";
-import { FooterHeaderIcon } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Tabs } from "@ndla/tabs";
+import { Portal } from "@ark-ui/react";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  PageContent,
+  TabsContent,
+  TabsIndicator,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
@@ -36,20 +48,17 @@ interface ElementType {
   groupedCoreElementItems?: CoreElementType[];
 }
 
-const CompetenceBadgeText = styled.span`
-  padding: 0 5px;
-`;
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    paddingInline: "0",
+  },
+});
 
-const CompetenceGoalsWrapper = styled.div`
-  height: 100%;
-  max-width: 960px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 32px;
-  ${mq.range({ from: breakpoints.mobile })} {
-    padding: 0;
-  }
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    paddingInline: "0",
+  },
+});
 
 const getUniqueCurriculums = (
   competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
@@ -191,36 +200,50 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   }
 
   return (
-    <>
-      <Modal>
-        <ModalTrigger>
-          <ButtonV2
-            aria-busy={competenceGoalsLoading}
-            size="xsmall"
-            colorTheme="light"
-            shape="pill"
-            disabled={competenceGoalsLoading}
-          >
-            <FooterHeaderIcon />
-            <CompetenceBadgeText>{t("competenceGoals.showCompetenceGoals")}</CompetenceBadgeText>
-          </ButtonV2>
-        </ModalTrigger>
-        <ModalContent size="full">
-          <ModalHeader>
-            <ModalTitle>
-              <FooterHeaderIcon size="normal" style={{ marginRight: "20px" }} />
-              {t("competenceGoals.modalText")}
-            </ModalTitle>
-            <ModalCloseButton />
-          </ModalHeader>
-          <ModalBody>
-            <CompetenceGoalsWrapper>
-              <Tabs tabs={tabs} />
-            </CompetenceGoalsWrapper>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </>
+    <DialogRoot size="full">
+      <DialogTrigger asChild>
+        <Button
+          loading={competenceGoalsLoading}
+          aria-label={competenceGoalsLoading ? t("loading") : undefined}
+          variant="secondary"
+          size="small"
+        >
+          {t("competenceGoals.showCompetenceGoals")}
+        </Button>
+      </DialogTrigger>
+      <Portal>
+        <DialogContent>
+          <PageContent>
+            <StyledDialogHeader>
+              <DialogTitle>{t("competenceGoals.modalText")}</DialogTitle>
+              <DialogCloseButton />
+            </StyledDialogHeader>
+            <StyledDialogBody>
+              <TabsRoot
+                defaultValue={tabs[0]?.id}
+                orientation="horizontal"
+                variant="line"
+                translations={{ listLabel: t("tabs.competenceGoals") }}
+              >
+                <TabsList>
+                  {tabs.map((tab) => (
+                    <TabsTrigger key={tab.id} value={tab.id}>
+                      {tab.title}
+                    </TabsTrigger>
+                  ))}
+                  <TabsIndicator />
+                </TabsList>
+                {tabs.map((tab) => (
+                  <TabsContent key={tab.id} value={tab.id}>
+                    {tab.content}
+                  </TabsContent>
+                ))}
+              </TabsRoot>
+            </StyledDialogBody>
+          </PageContent>
+        </DialogContent>
+      </Portal>
+    </DialogRoot>
   );
 };
 

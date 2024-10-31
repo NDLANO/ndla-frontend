@@ -6,17 +6,11 @@
  *
  */
 
-import parse from "html-react-parser";
-import { ReactElement, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { ReactNode } from "react";
 import { gql } from "@apollo/client";
-import { useComponentSize } from "@ndla/hooks";
-import { webpageReferenceApa7CopyString } from "@ndla/licenses";
-import { ArticleModifier, ContentTypeBadge, Article as UIArticle } from "@ndla/ui";
+import { Article as UIArticle } from "@ndla/ui";
+import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
 import FavoriteButton from "./FavoritesButton";
-import config from "../../config";
-import { MastheadHeightPx } from "../../constants";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import CompetenceGoals from "../CompetenceGoals";
@@ -26,17 +20,13 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   id?: string;
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
-  resourceType?: string;
   isTopicArticle?: boolean;
-  children?: ReactElement;
+  children?: ReactNode;
   contentType?: string;
-  label: string;
-  modifier?: ArticleModifier;
-  isResourceArticle?: boolean;
   printUrl?: string;
   subjectId?: string;
-  isPlainArticle?: boolean;
   isOembed?: boolean;
+  contentTypeLabel?: ReactNode;
   showFavoriteButton?: boolean;
   myNdlaResourceType?: string;
   path?: string;
@@ -46,127 +36,69 @@ interface Props {
 const Article = ({
   path,
   article,
-  resourceType,
   isTopicArticle = false,
   children,
   contentType,
-  label,
-  modifier,
-  isResourceArticle = false,
   printUrl,
   id,
   subjectId,
-  isPlainArticle,
   isOembed = false,
   showFavoriteButton,
   myNdlaResourceType = "article",
+  contentTypeLabel,
   oembed,
-  ...rest
 }: Props) => {
-  const { t, i18n } = useTranslation();
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
+  const copyText = useArticleCopyText(article);
 
-  const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
-  const published = new Date(year!, month! - 1, day!).toUTCString();
-  const copyText = webpageReferenceApa7CopyString(
-    article.title,
-    undefined,
-    published,
-    `${config.ndlaFrontendDomain}/article/${article.id}`,
-    article.copyright,
-    i18n.language,
-    "",
-    (id: string) => t(id),
-  );
-
-  const location = useLocation();
-
-  // Scroll to element with ID passed in as a query-parameter.
-  // We use query-params instead of the regular fragments since
-  // the article doesn't exist on initial page load (At least without SSR).
-  useEffect(() => {
-    if (location.hash && article?.transformedContent?.content) {
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 400);
-    }
-  }, [article?.transformedContent?.content, location, height]);
+  useNavigateToHash(article.transformedContent.content);
 
   if (!article) {
     return children || null;
   }
 
-  const icon = contentType ? <ContentTypeBadge type={contentType} background size="large" /> : null;
-
   const art = {
     ...article,
     content: article.transformedContent?.content ?? "",
-    title: parse(article.htmlTitle!),
-    introduction: parse(article.htmlIntroduction!),
-    copyright: {
-      ...article.copyright,
-      license: article.copyright.license!,
-      creators: article.copyright.creators ?? [],
-      rightsholders: article.copyright.rightsholders ?? [],
-      processors: article.copyright.processors ?? [],
-      processed: article.copyright.processed ?? false,
-    },
+    title: article.transformedContent.title,
+    introduction: article.transformedContent.introduction,
     footNotes: article.transformedContent?.metaData?.footnotes ?? [],
   };
 
-  const messages = {
-    label,
-  };
-
   return (
-    <>
-      <UIArticle
-        id={id ?? article.id.toString()}
-        article={art}
-        icon={icon}
-        licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
-        messages={messages}
-        competenceGoals={
-          !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
-            <CompetenceGoals
-              codes={article.grepCodes}
-              subjectId={subjectId}
-              supportedLanguages={article.supportedLanguages}
-              isOembed={isOembed}
-            />
-          ) : undefined
-        }
-        lang={art.language === "nb" ? "no" : art.language}
-        modifier={isResourceArticle && resourceType ? (resourceType as ArticleModifier) : modifier ?? "clean"}
-        heartButton={
-          path &&
-          config.feideEnabled &&
-          showFavoriteButton && (
-            <AddResourceToFolderModal
-              resource={{
-                id: article.id.toString(),
-                path,
-                resourceType: myNdlaResourceType,
-              }}
-            >
-              <FavoriteButton path={path} />
-            </AddResourceToFolderModal>
-          )
-        }
-        {...rest}
-      >
-        {children}
-      </UIArticle>
-    </>
+    <UIArticle
+      id={id ?? article.id.toString()}
+      article={art}
+      contentType={contentType}
+      contentTypeLabel={contentTypeLabel}
+      licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
+      competenceGoals={
+        !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
+          <CompetenceGoals
+            codes={article.grepCodes}
+            subjectId={subjectId}
+            supportedLanguages={article.supportedLanguages}
+            isOembed={isOembed}
+          />
+        ) : undefined
+      }
+      lang={article.language === "nb" ? "no" : article.language}
+      heartButton={
+        path &&
+        showFavoriteButton && (
+          <AddResourceToFolderModal
+            resource={{
+              id: article.id.toString(),
+              path,
+              resourceType: myNdlaResourceType,
+            }}
+          >
+            <FavoriteButton path={path} />
+          </AddResourceToFolderModal>
+        )
+      }
+    >
+      {children}
+    </UIArticle>
   );
 };
 
@@ -178,10 +110,8 @@ Article.fragments = {
       updated
       supportedLanguages
       grepCodes
-      oldNdlaUrl
-      introduction
       htmlIntroduction
-      conceptIds
+      htmlTitle
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {
@@ -197,11 +127,6 @@ Article.fragments = {
           }
         }
       }
-      relatedContent(subjectId: $subjectId) {
-        title
-        url
-      }
-      revisionDate
       language
       ...LicenseBox_Article
     }

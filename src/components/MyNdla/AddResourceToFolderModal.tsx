@@ -8,14 +8,15 @@
 
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, Modal, ModalTrigger, ModalContent } from "@ndla/modal";
-import { ListResource } from "@ndla/ui";
+import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
+import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
 import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
-import { routes } from "../../routeHelpers";
+import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -34,40 +35,42 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
   const close = useCallback(() => setOpen(false), []);
 
   return (
-    <Modal open={open} onOpenChange={setOpen} modal={!authenticated}>
-      <ModalTrigger>{children}</ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} modal={!authenticated}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       {authenticated ? (
-        <ModalContent forceOverlay>
-          <ModalHeader>
-            <ModalTitle>{t("myNdla.resource.addToMyNdla")}</ModalTitle>
-            <ModalCloseButton title={t("modal.closeModal")} />
-          </ModalHeader>
-          <ModalBody>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
             <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-          </ModalBody>
-        </ModalContent>
+          </DialogBody>
+        </DialogContent>
       ) : (
         <LoginModalContent
           title={t("myNdla.myPage.loginResourcePitch")}
           content={
             resource && (
               <ListResource
+                context="standalone"
+                variant="subtle"
+                nonInteractive
                 isLoading={loading}
                 id={resource.id.toString()}
-                tagLinkPrefix={routes.myNdla.tags}
                 link={resource.path}
                 title={meta?.title ?? ""}
                 resourceImage={{
                   src: meta?.metaImage?.url ?? "",
                   alt: meta?.metaImage?.alt ?? "",
                 }}
-                resourceTypes={meta?.resourceTypes ?? []}
+                resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
               />
             )
           }
         />
       )}
-    </Modal>
+    </DialogRoot>
   );
 };
 
@@ -80,15 +83,15 @@ interface ContentProps {
 export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, close }: ContentProps) => {
   const { t } = useTranslation();
   return (
-    <ModalContent forceOverlay>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.resource.addToMyNdla")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <ModalBody>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
         <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 

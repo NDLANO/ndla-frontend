@@ -7,6 +7,7 @@
  */
 
 import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(() => {
@@ -19,12 +20,18 @@ export default defineConfig(() => {
     },
     plugins: [
       react({
-        jsxImportSource: "@emotion/react",
         babel: {
           configFile: "./babel.config.cjs",
         },
       }),
       splitVendorChunkPlugin(),
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: process.env.SENTRY_ORG ?? "ndlano",
+        project: process.env.SENTRY_PROJECT ?? "ndla-frontend",
+        url: "https://sentry.io/",
+        telemetry: false,
+      }),
     ],
     ssr: {
       noExternal: ["@apollo/client"],
@@ -39,23 +46,7 @@ export default defineConfig(() => {
       },
     },
     resolve: {
-      dedupe: [
-        "@radix-ui/react-dropdown-menu",
-        "@radix-ui/react-dialog",
-        "@radix-ui/react-tooltip",
-        "@radix-ui/react-accordion",
-        "@radix-ui/react-menu",
-        "@radix-ui/react-popover",
-        "@radix-ui/react-switch",
-        "@radix-ui/react-slider",
-        "react-router",
-        "react-router-dom",
-        "react-helmet-async",
-        "i18next",
-        "react-i18next",
-        "@emotion/react",
-        "@emotion/styled",
-      ],
+      dedupe: ["react-router", "react-router-dom", "react-helmet-async", "i18next", "react-i18next", "@ark-ui/react"],
     },
   };
 });

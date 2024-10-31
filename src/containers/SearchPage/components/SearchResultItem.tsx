@@ -7,251 +7,196 @@
  */
 
 import parse from "html-react-parser";
-import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, fonts, misc, spacing, stackOrder } from "@ndla/core";
-import { Additional, Core } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
+import {
+  BlockQuoteVariantProps,
+  Button,
+  CardContent,
+  CardHeading,
+  CardImage,
+  CardRoot,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
-import { ContentTypeBadge, resourceTypeColor } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentType } from "@ndla/ui";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
+
+const contentTypeToVariantMapping = {
+  "subject-material": "brand1",
+  "source-material": "brand1",
+  concept: "brand1",
+  "tasks-and-activities": "brand2",
+  "assessment-resources": "brand2",
+  subject: "info",
+  "topic-article": "info",
+  "learning-path": "brand3",
+} as Record<
+  ContentType | "subject" | "topic-article" | "learning-path",
+  NonNullable<BlockQuoteVariantProps>["variant"] | "brand3" | "info"
+>;
 
 interface Props {
   item: SearchItem;
   type: string;
 }
+const LtiWrapper = styled("div", {
+  base: {
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
-const ListItem = styled.li`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  border: 1px solid ${colors.brand.greyLight};
-  border-radius: ${misc.borderRadius};
-  padding: 0;
-`;
+    "& > button": { width: "100%" },
+  },
+});
 
-const ImageWrapper = styled.div`
-  height: 180px;
-  background-color: var(--bg);
-  display: grid;
-  grid-template-rows: 1fr auto;
-  width: 100%;
-`;
+const StyledButton = styled(Button, {
+  base: {
+    position: "relative",
+    marginInlineStart: "4xsmall",
+  },
+});
 
-const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: ${colors.white};
-  overflow: hidden;
-`;
+const StyledListElement = styled("li", {
+  base: {
+    height: "100%",
+    minHeight: "surface.3xsmall",
+  },
+});
 
-const ContentTypeBadgeWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
+const StyledCardRoot = styled(CardRoot, {
+  base: {
+    height: "100%",
+    _hover: {
+      boxShadow: "xsmall",
+    },
+  },
+});
 
-const ContentTypeWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  background-color: inherit;
-  padding: ${spacing.small} ${spacing.normal};
-`;
+const Metadata = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5xsmall",
+    paddingInline: "medium",
+    paddingBlock: "xsmall",
+    boxShadow: "inner",
+  },
+  variants: {
+    variant: {
+      neutral: {
+        background: "surface.default",
+      },
+      brand1: {
+        background: "surface.brand.1.subtle",
+      },
+      brand2: {
+        background: "surface.brand.2.subtle",
+      },
+      brand3: {
+        background: "surface.brand.3.subtle",
+      },
+      info: {
+        background: "surface.infoSubtle",
+      },
+    },
+  },
+});
 
-const ContentTypeTextWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-`;
-
-const ContextList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  padding: 0;
-  margin: 0;
-  list-style: none;
-`;
-
-const ContextListItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: ${spacing.xsmall};
-`;
-
-const StyledHeading = styled(Heading)`
-  color: ${colors.brand.primary};
-  width: fit-content;
-  padding: 0px ${spacing.normal};
-`;
-
-const ContentWrapper = styled.div`
-  padding: 0px ${spacing.normal} ${spacing.small} ${spacing.normal};
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const BreadcrumbText = styled(Text)`
-  color: ${colors.text.light};
-  font-weight: ${fonts.weight.normal};
-`;
-
-const StyledSafeLink = styled(SafeLink)`
-  box-shadow: none;
-  color: ${colors.brand.primary};
-
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: ${stackOrder.offsetSingle};
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  &:hover,
-  &:focus-within {
-    [data-link-text] {
-      text-decoration: underline;
-      text-underline-offset: 5px;
-    }
-  }
-`;
-
-const LtiWrapper = styled.div`
-  z-index: ${stackOrder.offsetSingle};
-  display: flex;
-  flex-direction: column;
-`;
-
-const ContentTypeText = styled(Text)`
-  :not([data-first="true"]) {
-    &::before {
-      content: "•";
-      margin: 0 ${spacing.xxsmall};
-    }
-  }
-`;
-
-const StyledHeader = styled.header`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  align-items: flex-start;
-`;
-
-const StyledArticle = styled.article`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledModalButton = styled(ButtonV2)`
-  z-index: ${stackOrder.offsetSingle};
-  position: relative;
-`;
+const StyledText = styled(Text, {
+  base: {
+    "& > div": {
+      color: "text.default",
+    },
+  },
+});
 
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
-  const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
-  const labels = [t(`contentTypes.${contentType}`)].concat(item.labels);
+
+  const labels = item.labels?.join(", ");
 
   return (
-    <ListItem>
-      <StyledArticle>
-        <StyledHeader>
-          <ImageWrapper style={{ "--bg": resourceTypeColor(contentType) } as CSSProperties}>
-            {item.img ? (
-              <StyledImage src={item.img.url} alt={item.img.alt} />
-            ) : (
-              <ContentTypeBadgeWrapper>
-                <ContentTypeBadge size="large" type={contentType} border={false} />
-              </ContentTypeBadgeWrapper>
-            )}
-            <ContentTypeWrapper>
-              {item.img && <ContentTypeBadge type={contentType} size="small" border={false} />}
-              <ContentTypeTextWrapper>
-                {labels.map((label, index) => (
-                  <ContentTypeText key={label} textStyle="meta-text-xsmall" margin="none" data-first={!index}>
-                    {label}
-                  </ContentTypeText>
-                ))}
-              </ContentTypeTextWrapper>
-            </ContentTypeWrapper>
-          </ImageWrapper>
-          <StyledSafeLink to={item.url}>
-            <StyledHeading element="h3" headingStyle="h4" margin="none" data-link-text="">
-              {item.title}
-            </StyledHeading>
-          </StyledSafeLink>
-        </StyledHeader>
-        <ContentWrapper>
-          {parse(item.ingress)}
-          <BreadcrumbText element="span" margin="none" textStyle="meta-text-xsmall">
-            {mainContext?.breadcrumb.join(" › ")}
-            &nbsp;
-            {item.contexts && item.contexts.length > 1 && (
-              <Modal>
-                <ModalTrigger>
-                  <StyledModalButton variant="link">
-                    {t("searchPage.contextModal.button", {
-                      count: item.contexts.length - 1,
-                    })}
-                  </StyledModalButton>
-                </ModalTrigger>
-                <ModalContent>
-                  <ModalHeader>
-                    <ModalTitle>{t("searchPage.contextModal.heading")}</ModalTitle>
-                    <ModalCloseButton />
-                  </ModalHeader>
-                  <ModalBody>
-                    <ContextList>
-                      {item.contexts.map((context) => (
-                        <ContextListItem key={context.url}>
-                          <SafeLink to={context.url}>{item.title}</SafeLink>
-                          <BreadcrumbText element="span" margin="none" textStyle="meta-text-small">
-                            {context.breadcrumb.join(" › ")}
-                            &nbsp;
-                            {context.isAdditional ? (
-                              <Additional
-                                color={colors.brand.dark}
-                                size="normal"
-                                aria-hidden={false}
-                                aria-label={t("resource.tooltipAdditionalTopic")}
-                              />
-                            ) : (
-                              <Core
-                                color={colors.brand.primary}
-                                size="normal"
-                                aria-hidden={false}
-                                aria-label={t("resource.tooltipCoreTopic")}
-                              />
-                            )}
-                          </BreadcrumbText>
-                        </ContextListItem>
-                      ))}
-                    </ContextList>
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
-            )}
-          </BreadcrumbText>
-        </ContentWrapper>
-        <LtiWrapper>{item.children}</LtiWrapper>
-      </StyledArticle>
-    </ListItem>
+    <StyledListElement>
+      <StyledCardRoot variant="subtle">
+        <CardImage
+          alt=""
+          height={200}
+          src={item.img?.url ?? item.metaImg ?? ""}
+          sizes={"320px"}
+          fallbackElement={<ContentTypeFallbackIcon contentType={type} />}
+        />
+        <Metadata variant={contentTypeToVariantMapping[type]}>
+          <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
+          {item.labels && item.labels?.length >= 1 ? (
+            <StyledText textStyle="label.xsmall">{`${t(`searchPage.includes`)} ${labels}`}</StyledText>
+          ) : (
+            <StyledText textStyle="label.xsmall">
+              <br />
+            </StyledText>
+          )}
+        </Metadata>
+        <CardContent>
+          <CardHeading asChild consumeCss>
+            <h3>
+              <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
+                {parse(item.htmlTitle)}
+              </SafeLink>
+            </h3>
+          </CardHeading>
+          {!!item.ingress && <Text>{parse(item.ingress)}</Text>}
+          {!!item.contexts?.length && (
+            <StyledText color="text.subtle" textStyle="label.small">
+              {mainContext?.breadcrumb.join(" › ")}
+              {item.contexts.length > 1 && (
+                <DialogRoot>
+                  <DialogTrigger asChild>
+                    <StyledButton variant="link">
+                      {t("searchPage.contextModal.button", {
+                        count: item.contexts.length - 1,
+                      })}
+                    </StyledButton>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("searchPage.contextModal.heading")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <ul>
+                        {item.contexts.map((context) => (
+                          <li key={context.url}>
+                            <SafeLink to={context.url || ""}>{item.title}</SafeLink>
+                            <Text
+                              textStyle="label.small"
+                              aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumb.join(", ")}. ${context.isAdditional ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
+                            >
+                              {context.breadcrumb.join(" › ")}
+                            </Text>
+                          </li>
+                        ))}
+                      </ul>
+                    </DialogBody>
+                  </DialogContent>
+                </DialogRoot>
+              )}
+            </StyledText>
+          )}
+          <LtiWrapper>{item.children}</LtiWrapper>
+        </CardContent>
+      </StyledCardRoot>
+    </StyledListElement>
   );
 };
 

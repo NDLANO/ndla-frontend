@@ -9,15 +9,20 @@
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { fonts, spacing } from "@ndla/core";
+import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
+import { DrawerPortion, DrawerHeader, DrawerList } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLProgrammeMenu_ProgrammePageFragment } from "../../../graphqlTypes";
 import { toProgramme, useUrnIds } from "../../../routeHelpers";
+
+const StyledDrawerHeader = styled(DrawerHeader, {
+  base: {
+    paddingBlock: "small",
+  },
+});
 
 interface Props {
   programmes: GQLProgrammeMenu_ProgrammePageFragment[];
@@ -25,15 +30,9 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
-const StyledTitle = styled.h1`
-  margin: 0px;
-  ${fonts.sizes("20px", "24px")};
-  padding: ${spacing.normal} 0 ${spacing.normal} 40px;
-`;
-
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
-  const { programme: urlProgramme } = useUrnIds();
+  const { contextId } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const programmes = useMemo(
     () =>
@@ -52,8 +51,6 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
     }
   }, [shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
 
-  const programmePath = `/utdanning/${urlProgramme}`;
-
   useArrowNavigation(true, {
     initialFocused: programmes[0]?.path,
     onLeftKeyPressed: onCloseMenuPortion,
@@ -62,16 +59,18 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
   return (
     <DrawerPortion>
       <BackButton title={t("masthead.menu.goToMainMenu")} homeButton onGoBack={onCloseMenuPortion} />
-      <StyledTitle aria-hidden={true}>{t("masthead.menuOptions.programme")}</StyledTitle>
+      <StyledDrawerHeader aria-hidden={true} textStyle="title.medium" fontWeight="bold">
+        {t("masthead.menuOptions.programme")}
+      </StyledDrawerHeader>
       <DrawerList id="programme-menu">
         {programmes.map((programme) => (
           <DrawerMenuItem
             id={programme.path}
             type="link"
             to={programme.path}
-            current={programme.path === programmePath}
+            current={programme.contextId === contextId}
             onClose={onClose}
-            active={programme.path === programmePath}
+            active={programme.contextId === contextId}
             key={programme.url}
           >
             {programme.name}
@@ -86,6 +85,7 @@ ProgrammeMenu.fragments = {
   programmeMenu: gql`
     fragment ProgrammeMenu_ProgrammePage on ProgrammePage {
       id
+      contextId
       title {
         title
       }

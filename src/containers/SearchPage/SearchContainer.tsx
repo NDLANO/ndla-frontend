@@ -6,141 +6,163 @@
  *
  */
 
-import { useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { breakpoints, fonts, mq, spacing, spacingUnit } from "@ndla/core";
-import { Spinner } from "@ndla/icons";
-import { Cross, Grid } from "@ndla/icons/action";
-import { ListCircle } from "@ndla/icons/editor";
-import { Heading } from "@ndla/typography";
-import { LanguageSelector, constants } from "@ndla/ui";
-
+import { CloseLine } from "@ndla/icons/action";
+import { Done } from "@ndla/icons/editor";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  Spinner,
+  Heading,
+  Button,
+  FieldsetRoot,
+  FieldsetLegend,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
 import { SearchResultGroup } from "./components/SearchResults";
-import SearchSubjectResult from "./components/SearchSubjectResult";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
-import { SearchCompetenceGoal, SearchCoreElements, SubjectItem } from "./SearchInnerPage";
-import { ViewType } from "./searchTypes";
+import { SearchCompetenceGoal, SearchCoreElements } from "./SearchInnerPage";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 
-const { contentTypes } = constants;
+const StyledLanguageSelector = styled(LanguageSelector, { base: { alignSelf: "center" } });
 
-const StyledLanguageSelector = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: ${spacingUnit * 10}px;
-`;
+const CompetenceWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+const CompetenceItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
 
-const StyledHeading = styled(Heading)`
-  font-weight: ${fonts.weight.normal};
-`;
+const FiltersWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
 
-const CompetenceWrapper = styled.div`
-  margin-bottom: ${spacing.normal};
-`;
+const SearchPanel = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const StyledMain = styled.main`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
 
-const StyledButton = styled(ButtonV2)`
-  align-self: flex-start;
-`;
+const SearchGroupWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
 
-const ItemWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  flex-wrap: wrap;
-  align-items: flex-start;
-`;
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+});
 
-const FilterWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    gap: "small",
+  },
+});
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  ${mq.range({ until: breakpoints.tablet })} {
-    display: none;
-  }
-`;
-
-const filterGroups = (searchGroups: SearchGroup[], typeFilter: Record<string, TypeFilter>, showAll: boolean) => {
+const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
+  const showAll = selectedFilters.includes("all");
   return searchGroups.filter((group) => {
-    const filter = typeFilter[group.type];
-    return (showAll || filter?.selected || group.type === contentTypes.SUBJECT) && !!group.items.length;
+    const isSelected = selectedFilters.includes(group.type);
+    return (showAll || isSelected) && !!group.items.length;
   });
 };
 
 interface Props {
   handleSearchParamsChange: (updates: Record<string, any>) => void;
-  handleSubFilterClick: (type: string, filterId: string) => void;
-  handleFilterToggle: (type: string) => void;
-  handleFilterReset: () => void;
+  handleSubFilterClick: (type: string, filterIds: string[]) => void;
+  handleFilterToggle: (type: string[]) => void;
   handleShowMore: (type: string) => void;
   query?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
   competenceGoals: SearchCompetenceGoal[];
   coreElements: SearchCoreElements[];
-  subjectItems?: SubjectItem[];
   suggestion?: string;
   typeFilter: Record<string, TypeFilter>;
   searchGroups: SearchGroup[];
-  showAll: boolean;
   loading: boolean;
   isLti?: boolean;
+  selectedFilters: string[];
 }
 const SearchContainer = ({
   handleSearchParamsChange,
   handleSubFilterClick,
   handleFilterToggle,
-  handleFilterReset,
   handleShowMore,
   query,
   subjectIds,
-  subjectItems,
   subjects,
   suggestion,
   typeFilter,
   searchGroups,
-  showAll,
   loading,
   isLti,
   competenceGoals,
   coreElements,
+  selectedFilters,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const [viewType, setViewType] = useState<ViewType>("grid");
+  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
-  const filterButtonItems = [];
-  for (const [type, values] of Object.entries(typeFilter)) {
-    if (searchGroups.find((group) => group.type === type)?.items?.length || typeFilter[type]?.selected) {
-      filterButtonItems.push({
-        value: type,
-        label: t(`contentTypes.${type}`),
-        selected: values.selected,
-      });
-    }
-  }
+  const filterButtonItems = Object.keys(typeFilter).reduce(
+    (acc, cur) => {
+      if (searchGroups.find((group) => group.type === cur)?.items?.length || selectedFilters.includes(cur)) {
+        acc.push({ value: cur, label: t(`contentTypes.${cur}`) });
+      }
+      return acc;
+    },
+    [{ value: "all", label: t("searchPage.resultType.all") }] as { value: string; label: string }[],
+  );
 
-  const sortedFilterButtonItems = sortResourceTypes(filterButtonItems, "value");
+  const onGrepRemove = (grepValue: string) => {
+    handleSearchParamsChange({
+      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
+    });
+  };
+
+  const sortedFilterItems = sortResourceTypes(filterButtonItems, "value");
   const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
-  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, typeFilter, showAll);
-
-  const hasSelectedResourceType = sortedFilterButtonItems.some((item) => item.selected);
-
+  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, selectedFilters);
   const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
 
   const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
@@ -152,85 +174,82 @@ const SearchContainer = ({
 
   return (
     <StyledMain>
-      <SearchHeader
-        query={query}
-        suggestion={suggestion}
-        subjectIds={subjectIds}
-        handleSearchParamsChange={handleSearchParamsChange}
-        subjects={subjects}
-        noResults={sortedFilterButtonItems.length === 0}
-        competenceGoals={competenceGoals}
-        coreElements={coreElements}
-        loading={loading}
-      />
-      {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
-        <CompetenceWrapper>
-          {!!competenceGoalsMetadata?.length && (
-            <>
-              <StyledHeading element="h2" headingStyle="list-title">
-                {t("competenceGoals.competenceGoalItem.title")}
-              </StyledHeading>
-              {competenceGoalsMetadata.map((goal, index) => (
-                <CompetenceItem item={goal} key={index} showLinks={false} />
-              ))}
-            </>
-          )}
-          {!!coreElements?.length && (
-            <>
-              <StyledHeading element="h2" headingStyle="list-title">
-                {t("competenceGoals.competenceTabCorelabel")}
-              </StyledHeading>
-              <CompetenceItem item={{ title: "test", elements: mappedCoreElements }} showLinks={false} />
-            </>
-          )}
-        </CompetenceWrapper>
+      {!isLti && (
+        <HomeBreadcrumb
+          items={[
+            {
+              name: t("breadcrumb.toFrontpage"),
+              to: "/",
+            },
+            { to: "/search", name: t("searchPage.search") },
+          ]}
+        />
       )}
-      {subjectItems && subjectItems?.length > 0 && !subjectIds.length && <SearchSubjectResult items={subjectItems} />}
-      <div aria-live="assertive">{loading && searchGroups.length === 0 && <Spinner />}</div>
-      {searchGroups && searchGroups.length > 0 && (
-        <div>
-          {sortedFilterButtonItems.length > 1 && (
-            <FilterWrapper>
-              <ItemWrapper>
-                {sortedFilterButtonItems.map((item) => (
-                  <ButtonV2
-                    key={item.value}
-                    shape="pill"
-                    onClick={() => handleFilterToggle(item.value)}
-                    colorTheme={item.selected ? "primary" : "greyLighter"}
-                  >
-                    {item.label}
-                    {item.selected && <Cross />}
-                  </ButtonV2>
+      <SearchPanel>
+        <SearchHeader
+          query={query}
+          suggestion={suggestion}
+          subjectIds={subjectIds}
+          handleSearchParamsChange={handleSearchParamsChange}
+          subjects={subjects}
+          noResults={!(sortedFilterItems.length > 1)}
+          loading={loading}
+          isLti={isLti}
+        />
+        {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
+          <CompetenceWrapper>
+            {!!competenceGoalsMetadata?.length && (
+              <CompetenceItemWrapper>
+                <Heading textStyle="title.large" asChild consumeCss>
+                  <h2>{t("competenceGoals.competenceGoalItem.title")}</h2>
+                </Heading>
+                {competenceGoalsMetadata.map((goal, index) => (
+                  <CompetenceItem item={goal} key={index} />
                 ))}
-              </ItemWrapper>
-              <ButtonWrapper>
-                <IconButtonV2
-                  variant={viewType === "grid" ? "solid" : "ghost"}
-                  onClick={() => setViewType("grid")}
-                  colorTheme="greyLighter"
-                  aria-label={t("searchPage.resultType.gridView")}
-                  title={t("searchPage.resultType.gridView")}
-                >
-                  <Grid />
-                </IconButtonV2>
-                <IconButtonV2
-                  variant={viewType === "list" ? "solid" : "ghost"}
-                  onClick={() => setViewType("list")}
-                  colorTheme="greyLighter"
-                  aria-label={t("searchPage.resultType.listView")}
-                  title={t("searchPage.resultType.listView")}
-                >
-                  <ListCircle />
-                </IconButtonV2>
-              </ButtonWrapper>
-            </FilterWrapper>
-          )}
-          {hasSelectedResourceType && (
-            <StyledButton variant="link" onClick={handleFilterReset}>
-              {t(`filterButtons.removeAllFilters`)}
-            </StyledButton>
-          )}
+              </CompetenceItemWrapper>
+            )}
+            {!!coreElements?.length && (
+              <CompetenceItemWrapper>
+                <Heading textStyle="title.large" asChild consumeCss>
+                  <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
+                </Heading>
+                <CompetenceItem item={{ elements: mappedCoreElements }} />
+              </CompetenceItemWrapper>
+            )}
+            {!!grepElements.length && (
+              <FiltersWrapper>
+                {grepElements.map((grep) => (
+                  <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
+                    {grep.id}
+                    <CloseLine />
+                  </Button>
+                ))}
+              </FiltersWrapper>
+            )}
+          </CompetenceWrapper>
+        )}
+        <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
+        {sortedFilterItems.length > 1 && (
+          <StyledFieldsetRoot>
+            <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
+            <StyledCheckboxGroup value={selectedFilters} onValueChange={handleFilterToggle}>
+              {sortedFilterItems.map((item) => (
+                <CheckboxRoot key={item.value} value={item.value} variant="chip">
+                  <CheckboxControl>
+                    <CheckboxIndicator asChild>
+                      <Done />
+                    </CheckboxIndicator>
+                  </CheckboxControl>
+                  <CheckboxLabel>{item.label}</CheckboxLabel>
+                  <CheckboxHiddenInput />
+                </CheckboxRoot>
+              ))}
+            </StyledCheckboxGroup>
+          </StyledFieldsetRoot>
+        )}
+      </SearchPanel>
+      {!!searchGroups?.length && (
+        <SearchGroupWrapper>
           {filteredSortedSearchGroups.map((group) => (
             <SearchResultGroup
               key={`searchresultgroup-${group.type}`}
@@ -239,15 +258,15 @@ const SearchContainer = ({
               handleShowMore={handleShowMore}
               loading={loading}
               typeFilter={typeFilter}
-              viewType={viewType}
             />
           ))}
           {isLti && (
-            <StyledLanguageSelector>
-              <LanguageSelector locales={supportedLanguages} onSelect={i18n.changeLanguage} />
-            </StyledLanguageSelector>
+            <StyledLanguageSelector
+              languages={supportedLanguages}
+              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+            />
           )}
-        </div>
+        </SearchGroupWrapper>
       )}
     </StyledMain>
   );

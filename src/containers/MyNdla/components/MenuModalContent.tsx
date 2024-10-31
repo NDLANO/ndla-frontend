@@ -6,244 +6,172 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useOutletContext } from "react-router-dom";
-import styled from "@emotion/styled";
-import { IconButtonV2 } from "@ndla/button";
-import { spacing, colors, fonts } from "@ndla/core";
-import { FourlineHamburger, List } from "@ndla/icons/action";
-import { ModalBody, ModalHeader, ModalContent, ModalCloseButton, ModalTitle } from "@ndla/modal";
+import { useLocation } from "react-router-dom";
+import { Portal, useDialogContext } from "@ark-ui/react";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
 import { BellIcon } from "./NotificationButton";
-import { buttonCss } from "./toolbarStyles";
+import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
-import { ViewType } from "../Folders/FoldersPage";
-import { OutletContext, menuLinks } from "../MyNdlaLayout";
+import { menuLinks } from "../MyNdlaLayout";
 
-const MenuItem = styled.li`
-  list-style: none;
-  padding: unset;
-`;
+const MenuItems = styled("ul", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
+    gap: "4xsmall",
+    justifyContent: "space-between",
+  },
+});
 
-const StyledText = styled(Text)`
-  text-transform: uppercase;
-  padding: ${spacing.normal} ${spacing.small} ${spacing.small} ${spacing.small};
-  color: ${colors.brand.grey};
-  font-weight: ${fonts.weight.bold};
+const ToolMenu = styled("ul", {
+  base: {
+    listStyle: "none",
+    "& > li": {
+      display: "flex",
+      flexDirection: "column",
+      "& a, button": {
+        justifyContent: "flex-start",
+      },
+    },
+  },
+});
 
-  &[data-border-top="true"] {
-    border-top: 1px solid ${colors.brand.lightest};
-  }
+const StyledDialogHeader = styled(DialogHeader, {
+  base: {
+    background: "background.subtle",
+  },
+});
 
-  &[data-no-padding-top="true"] {
-    padding-top: unset;
-  }
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    height: "100%",
+    paddingInline: "0",
+    paddingBlock: "0",
+  },
+});
 
-const StyledModalTitle = styled(ModalTitle)`
-  color: ${colors.brand.grey} !important;
-  padding: unset;
-`;
+const ContentWrapper = styled("div", {
+  base: {
+    paddingInline: "medium",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const MenuItems = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(auto, 1fr));
-  justify-content: space-between;
-  padding: unset;
-  margin: unset;
-  padding-bottom: ${spacing.small};
-  border-bottom: 1px solid ${colors.brand.lighter};
-
-  background: ${colors.background.lightBlue};
-`;
-
-const ToolMenu = styled.ul`
-  list-style: none;
-  > li {
-    display: flex;
-    flex-direction: column;
-  }
-
-  padding: unset;
-  margin: unset;
-
-  button,
-  a {
-    border-top: 0.5px solid ${colors.brand.greyLighter};
-    padding: ${spacing.small} ${spacing.normal};
-    &:last-child {
-      border-bottom: 0.5px solid ${colors.brand.greyLighter};
-    }
-  }
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  padding: 0 0 ${spacing.normal} 0;
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  background: ${colors.background.lightBlue};
-`;
-
-const ViewButtonWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xxsmall};
-  padding-left: ${spacing.small};
-`;
-
-const ViewButton = styled(IconButtonV2)`
-  display: flex;
-  flex-direction: column;
-
-  background-color: transparent;
-  color: ${colors.brand.primary};
-  border-radius: ${spacing.xxsmall};
-  border-color: ${colors.brand.light};
-
-  &[aria-current="true"] {
-    background-color: ${colors.brand.lightest};
-  }
-`;
-
-const CloseWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: ${colors.brand.primary};
-  justify-content: center;
-  align-items: center;
-`;
+const StyledNav = styled("nav", {
+  base: {
+    paddingBlock: "small",
+    background: "background.subtle",
+    paddingInline: "xsmall",
+  },
+});
 
 interface Props {
-  onViewTypeChange?: (val: ViewType) => void;
-  viewType?: ViewType;
-  buttons?: ReactNode;
+  menuItems?: MenuItemProps[];
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({ onViewTypeChange, viewType, buttons, showButtons = true }: Props) => {
+const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { setIsOpen, resetFocus, setResetFocus } = useOutletContext<OutletContext>();
+  const { setOpen } = useDialogContext();
   const { user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
-      menuLinks(t, location, user).map(({ id, shortName, icon, to, name, iconFilled, shownForUser }) => {
-        if (shownForUser && !shownForUser(user)) {
-          return null;
-        }
-        return (
-          <MenuItem key={id}>
-            <NavigationLink
-              id={id}
-              to={to}
-              name={name}
-              icon={icon}
-              shortName={shortName}
-              iconFilled={iconFilled}
-              onClick={() => setIsOpen(false)}
-            />
-          </MenuItem>
-        );
-      }),
-    [t, location, user, setIsOpen],
+      menuLinks(t, location, user).map(
+        ({ id, shortName, icon, to, name, iconFilled, shownForUser, reloadDocument }) => {
+          if (shownForUser && !shownForUser(user)) {
+            return null;
+          }
+          return (
+            <li key={id}>
+              <NavigationLink
+                to={to}
+                name={name}
+                icon={icon}
+                shortName={shortName}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+                onClick={() => setOpen(false)}
+              />
+            </li>
+          );
+        },
+      ),
+    [t, location, user, setOpen],
   );
 
   const notificationLink = useMemo(
     () => (
-      <MenuItem>
-        <SafeLinkButton
-          variant="ghost"
-          colorTheme="lighter"
-          to={routes.myNdla.notifications}
-          onClick={() => setIsOpen(false)}
-          css={buttonCss}
-        >
+      <li>
+        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
           <BellIcon
             amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
             left={true}
           />
           {t("myNdla.arena.notification.title")}
         </SafeLinkButton>
-      </MenuItem>
+      </li>
     ),
-    [notifications, setIsOpen, t],
-  );
-
-  const onCloseModal = useCallback(
-    (e: Event) => {
-      if (resetFocus) {
-        e.preventDefault();
-        setResetFocus(false);
-      }
-    },
-    [resetFocus, setResetFocus],
+    [notifications?.items, setOpen, t],
   );
 
   return (
-    <ModalContent onCloseAutoFocus={onCloseModal}>
-      <StyledModalHeader>
-        <StyledModalTitle data-no-padding-top={true}>{t("myNdla.myNDLA")}</StyledModalTitle>
-        <CloseWrapper>
-          <ModalCloseButton />
-          <Text textStyle="meta-text-xxsmall" margin="none">
-            {t("close")}
-          </Text>
-        </CloseWrapper>
-      </StyledModalHeader>
-      <StyledModalBody>
-        <nav aria-label={t("myNdla.myNDLAMenu")}>
-          <MenuItems role="tablist">{links}</MenuItems>
-        </nav>
-        {showButtons && (!!buttons || user?.arenaEnabled) && (
-          <>
-            <StyledText margin="none" textStyle="meta-text-medium">
-              {t("myNdla.tools")}
-            </StyledText>
-            <ToolMenu>
-              {buttons}
-              {user?.arenaEnabled && notificationLink}
-            </ToolMenu>
-          </>
-        )}
-        {!!viewType && (
-          <>
-            <StyledText data-border-top={showButtons} textStyle="meta-text-medium" margin="none">
-              {t("myNdla.selectView")}
-            </StyledText>
-            <ViewButtonWrapper>
-              <ViewButton
-                aria-label={t("myNdla.listView")}
-                aria-current={viewType === "list"}
-                onClick={() => onViewTypeChange?.("list")}
-              >
-                <FourlineHamburger />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t("myNdla.simpleList")}
+    <Portal>
+      <DialogContent>
+        <StyledDialogHeader>
+          <DialogTitle textStyle="title.medium">{t("myNdla.myNDLA")}</DialogTitle>
+          <DialogCloseButton />
+        </StyledDialogHeader>
+        <StyledDialogBody>
+          <StyledNav aria-label={t("myNdla.myNDLAMenu")}>
+            <MenuItems role="tablist">{links}</MenuItems>
+          </StyledNav>
+          <ContentWrapper>
+            {showButtons && (!!menuItems?.length || user?.arenaEnabled) && (
+              <>
+                <Text textStyle="label.medium" fontWeight="bold">
+                  {t("myNdla.tools")}
                 </Text>
-              </ViewButton>
-              <ViewButton
-                aria-label={t("myNdla.detailView")}
-                aria-current={viewType === "listLarger"}
-                onClick={() => onViewTypeChange?.("listLarger")}
-              >
-                <List />
-                <Text textStyle="meta-text-xxsmall" margin="none">
-                  {t("myNdla.detailedList")}
-                </Text>
-              </ViewButton>
-            </ViewButtonWrapper>
-          </>
-        )}
-      </StyledModalBody>
-    </ModalContent>
+                <ToolMenu>
+                  {menuItems?.map((item) => (
+                    <li key={item.value}>
+                      <Button
+                        disabled={item.disabled}
+                        variant={item.variant === "destructive" ? "danger" : "tertiary"}
+                        size="medium"
+                        asChild={item.type !== "action"}
+                        onClick={(e) => {
+                          if (item.onClick) {
+                            item.onClick(e);
+                          }
+                        }}
+                      >
+                        <MenuItemElement item={item}>
+                          {item.icon}
+                          {item.text}
+                        </MenuItemElement>
+                      </Button>
+                    </li>
+                  ))}
+                  {user?.arenaEnabled && notificationLink}
+                </ToolMenu>
+              </>
+            )}
+          </ContentWrapper>
+        </StyledDialogBody>
+      </DialogContent>
+    </Portal>
   );
 };
 

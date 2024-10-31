@@ -11,15 +11,21 @@ import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { DynamicComponents } from "@ndla/article-converter";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { FRONTPAGE_ARTICLE_MAX_WIDTH, FrontpageArticle, HomeBreadcrumb } from "@ndla/ui";
+import {
+  ArticleContent,
+  ArticleFooter,
+  ArticleHeader,
+  ArticleWrapper,
+  HomeBreadcrumb,
+  ArticleBylineAccordionItem,
+  licenseAttributes,
+} from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
-import AddEmbedToFolder from "../../components/MyNdla/AddEmbedToFolder";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -35,33 +41,19 @@ interface Props {
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
 
-const StyledMain = styled.main`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: ${colors.background.lightBlue};
-  padding-bottom: ${spacing.large};
-  padding-top: ${spacing.normal};
-  border-bottom: 1px solid ${colors.brand.light};
-  section {
-    padding: 0px;
-  }
-  nav {
-    max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
-    width: 100%;
-  }
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    padding: ${spacing.normal};
-  }
-`;
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "hidden",
+  },
+});
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
+const StyledHeroContent = styled(HeroContent, {
+  base: {
+    "& a:focus-within": {
+      outlineColor: "currentcolor",
+    },
+  },
+});
 
 export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
@@ -99,10 +91,6 @@ const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_Frontpa
 
 const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
-
 const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -120,7 +108,6 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
       path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
-      components: converterComponents,
     });
     return [
       {
@@ -145,41 +132,63 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
     }
   });
 
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
+
   return (
-    <Wrapper>
-      <StyledMain>
-        <Helmet>
-          <title>{`${getDocumentTitle(t, article.title)}`}</title>
-          <meta name="pageid" content={`${article.id}`} />
-          {scripts?.map((script) => (
-            <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-          ))}
-          <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-          <script type="application/ld+json">
-            {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-          </script>
-        </Helmet>
-        <SocialMediaMetadata
-          title={article.title}
-          description={article.metaDescription}
-          imageUrl={article.metaImage?.url}
-          trackableContent={article}
-        />
-        <HomeBreadcrumb items={crumbs} />
-        <FrontpageArticle
-          id={SKIP_TO_CONTENT_ID}
-          article={{ ...article, ...article.transformedContent }}
-          licenseBox={
-            <LicenseBox
-              article={article}
-              copyText={article?.transformedContent?.metaData?.copyText}
-              oembed={undefined}
-            />
-          }
-        />
-      </StyledMain>
-      <AboutPageFooter frontpage={frontpage} />
-    </Wrapper>
+    <main>
+      <Helmet>
+        <title>{`${getDocumentTitle(t, article.title)}`}</title>
+        <meta name="pageid" content={`${article.id}`} />
+        {scripts?.map((script) => (
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+        ))}
+        <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
+        <script type="application/ld+json">
+          {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
+        </script>
+      </Helmet>
+      <SocialMediaMetadata
+        title={article.title}
+        description={article.metaDescription}
+        imageUrl={article.metaImage?.url}
+        trackableContent={article}
+      />
+      <Hero variant="primary">
+        <HeroBackground />
+        <PageContent variant="article">
+          <StyledHeroContent>
+            <HomeBreadcrumb items={crumbs} />
+          </StyledHeroContent>
+        </PageContent>
+        <StyledPageContent variant="article" gutters="tabletUp">
+          <PageContent variant="content" asChild>
+            <ArticleWrapper {...licenseProps}>
+              <ArticleHeader>
+                <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                  {article.transformedContent.title}
+                </Heading>
+                {!!article.transformedContent.introduction && (
+                  <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
+                )}
+              </ArticleHeader>
+              <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              <ArticleFooter>
+                <AccordionRoot multiple>
+                  <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
+                    <LicenseBox
+                      article={article}
+                      copyText={article?.transformedContent?.metaData?.copyText}
+                      oembed={undefined}
+                    />
+                  </ArticleBylineAccordionItem>
+                </AccordionRoot>
+                <AboutPageFooter frontpage={frontpage} />
+              </ArticleFooter>
+            </ArticleWrapper>
+          </PageContent>
+        </StyledPageContent>
+      </Hero>
+    </main>
   );
 };
 
@@ -188,6 +197,7 @@ export const aboutPageFragments = {
     fragment AboutPage_Article on Article {
       id
       introduction
+      grepCodes
       htmlIntroduction
       created
       updated

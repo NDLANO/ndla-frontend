@@ -6,75 +6,44 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
-import { colors, spacing } from "@ndla/core";
+import { Image } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Text } from "@ndla/typography";
-import { BrightcoveEmbed, ExternalEmbed, H5pEmbed, IframeEmbed, ImageEmbed } from "@ndla/ui";
-import { GQLTopicVisualElementContent_MetaFragment } from "../../../graphqlTypes";
-import { hasLicensedContent } from "../../ResourceEmbed/components/ResourceEmbed";
-import ResourceEmbedLicenseBox from "../../ResourceEmbed/components/ResourceEmbedLicenseBox";
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  padding: ${spacing.normal};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
-`;
+import { EmbedByline, ImageEmbed } from "@ndla/ui";
+import { GQLArticle } from "../../../graphqlTypes";
 
 interface Props {
   embed: EmbedMetaData;
-  metadata: GQLTopicVisualElementContent_MetaFragment;
+  metaImage?: GQLArticle["metaImage"];
 }
 
-const TopicVisualElementContent = ({ embed, metadata }: Props) => {
-  const { t } = useTranslation();
-  return (
-    <Wrapper>
-      {embed.resource === "image" ? (
-        <ImageEmbed embed={embed} />
-      ) : embed.resource === "brightcove" ? (
-        <BrightcoveEmbed embed={embed} />
-      ) : embed.resource === "h5p" ? (
-        <H5pEmbed embed={embed} />
-      ) : embed.resource === "iframe" ? (
-        <IframeEmbed embed={embed} />
-      ) : embed.resource === "external" ? (
-        <ExternalEmbed embed={embed} />
-      ) : null}
-      <AccordionRoot type="single" collapsible>
-        {metadata && hasLicensedContent(metadata) && (
-          <AccordionItem value="rulesForUse">
-            <StyledAccordionHeader>
-              <Text element="span" textStyle="button" margin="none">
-                {t("article.useContent")}
-              </Text>
-            </StyledAccordionHeader>
-            <AccordionContent>
-              <ResourceEmbedLicenseBox metaData={metadata} />
-            </AccordionContent>
-          </AccordionItem>
-        )}
-      </AccordionRoot>
-    </Wrapper>
-  );
-};
+const StyledFigure = styled("figure", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+});
 
-TopicVisualElementContent.fragments = {
-  metadata: gql`
-    fragment TopicVisualElementContent_Meta on ResourceMetaData {
-      ...ResourceEmbedLicenseBox_Meta
-    }
-    ${ResourceEmbedLicenseBox.fragments.metaData}
-  `,
+const TopicVisualElementContent = ({ embed, metaImage }: Props) => {
+  if (embed.resource === "image") {
+    return <ImageEmbed embed={{ ...embed, embedData: { ...embed.embedData, caption: "" } }} />;
+  } else if (!metaImage) {
+    return null;
+  } else {
+    return (
+      <StyledFigure>
+        <Image src={metaImage?.url ?? ""} alt={metaImage?.alt ?? ""} />
+        {metaImage.copyright ? (
+          <EmbedByline
+            type="image"
+            copyright={{ ...metaImage.copyright, processed: !!metaImage.copyright.processed }}
+            hideDescription
+          />
+        ) : null}
+      </StyledFigure>
+    );
+  }
 };
 
 export default TopicVisualElementContent;

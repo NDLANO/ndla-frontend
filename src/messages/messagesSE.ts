@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
+    unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fága",
     podcast: `Podkast - Side {{pageNumber}} - ${titleTemplate}`,
@@ -34,15 +35,30 @@ const messages = {
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
   },
+  menu: {
+    about: "Om oss",
+    subjectAndProgramme: "Fag og utdanningsprogram",
+    tipsAndAdvice: "Tips og råd",
+    goBack: "Gå tilbake",
+  },
   podcastPage: {
+    meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
     episodes: "Jearahusat",
     podcast: "Podkast",
     podcasts: "Podkasttat",
-    pageInfo: "Siidu {{page}} eret {{lastPage}}",
     noResults: "...Eai leat oasit",
     subtitle: "Guldal ja oahpa!",
+    pagination: "Podkastsider",
+  },
+  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
+  searchPage: {
+    title: "Søk på ndla.no",
+    filterSearch: "Filtrer søket ditt:",
+    subjectLetter: "Fag som starter på {{letter}}",
+    resourceTypeFilter: "Ressurstyper",
   },
   myndla: {
+    tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
       linkText: "Geahččal NDLA ságastallanrobohta",
@@ -52,6 +68,14 @@ const messages = {
         "Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.",
       ingressUnauthenticated:
         "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
+    },
+    resource: {
+      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
+      added: "Lagt til",
+      removed: "Fjernet",
+      showTags: "Vis emneknagger",
+      tagsDialogTitle: "Emneknagger knyttet til ressurs {{title}}",
+      noTags: "Ingen emneknagger.",
     },
   },
   myNdla: {
@@ -64,7 +88,15 @@ const messages = {
         description:
           "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
       },
+      reported: "Innhold rapportert",
+      error: "En feil oppstod",
+      userUpdated: "Bruker oppdatert",
     },
+  },
+  ndlaFilm: {
+    films: "Filmer",
+    topics: "Emner",
+    filterFilms: "Filtrer filmer",
   },
   validation: {
     fields: {
@@ -124,6 +156,40 @@ const messages = {
         inactive: "Lasit liŋkka",
       },
     },
+  },
+  tabs: {
+    competenceGoals: "Kategorier",
+    licenseBox: "Innholdstyper",
+    subjectFilter: "Fagkategorier",
+  },
+  multidisciplinary: {
+    casesCount: "{{count}} caser",
+  },
+  masthead: {
+    search: "Søk på ndla.no",
+    moreHits: "Vis flere treff",
+  },
+  pagination: { next: "Neste", prev: "Forrige" },
+  programmePage: {
+    programmeSubjects: "Programfag",
+  },
+  aboutPage: {
+    nav: "Informasjonssider",
+  },
+  subjectPage: {
+    topicsTitle: "Emner i {{topic}}",
+  },
+  welcomePage: {
+    programmes: "Utdanningsprogram",
+  },
+  learningpathPage: {
+    accordionTitle: "Innhold i læringssti",
+    learningsteps: "Læringssteg",
+    stepCompleted: "Fullført",
+  },
+  movedResourcePage: {
+    title: "Siden har flyttet, men du finner den her:",
+    openInSubject: "Åpne artikkelen i et fag:",
   },
 };
 

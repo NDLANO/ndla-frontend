@@ -6,16 +6,28 @@
  *
  */
 
-import { useRef, useMemo, useEffect, useContext } from "react";
+import { useMemo, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { DynamicComponents } from "@ndla/article-converter";
+import { PageContent } from "@ndla/primitives";
+import { Divider, styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { OneColumn } from "@ndla/ui";
+import {
+  ArticleByline,
+  ArticleContent,
+  ArticleFooter,
+  ArticleTitle,
+  ArticleWrapper,
+  HomeBreadcrumb,
+  licenseAttributes,
+} from "@ndla/ui";
 import Article from "../../../components/Article";
+import { useArticleCopyText, useNavigateToHash } from "../../../components/Article/articleHelpers";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import AddEmbedToFolder from "../../../components/MyNdla/AddEmbedToFolder";
+import CompetenceGoals from "../../../components/CompetenceGoals";
+import LicenseBox from "../../../components/license/LicenseBox";
+import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
@@ -29,13 +41,48 @@ import { htmlTitle } from "../../../util/titleHelper";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { transformArticle } from "../../../util/transformArticle";
 import Resources from "../../Resources/Resources";
-import MultidisciplinarySubjectHeader from "../MultidisciplinarySubjectHeader";
 
-const filterCodes: Record<string, "publicHealth" | "democracy" | "climate"> = {
-  TT1: "publicHealth",
-  TT2: "democracy",
-  TT3: "climate",
-};
+const ResourcesPageContent = styled("div", {
+  base: {
+    position: "relative",
+    background: "background.subtle",
+    paddingBlock: "xxlarge",
+    zIndex: "base",
+    _after: {
+      content: '""',
+      position: "absolute",
+      top: "0",
+      bottom: "0",
+      left: "-100vw",
+      right: "-100vw",
+      zIndex: "hide",
+      background: "inherit",
+    },
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "hidden",
+    paddingBlockStart: "xxlarge",
+    gap: "xsmall",
+  },
+});
+
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    alignItems: "flex-start",
+  },
+});
+
+const StyledDivider = styled(Divider, {
+  base: {
+    paddingBlockStart: "xsmall",
+  },
+});
 
 interface Props {
   topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
@@ -44,16 +91,11 @@ interface Props {
   skipToContentId?: string;
 }
 
-const converterComponents: DynamicComponents = {
-  heartButton: AddEmbedToFolder,
-};
-
 const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const resourcesRef = useRef(null);
-  const topicPath = useMemo(() => getTopicPath(topic.path, topic.contexts), [topic.contexts, topic.path]);
+  const topicPath = useMemo(() => getTopicPath(topic.contexts, topic.path), [topic.contexts, topic.path]);
 
   useEffect(() => {
     if (!topic?.article || !authContextLoaded) return;
@@ -81,50 +123,85 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
       transformArticle(topic.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
         subject: subject.id,
-        components: converterComponents,
         articleLanguage: topic.article.language,
       }),
       getArticleScripts(topic.article, i18n.language),
     ];
   }, [topic.article, i18n.language, subject.id]);
 
+  const copyText = useArticleCopyText(article);
+
+  useNavigateToHash(article?.transformedContent.content);
+
   if (!topic.article || !article) {
     return null;
   }
 
   const subjectLinks = topic.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
-    label: crossSubjectTopic.title,
-    url: crossSubjectTopic.path || subject.path || "",
+    name: crossSubjectTopic.title,
+    path: crossSubjectTopic.path || subject.path || "",
   }));
-  const subjects = topic.article?.grepCodes
-    ?.filter((grepCode) => grepCode.startsWith("TT"))
-    .map((code) => filterCodes[code]!);
+
+  const authors =
+    article.copyright?.creators.length || article.copyright?.rightsholders.length
+      ? article.copyright.creators
+      : article.copyright?.processors;
+
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
   return (
-    <main>
-      <Helmet>
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-      </Helmet>
-      <MultidisciplinarySubjectHeader breadcrumbs={breadCrumbs} subjects={subjects} subjectsLinks={subjectLinks} />
-      <OneColumn>
-        <Article
-          myNdlaResourceType="multidisciplinary"
-          id={skipToContentId}
-          article={article}
-          label=""
-          isTopicArticle={false}
-          isResourceArticle={false}
-          showFavoriteButton={config.feideEnabled}
-          path={topic.path}
-          oembed={article.oembed}
-        />
-        <div ref={resourcesRef}>
-          <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-        </div>
-      </OneColumn>
-    </main>
+    <StyledPageContent variant="article" asChild consumeCss>
+      <main>
+        <Helmet>
+          {scripts?.map((script) => (
+            <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+          ))}
+        </Helmet>
+        <HeaderWrapper>
+          <HomeBreadcrumb items={breadCrumbs} />
+          <SubjectLinkSet
+            set="test"
+            title={t("multidisciplinarySubject.subjectsLinksDescription")}
+            subjects={subjectLinks ?? []}
+          />
+          <StyledDivider thickness="1px" color="stroke.default" />
+        </HeaderWrapper>
+        <PageContent variant="content" gutters="never" asChild>
+          <ArticleWrapper {...licenseProps}>
+            <ArticleTitle
+              id={skipToContentId ?? article.id.toString()}
+              title={article.transformedContent.title}
+              introduction={article.transformedContent.introduction}
+              contentTypeLabel={topic.resourceTypes?.[0]?.name}
+              competenceGoals={
+                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                  <CompetenceGoals
+                    codes={article.grepCodes}
+                    subjectId={subject?.id}
+                    supportedLanguages={article.supportedLanguages}
+                  />
+                )
+              }
+              lang={article.language === "nb" ? "no" : article.language}
+            />
+            <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+            <ArticleFooter>
+              <ArticleByline
+                footnotes={article.transformedContent.metaData?.footnotes ?? []}
+                authors={authors}
+                suppliers={article.copyright?.rightsholders}
+                published={article.published}
+                license={article.copyright?.license?.license ?? ""}
+                licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+              />
+              <ResourcesPageContent>
+                <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+              </ResourcesPageContent>
+            </ArticleFooter>
+          </ArticleWrapper>
+        </PageContent>
+      </main>
+    </StyledPageContent>
   );
 };
 
@@ -137,6 +214,10 @@ export const multidisciplinarySubjectArticleFragments = {
         breadcrumbs
         parentIds
         path
+      }
+      resourceTypes {
+        id
+        name
       }
       article {
         created

@@ -8,62 +8,59 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 as Button } from "@ndla/button";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTrigger } from "@ndla/modal";
-import { Heading, Text } from "@ndla/typography";
-import { Image, OneColumn } from "@ndla/ui";
+import {
+  BleedPageContent,
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Heading,
+  Image,
+  PageContent,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import Article from "../../components/Article";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
-const StyledAside = styled.aside`
-  background: ${colors.brand.dark};
-  color: ${colors.white};
-  display: flex;
-  padding: ${spacing.normal} ${spacing.normal} ${spacing.medium};
-  > div {
-    padding: ${spacing.normal};
-    width: 50%;
-    h2 {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #fff;
-      margin: 0 0 ${spacing.small} 0;
-    }
-  }
-  button {
-    color: #fff;
-    &:hover,
-    &:focus {
-      color: ${colors.brand.light};
-    }
-  }
-  ${mq.range({ until: breakpoints.tablet })} {
-    flex-direction: column;
-    > div {
-      width: auto;
-      &:first-of-type {
-        padding-bottom: 0;
-      }
-    }
-  }
-`;
+const StyledAside = styled("aside", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "medium",
+    tabletDown: {
+      gridTemplateColumns: "1fr",
+    },
+  },
+});
 
-const StylediFrame = styled.iframe`
-  height: 100%;
-  width: 100%;
-  border: 0;
-  margin: 0;
-  padding: 0;
-`;
+const StyledContent = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    alignItems: "flex-start",
+  },
+});
 
-const StyledModalBody = styled(ModalBody)`
-  h2 {
-    margin: 0;
-  }
-`;
+const StyledIframe = styled("iframe", {
+  base: {
+    aspectRatio: "16/9",
+    height: "100%",
+    width: "100%",
+  },
+});
+
+const StyledDialogCloseButton = styled(DialogCloseButton, {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
 
 interface VisualElementProps {
   visualElement: {
@@ -76,24 +73,26 @@ interface VisualElementProps {
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
   if (type === "image") {
-    return <Image src={url} alt={alt ?? ""} />;
+    return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
-    return <StylediFrame allowFullScreen={true} src={url} />;
+    return <StyledIframe allow="fullscreen; encrypted-media" allowFullScreen={true} src={url} title={alt ?? ""} />;
   } else {
     return null;
   }
 };
 
 interface AboutNdlaFilmProps {
-  aboutNDLAVideo: {
-    title: string;
-    description: string;
-    visualElement: {
-      alt?: string;
-      url: string;
-      type: string;
-    };
-  };
+  aboutNDLAVideo:
+    | {
+        title: string;
+        description: string;
+        visualElement: {
+          alt?: string;
+          url: string;
+          type: string;
+        };
+      }
+    | undefined;
   article?: BaseArticle;
 }
 
@@ -101,7 +100,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
 
-  const iArticle = useMemo(() => {
+  const transformedArticle = useMemo(() => {
     if (article) {
       return transformArticle(article, i18n.language) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
     }
@@ -109,34 +108,43 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   }, [article, i18n.language]);
 
   return (
-    <OneColumn>
-      <StyledAside aria-labelledby={titleId}>
-        <div>
-          <VisualElement visualElement={aboutNDLAVideo.visualElement} />
-        </div>
-        <div>
-          <Heading element="h2" headingStyle="h2" id={titleId}>
-            {aboutNDLAVideo.title}
-          </Heading>
-          <Text element="p">{aboutNDLAVideo.description}</Text>
-          {iArticle && (
-            <Modal>
-              <ModalTrigger>
-                <Button variant="link">{t("ndlaFilm.about.more")}</Button>
-              </ModalTrigger>
-              <ModalContent size="full">
-                <ModalHeader>
-                  <ModalCloseButton />
-                </ModalHeader>
-                <StyledModalBody>
-                  <Article article={iArticle} oembed={undefined} label="" />
-                </StyledModalBody>
-              </ModalContent>
-            </Modal>
+    <BleedPageContent asChild>
+      <PageContent variant="article">
+        <StyledAside aria-labelledby={titleId}>
+          {aboutNDLAVideo?.visualElement && (
+            <StyledContent>
+              <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
+            </StyledContent>
           )}
-        </div>
-      </StyledAside>
-    </OneColumn>
+          <StyledContent>
+            <Heading textStyle="title.large" id={titleId} asChild consumeCss>
+              <h2>{aboutNDLAVideo?.title}</h2>
+            </Heading>
+            <Text asChild consumeCss>
+              <p>{aboutNDLAVideo?.description}</p>
+            </Text>
+            {transformedArticle && (
+              <DialogRoot size="full">
+                <DialogTrigger asChild>
+                  <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
+                </DialogTrigger>
+                <PageContent variant="content" asChild>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle srOnly>{transformedArticle.title}</DialogTitle>
+                      <StyledDialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <Article article={transformedArticle} oembed={undefined} />
+                    </DialogBody>
+                  </DialogContent>
+                </PageContent>
+              </DialogRoot>
+            )}
+          </StyledContent>
+        </StyledAside>
+      </PageContent>
+    </BleedPageContent>
   );
 };
 

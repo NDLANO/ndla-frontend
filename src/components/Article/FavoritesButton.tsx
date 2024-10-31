@@ -7,9 +7,8 @@
  */
 
 import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from "react";
-import { FavoriteButton as UIFavoriteButton } from "@ndla/button";
 import { NoSSR } from "@ndla/util";
-import config from "../../config";
+import UIFavoriteButton from "../../components/MyNdla/FavoriteButton";
 import { useFolders } from "../../containers/MyNdla/folderMutations";
 import { getAllResources } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
@@ -27,9 +26,6 @@ const ClientFavorite = forwardRef<HTMLButtonElement, Props>(({ path, ...rest }, 
 });
 
 const FavoriteButton = forwardRef<HTMLButtonElement, Props>((props: Props, ref) => {
-  if (!config.feideEnabled) {
-    return null;
-  }
   return (
     <NoSSR fallback={<UIFavoriteButton />}>
       <ClientFavorite {...props} ref={ref} />

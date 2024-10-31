@@ -7,33 +7,24 @@
  */
 
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
-import { ContentTypeBadge, resourceTypeColor } from "@ndla/ui";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
-import { contentTypeMapping } from "../../../util/getContentType";
 
-const StyledResourceTypeList = styled.ul`
-  flex: 1;
-  padding: 0;
-  list-style: none;
-`;
+const StyledResourceTypeList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-interface HeaderProps {
-  backgroundColor: string;
-}
-
-const shouldForwardProp = (p: string) => p !== "backgroundColor";
-
-const ResourceTypeHeader = styled("li", { shouldForwardProp })<HeaderProps>`
-  background-color: ${(p) => p.backgroundColor};
-  display: flex;
-  align-items: center;
-  padding: ${spacing.xxsmall} 0 ${spacing.xxsmall} ${spacing.normal};
-  gap: ${spacing.small};
-  margin-top: ${spacing.small};
-`;
+const StyledHeading = styled(Heading, {
+  base: {
+    paddingInlineStart: "small",
+    paddingBlockStart: "small",
+  },
+});
 
 interface Props {
   id: string;
@@ -42,16 +33,12 @@ interface Props {
 }
 
 const ResourceTypeList = ({ name, id, children }: Props) => {
-  const contentType = contentTypeMapping[id];
   return (
     <DrawerListItem role="none" id={`li-${id}`} data-resource-group>
+      <StyledHeading id={`header-${id}`} textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+        <span>{name}</span>
+      </StyledHeading>
       <StyledResourceTypeList id={id} role="group" aria-labelledby={`header-${id}`}>
-        <ResourceTypeHeader id={`header-${id}`} backgroundColor={resourceTypeColor(contentType!)}>
-          <ContentTypeBadge type={contentType!} border={false} />
-          <Heading element="span" headingStyle="list-title" margin="none">
-            {name}
-          </Heading>
-        </ResourceTypeHeader>
         {children}
       </StyledResourceTypeList>
     </DrawerListItem>

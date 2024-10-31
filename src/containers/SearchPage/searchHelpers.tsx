@@ -9,12 +9,20 @@ import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
 import { Location } from "react-router-dom";
-import { ContentTypeBadge, Image } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLGroupSearchQuery, GQLGroupSearchResourceFragment, GQLResourceTypeDefinition } from "../../graphqlTypes";
+import {
+  GQLGroupSearchQuery,
+  GQLGroupSearchResourceFragment,
+  GQLResourceTypeDefinition,
+  GQLSubjectInfoFragment,
+} from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
+import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
+
+const { contentTypes } = constants;
 
 export const searchResultToLinkProps = (result?: { path?: string }) => {
   return result?.path ? { to: result.path } : { to: "/404" };
@@ -72,38 +80,6 @@ export const convertSearchParam = (value?: any) => {
   return value.length > 0 ? value : undefined;
 };
 
-interface ResultBase {
-  id: number | string;
-  title?: string;
-  url: string;
-  contentType?: string;
-  metaImage?: {
-    url?: string;
-    alt?: string;
-  };
-}
-
-export const resultsWithContentTypeBadgeAndImage = <T extends ResultBase>(
-  results: T[],
-  t: TFunction,
-  includeEmbedButton?: boolean,
-  ltiData?: LtiData,
-) =>
-  results.map((result) => {
-    const { url, contentType, metaImage } = result;
-    return {
-      ...result,
-      url,
-      contenttypeicon: (
-        // defaults to empty div if contentType is undefined.
-        <ContentTypeBadge type={contentType ?? ""} size="x-small" background />
-      ),
-      children: includeEmbedButton && <LtiEmbed ltiData={ltiData} item={result} />,
-      contentTypeLabel: contentType ? t(`contentTypes.${contentType}`) : "",
-      image: metaImage && <Image src={metaImage.url ?? ""} alt={metaImage.alt ?? ""} />,
-    };
-  });
-
 const mapTraits = (traits: string[] | undefined, t: TFunction) =>
   traits?.map((trait) => {
     if (trait === "VIDEO") {
@@ -114,10 +90,10 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
     return trait;
   }) ?? [];
 
-const getLtiUrl = (path: string, id: number, isContext: boolean, language?: LocaleType) => {
+const getLtiUrl = (id: number, publicId?: string, language?: LocaleType) => {
   const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
-  if (isContext) {
-    return `${commonPath}urn:${path.split("/").pop()}/${id}`;
+  if (publicId) {
+    return `${commonPath}${publicId}/${id}`;
   }
   return `${commonPath}article/${id}`;
 };
@@ -131,11 +107,12 @@ const getContextLabels = (contexts: GQLGroupSearchResourceFragment["contexts"] |
 };
 
 export interface SearchItem {
-  id: number;
+  id: number | string;
   title: string;
-  ingress: string;
-  url: string;
-  labels: string[];
+  htmlTitle: string;
+  ingress?: string;
+  url?: string;
+  labels?: string[];
   contexts?: {
     url: string;
     breadcrumb: string[];
@@ -146,6 +123,7 @@ export interface SearchItem {
     url: string;
     alt: string;
   };
+  metaImg?: string;
 }
 
 export const mapResourcesToItems = (
@@ -157,10 +135,11 @@ export const mapResourcesToItems = (
 ): SearchItem[] =>
   resources.map((resource) => ({
     id: resource.id,
-    title: resource.name,
+    title: resource.title,
+    htmlTitle: resource.htmlTitle,
     ingress: resource.ingress,
     url: isLti
-      ? getLtiUrl(resource.path, resource.id, !!resource.contexts?.length, language)
+      ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
         ? resource.contexts[0]?.path || resource.path
         : plainUrl(resource.path),
@@ -172,8 +151,8 @@ export const mapResourcesToItems = (
     })),
     ...(resource.metaImage?.url && {
       img: {
-        url: `${resource.metaImage.url}?width=${isLti ? "350" : "420"}`,
-        alt: resource.name ?? resource.metaImage?.alt ?? "",
+        url: resource.metaImage.url,
+        alt: resource.title ?? resource.metaImage?.alt ?? "",
       },
     }),
     children: isLti ? (
@@ -181,7 +160,7 @@ export const mapResourcesToItems = (
         ltiData={ltiData}
         item={{
           id: resource.id,
-          title: resource.name,
+          title: resource.title,
           url: resource.path,
         }}
       />
@@ -190,6 +169,7 @@ export const mapResourcesToItems = (
 
 export const sortResourceTypes = <T extends Record<string, any>>(array: T[], value: keyof T) => {
   const sortedResourceTypes = [
+    "subject",
     "topic-article",
     "subject-material",
     "tasks-and-activities",
@@ -235,17 +215,34 @@ export const mapSearchDataToGroups = (
   }));
 };
 
+export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
+  if (!subjectData) return [];
+  return [
+    {
+      items: subjectData.map((subject) => ({
+        id: subject.id,
+        title: subject.name,
+        htmlTitle: subject.name,
+        url: toSubject(subject.id),
+        metaImg: subject.subjectpage?.about?.visualElement?.url,
+      })),
+      resourceTypes: [],
+      totalCount: subjectData.length,
+      type: contentTypes.SUBJECT,
+    },
+  ];
+};
+
 export interface TypeFilter {
   page: number;
   pageSize: number;
-  selected: boolean;
   filters: SubTypeFilter[];
+  selected: string[];
 }
 
 export interface SubTypeFilter {
-  id: string;
   name: string;
-  active: boolean;
+  id: string;
 }
 
 export const getTypeFilter = (
@@ -255,11 +252,12 @@ export const getTypeFilter = (
   t: TFunction,
 ): Record<string, TypeFilter> => {
   const typeFilter: Record<string, TypeFilter> = {
+    subject: { page: 1, pageSize: selectedFilters.some((s) => s === "subject") ? 12 : 6, filters: [], selected: [] },
     "topic-article": {
       page: 1,
-      pageSize: 6,
-      selected: selectedFilters?.some((f) => f === "topic-article"),
+      pageSize: selectedFilters.some((s) => s === "topic-article") ? 12 : 6,
       filters: [],
+      selected: [],
     },
   };
   const subFilterMapping = activeSubFilters.reduce<Record<string, boolean>>((acc, curr) => {
@@ -271,45 +269,40 @@ export const getTypeFilter = (
       const filters: SubTypeFilter[] = [];
       if (type.subtypes) {
         const apiFilters = [...JSON.parse(JSON.stringify(type.subtypes))];
-        let hasActive = false;
-        const withActive = apiFilters.map((f) => {
-          if (subFilterMapping[`${contentTypeMapping[type.id]}:${f.id}`]) {
-            f.active = true;
-            hasActive = true;
-          }
-          return f;
-        });
-        withActive.sort((a, b) => a.id.localeCompare(b.id));
+        apiFilters.sort((a, b) => a.id.localeCompare(b.id));
         filters.push({
           id: "all",
           name: t("contentTypes.all"),
-          active: !hasActive,
         });
-        filters.push(...withActive);
+        filters.push(...apiFilters);
       }
       const isSelected = selectedFilters?.some((f) => f === contentTypeMapping[type.id]);
       const key = contentTypeMapping[type.id];
       if (!key) return;
+      const activeTypeFilters = filters.filter(
+        (filter) => !!subFilterMapping[`${contentTypeMapping[type.id]}:${filter.id}`],
+      );
+
       typeFilter[key] = {
         filters,
         page: 1,
         pageSize: isSelected ? 12 : 6,
-        selected: isSelected,
+        selected: activeTypeFilters.length ? activeTypeFilters.map((activeFilter) => activeFilter.id) : ["all"],
       };
     });
   }
   return typeFilter;
 };
 
-export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[]) => {
+export const getTypeParams = (types?: string[], allResourceTypes?: GQLResourceTypeDefinition[], isLti?: boolean) => {
   if (!types?.length) {
     return {
       resourceTypes: allResourceTypes?.map((resourceType) => resourceType.id).join(),
-      contextTypes: "topic-article",
+      contextTypes: isLti ? undefined : "topic-article",
     };
   }
   const contextTypes = types.find((type) => type === "topic-article");
-  if (contextTypes) {
+  if (contextTypes && !isLti) {
     return {
       contextTypes,
     };

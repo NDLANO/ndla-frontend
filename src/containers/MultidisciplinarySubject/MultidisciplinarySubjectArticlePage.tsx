@@ -9,11 +9,11 @@
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ContentPlaceholder } from "@ndla/ui";
 import MultidisciplinarySubjectArticle, {
   multidisciplinarySubjectArticleFragments,
 } from "./components/MultidisciplinarySubjectArticle";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -36,6 +36,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     topic(id: $topicId, subjectId: $subjectId) {
       id
       article {
+        introduction
         metaDescription
         tags
         metaImage {
@@ -72,11 +73,11 @@ const MultidisciplinarySubjectArticlePage = () => {
   });
 
   if (loading) {
-    return <ContentPlaceholder />;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (!data?.topic || !data?.subject) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   const { topic, subject, resourceTypes } = data;

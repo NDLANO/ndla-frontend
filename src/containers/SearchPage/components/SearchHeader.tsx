@@ -8,16 +8,29 @@
 
 import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2, IconButtonV2 } from "@ndla/button";
-import { breakpoints, mq, spacing } from "@ndla/core";
-import { InputContainer, InputV3 } from "@ndla/forms";
-import { Cross, Plus } from "@ndla/icons/action";
-import { Search } from "@ndla/icons/common";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalTitle, ModalTrigger } from "@ndla/modal";
-import { Text } from "@ndla/typography";
+import { CloseLine, AddLine } from "@ndla/icons/action";
+import { SearchLine } from "@ndla/icons/common";
+import {
+  Button,
+  IconButton,
+  InputContainer,
+  Text,
+  Heading,
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogBody,
+  DialogHeader,
+  DialogTitle,
+  FieldRoot,
+  FieldLabel,
+  FieldInput,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import SubjectFilter from "./SubjectFilter";
-import { GQLCompetenceGoal, GQLCoreElement, GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 import { getSubjectsCategories } from "../../../util/subjects";
 
 interface Props {
@@ -26,45 +39,38 @@ interface Props {
   suggestion?: string;
   subjectIds: string[];
   subjects?: GQLSubjectInfoFragment[];
-  competenceGoals: GQLCompetenceGoal[];
-  coreElements: GQLCoreElement[];
   noResults: boolean;
   loading: boolean;
+  isLti?: boolean;
 }
 
 const MAX_SHOW_SUBJECT_FILTERS = 2;
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-  margin-top: ${spacing.normal};
-  ${mq.range({ from: breakpoints.tablet })} {
-    margin-top: ${spacing.large};
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StyledInputContainer = styled(InputContainer)`
-  background: transparent;
-`;
+const FiltersWrapper = styled("div", { base: { display: "flex", gap: "small", flexWrap: "wrap" } });
 
-const FiltersWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.small};
-  flex-wrap: wrap;
-`;
+const StyledSearchWrapper = styled("div", { base: { display: "flex", gap: "xsmall" } });
 
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall" } });
 
-const StyledModalHeader = styled(ModalHeader)`
-  width: 100%;
-  max-width: 1040px;
-  padding: 0px;
-`;
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+  },
+});
 
 const SearchHeader = ({
   query,
@@ -73,9 +79,8 @@ const SearchHeader = ({
   handleSearchParamsChange,
   subjects,
   noResults,
-  competenceGoals,
-  coreElements,
   loading,
+  isLti,
 }: Props) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -87,8 +92,6 @@ const SearchHeader = ({
   }, [subjectIds, subjects]);
 
   const localeSubjectCategories = useMemo(() => getSubjectsCategories(t, subjects), [t, subjects]);
-
-  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
   useEffect(() => {
     setSearchValue(query ?? "");
@@ -107,12 +110,6 @@ const SearchHeader = ({
     }
   };
 
-  const onGrepRemove = (grepValue: string) => {
-    handleSearchParamsChange({
-      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
-    });
-  };
-
   const onSearchValueChange = (value: string) => {
     if (value === "" && (searchValue ?? "").length > 2) {
       handleSearchParamsChange({ query: "" });
@@ -122,114 +119,110 @@ const SearchHeader = ({
 
   return (
     <Wrapper>
-      <form action="/search/" onSubmit={handleSearchSubmit}>
-        <StyledInputContainer>
-          <InputV3
-            ref={inputRef}
-            type="search"
-            autoComplete="off"
-            id="search"
-            name="search"
-            placeholder={t("searchPage.searchFieldPlaceholder")}
-            value={searchValue}
-            onChange={(e) => onSearchValueChange(e.target.value)}
-          />
-          {searchValue && (
-            <IconButtonV2
-              variant="ghost"
-              colorTheme="greyLighter"
-              aria-label={t("welcomePage.resetSearch")}
-              value={t("welcomePage.resetSearch")}
-              onClick={() => {
-                onSearchValueChange("");
-                inputRef.current?.focus();
-              }}
-            >
-              <Cross />
-            </IconButtonV2>
-          )}
-          <IconButtonV2
-            variant="ghost"
-            colorTheme="light"
-            type="submit"
-            aria-label={t("searchPage.search")}
-            title={t("searchPage.search")}
-          >
-            <Search />
-          </IconButtonV2>
-        </StyledInputContainer>
-      </form>
-      <div aria-live="assertive">
-        {!loading && query && (
-          <div>
-            {noResults ? (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.noHitsShort", { query: query })}
-                {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
-              </Text>
-            ) : (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.resultType.showingSearchPhrase")} <b>&ldquo;{query}&rdquo;</b>
-              </Text>
-            )}
-            {suggestion && (
-              <Text textStyle="meta-text-medium" margin="none">
-                {t("searchPage.resultType.searchPhraseSuggestion")}{" "}
-                <ButtonV2 variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
-                  [{suggestion}]
-                </ButtonV2>
-              </Text>
-            )}
-          </div>
-        )}
-        {loading && <div aria-label={t("loading")} />}
-      </div>
-      {!!grepElements.length && (
-        <FiltersWrapper>
-          {grepElements.map((grep) => (
-            <ButtonV2 key={grep.id} shape="pill" onClick={() => onGrepRemove(grep.id)}>
-              {grep.id}
-              <Cross />
-            </ButtonV2>
-          ))}
-        </FiltersWrapper>
+      {!isLti && (
+        <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+          {t("searchPage.title")}
+        </Heading>
       )}
-      <Modal open={isOpen} onOpenChange={setIsOpen}>
+      <div>
+        <form action="/search/" onSubmit={handleSearchSubmit}>
+          <StyledSearchWrapper>
+            <StyledFieldRoot>
+              <FieldLabel srOnly>{t("searchPage.title")}</FieldLabel>
+              <InputContainer>
+                <FieldInput
+                  ref={inputRef}
+                  type="search"
+                  autoComplete="off"
+                  name="search"
+                  placeholder={t("searchPage.searchFieldPlaceholder")}
+                  value={searchValue}
+                  onChange={(e) => onSearchValueChange(e.target.value)}
+                />
+                {searchValue && (
+                  <IconButton
+                    variant="clear"
+                    aria-label={t("welcomePage.resetSearch")}
+                    value={t("welcomePage.resetSearch")}
+                    onClick={() => {
+                      onSearchValueChange("");
+                      inputRef.current?.focus();
+                    }}
+                  >
+                    <CloseLine />
+                  </IconButton>
+                )}
+              </InputContainer>
+            </StyledFieldRoot>
+            <IconButton
+              variant="primary"
+              type="submit"
+              aria-label={t("searchPage.search")}
+              title={t("searchPage.search")}
+            >
+              <SearchLine />
+            </IconButton>
+          </StyledSearchWrapper>
+        </form>
+        <StyledHitsWrapper aria-live="assertive">
+          {!loading && query && (
+            <div>
+              {noResults ? (
+                <Text textStyle="label.small">
+                  {t("searchPage.noHitsShort", { query: query })}
+                  {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
+                </Text>
+              ) : (
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+              )}
+              {suggestion && (
+                <Text textStyle="label.small">
+                  {t("searchPage.resultType.searchPhraseSuggestion")}
+                  <StyledButton variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>
+                    [{suggestion}]
+                  </StyledButton>
+                </Text>
+              )}
+            </div>
+          )}
+        </StyledHitsWrapper>
+      </div>
+      <DialogRoot size="full" open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <FiltersWrapper>
-          <ModalTrigger>
-            <ButtonV2 colorTheme="greyLighter" shape="pill">
+          <DialogTrigger asChild>
+            <Button variant="secondary">
               {t("searchPage.searchFilterMessages.noValuesButtonText")}
-              <Plus />
-            </ButtonV2>
-          </ModalTrigger>
+              <AddLine />
+            </Button>
+          </DialogTrigger>
           {activeSubjectFilters.slice(0, MAX_SHOW_SUBJECT_FILTERS).map((subject) => (
-            <ButtonV2 key={subject.id} shape="pill" onClick={() => onToggleSubject(subject.id)}>
+            <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
               {subject.name}
-              <Cross />
-            </ButtonV2>
+              <CloseLine />
+            </Button>
           ))}
           {activeSubjectFilters.length > MAX_SHOW_SUBJECT_FILTERS && (
-            <ButtonV2 shape="pill" onClick={() => setIsOpen(true)}>
+            <Button variant="primary" size="small" onClick={() => setIsOpen(true)}>
               {t("searchPage.searchFilterMessages.additionalSubjectFilters", {
                 count: activeSubjectFilters.length - MAX_SHOW_SUBJECT_FILTERS,
               })}
-            </ButtonV2>
+            </Button>
           )}
         </FiltersWrapper>
-        <ModalContent size="full">
-          <StyledModalBody>
-            <StyledModalHeader>
-              <ModalTitle>{t("searchPage.searchFilterMessages.filterLabel")}</ModalTitle>
-              <ModalCloseButton />
-            </StyledModalHeader>
+        <DialogContent>
+          <DialogBody>
+            <DialogHeader>
+              <DialogTitle>{t("searchPage.searchFilterMessages.filterLabel")}</DialogTitle>
+              <DialogCloseButton />
+            </DialogHeader>
             <SubjectFilter
               categories={localeSubjectCategories}
               onToggleSubject={onToggleSubject}
               selectedSubjects={subjectIds}
             />
-          </StyledModalBody>
-        </ModalContent>
-      </Modal>
+          </DialogBody>
+        </DialogContent>
+      </DialogRoot>
     </Wrapper>
   );
 };

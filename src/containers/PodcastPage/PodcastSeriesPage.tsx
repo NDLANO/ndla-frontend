@@ -6,70 +6,50 @@
  *
  */
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
-import styled from "@emotion/styled";
-import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot } from "@ndla/accordion";
 import { transform } from "@ndla/article-converter";
-import { colors, spacing } from "@ndla/core";
-import { useComponentSize } from "@ndla/hooks";
+import { ArrowDownShortLine } from "@ndla/icons/common";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemIndicator,
+  AccordionItemTrigger,
+  AccordionRoot,
+  Heading,
+  Hero,
+  HeroBackground,
+  HeroContent,
+  PageContent,
+  Text,
+} from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Text } from "@ndla/typography";
-import { ArticleTitle, OneColumn } from "@ndla/ui";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import {
+  ArticleContent,
+  ArticleFooter,
+  ArticleHeader,
+  ArticleHGroup,
+  ArticleWrapper,
+  ContentTypeBadgeNew,
+  HomeBreadcrumb,
+} from "@ndla/ui";
+import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import {
-  AcquireLicensePage,
-  MastheadHeightPx,
-  PODCAST_SERIES_LIST_PAGE_PATH,
-  SKIP_TO_CONTENT_ID,
-} from "../../constants";
+import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
 import { copyrightInfoFragment } from "../../queries";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
-import ResourceEmbedLicenseBox from "../ResourceEmbed/components/ResourceEmbedLicenseBox";
+import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 interface RouteParams extends TypedParams {
   id: string;
 }
-
-const TitleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: ${spacing.normal};
-`;
-
-const StyledAccordionHeader = styled(AccordionHeader)`
-  background-color: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.tertiary};
-`;
-
-const SeriesDescription = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledImage = styled.img`
-  max-width: 150px;
-  max-height: 150px;
-  margin-right: ${spacing.normal};
-`;
-
-const EpisodesWrapper = styled.div`
-  padding-top: ${spacing.small};
-  figure:first-of-type {
-    margin-top: 0;
-  }
-`;
-
-const NoResults = styled.div`
-  padding-top: ${spacing.medium};
-`;
 
 const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
@@ -80,31 +60,11 @@ const PodcastSeriesPage = () => {
   } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
   });
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
 
   const embeds = useMemo(() => {
     if (!podcastSeries?.content?.content) return;
     return transform(podcastSeries.content.content, { renderContext: "embed" });
   }, [podcastSeries?.content?.content]);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
-        const elementTop = element?.getBoundingClientRect().top ?? 0;
-        const bodyTop = document.body.getBoundingClientRect().top ?? 0;
-        const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
-
-        window.scrollTo({
-          top: scrollPosition,
-          behavior: "smooth",
-        });
-      }, 200);
-    }
-  }, [podcastSeries, location, height]);
 
   const { t } = useTranslation();
 
@@ -113,7 +73,7 @@ const PodcastSeriesPage = () => {
   };
 
   if (loading) {
-    return null;
+    return <ContentPlaceholder variant="article" />;
   }
 
   if (!podcastSeries) {
@@ -121,7 +81,7 @@ const PodcastSeriesPage = () => {
   }
 
   if (error) {
-    return <DefaultErrorMessage />;
+    return <DefaultErrorMessagePage />;
   }
 
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;
@@ -183,9 +143,6 @@ const PodcastSeriesPage = () => {
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {podcastSeries.description.description && (
-          <meta name="description" content={podcastSeries.description.description} />
-        )}
         {podcastSeries.hasRSS && (
           <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}
@@ -201,41 +158,77 @@ const PodcastSeriesPage = () => {
         description={podcastSeries.description.description}
         imageUrl={podcastSeries.coverPhoto.url}
       />
-      <OneColumn>
-        <TitleWrapper>
-          <ArticleTitle label={t("podcastPage.podcast")} id={SKIP_TO_CONTENT_ID}>
-            {podcastSeries.title.title}
-          </ArticleTitle>
-        </TitleWrapper>
-        <SeriesDescription>
-          <StyledImage src={podcastSeries.coverPhoto.url} alt={podcastSeries.coverPhoto.altText} />
-          {podcastSeries.description.description}
-        </SeriesDescription>
-        <EpisodesWrapper>
-          {podcastSeries.content ? (
-            <>
-              <h2>{t("podcastPage.episodes")}</h2>
-              {embeds}
-              <AccordionRoot type="single" collapsible>
-                {podcastSeries.content.meta && hasLicensedContent(podcastSeries.content.meta) && (
-                  <AccordionItem value="rulesForUse">
-                    <StyledAccordionHeader>
-                      <Text element="span" textStyle="button" margin="none">
-                        {t("article.useContent")}
-                      </Text>
-                    </StyledAccordionHeader>
-                    <AccordionContent>
-                      <ResourceEmbedLicenseBox metaData={podcastSeries.content.meta} />
-                    </AccordionContent>
-                  </AccordionItem>
+      <main>
+        <Hero content="primary">
+          <HeroBackground />
+          <PageContent variant="article">
+            <HeroContent>
+              <HomeBreadcrumb
+                items={[
+                  {
+                    name: t("breadcrumb.toFrontpage"),
+                    to: "/",
+                  },
+                  {
+                    name: t("podcastPage.podcasts"),
+                    to: "/podkast",
+                  },
+                  {
+                    name: podcastSeries.title.title,
+                    to: `/podkast/${podcastSeries.id}`,
+                  },
+                ]}
+              />
+            </HeroContent>
+          </PageContent>
+          <PageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <ArticleWrapper>
+                <ArticleHeader>
+                  <ArticleHGroup>
+                    <ContentTypeBadgeNew contentType={"podcast"} />
+                    <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                      {podcastSeries.title.title}
+                    </Heading>
+                  </ArticleHGroup>
+                  <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
+                </ArticleHeader>
+                <ArticleContent>
+                  {podcastSeries.content ? (
+                    <section>
+                      <h2>{t("podcastPage.episodes")}</h2>
+                      {embeds}
+                    </section>
+                  ) : (
+                    <Text>{t("podcastPage.noResults")}</Text>
+                  )}
+                </ArticleContent>
+                {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
+                  <ArticleFooter>
+                    <AccordionRoot multiple>
+                      <AccordionItem value="rulesForUse">
+                        <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                          <h2>
+                            <AccordionItemTrigger>
+                              {t("article.useContent")}
+                              <AccordionItemIndicator asChild>
+                                <ArrowDownShortLine size="medium" />
+                              </AccordionItemIndicator>
+                            </AccordionItemTrigger>
+                          </h2>
+                        </Heading>
+                        <AccordionItemContent>
+                          <ResourceEmbedLicenseContent metaData={podcastSeries.content.meta} />
+                        </AccordionItemContent>
+                      </AccordionItem>
+                    </AccordionRoot>
+                  </ArticleFooter>
                 )}
-              </AccordionRoot>
-            </>
-          ) : (
-            <NoResults>{t("podcastPage.noResults")}</NoResults>
-          )}
-        </EpisodesWrapper>
-      </OneColumn>
+              </ArticleWrapper>
+            </PageContent>
+          </PageContent>
+        </Hero>
+      </main>
     </>
   );
 };
@@ -257,7 +250,7 @@ const podcastSeriesPageQuery = gql`
       content {
         content
         meta {
-      ...ResourceEmbedLicenseBox_Meta
+      ...ResourceEmbedLicenseContent_Meta
         }
       }
       episodes {
@@ -281,7 +274,7 @@ const podcastSeriesPageQuery = gql`
       }
       hasRSS
     }
-    ${ResourceEmbedLicenseBox.fragments.metaData}
+    ${ResourceEmbedLicenseContent.fragments.metaData}
     ${copyrightInfoFragment}
   }
 `;

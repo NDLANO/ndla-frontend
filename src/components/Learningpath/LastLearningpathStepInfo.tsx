@@ -8,11 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
-import { LayoutItem, OneColumn } from "@ndla/ui";
+import { styled } from "@ndla/styled-system/jsx";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
@@ -22,23 +20,21 @@ import {
 import { toTopic } from "../../routeHelpers";
 import { TopicPath } from "../../util/getTopicPath";
 
-const StyledOneColumn = styled(OneColumn)`
-  background: ${colors.white};
-  margin-top: ${spacing.normal};
-`;
+const LinksWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const LinksWrapper = styled.div`
-  margin-top: ${spacing.normal};
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
-
-const StyledHGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledHGroup = styled("hgroup", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 interface Props {
   topic?: GQLLastLearningpathStepInfo_TopicFragment;
@@ -74,33 +70,29 @@ const LastLearningpathStepInfo = ({
       : undefined;
 
   return (
-    <StyledOneColumn>
-      <LayoutItem layout="center">
-        <StyledHGroup>
-          <Heading element="h2" headingStyle="h2" margin="none">
-            {t("learningPath.lastStep.heading")}
-          </Heading>
-          <Text margin="none" textStyle="label-small">
-            {t("learningPath.lastStep.headingSmall", { learningPathName: title })}
+    <>
+      <StyledHGroup>
+        <Heading asChild consumeCss>
+          <h2>{t("learningPath.lastStep.heading")}</h2>
+        </Heading>
+        <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
+      </StyledHGroup>
+      <LinksWrapper>
+        {!!subject?.path && (
+          <Text>
+            {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
           </Text>
-        </StyledHGroup>
-        <LinksWrapper>
-          {!!subject && (
-            <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.subjectHeading")} <SafeLink to={subject.path}>{subject.name}</SafeLink>
-            </Text>
-          )}
-          {!!linkTopic && (
-            <Text textStyle="meta-text-medium" margin="none">
-              {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
-            </Text>
-          )}
-        </LinksWrapper>
-        {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
-          <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
         )}
-      </LayoutItem>
-    </StyledOneColumn>
+        {!!linkTopic?.path && (
+          <Text>
+            {t("learningPath.lastStep.topicHeading")} <SafeLink to={linkTopic.path}>{linkTopic.name}</SafeLink>
+          </Text>
+        )}
+      </LinksWrapper>
+      {resourceTypes && (!!topic?.coreResources?.length || !!topic?.supplementaryResources?.length) && (
+        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
+      )}
+    </>
   );
 };
 

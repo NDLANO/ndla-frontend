@@ -42,6 +42,7 @@ export const arenaChildCategoryFragment = gql`
     id
     name
     topicCount
+    voteCount
     slug
     parentCategoryId
     breadcrumbs {
@@ -60,6 +61,7 @@ export const arenaCategoriesFragment = gql`
     id
     name
     topicCount
+    voteCount
     slug
     parentCategoryId
     children {
@@ -95,11 +97,32 @@ export const arenaTopicFragment = gql`
     id
     locked
     postCount
+    voteCount
     slug
     timestamp
     title
     deleted
     isFollowing
+  }
+`;
+
+export const arenaRepliesFragment = gql`
+  fragment ArenaReplies on ArenaPost {
+    __typename
+    content
+    id
+    timestamp
+    topicId
+    isMainPost
+    user {
+      id
+      displayName
+      profilePicture
+      username
+      location
+    }
+    deleted
+    toPid
   }
 `;
 
@@ -112,18 +135,26 @@ export const arenaPostFragment = gql`
     topicId
     isMainPost
     user {
+      id
       displayName
       profilePicture
       username
       location
     }
+    upvotes
+    upvoted
     deleted
+    toPid
+    replies {
+      ...ArenaReplies
+    }
   }
+  ${arenaRepliesFragment}
 `;
 
 export const arenaUserQuery = gql`
-  query ArenaUser($username: String!) {
-    arenaUser(username: $username) {
+  query ArenaUser($id: Int!) {
+    arenaUserById(id: $id) {
       ...ArenaUser
     }
   }
@@ -177,7 +208,7 @@ export const arenaTopicsByUserQuery = gql`
 
 export const useArenaUser = (options: QueryHookOptions<GQLArenaUserQuery, GQLArenaUserQueryVariables>) => {
   const { data, loading } = useGraphQuery<GQLArenaUserQuery, GQLArenaUserQueryVariables>(arenaUserQuery, options);
-  return { arenaUser: data?.arenaUser, loading };
+  return { arenaUser: data?.arenaUserById, loading };
 };
 
 const arenaRecentTopics = gql`

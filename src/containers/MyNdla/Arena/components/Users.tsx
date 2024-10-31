@@ -10,38 +10,62 @@ import { parse, stringify } from "query-string";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
-import { colors, spacing, misc } from "@ndla/core";
-import { InputV3 } from "@ndla/forms";
-import { Pager } from "@ndla/pager";
+import { PaginationContext } from "@ark-ui/react";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import {
+  Button,
+  Input,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { usePaginationTranslations } from "@ndla/ui";
+import { StyledTable, StyledHeaderRow } from "./FlaggedPosts";
 import UserList from "./UserList";
 import { routes } from "../../../../routeHelpers";
 import { useArenaUsers } from "../../arenaQueries";
-
-const StyledHeaderRow = styled.div`
-  background-color: ${colors.brand.lighter};
-  color: ${colors.text.primary};
-  display: grid;
-  border: 1px solid ${colors.brand.light};
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
-  margin: ${spacing.xxsmall} 0px;
-  border-radius: ${misc.borderRadius};
-  box-shadow: none;
-  line-height: unset;
-  padding: ${spacing.small};
-`;
-
-export const Cell = styled.div`
-  white-space: nowrap;
-`;
 
 type SearchObject = {
   page: string;
 };
 
-const SearchInput = styled(InputV3)`
-  width: 35%;
-`;
+const SearchInput = styled(Input, { base: { width: "35%" } });
+
+export const Cell = styled("div", { base: { whiteSpace: "nowrap" } });
+
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    tabletWideDown: {
+      paddingInline: "xsmall",
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
+
+const StyledPaginationItem = styled(PaginationItem, {
+  base: {
+    tabletWideDown: {
+      "&:nth-child(2)": {
+        display: "none",
+      },
+      "&:nth-last-child(2)": {
+        display: "none",
+      },
+    },
+  },
+});
 
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
@@ -63,8 +87,7 @@ const Users = () => {
       query: queryString ? queryString : undefined,
     },
   });
-
-  const lastPage = Math.ceil((users?.totalCount ?? 0) / pageSize);
+  const componentTranslations = usePaginationTranslations();
 
   const onQueryPush = (newSearchObject: object) => {
     const oldSearchObject = parse(location.search);
@@ -84,7 +107,7 @@ const Users = () => {
 
   return (
     <>
-      <div>
+      <>
         <SearchInput
           placeholder={t("myNdla.arena.admin.users.search")}
           onChange={(e) => {
@@ -92,21 +115,55 @@ const Users = () => {
             navigate(routes.myNdla.adminUsers + "?page=1"); // Reset page number when searching
           }}
         />
-        <StyledHeaderRow>
-          <Cell>{t("myNdla.arena.admin.users.username")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.displayName")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.location")}</Cell>
-          <Cell>{t("myNdla.arena.admin.users.isAdmin")}</Cell>
-        </StyledHeaderRow>
-        <UserList loading={loading} users={users} />
-      </div>
-      <Pager
+        <StyledTable>
+          <thead>
+            <StyledHeaderRow>
+              <th>{t("myNdla.arena.admin.users.username")}</th>
+              <th>{t("myNdla.arena.admin.users.displayName")}</th>
+              <th>{t("myNdla.arena.admin.users.location")}</th>
+              <th>{t("myNdla.arena.admin.users.isAdmin")}</th>
+            </StyledHeaderRow>
+          </thead>
+          <UserList loading={loading} users={users} />
+        </StyledTable>
+      </>
+      <StyledPaginationRoot
         page={page}
-        lastPage={lastPage}
-        pageItemComponentClass="button"
-        query={searchObject}
-        onClick={onQueryPush}
-      />
+        onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+        count={users?.totalCount ?? 0}
+        pageSize={pageSize}
+        translations={componentTranslations}
+      >
+        <PaginationPrevTrigger asChild>
+          <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+            <ArrowLeftShortLine />
+            <span>{t("pagination.prev")}</span>
+          </StyledButton>
+        </PaginationPrevTrigger>
+        <PaginationContext>
+          {(pagination) =>
+            pagination.pages.map((page, index) =>
+              page.type === "page" ? (
+                <StyledPaginationItem key={index} {...page} asChild>
+                  <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                </StyledPaginationItem>
+              ) : (
+                <PaginationEllipsis key={index} index={index} asChild>
+                  <Text asChild consumeCss>
+                    <div>&#8230;</div>
+                  </Text>
+                </PaginationEllipsis>
+              ),
+            )
+          }
+        </PaginationContext>
+        <PaginationNextTrigger asChild>
+          <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+            <span>{t("pagination.next")}</span>
+            <ArrowRightShortLine />
+          </StyledButton>
+        </PaginationNextTrigger>
+      </StyledPaginationRoot>
     </>
   );
 };

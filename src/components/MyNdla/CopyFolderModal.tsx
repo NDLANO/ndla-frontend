@@ -8,11 +8,12 @@
 
 import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, ModalTrigger } from "@ndla/modal";
-import { Folder } from "@ndla/ui";
+import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import CopyFolder from "./CopyFolder";
+import { Folder } from "./Folder";
 import LoginModalContent from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
@@ -31,8 +32,8 @@ const CopyFolderModal = ({ folder, children }: Props) => {
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   return (
-    <Modal open={open} onOpenChange={setOpen}>
-      <ModalTrigger>{children}</ModalTrigger>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       {authenticated ? (
         <CopyFolder folder={folder} onClose={close} />
       ) : (
@@ -41,18 +42,18 @@ const CopyFolderModal = ({ folder, children }: Props) => {
           content={
             folder && (
               <Folder
-                id={folder.id.toString()}
-                title={folder.name ?? ""}
-                link={`/folder/${folder.id}`}
-                isShared={true}
-                subFolders={folderCount.folders}
-                subResources={folderCount.resources}
+                context="standalone"
+                variant="subtle"
+                nonInteractive
+                folder={folder}
+                foldersCount={folderCount}
+                link={routes.folder(folder.id)}
               />
             )
           }
         />
       )}
-    </Modal>
+    </DialogRoot>
   );
 };
 

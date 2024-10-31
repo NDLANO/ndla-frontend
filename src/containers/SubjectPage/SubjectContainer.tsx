@@ -7,38 +7,32 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, createRef, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons/common";
+import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { Heading } from "@ndla/typography";
-import {
-  constants,
-  ArticleHeaderWrapper,
-  OneColumn,
-  LayoutItem,
-  MessageBox,
-  SimpleBreadcrumbItem,
-  HomeBreadcrumb,
-} from "@ndla/ui";
-import SubjectLinks from "./components/SubjectLinks";
-import SubjectPageContent from "./components/SubjectPageContent";
+import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
+import TopicWrapper from "./components/TopicWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import FavoriteSubject from "../../components/FavoriteSubject";
+import { PageContainer } from "../../components/Layout/PageContainer";
+import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectBanner from "../../components/Subject/SubjectBanner";
+import SubjectLinks from "../../components/Subject/SubjectLinks";
 import {
+  RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, useIsNdlaFilm } from "../../routeHelpers";
+import { removeUrn, toTopic, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -48,15 +42,48 @@ type Props = {
   loading?: boolean;
 };
 
-const BreadcrumbWrapper = styled.div`
-  margin-top: ${spacing.mediumlarge};
-`;
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "medium",
+  },
+});
 
-const StyledHeading = styled(Heading)`
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
-`;
+const HeaderWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "medium",
+  },
+});
+
+const StyledTopicWrapper = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0",
+    overflowX: "hidden",
+    // TODO: There's a bunch of tricky compositions for nested topics. This won't be necessary once we separate each topic out into their own page.
+    "& > [data-nav-box] + :is([data-resource-section], [data-topic]), > [data-resource-section] + [data-topic]": {
+      paddingBlockStart: "4xlarge",
+    },
+  },
+});
+
+const StyledSubjectWrapper = styled(PageContent, {
+  base: {
+    paddingBlock: "xxlarge",
+    gap: "xxlarge",
+    background: "surface.brand.1.subtle",
+  },
+});
+
+const IntroductionText = styled(Text, {
+  base: {
+    maxWidth: "surface.xlarge",
+  },
+});
+
+const PAGE = "page" as const;
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
@@ -83,6 +110,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const ndlaFilm = useIsNdlaFilm();
+  const { subjectType } = useUrnIds();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const about = subject.subjectpage?.about;
@@ -124,8 +152,6 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
     return crumbs;
   }, []);
 
-  const topicRefs = topicIds.map((_) => createRef<HTMLDivElement>());
-
   const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
 
   const customFields = subject?.metadata.customFields || {};
@@ -133,6 +159,17 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
   const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
+
+  const mainTopics = subject?.topics?.map((topic) => {
+    return {
+      ...topic,
+      label: topic?.name,
+      current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
+      url: toTopic(subject.id, topic?.id),
+      isRestrictedResource: topic.availability !== "everyone",
+      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
+    };
+  });
 
   return (
     <main>
@@ -143,58 +180,73 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
-      <OneColumn>
-        <LayoutItem layout="extend">
-          {!topicIds.length && (
-            <SocialMediaMetadata
-              title={subject.name}
-              description={subject.subjectpage?.metaDescription}
-              imageUrl={about?.visualElement.url}
-              trackableContent={{ supportedLanguages: subject.supportedLanguages }}
-            />
-          )}
-          <ArticleHeaderWrapper
-            competenceGoals={
-              subject.grepCodes?.length ? (
-                <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />
-              ) : undefined
-            }
-          >
-            <BreadcrumbWrapper>
-              <HomeBreadcrumb light={ndlaFilm} items={breadCrumbs} />
-            </BreadcrumbWrapper>
-            <StyledHeading
-              element="h1"
-              margin="xlarge"
-              headingStyle="h1-resource"
-              data-inverted={ndlaFilm}
+      {!topicIds.length && (
+        <SocialMediaMetadata
+          title={subject.name}
+          description={subject.subjectpage?.metaDescription}
+          imageUrl={about?.visualElement.url}
+          trackableContent={{ supportedLanguages: subject.supportedLanguages }}
+        />
+      )}
+      <StyledSubjectWrapper>
+        <HomeBreadcrumb items={breadCrumbs} />
+        <HeadingWrapper>
+          <HeaderWrapper>
+            <Heading
+              textStyle="heading.medium"
               id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
               tabIndex={-1}
             >
               {subject.name}
-            </StyledHeading>
-            <SubjectLinks
-              buildsOn={subject.subjectpage?.buildsOn ?? []}
-              connectedTo={subject.subjectpage?.connectedTo ?? []}
-              leadsTo={subject.subjectpage?.leadsTo ?? []}
+            </Heading>
+            <FavoriteSubject
+              subject={subject}
+              favorites={user?.favoriteSubjects}
+              subjectLinkOrText={<Text>{subject.name}</Text>}
             />
-          </ArticleHeaderWrapper>
-          {!ndlaFilm && nonRegularSubjectMessage && (
-            <MessageBox>
-              <InformationOutline />
-              {nonRegularSubjectMessage}
+          </HeaderWrapper>
+          <SubjectLinks
+            buildsOn={subject.subjectpage?.buildsOn ?? []}
+            connectedTo={subject.subjectpage?.connectedTo ?? []}
+            leadsTo={subject.subjectpage?.leadsTo ?? []}
+          />
+          {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
+          {subjectType === "toolbox" ? (
+            <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+          ) : subjectType === "multiDisciplinary" ? (
+            <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+          ) : null}
+        </HeadingWrapper>
+        {!ndlaFilm && subjectType !== "multiDisciplinary" && subjectType !== "toolbox" && nonRegularSubjectMessage && (
+          <MessageBox variant="warning">
+            <InformationLine />
+            <Text>{nonRegularSubjectMessage}</Text>
+          </MessageBox>
+        )}
+        {!ndlaFilm &&
+          subjectType !== "multiDisciplinary" &&
+          subjectType !== "toolbox" &&
+          nonRegularSubjectTypeMessage && (
+            <MessageBox variant="warning">
+              <InformationLine />
+              <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
-          {!ndlaFilm && nonRegularSubjectTypeMessage && (
-            <MessageBox>
-              <InformationOutline />
-              {nonRegularSubjectTypeMessage}
-            </MessageBox>
-          )}
-          <SubjectPageContent subject={subject} topicIds={topicIds} refs={topicRefs} setBreadCrumb={setTopicCrumbs} />
-        </LayoutItem>
-      </OneColumn>
-      {subject.subjectpage?.banner && <SubjectBanner image={subject.subjectpage?.banner.desktopUrl || ""} />}
+        <NavigationBox items={mainTopics || []} />
+      </StyledSubjectWrapper>
+      <StyledTopicWrapper>
+        {topicIds.map((topicId, index) => (
+          <TopicWrapper
+            key={topicId}
+            topicId={topicId}
+            subjectId={subject.id}
+            setBreadCrumb={setTopicCrumbs}
+            subTopicId={topicIds[index + 1]}
+            showResources={!topicIds[index + 1]}
+            subject={subject}
+          />
+        ))}
+      </StyledTopicWrapper>
     </main>
   );
 };
@@ -207,6 +259,12 @@ export const subjectContainerFragments = {
         customFields
       }
       grepCodes
+      topics {
+        name
+        id
+        availability
+        relevanceId
+      }
       subjectpage {
         id
         metaDescription
@@ -216,15 +274,12 @@ export const subjectContainerFragments = {
             url
           }
         }
-        banner {
-          desktopUrl
-        }
-        ...SubjectLinks_Subject
+        ...SubjectLinks_SubjectPage
       }
-      ...SubjectPageContent_Subject
+      ...TopicWrapper_Subject
     }
-    ${SubjectPageContent.fragments.subject}
-    ${SubjectLinks.fragments.links}
+    ${TopicWrapper.fragments.subject}
+    ${SubjectLinks.fragments.subjectPage}
   `,
 };
 

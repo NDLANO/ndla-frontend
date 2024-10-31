@@ -9,62 +9,53 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2, LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
 import {
-  FormControl,
-  Label,
-  TextAreaV3,
-  RadioButtonGroup,
+  Button,
+  FieldLabel,
+  FieldRoot,
+  FieldTextArea,
   FieldErrorMessage,
-  RadioButtonItem,
-  Fieldset,
-  Legend,
-} from "@ndla/forms";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalTitle, ModalContent } from "@ndla/modal";
-import { Text } from "@ndla/typography";
-import { useSnack } from "@ndla/ui";
+  RadioGroupLabel,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemText,
+  RadioGroupItemHiddenInput,
+  RadioGroupRoot,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogBody,
+  Text,
+} from "@ndla/primitives";
+import { HStack, styled } from "@ndla/styled-system/jsx";
 import { useArenaNewFlagMutation } from "./temporaryNodebbHooks";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { useToast } from "../../../../components/ToastContext";
 import handleError from "../../../../util/handleError";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
+import FieldLength from "../../components/FieldLength";
 
 const MAXIMUM_LENGTH_TEXTFIELD = 120;
 
-const StyledButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    gap: "medium",
+  },
+});
 
-const StyledText = styled(Text)`
-  margin-left: auto;
-`;
+const StyledTextArea = styled(FieldTextArea, {
+  base: {
+    minHeight: "3xlarge",
+  },
+});
 
-const StyledModalBody = styled(ModalBody)`
-  display: flex;
-  flex-flow: column;
-  gap: ${spacing.nsmall};
-`;
-
-const StyledTextArea = styled(TextAreaV3)`
-  min-height: 74px;
-`;
-
-const FieldInfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-`;
-
-const RadioButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${spacing.small};
-  flex-direction: row;
-  color: ${colors.brand.primary};
-`;
+const StyledForm = styled("form", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 interface FlagPost {
   type: string;
@@ -80,7 +71,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   const { addNewFlag } = useArenaNewFlagMutation();
   const { validationT } = useValidationTranslation();
   const { t } = useTranslation();
-  const { addSnack } = useSnack();
+  const toast = useToast();
   const [showReasonField, setShowReasonField] = useState<boolean>(false);
   const { handleSubmit, control, setValue } = useForm({ defaultValues: { type: "spam", reason: "" } });
 
@@ -93,15 +84,15 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
           reason: data.reason === "other" ? data.type : data.reason,
         },
       });
-      addSnack({
-        content: t("myNdla.arena.flag.success"),
-        id: "reportPostAdded",
+      toast.create({
+        title: t("myNdla.arena.reported"),
+        description: t("myNdla.arena.flag.success"),
       });
     } catch (err) {
       const typedError = err as { message?: string };
-      addSnack({
-        content: typedError.message,
-        id: "reportPostAddedError",
+      toast.create({
+        title: t("myNdla.arena.error"),
+        description: typedError.message,
       });
       handleError(err);
     }
@@ -118,16 +109,14 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
   ];
 
   return (
-    <ModalContent forceOverlay>
-      <ModalHeader>
-        <ModalTitle>{t("myNdla.arena.flag.title")}</ModalTitle>
-        <ModalCloseButton title={t("modal.closeModal")} />
-      </ModalHeader>
-      <StyledModalBody>
-        <Text element="p" textStyle="meta-text-medium" margin="none">
-          {t("myNdla.arena.flag.disclaimer")}
-        </Text>
-        <form onSubmit={handleSubmit(sendReport)} noValidate>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{t("myNdla.arena.flag.title")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <StyledDialogBody>
+        <Text textStyle="body.large">{t("myNdla.arena.flag.disclaimer")}</Text>
+        <StyledForm onSubmit={handleSubmit(sendReport)} noValidate>
           <Controller
             control={control}
             name="type"
@@ -137,33 +126,28 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               }),
             }}
             render={({ field }) => (
-              <FormControl id="flag-type">
-                <RadioButtonGroup
-                  {...field}
-                  asChild
-                  onValueChange={(value) => {
-                    setValue("type", value, {
+              <FieldRoot>
+                <RadioGroupRoot
+                  defaultValue="spam"
+                  onValueChange={(details) => {
+                    setValue("type", details.value, {
                       shouldDirty: true,
                     });
-                    setShowReasonField(value === "other");
+                    setShowReasonField(details.value === "other");
                   }}
                 >
-                  <Fieldset>
-                    <Legend visuallyHidden>{t("myNdla.arena.flag.reason")}</Legend>
-                    {radioButtonOptions.map((option) => (
-                      <RadioButtonWrapper key={option.value}>
-                        <RadioButtonItem id={`flag-${option.value}`} value={option.value} />
-                        <Label htmlFor={`flag-${option.value}`} margin="none" textStyle="label-small">
-                          {option.title}
-                        </Label>
-                      </RadioButtonWrapper>
-                    ))}
-                  </Fieldset>
-                </RadioButtonGroup>
-              </FormControl>
+                  <RadioGroupLabel srOnly>{t("myNdla.arena.flag.reason")}</RadioGroupLabel>
+                  {radioButtonOptions.map((option) => (
+                    <RadioGroupItem value={option.value} key={option.value}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{option.title}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput {...field} />
+                    </RadioGroupItem>
+                  ))}
+                </RadioGroupRoot>
+              </FieldRoot>
             )}
           />
-
           {showReasonField && (
             <Controller
               control={control}
@@ -179,32 +163,24 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
                 },
               }}
               render={({ field, fieldState }) => (
-                <FormControl id="reason" isInvalid={!!fieldState.error?.message}>
-                  <Label textStyle="label-small" margin="none">
-                    {t("myNdla.arena.flag.reason")}
-                  </Label>
+                <FieldRoot invalid={!!fieldState.error?.message}>
+                  <FieldLabel>{t("myNdla.arena.flag.reason")}</FieldLabel>
                   <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   <StyledTextArea {...field} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
-                  <FieldInfoWrapper>
-                    <StyledText element="p" textStyle="meta-text-medium" margin="none">
-                      {`${field.value.length}/${MAXIMUM_LENGTH_TEXTFIELD}`}
-                    </StyledText>
-                  </FieldInfoWrapper>
-                </FormControl>
+                  <FieldLength value={field.value.length ?? 0} maxLength={MAXIMUM_LENGTH_TEXTFIELD} />
+                </FieldRoot>
               )}
             />
           )}
-          <StyledButtonRow>
-            <ButtonV2 onClick={onClose} variant="outline">
+          <HStack justify="flex-end" gap="3xsmall">
+            <Button variant="secondary" onClick={onClose}>
               {t("cancel")}
-            </ButtonV2>
-            <LoadingButton colorTheme="primary" type="submit">
-              {t("myNdla.arena.flag.send")}
-            </LoadingButton>
-          </StyledButtonRow>
-        </form>
-      </StyledModalBody>
-    </ModalContent>
+            </Button>
+            <Button type="submit">{t("myNdla.arena.flag.send")}</Button>
+          </HStack>
+        </StyledForm>
+      </StyledDialogBody>
+    </DialogContent>
   );
 };
 

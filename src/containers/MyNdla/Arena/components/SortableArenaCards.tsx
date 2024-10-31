@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useMemo, useState } from "react";
+import { forwardRef, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Reference, useApolloClient } from "@apollo/client";
 import {
@@ -23,13 +23,15 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   arrayMove,
+  useSortable,
 } from "@dnd-kit/sortable";
-import styled from "@emotion/styled";
-import { spacing } from "@ndla/core";
-import ArenaCard from "./ArenaCard";
+import { CSS } from "@dnd-kit/utilities";
+import { styled } from "@ndla/styled-system/jsx";
+import { ArenaListItem, ArenaListItemProps } from "./ArenaListItem";
 import { MyNDLAUserType } from "../../../../components/AuthenticationContext";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import { useArenaSortCategories } from "../../arenaMutations";
+import DragHandle from "../../components/DragHandle";
 import { makeDndTranslations } from "../../Folders/util";
 
 interface Props {
@@ -40,12 +42,13 @@ interface Props {
   refetchCategories: (() => void) | undefined;
 }
 
-const StyledCardContainer = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.normal} 0;
-`;
+const StyledCardContainer = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    paddingBlockStart: "medium",
+  },
+});
 
 const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, categoryParentId }: Props) => {
   const client = useApolloClient();
@@ -118,26 +121,26 @@ const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, ca
   );
 
   return (
-    <StyledCardContainer>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-        accessibility={{ announcements }}
-        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={onDragEnd}
+      accessibility={{ announcements }}
+      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+    >
+      <SortableContext
+        items={sortedCategories}
+        disabled={categories?.length < 2}
+        strategy={verticalListSortingStrategy}
       >
-        <SortableContext
-          items={sortedCategories}
-          disabled={categories?.length < 2}
-          strategy={verticalListSortingStrategy}
-        >
+        <StyledCardContainer>
           {categories?.map((category, categoryIndex) => (
-            <ArenaCard
+            <SortableArenaListItem
               refetchCategories={refetchCategories}
               key={`category-${category.id}`}
               id={category.id}
               title={category.title}
-              subText={category.description}
+              description={category.description}
               count={category.topicCount}
               visible={category.visible}
               isEditing={isEditing}
@@ -145,10 +148,61 @@ const SortableArenaCards = ({ refetchCategories, categories, isEditing, user, ca
               index={categoryIndex}
             />
           ))}
-        </SortableContext>
-      </DndContext>
-    </StyledCardContainer>
+        </StyledCardContainer>
+      </SortableContext>
+    </DndContext>
   );
 };
+
+const StyledLi = styled("li", {
+  base: {
+    display: "flex",
+    position: "relative",
+    listStyle: "none",
+    alignItems: "center",
+    background: "background.default",
+  },
+  variants: {
+    isDragging: {
+      true: {
+        zIndex: "docked",
+      },
+    },
+  },
+});
+
+interface SortableArenaListItemProps extends ArenaListItemProps {
+  index: number;
+}
+
+const SortableArenaListItem = forwardRef<HTMLDivElement, SortableArenaListItemProps>(
+  ({ id, title, isEditing, index, ...props }, ref) => {
+    const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
+      id: id.toString(),
+      data: {
+        name: title,
+        index: index + 1,
+      },
+    });
+
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition,
+    };
+
+    return (
+      <StyledLi style={style} ref={setNodeRef} id={`category-${id}`} isDragging={isDragging}>
+        <DragHandle
+          sortableId={id.toString()}
+          name={title}
+          disabled={!isEditing || items.length < 2}
+          type="category"
+          {...attributes}
+        />
+        <ArenaListItem title={title} context="list" id={id} isEditing={isEditing} {...props} ref={ref} />
+      </StyledLi>
+    );
+  },
+);
 
 export default SortableArenaCards;

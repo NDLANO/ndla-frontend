@@ -6,15 +6,16 @@
  *
  */
 
-const postcssPresetEnv = require('postcss-preset-env');
-const postcssImport = require('postcss-import');
-const postcssReporter = require('postcss-reporter');
+const postcssImport = require("postcss-import");
+const postcssPresetEnv = require("postcss-preset-env");
+const postcssReporter = require("postcss-reporter");
 
 module.exports = {
   plugins: [
     postcssImport({
       glob: true,
     }),
+    require("@pandacss/dev/postcss")(),
     postcssPresetEnv(),
     postcssReporter({
       // Posts messages from plugins to the terminal

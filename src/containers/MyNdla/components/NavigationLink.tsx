@@ -8,85 +8,97 @@
 
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing, fonts } from "@ndla/core";
-import { SafeLinkButton } from "@ndla/safelink";
-import { Text } from "@ndla/typography";
+import { Button } from "@ndla/primitives";
+import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
+import { css } from "@ndla/styled-system/css";
+import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../routeHelpers";
 
-const StyledSafeLink = styled(SafeLinkButton)`
-  color: ${colors.brand.primary};
-  width: 100%;
-  display: flex;
-  align-self: center;
-  justify-content: flex-start;
-  svg {
-    height: ${spacing.normal};
-    width: ${spacing.normal};
-  }
+const myNdlaButton = css.raw({
+  display: "flex",
+  justifyContent: "flex-start",
+  color: "text.default",
+  fontWeight: "normal",
+  paddingInline: "xsmall",
+  height: "100%",
+  boxShadow: "inset 0 0 0 1px var(--shadow-color)",
+  boxShadowColor: "transparent",
+  desktopDown: {
+    flexDirection: "column",
+    textStyle: "label.xsmall",
+  },
+  tabletDown: {
+    paddingInline: "3xsmall",
+  },
+  _currentPage: {
+    fontWeight: "bold",
+  },
+  _hover: {
+    background: "surface.action.myNdla.hover",
+    boxShadowColor: "stroke.warning",
+  },
+  _active: {
+    background: "surface.action.myNdla",
+  },
+  _focusVisible: {
+    boxShadowColor: "stroke.default",
+  },
+});
 
-  ${mq.range({ until: breakpoints.desktop })} {
-    flex-direction: column;
-  }
-`;
+export const MoreButton = styled(Button, {
+  base: {
+    ...myNdlaButton,
+    mobileWide: {
+      display: "none",
+    },
+  },
+});
 
-const IconWrapper = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const StyledSafeLink = styled(SafeLinkButton, {
+  base: myNdlaButton,
+});
 
-const LongText = styled(Text)`
-  font-weight: ${fonts.weight.semibold};
-  &[data-current="true"] {
-    font-weight: ${fonts.weight.bold};
-  }
-  ${mq.range({ until: breakpoints.desktop })} {
-    display: none;
-    width: 0px;
-  }
-`;
+const LongText = styled("span", {
+  base: {
+    desktopDown: {
+      display: "none",
+    },
+  },
+});
 
-const ShortText = styled(Text)`
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: none;
-  }
-`;
+const ShortText = styled("span", {
+  base: {
+    desktop: {
+      display: "none",
+    },
+  },
+});
 
-interface Props {
-  id: string;
+interface Props extends Omit<SafeLinkButtonProps, "children"> {
   icon: ReactNode;
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
-  to?: string;
-  onClick?: () => void;
+  to: string;
 }
 
-const NavigationLink = ({ id, icon, iconFilled, name, shortName, onClick, to }: Props) => {
+const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
   const location = useLocation();
-  const selected = id
-    ? location.pathname.startsWith(`${routes.myNdla.root}/${id}`)
-    : location.pathname === routes.myNdla.root;
+  const selected =
+    to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(to);
   const selectedIcon = selected ? iconFilled ?? icon : icon;
-  const linkTo = to ?? `${routes.myNdla.root}${id ? `/${id}` : ""}`;
 
   return (
     <StyledSafeLink
-      colorTheme="lighter"
-      variant="ghost"
+      variant="tertiary"
       aria-current={selected ? "page" : undefined}
-      to={linkTo}
-      reloadDocument={!!to}
+      to={to}
+      reloadDocument={reloadDocument}
       onClick={onClick}
     >
-      <IconWrapper>{selectedIcon}</IconWrapper>
-      <LongText textStyle="meta-text-small" margin="none" data-current={selected}>
-        {name}
-      </LongText>
-      <ShortText textStyle="meta-text-xxsmall" margin="none">
-        {shortName}
-      </ShortText>
+      {selectedIcon}
+      <LongText>{name}</LongText>
+      <ShortText>{shortName}</ShortText>
     </StyledSafeLink>
   );
 };

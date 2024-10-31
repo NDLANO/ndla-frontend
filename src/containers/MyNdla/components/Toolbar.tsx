@@ -6,91 +6,120 @@
  *
  */
 
-import { ReactNode, useContext } from "react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, PageContent } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
+import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { MY_NDLA_CONTENT_WIDTH } from "../../../constants";
-import { ViewType } from "../Folders/FoldersPage";
 
-const ToolbarContainer = styled.div`
-  display: none;
-  justify-content: center;
-  border-bottom: 1px solid ${colors.brand.lightest};
-  padding: ${spacing.small} ${spacing.large};
-  min-height: fit-content;
+const ToolbarContainer = styled("div", {
+  base: {
+    borderBottomColor: "stroke.subtle",
+    borderBottom: "1px solid",
+    display: "none",
+    justifyContent: "center",
+    minHeight: "fit-content",
+    paddingBlock: "small",
 
-  ${mq.range({ from: breakpoints.mobileWide })} {
-    display: flex;
-  }
+    mobileWide: {
+      display: "flex",
+    },
 
-  &[data-visible="false"] {
-    display: none !important;
-  }
-`;
+    "&[data-visible='false']": {
+      display: "none !important",
+    },
+  },
+});
 
-const ButtonContainer = styled.ul`
-  list-style: none;
-  display: none;
-  flex-direction: row;
-  gap: ${spacing.xxsmall};
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
+const StyledButtonList = styled("ul", {
+  base: {
+    display: "none",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "4xsmall",
+    listStyle: "none",
+    margin: "0",
+    padding: "0",
 
-  ${mq.range({ from: breakpoints.desktop })} {
-    display: flex;
-  }
-`;
+    desktop: {
+      display: "flex",
+    },
+  },
+});
 
-const DropdownWrapper = styled.div`
-  display: none;
+const SettingsMenuWrapper = styled("div", {
+  base: {
+    display: "none",
+    mobileWideToDesktop: {
+      display: "unset",
+    },
+  },
+});
 
-  ${mq.range({ from: breakpoints.mobileWide, until: breakpoints.desktop })} {
-    display: unset;
-  }
-`;
+const Wrapper = styled("div", {
+  base: {
+    alignItems: "center",
+    display: "flex",
+    flexGrow: "1",
+    justifyContent: "space-between",
+  },
+});
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-between;
-  align-items: center;
-
-  max-width: ${MY_NDLA_CONTENT_WIDTH}px;
-
-  div {
-    flex-grow: 1;
-  }
-`;
+const StyledPageContent = styled(PageContent, {
+  base: {
+    width: "100%",
+  },
+});
 
 interface Props {
-  buttons?: ReactNode;
-  dropDownMenu?: ReactNode;
-  viewType?: ViewType;
-  onViewTypeChange?: (val: ViewType) => void;
+  menuItems?: MenuItemProps[];
   showButtons?: boolean;
 }
 
-const Toolbar = ({ buttons, dropDownMenu, onViewTypeChange, viewType, showButtons }: Props) => {
+const Toolbar = ({ menuItems, showButtons }: Props) => {
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
+
   return (
-    <ToolbarContainer data-visible={!!buttons || !!dropDownMenu || !!user?.arenaEnabled}>
-      <Wrapper>
-        <div>
-          <ButtonContainer>{buttons}</ButtonContainer>
-          <DropdownWrapper>{dropDownMenu}</DropdownWrapper>
-        </div>
-        {user?.arenaEnabled && <NotificationPopover />}
-      </Wrapper>
-      <MenuModalContent
-        onViewTypeChange={onViewTypeChange}
-        buttons={buttons}
-        viewType={viewType}
-        showButtons={showButtons}
-      />
+    <ToolbarContainer data-visible={!!menuItems?.length || !!user?.arenaEnabled}>
+      <StyledPageContent>
+        <Wrapper>
+          <div>
+            <StyledButtonList>
+              {menuItems?.map((item) => (
+                <li key={item.value}>
+                  <Button
+                    disabled={item.disabled}
+                    variant={item.variant === "destructive" ? "danger" : "tertiary"}
+                    size="small"
+                    asChild={item.type !== "action"}
+                    onClick={(e) => {
+                      if (item.onClick) {
+                        item.onClick(e);
+                      }
+                    }}
+                  >
+                    <MenuItemElement item={item}>
+                      {item.icon}
+                      {item.text}
+                    </MenuItemElement>
+                  </Button>
+                </li>
+              ))}
+            </StyledButtonList>
+            {!!menuItems?.length && (
+              <SettingsMenuWrapper>
+                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} showSingle elementSize="small" />
+              </SettingsMenuWrapper>
+            )}
+          </div>
+          {user?.arenaEnabled && <NotificationPopover />}
+        </Wrapper>
+      </StyledPageContent>
+      <MenuModalContent menuItems={menuItems} showButtons={showButtons} />
     </ToolbarContainer>
   );
 };

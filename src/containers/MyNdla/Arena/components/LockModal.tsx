@@ -7,25 +7,33 @@
  */
 
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { spacing } from "@ndla/core";
-import { ModalContent, ModalHeader, ModalTitle, ModalCloseButton, ModalBody } from "@ndla/modal";
-import { Text } from "@ndla/typography";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLArenaPostV2Fragment, GQLArenaTopicV2Fragment } from "../../../../graphqlTypes";
 import { useUpdateTopicV2 } from "../../arenaMutations";
 
 interface Props {
   topic: GQLArenaTopicV2Fragment | undefined;
-  post: GQLArenaPostV2Fragment | undefined;
+  post: Omit<GQLArenaPostV2Fragment, "replies"> | GQLArenaPostV2Fragment | undefined;
   onClose?: (e?: Event) => void;
 }
 
-const StyledButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const StyledButtonRow = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "3xsmall",
+  },
+});
 
 const LockModal = ({ topic, post, onClose }: Props) => {
   const { t } = useTranslation();
@@ -35,9 +43,9 @@ const LockModal = ({ topic, post, onClose }: Props) => {
   const lockText = isLocked ? t("myNdla.arena.topic.unlock") : t("myNdla.arena.topic.locked");
   const description = isLocked ? t("myNdla.arena.topic.unlockDescription") : t("myNdla.arena.topic.lockDescription");
 
-  const onLock = () => {
+  const onLock = async () => {
     if (!topic || !post) return;
-    updateTopic.updateTopic({
+    await updateTopic.updateTopic({
       variables: {
         topicId: topic.id,
         title: topic.title,
@@ -45,26 +53,27 @@ const LockModal = ({ topic, post, onClose }: Props) => {
         isLocked: !isLocked,
       },
     });
+    onClose?.();
   };
 
   return (
-    <ModalContent onCloseAutoFocus={onClose}>
-      <ModalHeader>
-        <ModalTitle>{title}</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
-      <ModalBody>
-        <Text>{description}</Text>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <DialogBody>
+        <Text textStyle="body.large">{description}</Text>
         <StyledButtonRow>
-          <ModalCloseButton>
-            <ButtonV2 variant="outline">{t("cancel")}</ButtonV2>
-          </ModalCloseButton>
-          <ButtonV2 colorTheme="danger" variant="outline" onClick={onLock}>
+          <DialogCloseTrigger asChild>
+            <Button variant="secondary">{t("cancel")}</Button>
+          </DialogCloseTrigger>
+          <Button variant="danger" onClick={onLock}>
             {lockText}
-          </ButtonV2>
+          </Button>
         </StyledButtonRow>
-      </ModalBody>
-    </ModalContent>
+      </DialogBody>
+    </DialogContent>
   );
 };
 

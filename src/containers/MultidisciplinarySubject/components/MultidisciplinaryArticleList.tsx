@@ -6,106 +6,82 @@
  *
  */
 
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, fonts, misc, mq, spacing } from "@ndla/core";
+import { CardContent, CardHeading, CardRoot, Text, Heading, CardImage } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { Heading, Text } from "@ndla/typography";
+import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
 
-const ListWrapper = styled.div`
-  display: grid;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-
-  ${mq.range({ from: breakpoints.tablet })} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  ${mq.range({ from: breakpoints.wide })} {
-    grid-column-gap: 35px;
-    grid-row-gap: 35px;
-  }
-`;
+const CardList = styled("ul", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "medium",
+    tablet: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+    },
+  },
+});
 
 export type ListProps = {
   topics: GQLMultidisciplinaryArticleList_TopicFragment[];
-  totalCount: number;
-  subjects: string[];
 };
 
-const MultidisciplinaryArticleList = ({ topics, totalCount, subjects }: ListProps) => (
-  <>
-    <Heading headingStyle="default" element="h2">
-      {totalCount} caser
-    </Heading>
-    <ListWrapper>
-      {topics.map((topic) => (
-        <ListItem key={topic.name} topic={topic} subjects={subjects} />
-      ))}
+const ListWrapper = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
+
+const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
+  const { t } = useTranslation();
+  const id = useId();
+  return (
+    <ListWrapper aria-labelledby={id}>
+      <Heading id={id} textStyle="title.large" asChild consumeCss>
+        <h2>{t("multidisciplinary.casesCount", { count: topics.length })}</h2>
+      </Heading>
+      <CardList>
+        {topics.map((topic) => (
+          <li key={topic.id}>
+            <CardRoot css={{ height: "100%" }}>
+              {!!topic.meta?.metaImage && (
+                <CardImage
+                  src={topic.meta.metaImage.url}
+                  alt={topic.meta.metaImage.alt}
+                  height={200}
+                  fallbackWidth={360}
+                  fallbackElement={<ContentTypeFallbackIcon />}
+                />
+              )}
+              <CardContent>
+                <CardHeading asChild consumeCss>
+                  <h3>
+                    <SafeLink to={topic.path ?? ""} css={linkOverlay.raw()}>
+                      {topic.name}
+                    </SafeLink>
+                  </h3>
+                </CardHeading>
+                <Text textStyle="body.large" css={{ flex: "1" }}>
+                  {topic.meta?.metaDescription ?? ""}
+                </Text>
+              </CardContent>
+            </CardRoot>
+          </li>
+        ))}
+      </CardList>
     </ListWrapper>
-  </>
-);
-
-const Image = styled.img`
-  width: 100%;
-  border-top-left-radius: ${misc.borderRadius};
-  border-top-right-radius: ${misc.borderRadius};
-`;
-
-const TextWrapper = styled.div`
-  border: 1px solid #e6e6e6;
-  border-top: 0;
-  border-bottom-left-radius: ${misc.borderRadius};
-  border-bottom-right-radius: ${misc.borderRadius};
-  padding: ${spacing.nsmall} ${spacing.normal};
-`;
-
-const Title = styled.h3`
-  ${fonts.sizes("18px", "28px")};
-  font-weight: ${fonts.weight.semibold};
-  color: ${colors.brand.primary};
-  margin: 0 0 8px;
-`;
-
-const Introduction = styled(Text)`
-  color: ${colors.text.primary};
-`;
-
-const Subjects = styled(Text)`
-  color: ${colors.text.primary};
-  margin-top: ${spacing.nsmall};
-`;
-
-const Subject = styled.span`
-  display: block;
-`;
-
-interface ListItemProps {
-  topic: GQLMultidisciplinaryArticleList_TopicFragment;
-  subjects: string[];
-}
-
-const ListItem = ({ topic, subjects }: ListItemProps) => (
-  <div>
-    <SafeLink to={topic.path ?? ""}>
-      {!!topic.meta?.metaImage && <Image src={topic.meta.metaImage.url} alt={topic.meta.metaImage.alt} />}
-      <TextWrapper>
-        <Title>{topic.name}</Title>
-        <Introduction textStyle="meta-text-small">{topic.meta?.metaDescription ?? ""}</Introduction>
-        {!!subjects.length && (
-          <Subjects textStyle="meta-text-small" margin="none">
-            {subjects.map((subject) => (
-              <Subject key={subject}>{subject}</Subject>
-            ))}
-          </Subjects>
-        )}
-      </TextWrapper>
-    </SafeLink>
-  </div>
-);
+  );
+};
 
 MultidisciplinaryArticleList.fragments = {
   topic: gql`

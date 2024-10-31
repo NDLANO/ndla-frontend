@@ -5,7 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import { IncomingMessage, ServerResponse } from "http";
+import { matchPath } from "react-router-dom";
 import config from "../config";
+import { embedRoutes } from "../routes";
 
 const connectSrc = (() => {
   const defaultConnectSrc = [
@@ -26,6 +29,8 @@ const connectSrc = (() => {
     "cdn.jsdelivr.net",
     "https://*.dataporten.no",
     "https://*.clarity.ms",
+    "https://*.sentry.io",
+    "https://app.formbricks.com",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -104,6 +109,9 @@ const scriptSrc = (() => {
     "https://*.dataporten.no",
     "https://*.clarity.ms",
     "https://app-script.monsido.com",
+    "https://browser.sentry-cdn.com",
+    "https://js.sentry-cdn.com",
+    "https://app.formbricks.com",
   ];
   if (config.runtimeType === "development") {
     return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
@@ -213,6 +221,7 @@ const fontSrc = (() => {
     "cdnjs.cloudflare.com",
     "https://*.clarity.ms",
     "cdn.jsdelivr.net",
+    "*.fontshare.com",
   ];
   if (config.runtimeType === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
@@ -227,7 +236,15 @@ const contentSecurityPolicy = {
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
-    frameAncestors: null,
+    frameAncestors: [
+      (req: IncomingMessage, _: ServerResponse) => {
+        const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
+        if (isEmbeddable || req.url?.startsWith("/lti")) {
+          return "*";
+        }
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no";
+      },
+    ],
     styleSrc: [
       "'self'",
       "'unsafe-inline'",
@@ -237,6 +254,7 @@ const contentSecurityPolicy = {
       "*.twitter.com",
       "*.twimg.com",
       "cdn.jsdelivr.net",
+      "*.fontshare.com",
     ],
     fontSrc: fontSrc,
     imgSrc: [

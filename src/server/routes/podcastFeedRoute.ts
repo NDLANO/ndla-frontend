@@ -18,7 +18,7 @@ export const podcastFeedRoute = async (req: Request, res: Response, next: NextFu
     return;
   }
 
-  await podcastRssFeed(id)
+  await podcastRssFeed(id, req)
     .then((podcastPage) => {
       res.setHeader("Content-Type", "application/xml");
       res.send(podcastPage);

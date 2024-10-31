@@ -25,7 +25,8 @@ test("LTI contains action elements", async ({ page }) => {
   expect(input).toBeDefined();
   await expect(input).toBeVisible();
 
-  const button = page.getByRole("article").first().getByRole("button");
+  const button = page.locator("button", { hasText: "Sett inn" }).first();
+
   expect(button).toBeDefined();
   await expect(button).toBeVisible();
 });

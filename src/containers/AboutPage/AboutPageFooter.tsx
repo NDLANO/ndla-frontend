@@ -7,15 +7,13 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Forward } from "@ndla/icons/common";
-import { SafeLinkButton } from "@ndla/safelink";
-import { Heading } from "@ndla/typography";
-import { FRONTPAGE_ARTICLE_MAX_WIDTH } from "@ndla/ui";
+import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { findBreadcrumb } from "./AboutPageContent";
+import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { GQLAboutPageFooter_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 
@@ -23,122 +21,92 @@ interface Props {
   frontpage: GQLAboutPageFooter_FrontpageMenuFragment;
 }
 
-const StyledList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  padding: 0px;
-  list-style: none;
-  gap: ${spacing.small};
-  li {
-    padding: 0px;
-  }
-`;
+const StyledList = styled("ul", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
 
-const StyledSafeLinkButton = styled(SafeLinkButton)`
-  width: 100%;
-  padding: ${spacing.normal} ${spacing.medium};
-  justify-content: space-between;
-  border-color: ${colors.brand.tertiary};
-  border-width: 1px;
-  background-color: ${colors.background.lightBlue};
-  &[data-current="true"] {
-    background-color: ${colors.brand.primary};
-    color: ${colors.white};
-    svg {
-      color: ${colors.white};
-    }
-  }
-`;
+const StyledOuterListItem = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const StyledSubSafeLinkButton = styled(SafeLinkButton)`
-  width: 100%;
-  padding-left: ${spacing.medium};
-  padding-right: ${spacing.medium};
-  justify-content: space-between;
-  &[aria-current="page"] {
-    &:not(:hover, :focus, :focus-visible) {
-      background-color: ${colors.brand.primary};
-      color: ${colors.white};
-      svg {
-        color: ${colors.white};
-      }
-    }
-  }
-`;
+const StyledListItem = styled("li", {
+  base: {
+    flexGrow: "1",
+  },
+});
 
-const FooterWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: ${FRONTPAGE_ARTICLE_MAX_WIDTH};
-  ${mq.range({ until: breakpoints.tabletWide })} {
-    padding: ${spacing.normal};
-  }
-  h2 {
-    align-self: flex-start;
-  }
-`;
+const StyledOuterList = styled("ul", {
+  base: {
+    paddingBlockStart: "xxlarge",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-const StyledNav = styled.nav`
-  width: 100%;
-`;
+const StyledNav = styled("nav", {
+  base: {
+    position: "relative",
+    backgroundColor: "surface.brand.3.subtle",
+    zIndex: "base",
+    _after: {
+      content: '""',
+      position: "absolute",
+      top: "0",
+      bottom: "0",
+      left: "-100vw",
+      right: "-100vw",
+      zIndex: "hide",
+      background: "inherit",
+    },
+  },
+});
 
 const AboutPageFooter = ({ frontpage }: Props) => {
   const { slug } = useParams();
+  const { t } = useTranslation();
 
   const crumb = useMemo(() => findBreadcrumb(frontpage.menu ?? [], slug), [frontpage.menu, slug]);
-
-  const [title, menu] = useMemo(() => {
-    if (frontpage.article.slug === slug) {
-      return [frontpage.article.title, frontpage.menu];
-    }
-    const item = crumb[crumb.length - 1];
-    // If the current page does not have a menu, use the parent menu.
-    const menu = item?.menu ?? crumb[crumb.length - 2]?.menu ?? [];
-    // If the current page does not have a menu, use the parent title.
-    return [item?.menu ? item.article.title : crumb[crumb.length - 2]?.article.title, menu];
-  }, [crumb, frontpage, slug]);
-
-  const isRoot = useMemo(() => crumb.length === 1, [crumb]);
-
-  if (!title || !slug || !menu?.length) return null;
+  const nonEmptyCrumbs = crumb.filter((item) => !!item.menu?.length);
 
   return (
-    <FooterWrapper>
-      <Heading element="h2" id="aboutNavTitle" headingStyle="list-title">
-        {title}
-      </Heading>
-      <StyledNav aria-labelledby="aboutNavTitle">
-        <StyledList>
-          {menu?.map((menuItem) => (
-            <li key={menuItem.article.slug}>
-              {isRoot ? (
-                <StyledSafeLinkButton
-                  to={toAbout(menuItem.article.slug)}
-                  variant="ghost"
-                  colorTheme="light"
-                  shape="sharp"
-                  aria-current={menuItem.article.slug === slug ? "page" : false}
-                >
-                  {menuItem.article.title}
-                  <Forward />
-                </StyledSafeLinkButton>
-              ) : (
-                <StyledSubSafeLinkButton
-                  to={toAbout(menuItem.article.slug)}
-                  variant="ghost"
-                  colorTheme="light"
-                  aria-current={menuItem.article.slug === slug ? "page" : false}
-                >
-                  {menuItem.article.title}
-                </StyledSubSafeLinkButton>
-              )}
-            </li>
-          ))}
-        </StyledList>
-      </StyledNav>
-    </FooterWrapper>
+    <StyledNav aria-label={t("aboutPage.nav")}>
+      <StyledOuterList>
+        {nonEmptyCrumbs.map((item, index) => (
+          <StyledOuterListItem key={item.article.slug}>
+            <Heading id={`${item.article.slug}-title`} asChild consumeCss textStyle="title.large">
+              <h2>{item.article.title}</h2>
+            </Heading>
+            <StyledList aria-labelledby={`${item.article.slug}-title`}>
+              {item.menu?.map((m) => (
+                <StyledListItem key={m.article.slug}>
+                  <NavigationSafeLinkButton
+                    to={toAbout(m.article.slug)}
+                    variant={index === 0 ? "primary" : "secondary"}
+                    data-variant={index === 0 ? "primary" : "secondary"}
+                    aria-current={
+                      crumb[crumb.length - 1]?.article.slug === m.article.slug
+                        ? "page"
+                        : crumb.some((c) => c.article.slug === m.article.slug)
+                    }
+                  >
+                    {m.article.title}
+                  </NavigationSafeLinkButton>
+                </StyledListItem>
+              ))}
+            </StyledList>
+          </StyledOuterListItem>
+        ))}
+      </StyledOuterList>
+    </StyledNav>
   );
 };
 

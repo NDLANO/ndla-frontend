@@ -6,8 +6,8 @@
  *
  */
 
-import { Component, ErrorInfo, ReactNode } from "react";
-import DefaultErrorMessage from "../../components/DefaultErrorMessage";
+import { Component, ReactNode } from "react";
+import { DefaultErrorMessage, DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import handleError from "../../util/handleError";
 
 interface State {
@@ -17,7 +17,8 @@ interface State {
 interface Props {
   children?: ReactNode;
 }
-class ErrorBoundary extends Component<Props, State> {
+
+export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
@@ -28,9 +29,8 @@ class ErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // You can also log the error to an error reporting service
-    handleError(error, errorInfo);
+  componentDidCatch(error: Error) {
+    handleError(error);
   }
 
   render() {
@@ -43,4 +43,27 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary;
+export class PageErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(_: Error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    handleError(error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <DefaultErrorMessagePage />;
+    }
+
+    return this.props.children;
+  }
+}

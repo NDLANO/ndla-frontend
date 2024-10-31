@@ -10,15 +10,37 @@ import compact from "lodash/compact";
 import isEqual from "lodash/isEqual";
 import sortBy from "lodash/sortBy";
 import uniq from "lodash/uniq";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 as Button, LoadingButton } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { InformationOutline } from "@ndla/icons/common";
+import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
+import { CloseLine } from "@ndla/icons/action";
+import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
+import { CheckLine } from "@ndla/icons/editor";
+import {
+  MessageBox,
+  Button,
+  ComboboxContent,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxItemText,
+  IconButton,
+  Input,
+  InputContainer,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { ListResource, MessageBox, TagSelector, useSnack } from "@ndla/ui";
+import { HStack, styled } from "@ndla/styled-system/jsx";
+import {
+  TagSelectorClearTrigger,
+  TagSelectorControl,
+  TagSelectorInput,
+  TagSelectorLabel,
+  TagSelectorRoot,
+  TagSelectorTrigger,
+  useTagSelectorTranslations,
+} from "@ndla/ui";
 import FolderSelect from "./FolderSelect";
+import ListResource from "./ListResource";
 import {
   useAddResourceToFolderMutation,
   useFolder,
@@ -28,8 +50,9 @@ import {
 } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
+import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { useToast } from "../ToastContext";
 
 export interface ResourceAttributes {
   path: string;
@@ -43,56 +66,42 @@ interface Props {
   defaultOpenFolder?: GQLFolder;
 }
 
-export const ButtonRow = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${spacing.small};
-`;
+const AddResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
-export const AddResourceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.normal};
-`;
+const StyledComboboxContent = styled(ComboboxContent, {
+  base: {
+    display: "flex",
+    maxHeight: "320px",
+    overflow: "hidden",
+  },
+});
 
-export const ComboboxContainer = styled.div`
-  display: flex;
-  max-height: 320px;
-  overflow: hidden;
-`;
-
-const StyledResourceAddedSnack = styled.div`
-  gap: ${spacing.small};
-  display: flex;
-`;
-
-const StyledResource = styled.p`
-  margin: 0;
-`;
-
-const StyledInfoMessages = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const StyledInfoMessages = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 interface ResourceAddedSnackProps {
   folder: GQLFolder;
 }
 
-const StyledSafeLink = styled(SafeLink)`
-  color: ${colors.white};
-`;
-
 const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   const { t } = useTranslation();
+
   return (
-    <StyledResourceAddedSnack>
-      <StyledResource>
-        {t("myNdla.resource.addedToFolder")}
-        <StyledSafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</StyledSafeLink>
-      </StyledResource>
-    </StyledResourceAddedSnack>
+    <div>
+      {t("myNdla.resource.addedToFolder")}
+      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+    </div>
   );
 };
 
@@ -102,18 +111,22 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
   const { folders, loading } = useFolders();
   const [storedResource, setStoredResource] = useState<GQLFolderResource | undefined>(undefined);
+  const [allTags, setAllTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
-  const { addSnack } = useSnack();
+  const toast = useToast();
+  const tagSelectorTranslations = useTagSelectorTranslations();
 
   useEffect(() => {
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      setTags((tags) => uniq(compact(tags.concat(getAllTags(folders)))));
+      const newTags = uniq(compact(getAllTags(folders)));
+      setAllTags(newTags ?? []);
+      setTags(newTags ?? []);
       setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
     }
   }, [folders, loading, resource.path, storedResource]);
@@ -142,6 +155,8 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const { updateFolderResource } = useUpdateFolderResourceMutation();
   const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
 
+  const allTagsCollection = useMemo(() => createListCollection({ items: allTags }), [allTags]);
+
   const alreadyAdded = selectedFolder?.resources.some((resource) => resource.id === storedResource?.id);
 
   const onSave = async () => {
@@ -155,42 +170,49 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-      addSnack({
-        id: `addedToFolder${selectedFolder.name}`,
-        content: <ResourceAddedSnack folder={selectedFolder} />,
+
+      toast.create({
+        title: t("myndla.resource.added"),
+        description: <ResourceAddedSnack folder={selectedFolder} />,
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
       await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      addSnack({
-        content: t("myNdla.resource.tagsUpdated"),
-        id: "tagsUpdated",
+      toast.create({
+        title: t("myNdla.resource.tagsUpdated"),
       });
     }
     onClose();
   };
 
-  const noFolderSelected = selectedFolderId === "folders";
+  const onInputValueChange = (e: ComboboxInputValueChangeDetails) => {
+    const filtered = allTags.filter((item) => item.toLowerCase().includes(e.inputValue.toLowerCase()));
+    setTags(filtered);
+  };
 
+  const noFolderSelected = selectedFolderId === "folders";
+  const disabledButton = !canSave || noFolderSelected || examLock;
   return (
     <AddResourceContainer>
       <ListResource
+        context="standalone"
+        variant="subtle"
+        nonInteractive
         id={resource.id.toString()}
-        tagLinkPrefix={routes.myNdla.tags}
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}
-        resourceTypes={meta?.resourceTypes ?? []}
+        resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
         resourceImage={{
           src: meta?.metaImage?.url ?? "",
           alt: meta?.metaImage?.alt ?? "",
         }}
       />
       {examLock ? (
-        <MessageBox>
-          <InformationOutline />
-          {t("myNdla.examLockInfo")}
+        <MessageBox variant="warning">
+          <InformationLine />
+          <Text>{t("myNdla.examLockInfo")}</Text>
         </MessageBox>
       ) : (
         <>
@@ -203,34 +225,67 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && <MessageBox>{t("myNdla.alreadyInFolder")}</MessageBox>}
-            {selectedFolder?.status === "shared" && <MessageBox>{t("myNdla.addInSharedFolder")}</MessageBox>}
+            {alreadyAdded && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.alreadyInFolder")}</Text>
+              </MessageBox>
+            )}
+            {selectedFolder?.status === "shared" && (
+              <MessageBox variant="warning">
+                <Text>{t("myNdla.addInSharedFolder")}</Text>
+              </MessageBox>
+            )}
             {noFolderSelected && (
-              <MessageBox type="danger">
-                <InformationOutline />
-                {t("myNdla.noFolderSelected")}
+              <MessageBox variant="error">
+                <InformationLine />
+                <Text>{t("myNdla.noFolderSelected")}</Text>
               </MessageBox>
             )}
           </StyledInfoMessages>
-          <ComboboxContainer>
-            <TagSelector
-              label={t("myNdla.myTags")}
-              selected={selectedTags}
-              tags={tags}
-              onChange={(tags) => {
-                setSelectedTags(tags);
-              }}
-              onCreateTag={(tag) => {
-                setTags((prev) => prev.concat(tag));
-                setSelectedTags((prev) => uniq(prev.concat(tag)));
-              }}
-            />
-          </ComboboxContainer>
+          <TagSelectorRoot
+            value={selectedTags}
+            collection={allTagsCollection}
+            onInputValueChange={onInputValueChange}
+            onValueChange={(details) => setSelectedTags(details.value)}
+            translations={tagSelectorTranslations}
+          >
+            <TagSelectorLabel>{t("myNdla.myTags")}</TagSelectorLabel>
+            <HStack gap="4xsmall">
+              <TagSelectorControl asChild>
+                <InputContainer>
+                  <TagSelectorInput asChild>
+                    <Input placeholder={t("tagSelector.placeholder")} />
+                  </TagSelectorInput>
+
+                  <TagSelectorClearTrigger asChild>
+                    <IconButton variant="clear">
+                      <CloseLine />
+                    </IconButton>
+                  </TagSelectorClearTrigger>
+                </InputContainer>
+              </TagSelectorControl>
+              <TagSelectorTrigger asChild>
+                <IconButton variant="secondary">
+                  <ArrowDownShortLine />
+                </IconButton>
+              </TagSelectorTrigger>
+            </HStack>
+            <StyledComboboxContent>
+              {tags.map((item) => (
+                <ComboboxItem key={item} item={item}>
+                  <ComboboxItemText>{item}</ComboboxItemText>
+                  <ComboboxItemIndicator>
+                    <CheckLine />
+                  </ComboboxItemIndicator>
+                </ComboboxItem>
+              ))}
+            </StyledComboboxContent>
+          </TagSelectorRoot>
         </>
       )}
-      <ButtonRow>
+      <HStack justify="flex-end" gap="xsmall">
         <Button
-          variant="outline"
+          variant="secondary"
           onClick={onClose}
           onMouseDown={(e) => {
             e.preventDefault();
@@ -241,11 +296,11 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         >
           {t("cancel")}
         </Button>
-        <LoadingButton
-          loading={addResourceLoading}
-          colorTheme="light"
-          disabled={!canSave || addResourceLoading || noFolderSelected || examLock}
+        <Button
           onClick={onSave}
+          loading={addResourceLoading}
+          disabled={disabledButton}
+          aria-label={addResourceLoading ? t("loading") : undefined}
           onMouseDown={(e) => {
             e.preventDefault();
           }}
@@ -254,8 +309,8 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           }}
         >
           {t("myNdla.resource.save")}
-        </LoadingButton>
-      </ButtonRow>
+        </Button>
+      </HStack>
     </AddResourceContainer>
   );
 };

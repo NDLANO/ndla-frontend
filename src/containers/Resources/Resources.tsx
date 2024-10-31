@@ -6,28 +6,27 @@
  *
  */
 
-import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
-import { Heading } from "@ndla/typography";
-import { getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import {
+  Heading,
+  SwitchControl,
+  SwitchHiddenInput,
+  SwitchLabel,
+  SwitchRoot,
+  SwitchThumb,
+  Text,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { ContentType } from "@ndla/ui";
+import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
-import ResourcesTopicTitle from "./ResourcesTopicTitle";
-import FavoriteButton from "../../components/Article/FavoritesButton";
-import { ResourceAttributes } from "../../components/MyNdla/AddResourceToFolder";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import { StableId } from "../../components/StableId";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import {
-  GQLResources_ResourceFragment,
-  GQLResources_ResourceTypeDefinitionFragment,
-  GQLResources_TopicFragment,
-} from "../../graphqlTypes";
+import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
@@ -35,33 +34,77 @@ interface Props {
   resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
+  currentResourceContentType?: ContentType;
 }
 
-const StyledHeading = styled(Heading)`
-  &[data-inverted="true"] {
-    color: ${colors.white};
-  }
-`;
+const StyledNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
-const StyledNav = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.xxsmall};
-  margin-bottom: ${spacing.mediumlarge};
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid",
+    borderColor: "stroke.subtle",
+    paddingBlockEnd: "3xsmall",
+  },
+});
 
-const StyledSection = styled.section`
-  padding-top: ${spacing.normal};
-  padding-bottom: ${spacing.normal};
-`;
+const StyledHGroup = styled("hgroup", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    flexWrap: "wrap",
+    alignItems: "baseline",
+  },
+});
 
-const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props) => {
+const ListWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledForm = styled("form", {
+  base: {
+    marginInlineStart: "auto",
+  },
+});
+
+const ResourceContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const Resources = ({
+  topic,
+  resourceTypes,
+  headingType: HeadingType,
+  subHeadingType: SubHeadingType,
+  currentResourceContentType,
+}: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
-  const ndlaFilm = useIsNdlaFilm();
   const { t } = useTranslation();
+  const navHeadingId = useId();
 
-  const resourcesTopicId = useId();
+  const { supplementaryResources, sortedResources } = useMemo(
+    () => getResourceGroupings(topic.coreResources?.concat(topic.supplementaryResources ?? []) ?? [], resourceId),
+    [resourceId, topic.coreResources, topic.supplementaryResources],
+  );
 
   const isGrouped = useMemo(
     () =>
@@ -69,48 +112,19 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
     [topic?.metadata?.customFields],
   );
 
-  const { coreResources, supplementaryResources, sortedResources } = useMemo(() => {
-    const core = topic.coreResources ?? [];
-    const supp = (topic.supplementaryResources ?? [])
-      .map((r) => ({ ...r, additional: true }))
-      .filter((r) => !topic.coreResources?.find((c) => c.id === r.id));
-
-    return {
-      coreResources: core,
-      supplementaryResources: supp,
-      sortedResources: sortBy(core.concat(supp), (res) => res.rank),
-    };
-  }, [topic.coreResources, topic.supplementaryResources]);
-
   const { groupedResources, ungroupedResources } = useMemo(() => {
     if (isGrouped) {
-      const resourceGroups = getResourceGroups(resourceTypes ?? [], supplementaryResources, coreResources);
-
-      const groupedResources = resourceGroups
-        .map((type) => ({
-          ...type,
-          resources: type?.resources?.map((res) => ({
-            ...res,
-            active: !!resourceId && res.id.endsWith(resourceId),
-          })),
-          contentType: contentTypeMapping[type.id],
-        }))
-        .filter((type) => type.resources?.length);
+      const resourceGroups = getResourceGroups(resourceTypes ?? [], sortedResources);
+      const groupedResources = resourceGroups.map((type) => ({ ...type, contentType: contentTypeMapping[type.id] }));
       return { groupedResources, ungroupedResources: [] };
     }
 
     const ungroupedResources = sortedResources.map((res) => {
-      const resourceTypes = sortResourceTypes(res.resourceTypes ?? []);
-      const firstResourceType = resourceTypes?.[0];
-      return {
-        ...res,
-        active: !!resourceId && res.id.endsWith(resourceId),
-        contentTypeName: firstResourceType?.name,
-        contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined,
-      };
+      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
+      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
     });
     return { groupedResources: [], ungroupedResources };
-  }, [coreResources, isGrouped, resourceId, resourceTypes, sortedResources, supplementaryResources]);
+  }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
     const showAdditional = window.localStorage.getItem("showAdditionalResources");
@@ -129,80 +143,56 @@ const Resources = ({ topic, resourceTypes, headingType, subHeadingType }: Props)
   }
 
   return (
-    <StyledSection>
-      <ResourcesTopicTitle
-        headingId={resourcesTopicId}
-        heading={headingType}
-        title={t("resource.label")}
-        subTitle={topic.name}
-        toggleAdditionalResources={toggleAdditionalResources}
-        showAdditionalResources={showAdditionalResources}
-        hasAdditionalResources={supplementaryResources.length > 0}
-        invertedStyle={ndlaFilm}
-      />
-      {!isGrouped ? (
-        <StyledNav aria-labelledby={resourcesTopicId}>
+    <StyledNav aria-labelledby={navHeadingId}>
+      <TitleWrapper>
+        <StyledHGroup>
+          <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
+            <HeadingType>{t("resource.label")}</HeadingType>
+          </Heading>
+          <Text textStyle="label.medium">{topic.name}</Text>
+        </StyledHGroup>
+        {!!supplementaryResources.length && (
+          <StyledForm>
+            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+              <SwitchControl>
+                <SwitchThumb />
+              </SwitchControl>
+              <SwitchHiddenInput />
+            </SwitchRoot>
+          </StyledForm>
+        )}
+      </TitleWrapper>
+      <ResourceContainer>
+        {!isGrouped ? (
           <ResourceList
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
-            heartButton={(p) => <AddResource resources={ungroupedResources} path={p} />}
+            currentResourceContentType={currentResourceContentType}
           />
-        </StyledNav>
-      ) : (
-        groupedResources.map((type) => (
-          <StableId key={type.id}>
-            {(id) => (
-              <StyledNav key={type.id} aria-labelledby={id}>
-                <StyledHeading
-                  id={id}
-                  margin="none"
-                  element={subHeadingType}
-                  headingStyle="list-title"
-                  data-inverted={ndlaFilm}
-                >
-                  {type.name}
-                </StyledHeading>
-                <ResourceList
-                  title={type.name}
-                  showAdditionalResources={showAdditionalResources}
-                  contentType={type.contentType}
-                  resources={type.resources ?? []}
-                  heartButton={(p) => <AddResource resources={type.resources ?? []} path={p} />}
-                />
-              </StyledNav>
-            )}
-          </StableId>
-        ))
-      )}
-    </StyledSection>
-  );
-};
-
-interface AddResourceProps {
-  resources: GQLResources_ResourceFragment[];
-  path: string;
-}
-
-const AddResource = ({ resources, path }: AddResourceProps) => {
-  const resource: ResourceAttributes | undefined = useMemo(() => {
-    const res = resources?.find((r) => r.path === path);
-    const [, resourceType, articleIdString] = res?.contentUri?.split(":") ?? [];
-    const articleId = articleIdString ? parseInt(articleIdString) : undefined;
-    if (!resourceType || !articleId || !path) return undefined;
-
-    return {
-      id: articleId?.toString(),
-      path: path,
-      resourceType,
-    };
-  }, [path, resources]);
-
-  if (!resource) return null;
-
-  return (
-    <AddResourceToFolderModal resource={resource}>
-      <FavoriteButton path={path} />
-    </AddResourceToFolderModal>
+        ) : (
+          groupedResources.map((type) => (
+            <StableId key={type.id}>
+              {(id) => (
+                <ListWrapper>
+                  <Heading id={id} textStyle="title.medium" asChild consumeCss>
+                    <SubHeadingType>{type.name}</SubHeadingType>
+                  </Heading>
+                  <ResourceList
+                    headingId={id}
+                    title={type.name}
+                    showAdditionalResources={showAdditionalResources}
+                    contentType={type.contentType}
+                    resources={type.resources ?? []}
+                    currentResourceContentType={currentResourceContentType}
+                  />
+                </ListWrapper>
+              )}
+            </StableId>
+          ))
+        )}
+      </ResourceContainer>
+    </StyledNav>
   );
 };
 
@@ -215,6 +205,18 @@ const resourceFragment = gql`
     paths
     rank
     language
+    relevanceId
+    article {
+      metaImage {
+        url
+        alt
+      }
+    }
+    learningpath {
+      coverphoto {
+        url
+      }
+    }
     resourceTypes {
       id
       name

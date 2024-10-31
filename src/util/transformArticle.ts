@@ -6,20 +6,21 @@
  *
  */
 
+import parse from "html-react-parser";
 import { ReactNode } from "react";
 import { transform, TransformOptions } from "@ndla/article-converter";
 import formatDate from "./formatDate";
 import { GQLArticle } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 
-function getContent(content: string, { path, isOembed, subject, components, articleLanguage }: TransformOptions) {
+function getContent(content: string, { path, isOembed, subject, articleLanguage, contentType }: TransformOptions) {
   return transform(content, {
     frontendDomain: "",
     path,
     isOembed,
     subject,
-    components,
     articleLanguage,
+    contentType,
     canonicalUrls: {
       image: (image) => `/image/${image.id}`,
     },
@@ -28,12 +29,22 @@ function getContent(content: string, { path, isOembed, subject, components, arti
 
 export type BaseArticle = Pick<
   GQLArticle,
-  "transformedContent" | "created" | "updated" | "published" | "requiredLibraries" | "revisionDate"
+  | "transformedContent"
+  | "created"
+  | "htmlTitle"
+  | "htmlIntroduction"
+  | "updated"
+  | "published"
+  | "requiredLibraries"
+  | "revisionDate"
 >;
 
 export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent"> & {
-  introduction: ReactNode;
-  transformedContent: Omit<T["transformedContent"], "content"> & { content: JSX.Element };
+  transformedContent: T["transformedContent"] & {
+    content: ReactNode;
+    introduction: ReactNode;
+    title: ReactNode;
+  };
 };
 export const transformArticle = <T extends BaseArticle>(
   article: T,
@@ -43,11 +54,12 @@ export const transformArticle = <T extends BaseArticle>(
   const updatedOptions = options?.articleLanguage === "nb" ? { ...options, articleLanguage: "no" } : options;
   const content = getContent(article.transformedContent.content, updatedOptions ?? {});
   const footNotes = article?.transformedContent?.metaData?.footnotes ?? [];
-  //@ts-ignore
   return {
     ...article,
     transformedContent: {
       ...article.transformedContent,
+      introduction: parse(article.htmlIntroduction ?? ""),
+      title: parse(article.htmlTitle ?? ""),
       content,
     },
     created: formatDate(article.created, locale),

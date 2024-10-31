@@ -11,14 +11,10 @@ import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
-import createEmotionServer from "@emotion/server/create-instance";
 import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
-import { EmotionCacheKey } from "../../constants";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
 import EmbedIframePageContainer from "../../iframe/EmbedIframePageContainer";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
@@ -48,8 +44,7 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
     };
   }
 
-  const client = createApolloClient(locale);
-  const cache = createCache({ key: EmotionCacheKey });
+  const client = createApolloClient(locale, undefined, req.path);
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
   // @ts-ignore
@@ -60,18 +55,15 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
       <HelmetProvider context={helmetContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <CacheProvider value={cache}>
-              <StaticRouter location={req.url}>
-                <EmbedIframePageContainer {...initialProps} />
-              </StaticRouter>
-            </CacheProvider>
+            <StaticRouter location={req.url}>
+              <EmbedIframePageContainer {...initialProps} />
+            </StaticRouter>
           </ApolloProvider>
         </I18nextProvider>
       </HelmetProvider>
     </RedirectContext.Provider>
   );
 
-  const { extractCriticalToChunks, constructStyleTagsFromChunks } = createEmotionServer(cache);
   const html = await renderToStringWithData(Page);
 
   if (context.url) {
@@ -81,14 +73,11 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
     };
   }
 
-  const chunks = extractCriticalToChunks(html);
-  const styles = constructStyleTagsFromChunks(chunks);
   const apolloState = client.extract();
 
   return {
     status: context.status ?? OK,
     data: {
-      styles,
       helmetContext,
       htmlContent: html,
       data: {

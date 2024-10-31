@@ -6,145 +6,85 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { Additional } from "@ndla/icons/common";
+import { Badge, Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { EmbedMetaData } from "@ndla/types-embed";
-import { Text, Heading } from "@ndla/typography";
-import { ContentLoader } from "@ndla/ui";
-import TopicMetaImage from "./TopicMetaImage";
-import { useIsNdlaFilm } from "../../routeHelpers";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${spacing.small};
-`;
+const TopicContent = styled("div", {
+  base: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: "medium",
+    paddingBlock: "xsmall",
+    justifyItems: "center",
+    tabletWide: {
+      gridTemplateColumns: "auto 360px",
+    },
+    _first: {
+      paddingBlockStart: "xxlarge",
+    },
+    "& figure": {
+      "& img, iframe": {
+        aspectRatio: "4/3",
+        objectFit: "cover",
+      },
+      maxWidth: "360px",
+    },
+  },
+});
 
-const frameStyle = css`
-  ${mq.range({ from: breakpoints.tabletWide })} {
-    padding: 40px 40px;
-    border: 2px solid ${colors.brand.neutral7};
-  }
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: 40px 80px;
-  }
-  ${mq.range({ from: "1180px" })} {
-    padding: 60px 160px;
-  }
-`;
+const TopicIntroductionWrapper = styled("div", {
+  base: {
+    maxWidth: "surface.contentMax",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
 
-const _invertedStyle = css`
-  color: ${colors.white};
-`;
-
-const TopicIntroductionWrapper = styled.div`
-  display: flex;
-  gap: ${spacing.xsmall};
-  justify-content: space-between;
-`;
-
-const HeadingWrapper = styled.hgroup`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${spacing.small};
-`;
-
-const StyledAdditional = styled(Additional)`
-  color: ${colors.brand.dark};
-  height: ${spacing.normal};
-  width: ${spacing.normal};
-  padding: 1px;
-`;
+const HeadingWrapper = styled("hgroup", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "xsmall",
+    overflowWrap: "anywhere",
+  },
+});
 
 export type TopicProps = {
   id?: string;
-  metaImage?: {
-    url: string;
-    alt: string;
-  };
   title: ReactNode;
   introduction: ReactNode;
   visualElementEmbedMeta?: EmbedMetaData;
-  isLoading?: boolean;
   isAdditionalTopic?: boolean;
-  frame?: boolean;
-  children?: ReactNode;
   visualElement?: ReactNode;
 };
 
-const Topic = ({
-  id,
-  title,
-  introduction,
-  metaImage: articleMetaImage,
-  isAdditionalTopic,
-  isLoading,
-  frame,
-  visualElementEmbedMeta,
-  children,
-  visualElement,
-}: TopicProps) => {
-  const { t } = useTranslation();
-  const inverted = useIsNdlaFilm();
+const Topic = forwardRef<HTMLDivElement, TopicProps>(
+  ({ id, title, introduction, isAdditionalTopic, visualElement }, ref) => {
+    const { t } = useTranslation();
 
-  const wrapperStyle = [frame ? frameStyle : undefined, inverted ? _invertedStyle : undefined];
-  if (isLoading) {
     return (
-      <Wrapper css={wrapperStyle}>
-        <ContentLoader width={800} height={880}>
-          <rect x="0" y="0" rx="3" ry="3" width="500" height="60" />
-          <rect x="0" y="100" rx="3" ry="3" width="500" height="25" />
-          <rect x="0" y="140" rx="3" ry="3" width="500" height="25" />
-          <rect x="0" y="180" rx="3" ry="3" width="400" height="25" />
-          <rect x="600" y="0" rx="3" ry="3" width="200" height="205" />
-          <rect x="0" y="280" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="350" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="420" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="490" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="560" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="680" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="750" rx="3" ry="3" width="800" height="60" />
-          <rect x="0" y="820" rx="3" ry="3" width="800" height="60" />
-        </ContentLoader>
-      </Wrapper>
-    );
-  }
-
-  return (
-    <Wrapper css={wrapperStyle}>
-      <TopicIntroductionWrapper>
-        <div>
+      <TopicContent ref={ref} data-topic="">
+        <TopicIntroductionWrapper>
           <HeadingWrapper>
-            <Heading element="h1" margin="none" headingStyle="h2" id={id} tabIndex={-1}>
+            <Heading textStyle="heading.medium" id={id} tabIndex={-1}>
               {title}
             </Heading>
-            {isAdditionalTopic && (
-              <>
-                <StyledAdditional aria-hidden="true" />
-                <span>{t("navigation.additionalTopic")}</span>
-              </>
-            )}
+            {isAdditionalTopic && <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>}
           </HeadingWrapper>
-          <Text textStyle="ingress" element="div">
-            {introduction}
+          <Text textStyle="body.xlarge" asChild consumeCss>
+            <div>{introduction}</div>
           </Text>
-        </div>
-        {!!visualElementEmbedMeta && !!articleMetaImage && (
-          <TopicMetaImage
-            visualElementEmbedMeta={visualElementEmbedMeta}
-            metaImage={articleMetaImage}
-            visualElement={visualElement}
-          />
-        )}
-      </TopicIntroductionWrapper>
-      {children}
-    </Wrapper>
-  );
-};
+        </TopicIntroductionWrapper>
+        {visualElement}
+      </TopicContent>
+    );
+  },
+);
 
 export default Topic;

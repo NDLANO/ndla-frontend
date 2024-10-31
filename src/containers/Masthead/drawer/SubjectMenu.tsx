@@ -11,13 +11,12 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { MenuBook } from "@ndla/icons/action";
-import { ContentLoader } from "@ndla/ui";
+import { Skeleton } from "@ndla/primitives";
+import { VStack } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
-import DrawerPortion, { DrawerList } from "./DrawerPortion";
-import DrawerRowHeader from "./DrawerRowHeader";
+import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
@@ -115,15 +114,20 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
         <BackButton onGoBack={onCloseMenuPortion} title={t("masthead.menu.goToMainMenu")} homeButton />
         {subject ? (
           <DrawerList id={`list-${subject?.id}`}>
-            <DrawerRowHeader
-              current={path === location.pathname}
-              id={subject.id}
-              icon={<MenuBook />}
-              title={subject.name}
-              type="link"
-              to={path}
-              onClose={onClose}
-            />
+            <DrawerListItem role="none" data-list-item>
+              <DrawerHeaderLink
+                variant="link"
+                aria-current={path === location.pathname ? "page" : undefined}
+                id={`header-${subject.id}`}
+                to={path}
+                onClick={onClose}
+                tabIndex={-1}
+                role="menuitem"
+              >
+                {subject.name}
+              </DrawerHeaderLink>
+            </DrawerListItem>
+
             {groupedTopics.map((t) => (
               <DrawerMenuItem
                 id={t.id}
@@ -144,12 +148,12 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             ))}
           </DrawerList>
         ) : (
-          <ContentLoader height={"100%"} width={"100%"} viewBox={null} preserveAspectRatio="none">
-            <rect x="5" y="2" rx="3" ry="3" height="50" width="90%" />
+          <VStack gap="small" justify="flex-start">
+            <Skeleton css={{ width: "100%", height: "xxlarge" }} />
             {placeholders.map((p) => (
-              <rect key={p} x="20" y={65 + p * 30} rx="3" ry="3" height="25" width="80%" />
+              <Skeleton key={p} css={{ width: "100%", height: "large" }} />
             ))}
-          </ContentLoader>
+          </VStack>
         )}
       </DrawerPortion>
       {subject &&

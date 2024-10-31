@@ -6,50 +6,26 @@
  *
  */
 
-import { useEffect } from "react";
+import { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { matchPath, Outlet, useLocation } from "react-router-dom";
-import { css, Global } from "@emotion/react";
-import styled from "@emotion/styled";
-import { colors, spacing } from "@ndla/core";
+import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
-import { PageContainer } from "@ndla/ui";
-import FeideFooter from "./components/FeideFooter";
-import Footer from "./components/Footer";
+import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
-import config from "../../config";
-import { routes, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
-
-const BottomPadding = styled.div`
-  padding-bottom: ${spacing.large};
-  &[data-no-padding="true"] {
-    padding-bottom: unset;
-  }
-`;
-
-const StyledPageContainer = styled(PageContainer)`
-  &[data-film="true"] {
-    background-color: ${colors.ndlaFilm.filmColor};
-  }
-  &[data-frontpage="true"] {
-    background-color: ${colors.background.lightBlue};
-  }
-`;
 
 const Layout = () => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
+  const htmlRef = useRef<HTMLHtmlElement | null>(null);
   const params = useUrnIds();
-  const ndlaFilm = useIsNdlaFilm();
-  const frontpage = !!matchPath("/", pathname);
-  const backgroundWide = !!matchPath("/learningpaths/:learningpathId", pathname);
-  const noPaddingBottom = !!matchPath(`${routes.myNdla.root}/*`, pathname) || frontpage;
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -63,20 +39,23 @@ const Layout = () => {
     }
   }, [params, pathname, prevPathname]);
 
+  useEffect(() => {
+    if (!htmlRef.current) {
+      htmlRef.current = document.querySelector("html");
+    } else {
+      htmlRef.current.style.scrollPaddingTop = `${height}px`;
+    }
+  }, [height]);
+
+  const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
+
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <StyledPageContainer backgroundWide={backgroundWide} data-frontpage={frontpage} data-film={ndlaFilm}>
+    <>
       <TitleAnnouncer />
-      <Global
-        styles={css`
-          html {
-            scroll-padding-top: ${height ? `${height}px` : undefined};
-          }
-        `}
-      />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
         meta={[{ name: "description", content: t("meta.description") }]}
@@ -84,14 +63,11 @@ const Layout = () => {
         {metaChildren}
       </Helmet>
       <Masthead />
-      <div>
-        <BottomPadding data-no-padding={noPaddingBottom}>
-          <Outlet />
-        </BottomPadding>
-      </div>
+      <PageLayout style={mastheadHeightVar}>
+        <Outlet />
+      </PageLayout>
       <Footer />
-      {config.feideEnabled && <FeideFooter />}
-    </StyledPageContainer>
+    </>
   );
 };
 export default Layout;

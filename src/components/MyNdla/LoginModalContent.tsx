@@ -6,11 +6,25 @@
  *
  */
 
+import parse from "html-react-parser";
 import { ReactNode } from "react";
-import styled from "@emotion/styled";
-import { ModalBody, ModalCloseButton, ModalHeader, ModalContent } from "@ndla/modal";
-import { Heading } from "@ndla/typography";
-import LoginComponent from "./LoginComponent";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import {
+  Button,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Text,
+} from "@ndla/primitives";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
+import { routes } from "../../routeHelpers";
+import { toHref } from "../../util/urlHelper";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   title?: string;
@@ -18,25 +32,51 @@ interface Props {
   masthead?: boolean;
 }
 
-const StyledModalBody = styled(ModalBody)`
-  h2 {
-    margin: 0;
-  }
-`;
+const LinkText = styled(Text, {
+  base: {
+    "& > a": {
+      marginInlineStart: "3xsmall",
+    },
+  },
+});
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    textAlign: "start",
+    gap: "medium",
+  },
+});
 
 const LoginModalContent = ({ title, content, masthead = false }: Props) => {
+  const { t } = useTranslation();
+  const location = useLocation();
+
   return (
-    <ModalContent>
-      <ModalHeader>
-        <Heading element="h1" headingStyle="default">
-          {title}
-        </Heading>
-        <ModalCloseButton />
-      </ModalHeader>
-      <StyledModalBody>
-        <LoginComponent content={content} masthead={masthead} />
-      </StyledModalBody>
-    </ModalContent>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>{title ?? t("myNdla.myPage.loginWelcome")}</DialogTitle>
+        <DialogCloseButton />
+      </DialogHeader>
+      <StyledDialogBody>
+        {content}
+        <Text textStyle="body.xlarge">{parse(t("myNdla.myPage.loginIngress"))}</Text>
+        <LinkText>
+          {t("myNdla.myPage.loginText")}
+          <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">
+            {t("myNdla.myPage.loginTextLink")}
+          </SafeLink>
+        </LinkText>
+      </StyledDialogBody>
+      <DialogFooter>
+        <DialogCloseTrigger asChild>
+          <Button variant="secondary">{t("cancel")}</Button>
+        </DialogCloseTrigger>
+
+        <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
+          {t("user.buttonLogIn")}
+        </SafeLinkButton>
+      </DialogFooter>
+    </DialogContent>
   );
 };
 

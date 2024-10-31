@@ -21,14 +21,8 @@ test("can navigate to folders", async ({ page }) => {
 
 test("can navigate to subjects", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
-  await page.getByRole("listitem").getByRole("link", { name: "Mine favorittfag" }).click();
-  await expect(page.getByRole("heading").getByText("Mine favorittfag")).toBeVisible();
-});
-
-test("can navigate to tags", async ({ page }) => {
-  await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
-  await page.getByRole("listitem").getByRole("link", { name: "Mine emneknagger" }).click();
-  await expect(page.getByRole("heading").getByText("Mine emneknagger")).toBeVisible();
+  await page.getByRole("listitem").getByRole("link", { name: "Mine fag" }).click();
+  await expect(page.getByRole("heading").getByText("Mine fag")).toBeVisible();
 });
 
 test("can navigate to profile", async ({ page }) => {
@@ -38,22 +32,29 @@ test("can navigate to profile", async ({ page }) => {
 });
 
 test("have all options at the different pages", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/graphql");
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
+  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await expect(
+    page.getByTestId("my-ndla-menu").getByRole("listitem").getByRole("link", { name: "Logg ut" }),
+  ).toBeVisible();
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
 
-  await page.getByRole("listitem").getByRole("link", { name: "Mine favorittfag" }).click();
-  await expect(page.getByRole("heading").getByText("Mine favorittfag")).toBeVisible();
-  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
-
-  await page.getByRole("listitem").getByRole("link", { name: "Mine emneknagger" }).click();
-  await expect(page.getByRole("heading").getByText("Mine emneknagger")).toBeVisible();
+  await page.getByRole("listitem").getByRole("link", { name: "Mine fag" }).click();
+  await expect(page.getByRole("heading").getByText("Mine fag")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Min profil" }).click();
   await expect(page.getByRole("heading").getByText("Min profil")).toBeVisible();
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
+
+  await page.getByRole("listitem").getByRole("link", { name: "Arena", exact: true }).click();
+  await expect(page.getByRole("heading").getByText("Arena")).toBeVisible();
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
+
+  await page.getByRole("listitem").getByRole("link", { name: "Arena admin" }).click();
+  await expect(page.getByRole("heading").getByText("Arena admin")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toEqual(options);
 });

@@ -7,7 +7,7 @@
  */
 
 import { MutationHookOptions, gql, useApolloClient, useMutation } from "@apollo/client";
-import { arenaNotificationQuery, arenaPostFragment, arenaTopicFragment } from "./nodebbQueries";
+import { arenaNotificationQuery, arenaPostFragment, arenaTopicById, arenaTopicFragment } from "./nodebbQueries";
 import {
   GQLDeletePostMutation,
   GQLDeletePostMutationVariables,
@@ -15,6 +15,8 @@ import {
   GQLDeleteTopicMutationVariables,
   GQLMarkNotificationAsReadMutation,
   GQLMarkNotificationAsReadMutationVariables,
+  GQLMutationAddPostUpvoteArgs,
+  GQLMutationRemovePostUpvoteArgs,
   GQLMutationSubscribeToTopicArgs,
   GQLMutationUnsubscribeFromTopicArgs,
   GQLNewArenaTopicMutation,
@@ -41,8 +43,8 @@ export const useNewFlagMutation = () => {
 };
 
 const replyToTopicMutation = gql`
-  mutation ReplyToTopic($topicId: Int!, $content: String!) {
-    replyToTopic(topicId: $topicId, content: $content) {
+  mutation ReplyToTopic($topicId: Int!, $content: String!, $postId: Int) {
+    replyToTopic(topicId: $topicId, content: $content, postId: $postId) {
       ...ArenaPost
     }
   }
@@ -182,4 +184,55 @@ export const useUnsubscribeFromTopicMutation = () => {
       },
     },
   );
+};
+
+const upvotePostMutation = gql`
+  mutation upvotePost($postId: Int!) {
+    addPostUpvote(postId: $postId)
+  }
+`;
+
+export const useUpvotePost = () => {
+  const { cache } = useApolloClient();
+  const [upvotePost] = useMutation<GQLMutationAddPostUpvoteArgs>(upvotePostMutation, {
+    refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes + 1,
+        },
+      });
+    },
+  });
+
+  return { upvotePost };
+};
+
+const removeUpvotePostMutation = gql`
+  mutation removeUpvotePost($postId: Int!) {
+    removePostUpvote(postId: $postId)
+  }
+`;
+
+export const useRemoveUpvotePost = () => {
+  const { cache } = useApolloClient();
+  const [removeUpvotePost] = useMutation<GQLMutationRemovePostUpvoteArgs>(removeUpvotePostMutation, {
+    refetchQueries: [arenaTopicById],
+    onCompleted: (data) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: "ArenaPostV2",
+          id: data.postId,
+        }),
+        fields: {
+          upvotes: (existingUpvotes) => existingUpvotes - 1,
+        },
+      });
+    },
+  });
+  return { removeUpvotePost };
 };

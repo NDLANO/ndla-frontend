@@ -8,11 +8,12 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import styled from "@emotion/styled";
-import { breakpoints, colors, mq, spacing } from "@ndla/core";
-import { SearchResultList, OneColumn } from "@ndla/ui";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
+import { PageContainer } from "../../../components/Layout/PageContainer";
+import { MovedNodeCard } from "../../../components/MovedNodeCard";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLMovedTopicPage_TopicFragment, GQLSearchResult } from "../../../graphqlTypes";
-import { resultsWithContentTypeBadgeAndImage } from "../../SearchPage/searchHelpers";
 
 interface GQLSearchResultExtended
   extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
@@ -21,6 +22,7 @@ interface GQLSearchResultExtended
     title: string;
     breadcrumb: string[];
   }[];
+  breadcrumbs: string[];
   ingress: string;
   id: string;
   contentType: string;
@@ -30,9 +32,11 @@ const convertTopicToResult = (topic: GQLMovedTopicPage_TopicFragment): GQLSearch
   return {
     metaImage: topic.meta?.metaImage,
     title: topic.name,
+    htmlTitle: topic.name,
     url: topic.path || "",
     id: topic.id,
     ingress: topic.meta?.metaDescription ?? "",
+    breadcrumbs: topic.breadcrumbs,
     subjects: topic.contexts?.map(({ breadcrumbs }) => ({
       url: topic.path,
       title: breadcrumbs[0]!,
@@ -58,28 +62,60 @@ interface Props {
   topics: GQLMovedTopicPage_TopicFragment[];
 }
 
-const StyledSearchResultListWrapper = styled.div`
-  padding-bottom: ${spacing.medium};
-  margin-bottom: ${spacing.large};
-  border: 1px solid ${colors.brand.greyLight};
-  ${mq.range({ from: breakpoints.desktop })} {
-    padding: ${spacing.medium};
-  }
-`;
+const StyledMain = styled("main", {
+  base: {
+    display: "flex",
+    gap: "xxlarge",
+    flexDirection: "column",
+  },
+});
+
+const SearchResultListWrapper = styled("ul", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: "xsmall",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
 
 const MovedTopicPage = ({ topics }: Props) => {
   const { t } = useTranslation();
   const topicsAsResults = topics.map(convertTopicToResult);
-  const results = resultsWithContentTypeBadgeAndImage(topicsAsResults, t);
-  const mergedTopic = mergeTopicSubjects(results);
+  const results = mergeTopicSubjects(topicsAsResults);
 
   return (
-    <OneColumn>
-      <h1>{t("movedResourcePage.title")}</h1>
-      <StyledSearchResultListWrapper>
-        <SearchResultList results={mergedTopic} />
-      </StyledSearchResultListWrapper>
-    </OneColumn>
+    <PageContainer>
+      <StyledMain>
+        <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
+          {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
+        </StyledHeading>
+        {results.length ? (
+          <SearchResultListWrapper>
+            {results.map((result) => (
+              <li key={result.id}>
+                <MovedNodeCard
+                  title={result.title}
+                  breadcrumbs={result.breadcrumbs}
+                  url={result.url}
+                  ingress={result.ingress}
+                  contentType={result.contentType}
+                  metaImage={result.metaImage}
+                />
+              </li>
+            ))}
+          </SearchResultListWrapper>
+        ) : (
+          <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
+        )}
+      </StyledMain>
+    </PageContainer>
   );
 };
 
@@ -89,6 +125,7 @@ MovedTopicPage.fragments = {
       id
       path
       name
+      breadcrumbs
       meta {
         metaDescription
         metaImage {

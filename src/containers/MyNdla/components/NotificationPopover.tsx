@@ -6,59 +6,73 @@
  *
  */
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { Root, Trigger, Portal, Content, Arrow } from "@radix-ui/react-popover";
-import { colors, spacing } from "@ndla/core";
+import { Button, Heading, PopoverContent, PopoverRoot, PopoverTitle, PopoverTrigger } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
 import { routes } from "../../../routeHelpers";
-import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
+import {
+  useArenaMarkNotificationsAsRead,
+  useTemporaryArenaNotifications,
+} from "../Arena/components/temporaryNodebbHooks";
 
-const StyledContent = styled(Content)`
-  background-color: ${colors.background.default};
-  box-shadow: 0 0 ${spacing.nsmall} ${colors.black}7f;
-  padding: ${spacing.normal};
-  gap: ${spacing.small};
-  min-width: 350px;
-  border-radius: ${spacing.xxsmall};
-`;
+const StyledPopoverContent = styled(PopoverContent, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    maxWidth: "surface.medium",
+  },
+});
 
-const StyledArrow = styled(Arrow)`
-  fill: ${colors.white};
-`;
-
-const ShowAllLink = styled(SafeLinkButton)`
-  margin-top: ${spacing.small};
-  width: 100%;
-  &:focus-visible {
-    outline-width: 2px;
-    outline-style: solid;
-    outline-color: ${colors.black};
-  }
-`;
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "xsmall",
+    paddingBlockEnd: "4xsmall",
+  },
+});
 
 const NotificationPopover = () => {
   const { notifications } = useTemporaryArenaNotifications();
+  const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  const markAllRead = useCallback(async () => {
+    const topicIdsToBeMarkedRead =
+      notifications?.items.filter(({ isRead }) => !isRead)?.map(({ topicId }) => topicId) ?? [];
+
+    await markNotificationsAsRead({
+      variables: { topicIds: topicIdsToBeMarkedRead },
+    });
+  }, [notifications, markNotificationsAsRead]);
+
   return (
-    <Root open={open} onOpenChange={setOpen}>
-      <Trigger asChild>
+    <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+      <PopoverTrigger asChild>
         <NotificationBellButton notifications={notifications?.items} />
-      </Trigger>
-      <Portal>
-        <StyledContent align="end">
-          <StyledArrow />
-          <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
-          <ShowAllLink to={routes.myNdla.notifications} onClick={() => setOpen(false)} fontWeight="bold">
-            {t("myNdla.arena.notification.showAll")}
-          </ShowAllLink>
-        </StyledContent>
-      </Portal>
-    </Root>
+      </PopoverTrigger>
+      <StyledPopoverContent>
+        <TitleWrapper>
+          <Heading asChild consumeCss textStyle="title.medium">
+            <PopoverTitle>{t("myNdla.arena.notification.title")}</PopoverTitle>
+          </Heading>
+          <Button variant="link" size="small" onClick={markAllRead}>
+            {t("myNdla.arena.notification.markAll")}
+          </Button>
+        </TitleWrapper>
+        <NotificationList notifications={notifications?.items} close={() => setOpen(false)} />
+        <SafeLinkButton to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
+          {t("myNdla.arena.notification.showAll")}
+        </SafeLinkButton>
+      </StyledPopoverContent>
+    </PopoverRoot>
   );
 };
 

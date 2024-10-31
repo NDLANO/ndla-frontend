@@ -26,13 +26,11 @@ import {
 import { Dispatch, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
 import { $isLinkNode, $isAutoLinkNode, toggleLink, $createLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { mergeRegister, $findMatchingParent } from "@lexical/utils";
-import { ButtonV2 } from "@ndla/button";
-import { colors, misc, shadows, spacing, stackOrder } from "@ndla/core";
-import { FieldErrorMessage, FormControl, InputV3, Label } from "@ndla/forms";
+import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { getSelectedNode } from "./EditorToolbar";
 
 const VERTICAL_GAP = 10;
@@ -40,43 +38,37 @@ const HORIZONTAL_OFFSET = 5;
 
 export const ADD_LINK_COMMAND: LexicalCommand<null> = createCommand();
 
-const FloatingContainer = styled.div`
-  position: absolute;
-  z-index: ${stackOrder.popover};
-  display: none;
-  align-items: end;
-  gap: ${spacing.small};
-  background-color: ${colors.white};
-  border: 1px solid ${colors.brand.greyLight};
-  border-radius: ${misc.borderRadius};
-  padding: ${spacing.small};
-  box-shadow: ${shadows.levitate1};
-  &[data-visible="true"] {
-    display: flex;
-    flex-direction: column;
-    transform: translate(0, 40px);
-  }
-`;
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const ButtonWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  gap: ${spacing.small};
-  > button {
-    flex: 1;
-  }
-`;
+const FloatingContainer = styled("div", {
+  base: {
+    position: "absolute",
+    zIndex: "popover",
+    display: "none",
+    alignItems: "end",
+    gap: "xsmall",
+    backgroundColor: "surface.default",
+    border: "1px solid",
+    borderColor: "stroke.info",
+    borderRadius: "xsmall",
+    padding: "xsmall",
 
-const StyledFieldErrorMessage = styled(FieldErrorMessage)`
-  &[data-disabled="true"] {
-    color: ${colors.black};
-  }
-`;
+    "&[data-visible='true']": {
+      display: "flex",
+      flexDirection: "column",
+      transform: "translate(0, -100px)",
+    },
+  },
+});
 
-export const setFloatingElemPositionForLinkEditor = (
+const ButtonRow = styled("div", {
+  base: {
+    width: "100%",
+    gap: "xsmall",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+  },
+});
+
+const setFloatingElemPositionForLinkEditor = (
   targetRect: DOMRect | null,
   floatingElem: HTMLElement,
   anchorElem: HTMLElement,
@@ -99,14 +91,13 @@ export const setFloatingElemPositionForLinkEditor = (
   let left = targetRect.left - horizontalOffset;
 
   if (top < editorScrollerRect.top) {
-    top += floatingElemRect.height + targetRect.height + verticalGap * 2;
+    top += floatingElemRect.height + targetRect.height;
   }
 
   if (left + floatingElemRect.width > editorScrollerRect.right) {
     left = editorScrollerRect.right - floatingElemRect.width - horizontalOffset;
   }
-
-  top -= anchorElementRect.top;
+  top -= anchorElementRect.top + floatingElemRect.height / 1.5 - verticalGap * 2;
   left -= anchorElementRect.left;
 
   floatingElem.style.opacity = "1";
@@ -159,8 +150,10 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   const [editedLinkUrl, setEditedLinkUrl] = useState("");
   const [lastSelection, setLastSelection] = useState<LexicalSelection>(null);
   const [open, setOpen] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const urlError = useMemo(() => {
+    setShowErrorMessage(false);
     if (editedLinkUrl === "") {
       return t("markdownEditor.link.error.url.empty");
     } else if (!validateUrl(editedLinkUrl)) {
@@ -169,6 +162,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   }, [editedLinkUrl, t]);
 
   const textError = useMemo(() => {
+    setShowErrorMessage(false);
     if (editedLinkText === "") {
       return t("markdownEditor.link.error.text.empty");
     } else return undefined;
@@ -185,6 +179,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
     setLinkUrl("");
     setEditedLinkElement(null);
     setLastSelection(null);
+    setShowErrorMessage(false);
     setOpen(false);
   };
 
@@ -344,34 +339,38 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   };
 
   const handleLinkSubmission = () => {
-    editor.update(() => {
-      const selection = $getSelection();
-      if ($isRangeSelection(selection)) {
-        const parent = getSelectedNode(selection).getParent();
-        let linkElement = editedLinkElement;
-        if (parent && $isAutoLinkNode(parent)) {
-          const linkNode = $createLinkNode(parent.getURL(), {
-            rel: parent.__rel,
-            target: parent.__target,
-            title: parent.__title,
-          });
-          parent.replace(linkNode, true);
-          linkElement = linkNode;
-          setEditedLinkElement(linkNode);
+    setShowErrorMessage(true);
+
+    if (!(!isDirty || !!urlError || !!textError)) {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          const parent = getSelectedNode(selection).getParent();
+          let linkElement = editedLinkElement;
+          if (parent && $isAutoLinkNode(parent)) {
+            const linkNode = $createLinkNode(parent.getURL(), {
+              rel: parent.__rel,
+              target: parent.__target,
+              title: parent.__title,
+            });
+            parent.replace(linkNode, true);
+            linkElement = linkNode;
+            setEditedLinkElement(linkNode);
+          }
+          if (linkElement) {
+            linkElement.setURL(sanitizeUrl(editedLinkUrl));
+            linkElement.getFirstChild().setTextContent(editedLinkText);
+            setTimeout(() => editor.focus());
+          } else {
+            selection.removeText();
+            selection.insertRawText(editedLinkText);
+            toggleLink(sanitizeUrl(editedLinkUrl));
+          }
         }
-        if (linkElement) {
-          linkElement.setURL(sanitizeUrl(editedLinkUrl));
-          linkElement.getFirstChild().setTextContent(editedLinkText);
-          setTimeout(() => editor.focus());
-        } else {
-          selection.removeText();
-          selection.insertRawText(editedLinkText);
-          toggleLink(sanitizeUrl(editedLinkUrl));
-        }
-      }
-    });
-    editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
-    closeLinkWindow();
+      });
+      editor.dispatchCommand(TOGGLE_LINK_COMMAND, editedLinkUrl);
+      closeLinkWindow();
+    }
   };
 
   const handleLinkDeletion = () => {
@@ -395,15 +394,25 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
     closeLinkWindow();
   };
 
+  const leftButton = editedLinkElement ? (
+    <Button variant="secondary" onClick={handleLinkDeletion}>
+      {t("myNdla.resource.remove")}
+    </Button>
+  ) : (
+    <Button variant="secondary" onClick={closeLinkWindow}>
+      {t("close")}
+    </Button>
+  );
+
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
-      <InputWrapper>
-        <FormControl id="text" isRequired isInvalid={!!textError}>
-          <Label margin="none" textStyle="label-small">
-            {t("markdownEditor.link.text")}
-          </Label>
-          <StyledFieldErrorMessage data-disabled={editedLinkText.length < 1}>{textError}</StyledFieldErrorMessage>
-          <InputV3
+      <Stack>
+        <FieldRoot required invalid={showErrorMessage && !!textError}>
+          <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
+          <FieldErrorMessage data-disabled={editedLinkText.length < 1}>
+            {showErrorMessage && textError}
+          </FieldErrorMessage>
+          <FieldInput
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus={!linkUrl}
             name="text"
@@ -415,13 +424,11 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-        </FormControl>
-        <FormControl id="url" isRequired isInvalid={!!urlError}>
-          <Label margin="none" textStyle="label-small">
-            {t("markdownEditor.link.url")}
-          </Label>
-          <StyledFieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{urlError}</StyledFieldErrorMessage>
-          <InputV3
+        </FieldRoot>
+        <FieldRoot required invalid={showErrorMessage && !!urlError}>
+          <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
+          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{showErrorMessage && urlError}</FieldErrorMessage>
+          <FieldInput
             name="url"
             ref={inputRef}
             data-link-input=""
@@ -433,16 +440,14 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
               monitorInputInteraction(event);
             }}
           />
-        </FormControl>
-      </InputWrapper>
-      <ButtonWrapper>
-        <ButtonV2 onClick={handleLinkDeletion} disabled={!editedLinkElement}>
-          {t("myNdla.resource.remove")}
-        </ButtonV2>
-        <ButtonV2 onClick={handleLinkSubmission} disabled={!isDirty || !!urlError}>
+        </FieldRoot>
+      </Stack>
+      <ButtonRow>
+        {leftButton}
+        <Button variant="primary" onClick={handleLinkSubmission}>
           {t("save")}
-        </ButtonV2>
-      </ButtonWrapper>
+        </Button>
+      </ButtonRow>
     </FloatingContainer>
   ) : null;
 };

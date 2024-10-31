@@ -8,32 +8,33 @@
 
 import { forwardRef, useMemo, ComponentPropsWithRef } from "react";
 import { useTranslation } from "react-i18next";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
-import { Bell } from "@ndla/icons/common";
-import { Text } from "@ndla/typography";
+import { NotificationLine } from "@ndla/icons/common";
+import { Button, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
 
-const NotificationCounter = styled(Text)`
-  position: absolute;
-  background: ${colors.support.red};
-  color: ${colors.white};
-  padding: 0 ${spacing.xxsmall};
-  border-radius: 2px;
-  bottom: 40%;
-  width: fit-content;
-  &[data-left="true"] {
-    right: 50%;
-  }
-  &[data-left="false"] {
-    left: 50%;
-  }
-`;
+const NotificationCounter = styled(Text, {
+  base: {
+    position: "absolute",
+    background: "surface.danger",
+    paddingInline: "3xsmall",
+    paddingBlock: "1",
+    borderRadius: "2px",
+    bottom: "40%",
+    "&[data-left='true']": {
+      right: "50%",
+    },
+    "&[data-left='false']": {
+      left: "50%",
+    },
+  },
+});
 
-const IconWrapper = styled.div`
-  position: relative;
-`;
+const IconWrapper = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
 
 interface Props extends ComponentPropsWithRef<"button"> {
   notifications?: GQLArenaNotificationV2Fragment[];
@@ -44,10 +45,20 @@ const NotificationBellButton = forwardRef<HTMLButtonElement, Props>(({ notificat
   const newNotifications = useMemo(() => notifications?.filter(({ isRead }) => !isRead).length, [notifications]);
 
   return (
-    <ButtonV2 variant="ghost" colorTheme="lighter" ref={ref} {...rest}>
+    <Button
+      variant="tertiary"
+      ref={ref}
+      aria-label={
+        newNotifications
+          ? t("myNdla.arena.notification.button.showNew", { count: newNotifications })
+          : t("myNdla.arena.notification.button.show")
+      }
+      size="small"
+      {...rest}
+    >
       {t("myNdla.arena.notification.title")}
       <BellIcon amountOfUnreadNotifications={newNotifications ?? 0} />
-    </ButtonV2>
+    </Button>
   );
 });
 
@@ -60,10 +71,10 @@ interface BellIconProps {
 export const BellIcon = ({ amountOfUnreadNotifications, left }: BellIconProps) => {
   return (
     <IconWrapper>
-      <Bell size="nsmall" />
+      <NotificationLine size="small" />
       {amountOfUnreadNotifications !== 0 && (
-        <NotificationCounter margin="none" element="div" textStyle="meta-text-xsmall" data-left={!!left}>
-          {amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}
+        <NotificationCounter textStyle="label.xsmall" color="text.onAction" data-left={!!left} asChild consumeCss>
+          <div>{amountOfUnreadNotifications > 99 ? "99+" : amountOfUnreadNotifications}</div>
         </NotificationCounter>
       )}
     </IconWrapper>

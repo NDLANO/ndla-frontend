@@ -9,27 +9,29 @@
 import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { Podcast } from "@ndla/icons/common";
+import { FileCopyLine } from "@ndla/icons/action";
+import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import CopyTextButton from "./CopyTextButton";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import config from "../../config";
+import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
+import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
-  MediaListItemImage,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
   ItemType,
-} from "@ndla/ui";
-import CopyTextButton from "./CopyTextButton";
-import LicenseDescription from "./LicenseDescription";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
-import { MediaListRef, mediaListIcon } from "./licenseStyles";
-import config from "../../config";
-import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
+  MediaListLicense,
+  MediaListContent,
+} from "../MediaList/MediaList";
 
 interface PodcastLicenseInfoProps {
   podcast: GQLPodcastLicenseList_PodcastLicenseFragment;
@@ -41,10 +43,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   const pageUrl = useMemo(() => `/audio/${podcast.id}`, [podcast.id]);
 
-  const shouldShowLink = useMemo(
-    () => pathname !== pageUrl && !isCopyrighted(podcast.copyright.license.license),
-    [pageUrl, pathname, podcast.copyright.license.license],
-  );
+  const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
   const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
@@ -85,46 +84,64 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
 
   return (
     <MediaListItem>
-      <MediaListItemImage canOpen={shouldShowLink}>
-        {!shouldShowLink ? (
-          <Podcast css={mediaListIcon} />
-        ) : (
-          <Link
-            to={pageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t("embed.goTo", { type: t("embed.type.podcast") })}
-          >
-            <Podcast css={mediaListIcon} />
-          </Link>
-        )}
-      </MediaListItemImage>
-
       <MediaListItemBody
-        title={t("license.podcast.rules")}
         license={podcast.copyright.license?.license}
         resourceType="podcast"
         resourceUrl={podcast.src}
         locale={i18n.language}
       >
-        <MediaListItemActions>
-          <MediaListRef>
-            <MediaListItemMeta items={items} />
-            {podcast.copyright.license?.license !== "COPYRIGHTED" && (
-              <>
-                {copyText && (
-                  <CopyTextButton
-                    stringToCopy={copyText}
-                    copyTitle={t("license.copyTitle")}
-                    hasCopiedTitle={t("license.hasCopiedTitle")}
-                  />
-                )}
-                <SafeLinkButton to={podcast.src} download variant="outline">
-                  {t("license.download")}
-                </SafeLinkButton>
-              </>
+        <MediaListContent>
+          <MediaListLicense
+            licenseType={podcast.copyright.license.license}
+            title={t("license.podcast.rules")}
+            sourceTitle={podcast.title}
+            sourceType="podcast"
+          >
+            {!isCopyrighted(podcast.copyright.license.license) && (
+              <AddResourceToFolderModal
+                resource={{
+                  id: podcast.id,
+                  path: `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
+                  resourceType: "audio",
+                }}
+              >
+                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${podcast.id}`} />
+              </AddResourceToFolderModal>
             )}
-          </MediaListRef>
+          </MediaListLicense>
+          {!isCopyrighted(podcast.copyright.license.license) && (
+            <MediaListItemActions>
+              <SafeLinkButton to={podcast.src} download variant="secondary" size="small">
+                <DownloadLine />
+                {t("license.download")}
+              </SafeLinkButton>
+              <CopyTextButton
+                stringToCopy={`<iframe title="${podcast.title}" aria-label="${podcast.title}" height="400" width="500" frameborder="0" src="${podcast.src}" allowfullscreen=""></iframe>`}
+                copyTitle={t("license.embed")}
+                hasCopiedTitle={t("license.embedCopied")}
+              />
+              {shouldShowLink && (
+                <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
+                  <ExternalLinkLine />
+                  {t("license.openLink")}
+                </SafeLinkButton>
+              )}
+            </MediaListItemActions>
+          )}
+        </MediaListContent>
+        <MediaListItemActions>
+          <MediaListContent>
+            <MediaListItemMeta items={items} />
+            {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
+              <CopyTextButton
+                stringToCopy={copyText}
+                copyTitle={t("license.copyTitle")}
+                hasCopiedTitle={t("license.hasCopiedTitle")}
+              >
+                <FileCopyLine />
+              </CopyTextButton>
+            )}
+          </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
     </MediaListItem>
@@ -136,19 +153,14 @@ interface Props {
 }
 
 const PodcastLicenseList = ({ podcasts }: Props) => {
-  const { t } = useTranslation();
-
   const unique = useMemo(() => uniqBy(podcasts, (p) => p.id), [podcasts]);
 
   return (
-    <div>
-      <LicenseDescription>{t("license.podcast.description")}</LicenseDescription>
-      <MediaList>
-        {unique.map((podcast, index) => (
-          <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} />
-        ))}
-      </MediaList>
-    </div>
+    <MediaList>
+      {unique.map((podcast, index) => (
+        <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} />
+      ))}
+    </MediaList>
   );
 };
 

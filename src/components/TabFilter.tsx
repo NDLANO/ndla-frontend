@@ -7,44 +7,31 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { ButtonV2 } from "@ndla/button";
-import { colors, spacing } from "@ndla/core";
+import {
+  RadioGroupRoot,
+  RadioGroupLabel,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemText,
+  RadioGroupItemHiddenInput,
+} from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 
-interface StyledProps {
-  selected: boolean;
-}
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
+});
 
-const StyledLi = styled.li`
-  padding: 0;
-`;
-
-const StyledButton = styled(ButtonV2)<StyledProps>`
-  border-width: 1px;
-  border-radius: 12px;
-  border-color: ${colors.brand.dark};
-  ${({ selected }) =>
-    !selected &&
-    css`
-      background: ${colors.white};
-      color: ${colors.brand.dark};
-      border-color: ${colors.brand.light};
-    `};
-`;
-
-const ButtonContainer = styled.ul`
-  display: flex;
-  gap: ${spacing.xsmall};
-  padding: ${spacing.xsmall};
-  border-radius: ${spacing.small};
-  background: ${colors.brand.lightest};
-  border: 1px solid ${colors.brand.lighter};
-  align-self: flex-start;
-  margin: ${spacing.normal} 0 ${spacing.small};
-  list-style: none;
-  flex-wrap: wrap;
-`;
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
 
 interface Option {
   value: string;
@@ -59,23 +46,24 @@ interface Props {
 
 const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
+
   return (
-    <ButtonContainer aria-label={t("subjectsPage.filterSubjects")}>
-      {options.map(({ value, label }) => (
-        <StyledLi role="none" key={value}>
-          <StyledButton
-            role="listitem"
-            fontWeight="bold"
-            aria-current={selectedValue === value}
-            selected={selectedValue === value}
-            variant={selectedValue === value ? undefined : "outline"}
-            onClick={() => onChange(value)}
-          >
-            {label}
-          </StyledButton>
-        </StyledLi>
-      ))}
-    </ButtonContainer>
+    <StyledRadioGroupRoot
+      orientation="horizontal"
+      value={selectedValue}
+      onValueChange={(details) => onChange(details.value)}
+    >
+      <RadioGroupLabel>{t("subjectsPage.tabFilter.label")}</RadioGroupLabel>
+      <RadioButtonWrapper>
+        {options.map((option) => (
+          <RadioGroupItem value={option.value} key={option.value}>
+            <RadioGroupItemControl />
+            <RadioGroupItemText>{option.label}</RadioGroupItemText>
+            <RadioGroupItemHiddenInput />
+          </RadioGroupItem>
+        ))}
+      </RadioButtonWrapper>
+    </StyledRadioGroupRoot>
   );
 };
 

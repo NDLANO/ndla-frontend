@@ -7,13 +7,13 @@
  */
 import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
-import NotFound from "../NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const ImagePage = () => {
   const { imageId } = useParams();
 
   if (!imageId) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
 
   return <ResourceEmbed id={imageId} type="image" />;

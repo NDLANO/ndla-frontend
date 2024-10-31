@@ -29,5 +29,5 @@ test("search subjects", () => {
 
 test("search subjects with one character", () => {
   const searchResult = searchSubjects("1", subjects);
-  expect(searchResult?.length).toBe(0);
+  expect(searchResult?.length).toBe(subjects.length);
 });
