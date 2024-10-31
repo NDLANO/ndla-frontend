@@ -34,6 +34,7 @@ import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
+import LearningPathPage from "./containers/MyNdla/LearningPath/LearningPathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -183,6 +184,9 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
+                  </Route>
+                  <Route path="learningpaths">
+                    <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
                   </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />

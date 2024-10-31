@@ -35,6 +35,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    learningpathPage: `Mine læringsstiar - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
