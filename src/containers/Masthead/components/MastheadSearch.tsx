@@ -163,7 +163,7 @@ const MastheadSearch = () => {
     const onSlashPressed = (evt: KeyboardEvent) => {
       if (
         evt.key === "/" &&
-        !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
+        !["input", "textarea"].includes(document.activeElement?.tagName?.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
         !dialogState.open
       ) {
