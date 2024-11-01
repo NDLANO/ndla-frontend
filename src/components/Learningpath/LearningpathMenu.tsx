@@ -153,11 +153,11 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
   const updateViewedSteps = () => {
     if (learningpath && currentStep?.seqNo !== undefined) {
       const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${learningpath.id}`;
-      const currentViewedSteps = window.localStorage.getItem(storageKey);
+      const currentViewedSteps = window.localStorage?.getItem(storageKey);
       const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
       setViewedSteps(updatedViewedSteps);
       updatedViewedSteps[currentStep.id] = true;
-      window.localStorage.setItem(storageKey, JSON.stringify(updatedViewedSteps));
+      window.localStorage?.setItem(storageKey, JSON.stringify(updatedViewedSteps));
     }
   };
 
