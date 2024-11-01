@@ -28,6 +28,7 @@ test("have recently added to folder", async ({ page }) => {
 });
 
 test("have new posts in arena", async ({ page }) => {
+  await mockWaitResponse(page, "**/graphql-api/graphql");
   await expect(page.getByRole("heading", { name: "Nye innlegg i arena" })).toBeVisible();
 
   expect(await page.getByRole("main").locator("section").nth(1).getByRole("listitem").count()).toBeGreaterThanOrEqual(

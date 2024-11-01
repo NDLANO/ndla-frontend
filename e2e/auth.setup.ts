@@ -8,6 +8,10 @@
 import { test, expect } from "@playwright/test";
 import { STORAGE_STATE } from "../playwright.config";
 
+if (process.env.RECORD_FIXTURES === "true") {
+  test.slow();
+}
+
 test("authenticate", async ({ page }) => {
   if (process.env.RECORD_FIXTURES === "true") {
     await page.goto("/login?state=/minndla");

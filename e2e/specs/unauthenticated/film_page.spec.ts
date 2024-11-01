@@ -9,6 +9,10 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
+if (process.env.RECORD_FIXTURES === "true") {
+  test.slow();
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject:20?disableSSR=true");
 });
