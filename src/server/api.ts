@@ -114,10 +114,11 @@ router.get("/login/success", async (req, res) => {
   });
 
   // Set cookie for nodebb to use
+  const username = "https://n.feide.no/claims/eduPersonPrincipalName";
   const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
   const nodebbCookie = {
     id: decoded?.sub,
-    username: decoded?.["https://n.feide.no/claims/eduPersonPrincipalName"],
+    username: decoded?.[username],
     fullname: decoded?.name,
     email: decoded?.email,
   };
