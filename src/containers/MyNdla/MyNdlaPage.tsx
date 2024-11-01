@@ -29,7 +29,7 @@ import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { supportedLanguages } from "../../i18n";
+import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
@@ -118,7 +118,7 @@ const MyNdlaPage = () => {
       <SocialMediaMetadata
         title={t("htmlTitles.myNdlaPage")}
         description={t("myNdla.description")}
-        trackableContent={{ supportedLanguages }}
+        trackableContent={{ supportedLanguages: myndlaLanguages }}
         imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
       />
       <TitleWrapper>

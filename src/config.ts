@@ -100,7 +100,6 @@ export type ConfigType = {
   learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
-  saamiEnabled: boolean;
   feideDomain: string;
   matomoUrl: string;
   matomoSiteId: string;
@@ -135,7 +134,6 @@ const getServerSideConfig = (): ConfigType => {
     learningPathDomain: getEnvironmentVariabel("LEARNINGPATH_DOMAIN", learningPathDomain(ndlaEnvironment)),
     zendeskWidgetKey: getEnvironmentVariabel("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
-    saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
     feideDomain: getEnvironmentVariabel("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
