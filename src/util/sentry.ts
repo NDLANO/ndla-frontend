@@ -33,6 +33,11 @@ const beforeSend = (
     return null;
   }
 
+  if (exception instanceof Error && exception.message.includes('Object.prototype.hasOwnProperty.call(o,"telephone")')) {
+    // https://github.com/getsentry/sentry/issues/61469
+    return null;
+  }
+
   return event;
 };
 
