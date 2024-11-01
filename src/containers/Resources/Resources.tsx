@@ -207,12 +207,14 @@ const resourceFragment = gql`
     language
     relevanceId
     article {
+      id
       metaImage {
         url
         alt
       }
     }
     learningpath {
+      id
       coverphoto {
         url
       }

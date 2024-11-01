@@ -88,6 +88,7 @@ ProgrammeMenu.fragments = {
       contextId
       title {
         title
+        language
       }
       url
       contentUri
