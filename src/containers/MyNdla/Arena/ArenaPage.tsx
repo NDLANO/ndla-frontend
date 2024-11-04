@@ -8,16 +8,10 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine } from "@ndla/icons/action";
-import { Button, Text, Heading } from "@ndla/primitives";
-import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import SortableArenaCards from "./components/SortableArenaCards";
-import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { PageSpinner } from "../../../components/PageSpinner";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { PageContainer } from "../../../components/Layout/PageContainer";
 import { getAllDimensions } from "../../../util/trackingUtil";
 
 const StyledPageContainer = styled(PageContainer, {
@@ -38,7 +32,6 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     trackPageView({
@@ -46,20 +39,6 @@ const ArenaPage = () => {
       dimensions: getAllDimensions({ user }),
     });
   }, [t, trackPageView, user]);
-
-  if (loading) {
-    return <PageSpinner />;
-  }
-
-  const menuItems: MenuItemProps[] = [
-    {
-      type: "link",
-      value: "newCategory",
-      icon: <AddLine size="small" />,
-      text: t("myNdla.arena.admin.category.form.newCategory"),
-      link: "category/new",
-    },
-  ];
 
   return (
     <StyledPageContainer>
