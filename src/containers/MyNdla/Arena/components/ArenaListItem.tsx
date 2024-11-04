@@ -21,7 +21,9 @@ import { formatDateTime } from "../../../../util/formatDate";
 const StyledListItemContent = styled(ListItemContent, {
   base: {
     alignItems: "center",
-    flexWrap: "wrap",
+    tabletDown: {
+      flexWrap: "wrap",
+    },
   },
 });
 

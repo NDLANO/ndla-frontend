@@ -9,6 +9,7 @@
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import {
+  BlockQuoteVariantProps,
   Button,
   CardContent,
   CardHeading,
@@ -25,10 +26,24 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentType } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { SearchItem } from "../searchHelpers";
+
+const contentTypeToVariantMapping = {
+  "subject-material": "brand1",
+  "source-material": "brand1",
+  concept: "brand1",
+  "tasks-and-activities": "brand2",
+  "assessment-resources": "brand2",
+  subject: "info",
+  "topic-article": "info",
+  "learning-path": "brand3",
+} as Record<
+  ContentType | "subject" | "topic-article" | "learning-path",
+  NonNullable<BlockQuoteVariantProps>["variant"] | "brand3" | "info"
+>;
 
 interface Props {
   item: SearchItem;
@@ -58,8 +73,44 @@ const StyledListElement = styled("li", {
     minHeight: "surface.3xsmall",
   },
 });
+
 const StyledCardRoot = styled(CardRoot, {
-  base: { height: "100%" },
+  base: {
+    height: "100%",
+    _hover: {
+      boxShadow: "xsmall",
+    },
+  },
+});
+
+const Metadata = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "5xsmall",
+    paddingInline: "medium",
+    paddingBlock: "xsmall",
+    boxShadow: "inner",
+  },
+  variants: {
+    variant: {
+      neutral: {
+        background: "surface.default",
+      },
+      brand1: {
+        background: "surface.brand.1.subtle",
+      },
+      brand2: {
+        background: "surface.brand.2.subtle",
+      },
+      brand3: {
+        background: "surface.brand.3.subtle",
+      },
+      info: {
+        background: "surface.infoSubtle",
+      },
+    },
+  },
 });
 
 const StyledText = styled(Text, {
@@ -72,25 +123,35 @@ const StyledText = styled(Text, {
 
 const SearchResultItem = ({ item, type }: Props) => {
   const { t } = useTranslation();
-  const contentType = type === "topic-article" ? "topic" : type;
   const mainContext = item.contexts?.[0];
+
+  const labels = item.labels?.join(", ");
 
   return (
     <StyledListElement>
-      <StyledCardRoot>
+      <StyledCardRoot variant="subtle">
         <CardImage
           alt=""
           height={200}
           src={item.img?.url ?? item.metaImg ?? ""}
           sizes={"320px"}
-          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+          fallbackElement={<ContentTypeFallbackIcon contentType={type} />}
         />
+        <Metadata variant={contentTypeToVariantMapping[type]}>
+          <StyledText textStyle="label.small">{t(`contentTypes.${type}`)}</StyledText>
+          {item.labels && item.labels?.length >= 1 ? (
+            <StyledText textStyle="label.xsmall">{`${t(`searchPage.includes`)} ${labels}`}</StyledText>
+          ) : (
+            <StyledText textStyle="label.xsmall">
+              <br />
+            </StyledText>
+          )}
+        </Metadata>
         <CardContent>
-          <ContentTypeBadgeNew contentType={contentType}>{t(`contentTypes.${contentType}`)}</ContentTypeBadgeNew>
           <CardHeading asChild consumeCss>
             <h3>
               <SafeLink to={item.url || ""} unstyled css={linkOverlay.raw()}>
-                {item.title}
+                {parse(item.htmlTitle)}
               </SafeLink>
             </h3>
           </CardHeading>

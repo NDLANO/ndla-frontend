@@ -14,6 +14,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("film page has content", async ({ page }) => {
-  await expect(page.getByRole("link", { name: "Chef Flynn", exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Fun Factory", exact: true }).first()).toBeVisible();
   await expect(page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link")).toHaveCount(8);
 });

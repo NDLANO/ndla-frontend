@@ -85,6 +85,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 export const plainLearningpathContainerFragments = {
   learningpath: gql`
     fragment PlainLearningpathContainer_Learningpath on Learningpath {
+      id
       supportedLanguages
       tags
       description

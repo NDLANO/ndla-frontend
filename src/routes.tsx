@@ -27,6 +27,7 @@ export const privateRoutes = [
   "minndla/arena/notifications",
   "minndla/profile",
   "minndla/arena/user/:username",
+  "minndla/learningpaths",
 ];
 
 export const routes = [
@@ -36,9 +37,8 @@ export const routes = [
   "search",
   "utdanning",
   "utdanning/:programme",
-  "utdanning/:programme/:grade",
-  "utdanning/:name/:contextId",
-  "utdanning/:name/:contextId/:grade",
+  "utdanning/:programme/:contextId",
+  "utdanning/:programme/:contextId/:grade",
   "subjects",
   "login",
   "login/success",

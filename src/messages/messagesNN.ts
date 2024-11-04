@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    forbidden: `Tilgang nekta - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
@@ -35,6 +36,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    learningpathPage: `Mine læringsstiar - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
@@ -62,13 +64,13 @@ const messages = {
     tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv praterobotane våre",
-      linkText: "Prøv NDLAs praterobotar",
+      linkText: "Prøv praterobotar på NDLA",
       ingressStudent:
-        "Lurer du på noko i faget ditt? Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller få forslag til ein disposisjon? Prøv prateroboten vår og sjå om han kan hjelpe deg! I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.",
+        "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
       ingress:
-        "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane.",
+        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast i jobb og undervisning. I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
       ingressUnauthenticated:
-        "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukast til jobb og i undervisning. I periodar med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotane. Logg inn for å få tilgang til praterobotane.",
+        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
     },
     resource: {
       addedToFolder: 'Ressurs er lagt i "{{folder}}"',
@@ -93,6 +95,7 @@ const messages = {
       error: "Ein feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmar",
@@ -194,6 +197,10 @@ const messages = {
   movedResourcePage: {
     title: "Sida har flytta, men du finn den her:",
     openInSubject: "Opne artikkelen i eit fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nekta",
+    errorDescription: "Du har ikke tilgang til denne sida",
   },
 };
 

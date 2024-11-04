@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import ArenaForm, { ArenaFormValues, ArenaFormWrapper } from "./components/ArenaForm";
@@ -27,15 +27,14 @@ export const NewTopicPage = () => {
   const navigate = useNavigate();
   const arenaTopicMutation = useArenaCreateTopic(categoryId);
   const { loading, arenaCategory } = useArenaCategory(categoryId);
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
       title: t("htmlTitles.arenaNewTopicPage"),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaCategory?.title, loading, t, trackPageView, user]);
 
   const onSave = useCallback(
     async (values: Partial<ArenaFormValues>) => {
@@ -65,7 +64,6 @@ export const NewTopicPage = () => {
   }, [categoryId, navigate]);
 
   if (!authContextLoaded || loading) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   const parentCrumbs =
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];

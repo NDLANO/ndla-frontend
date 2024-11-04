@@ -32,7 +32,7 @@ interface Props {
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
-  const { programme: urlProgramme } = useUrnIds();
+  const { contextId } = useUrnIds();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const programmes = useMemo(
     () =>
@@ -51,8 +51,6 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
     }
   }, [shouldCloseLevel, onCloseMenuPortion, setLevelClosed]);
 
-  const programmePath = `/utdanning/${urlProgramme}`;
-
   useArrowNavigation(true, {
     initialFocused: programmes[0]?.path,
     onLeftKeyPressed: onCloseMenuPortion,
@@ -70,9 +68,9 @@ const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp
             id={programme.path}
             type="link"
             to={programme.path}
-            current={programme.path === programmePath}
+            current={programme.contextId === contextId}
             onClose={onClose}
-            active={programme.path === programmePath}
+            active={programme.contextId === contextId}
             key={programme.url}
           >
             {programme.name}
@@ -87,8 +85,10 @@ ProgrammeMenu.fragments = {
   programmeMenu: gql`
     fragment ProgrammeMenu_ProgrammePage on ProgrammePage {
       id
+      contextId
       title {
         title
+        language
       }
       url
       contentUri

@@ -35,6 +35,7 @@ interface MatchParams extends TypedParams {
   topic3?: string;
   topic4?: string;
   programme?: string;
+  contextId?: string;
   slug?: string;
 }
 
@@ -71,6 +72,7 @@ export const useUrnIds = () => {
     articleId: params.articleId,
     topicId: topicList[topicList.length - 1],
     programme: params.programme,
+    contextId: params.contextId,
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
     slug: params.slug,
@@ -199,5 +201,6 @@ export const routes = {
     folder: (folderId: String) => `/minndla/folders/${folderId}`,
     tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
     tags: "/minndla/folders/tag",
+    learningpath: "/minndla/learningpaths",
   },
 };

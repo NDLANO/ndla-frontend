@@ -15,10 +15,9 @@ import nb from "./messages/messagesNB";
 import nn from "./messages/messagesNN";
 import se from "./messages/messagesSE";
 
-export const supportedLanguages: LocaleType[] = config.saamiEnabled
-  ? ["nb", "nn", "en", "se"]
-  : ["nb", "nn", "en", "se"];
+export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 export const preferredLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
+export const myndlaLanguages: LocaleType[] = ["nb", "nn", "en"];
 
 type LocaleObject = {
   name: string;

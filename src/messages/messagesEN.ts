@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    forbidden: `Access denied - ${titleTemplate}`,
     unpublished: `Resource is unpublished - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: "Subject",
@@ -35,6 +36,7 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
+    learningpathPage: `My learning paths - ${titleTemplate}`,
   },
   menu: {
     about: "About us",
@@ -61,14 +63,14 @@ const messages = {
   myndla: {
     tagsTitle: "My tags",
     campaignBlock: {
-      title: "Try our chatbot",
+      title: "Try our chatbots",
       linkText: "Try NDLAs chatbots",
       ingressStudent:
-        "Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or getting suggestions for an outline? Try our chatbot and see if it can help you out! During exams the county may deny access to the chatbots.",
+        "Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or creating illustrations? Try our chatbots and see if they can help you out! During exams the counties may deny access to the chatbots.",
       ingress:
-        "Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots.",
+        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots.",
       ingressUnauthenticated:
-        "Do you want to use AI in your teaching? NDLA has created two chatbots that protect your privacy and can be safely used for work and in teaching. During exams the county may deny access to the chatbots. Log in to to access the chat bots.",
+        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots. Log in to to access the chatbots.",
     },
     resource: {
       addedToFolder: 'Resource added to "{{folder}}"',
@@ -93,6 +95,7 @@ const messages = {
       error: "An error occured",
       userUpdated: "User updated",
     },
+    goToMyNdla: "Go to My NDLA",
   },
   ndlaFilm: {
     films: "Films",
@@ -194,6 +197,10 @@ const messages = {
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
+  },
+  forbiddenPage: {
+    title: "Access denied",
+    errorDescription: "You do not have access to this page.",
   },
 };
 

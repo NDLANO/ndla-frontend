@@ -127,13 +127,13 @@ const Resources = ({
   }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
-    const showAdditional = window.localStorage.getItem("showAdditionalResources");
+    const showAdditional = window.localStorage?.getItem("showAdditionalResources");
     setShowAdditionalResources(showAdditional === "true");
   }, []);
 
   const toggleAdditionalResources = useCallback(() => {
     setShowAdditionalResources((prev) => {
-      window?.localStorage.setItem("showAdditionalResources", `${!prev}`);
+      window?.localStorage?.setItem("showAdditionalResources", `${!prev}`);
       return !prev;
     });
   }, []);
@@ -207,12 +207,14 @@ const resourceFragment = gql`
     language
     relevanceId
     article {
+      id
       metaImage {
         url
         alt
       }
     }
     learningpath {
+      id
       coverphoto {
         url
       }

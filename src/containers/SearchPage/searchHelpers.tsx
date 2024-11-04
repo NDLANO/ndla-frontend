@@ -109,6 +109,7 @@ const getContextLabels = (contexts: GQLGroupSearchResourceFragment["contexts"] |
 export interface SearchItem {
   id: number | string;
   title: string;
+  htmlTitle: string;
   ingress?: string;
   url?: string;
   labels?: string[];
@@ -134,7 +135,8 @@ export const mapResourcesToItems = (
 ): SearchItem[] =>
   resources.map((resource) => ({
     id: resource.id,
-    title: resource.name,
+    title: resource.title,
+    htmlTitle: resource.htmlTitle,
     ingress: resource.ingress,
     url: isLti
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
@@ -150,7 +152,7 @@ export const mapResourcesToItems = (
     ...(resource.metaImage?.url && {
       img: {
         url: resource.metaImage.url,
-        alt: resource.name ?? resource.metaImage?.alt ?? "",
+        alt: resource.title ?? resource.metaImage?.alt ?? "",
       },
     }),
     children: isLti ? (
@@ -158,7 +160,7 @@ export const mapResourcesToItems = (
         ltiData={ltiData}
         item={{
           id: resource.id,
-          title: resource.name,
+          title: resource.title,
           url: resource.path,
         }}
       />
@@ -220,6 +222,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
       items: subjectData.map((subject) => ({
         id: subject.id,
         title: subject.name,
+        htmlTitle: subject.name,
         url: toSubject(subject.id),
         metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),

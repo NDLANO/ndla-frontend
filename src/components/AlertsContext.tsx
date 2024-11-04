@@ -28,7 +28,7 @@ interface Props {
 
 const getClosedAlerts = (): number[] => {
   try {
-    const stored = localStorage.getItem("closedAlerts");
+    const stored = localStorage?.getItem("closedAlerts");
     if (stored) {
       const ids = JSON.parse(stored);
       if (Array.isArray(ids)) {
@@ -46,7 +46,7 @@ const setClosedAlert = (id: number) => {
   try {
     const stored = getClosedAlerts();
     const updated = uniq([...stored, id]);
-    localStorage.setItem("closedAlerts", JSON.stringify(updated));
+    localStorage?.setItem("closedAlerts", JSON.stringify(updated));
   } catch {
     console.error("Could not save closedAlerts to localStorage.");
   }

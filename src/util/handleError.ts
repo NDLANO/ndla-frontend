@@ -24,14 +24,15 @@ if (config.runtimeType === "production" && import.meta.env.SSR) {
   });
 }
 
+type SingleGQLError = {
+  status?: number;
+  extensions?: { status?: number };
+  path?: string;
+};
+
 type UnknownGQLError = {
   status?: number;
-  graphQLErrors?:
-    | {
-        status?: number;
-        extensions?: { status?: number };
-      }[]
-    | null;
+  graphQLErrors?: SingleGQLError[] | null;
 };
 
 export const getErrorStatuses = (unknownError: ErrorType | null | undefined): number[] => {
@@ -67,6 +68,16 @@ export const isAccessDeniedError = (error: ErrorType | undefined | null): boolea
   if (!error) return false;
   const codes = getErrorStatuses(error);
   return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
+};
+
+export const findAccessDeniedErrors = (unknownError: ErrorType | undefined | null): SingleGQLError[] => {
+  // We cast to our own error type since we append status in graphql-api
+  const error = unknownError as UnknownGQLError | null | undefined;
+  const accessDeniedErrors = error?.graphQLErrors?.filter((gqle) => {
+    const code = gqle.status ?? gqle.extensions?.status;
+    return AccessDeniedCodes.includes(code ?? 0);
+  });
+  return accessDeniedErrors ?? [];
 };
 
 export const isNotFoundError = (error: ErrorType | undefined | null): boolean => {
@@ -135,18 +146,20 @@ export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {
   return "error";
 };
 
-const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
+export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
+  if (levels.length === 0) return undefined;
+  if (levels.every((l) => l === "info")) return "info";
+  if (levels.every((l) => l === "warn" || "info")) return "warn";
+  if (levels.includes("error")) return "error";
+  return undefined;
+};
+
+export const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
   if (error instanceof NDLAError) return error.logLevel;
 
   const statusCodes = getErrorStatuses(error);
   const logLevels = statusCodes.map((sc) => getLogLevelFromStatusCode(sc));
-
-  if (logLevels.length === 0) return undefined;
-
-  if (logLevels.every((l) => l === "info")) return "info";
-  if (logLevels.every((l) => l === "warn" || "info")) return "warn";
-  if (logLevels.includes("error")) return "error";
-  return undefined;
+  return mergeLogLevels(logLevels);
 };
 
 const deriveContext = (error: ErrorType): Record<string, unknown> => {
