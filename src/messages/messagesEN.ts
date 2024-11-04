@@ -37,6 +37,7 @@ const messages = {
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
     learningpathPage: `My learning paths - ${titleTemplate}`,
+    collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "About us",
@@ -201,6 +202,10 @@ const messages = {
   forbiddenPage: {
     title: "Access denied",
     errorDescription: "You do not have access to this page.",
+  },
+  collectionPage: {
+    title: `Resources in $t(languages.{{language}})`,
+    noSubjects: "We do not have any resources in this language yet.",
   },
 };
 

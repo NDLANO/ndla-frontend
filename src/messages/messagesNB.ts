@@ -37,6 +37,7 @@ const messages = {
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
     learningpathPage: `Mine læringsstier - ${titleTemplate}`,
+    collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
@@ -201,6 +202,10 @@ const messages = {
   forbiddenPage: {
     title: "Tilgang nektet",
     errorDescription: "Du har ikke tilgang til denne siden.",
+  },
+  collectionPage: {
+    title: `Ressurser på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikke noen ressurser på dette språket enda.",
   },
 };
 
