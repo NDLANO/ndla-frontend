@@ -204,6 +204,8 @@ export const ResourceItem = ({
     return elements.length ? elements.join(" ") : undefined;
   }, [accessId, relevanceId, showAdditionalResources, teacherOnly]);
 
+  if (!learningpath && !article) return null;
+
   return (
     <li>
       <ListItemRoot

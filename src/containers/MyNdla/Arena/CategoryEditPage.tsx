@@ -30,15 +30,14 @@ const CategoryEditPage = () => {
   const navigate = useNavigate();
   const { loading, arenaCategory } = useArenaCategory(categoryId);
   const updateCategory = useEditArenaCategory();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
     trackPageView({
       title: t("htmlTitles.arenaNewCategoryPage"),
       dimensions: getAllDimensions({ user }),
     });
-  }, [authContextLoaded, t, trackPageView, user]);
+  }, [t, trackPageView, user]);
 
   const onSave = useCallback(
     async (values: Partial<INewCategory>) => {
@@ -64,10 +63,8 @@ const CategoryEditPage = () => {
     else navigate(routes.myNdla.arena);
   }, [categoryId, navigate]);
 
-  if (loading || !authContextLoaded) return <PageSpinner />;
+  if (loading) return <PageSpinner />;
   if (!categoryId) return <Navigate to={routes.myNdla.arena} />;
-  if (user && !(user.isModerator || user.arenaEnabled))
-    return <Navigate to={routes.myNdla.arenaCategory(Number(categoryId))} />;
 
   return (
     <MyNdlaPageWrapper>

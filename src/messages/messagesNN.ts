@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    forbidden: `Tilgang nekta - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
@@ -35,6 +36,8 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    learningpathPage: `Mine læringsstiar - ${titleTemplate}`,
+    collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
@@ -93,6 +96,7 @@ const messages = {
       error: "Ein feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmar",
@@ -194,6 +198,14 @@ const messages = {
   movedResourcePage: {
     title: "Sida har flytta, men du finn den her:",
     openInSubject: "Opne artikkelen i eit fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nekta",
+    errorDescription: "Du har ikkje tilgang til denne sida",
+  },
+  collectionPage: {
+    title: `Ressursar på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
   },
 };
 

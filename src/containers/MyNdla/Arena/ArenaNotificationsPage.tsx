@@ -6,16 +6,12 @@
  *
  */
 
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { useArenaMarkNotificationsAsRead, useTemporaryArenaNotifications } from "./components/temporaryNodebbHooks";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { PageSpinner } from "../../../components/PageSpinner";
-import { routes } from "../../../routeHelpers";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
@@ -39,7 +35,6 @@ const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
 
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
-  const { authContextLoaded, authenticated, user } = useContext(AuthContext);
   const { notifications } = useTemporaryArenaNotifications();
   const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
 
@@ -52,8 +47,6 @@ const ArenaNotificationPage = () => {
     });
   }, [notifications, markNotificationsAsRead]);
 
-  if (!authContextLoaded) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
   return (
     <StyledMyNdlaPageWrapper>
       <HelmetWithTracker title={t("myNdla.arena.notification.myNotification")} />

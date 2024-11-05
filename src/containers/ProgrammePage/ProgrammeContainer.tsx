@@ -222,6 +222,7 @@ ProgrammeContainer.fragments = {
       metaDescription
       title {
         title
+        language
       }
       desktopImage {
         url

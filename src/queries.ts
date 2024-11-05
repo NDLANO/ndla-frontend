@@ -54,9 +54,10 @@ const searchContextFragment = gql`
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
-    name
     path
     url
+    title
+    htmlTitle
     ingress
     traits
     contexts {
@@ -74,6 +75,7 @@ const searchResultFragment = gql`
   fragment SearchResource on SearchResult {
     id
     title
+    htmlTitle
     supportedLanguages
     url
     metaDescription

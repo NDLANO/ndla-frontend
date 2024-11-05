@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
     notFound: `Siidu ii gávdno - ${titleTemplate}`,
+    forbidden: `Tilgang nektet - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fága",
@@ -34,6 +35,8 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
+    learningpathPage: `Mine læringsstier - ${titleTemplate}`,
+    collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
@@ -92,6 +95,7 @@ const messages = {
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
   },
   ndlaFilm: {
     films: "Filmer",
@@ -190,6 +194,14 @@ const messages = {
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
     openInSubject: "Åpne artikkelen i et fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nekta",
+    errorDescription: "Du har ikke tilgang til denne sida",
+  },
+  collectionPage: {
+    title: `Ressursar på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
   },
 };
 

@@ -2727,6 +2727,22 @@ export type GQLArticlePage_ParentFragment = {
   url?: string;
 } & GQLResources_ParentFragment;
 
+export type GQLCollectionPageQueryVariables = Exact<{
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLCollectionPageQuery = {
+  __typename?: "Query";
+  subjectCollection?: Array<{
+    __typename?: "Subject";
+    id: string;
+    name: string;
+    path?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+    subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+  }>;
+};
+
 export type GQLAllMoviesQueryVariables = Exact<{
   resourceTypes: Scalars["String"]["input"];
   language: Scalars["String"]["input"];
@@ -2890,6 +2906,7 @@ export type GQLLearningpathPage_NodeFragment = {
   url?: string;
   learningpath?: {
     __typename?: "Learningpath";
+    id: number;
     supportedLanguages: Array<string>;
     tags: Array<string>;
     description: string;
@@ -2966,9 +2983,10 @@ export type GQLMastheadDrawer_SubjectFragment = { __typename?: "Node" } & GQLDef
 export type GQLProgrammeMenu_ProgrammePageFragment = {
   __typename?: "ProgrammePage";
   id: string;
+  contextId?: string;
   url?: string;
   contentUri?: string;
-  title: { __typename?: "Title"; title: string };
+  title: { __typename?: "Title"; title: string; language: string };
 };
 
 export type GQLSubjectMenu_RootFragment = {
@@ -4294,6 +4312,7 @@ export type GQLPlainArticlePageQuery = {
 
 export type GQLPlainLearningpathContainer_LearningpathFragment = {
   __typename?: "Learningpath";
+  id: number;
   supportedLanguages: Array<string>;
   tags: Array<string>;
   description: string;
@@ -4370,7 +4389,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
   id: string;
   metaDescription?: string;
   url?: string;
-  title: { __typename?: "Title"; title: string };
+  title: { __typename?: "Title"; title: string; language: string };
   desktopImage?: { __typename?: "MetaImage"; url: string };
   grades?: Array<{
     __typename?: "Grade";
@@ -4496,8 +4515,16 @@ export type GQLResources_NodeFragment = {
   rank?: number;
   language?: string;
   relevanceId?: string;
-  article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string } };
-  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
+  article?: {
+    __typename?: "Article";
+    id: number;
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  };
+  learningpath?: {
+    __typename?: "Learningpath";
+    id: number;
+    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+  };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
@@ -4774,9 +4801,10 @@ export type GQLSearchContextFragment = {
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
-  name: string;
   path: string;
   url: string;
+  title: string;
+  htmlTitle: string;
   ingress: string;
   traits: Array<string>;
   contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
@@ -4787,6 +4815,7 @@ type GQLSearchResource_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
   id: number;
   title: string;
+  htmlTitle: string;
   supportedLanguages: Array<string>;
   url: string;
   metaDescription: string;
@@ -4799,6 +4828,7 @@ type GQLSearchResource_LearningpathSearchResult_Fragment = {
   __typename?: "LearningpathSearchResult";
   id: number;
   title: string;
+  htmlTitle: string;
   supportedLanguages: Array<string>;
   url: string;
   metaDescription: string;

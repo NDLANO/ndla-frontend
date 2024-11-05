@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    forbidden: `Access denied - ${titleTemplate}`,
     unpublished: `Resource is unpublished - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: "Subject",
@@ -35,6 +36,8 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
+    learningpathPage: `My learning paths - ${titleTemplate}`,
+    collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "About us",
@@ -93,6 +96,7 @@ const messages = {
       error: "An error occured",
       userUpdated: "User updated",
     },
+    goToMyNdla: "Go to My NDLA",
   },
   ndlaFilm: {
     films: "Films",
@@ -194,6 +198,14 @@ const messages = {
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
+  },
+  forbiddenPage: {
+    title: "Access denied",
+    errorDescription: "You do not have access to this page.",
+  },
+  collectionPage: {
+    title: `Resources in $t(languages.{{language}})`,
+    noSubjects: "We do not have any resources in this language yet.",
   },
 };
 

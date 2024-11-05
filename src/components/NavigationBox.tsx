@@ -60,7 +60,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
       )}
       <StyledList data-testid="nav-box-list">
         {items?.map((item) => (
-          <li key={item.label} data-testid="nav-box-item">
+          <li key={item.id} data-testid="nav-box-item">
             <NavigationSafeLinkButton to={item.url ?? ""} aria-current={item.current} variant={variant}>
               {item.isAdditionalResource && (
                 <Additional

@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useState } from "react";
+import { useMemo, useContext, useState, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
 import {
@@ -23,6 +23,8 @@ import {
   ShieldUserLine,
   ShieldUserFill,
   LoginBoxLine,
+  RouteLine,
+  RouteFill,
 } from "@ndla/icons/common";
 import { MoreLine } from "@ndla/icons/contentType";
 import { FolderFill, FolderLine } from "@ndla/icons/editor";
@@ -31,6 +33,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import config from "../../config";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
 
@@ -171,7 +174,18 @@ const MyNdlaLayout = () => {
 
 export default MyNdlaLayout;
 
-export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined) => [
+interface MenuLink {
+  id: string;
+  name: string;
+  to: string;
+  shortName?: string;
+  icon?: ReactElement;
+  iconFilled?: ReactElement;
+  shownForUser?: (user: MyNDLAUserType | undefined) => boolean;
+  reloadDocument?: boolean;
+}
+
+export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined): MenuLink[] => [
   {
     id: "root",
     to: routes.myNdla.root,
@@ -197,13 +211,22 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     iconFilled: <FolderFill />,
   },
   {
+    id: "learningpaths",
+    to: routes.myNdla.learningpath,
+    name: t("myNdla.learningpath.title"),
+    shortName: t("myNdla.iconMenu.learningpath"),
+    icon: <RouteLine />,
+    iconFilled: <RouteFill />,
+    shownForUser: (user) => config.learningpathEnabled && user?.role === "employee",
+  },
+  {
     id: "arena",
     to: routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
-    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled,
+    shownForUser: (user) => !!user?.arenaEnabled,
   },
   {
     id: "admin",
@@ -212,7 +235,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.arena.admin.title"),
     icon: <ShieldUserLine />,
     iconFilled: <ShieldUserFill />,
-    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled && user?.isModerator,
+    shownForUser: (user) => !!(user?.arenaEnabled && user?.isModerator),
   },
   {
     id: "profile",

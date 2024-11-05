@@ -18,7 +18,7 @@ import {
   GQLTopicWrapperQueryVariables,
   GQLTopicWrapper_RootFragment,
 } from "../../../graphqlTypes";
-import handleError, { isAccessDeniedError, isNotFoundError } from "../../../util/handleError";
+import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../../util/handleError";
 import { useGraphQuery } from "../../../util/runQueries";
 
 type Props = {
@@ -89,8 +89,15 @@ const TopicWrapper = ({
 
   if (error) {
     handleError(error);
-    if (isAccessDeniedError(error)) {
-      navigate("/403", { replace: true });
+    const accessDeniedErrors = findAccessDeniedErrors(error);
+    if (accessDeniedErrors.length > 0) {
+      const nonRecoverableError = accessDeniedErrors.some(
+        (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
+      );
+
+      if (nonRecoverableError) {
+        navigate("/403", { replace: true });
+      }
     } else if (isNotFoundError(error)) {
       navigate("/404", { replace: true });
     } else {

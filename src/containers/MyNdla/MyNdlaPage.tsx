@@ -27,6 +27,9 @@ import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
@@ -69,7 +72,7 @@ const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.slice(0, 4) ?? [], {
+  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
   const { allFolderResources } = useRecentlyUsedResources(!authenticated);
@@ -111,9 +114,13 @@ const MyNdlaPage = () => {
 
   return (
     <StyledMyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")}>
-        <meta name="description" content={t("myNdla.description")} />
-      </HelmetWithTracker>
+      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
+      <SocialMediaMetadata
+        title={t("htmlTitles.myNdlaPage")}
+        description={t("myNdla.description")}
+        trackableContent={{ supportedLanguages: myndlaLanguages }}
+        imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
+      />
       <TitleWrapper>
         <MyNdlaTitle title={t("myNdla.myNDLA")} />
         <StyledText textStyle="body.xlarge">

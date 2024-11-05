@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+import parse from "html-react-parser";
 import debounce from "lodash/debounce";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
@@ -163,7 +165,7 @@ const MastheadSearch = () => {
     const onSlashPressed = (evt: KeyboardEvent) => {
       if (
         evt.key === "/" &&
-        !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
+        !["input", "textarea"].includes(document.activeElement?.tagName?.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
         !dialogState.open
       ) {
@@ -351,7 +353,7 @@ const MastheadSearch = () => {
                           <TextWrapper>
                             <ComboboxItemText>
                               <SafeLink to={to} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                                {resource.title}
+                                {parse(resource.htmlTitle)}
                               </SafeLink>
                             </ComboboxItemText>
                             {!!resource.contexts[0] && (

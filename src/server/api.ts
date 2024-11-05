@@ -7,6 +7,7 @@
  */
 
 import express from "express";
+import jwt from "jsonwebtoken";
 import { matchPath } from "react-router-dom";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
@@ -16,7 +17,7 @@ import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
-import config from "../config";
+import config, { getEnvironmentVariabel } from "../config";
 import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { routes } from "../routeHelpers";
@@ -111,6 +112,18 @@ router.get("/login/success", async (req, res) => {
     encode: String,
     domain,
   });
+
+  // Set cookie for nodebb to use
+  const username = "https://n.feide.no/claims/eduPersonPrincipalName";
+  const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
+  const nodebbCookie = {
+    id: decoded?.sub,
+    username: decoded?.[username],
+    fullname: decoded?.name,
+  };
+  const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+  res.cookie("nodebb_auth", nodebbCookieString, { domain });
+
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
   if (!languageCookie) {
@@ -135,7 +148,9 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 });
 
 router.get("/logout/session", (req, res) => {
-  res.clearCookie("feide_auth", { domain: `.${config.feideDomain}` });
+  const domain = req.hostname === config.feideDomain ? `.${config.feideDomain}` : req.hostname;
+  res.clearCookie("feide_auth", { domain });
+  res.clearCookie("nodebb_auth", { domain });
   const state = typeof req.query.state === "string" ? req.query.state : "/";
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));

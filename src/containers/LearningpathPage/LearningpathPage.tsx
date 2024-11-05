@@ -186,6 +186,7 @@ export const learningpathPageFragments = {
       path
       url
       learningpath {
+        id
         supportedLanguages
         tags
         description
