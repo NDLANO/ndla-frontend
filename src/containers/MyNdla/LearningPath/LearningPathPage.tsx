@@ -9,13 +9,29 @@
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { AddLine } from "@ndla/icons/action";
-import { Heading } from "@ndla/primitives";
+import { Heading, Text } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import LearningPathList from "./components/LearningPathList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { MenuItemProps } from "../components/SettingsMenu";
+
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xlarge",
+  },
+});
+
+const HeadingWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
 
 const LearningPathPage = () => {
   const { t } = useTranslation();
@@ -37,12 +53,16 @@ const LearningPathPage = () => {
   }, [t, trackPageView, user]);
 
   return (
-    <MyNdlaPageWrapper menuItems={menuItems}>
+    <StyledMyNdlaPageWrapper menuItems={menuItems}>
       <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {t("myNdla.learningpath.title")}
-      </Heading>
-    </MyNdlaPageWrapper>
+      <HeadingWrapper>
+        <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
+          {t("myNdla.learningpath.title")}
+        </Heading>
+        <Text textStyle="body.medium">{t("myNdla.learningpath.description")}</Text>
+      </HeadingWrapper>
+      <LearningPathList loading={false} learningPaths={[]} />
+    </StyledMyNdlaPageWrapper>
   );
 };
 
