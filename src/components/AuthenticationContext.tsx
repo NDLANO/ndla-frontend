@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import config from "../config";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
@@ -20,8 +20,6 @@ export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  login: () => void;
-  logout: () => void;
   user: MyNDLAUserType | undefined;
   examLock: boolean;
 }
@@ -29,8 +27,6 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  login: () => {},
-  logout: () => {},
   user: undefined,
   examLock: false,
 });
@@ -114,16 +110,11 @@ const AuthenticationContext = ({ children }: Props) => {
     }
   }, [myNdlaData]);
 
-  const login = useCallback(() => setAuthenticated(true), []);
-  const logout = useCallback(() => setAuthenticated(false), []);
-
   return (
     <AuthContext.Provider
       value={{
         authenticated,
         authContextLoaded,
-        login,
-        logout,
         user,
         examLock,
       }}
