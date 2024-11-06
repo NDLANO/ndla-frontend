@@ -86,15 +86,17 @@ export const isNotFoundError = (error: ErrorType | undefined | null): boolean =>
   return codes.find((c) => c === 404) !== undefined;
 };
 
-export const isInternalServerError = (error: ErrorType | undefined | null): boolean => {
-  if (!error) return false;
-  const codes = getErrorStatuses(error);
-  return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
-};
-
 const getMessage = (error: ErrorType): string => {
   if (error instanceof StatusError && error.message) return error.message;
   if (error instanceof Error && error.message) return error.message;
+  if (error instanceof AggregateError) {
+    const aggregateMessages = error.errors.map((e) => {
+      const message = getMessage(e);
+      const stack = e.stack ? `Stack: ${e.stack}` : "";
+      return `${message} ${stack}`;
+    });
+    return `AggregateError with errors: [${aggregateMessages}]`;
+  }
   if (typeof error === "string" && error) return error;
   return "Got error without message";
 };
