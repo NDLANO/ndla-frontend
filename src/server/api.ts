@@ -8,10 +8,9 @@
 
 import express from "express";
 import jwt from "jsonwebtoken";
-import { errors } from "openid-client";
+import { errors as oidcErrors } from "openid-client";
 import { matchPath } from "react-router-dom";
 import { getCookie } from "@ndla/util";
-import OPError = errors.OPError;
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
@@ -105,7 +104,7 @@ router.get("/login/success", async (req, res) => {
   }
 
   const token = await getFeideToken(req, verifier, code).catch((error: Error) => {
-    if (error instanceof OPError) {
+    if (error instanceof oidcErrors.OPError) {
       log?.info("Got OPError when fetching feide token.", { error });
       throw new BadRequestError(`Got OPError when fetching feide token: ${error.message}`);
     }
