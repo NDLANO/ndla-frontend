@@ -38,7 +38,6 @@ interface MatchParams extends TypedParams {
   programme?: string;
   contextId?: string;
   slug?: string;
-  contextId?: string;
 }
 
 export const useOnTopicPage = () => {
@@ -78,7 +77,6 @@ export const useUrnIds = () => {
     stepId: params.stepId,
     subjectType: subjectId ? getSubjectType(subjectId) : undefined,
     slug: params.slug,
-    contextId: params.contextId,
   };
 };
 

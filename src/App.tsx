@@ -136,10 +136,21 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
-                <Route path=":root/:name/r/:contextId">{resourceRoutes}</Route>
-                <Route path=":name/f/:contextId" element={<SubjectRouting />} />
-                <Route path=":root/:name/f/:contextId" element={<SubjectRouting />} />
-                <Route path=":root/:name/e/:contextId" element={<SubjectRouting />} />
+                <Route path="r" element={<ResourcePage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":contextId/:stepId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId/:stepId" element={null} />
+                </Route>
+                <Route path="e" element={<SubjectRouting />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="f" element={<SubjectRouting />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
                 <Route path="subject:subjectId" element={<SubjectRouting />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic1" element={null}>

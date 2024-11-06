@@ -41,6 +41,10 @@ const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "p
   });
 };
 
+const contextIdInContexts = (contexts: Pick<GQLTaxonomyContext, "contextId">[], contextId?: string) => {
+  return contexts?.find((c) => c.contextId === contextId);
+};
+
 const resourcePageQuery = gql`
   query resourcePage(
     $topicId: String!
@@ -169,7 +173,12 @@ const ResourcePage = () => {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInContexts(location, data.resource.contexts)) {
+  if (
+    data.resource &&
+    (contextId
+      ? !contextIdInContexts(data.resource.contexts, contextId)
+      : !urlInContexts(location, data.resource.contexts))
+  ) {
     if (data.resource.paths?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
