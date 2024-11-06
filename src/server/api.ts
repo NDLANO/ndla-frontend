@@ -8,8 +8,10 @@
 
 import express from "express";
 import jwt from "jsonwebtoken";
+import { errors } from "openid-client";
 import { matchPath } from "react-router-dom";
 import { getCookie } from "@ndla/util";
+import OPError = errors.OPError;
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
@@ -25,6 +27,7 @@ import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
+import { log } from "../util/handleError";
 import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
@@ -101,7 +104,14 @@ router.get("/login/success", async (req, res) => {
     throw new BadRequestError("Missing code or verifier");
   }
 
-  const token = await getFeideToken(req, verifier, code);
+  const token = await getFeideToken(req, verifier, code).catch((error: Error) => {
+    if (error instanceof OPError) {
+      log?.info("Got OPError when fetching feide token.", { error });
+      throw new BadRequestError(`Got OPError when fetching feide token: ${error.message}`);
+    }
+    return Promise.reject(error);
+  });
+
   const feideCookie = {
     ...token,
     ndla_expires_at: (token.expires_at ?? 0) * 1000,

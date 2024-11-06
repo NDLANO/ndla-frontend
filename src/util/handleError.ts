@@ -13,7 +13,7 @@ import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import config from "../config";
 
-let log: any | undefined;
+export let log: any | undefined;
 
 // import.meta.env is only available when ran within vite. `handleError` can be called from the root server.
 // This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
