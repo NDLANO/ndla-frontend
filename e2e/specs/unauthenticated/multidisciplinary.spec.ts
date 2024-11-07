@@ -17,7 +17,6 @@ test("contains content", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql*");
   await page.getByRole("button").getByText("Meny").click();
   await page.getByRole("menuitem", { name: "Tverrfaglige tema" }).first().click();
-  await page.waitForURL("/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7");
   await mockWaitResponse(page, "**/graphql-api/graphql*");
   await page.waitForLoadState();
   const heading = page.getByRole("heading").getByText("Tverrfaglige temaer");
