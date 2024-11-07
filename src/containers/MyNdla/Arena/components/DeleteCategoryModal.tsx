@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteForever } from "@ndla/icons/editor";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { useToast } from "../../../../components/ToastContext";
 import { useArenaDeleteCategoryMutation } from "../../arenaMutations";
@@ -46,7 +46,7 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
           aria-label={t("myNdla.arena.admin.category.form.deleteCategory")}
           variant="danger"
         >
-          <DeleteForever />
+          <DeleteBinLine />
         </IconButton>
       </DialogTrigger>
       <DeleteModalContent
