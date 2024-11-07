@@ -336,3 +336,15 @@ export const alertsQuery = gql`
     }
   }
 `;
+
+export const nodeWithMetadataFragment = gql`
+  fragment NodeWithMetadata on Node {
+    id
+    name
+    path
+    url
+    metadata {
+      customFields
+    }
+  }
+`;

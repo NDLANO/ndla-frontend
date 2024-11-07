@@ -2670,20 +2670,11 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
-export type GQLAllSubjects_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: "Query";
-  nodes?: Array<{ __typename?: "Node" } & GQLAllSubjects_NodeFragment>;
+  nodes?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -3949,7 +3940,7 @@ export type GQLFavouriteSubjectsQueryVariables = Exact<{
 
 export type GQLFavouriteSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Node" } & GQLAllSubjects_NodeFragment>;
+  subjects?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{
@@ -5024,6 +5015,15 @@ export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLAlertsQuery = {
   __typename?: "Query";
   alerts?: Array<{ __typename?: "UptimeAlert"; title: string; body?: string; closable: boolean; number: number }>;
+};
+
+export type GQLNodeWithMetadataFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path?: string;
+  url?: string;
+  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
 };
 
 export type GQLPodcastSeriesQueryVariables = Exact<{

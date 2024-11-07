@@ -346,7 +346,7 @@ const MastheadSearch = () => {
                   <Spinner />
                 ) : (
                   mappedItems.map((resource) => {
-                    const to = enablePrettyUrls ? resource.path : resource.url;
+                    const to = enablePrettyUrls ? resource.url : resource.path;
                     return (
                       <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                         <StyledListItemRoot context="list">

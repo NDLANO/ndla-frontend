@@ -51,8 +51,8 @@ import {
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
 } from "../../graphqlTypes";
+import { nodeWithMetadataFragment } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";
-import { allSubjectsFragment } from "../AllSubjectsPage/AllSubjectsPage";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {
@@ -458,10 +458,10 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
 export const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
     subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
-      ...AllSubjects_Node
+      ...NodeWithMetadata
     }
   }
-  ${allSubjectsFragment}
+  ${nodeWithMetadataFragment}
 `;
 
 export const useFavouriteSubjects = (

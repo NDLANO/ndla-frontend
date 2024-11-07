@@ -26,6 +26,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { nodeWithMetadataFragment } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
@@ -84,25 +85,13 @@ const StyledList = styled("ul", {
   },
 });
 
-export const allSubjectsFragment = gql`
-  fragment AllSubjects_Node on Node {
-    id
-    name
-    path
-    url
-    metadata {
-      customFields
-    }
-  }
-`;
-
 const allSubjectsQuery = gql`
   query allSubjects {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
-      ...AllSubjects_Node
+      ...NodeWithMetadata
     }
   }
-  ${allSubjectsFragment}
+  ${nodeWithMetadataFragment}
 `;
 
 const AllSubjectsPage = () => {
