@@ -2912,7 +2912,7 @@ export type GQLMastHeadQueryVariables = Exact<{
 
 export type GQLMastHeadQuery = {
   __typename?: "Query";
-  subject?: { __typename?: "Node" } & GQLMastheadDrawer_SubjectFragment;
+  root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
 };
 
 export type GQLAboutMenuFragment = {
@@ -2942,7 +2942,14 @@ export type GQLAboutMenu_FrontpageMenuFragment = {
   >;
 } & GQLAboutMenuFragment;
 
-export type GQLDefaultMenu_RootFragment = { __typename?: "Node"; id: string; name: string };
+export type GQLDefaultMenu_RootFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  url?: string;
+  path?: string;
+  nodeType: string;
+};
 
 export type GQLDrawerContent_RootFragment = { __typename?: "Node" } & GQLSubjectMenu_RootFragment;
 
@@ -2968,7 +2975,7 @@ export type GQLMastheadProgrammeQuery = {
   programmes?: Array<{ __typename?: "ProgrammePage" } & GQLDrawerContent_ProgrammePageFragment>;
 };
 
-export type GQLMastheadDrawer_SubjectFragment = { __typename?: "Node" } & GQLDefaultMenu_RootFragment &
+export type GQLMastheadDrawer_RootFragment = { __typename?: "Node" } & GQLDefaultMenu_RootFragment &
   GQLDrawerContent_RootFragment;
 
 export type GQLProgrammeMenu_ProgrammePageFragment = {

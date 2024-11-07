@@ -22,7 +22,7 @@ interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPath: string[];
-  subject?: GQLDrawerContent_RootFragment;
+  root?: GQLDrawerContent_RootFragment;
   type: MenuType;
   setFrontpageMenu: Dispatch<SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>>;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
@@ -35,7 +35,7 @@ const DrawerContent = ({
   type,
   onCloseMenuPortion,
   topicPath,
-  subject,
+  root,
   setTopicPathIds,
   setFrontpageMenu,
   menuItems,
@@ -46,7 +46,7 @@ const DrawerContent = ({
   } else if (type === "subject") {
     return (
       <SubjectMenu
-        subject={subject}
+        subject={root}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
         topicPathIds={topicPath}

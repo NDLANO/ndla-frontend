@@ -75,11 +75,11 @@ const DrawerWrapper = styled("div", {
 
 const mastheadQuery = gql`
   query mastHead($subjectId: String!) {
-    subject: node(id: $subjectId) {
-      ...MastheadDrawer_Subject
+    root: node(id: $subjectId) {
+      ...MastheadDrawer_Root
     }
   }
-  ${MastheadDrawer.fragments.subject}
+  ${MastheadDrawer.fragments.root}
 `;
 
 const MastheadContainer = () => {
@@ -96,7 +96,8 @@ const MastheadContainer = () => {
       skip: contextId === undefined || typeof window === "undefined",
     },
   );
-  const maybeTopicId = rootData?.node?.nodeType === "TOPIC" ? rootData?.node?.id : undefined;
+  const nodeType = rootData?.node?.nodeType;
+  const maybeTopicId = nodeType === "TOPIC" ? rootData?.node?.id : undefined;
   const subjectId = rootData?.node?.context?.rootId || subId;
   const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== subjectId) ?? [];
   const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds || topicList;
@@ -105,7 +106,7 @@ const MastheadContainer = () => {
     variables: {
       subjectId: subjectId!,
     },
-    skip: rootLoading || !subjectId || typeof window === "undefined",
+    skip: rootLoading || !subjectId || nodeType === "PROGRAMME" || typeof window === "undefined",
   });
 
   const data = subjectId ? freshData ?? previousData : undefined;
@@ -120,7 +121,7 @@ const MastheadContainer = () => {
     <ErrorBoundary>
       <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
-          <MastheadDrawer subject={data?.subject} crumbs={crumbs} />
+          <MastheadDrawer root={data?.root} crumbs={crumbs} />
           <MastheadSearch />
         </DrawerWrapper>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
