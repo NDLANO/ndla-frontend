@@ -207,7 +207,7 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedItems = useMemo(() => {
+  const searchHits = useMemo(() => {
     if (!query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
@@ -218,11 +218,11 @@ const MastheadSearch = () => {
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
-          path: context?.path ?? result.url,
+          path: (enablePrettyUrls ? context?.url : context?.path) ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [query.length, searchResult.search?.results, enablePrettyUrls]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
@@ -238,11 +238,11 @@ const MastheadSearch = () => {
   const collection = useMemo(
     () =>
       createListCollection({
-        items: mappedItems,
+        items: searchHits,
         itemToValue: (item) => item.path,
         itemToString: (item) => item.title,
       }),
-    [mappedItems],
+    [searchHits],
   );
 
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
@@ -324,7 +324,7 @@ const MastheadSearch = () => {
             <StyledHitsWrapper aria-live="assertive">
               {!loading && query && (
                 <div>
-                  {!(mappedItems.length > 1) ? (
+                  {!(searchHits.length > 1) ? (
                     <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
@@ -340,34 +340,33 @@ const MastheadSearch = () => {
                 </div>
               )}
             </StyledHitsWrapper>
-            {!!mappedItems.length || loading ? (
+            {!!searchHits.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
                   <Spinner />
                 ) : (
-                  mappedItems.map((resource) => {
-                    const to = enablePrettyUrls ? resource.url : resource.path;
+                  searchHits.map((hit) => {
                     return (
-                      <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <ComboboxItem key={hit.id} item={hit} className="peer" asChild consumeCss>
                         <StyledListItemRoot context="list">
                           <TextWrapper>
                             <ComboboxItemText>
-                              <SafeLink to={to} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                                {parse(resource.htmlTitle)}
+                              <SafeLink to={hit.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                                {parse(hit.htmlTitle)}
                               </SafeLink>
                             </ComboboxItemText>
-                            {!!resource.contexts[0] && (
+                            {!!hit.contexts[0] && (
                               <Text
                                 textStyle="label.small"
                                 color="text.subtle"
                                 css={{ textAlign: "start" }}
-                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                                aria-label={`${t("breadcrumb.breadcrumb")}: ${hit.contexts[0]?.breadcrumbs.join(", ")}`}
                               >
-                                {resource.contexts[0].breadcrumbs.join(" > ")}
+                                {hit.contexts[0].breadcrumbs.join(" > ")}
                               </Text>
                             )}
                           </TextWrapper>
-                          <ContentTypeBadgeNew contentType={resource.contentType} />
+                          <ContentTypeBadgeNew contentType={hit.contentType} />
                         </StyledListItemRoot>
                       </ComboboxItem>
                     );
@@ -376,7 +375,7 @@ const MastheadSearch = () => {
               </StyledComboboxContent>
             ) : null}
           </ComboboxRoot>
-          {!!mappedItems.length && !loading && (
+          {!!searchHits.length && !loading && (
             <Button variant="secondary" type="submit">
               {t("masthead.moreHits")}
               <ArrowRightLine />
