@@ -31,10 +31,10 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     $subjectId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject: node(id: $subjectId) {
-      ...MultidisciplinarySubjectArticle_Subject
+    root: node(id: $subjectId) {
+      ...MultidisciplinarySubjectArticle_RootNode
     }
-    topic: node(id: $topicId, rootId: $subjectId) {
+    parent: node(id: $topicId, rootId: $subjectId) {
       id
       name
       path
@@ -47,15 +47,15 @@ const multidisciplinarySubjectArticlePageQuery = gql`
           url
         }
       }
-      ...MultidisciplinarySubjectArticle_Topic
+      ...MultidisciplinarySubjectArticle_ParentNode
     }
     resourceTypes {
       ...MultidisciplinarySubjectArticle_ResourceTypeDefinition
     }
   }
   ${multidisciplinarySubjectArticleFragments.resourceType}
-  ${multidisciplinarySubjectArticleFragments.topic}
-  ${multidisciplinarySubjectArticleFragments.subject}
+  ${multidisciplinarySubjectArticleFragments.parent}
+  ${multidisciplinarySubjectArticleFragments.root}
 `;
 
 interface Props {
@@ -88,16 +88,16 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId 
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (!data?.topic || !data?.subject) {
+  if (!data?.parent || !data?.root) {
     return <DefaultErrorMessagePage />;
   }
 
-  const { topic, subject, resourceTypes } = data;
+  const { parent, root, resourceTypes } = data;
 
   const socialMediaMetaData = {
-    title: htmlTitle(topic.name ?? topic.article?.title, [subject.name]),
-    description: topic.article?.metaDescription ?? topic.article?.introduction,
-    image: topic.article?.metaImage,
+    title: htmlTitle(parent.name ?? parent.article?.title, [root.name]),
+    description: parent.article?.metaDescription ?? parent.article?.introduction,
+    image: parent.article?.metaImage,
   };
 
   return (
@@ -110,14 +110,14 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId 
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
         trackableContent={{
-          supportedLanguages: topic.article?.supportedLanguages,
-          tags: topic.article?.tags,
+          supportedLanguages: parent.article?.supportedLanguages,
+          tags: parent.article?.tags,
         }}
       />
       <MultidisciplinarySubjectArticle
         skipToContentId={SKIP_TO_CONTENT_ID}
-        topic={topic}
-        subject={subject}
+        parent={parent}
+        root={root}
         resourceTypes={resourceTypes}
       />
     </>

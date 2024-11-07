@@ -40,7 +40,7 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_NodeFragment,
+  GQLLearningpath_RootNodeFragment,
   GQLLearningpath_ParentFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
@@ -53,10 +53,10 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  topic?: GQLLearningpath_ParentFragment;
-  topicPath?: GQLTaxonomyCrumb[];
+  parent?: GQLLearningpath_ParentFragment;
+  crumbs?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  subject?: GQLLearningpath_NodeFragment;
+  root?: GQLLearningpath_RootNodeFragment;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
@@ -171,9 +171,9 @@ const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
-  topic,
-  subject,
-  topicPath,
+  parent,
+  root,
+  crumbs,
   resourceTypes,
   skipToContentId,
   breadcrumbItems,
@@ -273,13 +273,13 @@ const Learningpath = ({
               <LearningpathEmbed
                 key={learningpathStep.id}
                 skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
-                subjectId={subject?.id}
+                subjectId={root?.id}
                 learningpathStep={learningpathStep}
                 breadcrumbItems={breadcrumbItems}
               >
                 <LastLearningpathStepInfo
-                  topic={topic}
-                  topicPath={topicPath}
+                  parent={parent}
+                  crumbs={crumbs}
                   resourceTypes={resourceTypes}
                   seqNo={learningpathStep.seqNo}
                   numberOfLearningSteps={learningpath.learningsteps.length - 1}
@@ -323,9 +323,9 @@ const Learningpath = ({
 Learningpath.fragments = {
   parent: gql`
     fragment Learningpath_Parent on Node {
-      ...LastLearningpathStepInfo_Node
+      ...LastLearningpathStepInfo_ParentNode
     }
-    ${LastLearningpathStepInfo.fragments.topic}
+    ${LastLearningpathStepInfo.fragments.parent}
   `,
   resourceType: gql`
     fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
@@ -334,7 +334,7 @@ Learningpath.fragments = {
     ${LastLearningpathStepInfo.fragments.resourceType}
   `,
   root: gql`
-    fragment Learningpath_Node on Node {
+    fragment Learningpath_RootNode on Node {
       id
     }
   `,

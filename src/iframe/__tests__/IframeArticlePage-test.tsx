@@ -205,7 +205,9 @@ test("IframeArticlePage with article renderers correctly", () => {
                       locale={locale}
                       resource={{
                         id: "urn:resource:1",
+                        name: "Politiske skillelinjer",
                         path: "/subject:1/resource:1",
+                        url: "/r/naturfag/politiske-skillelinjer/asdfw323",
                         resourceTypes: [],
                       }}
                       article={article}

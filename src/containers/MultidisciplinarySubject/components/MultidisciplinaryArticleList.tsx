@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { GQLMultidisciplinaryArticleList_ParentFragment } from "../../../graphqlTypes";
+import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
   base: {
@@ -32,7 +32,7 @@ const CardList = styled("ul", {
 });
 
 export type ListProps = {
-  topics: GQLMultidisciplinaryArticleList_ParentFragment[];
+  nodes: GQLMultidisciplinaryArticleList_NodeFragment[];
 };
 
 const ListWrapper = styled("nav", {
@@ -43,25 +43,25 @@ const ListWrapper = styled("nav", {
   },
 });
 
-const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
+const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
   const { t } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const id = useId();
   return (
     <ListWrapper aria-labelledby={id}>
       <Heading id={id} textStyle="title.large" asChild consumeCss>
-        <h2>{t("multidisciplinary.casesCount", { count: topics.length })}</h2>
+        <h2>{t("multidisciplinary.casesCount", { count: nodes.length })}</h2>
       </Heading>
       <CardList>
-        {topics.map((topic) => {
-          const to = enablePrettyUrls ? topic.url : topic.path;
+        {nodes.map((node) => {
+          const to = enablePrettyUrls ? node.url : node.path;
           return (
-            <li key={topic.id}>
+            <li key={node.id}>
               <CardRoot css={{ height: "100%" }}>
-                {!!topic.meta?.metaImage && (
+                {!!node.meta?.metaImage && (
                   <CardImage
-                    src={topic.meta.metaImage.url}
-                    alt={topic.meta.metaImage.alt}
+                    src={node.meta.metaImage.url}
+                    alt={node.meta.metaImage.alt}
                     height={200}
                     fallbackWidth={360}
                     fallbackElement={<ContentTypeFallbackIcon />}
@@ -71,12 +71,12 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
                   <CardHeading asChild consumeCss>
                     <h3>
                       <SafeLink to={to ?? ""} css={linkOverlay.raw()}>
-                        {topic.name}
+                        {node.name}
                       </SafeLink>
                     </h3>
                   </CardHeading>
                   <Text textStyle="body.large" css={{ flex: "1" }}>
-                    {topic.meta?.metaDescription ?? ""}
+                    {node.meta?.metaDescription ?? ""}
                   </Text>
                 </CardContent>
               </CardRoot>
@@ -89,8 +89,8 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
 };
 
 MultidisciplinaryArticleList.fragments = {
-  parent: gql`
-    fragment MultidisciplinaryArticleList_Parent on Node {
+  node: gql`
+    fragment MultidisciplinaryArticleList_Node on Node {
       id
       name
       path

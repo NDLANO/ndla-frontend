@@ -32,8 +32,8 @@ import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
-  GQLMultidisciplinarySubjectArticle_SubjectFragment,
-  GQLMultidisciplinarySubjectArticle_TopicFragment,
+  GQLMultidisciplinarySubjectArticle_RootNodeFragment,
+  GQLMultidisciplinarySubjectArticle_ParentNodeFragment,
 } from "../../../graphqlTypes";
 import { toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
@@ -85,59 +85,59 @@ const StyledDivider = styled(Divider, {
 });
 
 interface Props {
-  topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
-  subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
+  parent: GQLMultidisciplinarySubjectArticle_ParentNodeFragment;
+  root: GQLMultidisciplinarySubjectArticle_RootNodeFragment;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
 }
 
-const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
+const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => topic.context?.parents ?? [], [topic]);
+  const crumbs = useMemo(() => parent.context?.parents ?? [], [parent]);
 
   useEffect(() => {
-    if (!topic?.article || !authContextLoaded) return;
+    if (!parent?.article || !authContextLoaded) return;
     const dimensions = getAllDimensions({
-      article: topic.article,
-      filter: subject.name,
+      article: parent.article,
+      filter: root.name,
       user,
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(topic.name || "", [t("htmlTitles.titleTemplate")]),
+      title: htmlTitle(parent.name || "", [t("htmlTitles.titleTemplate")]),
     });
-  }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
+  }, [authContextLoaded, root, t, parent.article, parent.name, parent.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, topic], enablePrettyUrls);
-  }, [t, topic, topicPath, enablePrettyUrls]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, parent], enablePrettyUrls);
+  }, [t, parent, crumbs, enablePrettyUrls]);
 
   const [article, scripts] = useMemo(() => {
-    if (!topic.article) return [undefined, undefined];
+    if (!parent.article) return [undefined, undefined];
     return [
-      transformArticle(topic.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
-        subject: subject.id,
-        articleLanguage: topic.article.language,
+      transformArticle(parent.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${parent.article.id}`,
+        subject: root.id,
+        articleLanguage: parent.article.language,
       }),
-      getArticleScripts(topic.article, i18n.language),
+      getArticleScripts(parent.article, i18n.language),
     ];
-  }, [topic.article, i18n.language, subject.id]);
+  }, [parent.article, i18n.language, root.id]);
 
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article?.transformedContent.content);
 
-  if (!topic.article || !article) {
+  if (!parent.article || !article) {
     return null;
   }
 
-  const subjectLinks = topic.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
+  const subjectLinks = parent.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
-    path: crossSubjectTopic.path || subject.path || "",
+    path: crossSubjectTopic.path || root.path || "",
   }));
 
   const authors =
@@ -170,12 +170,12 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
               id={skipToContentId ?? article.id.toString()}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
-              contentTypeLabel={topic.resourceTypes?.[0]?.name}
+              contentTypeLabel={parent.resourceTypes?.[0]?.name}
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
                     codes={article.grepCodes}
-                    subjectId={subject?.id}
+                    subjectId={root?.id}
                     supportedLanguages={article.supportedLanguages}
                   />
                 )
@@ -193,7 +193,7 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                <Resources topic={parent} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>
@@ -204,8 +204,8 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 };
 
 export const multidisciplinarySubjectArticleFragments = {
-  topic: gql`
-    fragment MultidisciplinarySubjectArticle_Topic on Node {
+  parent: gql`
+    fragment MultidisciplinarySubjectArticle_ParentNode on Node {
       id
       name
       path
@@ -243,8 +243,8 @@ export const multidisciplinarySubjectArticleFragments = {
     ${Resources.fragments.parent}
     ${Article.fragments.article}
   `,
-  subject: gql`
-    fragment MultidisciplinarySubjectArticle_Subject on Node {
+  root: gql`
+    fragment MultidisciplinarySubjectArticle_RootNode on Node {
       id
       name
       path

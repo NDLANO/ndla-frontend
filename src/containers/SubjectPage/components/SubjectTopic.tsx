@@ -152,7 +152,7 @@ const SubjectTopic = ({
         ref={topicRef}
       />
       {subjectType === "multiDisciplinary" && topicIds.length === 2 && activeTopic ? (
-        <MultidisciplinaryArticleList topics={topic.subtopics ?? []} />
+        <MultidisciplinaryArticleList nodes={topic.subtopics ?? []} />
       ) : children?.length ? (
         <NavigationBox
           variant="secondary"
@@ -189,7 +189,7 @@ export const topicFragments = {
         path
         url
         relevanceId
-        ...MultidisciplinaryArticleList_Parent
+        ...MultidisciplinaryArticleList_Node
       }
       meta {
         metaDescription
@@ -235,7 +235,7 @@ export const topicFragments = {
       }
       ...Resources_Parent
     }
-    ${MultidisciplinaryArticleList.fragments.parent}
+    ${MultidisciplinaryArticleList.fragments.node}
     ${Resources.fragments.parent}
     ${copyrightInfoFragment}
   `,

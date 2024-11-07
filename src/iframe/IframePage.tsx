@@ -54,11 +54,11 @@ const iframePageQuery = gql`
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }
-    articleResource: nodeByArticleId(nodeId: $taxonomyId, articleId: $articleId) {
+    nodeByArticleId(nodeId: $taxonomyId, articleId: $articleId) {
       ...IframeArticlePage_Node
     }
   }
-  ${iframeArticlePageFragments.resource}
+  ${iframeArticlePageFragments.node}
   ${iframeArticlePageFragments.article}
 `;
 
@@ -91,12 +91,12 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
     redirectContext.status = 410;
   }
 
-  const { article, articleResource } = data ?? {};
+  const { article, nodeByArticleId } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
     return <NotFoundPage />;
   }
-  return <IframeArticlePage resource={articleResource} article={article} />;
+  return <IframeArticlePage resource={nodeByArticleId} article={article} />;
 };
 
 export default IframePage;

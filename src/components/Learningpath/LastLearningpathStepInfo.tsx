@@ -15,7 +15,7 @@ import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLastLearningpathStepInfo_NodeFragment,
+  GQLLastLearningpathStepInfo_ParentNodeFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
 
@@ -36,14 +36,14 @@ const StyledHGroup = styled("hgroup", {
 });
 
 interface Props {
-  topic?: GQLLastLearningpathStepInfo_NodeFragment;
-  topicPath?: GQLTaxonomyCrumb[];
+  parent?: GQLLastLearningpathStepInfo_ParentNodeFragment;
+  crumbs?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
 }
-const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
+const LastLearningpathStepInfo = ({ parent, crumbs, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
@@ -52,8 +52,8 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
     return null;
   }
 
-  const root = topicPath?.[0];
-  const parent = topicPath?.toReversed()?.[0];
+  const root = crumbs?.[0];
+  const p = crumbs?.toReversed()?.[0];
 
   return (
     <>
@@ -70,23 +70,23 @@ const LastLearningpathStepInfo = ({ topic, topicPath, resourceTypes, seqNo, numb
             <SafeLink to={enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
           </Text>
         )}
-        {!!parent && (
+        {!!p && (
           <Text>
             {t("learningPath.lastStep.topicHeading")}{" "}
-            <SafeLink to={enablePrettyUrls ? parent.url : parent.path}>{parent.name}</SafeLink>
+            <SafeLink to={enablePrettyUrls ? p.url : p.path}>{p.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>
-      {resourceTypes && !!topic?.children?.length && (
-        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={topic} subHeadingType="h3" />
+      {resourceTypes && !!parent?.children?.length && (
+        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={parent} subHeadingType="h3" />
       )}
     </>
   );
 };
 
 LastLearningpathStepInfo.fragments = {
-  topic: gql`
-    fragment LastLearningpathStepInfo_Node on Node {
+  parent: gql`
+    fragment LastLearningpathStepInfo_ParentNode on Node {
       id
       ...Resources_Parent
     }

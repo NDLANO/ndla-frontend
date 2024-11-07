@@ -33,9 +33,9 @@ import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
-  topic?: GQLLearningpathPage_ParentFragment;
-  topicPath: GQLTaxonomyCrumb[];
-  subject?: GQLLearningpathPage_RootFragment;
+  parent?: GQLLearningpathPage_ParentFragment;
+  crumbs: GQLTaxonomyCrumb[];
+  root?: GQLLearningpathPage_RootFragment;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_NodeFragment;
 }
@@ -64,7 +64,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const { resource, subject } = data;
+    const { resource, root } = data;
     const learningpath = resource?.learningpath;
     const firstStep = learningpath?.learningsteps?.[0];
     const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
@@ -72,7 +72,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     const dimensions = getAllDimensions({
       learningpath,
       learningstep,
-      filter: subject?.name,
+      filter: root?.name,
       user,
     });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
@@ -81,14 +81,14 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   if (
     !data.resource ||
     !data.resource.learningpath ||
-    !data.topic ||
-    !data.topicPath ||
-    !data.subject ||
+    !data.parent ||
+    !data.crumbs ||
+    !data.root ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
     return <DefaultErrorMessagePage />;
   }
-  const { resource, topic, resourceTypes, subject, topicPath } = data;
+  const { resource, parent, resourceTypes, root, crumbs } = data;
   const learningpath = resource.learningpath!;
 
   const learningpathStep = stepId
@@ -99,19 +99,19 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems = topicPath
-    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls)
+  const breadcrumbItems = crumbs
+    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls)
     : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource], enablePrettyUrls);
 
   return (
     <>
       <Helmet>
         <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
-        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+        {root?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(getTitle(subject, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
+        title={htmlTitle(getTitle(root, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
@@ -120,11 +120,11 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         skipToContentId={skipToContentId}
         learningpath={learningpath}
         learningpathStep={learningpathStep}
-        topic={topic}
-        subject={subject}
+        parent={parent}
+        root={root}
         resourcePath={enablePrettyUrls ? resource.url : resource.path}
         resourceTypes={resourceTypes}
-        topicPath={topicPath}
+        crumbs={crumbs}
         breadcrumbItems={breadcrumbItems}
       />
     </>
@@ -132,15 +132,15 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 };
 
 const getTitle = (
-  subject?: Pick<GQLLearningpathPage_RootFragment, "name" | "subjectpage">,
+  root?: Pick<GQLLearningpathPage_RootFragment, "name">,
   learningpath?: Pick<GQLLearningpath, "title">,
   learningpathStep?: Pick<GQLLearningpathStep, "title">,
 ) => {
-  return htmlTitle(learningpath?.title, [learningpathStep?.title, subject?.name]);
+  return htmlTitle(learningpath?.title, [learningpathStep?.title, root?.name]);
 };
 
 const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
-  const subject = data.subject;
+  const subject = data.root;
   const learningpath = data.resource?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
@@ -169,7 +169,7 @@ export const learningpathPageFragments = {
           title
         }
       }
-      ...Learningpath_Node
+      ...Learningpath_RootNode
     }
     ${Learningpath.fragments.root}
   `,

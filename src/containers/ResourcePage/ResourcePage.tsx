@@ -52,7 +52,7 @@ const resourcePageQuery = gql`
     $resourceId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject: node(id: $subjectId) {
+    root: node(id: $subjectId) {
       ...LearningpathPage_Root
       ...ArticlePage_Root
     }
@@ -60,7 +60,7 @@ const resourcePageQuery = gql`
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
-    topic: node(id: $topicId, rootId: $subjectId) {
+    parent: node(id: $topicId, rootId: $subjectId) {
       ...LearningpathPage_Parent
       ...ArticlePage_Parent
     }
@@ -87,7 +87,7 @@ const resourcePageQuery = gql`
         path
         url
       }
-      ...MovedResourcePage_Resource
+      ...MovedResourcePage_Node
       ...ArticlePage_Node
       ...LearningpathPage_Node
     }
@@ -136,7 +136,7 @@ const ResourcePage = () => {
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
 
-  const topicPath = useMemo(() => {
+  const crumbs = useMemo(() => {
     if (!data?.resource?.path) return [];
     return data.resource.context?.parents ?? [];
   }, [data?.resource]);
@@ -206,7 +206,7 @@ const ResourcePage = () => {
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, relevance, topicPath }}
+        data={{ ...data, relevance, crumbs }}
         loading={loading}
       />
     );
@@ -215,10 +215,10 @@ const ResourcePage = () => {
     <ArticlePage
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.resource}
-      topic={data.topic}
-      topicPath={topicPath}
+      parent={data.parent}
+      crumbs={crumbs}
       relevance={relevance}
-      subject={data.subject}
+      root={data.root}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

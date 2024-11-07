@@ -58,10 +58,10 @@ import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
-  topic?: GQLArticlePage_ParentFragment;
-  topicPath: GQLTaxonomyCrumb[];
+  parent?: GQLArticlePage_ParentFragment;
+  crumbs: GQLTaxonomyCrumb[];
   relevance: string;
-  subject?: GQLArticlePage_RootFragment;
+  root?: GQLArticlePage_RootFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
@@ -101,16 +101,7 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-const ArticlePage = ({
-  resource,
-  topicPath,
-  topic,
-  resourceTypes,
-  subject,
-  errors,
-  skipToContentId,
-  loading,
-}: Props) => {
+const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
@@ -121,28 +112,28 @@ const ArticlePage = ({
     if (!loading && authContextLoaded) {
       const dimensions = getAllDimensions({
         article: resource?.article,
-        filter: subject?.name,
+        filter: root?.name,
         user,
       });
       trackPageView({
         dimensions,
-        title: getDocumentTitle(t, resource, subject),
+        title: getDocumentTitle(t, resource, root),
       });
     }
-  }, [authContextLoaded, loading, resource, subject, t, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, root, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
-        subject: subject?.id,
+        subject: root?.id,
         articleLanguage: resource.article.language,
         contentType: getContentType(resource),
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [resource, i18n.language, subject?.id])!;
+  }, [resource, i18n.language, root?.id])!;
 
   const copyText = useArticleCopyText(article);
 
@@ -173,10 +164,10 @@ const ArticlePage = ({
 
   const contentType = resource ? getContentType(resource) : undefined;
 
-  const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
+  const copyPageUrlLink = parent ? `${subjectPageUrl}${parent.path}/${resource.id.replace("urn:", "")}` : undefined;
   const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource], enablePrettyUrls);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls);
 
   const authors =
     article.copyright?.creators.length || article.copyright?.rightsholders.length
@@ -188,7 +179,7 @@ const ArticlePage = ({
   return (
     <main>
       <Helmet>
-        <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
+        <title>{`${getDocumentTitle(t, resource, root)}`}</title>
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
@@ -200,7 +191,7 @@ const ArticlePage = ({
             title={article.title}
           />
         )}
-        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
+        {root?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
           constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
@@ -208,7 +199,7 @@ const ArticlePage = ({
         </script>
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [root?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
@@ -216,7 +207,7 @@ const ArticlePage = ({
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <PageContent variant="article" asChild>
-          <StyledHeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
+          <StyledHeroContent>{root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
@@ -244,7 +235,7 @@ const ArticlePage = ({
                   !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                     <CompetenceGoals
                       codes={article.grepCodes}
-                      subjectId={subject?.id}
+                      subjectId={root?.id}
                       supportedLanguages={article.supportedLanguages}
                     />
                   )
@@ -263,10 +254,10 @@ const ArticlePage = ({
                     <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
                   }
                 />
-                {topic && (
+                {parent && (
                   <ResourcesPageContent>
                     <Resources
-                      topic={topic}
+                      topic={parent}
                       resourceTypes={resourceTypes}
                       headingType="h2"
                       subHeadingType="h3"
@@ -283,15 +274,8 @@ const ArticlePage = ({
   );
 };
 
-const getDocumentTitle = (
-  t: TFunction,
-  resource?: GQLArticlePage_NodeFragment,
-  subject?: GQLArticlePage_RootFragment,
-) =>
-  htmlTitle(resource?.article?.title, [
-    subject?.subjectpage?.about?.title || subject?.name,
-    t("htmlTitles.titleTemplate"),
-  ]);
+const getDocumentTitle = (t: TFunction, resource?: GQLArticlePage_NodeFragment, root?: GQLArticlePage_RootFragment) =>
+  htmlTitle(resource?.article?.title, [root?.subjectpage?.about?.title || root?.name, t("htmlTitles.titleTemplate")]);
 
 export const articlePageFragments = {
   resourceType: gql`
