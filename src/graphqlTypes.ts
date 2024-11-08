@@ -2640,6 +2640,7 @@ export type GQLAboutPage_ArticleFragment = {
   created: string;
   updated: string;
   slug?: string;
+  language: string;
   published: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
@@ -4605,6 +4606,7 @@ export type GQLFrontpageDataQuery = {
       created: string;
       updated: string;
       published: string;
+      language: string;
       transformedContent: {
         __typename?: "TransformedArticleContent";
         content: string;

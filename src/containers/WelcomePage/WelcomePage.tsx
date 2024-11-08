@@ -124,6 +124,7 @@ const frontpageQuery = gql`
         created
         updated
         published
+        language
         transformedContent(transformArgs: $transformArgs) {
           content
           metaData {
@@ -161,6 +162,7 @@ const WelcomePage = () => {
     const transformedArticle = transformArticle(_article, i18n.language, {
       path: `${config.ndlaFrontendDomain}/`,
       frontendDomain: config.ndlaFrontendDomain,
+      articleLanguage: _article.language,
     });
     return [
       {

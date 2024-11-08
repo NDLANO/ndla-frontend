@@ -108,6 +108,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
       path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
+      articleLanguage: _article.language,
     });
     return [
       {
@@ -202,6 +203,7 @@ export const aboutPageFragments = {
       created
       updated
       slug
+      language
       published
       transformedContent(transformArgs: $transformArgs) {
         content
