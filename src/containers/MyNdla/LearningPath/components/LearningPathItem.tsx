@@ -6,15 +6,12 @@
  *
  */
 
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps } from "@ndla/primitives";
+import { RouteFill } from "@ndla/icons/common";
+import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import SettingsMenu from "../../../../containers/MyNdla/components/SettingsMenu";
-import { useFolderActions } from "../../../../containers/MyNdla/Folders/components/FolderActionHooks";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { RouteFill } from "@ndla/icons/common";
 import { GQLLearningPath } from "./LearningPathList";
 
 interface Props {
@@ -28,6 +25,15 @@ const TitleWrapper = styled("div", {
   base: {
     display: "flex",
     gap: "small",
+    alignItems: "center",
+  },
+});
+
+const TitleAndDateWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
   },
 });
 
@@ -51,21 +57,15 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
-const LearningPathItem = ({
-  learningPath: { id, createdDate, sharedDate, title },
-  variant,
-  context = "list",
-  link,
-}: Props) => {
+const StyledText = styled(Text, {
+  base: {
+    color: "text.subtle",
+  },
+});
+
+const LearningPathItem = ({ learningPath: { id, created, shared, title }, variant, context = "list", link }: Props) => {
   const { t } = useTranslation();
-
-  // const folderMenuActions = useFolderActions(folder, setFocusId, folders, false, folderRefId, isFavorited);
-
-  // const menu = useMemo(
-  //   () => <SettingsMenu menuItems={folderMenuActions} modalHeader={t("myNdla.tools")} />,
-  //   [folderMenuActions, t],
-  // );
-
+  //Simple component since dnd-component will be updated
   return (
     <ListItemRoot context={context} variant={variant} nonInteractive id={id}>
       <ListItemContent
@@ -80,11 +80,14 @@ const LearningPathItem = ({
       >
         <TitleWrapper>
           <RouteFill aria-hidden={false} aria-label={t("myNdla.iconMeny.learningpath")} />
-          <ListItemHeading asChild consumeCss>
-            <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
-              {title}
-            </StyledSafeLink>
-          </ListItemHeading>
+          <TitleAndDateWrapper>
+            <ListItemHeading asChild consumeCss>
+              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
+                {title}
+              </StyledSafeLink>
+            </ListItemHeading>
+            <StyledText textStyle="label.small">{`${t("myNdla.learningpath.created")}: ${created} / ${t("myNdla.folder.sharing.shared")}: ${shared}`}</StyledText>
+          </TitleAndDateWrapper>
         </TitleWrapper>
         <LearningPathInfo></LearningPathInfo>
       </ListItemContent>

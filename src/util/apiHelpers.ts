@@ -34,10 +34,11 @@ export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
 
-export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | undefined> {
+export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T> {
+  //changes were made for testing
   return new Promise((resolve, reject) => {
     if (res.ok) {
-      return res.status === 204 ? resolve(undefined) : resolve(res.json());
+      return resolve(res.json()); //changes were made for testing
     }
     return res
       .json()
@@ -244,6 +245,8 @@ type HttpHeaders = {
   headers?: {
     "Content-Type": string;
   };
+  method?: "POST" | "GET";
+  body?: any;
 };
 
 export const fetchAuthorized = (url: string, config?: HttpHeaders) => fetchWithAuthorization(url, false, config);

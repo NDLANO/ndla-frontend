@@ -9,11 +9,20 @@
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import LearningPathTitleForm, { LearningpathFormValues } from "./components/LearningPathTitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
+  base: {
+    gap: "xlarge",
+  },
+});
 
 const LearningPathCreateNew = () => {
   const { t } = useTranslation();
@@ -24,14 +33,27 @@ const LearningPathCreateNew = () => {
     trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
+  const onCreate = (values: LearningpathFormValues) => {
+    //Change when graphql is connected
+    console.log(values);
+  };
+
   return (
-    <MyNdlaPageWrapper>
+    <StyledMyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <MyNdlaBreadcrumb
+        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
+        page="learningpath"
+      />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {/* {t("myNdla.learningpath.title")} */}
-        "Ny læringssti"
+        {t("myNdla.learningpath.newLearningpath")}
       </Heading>
-    </MyNdlaPageWrapper>
+      <LearningPathTitleForm
+        onSave={async (values) => {
+          await onCreate(values);
+        }}
+      />
+    </StyledMyNdlaPageWrapper>
   );
 };
 

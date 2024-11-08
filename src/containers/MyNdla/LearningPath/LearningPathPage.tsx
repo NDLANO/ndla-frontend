@@ -33,6 +33,22 @@ const HeadingWrapper = styled("div", {
   },
 });
 
+// Delete after graphql is connected
+const testData = [
+  {
+    id: "1",
+    created: "2024.12.12",
+    shared: "2024.12.13",
+    title: "Naturfag",
+  },
+  {
+    id: "2",
+    created: "2024.12.15",
+    shared: "2024.12.16",
+    title: "Engelsk",
+  },
+];
+
 const LearningPathPage = () => {
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -61,7 +77,7 @@ const LearningPathPage = () => {
         </Heading>
         <Text textStyle="body.medium">{t("myNdla.learningpath.description")}</Text>
       </HeadingWrapper>
-      <LearningPathList loading={false} learningPaths={[]} />
+      <LearningPathList loading={false} learningPaths={testData} />
     </StyledMyNdlaPageWrapper>
   );
 };

@@ -6,16 +6,18 @@
  *
  */
 
+import { ReactNode } from "react";
+import LearningPathItem from "./LearningPathItem";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
-import LearningPathItem from "./LearningPathItem";
 
 export type GQLLearningPath = {
   id: string;
-  createdDate: Date;
-  sharedDate: Date;
+  created: string;
+  shared: string;
   title: string;
+  metaImage?: ReactNode;
 };
 
 interface Props {
