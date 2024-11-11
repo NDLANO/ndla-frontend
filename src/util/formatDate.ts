@@ -6,14 +6,18 @@
  *
  */
 
+import { formatDistanceStrict } from "date-fns";
+import { TZDate } from "@date-fns/tz";
+import { DateFNSLocales } from "../i18n";
 import { LocaleType } from "../interfaces";
 
+const timeZone = "CET";
 export default function formatDate(date: string, locale: LocaleType) {
   return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    timeZone: "CET",
+    timeZone,
   }).format(new Date(date));
 }
 
@@ -29,6 +33,16 @@ export function formateDateObject(date: Date, locale: LocaleType) {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone: "CET",
+    timeZone,
   }).format(date);
+}
+
+export function formatDistanceToNow(date: string, locale: LocaleType, nowDate?: Date): string {
+  const tzDate = new TZDate(date, "CET");
+  const now = nowDate ? nowDate : new Date();
+  return formatDistanceStrict(tzDate, now, {
+    addSuffix: true,
+    locale: DateFNSLocales[locale],
+    roundingMethod: "floor",
+  });
 }

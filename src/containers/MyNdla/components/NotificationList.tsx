@@ -6,7 +6,6 @@
  *
  */
 
-import { formatDistanceStrict } from "date-fns";
 import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { CircleFill, CornerDownLeftLine } from "@ndla/icons/common";
@@ -14,8 +13,8 @@ import { Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";
-import { DateFNSLocales } from "../../../i18n";
 import { routes } from "../../../routeHelpers";
+import { formatDistanceToNow } from "../../../util/formatDate";
 import { capitalizeFirstLetter } from "../Arena/utils";
 
 const StyledSafeLinkButton = styled(SafeLinkButton, {
@@ -106,13 +105,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                   />
                 </Text>
                 <Text color="text.default">
-                  {`${capitalizeFirstLetter(
-                    formatDistanceStrict(Date.parse(notification.notificationTime), now, {
-                      addSuffix: true,
-                      locale: DateFNSLocales[i18n.language],
-                      roundingMethod: "floor",
-                    }),
-                  )}`}
+                  {`${capitalizeFirstLetter(formatDistanceToNow(notification.notificationTime, i18n.language, now))}`}
                 </Text>
               </TextWrapper>
             </Notification>

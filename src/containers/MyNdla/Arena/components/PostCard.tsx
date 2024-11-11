@@ -6,7 +6,6 @@
  *
  */
 
-import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,9 +19,8 @@ import { useArenaDeletePost, useArenaUpdatePost } from "./temporaryNodebbHooks";
 import VotePost from "./VotePost";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
-import { DateFNSLocales } from "../../../../i18n";
 import { useUserAgent } from "../../../../UserAgentContext";
-import { formatDateTime } from "../../../../util/formatDate";
+import { formatDateTime, formatDistanceToNow } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
@@ -69,11 +67,7 @@ const PostCard = ({ nextPostId, post, topic, setFocusId, setIsReplying, isReplyi
     [deletePost, postId, toast, t, setFocusId, nextPostId],
   );
 
-  const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
-    addSuffix: true,
-    locale: DateFNSLocales[i18n.language],
-    roundingMethod: "floor",
-  });
+  const timeDistance = formatDistanceToNow(created, i18n.language);
 
   const postTime = useMemo(
     () => (
