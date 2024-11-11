@@ -14,7 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
-import { GQLMultidisciplinaryArticleList_TopicFragment } from "../../../graphqlTypes";
+import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../../graphqlTypes";
 
 const CardList = styled("ul", {
   base: {
@@ -30,9 +30,9 @@ const CardList = styled("ul", {
   },
 });
 
-export type ListProps = {
-  topics: GQLMultidisciplinaryArticleList_TopicFragment[];
-};
+export interface ListProps {
+  nodes: GQLMultidisciplinaryArticleList_NodeFragment[];
+}
 
 const ListWrapper = styled("nav", {
   base: {
@@ -42,16 +42,16 @@ const ListWrapper = styled("nav", {
   },
 });
 
-const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
+const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
   const { t } = useTranslation();
   const id = useId();
   return (
     <ListWrapper aria-labelledby={id}>
       <Heading id={id} textStyle="title.large" asChild consumeCss>
-        <h2>{t("multidisciplinary.casesCount", { count: topics.length })}</h2>
+        <h2>{t("multidisciplinary.casesCount", { count: nodes.length })}</h2>
       </Heading>
       <CardList>
-        {topics.map((topic) => (
+        {nodes.map((topic) => (
           <li key={topic.id}>
             <CardRoot css={{ height: "100%" }}>
               {!!topic.meta?.metaImage && (
@@ -84,8 +84,8 @@ const MultidisciplinaryArticleList = ({ topics }: ListProps) => {
 };
 
 MultidisciplinaryArticleList.fragments = {
-  topic: gql`
-    fragment MultidisciplinaryArticleList_Topic on Topic {
+  node: gql`
+    fragment MultidisciplinaryArticleList_Node on Node {
       name
       id
       path
