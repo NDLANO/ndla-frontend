@@ -6,27 +6,29 @@
  *
  */
 
-import format from "date-fns/format";
 import { LocaleType } from "../interfaces";
 
 export default function formatDate(date: string, locale: LocaleType) {
-  if (locale === "nb" || locale === "nn") {
-    return format(new Date(date), "dd.MM.yyyy");
-  }
-  return format(new Date(date), "MM/dd/yyyy");
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "CET",
+  }).format(new Date(date));
 }
-
-const timeFormatOptions = {
-  nn: "dd.MM.yyyy HH:mm:ss",
-  nb: "dd.MM.yyyy HH:mm:ss",
-  en: "dd/MM/yyyy HH:mm:ss",
-  se: "dd/MM/yyyy HH:mm:ss",
-};
 
 export function formatDateTime(timestamp: string, locale: LocaleType) {
   return formateDateObject(new Date(timestamp), locale);
 }
 
 export function formateDateObject(date: Date, locale: LocaleType) {
-  return format(date, timeFormatOptions[locale] ?? "dd/MM/yyyy HH:mm:ss");
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "CET",
+  }).format(date);
 }
