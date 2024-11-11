@@ -102,7 +102,6 @@
     "@ndla/util": "^5.0.0-alpha.0",
     "@sentry/react": "^8.32.0",
     "cross-env": "^7.0.3",
-    "date-fns": "^4.1.0",
     "express": "^5.0.0",
     "express-prom-bundle": "^8.0.0",
     "graphql": "^16.8.1",

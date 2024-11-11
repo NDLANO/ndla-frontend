@@ -75,7 +75,7 @@ interface Props {
 }
 
 const NotificationList = ({ notifications, close }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const now = new Date();
 
   const notifcationsToShow = useMemo(
@@ -105,7 +105,7 @@ const NotificationList = ({ notifications, close }: Props) => {
                   />
                 </Text>
                 <Text color="text.default">
-                  {`${capitalizeFirstLetter(formatDistanceToNow(notification.notificationTime, i18n.language, now))}`}
+                  {`${capitalizeFirstLetter(formatDistanceToNow(notification.notificationTime, t, now))}`}
                 </Text>
               </TextWrapper>
             </Notification>

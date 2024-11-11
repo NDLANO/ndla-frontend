@@ -6,7 +6,6 @@
  *
  */
 
-import format from "date-fns/format";
 import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,6 +31,7 @@ import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
+import { getNdlaRobotDateFormat } from "../../util/formatDate";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
@@ -107,7 +107,7 @@ const MyNdlaPage = () => {
 
   const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
-  const dateString = format(new Date(), "Y-MM-dd HH:mm:ss");
+  const dateString = getNdlaRobotDateFormat(new Date());
   const token = btoa(dateString);
   const aiUrl =
     user?.organization === "Rogaland fylkeskommune" ? `https://ndlarobot.org/${token}` : `https://ai.ndla.no/${aiLang}`;

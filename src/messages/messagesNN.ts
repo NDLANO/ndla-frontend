@@ -207,6 +207,24 @@ const messages = {
     title: `Ressursar på $t(languages.{{language}})`,
     noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
   },
+  date: {
+    ago: "sidan",
+    now: "Akkurat no",
+    units: {
+      day: "dag",
+      days: "dagar",
+      hour: "time",
+      hours: "timar",
+      minute: "minutt",
+      minutes: "minutt",
+      month: "månad",
+      months: "månader",
+      second: "sekund",
+      seconds: "sekund",
+      year: "år",
+      years: "år",
+    },
+  },
 };
 
 export default messages;

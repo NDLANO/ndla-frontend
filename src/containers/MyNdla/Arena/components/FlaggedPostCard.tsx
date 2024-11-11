@@ -14,7 +14,7 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { formatDateTime, formatDistanceToNow } from "../../../../util/formatDate";
+import { formatDateTime, useFormatDistance } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
@@ -47,9 +47,8 @@ const StyledBottomRow = styled("div", {
 
 const PostCard = ({ topic, post }: Props) => {
   const { id: postId, topicId, created, contentAsHTML } = post;
-
   const { t, i18n } = useTranslation();
-  const timeDistance = formatDistanceToNow(created, i18n.language);
+  const timeDistance = useFormatDistance(created);
 
   return (
     <PostCardWrapper id={`post-${postId}`}>

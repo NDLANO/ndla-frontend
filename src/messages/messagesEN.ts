@@ -207,6 +207,24 @@ const messages = {
     title: `Resources in $t(languages.{{language}})`,
     noSubjects: "We do not have any resources in this language yet.",
   },
+  date: {
+    ago: "ago",
+    now: "Just now",
+    units: {
+      day: "day",
+      days: "days",
+      hour: "hour",
+      hours: "hours",
+      minute: "minute",
+      minutes: "minutes",
+      month: "month",
+      months: "months",
+      second: "second",
+      seconds: "seconds",
+      year: "year",
+      years: "years",
+    },
+  },
 };
 
 export default messages;

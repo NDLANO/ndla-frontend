@@ -31,7 +31,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { useUserAgent } from "../../../../UserAgentContext";
-import { formatDateTime, formatDistanceToNow } from "../../../../util/formatDate";
+import { formatDateTime, useFormatDistance } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
@@ -120,7 +120,7 @@ const MainPostCard = ({ topic, post, onFollowChange, setFocusId, setReplyingTo, 
     },
     [deleteTopic, topicId, toast, t, topic?.categoryId, navigate],
   );
-  const timeDistance = formatDistanceToNow(created, i18n.language);
+  const timeDistance = useFormatDistance(created);
 
   const followSwitch = useMemo(
     () => (
