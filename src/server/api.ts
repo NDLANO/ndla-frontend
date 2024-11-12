@@ -8,6 +8,7 @@
 
 import express from "express";
 import jwt from "jsonwebtoken";
+import ogs from "open-graph-scraper";
 import { errors as oidcErrors } from "openid-client";
 import { matchPath } from "react-router-dom";
 import { getCookie } from "@ndla/util";
@@ -23,7 +24,7 @@ import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../co
 import { getLocaleInfoFromPath } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
-import { OK, BAD_REQUEST } from "../statusCodes";
+import { BAD_REQUEST, OK } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { log } from "../util/handleError";
@@ -207,6 +208,21 @@ router.post("/lti/oauth", async (req, res) => {
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);
+});
+
+router.get("/open-graph", async (req, res) => {
+  const { query } = req;
+  if (!query.url || typeof query.url !== "string") {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  const options = { url: query.url };
+  const result = await ogs(options);
+  if (result.error) {
+    res.sendStatus(BAD_REQUEST);
+  } else {
+    res.send(result.result);
+  }
 });
 
 export default router;

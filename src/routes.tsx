@@ -34,6 +34,7 @@ export const routes = [
   "/",
   "404",
   "403",
+  "open-graph",
   "search",
   "utdanning",
   "utdanning/:programme",
