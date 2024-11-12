@@ -10,7 +10,6 @@ import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { LocaleType } from "../interfaces";
 
-const timeZone = "CET";
 const timeUnits = [
   { unit: "year", ms: 1000 * 60 * 60 * 24 * 365 },
   { unit: "month", ms: 1000 * 60 * 60 * 24 * 30 },
@@ -20,12 +19,13 @@ const timeUnits = [
   { unit: "second", ms: 1000 },
 ];
 
+// TODO: Make sure these are never called on the server unless its fallbacked
+
 export default function formatDate(date: string, locale: LocaleType) {
   return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-    timeZone,
   }).format(new Date(date));
 }
 
@@ -41,7 +41,6 @@ export function formateDateObject(date: Date, locale: LocaleType) {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone,
   }).format(date);
 }
 
@@ -53,7 +52,6 @@ export const getNdlaRobotDateFormat = (date: Date) => {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone,
     hour12: false,
   })
     .format(date)

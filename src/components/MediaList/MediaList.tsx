@@ -21,6 +21,7 @@ import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
 
 export const MediaList = styled("ul", {
@@ -197,11 +198,13 @@ interface ItemTypeWithDescription {
   label: string;
   description: string;
   metaType: Exclude<MetaType, "otherWithoutDescription">;
+  disableSSR?: boolean;
 }
 
 interface DescriptionlessItemType {
   label: string;
   metaType: "otherWithoutDescription";
+  disableSSR?: boolean;
 }
 
 const isOtherWithoutDescription = (item: ItemType): item is DescriptionlessItemType =>
@@ -216,12 +219,16 @@ const ItemText = ({ item }: { item: ItemType }) => {
     return item.label;
   }
 
+  const content = (
+    <HandleLink url={item.description} type={item.metaType}>
+      {item.description}
+    </HandleLink>
+  );
+
   return (
     <Text textStyle="body.medium">
       {`${item.label}: `}
-      <HandleLink url={item.description} type={item.metaType}>
-        {item.description}
-      </HandleLink>
+      {item.disableSSR ? <NoSSR fallback={null}>{content}</NoSSR> : content}
     </Text>
   );
 };

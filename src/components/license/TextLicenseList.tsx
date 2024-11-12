@@ -48,6 +48,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
       label: t("article.lastUpdated"),
       description: text.updated,
       metaType: metaTypes.other,
+      disableSSR: true,
     });
   }
 
