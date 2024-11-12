@@ -8,26 +8,18 @@
 
 import { Navigate } from "react-router-dom";
 import SubjectPage from "./SubjectPage";
-import { useUrnIds } from "../../routeHelpers";
+import { SubjectType, useUrnIds } from "../../routeHelpers";
 import FilmFrontpage from "../FilmFrontpage/FilmFrontpage";
-import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
+
+const VALID_SUBJECT_TYPES: SubjectType[] = ["standard", "multiDisciplinary", "toolbox"];
 
 const SubjectRouting = () => {
-  const { topicList, subjectId, subjectType } = useUrnIds();
+  const { subjectId, subjectType } = useUrnIds();
 
-  if (subjectType === "standard") {
+  if (VALID_SUBJECT_TYPES.includes(subjectType)) {
     return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "multiDisciplinary") {
-    if (topicList.length === 3) {
-      return <MultidisciplinarySubjectArticlePage />;
-    }
-    return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "toolbox") {
-    return <SubjectPage key={subjectId} />;
-  } else if (subjectType === "film" && topicList.length === 0) {
-    return <FilmFrontpage />;
   } else if (subjectType === "film") {
-    return <SubjectPage key={subjectId} />;
+    return <FilmFrontpage />;
   }
 
   return <Navigate to="/404" replace />;
