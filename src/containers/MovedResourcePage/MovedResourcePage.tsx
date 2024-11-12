@@ -90,7 +90,9 @@ const MovedResourcePage = ({ resource }: Props) => {
 
   return (
     <PageContainer>
-      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
+      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
