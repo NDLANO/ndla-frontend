@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { HelmetWithTracker } from "@ndla/tracker";
 import { PageContainer } from "@ndla/ui";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -90,6 +91,9 @@ export const MovedTopicPage = ({ nodes }: Props) => {
 
   return (
     <PageContainer>
+      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
