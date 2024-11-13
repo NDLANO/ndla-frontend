@@ -60,6 +60,7 @@ interface Props {
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
+  resourceId?: string;
 }
 
 const StyledPageContainer = styled(PageContainer, {
@@ -171,6 +172,7 @@ const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
+  resourceId,
   parent,
   root,
   crumbs,
@@ -284,6 +286,7 @@ const Learningpath = ({
                   seqNo={learningpathStep.seqNo}
                   numberOfLearningSteps={learningpath.learningsteps.length - 1}
                   title={learningpath.title}
+                  resourceId={resourceId}
                 />
               </LearningpathEmbed>
               <PageButtonsContainer>

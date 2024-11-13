@@ -123,6 +123,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         parent={parent}
         root={root}
         resourcePath={enablePrettyUrls ? resource.url : resource.path}
+        resourceId={resource.id}
         resourceTypes={resourceTypes}
         crumbs={crumbs}
         breadcrumbItems={breadcrumbItems}

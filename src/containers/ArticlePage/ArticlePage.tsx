@@ -262,6 +262,7 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
                       headingType="h2"
                       subHeadingType="h3"
                       currentResourceContentType={contentType}
+                      currentId={resource.id}
                     />
                   </ResourcesPageContent>
                 )}

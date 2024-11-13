@@ -42,8 +42,17 @@ interface Props {
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
+  resourceId?: string;
 }
-const LastLearningpathStepInfo = ({ parent, crumbs, resourceTypes, seqNo, numberOfLearningSteps, title }: Props) => {
+const LastLearningpathStepInfo = ({
+  parent,
+  crumbs,
+  resourceTypes,
+  seqNo,
+  numberOfLearningSteps,
+  title,
+  resourceId,
+}: Props) => {
   const { t } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
@@ -78,7 +87,14 @@ const LastLearningpathStepInfo = ({ parent, crumbs, resourceTypes, seqNo, number
         )}
       </LinksWrapper>
       {resourceTypes && !!parent?.resources?.length && (
-        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} node={parent} subHeadingType="h3" />
+        <Resources
+          headingType="h2"
+          key="resources"
+          resourceTypes={resourceTypes}
+          node={parent}
+          subHeadingType="h3"
+          currentId={resourceId}
+        />
       )}
     </>
   );

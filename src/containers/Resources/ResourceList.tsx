@@ -26,6 +26,7 @@ interface ResourceListProps {
   showAdditionalResources?: boolean;
   headingId?: string;
   currentResourceContentType?: ContentType;
+  currentId?: string;
 }
 
 const ResourceList = ({
@@ -35,6 +36,7 @@ const ResourceList = ({
   title,
   showAdditionalResources,
   currentResourceContentType,
+  currentId,
 }: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
@@ -50,6 +52,7 @@ const ResourceList = ({
             contentType={contentType}
             showAdditionalResources={showAdditionalResources}
             currentResourceContentType={currentResourceContentType}
+            active={currentId === resource.id}
             {...resource}
           />
         ))}
