@@ -15,7 +15,6 @@ import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
-import { useUrnIds } from "../../routeHelpers";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
@@ -25,19 +24,16 @@ const Layout = () => {
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
-  const params = useUrnIds();
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
       return;
     }
-    const inSubjectOrTopic = params.subjectType !== "multiDisciplinary" && params.topicId && !params.resourceId;
-    const inMulti = params.subjectType === "multiDisciplinary" && params.topicId && params.topicList.length !== 3;
     const searchUpdate = pathname === "/search" && prevPathname === "/search";
-    if (!searchUpdate && !inSubjectOrTopic && !inMulti) {
+    if (!searchUpdate) {
       window.scrollTo(0, 0);
     }
-  }, [params, pathname, prevPathname]);
+  }, [pathname, prevPathname]);
 
   useEffect(() => {
     if (!htmlRef.current) {
