@@ -21,6 +21,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -28,7 +29,7 @@ import { TransportationPageNodeListGrid } from "../../components/TransportationP
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
+import { SubjectType, getSubjectType } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
@@ -82,10 +83,12 @@ export const topicPageQuery = gql`
         contextId
         name
         path
+        url
         parents {
           id
           name
           path
+          url
         }
       }
       ...Resources_Parent
@@ -149,8 +152,12 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-export const TopicPage = () => {
-  const { topicId, subjectId } = useUrnIds();
+interface Props {
+  subjectId: string;
+  topicId?: string;
+}
+
+export const TopicPage = ({ topicId, subjectId }: Props) => {
   const query = useGraphQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
       id: topicId!,
@@ -187,19 +194,22 @@ export const TopicPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  return <TopicContainer node={query.data.node} resourceTypes={query.data.resourceTypes} />;
+  const subjectType = getSubjectType(subjectId);
+
+  return <TopicContainer node={query.data.node} resourceTypes={query.data.resourceTypes} subjectType={subjectType} />;
 };
 
 interface TopicContainerProps {
   node: NonNullable<GQLTopicPageQuery["node"]>;
   resourceTypes?: NonNullable<GQLTopicPageQuery["resourceTypes"]>;
+  subjectType: SubjectType;
 }
 
-export const TopicContainer = ({ node, resourceTypes }: TopicContainerProps) => {
+export const TopicContainer = ({ node, resourceTypes, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const { subjectType, topicList } = useUrnIds();
   const headingId = useId();
 
   const pageTitle = useMemo(
@@ -225,10 +235,13 @@ export const TopicContainer = ({ node, resourceTypes }: TopicContainerProps) => 
         name: t("breadcrumb.toFrontpage"),
         to: "/",
       },
-      node.context?.parents?.map((parent) => ({ name: parent.name, to: parent.path })) ?? [],
+      node.context?.parents?.map((parent) => ({
+        name: parent.name,
+        to: enablePrettyUrls ? parent.url : parent.path,
+      })) ?? [],
       { name: node.context.name, to: node.context.path },
     ].flat();
-  }, [node, t]);
+  }, [node, t, enablePrettyUrls]);
 
   const embedMeta = useMemo(() => {
     if (!node.article?.transformedContent?.visualElementEmbed?.content) return undefined;
@@ -271,7 +284,7 @@ export const TopicContainer = ({ node, resourceTypes }: TopicContainerProps) => 
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {subjectType === "multiDisciplinary" && topicList.length === 2 && !!node.nodes?.length ? (
+        {subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 && !!node.nodes?.length ? (
           <MultidisciplinaryArticleList nodes={node.nodes} />
         ) : node.nodes?.length ? (
           <NodeGridWrapper aria-labelledby={headingId}>

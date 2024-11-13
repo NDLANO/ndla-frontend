@@ -43,5 +43,5 @@ export const TopicRouting = () => {
     return <MultidisciplinarySubjectArticlePage subjectId={subjectId} topicId={topicId} />;
   }
 
-  return <TopicPage />;
+  return <TopicPage subjectId={subjectId} topicId={topicId} />;
 };

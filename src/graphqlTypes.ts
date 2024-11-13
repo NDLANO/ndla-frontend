@@ -4673,7 +4673,8 @@ export type GQLTopicPageQuery = {
       contextId: string;
       name: string;
       path: string;
-      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string }>;
+      url: string;
+      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string; url: string }>;
     };
     nodes?: Array<
       { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &

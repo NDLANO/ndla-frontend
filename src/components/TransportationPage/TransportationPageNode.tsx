@@ -13,6 +13,7 @@ import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLTransportationNode_NodeFragment } from "../../graphqlTypes";
 
@@ -74,10 +75,12 @@ const StyledAdditional = styled(Additional, {
 
 export const TransportationNode = ({ node }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
+  const to = enablePrettyUrls ? node.url : node.path;
   return (
     <TopicCard>
       <StyledHeading asChild consumeCss textStyle="title.small">
-        <SafeLink to={node.path ?? ""} unstyled css={linkOverlay.raw()}>
+        <SafeLink to={to ?? ""} unstyled css={linkOverlay.raw()}>
           {/* TODO: Consider adding a label to this */}
           {node.availability !== "everyone" && <StyledPresentationLine />}
           {node.name}
