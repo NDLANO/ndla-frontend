@@ -193,7 +193,7 @@ const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToCo
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources topic={parent} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                <Resources node={parent} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>
@@ -240,7 +240,7 @@ export const multidisciplinarySubjectArticleFragments = {
       }
       ...Resources_Parent
     }
-    ${Resources.fragments.parent}
+    ${Resources.fragments.node}
     ${Article.fragments.article}
   `,
   root: gql`

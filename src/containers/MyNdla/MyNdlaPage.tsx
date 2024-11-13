@@ -175,7 +175,7 @@ const MyNdlaPage = () => {
           </SafeLink>
         </SectionWrapper>
       )}
-      {!!recentArenaTopicsQuery.data?.items?.length && (
+      {!config.externalArena && !!recentArenaTopicsQuery.data?.items?.length && (
         <SectionWrapper>
           <Heading asChild consumeCss textStyle="heading.small">
             <h2>{t("myNdla.myPage.recentArenaPosts.title")}</h2>

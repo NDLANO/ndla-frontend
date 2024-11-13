@@ -77,8 +77,8 @@ const LastLearningpathStepInfo = ({ parent, crumbs, resourceTypes, seqNo, number
           </Text>
         )}
       </LinksWrapper>
-      {resourceTypes && !!parent?.children?.length && (
-        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} topic={parent} subHeadingType="h3" />
+      {resourceTypes && !!parent?.resources?.length && (
+        <Resources headingType="h2" key="resources" resourceTypes={resourceTypes} node={parent} subHeadingType="h3" />
       )}
     </>
   );
@@ -90,7 +90,7 @@ LastLearningpathStepInfo.fragments = {
       id
       ...Resources_Parent
     }
-    ${Resources.fragments.parent}
+    ${Resources.fragments.node}
   `,
   resourceType: gql`
     fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {

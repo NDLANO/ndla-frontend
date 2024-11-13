@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,28 +7,23 @@
  */
 
 import { Navigate } from "react-router-dom";
-import SubjectPage from "./SubjectPage";
+import { TopicPage } from "./TopicPage";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { GQLContextQuery, GQLContextQueryVariables } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
-import FilmFrontpage from "../FilmFrontpage/FilmFrontpage";
+import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 
-const SubjectRouting = () => {
-  const { contextId, subjectId: subId } = useUrnIds();
-  const {
-    loading,
-    data: newData,
-    previousData,
-  } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
+export const TopicRouting = () => {
+  const { contextId, subjectId: subId, topicId: tId, topicList } = useUrnIds();
+
+  const { loading, data } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
       contextId: contextId ?? "",
     },
     skip: contextId === undefined,
   });
-
-  const data = newData ?? previousData;
 
   if (loading && !data) {
     return <ContentPlaceholder />;
@@ -36,16 +31,17 @@ const SubjectRouting = () => {
 
   const node = data?.node;
   const subjectId = node?.context?.rootId ?? subId ?? "";
+
   if (!subjectId) {
     return <Navigate to="/404" replace />;
   }
 
+  const topicId = node?.nodeType === "TOPIC" ? node?.id : tId;
   const subjectType = getSubjectType(subjectId);
 
-  if (subjectType === "film") {
-    return <FilmFrontpage />;
+  if (subjectType === "multiDisciplinary" && topicList.length === 3) {
+    return <MultidisciplinarySubjectArticlePage subjectId={subjectId} topicId={topicId} />;
   }
-  return <SubjectPage key={subjectId} subjectType={subjectType} subjectId={subjectId} />;
-};
 
-export default SubjectRouting;
+  return <TopicPage />;
+};

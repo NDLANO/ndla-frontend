@@ -8,13 +8,13 @@
 
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons/action";
 import { DialogCloseTrigger, IconButton, IconButtonProps } from "@ndla/primitives";
 
 export const DialogCloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ({ children, variant = "clear", ...props }, ref) => {
     const { t } = useTranslation();
-    const content = children ?? <Cross />;
+    const content = children ?? <CloseLine />;
     const label = props["aria-label"] ?? t("close");
 
     return (

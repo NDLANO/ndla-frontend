@@ -80,7 +80,7 @@ export const useUrnIds = () => {
   };
 };
 
-type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
+export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
 export const getSubjectType = (subjectId: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -28,14 +28,14 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
-import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_ParentFragment } from "../../graphqlTypes";
+import { GQLResources_NodeFragment, GQLResources_ResourceTypeDefinitionFragment } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
 import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
-  node: GQLResources_ParentFragment;
-  resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
+  node: GQLResources_NodeFragment;
+  resourceTypes: GQLResources_ResourceTypeDefinitionFragment[] | undefined;
   headingType: HeadingType;
   subHeadingType: HeadingType;
   currentResourceContentType?: ContentType;
@@ -93,27 +93,34 @@ const ResourceContainer = styled("div", {
   },
 });
 
-const Resources = ({
+export const Resources = ({
+  headingType: HeadingType,
   node,
   resourceTypes,
-  headingType: HeadingType,
   subHeadingType: SubHeadingType,
   currentResourceContentType,
 }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
-  const { t } = useTranslation();
   const navHeadingId = useId();
+  const { t } = useTranslation();
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(node.resources ?? [], resourceId),
-    [resourceId, node.resources],
-  );
+  const toggleAdditionalResources = useCallback(() => {
+    setShowAdditionalResources((prev) => {
+      window?.localStorage?.setItem("showAdditionalResources", `${!prev}`);
+      return !prev;
+    });
+  }, []);
 
   const isGrouped = useMemo(
     () =>
       node?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
     [node?.metadata?.customFields],
+  );
+
+  const { sortedResources } = useMemo(
+    () => getResourceGroupings(node.resources ?? [], resourceId),
+    [node.resources, resourceId],
   );
 
   const { groupedResources, ungroupedResources } = useMemo(() => {
@@ -130,28 +137,17 @@ const Resources = ({
     return { groupedResources: [], ungroupedResources };
   }, [isGrouped, resourceTypes, sortedResources]);
 
+  const hasSupplementaryResources = useMemo(() => {
+    return node.resources?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
+  }, [node.resources]);
+
   useEffect(() => {
     const showAdditional = window.localStorage?.getItem("showAdditionalResources");
     setShowAdditionalResources(showAdditional === "true");
   }, []);
 
-  const toggleAdditionalResources = useCallback(() => {
-    setShowAdditionalResources((prev) => {
-      window?.localStorage?.setItem("showAdditionalResources", `${!prev}`);
-      return !prev;
-    });
-  }, []);
-
-  const hasSupplementaryResources = useMemo(() => {
-    return node.resources?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
-  }, [node.resources]);
-
-  if (!sortedResources.length) {
-    return null;
-  }
-
   return (
-    <StyledNav aria-labelledby={navHeadingId}>
+    <StyledNav>
       <TitleWrapper>
         <StyledHGroup>
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
@@ -212,17 +208,17 @@ Resources.fragments = {
     }
   `,
   node: gql`
-    fragment Resources_Parent on Node {
+    fragment Resources_Node on Node {
       id
       name
-      path
-      url
+      metadata {
+        customFields
+      }
       resources: children(nodeType: "RESOURCE") {
         id
         name
         contentUri
         path
-        url
         paths
         rank
         language
@@ -245,11 +241,6 @@ Resources.fragments = {
           name
         }
       }
-      metadata {
-        customFields
-      }
     }
   `,
 };
-
-export default Resources;

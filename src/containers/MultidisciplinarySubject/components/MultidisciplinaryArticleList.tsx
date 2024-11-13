@@ -31,9 +31,9 @@ const CardList = styled("ul", {
   },
 });
 
-export type ListProps = {
+export interface ListProps {
   nodes: GQLMultidisciplinaryArticleList_NodeFragment[];
-};
+}
 
 const ListWrapper = styled("nav", {
   base: {

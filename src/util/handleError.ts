@@ -13,7 +13,7 @@ import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import config from "../config";
 
-let log: any | undefined;
+export let log: any | undefined;
 
 // import.meta.env is only available when ran within vite. `handleError` can be called from the root server.
 // This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
@@ -86,15 +86,17 @@ export const isNotFoundError = (error: ErrorType | undefined | null): boolean =>
   return codes.find((c) => c === 404) !== undefined;
 };
 
-export const isInternalServerError = (error: ErrorType | undefined | null): boolean => {
-  if (!error) return false;
-  const codes = getErrorStatuses(error);
-  return codes.find((c) => InternalServerErrorCodes.includes(c)) !== undefined;
-};
-
 const getMessage = (error: ErrorType): string => {
   if (error instanceof StatusError && error.message) return error.message;
   if (error instanceof Error && error.message) return error.message;
+  if (error instanceof AggregateError) {
+    const aggregateMessages = error.errors.map((e) => {
+      const message = getMessage(e);
+      const stack = e.stack ? `Stack: ${e.stack}` : "";
+      return `${message} ${stack}`;
+    });
+    return `AggregateError with errors: [${aggregateMessages}]`;
+  }
   if (typeof error === "string" && error) return error;
   return "Got error without message";
 };

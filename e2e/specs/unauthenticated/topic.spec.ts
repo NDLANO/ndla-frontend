@@ -22,7 +22,7 @@ test("contains article header and introduction", async ({ page }) => {
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
   await mockWaitResponse(page, "**/graphql-api/*");
   await page
-    .getByTestId("nav-box-list")
+    .getByRole("navigation", { name: "Emner" })
     .getByRole("listitem")
     .getByRole("link", { name: "Idéskaping og mediedesign" })
     .click();
@@ -37,7 +37,7 @@ test("show have functioning language box", async ({ page }) => {
   await page.getByText("ALLE FAG").last().click();
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
   await page
-    .getByTestId("nav-box-list")
+    .getByRole("navigation", { name: "Emner" })
     .getByRole("listitem")
     .getByRole("link", { name: "Tverrfaglige medieoppdrag" })
     .click();

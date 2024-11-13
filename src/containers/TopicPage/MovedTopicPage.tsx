@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020-present, NDLA.
+ * Copyright (c) 2024-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,10 +10,10 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { PageContainer } from "../../../components/Layout/PageContainer";
-import { MovedNodeCard } from "../../../components/MovedNodeCard";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { GQLMovedTopicPage_NodeFragment, GQLSearchResult } from "../../../graphqlTypes";
+import { PageContainer } from "@ndla/ui";
+import { MovedNodeCard } from "../../components/MovedNodeCard";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLMovedTopicPage_NodeFragment, GQLSearchResult } from "../../graphqlTypes";
 
 interface GQLSearchResultExtended
   extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
@@ -28,23 +28,21 @@ interface GQLSearchResultExtended
   contentType: string;
 }
 
-const convertTopicToResult = (topic: GQLMovedTopicPage_NodeFragment): GQLSearchResultExtended => {
-  return {
-    metaImage: topic.meta?.metaImage,
-    title: topic.name,
-    htmlTitle: topic.name,
-    url: topic.path || "",
-    id: topic.id,
-    ingress: topic.meta?.metaDescription ?? "",
-    breadcrumbs: topic.breadcrumbs,
-    subjects: topic.contexts?.map(({ breadcrumbs }) => ({
-      url: topic.path,
-      title: breadcrumbs[0]!,
-      breadcrumb: breadcrumbs,
-    })),
-    contentType: "topic",
-  };
-};
+const convertNodeToResult = (node: GQLMovedTopicPage_NodeFragment): GQLSearchResultExtended => ({
+  metaImage: node.meta?.metaImage,
+  title: node.name,
+  htmlTitle: node.name,
+  url: node.path || "",
+  id: node.id,
+  ingress: node.meta?.metaDescription ?? "",
+  breadcrumbs: node.breadcrumbs,
+  subjects: node.contexts?.map(({ breadcrumbs }) => ({
+    url: node.path,
+    title: breadcrumbs[0]!,
+    breadcrumb: breadcrumbs,
+  })),
+  contentType: "topic",
+});
 
 const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
   // Must have at least one result in order to get here.
@@ -59,7 +57,7 @@ const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
 };
 
 interface Props {
-  topics: GQLMovedTopicPage_NodeFragment[];
+  nodes: GQLMovedTopicPage_NodeFragment[];
 }
 
 const StyledMain = styled("main", {
@@ -85,10 +83,10 @@ const StyledHeading = styled(Heading, {
   },
 });
 
-const MovedTopicPage = ({ topics }: Props) => {
+export const MovedTopicPage = ({ nodes }: Props) => {
   const { t } = useTranslation();
-  const topicsAsResults = topics.map(convertTopicToResult);
-  const results = mergeTopicSubjects(topicsAsResults);
+  const nodeAsResults = nodes.map(convertNodeToResult);
+  const results = mergeTopicSubjects(nodeAsResults);
 
   return (
     <PageContainer>
@@ -120,7 +118,7 @@ const MovedTopicPage = ({ topics }: Props) => {
 };
 
 MovedTopicPage.fragments = {
-  topic: gql`
+  node: gql`
     fragment MovedTopicPage_Node on Node {
       id
       name
@@ -142,5 +140,3 @@ MovedTopicPage.fragments = {
     }
   `,
 };
-
-export default MovedTopicPage;

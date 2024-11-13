@@ -36,7 +36,7 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
   return (
     <SubjectLinkWrapper className={className}>
       <FavoriteSubject
-        subject={subject}
+        node={subject}
         favorites={favorites}
         subjectLinkOrText={<StyledSafeLink to={to || ""}>{subject.name}</StyledSafeLink>}
       />

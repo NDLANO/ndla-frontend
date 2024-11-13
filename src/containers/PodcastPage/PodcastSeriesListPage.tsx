@@ -71,13 +71,6 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const SpinnerWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-  },
-});
-
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -164,9 +157,7 @@ const PodcastSeriesListPage = () => {
         </StyledHeader>
         <section>
           {loading ? (
-            <SpinnerWrapper>
-              <Spinner aria-label={t("loading")} />
-            </SpinnerWrapper>
+            <Spinner aria-label={t("loading")} />
           ) : results?.length ? (
             <ul>
               {results.map((series) => {

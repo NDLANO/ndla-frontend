@@ -257,7 +257,7 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
                 {parent && (
                   <ResourcesPageContent>
                     <Resources
-                      topic={parent}
+                      node={parent}
                       resourceTypes={resourceTypes}
                       headingType="h2"
                       subHeadingType="h3"
@@ -333,7 +333,7 @@ export const articlePageFragments = {
       url
       ...Resources_Parent
     }
-    ${Resources.fragments.parent}
+    ${Resources.fragments.node}
   `,
 };
 

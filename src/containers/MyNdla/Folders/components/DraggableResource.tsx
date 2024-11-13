@@ -10,8 +10,9 @@ import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { DeleteBinLine } from "@ndla/icons/action";
 import { HashTag, TagOutlined } from "@ndla/icons/common";
-import { DeleteForever, FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { FolderLine, LinkMedium } from "@ndla/icons/editor";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -165,7 +166,7 @@ const DraggableResource = ({
       {
         type: "dialog",
         value: "removeResource",
-        icon: <DeleteForever />,
+        icon: <DeleteBinLine />,
         text: t("myNdla.resource.remove"),
         isModal: true,
         modalContent: (close) => (
