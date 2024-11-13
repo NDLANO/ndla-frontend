@@ -25,6 +25,7 @@ export const TransportationPageHeader = styled("div", {
         clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)",
         width: "100%",
         aspectRatio: "4/3",
+        objectFit: "cover",
         maxWidth: "365px",
         borderRadius: "0",
       },
