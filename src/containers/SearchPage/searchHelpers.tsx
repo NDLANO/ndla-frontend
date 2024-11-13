@@ -141,7 +141,9 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
-        ? (enablePrettyUrls ? resource.contexts[0]?.url : resource.contexts[0]?.path) || resource.path
+        ? enablePrettyUrls
+          ? resource.url
+          : resource.path
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
