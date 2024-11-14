@@ -129,6 +129,8 @@ router.get("/login/success", async (req, res) => {
     id: decoded?.sub,
     username: decoded?.[username],
     fullname: decoded?.name,
+    email: decoded?.email,
+    groups: ["verified-users"],
   };
   const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
   res.cookie("nodebb_auth", nodebbCookieString, { domain });
