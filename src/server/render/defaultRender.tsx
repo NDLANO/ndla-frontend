@@ -15,6 +15,7 @@ import { i18nInstance } from "@ndla/ui";
 import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
+import GQLErrorContext, { ErrorContextInfo, ServerErrorContext } from "../../components/GQLErrorContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
@@ -70,6 +71,7 @@ export const defaultRender: RenderFunc = async (req) => {
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = new ResponseInfo();
+  const errorContext = new ErrorContextInfo();
   // @ts-ignore
   const helmetContext: FilledContext = {};
 
@@ -78,15 +80,17 @@ export const defaultRender: RenderFunc = async (req) => {
       <HelmetProvider context={helmetContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <ResponseContext.Provider value={responseContext}>
-              <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App key={locale} />
-                  </StaticRouter>
-                </UserAgentProvider>
-              </VersionHashProvider>
-            </ResponseContext.Provider>
+            <GQLErrorContext.Provider value={errorContext}>
+              <ResponseContext.Provider value={responseContext}>
+                <VersionHashProvider value={versionHash}>
+                  <UserAgentProvider value={userAgentSelectors}>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App key={locale} />
+                    </StaticRouter>
+                  </UserAgentProvider>
+                </VersionHashProvider>
+              </ResponseContext.Provider>
+            </GQLErrorContext.Provider>
           </ApolloProvider>
         </I18nextProvider>
       </HelmetProvider>
@@ -104,6 +108,8 @@ export const defaultRender: RenderFunc = async (req) => {
 
   const apolloState = client.extract();
 
+  const serverErrorContext: ServerErrorContext = errorContext.serialize();
+
   return {
     status: redirectContext.status ?? OK,
     data: {
@@ -111,6 +117,7 @@ export const defaultRender: RenderFunc = async (req) => {
       htmlContent: html,
       data: {
         serverResponse: redirectContext.status ?? undefined,
+        serverErrorContext,
         serverPath: req.path,
         serverQuery: req.query,
         apolloState,

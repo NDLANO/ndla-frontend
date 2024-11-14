@@ -31,6 +31,7 @@ import "@fontsource/source-serif-pro/index.css";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
+import GQLErrorContext, { ErrorContextInfo } from "./components/GQLErrorContext";
 import ResponseContext, { ResponseInfo } from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
@@ -45,7 +46,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverQuery, serverResponse },
+  DATA: { config, serverPath, serverQuery, serverResponse, serverErrorContext },
 } = window;
 
 initSentry(config);
@@ -180,17 +181,20 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   }
 };
 const responseContext = new ResponseInfo(serverResponse);
+const errorContext = new ErrorContextInfo(serverErrorContext);
 
 renderOrHydrate(
   document.getElementById("root")!,
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <ResponseContext.Provider value={responseContext}>
-          <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
-          </VersionHashProvider>
-        </ResponseContext.Provider>
+        <GQLErrorContext.Provider value={errorContext}>
+          <ResponseContext.Provider value={responseContext}>
+            <VersionHashProvider value={versionHash}>
+              <LanguageWrapper basename={basename} />
+            </VersionHashProvider>
+          </ResponseContext.Provider>
+        </GQLErrorContext.Provider>
       </ApolloProvider>
     </I18nextProvider>
   </HelmetProvider>,
