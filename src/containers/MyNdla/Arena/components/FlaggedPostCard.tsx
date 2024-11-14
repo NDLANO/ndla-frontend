@@ -6,7 +6,6 @@
  *
  */
 
-import { formatDistanceStrict } from "date-fns";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
@@ -14,9 +13,8 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLArenaPostV2Fragment, GQLArenaTopicByIdV2Query } from "../../../../graphqlTypes";
-import { DateFNSLocales } from "../../../../i18n";
 import { routes } from "../../../../routeHelpers";
-import { formatDateTime } from "../../../../util/formatDate";
+import { formatDateTime, useFormatDistance } from "../../../../util/formatDate";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
 
@@ -49,14 +47,8 @@ const StyledBottomRow = styled("div", {
 
 const PostCard = ({ topic, post }: Props) => {
   const { id: postId, topicId, created, contentAsHTML } = post;
-
   const { t, i18n } = useTranslation();
-
-  const timeDistance = formatDistanceStrict(Date.parse(created), Date.now(), {
-    addSuffix: true,
-    locale: DateFNSLocales[i18n.language],
-    roundingMethod: "floor",
-  });
+  const timeDistance = useFormatDistance(created);
 
   return (
     <PostCardWrapper id={`post-${postId}`}>
