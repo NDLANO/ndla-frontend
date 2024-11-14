@@ -31,7 +31,7 @@ import "@fontsource/source-serif-pro/index.css";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
-import ResponseContext from "./components/ResponseContext";
+import ResponseContext, { ResponseInfo } from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from "./i18n";
@@ -179,13 +179,14 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
     hydrateRoot(container, children);
   }
 };
+const responseContext = new ResponseInfo(serverResponse);
 
 renderOrHydrate(
   document.getElementById("root")!,
   <HelmetProvider>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <ResponseContext.Provider value={{ status: serverResponse }}>
+        <ResponseContext.Provider value={responseContext}>
           <VersionHashProvider value={versionHash}>
             <LanguageWrapper basename={basename} />
           </VersionHashProvider>

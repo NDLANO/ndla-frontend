@@ -8,8 +8,17 @@
 
 import { createContext } from "react";
 
-export interface ResponseInfo {
+export class ResponseInfo {
   status?: number;
+
+  constructor(status?: number) {
+    this.status = status;
+  }
+
+  isAccessDeniedError(): boolean {
+    return this.status === 401 || this.status === 403;
+  }
 }
+
 const ResponseContext = createContext<ResponseInfo | undefined>(undefined);
 export default ResponseContext;
