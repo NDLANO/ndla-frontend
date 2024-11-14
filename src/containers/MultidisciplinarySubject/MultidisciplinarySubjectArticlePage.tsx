@@ -31,10 +31,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
     $subjectId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    root: node(id: $subjectId) {
-      ...MultidisciplinarySubjectArticle_RootNode
-    }
-    parent: node(id: $topicId, rootId: $subjectId) {
+    node(id: $topicId, rootId: $subjectId) {
       id
       name
       path
@@ -47,15 +44,14 @@ const multidisciplinarySubjectArticlePageQuery = gql`
           url
         }
       }
-      ...MultidisciplinarySubjectArticle_ParentNode
+      ...MultidisciplinarySubjectArticle_Node
     }
     resourceTypes {
       ...MultidisciplinarySubjectArticle_ResourceTypeDefinition
     }
   }
   ${multidisciplinarySubjectArticleFragments.resourceType}
-  ${multidisciplinarySubjectArticleFragments.parent}
-  ${multidisciplinarySubjectArticleFragments.root}
+  ${multidisciplinarySubjectArticleFragments.node}
 `;
 
 interface Props {
@@ -88,16 +84,17 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId 
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (!data?.parent || !data?.root) {
+  if (!data?.node) {
     return <DefaultErrorMessagePage />;
   }
 
-  const { parent, root, resourceTypes } = data;
+  const { node, resourceTypes } = data;
+  const root = node.context?.parents?.[0];
 
   const socialMediaMetaData = {
-    title: htmlTitle(parent.name ?? parent.article?.title, [root.name]),
-    description: parent.article?.metaDescription ?? parent.article?.introduction,
-    image: parent.article?.metaImage,
+    title: htmlTitle(node.name ?? node.article?.title, [root?.name]),
+    description: node.article?.metaDescription ?? node.article?.introduction,
+    image: node.article?.metaImage,
   };
 
   return (
@@ -110,13 +107,13 @@ const MultidisciplinarySubjectArticlePage = ({ subjectId, topicId: maybeTopicId 
         description={socialMediaMetaData.description}
         imageUrl={socialMediaMetaData.image?.url}
         trackableContent={{
-          supportedLanguages: parent.article?.supportedLanguages,
-          tags: parent.article?.tags,
+          supportedLanguages: node.article?.supportedLanguages,
+          tags: node.article?.tags,
         }}
       />
       <MultidisciplinarySubjectArticle
         skipToContentId={SKIP_TO_CONTENT_ID}
-        parent={parent}
+        node={node}
         root={root}
         resourceTypes={resourceTypes}
       />

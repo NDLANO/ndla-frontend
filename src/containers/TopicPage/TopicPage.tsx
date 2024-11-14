@@ -84,6 +84,7 @@ export const topicPageQuery = gql`
         name
         path
         url
+        isActive
         parents {
           id
           name
@@ -253,6 +254,7 @@ export const TopicContainer = ({ node, resourceTypes, subjectType }: TopicContai
     <main>
       <Helmet>
         <title>{pageTitle}</title>
+        {!node.context?.isActive && <meta name="robots" content="noindex" />}
       </Helmet>
       <SocialMediaMetadata
         title={pageTitle}

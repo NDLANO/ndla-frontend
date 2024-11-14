@@ -52,10 +52,6 @@ const resourcePageQuery = gql`
     $resourceId: String!
     $transformArgs: TransformedArticleContentInput
   ) {
-    root: node(id: $subjectId) {
-      ...LearningpathPage_Root
-      ...ArticlePage_Root
-    }
     resourceTypes {
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
@@ -96,11 +92,9 @@ const resourcePageQuery = gql`
   ${MovedResourcePage.fragments.resource}
   ${articlePageFragments.resource}
   ${articlePageFragments.resourceType}
-  ${articlePageFragments.root}
   ${learningpathPageFragments.parent}
   ${learningpathPageFragments.resourceType}
   ${learningpathPageFragments.resource}
-  ${learningpathPageFragments.root}
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
@@ -200,13 +194,14 @@ const ResourcePage = () => {
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t("searchPage.searchFilterMessages.supplementaryRelevance")
       : t("searchPage.searchFilterMessages.coreRelevance");
+  const root = data.resource.context?.parents?.[0];
 
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, relevance, crumbs }}
+        data={{ ...data, root, relevance, crumbs }}
         loading={loading}
       />
     );
@@ -218,7 +213,7 @@ const ResourcePage = () => {
       parent={data.parent}
       crumbs={crumbs}
       relevance={relevance}
-      root={data.root}
+      root={root}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

@@ -32,8 +32,8 @@ import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
 import config from "../../../config";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
-  GQLMultidisciplinarySubjectArticle_RootNodeFragment,
-  GQLMultidisciplinarySubjectArticle_ParentNodeFragment,
+  GQLMultidisciplinarySubjectArticle_NodeFragment,
+  GQLTaxonomyCrumb,
 } from "../../../graphqlTypes";
 import { toBreadcrumbItems } from "../../../routeHelpers";
 import { getArticleScripts } from "../../../util/getArticleScripts";
@@ -85,59 +85,59 @@ const StyledDivider = styled(Divider, {
 });
 
 interface Props {
-  parent: GQLMultidisciplinarySubjectArticle_ParentNodeFragment;
-  root: GQLMultidisciplinarySubjectArticle_RootNodeFragment;
+  node: GQLMultidisciplinarySubjectArticle_NodeFragment;
+  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
 }
 
-const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToContentId }: Props) => {
+const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToContentId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
-  const crumbs = useMemo(() => parent.context?.parents ?? [], [parent]);
+  const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
 
   useEffect(() => {
-    if (!parent?.article || !authContextLoaded) return;
+    if (!node?.article || !authContextLoaded) return;
     const dimensions = getAllDimensions({
-      article: parent.article,
-      filter: root.name,
+      article: node.article,
+      filter: root?.name,
       user,
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(parent.name || "", [t("htmlTitles.titleTemplate")]),
+      title: htmlTitle(node.name || "", [t("htmlTitles.titleTemplate")]),
     });
-  }, [authContextLoaded, root, t, parent.article, parent.name, parent.path, trackPageView, user]);
+  }, [authContextLoaded, root, t, node.article, node.name, node.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, parent], enablePrettyUrls);
-  }, [t, parent, crumbs, enablePrettyUrls]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
+  }, [t, node, crumbs, enablePrettyUrls]);
 
   const [article, scripts] = useMemo(() => {
-    if (!parent.article) return [undefined, undefined];
+    if (!node.article) return [undefined, undefined];
     return [
-      transformArticle(parent.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${parent.article.id}`,
-        subject: root.id,
-        articleLanguage: parent.article.language,
+      transformArticle(node.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${node.article.id}`,
+        subject: root?.id,
+        articleLanguage: node.article.language,
       }),
-      getArticleScripts(parent.article, i18n.language),
+      getArticleScripts(node.article, i18n.language),
     ];
-  }, [parent.article, i18n.language, root.id]);
+  }, [node.article, i18n.language, root?.id]);
 
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article?.transformedContent.content);
 
-  if (!parent.article || !article) {
+  if (!node.article || !article) {
     return null;
   }
 
-  const subjectLinks = parent.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
+  const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
-    path: crossSubjectTopic.path || root.path || "",
+    path: crossSubjectTopic.path || root?.path || "",
   }));
 
   const authors =
@@ -170,7 +170,7 @@ const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToCo
               id={skipToContentId ?? article.id.toString()}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
-              contentTypeLabel={parent.resourceTypes?.[0]?.name}
+              contentTypeLabel={node.resourceTypes?.[0]?.name}
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
@@ -193,7 +193,7 @@ const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToCo
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources node={parent} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                <Resources node={node} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>
@@ -204,8 +204,8 @@ const MultidisciplinarySubjectArticle = ({ parent, root, resourceTypes, skipToCo
 };
 
 export const multidisciplinarySubjectArticleFragments = {
-  parent: gql`
-    fragment MultidisciplinarySubjectArticle_ParentNode on Node {
+  node: gql`
+    fragment MultidisciplinarySubjectArticle_Node on Node {
       id
       name
       path
@@ -242,20 +242,6 @@ export const multidisciplinarySubjectArticleFragments = {
     }
     ${Resources.fragments.node}
     ${Article.fragments.article}
-  `,
-  root: gql`
-    fragment MultidisciplinarySubjectArticle_RootNode on Node {
-      id
-      name
-      path
-      url
-      subjectpage {
-        id
-        about {
-          title
-        }
-      }
-    }
   `,
   resourceType: gql`
     fragment MultidisciplinarySubjectArticle_ResourceTypeDefinition on ResourceTypeDefinition {

@@ -16,7 +16,6 @@ import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
-  constants,
   ContentTypeHero,
   HomeBreadcrumb,
   ArticleWrapper,
@@ -38,11 +37,9 @@ import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolde
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLArticlePage_NodeFragment,
   GQLArticlePage_ResourceTypeFragment,
-  GQLArticlePage_RootFragment,
   GQLArticlePage_ParentFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
@@ -61,7 +58,7 @@ interface Props {
   parent?: GQLArticlePage_ParentFragment;
   crumbs: GQLTaxonomyCrumb[];
   relevance: string;
-  root?: GQLArticlePage_RootFragment;
+  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
@@ -191,8 +188,7 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
             title={article.title}
           />
         )}
-        {root?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
+        {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
         <meta name="pageid" content={`${article.id}`} />
         <script type="application/ld+json">
           {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
@@ -275,8 +271,8 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
   );
 };
 
-const getDocumentTitle = (t: TFunction, resource?: GQLArticlePage_NodeFragment, root?: GQLArticlePage_RootFragment) =>
-  htmlTitle(resource?.article?.title, [root?.subjectpage?.about?.title || root?.name, t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (t: TFunction, resource?: GQLArticlePage_NodeFragment, root?: GQLTaxonomyCrumb) =>
+  htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
 export const articlePageFragments = {
   resourceType: gql`
@@ -284,23 +280,6 @@ export const articlePageFragments = {
       ...Resources_ResourceTypeDefinition
     }
     ${Resources.fragments.resourceType}
-  `,
-  root: gql`
-    fragment ArticlePage_Root on Node {
-      id
-      name
-      path
-      url
-      metadata {
-        customFields
-      }
-      subjectpage {
-        id
-        about {
-          title
-        }
-      }
-    }
   `,
   resource: gql`
     fragment ArticlePage_Node on Node {
@@ -312,6 +291,10 @@ export const articlePageFragments = {
       resourceTypes {
         name
         id
+      }
+      context {
+        contextId
+        isActive
       }
       article {
         created

@@ -16,7 +16,7 @@ import { useGraphQuery } from "../../util/runQueries";
 import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 
 export const TopicRouting = () => {
-  const { contextId, subjectId: subId, topicId: tId, topicList } = useUrnIds();
+  const { contextId, subjectId: subId, topicId: tId, topicList: tList } = useUrnIds();
 
   const { loading, data } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
@@ -31,6 +31,7 @@ export const TopicRouting = () => {
 
   const node = data?.node;
   const subjectId = node?.context?.rootId ?? subId ?? "";
+  const topicList = node?.context?.parentIds ?? tList;
 
   if (!subjectId) {
     return <Navigate to="/404" replace />;

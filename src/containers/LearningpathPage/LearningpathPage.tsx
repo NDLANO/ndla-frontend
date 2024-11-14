@@ -11,18 +11,15 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
-import { constants } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import {
   GQLLearningpath,
   GQLLearningpathPage_NodeFragment,
   GQLLearningpathPage_ResourceTypeDefinitionFragment,
-  GQLLearningpathPage_RootFragment,
   GQLLearningpathPage_ParentFragment,
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
@@ -35,7 +32,7 @@ interface PropData {
   relevance: string;
   parent?: GQLLearningpathPage_ParentFragment;
   crumbs: GQLTaxonomyCrumb[];
-  root?: GQLLearningpathPage_RootFragment;
+  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_NodeFragment;
 }
@@ -107,8 +104,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     <>
       <Helmet>
         <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
-        {root?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
+        {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(root, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
@@ -133,7 +129,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 };
 
 const getTitle = (
-  root?: Pick<GQLLearningpathPage_RootFragment, "name">,
+  root?: Pick<GQLTaxonomyCrumb, "name">,
   learningpath?: Pick<GQLLearningpath, "title">,
   learningpathStep?: Pick<GQLLearningpathStep, "title">,
 ) => {
@@ -155,25 +151,6 @@ export const learningpathPageFragments = {
     }
     ${Learningpath.fragments.parent}
   `,
-  root: gql`
-    fragment LearningpathPage_Root on Node {
-      id
-      name
-      path
-      url
-      metadata {
-        customFields
-      }
-      subjectpage {
-        id
-        about {
-          title
-        }
-      }
-      ...Learningpath_RootNode
-    }
-    ${Learningpath.fragments.root}
-  `,
   resourceType: gql`
     fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
       ...Learningpath_ResourceTypeDefinition
@@ -186,6 +163,10 @@ export const learningpathPageFragments = {
       name
       path
       url
+      context {
+        contextId
+        isActive
+      }
       learningpath {
         id
         supportedLanguages

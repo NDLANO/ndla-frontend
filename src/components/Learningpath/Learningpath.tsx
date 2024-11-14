@@ -40,7 +40,6 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_RootNodeFragment,
   GQLLearningpath_ParentFragment,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
@@ -56,7 +55,7 @@ interface Props {
   parent?: GQLLearningpath_ParentFragment;
   crumbs?: GQLTaxonomyCrumb[];
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  root?: GQLLearningpath_RootNodeFragment;
+  root?: GQLTaxonomyCrumb;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
@@ -278,17 +277,16 @@ const Learningpath = ({
                 subjectId={root?.id}
                 learningpathStep={learningpathStep}
                 breadcrumbItems={breadcrumbItems}
-              >
-                <LastLearningpathStepInfo
-                  parent={parent}
-                  crumbs={crumbs}
-                  resourceTypes={resourceTypes}
-                  seqNo={learningpathStep.seqNo}
-                  numberOfLearningSteps={learningpath.learningsteps.length - 1}
-                  title={learningpath.title}
-                  resourceId={resourceId}
-                />
-              </LearningpathEmbed>
+              ></LearningpathEmbed>
+              <LastLearningpathStepInfo
+                parent={parent}
+                crumbs={crumbs}
+                resourceTypes={resourceTypes}
+                seqNo={learningpathStep.seqNo}
+                numberOfLearningSteps={learningpath.learningsteps.length - 1}
+                title={learningpath.title}
+                resourceId={resourceId}
+              />
               <PageButtonsContainer>
                 {previousStep ? (
                   <SafeLinkButton
@@ -335,11 +333,6 @@ Learningpath.fragments = {
       ...LastLearningpathStepInfo_ResourceTypeDefinition
     }
     ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
-  root: gql`
-    fragment Learningpath_RootNode on Node {
-      id
-    }
   `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {

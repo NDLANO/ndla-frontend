@@ -157,8 +157,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+        {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
@@ -248,6 +247,10 @@ export const subjectContainerFragments = {
       url
       metadata {
         customFields
+      }
+      context {
+        contextId
+        isActive
       }
       grepCodes
       nodes: children(nodeType: "TOPIC") {

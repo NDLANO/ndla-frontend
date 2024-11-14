@@ -2129,6 +2129,7 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
+  isActive: Scalars["Boolean"]["output"];
   name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
@@ -2403,8 +2404,6 @@ export type GQLLearningpath_ParentFragment = { __typename?: "Node" } & GQLLastLe
 export type GQLLearningpath_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment;
-
-export type GQLLearningpath_RootNodeFragment = { __typename?: "Node"; id: string };
 
 export type GQLLearningpath_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
@@ -2695,16 +2694,6 @@ export type GQLArticlePage_ResourceTypeFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
 
-export type GQLArticlePage_RootFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
-};
-
 export type GQLArticlePage_NodeFragment = {
   __typename?: "Node";
   id: string;
@@ -2713,6 +2702,7 @@ export type GQLArticlePage_NodeFragment = {
   url?: string;
   contentUri?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
+  context?: { __typename?: "TaxonomyContext"; contextId: string; isActive: boolean };
   article?: {
     __typename?: "Article";
     created: string;
@@ -2889,16 +2879,6 @@ export type GQLResourceTypeMoviesQuery = {
 
 export type GQLLearningpathPage_ParentFragment = { __typename?: "Node" } & GQLLearningpath_ParentFragment;
 
-export type GQLLearningpathPage_RootFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
-} & GQLLearningpath_RootNodeFragment;
-
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLLearningpath_ResourceTypeDefinitionFragment;
@@ -2909,6 +2889,7 @@ export type GQLLearningpathPage_NodeFragment = {
   name: string;
   path?: string;
   url?: string;
+  context?: { __typename?: "TaxonomyContext"; contextId: string; isActive: boolean };
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
@@ -3082,8 +3063,7 @@ export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
 
 export type GQLMultidisciplinarySubjectArticlePageQuery = {
   __typename?: "Query";
-  root?: { __typename?: "Node" } & GQLMultidisciplinarySubjectArticle_RootNodeFragment;
-  parent?: {
+  node?: {
     __typename?: "Node";
     id: string;
     name: string;
@@ -3096,7 +3076,7 @@ export type GQLMultidisciplinarySubjectArticlePageQuery = {
       tags?: Array<string>;
       metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
     };
-  } & GQLMultidisciplinarySubjectArticle_ParentNodeFragment;
+  } & GQLMultidisciplinarySubjectArticle_NodeFragment;
   resourceTypes?: Array<
     { __typename?: "ResourceTypeDefinition" } & GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment
   >;
@@ -3115,7 +3095,7 @@ export type GQLMultidisciplinaryArticleList_NodeFragment = {
   };
 };
 
-export type GQLMultidisciplinarySubjectArticle_ParentNodeFragment = {
+export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
@@ -3146,15 +3126,6 @@ export type GQLMultidisciplinarySubjectArticle_ParentNodeFragment = {
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
   } & GQLArticle_ArticleFragment;
 } & GQLResources_ParentFragment;
-
-export type GQLMultidisciplinarySubjectArticle_RootNodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  subjectpage?: { __typename?: "SubjectPage"; id: number; about?: { __typename?: "SubjectPageAbout"; title: string } };
-};
 
 export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -4483,7 +4454,6 @@ export type GQLResourcePageQueryVariables = Exact<{
 
 export type GQLResourcePageQuery = {
   __typename?: "Query";
-  root?: { __typename?: "Node" } & GQLLearningpathPage_RootFragment & GQLArticlePage_RootFragment;
   resourceTypes?: Array<
     { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
       GQLLearningpathPage_ResourceTypeDefinitionFragment
@@ -4592,6 +4562,7 @@ export type GQLSubjectContainer_NodeFragment = {
   url?: string;
   grepCodes?: Array<string>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  context?: { __typename?: "TaxonomyContext"; contextId: string; isActive: boolean };
   nodes?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
   subjectpage?: {
     __typename?: "SubjectPage";
@@ -4674,6 +4645,7 @@ export type GQLTopicPageQuery = {
       name: string;
       path: string;
       url: string;
+      isActive: boolean;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string; url: string }>;
     };
     nodes?: Array<
