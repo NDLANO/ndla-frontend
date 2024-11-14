@@ -130,6 +130,7 @@ const FilmFrontpage = () => {
               items={node?.children?.map((child) => {
                 const path = enablePrettyUrls ? child.url : child.path;
                 return {
+                  id: child.id,
                   label: child.name,
                   url: path,
                 };
