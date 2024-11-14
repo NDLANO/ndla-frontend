@@ -12,10 +12,10 @@ import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, T
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { GQLLearningPath } from "./LearningPathList";
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 
 interface Props {
-  learningPath: GQLLearningPath;
+  learningPath: GQLMyLearningpathFragment;
   variant?: NonNullable<ListItemVariantProps>["variant"];
   context?: NonNullable<ListItemVariantProps>["context"];
   link: string;
@@ -63,11 +63,16 @@ const StyledText = styled(Text, {
   },
 });
 
-const LearningPathItem = ({ learningPath: { id, created, shared, title }, variant, context = "list", link }: Props) => {
+const LearningPathItem = ({
+  learningPath: { id, lastUpdated, status, title },
+  variant,
+  context = "list",
+  link,
+}: Props) => {
   const { t } = useTranslation();
   //Simple component since dnd-component will be updated
   return (
-    <ListItemRoot context={context} variant={variant} nonInteractive id={id}>
+    <ListItemRoot context={context} variant={variant} nonInteractive id={`${id}`}>
       <ListItemContent
         css={{
           alignItems: "center",
@@ -86,7 +91,7 @@ const LearningPathItem = ({ learningPath: { id, created, shared, title }, varian
                 {title}
               </StyledSafeLink>
             </ListItemHeading>
-            <StyledText textStyle="label.small">{`${t("myNdla.learningpath.created")}: ${created} / ${t("myNdla.folder.sharing.shared")}: ${shared}`}</StyledText>
+            <StyledText textStyle="label.small">{`${t("myNdla.learningpath.created")}: ${lastUpdated} / ${t("myNdla.folder.sharing.shared")}: ${status}`}</StyledText>
           </TitleAndDateWrapper>
         </TitleWrapper>
         <LearningPathInfo></LearningPathInfo>

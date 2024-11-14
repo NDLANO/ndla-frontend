@@ -1541,6 +1541,7 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
+  myLearningpaths?: Maybe<Array<GQLLearningpath>>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -2847,6 +2848,7 @@ export type GQLLearningpathPage_ResourceFragment = {
   path?: string;
   learningpath?: {
     __typename?: "Learningpath";
+    id: number;
     supportedLanguages: Array<string>;
     tags: Array<string>;
     description: string;
@@ -2926,7 +2928,7 @@ export type GQLProgrammeMenu_ProgrammePageFragment = {
   contextId?: string;
   url?: string;
   contentUri?: string;
-  title: { __typename?: "Title"; title: string };
+  title: { __typename?: "Title"; title: string; language: string };
 };
 
 export type GQLSubjectMenu_SubjectFragment = {
@@ -3903,6 +3905,23 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
 
+export type GQLMyLearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  description: string;
+  lastUpdated: string;
+  status: string;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+};
+
+export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyLearningpathsQuery = {
+  __typename?: "Query";
+  myLearningpaths?: Array<{ __typename?: "Learningpath" } & GQLMyLearningpathFragment>;
+};
+
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
@@ -4231,6 +4250,7 @@ export type GQLPlainArticlePageQuery = {
 
 export type GQLPlainLearningpathContainer_LearningpathFragment = {
   __typename?: "Learningpath";
+  id: number;
   supportedLanguages: Array<string>;
   tags: Array<string>;
   description: string;
@@ -4307,7 +4327,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
   id: string;
   metaDescription?: string;
   url?: string;
-  title: { __typename?: "Title"; title: string };
+  title: { __typename?: "Title"; title: string; language: string };
   desktopImage?: { __typename?: "MetaImage"; url: string };
   grades?: Array<{
     __typename?: "Grade";
@@ -4420,8 +4440,16 @@ export type GQLResources_ResourceFragment = {
   rank?: number;
   language?: string;
   relevanceId?: string;
-  article?: { __typename?: "Article"; metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string } };
-  learningpath?: { __typename?: "Learningpath"; coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string } };
+  article?: {
+    __typename?: "Article";
+    id: number;
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  };
+  learningpath?: {
+    __typename?: "Learningpath";
+    id: number;
+    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+  };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 

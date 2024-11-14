@@ -18,6 +18,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { MenuItemProps } from "../components/SettingsMenu";
+import { useMyLearningpaths } from "../learningpathQueries";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -33,26 +34,11 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-// Delete after graphql is connected
-const testData = [
-  {
-    id: "1",
-    created: "2024.12.12",
-    shared: "2024.12.13",
-    title: "Naturfag",
-  },
-  {
-    id: "2",
-    created: "2024.12.15",
-    shared: "2024.12.16",
-    title: "Engelsk",
-  },
-];
-
 const LearningPathPage = () => {
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
+  const { data, loading } = useMyLearningpaths();
 
   const menuItems: MenuItemProps[] = [
     {
@@ -77,7 +63,7 @@ const LearningPathPage = () => {
         </Heading>
         <Text textStyle="body.medium">{t("myNdla.learningpath.description")}</Text>
       </HeadingWrapper>
-      <LearningPathList loading={false} learningPaths={testData} />
+      <LearningPathList loading={loading} learningPaths={data?.myLearningpaths} />
     </StyledMyNdlaPageWrapper>
   );
 };

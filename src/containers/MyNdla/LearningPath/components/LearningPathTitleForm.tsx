@@ -11,13 +11,13 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { GQLLearningPath } from "./LearningPathList";
 import SearchMetaImage from "./SearchMetaImage";
 import FieldLength from "../../../../containers/MyNdla/components/FieldLength";
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 
 interface Props {
-  learningpath?: GQLLearningPath;
+  learningpath?: GQLMyLearningpathFragment;
   onSave: (values: LearningpathFormValues) => Promise<void>;
   loading?: boolean;
 }
@@ -51,10 +51,10 @@ const ButtonRow = styled("div", {
   },
 });
 
-const toFormValues = (learningpath: GQLLearningPath | undefined): LearningpathFormValues => {
+const toFormValues = (learningpath: GQLMyLearningpathFragment | undefined): LearningpathFormValues => {
   return {
     title: learningpath?.title ?? "",
-    metaImage: learningpath?.metaImage ?? undefined,
+    metaImage: learningpath?.coverphoto?.url ?? undefined,
   };
 };
 

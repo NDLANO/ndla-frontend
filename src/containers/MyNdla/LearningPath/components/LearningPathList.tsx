@@ -6,31 +6,23 @@
  *
  */
 
-import { ReactNode } from "react";
 import LearningPathItem from "./LearningPathItem";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
-
-export type GQLLearningPath = {
-  id: string;
-  created: string;
-  shared: string;
-  title: string;
-  metaImage?: ReactNode;
-};
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 
 interface Props {
   loading: boolean;
-  learningPaths: GQLLearningPath[];
+  learningPaths?: GQLMyLearningpathFragment[];
 }
 
 function LearningPathList({ loading, learningPaths }: Props) {
   return (
     <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
-      {learningPaths.length > 0 && (
+      {learningPaths?.length && (
         <BlockWrapper>
-          {learningPaths.map((learningPath) => (
+          {learningPaths?.map((learningPath) => (
             <LearningPathItem key={`learningPath-${learningPath.id}`} learningPath={learningPath} link={""} />
           ))}
         </BlockWrapper>

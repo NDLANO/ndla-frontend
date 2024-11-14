@@ -1204,6 +1204,7 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
+  myLearningpaths: [Learningpath!]
   node(contextId: String, id: String, parentId: String, rootId: String): Node
   nodeByArticleId(articleId: String, nodeId: String): Node
   nodes(
