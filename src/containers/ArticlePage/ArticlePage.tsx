@@ -103,7 +103,6 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
-  const subjectPageUrl = config.ndlaFrontendDomain;
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
@@ -161,8 +160,8 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
 
   const contentType = resource ? getContentType(resource) : undefined;
 
-  const copyPageUrlLink = parent ? `${subjectPageUrl}${parent.path}/${resource.id.replace("urn:", "")}` : undefined;
-  const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
+  const copyPageUrlLink = enablePrettyUrls ? resource.url : resource.path;
+  const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls);
 
@@ -184,7 +183,7 @@ const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, sk
           <link
             rel="alternate"
             type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
+            href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + copyPageUrlLink}`}
             title={article.title}
           />
         )}
