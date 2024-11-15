@@ -21,7 +21,7 @@ import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
-import { isCurrentPage } from "../../../utils/urlHelper";
+import { isCurrentPage } from "../../../util/urlHelper";
 
 interface Props {
   subject?: GQLSubjectMenu_RootFragment;

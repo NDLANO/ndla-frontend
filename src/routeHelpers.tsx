@@ -147,7 +147,7 @@ export function toBreadcrumbItems(
   paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
   enablePrettyUrls = false,
 ): Breadcrumb[] {
-  const safePaths = paths.filter((p) => p !== undefined);
+  const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
     const to = enablePrettyUrls ? crumb?.url : fixEndSlash(crumb?.path);

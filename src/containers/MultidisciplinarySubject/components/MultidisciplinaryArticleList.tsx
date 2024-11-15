@@ -53,36 +53,33 @@ const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
         <h2>{t("multidisciplinary.casesCount", { count: nodes.length })}</h2>
       </Heading>
       <CardList>
-        {nodes.map((node) => {
-          const to = enablePrettyUrls ? node.url : node.path;
-          return (
-            <li key={node.id}>
-              <CardRoot css={{ height: "100%" }}>
-                {!!node.meta?.metaImage && (
-                  <CardImage
-                    src={node.meta.metaImage.url}
-                    alt={node.meta.metaImage.alt}
-                    height={200}
-                    fallbackWidth={360}
-                    fallbackElement={<ContentTypeFallbackIcon />}
-                  />
-                )}
-                <CardContent>
-                  <CardHeading asChild consumeCss>
-                    <h3>
-                      <SafeLink to={to ?? ""} css={linkOverlay.raw()}>
-                        {node.name}
-                      </SafeLink>
-                    </h3>
-                  </CardHeading>
-                  <Text textStyle="body.large" css={{ flex: "1" }}>
-                    {node.meta?.metaDescription ?? ""}
-                  </Text>
-                </CardContent>
-              </CardRoot>
-            </li>
-          );
-        })}
+        {nodes.map((node) => (
+          <li key={node.id}>
+            <CardRoot css={{ height: "100%" }}>
+              {!!node.meta?.metaImage && (
+                <CardImage
+                  src={node.meta.metaImage.url}
+                  alt={node.meta.metaImage.alt}
+                  height={200}
+                  fallbackWidth={360}
+                  fallbackElement={<ContentTypeFallbackIcon />}
+                />
+              )}
+              <CardContent>
+                <CardHeading asChild consumeCss>
+                  <h3>
+                    <SafeLink to={(enablePrettyUrls ? node.url : node.path) ?? ""} css={linkOverlay.raw()}>
+                      {node.name}
+                    </SafeLink>
+                  </h3>
+                </CardHeading>
+                <Text textStyle="body.large" css={{ flex: "1" }}>
+                  {node.meta?.metaDescription ?? ""}
+                </Text>
+              </CardContent>
+            </CardRoot>
+          </li>
+        ))}
       </CardList>
     </ListWrapper>
   );

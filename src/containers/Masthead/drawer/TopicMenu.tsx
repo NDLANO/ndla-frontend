@@ -24,7 +24,7 @@ import {
   GQLTopicMenu_RootFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
-import { isCurrentPage } from "../../../util/urlHelper";}
+import { isCurrentPage } from "../../../util/urlHelper";
 import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
 interface Props {
