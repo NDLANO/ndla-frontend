@@ -345,32 +345,30 @@ const MastheadSearch = () => {
                 {loading ? (
                   <Spinner />
                 ) : (
-                  searchHits.map((hit) => {
-                    return (
-                      <ComboboxItem key={hit.id} item={hit} className="peer" asChild consumeCss>
-                        <StyledListItemRoot context="list">
-                          <TextWrapper>
-                            <ComboboxItemText>
-                              <SafeLink to={hit.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                                {parse(hit.htmlTitle)}
-                              </SafeLink>
-                            </ComboboxItemText>
-                            {!!hit.contexts[0] && (
-                              <Text
-                                textStyle="label.small"
-                                color="text.subtle"
-                                css={{ textAlign: "start" }}
-                                aria-label={`${t("breadcrumb.breadcrumb")}: ${hit.contexts[0]?.breadcrumbs.join(", ")}`}
-                              >
-                                {hit.contexts[0].breadcrumbs.join(" > ")}
-                              </Text>
-                            )}
-                          </TextWrapper>
-                          <ContentTypeBadgeNew contentType={hit.contentType} />
-                        </StyledListItemRoot>
-                      </ComboboxItem>
-                    );
-                  })
+                  searchHits.map((resource) => (
+                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <StyledListItemRoot context="list">
+                        <TextWrapper>
+                          <ComboboxItemText>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                              {parse(resource.htmlTitle)}
+                            </SafeLink>
+                          </ComboboxItemText>
+                          {!!resource.contexts[0] && (
+                            <Text
+                              textStyle="label.small"
+                              color="text.subtle"
+                              css={{ textAlign: "start" }}
+                              aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                            >
+                              {resource.contexts[0].breadcrumbs.join(" > ")}
+                            </Text>
+                          )}
+                        </TextWrapper>
+                        <ContentTypeBadgeNew contentType={resource.contentType} />
+                      </StyledListItemRoot>
+                    </ComboboxItem>
+                  ))
                 )}
               </StyledComboboxContent>
             ) : null}
