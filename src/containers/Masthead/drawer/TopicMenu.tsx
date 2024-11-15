@@ -14,7 +14,7 @@ import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
-import { isCurrent, TopicWithSubTopics } from "./SubjectMenu";
+import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
@@ -24,6 +24,7 @@ import {
   GQLTopicMenu_RootFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
+import { isCurrentPage } from "../../../util/urlHelper";}
 import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
 interface Props {
@@ -91,7 +92,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         <DrawerListItem role="none" data-list-item>
           <DrawerHeaderLink
             variant="link"
-            aria-current={isCurrent(location.pathname, topic) ? "page" : undefined}
+            aria-current={isCurrentPage(location.pathname, topic) ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
             to={to || ""}
@@ -106,7 +107,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             id={t.id}
             key={t.id}
             type="button"
-            current={isCurrent(location.pathname, t)}
+            current={isCurrentPage(location.pathname, t)}
             active={levelId === t.id}
             onClick={(expanded) => (expanded ? removeTopic(level) : addTopic(t, level))}
           >
@@ -123,7 +124,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                       id={`${topic.id}-${res.id}`}
                       type="link"
                       to={to || ""}
-                      current={isCurrent(location.pathname, res)}
+                      current={isCurrentPage(location.pathname, res)}
                       onClose={onClose}
                       key={res.id}
                     >
@@ -140,7 +141,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                   id={`${topic.id}-${res.id}`}
                   type="link"
                   to={to || ""}
-                  current={isCurrent(location.pathname, res)}
+                  current={isCurrentPage(location.pathname, res)}
                   onClose={onClose}
                   key={res.id}
                 >

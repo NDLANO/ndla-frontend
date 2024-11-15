@@ -20,7 +20,8 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { GQLSubjectMenu_RootFragment, GQLTaxBase } from "../../../graphqlTypes";
+import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
+import { isCurrentPage } from "../../../utils/urlHelper";
 
 interface Props {
   subject?: GQLSubjectMenu_RootFragment;
@@ -53,11 +54,6 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
     return [];
   }
   return [topic].concat(constructTopicPath(topic.subtopics, topicList.slice(1)));
-};
-
-export const isCurrent = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
-  const path = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
-  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
 };
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
@@ -124,7 +120,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
                 variant="link"
-                aria-current={isCurrent(location.pathname, subject) ? "page" : undefined}
+                aria-current={isCurrentPage(location.pathname, subject) ? "page" : undefined}
                 id={`header-${subject.id}`}
                 to={path}
                 onClick={onClose}
@@ -140,7 +136,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
                 id={t.id}
                 key={t.id}
                 type="button"
-                current={isCurrent(location.pathname, t)}
+                current={isCurrentPage(location.pathname, t)}
                 onClick={(expanded) => {
                   if (expanded) {
                     setTopicPathIds([]);

@@ -7,6 +7,7 @@
  */
 
 import { matchPath, Params, PathMatch, Location } from "react-router-dom";
+import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
 import { oembedRoutes } from "../routes";
 
@@ -98,4 +99,9 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
   const fullPath = path.startsWith("/") ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}`;
+};
+
+export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
+  const path = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
 };
