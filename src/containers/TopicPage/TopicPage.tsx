@@ -238,7 +238,7 @@ export const TopicContainer = ({ node, resourceTypes, subjectType }: TopicContai
       },
       node.context?.parents?.map((parent) => ({
         name: parent.name,
-        to: enablePrettyUrls ? parent.url : parent.path,
+        to: (enablePrettyUrls ? parent.url : parent.path) ?? "",
       })) ?? [],
       { name: node.context.name, to: node.context.path },
     ].flat();

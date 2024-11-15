@@ -76,13 +76,13 @@ const LastLearningpathStepInfo = ({
         {!!root && (
           <Text>
             {t("learningPath.lastStep.subjectHeading")}{" "}
-            <SafeLink to={enablePrettyUrls ? root.url : root.path}>{root.name}</SafeLink>
+            <SafeLink to={(enablePrettyUrls ? root.url : root.path) ?? ""}>{root.name}</SafeLink>
           </Text>
         )}
         {!!p && (
           <Text>
             {t("learningPath.lastStep.topicHeading")}{" "}
-            <SafeLink to={enablePrettyUrls ? p.url : p.path}>{p.name}</SafeLink>
+            <SafeLink to={(enablePrettyUrls ? p.url : p.path) ?? ""}>{p.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>

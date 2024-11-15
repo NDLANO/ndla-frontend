@@ -2463,7 +2463,7 @@ export type GQLLearningpathStepQueryVariables = Exact<{
 export type GQLLearningpathStepQuery = {
   __typename?: "Query";
   article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
-  resource?: {
+  node?: {
     __typename?: "Node";
     id: string;
     path?: string;
@@ -2702,7 +2702,19 @@ export type GQLArticlePage_NodeFragment = {
   url?: string;
   contentUri?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
-  context?: { __typename?: "TaxonomyContext"; contextId: string; isActive: boolean };
+  context?: {
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    isActive: boolean;
+    parents?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
+  };
   article?: {
     __typename?: "Article";
     created: string;
@@ -2889,7 +2901,19 @@ export type GQLLearningpathPage_NodeFragment = {
   name: string;
   path?: string;
   url?: string;
-  context?: { __typename?: "TaxonomyContext"; contextId: string; isActive: boolean };
+  context?: {
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    isActive: boolean;
+    parents?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
+  };
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
@@ -4464,22 +4488,7 @@ export type GQLResourcePageQuery = {
     relevanceId?: string;
     paths: Array<string>;
     breadcrumbs: Array<string>;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      breadcrumbs: Array<string>;
-      parentIds: Array<string>;
-      path: string;
-      url: string;
-      parents?: Array<{
-        __typename?: "TaxonomyCrumb";
-        contextId: string;
-        id: string;
-        name: string;
-        path: string;
-        url: string;
-      }>;
-    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; path: string; url: string };
     contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; path: string; url: string }>;
   } & GQLMovedResourcePage_NodeFragment &
     GQLArticlePage_NodeFragment &

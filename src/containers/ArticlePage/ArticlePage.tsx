@@ -56,9 +56,7 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
   parent?: GQLArticlePage_ParentFragment;
-  crumbs: GQLTaxonomyCrumb[];
   relevance: string;
-  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
   loading?: boolean;
@@ -98,11 +96,14 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-const ArticlePage = ({ resource, crumbs, parent, resourceTypes, root, errors, skipToContentId, loading }: Props) => {
+const ArticlePage = ({ resource, parent, resourceTypes, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
+
+  const crumbs = resource?.context?.parents || [];
+  const root = crumbs.length > 0 ? crumbs[0] : undefined;
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
@@ -294,6 +295,13 @@ export const articlePageFragments = {
       context {
         contextId
         isActive
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       article {
         created

@@ -31,8 +31,6 @@ import { getAllDimensions } from "../../util/trackingUtil";
 interface PropData {
   relevance: string;
   parent?: GQLLearningpathPage_ParentFragment;
-  crumbs: GQLTaxonomyCrumb[];
-  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_NodeFragment;
 }
@@ -61,7 +59,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const { resource, root } = data;
+    const { resource } = data;
     const learningpath = resource?.learningpath;
     const firstStep = learningpath?.learningsteps?.[0];
     const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
@@ -69,7 +67,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     const dimensions = getAllDimensions({
       learningpath,
       learningstep,
-      filter: root?.name,
+      filter: resource?.context?.parents?.[0]?.name,
       user,
     });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
@@ -79,13 +77,13 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     !data.resource ||
     !data.resource.learningpath ||
     !data.parent ||
-    !data.crumbs ||
-    !data.root ||
     (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
   ) {
     return <DefaultErrorMessagePage />;
   }
-  const { resource, parent, resourceTypes, root, crumbs } = data;
+  const { resource, parent, resourceTypes } = data;
+  const crumbs = resource.context?.parents ?? [];
+  const root = crumbs.length > 0 ? crumbs[0] : undefined;
   const learningpath = resource.learningpath!;
 
   const learningpathStep = stepId
@@ -137,7 +135,7 @@ const getTitle = (
 };
 
 const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
-  const subject = data.root;
+  const subject = data.resource?.context?.parents?.[0];
   const learningpath = data.resource?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
@@ -166,6 +164,13 @@ export const learningpathPageFragments = {
       context {
         contextId
         isActive
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       learningpath {
         id

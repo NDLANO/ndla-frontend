@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -66,17 +66,8 @@ const resourcePageQuery = gql`
       breadcrumbs
       context {
         contextId
-        breadcrumbs
-        parentIds
         path
         url
-        parents {
-          contextId
-          id
-          name
-          path
-          url
-        }
       }
       contexts {
         contextId
@@ -129,11 +120,6 @@ const ResourcePage = () => {
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
-
-  const crumbs = useMemo(() => {
-    if (!data?.resource?.path) return [];
-    return data.resource.context?.parents ?? [];
-  }, [data?.resource]);
 
   if (loading || rootLoading) {
     return <ContentPlaceholder variant="article" />;
@@ -194,14 +180,13 @@ const ResourcePage = () => {
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t("searchPage.searchFilterMessages.supplementaryRelevance")
       : t("searchPage.searchFilterMessages.coreRelevance");
-  const root = data.resource.context?.parents?.[0];
 
   if (isLearningPathResource(resource)) {
     return (
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, root, relevance, crumbs }}
+        data={{ ...data, relevance }}
         loading={loading}
       />
     );
@@ -211,9 +196,7 @@ const ResourcePage = () => {
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.resource}
       parent={data.parent}
-      crumbs={crumbs}
       relevance={relevance}
-      root={root}
       resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}

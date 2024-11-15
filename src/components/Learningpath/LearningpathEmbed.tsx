@@ -110,7 +110,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     },
   );
 
-  const path = !learningpathStep.resource?.path ? data?.resource?.path : undefined;
+  const path = !learningpathStep.resource?.path ? data?.node?.path : undefined;
   const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const [article, scripts] = useMemo(() => {
@@ -186,7 +186,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   }
 
   const learningpathStepResource = learningpathStep.resource ?? data;
-  const resource = learningpathStep.resource ?? data?.resource;
+  const resource = learningpathStep.resource ?? data?.node;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
@@ -285,7 +285,7 @@ const learningpathStepQuery = gql`
       oembed
       ...LearningpathEmbed_Article
     }
-    resource: node(id: $resourceId) @include(if: $includeResource) {
+    node(id: $resourceId) @include(if: $includeResource) {
       id
       path
       resourceTypes {
