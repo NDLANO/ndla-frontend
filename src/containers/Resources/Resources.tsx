@@ -39,7 +39,7 @@ interface Props {
   headingType: HeadingType;
   subHeadingType: HeadingType;
   currentResourceContentType?: ContentType;
-  currentId?: string;
+  currentResourceId?: string;
 }
 
 const StyledNav = styled("nav", {
@@ -100,7 +100,7 @@ const Resources = ({
   headingType: HeadingType,
   subHeadingType: SubHeadingType,
   currentResourceContentType,
-  currentId,
+  currentResourceId,
 }: Props) => {
   const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
@@ -179,7 +179,7 @@ const Resources = ({
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             currentResourceContentType={currentResourceContentType}
-            currentId={currentId}
+            currentResourceId={currentResourceId}
           />
         ) : (
           groupedResources.map((type) => (
@@ -196,7 +196,7 @@ const Resources = ({
                     contentType={type.contentType}
                     resources={type.resources ?? []}
                     currentResourceContentType={currentResourceContentType}
-                    currentId={currentId}
+                    currentResourceId={currentResourceId}
                   />
                 </ListWrapper>
               )}

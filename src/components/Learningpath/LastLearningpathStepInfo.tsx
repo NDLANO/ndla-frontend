@@ -93,7 +93,7 @@ const LastLearningpathStepInfo = ({
           resourceTypes={resourceTypes}
           node={parent}
           subHeadingType="h3"
-          currentId={resourceId}
+          currentResourceId={resourceId}
         />
       )}
     </>
