@@ -19,10 +19,6 @@ import {
 import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
-export function toSearch(searchString?: string) {
-  return `/search?${searchString || ""}`;
-}
-
 export const removeUrn = (str?: string) => str?.replace("urn:", "") ?? "";
 
 interface MatchParams extends TypedParams {
@@ -39,19 +35,6 @@ interface MatchParams extends TypedParams {
   contextId?: string;
   slug?: string;
 }
-
-export const useOnTopicPage = () => {
-  const { subjectId, resourceId, topicList } = useUrnIds();
-  if (!subjectId || resourceId || (subjectId && topicList.length === 0)) {
-    return false;
-  }
-  const subjectType = getSubjectType(subjectId);
-  if (subjectType === "multiDisciplinary") {
-    return topicList.length < 3;
-  }
-
-  return true;
-};
 
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
@@ -128,20 +111,6 @@ export function toArticle(articleId: number, resource: Resource, subjectTopicPat
 
 export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 
-export function toSubject(subjectId: string) {
-  return `/${removeUrn(subjectId)}`;
-}
-
-export function toTopic(subjectId: string, ...topicIds: string[]) {
-  const urnFreeSubjectId = removeUrn(subjectId);
-  if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
-  }
-  const urnFreeTopicIds = topicIds.filter((id) => !!id).map(removeUrn);
-  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
-  return t;
-}
-
 export function toBreadcrumbItems(
   rootName: string,
   paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
@@ -150,21 +119,12 @@ export function toBreadcrumbItems(
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
-    const to = enablePrettyUrls ? crumb?.url : fixEndSlash(crumb?.path);
     return {
-      to: to ?? "",
+      to: (enablePrettyUrls ? crumb?.url : crumb?.path) ?? "",
       name: crumb?.name ?? "",
     };
   });
   return [{ to: "/", name: rootName }, ...breadcrumbs];
-}
-
-export function fixEndSlash(link?: string) {
-  const pattern = new RegExp(/resource/gi);
-  if (link && !pattern.test(link) && !/\/$/.test(link)) {
-    link = `${link}/`;
-  }
-  return link || "";
 }
 
 export function toProgramme(programmePath?: string, grade?: string) {
