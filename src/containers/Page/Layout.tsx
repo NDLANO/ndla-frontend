@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
-import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { usePrevious } from "../../util/utilityHooks";
@@ -25,7 +24,6 @@ const Layout = () => {
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
 
-  // TODO: Rewrite this to not use params
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
       return;
@@ -52,7 +50,6 @@ const Layout = () => {
 
   return (
     <>
-      <TitleAnnouncer />
       <Helmet
         htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
         meta={[{ name: "description", content: t("meta.description") }]}
