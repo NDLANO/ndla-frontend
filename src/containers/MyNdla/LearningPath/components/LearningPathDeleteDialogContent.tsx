@@ -10,8 +10,8 @@ import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathListItem } from "./LearningPathListItem";
-import { GQLLearningpath } from "../../../../graphqlTypes";
-import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
 
 const StyledDialogFooter = styled(DialogFooter, {
   base: {
@@ -22,9 +22,9 @@ const StyledDialogFooter = styled(DialogFooter, {
 });
 
 interface Props {
-  onDelete: (path: GQLLearningpath) => void;
+  onDelete: (path: number) => void;
   onClose: () => void;
-  learningPath: GQLLearningpath;
+  learningPath: GQLLearningpathFragmentFragment;
 }
 
 export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPath }: Props) => {
@@ -41,7 +41,7 @@ export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPat
       </DialogBody>
       <StyledDialogFooter>
         <Button onClick={(_e) => onClose()}>{t("cancel")}</Button>
-        <Button onClick={() => onDelete(learningPath)} variant="danger">
+        <Button onClick={() => onDelete(learningPath.id)} variant="danger">
           {t("myndla.learningpath.delete.button")}
         </Button>
       </StyledDialogFooter>

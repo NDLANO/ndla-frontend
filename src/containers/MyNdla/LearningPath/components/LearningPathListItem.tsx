@@ -6,13 +6,13 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Cross, DeleteBinLine, PencilLine } from "@ndla/icons/action";
 import { ArrowRightLine, ExternalLinkLine, PersonOutlined, ShareArrow } from "@ndla/icons/common";
 import { LearningPath } from "@ndla/icons/contentType";
+import { CheckLine } from "@ndla/icons/editor";
 import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { LearningPathDeleteDialogContent } from "./LearningPathDeleteDialogContent";
@@ -20,7 +20,7 @@ import { LearningPathShareDialogContent } from "./LearningPathShareDialogContent
 import { copyLearningPathSharingLink } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLLearningpath } from "../../../../graphqlTypes";
+import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 
@@ -32,56 +32,11 @@ const StyledListItemRoot = styled(ListItemRoot, {
   },
 });
 
-type LearningPathStatus = "published" | "private" | "deleted" | "unlisted" | "submitted";
-
-const learningPatuStatusMapper = (status: LearningPathStatus, t: TFunction) => {
-  switch (status) {
-    case "published":
-      return (
-        <Text>
-          <PersonOutlined />
-          {t("myndla.learningpath.status.delt")}
-        </Text>
-      );
-    case "private":
-      return (
-        <Text>
-          <PersonOutlined />
-          {t("myndla.learningpath.status.delt")}
-        </Text>
-      );
-    case "deleted":
-      return (
-        <Text>
-          <PersonOutlined />
-        </Text>
-      );
-    case "unlisted":
-      return (
-        <Text>
-          <PersonOutlined />
-        </Text>
-      );
-    case "submitted":
-      return (
-        <Text>
-          <PersonOutlined />
-        </Text>
-      );
-    default:
-      return (
-        <Text>
-          <PersonOutlined />
-        </Text>
-      );
-  }
-};
-
 const updateLearningPathStatus = async ({ variables }: { variables: { learningpathId: number; status: string } }) => {};
 const deleteLearningPath = async ({ variables }: { variables: { learningpathId: number } }) => {};
 
 interface Props {
-  learningPath: GQLLearningpath;
+  learningPath: GQLLearningpathFragmentFragment;
   showMenu: Boolean;
 }
 export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) => {
@@ -207,7 +162,27 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
             {t("myndla.learningpath.createShared")}
           </Text>
         </VStack>
-        <HStack>{showMenu ? <SettingsMenu menuItems={menuItems} /> : null}</HStack>
+        <HStack>
+          {learningPath.status === "published" && (
+            <Text>
+              <PersonOutlined />
+              {t("myndla.learningpath.status.delt")}
+            </Text>
+          )}
+          {learningPath.status === "private" && (
+            <Text>
+              <PencilLine />
+              {t("myndla.learningpath.status.delt")}
+            </Text>
+          )}
+          {learningPath.status === "ready_for_sharing" && (
+            <Text>
+              <CheckLine />
+              {t("myndla.learningpath.status.delt")}
+            </Text>
+          )}
+          {showMenu ? <SettingsMenu menuItems={menuItems} /> : null}
+        </HStack>
       </ListItemContent>
     </StyledListItemRoot>
   );

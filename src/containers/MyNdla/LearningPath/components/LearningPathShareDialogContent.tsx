@@ -16,7 +16,7 @@ import { LearningPathListItem } from "./LearningPathListItem";
 import { sharedLearningPathLink } from "./utils";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLLearningpath } from "../../../../graphqlTypes";
+import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 
 const GapWrapper = styled("div", {
@@ -55,7 +55,7 @@ const StyledDialogBody = styled(DialogBody, {
 interface Props {
   onClose: () => void;
   onCopyText: () => void;
-  learningPath: GQLLearningpath;
+  learningPath: GQLLearningpathFragmentFragment;
 }
 
 export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClose }: Props) => {

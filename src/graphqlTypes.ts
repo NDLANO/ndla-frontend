@@ -1541,6 +1541,7 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
+  myLearningpaths: Array<GQLLearningpath>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -3919,6 +3920,52 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 }>;
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
+
+export type GQLLearningpathStepFragmentFragment = {
+  __typename?: "LearningpathStep";
+  id: number;
+  title: string;
+  seqNo: number;
+  description?: string;
+  metaUrl: string;
+  revision: number;
+  status: string;
+  supportedLanguages: Array<string>;
+  type: string;
+  showTitle: boolean;
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+  license?: { __typename?: "License"; license: string; url?: string; description?: string };
+};
+
+export type GQLLearningpathFragmentFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  description: string;
+  duration?: number;
+  canEdit: boolean;
+  verificationStatus: string;
+  tags: Array<string>;
+  isBasedOn?: number;
+  metaUrl: string;
+  revision: number;
+  learningstepUrl: string;
+  status: string;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string; url?: string; description?: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpathStepFragmentFragment>;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; metaUrl: string; url: string };
+};
+
+export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyLearningpathsQuery = {
+  __typename?: "Query";
+  myLearningpaths: Array<{ __typename?: "Learningpath" } & GQLLearningpathFragmentFragment>;
+};
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
