@@ -245,12 +245,17 @@ export const subjectContainerFragments = {
       supportedLanguages
       path
       url
+      nodeType
       metadata {
         customFields
       }
       context {
         contextId
         isActive
+        rootId
+        parentIds
+        path
+        url
       }
       grepCodes
       nodes: children(nodeType: "TOPIC") {

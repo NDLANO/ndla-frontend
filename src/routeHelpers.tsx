@@ -65,7 +65,7 @@ export const useUrnIds = () => {
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
-export const getSubjectType = (subjectId: string): SubjectType => {
+export const getSubjectType = (subjectId?: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
     return "multiDisciplinary";
   } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {

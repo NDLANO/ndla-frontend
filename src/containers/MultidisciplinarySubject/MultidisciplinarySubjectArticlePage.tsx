@@ -55,7 +55,7 @@ const multidisciplinarySubjectArticlePageQuery = gql`
 `;
 
 interface Props {
-  subjectId: string;
+  subjectId?: string;
   topicId?: string;
 }
 

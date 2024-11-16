@@ -60,8 +60,8 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
-import { TopicRouting } from "./containers/TopicPage/TopicRouting";
+import SubjectPage from "./containers/SubjectPage/SubjectPage";
+import { TopicPage } from "./containers/TopicPage/TopicPage";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
 
@@ -145,20 +145,20 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path=":root/:name/:contextId" element={null} />
                   <Route path=":root/:name/:contextId/:stepId" element={null} />
                 </Route>
-                <Route path="e" element={<TopicRouting />}>
+                <Route path="e" element={<TopicPage />}>
                   <Route path=":contextId" element={null} />
                   <Route path=":root/:name/:contextId" element={null} />
                 </Route>
-                <Route path="f" element={<SubjectRouting />}>
+                <Route path="f" element={<SubjectPage />}>
                   <Route path=":contextId" element={null} />
                   <Route path=":root/:contextId" element={null} />
                   <Route path=":root/:name/:contextId" element={null} />
                 </Route>
                 <Route path={FILM_PAGE_URL} element={<FilmFrontpage />} />
                 <Route path={FILM_PAGE_PATH} element={<FilmFrontpage />} />
-                <Route path="subject:subjectId" element={<SubjectRouting />} />
-                <Route path="subject:subjectId/topic:topicId" element={<TopicRouting />} />
-                <Route path="subject:subjectId/topic:topic1" element={<TopicRouting />}>
+                <Route path="subject:subjectId" element={<SubjectPage />} />
+                <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
+                <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic2" element={null}>
                     <Route path="topic:topicId" element={null} />

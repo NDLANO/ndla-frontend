@@ -13,22 +13,24 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
-import { getSubjectType } from "../../routeHelpers";
+import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import MultidisciplinaryArticleList from "../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
+import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import Resources from "../Resources/Resources";
 
 export const topicPageQuery = gql`
-  query topicPage($id: String!, $rootId: String!, $transformArgs: TransformedArticleContentInput) {
-    node(id: $id, rootId: $rootId) {
+  query topicPage($id: String, $rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
+    node(id: $id, rootId: $rootId, contextId: $contextId) {
       id
       name
       supportedLanguages
       breadcrumbs
       relevanceId
+      nodeType
       article {
         htmlTitle
         htmlIntroduction
@@ -55,9 +57,11 @@ export const topicPageQuery = gql`
       }
       context {
         contextId
+        rootId
         name
         path
         url
+        isActive
         parents {
           id
           name
@@ -83,18 +87,14 @@ export const topicPageQuery = gql`
   ${Resources.fragments.resourceType}
 `;
 
-interface Props {
-  subjectId: string;
-  topicId?: string;
-}
-
-export const TopicPage = ({ topicId, subjectId }: Props) => {
+export const TopicPage = () => {
+  const { contextId, subjectId, topicId } = useUrnIds();
   const query = useGraphQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
-      id: topicId!,
-      rootId: subjectId!,
+      id: topicId,
+      rootId: subjectId,
+      contextId: contextId,
     },
-    skip: !topicId || !subjectId,
   });
 
   if (query.loading) {
@@ -125,7 +125,16 @@ export const TopicPage = ({ topicId, subjectId }: Props) => {
     return <DefaultErrorMessagePage />;
   }
 
-  const subjectType = getSubjectType(subjectId);
+  const { node } = query.data;
+  if (node.nodeType !== "TOPIC") {
+    return <DefaultErrorMessagePage />;
+  }
+  const parents = node.context?.parents || [];
+  const subjectType = getSubjectType(node.context?.rootId);
+
+  if (subjectType === "multiDisciplinary" && parents.length === 3) {
+    return <MultidisciplinarySubjectArticlePage subjectId={node.context?.rootId} topicId={node.id} />;
+  }
 
   return <TopicContainer node={query.data.node} resourceTypes={query.data.resourceTypes} subjectType={subjectType} />;
 };
