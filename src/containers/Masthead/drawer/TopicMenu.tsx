@@ -117,38 +117,32 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         {!isUngrouped
           ? groupedResources.map((group) => (
               <ResourceTypeList id={group.id} key={group.id} name={group.name}>
-                {group.resources?.map((res) => {
-                  const to = enablePrettyUrls ? res.url : res.path;
-                  return (
-                    <DrawerMenuItem
-                      id={`${topic.id}-${res.id}`}
-                      type="link"
-                      to={to || ""}
-                      current={isCurrentPage(location.pathname, res)}
-                      onClose={onClose}
-                      key={res.id}
-                    >
-                      {res.name}
-                    </DrawerMenuItem>
-                  );
-                })}
+                {group.resources?.map((res) => (
+                  <DrawerMenuItem
+                    id={`${topic.id}-${res.id}`}
+                    type="link"
+                    to={(enablePrettyUrls ? res.url : res.path) || ""}
+                    current={isCurrentPage(location.pathname, res)}
+                    onClose={onClose}
+                    key={res.id}
+                  >
+                    {res.name}
+                  </DrawerMenuItem>
+                ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map((res) => {
-              const to = enablePrettyUrls ? res.url : res.path;
-              return (
-                <DrawerMenuItem
-                  id={`${topic.id}-${res.id}`}
-                  type="link"
-                  to={to || ""}
-                  current={isCurrentPage(location.pathname, res)}
-                  onClose={onClose}
-                  key={res.id}
-                >
-                  {res.name}
-                </DrawerMenuItem>
-              );
-            })}
+          : sortedResources.map((res) => (
+              <DrawerMenuItem
+                id={`${topic.id}-${res.id}`}
+                type="link"
+                to={(enablePrettyUrls ? res.url : res.path) || ""}
+                current={isCurrentPage(location.pathname, res)}
+                onClose={onClose}
+                key={res.id}
+              >
+                {res.name}
+              </DrawerMenuItem>
+            ))}
       </DrawerList>
     </DrawerPortion>
   );
