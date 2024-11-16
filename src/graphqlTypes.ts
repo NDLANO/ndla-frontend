@@ -3081,7 +3081,8 @@ export type GQLMovedResourcePage_NodeFragment = {
 
 export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
   topicId: Scalars["String"]["input"];
-  subjectId: Scalars["String"]["input"];
+  rootId: Scalars["String"]["input"];
+  includeCrossSubjectTopics: Scalars["Boolean"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -3128,10 +3129,11 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
+    rootId: string;
     breadcrumbs: Array<string>;
-    parentIds: Array<string>;
     path: string;
     url: string;
+    isActive: boolean;
     parents?: Array<{
       __typename?: "TaxonomyCrumb";
       contextId: string;
@@ -3144,9 +3146,15 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   article?: {
     __typename?: "Article";
+    id: number;
+    language: string;
     created: string;
     updated: string;
     oembed?: string;
+    introduction?: string;
+    metaDescription: string;
+    tags?: Array<string>;
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
   } & GQLArticle_ArticleFragment;
 } & GQLResources_ParentFragment;
@@ -4601,6 +4609,7 @@ export type GQLTopicPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
   contextId?: InputMaybe<Scalars["String"]["input"]>;
+  includeCrossSubjectTopics: Scalars["Boolean"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -4645,7 +4654,8 @@ export type GQLTopicPageQuery = {
       { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
         GQLMultidisciplinaryArticleList_NodeFragment
     >;
-  } & GQLResources_ParentFragment;
+  } & GQLMultidisciplinarySubjectArticle_NodeFragment &
+    GQLResources_ParentFragment;
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
 };
 

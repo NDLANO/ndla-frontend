@@ -8,6 +8,8 @@
 
 import { gql } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
+import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
+import MultidisciplinarySubjectArticle, { fragments } from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -17,13 +19,17 @@ import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
-import MultidisciplinaryArticleList from "../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
-import MultidisciplinarySubjectArticlePage from "../MultidisciplinarySubject/MultidisciplinarySubjectArticlePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import Resources from "../Resources/Resources";
 
 export const topicPageQuery = gql`
-  query topicPage($id: String, $rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
+  query topicPage(
+    $id: String
+    $rootId: String
+    $contextId: String
+    $includeCrossSubjectTopics: Boolean!
+    $transformArgs: TransformedArticleContentInput
+  ) {
     node(id: $id, rootId: $rootId, contextId: $contextId) {
       id
       name
@@ -69,6 +75,7 @@ export const topicPageQuery = gql`
           url
         }
       }
+      ...MultidisciplinarySubjectArticle_Node
       ...Resources_Parent
       nodes: children(nodeType: "TOPIC") {
         id
@@ -83,6 +90,7 @@ export const topicPageQuery = gql`
   ${TransportationNode.fragments.node}
   ${MovedTopicPage.fragments.node}
   ${MultidisciplinaryArticleList.fragments.node}
+  ${fragments.node}
   ${Resources.fragments.node}
   ${Resources.fragments.resourceType}
 `;
@@ -94,6 +102,7 @@ export const TopicPage = () => {
       id: topicId,
       rootId: subjectId,
       contextId: contextId,
+      includeCrossSubjectTopics: subjectId !== undefined,
     },
   });
 
@@ -125,7 +134,7 @@ export const TopicPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  const { node } = query.data;
+  const { node, resourceTypes } = query.data;
   if (node.nodeType !== "TOPIC") {
     return <DefaultErrorMessagePage />;
   }
@@ -133,8 +142,8 @@ export const TopicPage = () => {
   const subjectType = getSubjectType(node.context?.rootId);
 
   if (subjectType === "multiDisciplinary" && parents.length === 3) {
-    return <MultidisciplinarySubjectArticlePage subjectId={node.context?.rootId} topicId={node.id} />;
+    return <MultidisciplinarySubjectArticle node={node} resourceTypes={resourceTypes} />;
   }
 
-  return <TopicContainer node={query.data.node} resourceTypes={query.data.resourceTypes} subjectType={subjectType} />;
+  return <TopicContainer node={node} resourceTypes={resourceTypes} subjectType={subjectType} />;
 };

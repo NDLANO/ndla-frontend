@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeFallbackIcon } from "../../../components/ContentTypeFallbackIcon";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../../graphqlTypes";
+import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../graphqlTypes";
 
 const CardList = styled("ul", {
   base: {

@@ -22,25 +22,26 @@ import {
   HomeBreadcrumb,
   licenseAttributes,
 } from "@ndla/ui";
-import Article from "../../../components/Article";
-import { useArticleCopyText, useNavigateToHash } from "../../../components/Article/articleHelpers";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import CompetenceGoals from "../../../components/CompetenceGoals";
-import LicenseBox from "../../../components/license/LicenseBox";
-import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
-import config from "../../../config";
+import Article from "../../components/Article";
+import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
+import LicenseBox from "../../components/license/LicenseBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
   GQLMultidisciplinarySubjectArticle_NodeFragment,
-  GQLTaxonomyCrumb,
-} from "../../../graphqlTypes";
-import { toBreadcrumbItems } from "../../../routeHelpers";
-import { getArticleScripts } from "../../../util/getArticleScripts";
-import { htmlTitle } from "../../../util/titleHelper";
-import { getAllDimensions } from "../../../util/trackingUtil";
-import { transformArticle } from "../../../util/transformArticle";
-import Resources from "../../Resources/Resources";
+} from "../../graphqlTypes";
+import { toBreadcrumbItems } from "../../routeHelpers";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
+import Resources from "../Resources/Resources";
 
 const ResourcesPageContent = styled("div", {
   base: {
@@ -86,17 +87,16 @@ const StyledDivider = styled(Divider, {
 
 interface Props {
   node: GQLMultidisciplinarySubjectArticle_NodeFragment;
-  root?: GQLTaxonomyCrumb;
   resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
-  skipToContentId?: string;
 }
 
-const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToContentId }: Props) => {
+const MultidisciplinarySubjectArticle = ({ node, resourceTypes }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
+  const root = node.context?.parents?.[0];
 
   useEffect(() => {
     if (!node?.article || !authContextLoaded) return;
@@ -147,6 +147,12 @@ const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToCont
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
+  const socialMediaMetaData = {
+    title: htmlTitle(node.name ?? node.article?.title, [root?.name]),
+    description: node.article?.metaDescription ?? node.article?.introduction,
+    image: node.article?.metaImage,
+  };
+
   return (
     <StyledPageContent variant="article" asChild consumeCss>
       <main>
@@ -154,7 +160,17 @@ const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToCont
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
+          {node.context?.isActive && <meta name="robots" content="noindex" />}
         </Helmet>
+        <SocialMediaMetadata
+          title={socialMediaMetaData.title}
+          description={socialMediaMetaData.description}
+          imageUrl={socialMediaMetaData.image?.url}
+          trackableContent={{
+            supportedLanguages: node.article?.supportedLanguages,
+            tags: node.article?.tags,
+          }}
+        />
         <HeaderWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
           <SubjectLinkSet
@@ -167,7 +183,7 @@ const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToCont
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>
             <ArticleTitle
-              id={skipToContentId ?? article.id.toString()}
+              id={SKIP_TO_CONTENT_ID}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
               contentTypeLabel={node.resourceTypes?.[0]?.name}
@@ -203,7 +219,7 @@ const MultidisciplinarySubjectArticle = ({ node, root, resourceTypes, skipToCont
   );
 };
 
-export const multidisciplinarySubjectArticleFragments = {
+export const fragments = {
   node: gql`
     fragment MultidisciplinarySubjectArticle_Node on Node {
       id
@@ -212,10 +228,11 @@ export const multidisciplinarySubjectArticleFragments = {
       url
       context {
         contextId
+        rootId
         breadcrumbs
-        parentIds
         path
         url
+        isActive
         parents {
           contextId
           id
@@ -229,10 +246,19 @@ export const multidisciplinarySubjectArticleFragments = {
         name
       }
       article {
+        id
+        language
         created
         updated
         oembed
-        crossSubjectTopics(subjectId: $subjectId) {
+        introduction
+        metaDescription
+        tags
+        metaImage {
+          url
+          alt
+        }
+        crossSubjectTopics(subjectId: $rootId) @include(if: $includeCrossSubjectTopics) {
           title
           path
         }
