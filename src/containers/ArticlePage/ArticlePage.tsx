@@ -96,7 +96,7 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-const ArticlePage = ({ resource, parent, resourceTypes, errors, skipToContentId, loading }: Props) => {
+const ArticlePage = ({ resource, parent, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
@@ -253,8 +253,8 @@ const ArticlePage = ({ resource, parent, resourceTypes, errors, skipToContentId,
                 {parent && (
                   <ResourcesPageContent>
                     <Resources
-                      node={parent}
-                      resourceTypes={resourceTypes}
+                      parentId={parent.id}
+                      rootId={root?.id}
                       headingType="h2"
                       subHeadingType="h3"
                       currentResourceContentType={contentType}

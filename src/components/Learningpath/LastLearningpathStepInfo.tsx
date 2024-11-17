@@ -44,15 +44,7 @@ interface Props {
   title: string;
   resourceId?: string;
 }
-const LastLearningpathStepInfo = ({
-  parent,
-  crumbs,
-  resourceTypes,
-  seqNo,
-  numberOfLearningSteps,
-  title,
-  resourceId,
-}: Props) => {
+const LastLearningpathStepInfo = ({ parent, crumbs, seqNo, numberOfLearningSteps, title, resourceId }: Props) => {
   const { t } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
@@ -62,7 +54,7 @@ const LastLearningpathStepInfo = ({
   }
 
   const root = crumbs?.[0];
-  const p = crumbs?.toReversed()?.[0];
+  const parentCrumb = crumbs?.toReversed()?.[0];
 
   return (
     <>
@@ -75,23 +67,23 @@ const LastLearningpathStepInfo = ({
       <LinksWrapper>
         {!!root && (
           <Text>
-            {t("learningPath.lastStep.subjectHeading")}{" "}
+            {`${t("learningPath.lastStep.subjectHeading")} `}
             <SafeLink to={(enablePrettyUrls ? root.url : root.path) ?? ""}>{root.name}</SafeLink>
           </Text>
         )}
-        {!!p && (
+        {!!parentCrumb && (
           <Text>
-            {t("learningPath.lastStep.topicHeading")}{" "}
-            <SafeLink to={(enablePrettyUrls ? p.url : p.path) ?? ""}>{p.name}</SafeLink>
+            {`${t("learningPath.lastStep.topicHeading")} `}
+            <SafeLink to={(enablePrettyUrls ? parentCrumb.url : parentCrumb.path) ?? ""}>{parentCrumb.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>
-      {resourceTypes && !!parent?.resources?.length && (
+      {!!parent?.children?.length && (
         <Resources
           headingType="h2"
           key="resources"
-          resourceTypes={resourceTypes}
-          node={parent}
+          parentId={parent.id}
+          rootId={root?.id}
           subHeadingType="h3"
           currentResourceId={resourceId}
         />

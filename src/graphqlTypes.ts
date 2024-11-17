@@ -3079,90 +3079,6 @@ export type GQLMovedResourcePage_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
-export type GQLMultidisciplinarySubjectArticlePageQueryVariables = Exact<{
-  topicId: Scalars["String"]["input"];
-  rootId: Scalars["String"]["input"];
-  includeCrossSubjectTopics: Scalars["Boolean"]["input"];
-  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
-}>;
-
-export type GQLMultidisciplinarySubjectArticlePageQuery = {
-  __typename?: "Query";
-  node?: {
-    __typename?: "Node";
-    id: string;
-    name: string;
-    path?: string;
-    url?: string;
-    article?: {
-      __typename?: "Article";
-      introduction?: string;
-      metaDescription: string;
-      tags?: Array<string>;
-      metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
-    };
-  } & GQLMultidisciplinarySubjectArticle_NodeFragment;
-  resourceTypes?: Array<
-    { __typename?: "ResourceTypeDefinition" } & GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment
-  >;
-};
-
-export type GQLMultidisciplinaryArticleList_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  meta?: {
-    __typename?: "Meta";
-    metaDescription?: string;
-    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  };
-};
-
-export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-  context?: {
-    __typename?: "TaxonomyContext";
-    contextId: string;
-    rootId: string;
-    breadcrumbs: Array<string>;
-    path: string;
-    url: string;
-    isActive: boolean;
-    parents?: Array<{
-      __typename?: "TaxonomyCrumb";
-      contextId: string;
-      id: string;
-      name: string;
-      path: string;
-      url: string;
-    }>;
-  };
-  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-  article?: {
-    __typename?: "Article";
-    id: number;
-    language: string;
-    created: string;
-    updated: string;
-    oembed?: string;
-    introduction?: string;
-    metaDescription: string;
-    tags?: Array<string>;
-    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
-    crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
-  } & GQLArticle_ArticleFragment;
-} & GQLResources_ParentFragment;
-
-export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = {
-  __typename?: "ResourceTypeDefinition";
-} & GQLResources_ResourceTypeDefinitionFragment;
-
 export type GQLNewFlagV2MutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
@@ -4515,14 +4431,12 @@ export type GQLResources_ParentFragment = {
   name: string;
   path?: string;
   url?: string;
-  resources?: Array<{
+  children?: Array<{
     __typename?: "Node";
     id: string;
     name: string;
-    contentUri?: string;
     path?: string;
     url?: string;
-    paths: Array<string>;
     rank?: number;
     language?: string;
     relevanceId?: string;
@@ -4539,6 +4453,17 @@ export type GQLResources_ParentFragment = {
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   }>;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+};
+
+export type GQLResourcesQueryQueryVariables = Exact<{
+  parentId: Scalars["String"]["input"];
+  rootId: Scalars["String"]["input"];
+}>;
+
+export type GQLResourcesQueryQuery = {
+  __typename?: "Query";
+  node?: { __typename?: "Node" } & GQLResources_ParentFragment;
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
 };
 
 export type GQLSubjectContainer_NodeFragment = {
@@ -4605,6 +4530,58 @@ export type GQLMovedTopicPage_NodeFragment = {
   contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> }>;
 };
 
+export type GQLMultidisciplinaryArticleList_NodeFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path?: string;
+  url?: string;
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
+};
+
+export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path?: string;
+  url?: string;
+  context?: {
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    rootId: string;
+    breadcrumbs: Array<string>;
+    path: string;
+    url: string;
+    isActive: boolean;
+    parents?: Array<{
+      __typename?: "TaxonomyCrumb";
+      contextId: string;
+      id: string;
+      name: string;
+      path: string;
+      url: string;
+    }>;
+  };
+  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  article?: {
+    __typename?: "Article";
+    id: number;
+    language: string;
+    created: string;
+    updated: string;
+    oembed?: string;
+    introduction?: string;
+    metaDescription: string;
+    tags?: Array<string>;
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+    crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
+  } & GQLArticle_ArticleFragment;
+} & GQLResources_ParentFragment;
+
 export type GQLTopicPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
@@ -4656,7 +4633,6 @@ export type GQLTopicPageQuery = {
     >;
   } & GQLMultidisciplinarySubjectArticle_NodeFragment &
     GQLResources_ParentFragment;
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
 };
 
 export type GQLFrontpageDataQueryVariables = Exact<{

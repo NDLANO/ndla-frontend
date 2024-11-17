@@ -32,10 +32,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import {
-  GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
-  GQLMultidisciplinarySubjectArticle_NodeFragment,
-} from "../../graphqlTypes";
+import { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { htmlTitle } from "../../util/titleHelper";
@@ -87,10 +84,9 @@ const StyledDivider = styled(Divider, {
 
 interface Props {
   node: GQLMultidisciplinarySubjectArticle_NodeFragment;
-  resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
 }
 
-const MultidisciplinarySubjectArticle = ({ node, resourceTypes }: Props) => {
+const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
@@ -209,7 +205,7 @@ const MultidisciplinarySubjectArticle = ({ node, resourceTypes }: Props) => {
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources node={node} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+                <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>
@@ -268,12 +264,6 @@ export const fragments = {
     }
     ${Resources.fragments.node}
     ${Article.fragments.article}
-  `,
-  resourceType: gql`
-    fragment MultidisciplinarySubjectArticle_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
   `,
 };
 

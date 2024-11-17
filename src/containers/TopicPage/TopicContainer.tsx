@@ -15,6 +15,7 @@ import { Badge, BleedPageContent, Heading, PageContent, Text } from "@ndla/primi
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
+import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
@@ -28,7 +29,6 @@ import { GQLTopicPageQuery } from "../../graphqlTypes";
 import { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
-import MultidisciplinaryArticleList from "../MultidisciplinarySubject/components/MultidisciplinaryArticleList";
 import Resources from "../Resources/Resources";
 
 const NodeGridWrapper = styled("nav", {
@@ -84,11 +84,10 @@ const HeadingWrapper = styled("div", {
 
 interface TopicContainerProps {
   node: NonNullable<GQLTopicPageQuery["node"]>;
-  resourceTypes?: NonNullable<GQLTopicPageQuery["resourceTypes"]>;
   subjectType: SubjectType;
 }
 
-export const TopicContainer = ({ node, resourceTypes, subjectType }: TopicContainerProps) => {
+export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -183,10 +182,10 @@ export const TopicContainer = ({ node, resourceTypes, subjectType }: TopicContai
             </StyledTransportationPageNodeListGrid>
           </NodeGridWrapper>
         ) : undefined}
-        {!!node.resources?.length && (
+        {!!node.children?.length && (
           <BleedPageContent>
             <PageContent variant="article">
-              <Resources node={node} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
+              <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
             </PageContent>
           </BleedPageContent>
         )}

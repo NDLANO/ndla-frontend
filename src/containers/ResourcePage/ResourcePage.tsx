@@ -104,7 +104,7 @@ const ResourcePage = () => {
   const node = rootData?.node;
   const subjectId = node?.context?.rootId || subId;
   const resourceId = node?.id || rId;
-  const topicId = node?.context?.parentIds?.slice(-1)?.[0] || tId;
+  const topicId = node?.context?.parentIds?.at(-1) || tId;
 
   const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
@@ -197,7 +197,6 @@ const ResourcePage = () => {
       resource={data.resource}
       parent={data.parent}
       relevance={relevance}
-      resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}
     />

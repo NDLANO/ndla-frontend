@@ -83,16 +83,12 @@ export const topicPageQuery = gql`
         ...MultidisciplinaryArticleList_Node
       }
     }
-    resourceTypes {
-      ...Resources_ResourceTypeDefinition
-    }
   }
   ${TransportationNode.fragments.node}
   ${MovedTopicPage.fragments.node}
   ${MultidisciplinaryArticleList.fragments.node}
   ${fragments.node}
   ${Resources.fragments.node}
-  ${Resources.fragments.resourceType}
 `;
 
 export const TopicPage = () => {
@@ -134,7 +130,7 @@ export const TopicPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  const { node, resourceTypes } = query.data;
+  const { node } = query.data;
   if (node.nodeType !== "TOPIC") {
     return <DefaultErrorMessagePage />;
   }
@@ -142,8 +138,8 @@ export const TopicPage = () => {
   const subjectType = getSubjectType(node.context?.rootId);
 
   if (subjectType === "multiDisciplinary" && parents.length === 3) {
-    return <MultidisciplinarySubjectArticle node={node} resourceTypes={resourceTypes} />;
+    return <MultidisciplinarySubjectArticle node={node} />;
   }
 
-  return <TopicContainer node={node} resourceTypes={resourceTypes} subjectType={subjectType} />;
+  return <TopicContainer node={node} subjectType={subjectType} />;
 };

@@ -19,7 +19,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
   GQLLearningpathPage_NodeFragment,
-  GQLLearningpathPage_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_ParentFragment,
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
@@ -31,7 +30,6 @@ import { getAllDimensions } from "../../util/trackingUtil";
 interface PropData {
   relevance: string;
   parent?: GQLLearningpathPage_ParentFragment;
-  resourceTypes?: GQLLearningpathPage_ResourceTypeDefinitionFragment[];
   resource?: GQLLearningpathPage_NodeFragment;
 }
 
@@ -81,9 +79,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   ) {
     return <DefaultErrorMessagePage />;
   }
-  const { resource, parent, resourceTypes } = data;
+  const { resource, parent } = data;
   const crumbs = resource.context?.parents ?? [];
-  const root = crumbs.length > 0 ? crumbs[0] : undefined;
+  const root = crumbs[0];
   const learningpath = resource.learningpath!;
 
   const learningpathStep = stepId
@@ -115,11 +113,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpath={learningpath}
         learningpathStep={learningpathStep}
         parent={parent}
-        root={root}
+        resource={resource}
         resourcePath={enablePrettyUrls ? resource.url : resource.path}
-        resourceId={resource.id}
-        resourceTypes={resourceTypes}
-        crumbs={crumbs}
         breadcrumbItems={breadcrumbItems}
       />
     </>

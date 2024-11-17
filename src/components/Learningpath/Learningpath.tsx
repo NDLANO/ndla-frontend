@@ -41,7 +41,7 @@ import {
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpath_ParentFragment,
-  GQLTaxonomyCrumb,
+  GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
 import { toLearningPath } from "../../routeHelpers";
@@ -53,13 +53,11 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   parent?: GQLLearningpath_ParentFragment;
-  crumbs?: GQLTaxonomyCrumb[];
+  resource?: GQLLearningpathPage_NodeFragment;
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  root?: GQLTaxonomyCrumb;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
-  resourceId?: string;
 }
 
 const StyledPageContainer = styled(PageContainer, {
@@ -171,11 +169,8 @@ const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
-  resourceId,
   parent,
-  root,
-  crumbs,
-  resourceTypes,
+  resource,
   skipToContentId,
   breadcrumbItems,
 }: Props) => {
@@ -190,6 +185,8 @@ const Learningpath = ({
     () => <LearningpathMenu resourcePath={resourcePath} learningpath={learningpath} currentStep={learningpathStep} />,
     [learningpath, learningpathStep, resourcePath],
   );
+  const parents = resource?.context?.parents || [];
+  const root = parents[0];
 
   return (
     <PageLayout asChild consumeCss>
@@ -280,12 +277,11 @@ const Learningpath = ({
               ></LearningpathEmbed>
               <LastLearningpathStepInfo
                 parent={parent}
-                crumbs={crumbs}
-                resourceTypes={resourceTypes}
+                crumbs={parents}
                 seqNo={learningpathStep.seqNo}
                 numberOfLearningSteps={learningpath.learningsteps.length - 1}
                 title={learningpath.title}
-                resourceId={resourceId}
+                resourceId={resource?.id}
               />
               <PageButtonsContainer>
                 {previousStep ? (

@@ -22,24 +22,29 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
+import { PageSpinner } from "../../components/PageSpinner";
 import { StableId } from "../../components/StableId";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
-import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_ParentFragment } from "../../graphqlTypes";
+import {
+  GQLResources_ResourceTypeDefinitionFragment,
+  GQLResources_ParentFragment,
+  GQLResourcesQueryQuery,
+} from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
+import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
-  node: GQLResources_ParentFragment;
-  resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
   currentResourceContentType?: ContentType;
   currentResourceId?: string;
+  parentId?: string;
+  rootId?: string;
 }
 
 const StyledNav = styled("nav", {
@@ -95,21 +100,30 @@ const ResourceContainer = styled("div", {
 });
 
 const Resources = ({
-  node,
-  resourceTypes,
+  parentId,
+  rootId,
   headingType: HeadingType,
   subHeadingType: SubHeadingType,
   currentResourceContentType,
   currentResourceId,
 }: Props) => {
-  const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();
 
+  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+    variables: {
+      parentId: parentId,
+      rootId: rootId,
+    },
+  });
+
+  const node = data?.node as GQLResources_ParentFragment;
+  const resourceTypes = data?.resourceTypes as GQLResources_ResourceTypeDefinitionFragment[];
+
   const { sortedResources } = useMemo(
-    () => getResourceGroupings(node.resources ?? [], resourceId),
-    [resourceId, node.resources],
+    () => getResourceGroupings(node?.children ?? [], currentResourceId),
+    [currentResourceId, node?.children],
   );
 
   const isGrouped = useMemo(
@@ -145,8 +159,16 @@ const Resources = ({
   }, []);
 
   const hasSupplementaryResources = useMemo(() => {
-    return node.resources?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
-  }, [node.resources]);
+    return node?.children?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
+  }, [node?.children]);
+
+  if (loading) {
+    return <PageSpinner />;
+  }
+
+  if (error) {
+    return null;
+  }
 
   if (!sortedResources.length) {
     return null;
@@ -221,13 +243,11 @@ Resources.fragments = {
       name
       path
       url
-      resources: children(nodeType: "RESOURCE") {
+      children(nodeType: "RESOURCE") {
         id
         name
-        contentUri
         path
         url
-        paths
         rank
         language
         relevanceId
@@ -255,5 +275,18 @@ Resources.fragments = {
     }
   `,
 };
+
+const resourcesQuery = gql`
+  query resourcesQuery($parentId: String!, $rootId: String!) {
+    node(id: $parentId, rootId: $rootId) {
+      ...Resources_Parent
+    }
+    resourceTypes {
+      ...Resources_ResourceTypeDefinition
+    }
+  }
+  ${Resources.fragments.node}
+  ${Resources.fragments.resourceType}
+`;
 
 export default Resources;
