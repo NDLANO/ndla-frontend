@@ -8,19 +8,16 @@
 
 import { gql } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
-import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import Resources from "../Resources/Resources";
 
 export const topicPageQuery = gql`
   query topicPage(
@@ -76,19 +73,12 @@ export const topicPageQuery = gql`
         }
       }
       ...MultidisciplinarySubjectArticle_Node
-      ...Resources_Parent
-      nodes: children(nodeType: "TOPIC") {
-        id
-        ...TransportationNode_Node
-        ...MultidisciplinaryArticleList_Node
-      }
+      ...TopicContainer_Node
     }
   }
-  ${TransportationNode.fragments.node}
   ${MovedTopicPage.fragments.node}
-  ${MultidisciplinaryArticleList.fragments.node}
   ${MultidisciplinarySubjectArticle.fragments.node}
-  ${Resources.fragments.node}
+  ${TopicContainer.fragments.node}
 `;
 
 export const TopicPage = () => {

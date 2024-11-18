@@ -92,7 +92,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
-  const root = node.context?.parents?.[0];
+  const root = crumbs[0];
 
   useEffect(() => {
     if (!node?.article || !authContextLoaded) return;
@@ -260,9 +260,7 @@ MultidisciplinarySubjectArticle.fragments = {
         }
         ...Article_Article
       }
-      ...Resources_Parent
     }
-    ${Resources.fragments.node}
     ${Article.fragments.article}
   `,
 };

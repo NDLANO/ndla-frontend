@@ -4563,7 +4563,19 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
   } & GQLArticle_ArticleFragment;
-} & GQLResources_ParentFragment;
+};
+
+export type GQLTopicContainer_NodeFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  path?: string;
+  url?: string;
+  children?: Array<
+    { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
+      GQLMultidisciplinaryArticleList_NodeFragment
+  >;
+};
 
 export type GQLTopicPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars["String"]["input"]>;
@@ -4610,12 +4622,8 @@ export type GQLTopicPageQuery = {
       isActive: boolean;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string; url: string }>;
     };
-    nodes?: Array<
-      { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
-        GQLMultidisciplinaryArticleList_NodeFragment
-    >;
   } & GQLMultidisciplinarySubjectArticle_NodeFragment &
-    GQLResources_ParentFragment;
+    GQLTopicContainer_NodeFragment;
 };
 
 export type GQLFrontpageDataQueryVariables = Exact<{

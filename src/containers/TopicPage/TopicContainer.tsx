@@ -10,6 +10,7 @@ import parse from "html-react-parser";
 import { useContext, useEffect, useId, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { Badge, BleedPageContent, Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -168,21 +169,21 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 && !!node.nodes?.length ? (
-          <MultidisciplinaryArticleList nodes={node.nodes} />
-        ) : node.nodes?.length ? (
+        {subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 && !!node.children?.length ? (
+          <MultidisciplinaryArticleList nodes={node.children} />
+        ) : node.children?.length ? (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
               <h2>{t("topicPage.topics")}</h2>
             </Heading>
             <StyledTransportationPageNodeListGrid>
-              {node.nodes.map((node) => (
+              {node.children.map((node) => (
                 <TransportationNode key={node.id} node={node} />
               ))}
             </StyledTransportationPageNodeListGrid>
           </NodeGridWrapper>
         ) : undefined}
-        {!!node.children?.length && (
+        {!!node && (
           <BleedPageContent>
             <PageContent variant="article">
               <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
@@ -192,4 +193,22 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       </StyledPageContainer>
     </main>
   );
+};
+
+TopicContainer.fragments = {
+  node: gql`
+    fragment TopicContainer_Node on Node {
+      id
+      name
+      path
+      url
+      children(nodeType: "TOPIC") {
+        id
+        ...TransportationNode_Node
+        ...MultidisciplinaryArticleList_Node
+      }
+    }
+    ${TransportationNode.fragments.node}
+    ${MultidisciplinaryArticleList.fragments.node}
+  `,
 };
