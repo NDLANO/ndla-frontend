@@ -72,7 +72,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     if (iframe) {
       const rect = iframe.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
       const top = evt.data.top + rect.top + scrollTop;
       window.scroll({ top });

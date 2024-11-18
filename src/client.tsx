@@ -57,7 +57,7 @@ const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
 
 const { versionHash, prettyUrls } = queryString.parse(window.location.search);
-const enablePrettyUrls = prettyUrls?.length ? prettyUrls === "true" : config.enablePrettyUrls;
+const enablePrettyUrls = prettyUrls ? prettyUrls === "true" : config.enablePrettyUrls;
 
 const serverQueryString = decodeURIComponent(queryString.stringify(serverQuery));
 const locationFromServer = {

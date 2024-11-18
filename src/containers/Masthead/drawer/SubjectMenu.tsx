@@ -108,8 +108,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const subjectPath = enablePrettyUrls ? subject?.url : subject?.path;
-  const path = subjectPath ?? "";
+  const path = (enablePrettyUrls ? subject?.url : subject?.path) ?? "";
 
   return (
     <>

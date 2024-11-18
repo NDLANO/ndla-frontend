@@ -127,7 +127,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
   const { subjectId: maybeSubjectId, topicList: tL, programme, slug } = useUrnIds();
   const subjectId = root?.id || maybeSubjectId;
-  const topicList = tL.length > 0 ? tL : crumbs;
+  const topicList = tL.length ? tL : crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
