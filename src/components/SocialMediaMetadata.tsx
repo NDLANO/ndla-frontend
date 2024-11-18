@@ -13,22 +13,22 @@ import { useBaseName } from "./BaseNameContext";
 import config from "../config";
 import { preferredLocales, isValidLocale } from "../i18n";
 
-export const getCanonicalUrl = (location: Pick<Location, "pathname">) => {
-  if (!location.pathname.includes("article-iframe")) {
-    return `${config.ndlaFrontendDomain}${location.pathname}`;
+export const getCanonicalUrl = (pathname: string) => {
+  if (!pathname.includes("article-iframe")) {
+    return `${config.ndlaFrontendDomain}${pathname}`;
   }
-  const paths = location.pathname.split("/");
+  const paths = pathname.split("/");
   if (isValidLocale(paths[2])) {
     paths.splice(2, 1);
   }
   return `${config.ndlaFrontendDomain}${paths.join("/")}`;
 };
 
-export const getAlternateUrl = (location: Pick<Location, "pathname">, alternateLanguage: string) => {
-  if (!location.pathname.includes("article-iframe")) {
-    return `${config.ndlaFrontendDomain}/${alternateLanguage}${location.pathname}`;
+export const getAlternateUrl = (pathname: string, alternateLanguage: string) => {
+  if (!pathname.includes("article-iframe")) {
+    return `${config.ndlaFrontendDomain}/${alternateLanguage}${pathname}`;
   }
-  const paths = location.pathname.split("/");
+  const paths = pathname.split("/");
   if (isValidLocale(paths[2])) {
     paths.splice(2, 1);
   }
@@ -59,6 +59,7 @@ interface TrackableContent {
 interface Props {
   title: string;
   description?: string;
+  path?: string;
   imageUrl?: string;
   audioUrl?: string;
   trackableContent?: TrackableContent;
@@ -71,6 +72,7 @@ const SocialMediaMetadata = ({
   imageUrl,
   audioUrl,
   description,
+  path,
   trackableContent,
   children,
   type = "article",
@@ -79,13 +81,13 @@ const SocialMediaMetadata = ({
   const basename = useBaseName();
   return (
     <Helmet>
-      <link rel="canonical" href={getCanonicalUrl(location)} />
+      <link rel="canonical" href={getCanonicalUrl(path ? path : location.pathname)} />
       {getAlternateLanguages(trackableContent).map((alternateLanguage) => (
         <link
           key={alternateLanguage}
           rel="alternate"
           hrefLang={alternateLanguage}
-          href={getAlternateUrl(location, alternateLanguage)}
+          href={getAlternateUrl(path ? path : location.pathname, alternateLanguage)}
         />
       ))}
       {children}

@@ -194,6 +194,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
+        path={copyPageUrlLink}
       />
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
