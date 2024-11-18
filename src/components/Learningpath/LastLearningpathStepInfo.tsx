@@ -11,6 +11,7 @@ import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { NoSSR } from "@ndla/util";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
@@ -77,14 +78,16 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
         )}
       </LinksWrapper>
       {!!parent && (
-        <Resources
-          headingType="h2"
-          key="resources"
-          parentId={parent.id}
-          rootId={root?.id}
-          subHeadingType="h3"
-          currentResourceId={resource?.id}
-        />
+        <NoSSR fallback={null}>
+          <Resources
+            headingType="h2"
+            key="resources"
+            parentId={parent.id}
+            rootId={root?.id}
+            subHeadingType="h3"
+            currentResourceId={resource?.id}
+          />
+        </NoSSR>
       )}
     </>
   );

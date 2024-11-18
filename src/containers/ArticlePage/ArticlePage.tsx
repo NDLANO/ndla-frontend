@@ -25,6 +25,7 @@ import {
   ArticleByline,
   licenseAttributes,
 } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
@@ -248,14 +249,16 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                 />
                 {parent && (
                   <ResourcesPageContent>
-                    <Resources
-                      parentId={parent.id}
-                      rootId={root?.id}
-                      headingType="h2"
-                      subHeadingType="h3"
-                      currentResourceContentType={contentType}
-                      currentResourceId={resource.id}
-                    />
+                    <NoSSR fallback={null}>
+                      <Resources
+                        parentId={parent.id}
+                        rootId={root?.id}
+                        headingType="h2"
+                        subHeadingType="h3"
+                        currentResourceContentType={contentType}
+                        currentResourceId={resource.id}
+                      />
+                    </NoSSR>
                   </ResourcesPageContent>
                 )}
               </ArticleFooter>

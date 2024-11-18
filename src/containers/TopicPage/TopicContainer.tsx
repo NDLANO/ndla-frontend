@@ -16,6 +16,7 @@ import { Badge, BleedPageContent, Heading, PageContent, Text } from "@ndla/primi
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -186,7 +187,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         {!!node && (
           <BleedPageContent>
             <PageContent variant="article">
-              <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+              <NoSSR fallback={null}>
+                <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+              </NoSSR>
             </PageContent>
           </BleedPageContent>
         )}

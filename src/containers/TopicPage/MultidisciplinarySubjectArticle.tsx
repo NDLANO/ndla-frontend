@@ -22,6 +22,7 @@ import {
   HomeBreadcrumb,
   licenseAttributes,
 } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import Article from "../../components/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -205,7 +206,9 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <ResourcesPageContent>
-                <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+                <NoSSR fallback={null}>
+                  <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+                </NoSSR>
               </ResourcesPageContent>
             </ArticleFooter>
           </ArticleWrapper>
