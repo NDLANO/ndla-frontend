@@ -12,6 +12,7 @@ import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer"
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
+import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
@@ -66,6 +67,9 @@ const SubjectPage = () => {
     }
   }
   const subjectType = getSubjectType(data.node.id);
+  if (subjectType === "film") {
+    return <FilmFrontpage />;
+  }
 
   return <SubjectContainer node={data.node} subjectType={subjectType} loading={loading} />;
 };

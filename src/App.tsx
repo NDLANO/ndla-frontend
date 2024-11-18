@@ -15,13 +15,11 @@ import { BaseNameProvider } from "./components/BaseNameContext";
 import Scripts from "./components/Scripts/Scripts";
 import { ToastProvider } from "./components/ToastContext";
 import config from "./config";
-import { FILM_PAGE_URL, FILM_PAGE_PATH } from "./constants";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import { CollectionPage } from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
-import FilmFrontpage from "./containers/FilmFrontpage/FilmFrontpage";
 import { AdminCheck } from "./containers/MyNdla/Arena/AdminCheck";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
 import { ArenaCheck } from "./containers/MyNdla/Arena/ArenaCheck";
@@ -154,8 +152,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path=":root/:contextId" element={null} />
                   <Route path=":root/:name/:contextId" element={null} />
                 </Route>
-                <Route path={FILM_PAGE_URL} element={<FilmFrontpage />} />
-                <Route path={FILM_PAGE_PATH} element={<FilmFrontpage />} />
                 <Route path="subject:subjectId" element={<SubjectPage />} />
                 <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
                 <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>

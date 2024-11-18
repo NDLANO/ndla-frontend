@@ -33,6 +33,7 @@ const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
 };
 
 interface GradesData {
+  id: string;
   name: string;
   missingProgrammeSubjects: boolean;
   categories?: {
@@ -72,6 +73,7 @@ const mapGradesData = (
       };
     });
     return {
+      id: grade.id,
       name: grade.title.title,
       missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
@@ -182,7 +184,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             {!!grades.length && (
               <GradesList aria-label={t("programme.grades")}>
                 {grades?.map((item) => (
-                  <li key={item.name}>
+                  <li key={item.id}>
                     <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.name.toLowerCase())}
                       variant="secondary"
