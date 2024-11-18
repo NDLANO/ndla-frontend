@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
   await mockWaitResponse(page, "**/graphql-api/graphql");
-  await page.getByRole("link", { name: "Mediesamfunnet 1" }).last({ timeout: 10000 }).click();
+  await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
   await mockWaitResponse(page, "**/graphql-api/graphql");
 });
 
