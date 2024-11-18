@@ -185,13 +185,13 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
           </NodeGridWrapper>
         ) : undefined}
         {!!node && (
-          <BleedPageContent>
-            <PageContent variant="article">
-              <NoSSR fallback={null}>
+          <NoSSR fallback={null}>
+            <BleedPageContent>
+              <PageContent variant="article">
                 <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
-              </NoSSR>
-            </PageContent>
-          </BleedPageContent>
+              </PageContent>
+            </BleedPageContent>
+          </NoSSR>
         )}
       </StyledPageContainer>
     </main>

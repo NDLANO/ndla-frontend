@@ -29,11 +29,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
-import {
-  GQLResources_ResourceTypeDefinitionFragment,
-  GQLResources_ParentFragment,
-  GQLResourcesQueryQuery,
-} from "../../graphqlTypes";
+import { GQLResourcesQueryQuery } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
 import { contentTypeMapping } from "../../util/getContentType";
 import { useGraphQuery } from "../../util/runQueries";
@@ -116,11 +112,10 @@ const Resources = ({
       parentId: parentId,
       rootId: rootId,
     },
-    skip: typeof window === "undefined",
   });
 
-  const node = data?.node as GQLResources_ParentFragment;
-  const resourceTypes = data?.resourceTypes as GQLResources_ResourceTypeDefinitionFragment[];
+  const node = data?.node;
+  const resourceTypes = data?.resourceTypes;
 
   const { sortedResources } = useMemo(
     () => getResourceGroupings(node?.children ?? [], currentResourceId),
@@ -182,7 +177,7 @@ const Resources = ({
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
             <HeadingType>{t("resource.label")}</HeadingType>
           </Heading>
-          <Text textStyle="label.medium">{node.name}</Text>
+          <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
         {hasSupplementaryResources && (
           <StyledForm>

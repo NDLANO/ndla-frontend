@@ -248,8 +248,8 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   }
                 />
                 {parent && (
-                  <ResourcesPageContent>
-                    <NoSSR fallback={null}>
+                  <NoSSR fallback={null}>
+                    <ResourcesPageContent>
                       <Resources
                         parentId={parent.id}
                         rootId={root?.id}
@@ -258,8 +258,8 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                         currentResourceContentType={contentType}
                         currentResourceId={resource.id}
                       />
-                    </NoSSR>
-                  </ResourcesPageContent>
+                    </ResourcesPageContent>
+                  </NoSSR>
                 )}
               </ArticleFooter>
             </ArticleWrapper>

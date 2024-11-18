@@ -205,11 +205,11 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 license={article.copyright?.license?.license ?? ""}
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
-              <ResourcesPageContent>
-                <NoSSR fallback={null}>
+              <NoSSR fallback={null}>
+                <ResourcesPageContent>
                   <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
-                </NoSSR>
-              </ResourcesPageContent>
+                </ResourcesPageContent>
+              </NoSSR>
             </ArticleFooter>
           </ArticleWrapper>
         </PageContent>
