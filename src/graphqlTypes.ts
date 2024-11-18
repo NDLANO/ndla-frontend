@@ -2390,16 +2390,9 @@ export type GQLMyNdlaDataQuery = {
 
 export type GQLFavoriteSubject_NodeFragment = { __typename?: "Node"; id: string; name: string };
 
-export type GQLLastLearningpathStepInfo_ParentNodeFragment = {
-  __typename?: "Node";
-  id: string;
-} & GQLResources_ParentFragment;
-
 export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
-
-export type GQLLearningpath_ParentFragment = { __typename?: "Node" } & GQLLastLearningpathStepInfo_ParentNodeFragment;
 
 export type GQLLearningpath_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -2726,14 +2719,6 @@ export type GQLArticlePage_NodeFragment = {
     GQLArticle_ArticleFragment;
 };
 
-export type GQLArticlePage_ParentFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  path?: string;
-  url?: string;
-} & GQLResources_ParentFragment;
-
 export type GQLCollectionPageQueryVariables = Exact<{
   language: Scalars["String"]["input"];
 }>;
@@ -2888,8 +2873,6 @@ export type GQLResourceTypeMoviesQuery = {
     >;
   };
 };
-
-export type GQLLearningpathPage_ParentFragment = { __typename?: "Node" } & GQLLearningpath_ParentFragment;
 
 export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
@@ -4394,9 +4377,10 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
 };
 
 export type GQLResourcePageQueryVariables = Exact<{
-  topicId: Scalars["String"]["input"];
-  subjectId: Scalars["String"]["input"];
-  resourceId: Scalars["String"]["input"];
+  topicId?: InputMaybe<Scalars["String"]["input"]>;
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  resourceId?: InputMaybe<Scalars["String"]["input"]>;
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -4406,8 +4390,7 @@ export type GQLResourcePageQuery = {
     { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
       GQLLearningpathPage_ResourceTypeDefinitionFragment
   >;
-  parent?: { __typename?: "Node" } & GQLLearningpathPage_ParentFragment & GQLArticlePage_ParentFragment;
-  resource?: {
+  node?: {
     __typename?: "Node";
     relevanceId?: string;
     paths: Array<string>;

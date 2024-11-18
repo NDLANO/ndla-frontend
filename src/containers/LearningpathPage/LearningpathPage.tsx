@@ -19,7 +19,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
   GQLLearningpathPage_NodeFragment,
-  GQLLearningpathPage_ParentFragment,
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
@@ -29,8 +28,7 @@ import { getAllDimensions } from "../../util/trackingUtil";
 
 interface PropData {
   relevance: string;
-  parent?: GQLLearningpathPage_ParentFragment;
-  resource?: GQLLearningpathPage_NodeFragment;
+  node?: GQLLearningpathPage_NodeFragment;
 }
 
 interface Props {
@@ -57,32 +55,27 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const { resource } = data;
-    const learningpath = resource?.learningpath;
+    const { node } = data;
+    const learningpath = node?.learningpath;
     const firstStep = learningpath?.learningsteps?.[0];
     const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
     const learningstep = currentStep || firstStep;
     const dimensions = getAllDimensions({
       learningpath,
       learningstep,
-      filter: resource?.context?.parents?.[0]?.name,
+      filter: node?.context?.parents?.[0]?.name,
       user,
     });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 
-  if (
-    !data.resource ||
-    !data.resource.learningpath ||
-    !data.parent ||
-    (data?.resource?.learningpath?.learningsteps?.length ?? 0) === 0
-  ) {
+  if (!data.node || !data.node.learningpath || (data?.node?.learningpath?.learningsteps?.length ?? 0) === 0) {
     return <DefaultErrorMessagePage />;
   }
-  const { resource, parent } = data;
-  const crumbs = resource.context?.parents ?? [];
+  const { node } = data;
+  const crumbs = node.context?.parents ?? [];
   const root = crumbs[0];
-  const learningpath = resource.learningpath!;
+  const learningpath = node.learningpath!;
 
   const learningpathStep = stepId
     ? learningpath.learningsteps?.find((step) => step.id.toString() === stepId.toString())
@@ -92,13 +85,13 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
 
   return (
     <>
       <Helmet>
         <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
-        {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+        {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <SocialMediaMetadata
         title={htmlTitle(getTitle(root, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
@@ -110,9 +103,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         skipToContentId={skipToContentId}
         learningpath={learningpath}
         learningpathStep={learningpathStep}
-        parent={parent}
-        resource={resource}
-        resourcePath={enablePrettyUrls ? resource.url : resource.path}
+        resource={node}
+        resourcePath={enablePrettyUrls ? node.url : node.path}
         breadcrumbItems={breadcrumbItems}
       />
     </>
@@ -128,20 +120,14 @@ const getTitle = (
 };
 
 const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
-  const subject = data.resource?.context?.parents?.[0];
-  const learningpath = data.resource?.learningpath;
+  const subject = data.node?.context?.parents?.[0];
+  const learningpath = data.node?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
   return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
 
-export const learningpathPageFragments = {
-  parent: gql`
-    fragment LearningpathPage_Parent on Node {
-      ...Learningpath_Parent
-    }
-    ${Learningpath.fragments.parent}
-  `,
+LearningpathPage.fragments = {
   resourceType: gql`
     fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
       ...Learningpath_ResourceTypeDefinition

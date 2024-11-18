@@ -116,6 +116,7 @@ const Resources = ({
       parentId: parentId,
       rootId: rootId,
     },
+    skip: typeof window === "undefined",
   });
 
   const node = data?.node as GQLResources_ParentFragment;

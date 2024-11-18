@@ -37,12 +37,7 @@ import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolde
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import {
-  GQLArticlePage_NodeFragment,
-  GQLArticlePage_ResourceTypeFragment,
-  GQLArticlePage_ParentFragment,
-  GQLTaxonomyCrumb,
-} from "../../graphqlTypes";
+import { GQLArticlePage_NodeFragment, GQLArticlePage_ResourceTypeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
@@ -55,7 +50,6 @@ import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
-  parent?: GQLArticlePage_ParentFragment;
   relevance: string;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLError[];
@@ -96,14 +90,15 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-const ArticlePage = ({ resource, parent, errors, skipToContentId, loading }: Props) => {
+const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
 
   const crumbs = resource?.context?.parents || [];
-  const root = crumbs.length > 0 ? crumbs[0] : undefined;
+  const root = crumbs[0];
+  const parent = crumbs[crumbs.length - 1];
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
@@ -274,7 +269,7 @@ const ArticlePage = ({ resource, parent, errors, skipToContentId, loading }: Pro
 const getDocumentTitle = (t: TFunction, resource?: GQLArticlePage_NodeFragment, root?: GQLTaxonomyCrumb) =>
   htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
-export const articlePageFragments = {
+ArticlePage.fragments = {
   resourceType: gql`
     fragment ArticlePage_ResourceType on ResourceTypeDefinition {
       ...Resources_ResourceTypeDefinition
@@ -315,16 +310,6 @@ export const articlePageFragments = {
     }
     ${structuredArticleDataFragment}
     ${Article.fragments.article}
-  `,
-  parent: gql`
-    fragment ArticlePage_Parent on Node {
-      id
-      name
-      path
-      url
-      ...Resources_Parent
-    }
-    ${Resources.fragments.node}
   `,
 };
 

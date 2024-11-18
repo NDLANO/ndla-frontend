@@ -40,7 +40,6 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_ParentFragment,
   GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
@@ -52,7 +51,6 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  parent?: GQLLearningpath_ParentFragment;
   resource?: GQLLearningpathPage_NodeFragment;
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
@@ -169,7 +167,6 @@ const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
-  parent,
   resource,
   skipToContentId,
   breadcrumbItems,
@@ -276,12 +273,10 @@ const Learningpath = ({
                 breadcrumbItems={breadcrumbItems}
               ></LearningpathEmbed>
               <LastLearningpathStepInfo
-                parent={parent}
-                crumbs={parents}
                 seqNo={learningpathStep.seqNo}
                 numberOfLearningSteps={learningpath.learningsteps.length - 1}
                 title={learningpath.title}
-                resourceId={resource?.id}
+                resource={resource}
               />
               <PageButtonsContainer>
                 {previousStep ? (
@@ -318,12 +313,6 @@ const Learningpath = ({
 };
 
 Learningpath.fragments = {
-  parent: gql`
-    fragment Learningpath_Parent on Node {
-      ...LastLearningpathStepInfo_ParentNode
-    }
-    ${LastLearningpathStepInfo.fragments.parent}
-  `,
   resourceType: gql`
     fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
       ...LastLearningpathStepInfo_ResourceTypeDefinition
