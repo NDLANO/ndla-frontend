@@ -271,13 +271,14 @@ const Learningpath = ({
                 subjectId={root?.id}
                 learningpathStep={learningpathStep}
                 breadcrumbItems={breadcrumbItems}
-              ></LearningpathEmbed>
-              <LastLearningpathStepInfo
-                seqNo={learningpathStep.seqNo}
-                numberOfLearningSteps={learningpath.learningsteps.length - 1}
-                title={learningpath.title}
-                resource={resource}
-              />
+              >
+                <LastLearningpathStepInfo
+                  seqNo={learningpathStep.seqNo}
+                  numberOfLearningSteps={learningpath.learningsteps.length - 1}
+                  title={learningpath.title}
+                  resource={resource}
+                />
+              </LearningpathEmbed>
               <PageButtonsContainer>
                 {previousStep ? (
                   <SafeLinkButton

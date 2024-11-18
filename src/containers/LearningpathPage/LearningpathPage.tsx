@@ -69,7 +69,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 
-  if (!data.node || !data.node.learningpath || (data?.node?.learningpath?.learningsteps?.length ?? 0) === 0) {
+  if (!data.node || !data.node.learningpath || !data?.node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
   }
   const { node } = data;
