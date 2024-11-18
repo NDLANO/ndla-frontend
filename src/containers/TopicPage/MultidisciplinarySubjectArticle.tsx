@@ -156,7 +156,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
-          {node.context?.isActive && <meta name="robots" content="noindex" />}
+          {!node.context?.isActive && <meta name="robots" content="noindex" />}
         </Helmet>
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
@@ -215,7 +215,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   );
 };
 
-export const fragments = {
+MultidisciplinarySubjectArticle.fragments = {
   node: gql`
     fragment MultidisciplinarySubjectArticle_Node on Node {
       id

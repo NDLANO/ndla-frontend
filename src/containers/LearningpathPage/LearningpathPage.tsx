@@ -92,9 +92,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems = crumbs
-    ? toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls)
-    : toBreadcrumbItems(t("breadcrumb.toFrontpage"), [resource], enablePrettyUrls);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls);
 
   return (
     <>

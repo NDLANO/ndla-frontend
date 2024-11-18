@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
-import MultidisciplinarySubjectArticle, { fragments } from "./MultidisciplinarySubjectArticle";
+import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -87,7 +87,7 @@ export const topicPageQuery = gql`
   ${TransportationNode.fragments.node}
   ${MovedTopicPage.fragments.node}
   ${MultidisciplinaryArticleList.fragments.node}
-  ${fragments.node}
+  ${MultidisciplinarySubjectArticle.fragments.node}
   ${Resources.fragments.node}
 `;
 
