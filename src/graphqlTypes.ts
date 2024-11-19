@@ -836,6 +836,42 @@ export type GQLImageMetaInformationV2 = {
   title: GQLTitle;
 };
 
+export type GQLImageMetaInformationV3 = {
+  __typename?: "ImageMetaInformationV3";
+  alttext: GQLImageAltText;
+  caption: GQLCaption;
+  copyright: GQLCopyright;
+  created: Scalars["String"]["output"];
+  createdBy: Scalars["String"]["output"];
+  editorNotes?: Maybe<Array<GQLEditorNote>>;
+  id: Scalars["String"]["output"];
+  image: GQLImageV3;
+  metaUrl: Scalars["String"]["output"];
+  modelRelease: Scalars["String"]["output"];
+  supportedLanguages?: Maybe<Array<Scalars["String"]["output"]>>;
+  tags: GQLTags;
+  title: GQLTitle;
+};
+
+export type GQLImageSearch = {
+  __typename?: "ImageSearch";
+  language: Scalars["String"]["output"];
+  page: Scalars["Int"]["output"];
+  pageSize: Scalars["Int"]["output"];
+  results?: Maybe<Array<GQLImageMetaInformationV3>>;
+  totalCount: Scalars["Int"]["output"];
+};
+
+export type GQLImageV3 = {
+  __typename?: "ImageV3";
+  contentType: Scalars["String"]["output"];
+  dimensions?: Maybe<GQLImageDimensions>;
+  filename?: Maybe<Scalars["String"]["output"]>;
+  imageUrl: Scalars["String"]["output"];
+  language: Scalars["String"]["output"];
+  size: Scalars["Int"]["output"];
+};
+
 export type GQLLearningpath = {
   __typename?: "Learningpath";
   canEdit: Scalars["Boolean"]["output"];
@@ -1538,6 +1574,8 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpageMenu>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
+  imageSearch?: Maybe<GQLImageSearch>;
+  imageV3?: Maybe<GQLImageMetaInformationV3>;
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
@@ -1722,6 +1760,16 @@ export type GQLQueryGroupSearchArgs = {
 };
 
 export type GQLQueryImageArgs = {
+  id: Scalars["String"]["input"];
+};
+
+export type GQLQueryImageSearchArgs = {
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  query?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLQueryImageV3Args = {
   id: Scalars["String"]["input"];
 };
 
@@ -2129,6 +2177,7 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
+  isActive: Scalars["Boolean"]["output"];
   name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
@@ -3932,6 +3981,66 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 }>;
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
+
+export type GQLImageFragmentFragment = {
+  __typename?: "ImageMetaInformationV3";
+  id: string;
+  metaUrl: string;
+  supportedLanguages?: Array<string>;
+  created: string;
+  createdBy: string;
+  modelRelease: string;
+  title: { __typename?: "Title"; title: string; language: string };
+  alttext: { __typename?: "ImageAltText"; alttext: string; language: string };
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string; url?: string; description?: string };
+    creators: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    processors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  tags: { __typename?: "Tags"; tags: Array<string>; language: string };
+  caption: { __typename?: "Caption"; caption: string; language: string };
+  editorNotes?: Array<{ __typename?: "EditorNote"; timestamp: string; updatedBy: string; note: string }>;
+  image: {
+    __typename?: "ImageV3";
+    filename?: string;
+    size: number;
+    contentType: string;
+    imageUrl: string;
+    language: string;
+    dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+  };
+};
+
+export type GQLImageSearchQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type GQLImageSearchQuery = {
+  __typename?: "Query";
+  imageSearch?: {
+    __typename?: "ImageSearch";
+    totalCount: number;
+    pageSize: number;
+    page: number;
+    language: string;
+    results?: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment>;
+  };
+};
+
+export type GQLFetchImageQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type GQLFetchImageQuery = {
+  __typename?: "Query";
+  imageV3?: { __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment;
+};
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

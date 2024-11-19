@@ -10,6 +10,7 @@ import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { TitleForm } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -30,6 +31,7 @@ const LearningPathPage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
       </Heading>
+      <TitleForm onSave={(val) => {}} />
     </MyNdlaPageWrapper>
   );
 };

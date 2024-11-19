@@ -735,6 +735,39 @@ type ImageMetaInformationV2 {
   title: Title!
 }
 
+type ImageMetaInformationV3 {
+  alttext: ImageAltText!
+  caption: Caption!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  image: ImageV3!
+  metaUrl: String!
+  modelRelease: String!
+  supportedLanguages: [String!]
+  tags: Tags!
+  title: Title!
+}
+
+type ImageSearch {
+  language: String!
+  page: Int!
+  pageSize: Int!
+  results: [ImageMetaInformationV3!]
+  totalCount: Int!
+}
+
+type ImageV3 {
+  contentType: String!
+  dimensions: ImageDimensions
+  filename: String
+  imageUrl: String!
+  language: String!
+  size: Int!
+}
+
 type Learningpath {
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -1201,6 +1234,8 @@ type Query {
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
+  imageSearch(page: Int, pageSize: Int, query: String): ImageSearch
+  imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
@@ -1499,6 +1534,7 @@ interface TaxBase {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
+  isActive: Boolean!
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]

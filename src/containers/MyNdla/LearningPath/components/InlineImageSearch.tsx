@@ -6,65 +6,59 @@
  *
  */
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@apollo/client";
-import { DeleteBinLine } from "@ndla/icons/action";
-import { BaseImageSearch, ImageSearch } from "@ndla/image-search";
-import { FieldLabel, FieldRoot, IconButton, Spinner } from "@ndla/primitives";
-import { HStack } from "@ndla/styled-system/jsx";
+import { BaseImageSearch } from "@ndla/image-search";
 import { IImageMetaInformationV3, ISearchParams } from "@ndla/types-backend/image-api";
-import { imageSearchQuery } from "../learningpathqueries";
+import { useImageSearchTranslations } from "@ndla/ui";
+import { useImageSearch } from "../../learningpathQueries";
 
 interface Props {
   imageId?: string;
+  setImageForm: (image: IImageMetaInformationV3 | undefined) => void;
 }
 
-const InlineImageSearch = ({ imageId }: Props) => {
-  const [selectedImage, setSelectedImage] = useState<string | undefined>(imageId);
-  const { t, i18n } = useTranslation();
-  const [queryObject, setQueryObject] = useState<ISearchParams>({});
-  const { loading, error, data, refetch } = useQuery(imageSearchQuery, {
-    variables: queryObject,
+export const InlineImageSearch = ({ setImageForm }: Props) => {
+  const [focusedImage, setFocusedImage] = useState<IImageMetaInformationV3 | undefined>(undefined);
+  const { i18n } = useTranslation();
+  const [queryObject, setQueryObject] = useState<ISearchParams>({
+    query: undefined,
+    page: 1,
+    pageSize: 16,
+  });
+  const searchImageTranslations = useImageSearchTranslations();
+  const { searchResult, refetch, loading } = useImageSearch({
+    variables: { page: 1, pageSize: 16 },
   });
 
-  const images = [];
-
-  const { control } = useForm();
-
-  if (loading) {
-    return <Spinner />;
-  }
+  const handleQueryChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => {
+    setQueryObject((prevState) => ({
+      ...prevState,
+      query: value,
+    }));
+  };
 
   return (
-    <FieldRoot>
-      {imageId ? (
-        <>
-          <HStack justify="space-between">
-            <FieldLabel></FieldLabel>
-            <IconButton variant="danger" onClick={() => setSelectedImage(undefined)}>
-              <DeleteBinLine />
-            </IconButton>
-          </HStack>
-        </>
-      ) : (
-        <>
-          <FieldLabel></FieldLabel>
-          <BaseImageSearch
-            queryObject={queryObject}
-            onImageClick={(imageId) => setSelectedImage(imageId)}
-            onSelectImage={}
-            handleQueryChange={}
-            locale={i18n.language}
-            totalCount={}
-            translations={}
-            searchImages={refetch}
-            noResultsFound={}
-            images={}
-          />
-        </>
-      )}
-    </FieldRoot>
+    <>
+      <BaseImageSearch
+        queryObject={queryObject}
+        onSelectImage={setImageForm}
+        handleQueryChange={handleQueryChange}
+        locale={i18n.language}
+        totalCount={searchResult?.totalCount ?? 0}
+        setFocusedImage={setFocusedImage}
+        focusedImage={focusedImage}
+        translations={searchImageTranslations}
+        searchImages={async (searchParams) => {
+          await refetch(searchParams);
+          setQueryObject((prevState) => ({
+            ...prevState,
+            ...searchParams,
+          }));
+        }}
+        noResultsFound={!loading && searchResult?.results?.length === 0}
+        images={(searchResult?.results as IImageMetaInformationV3[]) ?? []}
+      />
+    </>
   );
 };
