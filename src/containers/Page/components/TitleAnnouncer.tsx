@@ -18,6 +18,7 @@ const TitleAnnouncer = () => {
   useEffect(() => {
     if (!!title && title !== prevTitle.current) {
       prevTitle.current = title;
+      titleRef.current?.focus();
     }
   }, [title, titleRef]);
 
