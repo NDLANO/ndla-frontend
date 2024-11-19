@@ -175,7 +175,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
               {heading}
             </Heading>
             {!!grades.length && (
-              <GradesList aria-label={t("programme.grades")}>
+              <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
                   <li key={item.name}>
                     <StyledNavigationSafeLinkButton
