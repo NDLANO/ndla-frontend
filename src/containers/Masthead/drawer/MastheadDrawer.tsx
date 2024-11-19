@@ -125,9 +125,9 @@ const mastheadProgrammeQuery = gql`
 const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
-  const { subjectId: maybeSubjectId, topicList: tL, programme, slug } = useUrnIds();
+  const { subjectId: maybeSubjectId, topicList: maybeTopicList, programme, slug } = useUrnIds();
   const subjectId = root?.id || maybeSubjectId;
-  const topicList = tL.length ? tL : crumbs;
+  const topicList = maybeTopicList.length ? maybeTopicList : crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);

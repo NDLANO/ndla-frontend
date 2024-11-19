@@ -84,7 +84,7 @@ const mastheadQuery = gql`
 
 const MastheadContainer = () => {
   const { t, i18n } = useTranslation();
-  const { contextId, subjectId: subId, topicList } = useUrnIds();
+  const { contextId, subjectId: maybeSubjectId, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
   const { data: rootData, loading: rootLoading } = useGraphQuery<GQLContextQuery, GQLContextQueryVariables>(
@@ -98,7 +98,7 @@ const MastheadContainer = () => {
   );
   const nodeType = rootData?.node?.nodeType;
   const maybeTopicId = nodeType === "TOPIC" ? rootData?.node?.id : undefined;
-  const subjectId = rootData?.node?.context?.rootId || subId;
+  const subjectId = rootData?.node?.context?.rootId || maybeSubjectId;
   const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== subjectId) ?? [];
   const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds || topicList;
 
