@@ -240,8 +240,8 @@ export const Footer = () => {
       to: "https://ndla.no/about/about-us",
     },
     {
-      text: t("footer.ndlaLinks.vacancies"),
-      to: "https://ndla.no/about/utlysninger",
+      text: t("footer.ndlaLinks.contact"),
+      to: "https://ndla.no/about/kontakt-oss",
     },
   ];
 
