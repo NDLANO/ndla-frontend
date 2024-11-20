@@ -13,12 +13,12 @@ import { Heading, Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningPathListItem } from "./components/LearningPathListItem";
+import { useMyLearningpaths } from "./LearningPathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { useMyLearningpaths } from "../learningpathApi";
 
 const LearningpathList = styled("ol", {
   base: {},

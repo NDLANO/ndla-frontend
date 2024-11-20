@@ -11,7 +11,7 @@ import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTi
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathListItem } from "./LearningPathListItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 
 const StyledDialogFooter = styled(DialogFooter, {
   base: {
@@ -24,7 +24,7 @@ const StyledDialogFooter = styled(DialogFooter, {
 interface Props {
   onDelete: (path: number) => void;
   onClose: () => void;
-  learningPath: GQLLearningpathFragmentFragment;
+  learningPath: GQLMyLearningpathFragment;
 }
 
 export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPath }: Props) => {

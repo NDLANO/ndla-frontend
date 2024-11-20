@@ -1541,7 +1541,7 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
-  myLearningpaths: Array<GQLLearningpath>;
+  myLearningpaths?: Maybe<Array<GQLLearningpath>>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -3085,6 +3085,23 @@ export type GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment = 
   __typename?: "ResourceTypeDefinition";
 } & GQLResources_ResourceTypeDefinitionFragment;
 
+export type GQLMyLearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  description: string;
+  lastUpdated: string;
+  status: string;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+};
+
+export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyLearningpathsQuery = {
+  __typename?: "Query";
+  myLearningpaths?: Array<{ __typename?: "Learningpath" } & GQLMyLearningpathFragment>;
+};
+
 export type GQLNewFlagV2MutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
@@ -3964,7 +3981,7 @@ export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLMyLearningpathsQuery = {
   __typename?: "Query";
-  myLearningpaths: Array<{ __typename?: "Learningpath" } & GQLLearningpathFragmentFragment>;
+  myLearningpaths?: Array<{ __typename?: "Learningpath" } & GQLLearningpathFragmentFragment>;
 };
 
 export type GQLNewFlagMutationVariables = Exact<{

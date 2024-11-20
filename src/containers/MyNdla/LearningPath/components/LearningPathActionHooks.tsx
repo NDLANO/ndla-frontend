@@ -16,14 +16,14 @@ import { LearningPathShareDialogContent } from "./LearningPathShareDialogContent
 import { copyLearningPathSharingLink } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 
 const updateLearningPathStatus = async ({ variables }: { variables: { learningpathId: number; status: string } }) => {};
 const deleteLearningPath = async ({ variables }: { variables: { learningpathId: number } }) => {};
 
-export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragmentFragment) => {
+export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
   const { t } = useTranslation();
