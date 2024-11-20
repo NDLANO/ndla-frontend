@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons/action";
 import { Heading, Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -44,9 +44,9 @@ const LearningPathPage = () => {
         {
           type: "link",
           link: routes.myNdla.learningpathNew,
-          icon: <Plus />,
-          text: t("myndla.learningpath.menu.new"),
-          value: t("myndla.learningpath.menu.new"),
+          icon: <AddLine />,
+          text: t("myNdla.learningpath.menu.new"),
+          value: t("myNdla.learningpath.menu.new"),
         },
       ]}
     >
@@ -54,11 +54,7 @@ const LearningPathPage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
       </Heading>
-      <Text>
-        Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler
-        fra NDLA, lenker til andre ressurser samt korte tekster du lager selv. Se eksempel på en læringssti:
-        www.lenketileksempel.no
-      </Text>
+      <Text>{t("myNdla.learningpath.description")}</Text>
       <LearningpathList>
         {learningpaths?.map((learningpath) => (
           <LearningPathListItem showMenu learningPath={learningpath} key={learningpath.id} />

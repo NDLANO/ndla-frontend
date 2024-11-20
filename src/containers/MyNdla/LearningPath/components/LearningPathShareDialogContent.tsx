@@ -10,14 +10,12 @@ import { useTranslation } from "react-i18next";
 import { DialogTitle } from "@ark-ui/react";
 import { FileCopyLine } from "@ndla/icons/action";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathListItem } from "./LearningPathListItem";
 import { sharedLearningPathLink } from "./utils";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLLearningpathFragmentFragment } from "../../../../graphqlTypes";
-import { routes } from "../../../../routeHelpers";
 
 const GapWrapper = styled("div", {
   base: {
@@ -36,7 +34,7 @@ const CopyLinkButton = styled(Button, {
 
 const StyledDialogFooter = styled(DialogFooter, {
   base: {
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     mobileWideDown: {
       flexDirection: "column",
       alignItems: "initial",
@@ -65,20 +63,20 @@ export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClo
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{t("myndla.learningpath.sharing.title", { title: learningPath.title })}</DialogTitle>
+        <DialogTitle>{t("myNdla.learningpath.sharing.title", { title: learningPath.title })}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
         <LearningPathListItem learningPath={learningPath} showMenu={false} />
-        <Text>{t("myndla.learningpath.sharing.shared.description")}</Text>
-        <Text>{t("myndla.learningpath.sharing.private.description")}</Text>
+        <Text>{t("myNdla.learningpath.sharing.description.shared")}</Text>
+        <Text>{t("myNdla.learningpath.sharing.description.private")}</Text>
         <GapWrapper>
           <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>
             <span>{t("myNdla.learningpath.sharing.description.copy")}</span>
           </Text>
           <CopyLinkButton
-            aria-label={t("myNdla.learningpath.sharing.shareLink")}
-            title={t("myNdla.learningpath.sharing.shareLink")}
+            aria-label={t("myNdla.learningpath.sharing.link")}
+            title={t("myNdla.learningpath.sharing.link")}
             variant="secondary"
             onClick={() => {
               onCopyText?.();
@@ -93,16 +91,8 @@ export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClo
         </GapWrapper>
       </StyledDialogBody>
       <StyledDialogFooter>
-        <SafeLinkButton to={routes.learningPath(learningPath.id)} variant="tertiary">
-          {t("myNdla.learningpath.sharing.button.preview")}
-        </SafeLinkButton>
-        <Button
-          variant="primary"
-          onClick={() => {
-            onClose();
-          }}
-        >
-          {t("finished")}
+        <Button variant="primary" onClick={onClose}>
+          {t("myNdla.learningpath.sharing.button.done")}
         </Button>
       </StyledDialogFooter>
     </DialogContent>

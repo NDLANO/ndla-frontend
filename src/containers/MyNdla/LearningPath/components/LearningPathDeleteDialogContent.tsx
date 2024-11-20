@@ -32,7 +32,7 @@ export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPat
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{t("myndla.learningpath.title", { title: learningPath.title })}</DialogTitle>
+        <DialogTitle>{t("myNdla.learningpath.delete.title")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
@@ -42,7 +42,7 @@ export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPat
       <StyledDialogFooter>
         <Button onClick={(_e) => onClose()}>{t("cancel")}</Button>
         <Button onClick={() => onDelete(learningPath.id)} variant="danger">
-          {t("myndla.learningpath.delete.button")}
+          {t("myNdla.learningpath.delete.button")}
         </Button>
       </StyledDialogFooter>
     </DialogContent>
