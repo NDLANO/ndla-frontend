@@ -58,12 +58,9 @@ const PlainArticlePage = () => {
   if (loading) {
     return <ContentPlaceholder variant="article" />;
   }
-  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
-    redirectContext.status = 410;
-    return <UnpublishedResourcePage />;
-  }
-
-  if (responseContext?.status === 410) {
+  const has410Error = error?.graphQLErrors.some((err) => err.extensions.status === 410);
+  if (has410Error || responseContext?.isGoneError()) {
+    if (redirectContext) redirectContext.status = 410;
     return <UnpublishedResourcePage />;
   }
 

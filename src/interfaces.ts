@@ -6,6 +6,7 @@
  *
  */
 import { NormalizedCacheObject } from "@apollo/client";
+import { ServerErrorContext } from "./components/GQLErrorContext";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
 
@@ -30,6 +31,7 @@ export interface WindowData {
     [key: string]: string | number | boolean | undefined | null;
   };
   serverResponse?: number;
+  serverErrorContext?: ServerErrorContext;
 }
 
 export interface NDLAWindow {

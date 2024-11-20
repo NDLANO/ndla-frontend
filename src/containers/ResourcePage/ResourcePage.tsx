@@ -102,12 +102,12 @@ const ResourcePage = () => {
   }
 
   const accessDeniedErrors = findAccessDeniedErrors(error);
-  if (accessDeniedErrors) {
+  if (accessDeniedErrors || responseContext?.isAccessDeniedError()) {
     const nonRecoverableError = accessDeniedErrors.some(
       (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
     );
 
-    if (nonRecoverableError) {
+    if (nonRecoverableError || responseContext?.isAccessDeniedError()) {
       return <AccessDeniedPage />;
     }
   }
