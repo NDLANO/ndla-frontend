@@ -39,6 +39,7 @@ import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
 import { LearningPathCheck } from "./containers/MyNdla/LearningPath/LearningPathCheck";
 import LearningPathPage from "./containers/MyNdla/LearningPath/LearningPathPage";
+import { NewLearningpathPage } from "./containers/MyNdla/LearningPath/NewLearningpathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -197,6 +198,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   {config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningPathCheck />}>
                       <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
+                      <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
                     </Route>
                   )}
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
