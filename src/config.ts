@@ -131,6 +131,7 @@ export type ConfigType = {
   enablePrettyUrls: boolean;
   externalArena: boolean;
   arenaDomain: string;
+  enablePrettyUrlRedirect: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -172,6 +173,7 @@ const getServerSideConfig = (): ConfigType => {
     enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", false),
     externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
     arenaDomain: arenaDomain(ndlaEnvironment),
+    enablePrettyUrlRedirect: getEnvironmentVariabel("ENABLE_PRETTY_URL_REDIRECT", false),
   };
 };
 

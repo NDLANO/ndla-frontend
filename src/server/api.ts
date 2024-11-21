@@ -14,6 +14,7 @@ import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
+import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
@@ -206,6 +207,14 @@ router.post("/lti/oauth", async (req, res) => {
     );
   },
 );
+
+router.get(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
+  if (config.enablePrettyUrlRedirect) {
+    contextRedirectRoute(req, res, next);
+  } else {
+    next();
+  }
+});
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);
