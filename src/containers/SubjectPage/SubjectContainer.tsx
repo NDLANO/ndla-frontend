@@ -20,6 +20,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -33,12 +34,12 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
-import { useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
   node: GQLSubjectContainer_NodeFragment;
+  subjectType?: string;
   loading?: boolean;
 };
 
@@ -113,11 +114,10 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContainer = ({ node, loading }: Props) => {
+const SubjectContainer = ({ node, subjectType, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
-  const ndlaFilm = useIsNdlaFilm();
-  const { subjectType } = useUrnIds();
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const about = node.subjectpage?.about;
   const headingId = useId();
@@ -140,8 +140,8 @@ const SubjectContainer = ({ node, loading }: Props) => {
       to: "/",
     },
     {
-      to: node.path ?? "",
       name: node.name,
+      to: (enablePrettyUrls ? node.url : node.path) || "",
     },
   ];
 
@@ -157,8 +157,7 @@ const SubjectContainer = ({ node, loading }: Props) => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+        {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
           <meta name="robots" content="noindex, nofollow" />
         )}
       </Helmet>
@@ -203,13 +202,16 @@ const SubjectContainer = ({ node, loading }: Props) => {
         </TransportationPageHeader>
       </StyledSubjectWrapper>
       <StyledPageContainer>
-        {!ndlaFilm && subjectType !== "multiDisciplinary" && subjectType !== "toolbox" && nonRegularSubjectMessage && (
-          <MessageBox variant="warning">
-            <InformationLine />
-            <Text>{nonRegularSubjectMessage}</Text>
-          </MessageBox>
-        )}
-        {!ndlaFilm &&
+        {subjectType !== "film" &&
+          subjectType !== "multiDisciplinary" &&
+          subjectType !== "toolbox" &&
+          nonRegularSubjectMessage && (
+            <MessageBox variant="warning">
+              <InformationLine />
+              <Text>{nonRegularSubjectMessage}</Text>
+            </MessageBox>
+          )}
+        {subjectType !== "film" &&
           subjectType !== "multiDisciplinary" &&
           subjectType !== "toolbox" &&
           nonRegularSubjectTypeMessage && (
@@ -242,8 +244,18 @@ export const subjectContainerFragments = {
       name
       supportedLanguages
       path
+      url
+      nodeType
       metadata {
         customFields
+      }
+      context {
+        contextId
+        isActive
+        rootId
+        parentIds
+        path
+        url
       }
       grepCodes
       nodes: children(nodeType: "TOPIC") {

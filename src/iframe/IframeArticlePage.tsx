@@ -21,7 +21,7 @@ import { CreatedBy } from "../components/Article/CreatedBy";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
-import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from "../graphqlTypes";
+import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { getContentType } from "../util/getContentType";
@@ -31,7 +31,7 @@ import { transformArticle } from "../util/transformArticle";
 
 interface Props {
   locale?: LocaleType;
-  resource?: GQLIframeArticlePage_ResourceFragment;
+  resource?: GQLIframeArticlePage_NodeFragment;
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
@@ -137,10 +137,12 @@ export const iframeArticlePageFragments = {
     ${Article.fragments.article}
     ${structuredArticleDataFragment}
   `,
-  resource: gql`
-    fragment IframeArticlePage_Resource on Resource {
+  node: gql`
+    fragment IframeArticlePage_Node on Node {
       id
+      name
       path
+      url
       resourceTypes {
         id
         name

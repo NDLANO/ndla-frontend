@@ -72,6 +72,7 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
                 id: `dummy-${index}`,
                 resourceTypes: [],
                 path: "",
+                url: "",
                 title: "",
               }}
             />
@@ -107,19 +108,23 @@ export const MovieGrid = ({ resourceType }: Props) => {
         <MovieGridLoadingShimmer />
       ) : (
         <MovieListing>
-          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
-            <StyledFilmContentCard
-              style={{ "--index": index } as CSSProperties}
-              key={`${resourceType.id}-${index}`}
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
-              }}
-            />
-          ))}
+          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+            const context = movie.contexts.find((c) => c.contextType === "standard");
+            return (
+              <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
+                key={`${resourceType.id}-${index}`}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  path: context?.path ?? "",
+                  url: context?.path ?? "",
+                }}
+              />
+            );
+          })}
         </MovieListing>
       )}
     </StyledSection>
@@ -172,8 +177,11 @@ const resourceTypeMoviesQuery = gql`
         }
         title
         contexts {
+          contextId
           contextType
           path
+          url
+          rootId
         }
       }
     }

@@ -125,7 +125,9 @@ MovedTopicPage.fragments = {
   node: gql`
     fragment MovedTopicPage_Node on Node {
       id
+      name
       path
+      url
       name
       breadcrumbs
       meta {
@@ -136,6 +138,7 @@ MovedTopicPage.fragments = {
         }
       }
       contexts {
+        contextId
         breadcrumbs
       }
     }

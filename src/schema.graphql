@@ -1499,6 +1499,7 @@ interface TaxBase {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
+  isActive: Boolean!
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]

@@ -10,17 +10,14 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
   ABOUT_PATH,
+  FILM_ID,
   MULTIDISCIPLINARY_SUBJECT_ID,
   PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLResource, GQLSubject, GQLTopic } from "./graphqlTypes";
+import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
-
-export function toSearch(searchString?: string) {
-  return `/search?${searchString || ""}`;
-}
 
 export const removeUrn = (str?: string) => str?.replace("urn:", "") ?? "";
 
@@ -38,19 +35,6 @@ interface MatchParams extends TypedParams {
   contextId?: string;
   slug?: string;
 }
-
-export const useOnTopicPage = () => {
-  const { subjectId, resourceId, topicList } = useUrnIds();
-  if (!subjectId || resourceId || (subjectId && topicList.length === 0)) {
-    return false;
-  }
-  const subjectType = getSubjectType(subjectId);
-  if (subjectType === "multiDisciplinary") {
-    return topicList.length < 3;
-  }
-
-  return true;
-};
 
 export const useUrnIds = () => {
   const params = useTypedParams<MatchParams>();
@@ -81,23 +65,18 @@ export const useUrnIds = () => {
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
-export const getSubjectType = (subjectId: string): SubjectType => {
+export const getSubjectType = (subjectId?: string): SubjectType => {
   if (subjectId === MULTIDISCIPLINARY_SUBJECT_ID) {
     return "multiDisciplinary";
   } else if (subjectId === TOOLBOX_STUDENT_SUBJECT_ID || subjectId === TOOLBOX_TEACHER_SUBJECT_ID) {
     return "toolbox";
-  } else if (subjectId === "urn:subject:20") {
+  } else if (subjectId === FILM_ID) {
     return "film";
   } else if (typeof subjectId === "string") {
     return "standard";
   }
 
   return undefined;
-};
-
-export const useIsNdlaFilm = () => {
-  const { subjectType } = useUrnIds();
-  return subjectType === "film";
 };
 
 const LEARNINGPATHS = "/learningpaths";
@@ -132,44 +111,20 @@ export function toArticle(articleId: number, resource: Resource, subjectTopicPat
 
 export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 
-export function toSubject(subjectId: string) {
-  return `/${removeUrn(subjectId)}`;
-}
-
-export function toTopic(subjectId: string, ...topicIds: string[]) {
-  const urnFreeSubjectId = removeUrn(subjectId);
-  if (topicIds.length === 0) {
-    return toSubject(urnFreeSubjectId);
-  }
-  const urnFreeTopicIds = topicIds.filter((id) => !!id).map(removeUrn);
-  const t = fixEndSlash(`/${urnFreeSubjectId}/${urnFreeTopicIds.join("/")}`);
-  return t;
-}
-
-export function toBreadcrumbItems(rootName: string, paths: ({ id: string; name: string } | undefined)[]): Breadcrumb[] {
-  const safePaths = paths.filter((p): p is GQLTopic | GQLResource | GQLSubject => p !== undefined);
-  const [subject, ...rest] = safePaths;
-  if (!subject) return [];
-  // henter longname fra filter og bruk i stedet for første ledd i path
-  const breadcrumbSubject = safePaths[0]!;
-
-  const links = [breadcrumbSubject, ...rest];
-  const breadcrumbs = links
-    .reduce<Breadcrumb[]>((acc, link) => {
-      const prefix = acc.length ? acc[acc.length - 1]?.to : "";
-      const to = `${prefix}/${removeUrn(link.id)}`;
-      return acc.concat([{ to, name: link.name }]);
-    }, [])
-    .map((bc) => ({ ...bc, to: fixEndSlash(bc.to) }));
+export function toBreadcrumbItems(
+  rootName: string,
+  paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
+  enablePrettyUrls = false,
+): Breadcrumb[] {
+  const safePaths = paths.filter(Boolean);
+  if (safePaths.length === 0) return [];
+  const breadcrumbs = safePaths.map((crumb) => {
+    return {
+      to: (enablePrettyUrls ? crumb?.url : crumb?.path) ?? "",
+      name: crumb?.name ?? "",
+    };
+  });
   return [{ to: "/", name: rootName }, ...breadcrumbs];
-}
-
-export function fixEndSlash(link?: string) {
-  const pattern = new RegExp(/resource/gi);
-  if (link && !pattern.test(link) && !/\/$/.test(link)) {
-    link = `${link}/`;
-  }
-  return link || "";
 }
 
 export function toProgramme(programmePath?: string, grade?: string) {

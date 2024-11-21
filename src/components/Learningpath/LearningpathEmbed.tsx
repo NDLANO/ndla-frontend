@@ -15,6 +15,7 @@ import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import LearningpathIframe from "./LearningpathIframe";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -76,6 +77,7 @@ interface Props {
 }
 const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems, children }: Props) => {
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
@@ -98,6 +100,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         transformArgs: {
           path: location.pathname,
           subjectId,
+          prettyUrl: enablePrettyUrls,
         },
       },
       skip:
@@ -107,7 +110,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     },
   );
 
-  const path = !learningpathStep.resource?.path ? data?.resource?.path : undefined;
+  const path = !learningpathStep.resource?.path ? data?.node?.path : undefined;
   const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const [article, scripts] = useMemo(() => {
@@ -183,7 +186,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   }
 
   const learningpathStepResource = learningpathStep.resource ?? data;
-  const resource = learningpathStep.resource ?? data?.resource;
+  const resource = learningpathStep.resource ?? data?.node;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
@@ -282,7 +285,7 @@ const learningpathStepQuery = gql`
       oembed
       ...LearningpathEmbed_Article
     }
-    resource(id: $resourceId) @include(if: $includeResource) {
+    node(id: $resourceId) @include(if: $includeResource) {
       id
       path
       resourceTypes {

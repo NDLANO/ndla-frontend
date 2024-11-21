@@ -19,18 +19,19 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
+import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
+import { isCurrentPage } from "../../../util/urlHelper";
 
 interface Props {
-  subject?: GQLSubjectMenu_SubjectFragment;
+  subject?: GQLSubjectMenu_RootFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPathIds: string[];
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
 
-type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment["allTopics"]>[0];
+type AllTopicsType = NonNullable<GQLSubjectMenu_RootFragment["allTopics"]>[0];
 
 export type TopicWithSubTopics = AllTopicsType & {
   subtopics: TopicWithSubTopics[];
@@ -57,6 +58,7 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
@@ -106,7 +108,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject ? `/${removeUrn(subject.id)}` : "";
+  const path = (enablePrettyUrls ? subject?.url : subject?.path) ?? "";
 
   return (
     <>
@@ -117,7 +119,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
                 variant="link"
-                aria-current={path === location.pathname ? "page" : undefined}
+                aria-current={isCurrentPage(location.pathname, subject) ? "page" : undefined}
                 id={`header-${subject.id}`}
                 to={path}
                 onClick={onClose}
@@ -133,7 +135,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
                 id={t.id}
                 key={t.id}
                 type="button"
-                current={t.path === location.pathname}
+                current={isCurrentPage(location.pathname, t)}
                 onClick={(expanded) => {
                   if (expanded) {
                     setTopicPathIds([]);
@@ -175,19 +177,22 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
 };
 
 SubjectMenu.fragments = {
-  subject: gql`
-    fragment SubjectMenu_Subject on Subject {
+  root: gql`
+    fragment SubjectMenu_Root on Node {
       id
       name
-      allTopics {
+      path
+      url
+      allTopics: children(nodeType: "TOPIC", recursive: true) {
         id
         name
         parentId
         path
+        url
       }
-      ...TopicMenu_Subject
+      ...TopicMenu_Root
     }
-    ${TopicMenu.fragments.subject}
+    ${TopicMenu.fragments.root}
   `,
 };
 

@@ -22,25 +22,24 @@ import {
   HomeBreadcrumb,
   licenseAttributes,
 } from "@ndla/ui";
-import Article from "../../../components/Article";
-import { useArticleCopyText, useNavigateToHash } from "../../../components/Article/articleHelpers";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import CompetenceGoals from "../../../components/CompetenceGoals";
-import LicenseBox from "../../../components/license/LicenseBox";
-import { SubjectLinkSet } from "../../../components/Subject/SubjectLinks";
-import config from "../../../config";
-import {
-  GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment,
-  GQLMultidisciplinarySubjectArticle_SubjectFragment,
-  GQLMultidisciplinarySubjectArticle_TopicFragment,
-} from "../../../graphqlTypes";
-import { removeUrn, toBreadcrumbItems } from "../../../routeHelpers";
-import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getTopicPath } from "../../../util/getTopicPath";
-import { htmlTitle } from "../../../util/titleHelper";
-import { getAllDimensions } from "../../../util/trackingUtil";
-import { transformArticle } from "../../../util/transformArticle";
-import Resources from "../../Resources/Resources";
+import { NoSSR } from "@ndla/util";
+import Article from "../../components/Article";
+import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
+import LicenseBox from "../../components/license/LicenseBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
+import config from "../../config";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../graphqlTypes";
+import { toBreadcrumbItems } from "../../routeHelpers";
+import { getArticleScripts } from "../../util/getArticleScripts";
+import { htmlTitle } from "../../util/titleHelper";
+import { getAllDimensions } from "../../util/trackingUtil";
+import { transformArticle } from "../../util/transformArticle";
+import Resources from "../Resources/Resources";
 
 const ResourcesPageContent = styled("div", {
   base: {
@@ -85,61 +84,57 @@ const StyledDivider = styled(Divider, {
 });
 
 interface Props {
-  topic: GQLMultidisciplinarySubjectArticle_TopicFragment;
-  subject: GQLMultidisciplinarySubjectArticle_SubjectFragment;
-  resourceTypes?: GQLMultidisciplinarySubjectArticle_ResourceTypeDefinitionFragment[];
-  skipToContentId?: string;
+  node: GQLMultidisciplinarySubjectArticle_NodeFragment;
 }
 
-const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipToContentId }: Props) => {
+const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
-  const topicPath = useMemo(() => getTopicPath(topic.contexts, topic.path), [topic.contexts, topic.path]);
+  const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
+  const root = crumbs[0];
 
   useEffect(() => {
-    if (!topic?.article || !authContextLoaded) return;
+    if (!node?.article || !authContextLoaded) return;
     const dimensions = getAllDimensions({
-      article: topic.article,
-      filter: subject.name,
+      article: node.article,
+      filter: root?.name,
       user,
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(topic.name || "", [t("htmlTitles.titleTemplate")]),
+      title: htmlTitle(node.name || "", [t("htmlTitles.titleTemplate")]),
     });
-  }, [authContextLoaded, subject, t, topic.article, topic.name, topic.path, trackPageView, user]);
+  }, [authContextLoaded, root, t, node.article, node.name, node.path, trackPageView, user]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(
-      t("breadcrumb.toFrontpage"),
-      topicPath.concat({ name: topic.name, id: `/${removeUrn(topic.id)}` }),
-    );
-  }, [t, topic.id, topic.name, topicPath]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
+  }, [t, node, crumbs, enablePrettyUrls]);
 
   const [article, scripts] = useMemo(() => {
-    if (!topic.article) return [undefined, undefined];
+    if (!node.article) return [undefined, undefined];
     return [
-      transformArticle(topic.article, i18n.language, {
-        path: `${config.ndlaFrontendDomain}/article/${topic.article.id}`,
-        subject: subject.id,
-        articleLanguage: topic.article.language,
+      transformArticle(node.article, i18n.language, {
+        path: `${config.ndlaFrontendDomain}/article/${node.article.id}`,
+        subject: root?.id,
+        articleLanguage: node.article.language,
       }),
-      getArticleScripts(topic.article, i18n.language),
+      getArticleScripts(node.article, i18n.language),
     ];
-  }, [topic.article, i18n.language, subject.id]);
+  }, [node.article, i18n.language, root?.id]);
 
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article?.transformedContent.content);
 
-  if (!topic.article || !article) {
+  if (!node.article || !article) {
     return null;
   }
 
-  const subjectLinks = topic.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
+  const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
-    path: crossSubjectTopic.path || subject.path || "",
+    path: crossSubjectTopic.path || root?.path || "",
   }));
 
   const authors =
@@ -149,6 +144,12 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
+  const socialMediaMetaData = {
+    title: htmlTitle(node.name ?? node.article?.title, [root?.name]),
+    description: node.article?.metaDescription ?? node.article?.introduction,
+    image: node.article?.metaImage,
+  };
+
   return (
     <StyledPageContent variant="article" asChild consumeCss>
       <main>
@@ -156,7 +157,17 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
+          {!node.context?.isActive && <meta name="robots" content="noindex" />}
         </Helmet>
+        <SocialMediaMetadata
+          title={socialMediaMetaData.title}
+          description={socialMediaMetaData.description}
+          imageUrl={socialMediaMetaData.image?.url}
+          trackableContent={{
+            supportedLanguages: node.article?.supportedLanguages,
+            tags: node.article?.tags,
+          }}
+        />
         <HeaderWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
           <SubjectLinkSet
@@ -169,15 +180,15 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>
             <ArticleTitle
-              id={skipToContentId ?? article.id.toString()}
+              id={SKIP_TO_CONTENT_ID}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
-              contentTypeLabel={topic.resourceTypes?.[0]?.name}
+              contentTypeLabel={node.resourceTypes?.[0]?.name}
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
                     codes={article.grepCodes}
-                    subjectId={subject?.id}
+                    subjectId={root?.id}
                     supportedLanguages={article.supportedLanguages}
                   />
                 )
@@ -194,9 +205,11 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
                 license={article.copyright?.license?.license ?? ""}
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
-              <ResourcesPageContent>
-                <Resources topic={topic} resourceTypes={resourceTypes} headingType="h2" subHeadingType="h3" />
-              </ResourcesPageContent>
+              <NoSSR fallback={null}>
+                <ResourcesPageContent>
+                  <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+                </ResourcesPageContent>
+              </NoSSR>
             </ArticleFooter>
           </ArticleWrapper>
         </PageContent>
@@ -205,53 +218,53 @@ const MultidisciplinarySubjectArticle = ({ topic, subject, resourceTypes, skipTo
   );
 };
 
-export const multidisciplinarySubjectArticleFragments = {
-  topic: gql`
-    fragment MultidisciplinarySubjectArticle_Topic on Topic {
-      path
+MultidisciplinarySubjectArticle.fragments = {
+  node: gql`
+    fragment MultidisciplinarySubjectArticle_Node on Node {
       id
-      contexts {
+      name
+      path
+      url
+      context {
+        contextId
+        rootId
         breadcrumbs
-        parentIds
         path
+        url
+        isActive
+        parents {
+          contextId
+          id
+          name
+          path
+          url
+        }
       }
       resourceTypes {
         id
         name
       }
       article {
+        id
+        language
         created
         updated
         oembed
-        crossSubjectTopics(subjectId: $subjectId) {
+        introduction
+        metaDescription
+        tags
+        metaImage {
+          url
+          alt
+        }
+        crossSubjectTopics(subjectId: $rootId) @include(if: $includeCrossSubjectTopics) {
           title
           path
         }
         ...Article_Article
       }
-      ...Resources_Topic
     }
-    ${Resources.fragments.topic}
     ${Article.fragments.article}
-  `,
-  subject: gql`
-    fragment MultidisciplinarySubjectArticle_Subject on Subject {
-      name
-      id
-      path
-      subjectpage {
-        id
-        about {
-          title
-        }
-      }
-    }
-  `,
-  resourceType: gql`
-    fragment MultidisciplinarySubjectArticle_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
   `,
 };
 
