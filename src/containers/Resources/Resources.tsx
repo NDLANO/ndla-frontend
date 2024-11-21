@@ -162,11 +162,7 @@ const Resources = ({
     return <Spinner />;
   }
 
-  if (error) {
-    return null;
-  }
-
-  if (!sortedResources.length) {
+  if (error || !sortedResources.length) {
     return null;
   }
 
