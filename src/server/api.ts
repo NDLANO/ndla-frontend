@@ -208,7 +208,7 @@ router.post("/lti/oauth", async (req, res) => {
   },
 );
 
-router.get(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
+router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
   if (config.enablePrettyUrlRedirect) {
     contextRedirectRoute(req, res, next);
   } else {
