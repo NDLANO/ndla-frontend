@@ -126,7 +126,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [resource, i18n.language, root?.id])!;
+  }, [resource, i18n.language, root?.id]);
 
   const copyText = useArticleCopyText(article);
 
