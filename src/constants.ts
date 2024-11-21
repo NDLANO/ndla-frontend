@@ -25,8 +25,8 @@ export const TOOLBOX_STUDENT_SUBJECT_ID = "urn:subject:1:54b1727c-2d91-4512-901c
 
 export const FILM_PAGE_URL = "/f/ndla-film/24d0e0db3c02";
 export const MULTIDISCIPLINARY_URL = "/f/tverrfaglige-temaer/daaf4e2dd8b0";
-export const TOOLBOX_TEACHER_URL = "/f/verktoykassa-%E2%80%93-for-larere/c697e0278768";
-export const TOOLBOX_STUDENT_URL = "/f/verktoykassa-%E2%80%93-for-elever/107af8b8e7d2";
+export const TOOLBOX_TEACHER_URL = "/f/verktoykassa---for-larere/c697e0278768";
+export const TOOLBOX_STUDENT_URL = "/f/verktoykassa---for-elever/107af8b8e7d2";
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
