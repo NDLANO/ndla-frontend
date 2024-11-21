@@ -21,7 +21,7 @@ import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
 import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
+import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
@@ -210,6 +210,10 @@ router.post("/lti/oauth", async (req, res) => {
 
 router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
   if (config.enablePrettyUrlRedirect) {
+    const lang = req.params.lang ?? config.defaultLocale;
+    if (!isValidLocale(lang)) {
+      next();
+    }
     contextRedirectRoute(req, res, next);
   } else {
     next();
