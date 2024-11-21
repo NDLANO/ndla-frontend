@@ -14,7 +14,7 @@ import { CheckLine } from "@ndla/icons/editor";
 import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useLearningPathActionHooks } from "./LearningPathActionHooks";
-import { GQLLearningpathFragmentFragment, GQLMyLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
 import SettingsMenu from "../../components/SettingsMenu";
 
 const StyledListItemRoot = styled(ListItemRoot, {

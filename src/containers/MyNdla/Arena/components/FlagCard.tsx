@@ -6,13 +6,11 @@
  *
  */
 
-import { formatDistanceStrict } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { SwitchControl, SwitchHiddenInput, SwitchLabel, SwitchRoot, SwitchThumb, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaFlagFragment } from "../../../../graphqlTypes";
-import { DateFNSLocales } from "../../../../i18n";
-import { formatDateTime } from "../../../../util/formatDate";
+import { formatDateTime, useFormatDistance } from "../../../../util/formatDate";
 import { useResolveFlagMutation } from "../../arenaMutations";
 import UserProfileTag from "../../components/UserProfileTag";
 import { capitalizeFirstLetter } from "../utils";
@@ -45,12 +43,7 @@ const FlagRow = styled("div", {
 
 const TimedistanceField = ({ date, disableCapitalization }: { date: string; disableCapitalization?: boolean }) => {
   const { i18n } = useTranslation();
-
-  const timeDistance = formatDistanceStrict(Date.parse(date), Date.now(), {
-    addSuffix: true,
-    locale: DateFNSLocales[i18n.language],
-    roundingMethod: "floor",
-  });
+  const timeDistance = useFormatDistance(date);
 
   return (
     <Text asChild consumeCss textStyle="body.small">

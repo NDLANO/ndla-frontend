@@ -19,11 +19,10 @@ test("shows students", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
   await expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
 
-  await expect(page.getByTestId("nav-box-item")).toHaveCount(16);
+  const navList = page.getByRole("navigation", { name: "Emner" }).getByRole("list");
 
-  const links = page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link");
-
-  await expect(links).toHaveCount(16);
+  await expect(navList.getByRole("listitem")).toHaveCount(16);
+  await expect(navList.getByRole("link")).toHaveCount(16);
 });
 
 test("shows teachers", async ({ page }) => {
@@ -32,9 +31,7 @@ test("shows teachers", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/*");
   await expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
 
-  await expect(page.getByTestId("nav-box-item")).toHaveCount(13);
-
-  const links = page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link");
-
-  await expect(links).toHaveCount(13);
+  const navList = page.getByRole("navigation", { name: "Emner" }).getByRole("list");
+  await expect(navList.getByRole("listitem")).toHaveCount(13);
+  await expect(navList.getByRole("link")).toHaveCount(13);
 });

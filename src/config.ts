@@ -64,6 +64,19 @@ const learningPathDomain = (ndlaEnvironment: string): string => {
   }
 };
 
+export const arenaDomain = (ndlaEnvironment: string): string => {
+  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
+  switch (ndlaEnvironment) {
+    case "dev":
+    case "local":
+      return "https://grupper.test.ndla.no";
+    case "prod":
+      return "https://grupper.ndla.no";
+    default:
+      return `https://grupper.${ndlaEnvironmentHostname}.ndla.no`;
+  }
+};
+
 export const feideDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -115,6 +128,9 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   learningpathEnabled: boolean;
+  enablePrettyUrls: boolean;
+  externalArena: boolean;
+  arenaDomain: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -152,7 +168,10 @@ const getServerSideConfig = (): ConfigType => {
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", true),
+    learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
+    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", false),
+    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
+    arenaDomain: arenaDomain(ndlaEnvironment),
   };
 };
 

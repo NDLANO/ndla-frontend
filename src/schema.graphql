@@ -739,6 +739,7 @@ type Learningpath {
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
+  created: String!
   description: String!
   duration: Int
   id: Int!
@@ -897,6 +898,7 @@ type Mutation {
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
+  deleteLearningpath(id: Int!): [String!]!
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
@@ -956,6 +958,7 @@ type Mutation {
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
+  updateStatusLearningpath(id: Int!, status: String!): [String!]!
   updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
@@ -1500,6 +1503,7 @@ interface TaxBase {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
+  isActive: Boolean!
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]

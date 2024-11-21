@@ -42,6 +42,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -148,6 +149,7 @@ const MastheadSearch = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -205,7 +207,7 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedItems = useMemo(() => {
+  const searchHits = useMemo(() => {
     if (!query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
@@ -216,11 +218,11 @@ const MastheadSearch = () => {
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
-          path: context?.path ?? result.url,
+          path: (enablePrettyUrls ? context?.url : context?.path) ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [query.length, searchResult.search?.results, enablePrettyUrls]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,
@@ -236,11 +238,11 @@ const MastheadSearch = () => {
   const collection = useMemo(
     () =>
       createListCollection({
-        items: mappedItems,
+        items: searchHits,
         itemToValue: (item) => item.path,
         itemToString: (item) => item.title,
       }),
-    [mappedItems],
+    [searchHits],
   );
 
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
@@ -322,7 +324,7 @@ const MastheadSearch = () => {
             <StyledHitsWrapper aria-live="assertive">
               {!loading && query && (
                 <div>
-                  {!(mappedItems.length > 1) ? (
+                  {!(searchHits.length > 1) ? (
                     <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
@@ -338,12 +340,12 @@ const MastheadSearch = () => {
                 </div>
               )}
             </StyledHitsWrapper>
-            {!!mappedItems.length || loading ? (
+            {!!searchHits.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
                   <Spinner />
                 ) : (
-                  mappedItems.map((resource) => (
+                  searchHits.map((resource) => (
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot context="list">
                         <TextWrapper>
@@ -371,7 +373,7 @@ const MastheadSearch = () => {
               </StyledComboboxContent>
             ) : null}
           </ComboboxRoot>
-          {!!mappedItems.length && !loading && (
+          {!!searchHits.length && !loading && (
             <Button variant="secondary" type="submit">
               {t("masthead.moreHits")}
               <ArrowRightLine />

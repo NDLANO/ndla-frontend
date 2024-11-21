@@ -32,7 +32,7 @@ import CategoryEditPage from "./containers/MyNdla/Arena/CategoryEditPage";
 import NewCategoryPage from "./containers/MyNdla/Arena/NewCategoryPage";
 import { NewTopicPage } from "./containers/MyNdla/Arena/NewTopicPage";
 import PostsPage from "./containers/MyNdla/Arena/PostsPage";
-import TopicPage from "./containers/MyNdla/Arena/TopicPage";
+import ArenaTopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
@@ -58,7 +58,8 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
+import SubjectPage from "./containers/SubjectPage/SubjectPage";
+import { TopicPage } from "./containers/TopicPage/TopicPage";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
 
@@ -136,17 +137,31 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />}>
+                <Route path="r" element={<ResourcePage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":contextId/:stepId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId/:stepId" element={null} />
+                </Route>
+                <Route path="e" element={<TopicPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="f" element={<SubjectPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="subject:subjectId" element={<SubjectPage />} />
+                <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
+                <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>
                   <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic1" element={null}>
+                  <Route path="topic:topic2" element={null}>
                     <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic2" element={null}>
+                    <Route path="topic:topic3" element={null}>
                       <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic3" element={null}>
+                      <Route path="topic:topic4" element={null}>
                         <Route path="topic:topicId" element={null} />
-                        <Route path="topic:topic4" element={null}>
-                          <Route path="topic:topicId" element={null} />
-                        </Route>
                       </Route>
                     </Route>
                   </Route>
@@ -176,7 +191,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route index element={<PrivateRoute element={<NewCategoryPage />} />} />
                     </Route>
                     <Route path="category/:categoryId">
-                      <Route index element={<PrivateRoute element={<TopicPage />} />} />
+                      <Route index element={<PrivateRoute element={<ArenaTopicPage />} />} />
                       <Route path="edit" element={<AdminCheck />}>
                         <Route index element={<PrivateRoute element={<CategoryEditPage />} />} />
                       </Route>
@@ -203,7 +218,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
                 <Route path="about/:slug" element={<AboutPage />} />
-
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

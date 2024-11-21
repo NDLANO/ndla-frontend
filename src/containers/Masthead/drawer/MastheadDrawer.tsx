@@ -20,7 +20,7 @@ import { LanguageSelector } from "../../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
-  GQLMastheadDrawer_SubjectFragment,
+  GQLMastheadDrawer_RootFragment,
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
@@ -100,7 +100,8 @@ const StyledDrawer = styled(DialogContent, {
 });
 
 interface Props {
-  subject?: GQLMastheadDrawer_SubjectFragment;
+  root?: GQLMastheadDrawer_RootFragment;
+  crumbs: string[];
 }
 
 const mastheadFrontpageQuery = gql`
@@ -121,10 +122,12 @@ const mastheadProgrammeQuery = gql`
   ${DrawerContent.fragments.programmeMenu}
 `;
 
-const MastheadDrawer = ({ subject }: Props) => {
+const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
-  const { subjectId, topicList, programme, slug } = useUrnIds();
+  const { subjectId: maybeSubjectId, topicList: maybeTopicList, programme, slug } = useUrnIds();
+  const subjectId = root?.id || maybeSubjectId;
+  const topicList = maybeTopicList.length ? maybeTopicList : crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
@@ -254,7 +257,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                   dynamicMenus={
                     (frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]
                   }
-                  subject={subject}
+                  root={root}
                   type={type}
                 />
                 {type && (
@@ -263,7 +266,7 @@ const MastheadDrawer = ({ subject }: Props) => {
                     type={type}
                     menuItems={frontpageMenu}
                     topicPath={topicPath}
-                    subject={subject}
+                    root={root}
                     setFrontpageMenu={setFrontpageMenu}
                     setTopicPathIds={setTopicPath}
                     onCloseMenuPortion={onCloseMenuPortion}
@@ -291,13 +294,13 @@ const MastheadDrawer = ({ subject }: Props) => {
 };
 
 MastheadDrawer.fragments = {
-  subject: gql`
-    fragment MastheadDrawer_Subject on Subject {
-      ...DefaultMenu_Subject
-      ...DrawerContent_Subject
+  root: gql`
+    fragment MastheadDrawer_Root on Node {
+      ...DefaultMenu_Root
+      ...DrawerContent_Root
     }
-    ${DefaultMenu.fragments.subject}
-    ${DrawerContent.fragments.subject}
+    ${DefaultMenu.fragments.root}
+    ${DrawerContent.fragments.root}
   `,
 };
 
