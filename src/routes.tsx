@@ -56,6 +56,7 @@ export const routes = [
   "folder/:folderId/:subFolderId",
   "p/:articleId",
   "about/:slug",
+  "om/:slug",
   "learningpaths/:learningpathId",
   "learningpaths/:learningpathId/:stepId",
   "subject:subjectId",

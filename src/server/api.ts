@@ -20,7 +20,14 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import { FILM_PAGE_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH, UKR_PAGE_URL } from "../constants";
+import {
+  ABOUT_PATH,
+  FILM_PAGE_PATH,
+  FILM_PAGE_URL,
+  STORED_LANGUAGE_COOKIE_KEY,
+  UKR_PAGE_PATH,
+  UKR_PAGE_URL,
+} from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
@@ -169,6 +176,11 @@ router.get("/logout/session", (req, res) => {
   const redirect = wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : state;
   res.setHeader("Cache-Control", "private");
   return res.redirect(redirect);
+});
+
+router.get(["/about/*path", "/:lang/about/*path"], (req, res) => {
+  const { lang, path } = req.params;
+  res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
 });
 
 router.get(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {

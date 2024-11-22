@@ -217,7 +217,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
-                <Route path="about/:slug" element={<AboutPage />} />
+                <Route path="om/:slug" element={<AboutPage />} />
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

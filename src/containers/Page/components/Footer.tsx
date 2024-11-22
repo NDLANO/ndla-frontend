@@ -233,15 +233,15 @@ export const Footer = () => {
   const commonLinks = [
     {
       text: t("footer.ndlaLinks.omNdla"),
-      to: "https://ndla.no/about/om-ndla",
+      to: "https://ndla.no/om/om-ndla",
     },
     {
       text: t("footer.ndlaLinks.aboutNdla"),
-      to: "https://ndla.no/about/about-us",
+      to: "https://ndla.no/om/about-us",
     },
     {
       text: t("footer.ndlaLinks.vacancies"),
-      to: "https://ndla.no/about/utlysninger",
+      to: "https://ndla.no/om/utlysninger",
     },
   ];
 

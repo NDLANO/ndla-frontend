@@ -330,7 +330,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/about/om-ndla"
+                      href="https://ndla.no/om/om-ndla"
                       rel="noopener noreferrer"
                     >
                       Om NDLA
@@ -339,7 +339,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/about/about-us"
+                      href="https://ndla.no/om/about-us"
                       rel="noopener noreferrer"
                     >
                       About NDLA
@@ -348,7 +348,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/about/utlysninger"
+                      href="https://ndla.no/om/utlysninger"
                       rel="noopener noreferrer"
                     >
                       Ledige stillinger
