@@ -29,7 +29,6 @@ import {
   IconButton,
   InputContainer,
   Input,
-  ComboboxContent,
   ComboboxItem,
   ComboboxItemText,
   Spinner,
@@ -37,6 +36,7 @@ import {
   NdlaLogoText,
   Text,
   ListItemRoot,
+  ComboboxContentStandalone,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -54,7 +54,7 @@ import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
 
-const StyledComboboxContent = styled(ComboboxContent, {
+const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
   },
