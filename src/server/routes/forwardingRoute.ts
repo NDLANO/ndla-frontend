@@ -62,7 +62,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
   if (isLearningPathResource(resource!)) {
     return getLearningPathUrlFromResource(resource!, languagePrefix);
   } else {
-    return `${languagePrefix ? `/${languagePrefix}` : ""}${config.enablePrettyUrlRedirect ? resource!.url : resource!.path}`;
+    return `${languagePrefix ? `/${languagePrefix}` : ""}${config.enablePrettyUrls ? resource!.url : resource!.path}`;
   }
 };
 
