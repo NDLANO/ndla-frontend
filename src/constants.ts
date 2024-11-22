@@ -27,6 +27,7 @@ export const FILM_PAGE_URL = "/f/ndla-film/24d0e0db3c02";
 export const MULTIDISCIPLINARY_URL = "/f/tverrfaglige-temaer/daaf4e2dd8b0";
 export const TOOLBOX_TEACHER_URL = "/f/verktoykassa---for-larere/c697e0278768";
 export const TOOLBOX_STUDENT_URL = "/f/verktoykassa---for-elever/107af8b8e7d2";
+export const UKR_PAGE_URL = "/f/ukrainian-resources-in-norwegian-social-science/1022072a8411";
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
