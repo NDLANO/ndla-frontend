@@ -15,9 +15,9 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { PageContainer } from "./Layout/PageContainer";
 import { Status } from "../components";
 import { SKIP_TO_CONTENT_ID } from "../constants";
+import { PageContainer } from "./Layout/PageContainer";
 
 interface MessageRootProps {
   applySkipToContentId?: boolean;
