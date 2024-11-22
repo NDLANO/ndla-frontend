@@ -31,7 +31,7 @@ const DeleteCategoryModal = ({ categoryId, refetchCategories }: Props) => {
         categoryId,
       },
     });
-    refetchCategories && refetchCategories();
+    refetchCategories?.();
     setOpen(false);
     toast.create({
       title: t("myNdla.arena.admin.category.deleteSnack"),
