@@ -54,12 +54,12 @@ const StyledDrawerPortion = styled(DrawerPortion, {
   },
 });
 
-const filmUrl = (enablePrettyUrl: Boolean) => (enablePrettyUrl ? FILM_PAGE_URL : FILM_PAGE_PATH);
-const multiDiscUrl = (enablePrettyUrl: Boolean) =>
+const filmUrl = (enablePrettyUrl: boolean) => (enablePrettyUrl ? FILM_PAGE_URL : FILM_PAGE_PATH);
+const multiDiscUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? MULTIDISCIPLINARY_URL : `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
-const studentToolboxUrl = (enablePrettyUrl: Boolean) =>
+const studentToolboxUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? TOOLBOX_STUDENT_URL : `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
-const teacherToolboxUrl = (enablePrettyUrl: Boolean) =>
+const teacherToolboxUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? TOOLBOX_TEACHER_URL : `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 
 interface Props {
