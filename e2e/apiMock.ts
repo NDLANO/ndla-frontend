@@ -20,7 +20,7 @@ interface ExtendParams {
 const regex = new RegExp(`^(${apiTestRegex}|${localhostGraphqlRegex})$`);
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
-  const [_dir, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
+  const [, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
   return `${mockDir}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 

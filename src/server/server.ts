@@ -276,7 +276,7 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
   }
 }
 
-const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
+const errorHandler = (err: Error, req: Request, res: Response) => {
   vite?.ssrFixStacktrace(err);
   const statusCode = getStatusCodeToReturn(err);
   handleError(err, req.path, { statusCode });
@@ -285,10 +285,10 @@ const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) 
 
 app.use(errorHandler);
 
-app.get("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
+app.get("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
-app.post("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
+app.post("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 

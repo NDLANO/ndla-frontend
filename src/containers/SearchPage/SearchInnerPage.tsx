@@ -130,7 +130,7 @@ const SearchInnerPage = ({
 
   const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
     return Object.entries(typeFilters)
-      .filter(([_, value]) => !value.selected.includes("all") && !!value.selected.length)
+      .filter(([, value]) => !value.selected.includes("all") && !!value.selected.length)
       .flatMap(([key, value]) => {
         return value.selected.map((filter) => `${key}:${filter}`);
       });
