@@ -29,6 +29,7 @@ import { editorNodes } from "./nodes";
 import { RefPlugin } from "./RefPlugin";
 
 const onError = (error: any) => {
+  // eslint-disable-next-line no-console
   console.error(error);
 };
 
