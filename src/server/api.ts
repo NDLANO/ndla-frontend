@@ -14,13 +14,14 @@ import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
+import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
 import { FILM_PAGE_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH, UKR_PAGE_URL } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
+import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
@@ -206,6 +207,18 @@ router.post("/lti/oauth", async (req, res) => {
     );
   },
 );
+
+router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
+  if (config.enablePrettyUrlRedirect) {
+    if (req.params.lang && !isValidLocale(req.params.lang)) {
+      next();
+    } else {
+      contextRedirectRoute(req, res, next);
+    }
+  } else {
+    next();
+  }
+});
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);

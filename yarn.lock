@@ -3277,10 +3277,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.26":
-  version: 1.0.26
-  resolution: "@ndla/types-taxonomy@npm:1.0.26"
-  checksum: 10c0/6d50a6a80aff8140b6fbcccfdf9a05372100a9b57fde5b6a338ea13ac9eb4b0d28dbc9d1dca0058a64211561d35d1ccec3321b9b7ef935fed2fd9df6a7c8f7e1
+"@ndla/types-taxonomy@npm:^1.0.33":
+  version: 1.0.33
+  resolution: "@ndla/types-taxonomy@npm:1.0.33"
+  checksum: 10c0/7e309ae9f2ee2935da02491f768985d9e8bc088eb084a0e440bef3e56ec81b4f6a9b2abf5f5e471fa727ce32170be7a406c795ad7492f3df2d80176f06322076
   languageName: node
   linkType: hard
 
@@ -11638,7 +11638,7 @@ __metadata:
     "@ndla/tracker": "npm:^5.0.11-alpha.0"
     "@ndla/types-backend": "npm:^0.2.88"
     "@ndla/types-embed": "npm:^5.0.4-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.26"
+    "@ndla/types-taxonomy": "npm:^1.0.33"
     "@ndla/ui": "npm:^56.0.67-alpha.0"
     "@ndla/util": "npm:^5.0.0-alpha.0"
     "@pandacss/dev": "npm:^0.46.1"

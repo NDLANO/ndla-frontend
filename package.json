@@ -46,7 +46,7 @@
     "@ndla/scripts": "^2.1.2",
     "@ndla/types-backend": "^0.2.88",
     "@ndla/types-embed": "^5.0.4-alpha.0",
-    "@ndla/types-taxonomy": "^1.0.26",
+    "@ndla/types-taxonomy": "^1.0.33",
     "@pandacss/dev": "^0.46.1",
     "@playwright/test": "^1.43.1",
     "@sentry/vite-plugin": "^2.22.4",

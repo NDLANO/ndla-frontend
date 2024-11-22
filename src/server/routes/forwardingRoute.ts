@@ -7,6 +7,8 @@
  */
 
 import { NextFunction, Request, Response } from "express";
+import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
+import config from "../../config";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 
@@ -38,17 +40,13 @@ async function findNBNodeId(nodeId: string, lang?: string) {
 async function lookup(url: string) {
   const baseUrl = apiResourceUrl("/taxonomy/v1/url/mapping");
   const response = await fetch(`${baseUrl}?url=${url}`);
-  return resolveJsonOrRejectWithError<{ path: string }>(response);
-}
-
-interface Resolve {
-  contentUri?: string;
+  return resolveJsonOrRejectWithError<ResolvedOldUrl>(response);
 }
 
 async function resolve(path: string) {
   const baseUrl = apiResourceUrl("/taxonomy/v1/url/resolve");
   const response = await fetch(`${baseUrl}?path=${path}`);
-  return resolveJsonOrRejectWithError<Resolve>(response);
+  return resolveJsonOrRejectWithError<ResolvedUrl>(response);
 }
 
 export const forwardPath = async (forwardNodeId: string, lang?: string) => {
@@ -64,7 +62,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
   if (isLearningPathResource(resource!)) {
     return getLearningPathUrlFromResource(resource!, languagePrefix);
   } else {
-    return `${languagePrefix ? `/${languagePrefix}` : ""}${data!.path}`;
+    return `${languagePrefix ? `/${languagePrefix}` : ""}${config.enablePrettyUrlRedirect ? resource!.url : resource!.path}`;
   }
 };
 
