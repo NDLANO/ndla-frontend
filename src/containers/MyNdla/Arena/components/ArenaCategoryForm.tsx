@@ -33,7 +33,6 @@ import {
   SelectTrigger,
   SelectRoot,
   SelectContent,
-  SelectPositioner,
   SelectItem,
   SelectItemText,
   SelectItemIndicator,
@@ -217,18 +216,16 @@ const ArenaCategoryForm = ({
                   </IconButton>
                 </SelectClearTrigger>
               </SelectControl>
-              <SelectPositioner>
-                <SelectContent>
-                  {possibleParents.map((option) => (
-                    <SelectItem item={option} key={option.value}>
-                      <SelectItemText>{option.label}</SelectItemText>
-                      <SelectItemIndicator asChild>
-                        <CheckLine />
-                      </SelectItemIndicator>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectPositioner>
+              <SelectContent>
+                {possibleParents.map((option) => (
+                  <SelectItem item={option} key={option.value}>
+                    <SelectItemText>{option.label}</SelectItemText>
+                    <SelectItemIndicator asChild>
+                      <CheckLine />
+                    </SelectItemIndicator>
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </SelectRoot>
           </FieldRoot>
         )}
