@@ -100,7 +100,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   return (
     <div>
       {t("myNdla.resource.addedToFolder")}
-      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+      <SafeLink to={routes.myNdla.folder(folder.id)}>{`"${folder.name}"`}</SafeLink>
     </div>
   );
 };
