@@ -19,6 +19,7 @@ import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
 import { useLtiData } from "../components/LtiContext";
+import { useEnablePrettyUrls } from "../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
@@ -31,7 +32,7 @@ import { transformArticle } from "../util/transformArticle";
 
 interface Props {
   locale?: LocaleType;
-  resource?: GQLIframeArticlePage_NodeFragment;
+  node?: GQLIframeArticlePage_NodeFragment;
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
@@ -42,11 +43,12 @@ const getDocumentTitle = ({ article }: Pick<Props, "article">) => {
   return "";
 };
 
-const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp }: Props) => {
+const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: Props) => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const ltiData = useLtiData();
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const locale = localeProp ?? i18n.language;
 
   const [article, scripts] = useMemo(() => {
@@ -55,11 +57,11 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
         articleLanguage: propArticle.language,
-        contentType: getContentType(resource),
+        contentType: getContentType(node),
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, resource]);
+  }, [propArticle, locale, node]);
 
   useEffect(() => {
     if (propArticle?.id) return;
@@ -68,13 +70,14 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
       dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
-  }, [propArticle, resource, trackPageView]);
+  }, [propArticle, node, trackPageView]);
 
-  const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
+  const path = enablePrettyUrls ? node?.url : node?.path;
+  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const contentType =
     article.articleType === "standard"
-      ? getContentType(resource)
+      ? getContentType(node)
       : article.articleType === "topic-article"
         ? constants.contentTypes.TOPIC
         : undefined;
@@ -110,7 +113,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isOembed
           oembed={article?.oembed}
           contentType={contentType}
-          contentTypeLabel={resource?.resourceTypes?.[0]?.name}
+          contentTypeLabel={node?.resourceTypes?.[0]?.name}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
