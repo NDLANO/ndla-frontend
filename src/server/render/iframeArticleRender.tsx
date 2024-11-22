@@ -55,7 +55,7 @@ export const iframeArticleRender: RenderFunc = async (req) => {
   const client = createApolloClient(locale, undefined, req.path);
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
-  // @ts-ignore
+  // @ts-expect-error - This is fulfilled automatically
   const helmetContext: FilledContext = {};
 
   const Page = (

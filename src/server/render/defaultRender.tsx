@@ -83,7 +83,7 @@ export const defaultRender: RenderFunc = async (req) => {
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
-  // @ts-ignore
+  // @ts-expect-error - This is fulfilled automatically
   const helmetContext: FilledContext = {};
 
   const Page = (
