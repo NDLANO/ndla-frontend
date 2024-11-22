@@ -95,6 +95,14 @@ const ResourceContainer = styled("div", {
   },
 });
 
+const SpinnerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
 const Resources = ({
   parentId,
   rootId,
@@ -159,7 +167,11 @@ const Resources = ({
   }, [node?.children]);
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    );
   }
 
   if (error || !sortedResources.length) {
