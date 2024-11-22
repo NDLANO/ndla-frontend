@@ -73,7 +73,7 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
-const validMenus: MenuType[] = ["subject", "programme", "about"];
+const validMenus: MenuType[] = ["subject", "programme", "om"];
 
 const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
   const previousType = usePrevious(type);
