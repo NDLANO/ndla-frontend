@@ -210,11 +210,11 @@ router.post("/lti/oauth", async (req, res) => {
 
 router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
   if (config.enablePrettyUrlRedirect) {
-    const lang = req.params.lang ?? config.defaultLocale;
-    if (!isValidLocale(lang)) {
+    if (req.params.lang && !isValidLocale(req.params.lang)) {
       next();
+    } else {
+      contextRedirectRoute(req, res, next);
     }
-    contextRedirectRoute(req, res, next);
   } else {
     next();
   }
