@@ -106,7 +106,7 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
 export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
   let path = pathname.replace(/\/$/, ""); // Remove trailing slash if present
   const match = matchUrl(path);
-  if (!match?.params.stepId) {
+  if (match?.params.stepId) {
     path = path.replace(/\/\d+$/, ""); // Remove last numeric segment if stepId
   }
   return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
