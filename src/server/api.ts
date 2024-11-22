@@ -20,7 +20,7 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
+import { FILM_PAGE_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH, UKR_PAGE_URL } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
@@ -51,7 +51,7 @@ router.get("/health", (_, res) => {
 });
 
 router.get("/film", (_, res) => {
-  res.redirect(FILM_PAGE_PATH);
+  res.redirect(config.enablePrettyUrls ? FILM_PAGE_URL : FILM_PAGE_PATH);
 });
 
 router.get("/utdanning", (_, res) => {
@@ -60,7 +60,7 @@ router.get("/utdanning", (_, res) => {
 
 router.get("/ukr", (_req, res) => {
   res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
-  res.redirect(`/en${UKR_PAGE_PATH}`);
+  res.redirect(`/en${config.enablePrettyUrls ? UKR_PAGE_URL : UKR_PAGE_PATH}`);
 });
 
 router.get("/oembed", async (req, res) => {
