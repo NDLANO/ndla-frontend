@@ -6,7 +6,7 @@
  *
  */
 
-import { parseOembedUrl } from "../urlHelper";
+import { parseOembedUrl, isCurrentPage } from "../urlHelper";
 
 const validArticleUrl1 = "https://www.test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
 const validArticleUrl2 = "http://localhost:3000/subject:3/topic:1:168542/topic:1:173292/resource:1:168554";
@@ -33,4 +33,39 @@ test("parseAndMatchUrl", () => {
   expect(parseOembedUrl(validateSimpleArticlePath1)).toMatchSnapshot();
   expect(parseOembedUrl(validateSimpleArticlePath2)).toMatchSnapshot();
   expect(parseOembedUrl(unvalidateSimpleArticlePath)).toBe(null);
+});
+
+test("isCurrentPage", () => {
+  // Without learningstep id
+  expect(
+    isCurrentPage(
+      "/subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70/topic:1:11f13e74-7cb8-4651-8d10-0927e7a9de48/topic:1:2bd24a78-b09c-4249-b9a2-a98e6364bfd9",
+      {
+        path: "/subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70/topic:1:11f13e74-7cb8-4651-8d10-0927e7a9de48/topic:1:2bd24a78-b09c-4249-b9a2-a98e6364bfd9",
+        url: "/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe",
+      },
+    ),
+  ).toBe(true);
+  expect(
+    isCurrentPage("/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe", {
+      path: "/subject:1:a5d7da3a-8a19-4a83-9b3f-3c855621df70/topic:1:11f13e74-7cb8-4651-8d10-0927e7a9de48/topic:1:2bd24a78-b09c-4249-b9a2-a98e6364bfd9",
+      url: "/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe",
+    }),
+  ).toBe(true);
+  // With learningstep id
+  expect(
+    isCurrentPage(
+      "/subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1/topic:2:182777/topic:1:7db324c6-b6e1-45eb-acd4-34ae29d0a79c/resource:1:178554/1269",
+      {
+        path: "/subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1/topic:2:182777/topic:1:7db324c6-b6e1-45eb-acd4-34ae29d0a79c/resource:1:178554",
+        url: "/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4",
+      },
+    ),
+  ).toBe(true);
+  expect(
+    isCurrentPage("/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4/1269", {
+      path: "/subject:1:ec288dfb-4768-4f82-8387-fe2d73fff1e1/topic:2:182777/topic:1:7db324c6-b6e1-45eb-acd4-34ae29d0a79c/resource:1:178554",
+      url: "/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4",
+    }),
+  ).toBe(true);
 });
