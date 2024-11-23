@@ -12,6 +12,7 @@ import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
@@ -86,9 +87,9 @@ export const TopicPage = () => {
   const query = useGraphQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
       id: topicId,
-      rootId: subjectId,
+      rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
-      includeCrossSubjectTopics: subjectId !== undefined,
+      includeCrossSubjectTopics: true, // TODO: Must find a better way to handle this
     },
   });
 

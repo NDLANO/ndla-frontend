@@ -135,6 +135,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
     path: crossSubjectTopic.path || root?.path || "",
+    url: crossSubjectTopic.url || root?.url || "",
   }));
 
   const authors =
@@ -260,6 +261,7 @@ MultidisciplinarySubjectArticle.fragments = {
         crossSubjectTopics(subjectId: $rootId) @include(if: $includeCrossSubjectTopics) {
           title
           path
+          url
         }
         ...Article_Article
       }
