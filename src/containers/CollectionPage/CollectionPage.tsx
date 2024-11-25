@@ -26,6 +26,7 @@ import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
+import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -97,10 +98,8 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
 
-  const pageTitle = useMemo(
-    () => t("htmlTitles.collectionPage", { language: collectionLanguage }),
-    [collectionLanguage, t],
-  );
+  const metaTitle = useMemo(() => t("collectionPage.title", { language: collectionLanguage }), [collectionLanguage, t]);
+  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
 
   const subjectCategories = useMemo(() => {
     const transformedSubjects = subjects?.map((subject) => ({
@@ -133,7 +132,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
         <Helmet>
           <title>{pageTitle}</title>
         </Helmet>
-        <SocialMediaMetadata title={pageTitle} imageUrl={IMAGE_URL} />
+        <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
         <div>
           <StyledImage src={IMAGE_URL} alt="" />
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>

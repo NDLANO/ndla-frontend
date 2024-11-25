@@ -95,6 +95,12 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
 
+  const metaTitle = useMemo(
+    () => htmlTitle(node.article?.title ?? node.name, [root?.name]),
+    [node.article?.title, node.name, root?.name],
+  );
+  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
+
   useEffect(() => {
     if (!node?.article || !authContextLoaded) return;
     const dimensions = getAllDimensions({
@@ -104,9 +110,9 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(node.name || "", [t("htmlTitles.titleTemplate")]),
+      title: pageTitle,
     });
-  }, [authContextLoaded, root, t, node.article, node.name, node.path, trackPageView, user]);
+  }, [authContextLoaded, root, t, node.article, node.path, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
@@ -145,7 +151,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
   const socialMediaMetaData = {
-    title: htmlTitle(node.name ?? node.article?.title, [root?.name]),
+    title: metaTitle,
     description: node.article?.metaDescription ?? node.article?.introduction,
     image: node.article?.metaImage,
   };
@@ -158,6 +164,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
           {!node.context?.isActive && <meta name="robots" content="noindex" />}
+          <title>{pageTitle}</title>
         </Helmet>
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
