@@ -271,6 +271,7 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
     const { data } = await errorRoute(req);
     res.status(statusCode).send(data);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Something went wrong when retrieving errorRoute.", e);
     res.status(statusCode).send("Internal server error");
   }
