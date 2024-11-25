@@ -747,6 +747,7 @@ type Learningpath {
   lastUpdated: String!
   learningstepUrl: String!
   learningsteps: [LearningpathStep!]!
+  madeAvailable: String
   metaUrl: String!
   revision: Int!
   status: String!

@@ -849,6 +849,7 @@ export type GQLLearningpath = {
   lastUpdated: Scalars["String"]["output"];
   learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLLearningpathStep>;
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
   metaUrl: Scalars["String"]["output"];
   revision: Scalars["Int"]["output"];
   status: Scalars["String"]["output"];
@@ -3965,8 +3966,9 @@ export type GQLLearningpathFragment = {
   id: number;
   title: string;
   description: string;
-  lastUpdated: string;
+  created: string;
   status: string;
+  madeAvailable?: string;
   coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
 };
 

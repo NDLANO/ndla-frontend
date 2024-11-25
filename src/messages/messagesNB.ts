@@ -101,7 +101,8 @@ const messages = {
       title: "Mine læringsstier",
       description:
         "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv. Se eksempel på en læringssti www.lenketileksempel.no",
-      createShared: 'Opprettet: "{{ created }}" / Delt: "{{ shared }}" ',
+      created: 'Opprettet: "{{ created }}" ',
+      shared: '/ Delt: "{{ shared }}"',
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -118,7 +119,7 @@ const messages = {
       },
       status: {
         delt: "Delt",
-        ready_for_sharing: "Klar for deling ",
+        readyForSharing: "Klar for deling ",
         private: "Påbegynt",
       },
       delete: {

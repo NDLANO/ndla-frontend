@@ -64,7 +64,10 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
         <TextWrapper>
           <Text>{learningPath.title}</Text>
           <Text textStyle="label.small" color="text.subtle">
-            {t("myNdla.learningpath.createShared")}
+            {t("myNdla.learningpath.created", { updated: learningPath.created })}
+            {learningPath.madeAvailable
+              ? t("myNdla.learningpath.shared", { shared: learningPath.madeAvailable })
+              : null}
           </Text>
         </TextWrapper>
         <StatusWrapper>
@@ -83,7 +86,7 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
           {learningPath.status === "readyForSharing" && (
             <StatusText textStyle="label.small">
               <CheckLine size="small" />
-              {t("myNdla.learningpath.status.ready_for_sharing")}
+              {t("myNdla.learningpath.status.readyForSharing")}
             </StatusText>
           )}
           {showMenu ? <SettingsMenu menuItems={menuItems} /> : null}

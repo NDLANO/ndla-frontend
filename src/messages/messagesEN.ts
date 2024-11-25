@@ -101,7 +101,8 @@ const messages = {
       title: "My Learning Paths",
       description:
         "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself. See an example of a learning path at www.examplelink.com",
-      createShared: 'Created: "{{ created }}" / Shared: "{{ shared }}" ',
+      created: 'Created: "{{ created }}" ',
+      shared: '/ Shared: "{{ shared }}" ',
       menu: {
         new: "New",
         edit: "Edit",
@@ -118,7 +119,7 @@ const messages = {
       },
       status: {
         delt: "Shared",
-        ready_for_sharing: "Ready to Share",
+        readyForSharing: "Ready to Share",
         private: "Started",
       },
       delete: {

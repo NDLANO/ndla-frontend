@@ -23,8 +23,9 @@ const learningpathFragment = gql`
     id
     title
     description
-    lastUpdated
+    created
     status
+    madeAvailable
     coverphoto {
       url
     }
