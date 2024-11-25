@@ -171,7 +171,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         />
         <HeaderWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
-          {subjectLinks?.length && (
+          {!!subjectLinks?.length && (
             <SubjectLinkSet
               set="test"
               title={t("multidisciplinarySubject.subjectsLinksDescription")}
