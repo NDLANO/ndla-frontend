@@ -52,7 +52,6 @@ export const getOgUrl = (location: Pick<Location, "pathname">, basename: string)
 };
 
 interface TrackableContent {
-  tags?: string[];
   supportedLanguages?: string[];
 }
 
@@ -91,7 +90,6 @@ const SocialMediaMetadata = ({
         />
       ))}
       {children}
-      {trackableContent?.tags && <meta property="keywords" content={`${trackableContent?.tags}`} />}
       <meta property="og:type" content={type} />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
