@@ -115,7 +115,7 @@ const UserProfileTag = ({ user }: UserProfileTagProps) => {
             </ModeratorTag>
           )}
         </NameAndTagContainer>
-        {user?.location && <Text textStyle="body.small">{user?.location}</Text>}
+        {!!user?.location && <Text textStyle="body.small">{user?.location}</Text>}
       </UserInformationContainer>
     </TagContainer>
   );

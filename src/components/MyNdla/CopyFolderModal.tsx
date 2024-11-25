@@ -40,7 +40,7 @@ const CopyFolderModal = ({ folder, children }: Props) => {
         <LoginModalContent
           title={t("myNdla.loginCopyFolderPitch")}
           content={
-            folder && (
+            !!folder && (
               <Folder
                 context="standalone"
                 variant="subtle"

@@ -83,8 +83,7 @@ const Article = ({
       }
       lang={article.language === "nb" ? "no" : article.language}
       heartButton={
-        path &&
-        showFavoriteButton && (
+        path && showFavoriteButton ? (
           <AddResourceToFolderModal
             resource={{
               id: article.id.toString(),
@@ -94,7 +93,7 @@ const Article = ({
           >
             <FavoriteButton path={path} />
           </AddResourceToFolderModal>
-        )
+        ) : null
       }
     >
       {children}

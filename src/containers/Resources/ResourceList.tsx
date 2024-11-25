@@ -57,7 +57,7 @@ const ResourceList = ({
           />
         ))}
       </StyledResourceList>
-      {renderAdditionalResourceTrigger && (
+      {!!renderAdditionalResourceTrigger && (
         <Text>
           {title
             ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })

@@ -171,7 +171,7 @@ const PostList = ({ posts, topic, setFocusId, createReply, replyToId, isReplying
                   isRoot={hasReplies}
                 />
               )}
-              {hasReplies && (
+              {!!hasReplies && (
                 <PostList
                   posts={post.replies}
                   topic={topic}

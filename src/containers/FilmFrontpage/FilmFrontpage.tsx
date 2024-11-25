@@ -166,7 +166,7 @@ const FilmFrontpage = () => {
             loading={loading}
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
-          {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+          {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
         </main>
       </StyledPageContainer>
     </>

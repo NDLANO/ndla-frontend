@@ -209,7 +209,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  {config.learningpathEnabled && (
+                  {!!config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningPathCheck />}>
                       <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
                     </Route>

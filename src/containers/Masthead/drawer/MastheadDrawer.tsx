@@ -260,7 +260,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
                   root={root}
                   type={type}
                 />
-                {type && (
+                {!!type && (
                   <DrawerContent
                     onClose={close}
                     type={type}
