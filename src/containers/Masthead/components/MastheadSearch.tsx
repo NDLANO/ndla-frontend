@@ -52,7 +52,7 @@ import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
-const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
+const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
