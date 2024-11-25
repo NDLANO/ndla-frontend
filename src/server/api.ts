@@ -141,7 +141,7 @@ router.get("/login/success", async (req, res) => {
     groups: ["verified-users"],
   };
   const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
-  res.cookie("nodebb_auth", nodebbCookieString, { domain });
+  res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
 
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
