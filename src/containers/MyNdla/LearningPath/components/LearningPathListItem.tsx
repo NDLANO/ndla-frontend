@@ -14,7 +14,7 @@ import { CheckLine } from "@ndla/icons/editor";
 import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useLearningPathActionHooks } from "./LearningPathActionHooks";
-import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 import SettingsMenu from "../../components/SettingsMenu";
 
 const StyledListItemRoot = styled(ListItemRoot, {
@@ -50,7 +50,7 @@ const StatusText = styled(Text, {
 });
 
 interface Props {
-  learningPath: GQLMyLearningpathFragment;
+  learningPath: GQLLearningpathFragment;
   showMenu: Boolean;
 }
 export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) => {

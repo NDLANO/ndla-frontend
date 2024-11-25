@@ -16,17 +16,18 @@ import { LearningPathShareDialogContent } from "./LearningPathShareDialogContent
 import { copyLearningPathSharingLink } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLMyLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
+import { useDeleteLearningpath, useUpdateLearningpathStatus } from "../../learningpathQueries";
 
-const updateLearningPathStatus = async ({ variables }: { variables: { learningpathId: number; status: string } }) => {};
-const deleteLearningPath = async ({ variables }: { variables: { learningpathId: number } }) => {};
-
-export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragment) => {
+export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { updateLearningpathStatus } = useUpdateLearningpathStatus();
+  const { deleteLearningpath } = useDeleteLearningpath({ variables: { id: learningPath.id } });
 
   const isShared = learningPath.status === "shared";
 
@@ -49,7 +50,7 @@ export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragme
           learningPath={learningPath}
           onClose={close}
           onDelete={async () => {
-            await deleteLearningPath({ variables: { learningpathId: learningPath.id } });
+            await deleteLearningpath();
             toast.create({
               title: t("myNdla.learningpath.toast.deleted", {
                 folderName: learningPath.title,
@@ -75,9 +76,9 @@ export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragme
       ),
       onClick: isShared
         ? () => {
-            updateLearningPathStatus({
+            updateLearningpathStatus({
               variables: {
-                learningpathId: learningPath.id,
+                id: learningPath.id,
                 status: "shared",
               },
             });
@@ -90,9 +91,9 @@ export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragme
       value: "unShareLearningPath",
       icon: <CloseLine />,
       onClick: () => {
-        updateLearningPathStatus({
+        updateLearningpathStatus({
           variables: {
-            learningpathId: learningPath.id,
+            id: learningPath.id,
             status: "private",
           },
         });
@@ -131,6 +132,6 @@ export const useLearningPathActionHooks = (learningPath: GQLMyLearningpathFragme
     }
 
     return [edit, share, del];
-  }, [isShared, learningPath, navigate, t, toast]);
+  }, [deleteLearningpath, isShared, learningPath, navigate, t, toast, updateLearningpathStatus]);
   return actionItems;
 };

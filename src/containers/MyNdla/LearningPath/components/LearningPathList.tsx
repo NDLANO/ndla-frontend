@@ -9,7 +9,7 @@
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningPathListItem } from "./LearningPathListItem";
-import { useMyLearningpaths } from "../LearningPathQueries";
+import { useMyLearningpaths } from "../../learningpathQueries";
 
 const StyledOl = styled("ol", {
   base: {

@@ -1018,6 +1018,7 @@ export type GQLMutation = {
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
   deleteLearningpath: Array<Scalars["String"]["output"]>;
+  deleteLearningpathStep: Array<Scalars["String"]["output"]>;
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
@@ -1034,6 +1035,8 @@ export type GQLMutation = {
   newArenaTopicV2: GQLArenaTopicV2;
   newFlag: Scalars["Int"]["output"];
   newFlagV2: Scalars["Int"]["output"];
+  newLearningpath: GQLLearningpath;
+  newLearningpathStep: GQLLearningpathStep;
   removePostUpvote: Scalars["Int"]["output"];
   removePostUpvoteV2: Scalars["Int"]["output"];
   replyToTopic: GQLArenaPost;
@@ -1053,11 +1056,13 @@ export type GQLMutation = {
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars["String"]["output"]>;
+  updateLearningpath: GQLLearningpath;
+  updateLearningpathStatus: Array<Scalars["String"]["output"]>;
+  updateLearningpathStep: GQLLearningpathStep;
   updateOtherArenaUser: GQLMyNdlaPersonalData;
   updatePersonalData: GQLMyNdlaPersonalData;
   updatePost: GQLArenaPost;
   updatePostV2: GQLArenaPostV2;
-  updateStatusLearningpath: Array<Scalars["String"]["output"]>;
   updateTopicV2: GQLArenaTopicV2;
 };
 
@@ -1104,6 +1109,11 @@ export type GQLMutationDeleteFolderResourceArgs = {
 
 export type GQLMutationDeleteLearningpathArgs = {
   id: Scalars["Int"]["input"];
+};
+
+export type GQLMutationDeleteLearningpathStepArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationDeletePostArgs = {
@@ -1172,6 +1182,24 @@ export type GQLMutationNewFlagArgs = {
 export type GQLMutationNewFlagV2Args = {
   postId: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
+};
+
+export type GQLMutationNewLearningpathArgs = {
+  imageUrl: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+  title: Scalars["String"]["input"];
+};
+
+export type GQLMutationNewLearningpathStepArgs = {
+  embedType: Scalars["String"]["input"];
+  embedUrl: Scalars["String"]["input"];
+  imageUrl: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+  learningpathId: Scalars["Int"]["input"];
+  license: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type GQLMutationRemovePostUpvoteArgs = {
@@ -1272,6 +1300,32 @@ export type GQLMutationUpdateFolderStatusArgs = {
   status: Scalars["String"]["input"];
 };
 
+export type GQLMutationUpdateLearningpathArgs = {
+  id: Scalars["Int"]["input"];
+  imageUrl: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+};
+
+export type GQLMutationUpdateLearningpathStatusArgs = {
+  id: Scalars["Int"]["input"];
+  status: Scalars["String"]["input"];
+};
+
+export type GQLMutationUpdateLearningpathStepArgs = {
+  embedType: Scalars["String"]["input"];
+  embedUrl: Scalars["String"]["input"];
+  imageUrl: Scalars["String"]["input"];
+  language: Scalars["String"]["input"];
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
+  license: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type GQLMutationUpdateOtherArenaUserArgs = {
   data: GQLArenaUserV2Input;
   userId: Scalars["Int"]["input"];
@@ -1291,11 +1345,6 @@ export type GQLMutationUpdatePostArgs = {
 export type GQLMutationUpdatePostV2Args = {
   content: Scalars["String"]["input"];
   postId: Scalars["Int"]["input"];
-};
-
-export type GQLMutationUpdateStatusLearningpathArgs = {
-  id: Scalars["Int"]["input"];
-  status: Scalars["String"]["input"];
 };
 
 export type GQLMutationUpdateTopicV2Args = {
@@ -3075,23 +3124,6 @@ export type GQLMovedResourcePage_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
-export type GQLMyLearningpathFragment = {
-  __typename?: "Learningpath";
-  id: number;
-  title: string;
-  description: string;
-  lastUpdated: string;
-  status: string;
-  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
-};
-
-export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLMyLearningpathsQuery = {
-  __typename?: "Query";
-  myLearningpaths?: Array<{ __typename?: "Learningpath" } & GQLMyLearningpathFragment>;
-};
-
 export type GQLNewFlagV2MutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
@@ -3927,6 +3959,49 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 }>;
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
+
+export type GQLLearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  description: string;
+  lastUpdated: string;
+  status: string;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+};
+
+export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyLearningpathsQuery = {
+  __typename?: "Query";
+  myLearningpaths?: Array<{ __typename?: "Learningpath" } & GQLLearningpathFragment>;
+};
+
+export type GQLDeleteLearningpathMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLearningpath: Array<string> };
+
+export type GQLUpdateLearningpathMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+  title: Scalars["String"]["input"];
+  imageUrl: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLUpdateLearningpathMutation = {
+  __typename?: "Mutation";
+  updateLearningpath: { __typename?: "Learningpath" } & GQLLearningpathFragment;
+};
+
+export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+  status: Scalars["String"]["input"];
+}>;
+
+export type GQLUpdateLearningpathStatusMutation = { __typename?: "Mutation"; updateLearningpathStatus: Array<string> };
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

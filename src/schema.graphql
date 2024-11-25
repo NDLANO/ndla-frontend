@@ -899,6 +899,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deleteLearningpath(id: Int!): [String!]!
+  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]!
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
@@ -921,6 +922,18 @@ type Mutation {
   ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
+  newLearningpath(imageUrl: String!, language: String!, title: String!): Learningpath!
+  newLearningpathStep(
+    embedType: String!
+    embedUrl: String!
+    imageUrl: String!
+    language: String!
+    learningpathId: Int!
+    license: String!
+    revision: Int!
+    title: String!
+    type: String!
+  ): LearningpathStep!
   removePostUpvote(postId: Int!): Int!
   removePostUpvoteV2(postId: Int!): Int!
   replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
@@ -954,11 +967,24 @@ type Mutation {
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
+  updateLearningpath(id: Int!, imageUrl: String!, language: String!, revision: Int!, title: String!): Learningpath!
+  updateLearningpathStatus(id: Int!, status: String!): [String!]!
+  updateLearningpathStep(
+    embedType: String!
+    embedUrl: String!
+    imageUrl: String!
+    language: String!
+    learningpathId: Int!
+    learningstepId: Int!
+    license: String!
+    revision: Int!
+    title: String!
+    type: String!
+  ): LearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateStatusLearningpath(id: Int!, status: String!): [String!]!
   updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
