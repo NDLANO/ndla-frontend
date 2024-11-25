@@ -17,9 +17,10 @@ import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIco
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../graphqlTypes";
 
-const CardList = styled("ul", {
+const CardList = styled("ol", {
   base: {
     display: "grid",
+    listStyle: "none",
     gridTemplateColumns: "1fr",
     gap: "medium",
     tablet: {
