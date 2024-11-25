@@ -67,7 +67,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")])}
+        title={learningpath.title}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
