@@ -57,7 +57,9 @@ export const test = Ptest.extend<ExtendParams>({
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
-        process.env.RECORD_FIXTURES !== "true" && (await page.setExtraHTTPHeaders(checkpoint(checkpointIndex)));
+        if (process.env.RECORD_FIXTURES === "true") {
+          await page.setExtraHTTPHeaders(checkpoint(checkpointIndex));
+        }
       });
     },
     { auto: true, scope: "test" },
