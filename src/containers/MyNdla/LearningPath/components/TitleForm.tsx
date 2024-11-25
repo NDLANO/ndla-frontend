@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImagePicker } from "./ImagePicker";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -23,7 +24,7 @@ const StyledForm = styled("form", {
 
 interface FormValues {
   title: string;
-  imageId: string;
+  image: IImageMetaInformationV3;
 }
 
 interface Props {
@@ -71,14 +72,14 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
       />
       <Controller
         control={control}
-        name="imageId"
+        name="image"
         rules={{
           required: "Please select an image",
           validate: (value) => !!value,
         }}
         render={() => (
           <FieldRoot>
-            <ImagePicker imageId={getValues("imageId")} setImageForm={(image) => setValue("imageId", image?.id!)} />
+            <ImagePicker imageId={getValues("image")?.id} setImageForm={(image) => setValue("image", image!)} />
           </FieldRoot>
         )}
       />

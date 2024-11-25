@@ -6,111 +6,38 @@
  *
  */
 
-import { gql, QueryHookOptions, useQuery } from "@apollo/client";
-import {
-  GQLFetchImageQuery,
-  GQLFetchImageQueryVariables,
-  GQLImageSearchQuery,
-  GQLQueryImageSearchArgs,
-  GQLQueryImageV3Args,
-} from "../../graphqlTypes";
+import { gql, MutationHookOptions, useMutation } from "@apollo/client";
+import { GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables } from "../../graphqlTypes";
 
-const imageFragment = gql`
-  fragment ImageFragment on ImageMetaInformationV3 {
+const learningpathFragment = gql`
+  fragment Learningpath on Learningpath {
     id
-    metaUrl
-    title {
-      title
-      language
-    }
-    alttext {
-      alttext
-      language
-    }
-    copyright {
-      origin
-      processed
-      license {
-        license
-        url
-        description
-      }
-      creators {
-        type
-        name
-      }
-      processors {
-        type
-        name
-      }
-      rightsholders {
-        type
-        name
-      }
-    }
-    tags {
-      tags
-      language
-    }
-    caption {
-      caption
-      language
-    }
-    supportedLanguages
+    title
+    description
     created
-    createdBy
-    modelRelease
-    editorNotes {
-      timestamp
-      updatedBy
-      note
-    }
-    image {
-      filename
-      size
-      contentType
-      imageUrl
-      dimensions {
-        width
-        height
-      }
-      language
+    status
+    madeAvailable
+    coverphoto {
+      url
     }
   }
 `;
 
-const imagesSearchQuery = gql`
-  query imageSearch($query: String, $page: Int, $pageSize: Int) {
-    imageSearch(query: $query, page: $page, pageSize: $pageSize) {
-      totalCount
-      pageSize
-      page
-      language
-      results {
-        ...ImageFragment
-      }
+const newLearningpathMutation = gql`
+  mutation newLearningpath($params: LearningpathNewInput!) {
+    newLearningpath(params: $params) {
+      ...Learningpath
     }
   }
-  ${imageFragment}
+  ${learningpathFragment}
 `;
 
-const fetchImageQuery = gql`
-  query fetchImage($id: String!) {
-    imageV3(id: $id) {
-      ...ImageFragment
-    }
-  }
-  ${imageFragment}
-`;
-
-export const useImageSearch = (options?: QueryHookOptions<GQLImageSearchQuery>) => {
-  const { error, loading, data, refetch } = useQuery<GQLImageSearchQuery, GQLQueryImageSearchArgs>(imagesSearchQuery, {
-    ...options,
-  });
-  return { error, loading, searchResult: data?.imageSearch, refetch };
-};
-
-export const useFetchImage = (options?: QueryHookOptions<GQLFetchImageQuery, GQLFetchImageQueryVariables>) => {
-  const { data, loading, error } = useQuery<GQLFetchImageQuery, GQLQueryImageV3Args>(fetchImageQuery, options);
-  return { image: data?.imageV3, loading, error };
+export const useCreateLearningpath = (
+  options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
+) => {
+  const [createLearningpath, { loading, error }] = useMutation<
+    GQLNewLearningpathMutation,
+    GQLNewLearningpathMutationVariables
+  >(newLearningpathMutation, options);
+  return { createLearningpath, loading, error };
 };

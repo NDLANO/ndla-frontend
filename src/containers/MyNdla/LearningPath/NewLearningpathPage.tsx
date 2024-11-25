@@ -17,11 +17,14 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { useCreateLearningpath } from "../learningpathQueries";
 
 export const NewLearningpathPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
+
+  const { createLearningpath } = useCreateLearningpath();
 
   useEffect(() => {
     trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
@@ -38,7 +41,28 @@ export const NewLearningpathPage = () => {
         {t("myNdla.learningpath.newLearningpath")}
       </Heading>
       <LearningPathStepper stepKey="title" />
-      <TitleForm onSave={(val) => {}} />
+      <TitleForm
+        onSave={async (val) =>
+          await createLearningpath({
+            variables: {
+              params: {
+                coverPhotoMetaUrl: val.image.metaUrl,
+                copyright: {
+                  contributors: [],
+                  license: {
+                    license: "CC-BY-SA-4.0",
+                  },
+                },
+                description: "",
+                language: i18n.language,
+                tags: [],
+                title: val.title,
+                duration: 1,
+              },
+            },
+          })
+        }
+      />
     </MyNdlaPageWrapper>
   );
 };

@@ -22,6 +22,11 @@ const Step = styled("li", {
     display: "flex",
     gap: "4xsmall",
     alignItems: "center",
+    _last: {
+      "& div": {
+        display: "none",
+      },
+    },
   },
 });
 
@@ -39,13 +44,15 @@ const NumberSpan = styled(Text, {
   },
 });
 
-const Line = styled("hr", {
+const Line = styled("div", {
   base: {
     display: "block",
     borderStyle: "inset",
-    borderBlockEnd: "1px solid",
+    borderBlockEnd: "2px solid",
     width: "xsmall",
     borderColor: "icon.strong",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

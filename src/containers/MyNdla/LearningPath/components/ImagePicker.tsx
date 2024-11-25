@@ -6,12 +6,14 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons/action";
+import { ImageSearch } from "@ndla/image-search";
 import { FieldHelper, FieldLabel, FieldRoot, Button, Image, Spinner } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
-import { InlineImageSearch } from "./InlineImageSearch";
-import { useFetchImage } from "../../learningpathQueries";
+import { IImageMetaInformationV3, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { useImageSearchTranslations } from "@ndla/ui";
+import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 const StyledImage = styled(Image, {
   base: {
@@ -26,7 +28,14 @@ interface Props {
 }
 
 export const ImagePicker = ({ imageId, setImageForm }: Props) => {
-  const { image, loading } = useFetchImage({ variables: { id: imageId! }, skip: !imageId });
+  const { image, loading, refetch: refetchImage } = useFetchImage({ variables: { id: imageId! }, skip: !imageId });
+  const { i18n } = useTranslation();
+
+  const searchImageTranslations = useImageSearchTranslations();
+
+  const { refetch } = useImageSearch({
+    variables: { page: 1, pageSize: 16 },
+  });
 
   if (loading) {
     return <Spinner />;
@@ -47,11 +56,18 @@ export const ImagePicker = ({ imageId, setImageForm }: Props) => {
         )}
       </HStack>
       {imageId && image ? (
-        <>
-          <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />
-        </>
+        <>{loading ? <Spinner /> : <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />}</>
       ) : (
-        <InlineImageSearch setImageForm={setImageForm} />
+        <ImageSearch
+          locale={i18n.language}
+          translations={searchImageTranslations}
+          searchImages={async (query, page) => (await refetch({ query, page })).data.imageSearch as ISearchResultV3}
+          onImageSelect={(image) => setImageForm(image)}
+          fetchImage={async (imageId) =>
+            (await refetchImage({ id: imageId.toString() })).data.imageV3 as IImageMetaInformationV3
+          }
+          onError={() => {}}
+        />
       )}
     </FieldRoot>
   );

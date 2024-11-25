@@ -534,6 +534,11 @@ export type GQLContributor = {
   type: Scalars["String"]["output"];
 };
 
+export type GQLContributorInput = {
+  name: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type GQLCopyright = {
   __typename?: "Copyright";
   creators: Array<GQLContributor>;
@@ -566,6 +571,7 @@ export type GQLCrossSubjectElement = {
   code?: Maybe<Scalars["String"]["output"]>;
   path?: Maybe<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLDescription = {
@@ -848,7 +854,7 @@ export type GQLImageMetaInformationV3 = {
   image: GQLImageV3;
   metaUrl: Scalars["String"]["output"];
   modelRelease: Scalars["String"]["output"];
-  supportedLanguages?: Maybe<Array<Scalars["String"]["output"]>>;
+  supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: GQLTags;
   title: GQLTitle;
 };
@@ -858,7 +864,7 @@ export type GQLImageSearch = {
   language: Scalars["String"]["output"];
   page: Scalars["Int"]["output"];
   pageSize: Scalars["Int"]["output"];
-  results?: Maybe<Array<GQLImageMetaInformationV3>>;
+  results: Array<GQLImageMetaInformationV3>;
   totalCount: Scalars["Int"]["output"];
 };
 
@@ -866,7 +872,7 @@ export type GQLImageV3 = {
   __typename?: "ImageV3";
   contentType: Scalars["String"]["output"];
   dimensions?: Maybe<GQLImageDimensions>;
-  filename?: Maybe<Scalars["String"]["output"]>;
+  fileName: Scalars["String"]["output"];
   imageUrl: Scalars["String"]["output"];
   language: Scalars["String"]["output"];
   size: Scalars["Int"]["output"];
@@ -877,6 +883,7 @@ export type GQLLearningpath = {
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLLearningpathCoverphoto>;
+  created: Scalars["String"]["output"];
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
@@ -884,6 +891,7 @@ export type GQLLearningpath = {
   lastUpdated: Scalars["String"]["output"];
   learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLLearningpathStep>;
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
   metaUrl: Scalars["String"]["output"];
   revision: Scalars["Int"]["output"];
   status: Scalars["String"]["output"];
@@ -899,10 +907,20 @@ export type GQLLearningpathCopyright = {
   license: GQLLicense;
 };
 
+export type GQLLearningpathCopyrightInput = {
+  contributors: Array<GQLContributorInput>;
+  license: GQLLicenseInput;
+};
+
 export type GQLLearningpathCoverphoto = {
   __typename?: "LearningpathCoverphoto";
   metaUrl: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
+};
+
+export type GQLLearningpathEmbedInput = {
+  embedType: Scalars["String"]["input"];
+  url: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
@@ -913,6 +931,16 @@ export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
   resourceTypes: Array<GQLFolderResourceResourceType>;
   title: Scalars["String"]["output"];
   type: Scalars["String"]["output"];
+};
+
+export type GQLLearningpathNewInput = {
+  copyright: GQLLearningpathCopyrightInput;
+  coverPhotoMetaUrl: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+  duration: Scalars["Int"]["input"];
+  language: Scalars["String"]["input"];
+  tags: Array<Scalars["String"]["input"]>;
+  title: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathSearchResult = GQLSearchResult & {
@@ -967,11 +995,50 @@ export type GQLLearningpathStepOembed = {
   width: Scalars["Int"]["output"];
 };
 
+export type GQLLearningpathUpdateInput = {
+  copyright: GQLLearningpathCopyrightInput;
+  coverPhotoMetaUrl: Scalars["String"]["input"];
+  deleteMessage: Scalars["Boolean"]["input"];
+  description: Scalars["String"]["input"];
+  duration: Scalars["Int"]["input"];
+  language: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  tags: Array<Scalars["String"]["input"]>;
+  title: Scalars["String"]["input"];
+};
+
+export type GQLLearningstepNewInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
+export type GQLLearningstepUpdateInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type GQLLicense = {
   __typename?: "License";
   description?: Maybe<Scalars["String"]["output"]>;
   license: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type GQLLicenseInput = {
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  license: Scalars["String"]["input"];
+  url?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLListingPage = {
@@ -1052,6 +1119,8 @@ export type GQLMutation = {
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
+  deleteLearningpath?: Maybe<Array<Scalars["String"]["output"]>>;
+  deleteLearningpathStep?: Maybe<Array<Scalars["String"]["output"]>>;
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
   deletePostV2: Scalars["Int"]["output"];
@@ -1068,6 +1137,8 @@ export type GQLMutation = {
   newArenaTopicV2: GQLArenaTopicV2;
   newFlag: Scalars["Int"]["output"];
   newFlagV2: Scalars["Int"]["output"];
+  newLearningpath: GQLLearningpath;
+  newLearningpathStep: GQLLearningpathStep;
   removePostUpvote: Scalars["Int"]["output"];
   removePostUpvoteV2: Scalars["Int"]["output"];
   replyToTopic: GQLArenaPost;
@@ -1087,6 +1158,9 @@ export type GQLMutation = {
   updateFolder: GQLFolder;
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars["String"]["output"]>;
+  updateLearningpath: GQLLearningpath;
+  updateLearningpathStatus?: Maybe<Array<Scalars["String"]["output"]>>;
+  updateLearningpathStep: GQLLearningpathStep;
   updateOtherArenaUser: GQLMyNdlaPersonalData;
   updatePersonalData: GQLMyNdlaPersonalData;
   updatePost: GQLArenaPost;
@@ -1133,6 +1207,15 @@ export type GQLMutationDeleteFolderArgs = {
 export type GQLMutationDeleteFolderResourceArgs = {
   folderId: Scalars["String"]["input"];
   resourceId: Scalars["String"]["input"];
+};
+
+export type GQLMutationDeleteLearningpathArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+export type GQLMutationDeleteLearningpathStepArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
 };
 
 export type GQLMutationDeletePostArgs = {
@@ -1201,6 +1284,15 @@ export type GQLMutationNewFlagArgs = {
 export type GQLMutationNewFlagV2Args = {
   postId: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
+};
+
+export type GQLMutationNewLearningpathArgs = {
+  params: GQLLearningpathNewInput;
+};
+
+export type GQLMutationNewLearningpathStepArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningstepNewInput;
 };
 
 export type GQLMutationRemovePostUpvoteArgs = {
@@ -1299,6 +1391,22 @@ export type GQLMutationUpdateFolderResourceArgs = {
 export type GQLMutationUpdateFolderStatusArgs = {
   folderId: Scalars["String"]["input"];
   status: Scalars["String"]["input"];
+};
+
+export type GQLMutationUpdateLearningpathArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathUpdateInput;
+};
+
+export type GQLMutationUpdateLearningpathStatusArgs = {
+  id: Scalars["Int"]["input"];
+  status: Scalars["String"]["input"];
+};
+
+export type GQLMutationUpdateLearningpathStepArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
+  params: GQLLearningstepUpdateInput;
 };
 
 export type GQLMutationUpdateOtherArenaUserArgs = {
@@ -1574,11 +1682,12 @@ export type GQLQuery = {
   frontpage?: Maybe<GQLFrontpageMenu>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
   image?: Maybe<GQLImageMetaInformationV2>;
-  imageSearch?: Maybe<GQLImageSearch>;
+  imageSearch: GQLImageSearch;
   imageV3?: Maybe<GQLImageMetaInformationV3>;
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
+  myLearningpaths?: Maybe<Array<GQLLearningpath>>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -3986,7 +4095,7 @@ export type GQLImageFragmentFragment = {
   __typename?: "ImageMetaInformationV3";
   id: string;
   metaUrl: string;
-  supportedLanguages?: Array<string>;
+  supportedLanguages: Array<string>;
   created: string;
   createdBy: string;
   modelRelease: string;
@@ -4006,7 +4115,7 @@ export type GQLImageFragmentFragment = {
   editorNotes?: Array<{ __typename?: "EditorNote"; timestamp: string; updatedBy: string; note: string }>;
   image: {
     __typename?: "ImageV3";
-    filename?: string;
+    fileName: string;
     size: number;
     contentType: string;
     imageUrl: string;
@@ -4023,13 +4132,13 @@ export type GQLImageSearchQueryVariables = Exact<{
 
 export type GQLImageSearchQuery = {
   __typename?: "Query";
-  imageSearch?: {
+  imageSearch: {
     __typename?: "ImageSearch";
     totalCount: number;
     pageSize: number;
     page: number;
     language: string;
-    results?: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment>;
+    results: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment>;
   };
 };
 
@@ -4040,6 +4149,26 @@ export type GQLFetchImageQueryVariables = Exact<{
 export type GQLFetchImageQuery = {
   __typename?: "Query";
   imageV3?: { __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment;
+};
+
+export type GQLLearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  description: string;
+  created: string;
+  status: string;
+  madeAvailable?: string;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+};
+
+export type GQLNewLearningpathMutationVariables = Exact<{
+  params: GQLLearningpathNewInput;
+}>;
+
+export type GQLNewLearningpathMutation = {
+  __typename?: "Mutation";
+  newLearningpath: { __typename?: "Learningpath" } & GQLLearningpathFragment;
 };
 
 export type GQLNewFlagMutationVariables = Exact<{
