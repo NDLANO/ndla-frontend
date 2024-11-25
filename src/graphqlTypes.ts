@@ -4296,7 +4296,6 @@ export type GQLPodcastSeriesPageQuery = {
       audioFile: { __typename?: "AudioFile"; url: string };
       podcastMeta?: { __typename?: "PodcastMeta"; introduction: string };
       copyright: { __typename?: "Copyright" } & GQLCopyrightInfoFragment;
-      tags: { __typename?: "Tags"; tags: Array<string> };
     }>;
   };
 };
@@ -4562,7 +4561,6 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     oembed?: string;
     introduction?: string;
     metaDescription: string;
-    tags?: Array<string>;
     metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
   } & GQLArticle_ArticleFragment;

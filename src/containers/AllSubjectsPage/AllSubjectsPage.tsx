@@ -26,6 +26,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { nodeWithMetadataFragment } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";
 
@@ -100,7 +101,7 @@ const AllSubjectsPage = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useGraphQuery(allSubjectsQuery);
+  const subjectsQuery = useGraphQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);

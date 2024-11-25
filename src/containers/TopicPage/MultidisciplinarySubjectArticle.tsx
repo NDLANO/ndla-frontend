@@ -166,7 +166,6 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           imageUrl={socialMediaMetaData.image?.url}
           trackableContent={{
             supportedLanguages: node.article?.supportedLanguages,
-            tags: node.article?.tags,
           }}
         />
         <HeaderWrapper>
@@ -255,7 +254,6 @@ MultidisciplinarySubjectArticle.fragments = {
         oembed
         introduction
         metaDescription
-        tags
         metaImage {
           url
           alt

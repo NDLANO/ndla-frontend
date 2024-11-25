@@ -7,7 +7,7 @@
  */
 
 import groupBy from "lodash/groupBy";
-import { GQLSubject } from "../../graphqlTypes";
+import { GQLNodeWithMetadataFragment } from "../../graphqlTypes";
 
 export const subjectLetters = [
   "#",
@@ -42,14 +42,12 @@ export const subjectLetters = [
   "Å",
 ];
 
-type BaseSubject = Pick<GQLSubject, "id" | "name">;
-
-interface GroupedSubject<T extends BaseSubject> {
+interface GroupedSubject {
   label: string;
-  subjects: T[];
+  subjects: GQLNodeWithMetadataFragment[];
 }
 
-export const groupSubjects = <T extends BaseSubject>(subjects: T[]): GroupedSubject<T>[] => {
+export const groupSubjects = (subjects: GQLNodeWithMetadataFragment[]): GroupedSubject[] => {
   return Object.entries(
     groupBy(subjects, (subject) => {
       const firstChar = subject.name[0]?.toUpperCase();
@@ -61,7 +59,7 @@ export const groupSubjects = <T extends BaseSubject>(subjects: T[]): GroupedSubj
     .sort((a, b) => (a.label > b.label ? 1 : -1));
 };
 
-export const filterSubjects = <T extends Pick<GQLSubject, "id" | "metadata">>(allSubjects: T[], status: string) => {
+export const filterSubjects = (allSubjects: GQLNodeWithMetadataFragment[], status: string) => {
   const subjects = allSubjects.filter((subject) => subject.metadata.customFields.forklaringsfag !== "true");
   if (status === "all") {
     return subjects.filter((subject) => subject.metadata.customFields.subjectCategory);

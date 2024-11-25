@@ -104,7 +104,11 @@ const AlertModal = ({ onAbort, postType, formState, initialContent }: Props) => 
           variant="secondary"
           onClick={(e) => {
             e.preventDefault();
-            shouldBlock ? setOpen(true) : onAbort();
+            if (shouldBlock) {
+              setOpen(true);
+            } else {
+              onAbort();
+            }
           }}
         >
           {t("cancel")}

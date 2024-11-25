@@ -290,7 +290,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
 
       editor.registerCommand(
         ADD_LINK_COMMAND,
-        (_) => {
+        () => {
           const selection = $getSelection();
           setLastSelection(null);
           setEditedLinkElement(null);

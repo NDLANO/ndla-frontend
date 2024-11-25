@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { IncomingMessage, ServerResponse } from "http";
+import { IncomingMessage } from "http";
 import { matchPath } from "react-router-dom";
 import config from "../config";
 import { embedRoutes } from "../routes";
@@ -237,7 +237,7 @@ const contentSecurityPolicy = {
     scriptSrc,
     frameSrc,
     frameAncestors: [
-      (req: IncomingMessage, _: ServerResponse) => {
+      (req: IncomingMessage) => {
         const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
         if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";
