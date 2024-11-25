@@ -196,7 +196,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   return (
     <EmbedPageContent variant="content">
       <Helmet>
-        {article && article.metaDescription && <meta name="description" content={article.metaDescription} />}
+        {!!article?.metaDescription && <meta name="description" content={article.metaDescription} />}
         {scripts.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}

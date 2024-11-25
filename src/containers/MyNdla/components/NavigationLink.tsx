@@ -102,7 +102,7 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
       {selectedIcon}
       <LongText>{name}</LongText>
       <ShortText>{shortName}</ShortText>
-      {external && <ExternalLinkLine />}
+      {!!external && <ExternalLinkLine />}
     </StyledSafeLink>
   );
 };

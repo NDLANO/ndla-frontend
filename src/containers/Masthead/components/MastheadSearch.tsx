@@ -322,14 +322,14 @@ const MastheadSearch = () => {
               </IconButton>
             </ComboboxControl>
             <StyledHitsWrapper aria-live="assertive">
-              {!loading && query && (
+              {!loading && !!query && (
                 <div>
                   {!(searchHits.length > 1) ? (
                     <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
-                  {suggestion && (
+                  {!!suggestion && (
                     <Text textStyle="label.small">
                       {t("searchPage.resultType.searchPhraseSuggestion")}
                       <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>

@@ -36,17 +36,13 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Prop
     return <MovieGridLoadingShimmer showHeading />;
   }
 
-  return (
-    <>
-      {movieThemes?.map((theme) => (
-        <SelectionMovieGrid
-          key={theme.name[0]?.name}
-          name={findName(theme.name ?? [], i18n.language)}
-          movies={theme.movies}
-        />
-      ))}
-    </>
-  );
+  return movieThemes?.map((theme) => (
+    <SelectionMovieGrid
+      key={theme.name[0]?.name}
+      name={findName(theme.name ?? [], i18n.language)}
+      movies={theme.movies}
+    />
+  ));
 };
 
 FilmContent.fragments = {

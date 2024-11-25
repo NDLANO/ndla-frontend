@@ -246,7 +246,7 @@ const Learningpath = ({
             </StyledAccordionRoot>
             <MenuWrapper>{menu}</MenuWrapper>
             <StyledPageContent variant="article" gutters="never">
-              {learningpathStep.showTitle && (
+              {!!learningpathStep.showTitle && (
                 <EmbedPageContent variant="content">
                   <ArticleWrapper>
                     <ArticleHeader>

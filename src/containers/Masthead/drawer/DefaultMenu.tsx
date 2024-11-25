@@ -123,7 +123,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
           title={t("masthead.menuOptions.programme")}
           onClick={() => setActiveMenu("programme")}
         />
-        {root && root.nodeType === "SUBJECT" && (
+        {root?.nodeType === "SUBJECT" && (
           <DrawerRowHeader
             ownsId="subject-menu"
             id="subject"

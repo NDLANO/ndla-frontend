@@ -223,7 +223,7 @@ export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, Ar
             </TextWrapper>
           </ContentWrapper>
           <ContentWrapper>
-            {isEditing && user?.isModerator && (
+            {!!isEditing && !!user?.isModerator && (
               <ButtonWrapper>
                 <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
               </ButtonWrapper>

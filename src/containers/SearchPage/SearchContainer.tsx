@@ -228,7 +228,7 @@ const SearchContainer = ({
             )}
           </CompetenceWrapper>
         )}
-        <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
+        <div aria-live="polite">{!!loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
         {sortedFilterItems.length > 1 && (
           <StyledFieldsetRoot>
             <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
@@ -260,7 +260,7 @@ const SearchContainer = ({
               typeFilter={typeFilter}
             />
           ))}
-          {isLti && (
+          {!!isLti && (
             <StyledLanguageSelector
               languages={supportedLanguages}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}

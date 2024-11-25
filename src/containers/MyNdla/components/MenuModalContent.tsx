@@ -138,7 +138,7 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
             <MenuItems role="tablist">{links}</MenuItems>
           </StyledNav>
           <ContentWrapper>
-            {showButtons && (!!menuItems?.length || user?.arenaEnabled) && (
+            {showButtons && (!!menuItems?.length || user?.arenaEnabled) ? (
               <>
                 <Text textStyle="label.medium" fontWeight="bold">
                   {t("myNdla.tools")}
@@ -164,10 +164,10 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
                       </Button>
                     </li>
                   ))}
-                  {user?.arenaEnabled && notificationLink}
+                  {!!user?.arenaEnabled && notificationLink}
                 </ToolMenu>
               </>
-            )}
+            ) : null}
           </ContentWrapper>
         </StyledDialogBody>
       </DialogContent>

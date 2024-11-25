@@ -95,10 +95,10 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
-          {video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+          {!!video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
           {!isCopyrighted(video.copyright?.license.license) && (
             <MediaListItemActions>
-              {video.download && (
+              {!!video.download && (
                 <SafeLinkButton to={video.download} download variant="secondary" size="small">
                   <DownloadLine />
                   {t("license.download")}
@@ -109,7 +109,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
-              {shouldShowLink && (
+              {!!shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ExternalLinkLine />
                   {t("license.openLink")}

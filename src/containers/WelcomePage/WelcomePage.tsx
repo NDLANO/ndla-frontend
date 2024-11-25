@@ -226,7 +226,7 @@ const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            {article && (
+            {!!article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>

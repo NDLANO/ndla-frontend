@@ -214,7 +214,7 @@ export const ResourceItem = ({
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
-        hidden={hidden && !active}
+        hidden={!!hidden && !active}
       >
         <StyledListItemImage
           src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
@@ -237,7 +237,7 @@ export const ResourceItem = ({
             </StyledSafeLink>
           </ListItemHeading>
           <InfoContainer gap="xxsmall">
-            {teacherOnly && (
+            {!!teacherOnly && (
               <StyledPresentationLine
                 aria-hidden={false}
                 id={accessId}
@@ -246,7 +246,7 @@ export const ResourceItem = ({
               />
             )}
             <ContentTypeBadgeNew contentType={contentType} />
-            {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
+            {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
       </ListItemRoot>

@@ -72,7 +72,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
   return (
     <div>
       <MediaListLicenseButtonWrapper>
-        {title && (
+        {!!title && (
           <Heading textStyle="title.small" fontWeight="semibold" asChild consumeCss>
             <h3>{`${title} "${sourceTitle}"`}</h3>
           </Heading>
@@ -138,7 +138,7 @@ export const MediaListItemBody = ({
   return (
     <StyledWrapper {...containerProps}>
       {/* @ts-expect-error - This is a CC thing */}
-      {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
+      {!!metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
     </StyledWrapper>
   );

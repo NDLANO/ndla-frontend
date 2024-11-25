@@ -116,7 +116,7 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
               </SettingsMenuWrapper>
             )}
           </div>
-          {user?.arenaEnabled && <NotificationPopover />}
+          {!!user?.arenaEnabled && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
       <MenuModalContent menuItems={menuItems} showButtons={showButtons} />

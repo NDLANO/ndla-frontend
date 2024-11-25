@@ -132,7 +132,7 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
           id: category.type,
           content: (
             <>
-              {category.message && (
+              {!!category.message && (
                 <StyledMessageBox variant="warning">
                   <Text>{category.message}</Text>
                 </StyledMessageBox>
