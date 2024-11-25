@@ -141,6 +141,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
     path: crossSubjectTopic.path || root?.path || "",
+    url: crossSubjectTopic.url || root?.url || "",
   }));
 
   const authors =
@@ -176,11 +177,13 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         />
         <HeaderWrapper>
           <HomeBreadcrumb items={breadCrumbs} />
-          <SubjectLinkSet
-            set="test"
-            title={t("multidisciplinarySubject.subjectsLinksDescription")}
-            subjects={subjectLinks ?? []}
-          />
+          {!!subjectLinks?.length && (
+            <SubjectLinkSet
+              set="test"
+              title={t("multidisciplinarySubject.subjectsLinksDescription")}
+              subjects={subjectLinks}
+            />
+          )}
           <StyledDivider thickness="1px" color="stroke.default" />
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
@@ -262,9 +265,10 @@ MultidisciplinarySubjectArticle.fragments = {
           url
           alt
         }
-        crossSubjectTopics(subjectId: $rootId) @include(if: $includeCrossSubjectTopics) {
+        crossSubjectTopics(subjectId: $rootId) {
           title
           path
+          url
         }
         ...Article_Article
       }

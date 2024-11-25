@@ -566,6 +566,7 @@ export type GQLCrossSubjectElement = {
   code?: Maybe<Scalars["String"]["output"]>;
   path?: Maybe<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
+  url?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type GQLDescription = {
@@ -841,6 +842,7 @@ export type GQLLearningpath = {
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLLearningpathCoverphoto>;
+  created: Scalars["String"]["output"];
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
@@ -1541,6 +1543,7 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
+  myLearningpaths?: Maybe<Array<GQLLearningpath>>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -4559,7 +4562,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     introduction?: string;
     metaDescription: string;
     metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
-    crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string }>;
+    crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
   } & GQLArticle_ArticleFragment;
 };
 
@@ -4579,7 +4582,6 @@ export type GQLTopicPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
   contextId?: InputMaybe<Scalars["String"]["input"]>;
-  includeCrossSubjectTopics: Scalars["Boolean"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
