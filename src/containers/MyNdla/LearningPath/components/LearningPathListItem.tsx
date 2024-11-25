@@ -64,26 +64,30 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
         <TextWrapper>
           <Text>{learningPath.title}</Text>
           <Text textStyle="label.small" color="text.subtle">
-            {t("myNdla.learningpath.created", { updated: learningPath.created })}
+            {t("myNdla.learningpath.created", {
+              created: Intl.DateTimeFormat("no").format(new Date(learningPath.created)),
+            })}
             {learningPath.madeAvailable
-              ? t("myNdla.learningpath.shared", { shared: learningPath.madeAvailable })
+              ? t("myNdla.learningpath.shared", {
+                  shared: Intl.DateTimeFormat("no").format(new Date(learningPath.madeAvailable)),
+                })
               : null}
           </Text>
         </TextWrapper>
         <StatusWrapper>
-          {learningPath.status === "published" && (
+          {learningPath.status === "PUBLISHED" && (
             <StatusText textStyle="label.small">
               <PersonOutlined size="small" />
               {t("myNdla.learningpath.status.delt")}
             </StatusText>
           )}
-          {learningPath.status === "private" && (
+          {learningPath.status === "PRIVATE" && (
             <StatusText textStyle="label.small">
               <PencilLine size="small" />
               {t("myNdla.learningpath.status.private")}
             </StatusText>
           )}
-          {learningPath.status === "readyForSharing" && (
+          {learningPath.status === "READY_FOR_SHARING" && (
             <StatusText textStyle="label.small">
               <CheckLine size="small" />
               {t("myNdla.learningpath.status.readyForSharing")}

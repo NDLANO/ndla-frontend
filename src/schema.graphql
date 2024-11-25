@@ -463,6 +463,11 @@ type Contributor {
   type: String!
 }
 
+input ContributorInput {
+  name: String!
+  type: String!
+}
+
 type Copyright {
   creators: [Contributor!]!
   license: License!
@@ -491,6 +496,7 @@ type CrossSubjectElement {
   code: String
   path: String
   title: String!
+  url: String
 }
 
 type Description {
@@ -735,6 +741,39 @@ type ImageMetaInformationV2 {
   title: Title!
 }
 
+type ImageMetaInformationV3 {
+  alttext: ImageAltText!
+  caption: Caption!
+  copyright: Copyright!
+  created: String!
+  createdBy: String!
+  editorNotes: [EditorNote!]
+  id: String!
+  image: ImageV3!
+  metaUrl: String!
+  modelRelease: String!
+  supportedLanguages: [String!]!
+  tags: Tags!
+  title: Title!
+}
+
+type ImageSearch {
+  language: String!
+  page: Int!
+  pageSize: Int!
+  results: [ImageMetaInformationV3!]!
+  totalCount: Int!
+}
+
+type ImageV3 {
+  contentType: String!
+  dimensions: ImageDimensions
+  fileName: String!
+  imageUrl: String!
+  language: String!
+  size: Int!
+}
+
 type Learningpath {
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -762,8 +801,18 @@ type LearningpathCopyright {
   license: License!
 }
 
+input LearningpathCopyrightInput {
+  contributors: [ContributorInput!]!
+  license: LicenseInput!
+}
+
 type LearningpathCoverphoto {
   metaUrl: String!
+  url: String!
+}
+
+input LearningpathEmbedInput {
+  embedType: String!
   url: String!
 }
 
@@ -774,6 +823,16 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
   type: String!
+}
+
+input LearningpathNewInput {
+  copyright: LearningpathCopyrightInput!
+  coverPhotoMetaUrl: String!
+  description: String!
+  duration: Int!
+  language: String!
+  tags: [String!]!
+  title: String!
 }
 
 type LearningpathSearchResult implements SearchResult {
@@ -819,7 +878,46 @@ type LearningpathStepOembed {
   width: Int!
 }
 
+input LearningpathUpdateInput {
+  copyright: LearningpathCopyrightInput!
+  coverPhotoMetaUrl: String!
+  deleteMessage: Boolean!
+  description: String!
+  duration: Int!
+  language: String!
+  revision: Int!
+  tags: [String!]!
+  title: String!
+}
+
+input LearningstepNewInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  showTitle: Boolean!
+  title: String!
+  type: String!
+}
+
+input LearningstepUpdateInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  revision: Int!
+  showTitle: Boolean!
+  title: String!
+  type: String!
+}
+
 type License {
+  description: String
+  license: String!
+  url: String
+}
+
+input LicenseInput {
   description: String
   license: String!
   url: String
@@ -899,8 +997,8 @@ type Mutation {
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
-  deleteLearningpath(id: Int!): [String!]!
-  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]!
+  deleteLearningpath(id: Int!): [String!]
+  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
   deletePostV2(postId: Int!): Int!
@@ -923,18 +1021,8 @@ type Mutation {
   ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
-  newLearningpath(imageUrl: String!, language: String!, title: String!): Learningpath!
-  newLearningpathStep(
-    embedType: String!
-    embedUrl: String!
-    imageUrl: String!
-    language: String!
-    learningpathId: Int!
-    license: String!
-    revision: Int!
-    title: String!
-    type: String!
-  ): LearningpathStep!
+  newLearningpath(params: LearningpathNewInput!): Learningpath!
+  newLearningpathStep(learningpathId: Int!, params: LearningstepNewInput!): LearningpathStep!
   removePostUpvote(postId: Int!): Int!
   removePostUpvoteV2(postId: Int!): Int!
   replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
@@ -968,19 +1056,12 @@ type Mutation {
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updateLearningpath(id: Int!, imageUrl: String!, language: String!, revision: Int!, title: String!): Learningpath!
-  updateLearningpathStatus(id: Int!, status: String!): [String!]!
+  updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): Learningpath!
+  updateLearningpathStatus(id: Int!, status: String!): [String!]
   updateLearningpathStep(
-    embedType: String!
-    embedUrl: String!
-    imageUrl: String!
-    language: String!
     learningpathId: Int!
     learningstepId: Int!
-    license: String!
-    revision: Int!
-    title: String!
-    type: String!
+    params: LearningstepUpdateInput!
   ): LearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
@@ -1231,6 +1312,8 @@ type Query {
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
+  imageSearch(page: Int, pageSize: Int, query: String): ImageSearch!
+  imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
