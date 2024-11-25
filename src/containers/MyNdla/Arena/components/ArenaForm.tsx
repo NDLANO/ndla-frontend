@@ -91,11 +91,13 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
   });
 
   useEffect(() => {
-    type === "topic"
-      ? setTimeout(() => document.getElementById("field-title")?.focus(), 1)
-      : id
-        ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
-        : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+    if (type === "topic") {
+      setTimeout(() => document.getElementById("field-title")?.focus(), 1);
+    } else if (id) {
+      setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1);
+    } else {
+      setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+    }
   }, [id, type]);
 
   const onSubmit = async ({ title, content, locked }: ArenaFormValues) => {

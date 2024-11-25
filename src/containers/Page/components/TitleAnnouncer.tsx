@@ -9,25 +9,22 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Text } from "@ndla/primitives";
-import { useOnTopicPage } from "../../../routeHelpers";
 
 const TitleAnnouncer = () => {
   const [title, setTitle] = useState("");
   const prevTitle = useRef(title);
   const titleRef = useRef<HTMLParagraphElement | null>(null);
-  const onTopicPage = useOnTopicPage();
 
   useEffect(() => {
     if (!!title && title !== prevTitle.current) {
-      if (!onTopicPage) {
-        titleRef.current?.focus();
-      } else prevTitle.current = title;
+      prevTitle.current = title;
+      titleRef.current?.focus();
     }
-  }, [title, titleRef, onTopicPage]);
+  }, [title, titleRef]);
 
   return (
     <>
-      <Text srOnly aria-live={onTopicPage ? `assertive` : undefined} tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
+      <Text srOnly aria-live="assertive" tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
         {title}
       </Text>
       <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />

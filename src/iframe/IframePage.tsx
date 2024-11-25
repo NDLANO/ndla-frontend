@@ -14,6 +14,7 @@ import { PageContent } from "@ndla/primitives";
 import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
+import { useEnablePrettyUrls } from "../components/PrettyUrlsContext";
 import RedirectContext from "../components/RedirectContext";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
@@ -53,16 +54,17 @@ const iframePageQuery = gql`
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }
-    articleResource(taxonomyId: $taxonomyId, articleId: $articleId) {
-      ...IframeArticlePage_Resource
+    nodeByArticleId(nodeId: $taxonomyId, articleId: $articleId) {
+      ...IframeArticlePage_Node
     }
   }
-  ${iframeArticlePageFragments.resource}
+  ${iframeArticlePageFragments.node}
   ${iframeArticlePageFragments.article}
 `;
 
 export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const redirectContext = useContext(RedirectContext);
   const { loading, data, error } = useGraphQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
     variables: {
@@ -72,6 +74,7 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
         showVisualElement: "true",
         path: location.pathname,
         isOembed,
+        prettyUrl: enablePrettyUrls,
       },
     },
     skip: !articleId,
@@ -88,12 +91,12 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
     redirectContext.status = 410;
   }
 
-  const { article, articleResource } = data ?? {};
+  const { article, nodeByArticleId } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
     return <NotFoundPage />;
   }
-  return <IframeArticlePage resource={articleResource} article={article} />;
+  return <IframeArticlePage node={nodeByArticleId} article={article} />;
 };
 
 export default IframePage;

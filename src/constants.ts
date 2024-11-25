@@ -18,16 +18,23 @@ export const RELEVANCE_SUPPLEMENTARY = "urn:relevance:supplementary";
 export const NOT_FOUND_PAGE_PATH = "/404";
 export const FILM_PAGE_PATH = "/subject:20";
 export const UKR_PAGE_PATH = "/subject:27e8623d-c092-4f00-9a6f-066438d6c466";
+export const FILM_ID = "urn:subject:20";
 export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
 export const TOOLBOX_TEACHER_SUBJECT_ID = "urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc";
 export const TOOLBOX_STUDENT_SUBJECT_ID = "urn:subject:1:54b1727c-2d91-4512-901c-8434e13339b4";
+
+export const FILM_PAGE_URL = "/f/ndla-film/24d0e0db3c02";
+export const MULTIDISCIPLINARY_URL = "/f/tverrfaglige-temaer/daaf4e2dd8b0";
+export const TOOLBOX_TEACHER_URL = "/f/verktoykassa---for-larere/c697e0278768";
+export const TOOLBOX_STUDENT_URL = "/f/verktoykassa---for-elever/107af8b8e7d2";
+export const UKR_PAGE_URL = "/f/ukrainian-resources-in-norwegian-social-science/1022072a8411";
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
 export const STORED_LANGUAGE_COOKIE_KEY = "language";
 
 export const PROGRAMME_PATH = "/utdanning";
-export const ABOUT_PATH = "/about";
+export const ABOUT_PATH = "/om";
 
 export const PODCAST_SERIES_PAGE_PATH = "/podkast/:id";
 export const PODCAST_SERIES_LIST_PAGE_PATH = "/podkast";

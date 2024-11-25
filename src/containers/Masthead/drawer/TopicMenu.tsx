@@ -16,18 +16,20 @@ import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./D
 import ResourceTypeList from "./ResourceTypeList";
 import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
+import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
   GQLTopicMenuResourcesQuery,
   GQLTopicMenuResourcesQueryVariables,
-  GQLTopicMenu_SubjectFragment,
+  GQLTopicMenu_RootFragment,
 } from "../../../graphqlTypes";
 import { useGraphQuery } from "../../../util/runQueries";
+import { isCurrentPage } from "../../../util/urlHelper";
 import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
 interface Props {
   topic: TopicWithSubTopics;
-  subject: GQLTopicMenu_SubjectFragment;
+  subject: GQLTopicMenu_RootFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPath: TopicWithSubTopics[];
@@ -38,6 +40,7 @@ interface Props {
 
 const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, addTopic, level, removeTopic }: Props) => {
   const location = useLocation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
 
   const { data } = useGraphQuery<GQLTopicMenuResourcesQuery, GQLTopicMenuResourcesQueryVariables>(resourceQuery, {
@@ -72,16 +75,15 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
     }
   }, [active, shouldCloseLevel, setLevelClosed, onCloseMenuPortion]);
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(data?.topic?.coreResources?.concat(data?.topic?.supplementaryResources ?? []) ?? []),
-    [data?.topic?.coreResources, data?.topic?.supplementaryResources],
-  );
+  const { sortedResources } = useMemo(() => getResourceGroupings(data?.topic?.children ?? []), [data?.topic?.children]);
 
   const levelId = useMemo(() => topicPath[level]?.id, [topicPath, level]);
   const groupedResources = useMemo(
     () => getResourceGroups(data?.resourceTypes ?? [], sortedResources),
     [data?.resourceTypes, sortedResources],
   );
+
+  const to = enablePrettyUrls ? topic.url : topic.path;
 
   return (
     <DrawerPortion>
@@ -90,12 +92,10 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
         <DrawerListItem role="none" data-list-item>
           <DrawerHeaderLink
             variant="link"
-            aria-current={
-              location.pathname.replaceAll("/", "") === topic.path?.replaceAll("/", "") ? "page" : undefined
-            }
+            aria-current={isCurrentPage(location.pathname, topic) ? "page" : undefined}
             tabIndex={-1}
             role="menuitem"
-            to={topic.path || ""}
+            to={to || ""}
             onClick={onClose}
             id={`header-${topic.id}`}
           >
@@ -107,7 +107,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
             id={t.id}
             key={t.id}
             type="button"
-            current={t.path === location.pathname}
+            current={isCurrentPage(location.pathname, t)}
             active={levelId === t.id}
             onClick={(expanded) => (expanded ? removeTopic(level) : addTopic(t, level))}
           >
@@ -121,8 +121,8 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                   <DrawerMenuItem
                     id={`${topic.id}-${res.id}`}
                     type="link"
-                    to={res.path || ""}
-                    current={res.path === location.pathname}
+                    to={(enablePrettyUrls ? res.url : res.path) || ""}
+                    current={isCurrentPage(location.pathname, res)}
                     onClose={onClose}
                     key={res.id}
                   >
@@ -131,37 +131,38 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
                 ))}
               </ResourceTypeList>
             ))
-          : sortedResources.map((res) => {
-              return (
-                <DrawerMenuItem
-                  id={`${topic.id}-${res.id}`}
-                  type="link"
-                  to={res.path || ""}
-                  current={res.path === location.pathname}
-                  onClose={onClose}
-                  key={res.id}
-                >
-                  {res.name}
-                </DrawerMenuItem>
-              );
-            })}
+          : sortedResources.map((res) => (
+              <DrawerMenuItem
+                id={`${topic.id}-${res.id}`}
+                type="link"
+                to={(enablePrettyUrls ? res.url : res.path) || ""}
+                current={isCurrentPage(location.pathname, res)}
+                onClose={onClose}
+                key={res.id}
+              >
+                {res.name}
+              </DrawerMenuItem>
+            ))}
       </DrawerList>
     </DrawerPortion>
   );
 };
 
 TopicMenu.fragments = {
-  subject: gql`
-    fragment TopicMenu_Subject on Subject {
-      id
-      name
-    }
-  `,
-  resource: gql`
-    fragment TopicMenu_Resource on Resource {
+  root: gql`
+    fragment TopicMenu_Root on Node {
       id
       name
       path
+      url
+    }
+  `,
+  resource: gql`
+    fragment TopicMenu_Node on Node {
+      id
+      name
+      path
+      url
       relevanceId
       rank
     }
@@ -170,21 +171,14 @@ TopicMenu.fragments = {
 
 const resourceQuery = gql`
   query topicMenuResources($subjectId: String!, $topicId: String!) {
-    topic(id: $topicId, subjectId: $subjectId) {
+    topic: node(id: $topicId, rootId: $subjectId) {
       metadata {
         customFields
       }
-      coreResources(subjectId: $subjectId) {
-        ...TopicMenu_Resource
+      children(nodeType: "RESOURCE") {
+        ...TopicMenu_Node
         rank
-        resourceTypes {
-          id
-          name
-        }
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...TopicMenu_Resource
-        rank
+        relevanceId
         resourceTypes {
           id
           name

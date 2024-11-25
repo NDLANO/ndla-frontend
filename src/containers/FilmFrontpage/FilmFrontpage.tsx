@@ -29,8 +29,9 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
@@ -66,8 +67,8 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   },
 });
 
-const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
-  htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (t: TFunction, node: GQLFilmFrontPageQuery["node"]) =>
+  htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
 const fromNdla = {
   id: "fromNdla",
@@ -84,12 +85,13 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
+  const { data: { filmfrontpage, node } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -113,9 +115,9 @@ const FilmFrontpage = () => {
   return (
     <>
       <Helmet>
-        <title>{getDocumentTitle(t, subject)}</title>
+        <title>{getDocumentTitle(t, node)}</title>
       </Helmet>
-      <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
+      <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
       <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />
@@ -125,10 +127,14 @@ const FilmFrontpage = () => {
             </Heading>
             <NavigationBox
               heading={t("ndlaFilm.topics")}
-              items={subject?.topics?.map((topic) => ({
-                label: topic.name,
-                url: topic.path,
-              }))}
+              items={node?.children?.map((child) => {
+                const path = enablePrettyUrls ? child.url : child.path;
+                return {
+                  id: child.id,
+                  label: child.name,
+                  url: path,
+                };
+              })}
             />
           </Wrapper>
           <Wrapper>
@@ -170,7 +176,7 @@ const FilmFrontpage = () => {
 export default FilmFrontpage;
 
 const filmFrontPageQuery = gql`
-  query filmFrontPage($subjectId: String!, $transformArgs: TransformedArticleContentInput) {
+  query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       slideShow {
         ...FilmSlideshow_Movie
@@ -198,13 +204,16 @@ const filmFrontPageQuery = gql`
         ...Article_Article
       }
     }
-    subject(id: $subjectId) {
+    node(id: $nodeId) {
       id
       name
-      topics {
+      path
+      url
+      children(nodeType: "TOPIC") {
         id
-        path
         name
+        path
+        url
       }
     }
   }

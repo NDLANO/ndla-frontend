@@ -15,8 +15,8 @@ import {
   getResourceTypeNamespace,
   isCreativeCommonsLicense,
   metaTypes,
+  type MetaType,
 } from "@ndla/licenses";
-import type { MetaType } from "@ndla/licenses";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -137,7 +137,7 @@ export const MediaListItemBody = ({
 
   return (
     <StyledWrapper {...containerProps}>
-      {/* @ts-ignore */}
+      {/* @ts-expect-error - This is a CC thing */}
       {metaResourceType && <StyledSpan rel="dct:type" href={metaResourceType} />}
       {children}
     </StyledWrapper>

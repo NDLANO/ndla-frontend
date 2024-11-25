@@ -75,7 +75,7 @@ const VisualElement = ({ visualElement }: VisualElementProps) => {
   if (type === "image") {
     return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
-    return <StyledIframe allow="fullscreen; encrypted-media" allowFullScreen={true} src={url} title={alt ?? ""} />;
+    return <StyledIframe allow="fullscreen; encrypted-media" src={url} title={alt ?? ""} />;
   } else {
     return null;
   }

@@ -19,7 +19,6 @@ import {
 } from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
-import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
 
 const { contentTypes } = constants;
@@ -131,6 +130,7 @@ export const mapResourcesToItems = (
   ltiData: LtiData | undefined,
   isLti: boolean,
   language: LocaleType | undefined,
+  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchItem[] =>
   resources.map((resource) => ({
@@ -141,11 +141,13 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
-        ? resource.contexts[0]?.path || resource.path
+        ? enablePrettyUrls
+          ? resource.url
+          : resource.path
         : plainUrl(resource.path),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: context.path,
+      url: enablePrettyUrls ? context.url : context.path,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
@@ -201,11 +203,12 @@ export const mapSearchDataToGroups = (
   ltiData: LtiData | undefined,
   isLti: boolean | undefined,
   language: LocaleType | undefined,
+  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchGroup[] => {
   if (!searchData) return [];
   return searchData.map((result) => ({
-    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, t),
+    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, enablePrettyUrls, t),
     resourceTypes: getResourceTypeFilters(
       resourceTypes?.find((type) => type.id === result.resourceType),
       result.aggregations?.[0]?.values?.map((value) => value.value),
@@ -215,7 +218,10 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
+export const mapSubjectDataToGroup = (
+  subjectData: GQLSubjectInfoFragment[] | undefined,
+  enablePrettyUrls: boolean,
+): SearchGroup[] => {
   if (!subjectData) return [];
   return [
     {
@@ -223,7 +229,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
         id: subject.id,
         title: subject.name,
         htmlTitle: subject.name,
-        url: toSubject(subject.id),
+        url: enablePrettyUrls ? subject.url : subject.path,
         metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],

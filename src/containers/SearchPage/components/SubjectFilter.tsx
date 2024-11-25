@@ -126,7 +126,7 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
     categories.forEach((category) => {
       allSubjects.push(...category.subjects);
       const sortedSubjects = sortBy(category.subjects, (s) => s.name);
-      category.visible &&
+      if (category.visible) {
         data.push({
           title: t(`subjectCategories.${category.type}`),
           id: category.type,
@@ -145,6 +145,7 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
             </>
           ),
         });
+      }
     });
 
     const allSubjectsSorted = sortBy(allSubjects, (s) => s.name);

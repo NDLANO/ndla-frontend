@@ -111,7 +111,7 @@ const typePolicies: TypePolicies = {
         },
       },
       folderResourceMetaSearch: {
-        //@ts-ignore
+        //@ts-expect-error - We just want some autocomplete here
         read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
             toReference(
@@ -153,7 +153,7 @@ const typePolicies: TypePolicies = {
     },
   },
   SearchContext: {
-    keyFields: ["path"],
+    keyFields: ["contextId"],
   },
   GroupSearchResult: {
     keyFields: ["path"],
@@ -164,8 +164,8 @@ const typePolicies: TypePolicies = {
   FrontpageMenu: {
     keyFields: ["articleId"],
   },
-  FrontpageSearchResult: {
-    keyFields: ["path"],
+  TaxonomyContext: {
+    keyFields: ["contextId"],
   },
   FolderResourceMeta: {
     keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
