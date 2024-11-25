@@ -21,13 +21,7 @@ import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 export const topicPageQuery = gql`
-  query topicPage(
-    $id: String
-    $rootId: String
-    $contextId: String
-    $includeCrossSubjectTopics: Boolean!
-    $transformArgs: TransformedArticleContentInput
-  ) {
+  query topicPage($id: String, $rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
     node(id: $id, rootId: $rootId, contextId: $contextId) {
       id
       name
@@ -89,7 +83,6 @@ export const TopicPage = () => {
       id: topicId,
       rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
-      includeCrossSubjectTopics: true, // TODO: Must find a better way to handle this
     },
   });
 

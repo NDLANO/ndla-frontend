@@ -4584,7 +4584,6 @@ export type GQLTopicPageQueryVariables = Exact<{
   id?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
   contextId?: InputMaybe<Scalars["String"]["input"]>;
-  includeCrossSubjectTopics: Scalars["Boolean"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
