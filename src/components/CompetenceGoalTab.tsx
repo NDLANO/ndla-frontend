@@ -160,7 +160,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
                 <li key={goal.id}>
                   <Text>
                     {goal.text}
-                    {showLinks && (
+                    {!!showLinks && (
                       <SafeLinkWrapper>
                         <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
                           {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
@@ -174,7 +174,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
           ) : (
             <CoreElementWrapper>
               <Text>{element.text}</Text>
-              {showLinks && (
+              {!!showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </SafeLink>

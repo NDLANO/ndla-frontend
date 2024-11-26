@@ -155,7 +155,9 @@ const AllMoviesAlphabetically = () => {
             const context = movie.contexts.find((c) => c.rootId === FILM_ID);
             return (
               <StyledSafeLink to={(enablePrettyUrls ? context?.url : context?.path) ?? ""} key={movie.id}>
-                {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
+                {!!movie.metaImage?.url && (
+                  <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />
+                )}
                 <MovieTextWrapper>
                   <Heading textStyle="title.small" asChild consumeCss data-title="">
                     <h3>{movie.title}</h3>

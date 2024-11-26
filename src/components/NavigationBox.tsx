@@ -53,7 +53,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
   const headingId = useId();
   return (
     <StyledWrapper aria-labelledby={heading ? headingId : undefined} data-nav-box="">
-      {heading && (
+      {!!heading && (
         <Heading id={headingId} asChild consumeCss textStyle="heading.small" fontWeight="bold">
           <h2>{heading}</h2>
         </Heading>
@@ -62,7 +62,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
         {items?.map((item) => (
           <li key={item.id} data-testid="nav-box-item">
             <NavigationSafeLinkButton to={item.url ?? ""} aria-current={item.current} variant={variant}>
-              {item.isAdditionalResource && (
+              {!!item.isAdditionalResource && (
                 <Additional
                   aria-label={t("resource.additionalTooltip")}
                   title={t("resource.additionalTooltip")}
@@ -70,7 +70,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
                 />
               )}
               {/* TODO: Consider adding a label to this */}
-              {item.isRestrictedResource && <PresentationLine />}
+              {!!item.isRestrictedResource && <PresentationLine />}
               {item.label}
             </NavigationSafeLinkButton>
           </li>

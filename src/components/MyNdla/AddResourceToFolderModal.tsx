@@ -51,7 +51,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
         <LoginModalContent
           title={t("myNdla.myPage.loginResourcePitch")}
           content={
-            resource && (
+            !!resource && (
               <ListResource
                 context="standalone"
                 variant="subtle"

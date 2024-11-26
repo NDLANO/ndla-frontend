@@ -187,7 +187,7 @@ const Resources = ({
           </Heading>
           <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
-        {hasSupplementaryResources && (
+        {!!hasSupplementaryResources && (
           <StyledForm>
             <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
               <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>

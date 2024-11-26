@@ -96,10 +96,8 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { trackPageView } = useTracker();
   const headingId = useId();
 
-  const pageTitle = useMemo(
-    () => htmlTitle([node.name, node.breadcrumbs[0]].filter((e) => !!e).join(" - "), [t("htmlTitles.titleTemplate")]),
-    [node.breadcrumbs, node.name, t],
-  );
+  const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
+  const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
 
   useEffect(() => {
     if (authContextLoaded && node.article) {
@@ -141,7 +139,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         {!node.context?.isActive && <meta name="robots" content="noindex" />}
       </Helmet>
       <SocialMediaMetadata
-        title={pageTitle}
+        title={metaTitle}
         description={node.meta?.metaDescription}
         imageUrl={node.meta?.metaImage?.url}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}

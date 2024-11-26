@@ -57,7 +57,7 @@ interface MovieGridLoadingShimmerProps {
 export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmerProps) => {
   return (
     <StyledSection>
-      {showHeading && (
+      {!!showHeading && (
         <Skeleton>
           <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
             <h3>&nbsp;</h3>

@@ -149,7 +149,7 @@ const FoldersPage = () => {
     <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
       <HelmetWithTracker title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
-      {selectedFolder && (
+      {!!selectedFolder && (
         <p>
           <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
         </p>
@@ -161,7 +161,7 @@ const FoldersPage = () => {
         setFocusId={setFocusId}
         folderRefId={folderRefId}
       />
-      {selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
+      {!!selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
       {!selectedFolder && sharedByOthersFolders?.length > 0 && (
         <>
           <SharedHeading asChild consumeCss textStyle="heading.small">

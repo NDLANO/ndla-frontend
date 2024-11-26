@@ -176,7 +176,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {copyPageUrlLink && (
+        {!!copyPageUrlLink && (
           <link
             rel="alternate"
             type="application/json+oembed"
@@ -200,7 +200,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <PageContent variant="article" asChild>
-          <StyledHeroContent>{root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
+          <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
@@ -210,7 +210,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                 contentType={contentType}
                 contentTypeLabel={resource.resourceTypes?.[0]?.name}
                 heartButton={
-                  resource.path && (
+                  !!resource.path && (
                     <AddResourceToFolderModal
                       resource={{
                         id: article.id.toString(),
@@ -247,7 +247,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                     <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
                   }
                 />
-                {parent && (
+                {!!parent && (
                   <NoSSR fallback={null}>
                     <ResourcesPageContent>
                       <Resources

@@ -13,7 +13,7 @@ import { ContentType } from "@ndla/ui";
 import { type Resource, ResourceItem } from "./ResourceItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
-const StyledResourceList = styled("ul", {
+const StyledResourceList = styled("ol", {
   base: {
     listStyle: "none",
   },
@@ -57,7 +57,7 @@ const ResourceList = ({
           />
         ))}
       </StyledResourceList>
-      {renderAdditionalResourceTrigger && (
+      {!!renderAdditionalResourceTrigger && (
         <Text>
           {title
             ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })

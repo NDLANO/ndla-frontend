@@ -181,7 +181,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           </FieldRoot>
         )}
       />
-      {showLockedOption && (
+      {!!showLockedOption && (
         <Controller
           control={control}
           name="locked"

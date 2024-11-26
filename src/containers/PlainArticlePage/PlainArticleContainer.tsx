@@ -76,7 +76,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         {scripts.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
+        {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
 
         <script type="application/ld+json">
           {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
