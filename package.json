@@ -90,7 +90,6 @@
     "@lexical/react": "^0.12.4",
     "@ndla/article-converter": "^10.0.75-alpha.0",
     "@ndla/core": "^5.0.2",
-    "@ndla/error-reporter": "^2.0.4",
     "@ndla/hooks": "^2.1.9",
     "@ndla/icons": "^8.0.43-alpha.0",
     "@ndla/licenses": "^8.0.3-alpha.0",
