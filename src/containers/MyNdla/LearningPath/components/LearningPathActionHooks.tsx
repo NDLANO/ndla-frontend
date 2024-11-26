@@ -44,6 +44,7 @@ export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment
       type: "dialog",
       text: t("myNdla.learningpath.menu.delete"),
       value: "deleteLearningPath",
+      variant: "destructive",
       icon: <DeleteBinLine />,
       modalContent: (close) => (
         <LearningPathDeleteDialogContent
@@ -53,7 +54,7 @@ export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment
             await deleteLearningpath();
             toast.create({
               title: t("myNdla.learningpath.toast.deleted", {
-                folderName: learningPath.title,
+                name: learningPath.title,
               }),
             });
             close();
@@ -74,12 +75,12 @@ export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment
           onCopyText={() => copyLearningPathSharingLink(learningPath.id)}
         />
       ),
-      onClick: isShared
+      onClick: !isShared
         ? () => {
             updateLearningpathStatus({
               variables: {
                 id: learningPath.id,
-                status: "shared",
+                status: "UNLISTED",
               },
             });
           }
@@ -94,7 +95,7 @@ export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment
         updateLearningpathStatus({
           variables: {
             id: learningPath.id,
-            status: "private",
+            status: "PRIVATE",
           },
         });
         toast.create({
@@ -127,7 +128,7 @@ export const useLearningPathActionHooks = (learningPath: GQLLearningpathFragment
       },
     };
 
-    if (learningPath.status === "published") {
+    if (learningPath.status === "UNLISTED") {
       return [edit, preview, link, unShare, del];
     }
 

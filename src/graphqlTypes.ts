@@ -1119,7 +1119,7 @@ export type GQLMutation = {
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
-  deleteLearningpath?: Maybe<Array<Scalars["String"]["output"]>>;
+  deleteLearningpath?: Maybe<Scalars["Boolean"]["output"]>;
   deleteLearningpathStep?: Maybe<Array<Scalars["String"]["output"]>>;
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
@@ -1159,7 +1159,7 @@ export type GQLMutation = {
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars["String"]["output"]>;
   updateLearningpath: GQLLearningpath;
-  updateLearningpathStatus?: Maybe<Array<Scalars["String"]["output"]>>;
+  updateLearningpathStatus: GQLLearningpath;
   updateLearningpathStep: GQLLearningpathStep;
   updateOtherArenaUser: GQLMyNdlaPersonalData;
   updatePersonalData: GQLMyNdlaPersonalData;
@@ -4077,14 +4077,17 @@ export type GQLDeleteLearningpathMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
 }>;
 
-export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLearningpath?: Array<string> };
+export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLearningpath?: boolean };
 
 export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   status: Scalars["String"]["input"];
 }>;
 
-export type GQLUpdateLearningpathStatusMutation = { __typename?: "Mutation"; updateLearningpathStatus?: Array<string> };
+export type GQLUpdateLearningpathStatusMutation = {
+  __typename?: "Mutation";
+  updateLearningpathStatus: { __typename?: "Learningpath" } & GQLLearningpathFragment;
+};
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

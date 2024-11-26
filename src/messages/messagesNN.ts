@@ -101,8 +101,8 @@ const messages = {
       title: "Mine læringsstiar",
       description:
         "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenkjer til andre ressursar samt korte tekstar du lagar sjølv. Sjå døme på ein læringssti www.lenketildøme.no",
-      created: 'Oppretta: "{{ created }}" ',
-      shared: '/ Delt "{{ shared }}"',
+      created: "Oppretta: {{ created }} ",
+      shared: "/ Delt {{ shared }}",
       menu: {
         new: "Ny",
         edit: "Endre",

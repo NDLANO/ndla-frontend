@@ -11,10 +11,13 @@ import { PencilLine } from "@ndla/icons/action";
 import { PersonOutlined } from "@ndla/icons/common";
 import { LearningPath } from "@ndla/icons/contentType";
 import { CheckLine } from "@ndla/icons/editor";
-import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useLearningPathActionHooks } from "./LearningPathActionHooks";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
 import SettingsMenu from "../../components/SettingsMenu";
 
 const StyledListItemRoot = styled(ListItemRoot, {
@@ -33,7 +36,7 @@ const TextWrapper = styled("div", {
   },
 });
 
-const StatusWrapper = styled("div", {
+const StatusText = styled(Text, {
   base: {
     display: "flex",
     gap: "4xsmall",
@@ -41,11 +44,24 @@ const StatusWrapper = styled("div", {
   },
 });
 
-const StatusText = styled(Text, {
+const StyledSafeLink = styled(SafeLink, {
   base: {
-    display: "flex",
-    gap: "4xsmall",
-    alignItems: "center",
+    lineClamp: "2",
+    overflowWrap: "anywhere",
+  },
+});
+
+const TimestampText = styled(Text, {
+  base: {
+    mobileWideDown: {
+      display: "none",
+    },
+  },
+});
+
+const MenuWrapper = styled("div", {
+  base: {
+    position: "relative",
   },
 });
 
@@ -58,24 +74,28 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
   const menuItems = useLearningPathActionHooks(learningPath);
 
   return (
-    <StyledListItemRoot>
-      <LearningPath />
-      <ListItemContent>
-        <TextWrapper>
-          <Text>{learningPath.title}</Text>
-          <Text textStyle="label.small" color="text.subtle">
-            {t("myNdla.learningpath.created", {
-              created: Intl.DateTimeFormat("no").format(new Date(learningPath.created)),
-            })}
-            {learningPath.madeAvailable
-              ? t("myNdla.learningpath.shared", {
-                  shared: Intl.DateTimeFormat("no").format(new Date(learningPath.madeAvailable)),
-                })
-              : null}
-          </Text>
-        </TextWrapper>
-        <StatusWrapper>
-          {learningPath.status === "PUBLISHED" && (
+    <StyledListItemRoot context="list" asChild consumeCss>
+      <li>
+        <LearningPath />
+        <ListItemContent>
+          <TextWrapper>
+            <ListItemHeading asChild consumeCss>
+              <StyledSafeLink to={routes.myNdla.learningpathEdit(learningPath.id)} unstyled css={linkOverlay.raw()}>
+                {learningPath.title}
+              </StyledSafeLink>
+            </ListItemHeading>
+            <TimestampText textStyle="label.small" color="text.subtle">
+              {t("myNdla.learningpath.created", {
+                created: Intl.DateTimeFormat("no").format(new Date(learningPath.created)),
+              })}
+              {learningPath.madeAvailable
+                ? t("myNdla.learningpath.shared", {
+                    shared: Intl.DateTimeFormat("no").format(new Date(learningPath.madeAvailable)),
+                  })
+                : null}
+            </TimestampText>
+          </TextWrapper>
+          {learningPath.status === "UNLISTED" && (
             <StatusText textStyle="label.small">
               <PersonOutlined size="small" />
               {t("myNdla.learningpath.status.delt")}
@@ -93,9 +113,13 @@ export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) =
               {t("myNdla.learningpath.status.readyForSharing")}
             </StatusText>
           )}
-          {showMenu ? <SettingsMenu menuItems={menuItems} /> : null}
-        </StatusWrapper>
-      </ListItemContent>
+        </ListItemContent>
+        {showMenu ? (
+          <MenuWrapper>
+            <SettingsMenu menuItems={menuItems} />
+          </MenuWrapper>
+        ) : null}
+      </li>
     </StyledListItemRoot>
   );
 };

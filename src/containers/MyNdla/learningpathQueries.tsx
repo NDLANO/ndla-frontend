@@ -62,8 +62,11 @@ export const useDeleteLearningpath = (
 
 const updateLearningpathStatusMutation = gql`
   mutation updateLearningpathStatus($id: Int!, $status: String!) {
-    updateLearningpathStatus(id: $id, status: $status)
+    updateLearningpathStatus(id: $id, status: $status) {
+      ...Learningpath
+    }
   }
+  ${learningpathFragment}
 `;
 
 export const useUpdateLearningpathStatus = (

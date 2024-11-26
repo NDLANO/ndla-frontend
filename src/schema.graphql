@@ -997,7 +997,7 @@ type Mutation {
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
-  deleteLearningpath(id: Int!): [String!]
+  deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
@@ -1057,7 +1057,7 @@ type Mutation {
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): Learningpath!
-  updateLearningpathStatus(id: Int!, status: String!): [String!]
+  updateLearningpathStatus(id: Int!, status: String!): Learningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
