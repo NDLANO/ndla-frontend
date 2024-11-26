@@ -138,7 +138,7 @@ router.get("/login/success", async (req, res) => {
     username: decoded?.[username],
     fullname: decoded?.name,
     email: decoded?.email,
-    groups: ["verified-users"],
+    groups: ["unverified-users"],
   };
   const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
   res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
