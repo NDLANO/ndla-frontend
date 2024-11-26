@@ -3148,16 +3148,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/error-reporter@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "@ndla/error-reporter@npm:2.0.4"
-  dependencies:
-    "@ndla/util": "npm:^5.0.0-alpha.0"
-    raven-js: "npm:^3.22.3"
-  checksum: 10c0/96c12cd88041fbb011918e520347ec79d3adb3130b04ebce848392beec03591ff0321a200dc54c52f5e2b370e61c66412bd19b5cee6d8ae1f1b18e6cabf1a1f0
-  languageName: node
-  linkType: hard
-
 "@ndla/hooks@npm:^2.1.9":
   version: 2.1.9
   resolution: "@ndla/hooks@npm:2.1.9"
@@ -11625,7 +11615,6 @@ __metadata:
     "@lexical/react": "npm:^0.12.4"
     "@ndla/article-converter": "npm:^10.0.75-alpha.0"
     "@ndla/core": "npm:^5.0.2"
-    "@ndla/error-reporter": "npm:^2.0.4"
     "@ndla/hooks": "npm:^2.1.9"
     "@ndla/icons": "npm:^8.0.43-alpha.0"
     "@ndla/licenses": "npm:^8.0.3-alpha.0"
@@ -13270,13 +13259,6 @@ __metadata:
   version: 1.2.1
   resolution: "range-parser@npm:1.2.1"
   checksum: 10c0/96c032ac2475c8027b7a4e9fe22dc0dfe0f6d90b85e496e0f016fbdb99d6d066de0112e680805075bd989905e2123b3b3d002765149294dce0c1f7f01fcc2ea0
-  languageName: node
-  linkType: hard
-
-"raven-js@npm:^3.22.3":
-  version: 3.27.2
-  resolution: "raven-js@npm:3.27.2"
-  checksum: 10c0/a0fc187d6bfb7bae90e689580ffcaee45b877475e6cd26f48986cc7cb4b4df7f0da8ad7bd406b839f1b75c963b00edbc2d00ff27710bdbfa82a02bf85e8ca915
   languageName: node
   linkType: hard
 
