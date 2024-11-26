@@ -241,7 +241,7 @@ export const Footer = () => {
     },
     {
       text: t("footer.ndlaLinks.contact"),
-      to: "https://ndla.no/about/kontakt-oss",
+      to: "https://ndla.no/om/kontakt-oss",
     },
   ];
 
