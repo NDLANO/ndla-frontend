@@ -6,10 +6,10 @@
  *
  */
 
+import { LtiData, LtiItem } from "../interfaces";
 import LtiBasicLaunch from "./components/LtiBasicLaunch";
 import LtiDeepLinking from "./components/LtiDeepLinking";
 import LtiDefault from "./components/LtiDefault";
-import { LtiData, LtiItem } from "../interfaces";
 
 interface Props {
   item: LtiItem;

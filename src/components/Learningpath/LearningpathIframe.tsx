@@ -86,7 +86,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     if (iframe) {
       const newHeight = parseInt(evt.data.height, 10);
-      iframe.style.height = `${newHeight}px`; // eslint-disable-line no-param-reassign
+      iframe.style.height = `${newHeight}px`;
     }
   };
 

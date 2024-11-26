@@ -211,7 +211,6 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 authors={authors}
                 suppliers={article.copyright?.rightsholders}
                 published={article.published}
-                license={article.copyright?.license?.license ?? ""}
                 licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
               />
               <NoSSR fallback={null}>
