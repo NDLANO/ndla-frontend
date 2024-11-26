@@ -8,7 +8,7 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-export const TransportationPageNodeListGrid = styled("ul", {
+export const TransportationPageNodeListGrid = styled("ol", {
   base: {
     listStyle: "none",
     display: "grid",

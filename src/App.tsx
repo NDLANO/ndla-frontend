@@ -59,8 +59,8 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
-import { TopicRouting } from "./containers/TopicPage/TopicRouting";
+import SubjectPage from "./containers/SubjectPage/SubjectPage";
+import { TopicPage } from "./containers/TopicPage/TopicPage";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
 
@@ -138,9 +138,24 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />} />
-                <Route path="subject:subjectId/topic:topicId" element={<TopicRouting />} />
-                <Route path="subject:subjectId/topic:topic1" element={<TopicRouting />}>
+                <Route path="r" element={<ResourcePage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":contextId/:stepId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId/:stepId" element={null} />
+                </Route>
+                <Route path="e" element={<TopicPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="f" element={<SubjectPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="subject:subjectId" element={<SubjectPage />} />
+                <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
+                <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>
                   <Route path="topic:topicId" element={null} />
                   <Route path="topic:topic2" element={null}>
                     <Route path="topic:topicId" element={null} />
@@ -195,7 +210,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  {config.learningpathEnabled && (
+                  {!!config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningPathCheck />}>
                       <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
                       <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
@@ -204,8 +219,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
-                <Route path="about/:slug" element={<AboutPage />} />
-
+                <Route path="om/:slug" element={<AboutPage />} />
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

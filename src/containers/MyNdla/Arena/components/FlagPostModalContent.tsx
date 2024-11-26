@@ -148,7 +148,7 @@ const FlagPostModalContent = ({ id, onClose }: FlagPostModalProps) => {
               </FieldRoot>
             )}
           />
-          {showReasonField && (
+          {!!showReasonField && (
             <Controller
               control={control}
               name="reason"

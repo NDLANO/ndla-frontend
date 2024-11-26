@@ -100,7 +100,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   return (
     <div>
       {t("myNdla.resource.addedToFolder")}
-      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+      <SafeLink to={routes.myNdla.folder(folder.id)}>{`"${folder.name}"`}</SafeLink>
     </div>
   );
 };
@@ -225,7 +225,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && (
+            {!!alreadyAdded && (
               <MessageBox variant="warning">
                 <Text>{t("myNdla.alreadyInFolder")}</Text>
               </MessageBox>
@@ -235,7 +235,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
                 <Text>{t("myNdla.addInSharedFolder")}</Text>
               </MessageBox>
             )}
-            {noFolderSelected && (
+            {!!noFolderSelected && (
               <MessageBox variant="error">
                 <InformationLine />
                 <Text>{t("myNdla.noFolderSelected")}</Text>

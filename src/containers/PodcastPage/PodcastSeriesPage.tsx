@@ -143,7 +143,7 @@ const PodcastSeriesPage = () => {
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {podcastSeries.hasRSS && (
+        {!!podcastSeries.hasRSS && (
           <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
@@ -152,7 +152,6 @@ const PodcastSeriesPage = () => {
         type="website"
         title={podcastSeries.title.title ?? ""}
         trackableContent={{
-          tags: podcastSeries?.episodes?.flatMap((ep) => ep.tags?.tags || []),
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
@@ -268,9 +267,6 @@ const podcastSeriesPageQuery = gql`
 
         ...CopyrightInfo
       }
-        tags {
-          tags
-        }
       }
       hasRSS
     }

@@ -75,7 +75,7 @@ const FlagCard = ({ flag }: Props) => {
       <Text>{flag.reason}</Text>
       <FlagRow>
         <TimedistanceField date={flag.created} />
-        {flag.resolved && (
+        {!!flag.resolved && (
           <Text textStyle="body.small" asChild consumeCss>
             <span>
               {t("myNdla.arena.admin.flags.solvedFor")}{" "}

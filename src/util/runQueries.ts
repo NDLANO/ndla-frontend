@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import {
   DocumentNode,
   OperationVariables,
@@ -14,7 +15,7 @@ import {
   useQuery,
 } from "@apollo/client";
 
-export function useGraphQuery<TData extends any = any, TVariables extends OperationVariables = OperationVariables>(
+export function useGraphQuery<TData, TVariables extends OperationVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables>,
 ): QueryResult<TData, TVariables> {

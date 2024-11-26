@@ -19,6 +19,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
@@ -32,6 +33,7 @@ const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
 };
 
 interface GradesData {
+  id: string;
   name: string;
   missingProgrammeSubjects: boolean;
   categories?: {
@@ -49,7 +51,10 @@ interface Props {
   grade: string;
 }
 
-const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
+const mapGradesData = (
+  grades: GQLProgrammeContainer_ProgrammeFragment["grades"],
+  enablePrettyUrls: boolean,
+): GradesData[] => {
   if (!grades) return [];
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
@@ -58,7 +63,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
-          url: subject.path,
+          url: enablePrettyUrls ? subject.url : subject.path,
         };
       });
       return {
@@ -68,6 +73,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       };
     });
     return {
+      id: grade.id,
       name: grade.title.title,
       missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
@@ -137,8 +143,9 @@ const StyledImage = styled(Image, {
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const heading = programme.title.title;
-  const grades = mapGradesData(programme.grades || []);
+  const grades = mapGradesData(programme.grades || [], enablePrettyUrls);
   const socialMediaTitle = `${programme.title.title} - ${gradeProp}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
@@ -177,7 +184,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             {!!grades.length && (
               <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
-                  <li key={item.name}>
+                  <li key={item.id}>
                     <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.name.toLowerCase())}
                       variant="secondary"
@@ -191,7 +198,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             )}
           </HeadingWrapper>
         </div>
-        {grade?.missingProgrammeSubjects && (
+        {!!grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
             <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>
@@ -239,6 +246,7 @@ ProgrammeContainer.fragments = {
             id
             name
             path
+            url
             subjectpage {
               about {
                 title

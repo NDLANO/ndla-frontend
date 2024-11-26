@@ -201,9 +201,7 @@ const WelcomePage = () => {
         title={t("welcomePage.heading.heading")}
         description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
-      >
-        <meta name="keywords" content={t("meta.keywords")} />
-      </SocialMediaMetadata>
+      />
       <Hero variant="brand1Moderate">
         <StyledHeroBackground />
         <StyledPageContainer asChild consumeCss>
@@ -228,7 +226,7 @@ const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            {article && (
+            {!!article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>

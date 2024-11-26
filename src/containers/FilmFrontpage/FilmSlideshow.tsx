@@ -13,6 +13,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
 interface Props {
@@ -153,6 +154,7 @@ const MainImageShimmer = () => (
 );
 
 const FilmSlideshow = ({ slideshow }: Props) => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -188,28 +190,36 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           {!slideshow ? (
             <LoadingShimmer />
           ) : (
-            slideshow.map((movie) => (
-              <StyledSafeLinkCard
-                data-current={movie.id === currentSlide?.id}
-                key={movie.id}
-                onMouseDown={(e) => e.preventDefault()}
-                onMouseEnter={() => onHover(movie)}
-                onMouseLeave={() => {
-                  if (hoverCallback) {
-                    clearTimeout(hoverCallback);
-                    setHoverCallback(undefined);
-                  }
-                }}
-                onFocus={() => setCurrentSlide(movie)}
-                aria-describedby={"currentMovieDescription"}
-                to={movie.path}
-              >
-                <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} sizes={"300px"} loading="eager" alt="" />
-                <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
-                  {movie.title}
-                </StyledText>
-              </StyledSafeLinkCard>
-            ))
+            slideshow.map((movie) => {
+              const to = enablePrettyUrls ? movie.url : movie.path;
+              return (
+                <StyledSafeLinkCard
+                  data-current={movie.id === currentSlide?.id}
+                  key={movie.id}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseEnter={() => onHover(movie)}
+                  onMouseLeave={() => {
+                    if (hoverCallback) {
+                      clearTimeout(hoverCallback);
+                      setHoverCallback(undefined);
+                    }
+                  }}
+                  onFocus={() => setCurrentSlide(movie)}
+                  aria-describedby={"currentMovieDescription"}
+                  to={to}
+                >
+                  <StyledImg
+                    src={movie?.metaImage ? movie?.metaImage.url : ""}
+                    sizes={"300px"}
+                    loading="eager"
+                    alt=""
+                  />
+                  <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
+                    {movie.title}
+                  </StyledText>
+                </StyledSafeLinkCard>
+              );
+            })
           )}
         </StyledCarousel>
       </section>

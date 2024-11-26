@@ -77,7 +77,7 @@ const FoldersTagsPage = () => {
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
         <MyNdlaTitle title={`#${tag}`} />
       </TitleWrapper>
-      {resources && <Resources resources={resources} />}
+      {!!resources && <Resources resources={resources} />}
     </StyledMyNdlaPageWrapper>
   );
 };
@@ -136,30 +136,28 @@ const Resources = ({ resources }: ResourcesProps) => {
   };
 
   return (
-    <>
-      <BlockWrapper>
-        {resources.map((resource) => {
-          const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-          return (
-            <ListResource
-              id={resource.id}
-              isLoading={loading}
-              key={resource.id}
-              link={resource.path}
-              title={meta?.title ?? ""}
-              description={meta?.description ?? ""}
-              resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
-              resourceImage={{
-                src: meta?.metaImage?.url ?? "",
-                alt: "",
-              }}
-              menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
-              variant="subtle"
-            />
-          );
-        })}
-      </BlockWrapper>
-    </>
+    <BlockWrapper>
+      {resources.map((resource) => {
+        const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+        return (
+          <ListResource
+            id={resource.id}
+            isLoading={loading}
+            key={resource.id}
+            link={resource.path}
+            title={meta?.title ?? ""}
+            description={meta?.description ?? ""}
+            resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
+            resourceImage={{
+              src: meta?.metaImage?.url ?? "",
+              alt: "",
+            }}
+            menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
+            variant="subtle"
+          />
+        );
+      })}
+    </BlockWrapper>
   );
 };
 

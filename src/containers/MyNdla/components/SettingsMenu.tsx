@@ -22,7 +22,6 @@ import {
   MenuContent,
   MenuItem,
   MenuItemVariantProps,
-  MenuPositioner,
   MenuRoot,
   MenuTrigger,
 } from "@ndla/primitives";
@@ -180,31 +179,29 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "mediu
           <MoreLine />
         </IconButton>
       </MenuTrigger>
-      <MenuPositioner>
-        <MenuContent>
-          {menuItems?.map((item) => (
-            <MenuItem
-              key={item.value}
-              value={item.value}
-              variant={item.variant}
-              onClick={item.onClick}
-              disabled={item.disabled}
-              closeOnSelect={item.type !== "dialog"}
-              asChild={item.type !== "action"}
-              consumeCss
+      <MenuContent>
+        {menuItems?.map((item) => (
+          <MenuItem
+            key={item.value}
+            value={item.value}
+            variant={item.variant}
+            onClick={item.onClick}
+            disabled={item.disabled}
+            closeOnSelect={item.type !== "dialog"}
+            asChild={item.type !== "action"}
+            consumeCss
+          >
+            <MenuItemElement
+              item={item}
+              handleDialogItemOpenChange={handleDialogItemOpenChange}
+              dropdownTriggerRef={dropdownTriggerRef}
             >
-              <MenuItemElement
-                item={item}
-                handleDialogItemOpenChange={handleDialogItemOpenChange}
-                dropdownTriggerRef={dropdownTriggerRef}
-              >
-                {item.icon}
-                {item.text}
-              </MenuItemElement>
-            </MenuItem>
-          ))}
-        </MenuContent>
-      </MenuPositioner>
+              {item.icon}
+              {item.text}
+            </MenuItemElement>
+          </MenuItem>
+        ))}
+      </MenuContent>
     </MenuRoot>
   );
 };

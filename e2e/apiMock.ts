@@ -20,7 +20,7 @@ interface ExtendParams {
 const regex = new RegExp(`^(${apiTestRegex}|${localhostGraphqlRegex})$`);
 
 const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
-  const [_dir, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
+  const [, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
   return `${mockDir}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
 };
 
@@ -57,7 +57,9 @@ export const test = Ptest.extend<ExtendParams>({
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
-        process.env.RECORD_FIXTURES !== "true" && (await page.setExtraHTTPHeaders(checkpoint(checkpointIndex)));
+        if (process.env.RECORD_FIXTURES === "true") {
+          await page.setExtraHTTPHeaders(checkpoint(checkpointIndex));
+        }
       });
     },
     { auto: true, scope: "test" },

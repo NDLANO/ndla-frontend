@@ -35,7 +35,7 @@ const getIcon = (contentType: string | undefined) => {
   }
 };
 
-export const ContentTypeFallbackIcon = forwardRef<SVGElement, Props>(({ contentType, children, ...props }, ref) => {
+export const ContentTypeFallbackIcon = forwardRef<SVGElement, Props>(({ contentType, ...props }, ref) => {
   const Element: ComponentType = getIcon(contentType);
   return <Element ref={ref} {...props} />;
 });

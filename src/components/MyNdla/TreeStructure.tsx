@@ -328,7 +328,7 @@ const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) =
             <FolderIcon />
             <TreeItemText>{folder.name}</TreeItemText>
           </StyledHStack>
-          {containsResource && <StyledHeartFill title={t("myNdla.alreadyInFolder")} />}
+          {!!containsResource && <StyledHeartFill title={t("myNdla.alreadyInFolder")} />}
         </StyledHStack>
       </TreeItem>
     );
@@ -353,7 +353,7 @@ const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) =
               {folder.name}
             </TreeBranchText>
           </StyledHStack>
-          {containsResource && (
+          {!!containsResource && (
             <StyledHeartFill
               title={t("myNdla.alreadyInFolder")}
               aria-label={t("myNdla.alreadyInFolder")}

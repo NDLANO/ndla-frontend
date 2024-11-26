@@ -24,6 +24,7 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
@@ -72,6 +73,7 @@ export type Resource = {
   id: string;
   name: string;
   path?: string;
+  url?: string;
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
@@ -171,6 +173,7 @@ const StyledListItemImage = styled(ListItemImage, {
 export const ResourceItem = ({
   name,
   path,
+  url,
   contentType,
   active,
   relevanceId,
@@ -182,6 +185,7 @@ export const ResourceItem = ({
   currentResourceContentType,
 }: Props & Resource) => {
   const { t } = useTranslation();
+  const enablePrettyUrls = useEnablePrettyUrls();
   const relevanceElId = useId();
   const accessId = useId();
   const additional = relevanceId !== RELEVANCE_CORE;
@@ -210,7 +214,7 @@ export const ResourceItem = ({
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
-        hidden={hidden && !active}
+        hidden={!!hidden && !active}
       >
         <StyledListItemImage
           src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
@@ -221,7 +225,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
-              to={path || ""}
+              to={(enablePrettyUrls ? url : path) || ""}
               unstyled
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}
@@ -233,7 +237,7 @@ export const ResourceItem = ({
             </StyledSafeLink>
           </ListItemHeading>
           <InfoContainer gap="xxsmall">
-            {teacherOnly && (
+            {!!teacherOnly && (
               <StyledPresentationLine
                 aria-hidden={false}
                 id={accessId}
@@ -242,7 +246,7 @@ export const ResourceItem = ({
               />
             )}
             <ContentTypeBadgeNew contentType={contentType} />
-            {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
+            {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
       </ListItemRoot>

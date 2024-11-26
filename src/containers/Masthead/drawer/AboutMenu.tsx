@@ -32,8 +32,8 @@ interface NewAboutMenuProps extends Props {
   onClose: () => void;
 }
 const checkIfNoCurrent: (
-  parentSlug: String | undefined,
-  slug: String | undefined,
+  parentSlug: string | undefined,
+  slug: string | undefined,
   structure?: GQLAboutMenu_FrontpageMenuFragment[],
 ) => boolean = (parentSlug, slug, structure) => {
   if (parentSlug === slug) return true;

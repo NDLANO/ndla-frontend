@@ -14,13 +14,21 @@ import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
+import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
+import {
+  ABOUT_PATH,
+  FILM_PAGE_PATH,
+  FILM_PAGE_URL,
+  STORED_LANGUAGE_COOKIE_KEY,
+  UKR_PAGE_PATH,
+  UKR_PAGE_URL,
+} from "../constants";
+import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
@@ -50,7 +58,7 @@ router.get("/health", (_, res) => {
 });
 
 router.get("/film", (_, res) => {
-  res.redirect(FILM_PAGE_PATH);
+  res.redirect(config.enablePrettyUrls ? FILM_PAGE_URL : FILM_PAGE_PATH);
 });
 
 router.get("/utdanning", (_, res) => {
@@ -59,7 +67,7 @@ router.get("/utdanning", (_, res) => {
 
 router.get("/ukr", (_req, res) => {
   res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
-  res.redirect(`/en${UKR_PAGE_PATH}`);
+  res.redirect(`/en${config.enablePrettyUrls ? UKR_PAGE_URL : UKR_PAGE_PATH}`);
 });
 
 router.get("/oembed", async (req, res) => {
@@ -130,10 +138,10 @@ router.get("/login/success", async (req, res) => {
     username: decoded?.[username],
     fullname: decoded?.name,
     email: decoded?.email,
-    groups: ["verified-users"],
+    groups: ["unverified-users"],
   };
   const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
-  res.cookie("nodebb_auth", nodebbCookieString, { domain });
+  res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
 
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
@@ -168,6 +176,11 @@ router.get("/logout/session", (req, res) => {
   const redirect = wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : state;
   res.setHeader("Cache-Control", "private");
   return res.redirect(redirect);
+});
+
+router.get(["/about/*path", "/:lang/about/*path"], (req, res) => {
+  const { lang, path } = req.params;
+  res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
 });
 
 router.get(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
@@ -206,6 +219,18 @@ router.post("/lti/oauth", async (req, res) => {
     );
   },
 );
+
+router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
+  if (config.enablePrettyUrls) {
+    if (req.params.lang && !isValidLocale(req.params.lang)) {
+      next();
+    } else {
+      contextRedirectRoute(req, res, next);
+    }
+  } else {
+    next();
+  }
+});
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);

@@ -15,14 +15,14 @@ import SubjectMenu from "./SubjectMenu";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
   GQLDrawerContent_ProgrammePageFragment,
-  GQLDrawerContent_SubjectFragment,
+  GQLDrawerContent_RootFragment,
 } from "../../../graphqlTypes";
 
 interface Props {
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPath: string[];
-  subject?: GQLDrawerContent_SubjectFragment;
+  root?: GQLDrawerContent_RootFragment;
   type: MenuType;
   setFrontpageMenu: Dispatch<SetStateAction<GQLDrawerContent_FrontpageMenuFragment[]>>;
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
@@ -35,7 +35,7 @@ const DrawerContent = ({
   type,
   onCloseMenuPortion,
   topicPath,
-  subject,
+  root,
   setTopicPathIds,
   setFrontpageMenu,
   menuItems,
@@ -46,7 +46,7 @@ const DrawerContent = ({
   } else if (type === "subject") {
     return (
       <SubjectMenu
-        subject={subject}
+        subject={root}
         onClose={onClose}
         onCloseMenuPortion={onCloseMenuPortion}
         topicPathIds={topicPath}
@@ -66,11 +66,11 @@ const DrawerContent = ({
 };
 
 DrawerContent.fragments = {
-  subject: gql`
-    fragment DrawerContent_Subject on Subject {
-      ...SubjectMenu_Subject
+  root: gql`
+    fragment DrawerContent_Root on Node {
+      ...SubjectMenu_Root
     }
-    ${SubjectMenu.fragments.subject}
+    ${SubjectMenu.fragments.root}
   `,
   frontpage: gql`
     fragment DrawerContent_FrontpageMenu on FrontpageMenu {

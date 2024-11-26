@@ -290,7 +290,7 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
 
       editor.registerCommand(
         ADD_LINK_COMMAND,
-        (_) => {
+        () => {
           const selection = $getSelection();
           setLastSelection(null);
           setEditedLinkElement(null);
@@ -407,10 +407,10 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
   return open ? (
     <FloatingContainer ref={editorRef} data-visible={!!open}>
       <Stack>
-        <FieldRoot required invalid={showErrorMessage && !!textError}>
+        <FieldRoot required invalid={!!showErrorMessage && !!textError}>
           <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
           <FieldErrorMessage data-disabled={editedLinkText.length < 1}>
-            {showErrorMessage && textError}
+            {!!showErrorMessage && textError}
           </FieldErrorMessage>
           <FieldInput
             // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -425,9 +425,11 @@ const FloatingLinkEditor = ({ editor, isLink, setIsLink, anchorElement, editorIs
             }}
           />
         </FieldRoot>
-        <FieldRoot required invalid={showErrorMessage && !!urlError}>
+        <FieldRoot required invalid={!!showErrorMessage && !!urlError}>
           <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
-          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>{showErrorMessage && urlError}</FieldErrorMessage>
+          <FieldErrorMessage data-disabled={editedLinkUrl.length < 1}>
+            {!!showErrorMessage && urlError}
+          </FieldErrorMessage>
           <FieldInput
             name="url"
             ref={inputRef}

@@ -210,10 +210,10 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   <section>{transformedContent}</section>
                 </ArticleContent>
                 <ArticleFooter>
-                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                  {!!data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
                     <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
                   )}
-                  {isOembed && (
+                  {!!isOembed && (
                     <CreatedBy
                       name={t("createdBy.content")}
                       description={t("createdBy.text")}

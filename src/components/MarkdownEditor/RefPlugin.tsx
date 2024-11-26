@@ -15,7 +15,7 @@ export const RefPlugin = forwardRef<HTMLElement>((_props, ref) => {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return editor.registerRootListener((root, _prevRoot) => {
+    return editor.registerRootListener((root) => {
       if (!ref) return;
       if (typeof ref === "function") {
         ref(root);

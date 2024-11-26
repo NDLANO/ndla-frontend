@@ -158,7 +158,7 @@ export const Folder = ({
           )}
         </TitleWrapper>
         <FolderInfo>
-          {isShared && (
+          {!!isShared && (
             <IconTextWrapper textStyle="label.small">
               <ShareFill size="small" />
               <span aria-hidden={!isFavorited}>

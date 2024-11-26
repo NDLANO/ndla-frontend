@@ -116,7 +116,7 @@ const MyNdlaPage = () => {
     <StyledMyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
       <SocialMediaMetadata
-        title={t("htmlTitles.myNdlaPage")}
+        title={t("myNdla.myNDLA")}
         description={t("myNdla.description")}
         trackableContent={{ supportedLanguages: myndlaLanguages }}
         imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
