@@ -242,7 +242,7 @@ app.get(
     const shouldRedirect = isPrivate && !isTokenValid;
 
     if (!route) {
-      next("route"); // skip to next route (i.e. proxy)
+      next();
     } else if (shouldRedirect) {
       return res.redirect(`/login?state=${req.path}`);
     } else {
