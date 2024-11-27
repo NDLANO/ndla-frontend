@@ -115,6 +115,7 @@ const messages = {
         deleted: 'Læringsstien "{{ name }}" er slettet.',
         unshared: 'Lærringsstien "{{ name }}" er ikke lenger delt.',
         copy: 'Kopiert lenken til læringsstien "{{ name }}"',
+        shared: "Læringsstien er delt.",
       },
       status: {
         delt: "Delt",

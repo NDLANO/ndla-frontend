@@ -96,6 +96,9 @@ export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragmen
                 status: "UNLISTED",
               },
             });
+            toast.create({
+              title: t("myNdla.learningpath.toast.shared"),
+            });
           }
         : undefined,
     };

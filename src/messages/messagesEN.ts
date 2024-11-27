@@ -115,6 +115,7 @@ const messages = {
       toast: {
         deleted: 'The learning path "{{ name }}" has been deleted.',
         unshared: 'The learning path "{{ name }}" is no longer shared.',
+        shared: "The learningpath is shared.",
         copy: 'Copied the link to the learning path "{{ name }}"',
       },
       status: {
