@@ -178,14 +178,14 @@ router.get("/logout/session", (req, res) => {
   return res.redirect(redirect);
 });
 
-router.get(["/about/*path", "/:lang/about/*path"], (req, res) => {
+router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
   const { lang, path } = req.params;
   res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
 });
 
-router.get(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
-  const { lang, path } = req.params;
-  res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
+router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
+  const { lang, path = [] } = req.params;
+  res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
 });
 
 router.get("/lti/config.xml", async (_req, res) => {

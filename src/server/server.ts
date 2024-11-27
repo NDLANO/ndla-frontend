@@ -230,27 +230,21 @@ app.get("/lti", async (req, res, next) => {
   handleRequest(req, res, next, ltiRoute);
 });
 
-app.get(
-  ["/", "/*splat"],
-  (req, res, next) => {
-    const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
-    const isPrivate = privateRoutes.some((r) => matchPath(r, path));
-    const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-    const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
-    const shouldRedirect = isPrivate && !isTokenValid;
+app.get(["/", "/*splat"], (req, res, next) => {
+  const { basepath: path } = getLocaleInfoFromPath(req.path);
+  const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
+  const isPrivate = privateRoutes.some((r) => matchPath(r, path));
+  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
+  const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
+  const shouldRedirect = isPrivate && !isTokenValid;
 
-    if (!route) {
-      next("route"); // skip to next route (i.e. proxy)
-    } else if (shouldRedirect) {
-      return res.redirect(`/login?state=${req.path}`);
-    } else {
-      handleRequest(req, res, next, defaultRoute);
-    }
-  },
-  (req, res, next) => handleRequest(req, res, next, defaultRoute),
-);
+  if (route && shouldRedirect) {
+    return res.redirect(`/login?state=${req.path}`);
+  }
+
+  return handleRequest(req, res, next, defaultRoute);
+});
 
 const errorRoute = async (req: Request) => renderRoute(req, "error.html", errorTemplateHtml, "error");
 
@@ -284,13 +278,16 @@ const errorHandler = (err: Error, req: Request, res: Response) => {
   sendInternalServerError(req, res, statusCode);
 };
 
-app.use(errorHandler);
-
 app.get("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 app.post("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
+
+// NOTE: The error handler should be defined after all middlewares and routes
+//       according to the express documentation
+//       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+app.use(errorHandler);
 
 export default app;
