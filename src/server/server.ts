@@ -284,13 +284,16 @@ const errorHandler = (err: Error, req: Request, res: Response) => {
   sendInternalServerError(req, res, statusCode);
 };
 
-app.use(errorHandler);
-
 app.get("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
 app.post("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
+
+// NOTE: The error handler should be defined after all middlewares and routes
+//       according to the express documentation
+//       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+app.use(errorHandler);
 
 export default app;
