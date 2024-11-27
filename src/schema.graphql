@@ -870,12 +870,33 @@ type LearningpathStepEmbedUrl {
   url: String!
 }
 
+input LearningpathStepNewInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  showTitle: Boolean!
+  title: String!
+  type: String!
+}
+
 type LearningpathStepOembed {
   height: Int!
   html: String!
   type: String!
   version: String!
   width: Int!
+}
+
+input LearningpathStepUpdateInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  revision: Int!
+  showTitle: Boolean!
+  title: String!
+  type: String!
 }
 
 input LearningpathUpdateInput {
@@ -888,27 +909,6 @@ input LearningpathUpdateInput {
   revision: Int!
   tags: [String!]!
   title: String!
-}
-
-input LearningstepNewInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
-  language: String!
-  license: String!
-  showTitle: Boolean!
-  title: String!
-  type: String!
-}
-
-input LearningstepUpdateInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
-  language: String!
-  license: String!
-  revision: Int!
-  showTitle: Boolean!
-  title: String!
-  type: String!
 }
 
 type License {
@@ -1022,7 +1022,7 @@ type Mutation {
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
   newLearningpath(params: LearningpathNewInput!): Learningpath!
-  newLearningpathStep(learningpathId: Int!, params: LearningstepNewInput!): LearningpathStep!
+  newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): LearningpathStep!
   removePostUpvote(postId: Int!): Int!
   removePostUpvoteV2(postId: Int!): Int!
   replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
@@ -1061,7 +1061,7 @@ type Mutation {
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
-    params: LearningstepUpdateInput!
+    params: LearningpathStepUpdateInput!
   ): LearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!

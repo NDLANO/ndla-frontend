@@ -986,6 +986,16 @@ export type GQLLearningpathStepEmbedUrl = {
   url: Scalars["String"]["output"];
 };
 
+export type GQLLearningpathStepNewInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type GQLLearningpathStepOembed = {
   __typename?: "LearningpathStepOembed";
   height: Scalars["Int"]["output"];
@@ -993,6 +1003,17 @@ export type GQLLearningpathStepOembed = {
   type: Scalars["String"]["output"];
   version: Scalars["String"]["output"];
   width: Scalars["Int"]["output"];
+};
+
+export type GQLLearningpathStepUpdateInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathUpdateInput = {
@@ -1005,27 +1026,6 @@ export type GQLLearningpathUpdateInput = {
   revision: Scalars["Int"]["input"];
   tags: Array<Scalars["String"]["input"]>;
   title: Scalars["String"]["input"];
-};
-
-export type GQLLearningstepNewInput = {
-  description: Scalars["String"]["input"];
-  embedUrl: GQLLearningpathEmbedInput;
-  language: Scalars["String"]["input"];
-  license: Scalars["String"]["input"];
-  showTitle: Scalars["Boolean"]["input"];
-  title: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
-};
-
-export type GQLLearningstepUpdateInput = {
-  description: Scalars["String"]["input"];
-  embedUrl: GQLLearningpathEmbedInput;
-  language: Scalars["String"]["input"];
-  license: Scalars["String"]["input"];
-  revision: Scalars["Int"]["input"];
-  showTitle: Scalars["Boolean"]["input"];
-  title: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
 };
 
 export type GQLLicense = {
@@ -1292,7 +1292,7 @@ export type GQLMutationNewLearningpathArgs = {
 
 export type GQLMutationNewLearningpathStepArgs = {
   learningpathId: Scalars["Int"]["input"];
-  params: GQLLearningstepNewInput;
+  params: GQLLearningpathStepNewInput;
 };
 
 export type GQLMutationRemovePostUpvoteArgs = {
@@ -1406,7 +1406,7 @@ export type GQLMutationUpdateLearningpathStatusArgs = {
 export type GQLMutationUpdateLearningpathStepArgs = {
   learningpathId: Scalars["Int"]["input"];
   learningstepId: Scalars["Int"]["input"];
-  params: GQLLearningstepUpdateInput;
+  params: GQLLearningpathStepUpdateInput;
 };
 
 export type GQLMutationUpdateOtherArenaUserArgs = {
