@@ -51,7 +51,7 @@ const deleteLearningpathMutation = gql`
 `;
 
 export const useDeleteLearningpath = (
-  options: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
+  options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
 ) => {
   const [deleteLearningpath, { error, loading }] = useMutation<
     GQLDeleteLearningpathMutation,

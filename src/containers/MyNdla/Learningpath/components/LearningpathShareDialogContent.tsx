@@ -11,8 +11,8 @@ import { DialogTitle } from "@ark-ui/react";
 import { FileCopyLine } from "@ndla/icons/action";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathListItem } from "./LearningPathListItem";
-import { sharedLearningPathLink } from "./utils";
+import { LearningpathListItem } from "./LearningpathListItem";
+import { sharedLearningpathLink } from "./utils";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
@@ -56,7 +56,7 @@ interface Props {
   learningPath: GQLLearningpathFragment;
 }
 
-export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClose }: Props) => {
+export const LearningpathShareDialogContent = ({ learningPath, onCopyText, onClose }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -67,7 +67,7 @@ export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClo
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <LearningPathListItem learningPath={learningPath} showMenu={false} />
+        <LearningpathListItem learningPath={learningPath} showMenu={false} />
         <Text>{t("myNdla.learningpath.sharing.description.shared")}</Text>
         <Text>{t("myNdla.learningpath.sharing.description.private")}</Text>
         <GapWrapper>
@@ -85,7 +85,7 @@ export const LearningPathShareDialogContent = ({ learningPath, onCopyText, onClo
               });
             }}
           >
-            {sharedLearningPathLink(learningPath.id)}
+            {sharedLearningpathLink(learningPath.id)}
             <FileCopyLine />
           </CopyLinkButton>
         </GapWrapper>

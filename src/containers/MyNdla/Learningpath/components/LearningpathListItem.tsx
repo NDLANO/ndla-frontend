@@ -15,7 +15,7 @@ import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/prim
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { useLearningPathActionHooks } from "./LearningPathActionHooks";
+import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import SettingsMenu from "../../components/SettingsMenu";
@@ -69,9 +69,9 @@ interface Props {
   learningPath: GQLLearningpathFragment;
   showMenu: Boolean;
 }
-export const LearningPathListItem = ({ learningPath, showMenu = true }: Props) => {
+export const LearningpathListItem = ({ learningPath, showMenu = true }: Props) => {
   const { t } = useTranslation();
-  const menuItems = useLearningPathActionHooks(learningPath);
+  const menuItems = useLearningpathActionHooks(learningPath);
 
   return (
     <StyledListItemRoot context="list" asChild consumeCss>

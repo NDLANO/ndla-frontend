@@ -8,7 +8,7 @@
 
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathListItem } from "./LearningPathListItem";
+import { LearningpathListItem } from "./LearningpathListItem";
 import { useMyLearningpaths } from "../../learningpathQueries";
 
 const StyledOl = styled("ol", {
@@ -20,7 +20,7 @@ const StyledOl = styled("ol", {
 
 interface Props {}
 
-export const LearningPathList = (_props: Props) => {
+export const LearningpathList = (_props: Props) => {
   const { learningpaths, loading } = useMyLearningpaths();
 
   if (loading) {
@@ -30,7 +30,7 @@ export const LearningPathList = (_props: Props) => {
   return (
     <StyledOl>
       {learningpaths?.map((learningpath) => (
-        <LearningPathListItem showMenu learningPath={learningpath} key={learningpath.id} />
+        <LearningpathListItem showMenu learningPath={learningpath} key={learningpath.id} />
       ))}
     </StyledOl>
   );

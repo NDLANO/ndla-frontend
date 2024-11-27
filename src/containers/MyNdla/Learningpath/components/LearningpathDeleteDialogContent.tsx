@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningPathListItem } from "./LearningPathListItem";
+import { LearningpathListItem } from "./LearningpathListItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 
@@ -27,7 +27,7 @@ interface Props {
   learningPath: GQLLearningpathFragment;
 }
 
-export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPath }: Props) => {
+export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningPath }: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>
@@ -36,7 +36,7 @@ export const LearningPathDeleteDialogContent = ({ onDelete, onClose, learningPat
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <LearningPathListItem learningPath={learningPath} showMenu={false} />
+        <LearningpathListItem learningPath={learningPath} showMenu={false} />
         <Text>{t("myNdla.learningPath.delete.body")}</Text>
       </DialogBody>
       <StyledDialogFooter>
