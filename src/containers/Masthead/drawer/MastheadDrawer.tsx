@@ -156,7 +156,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
     } else if (slug) {
       const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
-      setType("about");
+      setType("om");
       const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
       const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
       const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
@@ -174,13 +174,13 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
 
   const handleUpdateFrontpageMenu = useCallback((menu: GQLDrawerContent_FrontpageMenuFragment) => {
     setFrontpageMenu([menu]);
-    setType("about");
+    setType("om");
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
 
   const onCloseMenuPortion = useCallback(() => {
-    if (type === "about") {
+    if (type === "om") {
       const slicedMenu = frontpageMenu?.slice(0, frontpageMenu?.length - 1);
       setFrontpageMenu(slicedMenu);
       if (!slicedMenu?.length) {
@@ -201,7 +201,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const getHeaderElement = () => {
     if (!type) {
       return document.getElementById("header-programme");
-    } else if (type === "about") {
+    } else if (type === "om") {
       const articleTitle = frontpageMenu[frontpageMenu.length - 1]?.article.slug;
       return document.getElementById(`header-${articleTitle}`);
     } else if (type !== "subject" || !topicPath.length) {
@@ -260,7 +260,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
                   root={root}
                   type={type}
                 />
-                {type && (
+                {!!type && (
                   <DrawerContent
                     onClose={close}
                     type={type}

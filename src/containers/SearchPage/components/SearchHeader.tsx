@@ -139,7 +139,7 @@ const SearchHeader = ({
                   value={searchValue}
                   onChange={(e) => onSearchValueChange(e.target.value)}
                 />
-                {searchValue && (
+                {!!searchValue && (
                   <IconButton
                     variant="clear"
                     aria-label={t("welcomePage.resetSearch")}
@@ -165,7 +165,7 @@ const SearchHeader = ({
           </StyledSearchWrapper>
         </form>
         <StyledHitsWrapper aria-live="assertive">
-          {!loading && query && (
+          {!loading && !!query && (
             <div>
               {noResults ? (
                 <Text textStyle="label.small">
@@ -175,7 +175,7 @@ const SearchHeader = ({
               ) : (
                 <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
               )}
-              {suggestion && (
+              {!!suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
                   <StyledButton variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>

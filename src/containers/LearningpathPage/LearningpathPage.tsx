@@ -94,7 +94,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       </Helmet>
       <SocialMediaMetadata
-        title={htmlTitle(getTitle(root, learningpath, learningpathStep), [t("htmlTitles.titleTemplate")])}
+        title={getTitle(root, learningpath, learningpathStep)}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}

@@ -28,6 +28,7 @@ import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import IframePageContainer from "./IframePageContainer";
+import { PrettyUrlsProvider } from "../components/PrettyUrlsContext";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
@@ -51,15 +52,17 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 };
 renderOrHydrate(
   document.getElementById("root")!,
-  <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          <MissingRouterContext.Provider value={true}>
-            <IframePageContainer {...initialProps} />
-          </MissingRouterContext.Provider>
-        </BrowserRouter>
-      </ApolloProvider>
-    </I18nextProvider>
-  </HelmetProvider>,
+  <PrettyUrlsProvider value={config.enablePrettyUrls}>
+    <HelmetProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <BrowserRouter>
+            <MissingRouterContext.Provider value={true}>
+              <IframePageContainer {...initialProps} />
+            </MissingRouterContext.Provider>
+          </BrowserRouter>
+        </ApolloProvider>
+      </I18nextProvider>
+    </HelmetProvider>
+  </PrettyUrlsProvider>,
 );

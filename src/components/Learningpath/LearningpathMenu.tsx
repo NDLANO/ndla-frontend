@@ -25,7 +25,7 @@ interface Props {
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
 }
 
-const StepperList = styled("ul", {
+const StepperList = styled("ol", {
   base: {
     display: "flex",
     flexDirection: "column",

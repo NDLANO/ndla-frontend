@@ -96,7 +96,7 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
   if (!article) {
     return <NotFoundPage />;
   }
-  return <IframeArticlePage resource={nodeByArticleId} article={article} />;
+  return <IframeArticlePage node={nodeByArticleId} article={article} />;
 };
 
 export default IframePage;

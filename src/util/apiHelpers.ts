@@ -111,7 +111,7 @@ const typePolicies: TypePolicies = {
         },
       },
       folderResourceMetaSearch: {
-        //@ts-ignore
+        //@ts-expect-error - We just want some autocomplete here
         read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
             toReference(

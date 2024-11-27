@@ -203,7 +203,7 @@ test("IframeArticlePage with article renderers correctly", () => {
                   return (
                     <IframeArticlePage
                       locale={locale}
-                      resource={{
+                      node={{
                         id: "urn:resource:1",
                         name: "Politiske skillelinjer",
                         path: "/subject:1/resource:1",

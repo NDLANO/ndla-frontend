@@ -205,7 +205,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
         {subjectType !== "film" &&
           subjectType !== "multiDisciplinary" &&
           subjectType !== "toolbox" &&
-          nonRegularSubjectMessage && (
+          !!nonRegularSubjectMessage && (
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{nonRegularSubjectMessage}</Text>
@@ -214,7 +214,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
         {subjectType !== "film" &&
           subjectType !== "multiDisciplinary" &&
           subjectType !== "toolbox" &&
-          nonRegularSubjectTypeMessage && (
+          !!nonRegularSubjectTypeMessage && (
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{nonRegularSubjectTypeMessage}</Text>

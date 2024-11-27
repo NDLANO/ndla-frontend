@@ -76,7 +76,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
             sourceTitle={text.title}
             sourceType="text"
           />
-          {printUrl && (
+          {!!printUrl && (
             <MediaListItemActions>
               <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
                 {t("article.printPage")}

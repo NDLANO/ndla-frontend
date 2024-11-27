@@ -122,7 +122,7 @@ const TopicPage = () => {
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
           {arenaCategory?.title}
-          {user?.isModerator && !arenaCategory?.visible && (
+          {!!user?.isModerator && !arenaCategory?.visible && (
             <EyeFill
               title={t("myNdla.arena.admin.category.notVisible")}
               aria-label={t("myNdla.arena.admin.category.notVisible")}
@@ -132,13 +132,13 @@ const TopicPage = () => {
         </StyledHeading>
         {!!arenaCategory?.description && <Text textStyle="body.xlarge">{arenaCategory.description}</Text>}
       </Introduction>
-      {showCategories && (
+      {!!showCategories && (
         <StyledContainer>
           <HeadingWrapper>
             <Heading textStyle="heading.small" asChild consumeCss>
               <h2>{t("myNdla.arena.category.subcategory")}</h2>
             </Heading>
-            {user?.isModerator && (
+            {!!user?.isModerator && (
               <ModeratorButtonWrapper>
                 <Button onClick={() => setIsEditing((prev) => !prev)}>
                   {isEditing
@@ -151,7 +151,7 @@ const TopicPage = () => {
               </ModeratorButtonWrapper>
             )}
           </HeadingWrapper>
-          {arenaCategory.subcategories && (
+          {!!arenaCategory.subcategories && (
             <SortableArenaCards
               isEditing={isEditing}
               categories={arenaCategory?.subcategories ?? []}
@@ -172,7 +172,7 @@ const TopicPage = () => {
             <h2>{t("myNdla.arena.posts.title")}</h2>
           </Heading>
           <ButtonContainer>
-            {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+            {!!user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
             <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
           </ButtonContainer>
         </HeadingWrapper>

@@ -7,7 +7,6 @@
  */
 
 import "./style/index.css";
-//@ts-ignore
 import queryString from "query-string";
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDeviceSelectors } from "react-device-detect";

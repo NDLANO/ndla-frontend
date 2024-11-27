@@ -30,7 +30,7 @@ import {
   TOOLBOX_TEACHER_URL,
 } from "../../../constants";
 import { GQLDefaultMenu_RootFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { removeUrn, toAbout } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
@@ -54,12 +54,12 @@ const StyledDrawerPortion = styled(DrawerPortion, {
   },
 });
 
-const filmUrl = (enablePrettyUrl: Boolean) => (enablePrettyUrl ? FILM_PAGE_URL : FILM_PAGE_PATH);
-const multiDiscUrl = (enablePrettyUrl: Boolean) =>
+const filmUrl = (enablePrettyUrl: boolean) => (enablePrettyUrl ? FILM_PAGE_URL : FILM_PAGE_PATH);
+const multiDiscUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? MULTIDISCIPLINARY_URL : `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
-const studentToolboxUrl = (enablePrettyUrl: Boolean) =>
+const studentToolboxUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? TOOLBOX_STUDENT_URL : `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
-const teacherToolboxUrl = (enablePrettyUrl: Boolean) =>
+const teacherToolboxUrl = (enablePrettyUrl: boolean) =>
   enablePrettyUrl ? TOOLBOX_TEACHER_URL : `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
 
 interface Props {
@@ -73,7 +73,7 @@ interface Props {
   onCloseMenuPortion: () => void;
 }
 
-const validMenus: MenuType[] = ["subject", "programme", "about"];
+const validMenus: MenuType[] = ["subject", "programme", "om"];
 
 const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
   const previousType = usePrevious(type);
@@ -123,7 +123,7 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
           title={t("masthead.menuOptions.programme")}
           onClick={() => setActiveMenu("programme")}
         />
-        {root && root.nodeType === "SUBJECT" && (
+        {root?.nodeType === "SUBJECT" && (
           <DrawerRowHeader
             ownsId="subject-menu"
             id="subject"
@@ -161,16 +161,24 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
             <span>{t("menu.about")}</span>
           </DrawerHeader>
         </DrawerListItem>
-        {dynamicMenus.map((menu) => (
-          <DrawerRowHeader
-            key={menu.article.slug}
-            ownsId={`${menu.article.slug}-menu`}
-            id={`${menu.article.slug}-dynamic`}
-            type="button"
-            title={menu.article.title}
-            onClick={() => setFrontpageMenu(menu)}
-          />
-        ))}
+        {dynamicMenus.map((menu) => {
+          const hasChildren = !!menu.menu?.length;
+          const baseAttributes = {
+            key: menu.article.slug,
+            id: `${menu.article.slug}-dynamic`,
+            title: menu.article.title,
+          };
+          return hasChildren ? (
+            <DrawerRowHeader
+              {...baseAttributes}
+              ownsId={`${menu.article.slug}-menu`}
+              type="button"
+              onClick={() => setFrontpageMenu(menu)}
+            />
+          ) : (
+            <DrawerRowHeader {...baseAttributes} type="link" to={toAbout(menu.article.slug)} onClose={onClose} />
+          );
+        })}
       </DrawerList>
     </StyledDrawerPortion>
   );

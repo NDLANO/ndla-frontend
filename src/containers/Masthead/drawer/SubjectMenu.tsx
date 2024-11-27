@@ -158,7 +158,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
           </VStack>
         )}
       </DrawerPortion>
-      {subject &&
+      {!!subject &&
         topicPath.map((topic, index) => (
           <TopicMenu
             key={topic.id}

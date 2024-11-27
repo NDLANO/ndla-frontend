@@ -198,7 +198,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             )}
           </HeadingWrapper>
         </div>
-        {grade?.missingProgrammeSubjects && (
+        {!!grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
             <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>

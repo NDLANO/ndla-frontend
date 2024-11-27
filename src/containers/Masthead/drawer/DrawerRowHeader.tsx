@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { ArrowRightShortLine } from "@ndla/icons/common";
 import { StyledButton, StyledSafeLink } from "./DrawerMenuItem";
 import { DrawerListItem } from "./DrawerPortion";
@@ -14,8 +14,6 @@ import { DrawerListItem } from "./DrawerPortion";
 interface BaseProps {
   id?: string;
   title: string;
-  icon?: ReactNode;
-  active?: boolean;
   tabIndex?: number;
   type: "link" | "button";
   current?: boolean;
@@ -35,7 +33,7 @@ interface LinkProps extends BaseProps {
 
 type Props = ButtonProps | LinkProps;
 
-const DrawerRowHeader = ({ title, icon, active, id, current, ...rest }: Props) => {
+const DrawerRowHeader = ({ title, id, current, ...rest }: Props) => {
   const [expanded, setExpanded] = useState(false);
 
   if (rest.type === "button") {

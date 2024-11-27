@@ -29,7 +29,6 @@ import {
   IconButton,
   InputContainer,
   Input,
-  ComboboxContent,
   ComboboxItem,
   ComboboxItemText,
   Spinner,
@@ -37,6 +36,7 @@ import {
   NdlaLogoText,
   Text,
   ListItemRoot,
+  ComboboxContentStandalone,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -52,9 +52,9 @@ import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
-const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
+const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
-const StyledComboboxContent = styled(ComboboxContent, {
+const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
   },
@@ -322,14 +322,14 @@ const MastheadSearch = () => {
               </IconButton>
             </ComboboxControl>
             <StyledHitsWrapper aria-live="assertive">
-              {!loading && query && (
+              {!loading && !!query && (
                 <div>
                   {!(searchHits.length > 1) ? (
                     <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
-                  {suggestion && (
+                  {!!suggestion && (
                     <Text textStyle="label.small">
                       {t("searchPage.resultType.searchPhraseSuggestion")}
                       <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>

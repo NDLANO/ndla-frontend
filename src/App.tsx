@@ -209,7 +209,7 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  {config.learningpathEnabled && (
+                  {!!config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningpathCheck />}>
                       <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
                     </Route>
@@ -217,7 +217,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
-                <Route path="about/:slug" element={<AboutPage />} />
+                <Route path="om/:slug" element={<AboutPage />} />
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

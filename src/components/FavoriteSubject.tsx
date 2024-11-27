@@ -71,56 +71,58 @@ const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) => {
     });
   };
 
-  return (
-    <>
-      {authenticated && !isFavorite ? (
-        <FavoriteButton
-          onClick={setFavorite}
-          aria-label={t("subjectsPage.addFavorite")}
-          title={t("subjectsPage.addFavorite")}
-          isFavorite={false}
-        />
-      ) : authenticated ? (
-        <DialogRoot open={showDeleteModal} onOpenChange={(details) => setShowDeleteModal(details.open)}>
-          <DialogTrigger asChild>
-            <FavoriteButton
-              aria-label={t("subjectsPage.removeFavorite")}
-              title={t("subjectsPage.removeFavorite")}
-              isFavorite
-            />
-          </DialogTrigger>
-          <DeleteModalContent
-            onDelete={removeFavorite}
+  if (authenticated && !isFavorite) {
+    return (
+      <FavoriteButton
+        onClick={setFavorite}
+        aria-label={t("subjectsPage.addFavorite")}
+        title={t("subjectsPage.addFavorite")}
+        isFavorite={false}
+      />
+    );
+  } else if (authenticated) {
+    return (
+      <DialogRoot open={showDeleteModal} onOpenChange={(details) => setShowDeleteModal(details.open)}>
+        <DialogTrigger asChild>
+          <FavoriteButton
+            aria-label={t("subjectsPage.removeFavorite")}
             title={t("subjectsPage.removeFavorite")}
-            removeText={t("myNdla.resource.remove")}
-            description={t("subjectsPage.confirmRemove", {
-              subject: node.name,
-            })}
+            isFavorite
           />
-        </DialogRoot>
-      ) : (
-        <DialogRoot>
-          <DialogTrigger asChild>
-            <FavoriteButton
-              aria-label={`${t("subjectsPage.addFavorite")}, ${node.name}`}
-              title={`${t("subjectsPage.addFavorite")}, ${node.name}`}
-              variant="tertiary"
-              isFavorite={false}
-            />
-          </DialogTrigger>
-          <LoginModalContent
-            title={t("subjectsPage.subjectFavoritePitch")}
-            content={
-              <>
-                <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
-                <SafeLinkWrapper>{subjectLinkOrText}</SafeLinkWrapper>
-              </>
-            }
+        </DialogTrigger>
+        <DeleteModalContent
+          onDelete={removeFavorite}
+          title={t("subjectsPage.removeFavorite")}
+          removeText={t("myNdla.resource.remove")}
+          description={t("subjectsPage.confirmRemove", {
+            subject: node.name,
+          })}
+        />
+      </DialogRoot>
+    );
+  } else {
+    return (
+      <DialogRoot>
+        <DialogTrigger asChild>
+          <FavoriteButton
+            aria-label={`${t("subjectsPage.addFavorite")}, ${node.name}`}
+            title={`${t("subjectsPage.addFavorite")}, ${node.name}`}
+            variant="tertiary"
+            isFavorite={false}
           />
-        </DialogRoot>
-      )}
-    </>
-  );
+        </DialogTrigger>
+        <LoginModalContent
+          title={t("subjectsPage.subjectFavoritePitch")}
+          content={
+            <>
+              <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
+              <SafeLinkWrapper>{subjectLinkOrText}</SafeLinkWrapper>
+            </>
+          }
+        />
+      </DialogRoot>
+    );
+  }
 };
 
 FavoriteSubject.fragments = {

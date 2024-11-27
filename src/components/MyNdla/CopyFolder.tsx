@@ -96,7 +96,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
               <InformationLine />
               <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
             </MessageBox>
-            {copySharedFolderMutation.error && (
+            {!!copySharedFolderMutation.error && (
               <MessageBox variant="error">
                 <AlertLine />
                 <Text>{t("errorMessage.description")}</Text>
