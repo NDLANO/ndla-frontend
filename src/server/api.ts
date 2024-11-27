@@ -34,7 +34,7 @@ import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
-import { log } from "../util/handleError";
+import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
@@ -113,7 +113,7 @@ router.get("/login/success", async (req, res) => {
 
   const token = await getFeideToken(req, verifier, code).catch((error: Error) => {
     if (error instanceof oidcErrors.OPError) {
-      log?.info("Got OPError when fetching feide token.", { error });
+      log.info("Got OPError when fetching feide token.", { error });
       throw new BadRequestError(`Got OPError when fetching feide token: ${error.message}`);
     }
     return Promise.reject(error);
@@ -179,11 +179,13 @@ router.get("/logout/session", (req, res) => {
 });
 
 router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
+  log.info("Redirecting about path", { path: req.path, params: req.params });
   const { lang, path } = req.params;
   res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
 });
 
 router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
+  log.info("Redirecting subjects path", { path: req.path, params: req.params });
   const { lang, path = [] } = req.params;
   res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
 });
