@@ -271,13 +271,6 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
   }
 }
 
-const errorHandler = (err: Error, req: Request, res: Response) => {
-  vite?.ssrFixStacktrace(err);
-  const statusCode = getStatusCodeToReturn(err);
-  handleError(err, req.path, { statusCode });
-  sendInternalServerError(req, res, statusCode);
-};
-
 app.get("/*splat", (_req: Request, res: Response) => {
   res.redirect(NOT_FOUND_PAGE_PATH);
 });
@@ -288,6 +281,12 @@ app.post("/*splat", (_req: Request, res: Response) => {
 // NOTE: The error handler should be defined after all middlewares and routes
 //       according to the express documentation
 //       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
-app.use(errorHandler);
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
+  // NOTE: Even though the next parameter is not used, it is required to define the error handler
+  vite?.ssrFixStacktrace(err);
+  const statusCode = getStatusCodeToReturn(err);
+  handleError(err, req.path, { statusCode });
+  sendInternalServerError(req, res, statusCode);
+});
 
 export default app;
