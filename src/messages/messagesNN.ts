@@ -97,6 +97,25 @@ const messages = {
       userUpdated: "Bruker oppdatert",
     },
     goToMyNdla: "Gå til Min NDLA",
+    learningpath: {
+      newLearningpath: "Ny læringssti",
+      form: {
+        title: "Legg til innhald",
+        subTitle: "Legg til innhald til læringsstien",
+        options: {
+          text: "Tekst eg har skrevet sjølv",
+          resource: "Innhald frå NDLA",
+          external: "Innhald frå eit anna nettstad",
+          folder: "Innhald frå ein av mine mapper i Min NDLA",
+        },
+        steps: {
+          title: "Tittel og beskrivelse",
+          content: "Legg til innhald",
+          preview: "Sjå igjennom",
+          save: "Lagre og del",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Filmar",

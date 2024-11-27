@@ -37,6 +37,7 @@ import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
+import { ContentLearningpathPage } from "./containers/MyNdla/LearningPath/ContentLearningpathPage";
 import { LearningPathCheck } from "./containers/MyNdla/LearningPath/LearningPathCheck";
 import LearningPathPage from "./containers/MyNdla/LearningPath/LearningPathPage";
 import { NewLearningpathPage } from "./containers/MyNdla/LearningPath/NewLearningpathPage";
@@ -214,6 +215,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="learningpaths" element={<LearningPathCheck />}>
                       <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
                       <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                      <Route path=":learningpathId" element={<PrivateRoute element={<ContentLearningpathPage />} />} />
                     </Route>
                   )}
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />

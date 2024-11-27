@@ -97,6 +97,25 @@ const messages = {
       userUpdated: "User updated",
     },
     goToMyNdla: "Go to My NDLA",
+    learningpath: {
+      newLearningpath: "New learningpath",
+      form: {
+        title: "Append content",
+        subTitle: "Append content to the learningpath",
+        options: {
+          text: "Text written by myself",
+          resource: "Content from NDLA",
+          external: "Content from a external website",
+          folder: "Content from one of my folder in My NDLA",
+        },
+        steps: {
+          title: "Title and description",
+          content: "Append content",
+          preview: "Preview",
+          save: "Save and share",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Films",

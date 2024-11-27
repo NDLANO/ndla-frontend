@@ -6,8 +6,15 @@
  *
  */
 
-import { gql, MutationHookOptions, useMutation } from "@apollo/client";
-import { GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables } from "../../graphqlTypes";
+import { gql, MutationHookOptions, QueryHookOptions, useMutation } from "@apollo/client";
+import {
+  GQLLearningpathsQuery,
+  GQLLearningpathsQueryVariables,
+  GQLNewLearningpathMutation,
+  GQLNewLearningpathMutationVariables,
+} from "../../graphqlTypes";
+import { useGraphQuery } from "../../util/runQueries";
+import { plainLearningpathContainerFragments } from "../PlainLearningpathPage/PlainLearningpathContainer";
 
 const learningpathFragment = gql`
   fragment Learningpath on Learningpath {
@@ -40,4 +47,23 @@ export const useCreateLearningpath = (
     GQLNewLearningpathMutationVariables
   >(newLearningpathMutation, options);
   return { createLearningpath, loading, error };
+};
+
+const learningpathQuery = gql`
+  query learningpaths($pathId: String!, $transformArgs: TransformedArticleContentInput) {
+    learningpath(pathId: $pathId) {
+      ...PlainLearningpathContainer_Learningpath
+    }
+  }
+  ${plainLearningpathContainerFragments.learningpath}
+`;
+
+export const useFetchLearningpath = (
+  options: QueryHookOptions<GQLLearningpathsQuery, GQLLearningpathsQueryVariables>,
+) => {
+  const { data, error, loading } = useGraphQuery<GQLLearningpathsQuery, GQLLearningpathsQueryVariables>(
+    learningpathQuery,
+    options,
+  );
+  return { learningpath: data?.learningpath, error, loading };
 };

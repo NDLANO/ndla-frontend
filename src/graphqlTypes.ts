@@ -986,6 +986,16 @@ export type GQLLearningpathStepEmbedUrl = {
   url: Scalars["String"]["output"];
 };
 
+export type GQLLearningpathStepNewInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
+};
+
 export type GQLLearningpathStepOembed = {
   __typename?: "LearningpathStepOembed";
   height: Scalars["Int"]["output"];
@@ -993,6 +1003,17 @@ export type GQLLearningpathStepOembed = {
   type: Scalars["String"]["output"];
   version: Scalars["String"]["output"];
   width: Scalars["Int"]["output"];
+};
+
+export type GQLLearningpathStepUpdateInput = {
+  description: Scalars["String"]["input"];
+  embedUrl: GQLLearningpathEmbedInput;
+  language: Scalars["String"]["input"];
+  license: Scalars["String"]["input"];
+  revision: Scalars["Int"]["input"];
+  showTitle: Scalars["Boolean"]["input"];
+  title: Scalars["String"]["input"];
+  type: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathUpdateInput = {
@@ -1005,27 +1026,6 @@ export type GQLLearningpathUpdateInput = {
   revision: Scalars["Int"]["input"];
   tags: Array<Scalars["String"]["input"]>;
   title: Scalars["String"]["input"];
-};
-
-export type GQLLearningstepNewInput = {
-  description: Scalars["String"]["input"];
-  embedUrl: GQLLearningpathEmbedInput;
-  language: Scalars["String"]["input"];
-  license: Scalars["String"]["input"];
-  showTitle: Scalars["Boolean"]["input"];
-  title: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
-};
-
-export type GQLLearningstepUpdateInput = {
-  description: Scalars["String"]["input"];
-  embedUrl: GQLLearningpathEmbedInput;
-  language: Scalars["String"]["input"];
-  license: Scalars["String"]["input"];
-  revision: Scalars["Int"]["input"];
-  showTitle: Scalars["Boolean"]["input"];
-  title: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
 };
 
 export type GQLLicense = {
@@ -1119,7 +1119,7 @@ export type GQLMutation = {
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
-  deleteLearningpath?: Maybe<Array<Scalars["String"]["output"]>>;
+  deleteLearningpath?: Maybe<Scalars["Boolean"]["output"]>;
   deleteLearningpathStep?: Maybe<Array<Scalars["String"]["output"]>>;
   deletePersonalData: Scalars["Boolean"]["output"];
   deletePost: Scalars["Int"]["output"];
@@ -1159,7 +1159,7 @@ export type GQLMutation = {
   updateFolderResource: GQLFolderResource;
   updateFolderStatus: Array<Scalars["String"]["output"]>;
   updateLearningpath: GQLLearningpath;
-  updateLearningpathStatus?: Maybe<Array<Scalars["String"]["output"]>>;
+  updateLearningpathStatus: GQLLearningpath;
   updateLearningpathStep: GQLLearningpathStep;
   updateOtherArenaUser: GQLMyNdlaPersonalData;
   updatePersonalData: GQLMyNdlaPersonalData;
@@ -1292,7 +1292,7 @@ export type GQLMutationNewLearningpathArgs = {
 
 export type GQLMutationNewLearningpathStepArgs = {
   learningpathId: Scalars["Int"]["input"];
-  params: GQLLearningstepNewInput;
+  params: GQLLearningpathStepNewInput;
 };
 
 export type GQLMutationRemovePostUpvoteArgs = {
@@ -1406,7 +1406,7 @@ export type GQLMutationUpdateLearningpathStatusArgs = {
 export type GQLMutationUpdateLearningpathStepArgs = {
   learningpathId: Scalars["Int"]["input"];
   learningstepId: Scalars["Int"]["input"];
-  params: GQLLearningstepUpdateInput;
+  params: GQLLearningpathStepUpdateInput;
 };
 
 export type GQLMutationUpdateOtherArenaUserArgs = {
@@ -4133,6 +4133,16 @@ export type GQLNewLearningpathMutationVariables = Exact<{
 export type GQLNewLearningpathMutation = {
   __typename?: "Mutation";
   newLearningpath: { __typename?: "Learningpath" } & GQLLearningpathFragment;
+};
+
+export type GQLLearningpathsQueryVariables = Exact<{
+  pathId: Scalars["String"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLLearningpathsQuery = {
+  __typename?: "Query";
+  learningpath?: { __typename?: "Learningpath" } & GQLPlainLearningpathContainer_LearningpathFragment;
 };
 
 export type GQLNewFlagMutationVariables = Exact<{

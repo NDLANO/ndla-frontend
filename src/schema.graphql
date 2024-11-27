@@ -870,12 +870,33 @@ type LearningpathStepEmbedUrl {
   url: String!
 }
 
+input LearningpathStepNewInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  showTitle: Boolean!
+  title: String!
+  type: String!
+}
+
 type LearningpathStepOembed {
   height: Int!
   html: String!
   type: String!
   version: String!
   width: Int!
+}
+
+input LearningpathStepUpdateInput {
+  description: String!
+  embedUrl: LearningpathEmbedInput!
+  language: String!
+  license: String!
+  revision: Int!
+  showTitle: Boolean!
+  title: String!
+  type: String!
 }
 
 input LearningpathUpdateInput {
@@ -888,27 +909,6 @@ input LearningpathUpdateInput {
   revision: Int!
   tags: [String!]!
   title: String!
-}
-
-input LearningstepNewInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
-  language: String!
-  license: String!
-  showTitle: Boolean!
-  title: String!
-  type: String!
-}
-
-input LearningstepUpdateInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
-  language: String!
-  license: String!
-  revision: Int!
-  showTitle: Boolean!
-  title: String!
-  type: String!
 }
 
 type License {
@@ -997,7 +997,7 @@ type Mutation {
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
-  deleteLearningpath(id: Int!): [String!]
+  deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
   deletePersonalData: Boolean!
   deletePost(postId: Int!): Int!
@@ -1022,7 +1022,7 @@ type Mutation {
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
   newLearningpath(params: LearningpathNewInput!): Learningpath!
-  newLearningpathStep(learningpathId: Int!, params: LearningstepNewInput!): LearningpathStep!
+  newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): LearningpathStep!
   removePostUpvote(postId: Int!): Int!
   removePostUpvoteV2(postId: Int!): Int!
   replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
@@ -1057,11 +1057,11 @@ type Mutation {
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): Learningpath!
-  updateLearningpathStatus(id: Int!, status: String!): [String!]
+  updateLearningpathStatus(id: Int!, status: String!): Learningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
-    params: LearningstepUpdateInput!
+    params: LearningpathStepUpdateInput!
   ): LearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!

@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -57,42 +58,22 @@ const Line = styled("div", {
 });
 
 interface Props {
-  stepKey: string;
+  stepKey: "title" | "content" | "preview" | "save";
 }
 
-interface Steps {
-  title: string;
-  key: string;
-}
-
-const steps: Steps[] = [
-  {
-    title: "Tittel og beskrivelse",
-    key: "title",
-  },
-  {
-    title: "Legg til innhold",
-    key: "content",
-  },
-  {
-    title: "Se igjennom",
-    key: "preview",
-  },
-  {
-    title: "Lagre og del",
-    key: "save",
-  },
-];
+const STEPS = ["title", "content", "preview", "save"];
 
 export const LearningPathStepper = ({ stepKey }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <StepWrapper>
-      {steps.map((step, idx) => (
+      {STEPS.map((step, idx) => (
         <Step key={idx}>
-          <NumberSpan aria-selected={stepKey === step.key} asChild consumeCss>
+          <NumberSpan aria-selected={stepKey === step} asChild consumeCss>
             <span>{idx + 1}</span>
           </NumberSpan>
-          <Text>{step.title}</Text>
+          <Text>{t(`myNdla.learningpath.form.steps.${step}`)}</Text>
           <Line />
         </Step>
       ))}
