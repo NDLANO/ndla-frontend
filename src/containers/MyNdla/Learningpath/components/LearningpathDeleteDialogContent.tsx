@@ -8,26 +8,17 @@
 
 import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathListItem } from "./LearningpathListItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 
-const StyledDialogFooter = styled(DialogFooter, {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-});
-
 interface Props {
   onDelete: (path: number) => void;
   onClose: () => void;
-  learningPath: GQLLearningpathFragment;
+  learningpath: GQLLearningpathFragment;
 }
 
-export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningPath }: Props) => {
+export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningpath }: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>
@@ -36,15 +27,17 @@ export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningPat
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <LearningpathListItem learningPath={learningPath} showMenu={false} />
-        <Text>{t("myNdla.learningPath.delete.body")}</Text>
+        <LearningpathListItem learningpath={learningpath} showMenu={false} />
+        <Text>{t("myNdla.learningpath.delete.body")}</Text>
       </DialogBody>
-      <StyledDialogFooter>
-        <Button onClick={(_e) => onClose()}>{t("cancel")}</Button>
-        <Button onClick={() => onDelete(learningPath.id)} variant="danger">
+      <DialogFooter>
+        <Button variant="secondary" onClick={onClose}>
+          {t("cancel")}
+        </Button>
+        <Button onClick={() => onDelete(learningpath.id)} variant="danger">
           {t("myNdla.learningpath.delete.button")}
         </Button>
-      </StyledDialogFooter>
+      </DialogFooter>
     </DialogContent>
   );
 };

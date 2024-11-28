@@ -13,15 +13,12 @@ import { useMyLearningpaths } from "../../learningpathQueries";
 
 const StyledOl = styled("ol", {
   base: {
-    display: "flex",
-    flexDirection: "column",
+    listStyle: "none",
   },
 });
 
-interface Props {}
-
-export const LearningpathList = (_props: Props) => {
-  const { learningpaths, loading } = useMyLearningpaths();
+export const LearningpathList = () => {
+  const { data, loading } = useMyLearningpaths();
 
   if (loading) {
     return <Spinner />;
@@ -29,8 +26,8 @@ export const LearningpathList = (_props: Props) => {
 
   return (
     <StyledOl>
-      {learningpaths?.map((learningpath) => (
-        <LearningpathListItem showMenu learningPath={learningpath} key={learningpath.id} />
+      {data?.myLearningpaths?.map((learningpath) => (
+        <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
       ))}
     </StyledOl>
   );

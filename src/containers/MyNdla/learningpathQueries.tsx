@@ -39,10 +39,7 @@ const myLearningpathQuery = gql`
   ${learningpathFragment}
 `;
 
-export const useMyLearningpaths = () => {
-  const { data, loading, error } = useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
-  return { learningpaths: data?.myLearningpaths, loading, error };
-};
+export const useMyLearningpaths = () => useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {
@@ -52,13 +49,7 @@ const deleteLearningpathMutation = gql`
 
 export const useDeleteLearningpath = (
   options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
-) => {
-  const [deleteLearningpath, { error, loading }] = useMutation<
-    GQLDeleteLearningpathMutation,
-    GQLMutationDeleteLearningpathArgs
-  >(deleteLearningpathMutation, options);
-  return { deleteLearningpath, error, loading };
-};
+) => useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, options);
 
 const updateLearningpathStatusMutation = gql`
   mutation updateLearningpathStatus($id: Int!, $status: String!) {
@@ -71,10 +62,8 @@ const updateLearningpathStatusMutation = gql`
 
 export const useUpdateLearningpathStatus = (
   options?: MutationHookOptions<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
-) => {
-  const [updateLearningpathStatus, { error, loading }] = useMutation<
-    GQLUpdateLearningpathStatusMutation,
-    GQLMutationUpdateLearningpathStatusArgs
-  >(updateLearningpathStatusMutation, options);
-  return { updateLearningpathStatus, error, loading };
-};
+) =>
+  useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
+    updateLearningpathStatusMutation,
+    options,
+  );

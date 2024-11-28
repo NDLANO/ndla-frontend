@@ -11,3 +11,7 @@ export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDoma
 
 export const copyLearningpathSharingLink = (id: number) =>
   window.navigator.clipboard.writeText(sharedLearningpathLink(id));
+
+export const LEARNINGPATH_SHARED = "UNLISTED";
+export const LEARNINGPATH_PRIVATE = "PRIVATE";
+export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";

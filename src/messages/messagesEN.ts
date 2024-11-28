@@ -100,9 +100,9 @@ const messages = {
     learningpath: {
       title: "My Learning Paths",
       description:
-        "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself. See an example of a learning path at www.examplelink.com",
-      created: "Created: {{ created }} ",
-      shared: "/ Shared: {{ shared }} ",
+        "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself.",
+      created: "Created: {{ created }}",
+      shared: "Shared: {{ shared }}",
       menu: {
         new: "New",
         edit: "Edit",
@@ -115,7 +115,7 @@ const messages = {
       toast: {
         deleted: 'The learning path "{{ name }}" has been deleted.',
         unshared: 'The learning path "{{ name }}" is no longer shared.',
-        shared: "The learningpath is shared.",
+        shared: "The learning path is shared.",
         copy: 'Copied the link to the learning path "{{ name }}"',
       },
       status: {
@@ -124,11 +124,12 @@ const messages = {
         private: "Started",
       },
       delete: {
-        title: "Delete Learning Path",
+        title: "Delete learning path",
         body: "Are you sure you want to delete the learning path? This action cannot be undone.",
-        button: "Delete Learning Path",
+        button: "Delete learning path",
       },
       sharing: {
+        title: "This learning path is shared",
         description: {
           shared:
             "When you share a learning path, you create a link that is accessible to anyone with the link. You can edit the content or stop sharing it whenever you want.",
@@ -140,6 +141,7 @@ const messages = {
         copied: "The link has been copied",
         button: {
           done: "Done",
+          preview: "Preview learning path",
         },
       },
     },

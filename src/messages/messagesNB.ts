@@ -100,9 +100,9 @@ const messages = {
     learningpath: {
       title: "Mine læringsstier",
       description:
-        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv. Se eksempel på en læringssti www.lenketileksempel.no",
-      created: "Opprettet: {{ created }} ",
-      shared: "/ Delt: {{ shared }}",
+        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv.",
+      created: "Opprettet: {{ created }}",
+      shared: "Delt: {{ shared }}",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -114,7 +114,7 @@ const messages = {
       },
       toast: {
         deleted: 'Læringsstien "{{ name }}" er slettet.',
-        unshared: 'Lærringsstien "{{ name }}" er ikke lenger delt.',
+        unshared: 'Læringsstien "{{ name }}" er ikke lenger delt.',
         copy: 'Kopiert lenken til læringsstien "{{ name }}"',
         shared: "Læringsstien er delt.",
       },
@@ -129,6 +129,7 @@ const messages = {
         button: "Slett læringssti",
       },
       sharing: {
+        title: "Denne læringsstien er delt",
         description: {
           shared:
             "Når du deler en læringssti, lager du ei lenke som er åpen for alle som har lenka. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
@@ -140,6 +141,7 @@ const messages = {
         copied: "Lenken er kopiert",
         button: {
           done: "Ferdig",
+          preview: "Forhåndsvis læringssti",
         },
       },
     },

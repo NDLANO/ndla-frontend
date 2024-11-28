@@ -16,30 +16,15 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useLearningpathActionHooks } from "./LearningpathActionHooks";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import SettingsMenu from "../../components/SettingsMenu";
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
-
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-});
-
 const StatusText = styled(Text, {
   base: {
     display: "flex",
-    gap: "4xsmall",
+    gap: "xxsmall",
     alignItems: "center",
   },
 });
@@ -65,49 +50,51 @@ const MenuWrapper = styled("div", {
   },
 });
 
+const TIME_FORMAT = Intl.DateTimeFormat("no");
+
 interface Props {
-  learningPath: GQLLearningpathFragment;
-  showMenu: Boolean;
+  learningpath: GQLLearningpathFragment;
+  showMenu: boolean;
 }
-export const LearningpathListItem = ({ learningPath, showMenu = true }: Props) => {
+export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) => {
   const { t } = useTranslation();
-  const menuItems = useLearningpathActionHooks(learningPath);
+  const menuItems = useLearningpathActionHooks(learningpath);
 
   return (
-    <StyledListItemRoot context="list" asChild consumeCss>
+    <ListItemRoot context="list" asChild consumeCss>
       <li>
         <LearningPath />
         <ListItemContent>
-          <TextWrapper>
+          <div>
             <ListItemHeading asChild consumeCss>
-              <StyledSafeLink to={routes.myNdla.learningpathEdit(learningPath.id)} unstyled css={linkOverlay.raw()}>
-                {learningPath.title}
+              <StyledSafeLink to={routes.myNdla.learningpathEdit(learningpath.id)} unstyled css={linkOverlay.raw()}>
+                {learningpath.title}
               </StyledSafeLink>
             </ListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
-              {t("myNdla.learningpath.created", {
-                created: Intl.DateTimeFormat("no").format(new Date(learningPath.created)),
-              })}
-              {learningPath.madeAvailable
-                ? t("myNdla.learningpath.shared", {
-                    shared: Intl.DateTimeFormat("no").format(new Date(learningPath.madeAvailable)),
-                  })
+              {`${t("myNdla.learningpath.created", {
+                created: TIME_FORMAT.format(new Date(learningpath.created)),
+              })} `}
+              {learningpath.madeAvailable
+                ? `\\ ${t("myNdla.learningpath.shared", {
+                    shared: TIME_FORMAT.format(new Date(learningpath.madeAvailable)),
+                  })}`
                 : null}
             </TimestampText>
-          </TextWrapper>
-          {learningPath.status === "UNLISTED" && (
+          </div>
+          {learningpath.status === LEARNINGPATH_SHARED && (
             <StatusText textStyle="label.small">
               <PersonOutlined size="small" />
               {t("myNdla.learningpath.status.delt")}
             </StatusText>
           )}
-          {learningPath.status === "PRIVATE" && (
+          {learningpath.status === LEARNINGPATH_PRIVATE && (
             <StatusText textStyle="label.small">
               <PencilLine size="small" />
               {t("myNdla.learningpath.status.private")}
             </StatusText>
           )}
-          {learningPath.status === "READY_FOR_SHARING" && (
+          {learningpath.status === LEARNINGPATH_READY_FOR_SHARING && (
             <StatusText textStyle="label.small">
               <CheckLine size="small" />
               {t("myNdla.learningpath.status.readyForSharing")}
@@ -120,6 +107,6 @@ export const LearningpathListItem = ({ learningPath, showMenu = true }: Props) =
           </MenuWrapper>
         ) : null}
       </li>
-    </StyledListItemRoot>
+    </ListItemRoot>
   );
 };

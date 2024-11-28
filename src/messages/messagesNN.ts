@@ -100,9 +100,9 @@ const messages = {
     learningpath: {
       title: "Mine læringsstiar",
       description:
-        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenkjer til andre ressursar samt korte tekstar du lagar sjølv. Sjå døme på ein læringssti www.lenketildøme.no",
-      created: "Oppretta: {{ created }} ",
-      shared: "/ Delt {{ shared }}",
+        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
+      created: "Oppretta: {{ created }}",
+      shared: "Delt {{ shared }}",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -110,7 +110,7 @@ const messages = {
         share: "Del",
         unShare: "Avslutt deling",
         goTo: "Gå til",
-        copy: "Kopier lenkje",
+        copy: "Kopier lenke",
       },
       toast: {
         deleted: 'Læringsstien "{{ name }}" er sletta.',
@@ -120,7 +120,7 @@ const messages = {
       },
       status: {
         delt: "Delt",
-        readyForSharing: "Klar for deling ",
+        readyForSharing: "Klar for deling",
         private: "Starta",
       },
       delete: {
@@ -129,17 +129,19 @@ const messages = {
         button: "Slett læringssti",
       },
       sharing: {
+        title: "Denne læringsstien er delt",
         description: {
           shared:
-            "Når du deler ein læringssti, lagar du ei lenkje som er open for alle som har lenkja. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
+            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
           private:
-            "No kan du dele denne lenkja med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenkja med.",
-          copy: "Trykk på lenkja for å kopiere",
+            "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenka med.",
+          copy: "Trykk på lenka for å kopiere",
         },
-        link: "Kopier lenkje",
-        copied: "Lenkja er kopiert",
+        link: "Kopier lenke",
+        copied: "Lenka er kopiert",
         button: {
           done: "Ferdig",
+          preview: "Forhåndsvis læringssti",
         },
       },
     },

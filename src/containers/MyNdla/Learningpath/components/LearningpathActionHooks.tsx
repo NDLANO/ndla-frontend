@@ -13,7 +13,7 @@ import { PencilLine, DeleteBinLine, CloseLine, AddLine } from "@ndla/icons/actio
 import { Share, ArrowRightLine, ExternalLinkLine } from "@ndla/icons/common";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
-import { copyLearningpathSharingLink } from "./utils";
+import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
@@ -21,38 +21,36 @@ import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteLearningpath, useUpdateLearningpathStatus } from "../../learningpathQueries";
 
-export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragment) => {
+export const useLearningpathActionHooks = (learningpath?: GQLLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { updateLearningpathStatus } = useUpdateLearningpathStatus();
-  const { deleteLearningpath } = useDeleteLearningpath();
-
-  const isShared = learningPath?.status === "shared";
+  const [updateLearningpathStatus] = useUpdateLearningpathStatus();
+  const [onDeleteLearningpath] = useDeleteLearningpath();
 
   const actionItems: MenuItemProps[] = useMemo(() => {
-    const newLp: MenuItemProps = {
-      type: "link",
-      link: routes.myNdla.learningpathNew,
-      icon: <AddLine />,
-      text: t("myNdla.learningpath.menu.new"),
-      value: t("myNdla.learningpath.menu.new"),
-    };
+    if (!learningpath) {
+      const newLearningpath: MenuItemProps = {
+        type: "link",
+        link: routes.myNdla.learningpathNew,
+        icon: <AddLine />,
+        text: t("myNdla.learningpath.menu.new"),
+        value: t("myNdla.learningpath.menu.new"),
+      };
 
-    if (!learningPath) {
-      return [newLp];
+      return [newLearningpath];
     }
 
-    const edit: MenuItemProps = {
+    const editLearningpath: MenuItemProps = {
       type: "link",
       text: t("myNdla.learningpath.menu.edit"),
-      link: "",
+      link: routes.myNdla.learningpathEdit(learningpath.id),
       value: "editLearningPath",
       icon: <PencilLine />,
     };
 
-    const del: MenuItemProps = {
+    const deleteLearningpath: MenuItemProps = {
       type: "dialog",
       text: t("myNdla.learningpath.menu.delete"),
       value: "deleteLearningPath",
@@ -60,14 +58,13 @@ export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragmen
       icon: <DeleteBinLine />,
       modalContent: (close) => (
         <LearningpathDeleteDialogContent
-          learningPath={learningPath}
+          learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
-            if (!learningPath) return;
-            await deleteLearningpath({ variables: { id: learningPath?.id } });
+            await onDeleteLearningpath({ variables: { id: learningpath.id } });
             toast.create({
               title: t("myNdla.learningpath.toast.deleted", {
-                name: learningPath.title,
+                name: learningpath.title,
               }),
             });
             close();
@@ -76,24 +73,26 @@ export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragmen
       ),
     };
 
-    const share: MenuItemProps = {
+    const isShared = learningpath?.status === LEARNINGPATH_SHARED;
+
+    const shareLearningpath: MenuItemProps = {
       type: "dialog",
       text: t("myNdla.learningpath.menu.share"),
       value: "shareLearningPath",
       icon: <Share />,
       modalContent: (close) => (
         <LearningpathShareDialogContent
-          learningPath={learningPath}
+          learningpath={learningpath}
           onClose={close}
-          onCopyText={() => copyLearningpathSharingLink(learningPath.id)}
+          onCopyText={() => copyLearningpathSharingLink(learningpath.id)}
         />
       ),
       onClick: !isShared
         ? () => {
             updateLearningpathStatus({
               variables: {
-                id: learningPath.id,
-                status: "UNLISTED",
+                id: learningpath.id,
+                status: LEARNINGPATH_SHARED,
               },
             });
             toast.create({
@@ -102,7 +101,8 @@ export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragmen
           }
         : undefined,
     };
-    const unShare: MenuItemProps = {
+
+    const unShareLearningpath: MenuItemProps = {
       type: "action",
       text: t("myNdla.learningpath.menu.unShare"),
       value: "unShareLearningPath",
@@ -110,44 +110,53 @@ export const useLearningpathActionHooks = (learningPath?: GQLLearningpathFragmen
       onClick: () => {
         updateLearningpathStatus({
           variables: {
-            id: learningPath.id,
-            status: "PRIVATE",
+            id: learningpath.id,
+            status: LEARNINGPATH_READY_FOR_SHARING,
           },
         });
         toast.create({
-          title: t("myNdla.learningpath.toast.unshared", { name: learningPath.title }),
+          title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }),
         });
       },
     };
 
-    const preview: MenuItemProps = {
+    const previewLearningpath: MenuItemProps = {
       type: "link",
       text: t("myNdla.learningpath.menu.goTo"),
       value: "goToLearningPath",
       icon: <ArrowRightLine />,
-      link: routes.learningPath(learningPath.id),
+      link: routes.learningpath(learningpath.id),
       onClick: () => {
-        navigate(routes.learningPath(learningPath.id));
+        navigate(routes.learningpath(learningpath.id));
       },
     };
 
-    const link: MenuItemProps = {
+    const linkLearningpath: MenuItemProps = {
       type: "action",
       text: t("myNdla.learningpath.menu.copy"),
       icon: <ExternalLinkLine />,
       value: "copyLearningPathLink",
       onClick: () => {
-        navigator.clipboard.writeText(`${config.ndlaFrontendDomain}/learningpath/${learningPath.id}`);
+        navigator.clipboard.writeText(`${config.ndlaFrontendDomain}/learningpath/${learningpath.id}`);
         toast.create({
           title: t("myNdla.resource.linkCopied"),
         });
       },
     };
 
-    if (learningPath.status === "UNLISTED") {
-      return [edit, preview, link, unShare, del];
+    if (learningpath.status === LEARNINGPATH_SHARED) {
+      return [
+        editLearningpath,
+        shareLearningpath,
+        previewLearningpath,
+        linkLearningpath,
+        unShareLearningpath,
+        deleteLearningpath,
+      ];
     }
-    return [edit, share, del];
-  }, [deleteLearningpath, isShared, learningPath, navigate, t, toast, updateLearningpathStatus]);
+
+    return [editLearningpath, shareLearningpath, deleteLearningpath];
+  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus]);
+
   return actionItems;
 };
