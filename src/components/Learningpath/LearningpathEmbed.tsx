@@ -94,7 +94,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     learningpathStepQuery,
     {
       variables: {
-        articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
+        articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
         resourceId: taxId ?? "",
         includeResource: !!taxId,
         transformArgs: {
@@ -226,7 +226,6 @@ const articleFragment = gql`
     created
     updated
     articleType
-    metaDescription
     requiredLibraries {
       name
       url

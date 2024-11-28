@@ -242,7 +242,6 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   authors={authors}
                   suppliers={article.copyright?.rightsholders}
                   published={article.published}
-                  license={article.copyright?.license?.license ?? ""}
                   licenseBox={
                     <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
                   }

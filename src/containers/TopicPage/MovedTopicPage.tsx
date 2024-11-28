@@ -126,7 +126,6 @@ MovedTopicPage.fragments = {
       name
       path
       url
-      name
       breadcrumbs
       meta {
         metaDescription
