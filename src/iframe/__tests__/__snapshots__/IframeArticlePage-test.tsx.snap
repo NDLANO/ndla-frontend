@@ -52,21 +52,16 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
           >
             <div
-              class="d_flex flex-d_column-reverse gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium tabletWide:flex-d_row"
+              class="d_flex flex-d_column gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium [&_[data-contributors="false"]]:ms_auto tabletWide:flex-d_row"
             >
-              <div
-                class="d_flex gap_xsmall"
+              <span
+                property="cc:attributionName"
               >
-                <span>
-                  by-sa
-                </span>
-                <span
-                  property="cc:attributionName"
-                >
-                  Skrevet av Someone. 
-                </span>
-              </div>
-              <div>
+                Skrevet av Someone. 
+              </span>
+              <div
+                data-contributors="true"
+              >
                 Sist faglig oppdatert 09.01.2018
               </div>
             </div>
