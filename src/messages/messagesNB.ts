@@ -100,8 +100,20 @@ const messages = {
     learningpath: {
       newLearningpath: "Ny læringssti",
       form: {
-        title: "Legg til innhold",
-        subTitle: "Legg til innhold til læringsstien",
+        delete: "Slett",
+        next: "Neste",
+        back: "Forrige",
+        title: {
+          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          imageTitle: "Bildetittel",
+          copyright: "Opphav",
+          metaImage: "Metabilde",
+          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
+        },
+        content: {
+          title: "Legg til innhold",
+          subTitle: "Legg til innhold til læringsstien",
+        },
         options: {
           text: "Tekst jeg har skrevet selv",
           resource: "Innhold fra NDLA",
@@ -109,6 +121,7 @@ const messages = {
           folder: "Innhold fra en av mine mapper i Min NDLA",
         },
         steps: {
+          next: "Neste: {{ next }}",
           title: "Tittel og beskrivelse",
           content: "Legg til innhold",
           preview: "Se igjennom",

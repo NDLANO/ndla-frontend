@@ -9,18 +9,12 @@
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons/action";
 import { ImageSearch } from "@ndla/image-search";
-import { FieldHelper, FieldLabel, FieldRoot, Button, Image, Spinner } from "@ndla/primitives";
-import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
+import { Button, Image, Spinner, Text } from "@ndla/primitives";
+import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3, ISearchResultV3 } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
+import { GQLImageFragmentFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
-
-const StyledImage = styled(Image, {
-  base: {
-    width: "surface.small",
-    justifySelf: "center",
-  },
-});
 
 interface Props {
   imageId?: string;
@@ -41,34 +35,83 @@ export const ImagePicker = ({ imageId, setImageForm }: Props) => {
     return <Spinner />;
   }
 
+  return imageId && image ? (
+    <PickedImage image={image} loading={loading} />
+  ) : (
+    <ImageSearch
+      locale={i18n.language}
+      translations={searchImageTranslations}
+      searchImages={async (query, page) => (await refetch({ query, page })).data.imageSearch as ISearchResultV3}
+      onImageSelect={(image) => setImageForm(image)}
+      fetchImage={async (imageId) =>
+        (await refetchImage({ id: imageId.toString() })).data.imageV3 as IImageMetaInformationV3
+      }
+      onError={() => {}}
+    />
+  );
+};
+const StyledImage = styled(Image, {
+  base: {
+    maxWidth: "surface.3xsmall",
+    maxHeight: "surface.4xsmall",
+  },
+});
+
+const Wrapper = styled("div", {
+  base: {
+    padding: "xsmall",
+    display: "flex",
+    justifyContent: "space-between",
+    border: "1px solid",
+    borderRadius: "xsmall",
+    borderColor: "stroke.disabled",
+  },
+});
+
+const TextVStack = styled(VStack, {
+  base: {
+    textAlign: "start",
+    alignItems: "start",
+    justifyContent: "flex-start",
+  },
+});
+interface PickedImageProps {
+  loading: boolean;
+  image: GQLImageFragmentFragment;
+}
+
+const PickedImage = ({ loading, image }: PickedImageProps) => {
+  const { t } = useTranslation();
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
-    <FieldRoot>
-      <HStack justify="space-between">
-        <Stack direction="column" align="flex-start">
-          <FieldLabel>Metabilde</FieldLabel>
-          <FieldHelper>Legg til et bilde som representerer læringsstien din</FieldHelper>
-        </Stack>
-        {image && (
-          <Button size="small" variant="danger" onClick={() => setImageForm(undefined)}>
-            <DeleteBinLine />
-            Fjern bilde
-          </Button>
-        )}
+    <Wrapper>
+      <HStack gap="small">
+        <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />
+        <TextVStack gap="xsmall">
+          <TextVStack gap="4xsmall">
+            <Text fontWeight="bold" textStyle="label.medium">
+              {t("myNdla.learningpath.form.title.imageTitle")}
+            </Text>
+            <Text textStyle="label.small">{image.title.title}</Text>
+          </TextVStack>
+          <TextVStack gap="4xsmall">
+            <Text fontWeight="bold" textStyle="label.medium">
+              {t("myNdla.learningpath.form.title.copyright")}
+            </Text>
+            <Text textStyle="label.small">{image.copyright.license.license}</Text>
+          </TextVStack>
+        </TextVStack>
       </HStack>
-      {imageId && image ? (
-        <>{loading ? <Spinner /> : <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />}</>
-      ) : (
-        <ImageSearch
-          locale={i18n.language}
-          translations={searchImageTranslations}
-          searchImages={async (query, page) => (await refetch({ query, page })).data.imageSearch as ISearchResultV3}
-          onImageSelect={(image) => setImageForm(image)}
-          fetchImage={async (imageId) =>
-            (await refetchImage({ id: imageId.toString() })).data.imageV3 as IImageMetaInformationV3
-          }
-          onError={() => {}}
-        />
-      )}
-    </FieldRoot>
+      <VStack justify="flex-end">
+        <Button variant="danger" size="small">
+          {t("myNdla.learningpath.form.delete")}
+          <DeleteBinLine />
+        </Button>
+      </VStack>
+    </Wrapper>
   );
 };

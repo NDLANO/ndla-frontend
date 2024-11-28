@@ -100,8 +100,20 @@ const messages = {
     learningpath: {
       newLearningpath: "New learningpath",
       form: {
-        title: "Append content",
-        subTitle: "Append content to the learningpath",
+        delete: "Delete",
+        next: "Next",
+        back: "Back",
+        title: {
+          titleHelper: "Give the path a descriptive title",
+          imageTitle: "Imagetitle",
+          copyright: "Copyright",
+          metaImage: "Metaimage",
+          metaImageHelper: "Add a pciture that represents the learningpath",
+        },
+        content: {
+          title: "Append content",
+          subTitle: "Append content to the learningpath",
+        },
         options: {
           text: "Text written by myself",
           resource: "Content from NDLA",
@@ -109,6 +121,7 @@ const messages = {
           folder: "Content from one of my folder in My NDLA",
         },
         steps: {
+          next: "Neste: {{ next }}",
           title: "Title and description",
           content: "Append content",
           preview: "Preview",

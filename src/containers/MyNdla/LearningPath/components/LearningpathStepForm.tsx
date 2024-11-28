@@ -43,8 +43,8 @@ export const LearningpathStepForm = (_props: Props) => {
 
   return (
     <ContentWrapper>
-      <Text fontWeight="bold">{t("myNdla.learningpath.form.title")}</Text>
-      <Text textStyle="label.small">{t("myNdla.learningpath.form.subTitle")}</Text>
+      <Text fontWeight="bold">{t("myNdla.learningpath.form.content.title")}</Text>
+      <Text textStyle="label.small">{t("myNdla.learningpath.form.content.subTitle")}</Text>
       <RadioGroupRoot
         value={currentType}
         onValueChange={(details) => setCurrentType(details.value as LearningstepType)}

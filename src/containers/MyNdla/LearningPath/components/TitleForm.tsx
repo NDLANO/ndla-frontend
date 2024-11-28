@@ -43,7 +43,7 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSave)}>
-      <Heading textStyle="heading.small">{t("myNdla.learningpath.learningpathTitle.title")}</Heading>
+      <Heading textStyle="heading.small">{t("myNdla.learningpath.form.steps.title")}</Heading>
       <Controller
         control={control}
         name="title"
@@ -63,7 +63,7 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
             <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("title")}
             </FieldLabel>
-            <FieldHelper>{t("myNdla.learningpath.learningpathTitle.description")}</FieldHelper>
+            <FieldHelper>{t("myNdla.learningpath.form.title.titleHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={MAX_NAME_LENGTH} />
@@ -79,13 +79,15 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
         }}
         render={() => (
           <FieldRoot>
+            <FieldLabel>{t("myNdla.learningpath.form.title.metaImage")}</FieldLabel>
+            <FieldHelper>{t("myNdla.learningpath.form.title.metaImageHelper")}</FieldHelper>
             <ImagePicker imageId={getValues("image")?.id} setImageForm={(image) => setValue("image", image!)} />
           </FieldRoot>
         )}
       />
       <HStack justify="space-between">
         <Button variant="secondary">{t("cancel")}</Button>
-        <Button type="submit">{t("continue")}</Button>
+        <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
       </HStack>
     </StyledForm>
   );

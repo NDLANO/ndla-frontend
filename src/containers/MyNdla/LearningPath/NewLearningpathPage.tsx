@@ -8,12 +8,14 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningPathStepper } from "./components/LearningPathStepper";
 import { TitleForm } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -25,6 +27,7 @@ export const NewLearningpathPage = () => {
   const { user } = useContext(AuthContext);
 
   const { createLearningpath } = useCreateLearningpath();
+  const navigate = useNavigate();
 
   useEffect(() => {
     trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
@@ -42,8 +45,8 @@ export const NewLearningpathPage = () => {
       </Heading>
       <LearningPathStepper stepKey="title" />
       <TitleForm
-        onSave={async (val) =>
-          await createLearningpath({
+        onSave={async (val) => {
+          const res = await createLearningpath({
             variables: {
               params: {
                 coverPhotoMetaUrl: val.image.metaUrl,
@@ -60,8 +63,11 @@ export const NewLearningpathPage = () => {
                 duration: 1,
               },
             },
-          })
-        }
+          });
+          if (res.data?.newLearningpath.id) {
+            navigate(routes.myNdla.learningpathEdit(res.data.newLearningpath.id));
+          }
+        }}
       />
     </MyNdlaPageWrapper>
   );

@@ -157,5 +157,6 @@ export const routes = {
     tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
     tags: "/minndla/folders/tag",
     learningpath: "/minndla/learningpaths",
+    learningpathEdit: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}`,
   },
 };
