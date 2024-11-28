@@ -7,16 +7,17 @@
  */
 
 import "source-map-support/register";
-import chalk from "chalk";
+import pc from "picocolors";
+import type { Formatter } from "picocolors/types";
 import { LogLevel } from "./error";
 import config from "../config";
 
 let winstonLogger: any | undefined;
 
-const logLevelColors: Record<string, chalk.Chalk> = {
-  error: chalk.red.bold,
-  warn: chalk.yellow.bold,
-  info: chalk.blue.bold,
+const logLevelColors: Record<string, Formatter> = {
+  error: pc.red,
+  warn: pc.yellow,
+  info: pc.blue,
 };
 
 // NOTE: This winston setup does not run in a browser, so lets not import it there.
@@ -40,8 +41,8 @@ if ((config.runtimeType === "production" && import.meta.env.SSR) || !config.isCl
 
       const plainFormat = winston.format.printf((info) => {
         const { level, message, timestamp, stack, service: _service, ...rest } = info;
-        const color = logLevelColors[level] ?? chalk.white.bold;
-        const coloredLevel = color(level.toUpperCase());
+        const colorFunc = logLevelColors[level] ?? pc.white;
+        const coloredLevel = colorFunc(pc.bold(level.toUpperCase()));
         let logLine = `[${coloredLevel}] ${timestamp}: ${message}`;
         if (stack) logLine += `\n${indentString(stack)}`;
         if (Object.keys(rest).length > 0) logLine += `\n${indentString(JSON.stringify(rest, null, 2))}`;
