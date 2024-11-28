@@ -11,18 +11,8 @@ import * as Sentry from "@sentry/react";
 import { ErrorType, LogLevel } from "./error";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
+import log from "./logger";
 import config from "../config";
-
-export let log: any | undefined;
-
-// import.meta.env is only available when ran within vite. `handleError` can be called from the root server.
-// This does not apply when running a production build, as we inject import.meta.env.SSR through esbuild.
-// All in all, this ensures that winston is only imported on the server during production builds.
-if (config.runtimeType === "production" && import.meta.env.SSR) {
-  import("./logger").then((l) => {
-    log = l.default;
-  });
-}
 
 type SingleGQLError = {
   status?: number;
@@ -182,14 +172,14 @@ const logServerError = async (
   const err = getErrorLog(error, ctx);
   switch (logLevel) {
     case "info":
-      await log?.info(err);
+      await log.info(err);
       break;
     case "warn":
-      await log?.warn(err);
+      await log.warn(err);
       break;
     case "error":
     case undefined:
-      await log?.error(err);
+      await log.error(err);
       break;
     default:
       unreachable(logLevel);
@@ -199,7 +189,7 @@ const logServerError = async (
 const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
     Sentry.captureException(error);
-  } else if (config.runtimeType === "production" && !config.isClient) {
+  } else if (!config.isClient) {
     await logServerError(error, requestPath, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console

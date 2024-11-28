@@ -11,6 +11,7 @@ import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
+import log from "../../util/logger";
 
 interface ExternalIds {
   externalIds: string[];
@@ -68,6 +69,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
 
 export async function forwardingRoute(req: Request, res: Response, next: NextFunction) {
   try {
+    log.info("Redirecting old ndla path", { path: req.path });
     const path = await forwardPath(req.params.nodeId!, req.params.lang);
     res.redirect(301, path);
   } catch (e) {
