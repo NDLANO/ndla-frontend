@@ -15,6 +15,7 @@ import {
 } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
 import { plainLearningpathContainerFragments } from "../PlainLearningpathPage/PlainLearningpathContainer";
+import Learningpath from "../../components/Learningpath/Learningpath";
 
 const learningpathFragment = gql`
   fragment Learningpath on Learningpath {
@@ -67,3 +68,16 @@ export const useFetchLearningpath = (
   );
   return { learningpath: data?.learningpath, error, loading };
 };
+
+const newLearningstepMutation = gql`
+  mutation newLearningstep($params: LearningstepNewInput!) {
+    newLearningstep(params: $params) {
+
+    }
+  }
+    ${Learningpath.fragments.learningpathStep}
+`;
+
+export const useCreateLearningstep = (
+  options: QueryHookOptions<GQLLearningpathsQuery, GQLLearningpathsQueryVariables>,
+) => useMutation<>();
