@@ -8,9 +8,11 @@
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
 import { ImagePicker } from "./ImagePicker";
+import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
 
@@ -37,7 +39,7 @@ const MAX_NAME_LENGTH = 64;
 export const TitleForm = ({ initialValue, onSave }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const { control, handleSubmit, setValue, getValues } = useForm<FormValues>({
+  const { control, handleSubmit, setValue } = useForm<FormValues>({
     values: initialValue,
   });
 
@@ -77,16 +79,18 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
           required: "Please select an image",
           validate: (value) => !!value,
         }}
-        render={() => (
+        render={({ field }) => (
           <FieldRoot>
             <FieldLabel>{t("myNdla.learningpath.form.title.metaImage")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.title.metaImageHelper")}</FieldHelper>
-            <ImagePicker imageId={getValues("image")?.id} setImageForm={(image) => setValue("image", image!)} />
+            <ImagePicker imageId={field.value?.id} onSelectImage={(image) => setValue("image", image!)} />
           </FieldRoot>
         )}
       />
       <HStack justify="space-between">
-        <Button variant="secondary">{t("cancel")}</Button>
+        <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
+          {t("cancel")}
+        </SafeLinkButton>
         <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
       </HStack>
     </StyledForm>

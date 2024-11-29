@@ -9,6 +9,7 @@
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningPathStepper } from "./components/LearningPathStepper";
@@ -37,7 +38,7 @@ export const NewLearningpathPage = () => {
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
       <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "0", name: t("myNdla.learningpath.newLearningpath") }]}
+        breadcrumbs={[{ id: "-1", name: t("myNdla.learningpath.newLearningpath") }]}
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
@@ -53,7 +54,7 @@ export const NewLearningpathPage = () => {
                 copyright: {
                   contributors: [],
                   license: {
-                    license: "CC-BY-SA-4.0",
+                    license: ALL_ABBREVIATIONS[4],
                   },
                 },
                 description: "",

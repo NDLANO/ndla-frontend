@@ -18,38 +18,48 @@ import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
   imageId?: string;
-  setImageForm: (image: IImageMetaInformationV3 | undefined) => void;
+  onSelectImage: (image: IImageMetaInformationV3 | undefined) => void;
 }
 
-export const ImagePicker = ({ imageId, setImageForm }: Props) => {
-  const { image, loading, refetch: refetchImage } = useFetchImage({ variables: { id: imageId! }, skip: !imageId });
+export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
+  const searchImageTranslations = useImageSearchTranslations();
   const { i18n } = useTranslation();
 
-  const searchImageTranslations = useImageSearchTranslations();
+  const [fetchImage, { loading, data: image }] = useFetchImage({
+    variables: { id: imageId! },
+    skip: !imageId,
+  });
 
-  const { refetch } = useImageSearch({
+  const [refetch] = useImageSearch({
     variables: { page: 1, pageSize: 16 },
   });
+
+  const onFetchImage = async (imageId: number) =>
+    (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3;
+
+  const onSearchImage = async (query?: string, page?: number) =>
+    (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3;
+
+  const onRemove = () => onSelectImage(undefined);
 
   if (loading) {
     return <Spinner />;
   }
 
-  return imageId && image ? (
-    <PickedImage image={image} loading={loading} />
+  return imageId && image?.imageV3 ? (
+    <PickedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
   ) : (
     <ImageSearch
       locale={i18n.language}
       translations={searchImageTranslations}
-      searchImages={async (query, page) => (await refetch({ query, page })).data.imageSearch as ISearchResultV3}
-      onImageSelect={(image) => setImageForm(image)}
-      fetchImage={async (imageId) =>
-        (await refetchImage({ id: imageId.toString() })).data.imageV3 as IImageMetaInformationV3
-      }
+      searchImages={onSearchImage}
+      onImageSelect={onSelectImage}
+      fetchImage={onFetchImage}
       onError={() => {}}
     />
   );
 };
+
 const StyledImage = styled(Image, {
   base: {
     maxWidth: "surface.3xsmall",
@@ -78,9 +88,10 @@ const TextVStack = styled(VStack, {
 interface PickedImageProps {
   loading: boolean;
   image: GQLImageFragmentFragment;
+  onRemove: () => void;
 }
 
-const PickedImage = ({ loading, image }: PickedImageProps) => {
+const PickedImage = ({ loading, image, onRemove }: PickedImageProps) => {
   const { t } = useTranslation();
 
   if (loading) {
@@ -98,16 +109,18 @@ const PickedImage = ({ loading, image }: PickedImageProps) => {
             </Text>
             <Text textStyle="label.small">{image.title.title}</Text>
           </TextVStack>
-          <TextVStack gap="4xsmall">
-            <Text fontWeight="bold" textStyle="label.medium">
-              {t("myNdla.learningpath.form.title.copyright")}
-            </Text>
-            <Text textStyle="label.small">{image.copyright.license.license}</Text>
-          </TextVStack>
+          {image.copyright.rightsholders.length ? (
+            <TextVStack gap="4xsmall">
+              <Text fontWeight="bold" textStyle="label.medium">
+                {t("myNdla.learningpath.form.title.copyright")}
+              </Text>
+              <Text textStyle="label.small">{image.copyright.rightsholders.map((r) => r.name).join(", ")}</Text>
+            </TextVStack>
+          ) : null}
         </TextVStack>
       </HStack>
       <VStack justify="flex-end">
-        <Button variant="danger" size="small">
+        <Button onClick={onRemove} variant="danger" size="small">
           {t("myNdla.learningpath.form.delete")}
           <DeleteBinLine />
         </Button>

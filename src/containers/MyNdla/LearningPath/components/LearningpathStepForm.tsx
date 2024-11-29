@@ -6,9 +6,10 @@
  *
  */
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Label,
   RadioGroupItem,
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
@@ -18,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
-const ContentWrapper = styled("form", {
+const ContentWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
@@ -37,15 +38,19 @@ interface Props {
 }
 const RadiogroupOptions = ["text", "resource", "external", "folder"];
 
-export const LearningpathStepForm = (_props: Props) => {
-  const [currentType, setCurrentType] = useState<LearningstepType | undefined>(undefined);
+export const LearningpathStepForm = ({ contentType }: Props) => {
+  const [currentType, setCurrentType] = useState<LearningstepType | undefined>(contentType);
+  const id = useId();
   const { t } = useTranslation();
 
   return (
     <ContentWrapper>
-      <Text fontWeight="bold">{t("myNdla.learningpath.form.content.title")}</Text>
+      <Label fontWeight="bold" htmlFor={id}>
+        {t("myNdla.learningpath.form.content.title")}
+      </Label>
       <Text textStyle="label.small">{t("myNdla.learningpath.form.content.subTitle")}</Text>
       <RadioGroupRoot
+        id={id}
         value={currentType}
         onValueChange={(details) => setCurrentType(details.value as LearningstepType)}
         orientation="vertical"
