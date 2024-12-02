@@ -9,7 +9,7 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ArrowLeftLine } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";

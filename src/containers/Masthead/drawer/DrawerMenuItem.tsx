@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

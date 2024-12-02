@@ -9,7 +9,7 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ArrowRightLine } from "@ndla/icons/common";
+import { ArrowRightLine } from "@ndla/icons";
 import { Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

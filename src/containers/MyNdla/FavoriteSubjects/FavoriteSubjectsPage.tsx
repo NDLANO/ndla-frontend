@@ -9,7 +9,7 @@
 import { useEffect, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ArrowRightLine } from "@ndla/icons/common";
+import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";

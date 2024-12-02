@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Additional, PresentationLine } from "@ndla/icons/common";
+import { Additional, PresentationLine } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

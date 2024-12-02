@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SkipToMainContent from "./SkipToMainContent";

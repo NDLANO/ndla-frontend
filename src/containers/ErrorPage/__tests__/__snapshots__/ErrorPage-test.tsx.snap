@@ -432,14 +432,14 @@ exports[`ErrorPage renderers correctly 1`] = `
                         aria-hidden="true"
                         class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                         data-icon=""
-                        data-license="SIL Open Font License 1.1"
-                        data-source="Material Community Icons"
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
                         viewBox="0 0 24 24"
                       >
                         <path
-                          d="M17 2v4h-2c-.7 0-1 .8-1 1.5V10h3v4h-3v8h-4v-8H7v-4h3V6a4 4 0 0 1 4-4z"
+                          d="M12 2a10 10 0 0 0-1.56 19.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.9 3.78-3.9 1.09 0 2.23.2 2.23.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.9h-2.33v6.98A10 10 0 0 0 12 2"
                         />
                       </svg>
                     </a>
@@ -456,7 +456,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                         class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
                         data-icon=""
                         data-license="Apache License 2.0"
-                        data-source="Material Design"
+                        data-source="RemixIcon"
                         fill="currentColor"
                         preserveAspectRatio="xMidYMid meet"
                         viewBox="0 0 24 24"

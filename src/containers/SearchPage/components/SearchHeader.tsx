@@ -8,8 +8,7 @@
 
 import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine, AddLine } from "@ndla/icons/action";
-import { SearchLine } from "@ndla/icons/common";
+import { CloseLine, AddLine, SearchLine } from "@ndla/icons";
 import {
   Button,
   IconButton,

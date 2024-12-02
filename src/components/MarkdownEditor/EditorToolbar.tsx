@@ -33,7 +33,7 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
-import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
+import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons";
 import { IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";

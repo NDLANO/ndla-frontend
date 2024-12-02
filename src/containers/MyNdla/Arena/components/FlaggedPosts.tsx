@@ -11,7 +11,7 @@ import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationContext } from "@ark-ui/react";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Text,
   Badge,

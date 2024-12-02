@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { CloseLine, MenuLine } from "@ndla/icons/action";
+import { CloseLine, MenuLine } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import DefaultMenu from "./DefaultMenu";

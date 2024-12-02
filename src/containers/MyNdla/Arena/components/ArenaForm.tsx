@@ -9,8 +9,7 @@
 import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { InformationOutline } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { InformationLine, CheckLine } from "@ndla/icons";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -211,7 +210,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         />
       )}
       <StyledMessageBox variant="info">
-        <InformationOutline />
+        <InformationLine />
         <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
       </StyledMessageBox>
       <HStack gap="3xsmall" justify="flex-end">

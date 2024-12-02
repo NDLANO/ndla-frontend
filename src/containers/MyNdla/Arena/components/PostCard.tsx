@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { Dispatch, SetStateAction, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Reply } from "@ndla/icons/action";
+import { Reply } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import ArenaForm from "./ArenaForm";

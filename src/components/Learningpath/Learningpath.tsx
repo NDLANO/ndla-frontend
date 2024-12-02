@@ -10,7 +10,7 @@ import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
+import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
   AccordionItem,

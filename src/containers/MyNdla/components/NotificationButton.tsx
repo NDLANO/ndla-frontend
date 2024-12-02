@@ -8,7 +8,7 @@
 
 import { forwardRef, useMemo, ComponentPropsWithRef } from "react";
 import { useTranslation } from "react-i18next";
-import { NotificationLine } from "@ndla/icons/common";
+import { NotificationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLArenaNotificationV2Fragment } from "../../../graphqlTypes";

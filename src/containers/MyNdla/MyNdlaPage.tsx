@@ -9,7 +9,7 @@
 import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Feide, ArrowRightLine } from "@ndla/icons/common";
+import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

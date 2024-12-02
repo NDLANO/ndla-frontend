@@ -9,7 +9,7 @@
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
-import { PresentationLine } from "@ndla/icons/common";
+import { PresentationLine } from "@ndla/icons";
 import {
   Badge,
   ListItemContent,

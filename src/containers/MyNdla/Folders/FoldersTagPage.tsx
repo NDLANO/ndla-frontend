@@ -10,7 +10,7 @@ import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
-import { FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
