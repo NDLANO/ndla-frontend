@@ -32,7 +32,7 @@ import {
   ArticleHeader,
   ArticleHGroup,
   ArticleWrapper,
-  ContentTypeBadgeNew,
+  ContentTypeBadge,
   HomeBreadcrumb,
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -185,7 +185,7 @@ const PodcastSeriesPage = () => {
               <ArticleWrapper>
                 <ArticleHeader>
                   <ArticleHGroup>
-                    <ContentTypeBadgeNew contentType={"podcast"} />
+                    <ContentTypeBadge contentType={"podcast"} />
                     <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                       {podcastSeries.title.title}
                     </Heading>

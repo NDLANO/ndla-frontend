@@ -24,14 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import {
-  ArticleContent,
-  ArticleHeader,
-  ArticleWrapper,
-  ContentTypeBadgeNew,
-  HomeBreadcrumb,
-  LicenseLink,
-} from "@ndla/ui";
+import { ArticleContent, ArticleHeader, ArticleWrapper, ContentTypeBadge, HomeBreadcrumb, LicenseLink } from "@ndla/ui";
 import { contains } from "@ndla/util";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
@@ -197,7 +190,7 @@ const Learningpath = ({
           <ContentWrapper>
             <MetaWrapper data-testid="learningpath-meta">
               <ContentTypeWrapper>
-                <ContentTypeBadgeNew contentType="learning-path" />
+                <ContentTypeBadge contentType="learning-path" />
                 {!!resourcePath && (
                   <AddResourceToFolderModal
                     resource={{

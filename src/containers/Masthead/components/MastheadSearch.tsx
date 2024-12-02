@@ -41,7 +41,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
+import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -365,7 +365,7 @@ const MastheadSearch = () => {
                             </Text>
                           )}
                         </TextWrapper>
-                        <ContentTypeBadgeNew contentType={resource.contentType} />
+                        <ContentTypeBadge contentType={resource.contentType} />
                       </StyledListItemRoot>
                     </ComboboxItem>
                   ))
