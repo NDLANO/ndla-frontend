@@ -239,17 +239,19 @@ const Learningpath = ({
             </StyledAccordionRoot>
             <MenuWrapper>{menu}</MenuWrapper>
             <StyledPageContent variant="article" gutters="never">
-              {!!learningpathStep.showTitle && (
+              {(!!learningpathStep.description || !!learningpathStep.showTitle) && (
                 <EmbedPageContent variant="content">
                   <ArticleWrapper>
-                    <ArticleHeader>
-                      <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
-                        {learningpathStep.title}
-                      </Heading>
-                      <LicenseLink
-                        license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
-                      />
-                    </ArticleHeader>
+                    {!!learningpathStep.showTitle && (
+                      <ArticleHeader>
+                        <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
+                          {learningpathStep.title}
+                        </Heading>
+                        <LicenseLink
+                          license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
+                        />
+                      </ArticleHeader>
+                    )}
                     <ArticleContent>
                       {!!learningpathStep.description && (
                         <section>{transform(learningpathStep.description, {})}</section>
