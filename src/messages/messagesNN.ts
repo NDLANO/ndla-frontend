@@ -119,13 +119,13 @@ const messages = {
         shared: "Læringsstien er delt.",
       },
       status: {
-        delt: "Delt",
+        shared: "Delt",
         readyForSharing: "Klar for deling",
         private: "Starta",
       },
       delete: {
         title: "Slett læringssti",
-        body: "Er du sikker på at du vil slette læringsstien? Handlinga kan ikkje reverserast.",
+        body: "Er du sikker på at du vil slette læringsstien? Handlinga kan ikkje angrast.",
         button: "Slett læringssti",
       },
       sharing: {
@@ -141,7 +141,7 @@ const messages = {
         copied: "Lenka er kopiert",
         button: {
           done: "Ferdig",
-          preview: "Forhåndsvis læringssti",
+          preview: "Førehandsvis læringssti",
         },
       },
     },

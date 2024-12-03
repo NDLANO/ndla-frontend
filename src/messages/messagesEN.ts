@@ -119,7 +119,7 @@ const messages = {
         copy: 'Copied the link to the learning path "{{ name }}"',
       },
       status: {
-        delt: "Shared",
+        shared: "Shared",
         readyForSharing: "Ready to Share",
         private: "Started",
       },

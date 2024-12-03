@@ -9,7 +9,7 @@
 import { Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathListItem } from "./LearningpathListItem";
-import { useMyLearningpaths } from "../../learningpathQueries";
+import { useMyLearningpaths } from "../learningpathQueries";
 
 const StyledOl = styled("ol", {
   base: {
@@ -26,9 +26,11 @@ export const LearningpathList = () => {
 
   return (
     <StyledOl>
-      {data?.myLearningpaths?.map((learningpath) => (
-        <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
-      ))}
+      {data?.myLearningpaths
+        ? data.myLearningpaths.map((learningpath) => (
+            <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
+          ))
+        : null}
     </StyledOl>
   );
 };

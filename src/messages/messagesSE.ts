@@ -118,8 +118,8 @@ const messages = {
         shared: "Læringsstien er delt.",
       },
       status: {
-        delt: "Delt",
-        ready_for_sharing: "Klar for deling ",
+        shared: "Delt",
+        ready_for_sharing: "Klar for deling",
         private: "Påbegynt",
       },
       delete: {

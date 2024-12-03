@@ -50,15 +50,15 @@ const MenuWrapper = styled("div", {
   },
 });
 
-const TIME_FORMAT = Intl.DateTimeFormat("no");
-
 interface Props {
   learningpath: GQLLearningpathFragment;
   showMenu: boolean;
 }
 export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const menuItems = useLearningpathActionHooks(learningpath);
+
+  const TIME_FORMAT = Intl.DateTimeFormat(i18n.language);
 
   return (
     <ListItemRoot context="list" asChild consumeCss>
@@ -74,18 +74,20 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
             <TimestampText textStyle="label.small" color="text.subtle">
               {`${t("myNdla.learningpath.created", {
                 created: TIME_FORMAT.format(new Date(learningpath.created)),
-              })} `}
-              {learningpath.madeAvailable
-                ? `\\ ${t("myNdla.learningpath.shared", {
-                    shared: TIME_FORMAT.format(new Date(learningpath.madeAvailable)),
-                  })}`
-                : null}
+              })} 
+              ${
+                learningpath.madeAvailable
+                  ? `\\ ${t("myNdla.learningpath.shared", {
+                      shared: TIME_FORMAT.format(new Date(learningpath.madeAvailable)),
+                    })}`
+                  : null
+              }`}
             </TimestampText>
           </div>
           {learningpath.status === LEARNINGPATH_SHARED && (
             <StatusText textStyle="label.small">
               <PersonOutlined size="small" />
-              {t("myNdla.learningpath.status.delt")}
+              {t("myNdla.learningpath.status.shared")}
             </StatusText>
           )}
           {learningpath.status === LEARNINGPATH_PRIVATE && (

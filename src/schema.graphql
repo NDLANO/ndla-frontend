@@ -827,7 +827,7 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 
 input LearningpathNewInput {
   copyright: LearningpathCopyrightInput!
-  coverPhotoMetaUrl: String!
+  coverPhotoMetaUrl: String
   description: String!
   duration: Int!
   language: String!
@@ -848,7 +848,6 @@ type LearningpathSearchResult implements SearchResult {
 }
 
 type LearningpathStep {
-  article: Article
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
@@ -871,8 +870,9 @@ type LearningpathStepEmbedUrl {
 }
 
 input LearningpathStepNewInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
+  description: String
+  embedUrl: LearningpathEmbedInput
+  introduction: String
   language: String!
   license: String!
   showTitle: Boolean!
@@ -889,26 +889,27 @@ type LearningpathStepOembed {
 }
 
 input LearningpathStepUpdateInput {
-  description: String!
-  embedUrl: LearningpathEmbedInput!
+  description: String
+  embedUrl: LearningpathEmbedInput
+  introduction: String
   language: String!
-  license: String!
+  license: String
   revision: Int!
-  showTitle: Boolean!
-  title: String!
-  type: String!
+  showTitle: Boolean
+  title: String
+  type: String
 }
 
 input LearningpathUpdateInput {
-  copyright: LearningpathCopyrightInput!
-  coverPhotoMetaUrl: String!
-  deleteMessage: Boolean!
-  description: String!
-  duration: Int!
+  copyright: LearningpathCopyrightInput
+  coverPhotoMetaUrl: String
+  deleteMessage: Boolean
+  description: String
+  duration: Int
   language: String!
   revision: Int!
-  tags: [String!]!
-  title: String!
+  tags: [String!]
+  title: String
 }
 
 type License {
@@ -1021,8 +1022,8 @@ type Mutation {
   ): ArenaTopicV2!
   newFlag(id: Int!, reason: String!, type: String!): Int!
   newFlagV2(postId: Int!, reason: String!): Int!
-  newLearningpath(params: LearningpathNewInput!): Learningpath!
-  newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): LearningpathStep!
+  newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
+  newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
   removePostUpvote(postId: Int!): Int!
   removePostUpvoteV2(postId: Int!): Int!
   replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
@@ -1056,13 +1057,13 @@ type Mutation {
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
-  updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): Learningpath!
-  updateLearningpathStatus(id: Int!, status: String!): Learningpath!
+  updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
+  updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
   updateLearningpathStep(
     learningpathId: Int!
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
-  ): LearningpathStep!
+  ): MyNdlaLearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
@@ -1075,6 +1076,45 @@ type MyNdlaGroup {
   id: String!
   isPrimarySchool: Boolean!
   parentId: String
+}
+
+type MyNdlaLearningpath {
+  canEdit: Boolean!
+  copyright: LearningpathCopyright!
+  coverphoto: LearningpathCoverphoto
+  created: String!
+  description: String!
+  duration: Int
+  id: Int!
+  isBasedOn: Int
+  lastUpdated: String!
+  learningstepUrl: String!
+  learningsteps: [MyNdlaLearningpathStep!]!
+  madeAvailable: String
+  metaUrl: String!
+  revision: Int!
+  status: String!
+  supportedLanguages: [String!]!
+  tags: [String!]!
+  title: String!
+  verificationStatus: String!
+}
+
+type MyNdlaLearningpathStep {
+  description: String
+  embedUrl: LearningpathStepEmbedUrl
+  id: Int!
+  license: License
+  metaUrl: String!
+  oembed: LearningpathStepOembed
+  resource(parentId: String, rootId: String): Resource
+  revision: Int!
+  seqNo: Int!
+  showTitle: Boolean!
+  status: String!
+  supportedLanguages: [String!]!
+  title: String!
+  type: String!
 }
 
 type MyNdlaPersonalData {
@@ -1317,7 +1357,7 @@ type Query {
   learningpath(pathId: String!): Learningpath
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   listingPage(subjects: String): ListingPage
-  myLearningpaths: [Learningpath!]
+  myLearningpaths: [MyNdlaLearningpath!]
   node(contextId: String, id: String, parentId: String, rootId: String): Node
   nodeByArticleId(articleId: String, nodeId: String): Node
   nodes(
@@ -1328,6 +1368,7 @@ type Query {
     metadataFilterValue: String
     nodeType: String
   ): [Node!]
+  oembedUrl(url: String!): LearningpathStepOembed!
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes

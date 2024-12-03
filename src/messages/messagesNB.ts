@@ -119,8 +119,8 @@ const messages = {
         shared: "Læringsstien er delt.",
       },
       status: {
-        delt: "Delt",
-        readyForSharing: "Klar for deling ",
+        shared: "Delt",
+        readyForSharing: "Klar for deling",
         private: "Påbegynt",
       },
       delete: {
