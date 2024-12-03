@@ -158,7 +158,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType("om");
       const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
-      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
+      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu].filter(Boolean);
       const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
       setFrontpageMenu(menuItem as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
