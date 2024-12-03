@@ -33,6 +33,8 @@ function prepareNock(status: number, nodeId = "1337", contentUri = "urn:article:
       .get(`/taxonomy/v1/url/resolve?path=/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`)
       .reply(200, {
         contentUri,
+        path: `/${subjectId}/topic:1:55212/topic:1:175218/resource:1:72007`,
+        url: "/f/navn-pa-fag/artikkel/23123sdf",
       });
   }
   return nock("http://ndla-api").get(`/taxonomy/v1/url/mapping?url=ndla.no/node/${nodeId}`).reply(404);

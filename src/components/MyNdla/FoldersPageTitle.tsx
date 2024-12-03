@@ -54,7 +54,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
   if (loading) {
     return (
       <TitleWrapper>
-        {!!selectedFolder && enableBreadcrumb && <StyledSkeleton />}
+        {!!selectedFolder && !!enableBreadcrumb && <StyledSkeleton />}
         <StyledSkeleton selectedFolder={!!selectedFolder} />
       </TitleWrapper>
     );
@@ -62,7 +62,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
 
   return (
     <TitleWrapper>
-      {enableBreadcrumb && <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />}
+      {!!enableBreadcrumb && <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />}
       <TitleRow>
         {selectedFolder ? selectedFolder.status === "shared" ? <FolderUserLine /> : <FolderLine /> : null}
         <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />

@@ -20,7 +20,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
@@ -170,7 +170,7 @@ const ListResource = ({
               <ListItemHeading>&nbsp;</ListItemHeading>
             </Skeleton>
             <Skeleton>
-              <ContentTypeBadgeNew contentType={"missing"} />
+              <ContentTypeBadge contentType={"missing"} />
             </Skeleton>
           </TitleWrapper>
         </StyledListItemContent>
@@ -203,7 +203,7 @@ const ListResource = ({
               </StyledSafeLink>
             </ListItemHeading>
           )}
-          <ContentTypeBadgeNew contentType={contentType} />
+          <ContentTypeBadge contentType={contentType} />
         </TitleWrapper>
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}

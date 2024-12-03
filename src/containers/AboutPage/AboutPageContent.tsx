@@ -28,7 +28,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
 import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
@@ -107,7 +107,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
+      path: `${config.ndlaFrontendDomain}${ABOUT_PATH}/${_article.slug}`,
       articleLanguage: _article.language,
     });
     return [

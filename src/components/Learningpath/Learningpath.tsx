@@ -24,14 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import {
-  ArticleContent,
-  ArticleHeader,
-  ArticleWrapper,
-  ContentTypeBadgeNew,
-  HomeBreadcrumb,
-  LicenseLink,
-} from "@ndla/ui";
+import { ArticleContent, ArticleHeader, ArticleWrapper, ContentTypeBadge, HomeBreadcrumb, LicenseLink } from "@ndla/ui";
 import { contains } from "@ndla/util";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
@@ -40,12 +33,10 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_ResourceTypeDefinitionFragment,
-  GQLLearningpath_SubjectFragment,
-  GQLLearningpath_TopicFragment,
+  GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
 import { toLearningPath } from "../../routeHelpers";
-import { TopicPath } from "../../util/getTopicPath";
 import FavoriteButton from "../Article/FavoritesButton";
 import { PageContainer, PageLayout } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
@@ -53,10 +44,8 @@ import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  topic?: GQLLearningpath_TopicFragment;
-  topicPath?: TopicPath[];
+  resource?: GQLLearningpathPage_NodeFragment;
   resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
-  subject?: GQLLearningpath_SubjectFragment;
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
@@ -171,10 +160,7 @@ const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
-  topic,
-  subject,
-  topicPath,
-  resourceTypes,
+  resource,
   skipToContentId,
   breadcrumbItems,
 }: Props) => {
@@ -189,6 +175,8 @@ const Learningpath = ({
     () => <LearningpathMenu resourcePath={resourcePath} learningpath={learningpath} currentStep={learningpathStep} />,
     [learningpath, learningpathStep, resourcePath],
   );
+  const parents = resource?.context?.parents || [];
+  const root = parents[0];
 
   return (
     <PageLayout asChild consumeCss>
@@ -202,7 +190,7 @@ const Learningpath = ({
           <ContentWrapper>
             <MetaWrapper data-testid="learningpath-meta">
               <ContentTypeWrapper>
-                <ContentTypeBadgeNew contentType="learning-path" />
+                <ContentTypeBadge contentType="learning-path" />
                 {!!resourcePath && (
                   <AddResourceToFolderModal
                     resource={{
@@ -251,10 +239,10 @@ const Learningpath = ({
             </StyledAccordionRoot>
             <MenuWrapper>{menu}</MenuWrapper>
             <StyledPageContent variant="article" gutters="never">
-              {(learningpathStep.description || learningpathStep.showTitle) && (
+              {(!!learningpathStep.description || !!learningpathStep.showTitle) && (
                 <EmbedPageContent variant="content">
                   <ArticleWrapper>
-                    {learningpathStep.showTitle && (
+                    {!!learningpathStep.showTitle && (
                       <ArticleHeader>
                         <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
                           {learningpathStep.title}
@@ -275,18 +263,15 @@ const Learningpath = ({
               <LearningpathEmbed
                 key={learningpathStep.id}
                 skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
-                subjectId={subject?.id}
+                subjectId={root?.id}
                 learningpathStep={learningpathStep}
                 breadcrumbItems={breadcrumbItems}
               >
                 <LastLearningpathStepInfo
-                  topic={topic}
-                  topicPath={topicPath}
-                  resourceTypes={resourceTypes}
                   seqNo={learningpathStep.seqNo}
                   numberOfLearningSteps={learningpath.learningsteps.length - 1}
                   title={learningpath.title}
-                  subject={subject}
+                  resource={resource}
                 />
               </LearningpathEmbed>
               <PageButtonsContainer>
@@ -324,24 +309,11 @@ const Learningpath = ({
 };
 
 Learningpath.fragments = {
-  topic: gql`
-    fragment Learningpath_Topic on Topic {
-      ...LastLearningpathStepInfo_Topic
-    }
-    ${LastLearningpathStepInfo.fragments.topic}
-  `,
   resourceType: gql`
     fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
       ...LastLearningpathStepInfo_ResourceTypeDefinition
     }
     ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
-  subject: gql`
-    fragment Learningpath_Subject on Subject {
-      id
-      ...LastLearningpathStepInfo_Subject
-    }
-    ${LastLearningpathStepInfo.fragments.subject}
   `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {

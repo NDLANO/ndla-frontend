@@ -368,6 +368,10 @@ const getStructuredDataFromArticle = (
 const createMediaData = (media: Mediaelements[], language: string): StructuredData[] =>
   media.map((media) => {
     const { data, type } = media;
+    const copyrightDataFn =
+      type === IMAGE_TYPE
+        ? (data: GQLStructuredArticleData_CopyrightFragment) => getCopyrightDataImage(data, language)
+        : getCopyrightData;
     return {
       ...structuredDataBase,
       "@type": type,
@@ -375,7 +379,7 @@ const createMediaData = (media: Mediaelements[], language: string): StructuredDa
       name: data?.title,
       contentUrl: data?.src,
       acquireLicensePage: AcquireLicensePage,
-      ...(type === IMAGE_TYPE ? getCopyrightDataImage(data?.copyright!, language) : getCopyrightData(data?.copyright!)),
+      ...(data?.copyright ? copyrightDataFn(data?.copyright) : {}),
     };
   });
 
@@ -392,7 +396,7 @@ const createPodcastData = (podcasts: GQLStructuredArticleData_PodcastLicenseFrag
       },
       abstract: podcast?.description,
       acquireLicensePage: AcquireLicensePage,
-      ...getCopyrightData(podcast?.copyright!),
+      ...(podcast?.copyright ? getCopyrightData(podcast.copyright) : {}),
     };
   });
 
@@ -408,7 +412,7 @@ const createVideoData = (videos: GQLStructuredArticleData_BrightcoveLicenseFragm
       description: video?.description,
       acquireLicensePage: AcquireLicensePage,
       uploadDate: video?.uploadDate,
-      ...getCopyrightData(video?.copyright!),
+      ...(video?.copyright ? getCopyrightData(video.copyright) : {}),
     };
   });
 

@@ -94,7 +94,7 @@ const ArenaPage = () => {
         <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.arena.category.title")}</h2>
         </Heading>
-        {user?.isModerator && (
+        {!!user?.isModerator && (
           <ModeratorButtonWrapper>
             <Button size="small" onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}

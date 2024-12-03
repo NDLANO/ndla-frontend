@@ -7,6 +7,7 @@
  */
 
 import { matchPath, Params, PathMatch, Location } from "react-router-dom";
+import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
 import { oembedRoutes } from "../routes";
 
@@ -14,6 +15,8 @@ type OembedParams =
   | "subjectId"
   | "topicId"
   | "resourceId"
+  | "stepId"
+  | "contextId"
   | "articleId"
   | "lang"
   | "topicOrResourceId"
@@ -27,6 +30,8 @@ type OembedReturnParams =
   | "subjectId"
   | "topicId"
   | "resourceId"
+  | "stepId"
+  | "contextId"
   | "articleId"
   | "lang"
   | "audioId"
@@ -96,4 +101,13 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
   const fullPath = path.startsWith("/") ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}`;
+};
+
+export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
+  let path = pathname.replace(/\/$/, ""); // Remove trailing slash if present
+  const match = matchUrl(path);
+  if (match?.params.stepId) {
+    path = path.replace(/\/\d+$/, ""); // Remove last numeric segment if stepId
+  }
+  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
 };

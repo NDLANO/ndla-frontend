@@ -160,7 +160,7 @@ const MyNdlaLayout = () => {
           </DialogTrigger>
         </StyledSideBar>
         <StyledContent>
-          {examLock && (
+          {!!examLock && (
             <MessageBox variant="warning">
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>

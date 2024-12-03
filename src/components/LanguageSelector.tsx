@@ -18,7 +18,6 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectRootProps,
   SelectTrigger,
@@ -53,18 +52,16 @@ export const LanguageSelector = ({ languages, ...props }: Props) => {
           {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />
         </Button>
       </LanguageSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {supportedLanguages.map((lang) => (
-            <SelectItem key={lang} item={lang}>
-              <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
-              <SelectItemIndicator>
-                <CheckLine />
-              </SelectItemIndicator>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {supportedLanguages.map((lang) => (
+          <SelectItem key={lang} item={lang}>
+            <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
+            <SelectItemIndicator>
+              <CheckLine />
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
+      </SelectContent>
     </SelectRoot>
   );
 };

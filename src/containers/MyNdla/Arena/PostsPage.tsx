@@ -65,12 +65,13 @@ const PostsPage = () => {
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
   const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
-  const { replyToTopic } = useArenaReplyToTopicMutation(arenaTopic?.id!);
+  const { replyToTopic } = useArenaReplyToTopicMutation(arenaTopic?.id ?? -1);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>, postId?: number) => {
+      if (!arenaTopic?.id) return;
       const newReply = await replyToTopic({
-        variables: { topicId: arenaTopic?.id!, content: data.content ?? "", postId: postId },
+        variables: { topicId: arenaTopic.id, content: data.content ?? "", postId: postId },
       });
 
       // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
@@ -131,7 +132,7 @@ const PostsPage = () => {
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
 
-  if (loading || !arenaTopic?.posts?.items) return <PageSpinner />;
+  if (loading || !arenaTopic?.posts?.items?.[0]) return <PageSpinner />;
 
   return (
     <StyledMyNdlaPageWrapper>
@@ -139,7 +140,7 @@ const PostsPage = () => {
       <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       <div>
         <MainPostCard
-          post={arenaTopic?.posts?.items[0]!}
+          post={arenaTopic.posts.items[0]}
           topic={arenaTopic}
           onFollowChange={onFollowChange}
           setFocusId={setFocusId}

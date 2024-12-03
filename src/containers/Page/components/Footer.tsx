@@ -233,15 +233,15 @@ export const Footer = () => {
   const commonLinks = [
     {
       text: t("footer.ndlaLinks.omNdla"),
-      to: "https://ndla.no/about/om-ndla",
+      to: "https://ndla.no/om/om-ndla",
     },
     {
       text: t("footer.ndlaLinks.aboutNdla"),
-      to: "https://ndla.no/about/about-us",
+      to: "https://ndla.no/om/about-us",
     },
     {
-      text: t("footer.ndlaLinks.vacancies"),
-      to: "https://ndla.no/about/utlysninger",
+      text: t("footer.ndlaLinks.contact"),
+      to: "https://ndla.no/om/kontakt-oss",
     },
   ];
 
@@ -274,7 +274,7 @@ export const Footer = () => {
 
   return (
     <FooterBlock>
-      {config.zendeskWidgetKey && (
+      {!!config.zendeskWidgetKey && (
         <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
           <QuestionLine />
           {t("askNDLA")}

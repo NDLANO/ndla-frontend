@@ -21,7 +21,7 @@ import { RenderFunc } from "../serverHelpers";
 
 export const errorRender: RenderFunc = async (req) => {
   const context: RedirectInfo = {};
-  //@ts-ignore
+  // @ts-expect-error - This is fulfilled automatically
   const helmetContext: FilledContext = {};
 
   const Page = (

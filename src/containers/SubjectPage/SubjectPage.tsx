@@ -12,14 +12,15 @@ import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer"
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
+import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
+import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
-  query subjectPage($subjectId: String!, $metadataFilterKey: String, $metadataFilterValue: String) {
-    node(id: $subjectId) {
+  query subjectPage($subjectId: String, $contextId: String, $metadataFilterKey: String, $metadataFilterValue: String) {
+    node(id: $subjectId, contextId: $contextId) {
       ...SubjectContainer_Node
     }
     nodes(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
@@ -33,15 +34,15 @@ const subjectPageQuery = gql`
 `;
 
 const SubjectPage = () => {
-  const { subjectId } = useUrnIds();
-
+  const { contextId, subjectId } = useUrnIds();
   const {
     loading,
     data: newData,
     previousData,
   } = useGraphQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
     variables: {
-      subjectId: subjectId!,
+      subjectId: subjectId,
+      contextId: contextId,
       metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
       metadataFilterValue: subjectId,
     },
@@ -57,7 +58,7 @@ const SubjectPage = () => {
     return <ContentPlaceholder />;
   }
 
-  if (!data.node || !subjectId) {
+  if (!data.node) {
     const redirect = data.nodes?.[0];
     if (!redirect) {
       return <NotFoundPage />;
@@ -65,8 +66,12 @@ const SubjectPage = () => {
       return <Navigate to={redirect.path || ""} replace />;
     }
   }
+  const subjectType = getSubjectType(data.node.id);
+  if (subjectType === "film") {
+    return <FilmFrontpage />;
+  }
 
-  return <SubjectContainer node={data.node} loading={loading} />;
+  return <SubjectContainer node={data.node} subjectType={subjectType} loading={loading} />;
 };
 
 export default SubjectPage;

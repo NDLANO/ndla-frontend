@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { PageContainer } from "@ndla/ui";
+import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedTopicPage_NodeFragment, GQLSearchResult } from "../../graphqlTypes";
@@ -61,11 +61,9 @@ interface Props {
   nodes: GQLMovedTopicPage_NodeFragment[];
 }
 
-const StyledMain = styled("main", {
+const StyledPageContainer = styled(PageContainer, {
   base: {
-    display: "flex",
     gap: "xxlarge",
-    flexDirection: "column",
   },
 });
 
@@ -90,11 +88,11 @@ export const MovedTopicPage = ({ nodes }: Props) => {
   const results = mergeTopicSubjects(nodeAsResults);
 
   return (
-    <PageContainer>
-      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
-        <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
-      <StyledMain>
+    <StyledPageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
+          <meta name="robots" content="noindex" />
+        </HelmetWithTracker>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {results.length ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultDescription")}
         </StyledHeading>
@@ -116,8 +114,8 @@ export const MovedTopicPage = ({ nodes }: Props) => {
         ) : (
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
-      </StyledMain>
-    </PageContainer>
+      </main>
+    </StyledPageContainer>
   );
 };
 
@@ -125,8 +123,9 @@ MovedTopicPage.fragments = {
   node: gql`
     fragment MovedTopicPage_Node on Node {
       id
-      path
       name
+      path
+      url
       breadcrumbs
       meta {
         metaDescription
@@ -136,6 +135,7 @@ MovedTopicPage.fragments = {
         }
       }
       contexts {
+        contextId
         breadcrumbs
       }
     }

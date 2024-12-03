@@ -26,6 +26,8 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
+import { nodeWithMetadataFragment } from "../../queries";
 import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
@@ -86,14 +88,11 @@ const StyledList = styled("ul", {
 
 const allSubjectsQuery = gql`
   query allSubjects {
-    subjects(filterVisible: true) {
-      id
-      name
-      metadata {
-        customFields
-      }
+    nodes(nodeType: "SUBJECT", filterVisible: true) {
+      ...NodeWithMetadata
     }
   }
+  ${nodeWithMetadataFragment}
 `;
 
 const AllSubjectsPage = () => {
@@ -102,7 +101,7 @@ const AllSubjectsPage = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useGraphQuery(allSubjectsQuery);
+  const subjectsQuery = useGraphQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);
@@ -118,10 +117,7 @@ const AllSubjectsPage = () => {
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
-  const sortedSubjects = useMemo(
-    () => sortBy(subjectsQuery.data?.subjects, (s) => s.name),
-    [subjectsQuery.data?.subjects],
-  );
+  const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
   const groupedSubjects = useMemo(() => {
     const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);

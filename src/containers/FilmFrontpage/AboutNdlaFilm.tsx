@@ -75,7 +75,7 @@ const VisualElement = ({ visualElement }: VisualElementProps) => {
   if (type === "image") {
     return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
-    return <StyledIframe allow="fullscreen; encrypted-media" allowFullScreen={true} src={url} title={alt ?? ""} />;
+    return <StyledIframe allow="fullscreen; encrypted-media" src={url} title={alt ?? ""} />;
   } else {
     return null;
   }
@@ -111,7 +111,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
     <BleedPageContent asChild>
       <PageContent variant="article">
         <StyledAside aria-labelledby={titleId}>
-          {aboutNDLAVideo?.visualElement && (
+          {!!aboutNDLAVideo?.visualElement && (
             <StyledContent>
               <VisualElement visualElement={aboutNDLAVideo?.visualElement} />
             </StyledContent>
@@ -123,7 +123,7 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
             <Text asChild consumeCss>
               <p>{aboutNDLAVideo?.description}</p>
             </Text>
-            {transformedArticle && (
+            {!!transformedArticle && (
               <DialogRoot size="full">
                 <DialogTrigger asChild>
                   <Button variant="secondary">{t("ndlaFilm.about.more")}</Button>
