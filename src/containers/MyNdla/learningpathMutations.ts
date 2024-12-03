@@ -6,40 +6,14 @@
  *
  */
 
-import { gql, MutationHookOptions, useMutation } from "@apollo/client";
+import { MutationHookOptions, useMutation, gql } from "@apollo/client";
 import {
   GQLDeleteLearningpathMutation,
   GQLMutationDeleteLearningpathArgs,
-  GQLMutationUpdateLearningpathStatusArgs,
-  GQLMyLearningpathsQuery,
   GQLUpdateLearningpathStatusMutation,
+  GQLMutationUpdateLearningpathStatusArgs,
 } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
-
-const learningpathFragment = gql`
-  fragment Learningpath on Learningpath {
-    id
-    title
-    description
-    created
-    status
-    madeAvailable
-    coverphoto {
-      url
-    }
-  }
-`;
-
-const myLearningpathQuery = gql`
-  query MyLearningpaths {
-    myLearningpaths {
-      ...Learningpath
-    }
-  }
-  ${learningpathFragment}
-`;
-
-export const useMyLearningpaths = () => useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
+import { learningpathFragment } from "./learningpathQueries";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {

@@ -19,7 +19,7 @@ import config from "../../../../config";
 import { GQLLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
-import { useDeleteLearningpath, useUpdateLearningpathStatus } from "../../learningpathQueries";
+import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../../learningpathMutations";
 
 export const useLearningpathActionHooks = (learningpath?: GQLLearningpathFragment) => {
   const toast = useToast();
