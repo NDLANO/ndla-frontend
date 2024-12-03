@@ -325,7 +325,7 @@ const MastheadSearch = () => {
               {!loading && !!query && (
                 <div>
                   {!(searchHits.length > 1) ? (
-                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                    <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
