@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gql, useApolloClient } from "@apollo/client";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,
   PaginationEllipsis,

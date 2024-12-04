@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Feide, UserLine } from "@ndla/icons/common";
+import { Feide, UserLine } from "@ndla/icons";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

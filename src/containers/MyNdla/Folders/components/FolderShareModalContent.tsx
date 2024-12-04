@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FileCopyLine } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

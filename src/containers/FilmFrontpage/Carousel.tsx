@@ -17,7 +17,7 @@ import {
   forwardRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

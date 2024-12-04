@@ -13,9 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
 import { createListCollection } from "@ark-ui/react/collection";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,

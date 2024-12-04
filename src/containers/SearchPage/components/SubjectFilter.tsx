@@ -11,7 +11,7 @@ import sortBy from "lodash/sortBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxGroup,

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { UserLine, AlertLine } from "@ndla/icons/common";
+import { UserLine, AlertLine } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
 import AdminNavLink from "./components/AdminNavLink";

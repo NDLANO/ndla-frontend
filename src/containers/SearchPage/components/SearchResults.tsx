@@ -8,7 +8,7 @@
 
 import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   Heading,
   Text,

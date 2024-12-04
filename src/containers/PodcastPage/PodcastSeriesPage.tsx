@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,

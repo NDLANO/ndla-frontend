@@ -9,8 +9,7 @@
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine } from "@ndla/icons/action";
-import { ShareLine, ArrowRightLine } from "@ndla/icons/common";
+import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
 import FolderCreateModalContent from "./FolderCreateModalContent";
 import FolderEditModalContent from "./FolderEditModalContent";
 import { FolderFormValues } from "./FolderForm";

@@ -14,8 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
+import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Button,
   ComboboxControl,

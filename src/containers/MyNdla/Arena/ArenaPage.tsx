@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { Button, Text, Heading } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
