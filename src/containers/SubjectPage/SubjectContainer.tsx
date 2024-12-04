@@ -11,7 +11,7 @@ import { useEffect, useContext, useId } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";

@@ -7,9 +7,7 @@
  */
 
 import { ComponentPropsWithRef, ComponentType, forwardRef } from "react";
-import { HeadphoneLine, VolumeUpLine } from "@ndla/icons/common";
-import { LearningPath } from "@ndla/icons/contentType";
-import { H5P, ImageLine, PlayBoxOutline } from "@ndla/icons/editor";
+import { HeadphoneLine, VolumeUpLine, H5P, ImageLine, MovieLine, TextWrap } from "@ndla/icons";
 import { ContentType } from "@ndla/ui";
 
 interface Props extends ComponentPropsWithRef<"svg"> {
@@ -19,11 +17,11 @@ interface Props extends ComponentPropsWithRef<"svg"> {
 const getIcon = (contentType: string | undefined) => {
   switch (contentType) {
     case "learning-path":
-      return LearningPath;
+      return TextWrap;
     case "image":
       return ImageLine;
     case "video":
-      return PlayBoxOutline;
+      return MovieLine;
     case "h5p":
       return H5P;
     case "podcast":

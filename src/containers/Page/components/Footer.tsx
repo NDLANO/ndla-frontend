@@ -8,7 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, Facebook } from "@ndla/icons/common";
+import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, FacebookCircleFill } from "@ndla/icons";
 import { Heading, NdlaLogoEn, NdlaLogoNb, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
@@ -144,7 +144,7 @@ const FooterSocialMedia = () => {
     {
       text: t("footer.socialMediaLinks.facebook"),
       to: "https://www.facebook.com/ndla.no",
-      icon: <Facebook />,
+      icon: <FacebookCircleFill />,
     },
     {
       text: t("footer.socialMediaLinks.instagram"),
@@ -240,8 +240,8 @@ export const Footer = () => {
       to: "https://ndla.no/om/about-us",
     },
     {
-      text: t("footer.ndlaLinks.vacancies"),
-      to: "https://ndla.no/om/utlysninger",
+      text: t("footer.ndlaLinks.contact"),
+      to: "https://ndla.no/om/kontakt-oss",
     },
   ];
 

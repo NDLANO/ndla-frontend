@@ -8,7 +8,7 @@
 
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { HeartFill, HeartLine } from "@ndla/icons/action";
+import { HeartFill, HeartLine } from "@ndla/icons";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

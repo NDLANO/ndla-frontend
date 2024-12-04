@@ -9,8 +9,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { AddLine } from "@ndla/icons/action";
-import { EyeFill } from "@ndla/icons/editor";
+import { AddLine, EyeFill } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

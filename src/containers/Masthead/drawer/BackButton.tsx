@@ -6,7 +6,7 @@
  *
  */
 
-import { ArrowLeftLine, HomeFill } from "@ndla/icons/common";
+import { ArrowLeftLine, HomeFill } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 

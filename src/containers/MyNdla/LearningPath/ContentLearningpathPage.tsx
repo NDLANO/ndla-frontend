@@ -57,7 +57,10 @@ export const ContentLearningpathPage = () => {
       {learningpath?.learningsteps.length === 0 ? (
         <LearningpathStepForm />
       ) : (
-        <>{/** TODO: Accordion med learningpathStepForm */}</>
+        <>
+          {/** TODO: Accordion med learningpathStepForm */}
+          <p></p>
+        </>
       )}
     </MyNdlaPageWrapper>
   );

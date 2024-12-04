@@ -7,8 +7,7 @@
  */
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { FolderUserLine, FolderLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";

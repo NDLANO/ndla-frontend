@@ -9,7 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { CloseLine, MenuLine } from "@ndla/icons/action";
+import { CloseLine, MenuLine } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import DefaultMenu from "./DefaultMenu";
@@ -158,7 +158,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
       setType("om");
       const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
-      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
+      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu].filter(Boolean);
       const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
       setFrontpageMenu(menuItem as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {

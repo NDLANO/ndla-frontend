@@ -9,7 +9,7 @@
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
-import { PresentationLine } from "@ndla/icons/common";
+import { PresentationLine } from "@ndla/icons";
 import {
   Badge,
   ListItemContent,
@@ -22,7 +22,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentType, ContentTypeBadge, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { RELEVANCE_CORE } from "../../constants";
@@ -245,7 +245,7 @@ export const ResourceItem = ({
                 title={t("article.access.onlyTeacher")}
               />
             )}
-            <ContentTypeBadgeNew contentType={contentType} />
+            <ContentTypeBadge contentType={contentType} />
             {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>

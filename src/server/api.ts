@@ -27,6 +27,7 @@ import {
   STORED_LANGUAGE_COOKIE_KEY,
   UKR_PAGE_PATH,
   UKR_PAGE_URL,
+  programmeRedirects,
 } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
@@ -34,7 +35,7 @@ import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
-import { log } from "../util/handleError";
+import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
@@ -113,7 +114,7 @@ router.get("/login/success", async (req, res) => {
 
   const token = await getFeideToken(req, verifier, code).catch((error: Error) => {
     if (error instanceof oidcErrors.OPError) {
-      log?.info("Got OPError when fetching feide token.", { error });
+      log.info("Got OPError when fetching feide token.", { error });
       throw new BadRequestError(`Got OPError when fetching feide token: ${error.message}`);
     }
     return Promise.reject(error);
@@ -179,11 +180,13 @@ router.get("/logout/session", (req, res) => {
 });
 
 router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
+  log.info("Redirecting about path", { path: req.path, params: req.params });
   const { lang, path } = req.params;
   res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
 });
 
 router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
+  log.info("Redirecting subjects path", { path: req.path, params: req.params });
   const { lang, path = [] } = req.params;
   res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
 });
@@ -231,6 +234,20 @@ router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subjec
     next();
   }
 });
+
+/** Handle semi-old hardcoded programmes. */
+router.get(
+  ["/utdanning/:name", "/utdanning/:name/vg1", "/utdanning/:name/vg2", "/utdanning/:name/vg3"],
+  (req, res, next) => {
+    const { name = "" } = req.params;
+    if (programmeRedirects[name] !== undefined) {
+      log.info("Redirecting programme without contextId", { path: req.path });
+      res.redirect(301, `/utdanning/${name}/${programmeRedirects[name]}`);
+    } else {
+      next();
+    }
+  },
+);
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);

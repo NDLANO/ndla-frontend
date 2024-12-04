@@ -7,7 +7,7 @@
  */
 
 import { useState } from "react";
-import { ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons";
 import { StyledButton, StyledSafeLink } from "./DrawerMenuItem";
 import { DrawerListItem } from "./DrawerPortion";
 
