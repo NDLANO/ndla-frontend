@@ -14,7 +14,7 @@ import { learningpathFragment } from "./learningpathFragments";
 const myLearningpathQuery = gql`
   query MyLearningpaths {
     myLearningpaths {
-      ...Learningpath
+      ...MyNdlaLearningpath
     }
   }
   ${learningpathFragment}

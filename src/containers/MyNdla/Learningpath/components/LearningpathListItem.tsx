@@ -7,17 +7,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { PencilLine } from "@ndla/icons/action";
-import { PersonOutlined } from "@ndla/icons/common";
-import { LearningPath } from "@ndla/icons/contentType";
-import { CheckLine } from "@ndla/icons/editor";
+import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
-import { GQLLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import SettingsMenu from "../../components/SettingsMenu";
 
@@ -51,7 +48,7 @@ const MenuWrapper = styled("div", {
 });
 
 interface Props {
-  learningpath: GQLLearningpathFragment;
+  learningpath: GQLMyNdlaLearningpathFragment;
   showMenu: boolean;
 }
 export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) => {
@@ -63,7 +60,7 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
   return (
     <ListItemRoot context="list" asChild consumeCss>
       <li>
-        <LearningPath />
+        <RouteLine />
         <ListItemContent>
           <div>
             <ListItemHeading asChild consumeCss>
@@ -86,7 +83,7 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
           </div>
           {learningpath.status === LEARNINGPATH_SHARED && (
             <StatusText textStyle="label.small">
-              <PersonOutlined size="small" />
+              <UserLine size="small" />
               {t("myNdla.learningpath.status.shared")}
             </StatusText>
           )}

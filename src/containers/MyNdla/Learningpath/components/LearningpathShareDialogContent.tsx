@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FileCopyLine } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -15,7 +15,7 @@ import { LearningpathListItem } from "./LearningpathListItem";
 import { sharedLearningpathLink } from "./utils";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 
 const GapWrapper = styled("div", {
@@ -52,7 +52,7 @@ const StyledDialogFooter = styled(DialogFooter, {
 interface Props {
   onClose: () => void;
   onCopyText: () => void;
-  learningpath: GQLLearningpathFragment;
+  learningpath: GQLMyNdlaLearningpathFragment;
 }
 
 export const LearningpathShareDialogContent = ({ learningpath, onCopyText, onClose }: Props) => {

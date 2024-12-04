@@ -9,19 +9,26 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { PencilLine, DeleteBinLine, CloseLine, AddLine } from "@ndla/icons/action";
-import { Share, ArrowRightLine, ExternalLinkLine } from "@ndla/icons/common";
+import {
+  PencilLine,
+  DeleteBinLine,
+  CloseLine,
+  AddLine,
+  ArrowRightLine,
+  ExternalLinkLine,
+  ShareLine,
+} from "@ndla/icons";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
-import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../../learningpathMutations";
+import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 
-export const useLearningpathActionHooks = (learningpath?: GQLLearningpathFragment) => {
+export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -79,7 +86,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLLearningpathFragmen
       type: "dialog",
       text: t("myNdla.learningpath.menu.share"),
       value: "shareLearningPath",
-      icon: <Share />,
+      icon: <ShareLine />,
       modalContent: (close) => (
         <LearningpathShareDialogContent
           learningpath={learningpath}

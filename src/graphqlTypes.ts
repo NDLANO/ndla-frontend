@@ -3271,6 +3271,40 @@ export type GQLMovedResourcePage_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
+export type GQLMyNdlaLearningpathFragment = {
+  __typename?: "MyNdlaLearningpath";
+  id: number;
+  title: string;
+  description: string;
+  created: string;
+  status: string;
+  madeAvailable?: string;
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+};
+
+export type GQLDeleteLearningpathMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLearningpath?: boolean };
+
+export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
+  id: Scalars["Int"]["input"];
+  status: Scalars["String"]["input"];
+}>;
+
+export type GQLUpdateLearningpathStatusMutation = {
+  __typename?: "Mutation";
+  updateLearningpathStatus: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+};
+
+export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMyLearningpathsQuery = {
+  __typename?: "Query";
+  myLearningpaths?: Array<{ __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment>;
+};
+
 export type GQLNewFlagV2MutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   reason: Scalars["String"]["input"];
@@ -4106,40 +4140,6 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 }>;
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
-
-export type GQLDeleteLearningpathMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
-}>;
-
-export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLearningpath?: boolean };
-
-export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
-  id: Scalars["Int"]["input"];
-  status: Scalars["String"]["input"];
-}>;
-
-export type GQLUpdateLearningpathStatusMutation = {
-  __typename?: "Mutation";
-  updateLearningpathStatus: { __typename?: "MyNdlaLearningpath" } & GQLLearningpathFragment;
-};
-
-export type GQLLearningpathFragment = {
-  __typename?: "MyNdlaLearningpath";
-  id: number;
-  title: string;
-  description: string;
-  created: string;
-  status: string;
-  madeAvailable?: string;
-  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
-};
-
-export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLMyLearningpathsQuery = {
-  __typename?: "Query";
-  myLearningpaths?: Array<{ __typename?: "MyNdlaLearningpath" } & GQLLearningpathFragment>;
-};
 
 export type GQLNewFlagMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

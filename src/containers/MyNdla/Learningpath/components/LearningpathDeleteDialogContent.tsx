@@ -10,12 +10,12 @@ import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { LearningpathListItem } from "./LearningpathListItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { GQLLearningpathFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 
 interface Props {
   onDelete: (path: number) => void;
   onClose: () => void;
-  learningpath: GQLLearningpathFragment;
+  learningpath: GQLMyNdlaLearningpathFragment;
 }
 
 export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningpath }: Props) => {

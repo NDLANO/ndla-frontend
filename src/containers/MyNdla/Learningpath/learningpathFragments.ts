@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 
 export const learningpathFragment = gql`
-  fragment Learningpath on MyNdlaLearningpath {
+  fragment MyNdlaLearningpath on MyNdlaLearningpath {
     id
     title
     description
