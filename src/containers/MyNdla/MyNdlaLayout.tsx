@@ -25,9 +25,10 @@ import {
   LoginBoxLine,
   RouteLine,
   RouteFill,
-} from "@ndla/icons/common";
-import { MoreLine } from "@ndla/icons/contentType";
-import { FolderFill, FolderLine } from "@ndla/icons/editor";
+  MoreLine,
+  FolderFill,
+  FolderLine,
+} from "@ndla/icons";
 import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";

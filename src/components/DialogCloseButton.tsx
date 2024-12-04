@@ -8,7 +8,7 @@
 
 import { forwardRef } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { DialogCloseTrigger, IconButton, IconButtonProps } from "@ndla/primitives";
 
 export const DialogCloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(

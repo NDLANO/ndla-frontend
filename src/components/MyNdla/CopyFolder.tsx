@@ -8,7 +8,7 @@
 
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InformationLine, AlertLine } from "@ndla/icons/common";
+import { InformationLine, AlertLine } from "@ndla/icons";
 import {
   Button,
   Text,

@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ArrowLeftLine } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons";
 import { Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";

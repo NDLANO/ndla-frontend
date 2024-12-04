@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { CircleFill, CornerDownLeftLine } from "@ndla/icons/common";
+import { CircleFill, CornerDownLeftLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

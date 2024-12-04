@@ -10,10 +10,7 @@ import { KeyboardEvent, ReactNode, useCallback, useMemo, useRef, useState } from
 import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { useTreeView, usePopoverContext, type PopoverOpenChangeDetails } from "@ark-ui/react";
-import { AddLine, HeartFill } from "@ndla/icons/action";
-import { ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons/common";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { AddLine, HeartFill, ArrowDownShortLine, ArrowRightShortLine, FolderUserLine, FolderLine } from "@ndla/icons";
 import {
   Button,
   IconButton,

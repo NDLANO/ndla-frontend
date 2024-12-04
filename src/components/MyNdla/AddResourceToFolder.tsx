@@ -13,9 +13,7 @@ import uniq from "lodash/uniq";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, InformationLine, CheckLine } from "@ndla/icons";
 import {
   MessageBox,
   Button,

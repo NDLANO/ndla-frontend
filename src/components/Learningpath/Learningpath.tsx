@@ -10,7 +10,7 @@ import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons/common";
+import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
   AccordionItem,
@@ -24,14 +24,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import {
-  ArticleContent,
-  ArticleHeader,
-  ArticleWrapper,
-  ContentTypeBadgeNew,
-  HomeBreadcrumb,
-  LicenseLink,
-} from "@ndla/ui";
+import { ArticleContent, ArticleHeader, ArticleWrapper, ContentTypeBadge, HomeBreadcrumb, LicenseLink } from "@ndla/ui";
 import { contains } from "@ndla/util";
 import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
 import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
@@ -197,7 +190,7 @@ const Learningpath = ({
           <ContentWrapper>
             <MetaWrapper data-testid="learningpath-meta">
               <ContentTypeWrapper>
-                <ContentTypeBadgeNew contentType="learning-path" />
+                <ContentTypeBadge contentType="learning-path" />
                 {!!resourcePath && (
                   <AddResourceToFolderModal
                     resource={{
@@ -246,17 +239,19 @@ const Learningpath = ({
             </StyledAccordionRoot>
             <MenuWrapper>{menu}</MenuWrapper>
             <StyledPageContent variant="article" gutters="never">
-              {!!learningpathStep.showTitle && (
+              {(!!learningpathStep.description || !!learningpathStep.showTitle) && (
                 <EmbedPageContent variant="content">
                   <ArticleWrapper>
-                    <ArticleHeader>
-                      <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
-                        {learningpathStep.title}
-                      </Heading>
-                      <LicenseLink
-                        license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
-                      />
-                    </ArticleHeader>
+                    {!!learningpathStep.showTitle && (
+                      <ArticleHeader>
+                        <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
+                          {learningpathStep.title}
+                        </Heading>
+                        <LicenseLink
+                          license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
+                        />
+                      </ArticleHeader>
+                    )}
                     <ArticleContent>
                       {!!learningpathStep.description && (
                         <section>{transform(learningpathStep.description, {})}</section>

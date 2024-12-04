@@ -9,7 +9,7 @@
 import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { MoreLine } from "@ndla/icons/contentType";
+import { MoreLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,

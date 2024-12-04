@@ -9,8 +9,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { CloseLine } from "@ndla/icons/action";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   IconButton,
   FieldErrorMessage,

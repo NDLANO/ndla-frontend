@@ -27,6 +27,7 @@ import {
   STORED_LANGUAGE_COOKIE_KEY,
   UKR_PAGE_PATH,
   UKR_PAGE_URL,
+  programmeRedirects,
 } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
@@ -233,6 +234,20 @@ router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subjec
     next();
   }
 });
+
+/** Handle semi-old hardcoded programmes. */
+router.get(
+  ["/utdanning/:name", "/utdanning/:name/vg1", "/utdanning/:name/vg2", "/utdanning/:name/vg3"],
+  (req, res, next) => {
+    const { name = "" } = req.params;
+    if (programmeRedirects[name] !== undefined) {
+      log.info("Redirecting programme without contextId", { path: req.path });
+      res.redirect(301, `/utdanning/${name}/${programmeRedirects[name]}`);
+    } else {
+      next();
+    }
+  },
+);
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
   sendResponse(res, undefined, 410);

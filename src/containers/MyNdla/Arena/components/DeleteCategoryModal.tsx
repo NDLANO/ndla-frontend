@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { DialogRoot, DialogTrigger, IconButton } from "@ndla/primitives";
 import { useToast } from "../../../../components/ToastContext";
 import { useArenaDeleteCategoryMutation } from "../../arenaMutations";

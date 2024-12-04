@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { ThumbFilled, Thumb } from "@ndla/icons/action";
+import { ThumbFilled, Thumb } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useArenaPostUpvote, useArenaPostRemoveUpvote } from "./temporaryNodebbHooks";

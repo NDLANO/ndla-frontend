@@ -14,8 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
+import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Button,
   ComboboxControl,
@@ -41,7 +40,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
+import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
 import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -325,7 +324,7 @@ const MastheadSearch = () => {
               {!loading && !!query && (
                 <div>
                   {!(searchHits.length > 1) ? (
-                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                    <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
@@ -365,7 +364,7 @@ const MastheadSearch = () => {
                             </Text>
                           )}
                         </TextWrapper>
-                        <ContentTypeBadgeNew contentType={resource.contentType} />
+                        <ContentTypeBadge contentType={resource.contentType} />
                       </StyledListItemRoot>
                     </ComboboxItem>
                   ))

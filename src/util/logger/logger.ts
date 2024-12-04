@@ -6,7 +6,6 @@
  *
  */
 
-import "source-map-support/register";
 import type { Logger } from "winston";
 import config from "../../config";
 import { LogLevel } from "../error/index";
