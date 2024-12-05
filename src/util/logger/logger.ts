@@ -13,7 +13,7 @@ import { LogLevel } from "../error/index";
 let winstonLogger: Logger | undefined;
 
 // NOTE: The winston setup does not run in a browser, so lets not import it there.
-if ((config.runtimeType === "production" && import.meta.env.SSR) || !config.isClient) {
+if (import.meta.env?.SSR) {
   import("./winston").then((w) => {
     winstonLogger = w.winstonLogger;
   });
