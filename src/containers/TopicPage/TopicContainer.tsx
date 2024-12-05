@@ -141,7 +141,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
-        imageUrl={node.meta?.metaImage?.url}
+        imageUrl={node.article?.metaImage?.url}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
       />
       <StyledTopicWrapper>
