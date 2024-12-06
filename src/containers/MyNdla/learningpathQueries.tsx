@@ -6,64 +6,44 @@
  *
  */
 
-import { gql, MutationHookOptions, QueryHookOptions, useMutation } from "@apollo/client";
+import { gql, QueryHookOptions } from "@apollo/client";
+import { learningpathFragment, learningpathStepOembed } from "./learningpathUtils";
 import {
-  GQLLearningpathsQuery,
-  GQLLearningpathsQueryVariables,
-  GQLNewLearningpathMutation,
-  GQLNewLearningpathMutationVariables,
+  GQLLearningpathStepOembedQuery,
+  GQLLearningpathStepOembedQueryVariables,
+  GQLMyNdlaLearningpathQuery,
+  GQLMyNdlaLearningpathQueryVariables,
 } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
-import { plainLearningpathContainerFragments } from "../PlainLearningpathPage/PlainLearningpathContainer";
 
-const learningpathFragment = gql`
-  fragment Learningpath on Learningpath {
-    id
-    title
-    description
-    created
-    status
-    madeAvailable
-    coverphoto {
-      url
-    }
-  }
-`;
-
-const newLearningpathMutation = gql`
-  mutation newLearningpath($params: LearningpathNewInput!) {
-    newLearningpath(params: $params) {
-      ...Learningpath
+const learningpathQuery = gql`
+  query myNdlaLearningpath($pathId: String!) {
+    myNdlaLearningpath(pathId: $pathId) {
+      ...MyNdlaLearningpath
     }
   }
   ${learningpathFragment}
 `;
 
-export const useCreateLearningpath = (
-  options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
-) => {
-  const [createLearningpath, { loading, error }] = useMutation<
-    GQLNewLearningpathMutation,
-    GQLNewLearningpathMutationVariables
-  >(newLearningpathMutation, options);
-  return { createLearningpath, loading, error };
-};
-
-const learningpathQuery = gql`
-  query learningpaths($pathId: String!, $transformArgs: TransformedArticleContentInput) {
-    learningpath(pathId: $pathId) {
-      ...PlainLearningpathContainer_Learningpath
-    }
-  }
-  ${plainLearningpathContainerFragments.learningpath}
-`;
-
 export const useFetchLearningpath = (
-  options: QueryHookOptions<GQLLearningpathsQuery, GQLLearningpathsQueryVariables>,
+  options: QueryHookOptions<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>,
 ) => {
-  const { data, error, loading } = useGraphQuery<GQLLearningpathsQuery, GQLLearningpathsQueryVariables>(
+  const { data, error, loading } = useGraphQuery<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>(
     learningpathQuery,
     options,
   );
-  return { learningpath: data?.learningpath, error, loading };
+  return { learningpath: data?.myNdlaLearningpath, error, loading };
 };
+
+const fetchOembedUrl = gql`
+  query learningpathStepOembed($url: String!) {
+    learningpathStepOembed(url: $url) {
+      ...LearningpathStepOembed
+    }
+  }
+  ${learningpathStepOembed}
+`;
+
+export const useFetchOembed = (
+  options?: QueryHookOptions<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
+) => useGraphQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);

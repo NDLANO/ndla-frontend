@@ -20,7 +20,7 @@ import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { useCreateLearningpath } from "../learningpathQueries";
+import { useCreateLearningpath } from "../learningpathMutations";
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();

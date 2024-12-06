@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";

@@ -113,6 +113,46 @@ const messages = {
         content: {
           title: "Legg til innhold",
           subTitle: "Legg til innhold til læringsstien",
+          resource: {
+            label: "Artikkel fra NDLA",
+            labelHelper: "Søk etter artikkel eller lim inn en lenke",
+          },
+          text: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag en beskrivende tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+            },
+            description: {
+              label: "Innhold",
+              labelHelper: "Skriv eller lim inn innholdet ditt her.",
+            },
+          },
+          external: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag en beskrivende tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+            },
+            content: {
+              label: "Innhold fra et annet nettsted",
+              labelHelper: "Lim inn en lenke til innholdet du har lyst til å legge til.",
+            },
+            copyright:
+              "Når du deler innhold fra andre nettsteder er du selv ansvarlig for at innholdet er lovlig å dele. Les mer om ",
+            copyrightLink: "opphavsrett og deling.",
+            checkbox: "Innholdet jeg har lenket til er lovlig å dele.",
+          },
+          folder: {
+            label: "Søk i Mine mapper",
+            labelHelper: "Velg innhold fra mappene mine",
+          },
         },
         options: {
           text: "Tekst jeg har skrevet selv",
@@ -126,6 +166,8 @@ const messages = {
           content: "Legg til innhold",
           preview: "Se igjennom",
           save: "Lagre og del",
+          edit: "Rediger trinn",
+          add: "Legg til trinn",
         },
       },
     },
@@ -141,6 +183,7 @@ const messages = {
       description: "Beskrivelse",
       title: "Tittel",
       content: "Innhold",
+      introduction: "Ingress",
     },
     required: "Dette feltet er påkrevd",
     requiredField: "$t(validation.fields.{{field}}) kan ikke være tom",
