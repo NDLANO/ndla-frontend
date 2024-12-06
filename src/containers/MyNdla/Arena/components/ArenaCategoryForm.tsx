@@ -224,6 +224,7 @@ const ArenaCategoryForm = ({
                   </SelectItem>
                 ))}
               </SelectContent>
+              <SelectHiddenSelect />
             </SelectRoot>
           </FieldRoot>
         )}
