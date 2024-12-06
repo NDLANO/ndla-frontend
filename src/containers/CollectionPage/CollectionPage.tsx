@@ -8,7 +8,6 @@
 
 import groupBy from "lodash/groupBy";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { ErrorWarningLine } from "@ndla/icons";
@@ -129,9 +128,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <Helmet>
-          <title>{pageTitle}</title>
-        </Helmet>
+        <title>{pageTitle}</title>
         <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
         <div>
           <StyledImage src={IMAGE_URL} alt="" />

@@ -11,7 +11,6 @@ import queryString from "query-string";
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDeviceSelectors } from "react-device-detect";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import { ApolloProvider, useApolloClient } from "@apollo/client";
@@ -137,7 +136,8 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
     });
     client.resetStore();
     client.setLink(createApolloLinks(lang, versionHash));
-    document.documentElement.lang = lang;
+    const htmlLang = lang === "nn" || lang === "nb" ? "no" : lang;
+    document.documentElement.lang = htmlLang;
   });
 
   // handle path changes when the language is changed
@@ -184,16 +184,14 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 renderOrHydrate(
   document.getElementById("root")!,
   <PrettyUrlsProvider value={enablePrettyUrls}>
-    <HelmetProvider>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <ResponseContext.Provider value={{ status: serverResponse }}>
-            <VersionHashProvider value={versionHash}>
-              <LanguageWrapper basename={basename} />
-            </VersionHashProvider>
-          </ResponseContext.Provider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <ResponseContext.Provider value={{ status: serverResponse }}>
+          <VersionHashProvider value={versionHash}>
+            <LanguageWrapper basename={basename} />
+          </VersionHashProvider>
+        </ResponseContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
   </PrettyUrlsProvider>,
 );
