@@ -184,6 +184,8 @@ const messages = {
       title: "Tittel",
       content: "Innhold",
       introduction: "Ingress",
+      url: "Lenke",
+      shareable: "Delbar",
     },
     required: "Dette feltet er påkrevd",
     requiredField: "$t(validation.fields.{{field}}) kan ikke være tom",

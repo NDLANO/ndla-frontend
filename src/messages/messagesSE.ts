@@ -183,6 +183,8 @@ const messages = {
       title: "Namahus",
       content: "Sisdoallu",
       introduction: "Ingress",
+      url: "Lenke",
+      shareable: "Delbar",
     },
     required: "Dát fealta gáibiduvvo",
     requiredField: "$t(validation.fields.{{field}}) ii sáhte leat guoros",

@@ -65,7 +65,7 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
             <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("validation.fields.title")}
             </FieldLabel>
-            <FieldHelper>{t("myNdla.learningpath.form.title.description")}</FieldHelper>
+            <FieldHelper>{t("myNdla.learningpath.form.title.titleHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={MAX_NAME_LENGTH} />

@@ -238,14 +238,7 @@ const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepList
           </Button>
         )}
       </ContentWrapper>
-      {isEditing ? (
-        <LearningpathStepForm
-          learningpathId={learningpathId}
-          step={step}
-          onClose={() => setIsEditing(false)}
-          onSave={onSave}
-        />
-      ) : null}
+      {isEditing ? <LearningpathStepForm learningpathId={learningpathId} step={step} onSave={onSave} /> : null}
     </li>
   );
 };

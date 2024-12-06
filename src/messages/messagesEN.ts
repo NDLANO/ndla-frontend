@@ -185,6 +185,8 @@ const messages = {
       title: "Title",
       content: "Content",
       introduction: "Introduction",
+      url: "Link",
+      shareable: "Able to share",
     },
     required: "This field is required",
     requiredField: "$t(validation.fields.{{field}}) can not be empty",
