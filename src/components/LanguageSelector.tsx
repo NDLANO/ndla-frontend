@@ -13,6 +13,7 @@ import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   SelectContent,
+  SelectHiddenSelect,
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
@@ -61,6 +62,7 @@ export const LanguageSelector = ({ languages, ...props }: Props) => {
           </SelectItem>
         ))}
       </SelectContent>
+      <SelectHiddenSelect />
     </SelectRoot>
   );
 };

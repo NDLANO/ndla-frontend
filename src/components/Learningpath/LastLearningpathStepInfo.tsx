@@ -77,13 +77,13 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
           </Text>
         )}
       </LinksWrapper>
-      {!!parent && (
+      {!!parent && !!root && (
         <NoSSR fallback={null}>
           <Resources
             headingType="h2"
             key="resources"
             parentId={parent.id}
-            rootId={root?.id}
+            rootId={root.id}
             subHeadingType="h3"
             currentResourceId={resource?.id}
           />

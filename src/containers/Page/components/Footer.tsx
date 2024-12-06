@@ -178,7 +178,7 @@ const FooterSocialMedia = () => {
             </li>
           ))}
           <styled.li css={{ width: "100%" }}>
-            <StyledSafeLink to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea">
+            <StyledSafeLink to="https://ndla.no/om/nyhetsbrev">
               {t("footer.socialMediaLinks.newsletter")} <MailLine />
             </StyledSafeLink>
           </styled.li>

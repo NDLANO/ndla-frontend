@@ -112,7 +112,7 @@ const ResourcePage = () => {
     }
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;
   }

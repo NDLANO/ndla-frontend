@@ -11,6 +11,7 @@ import { gql } from "@apollo/client";
 import AboutPageContent, { aboutPageFragments } from "./AboutPageContent";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
@@ -32,11 +33,13 @@ const aboutPageQuery = gql`
 `;
 
 const AboutPage = () => {
+  const enablePrettyUrls = useEnablePrettyUrls();
   const { slug } = useTypedParams<{ slug: string }>();
   const { error, loading, data } = useGraphQuery<GQLAboutPageQuery, GQLAboutPageQueryVariables>(aboutPageQuery, {
     skip: !slug,
     variables: {
       slug,
+      transformArgs: { prettyUrl: enablePrettyUrls },
     },
   });
 
@@ -46,7 +49,7 @@ const AboutPage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions.status === GONE) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === GONE) && redirectContext) {
     redirectContext.status = GONE;
   }
 

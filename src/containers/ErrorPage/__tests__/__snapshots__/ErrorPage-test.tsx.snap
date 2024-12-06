@@ -518,7 +518,7 @@ exports[`ErrorPage renderers correctly 1`] = `
                   >
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea"
+                      href="https://ndla.no/om/nyhetsbrev"
                     >
                       Meld deg på vårt nyhetsbrev 
                       <svg

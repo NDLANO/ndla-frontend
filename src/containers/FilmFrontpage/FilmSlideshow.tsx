@@ -173,7 +173,11 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   return (
     <BleedPageContent asChild consumeCss>
       <section>
-        <StyledSafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
+        <StyledSafeLink
+          to={(enablePrettyUrls ? currentSlide?.url : currentSlide?.path) ?? ""}
+          tabIndex={-1}
+          aria-hidden
+        >
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
