@@ -28,6 +28,8 @@ export const privateRoutes = [
   "minndla/profile",
   "minndla/arena/user/:username",
   "minndla/learningpaths",
+  "minndla/learningpaths/new",
+  "minndla/learningpaths/:learningpathId",
 ];
 
 export const routes = [

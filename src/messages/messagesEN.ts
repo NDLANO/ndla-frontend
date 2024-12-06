@@ -97,6 +97,81 @@ const messages = {
       userUpdated: "User updated",
     },
     goToMyNdla: "Go to My NDLA",
+    learningpath: {
+      newLearningpath: "New learningpath",
+      form: {
+        delete: "Delete",
+        next: "Next",
+        back: "Back",
+        title: {
+          titleHelper: "Give the path a descriptive title",
+          imageTitle: "Imagetitle",
+          copyright: "Copyright",
+          metaImage: "Metaimage",
+          metaImageHelper: "Add a pciture that represents the learningpath",
+        },
+        content: {
+          title: "Append content",
+          subTitle: "Append content to the learningpath",
+          resource: {
+            label: "Article from NDLA",
+            labelHelper: "Search for an article or paste a link",
+          },
+          text: {
+            title: {
+              label: "Title",
+              labelHelper: "Create a descriptive title.",
+            },
+            introduction: {
+              label: "Introduction",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
+            },
+            description: {
+              label: "Content",
+              labelHelper: "Write or paste your content here.",
+            },
+          },
+          external: {
+            title: {
+              label: "Title",
+              labelHelper: "Create a descriptive title.",
+            },
+            introduction: {
+              label: "Introduction",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
+            },
+            content: {
+              label: "Content from another website",
+              labelHelper: "Paste a link to the content you want to add.",
+            },
+            copyright:
+              "When you share content from other websites, you are responsible for ensuring that the content is legal to share. Learn more about ",
+            copyrightLink: "copyright and sharing.",
+            checkbox: "The content I have linked to is legal to share.",
+          },
+          folder: {
+            label: "Search in My Folders",
+            labelHelper: "Select content from my folders",
+          },
+        },
+        options: {
+          text: "Text written by myself",
+          resource: "Content from NDLA",
+          external: "Content from a external website",
+          folder: "Content from one of my folder in My NDLA",
+        },
+        steps: {
+          next: "Neste: {{ next }}",
+          title: "Title and description",
+          content: "Append content",
+          preview: "Preview",
+          save: "Save and share",
+          edit: "Edit step",
+          add: "Add step",
+        },
+        text: {},
+      },
+    },
   },
   ndlaFilm: {
     films: "Films",
@@ -109,6 +184,7 @@ const messages = {
       description: "Description",
       title: "Title",
       content: "Content",
+      introduction: "Introduction",
     },
     required: "This field is required",
     requiredField: "$t(validation.fields.{{field}}) can not be empty",

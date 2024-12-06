@@ -96,6 +96,80 @@ const messages = {
       userUpdated: "Bruker oppdatert",
     },
     goToMyNdla: "Gå til Min NDLA",
+    learningpath: {
+      newLearningpath: "Ny læringssti",
+      form: {
+        delete: "Slett",
+        next: "Neste",
+        back: "Forrige",
+        title: {
+          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          imageTitle: "Bildetittel",
+          copyright: "Opphav",
+          metaImage: "Metabilde",
+          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
+        },
+        content: {
+          title: "Legg til innhold",
+          subTitle: "Legg til innhold til læringsstien",
+          resource: {
+            label: "Artikkel fra NDLA",
+            labelHelper: "Søk etter artikkel eller lim inn en lenke",
+          },
+          text: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag en beskrivende tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+            },
+            description: {
+              label: "Innhold",
+              labelHelper: "Skriv eller lim inn innholdet ditt her.",
+            },
+          },
+          external: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag en beskrivende tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+            },
+            content: {
+              label: "Innhold fra et annet nettsted",
+              labelHelper: "Lim inn en lenke til innholdet du har lyst til å legge til.",
+            },
+            copyright:
+              "Når du deler innhold fra andre nettsteder er du selv ansvarlig for at innholdet er lovlig å dele. Les mer om ",
+            copyrightLink: "opphavsrett og deling.",
+            checkbox: "Innholdet jeg har lenket til er lovlig å dele.",
+          },
+          folder: {
+            label: "Søk i Mine mapper",
+            labelHelper: "Velg innhold fra mappene mine",
+          },
+        },
+        options: {
+          text: "Tekst jeg har skrevet selv",
+          resource: "Innhold fra NDLA",
+          external: "Innhold fra et annet nettsted",
+          folder: "Innhold fra en av mine mapper i Min NDLA",
+        },
+        steps: {
+          next: "Neste: {{ next }}",
+          title: "Tittel og beskrivelse",
+          content: "Legg til innhold",
+          preview: "Se igjennom",
+          save: "Lagre og del",
+          edit: "Rediger trinn",
+          add: "Legg til trinn",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Filmer",
@@ -108,6 +182,7 @@ const messages = {
       description: "Válddahus",
       title: "Namahus",
       content: "Sisdoallu",
+      introduction: "Ingress",
     },
     required: "Dát fealta gáibiduvvo",
     requiredField: "$t(validation.fields.{{field}}) ii sáhte leat guoros",
