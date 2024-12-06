@@ -6,7 +6,7 @@
  *
  */
 
-import { GraphQLError } from "graphql";
+import { GraphQLFormattedError } from "graphql";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
@@ -53,7 +53,7 @@ interface Props {
   resource?: GQLArticlePage_NodeFragment;
   relevance: string;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
-  errors?: readonly GraphQLError[];
+  errors?: readonly GraphQLFormattedError[];
   loading?: boolean;
   skipToContentId?: string;
 }

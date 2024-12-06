@@ -41,7 +41,7 @@
     "@graphql-codegen/schema-ast": "^4.1.0",
     "@graphql-codegen/typescript": "^4.1.2",
     "@graphql-codegen/typescript-operations": "^4.4.0",
-    "@graphql-eslint/eslint-plugin": "^4.2.1",
+    "@graphql-eslint/eslint-plugin": "^4.3.0",
     "@ndla/preset-panda": "^0.0.48",
     "@ndla/scripts": "^2.1.3",
     "@ndla/types-backend": "^0.2.88",
@@ -78,7 +78,7 @@
     "vitest": "^2.1.8"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.11",
+    "@apollo/client": "^3.12.2",
     "@ark-ui/react": "^4.1.2",
     "@dnd-kit/core": "^6.2.0",
     "@dnd-kit/modifiers": "^8.0.0",
@@ -103,7 +103,7 @@
     "cross-env": "^7.0.3",
     "express": "^5.0.0",
     "express-prom-bundle": "^8.0.0",
-    "graphql": "^16.8.1",
+    "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.0.0",
     "html-react-parser": "^5.1.8",

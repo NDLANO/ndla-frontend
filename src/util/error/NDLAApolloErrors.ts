@@ -6,19 +6,18 @@
  *
  */
 
-import { GraphQLError } from "graphql";
+import { GraphQLFormattedError } from "graphql";
 import { Operation } from "@apollo/client";
 import { NetworkError } from "@apollo/client/errors";
 import { NDLAError } from "./NDLAError";
 import { getLogLevelFromStatusCode } from "../handleError";
 
 export class NDLAGraphQLError extends NDLAError {
-  constructor(baseError: GraphQLError, operation: Operation) {
+  constructor(baseError: GraphQLFormattedError, operation: Operation) {
     const message = `[GraphQL error]: ${baseError.message}`;
     super(message);
 
-    this.stack = baseError.stack;
-    const errorStatus = baseError.extensions.status;
+    const errorStatus = baseError.extensions?.status;
 
     if (typeof errorStatus === "number") {
       this.logLevel = getLogLevelFromStatusCode(errorStatus);

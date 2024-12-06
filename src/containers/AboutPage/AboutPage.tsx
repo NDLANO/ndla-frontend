@@ -46,7 +46,7 @@ const AboutPage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions.status === GONE) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === GONE) && redirectContext) {
     redirectContext.status = GONE;
   }
 
