@@ -58,11 +58,11 @@ router.get("/health", (_, res) => {
   res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
-router.get("/film", (_, res) => {
+router.get(["/film", "/:lang/film"], (_, res) => {
   res.redirect(config.enablePrettyUrls ? FILM_PAGE_URL : FILM_PAGE_PATH);
 });
 
-router.get("/utdanning", (_, res) => {
+router.get(["/utdanning", "/:lang/utdanning"], (_, res) => {
   res.redirect("/");
 });
 
