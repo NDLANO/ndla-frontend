@@ -176,7 +176,8 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </Helmet>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
-          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />
+          {/* TODO: Use semantic tokens */}
+          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" height="400" width="1128" />
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}

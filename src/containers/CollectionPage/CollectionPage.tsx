@@ -134,7 +134,8 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
         </Helmet>
         <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
         <div>
-          <StyledImage src={IMAGE_URL} alt="" />
+          {/* TODO: Use semantic tokens */}
+          <StyledImage src={IMAGE_URL} alt="" height="400" width="1128" />
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("collectionPage.title", { language: collectionLanguage })}
           </Heading>
