@@ -245,12 +245,10 @@ Resources.fragments = {
     fragment Resources_Parent on Node {
       id
       name
-      path
       url
       children(nodeType: "RESOURCE") {
         id
         name
-        path
         url
         rank
         language

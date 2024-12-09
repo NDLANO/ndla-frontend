@@ -114,13 +114,12 @@ export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 export function toBreadcrumbItems(
   rootName: string,
   paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
-  enablePrettyUrls = false,
 ): Breadcrumb[] {
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
     return {
-      to: (enablePrettyUrls ? crumb?.url : crumb?.path) ?? "",
+      to: crumb?.url ?? "",
       name: crumb?.name ?? "",
     };
   });

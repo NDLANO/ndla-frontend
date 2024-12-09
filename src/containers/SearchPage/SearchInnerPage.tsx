@@ -20,7 +20,6 @@ import {
   mapSubjectDataToGroup,
 } from "./searchHelpers";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { LtiData } from "../../interfaces";
@@ -68,7 +67,6 @@ const SearchInnerPage = ({
   location,
 }: Props) => {
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const [typeFilter, setTypeFilter] = useState<Record<string, TypeFilter>>({});
   const [competenceGoals, setCompetenceGoals] = useState<SearchCompetenceGoal[]>([]);
   const [coreElements, setCoreElements] = useState<SearchCoreElements[]>([]);
@@ -199,28 +197,17 @@ const SearchInnerPage = ({
 
   const searchGroups = useMemo(() => {
     const language = i18n.language !== config.defaultLocale ? i18n.language : undefined;
-    const subjectSearchGroup = mapSubjectDataToGroup(subjectItems, enablePrettyUrls);
+    const subjectSearchGroup = mapSubjectDataToGroup(subjectItems);
     const searchGroups = mapSearchDataToGroups(
       data?.groupSearch || previousData?.groupSearch,
       resourceTypes,
       ltiData,
       isLti,
       language,
-      enablePrettyUrls,
       t,
     );
     return subjectSearchGroup.concat(searchGroups);
-  }, [
-    data?.groupSearch,
-    i18n.language,
-    isLti,
-    ltiData,
-    previousData?.groupSearch,
-    resourceTypes,
-    subjectItems,
-    enablePrettyUrls,
-    t,
-  ]);
+  }, [data?.groupSearch, i18n.language, isLti, ltiData, previousData?.groupSearch, resourceTypes, subjectItems, t]);
 
   if (error) {
     handleError(error);

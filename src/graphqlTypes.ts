@@ -2434,7 +2434,7 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
   resource?: {
     __typename?: "Resource";
     id: string;
-    path?: string;
+    url?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
   };
@@ -2462,7 +2462,7 @@ export type GQLLearningpathStepQuery = {
   node?: {
     __typename?: "Node";
     id: string;
-    path?: string;
+    url?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
@@ -2488,16 +2488,15 @@ export type GQLLearningpathMenu_LearningpathStepFragment = {
 
 export type GQLSubjectLinks_SubjectPageFragment = {
   __typename?: "SubjectPage";
-  buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; path?: string; url?: string }>;
-  connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string; url?: string }>;
-  leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; path?: string; url?: string }>;
+  buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+  connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+  leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
 };
 
 export type GQLTransportationNode_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   availability?: string;
   relevanceId?: string;
@@ -2694,7 +2693,6 @@ export type GQLArticlePage_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   contentUri?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
@@ -2702,14 +2700,7 @@ export type GQLArticlePage_NodeFragment = {
     __typename?: "TaxonomyContext";
     contextId: string;
     isActive: boolean;
-    parents?: Array<{
-      __typename?: "TaxonomyCrumb";
-      contextId: string;
-      id: string;
-      name: string;
-      path: string;
-      url: string;
-    }>;
+    parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   article?: {
     __typename?: "Article";
@@ -2732,7 +2723,7 @@ export type GQLCollectionPageQuery = {
     __typename?: "Subject";
     id: string;
     name: string;
-    path?: string;
+    url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
     subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
   }>;
@@ -2823,9 +2814,8 @@ export type GQLFilmFrontPageQuery = {
     __typename?: "Node";
     id: string;
     name: string;
-    path?: string;
     url?: string;
-    children?: Array<{ __typename?: "Node"; id: string; name: string; path?: string; url?: string }>;
+    children?: Array<{ __typename?: "Node"; id: string; name: string; url?: string }>;
   };
 };
 
@@ -2853,7 +2843,6 @@ export type GQLResourceTypeMoviesQuery = {
             __typename?: "SearchContext";
             contextId: string;
             contextType: string;
-            path: string;
             url: string;
             rootId: string;
           }>;
@@ -2868,7 +2857,6 @@ export type GQLResourceTypeMoviesQuery = {
             __typename?: "SearchContext";
             contextId: string;
             contextType: string;
-            path: string;
             url: string;
             rootId: string;
           }>;
@@ -2885,20 +2873,12 @@ export type GQLLearningpathPage_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
     isActive: boolean;
-    parents?: Array<{
-      __typename?: "TaxonomyCrumb";
-      contextId: string;
-      id: string;
-      name: string;
-      path: string;
-      url: string;
-    }>;
+    parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   learningpath?: {
     __typename?: "Learningpath";
@@ -3039,17 +3019,9 @@ export type GQLMovedResourcePage_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
-  paths: Array<string>;
   breadcrumbs: Array<string>;
-  contexts: Array<{
-    __typename?: "TaxonomyContext";
-    contextId: string;
-    path: string;
-    url: string;
-    breadcrumbs: Array<string>;
-  }>;
+  contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
   article?: {
     __typename?: "Article";
     id: number;
@@ -4321,7 +4293,6 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
         __typename?: "Subject";
         id: string;
         name: string;
-        path?: string;
         url?: string;
         subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
       }>;
@@ -4395,10 +4366,9 @@ export type GQLResourcePageQuery = {
   node?: {
     __typename?: "Node";
     relevanceId?: string;
-    paths: Array<string>;
     breadcrumbs: Array<string>;
-    context?: { __typename?: "TaxonomyContext"; contextId: string; path: string; url: string };
-    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; path: string; url: string }>;
+    context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
+    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string }>;
   } & GQLMovedResourcePage_NodeFragment &
     GQLArticlePage_NodeFragment &
     GQLLearningpathPage_NodeFragment;
@@ -4414,13 +4384,11 @@ export type GQLResources_ParentFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   children?: Array<{
     __typename?: "Node";
     id: string;
     name: string;
-    path?: string;
     url?: string;
     rank?: number;
     language?: string;
@@ -4456,7 +4424,6 @@ export type GQLSubjectContainer_NodeFragment = {
   id: string;
   name: string;
   supportedLanguages: Array<string>;
-  path?: string;
   url?: string;
   nodeType: string;
   grepCodes?: Array<string>;
@@ -4467,7 +4434,6 @@ export type GQLSubjectContainer_NodeFragment = {
     isActive: boolean;
     rootId: string;
     parentIds: Array<string>;
-    path: string;
     url: string;
   };
   nodes?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
@@ -4504,7 +4470,6 @@ export type GQLMovedTopicPage_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   breadcrumbs: Array<string>;
   meta?: {
@@ -4519,7 +4484,6 @@ export type GQLMultidisciplinaryArticleList_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   meta?: {
     __typename?: "Meta";
@@ -4532,24 +4496,15 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
     rootId: string;
     breadcrumbs: Array<string>;
-    path: string;
     url: string;
     isActive: boolean;
-    parents?: Array<{
-      __typename?: "TaxonomyCrumb";
-      contextId: string;
-      id: string;
-      name: string;
-      path: string;
-      url: string;
-    }>;
+    parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   article?: {
@@ -4570,7 +4525,6 @@ export type GQLTopicContainer_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   children?: Array<
     { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
@@ -4617,10 +4571,9 @@ export type GQLTopicPageQuery = {
       contextId: string;
       rootId: string;
       name: string;
-      path: string;
       url: string;
       isActive: boolean;
-      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; path: string; url: string }>;
+      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string }>;
     };
   } & GQLMultidisciplinarySubjectArticle_NodeFragment &
     GQLTopicContainer_NodeFragment;
@@ -4707,7 +4660,6 @@ export type GQLContextQuery = {
       contextId: string;
       rootId: string;
       parentIds: Array<string>;
-      path: string;
       url: string;
     };
   };
@@ -4720,7 +4672,6 @@ export type GQLSearchContextFragment = {
   contextId: string;
   publicId: string;
   language: string;
-  path: string;
   url: string;
   breadcrumbs: Array<string>;
   rootId: string;
@@ -4734,7 +4685,6 @@ export type GQLSearchContextFragment = {
 export type GQLGroupSearchResourceFragment = {
   __typename?: "GroupSearchResult";
   id: number;
-  path: string;
   url: string;
   title: string;
   htmlTitle: string;
@@ -4880,7 +4830,6 @@ export type GQLSubjectInfoFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   subjectpage?: {
@@ -4916,13 +4865,7 @@ export type GQLMovedResourceQuery = {
   __typename?: "Query";
   resource?: {
     __typename?: "Node";
-    contexts: Array<{
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      path: string;
-      url: string;
-      breadcrumbs: Array<string>;
-    }>;
+    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
   };
 };
 
@@ -4961,7 +4904,6 @@ export type GQLNodeWithMetadataFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
 };

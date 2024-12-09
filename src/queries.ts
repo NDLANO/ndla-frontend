@@ -17,7 +17,6 @@ export const contextQuery = gql`
         contextId
         rootId
         parentIds
-        path
         url
       }
     }
@@ -36,7 +35,6 @@ const searchContextFragment = gql`
     contextId
     publicId
     language
-    path
     url
     breadcrumbs
     rootId
@@ -54,7 +52,6 @@ const searchContextFragment = gql`
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
-    path
     url
     title
     htmlTitle
@@ -249,7 +246,6 @@ export const subjectInfoFragment = gql`
   fragment SubjectInfo on Node {
     id
     name
-    path
     url
     metadata {
       customFields
@@ -291,7 +287,6 @@ export const movedResourceQuery = gql`
     resource: node(id: $resourceId) {
       contexts {
         contextId
-        path
         url
         breadcrumbs
       }
@@ -341,7 +336,6 @@ export const nodeWithMetadataFragment = gql`
   fragment NodeWithMetadata on Node {
     id
     name
-    path
     url
     metadata {
       customFields

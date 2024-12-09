@@ -18,7 +18,6 @@ import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import LicenseBox from "../../components/license/LicenseBox";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -145,7 +144,6 @@ const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const enablePrettyUrls = useEnablePrettyUrls();
 
   useEffect(() => {
     if (authContextLoaded) {
@@ -157,7 +155,7 @@ const WelcomePage = () => {
   }, [authContextLoaded, t, trackPageView, user]);
 
   const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
-    variables: { transformArgs: { prettyUrl: enablePrettyUrls } },
+    variables: { transformArgs: { prettyUrl: true } },
   });
 
   const [article] = useMemo(() => {

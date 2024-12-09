@@ -23,8 +23,8 @@ import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentTy
 
 const { contentTypes } = constants;
 
-export const searchResultToLinkProps = (result?: { path?: string }) => {
-  return result?.path ? { to: result.path } : { to: "/404" };
+export const searchResultToLinkProps = (result?: { url?: string }) => {
+  return result?.url ? { to: result.url } : { to: "/404" };
 };
 
 export const plainUrl = (url: string) => {
@@ -130,7 +130,6 @@ export const mapResourcesToItems = (
   ltiData: LtiData | undefined,
   isLti: boolean,
   language: LocaleType | undefined,
-  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchItem[] =>
   resources.map((resource) => ({
@@ -141,13 +140,11 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
-        ? enablePrettyUrls
-          ? resource.url
-          : resource.path
-        : plainUrl(resource.path),
+        ? resource.url
+        : plainUrl(resource.url),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: enablePrettyUrls ? context.url : context.path,
+      url: context.url,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
@@ -163,7 +160,7 @@ export const mapResourcesToItems = (
         item={{
           id: resource.id,
           title: resource.title,
-          url: resource.path,
+          url: resource.url,
         }}
       />
     ) : undefined,
@@ -203,12 +200,11 @@ export const mapSearchDataToGroups = (
   ltiData: LtiData | undefined,
   isLti: boolean | undefined,
   language: LocaleType | undefined,
-  enablePrettyUrls: boolean,
   t: TFunction,
 ): SearchGroup[] => {
   if (!searchData) return [];
   return searchData.map((result) => ({
-    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, enablePrettyUrls, t),
+    items: mapResourcesToItems(result.resources, ltiData, !!isLti, language, t),
     resourceTypes: getResourceTypeFilters(
       resourceTypes?.find((type) => type.id === result.resourceType),
       result.aggregations?.[0]?.values?.map((value) => value.value),
@@ -218,10 +214,7 @@ export const mapSearchDataToGroups = (
   }));
 };
 
-export const mapSubjectDataToGroup = (
-  subjectData: GQLSubjectInfoFragment[] | undefined,
-  enablePrettyUrls: boolean,
-): SearchGroup[] => {
+export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | undefined): SearchGroup[] => {
   if (!subjectData) return [];
   return [
     {
@@ -229,7 +222,7 @@ export const mapSubjectDataToGroup = (
         id: subject.id,
         title: subject.name,
         htmlTitle: subject.name,
-        url: enablePrettyUrls ? subject.url : subject.path,
+        url: subject.url,
         metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],

@@ -20,7 +20,6 @@ import { NoSSR } from "@ndla/util";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -91,7 +90,6 @@ interface TopicContainerProps {
 
 export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const headingId = useId();
@@ -119,12 +117,12 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       },
       node.context?.parents?.map((parent) => ({
         name: parent.name,
-        to: (enablePrettyUrls ? parent.url : parent.path) ?? "",
+        to: parent.url ?? "",
       })) ?? [],
 
-      { name: node.context.name, to: node.context.path },
+      { name: node.context.name, to: node.context.url },
     ].flat();
-  }, [node, t, enablePrettyUrls]);
+  }, [node, t]);
 
   const embedMeta = useMemo(() => {
     if (!node.article?.transformedContent?.visualElementEmbed?.content) return undefined;
@@ -201,7 +199,6 @@ TopicContainer.fragments = {
     fragment TopicContainer_Node on Node {
       id
       name
-      path
       url
       children(nodeType: "TOPIC") {
         id

@@ -71,7 +71,6 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
               movie={{
                 id: `dummy-${index}`,
                 resourceTypes: [],
-                path: "",
                 url: "",
                 title: "",
               }}
@@ -119,8 +118,7 @@ export const MovieGrid = ({ resourceType }: Props) => {
                   metaImage: movie.metaImage,
                   resourceTypes: [],
                   title: movie.title,
-                  path: context?.path ?? "",
-                  url: context?.path ?? "",
+                  url: context?.url ?? "",
                 }}
               />
             );
@@ -179,7 +177,6 @@ const resourceTypeMoviesQuery = gql`
         contexts {
           contextId
           contextType
-          path
           url
           rootId
         }

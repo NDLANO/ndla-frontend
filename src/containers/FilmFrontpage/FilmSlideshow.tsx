@@ -13,7 +13,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
 import FilmContentCard from "./FilmContentCard";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
 interface Props {
@@ -154,7 +153,6 @@ const MainImageShimmer = () => (
 );
 
 const FilmSlideshow = ({ slideshow }: Props) => {
-  const enablePrettyUrls = useEnablePrettyUrls();
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -173,11 +171,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   return (
     <BleedPageContent asChild consumeCss>
       <section>
-        <StyledSafeLink
-          to={(enablePrettyUrls ? currentSlide?.url : currentSlide?.path) ?? ""}
-          tabIndex={-1}
-          aria-hidden
-        >
+        <StyledSafeLink to={currentSlide?.url ?? ""} tabIndex={-1} aria-hidden>
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
@@ -195,7 +189,6 @@ const FilmSlideshow = ({ slideshow }: Props) => {
             <LoadingShimmer />
           ) : (
             slideshow.map((movie) => {
-              const to = enablePrettyUrls ? movie.url : movie.path;
               return (
                 <StyledSafeLinkCard
                   data-current={movie.id === currentSlide?.id}
@@ -210,7 +203,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
                   }}
                   onFocus={() => setCurrentSlide(movie)}
                   aria-describedby={"currentMovieDescription"}
-                  to={to}
+                  to={movie.url}
                 >
                   <StyledImg
                     src={movie?.metaImage ? movie?.metaImage.url : ""}

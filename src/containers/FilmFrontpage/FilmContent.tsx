@@ -14,9 +14,11 @@ import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieG
 import { MovieResourceType } from "./resourceTypes";
 import { GQLMovieTheme } from "../../graphqlTypes";
 
+type MovieTheme = Omit<GQLMovieTheme, "path">;
+
 interface Props {
   resourceTypeSelected: MovieResourceType | undefined;
-  movieThemes: GQLMovieTheme[] | undefined;
+  movieThemes: MovieTheme[] | undefined;
   loadingPlaceholderHeight: string;
   loading: boolean;
 }
