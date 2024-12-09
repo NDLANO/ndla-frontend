@@ -110,7 +110,7 @@ const MyNdlaPage = () => {
   const dateString = getNdlaRobotDateFormat(new Date());
   const token = btoa(dateString);
   const aiUrl =
-    user?.organization === "Rogaland fylkeskommune" ? `https://ndlarobot.org/${token}` : `https://ai.ndla.no/${aiLang}`;
+    user?.organization === "Rogaland fylkeskommune" ? `https://ndla-ki.no/${token}` : `https://ai.ndla.no/${aiLang}`;
 
   return (
     <StyledMyNdlaPageWrapper>
