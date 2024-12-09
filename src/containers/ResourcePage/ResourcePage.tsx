@@ -12,7 +12,6 @@ import { Navigate, useLocation, Location } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -53,7 +52,6 @@ const resourcePageQuery = gql`
     }
     node(id: $resourceId, rootId: $subjectId, parentId: $topicId, contextId: $contextId) {
       relevanceId
-      paths
       breadcrumbs
       context {
         contextId
@@ -78,7 +76,6 @@ const resourcePageQuery = gql`
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const { contextId, subjectId, resourceId, topicId, stepId } = useUrnIds();
 
@@ -90,7 +87,7 @@ const ResourcePage = () => {
       contextId,
       transformArgs: {
         subjectId,
-        prettyUrl: enablePrettyUrls,
+        prettyUrl: true,
       },
     },
   });
@@ -133,15 +130,15 @@ const ResourcePage = () => {
     data.node &&
     (contextId ? !contextIdInContexts(data.node.contexts, contextId) : !urlInContexts(location, data.node.contexts))
   ) {
-    if (data.node.paths?.length === 1) {
+    if (data.node.contexts?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
           redirectContext.status = 301;
-          redirectContext.url = data.node.paths[0]!;
+          redirectContext.url = data.node.contexts[0]?.url ?? "";
           return null;
         }
       } else {
-        return <Navigate to={data.node.paths[0]!} replace />;
+        return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
       }
     } else {
       return <MovedResourcePage resource={data.node} />;

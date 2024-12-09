@@ -12,7 +12,6 @@ import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
@@ -78,7 +77,6 @@ export const topicPageQuery = gql`
 `;
 
 export const TopicPage = () => {
-  const enabledPrettyUrl = useEnablePrettyUrls();
   const { contextId, subjectId, topicId } = useUrnIds();
   const query = useGraphQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
@@ -86,7 +84,7 @@ export const TopicPage = () => {
       rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
       transformArgs: {
-        prettyUrl: enabledPrettyUrl,
+        prettyUrl: true,
       },
     },
   });

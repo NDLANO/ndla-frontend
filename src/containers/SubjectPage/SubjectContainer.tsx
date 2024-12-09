@@ -20,7 +20,6 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -117,7 +116,6 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
 const SubjectContainer = ({ node, subjectType, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const about = node.subjectpage?.about;
   const headingId = useId();
@@ -141,7 +139,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
     },
     {
       name: node.name,
-      to: (enablePrettyUrls ? node.url : node.path) || "",
+      to: node.url || "",
     },
   ];
 

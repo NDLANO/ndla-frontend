@@ -19,7 +19,6 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
 import { isCurrentPage } from "../../../util/urlHelper";
 
@@ -58,7 +57,6 @@ const constructTopicPath = (topics: TopicWithSubTopics[], topicList: string[]): 
 
 const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, topicPathIds }: Props) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const groupedTopics = useMemo(() => {
@@ -108,8 +106,6 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = (enablePrettyUrls ? subject?.url : subject?.path) ?? "";
-
   return (
     <>
       <DrawerPortion>
@@ -121,7 +117,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
                 variant="link"
                 aria-current={isCurrentPage(location.pathname, subject) ? "page" : undefined}
                 id={`header-${subject.id}`}
-                to={path}
+                to={subject?.url ?? ""}
                 onClick={onClose}
                 tabIndex={-1}
                 role="menuitem"

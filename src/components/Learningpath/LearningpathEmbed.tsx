@@ -15,7 +15,6 @@ import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import LearningpathIframe from "./LearningpathIframe";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -77,7 +76,6 @@ interface Props {
 }
 const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems, children }: Props) => {
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
@@ -100,7 +98,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         transformArgs: {
           path: location.pathname,
           subjectId,
-          prettyUrl: enablePrettyUrls,
+          prettyUrl: true,
         },
       },
       skip:

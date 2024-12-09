@@ -30,7 +30,6 @@ import "@fontsource/source-serif-pro/index.css";
 import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
-import { PrettyUrlsProvider } from "./components/PrettyUrlsContext";
 import ResponseContext from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
@@ -55,8 +54,7 @@ const { basepath, abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
 
-const { versionHash, prettyUrls } = queryString.parse(window.location.search);
-const enablePrettyUrls = prettyUrls ? prettyUrls === "true" : config.enablePrettyUrls;
+const { versionHash } = queryString.parse(window.location.search);
 
 const serverQueryString = decodeURIComponent(queryString.stringify(serverQuery));
 const locationFromServer = {
@@ -183,17 +181,15 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 
 renderOrHydrate(
   document.getElementById("root")!,
-  <PrettyUrlsProvider value={enablePrettyUrls}>
-    <HelmetProvider>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <ResponseContext.Provider value={{ status: serverResponse }}>
-            <VersionHashProvider value={versionHash}>
-              <LanguageWrapper basename={basename} />
-            </VersionHashProvider>
-          </ResponseContext.Provider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </HelmetProvider>
-  </PrettyUrlsProvider>,
+  <HelmetProvider>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <ResponseContext.Provider value={{ status: serverResponse }}>
+          <VersionHashProvider value={versionHash}>
+            <LanguageWrapper basename={basename} />
+          </VersionHashProvider>
+        </ResponseContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </HelmetProvider>,
 );

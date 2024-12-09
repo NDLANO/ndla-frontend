@@ -41,7 +41,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -148,7 +147,6 @@ const MastheadSearch = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -217,11 +215,11 @@ const MastheadSearch = () => {
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
-          path: (enablePrettyUrls ? context?.url : context?.path) ?? result.url,
+          path: context?.url ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results, enablePrettyUrls]);
+  }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
     query: query && query.length > 0 ? query : undefined,

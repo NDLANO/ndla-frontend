@@ -128,7 +128,6 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   learningpathEnabled: boolean;
-  enablePrettyUrls: boolean;
   externalArena: boolean;
   arenaDomain: string;
 };
@@ -169,7 +168,6 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
-    enablePrettyUrls: getEnvironmentVariabel("ENABLE_PRETTY_URLS", true),
     externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
     arenaDomain: arenaDomain(ndlaEnvironment),
   };

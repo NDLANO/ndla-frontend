@@ -8,7 +8,6 @@
 
 import { NextFunction, Request, Response } from "express";
 import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
-import config from "../../config";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 import log from "../../util/logger";
@@ -63,7 +62,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
   if (isLearningPathResource(resource!)) {
     return getLearningPathUrlFromResource(resource!, languagePrefix);
   } else {
-    return `${languagePrefix ? `/${languagePrefix}` : ""}${config.enablePrettyUrls ? resource!.url : resource!.path}`;
+    return `${languagePrefix ? `/${languagePrefix}` : ""}${resource!.url}`;
   }
 };
 

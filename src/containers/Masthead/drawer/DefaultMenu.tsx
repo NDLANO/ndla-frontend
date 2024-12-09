@@ -18,19 +18,9 @@ import { MenuType } from "./drawerMenuTypes";
 import { DrawerPortion, DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import DrawerRowHeader from "./DrawerRowHeader";
 import useArrowNavigation from "./useArrowNavigation";
-import { useEnablePrettyUrls } from "../../../components/PrettyUrlsContext";
-import {
-  FILM_PAGE_PATH,
-  FILM_PAGE_URL,
-  MULTIDISCIPLINARY_SUBJECT_ID,
-  MULTIDISCIPLINARY_URL,
-  TOOLBOX_STUDENT_SUBJECT_ID,
-  TOOLBOX_STUDENT_URL,
-  TOOLBOX_TEACHER_SUBJECT_ID,
-  TOOLBOX_TEACHER_URL,
-} from "../../../constants";
+import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../../constants";
 import { GQLDefaultMenu_RootFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
-import { removeUrn, toAbout } from "../../../routeHelpers";
+import { toAbout } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
@@ -54,14 +44,6 @@ const StyledDrawerPortion = styled(DrawerPortion, {
   },
 });
 
-const filmUrl = (enablePrettyUrl: boolean) => (enablePrettyUrl ? FILM_PAGE_URL : FILM_PAGE_PATH);
-const multiDiscUrl = (enablePrettyUrl: boolean) =>
-  enablePrettyUrl ? MULTIDISCIPLINARY_URL : `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
-const studentToolboxUrl = (enablePrettyUrl: boolean) =>
-  enablePrettyUrl ? TOOLBOX_STUDENT_URL : `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
-const teacherToolboxUrl = (enablePrettyUrl: boolean) =>
-  enablePrettyUrl ? TOOLBOX_TEACHER_URL : `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
-
 interface Props {
   onClose: () => void;
   setActiveMenu: (type: MenuType | undefined) => void;
@@ -78,7 +60,6 @@ const validMenus: MenuType[] = ["subject", "programme", "om"];
 const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
-  const enablePrettyUrl = useEnablePrettyUrls();
   const { setShouldCloseLevel } = useDrawerContext();
 
   const onRightClick = useCallback(
@@ -139,10 +120,10 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
           title={t("masthead.menuOptions.subjects")}
           onClose={onClose}
         />
-        <DrawerMenuItem id="film" type="link" to={filmUrl(enablePrettyUrl)} onClose={onClose}>
+        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_URL} onClose={onClose}>
           {t("masthead.menuOptions.film")}
         </DrawerMenuItem>
-        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl(enablePrettyUrl)} onClose={onClose}>
+        <DrawerMenuItem id="multidisciplinary" type="link" to={MULTIDISCIPLINARY_URL} onClose={onClose}>
           {t("masthead.menuOptions.multidisciplinarySubjects")}
         </DrawerMenuItem>
         <DrawerListItem>
@@ -150,10 +131,10 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
             <span>{t("menu.tipsAndAdvice")}</span>
           </DrawerHeader>
         </DrawerListItem>
-        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl(enablePrettyUrl)} onClose={onClose}>
+        <DrawerMenuItem id="toolboxStudents" type="link" to={TOOLBOX_STUDENT_URL} onClose={onClose}>
           {t("masthead.menuOptions.toolboxStudents")}
         </DrawerMenuItem>
-        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl(enablePrettyUrl)} onClose={onClose}>
+        <DrawerMenuItem id="toolboxTeachers" type="link" to={TOOLBOX_TEACHER_URL} onClose={onClose}>
           {t("masthead.menuOptions.toolboxTeachers")}
         </DrawerMenuItem>
         <DrawerListItem>

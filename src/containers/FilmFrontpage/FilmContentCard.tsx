@@ -12,7 +12,6 @@ import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
 import { movieResourceTypes } from "./resourceTypes";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 
 interface MovieType {
   metaImage?: {
@@ -112,9 +111,7 @@ const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((a
   return acc;
 }, {});
 
-const FilmContentCard = ({ movie: { metaImage, title, id, path, url, resourceTypes }, ...rest }: Props) => {
-  const enablePrettyUrls = useEnablePrettyUrls();
-  const to = enablePrettyUrls ? url : path;
+const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, ...rest }: Props) => {
   const resources = resourceTypes.reduce<string[]>((acc, curr) => {
     const name = mappedResourceTypes[curr.id];
     if (name) return acc.concat(curr.name);
@@ -122,7 +119,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, url, resourceTyp
   }, []);
 
   return (
-    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={to}>
+    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={url}>
       <ImageWrapper>
         <StyledImage src={metaImage?.url ?? ""} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">

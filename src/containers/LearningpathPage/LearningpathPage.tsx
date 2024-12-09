@@ -14,7 +14,6 @@ import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import Learningpath from "../../components/Learningpath";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
@@ -41,7 +40,6 @@ interface Props {
 const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
@@ -85,7 +83,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
     return null;
   }
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
 
   return (
     <>
@@ -104,7 +102,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         learningpath={learningpath}
         learningpathStep={learningpathStep}
         resource={node}
-        resourcePath={enablePrettyUrls ? node.url : node.path}
+        resourcePath={node.url}
         breadcrumbItems={breadcrumbItems}
       />
     </>

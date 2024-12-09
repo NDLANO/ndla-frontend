@@ -28,7 +28,6 @@ import { useArticleCopyText, useNavigateToHash } from "../../components/Article/
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -90,7 +89,6 @@ interface Props {
 const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
@@ -115,8 +113,8 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   }, [authContextLoaded, root, t, node.article, node.path, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
-    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node], enablePrettyUrls);
-  }, [t, node, crumbs, enablePrettyUrls]);
+    return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
+  }, [t, node, crumbs]);
 
   const [article, scripts] = useMemo(() => {
     if (!node.article) return [undefined, undefined];

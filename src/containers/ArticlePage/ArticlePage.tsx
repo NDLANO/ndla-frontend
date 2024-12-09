@@ -35,7 +35,6 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLArticlePage_ResourceTypeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
@@ -94,7 +93,6 @@ const StyledHeroContent = styled(HeroContent, {
 const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const { trackPageView } = useTracker();
 
   const crumbs = resource?.context?.parents || [];
@@ -157,10 +155,9 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   const contentType = resource ? getContentType(resource) : undefined;
 
-  const copyPageUrlLink = enablePrettyUrls ? resource.url : resource.path;
   const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource], enablePrettyUrls);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
 
   const authors =
     article.copyright?.creators.length || article.copyright?.rightsholders.length
@@ -176,11 +173,11 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {!!copyPageUrlLink && (
+        {!!resource.url && (
           <link
             rel="alternate"
             type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + copyPageUrlLink}`}
+            href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + resource.url}`}
             title={article.title}
           />
         )}
@@ -195,7 +192,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
-        path={copyPageUrlLink}
+        path={resource.url}
       />
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
