@@ -103,6 +103,8 @@ const messages = {
         "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
       created: "Oppretta: {{ created }}",
       shared: "Delt {{ shared }}",
+      noPath:
+        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em> knappen over for å starte å lage ein sti!",
       menu: {
         new: "Ny",
         edit: "Endre",

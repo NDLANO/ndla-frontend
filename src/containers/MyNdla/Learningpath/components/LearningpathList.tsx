@@ -6,7 +6,9 @@
  *
  */
 
-import { Spinner } from "@ndla/primitives";
+import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
+import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathListItem } from "./LearningpathListItem";
 import { useMyLearningpaths } from "../learningpathQueries";
@@ -18,6 +20,7 @@ const StyledOl = styled("ol", {
 });
 
 export const LearningpathList = () => {
+  const { t } = useTranslation();
   const { data, loading } = useMyLearningpaths();
 
   if (loading) {
@@ -26,11 +29,15 @@ export const LearningpathList = () => {
 
   return (
     <StyledOl>
-      {data?.myLearningpaths
-        ? data.myLearningpaths.map((learningpath) => (
-            <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
-          ))
-        : null}
+      {data?.myLearningpaths && data.myLearningpaths.length > 0 ? (
+        data.myLearningpaths.map((learningpath) => (
+          <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
+        ))
+      ) : (
+        <Text textStyle="label.medium" fontWeight="light">
+          {parse(t("myNdla.learningpath.noPath"))}
+        </Text>
+      )}
     </StyledOl>
   );
 };

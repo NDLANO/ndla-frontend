@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
@@ -55,7 +56,16 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
   const { t, i18n } = useTranslation();
   const menuItems = useLearningpathActionHooks(learningpath);
 
-  const TIME_FORMAT = Intl.DateTimeFormat(i18n.language);
+  const createdString = useMemo(() => {
+    const TIME_FORMAT = new Intl.DateTimeFormat(i18n.language);
+    const created = TIME_FORMAT.format(new Date(learningpath.created));
+    const arr = [t("myNdla.learningpath.created", { created })];
+    if (learningpath.madeAvailable) {
+      const shared = TIME_FORMAT.format(new Date(learningpath.madeAvailable));
+      arr.push(t("myNdla.learningpath.shared", { shared }));
+    }
+    return arr.join(" \\ ");
+  }, [t, i18n, learningpath.created, learningpath.madeAvailable]);
 
   return (
     <ListItemRoot context="list" asChild consumeCss>
@@ -69,16 +79,7 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
               </StyledSafeLink>
             </ListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
-              {`${t("myNdla.learningpath.created", {
-                created: TIME_FORMAT.format(new Date(learningpath.created)),
-              })} 
-              ${
-                learningpath.madeAvailable
-                  ? `\\ ${t("myNdla.learningpath.shared", {
-                      shared: TIME_FORMAT.format(new Date(learningpath.madeAvailable)),
-                    })}`
-                  : null
-              }`}
+              {createdString}
             </TimestampText>
           </div>
           {learningpath.status === LEARNINGPATH_SHARED && (
