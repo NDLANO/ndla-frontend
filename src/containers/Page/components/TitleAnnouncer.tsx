@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { Text } from "@ndla/primitives";
 
 const TitleAnnouncer = () => {
@@ -22,13 +21,22 @@ const TitleAnnouncer = () => {
     }
   }, [title, titleRef]);
 
+  useEffect(() => {
+    const titleElem = document.querySelector("title");
+    if (!titleElem) return;
+    const observer = new MutationObserver(function (mutations) {
+      setTitle(mutations[0]?.target.textContent ?? "");
+    });
+    observer.observe(titleElem, { subtree: true, characterData: true, childList: true });
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <>
-      <Text srOnly aria-live="assertive" tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
-        {title}
-      </Text>
-      <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />
-    </>
+    <Text srOnly aria-live="assertive" tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
+      {title}
+    </Text>
   );
 };
 

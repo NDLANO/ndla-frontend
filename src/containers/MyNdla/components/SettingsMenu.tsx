@@ -107,7 +107,7 @@ const StyledDialogBody = styled(DialogBody, {
 
 const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "medium" }: Props) => {
   const [open, setOpen] = useState(false);
-  const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
   const selectors = useUserAgent();
   const { t } = useTranslation();
 
@@ -210,7 +210,7 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
-  dropdownTriggerRef?: RefObject<HTMLButtonElement>;
+  dropdownTriggerRef?: RefObject<HTMLButtonElement | null>;
 }
 
 export const MenuItemElement = ({

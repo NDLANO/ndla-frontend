@@ -7,7 +7,6 @@
  */
 
 import { ReactNode } from "react";
-import { Helmet } from "react-helmet-async";
 import { useLocation, Location } from "react-router-dom";
 import { useBaseName } from "./BaseNameContext";
 import config from "../config";
@@ -79,7 +78,7 @@ const SocialMediaMetadata = ({
   const location = useLocation();
   const basename = useBaseName();
   return (
-    <Helmet>
+    <>
       <link rel="canonical" href={getCanonicalUrl(path ? path : location.pathname)} />
       {getAlternateLanguages(trackableContent).map((alternateLanguage) => (
         <link
@@ -101,7 +100,7 @@ const SocialMediaMetadata = ({
       {!!imageUrl && <meta property="og:image" content={imageUrl} />}
       {!imageUrl ? <meta property="og:image" content={`${config.ndlaFrontendDomain}/static/metaimage.png`} /> : ""}
       <meta property="og:site_name" content="ndla.no" />
-    </Helmet>
+    </>
   );
 };
 

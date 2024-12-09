@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
@@ -171,9 +170,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <Helmet>
-          <title>{pageTitle}</title>
-        </Helmet>
+        <title>{pageTitle}</title>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
           <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />

@@ -6,7 +6,6 @@
  *
  */
 
-import { Helmet } from "react-helmet-async";
 import EmbedIframePage from "./EmbedIframePage";
 import { BaseNameProvider } from "../components/BaseNameContext";
 import { PageLayout } from "../components/Layout/PageContainer";
@@ -19,11 +18,10 @@ interface Props {
   embedId?: string;
   locale?: LocaleType;
 }
-const EmbedIframePageContainer = ({ basename, embedType, embedId, locale }: Props) => {
+const EmbedIframePageContainer = ({ basename, embedType, embedId }: Props) => {
   return (
     <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
       <PageLayout>
-        <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }} />
         <EmbedIframePage embedId={embedId} embedType={embedType} />
       </PageLayout>
     </BaseNameProvider>
