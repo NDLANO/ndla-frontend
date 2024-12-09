@@ -86,11 +86,11 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: video.id,
-                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  path: `/video/${video.id}`,
                   resourceType: "video",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+                <FavoriteButton path={`/video/${video.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
