@@ -96,7 +96,6 @@ TransportationNode.fragments = {
     fragment TransportationNode_Node on Node {
       id
       name
-      path
       url
       availability
       relevanceId

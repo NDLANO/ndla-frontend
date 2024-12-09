@@ -120,12 +120,10 @@ MovedResourcePage.fragments = {
     fragment MovedResourcePage_Node on Node {
       id
       name
-      path
       url
       breadcrumbs
       contexts {
         contextId
-        path
         url
         breadcrumbs
       }

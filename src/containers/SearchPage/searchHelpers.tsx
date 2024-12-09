@@ -23,8 +23,8 @@ import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentTy
 
 const { contentTypes } = constants;
 
-export const searchResultToLinkProps = (result?: { path?: string }) => {
-  return result?.path ? { to: result.path } : { to: "/404" };
+export const searchResultToLinkProps = (result?: { url?: string }) => {
+  return result?.url ? { to: result.url } : { to: "/404" };
 };
 
 export const plainUrl = (url: string) => {
@@ -141,7 +141,7 @@ export const mapResourcesToItems = (
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
         ? resource.url
-        : plainUrl(resource.path),
+        : plainUrl(resource.url),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
       url: context.url,
@@ -160,7 +160,7 @@ export const mapResourcesToItems = (
         item={{
           id: resource.id,
           title: resource.title,
-          url: resource.path,
+          url: resource.url,
         }}
       />
     ) : undefined,

@@ -156,7 +156,7 @@ const typePolicies: TypePolicies = {
     keyFields: ["contextId"],
   },
   GroupSearchResult: {
-    keyFields: ["path"],
+    keyFields: ["url"],
   },
   Filter: {
     keyFields: (object) => `${object.id}+${object.relevanceId}`,

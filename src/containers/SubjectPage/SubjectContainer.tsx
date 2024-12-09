@@ -241,7 +241,6 @@ export const subjectContainerFragments = {
       id
       name
       supportedLanguages
-      path
       url
       nodeType
       metadata {
@@ -252,7 +251,6 @@ export const subjectContainerFragments = {
         isActive
         rootId
         parentIds
-        path
         url
       }
       grepCodes

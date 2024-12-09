@@ -89,7 +89,6 @@ MultidisciplinaryArticleList.fragments = {
     fragment MultidisciplinaryArticleList_Node on Node {
       id
       name
-      path
       url
       meta {
         metaDescription

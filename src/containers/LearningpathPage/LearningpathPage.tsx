@@ -136,7 +136,6 @@ LearningpathPage.fragments = {
     fragment LearningpathPage_Node on Node {
       id
       name
-      path
       url
       context {
         contextId
@@ -145,7 +144,6 @@ LearningpathPage.fragments = {
           contextId
           id
           name
-          path
           url
         }
       }

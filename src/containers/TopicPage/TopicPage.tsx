@@ -57,13 +57,11 @@ export const topicPageQuery = gql`
         contextId
         rootId
         name
-        path
         url
         isActive
         parents {
           id
           name
-          path
           url
         }
       }

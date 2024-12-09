@@ -120,7 +120,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         to: parent.url ?? "",
       })) ?? [],
 
-      { name: node.context.name, to: node.context.path },
+      { name: node.context.name, to: node.context.url },
     ].flat();
   }, [node, t]);
 
@@ -199,7 +199,6 @@ TopicContainer.fragments = {
     fragment TopicContainer_Node on Node {
       id
       name
-      path
       url
       children(nodeType: "TOPIC") {
         id

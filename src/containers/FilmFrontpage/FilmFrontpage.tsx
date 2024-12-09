@@ -126,11 +126,10 @@ const FilmFrontpage = () => {
             <NavigationBox
               heading={t("ndlaFilm.topics")}
               items={node?.children?.map((child) => {
-                const path = child.url;
                 return {
                   id: child.id,
                   label: child.name,
-                  url: path,
+                  url: child.url,
                 };
               })}
             />
@@ -205,12 +204,10 @@ const filmFrontPageQuery = gql`
     node(id: $nodeId) {
       id
       name
-      path
       url
       children(nodeType: "TOPIC") {
         id
         name
-        path
         url
       }
     }

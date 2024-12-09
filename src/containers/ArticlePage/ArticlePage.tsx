@@ -207,15 +207,15 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                 contentType={contentType}
                 contentTypeLabel={resource.resourceTypes?.[0]?.name}
                 heartButton={
-                  !!resource.path && (
+                  !!resource.url && (
                     <AddResourceToFolderModal
                       resource={{
                         id: article.id.toString(),
-                        path: resource.path,
+                        path: resource.url,
                         resourceType: "article",
                       }}
                     >
-                      <FavoriteButton path={resource.path} />
+                      <FavoriteButton path={resource.url} />
                     </AddResourceToFolderModal>
                   )
                 }
@@ -266,8 +266,11 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   );
 };
 
-const getDocumentTitle = (t: TFunction, resource?: GQLArticlePage_NodeFragment, root?: GQLTaxonomyCrumb) =>
-  htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (
+  t: TFunction,
+  resource?: GQLArticlePage_NodeFragment,
+  root?: Omit<GQLTaxonomyCrumb, "path">,
+) => htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
 ArticlePage.fragments = {
   resourceType: gql`
@@ -280,7 +283,6 @@ ArticlePage.fragments = {
     fragment ArticlePage_Node on Node {
       id
       name
-      path
       url
       contentUri
       resourceTypes {
@@ -294,7 +296,6 @@ ArticlePage.fragments = {
           contextId
           id
           name
-          path
           url
         }
       }

@@ -109,8 +109,8 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     },
   );
 
-  const path = !learningpathStep.resource?.path ? data?.node?.path : undefined;
-  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
+  const url = !learningpathStep.resource?.url ? data?.node?.url : undefined;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const [article, scripts] = useMemo(() => {
     const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
@@ -208,7 +208,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
       >
         {children}
-        {!!path && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
+        {!!url && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
       </Article>
     </EmbedPageContent>
   );
@@ -241,7 +241,7 @@ LearningpathEmbed.fragments = {
       title
       resource {
         id
-        path
+        url
         resourceTypes {
           id
           name
@@ -281,7 +281,7 @@ const learningpathStepQuery = gql`
     }
     node(id: $resourceId) @include(if: $includeResource) {
       id
-      path
+      url
       resourceTypes {
         id
         name

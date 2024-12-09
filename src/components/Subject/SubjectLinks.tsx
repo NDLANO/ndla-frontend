@@ -32,7 +32,6 @@ const StyledText = styled(Text, {
 
 type SubjectLinkItem = {
   name?: string;
-  path?: string;
   url?: string;
 };
 
@@ -95,17 +94,14 @@ SubjectLinks.fragments = {
     fragment SubjectLinks_SubjectPage on SubjectPage {
       buildsOn {
         name
-        path
         url
       }
       connectedTo {
         name
-        path
         url
       }
       leadsTo {
         name
-        path
         url
       }
     }

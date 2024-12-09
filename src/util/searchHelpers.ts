@@ -9,7 +9,7 @@
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE, TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
 import { GQLSubjectInfoFragment } from "../graphqlTypes";
 
-type SubjectType = Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "path">;
+type SubjectType = Pick<GQLSubjectInfoFragment, "id" | "name" | "metadata" | "subjectpage" | "url">;
 
 export const searchSubjects = <T extends SubjectType>(query?: string, subjects?: T[], subjectsFilter?: string[]) => {
   const trimmedQuery = query?.trim().toLowerCase();

@@ -27,10 +27,10 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "path" | "url">[]) => {
+const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "url">[]) => {
   const pathname = decodeURIComponent(location.pathname);
   return contexts?.find((c) => {
-    return pathname.includes(c.path) || pathname.includes(c.url);
+    return pathname.includes(c.url);
   });
 };
 
@@ -55,12 +55,10 @@ const resourcePageQuery = gql`
       breadcrumbs
       context {
         contextId
-        path
         url
       }
       contexts {
         contextId
-        path
         url
       }
       ...MovedResourcePage_Node
@@ -122,7 +120,7 @@ const ResourcePage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data.node || !data.node.path) {
+  if (!data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 

@@ -240,7 +240,6 @@ ProgrammeContainer.fragments = {
           subjects {
             id
             name
-            path
             url
             subjectpage {
               about {

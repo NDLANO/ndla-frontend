@@ -38,7 +38,7 @@ const collectionPageQuery = gql`
     subjectCollection(language: $language) {
       id
       name
-      path
+      url
       metadata {
         customFields
       }
@@ -105,7 +105,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     const transformedSubjects = subjects?.map((subject) => ({
       ...subject,
       label: subject.subjectpage?.about?.title ?? subject.name ?? "",
-      url: subject.path,
+      url: subject.url,
       metadata: {
         ...subject.metadata,
         customFields: {

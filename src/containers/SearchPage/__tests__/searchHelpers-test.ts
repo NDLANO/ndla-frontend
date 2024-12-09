@@ -11,8 +11,7 @@ test("searchHelpers searchResultToLinkProps learningpath", () => {
   const result = {
     id: 500,
     resourceType: "urn:resourcetype:learningPath",
-    path: "/learningpath/500",
-    paths: ["/urn:lp:500"],
+    url: "/r/learningpath/asdfghjk",
   };
 
   expect(searchResultToLinkProps(result)).toMatchSnapshot();
@@ -22,8 +21,7 @@ test("searchHelpers searchResultToLinkProps article", () => {
   const result = {
     id: 300,
     resourceType: "urn:resourcetype:subjectMaterial",
-    path: "/article/300",
-    paths: ["/urn:lp:300"],
+    url: "/article/300",
   };
 
   expect(searchResultToLinkProps(result)).toMatchSnapshot();

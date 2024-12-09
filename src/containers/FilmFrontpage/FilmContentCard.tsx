@@ -23,7 +23,6 @@ interface MovieType {
   }[];
   title: string;
   id: string | number;
-  path: string;
   url: string;
 }
 

@@ -110,7 +110,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
       dimensions,
       title: pageTitle,
     });
-  }, [authContextLoaded, root, t, node.article, node.path, trackPageView, user, pageTitle]);
+  }, [authContextLoaded, root, t, node.article, node.url, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
@@ -138,7 +138,6 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
 
   const subjectLinks = node.article.crossSubjectTopics?.map((crossSubjectTopic) => ({
     name: crossSubjectTopic.title,
-    path: crossSubjectTopic.path || root?.path || "",
     url: crossSubjectTopic.url || root?.url || "",
   }));
 
@@ -229,20 +228,17 @@ MultidisciplinarySubjectArticle.fragments = {
     fragment MultidisciplinarySubjectArticle_Node on Node {
       id
       name
-      path
       url
       context {
         contextId
         rootId
         breadcrumbs
-        path
         url
         isActive
         parents {
           contextId
           id
           name
-          path
           url
         }
       }
