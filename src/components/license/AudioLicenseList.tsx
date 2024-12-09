@@ -99,11 +99,11 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: audio.id,
-                  path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+                  path: `/audio/${audio.id}`,
                   resourceType: "audio",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+                <FavoriteButton path={`/audio/${audio.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>

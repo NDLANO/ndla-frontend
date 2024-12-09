@@ -112,11 +112,11 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: image.id,
-                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                  path: `/image/${image.id}`,
                   resourceType: "image",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+                <FavoriteButton path={`/image/${image.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
