@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useId, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -17,7 +17,6 @@ import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@nd
 import LearningpathIframe from "./LearningpathIframe";
 import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathStepQuery,
@@ -84,6 +83,8 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
 
+  const fallbackId = useId();
+
   const shouldUseConverter =
     !!articleId &&
     !learningpathStep.resource?.article &&
@@ -146,11 +147,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
-          <ArticleTitle
-            id={skipToContentId ?? SKIP_TO_CONTENT_ID}
-            contentType="external"
-            title={learningpathStep.title}
-          />
+          <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={learningpathStep.title} />
           <ArticleContent>
             <section>
               <ExternalEmbed
