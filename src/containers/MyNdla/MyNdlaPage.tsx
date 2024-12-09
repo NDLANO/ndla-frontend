@@ -31,7 +31,7 @@ import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
-// import { getNdlaRobotDateFormat } from "../../util/formatDate";
+import { getNdlaRobotDateFormat } from "../../util/formatDate";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
@@ -107,9 +107,10 @@ const MyNdlaPage = () => {
 
   const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
-  // const dateString = getNdlaRobotDateFormat(new Date());
-  // const token = btoa(dateString);
-  const aiUrl = user?.organization === "Rogaland fylkeskommune" ? `https://ndla-ki.no` : `https://ai.ndla.no/${aiLang}`; // TODO: Readd token later https://ndla-ki.no/${token}
+  const dateString = getNdlaRobotDateFormat(new Date());
+  const token = btoa(dateString);
+  const aiUrl =
+    user?.organization === "Rogaland fylkeskommune" ? `https://ndla-ki.no/${token}` : `https://ai.ndla.no/${aiLang}`;
 
   return (
     <StyledMyNdlaPageWrapper>
