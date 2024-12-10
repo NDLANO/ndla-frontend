@@ -104,7 +104,7 @@ const messages = {
       created: "Oppretta: {{ created }}",
       shared: "Delt {{ shared }}",
       noPath:
-        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em> knappen over for å starte å lage ein sti!",
+        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å starte å lage ein sti!",
       menu: {
         new: "Ny",
         edit: "Endre",

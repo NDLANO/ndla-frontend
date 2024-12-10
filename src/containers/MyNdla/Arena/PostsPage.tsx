@@ -116,7 +116,7 @@ const PostsPage = () => {
   }, [focusId, arenaTopic?.posts]);
 
   useEffect(() => {
-    if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
+    if (error?.graphQLErrors.map((err) => err.extensions?.status).includes(403) || (!loading && !arenaTopic)) {
       if (document.referrer.includes(routes.myNdla.root)) {
         navigate(-1);
       } else {

@@ -21,6 +21,8 @@ const StyledOl = styled("ol", {
 
 export const LearningpathList = () => {
   const { t } = useTranslation();
+
+  // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
   const { data, loading } = useMyLearningpaths();
 
   if (loading) {

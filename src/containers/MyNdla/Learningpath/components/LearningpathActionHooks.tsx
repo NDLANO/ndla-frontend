@@ -68,6 +68,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           onClose={close}
           onDelete={async () => {
             const res = await onDeleteLearningpath({ variables: { id: learningpath.id } });
+            // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (res.errors?.length === 0) {
               toast.create({
                 title: t("myNdla.learningpath.toast.deleted", {
@@ -103,6 +104,8 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
                 status: LEARNINGPATH_SHARED,
               },
             });
+
+            // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (res.errors?.length === 0) {
               toast.create({
                 title: t("myNdla.learningpath.toast.shared"),
@@ -117,8 +120,9 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       text: t("myNdla.learningpath.menu.unShare"),
       value: "unShareLearningPath",
       icon: <CloseLine />,
-      onClick: () => {
-        updateLearningpathStatus({
+      onClick: async () => {
+        // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
+        await updateLearningpathStatus({
           variables: {
             id: learningpath.id,
             status: LEARNINGPATH_READY_FOR_SHARING,

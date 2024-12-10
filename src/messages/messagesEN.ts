@@ -103,7 +103,7 @@ const messages = {
         "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself.",
       created: "Created: {{ created }}",
       shared: "Shared: {{ shared }}",
-      noPath: "It seems you have no paths created, click the `Add` button to start creating one!",
+      noPath: "It seems you have no learning paths created, click the `Add` button to start creating one!",
       menu: {
         new: "New",
         edit: "Edit",
