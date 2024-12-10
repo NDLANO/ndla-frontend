@@ -70,7 +70,7 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
 
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
