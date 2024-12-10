@@ -80,7 +80,7 @@ export const LearningpathShareDialogContent = ({ learningpath, onCopyText, onClo
             onClick={() => {
               onCopyText?.();
               toast.create({
-                title: t("myNdla.learningpath.sharing.link"),
+                title: t("myNdla.learningpath.sharing.copied"),
               });
             }}
           >
