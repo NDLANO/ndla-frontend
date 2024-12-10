@@ -2,7 +2,14 @@
 
 exports[`oembedArticleRoute invalid url 1`] = `
 {
-  "data": "Bad request. Invalid url.",
+  "data": "Bad request. Url not recognized",
+  "status": 400,
+}
+`;
+
+exports[`oembedArticleRoute learningpath fail 1`] = `
+{
+  "data": "No oembed support for learningpaths",
   "status": 400,
 }
 `;
