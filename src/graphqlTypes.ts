@@ -990,7 +990,7 @@ export type GQLLearningpathStepNewInput = {
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
-  license: Scalars["String"]["input"];
+  license?: InputMaybe<Scalars["String"]["input"]>;
   showTitle: Scalars["Boolean"]["input"];
   title: Scalars["String"]["input"];
   type: Scalars["String"]["input"];
@@ -1475,6 +1475,7 @@ export type GQLMyNdlaLearningpathStep = {
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   license?: Maybe<GQLLicense>;
   metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
@@ -1732,13 +1733,14 @@ export type GQLQuery = {
   imageSearch: GQLImageSearch;
   imageV3?: Maybe<GQLImageMetaInformationV3>;
   learningpath?: Maybe<GQLLearningpath>;
+  learningpathStepOembed: GQLLearningpathStepOembed;
   listArenaUserV2: GQLPaginatedArenaUsers;
   listingPage?: Maybe<GQLListingPage>;
   myLearningpaths?: Maybe<Array<GQLMyNdlaLearningpath>>;
+  myNdlaLearningpath?: Maybe<GQLMyNdlaLearningpath>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
-  oembedUrl: GQLLearningpathStepOembed;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -1934,6 +1936,10 @@ export type GQLQueryLearningpathArgs = {
   pathId: Scalars["String"]["input"];
 };
 
+export type GQLQueryLearningpathStepOembedArgs = {
+  url: Scalars["String"]["input"];
+};
+
 export type GQLQueryListArenaUserV2Args = {
   filterTeachers?: InputMaybe<Scalars["Boolean"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
@@ -1943,6 +1949,10 @@ export type GQLQueryListArenaUserV2Args = {
 
 export type GQLQueryListingPageArgs = {
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLQueryMyNdlaLearningpathArgs = {
+  pathId: Scalars["String"]["input"];
 };
 
 export type GQLQueryNodeArgs = {
@@ -1964,10 +1974,6 @@ export type GQLQueryNodesArgs = {
   metadataFilterKey?: InputMaybe<Scalars["String"]["input"]>;
   metadataFilterValue?: InputMaybe<Scalars["String"]["input"]>;
   nodeType?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLQueryOembedUrlArgs = {
-  url: Scalars["String"]["input"];
 };
 
 export type GQLQueryPodcastSearchArgs = {
@@ -4765,6 +4771,7 @@ export type GQLTopicContainer_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
+  contentUri?: string;
   url?: string;
   children?: Array<
     { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
