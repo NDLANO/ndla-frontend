@@ -11,14 +11,14 @@ import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3, ISearchResultV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { GQLImageFragmentFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
   imageId?: string;
-  onSelectImage: (image: IImageMetaInformationV3 | undefined) => void;
+  onSelectImage: (image: IImageMetaInformationV3DTO | undefined) => void;
 }
 
 export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
@@ -35,10 +35,10 @@ export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
   });
 
   const onFetchImage = async (imageId: number) =>
-    (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3;
+    (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3DTO;
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3;
+    (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3DTO;
 
   const onRemove = () => onSelectImage(undefined);
 
@@ -47,7 +47,7 @@ export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
   }
 
   return imageId && image?.imageV3 ? (
-    <PickedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
+    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
   ) : (
     <ImageSearch
       locale={i18n.language}
@@ -85,13 +85,13 @@ const TextVStack = styled(VStack, {
     justifyContent: "flex-start",
   },
 });
-interface PickedImageProps {
+interface SelectedImageProps {
   loading: boolean;
   image: GQLImageFragmentFragment;
   onRemove: () => void;
 }
 
-const PickedImage = ({ loading, image, onRemove }: PickedImageProps) => {
+const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
   const { t } = useTranslation();
 
   if (loading) {

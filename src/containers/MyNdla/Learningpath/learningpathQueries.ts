@@ -14,6 +14,8 @@ import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,
+  GQLOpengraphQuery,
+  GQLOpengraphQueryVariables,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepOembed } from "./learningpathFragments";
 
@@ -59,3 +61,17 @@ const fetchOembedUrl = gql`
 export const useFetchOembed = (
   options?: QueryHookOptions<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
 ) => useGraphQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);
+
+const opengraphQuery = gql`
+  query opengraph($url: String!) {
+    opengraph(url: $url) {
+      title
+      description
+      imageUrl
+      url
+    }
+  }
+`;
+
+export const useFetchOpengraph = (options?: QueryHookOptions<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
+  useGraphQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);

@@ -527,6 +527,7 @@ type Examples {
 
 type ExternalOpengraph {
   description: String
+  imageAlt: String
   imageUrl: String
   title: String
   url: String

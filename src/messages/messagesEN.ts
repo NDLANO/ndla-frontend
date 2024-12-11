@@ -103,6 +103,8 @@ const messages = {
         delete: "Delete",
         next: "Next",
         back: "Back",
+        deleteStep: "Delete step",
+        deleteBody: "Content cannot be restored",
         title: {
           titleHelper: "Give the path a descriptive title",
           imageTitle: "Imagetitle",

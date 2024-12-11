@@ -12,15 +12,15 @@ import { useNavigate } from "react-router-dom";
 import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { LearningPathStepper } from "./components/LearningPathStepper";
-import { TitleForm } from "./components/TitleForm";
+import { TitleForm, TitleFormValues } from "./components/TitleForm";
+import { useCreateLearningpath } from "./learningpathMutations";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { useCreateLearningpath } from "../learningpathMutations";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();
@@ -34,6 +34,30 @@ export const NewLearningpathPage = () => {
     trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
+  const onSave = async (val: TitleFormValues) => {
+    const res = await createLearningpath({
+      variables: {
+        params: {
+          language: i18n.language,
+          coverPhotoMetaUrl: val.image.metaUrl,
+          title: val.title,
+          copyright: {
+            contributors: [],
+            license: {
+              license: ALL_ABBREVIATIONS[4],
+            },
+          },
+          description: "",
+          tags: [],
+          duration: 1,
+        },
+      },
+    });
+    if (res.data?.newLearningpath.id) {
+      navigate(routes.myNdla.learningpathEdit(res.data.newLearningpath.id));
+    }
+  };
+
   return (
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
@@ -44,32 +68,8 @@ export const NewLearningpathPage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.newLearningpath")}
       </Heading>
-      <LearningPathStepper stepKey="title" />
-      <TitleForm
-        onSave={async (val) => {
-          const res = await createLearningpath({
-            variables: {
-              params: {
-                coverPhotoMetaUrl: val.image.metaUrl,
-                copyright: {
-                  contributors: [],
-                  license: {
-                    license: ALL_ABBREVIATIONS[4],
-                  },
-                },
-                description: "",
-                language: i18n.language,
-                tags: [],
-                title: val.title,
-                duration: 1,
-              },
-            },
-          });
-          if (res.data?.newLearningpath.id) {
-            navigate(routes.myNdla.learningpathEdit(res.data.newLearningpath.id));
-          }
-        }}
-      />
+      <LearningpathStepper step="title" />
+      <TitleForm onSave={onSave} />
     </MyNdlaPageWrapper>
   );
 };

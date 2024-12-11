@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3 } from "@ndla/types-backend/image-api";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImagePicker } from "./ImagePicker";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -24,14 +24,14 @@ const StyledForm = styled("form", {
   },
 });
 
-interface FormValues {
+export interface TitleFormValues {
   title: string;
-  image: IImageMetaInformationV3;
+  image: IImageMetaInformationV3DTO;
 }
 
 interface Props {
-  initialValue?: FormValues;
-  onSave: (values: FormValues) => void;
+  initialValue?: TitleFormValues;
+  onSave: (values: TitleFormValues) => void;
 }
 
 const MAX_NAME_LENGTH = 64;
@@ -39,7 +39,7 @@ const MAX_NAME_LENGTH = 64;
 export const TitleForm = ({ initialValue, onSave }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const { control, handleSubmit, setValue } = useForm<FormValues>({
+  const { control, handleSubmit, setValue } = useForm<TitleFormValues>({
     values: initialValue,
   });
 

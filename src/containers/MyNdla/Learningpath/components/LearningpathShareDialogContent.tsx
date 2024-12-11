@@ -12,11 +12,11 @@ import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTi
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathListItem } from "./LearningpathListItem";
-import { sharedLearningpathLink } from "./utils";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
+import { sharedLearningpathLink } from "../utils";
 
 const GapWrapper = styled("div", {
   base: {

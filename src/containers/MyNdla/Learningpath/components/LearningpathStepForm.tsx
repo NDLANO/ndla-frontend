@@ -21,7 +21,9 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { getFormTypeFromStep, getValuesFromStep } from "../utils";
 
 const ContentWrapper = styled("form", {
   base: {
@@ -36,16 +38,6 @@ const ContentWrapper = styled("form", {
   },
 });
 
-const getLearningstepContextType = (step?: GQLMyNdlaLearningpathStepFragment) => {
-  if (!step?.resource || !step?.oembed) {
-    return "text";
-  } else if (step?.oembed) {
-    return "external";
-  } else if (step?.resource) {
-    return "resource";
-  }
-  return undefined;
-};
 // Temporary placement until forms are merged
 export interface ExternalFormValues {
   type: "external";
@@ -58,6 +50,7 @@ export interface ExternalFormValues {
 export interface FolderFormValues {
   type: "folder";
   title: string;
+  embedUrl: string;
 }
 
 export interface ResourceFormValues {
@@ -73,29 +66,27 @@ export interface TextFormValues {
 }
 
 export type FormType = "text" | "external" | "resource" | "folder";
-export type FormValues = ResourceFormValues | ExternalFormValues | TextFormValues | FolderFormValues;
+
 const radiogroupOptions = ["text", "resource", "external", "folder"];
+
+export type FormValues = ExternalFormValues | FolderFormValues | ResourceFormValues | TextFormValues;
 
 interface Props {
   learningpathId: number;
   step?: GQLMyNdlaLearningpathStepFragment;
-  onClose?: () => void;
+  onClose?: VoidFunction;
+  onDelete?: (close: VoidFunction) => Promise<void>;
   onSave: (data: FormValues) => Promise<void>;
 }
 
-export const LearningpathStepForm = ({ step, onClose, onSave }: Props) => {
+export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props) => {
   const { t } = useTranslation();
 
+  const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
-    defaultValues: {
-      type: getLearningstepContextType(step),
-      title: step?.title,
-      embedUrl: step?.embedUrl?.url,
-      introduction: step?.introduction,
-      description: step?.description,
-    },
+    defaultValues: stepType ? getValuesFromStep(stepType, step) : undefined,
   });
-  const { handleSubmit, control, setValue } = methods;
+  const { handleSubmit, control, reset } = methods;
 
   return (
     <FormProvider {...methods}>
@@ -109,7 +100,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave }: Props) => {
               <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
-                onValueChange={(details) => setValue("type", details.value as FormType)}
+                onValueChange={(details) => reset(getValuesFromStep(details.value as FormType, step))}
                 orientation="vertical"
                 {...field}
               >
@@ -124,7 +115,8 @@ export const LearningpathStepForm = ({ step, onClose, onSave }: Props) => {
             </FieldRoot>
           )}
         />
-        <HStack justify="end">
+        <HStack justify={onDelete ? "space-between" : "end"}>
+          {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>
             {onClose ? (
               <Button variant="secondary" onClick={onClose}>

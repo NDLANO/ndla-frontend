@@ -103,6 +103,8 @@ const messages = {
         delete: "Slett",
         next: "Neste",
         back: "Forrige",
+        deleteStep: "Slett trinn",
+        deleteBody: "Innholdet kan ikke gjenopprettes",
         title: {
           titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",

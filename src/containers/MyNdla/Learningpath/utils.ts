@@ -1,0 +1,93 @@
+/**
+ * Copyright (c) 2024-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import config from "../../../config";
+import { FormType, FormValues } from "./components/LearningpathStepForm";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
+
+export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpath/${id}`;
+
+export const copyLearningpathSharingLink = (id: number) =>
+  window.navigator.clipboard.writeText(sharedLearningpathLink(id));
+
+export const LEARNINGPATH_SHARED = "UNLISTED";
+export const LEARNINGPATH_PRIVATE = "PRIVATE";
+export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
+
+export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) => {
+  if (!step?.resource && !step?.oembed && !step?.embedUrl) {
+    return "text";
+  } else if (step?.resource || step.embedUrl?.url.includes("resource")) {
+    return "resource";
+  } else if (step?.embedUrl?.embedType === "external") {
+    return "external";
+  }
+  return undefined;
+};
+
+const formValues: Record<FormType, (step?: GQLMyNdlaLearningpathStepFragment) => FormValues> = {
+  external: (step) => ({
+    type: "external",
+    title: step?.title ?? "",
+    introduction: step?.introduction ?? "",
+    url: step?.embedUrl?.url ?? "",
+    shareable: !!step?.embedUrl?.url,
+  }),
+  resource: (step) => ({
+    type: "resource",
+    title: step?.title ?? "",
+    embedUrl: step?.embedUrl?.url ?? "",
+  }),
+  text: (step) => ({
+    type: "text",
+    title: step?.title ?? "",
+    introduction: step?.introduction ?? "",
+    description: step?.description ?? "",
+  }),
+  folder: (step) => ({
+    type: "folder",
+    title: step?.title ?? "",
+    embedUrl: step?.embedUrl?.url ?? "",
+  }),
+};
+
+export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
+  const formType = getFormTypeFromStep(step);
+  const isInitialType = formType === type;
+  return formValues[type](isInitialType ? step : undefined);
+};
+
+export const formValuesToGQLInput = (values: FormValues) => {
+  if (values.type === "text") {
+    return {
+      type: "TEXT",
+      title: values.title,
+      introduction: values.introduction,
+      description: values.description,
+    };
+  } else if (values.type === "external") {
+    return {
+      type: "TEXT",
+      title: values.title,
+      introduction: values.introduction,
+      embedUrl: {
+        url: values.url,
+        embedType: "external",
+      },
+    };
+  } else {
+    return {
+      type: "TEXT",
+      title: values.title,
+      embedUrl: {
+        url: values.embedUrl,
+        embedType: "iframe",
+      },
+    };
+  }
+};

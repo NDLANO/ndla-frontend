@@ -608,6 +608,7 @@ export type GQLExamples = {
 export type GQLExternalOpengraph = {
   __typename?: "ExternalOpengraph";
   description?: Maybe<Scalars["String"]["output"]>;
+  imageAlt?: Maybe<Scalars["String"]["output"]>;
   imageUrl?: Maybe<Scalars["String"]["output"]>;
   title?: Maybe<Scalars["String"]["output"]>;
   url?: Maybe<Scalars["String"]["output"]>;
@@ -3369,6 +3370,13 @@ export type GQLUpdateLearningpathStepMutation = {
   updateLearningpathStep: { __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment;
 };
 
+export type GQLDeleteLearningpathStepMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  learningstepId: Scalars["Int"]["input"];
+}>;
+
+export type GQLDeleteLearningpathStepMutation = { __typename?: "Mutation"; deleteLearningpathStep?: Array<string> };
+
 export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLMyLearningpathsQuery = {
@@ -3392,6 +3400,21 @@ export type GQLLearningpathStepOembedQueryVariables = Exact<{
 export type GQLLearningpathStepOembedQuery = {
   __typename?: "Query";
   learningpathStepOembed: { __typename?: "LearningpathStepOembed" } & GQLLearningpathStepOembedFragment;
+};
+
+export type GQLOpengraphQueryVariables = Exact<{
+  url: Scalars["String"]["input"];
+}>;
+
+export type GQLOpengraphQuery = {
+  __typename?: "Query";
+  opengraph?: {
+    __typename?: "ExternalOpengraph";
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    url?: string;
+  };
 };
 
 export type GQLNewFlagV2MutationVariables = Exact<{
