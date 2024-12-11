@@ -9,7 +9,6 @@
 import "../style/index.css";
 import { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
@@ -51,15 +50,13 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 };
 renderOrHydrate(
   document.getElementById("root")!,
-  <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <BrowserRouter>
-          <MissingRouterContext.Provider value={true}>
-            <IframePageContainer {...initialProps} />
-          </MissingRouterContext.Provider>
-        </BrowserRouter>
-      </ApolloProvider>
-    </I18nextProvider>
-  </HelmetProvider>,
+  <I18nextProvider i18n={i18n}>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <MissingRouterContext.Provider value={true}>
+          <IframePageContainer {...initialProps} />
+        </MissingRouterContext.Provider>
+      </BrowserRouter>
+    </ApolloProvider>
+  </I18nextProvider>,
 );

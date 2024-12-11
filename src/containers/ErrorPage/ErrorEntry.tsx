@@ -9,7 +9,6 @@
 import "../../style/index.css";
 import { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
@@ -54,10 +53,8 @@ renderOrHydrate(
   <I18nextProvider i18n={i18n}>
     <BrowserRouter>
       <MissingRouterContext.Provider value={true}>
-        <HelmetProvider>
-          <Scripts />
-          <ErrorPage />
-        </HelmetProvider>
+        <Scripts />
+        <ErrorPage />
       </MissingRouterContext.Provider>
     </BrowserRouter>
   </I18nextProvider>,
