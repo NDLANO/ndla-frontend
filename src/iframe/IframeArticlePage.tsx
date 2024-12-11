@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
@@ -81,16 +80,14 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
         : undefined;
   return (
     <PageContent variant="content">
-      <Helmet>
-        <title>{getDocumentTitle({ article: propArticle })}</title>
-        <meta name="robots" content="noindex, nofollow" />
-        {scripts.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
-        </script>
-      </Helmet>
+      <title>{getDocumentTitle({ article: propArticle })}</title>
+      <meta name="robots" content="noindex, nofollow" />
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
+      </script>
       <SocialMediaMetadata
         title={article.title}
         imageUrl={article.metaImage?.url}

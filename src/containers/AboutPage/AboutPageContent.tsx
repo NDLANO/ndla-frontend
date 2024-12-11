@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
@@ -137,17 +136,16 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, article.title)}`}</title>
-        <meta name="pageid" content={`${article.id}`} />
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-        </script>
-      </Helmet>
+      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <meta name="pageid" content={`${article.id}`} />
+      {scripts?.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
+      </script>
+
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}

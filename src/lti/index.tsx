@@ -7,7 +7,6 @@
  */
 
 import { createRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
@@ -48,24 +47,22 @@ const i18n = initializeI18n(i18nInstance, language);
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
-  <HelmetProvider>
-    <LtiContextProvider ltiData={initialProps.ltiData}>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <MemoryRouter initialEntries={["/lti"]} basename="/">
-            <Scripts />
-            <Routes>
-              <Route path="lti" element={<LtiProvider />} />
-              <Route path="article-iframe" element={<LtiIframePage />}>
-                <Route path="article/:articleId" element={null} />
-                <Route path=":lang/article/:articleId" element={null} />
-                <Route path=":taxonomyId/:articleId" element={null} />
-                <Route path=":lang/:taxonomyId/:articleId" element={null} />
-              </Route>
-            </Routes>
-          </MemoryRouter>
-        </ApolloProvider>
-      </I18nextProvider>
-    </LtiContextProvider>
-  </HelmetProvider>,
+  <LtiContextProvider ltiData={initialProps.ltiData}>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <MemoryRouter initialEntries={["/lti"]} basename="/">
+          <Scripts />
+          <Routes>
+            <Route path="lti" element={<LtiProvider />} />
+            <Route path="article-iframe" element={<LtiIframePage />}>
+              <Route path="article/:articleId" element={null} />
+              <Route path=":lang/article/:articleId" element={null} />
+              <Route path=":taxonomyId/:articleId" element={null} />
+              <Route path=":lang/:taxonomyId/:articleId" element={null} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </ApolloProvider>
+    </I18nextProvider>
+  </LtiContextProvider>,
 );

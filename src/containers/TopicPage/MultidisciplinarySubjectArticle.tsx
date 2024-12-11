@@ -7,7 +7,6 @@
  */
 
 import { useMemo, useEffect, useContext } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
@@ -157,13 +156,11 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   return (
     <StyledPageContent variant="article" asChild consumeCss>
       <main>
-        <Helmet>
-          {scripts?.map((script) => (
-            <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-          ))}
-          {!node.context?.isActive && <meta name="robots" content="noindex" />}
-          <title>{pageTitle}</title>
-        </Helmet>
+        {scripts?.map((script) => (
+          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+        ))}
+        {!node.context?.isActive && <meta name="robots" content="noindex" />}
+        <title>{pageTitle}</title>
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}

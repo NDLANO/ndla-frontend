@@ -7,7 +7,6 @@
  */
 
 import { getSelectorsByUserAgent } from "react-device-detect";
-import { FilledContext, HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client/react";
@@ -56,6 +55,7 @@ export const defaultRender: RenderFunc = async (req) => {
   if (noSSR) {
     return {
       status: OK,
+      locale,
       data: {
         htmlContent: "",
         data: {
@@ -71,26 +71,22 @@ export const defaultRender: RenderFunc = async (req) => {
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
-  // @ts-expect-error - This is fulfilled automatically
-  const helmetContext: FilledContext = {};
 
   const Page = (
     <RedirectContext.Provider value={redirectContext}>
-      <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <ResponseContext.Provider value={responseContext}>
-              <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App key={locale} />
-                  </StaticRouter>
-                </UserAgentProvider>
-              </VersionHashProvider>
-            </ResponseContext.Provider>
-          </ApolloProvider>
-        </I18nextProvider>
-      </HelmetProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <ResponseContext.Provider value={responseContext}>
+            <VersionHashProvider value={versionHash}>
+              <UserAgentProvider value={userAgentSelectors}>
+                <StaticRouter basename={basename} location={req.url}>
+                  <App key={locale} />
+                </StaticRouter>
+              </UserAgentProvider>
+            </VersionHashProvider>
+          </ResponseContext.Provider>
+        </ApolloProvider>
+      </I18nextProvider>
     </RedirectContext.Provider>
   );
 
@@ -107,8 +103,8 @@ export const defaultRender: RenderFunc = async (req) => {
 
   return {
     status: redirectContext.status ?? OK,
+    locale,
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
         serverResponse: redirectContext.status ?? undefined,

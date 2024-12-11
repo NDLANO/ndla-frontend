@@ -7,7 +7,6 @@
  */
 import { TFunction } from "i18next";
 import { useContext, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
@@ -87,10 +86,8 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   return (
     <>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
-        {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
-      </Helmet>
+      <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
+      {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={getTitle(root, learningpath, learningpathStep)}
         trackableContent={learningpath}

@@ -5,6 +5,7 @@ exports[`ltiRender 400 BAD REQUEST 1`] = `
   "data": {
     "htmlContent": "Bad request. Field lti_version with error: Missing required field.",
   },
+  "locale": "nb",
   "status": 400,
 }
 `;
@@ -14,6 +15,7 @@ exports[`ltiRender 400 BAD REQUEST wrong values 1`] = `
   "data": {
     "htmlContent": "Bad request. Field lti_version with error: Value should be one of LTI-1p0,LTI-2p0.",
   },
+  "locale": "nb",
   "status": 400,
 }
 `;
