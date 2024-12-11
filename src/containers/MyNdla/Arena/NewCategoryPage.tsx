@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { INewCategoryDTO } from "@ndla/types-backend/myndla-api";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -36,7 +36,7 @@ export const NewCategoryPage = () => {
   }, [t, trackPageView, user]);
 
   const onSave = useCallback(
-    async (values: Partial<INewCategory>) => {
+    async (values: Partial<INewCategoryDTO>) => {
       const category = await newCategoryMutation.createArenaCategory({
         variables: {
           description: values.description ?? "",
