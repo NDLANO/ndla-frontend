@@ -13,17 +13,23 @@ import { AddLine, CloseLine, PencilLine } from "@ndla/icons";
 import { Button, Heading, Spinner, Text } from "@ndla/primitives";
 import { styled, VStack } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { FormType, FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
+import { FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
 import { LearningPathStepper } from "./components/LearningPathStepper";
+import {
+  useCreateLearningpathStep,
+  useUpdateLearningpathStep,
+  useDeleteLearningpathStep,
+} from "./learningpathMutations";
+import { useFetchLearningpath } from "./learningpathQueries";
+import { getFormTypeFromStep } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { useCreateLearningpathStep, useUpdateLearningpathStep } from "../learningpathMutations";
-import { useFetchLearningpath } from "../learningpathQueries";
 
 const StyledOl = styled("ol", {
   base: {
@@ -41,55 +47,35 @@ const AddButton = styled(Button, {
     gap: "small",
   },
 });
-const createInputParams = (values: FormValues) => {
+
+const formValuesToGQLInput = (values: FormValues) => {
   if (values.type === "text") {
     return {
+      type: "TEXT",
       title: values.title,
       introduction: values.introduction,
       description: values.description,
     };
   } else if (values.type === "external") {
     return {
+      type: "TEXT",
       title: values.title,
       introduction: values.introduction,
       embedUrl: {
         url: values.url,
-        embedType: "iframe",
+        embedType: "external",
       },
     };
-  } else if (values.type === "resource") {
+  } else {
     return {
+      type: "TEXT",
       title: values.title,
       embedUrl: {
         url: values.embedUrl,
-        embedType: "oembed",
+        embedType: "iframe",
       },
     };
   }
-  return { title: values.title };
-};
-
-const getLearningstepApiType = (type?: FormType) => {
-  if (type === "text") {
-    return "TEXT";
-  } else if (type === "external") {
-    return "OEMBED";
-  }
-  return "OEMBED";
-};
-
-const formValuesToGQLInput = (values: FormValues) => {
-  const data = createInputParams(values);
-  const type = getLearningstepApiType(values.type);
-  /** TODO: Make prettier */
-  // Unsets optional data if step changes type
-  return {
-    embedUrl: undefined,
-    introduction: undefined,
-    description: undefined,
-    type: type,
-    ...data,
-  };
 };
 
 export const ContentLearningpathPage = () => {
@@ -203,9 +189,12 @@ interface LearningpathStepListItemProps {
 
 const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepListItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
+
   const { t, i18n } = useTranslation();
+  const toast = useToast();
 
   const [updateStep] = useUpdateLearningpathStep();
+  const [deleteStep] = useDeleteLearningpathStep();
 
   const onSave = async (data: FormValues) => {
     const transformedData = formValuesToGQLInput(data);
@@ -216,7 +205,25 @@ const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepList
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
+    setIsEditing(false);
   };
+
+  const onDelete = async (close: VoidFunction) => {
+    const res = await deleteStep({
+      variables: {
+        learningstepId: step.id,
+        learningpathId: learningpathId,
+      },
+    });
+    if (res.errors?.length === 0) {
+      toast.create({
+        title: t(""),
+      });
+      close();
+    }
+  };
+
+  const stepType = getFormTypeFromStep(step);
 
   return (
     <li>
@@ -225,7 +232,7 @@ const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepList
           <Text fontWeight="bold" textStyle="label.medium">
             {step.title}
           </Text>
-          <Text textStyle="label.small">{"Innhold fra NDLA"}</Text>
+          <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
         </TextWrapper>
         {!isEditing ? (
           <Button variant="tertiary" onClick={() => setIsEditing(true)}>
@@ -238,7 +245,9 @@ const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepList
           </Button>
         )}
       </ContentWrapper>
-      {isEditing ? <LearningpathStepForm learningpathId={learningpathId} step={step} onSave={onSave} /> : null}
+      {isEditing ? (
+        <LearningpathStepForm learningpathId={learningpathId} step={step} onSave={onSave} onDelete={onDelete} />
+      ) : null}
     </li>
   );
 };

@@ -12,6 +12,8 @@ import {
   GQLMutationDeleteLearningpathArgs,
   GQLUpdateLearningpathStatusMutation,
   GQLMutationUpdateLearningpathStatusArgs,
+  GQLDeleteLearningpathStepMutation,
+  GQLDeleteLearningpathStepMutationVariables,
   GQLNewLearningpathMutation,
   GQLNewLearningpathMutationVariables,
   GQLNewLearningpathStepMutation,
@@ -97,5 +99,18 @@ export const useUpdateLearningpathStep = (
 ) =>
   useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
     updateLearningpathStepMutation,
+    options,
+  );
+
+const deleteLearningpathStepMutation = gql`
+  mutation deleteLearningpathStep($learningpathId: Int!, $learningstepId: Int!) {
+    deleteLearningpathStep(learningpathId: $learningpathId, learningstepId: $learningstepId)
+  }
+`;
+export const useDeleteLearningpathStep = (
+  options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
+) =>
+  useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
+    deleteLearningpathStepMutation,
     options,
   );
