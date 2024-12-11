@@ -101,11 +101,11 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: concept.id,
-                  path: `${config.ndlaFrontendDomain}/concept/${concept.id}`,
+                  path: `/concept/${concept.id}`,
                   resourceType: "concept",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+                <FavoriteButton path={`/concept/${concept.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>

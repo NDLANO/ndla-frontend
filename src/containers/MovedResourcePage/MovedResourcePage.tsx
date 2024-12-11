@@ -15,7 +15,6 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import NavigationBox from "../../components/NavigationBox";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { movedResourceQuery } from "../../queries";
@@ -44,7 +43,6 @@ const StyledHeading = styled(Heading, {
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(movedResourceQuery, {
@@ -63,13 +61,13 @@ const MovedResourcePage = ({ resource }: Props) => {
     return {
       id: resultId,
       title: resource.name,
-      url: (enablePrettyUrls ? resource.url : resource.path) ?? "",
+      url: resource.url ?? "",
       contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
       ingress: ingress ?? "",
       metaImage,
       breadcrumbs: resource.breadcrumbs,
-      roots: data?.resource?.contexts.map(({ breadcrumbs, path, url }) => ({
-        url: enablePrettyUrls ? url : path,
+      roots: data?.resource?.contexts.map(({ breadcrumbs, url }) => ({
+        url: url,
         title: breadcrumbs[0] ?? "",
       })),
     };
@@ -122,13 +120,10 @@ MovedResourcePage.fragments = {
     fragment MovedResourcePage_Node on Node {
       id
       name
-      path
       url
-      paths
       breadcrumbs
       contexts {
         contextId
-        path
         url
         breadcrumbs
       }

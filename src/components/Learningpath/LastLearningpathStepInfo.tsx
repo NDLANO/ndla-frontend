@@ -12,7 +12,6 @@ import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { NoSSR } from "@ndla/util";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import Resources from "../../containers/Resources/Resources";
 import {
   GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
@@ -44,7 +43,6 @@ interface Props {
 }
 const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const isLastStep = seqNo === numberOfLearningSteps;
 
   if (!isLastStep) {
@@ -67,13 +65,13 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
         {!!root && (
           <Text>
             {`${t("learningPath.lastStep.subjectHeading")} `}
-            <SafeLink to={(enablePrettyUrls ? root.url : root.path) ?? ""}>{root.name}</SafeLink>
+            <SafeLink to={root.url ?? ""}>{root.name}</SafeLink>
           </Text>
         )}
         {!!parent && (
           <Text>
             {`${t("learningPath.lastStep.topicHeading")} `}
-            <SafeLink to={(enablePrettyUrls ? parent.url : parent.path) ?? ""}>{parent.name}</SafeLink>
+            <SafeLink to={parent.url ?? ""}>{parent.name}</SafeLink>
           </Text>
         )}
       </LinksWrapper>

@@ -13,7 +13,6 @@ import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { movieResourceTypes } from "./resourceTypes";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { useGraphQuery } from "../../util/runQueries";
@@ -121,7 +120,6 @@ const LoadingShimmer = () => {
 
 const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
     variables: {
       resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
@@ -154,7 +152,7 @@ const AllMoviesAlphabetically = () => {
           {movies.map((movie) => {
             const context = movie.contexts.find((c) => c.rootId === FILM_ID);
             return (
-              <StyledSafeLink to={(enablePrettyUrls ? context?.url : context?.path) ?? ""} key={movie.id}>
+              <StyledSafeLink to={context?.url ?? ""} key={movie.id}>
                 {!!movie.metaImage?.url && (
                   <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />
                 )}

@@ -236,7 +236,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.arena.admin.title"),
     icon: <ShieldUserLine />,
     iconFilled: <ShieldUserFill />,
-    shownForUser: (user) => !!(user?.arenaEnabled && user?.isModerator),
+    shownForUser: (user) => !!(!config.externalArena && user?.arenaEnabled && user?.isModerator),
   },
   {
     id: "profile",

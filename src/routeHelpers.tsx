@@ -114,13 +114,12 @@ export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 export function toBreadcrumbItems(
   rootName: string,
   paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
-  enablePrettyUrls = false,
 ): Breadcrumb[] {
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
     return {
-      to: (enablePrettyUrls ? crumb?.url : crumb?.path) ?? "",
+      to: crumb?.url ?? "",
       name: crumb?.name ?? "",
     };
   });
@@ -140,6 +139,7 @@ export const useTypedParams = <TParams extends TypedParams>() => {
 
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
+  learningpath: (learningpathId: number) => `/learningpaths/${learningpathId}`,
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
@@ -157,6 +157,8 @@ export const routes = {
     tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
     tags: "/minndla/folders/tag",
     learningpath: "/minndla/learningpaths",
-    learningpathEdit: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}`,
+    learningpathNew: "/minndla/learningpaths/new",
+    learningpathEdit: (learningpathId: number) => `/minnndla/learningpaths/${learningpathId}/edit`,
+    learningpathPreview: (learningpathId: number) => `/minnndla/learningpaths/${learningpathId}/preview`,
   },
 };

@@ -525,6 +525,13 @@ type Examples {
   transcriptions: Transcription!
 }
 
+type ExternalOpengraph {
+  description: String
+  imageUrl: String
+  title: String
+  url: String
+}
+
 type FilmFrontpage {
   about: [FilmPageAbout!]!
   article: Article
@@ -830,6 +837,7 @@ input LearningpathNewInput {
   coverPhotoMetaUrl: String
   description: String!
   duration: Int!
+  introduction: String
   language: String!
   tags: [String!]!
   title: String!
@@ -1371,6 +1379,7 @@ type Query {
     metadataFilterValue: String
     nodeType: String
   ): [Node!]
+  opengraph(url: String!): ExternalOpengraph
   personalData: MyNdlaPersonalData
   podcastSearch(fallback: Boolean, page: Int!, pageSize: Int!): AudioSearch
   podcastSeries(id: Int!): PodcastSeriesWithEpisodes

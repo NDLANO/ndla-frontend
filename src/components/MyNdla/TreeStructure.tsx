@@ -30,18 +30,18 @@ import {
   TreeRootProvider,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { IFolder, IResource } from "@ndla/types-backend/myndla-api";
+import { IFolderDTO, IResourceDTO } from "@ndla/types-backend/myndla-api";
 
-const flattenFolders = (folders: IFolder[], openFolders?: string[]): IFolder[] => {
+const flattenFolders = (folders: IFolderDTO[], openFolders?: string[]): IFolderDTO[] => {
   return folders.reduce((acc, { subfolders, id, ...rest }) => {
     if (!subfolders || (openFolders && !openFolders.includes(id))) {
       return acc.concat({ subfolders, id, ...rest });
     }
     return acc.concat({ subfolders, id, ...rest }, flattenFolders(subfolders, openFolders));
-  }, [] as IFolder[]);
+  }, [] as IFolderDTO[]);
 };
 
-type OnCreatedFunc = (folder: IFolder | undefined) => void;
+type OnCreatedFunc = (folder: IFolderDTO | undefined) => void;
 
 type NewFolderInputFunc = ({
   onCancel,
@@ -57,9 +57,9 @@ export const MAX_LEVEL_FOR_FOLDERS = 5;
 
 export interface TreeStructureProps {
   loading?: boolean;
-  targetResource?: IResource;
+  targetResource?: IResourceDTO;
   defaultOpenFolders?: string[];
-  folders: IFolder[];
+  folders: IFolderDTO[];
   label?: string;
   maxLevel?: number;
   newFolderInput?: NewFolderInputFunc;
@@ -200,7 +200,7 @@ export const TreeStructure = ({
   });
 
   const onCreateFolder = useCallback(
-    (folder: IFolder | undefined) => {
+    (folder: IFolderDTO | undefined) => {
       if (!folder) return;
       const focus = treeView.focusItem;
       const expand = treeView.expand;
@@ -296,8 +296,8 @@ export const TreeStructure = ({
 };
 
 interface TreeStructureItemProps {
-  folder: IFolder;
-  targetResource?: IResource;
+  folder: IFolderDTO;
+  targetResource?: IResourceDTO;
 }
 
 const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) => {

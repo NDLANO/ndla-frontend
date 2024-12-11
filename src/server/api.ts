@@ -20,15 +20,7 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import {
-  ABOUT_PATH,
-  FILM_PAGE_PATH,
-  FILM_PAGE_URL,
-  STORED_LANGUAGE_COOKIE_KEY,
-  UKR_PAGE_PATH,
-  UKR_PAGE_URL,
-  programmeRedirects,
-} from "../constants";
+import { ABOUT_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
@@ -58,17 +50,17 @@ router.get("/health", (_, res) => {
   res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
-router.get("/film", (_, res) => {
-  res.redirect(config.enablePrettyUrls ? FILM_PAGE_URL : FILM_PAGE_PATH);
+router.get(["/film", "/:lang/film"], (_, res) => {
+  res.redirect(FILM_PAGE_URL);
 });
 
-router.get("/utdanning", (_, res) => {
+router.get(["/utdanning", "/:lang/utdanning"], (_, res) => {
   res.redirect("/");
 });
 
 router.get("/ukr", (_req, res) => {
   res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
-  res.redirect(`/en${config.enablePrettyUrls ? UKR_PAGE_URL : UKR_PAGE_PATH}`);
+  res.redirect(`/en${UKR_PAGE_URL}`);
 });
 
 router.get("/oembed", async (req, res) => {
@@ -224,14 +216,10 @@ router.post("/lti/oauth", async (req, res) => {
 );
 
 router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
-  if (config.enablePrettyUrls) {
-    if (req.params.lang && !isValidLocale(req.params.lang)) {
-      next();
-    } else {
-      contextRedirectRoute(req, res, next);
-    }
-  } else {
+  if (req.params.lang && !isValidLocale(req.params.lang)) {
     next();
+  } else {
+    contextRedirectRoute(req, res, next);
   }
 });
 

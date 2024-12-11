@@ -6,16 +6,47 @@
  *
  */
 
-import { gql, MutationHookOptions, useMutation } from "@apollo/client";
-import { learningpathFragment, learningpathStepFragment } from "./learningpathUtils";
+import { MutationHookOptions, useMutation, gql } from "@apollo/client";
 import {
+  GQLDeleteLearningpathMutation,
+  GQLMutationDeleteLearningpathArgs,
+  GQLUpdateLearningpathStatusMutation,
+  GQLMutationUpdateLearningpathStatusArgs,
   GQLNewLearningpathMutation,
   GQLNewLearningpathMutationVariables,
   GQLNewLearningpathStepMutation,
   GQLNewLearningpathStepMutationVariables,
   GQLUpdateLearningpathStepMutation,
   GQLUpdateLearningpathStepMutationVariables,
-} from "../../graphqlTypes";
+} from "../../../graphqlTypes";
+import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
+
+const deleteLearningpathMutation = gql`
+  mutation deleteLearningpath($id: Int!) {
+    deleteLearningpath(id: $id)
+  }
+`;
+
+export const useDeleteLearningpath = (
+  options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
+) => useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, options);
+
+const updateLearningpathStatusMutation = gql`
+  mutation updateLearningpathStatus($id: Int!, $status: String!) {
+    updateLearningpathStatus(id: $id, status: $status) {
+      ...MyNdlaLearningpath
+    }
+  }
+  ${learningpathFragment}
+`;
+
+export const useUpdateLearningpathStatus = (
+  options?: MutationHookOptions<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
+) =>
+  useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
+    updateLearningpathStatusMutation,
+    options,
+  );
 
 const newLearningpathMutation = gql`
   mutation newLearningpath($params: LearningpathNewInput!) {

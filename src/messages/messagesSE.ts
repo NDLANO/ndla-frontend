@@ -169,6 +169,52 @@ const messages = {
           add: "Legg til trinn",
         },
       },
+      title: "Mine læringsstier",
+      description:
+        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv.",
+      created: "Opprettet: {{ created }}",
+      shared: "Delt: {{ shared }}",
+      noPath: "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em> knappen for å lage en sti!",
+      menu: {
+        new: "Ny",
+        edit: "Endre",
+        delete: "Slett",
+        share: "Del",
+        unShare: "Avslutt deling",
+        goTo: "Gå til",
+        copy: "Kopier lenke",
+      },
+      toast: {
+        deleted: 'Læringsstien "{{ name }}" er slettet.',
+        unshared: 'Lærringsstien "{{ name }}" er ikke lenger delt.',
+        copy: 'Kopiert lenken til læringsstien "{{ name }}"',
+        shared: "Læringsstien er delt.",
+      },
+      status: {
+        shared: "Delt",
+        ready_for_sharing: "Klar for deling",
+        private: "Påbegynt",
+      },
+      delete: {
+        title: "Slett læringssti",
+        body: "Er du sikker på at du vil slette læringsstien? Handlingen kan ikke angres.",
+        button: "Slett læringssti",
+      },
+      sharing: {
+        description: {
+          shared:
+            "Når du deler en læringssti, lager du ei lenke som er åpen for alle som har lenka. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
+          private:
+            "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenka med.",
+          copy: "Trykk på lenka for å kopiere",
+        },
+        link: "Kopier lenke",
+        copied: "Lenken er kopiert",
+        button: {
+          done: "Ferdig",
+          preview: "Forhåndsvis læringssti",
+        },
+      },
     },
   },
   ndlaFilm: {

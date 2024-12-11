@@ -170,6 +170,54 @@ const messages = {
           add: "Legg til trinn",
         },
       },
+      title: "Mine læringsstiar",
+      description:
+        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
+      created: "Oppretta: {{ created }}",
+      shared: "Delt {{ shared }}",
+      noPath:
+        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å lage ein sti!",
+      menu: {
+        new: "Ny",
+        edit: "Endre",
+        delete: "Slett",
+        share: "Del",
+        unShare: "Avslutt deling",
+        goTo: "Gå til",
+        copy: "Kopier lenke",
+      },
+      toast: {
+        deleted: 'Læringsstien "{{ name }}" er sletta.',
+        unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',
+        copy: 'Kopierte lenka til læringsstien "{{ name }}"',
+        shared: "Læringsstien er delt.",
+      },
+      status: {
+        shared: "Delt",
+        readyForSharing: "Klar for deling",
+        private: "Starta",
+      },
+      delete: {
+        title: "Slett læringssti",
+        body: "Er du sikker på at du vil slette læringsstien? Handlinga kan ikkje angrast.",
+        button: "Slett læringssti",
+      },
+      sharing: {
+        title: "Denne læringsstien er delt",
+        description: {
+          shared:
+            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
+          private:
+            "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenka med.",
+          copy: "Trykk på lenka for å kopiere",
+        },
+        link: "Kopier lenke",
+        copied: "Lenka er kopiert",
+        button: {
+          done: "Ferdig",
+          preview: "Førehandsvis læringssti",
+        },
+      },
     },
   },
   ndlaFilm: {

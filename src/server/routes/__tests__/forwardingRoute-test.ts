@@ -33,7 +33,6 @@ function prepareNock(status: number, nodeId = "1337", contentUri = "urn:article:
       .get(`/taxonomy/v1/url/resolve?path=/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`)
       .reply(200, {
         contentUri,
-        path: `/${subjectId}/topic:1:55212/topic:1:175218/resource:1:72007`,
         url: "/f/navn-pa-fag/artikkel/23123sdf",
       });
   }
@@ -52,7 +51,7 @@ test("forwardingRoute redirect with 301 if mapping OK", async () => {
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`);
+  expect(redirect).toHaveBeenCalledWith(301, `/f/navn-pa-fag/artikkel/23123sdf`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
@@ -69,7 +68,7 @@ test("forwardingRoute redirect with 301 if mapping OK (nb)", async () => {
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`);
+  expect(redirect).toHaveBeenCalledWith(301, `/f/navn-pa-fag/artikkel/23123sdf`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
@@ -86,7 +85,7 @@ test("forwardingRoute redirect with 301 if mapping OK (en)", async () => {
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `/en/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`);
+  expect(redirect).toHaveBeenCalledWith(301, `/en/f/navn-pa-fag/artikkel/23123sdf`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
@@ -109,7 +108,7 @@ test("forwardingRoute redirect with 301 if mapping OK (nn)", async () => {
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `/nn/subject:3/topic:1:55212/topic:1:175218/resource:1:72007`);
+  expect(redirect).toHaveBeenCalledWith(301, `/nn/f/navn-pa-fag/artikkel/23123sdf`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });

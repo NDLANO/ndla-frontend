@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useId, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -15,9 +15,7 @@ import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import LearningpathIframe from "./LearningpathIframe";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathStepQuery,
@@ -77,12 +75,13 @@ interface Props {
 }
 const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems, children }: Props) => {
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const location = useLocation();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
+
+  const fallbackId = useId();
 
   const shouldUseConverter =
     !!articleId &&
@@ -100,7 +99,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         transformArgs: {
           path: location.pathname,
           subjectId,
-          prettyUrl: enablePrettyUrls,
+          prettyUrl: true,
         },
       },
       skip:
@@ -110,8 +109,8 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     },
   );
 
-  const path = !learningpathStep.resource?.path ? data?.node?.path : undefined;
-  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
+  const url = !learningpathStep.resource?.url ? data?.node?.url : undefined;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const [article, scripts] = useMemo(() => {
     const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
@@ -146,11 +145,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
-          <ArticleTitle
-            id={skipToContentId ?? SKIP_TO_CONTENT_ID}
-            contentType="external"
-            title={learningpathStep.title}
-          />
+          <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={learningpathStep.title} />
           <ArticleContent>
             <section>
               <ExternalEmbed
@@ -213,7 +208,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
       >
         {children}
-        {!!path && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
+        {!!url && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
       </Article>
     </EmbedPageContent>
   );
@@ -246,7 +241,7 @@ LearningpathEmbed.fragments = {
       title
       resource {
         id
-        path
+        url
         resourceTypes {
           id
           name
@@ -286,7 +281,7 @@ const learningpathStepQuery = gql`
     }
     node(id: $resourceId) @include(if: $includeResource) {
       id
-      path
+      url
       resourceTypes {
         id
         name

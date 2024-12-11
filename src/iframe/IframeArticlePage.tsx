@@ -19,7 +19,6 @@ import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
 import { useLtiData } from "../components/LtiContext";
-import { useEnablePrettyUrls } from "../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
@@ -48,7 +47,6 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
   const navigate = useNavigate();
   const ltiData = useLtiData();
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const locale = localeProp ?? i18n.language;
 
   const [article, scripts] = useMemo(() => {
@@ -72,7 +70,7 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
     });
   }, [propArticle, node, trackPageView]);
 
-  const path = enablePrettyUrls ? node?.url : node?.path;
+  const path = node?.url;
   const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
 
   const contentType =

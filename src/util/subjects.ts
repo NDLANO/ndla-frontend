@@ -18,7 +18,7 @@ const filterSubjects = (subjects: GQLSubjectInfoFragment[], customField: string,
     subjects: filtered.map((s) => {
       return {
         ...s,
-        path: s.path ?? "",
+        url: s.url ?? "",
       };
     }),
     visible: filtered.length > 0,

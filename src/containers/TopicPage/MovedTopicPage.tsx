@@ -33,12 +33,12 @@ const convertNodeToResult = (node: GQLMovedTopicPage_NodeFragment): GQLSearchRes
   metaImage: node.meta?.metaImage,
   title: node.name,
   htmlTitle: node.name,
-  url: node.path || "",
+  url: node.url || "",
   id: node.id,
   ingress: node.meta?.metaDescription ?? "",
   breadcrumbs: node.breadcrumbs,
   subjects: node.contexts?.map(({ breadcrumbs }) => ({
-    url: node.path,
+    url: node.url,
     title: breadcrumbs[0]!,
     breadcrumb: breadcrumbs,
   })),
@@ -124,7 +124,6 @@ MovedTopicPage.fragments = {
     fragment MovedTopicPage_Node on Node {
       id
       name
-      path
       url
       breadcrumbs
       meta {

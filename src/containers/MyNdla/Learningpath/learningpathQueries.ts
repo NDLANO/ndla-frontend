@@ -7,14 +7,26 @@
  */
 
 import { gql, QueryHookOptions } from "@apollo/client";
-import { learningpathFragment, learningpathStepOembed } from "./learningpathUtils";
+import { useGraphQuery } from "../../../util/runQueries";
 import {
   GQLLearningpathStepOembedQuery,
   GQLLearningpathStepOembedQueryVariables,
+  GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,
-} from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
+} from "../../../graphqlTypes";
+import { learningpathFragment, learningpathStepOembed } from "./learningpathFragments";
+
+const myLearningpathQuery = gql`
+  query MyLearningpaths {
+    myLearningpaths {
+      ...MyNdlaLearningpath
+    }
+  }
+  ${learningpathFragment}
+`;
+
+export const useMyLearningpaths = () => useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
 const learningpathQuery = gql`
   query myNdlaLearningpath($pathId: String!) {

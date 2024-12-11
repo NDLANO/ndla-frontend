@@ -19,7 +19,6 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
@@ -51,10 +50,7 @@ interface Props {
   grade: string;
 }
 
-const mapGradesData = (
-  grades: GQLProgrammeContainer_ProgrammeFragment["grades"],
-  enablePrettyUrls: boolean,
-): GradesData[] => {
+const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
   if (!grades) return [];
   return grades?.map((grade) => {
     let foundProgrammeSubject = false;
@@ -63,7 +59,7 @@ const mapGradesData = (
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
-          url: enablePrettyUrls ? subject.url : subject.path,
+          url: subject.url,
         };
       });
       return {
@@ -143,9 +139,8 @@ const StyledImage = styled(Image, {
 const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const heading = programme.title.title;
-  const grades = mapGradesData(programme.grades || [], enablePrettyUrls);
+  const grades = mapGradesData(programme.grades || []);
   const socialMediaTitle = `${programme.title.title} - ${gradeProp}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
@@ -176,7 +171,8 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
         </Helmet>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
-          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />
+          {/* TODO: Use semantic tokens */}
+          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" height="400" width="1128" />
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
@@ -245,7 +241,6 @@ ProgrammeContainer.fragments = {
           subjects {
             id
             name
-            path
             url
             subjectpage {
               about {

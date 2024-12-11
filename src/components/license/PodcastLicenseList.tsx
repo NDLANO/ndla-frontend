@@ -100,11 +100,11 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: podcast.id,
-                  path: `${config.ndlaFrontendDomain}/audio/${podcast.id}`,
+                  path: `/audio/${podcast.id}`,
                   resourceType: "audio",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${podcast.id}`} />
+                <FavoriteButton path={`/audio/${podcast.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>

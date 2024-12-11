@@ -38,7 +38,7 @@ const collectionPageQuery = gql`
     subjectCollection(language: $language) {
       id
       name
-      path
+      url
       metadata {
         customFields
       }
@@ -105,7 +105,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     const transformedSubjects = subjects?.map((subject) => ({
       ...subject,
       label: subject.subjectpage?.about?.title ?? subject.name ?? "",
-      url: subject.path,
+      url: subject.url,
       metadata: {
         ...subject.metadata,
         customFields: {
@@ -134,7 +134,8 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
         </Helmet>
         <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
         <div>
-          <StyledImage src={IMAGE_URL} alt="" />
+          {/* TODO: Use semantic tokens */}
+          <StyledImage src={IMAGE_URL} alt="" height="400" width="1128" />
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("collectionPage.title", { language: collectionLanguage })}
           </Heading>

@@ -24,7 +24,6 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, ContentTypeBadge, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
@@ -72,7 +71,6 @@ interface Props {
 export type Resource = {
   id: string;
   name: string;
-  path?: string;
   url?: string;
   contentType?: string;
   active?: boolean;
@@ -172,7 +170,6 @@ const StyledListItemImage = styled(ListItemImage, {
 
 export const ResourceItem = ({
   name,
-  path,
   url,
   contentType,
   active,
@@ -185,7 +182,6 @@ export const ResourceItem = ({
   currentResourceContentType,
 }: Props & Resource) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const relevanceElId = useId();
   const accessId = useId();
   const additional = relevanceId !== RELEVANCE_CORE;
@@ -225,7 +221,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
-              to={(enablePrettyUrls ? url : path) || ""}
+              to={url || ""}
               unstyled
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}

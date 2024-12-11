@@ -29,7 +29,6 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
@@ -85,13 +84,12 @@ const FilmFrontpage = () => {
   );
 
   const { t, i18n } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: { filmfrontpage, node } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: enablePrettyUrls } },
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: true } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -128,11 +126,10 @@ const FilmFrontpage = () => {
             <NavigationBox
               heading={t("ndlaFilm.topics")}
               items={node?.children?.map((child) => {
-                const path = enablePrettyUrls ? child.url : child.path;
                 return {
                   id: child.id,
                   label: child.name,
-                  url: path,
+                  url: child.url,
                 };
               })}
             />
@@ -207,12 +204,10 @@ const filmFrontPageQuery = gql`
     node(id: $nodeId) {
       id
       name
-      path
       url
       children(nodeType: "TOPIC") {
         id
         name
-        path
         url
       }
     }

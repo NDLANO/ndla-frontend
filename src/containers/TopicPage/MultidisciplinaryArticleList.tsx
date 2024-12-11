@@ -14,7 +14,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import { useEnablePrettyUrls } from "../../components/PrettyUrlsContext";
 import { GQLMultidisciplinaryArticleList_NodeFragment } from "../../graphqlTypes";
 
 const CardList = styled("ol", {
@@ -46,7 +45,6 @@ const ListWrapper = styled("nav", {
 
 const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
   const { t } = useTranslation();
-  const enablePrettyUrls = useEnablePrettyUrls();
   const id = useId();
   return (
     <ListWrapper aria-labelledby={id}>
@@ -69,7 +67,7 @@ const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
               <CardContent>
                 <CardHeading asChild consumeCss>
                   <h3>
-                    <SafeLink to={(enablePrettyUrls ? node.url : node.path) ?? ""} css={linkOverlay.raw()}>
+                    <SafeLink to={node.url ?? ""} css={linkOverlay.raw()}>
                       {node.name}
                     </SafeLink>
                   </h3>
@@ -91,7 +89,6 @@ MultidisciplinaryArticleList.fragments = {
     fragment MultidisciplinaryArticleList_Node on Node {
       id
       name
-      path
       url
       meta {
         metaDescription
