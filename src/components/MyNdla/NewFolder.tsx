@@ -21,7 +21,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IFolder } from "@ndla/types-backend/myndla-api";
+import { IFolderDTO } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { useUserAgent } from "../../UserAgentContext";
 import useValidationTranslation from "../../util/useValidationTranslation";
@@ -30,7 +30,7 @@ interface Props {
   parentId: string;
   onClose?: () => void;
   initialValue?: string;
-  onCreate?: (folder: IFolder, parentId: string) => void;
+  onCreate?: (folder: IFolderDTO, parentId: string) => void;
 }
 
 const StyledSpinner = styled(Spinner, {
@@ -72,7 +72,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
         name,
       },
     });
-    const createdFolder = res.data?.addFolder as IFolder | undefined;
+    const createdFolder = res.data?.addFolder as IFolderDTO | undefined;
     if (createdFolder) {
       onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
       onClose?.();

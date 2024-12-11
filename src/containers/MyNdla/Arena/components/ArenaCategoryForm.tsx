@@ -38,7 +38,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { INewCategoryDTO } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
@@ -72,7 +72,7 @@ interface ArenaFormProps {
   initialDescription?: string;
   initialVisible?: boolean;
   initialParentCategoryId?: number;
-  onSave: (data: Partial<INewCategory>) => Promise<void>;
+  onSave: (data: Partial<INewCategoryDTO>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
   id?: number;
@@ -134,7 +134,7 @@ const ArenaCategoryForm = ({
     setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, []);
 
-  const onSubmit = async (data: INewCategory) => {
+  const onSubmit = async (data: INewCategoryDTO) => {
     await onSave({
       title: data.title,
       description: data.description,
