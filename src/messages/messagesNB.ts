@@ -104,7 +104,7 @@ const messages = {
       created: "Opprettet: {{ created }}",
       shared: "Delt: {{ shared }}",
       noPath:
-        "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em>-knappen over for å starte å lage en sti!",
+        "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em>-knappen over for å lage en sti!",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -127,7 +127,7 @@ const messages = {
       },
       delete: {
         title: "Slett læringssti",
-        body: "Er du sikker på at du vil slette læringsstien? Handlingen kan ikke endres.",
+        body: "Er du sikker på at du vil slette læringsstien? Handlingen kan ikke angres.",
         button: "Slett læringssti",
       },
       sharing: {

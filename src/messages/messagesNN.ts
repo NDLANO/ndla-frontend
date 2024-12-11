@@ -104,7 +104,7 @@ const messages = {
       created: "Oppretta: {{ created }}",
       shared: "Delt {{ shared }}",
       noPath:
-        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å starte å lage ein sti!",
+        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å lage ein sti!",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -117,7 +117,7 @@ const messages = {
       toast: {
         deleted: 'Læringsstien "{{ name }}" er sletta.',
         unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',
-        copy: 'Kopierte lenkja til læringsstien "{{ name }}"',
+        copy: 'Kopierte lenka til læringsstien "{{ name }}"',
         shared: "Læringsstien er delt.",
       },
       status: {
