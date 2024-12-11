@@ -18,6 +18,7 @@ import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphql
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
+import { StatusError } from "../../util/error/StatusError";
 import { parseOembedUrl } from "../../util/urlHelper";
 
 const baseUrl = apiResourceUrl("/taxonomy/v1");
@@ -72,6 +73,9 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Reque
   const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
   const node = contextId ? await queryNodeByContexts(contextId, lang) : await fetchNode(nodeId, lang);
   const articleId = getArticleIdFromResource(node);
+  if (!articleId && node.contentUri?.includes("learningpath")) {
+    throw new StatusError("No oembed support for learningpaths", 400, {});
+  }
 
   return {
     title: node.name,
@@ -142,7 +146,7 @@ export async function oembedArticleRoute(req: express.Request) {
   if (!match) {
     return {
       status: BAD_REQUEST,
-      data: "Bad request. Invalid url.",
+      data: "Bad request. Url not recognized",
     };
   }
 
@@ -185,7 +189,7 @@ export async function oembedArticleRoute(req: express.Request) {
   } catch (error) {
     handleError(error, req.path);
 
-    const typedError = error as { status?: number };
+    const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
     const data: Record<number, string> = {
@@ -196,7 +200,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: data[status] || "Internal server error",
+      data: data[status] || typedError.message || "Internal server error",
     };
   }
 }

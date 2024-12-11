@@ -13,6 +13,7 @@ import { oembedArticleRoute } from "../oembedArticleRoute";
 const validArticleUrl1 = "https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
 const validArticleUrl2 = "https://test.ndla.no/subjects/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
 const unvalidArticleUrl = "https://test.ndla.no/subject:3";
+const validLearningpathUrl = "https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:9876";
 
 test("oembedArticleRoute success", async () => {
   nock("http://ndla-api").get("/taxonomy/v1/nodes/urn:resource:1:1682?language=nb").times(2).reply(200, {
@@ -36,6 +37,24 @@ test("oembedArticleRoute success", async () => {
   } as any as Request);
 
   expect(response2).toMatchSnapshot();
+  expect(nock.pendingMocks()).toStrictEqual([]);
+});
+
+test("oembedArticleRoute learningpath fail", async () => {
+  nock("http://ndla-api").get("/taxonomy/v1/nodes/urn:resource:1:9876?language=nb").reply(200, {
+    id: "urn:resource:1:9876",
+    contentUri: "urn:learningpath:123",
+    name: "Learningpath title",
+  });
+
+  const response = await oembedArticleRoute({
+    query: {
+      url: validLearningpathUrl,
+    },
+  } as any as Request);
+
+  expect(response).toMatchSnapshot();
+
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
 
