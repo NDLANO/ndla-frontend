@@ -139,6 +139,7 @@ export const useTypedParams = <TParams extends TypedParams>() => {
 
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,
+  learningpath: (learningpathId: number) => `/learningpaths/${learningpathId}`,
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
@@ -156,5 +157,8 @@ export const routes = {
     tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
     tags: "/minndla/folders/tag",
     learningpath: "/minndla/learningpaths",
+    learningpathNew: "/minndla/learningpaths/new",
+    learningpathEdit: (learningpathId: number) => `/minnndla/learningpaths/${learningpathId}/edit`,
+    learningpathPreview: (learningpathId: number) => `/minnndla/learningpaths/${learningpathId}/preview`,
   },
 };

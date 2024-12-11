@@ -14,7 +14,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { ForbiddenPage } from "../../ErrorPage/ForbiddenPage";
 
-export const LearningPathCheck = () => {
+export const LearningpathCheck = () => {
   const { t } = useTranslation();
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 

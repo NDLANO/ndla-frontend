@@ -97,6 +97,55 @@ const messages = {
       userUpdated: "User updated",
     },
     goToMyNdla: "Go to My NDLA",
+    learningpath: {
+      title: "My Learning Paths",
+      description:
+        "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself.",
+      created: "Created: {{ created }}",
+      shared: "Shared: {{ shared }}",
+      noPath: "You haven't created any learning paths yet. Click the <em>Add</em> button to start creating one",
+      menu: {
+        new: "New",
+        edit: "Edit",
+        delete: "Delete",
+        share: "Share",
+        unShare: "Stop Sharing",
+        goTo: "Go to",
+        copy: "Copy Link",
+      },
+      toast: {
+        deleted: 'The learning path "{{ name }}" has been deleted.',
+        unshared: 'The learning path "{{ name }}" is no longer shared.',
+        shared: "The learning path is shared.",
+        copy: 'Copied the link to the learning path "{{ name }}"',
+      },
+      status: {
+        shared: "Shared",
+        readyForSharing: "Ready to Share",
+        private: "Started",
+      },
+      delete: {
+        title: "Delete learning path",
+        body: "Are you sure you want to delete the learning path? This action cannot be undone.",
+        button: "Delete learning path",
+      },
+      sharing: {
+        title: "This learning path is shared",
+        description: {
+          shared:
+            "When you share a learning path, you create a link that is accessible to anyone with the link. You can edit the content or stop sharing it whenever you want.",
+          private:
+            "Now you can share this link with students or other teachers. If you make changes to the learning path, they will be visible to everyone you’ve shared the link with.",
+          copy: "Click the link to copy it",
+        },
+        link: "Copy Link",
+        copied: "The link has been copied",
+        button: {
+          done: "Done",
+          preview: "Preview learning path",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Films",
