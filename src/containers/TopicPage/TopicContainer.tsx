@@ -18,8 +18,10 @@ import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
+import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -30,6 +32,7 @@ import { GQLTopicPageQuery } from "../../graphqlTypes";
 import { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
+import { getArticleIdFromResource } from "../Resources/resourceHelpers";
 import Resources from "../Resources/Resources";
 
 const NodeGridWrapper = styled("nav", {
@@ -93,6 +96,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const headingId = useId();
+  const articleId = node.contentUri ? getArticleIdFromResource(node) : undefined;
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
@@ -153,6 +157,17 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
                 <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>
               )}
+              {!!node.url && !!articleId && (
+                <AddResourceToFolderModal
+                  resource={{
+                    id: articleId,
+                    path: node.url,
+                    resourceType: "topic",
+                  }}
+                >
+                  <FavoriteButton path={node.url} />
+                </AddResourceToFolderModal>
+              )}
             </HeadingWrapper>
             {!!(node.article?.htmlIntroduction?.length || node.meta?.metaDescription?.length) && (
               <Text textStyle="body.large">
@@ -199,6 +214,7 @@ TopicContainer.fragments = {
     fragment TopicContainer_Node on Node {
       id
       name
+      contentUri
       url
       children(nodeType: "TOPIC") {
         id
