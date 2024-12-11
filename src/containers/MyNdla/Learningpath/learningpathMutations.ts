@@ -12,8 +12,16 @@ import {
   GQLMutationDeleteLearningpathArgs,
   GQLUpdateLearningpathStatusMutation,
   GQLMutationUpdateLearningpathStatusArgs,
+  GQLDeleteLearningpathStepMutation,
+  GQLDeleteLearningpathStepMutationVariables,
+  GQLNewLearningpathMutation,
+  GQLNewLearningpathMutationVariables,
+  GQLNewLearningpathStepMutation,
+  GQLNewLearningpathStepMutationVariables,
+  GQLUpdateLearningpathStepMutation,
+  GQLUpdateLearningpathStepMutationVariables,
 } from "../../../graphqlTypes";
-import { learningpathFragment } from "./learningpathFragments";
+import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {
@@ -39,5 +47,70 @@ export const useUpdateLearningpathStatus = (
 ) =>
   useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
     updateLearningpathStatusMutation,
+    options,
+  );
+
+const newLearningpathMutation = gql`
+  mutation newLearningpath($params: LearningpathNewInput!) {
+    newLearningpath(params: $params) {
+      ...MyNdlaLearningpath
+    }
+  }
+  ${learningpathFragment}
+`;
+
+export const useCreateLearningpath = (
+  options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
+) => {
+  const [createLearningpath, { loading, error }] = useMutation<
+    GQLNewLearningpathMutation,
+    GQLNewLearningpathMutationVariables
+  >(newLearningpathMutation, options);
+  return { createLearningpath, loading, error };
+};
+
+const newLearningpathStepMutation = gql`
+  mutation newLearningpathStep($learningpathId: Int!, $params: LearningpathStepNewInput!) {
+    newLearningpathStep(learningpathId: $learningpathId, params: $params) {
+      ...MyNdlaLearningpathStep
+    }
+  }
+  ${learningpathStepFragment}
+`;
+
+export const useCreateLearningpathStep = (
+  options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
+) =>
+  useMutation<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>(
+    newLearningpathStepMutation,
+    options,
+  );
+
+const updateLearningpathStepMutation = gql`
+  mutation updateLearningpathStep($learningpathId: Int!, $learningstepId: Int!, $params: LearningpathStepUpdateInput!) {
+    updateLearningpathStep(learningpathId: $learningpathId, learningstepId: $learningstepId, params: $params) {
+      ...MyNdlaLearningpathStep
+    }
+  }
+  ${learningpathStepFragment}
+`;
+export const useUpdateLearningpathStep = (
+  options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
+) =>
+  useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
+    updateLearningpathStepMutation,
+    options,
+  );
+
+const deleteLearningpathStepMutation = gql`
+  mutation deleteLearningpathStep($learningpathId: Int!, $learningstepId: Int!) {
+    deleteLearningpathStep(learningpathId: $learningpathId, learningstepId: $learningstepId)
+  }
+`;
+export const useDeleteLearningpathStep = (
+  options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
+) =>
+  useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
+    deleteLearningpathStepMutation,
     options,
   );
