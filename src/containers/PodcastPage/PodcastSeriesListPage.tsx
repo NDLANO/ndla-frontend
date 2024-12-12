@@ -10,7 +10,7 @@ import { parse, stringify } from "query-string";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
-import { gql, useApolloClient } from "@apollo/client";
+import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,
@@ -33,7 +33,6 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 type SearchObject = {
   page: string;
@@ -83,7 +82,7 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data } = useGraphQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
+  const { error, loading, data } = useQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
     variables: {
       page: page,
       pageSize: pageSize,

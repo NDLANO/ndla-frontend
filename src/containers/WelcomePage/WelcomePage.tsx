@@ -8,7 +8,7 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { ArrowRightLine } from "@ndla/icons";
 import { Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -24,7 +24,6 @@ import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -154,7 +153,7 @@ const WelcomePage = () => {
     }
   }, [authContextLoaded, t, trackPageView, user]);
 
-  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery, {
+  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery, {
     variables: { transformArgs: { prettyUrl: true } },
   });
 

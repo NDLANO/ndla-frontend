@@ -10,7 +10,7 @@ import queryString from "query-string";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
 import { setCookie } from "@ndla/util";
 import { DefaultErrorMessagePage } from "../components/DefaultErrorMessage";
@@ -25,7 +25,6 @@ import { LocaleType } from "../interfaces";
 import { searchPageQuery } from "../queries";
 import { createApolloLinks } from "../util/apiHelpers";
 import handleError from "../util/handleError";
-import { useGraphQuery } from "../util/runQueries";
 
 const StyledPageLayout = styled(PageLayout, {
   base: {
@@ -54,7 +53,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
   const { t, i18n } = useTranslation();
   const locale = propsLocale ?? i18n.language;
 
-  const { data, error, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
+  const { data, error, loading } = useQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
 
   i18n.on("languageChanged", (lang) => {

@@ -6,7 +6,7 @@
  *
  */
 
-import { QueryHookOptions, gql } from "@apollo/client";
+import { QueryHookOptions, gql, useQuery } from "@apollo/client";
 import {
   GQLArenaUserV2Query,
   GQLArenaUserV2QueryVariables,
@@ -23,7 +23,6 @@ import {
   GQLAllFlagsV2Query,
   GQLArenaPage2QueryVariables,
 } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 const arenaUserFragment = gql`
   fragment ArenaUserV2 on ArenaUserV2 {
@@ -249,7 +248,7 @@ export const arenaTopicsByUserV2Query = gql`
 `;
 
 export const useArenaUser = (options: QueryHookOptions<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>) => {
-  const { data, loading } = useGraphQuery<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>(arenaUserQuery, options);
+  const { data, loading } = useQuery<GQLArenaUserV2Query, GQLArenaUserV2QueryVariables>(arenaUserQuery, options);
   return { arenaUser: data?.arenaUserV2, loading };
 };
 
@@ -263,19 +262,28 @@ const arenaRecentTopics = gql`
 `;
 
 export const useArenaCategoriesV2 = (options: QueryHookOptions<GQLArenaPage2Query, GQLArenaPage2QueryVariables>) => {
-  const { data, loading, error, refetch } = useGraphQuery(arenaCategoriesV2Query, options);
+  const { data, loading, error, refetch } = useQuery<GQLArenaPage2Query, GQLArenaPage2QueryVariables>(
+    arenaCategoriesV2Query,
+    options,
+  );
   return { arenaCategories: data?.arenaCategoriesV2, loading, error, refetch };
 };
 
 export const useArenaCategory = (options: QueryHookOptions<GQLArenaCategoryV2Query, GQLQueryArenaCategoryV2Args>) => {
-  const { data, loading, error, refetch } = useGraphQuery(arenaCategoryV2Query, options);
+  const { data, loading, error, refetch } = useQuery<GQLArenaCategoryV2Query, GQLQueryArenaCategoryV2Args>(
+    arenaCategoryV2Query,
+    options,
+  );
   return { arenaCategory: data?.arenaCategoryV2, loading, error, refetch };
 };
 
 export const useArenaTopic = (
   options: QueryHookOptions<GQLArenaTopicByIdV2Query, GQLArenaTopicByIdV2QueryVariables>,
 ) => {
-  const { data, loading, error } = useGraphQuery(arenaTopicByIdV2, options);
+  const { data, loading, error } = useQuery<GQLArenaTopicByIdV2Query, GQLArenaTopicByIdV2QueryVariables>(
+    arenaTopicByIdV2,
+    options,
+  );
   return { arenaTopic: data?.arenaTopicV2, loading, error };
 };
 
@@ -317,7 +325,7 @@ export const arenaNotificationV2Query = gql`
 `;
 
 export const useArenaNotifications = (options?: QueryHookOptions<GQLArenaNotificationsV2Query>) => {
-  const { data, refetch, loading } = useGraphQuery<GQLArenaNotificationsV2Query>(arenaNotificationV2Query, {
+  const { data, refetch, loading } = useQuery<GQLArenaNotificationsV2Query>(arenaNotificationV2Query, {
     ...options,
     pollInterval: 60000,
     ssr: false,
@@ -367,28 +375,28 @@ const arenaUsersQuery = gql`
 `;
 
 export const useArenaPostInContext = (options: QueryHookOptions<GQLArenaPostInContextQuery>) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaPostInContextQuery>(arenaPostInContextQuery, options);
+  const { data, loading, error } = useQuery<GQLArenaPostInContextQuery>(arenaPostInContextQuery, options);
   return { topic: data?.arenaPostInContext, loading, error };
 };
 
 export const useArenaFlags = (options?: QueryHookOptions<GQLAllFlagsV2Query>) => {
-  const { data, loading, error } = useGraphQuery<GQLAllFlagsV2Query>(arenaFlagV2Query, options);
+  const { data, loading, error } = useQuery<GQLAllFlagsV2Query>(arenaFlagV2Query, options);
   return { arenaAllFlags: data?.arenaAllFlags, loading, error };
 };
 
 export const useArenaUsers = (options?: QueryHookOptions<GQLArenaUsersQuery>) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaUsersQuery>(arenaUsersQuery, options);
+  const { data, loading, error } = useQuery<GQLArenaUsersQuery>(arenaUsersQuery, options);
 
   return { users: data?.listArenaUserV2, loading, error };
 };
 
 export const useArenaTopicsByUser = (options: QueryHookOptions<GQLArenaTopicsByUserV2Query>) => {
-  const { data, loading, error } = useGraphQuery<GQLArenaTopicsByUserV2Query>(arenaTopicsByUserV2Query, options);
+  const { data, loading, error } = useQuery<GQLArenaTopicsByUserV2Query>(arenaTopicsByUserV2Query, options);
   return { arenaTopicsByUser: data?.arenaTopicsByUserV2, loading, error };
 };
 
 export const useArenaRecentTopics = (options?: QueryHookOptions<GQLArenaRecentTopicsV2Query>) => {
-  const { data, ...rest } = useGraphQuery<GQLArenaRecentTopicsV2Query>(arenaRecentTopics, options);
+  const { data, ...rest } = useQuery<GQLArenaRecentTopicsV2Query>(arenaRecentTopics, options);
   return {
     data: data?.arenaRecentTopicsV2,
     ...rest,

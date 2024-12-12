@@ -6,9 +6,8 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { GQLAiOrganizationsQuery } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 export const configQuery = gql`
   query AiOrganizations {
@@ -20,6 +19,6 @@ export const configQuery = gql`
 `;
 
 export const useAiOrgs = () => {
-  const { data } = useGraphQuery<GQLAiOrganizationsQuery>(configQuery);
+  const { data } = useQuery<GQLAiOrganizationsQuery>(configQuery);
   return { data };
 };

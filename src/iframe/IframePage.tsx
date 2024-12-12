@@ -9,7 +9,7 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
@@ -18,7 +18,6 @@ import RedirectContext from "../components/RedirectContext";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
-import { useGraphQuery } from "../util/runQueries";
 import "../style/index.css";
 
 const Error = () => {
@@ -64,7 +63,7 @@ const iframePageQuery = gql`
 export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useGraphQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
+  const { loading, data, error } = useQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
     variables: {
       articleId: articleId!,
       taxonomyId: taxonomyId || "",
