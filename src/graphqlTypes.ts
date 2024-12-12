@@ -4965,6 +4965,7 @@ export type GQLTopicContainer_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
+  contentUri?: string;
   url?: string;
   children?: Array<
     { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
