@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
   PageContent,
+  Spinner,
   TabsContent,
   TabsIndicator,
   TabsList,
@@ -169,7 +170,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     skip: typeof window === "undefined",
   });
 
-  useEffect(() => setCompetenceGoalsLoading(loading), [loading, setCompetenceGoalsLoading]);
+  useLayoutEffect(() => setCompetenceGoalsLoading(loading), [loading, setCompetenceGoalsLoading]);
 
   const tabs = useMemo(() => {
     const tabs = [];
@@ -203,11 +204,12 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     <DialogRoot size="full">
       <DialogTrigger asChild>
         <Button
-          loading={competenceGoalsLoading}
           aria-label={competenceGoalsLoading ? t("loading") : undefined}
           variant="secondary"
           size="small"
+          aria-disabled={competenceGoalsLoading ? "true" : undefined}
         >
+          {!!competenceGoalsLoading && <Spinner size="small" />}
           {t("competenceGoals.showCompetenceGoals")}
         </Button>
       </DialogTrigger>
