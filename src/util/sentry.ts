@@ -21,10 +21,7 @@ const sentryIgnoreErrors = [
   "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property",
 ];
 
-const beforeSend = (
-  event: Sentry.ErrorEvent,
-  hint: Sentry.EventHint,
-): PromiseLike<Sentry.ErrorEvent | null> | Sentry.ErrorEvent | null => {
+export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => {
   const exception = hint.originalException;
   const infoError = isInformationalError(exception);
   if (infoError) return null;
