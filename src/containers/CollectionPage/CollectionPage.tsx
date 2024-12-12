@@ -10,7 +10,7 @@ import groupBy from "lodash/groupBy";
 import { useContext, useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -25,7 +25,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
-import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -68,7 +67,7 @@ export const CollectionPage = () => {
   const { collectionId } = useTypedParams();
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 
-  const collectionQuery = useGraphQuery<GQLCollectionPageQuery, GQLCollectionPageQueryVariables>(collectionPageQuery, {
+  const collectionQuery = useQuery<GQLCollectionPageQuery, GQLCollectionPageQueryVariables>(collectionPageQuery, {
     variables: { language: collectionId! },
     skip: !isValidLanguage,
   });

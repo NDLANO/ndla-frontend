@@ -10,7 +10,7 @@ import { TFunction } from "i18next";
 import { useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import {
   Heading,
   RadioGroupItem,
@@ -32,7 +32,6 @@ import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
 const Wrapper = styled("div", {
@@ -88,7 +87,7 @@ const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, node } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+  const { data: { filmfrontpage, node } = {}, loading } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
     variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: true } },
   });
 

@@ -6,8 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
-import { useGraphQuery } from "../../../util/runQueries";
+import { gql, useQuery } from "@apollo/client";
 import { GQLMyLearningpathsQuery } from "../../../graphqlTypes";
 import { learningpathFragment } from "./learningpathFragments";
 
@@ -20,4 +19,4 @@ const myLearningpathQuery = gql`
   ${learningpathFragment}
 `;
 
-export const useMyLearningpaths = () => useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
+export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);

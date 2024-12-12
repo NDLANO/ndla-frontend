@@ -11,6 +11,7 @@ import { useContext, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { FileCopyLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
@@ -28,7 +29,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
-import { useGraphQuery } from "../../util/runQueries";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -94,7 +94,7 @@ const SharedFolderPage = () => {
     includeSubfolders: true,
   });
 
-  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const { data: folderData } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip: !folder || !authenticated,
   });
 
