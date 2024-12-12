@@ -203,6 +203,15 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
   return new ApolloClient({
     link: createApolloLinks(language, versionHash, path),
     cache,
+    ssrMode: true,
+    defaultOptions: {
+      query: {
+        errorPolicy: "all",
+      },
+      mutate: {
+        errorPolicy: "all",
+      },
+    },
   });
 };
 

@@ -10,7 +10,7 @@ import { ReactNode, useId, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
@@ -26,7 +26,6 @@ import { Breadcrumb } from "../../interfaces";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
@@ -89,7 +88,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     learningpathStep.embedUrl &&
     urlIsNDLAUrl(learningpathStep.embedUrl?.url);
 
-  const { data, loading } = useGraphQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
+  const { data, loading } = useQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
     learningpathStepQuery,
     {
       variables: {

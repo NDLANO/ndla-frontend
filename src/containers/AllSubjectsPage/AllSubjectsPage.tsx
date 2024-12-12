@@ -12,7 +12,7 @@ import { parse, stringify } from "query-string";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -28,7 +28,6 @@ import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { nodeWithMetadataFragment } from "../../queries";
-import { useGraphQuery } from "../../util/runQueries";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
@@ -101,7 +100,7 @@ const AllSubjectsPage = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useGraphQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
+  const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);

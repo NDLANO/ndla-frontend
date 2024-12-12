@@ -7,11 +7,10 @@
  */
 
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import config from "../config";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
-import { useGraphQuery } from "../util/runQueries";
 
 export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
   isModerator: boolean;
@@ -82,7 +81,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [user, setUser] = useState<MyNDLAUserType | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
-  const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
+  const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
     skip: typeof window === "undefined" || !isAccessTokenValid(),
   });
 

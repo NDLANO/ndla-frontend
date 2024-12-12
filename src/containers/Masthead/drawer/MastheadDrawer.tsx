@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { CloseLine, MenuLine } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -28,7 +28,6 @@ import { supportedLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
 import { useUserAgent } from "../../../UserAgentContext";
-import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
 
@@ -135,11 +134,11 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const userAgent = useUserAgent();
   const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
+  const frontpageQuery = useQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
   });
 
-  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery, {
+  const programmesQuery = useQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery, {
     skip: typeof window === "undefined",
   });
 

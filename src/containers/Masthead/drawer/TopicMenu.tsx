@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
@@ -22,7 +22,6 @@ import {
   GQLTopicMenuResourcesQueryVariables,
   GQLTopicMenu_RootFragment,
 } from "../../../graphqlTypes";
-import { useGraphQuery } from "../../../util/runQueries";
 import { isCurrentPage } from "../../../util/urlHelper";
 import { getResourceGroupings, getResourceGroups } from "../../Resources/getResourceGroups";
 
@@ -41,7 +40,7 @@ const TopicMenu = ({ topic, subject, onClose, topicPath, onCloseMenuPortion, add
   const location = useLocation();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
 
-  const { data } = useGraphQuery<GQLTopicMenuResourcesQuery, GQLTopicMenuResourcesQueryVariables>(resourceQuery, {
+  const { data } = useQuery<GQLTopicMenuResourcesQuery, GQLTopicMenuResourcesQueryVariables>(resourceQuery, {
     variables: { topicId: topic.id, subjectId: subject.id },
   });
 

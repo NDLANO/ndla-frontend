@@ -42,10 +42,10 @@ export const NewLearningpathPage = () => {
           coverPhotoMetaUrl: val.image.metaUrl,
           title: val.title,
           copyright: {
-            contributors: [],
             license: {
               license: ALL_ABBREVIATIONS[4],
             },
+            contributors: [],
           },
           description: "",
           tags: [],

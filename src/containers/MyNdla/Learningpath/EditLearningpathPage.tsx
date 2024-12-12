@@ -10,6 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
+import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled, VStack } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -51,7 +52,7 @@ export const EditLearningpathPage = () => {
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
 
-  const { learningpath, loading } = useFetchLearningpath({
+  const { data, loading } = useFetchLearningpath({
     variables: { pathId: learningpathId! },
     skip: !learningpathId,
   });
@@ -65,13 +66,13 @@ export const EditLearningpathPage = () => {
     });
   }, [t, trackPageView, user]);
 
-  const onSave = async (data: FormValues) => {
-    if (learningpath?.id) {
-      const transformedData = formValuesToGQLInput(data);
+  const onSave = async (values: FormValues) => {
+    if (data?.myNdlaLearningpath?.id) {
+      const transformedData = formValuesToGQLInput(values);
       await createStep({
         variables: {
-          learningpathId: learningpath.id,
-          params: { ...transformedData, license: "", language: i18n.language, showTitle: false },
+          learningpathId: data.myNdlaLearningpath.id,
+          params: { ...transformedData, license: ALL_ABBREVIATIONS[4], language: i18n.language, showTitle: false },
         },
       });
     }
@@ -81,7 +82,7 @@ export const EditLearningpathPage = () => {
     return <Spinner />;
   }
 
-  if (!learningpath) {
+  if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;
   }
 
@@ -93,13 +94,15 @@ export const EditLearningpathPage = () => {
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {learningpath?.title}
+        {data.myNdlaLearningpath.title}
       </Heading>
       <LearningpathStepper step="content" />
       <VStack gap="medium">
         <StyledOl>
-          {learningpath?.learningsteps.map((step) => (
-            <LearningpathStepListItem learningpathId={learningpath.id} step={step} key={step.id} />
+          {data.myNdlaLearningpath.learningsteps.map((step) => (
+            // TODO: Remove this when typescript is
+            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+            <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id!} step={step} key={step.id} />
           ))}
         </StyledOl>
         {!isCreating ? (
@@ -108,7 +111,11 @@ export const EditLearningpathPage = () => {
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
-          <LearningpathStepForm learningpathId={learningpath.id} onClose={() => setIsCreating(false)} onSave={onSave} />
+          <LearningpathStepForm
+            learningpathId={data.myNdlaLearningpath.id}
+            onClose={() => setIsCreating(false)}
+            onSave={onSave}
+          />
         )}
       </VStack>
     </MyNdlaPageWrapper>

@@ -8,14 +8,13 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { movieResourceTypes } from "./resourceTypes";
 import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 const LetterHeading = styled(Heading, {
   base: {
@@ -120,7 +119,7 @@ const LoadingShimmer = () => {
 
 const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
-  const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
+  const allMovies = useQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
     variables: {
       resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
       language: i18n.language,

@@ -8,7 +8,7 @@
 
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
@@ -17,7 +17,6 @@ import {
   GQLResourceTypeMoviesQueryVariables,
   GQLSelectionMovieGrid_MovieFragment,
 } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 const StyledSection = styled("section", {
   base: {
@@ -88,7 +87,7 @@ interface Props {
 
 export const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
-  const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
+  const resourceTypeMovies = useQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
     resourceTypeMoviesQuery,
     {
       variables: {

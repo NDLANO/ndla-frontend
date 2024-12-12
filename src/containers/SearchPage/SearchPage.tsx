@@ -11,6 +11,7 @@ import queryString from "query-string";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import { converSearchStringToObject } from "./searchHelpers";
@@ -20,7 +21,6 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { GQLSearchPageQuery } from "../../graphqlTypes";
 import { searchPageQuery } from "../../queries";
-import { useGraphQuery } from "../../util/runQueries";
 import { searchSubjects } from "../../util/searchHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 
@@ -32,7 +32,7 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location, i18n.language);
 
-  const { data, loading } = useGraphQuery<GQLSearchPageQuery>(searchPageQuery);
+  const { data, loading } = useQuery<GQLSearchPageQuery>(searchPageQuery);
 
   const sortedArchivedRemovedSubjects = useMemo(() => {
     return sortBy(

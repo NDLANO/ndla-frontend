@@ -6,14 +6,13 @@
  *
  */
 
-import { gql, QueryHookOptions } from "@apollo/client";
-import { useGraphQuery } from "../../../util/runQueries";
+import { gql, QueryHookOptions, useQuery } from "@apollo/client";
 import {
-  GQLLearningpathStepOembedQuery,
-  GQLLearningpathStepOembedQueryVariables,
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,
+  GQLLearningpathStepOembedQuery,
+  GQLLearningpathStepOembedQueryVariables,
   GQLOpengraphQuery,
   GQLOpengraphQueryVariables,
 } from "../../../graphqlTypes";
@@ -28,7 +27,7 @@ const myLearningpathQuery = gql`
   ${learningpathFragment}
 `;
 
-export const useMyLearningpaths = () => useGraphQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
+export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
 const learningpathQuery = gql`
   query myNdlaLearningpath($pathId: String!) {
@@ -41,13 +40,7 @@ const learningpathQuery = gql`
 
 export const useFetchLearningpath = (
   options: QueryHookOptions<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>,
-) => {
-  const { data, error, loading } = useGraphQuery<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>(
-    learningpathQuery,
-    options,
-  );
-  return { learningpath: data?.myNdlaLearningpath, error, loading };
-};
+) => useQuery<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>(learningpathQuery, options);
 
 const fetchOembedUrl = gql`
   query learningpathStepOembed($url: String!) {
@@ -60,7 +53,7 @@ const fetchOembedUrl = gql`
 
 export const useFetchOembed = (
   options?: QueryHookOptions<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
-) => useGraphQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);
+) => useQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);
 
 const opengraphQuery = gql`
   query opengraph($url: String!) {
@@ -74,4 +67,4 @@ const opengraphQuery = gql`
 `;
 
 export const useFetchOpengraph = (options?: QueryHookOptions<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
-  useGraphQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);
+  useQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);
