@@ -15,6 +15,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
+import { isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
@@ -43,7 +44,7 @@ const ProgrammePage = () => {
 
   const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
-    skip: programme?.includes("__"),
+    skip: programme?.includes("__") || !isValidContextId(contextId),
   });
 
   if (programme?.includes("__")) {

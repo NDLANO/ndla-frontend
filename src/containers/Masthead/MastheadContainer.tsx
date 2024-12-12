@@ -33,6 +33,7 @@ import { LocaleType } from "../../interfaces";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
 import { useGraphQuery } from "../../util/runQueries";
+import { isValidContextId } from "../../util/urlHelper";
 import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
 const FeideLoginLabel = styled("span", {
@@ -93,7 +94,7 @@ const MastheadContainer = () => {
       variables: {
         contextId: contextId ?? "",
       },
-      skip: contextId === undefined || typeof window === "undefined",
+      skip: !isValidContextId(contextId) || typeof window === "undefined",
     },
   );
   const nodeType = rootData?.node?.nodeType;

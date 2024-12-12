@@ -19,6 +19,7 @@ import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { findAccessDeniedErrors } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
+import { isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage from "../ArticlePage/ArticlePage";
 import LearningpathPage from "../LearningpathPage/LearningpathPage";
@@ -88,6 +89,7 @@ const ResourcePage = () => {
         prettyUrl: true,
       },
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);

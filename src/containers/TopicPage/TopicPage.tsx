@@ -17,6 +17,7 @@ import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlType
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { useGraphQuery } from "../../util/runQueries";
+import { isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -85,6 +86,7 @@ export const TopicPage = () => {
         prettyUrl: true,
       },
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
 
   if (query.loading) {
