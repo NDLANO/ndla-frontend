@@ -15,6 +15,7 @@ import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
+import { getLangAttributeValue } from "../../../i18n";
 
 // TODO: Add new translations for the footer.
 
@@ -226,7 +227,7 @@ const MobileLogo = styled(NdlaLogoText, {
 
 export const Footer = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
+  const zendeskLanguage = getLangAttributeValue(i18n.language);
 
   const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
 

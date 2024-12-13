@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useMemo, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import {
@@ -111,9 +110,7 @@ const FilmFrontpage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{getDocumentTitle(t, node)}</title>
-      </Helmet>
+      <title>{getDocumentTitle(t, node)}</title>
       <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
       <StyledPageContainer asChild consumeCss>
         <main>

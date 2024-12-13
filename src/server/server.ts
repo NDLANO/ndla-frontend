@@ -89,14 +89,10 @@ const favicons = `
   <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-${faviconEnvironment}.png" />
 `;
 
-const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
-  const { helmetContext, htmlContent, data } = renderData;
+const prepareTemplate = (template: string, renderData: RenderDataReturn) => {
+  const { htmlContent, data } = renderData.data;
   const meta = `
-  ${helmetContext?.helmet.title.toString() ?? ""}
-  ${helmetContext?.helmet.meta.toString() ?? ""}
-  ${helmetContext?.helmet.link.toString() ?? ""}
   ${favicons}
-  ${helmetContext?.helmet.script.toString() ?? ""}
   `;
 
   const serializedData = serialize({
@@ -114,10 +110,12 @@ const prepareTemplate = (template: string, renderData: RenderDataReturn["data"])
   </script>
   `;
 
+  const locale = renderData.locale === "nb" || renderData.locale === "nn" ? "no" : renderData.locale;
+
   const html = template
-    .replace('data-html-attributes=""', helmetContext?.helmet.htmlAttributes.toString() ?? "")
+    .replace('data-html-attributes=""', `lang="${locale}"`)
     .replace("<!--HEAD-->", meta)
-    .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
+    .replace('data-body-attributes=""', "")
     .replace("<!--BODY-->", bodyContent);
 
   return html;
@@ -152,7 +150,7 @@ const renderRoute = async (req: Request, index: string, htmlTemplate: string, re
       data: { Location: response.location },
     };
   } else {
-    const html = prepareTemplate(template, response.data);
+    const html = prepareTemplate(template, response);
     return { status: response.status, data: html };
   }
 };

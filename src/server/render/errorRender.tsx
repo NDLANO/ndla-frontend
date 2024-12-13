@@ -7,7 +7,6 @@
  */
 
 import { renderToString } from "react-dom/server";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { MissingRouterContext } from "@ndla/safelink";
@@ -16,23 +15,23 @@ import { RedirectInfo } from "../../components/RedirectContext";
 import Scripts from "../../components/Scripts/Scripts";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
+import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { RenderFunc } from "../serverHelpers";
 
 export const errorRender: RenderFunc = async (req) => {
   const context: RedirectInfo = {};
-  // @ts-expect-error - This is fulfilled automatically
-  const helmetContext: FilledContext = {};
+
+  const lang = getHtmlLang(req.params.lang ?? "");
+  const locale = getLocaleObject(lang).abbreviation;
 
   const Page = (
     <I18nextProvider i18n={i18nInstance}>
       <MissingRouterContext.Provider value={true}>
-        <HelmetProvider context={helmetContext}>
-          <StaticRouter location={req.url}>
-            <Scripts />
-            <ErrorPage />
-          </StaticRouter>
-        </HelmetProvider>
+        <StaticRouter location={req.url}>
+          <Scripts />
+          <ErrorPage />
+        </StaticRouter>
       </MissingRouterContext.Provider>
     </I18nextProvider>
   );
@@ -48,8 +47,8 @@ export const errorRender: RenderFunc = async (req) => {
 
   return {
     status: context.status || OK,
+    locale,
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
         serverPath: req.path,
