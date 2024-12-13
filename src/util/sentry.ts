@@ -15,10 +15,13 @@ const isInformationalError = (exception: unknown): boolean => {
   return logLevel === "info";
 };
 
-const beforeSend = (
-  event: Sentry.ErrorEvent,
-  hint: Sentry.EventHint,
-): PromiseLike<Sentry.ErrorEvent | null> | Sentry.ErrorEvent | null => {
+const sentryIgnoreErrors = [
+  'Object.prototype.hasOwnProperty.call(o,"telephone")',
+  'Object.prototype.hasOwnProperty.call(e,"telephone")',
+  "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property",
+];
+
+export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => {
   const exception = hint.originalException;
   const infoError = isInformationalError(exception);
   if (infoError) return null;
@@ -33,8 +36,9 @@ const beforeSend = (
     return null;
   }
 
-  if (exception instanceof Error && exception.message.includes('Object.prototype.hasOwnProperty.call(o,"telephone")')) {
+  if (exception instanceof Error && sentryIgnoreErrors.find((e) => exception.message.includes(e)) !== undefined) {
     // https://github.com/getsentry/sentry/issues/61469
+    // https://github.com/matomo-org/matomo/issues/22836
     return null;
   }
 
