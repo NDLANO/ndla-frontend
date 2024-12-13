@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
   PageContent,
+  Spinner,
   TabsContent,
   TabsIndicator,
   TabsList,
@@ -202,12 +203,14 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   return (
     <DialogRoot size="full">
       <DialogTrigger asChild>
+        {/* We bypass the regular loading prop here to avoid a crash that occurs when translating the page with Google Translate. */}
         <Button
-          loading={competenceGoalsLoading}
           aria-label={competenceGoalsLoading ? t("loading") : undefined}
           variant="secondary"
+          aria-disabled={competenceGoalsLoading ? "true" : undefined}
           size="small"
         >
+          {!!competenceGoalsLoading && <Spinner size="small" />}
           {t("competenceGoals.showCompetenceGoals")}
         </Button>
       </DialogTrigger>
