@@ -41,8 +41,8 @@ const arrayFields = [
   "relevance",
   "resourceTypes",
   "contextTypes",
-  "contextFilters",
   "grepCodes",
+  "traits",
 ];
 
 export const converSearchStringToObject = (

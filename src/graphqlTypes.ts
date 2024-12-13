@@ -605,6 +605,15 @@ export type GQLExamples = {
   transcriptions: GQLTranscription;
 };
 
+export type GQLExternalOpengraph = {
+  __typename?: "ExternalOpengraph";
+  description?: Maybe<Scalars["String"]["output"]>;
+  imageAlt?: Maybe<Scalars["String"]["output"]>;
+  imageUrl?: Maybe<Scalars["String"]["output"]>;
+  title?: Maybe<Scalars["String"]["output"]>;
+  url?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type GQLFilmFrontpage = {
   __typename?: "FilmFrontpage";
   about: Array<GQLFilmPageAbout>;
@@ -938,6 +947,7 @@ export type GQLLearningpathNewInput = {
   coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
   description: Scalars["String"]["input"];
   duration: Scalars["Int"]["input"];
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
   tags: Array<Scalars["String"]["input"]>;
   title: Scalars["String"]["input"];
@@ -1741,6 +1751,7 @@ export type GQLQuery = {
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
+  opengraph?: Maybe<GQLExternalOpengraph>;
   personalData?: Maybe<GQLMyNdlaPersonalData>;
   podcastSearch?: Maybe<GQLAudioSearch>;
   podcastSeries?: Maybe<GQLPodcastSeriesWithEpisodes>;
@@ -1976,6 +1987,10 @@ export type GQLQueryNodesArgs = {
   nodeType?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLQueryOpengraphArgs = {
+  url: Scalars["String"]["input"];
+};
+
 export type GQLQueryPodcastSearchArgs = {
   fallback?: InputMaybe<Scalars["Boolean"]["input"]>;
   page: Scalars["Int"]["input"];
@@ -2014,7 +2029,6 @@ export type GQLQueryResourceEmbedsArgs = {
 
 export type GQLQuerySearchArgs = {
   aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]>>;
-  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
   contextTypes?: InputMaybe<Scalars["String"]["input"]>;
   fallback?: InputMaybe<Scalars["String"]["input"]>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
@@ -2030,6 +2044,7 @@ export type GQLQuerySearchArgs = {
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  traits?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export type GQLQuerySearchWithoutPaginationArgs = {
@@ -4979,7 +4994,6 @@ export type GQLSearchQueryVariables = Exact<{
   language?: InputMaybe<Scalars["String"]["input"]>;
   ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   fallback?: InputMaybe<Scalars["String"]["input"]>;
@@ -4987,6 +5001,7 @@ export type GQLSearchQueryVariables = Exact<{
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   relevance?: InputMaybe<Scalars["String"]["input"]>;
   grepCodes?: InputMaybe<Scalars["String"]["input"]>;
+  traits?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
