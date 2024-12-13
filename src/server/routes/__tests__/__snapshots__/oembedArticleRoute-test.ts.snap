@@ -9,8 +9,8 @@ exports[`oembedArticleRoute invalid url 1`] = `
 
 exports[`oembedArticleRoute learningpath fail 1`] = `
 {
-  "data": "No oembed support for learningpaths",
-  "status": 400,
+  "data": "Not found",
+  "status": 404,
 }
 `;
 
