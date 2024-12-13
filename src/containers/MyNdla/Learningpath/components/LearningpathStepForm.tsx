@@ -86,7 +86,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
   const methods = useForm<FormValues>({
     defaultValues: stepType ? getValuesFromStep(stepType, step) : undefined,
   });
-  const { handleSubmit, control, reset } = methods;
+  const { handleSubmit, control, reset, formState } = methods;
 
   return (
     <FormProvider {...methods}>
@@ -123,7 +123,9 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {t("cancel")}
               </Button>
             ) : null}
-            <Button type="submit">{t("save")}</Button>
+            <Button type="submit" disabled={!formState.isDirty}>
+              {t("save")}
+            </Button>
           </HStack>
         </HStack>
       </ContentWrapper>

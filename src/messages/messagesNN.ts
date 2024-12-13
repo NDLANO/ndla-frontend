@@ -111,6 +111,7 @@ const messages = {
           copyright: "Opphav",
           metaImage: "Metabilde",
           metaImageHelper: "Legg til et bilde som representerer læringsstien din",
+          noResult: "Ingen bildar treffar din søketekst",
         },
         content: {
           title: "Legg til innhald",

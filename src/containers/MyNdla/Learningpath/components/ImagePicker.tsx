@@ -23,7 +23,7 @@ interface Props {
 
 export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
   const searchImageTranslations = useImageSearchTranslations();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const [fetchImage, { loading, data: image }] = useFetchImage({
     variables: { id: imageId! },
@@ -42,10 +42,6 @@ export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
 
   const onRemove = () => onSelectImage(undefined);
 
-  if (loading) {
-    return <Spinner />;
-  }
-
   return imageId && image?.imageV3 ? (
     <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
   ) : (
@@ -55,6 +51,11 @@ export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
       searchImages={onSearchImage}
       onImageSelect={onSelectImage}
       fetchImage={onFetchImage}
+      noResults={
+        <Text>
+          <em>{t("myNdla.learningpath.form.title.noResult")}</em>
+        </Text>
+      }
       onError={() => {}}
     />
   );

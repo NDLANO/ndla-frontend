@@ -214,7 +214,10 @@ const AppRoutes = ({ base }: AppProps) => {
                   {!!config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningpathCheck />}>
                       <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
-                      <Route path=":learningpathId" element={<PrivateRoute element={<EditLearningpathPage />} />} />
+                      <Route
+                        path=":learningpathId/edit"
+                        element={<PrivateRoute element={<EditLearningpathPage />} />}
+                      />
                       <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
                     </Route>
                   )}

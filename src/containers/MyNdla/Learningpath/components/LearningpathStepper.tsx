@@ -43,7 +43,7 @@ const NumberSpan = styled(Text, {
     width: "2.5ch",
     textAlign: "center",
     _selected: {
-      backgroundColor: "surface.action.brand.1.hover",
+      backgroundColor: "surface.brand.1",
     },
   },
 });
@@ -52,13 +52,55 @@ const Line = styled("div", {
   base: {
     display: "block",
     borderStyle: "inset",
-    borderBlockEnd: "2px solid",
+    borderBlockEnd: "1px solid",
     width: "xsmall",
     borderColor: "icon.strong",
     justifyContent: "center",
     alignItems: "center",
   },
 });
+
+type IndexValues = 1 | 2 | 3 | 4;
+type Steps = "title" | "content" | "preview" | "save";
+interface Props {
+  step: Steps;
+}
+
+const STEPS = ["title", "content", "preview", "save"];
+
+export const LearningpathStepper = ({ step }: Props) => {
+  const index = STEPS.indexOf(step) as IndexValues;
+
+  return (
+    <>
+      <DesktopStepper step={step} index={index} />
+      <MobileStepper index={index} />
+    </>
+  );
+};
+
+interface DesktopProps {
+  index: IndexValues;
+  step: Steps;
+}
+
+const DesktopStepper = ({ step }: DesktopProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <StepWrapper>
+      {STEPS.map((key, idx) => (
+        <Step key={idx}>
+          <NumberSpan aria-selected={step === key} asChild consumeCss>
+            <span>{idx + 1}</span>
+          </NumberSpan>
+          <Text>{t(`myNdla.learningpath.form.steps.${key}`)}</Text>
+          <Line />
+        </Step>
+      ))}
+    </StepWrapper>
+  );
+};
 
 const MobileStepWrapper = styled("div", {
   base: {
@@ -119,49 +161,6 @@ const CounterText = styled(Text, {
     transform: "rotate(-45deg)",
   },
 });
-
-type IndexValues = 1 | 2 | 3 | 4;
-type Steps = "title" | "content" | "preview" | "save";
-interface Props {
-  step: Steps;
-}
-
-const STEPS = ["title", "content", "preview", "save"];
-
-export const LearningpathStepper = ({ step }: Props) => {
-  const index = STEPS.indexOf(step) as IndexValues;
-
-  return (
-    <>
-      <DesktopStepper step={step} index={index} />
-      <MobileStepper index={index} />
-    </>
-  );
-};
-
-interface DesktopProps {
-  index: IndexValues;
-  step: Steps;
-}
-
-const DesktopStepper = ({ step }: DesktopProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <StepWrapper>
-      {STEPS.map((key, idx) => (
-        <Step key={idx}>
-          <NumberSpan aria-selected={step === key} asChild consumeCss>
-            <span>{idx + 1}</span>
-          </NumberSpan>
-          <Text>{t(`myNdla.learningpath.form.steps.${key}`)}</Text>
-          <Line />
-        </Step>
-      ))}
-    </StepWrapper>
-  );
-};
-
 interface MobileProps {
   index: IndexValues;
 }

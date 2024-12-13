@@ -111,6 +111,7 @@ const messages = {
           copyright: "Copyright",
           metaImage: "Metaimage",
           metaImageHelper: "Add a pciture that represents the learningpath",
+          noResult: "No images matches your search query",
         },
         content: {
           title: "Append content",
