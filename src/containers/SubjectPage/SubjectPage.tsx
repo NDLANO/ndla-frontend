@@ -15,6 +15,7 @@ import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
+import { isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
@@ -45,6 +46,7 @@ const SubjectPage = () => {
       metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
       metadataFilterValue: subjectId,
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
 
   const data = newData ?? previousData;

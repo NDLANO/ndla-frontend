@@ -7,6 +7,7 @@
  */
 
 import { matchPath, Params, PathMatch, Location } from "react-router-dom";
+import { validContextIdRegExp } from "../constants";
 import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
 import { oembedRoutes } from "../routes";
@@ -111,3 +112,5 @@ export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path"
   }
   return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
 };
+
+export const isValidContextId = (id?: string) => validContextIdRegExp.test(id ?? "");
