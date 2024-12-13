@@ -6,7 +6,6 @@
  *
  */
 
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
 import { MissingRouterContext, SafeLink } from "@ndla/safelink";
@@ -33,15 +32,12 @@ const ErrorMessageMain = styled("main", {
 });
 
 const ErrorPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <MissingRouterContext.Provider value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
-        <Helmet
-          htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
-          title="NDLA"
-          meta={[{ name: "description", content: t("meta.description") }]}
-        />
+        <title>NDLA</title>
+        <meta name="description" content={t("meta.description")} />
         <Masthead fixed>
           <LogoWrapper>
             <SafeLink unstyled to="/" aria-label={t("logo.altText")}>

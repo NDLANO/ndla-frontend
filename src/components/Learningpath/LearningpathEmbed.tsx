@@ -7,7 +7,6 @@
  */
 
 import { ReactNode, useId, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
@@ -189,16 +188,14 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
 
   return (
     <EmbedPageContent variant="content">
-      <Helmet>
-        {!!article?.metaDescription && <meta name="description" content={article.metaDescription} />}
-        {scripts.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
+      {!!article?.metaDescription && <meta name="description" content={article.metaDescription} />}
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
 
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
-        </script>
-      </Helmet>
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
+      </script>
       <Article
         id={skipToContentId}
         article={article}

@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { useContext, useEffect, useId, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
@@ -136,10 +135,8 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{pageTitle}</title>
-        {!node.context?.isActive && <meta name="robots" content="noindex" />}
-      </Helmet>
+      <title>{pageTitle}</title>
+      {!node.context?.isActive && <meta name="robots" content="noindex" />}
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}

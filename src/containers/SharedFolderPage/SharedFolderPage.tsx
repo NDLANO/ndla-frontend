@@ -8,7 +8,6 @@
 
 import keyBy from "lodash/keyBy";
 import { useContext, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
@@ -141,7 +140,7 @@ const SharedFolderPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <Helmet title={folder.name} />
+        <title>{folder.name}</title>
         <SocialMediaMetadata
           type="website"
           title={folder.name}

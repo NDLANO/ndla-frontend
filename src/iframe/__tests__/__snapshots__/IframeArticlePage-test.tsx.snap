@@ -5,6 +5,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   <div
     class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.contentMax --gutter_spacing.small tablet:--gutter_spacing.medium"
   >
+    <script
+      type="application/ld+json"
+    >
+      {"@context":"http://schema.org","@graph":[{"@context":"http://schema.org","@type":"Article","@id":"https://test.ndla.no/article/54","identifier":"https://test.ndla.no/article/54","inLanguage":"nb","learningResourceType":["text"],"name":"Politiske skillelinjer","headline":"Politiske skillelinjer","abstract":"Politiske skillelinjer, eller konfliktlinjer","audience":{"@type":"EducationalAudience","educationalRole":["student"]},"description":"Politiske skillelinjer, eller konfliktlinjer","dateCreated":"2018-01-09T18:43:48Z","datePublished":"2018-01-09T18:43:48Z","dateModified":"2018-01-09T18:43:48Z","educationalAlignment":[],"publisher":{"@type":"Organization","name":"NDLA","legalName":"NDLA","url":"https://ndla.no","logo":"https://ndla.no/static/logo.png"},"license":"https://creativecommons.org/licenses/by-sa/2.0/","author":[{"@type":"Person","name":"Someone"}],"copyrightHolder":[],"contributor":[]}]}
+    </script>
     <main>
       <article
         class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"

@@ -7,7 +7,6 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
@@ -19,7 +18,7 @@ import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
 const Layout = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
@@ -52,12 +51,8 @@ const Layout = () => {
   return (
     <>
       <TitleAnnouncer />
-      <Helmet
-        htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
-        meta={[{ name: "description", content: t("meta.description") }]}
-      >
-        {metaChildren}
-      </Helmet>
+      {metaChildren}
+      <meta name="description" content={t("meta.description")} />
       <Masthead />
       <PageLayout style={mastheadHeightVar}>
         <Outlet />

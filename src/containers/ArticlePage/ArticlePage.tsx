@@ -9,7 +9,6 @@
 import { GraphQLFormattedError } from "graphql";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
@@ -168,25 +167,23 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, resource, root)}`}</title>
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        {!!resource.url && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + resource.url}`}
-            title={article.title}
-          />
-        )}
-        {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
-        <meta name="pageid" content={`${article.id}`} />
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
-        </script>
-      </Helmet>
+      <title>{`${getDocumentTitle(t, resource, root)}`}</title>
+      {scripts?.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      {!!resource.url && (
+        <link
+          rel="alternate"
+          type="application/json+oembed"
+          href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + resource.url}`}
+          title={article.title}
+        />
+      )}
+      {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="pageid" content={`${article.id}`} />
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
+      </script>
       <SocialMediaMetadata
         title={htmlTitle(article.title, [root?.name])}
         trackableContent={article}
