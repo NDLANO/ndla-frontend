@@ -41,7 +41,7 @@ export const defaultRender: RenderFunc = async (req) => {
 
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
-  if (locale !== basename && locale !== "nb" && basename !== "") {
+  if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
     return {
       status: TEMPORARY_REDIRECT,
       location: `/${locale}${basepath}`,

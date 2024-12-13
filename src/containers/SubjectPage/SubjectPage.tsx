@@ -7,7 +7,7 @@
  */
 
 import { Navigate } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -15,7 +15,6 @@ import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
-import { useGraphQuery } from "../../util/runQueries";
 import { isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -40,7 +39,7 @@ const SubjectPage = () => {
     loading,
     data: newData,
     previousData,
-  } = useGraphQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
+  } = useQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
     variables: {
       subjectId: subjectId,
       contextId: contextId,

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -20,7 +20,6 @@ import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../
 import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
-import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
   resource: GQLMovedResourcePage_NodeFragment;
@@ -45,7 +44,7 @@ const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
-  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(movedResourceQuery, {
+  const { error, loading, data } = useQuery<GQLMovedResourceQuery>(movedResourceQuery, {
     variables: { resourceId: resource.id },
   });
 

@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import {
   Heading,
   Spinner,
@@ -32,7 +32,6 @@ import {
 import { GQLResourcesQueryQuery } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
 import { contentTypeMapping } from "../../util/getContentType";
-import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
   headingType: HeadingType;
@@ -115,7 +114,7 @@ const Resources = ({
   const { t } = useTranslation();
   const navHeadingId = useId();
 
-  const { error, loading, data } = useGraphQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+  const { error, loading, data } = useQuery<GQLResourcesQueryQuery>(resourcesQuery, {
     variables: {
       parentId: parentId,
       rootId: rootId,
