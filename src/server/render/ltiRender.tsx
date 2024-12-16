@@ -54,6 +54,8 @@ export function parseAndValidateParameters(body: any) {
 export const ltiRender: RenderFunc = async (req) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
+  const lang = getHtmlLang(req.params.lang ?? "");
+  const locale = getLocaleObject(lang).abbreviation;
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
@@ -61,16 +63,15 @@ export const ltiRender: RenderFunc = async (req) => {
         .join(",");
       return {
         status: BAD_REQUEST,
+        locale,
         data: { htmlContent: `Bad request. ${messages}` },
       };
     }
   }
 
-  const lang = getHtmlLang(req.params.lang ?? "");
-  const locale = getLocaleObject(lang).abbreviation;
-
   return {
     status: OK,
+    locale: locale,
     data: {
       htmlContent: "",
       data: {

@@ -15,7 +15,7 @@ import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
 import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
@@ -71,8 +71,10 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Reque
   const width = req.query.width || 854;
   const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
   const node = contextId ? await queryNodeByContexts(contextId, lang) : await fetchNode(nodeId, lang);
+  if (node.contentUri?.includes("learningpath")) {
+    return {};
+  }
   const articleId = getArticleIdFromResource(node);
-
   return {
     title: node.name,
     html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
@@ -142,7 +144,7 @@ export async function oembedArticleRoute(req: express.Request) {
   if (!match) {
     return {
       status: BAD_REQUEST,
-      data: "Bad request. Invalid url.",
+      data: "Bad request. Url not recognized",
     };
   }
 
@@ -181,11 +183,17 @@ export async function oembedArticleRoute(req: express.Request) {
       return getOembedObject(req, article.title.title, html);
     }
     const { html, title } = await getHTMLandTitle(match, req);
+    if (!html && !title) {
+      return {
+        status: NOT_FOUND,
+        data: "Not found",
+      };
+    }
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error, req.path);
 
-    const typedError = error as { status?: number };
+    const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
     const data: Record<number, string> = {
@@ -196,7 +204,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: data[status] || "Internal server error",
+      data: data[status] || typedError.message || "Internal server error",
     };
   }
 }

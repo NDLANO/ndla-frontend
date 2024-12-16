@@ -59,6 +59,10 @@ export const getHtmlLang = (localeAbbreviation?: string): string => {
   return locale?.abbreviation ?? config.defaultLocale;
 };
 
+export const getLangAttributeValue = (lang: string) => {
+  return lang === "nn" || lang === "nb" ? "no" : lang;
+};
+
 interface RetType extends LocaleObject {
   basepath: string;
   basename: string;
