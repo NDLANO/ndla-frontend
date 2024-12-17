@@ -36,13 +36,12 @@ export interface TitleFormValues {
 }
 interface Props {
   onSave: (data: TitleFormValues) => Promise<void>;
-  onExit?: VoidFunction;
   initialValues?: TitleFormValues;
 }
 
 const MAX_NAME_LENGTH = 64;
 
-export const TitleForm = ({ onSave, onExit, initialValues }: Props) => {
+export const TitleForm = ({ onSave, initialValues }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
 
@@ -104,13 +103,12 @@ export const TitleForm = ({ onSave, onExit, initialValues }: Props) => {
           );
         }}
       />
-      {onExit ? (
+      {!initialValues ? (
         <StyledHStack justify="space-between">
           <StyledHStack>
             <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
               {t("cancel")}
             </SafeLinkButton>
-            <Button onClick={onExit}></Button>
           </StyledHStack>
           <StyledHStack>
             <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>

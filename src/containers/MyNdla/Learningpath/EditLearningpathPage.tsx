@@ -52,8 +52,12 @@ const StyledHStack = styled(HStack, {
 });
 
 export type SchemaStates = "title" | "content" | "preview" | "save";
+interface SchemaOrientation {
+  prev: SchemaStates | undefined;
+  next: SchemaStates | undefined;
+}
 
-const SCHEMA_STATES: Record<SchemaStates, { prev: SchemaStates | undefined; next: SchemaStates | undefined }> = {
+const SCHEMA_STATES: Record<SchemaStates, SchemaOrientation> = {
   title: {
     prev: undefined,
     next: "content",

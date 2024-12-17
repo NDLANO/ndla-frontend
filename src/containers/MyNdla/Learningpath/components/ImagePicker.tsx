@@ -67,6 +67,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
           <em>{t("myNdla.learningpath.form.title.noResult")}</em>
         </Text>
       }
+      //TODO: Handle error?
       onError={() => {}}
     />
   );
