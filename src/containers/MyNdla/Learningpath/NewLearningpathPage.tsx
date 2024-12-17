@@ -34,13 +34,13 @@ export const NewLearningpathPage = () => {
     trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
-  const onSave = async (val: TitleFormValues) => {
+  const onSave = async ({ title, imageUrl }: TitleFormValues) => {
     const res = await createLearningpath({
       variables: {
         params: {
           language: i18n.language,
-          coverPhotoMetaUrl: val.image.metaUrl,
-          title: val.title,
+          coverPhotoMetaUrl: imageUrl,
+          title: title,
           copyright: {
             license: {
               license: ALL_ABBREVIATIONS[4],

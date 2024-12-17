@@ -3320,6 +3320,7 @@ export type GQLMyNdlaLearningpathFragment = {
   created: string;
   status: string;
   madeAvailable?: string;
+  revision: number;
   coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
   learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
 };
@@ -3376,6 +3377,16 @@ export type GQLDeleteLearningpathStepMutationVariables = Exact<{
 }>;
 
 export type GQLDeleteLearningpathStepMutation = { __typename?: "Mutation"; deleteLearningpathStep?: Array<string> };
+
+export type GQLUpdateLearningpathMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathUpdateInput;
+}>;
+
+export type GQLUpdateLearningpathMutation = {
+  __typename?: "Mutation";
+  updateLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+};
 
 export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
 

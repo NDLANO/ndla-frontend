@@ -123,7 +123,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {t("cancel")}
               </Button>
             ) : null}
-            <Button type="submit" disabled={!formState.isDirty}>
+            <Button type="submit" disabled={!formState.isDirty || !formState.isValid}>
               {t("save")}
             </Button>
           </HStack>

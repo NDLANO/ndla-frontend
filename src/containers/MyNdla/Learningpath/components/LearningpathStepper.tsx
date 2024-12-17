@@ -9,6 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { SchemaStates } from "../EditLearningpathPage";
 
 const StepWrapper = styled("ol", {
   base: {
@@ -61,9 +62,8 @@ const Line = styled("div", {
 });
 
 type IndexValues = 1 | 2 | 3 | 4;
-type Steps = "title" | "content" | "preview" | "save";
 interface Props {
-  step: Steps;
+  step: SchemaStates;
 }
 
 const STEPS = ["title", "content", "preview", "save"];
@@ -81,7 +81,7 @@ export const LearningpathStepper = ({ step }: Props) => {
 
 interface DesktopProps {
   index: IndexValues;
-  step: Steps;
+  step: SchemaStates;
 }
 
 const DesktopStepper = ({ step }: DesktopProps) => {

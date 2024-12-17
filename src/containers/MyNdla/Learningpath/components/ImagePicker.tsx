@@ -6,6 +6,7 @@
  *
  */
 
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
@@ -17,18 +18,26 @@ import { GQLImageFragmentFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
-  imageId?: string;
-  onSelectImage: (image: IImageMetaInformationV3DTO | undefined) => void;
+  imageUrl?: string;
+  onSelectImage: (image?: IImageMetaInformationV3DTO) => void;
 }
 
-export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
+export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   const searchImageTranslations = useImageSearchTranslations();
   const { i18n, t } = useTranslation();
+
+  const imageId = imageUrl?.split("/").pop();
 
   const [fetchImage, { loading, data: image }] = useFetchImage({
     variables: { id: imageId! },
     skip: !imageId,
   });
+
+  useEffect(() => {
+    if (imageId) {
+      fetchImage();
+    }
+  }, [fetchImage, imageId]);
 
   const [refetch] = useImageSearch({
     variables: { page: 1, pageSize: 16 },
@@ -40,7 +49,9 @@ export const ImagePicker = ({ imageId, onSelectImage }: Props) => {
   const onSearchImage = async (query?: string, page?: number) =>
     (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3DTO;
 
-  const onRemove = () => onSelectImage(undefined);
+  const onRemove = () => {
+    onSelectImage(undefined);
+  };
 
   return imageId && image?.imageV3 ? (
     <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />

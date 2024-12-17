@@ -20,6 +20,8 @@ import {
   GQLNewLearningpathStepMutationVariables,
   GQLUpdateLearningpathStepMutation,
   GQLUpdateLearningpathStepMutationVariables,
+  GQLUpdateLearningpathMutation,
+  GQLUpdateLearningpathMutationVariables,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
 
@@ -112,5 +114,21 @@ export const useDeleteLearningpathStep = (
 ) =>
   useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
     deleteLearningpathStepMutation,
+    options,
+  );
+
+const updateLearningpathMutation = gql`
+  mutation updateLearningpath($learningpathId: Int!, $params: LearningpathUpdateInput!) {
+    updateLearningpath(learningpathId: $learningpathId, params: $params) {
+      ...MyNdlaLearningpath
+    }
+  }
+  ${learningpathFragment}
+`;
+export const useUpdateLearningpath = (
+  options?: MutationHookOptions<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
+) =>
+  useMutation<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>(
+    updateLearningpathMutation,
     options,
   );

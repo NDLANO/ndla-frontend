@@ -79,6 +79,7 @@ export const learningpathFragment = gql`
     created
     status
     madeAvailable
+    revision
     coverphoto {
       url
     }

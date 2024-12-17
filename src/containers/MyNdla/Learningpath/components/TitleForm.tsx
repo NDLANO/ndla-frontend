@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImagePicker } from "./ImagePicker";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -24,27 +24,37 @@ const StyledForm = styled("form", {
   },
 });
 
+const StyledHStack = styled(HStack, {
+  base: {
+    width: "100%",
+  },
+});
+
 export interface TitleFormValues {
   title: string;
-  image: IImageMetaInformationV3DTO;
+  imageUrl: string;
 }
-
 interface Props {
-  initialValue?: TitleFormValues;
-  onSave: (values: TitleFormValues) => void;
+  onSave: (data: TitleFormValues) => Promise<void>;
+  onExit?: VoidFunction;
+  initialValues?: TitleFormValues;
 }
 
 const MAX_NAME_LENGTH = 64;
 
-export const TitleForm = ({ initialValue, onSave }: Props) => {
+export const TitleForm = ({ onSave, onExit, initialValues }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const { control, handleSubmit, setValue } = useForm<TitleFormValues>({
-    values: initialValue,
+
+  const { control, setValue, resetField, handleSubmit } = useForm<TitleFormValues>({
+    values: {
+      title: initialValues?.title ?? "",
+      imageUrl: initialValues?.imageUrl ?? "",
+    },
   });
 
   return (
-    <StyledForm onSubmit={handleSubmit(onSave)}>
+    <StyledForm onSubmit={handleSubmit(onSave)} id="titleForm">
       <Heading textStyle="heading.small">{t("myNdla.learningpath.form.steps.title")}</Heading>
       <Controller
         control={control}
@@ -74,25 +84,39 @@ export const TitleForm = ({ initialValue, onSave }: Props) => {
       />
       <Controller
         control={control}
-        name="image"
+        name="imageUrl"
         rules={{
           required: "Please select an image",
           validate: (value) => !!value,
         }}
-        render={({ field }) => (
-          <FieldRoot>
-            <FieldLabel>{t("myNdla.learningpath.form.title.metaImage")}</FieldLabel>
-            <FieldHelper>{t("myNdla.learningpath.form.title.metaImageHelper")}</FieldHelper>
-            <ImagePicker imageId={field.value?.id} onSelectImage={(image) => setValue("image", image!)} />
-          </FieldRoot>
-        )}
+        render={({ field }) => {
+          return (
+            <FieldRoot>
+              <FieldLabel>{t("myNdla.learningpath.form.title.metaImage")}</FieldLabel>
+              <FieldHelper>{t("myNdla.learningpath.form.title.metaImageHelper")}</FieldHelper>
+              <ImagePicker
+                imageUrl={field.value}
+                onSelectImage={(image) =>
+                  image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
+                }
+              />
+            </FieldRoot>
+          );
+        }}
       />
-      <HStack justify="space-between">
-        <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
-          {t("cancel")}
-        </SafeLinkButton>
-        <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
-      </HStack>
+      {onExit ? (
+        <StyledHStack justify="space-between">
+          <StyledHStack>
+            <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
+              {t("cancel")}
+            </SafeLinkButton>
+            <Button onClick={onExit}></Button>
+          </StyledHStack>
+          <StyledHStack>
+            <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+          </StyledHStack>
+        </StyledHStack>
+      ) : null}
     </StyledForm>
   );
 };
