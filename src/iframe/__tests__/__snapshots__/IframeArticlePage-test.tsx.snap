@@ -5,6 +5,11 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   <div
     class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.contentMax --gutter_spacing.small tablet:--gutter_spacing.medium"
   >
+    <script
+      type="application/ld+json"
+    >
+      {"@context":"http://schema.org","@graph":[{"@context":"http://schema.org","@type":"Article","@id":"https://test.ndla.no/article/54","identifier":"https://test.ndla.no/article/54","inLanguage":"nb","learningResourceType":["text"],"name":"Politiske skillelinjer","headline":"Politiske skillelinjer","abstract":"Politiske skillelinjer, eller konfliktlinjer","audience":{"@type":"EducationalAudience","educationalRole":["student"]},"description":"Politiske skillelinjer, eller konfliktlinjer","dateCreated":"2018-01-09T18:43:48Z","datePublished":"2018-01-09T18:43:48Z","dateModified":"2018-01-09T18:43:48Z","educationalAlignment":[],"publisher":{"@type":"Organization","name":"NDLA","legalName":"NDLA","url":"https://ndla.no","logo":"https://ndla.no/static/logo.png"},"license":"https://creativecommons.org/licenses/by-sa/2.0/","author":[{"@type":"Person","name":"Someone"}],"copyrightHolder":[],"contributor":[]}]}
+    </script>
     <main>
       <article
         class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
@@ -82,45 +87,45 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 dir="ltr"
                 id="collapsible:accordion::r0::item:rulesForUse"
               >
-                <button
-                  aria-controls="accordion::r0::content:rulesForUse"
-                  aria-disabled="false"
-                  aria-expanded="false"
-                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
-                  data-orientation="vertical"
-                  data-ownedby="accordion::r0:"
-                  data-part="item-trigger"
-                  data-scope="accordion"
-                  data-state="closed"
-                  dir="ltr"
-                  id="accordion::r0::trigger:rulesForUse"
-                  type="button"
+                <h2
+                  class="textStyle_label.medium fw_bold"
                 >
-                  <h2
-                    class="textStyle_label.medium fw_bold"
-                  >
-                    Sitere eller gjenbruke?
-                  </h2>
-                  <svg
-                    aria-hidden="true"
-                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg) motionReduce:trs_none motionReduce:trs-dur_0s"
-                    data-icon=""
-                    data-license="Apache License 2.0"
+                  <button
+                    aria-controls="accordion::r0::content:rulesForUse"
+                    aria-disabled="false"
+                    aria-expanded="false"
+                    class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
                     data-orientation="vertical"
-                    data-part="item-indicator"
+                    data-ownedby="accordion::r0:"
+                    data-part="item-trigger"
                     data-scope="accordion"
-                    data-source="RemixIcon"
                     data-state="closed"
                     dir="ltr"
-                    fill="currentColor"
-                    preserveAspectRatio="xMidYMid meet"
-                    viewBox="0 0 24 24"
+                    id="accordion::r0::trigger:rulesForUse"
+                    type="button"
                   >
-                    <path
-                      d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
-                    />
-                  </svg>
-                </button>
+                    Sitere eller gjenbruke?
+                    <svg
+                      aria-hidden="true"
+                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg) motionReduce:trs_none motionReduce:trs-dur_0s"
+                      data-icon=""
+                      data-license="Apache License 2.0"
+                      data-orientation="vertical"
+                      data-part="item-indicator"
+                      data-scope="accordion"
+                      data-source="RemixIcon"
+                      data-state="closed"
+                      dir="ltr"
+                      fill="currentColor"
+                      preserveAspectRatio="xMidYMid meet"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
+                      />
+                    </svg>
+                  </button>
+                </h2>
                 <div
                   aria-labelledby="accordion::r0::trigger:rulesForUse"
                   class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in open:motionReduce:anim_none closed:anim_collapse-out closed:motionReduce:anim_none bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"

@@ -7,7 +7,6 @@
  */
 
 import queryString from "query-string";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useApolloClient, useQuery } from "@apollo/client";
@@ -21,7 +20,7 @@ import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 import { converSearchStringToObject } from "../containers/SearchPage/searchHelpers";
 import SearchInnerPage, { getStateSearchParams } from "../containers/SearchPage/SearchInnerPage";
 import { GQLSearchPageQuery } from "../graphqlTypes";
-import { LocaleType } from "../interfaces";
+import { getLangAttributeValue } from "../i18n";
 import { searchPageQuery } from "../queries";
 import { createApolloLinks } from "../util/apiHelpers";
 import handleError from "../util/handleError";
@@ -33,10 +32,6 @@ const StyledPageLayout = styled(PageLayout, {
   },
 });
 
-interface Props {
-  locale?: LocaleType;
-}
-
 interface SearchParams {
   query?: string;
   subjects: string[];
@@ -44,14 +39,13 @@ interface SearchParams {
   selectedFilters: string[];
   activeSubFilters: string[];
 }
-const LtiProvider = ({ locale: propsLocale }: Props) => {
+const LtiProvider = () => {
   const ltiContext = useLtiData();
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = converSearchStringToObject(location);
 
   const { t, i18n } = useTranslation();
-  const locale = propsLocale ?? i18n.language;
 
   const { data, error, loading } = useQuery<GQLSearchPageQuery>(searchPageQuery);
   const client = useApolloClient();
@@ -64,7 +58,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
       cookieValue: lang,
       lax: true,
     });
-    document.documentElement.lang = lang;
+    document.documentElement.lang = getLangAttributeValue(lang);
   });
 
   const handleSearchParamsChange = (searchParamUpdates: Partial<SearchParams>) => {
@@ -87,9 +81,7 @@ const LtiProvider = ({ locale: propsLocale }: Props) => {
 
   return (
     <PageErrorBoundary>
-      <Helmet htmlAttributes={{ lang: locale === "nb" ? "no" : locale }}>
-        <title>{`${t("htmlTitles.lti")}`}</title>
-      </Helmet>
+      <title>{`${t("htmlTitles.lti")}`}</title>
       <StyledPageLayout>
         <SearchInnerPage
           handleSearchParamsChange={handleSearchParamsChange}

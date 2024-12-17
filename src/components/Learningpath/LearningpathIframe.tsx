@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const urlIsNDLAApiUrl = (url: string) =>
@@ -39,7 +39,7 @@ const IframeWrapper = styled("div", {
 });
 
 const LearningpathIframe = ({ html, url }: Props) => {
-  const iframeRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const iframeRef = useRef<HTMLInputElement>(null);
   const [listeningToMessages, setListeningToMessages] = useState(true);
 
   const handleIframeResizing = (url: string) => {

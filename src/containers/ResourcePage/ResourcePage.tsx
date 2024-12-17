@@ -18,6 +18,7 @@ import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
 import { findAccessDeniedErrors } from "../../util/handleError";
+import { isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage from "../ArticlePage/ArticlePage";
 import LearningpathPage from "../LearningpathPage/LearningpathPage";
@@ -87,6 +88,7 @@ const ResourcePage = () => {
         prettyUrl: true,
       },
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);

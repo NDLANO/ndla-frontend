@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useEffect, useContext, useId } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
@@ -153,12 +152,10 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{pageTitle}</title>
-        {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
-      </Helmet>
+      <title>{pageTitle}</title>
+      {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+        <meta name="robots" content="noindex, nofollow" />
+      )}
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}

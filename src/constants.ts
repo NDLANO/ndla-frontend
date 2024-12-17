@@ -74,3 +74,5 @@ export const programmeRedirects: Record<string, string> = {
   studiespesialisering: "7d5badf01ff2",
   "teknologi-og-industrifag": "a920d0b5cbbb",
 };
+
+export const validContextIdRegExp = new RegExp(/[a-f0-9]{10,12}/);

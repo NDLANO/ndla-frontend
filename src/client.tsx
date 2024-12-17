@@ -11,7 +11,6 @@ import queryString from "query-string";
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDeviceSelectors } from "react-device-detect";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider, useApolloClient } from "@apollo/client";
@@ -33,7 +32,13 @@ import App from "./App";
 import ResponseContext from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
-import { getLocaleInfoFromPath, initializeI18n, isValidLocale, supportedLanguages } from "./i18n";
+import {
+  getLangAttributeValue,
+  getLocaleInfoFromPath,
+  initializeI18n,
+  isValidLocale,
+  supportedLanguages,
+} from "./i18n";
 import { NDLAWindow } from "./interfaces";
 import { UserAgentProvider } from "./UserAgentContext";
 import { createApolloClient, createApolloLinks } from "./util/apiHelpers";
@@ -111,7 +116,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
     });
     client.resetStore();
     client.setLink(createApolloLinks(lang, versionHash));
-    document.documentElement.lang = lang;
+    document.documentElement.lang = getLangAttributeValue(lang);
   });
 
   // handle path changes when the language is changed
@@ -157,15 +162,13 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 
 renderOrHydrate(
   document.getElementById("root")!,
-  <HelmetProvider>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <ResponseContext.Provider value={{ status: serverResponse }}>
-          <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
-          </VersionHashProvider>
-        </ResponseContext.Provider>
-      </ApolloProvider>
-    </I18nextProvider>
-  </HelmetProvider>,
+  <I18nextProvider i18n={i18n}>
+    <ApolloProvider client={client}>
+      <ResponseContext.Provider value={{ status: serverResponse }}>
+        <VersionHashProvider value={versionHash}>
+          <LanguageWrapper basename={basename} />
+        </VersionHashProvider>
+      </ResponseContext.Provider>
+    </ApolloProvider>
+  </I18nextProvider>,
 );

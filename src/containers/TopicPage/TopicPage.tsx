@@ -16,6 +16,7 @@ import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType, useUrnIds } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
+import { isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -84,6 +85,7 @@ export const TopicPage = () => {
         prettyUrl: true,
       },
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
 
   if (query.loading) {
