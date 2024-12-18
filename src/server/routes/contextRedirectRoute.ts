@@ -28,7 +28,7 @@ type SplatRequest = Request<{ splat: string[]; lang?: string }, any, any, Query,
 
 export async function contextRedirectRoute(req: SplatRequest, res: Response, next: NextFunction) {
   try {
-    const path = await redirectPath(`/subject${req.params.splat?.join("/")}`, req.params.lang);
+    const path = await redirectPath(`/subject${req.params.splat?.join("/").replaceAll(",", "/")}`, req.params.lang);
     res.redirect(301, path);
   } catch (e) {
     next();
