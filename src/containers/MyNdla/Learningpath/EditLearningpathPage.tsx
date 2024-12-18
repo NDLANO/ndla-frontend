@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
 import { ALL_ABBREVIATIONS } from "@ndla/licenses";
-import { Button, Heading, Spinner } from "@ndla/primitives";
-import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
+import { Button, Heading, Spinner, Text } from "@ndla/primitives";
+import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep, useUpdateLearningpath } from "./learningpathMutations";
@@ -86,7 +86,7 @@ export const EditLearningpathPage = () => {
   const { user } = useContext(AuthContext);
 
   const { data, loading } = useFetchLearningpath({
-    variables: { pathId: learningpathId! },
+    variables: { pathId: parseInt(learningpathId!) },
     skip: !learningpathId,
   });
 
@@ -114,8 +114,8 @@ export const EditLearningpathPage = () => {
 
   const onSaveTitle = async ({ title, imageUrl }: TitleFormValues) => {
     if (
-      (data?.myNdlaLearningpath?.title !== title || data.myNdlaLearningpath.coverphoto?.url !== imageUrl) &&
-      data?.myNdlaLearningpath
+      data?.myNdlaLearningpath &&
+      (data.myNdlaLearningpath.title !== title || data.myNdlaLearningpath.coverphoto?.url !== imageUrl)
     ) {
       await updatePath({
         variables: {
@@ -162,7 +162,11 @@ export const EditLearningpathPage = () => {
         />
       ) : null}
       {state === "content" ? (
-        <VStack gap="medium">
+        <Stack gap="medium" justify="left">
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.learningpath.form.content.title")}</h2>
+          </Heading>
+          <Text textStyle="body.large">{t("myNdla.learningpath.form.content.subTitle")}</Text>
           <StyledOl>
             {data.myNdlaLearningpath.learningsteps.map((step) => (
               // TODO: Remove this when typescript is
@@ -182,7 +186,7 @@ export const EditLearningpathPage = () => {
               onSave={onSaveStep}
             />
           )}
-        </VStack>
+        </Stack>
       ) : null}
       <StyledHStack justify="space-between">
         {state !== "title" && SCHEMA_STATES[state].prev ? (

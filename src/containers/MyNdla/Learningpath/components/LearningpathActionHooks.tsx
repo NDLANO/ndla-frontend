@@ -25,6 +25,7 @@ import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes, toLearningPath } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
+import { myLearningpathQuery } from "../learningpathQueries";
 import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
@@ -67,7 +68,10 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
-            const res = await onDeleteLearningpath({ variables: { id: learningpath.id } });
+            const res = await onDeleteLearningpath({
+              variables: { id: learningpath.id },
+              refetchQueries: [{ query: myLearningpathQuery }],
+            });
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (res.errors?.length === 0) {
               toast.create({

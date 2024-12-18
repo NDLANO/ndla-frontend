@@ -1963,7 +1963,7 @@ export type GQLQueryListingPageArgs = {
 };
 
 export type GQLQueryMyNdlaLearningpathArgs = {
-  pathId: Scalars["String"]["input"];
+  pathId: Scalars["Int"]["input"];
 };
 
 export type GQLQueryNodeArgs = {
@@ -3396,7 +3396,7 @@ export type GQLMyLearningpathsQuery = {
 };
 
 export type GQLMyNdlaLearningpathQueryVariables = Exact<{
-  pathId: Scalars["String"]["input"];
+  pathId: Scalars["Int"]["input"];
 }>;
 
 export type GQLMyNdlaLearningpathQuery = {
@@ -4264,7 +4264,7 @@ export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
 
 export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
 
-export type GQLImageFragmentFragment = {
+export type GQLImageFragment = {
   __typename?: "ImageMetaInformationV3";
   id: string;
   metaUrl: string;
@@ -4311,7 +4311,7 @@ export type GQLImageSearchQuery = {
     pageSize: number;
     page: number;
     language: string;
-    results: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment>;
+    results: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragment>;
   };
 };
 
@@ -4321,7 +4321,7 @@ export type GQLFetchImageQueryVariables = Exact<{
 
 export type GQLFetchImageQuery = {
   __typename?: "Query";
-  imageV3?: { __typename?: "ImageMetaInformationV3" } & GQLImageFragmentFragment;
+  imageV3?: { __typename?: "ImageMetaInformationV3" } & GQLImageFragment;
 };
 
 export type GQLNewFlagMutationVariables = Exact<{

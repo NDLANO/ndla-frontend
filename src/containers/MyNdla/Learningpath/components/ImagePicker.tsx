@@ -14,7 +14,7 @@ import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
-import { GQLImageFragmentFragment } from "../../../../graphqlTypes";
+import { GQLImageFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
@@ -100,7 +100,7 @@ const TextVStack = styled(VStack, {
 });
 interface SelectedImageProps {
   loading: boolean;
-  image: GQLImageFragmentFragment;
+  image: GQLImageFragment;
   onRemove: () => void;
 }
 

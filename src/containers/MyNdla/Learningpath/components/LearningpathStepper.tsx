@@ -16,7 +16,7 @@ const StepWrapper = styled("ol", {
     display: "flex",
     listStyle: "none",
     gap: "4xsmall",
-    tabletDown: {
+    tabletWideDown: {
       display: "none",
     },
   },
@@ -110,7 +110,7 @@ const MobileStepWrapper = styled("div", {
     paddingInline: "xsmall",
     paddingBlock: "small",
     gap: "xsmall",
-    tablet: {
+    tabletWide: {
       display: "none",
     },
   },

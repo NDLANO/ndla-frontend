@@ -16,6 +16,7 @@ import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
 import { FormValues, LearningpathStepForm } from "./LearningpathStepForm";
+import { learningpathQuery } from "../learningpathQueries";
 
 const TextWrapper = styled("div", {
   base: {
@@ -81,6 +82,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
         learningstepId: step.id,
         learningpathId: learningpathId,
       },
+      refetchQueries: [{ query: learningpathQuery, variables: { pathId: learningpathId } }],
     });
     if (res.errors?.length === 0) {
       toast.create({

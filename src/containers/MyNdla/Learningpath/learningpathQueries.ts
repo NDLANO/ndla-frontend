@@ -18,7 +18,7 @@ import {
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepOembed } from "./learningpathFragments";
 
-const myLearningpathQuery = gql`
+export const myLearningpathQuery = gql`
   query MyLearningpaths {
     myLearningpaths {
       ...MyNdlaLearningpath
@@ -29,8 +29,8 @@ const myLearningpathQuery = gql`
 
 export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
-const learningpathQuery = gql`
-  query myNdlaLearningpath($pathId: String!) {
+export const learningpathQuery = gql`
+  query myNdlaLearningpath($pathId: Int!) {
     myNdlaLearningpath(pathId: $pathId) {
       ...MyNdlaLearningpath
     }

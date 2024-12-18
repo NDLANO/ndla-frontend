@@ -15,7 +15,7 @@ import {
 } from "../../graphqlTypes";
 
 const imageFragment = gql`
-  fragment ImageFragment on ImageMetaInformationV3 {
+  fragment Image on ImageMetaInformationV3 {
     id
     metaUrl
     title {
@@ -86,7 +86,7 @@ const imagesSearchQuery = gql`
       page
       language
       results {
-        ...ImageFragment
+        ...Image
       }
     }
   }
@@ -96,7 +96,7 @@ const imagesSearchQuery = gql`
 const fetchImageQuery = gql`
   query fetchImage($id: String!) {
     imageV3(id: $id) {
-      ...ImageFragment
+      ...Image
     }
   }
   ${imageFragment}
