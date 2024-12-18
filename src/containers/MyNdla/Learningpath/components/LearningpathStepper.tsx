@@ -35,7 +35,7 @@ const Step = styled("li", {
   },
 });
 
-const NumberSpan = styled(Text, {
+const NumberText = styled(Text, {
   base: {
     borderRadius: "50%",
     borderColor: "stroke.default",
@@ -61,39 +61,31 @@ const Line = styled("div", {
   },
 });
 
-type IndexValues = 1 | 2 | 3 | 4;
 interface Props {
   step: SchemaStates;
 }
 
-const STEPS = ["title", "content", "preview", "save"];
+const STEPS = ["title", "content", "preview", "save"] as const;
 
 export const LearningpathStepper = ({ step }: Props) => {
-  const index = STEPS.indexOf(step) as IndexValues;
-
   return (
     <>
-      <DesktopStepper step={step} index={index} />
-      <MobileStepper index={index} />
+      <DesktopStepper step={step} />
+      <MobileStepper step={step} />
     </>
   );
 };
 
-interface DesktopProps {
-  index: IndexValues;
-  step: SchemaStates;
-}
-
-const DesktopStepper = ({ step }: DesktopProps) => {
+const DesktopStepper = ({ step }: Props) => {
   const { t } = useTranslation();
 
   return (
     <StepWrapper>
       {STEPS.map((key, idx) => (
         <Step key={idx}>
-          <NumberSpan aria-selected={step === key} asChild consumeCss>
+          <NumberText aria-selected={step === key} asChild consumeCss>
             <span>{idx + 1}</span>
-          </NumberSpan>
+          </NumberText>
           <Text>{t(`myNdla.learningpath.form.steps.${key}`)}</Text>
           <Line />
         </Step>
@@ -130,23 +122,23 @@ const StepCircle = styled("div", {
     transform: "rotate(45deg)",
   },
   defaultVariants: {
-    step: 1,
+    step: "title",
   },
   variants: {
     step: {
-      1: {
+      title: {
         borderTopColor: "stroke.default",
       },
-      2: {
+      content: {
         borderTopColor: "stroke.default",
         borderRightColor: "stroke.default",
       },
-      3: {
+      preview: {
         borderTopColor: "stroke.default",
         borderRightColor: "stroke.default",
         borderBottomColor: "stroke.default",
       },
-      4: {
+      save: {
         borderTopColor: "stroke.default",
         borderRightColor: "stroke.default",
         borderBottomColor: "stroke.default",
@@ -161,27 +153,26 @@ const CounterText = styled(Text, {
     transform: "rotate(-45deg)",
   },
 });
-interface MobileProps {
-  index: IndexValues;
-}
-const MobileStepper = ({ index }: MobileProps) => {
+
+const MobileStepper = ({ step }: Props) => {
+  const index = STEPS.indexOf(step);
   const { t } = useTranslation();
 
   return (
     <MobileStepWrapper>
-      <StepCircle step={index}>
+      <StepCircle step={step}>
         <CounterText consumeCss asChild>
           <span>{index + 1}/4</span>
         </CounterText>
       </StepCircle>
       <Stack align="start" gap="4xsmall">
         <Text fontWeight="bold" textStyle="label.medium">
-          {t(`myNdla.learningpath.form.steps.${STEPS[index]}`)}
+          {t(`myNdla.learningpath.form.steps.${step}`)}
         </Text>
-        {index !== 4 ? (
+        {index !== 3 ? (
           <Text textStyle="label.small">
             {t("myNdla.learningpath.form.steps.next", {
-              next: t(`myNdla.learningpath.form.steps.${STEPS[index + 1]}`),
+              next: t(`myNdla.learningpath.form.steps.${step}`),
             })}
           </Text>
         ) : null}

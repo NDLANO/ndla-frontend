@@ -8,7 +8,16 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
+import {
+  Button,
+  FieldErrorMessage,
+  FieldHelper,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Heading,
+  Text,
+} from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ImagePicker } from "./ImagePicker";
@@ -54,7 +63,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSave)} id="titleForm">
-      <Heading textStyle="heading.small">{t("myNdla.learningpath.form.steps.title")}</Heading>
+      <Heading textStyle="heading.small">
+        <h2>{t("myNdla.learningpath.form.steps.title")}</h2>
+      </Heading>
       <Controller
         control={control}
         name="title"
@@ -88,20 +99,20 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           required: "Please select an image",
           validate: (value) => !!value,
         }}
-        render={({ field }) => {
-          return (
-            <FieldRoot>
-              <FieldLabel>{t("myNdla.learningpath.form.title.metaImage")}</FieldLabel>
-              <FieldHelper>{t("myNdla.learningpath.form.title.metaImageHelper")}</FieldHelper>
-              <ImagePicker
-                imageUrl={field.value}
-                onSelectImage={(image) =>
-                  image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
-                }
-              />
-            </FieldRoot>
-          );
-        }}
+        render={({ field }) => (
+          <>
+            <Text fontWeight="bold" textStyle="label.large">
+              {t("myNdla.learningpath.form.title.metaImage")}
+            </Text>
+            <Text textStyle="label.small">{t("myNdla.learningpath.form.title.metaImageHelper")}</Text>
+            <ImagePicker
+              imageUrl={field.value}
+              onSelectImage={(image) =>
+                image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
+              }
+            />
+          </>
+        )}
       />
       {!initialValues ? (
         <StyledHStack justify="space-between">

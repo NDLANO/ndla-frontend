@@ -10,21 +10,13 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
 import { FormValues, LearningpathStepForm } from "./LearningpathStepForm";
 import { learningpathQuery } from "../learningpathQueries";
-
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
 
 const ContentWrapper = styled("div", {
   base: {
@@ -33,7 +25,6 @@ const ContentWrapper = styled("div", {
     alignItems: "center",
     borderBottom: "1px solid",
     borderColor: "stroke.subtle",
-    borderRadius: "4px",
     padding: "xsmall",
   },
   variants: {
@@ -97,12 +88,12 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
   return (
     <li>
       <ContentWrapper editing={isEditing}>
-        <TextWrapper>
+        <Stack gap="xxsmall">
           <Text fontWeight="bold" textStyle="label.medium">
             {step.title}
           </Text>
           <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
-        </TextWrapper>
+        </Stack>
         {!isEditing ? (
           <Button variant="tertiary" onClick={() => setIsEditing(true)}>
             {t("myNdla.learningpath.form.steps.edit")} <PencilLine />

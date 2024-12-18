@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
-import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
+import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { GQLImageFragment } from "../../../../graphqlTypes";
@@ -29,7 +29,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   const imageId = imageUrl?.split("/").pop();
 
   const [fetchImage, { loading, data: image }] = useFetchImage({
-    variables: { id: imageId! },
+    variables: { id: imageId ?? "0" },
     skip: !imageId,
   });
 
@@ -62,11 +62,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
       searchImages={onSearchImage}
       onImageSelect={onSelectImage}
       fetchImage={onFetchImage}
-      noResults={
-        <Text>
-          <em>{t("myNdla.learningpath.form.title.noResult")}</em>
-        </Text>
-      }
+      noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
       //TODO: Handle error?
       onError={() => {}}
     />
@@ -91,11 +87,9 @@ const Wrapper = styled("div", {
   },
 });
 
-const TextVStack = styled(VStack, {
+const StyledStack = styled(Stack, {
   base: {
-    textAlign: "start",
-    alignItems: "start",
-    justifyContent: "flex-start",
+    height: "100%",
   },
 });
 interface SelectedImageProps {
@@ -115,25 +109,25 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
     <Wrapper>
       <HStack gap="small">
         <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />
-        <TextVStack gap="xsmall">
-          <TextVStack gap="4xsmall">
+        <StyledStack align="start" justify="start" gap="xsmall">
+          <Stack align="start" justify="start" gap="4xsmall">
             <Text fontWeight="bold" textStyle="label.medium">
               {t("myNdla.learningpath.form.title.imageTitle")}
             </Text>
             <Text textStyle="label.small">{image.title.title}</Text>
-          </TextVStack>
+          </Stack>
           {image.copyright.rightsholders.length ? (
-            <TextVStack gap="4xsmall">
+            <Stack align="start" justify="start" gap="4xsmall">
               <Text fontWeight="bold" textStyle="label.medium">
                 {t("myNdla.learningpath.form.title.copyright")}
               </Text>
               <Text textStyle="label.small">{image.copyright.rightsholders.map((r) => r.name).join(", ")}</Text>
-            </TextVStack>
+            </Stack>
           ) : null}
-        </TextVStack>
+        </StyledStack>
       </HStack>
       <VStack justify="flex-end">
-        <Button onClick={onRemove} variant="danger" size="small">
+        <Button onClick={onRemove} variant="danger">
           {t("myNdla.learningpath.form.delete")}
           <DeleteBinLine />
         </Button>

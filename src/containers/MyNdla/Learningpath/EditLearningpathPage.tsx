@@ -16,7 +16,7 @@ import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep, useUpdateLearningpath } from "./learningpathMutations";
-import { useFetchLearningpath } from "./learningpathQueries";
+import { learningpathQuery, useFetchLearningpath } from "./learningpathQueries";
 import { formValuesToGQLInput } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -37,11 +37,7 @@ const StyledOl = styled("ol", {
 
 const AddButton = styled(Button, {
   base: {
-    display: "flex",
     width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "small",
   },
 });
 
@@ -108,7 +104,9 @@ export const EditLearningpathPage = () => {
           learningpathId: data.myNdlaLearningpath.id,
           params: { ...transformedData, license: ALL_ABBREVIATIONS[4], language: i18n.language, showTitle: false },
         },
+        refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id } }],
       });
+      setIsCreating(false);
     }
   };
 
@@ -134,7 +132,7 @@ export const EditLearningpathPage = () => {
   };
 
   if (loading) {
-    return <Spinner />;
+    return <Spinner aria-label={t("loading")} />;
   }
 
   if (!data?.myNdlaLearningpath) {
@@ -169,9 +167,7 @@ export const EditLearningpathPage = () => {
           <Text textStyle="body.large">{t("myNdla.learningpath.form.content.subTitle")}</Text>
           <StyledOl>
             {data.myNdlaLearningpath.learningsteps.map((step) => (
-              // TODO: Remove this when typescript is
-              // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-              <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id!} step={step} key={step.id} />
+              <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id ?? -1} step={step} key={step.id} />
             ))}
           </StyledOl>
           {!isCreating ? (
@@ -191,7 +187,13 @@ export const EditLearningpathPage = () => {
       <StyledHStack justify="space-between">
         {state !== "title" && SCHEMA_STATES[state].prev ? (
           <StyledHStack justify="flex-start">
-            <Button variant="secondary" onClick={() => setState(SCHEMA_STATES[state].prev!)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsCreating(false);
+                setState(SCHEMA_STATES[state].prev!);
+              }}
+            >
               {t("myNdla.learningpath.form.back")}
             </Button>
           </StyledHStack>
@@ -203,7 +205,14 @@ export const EditLearningpathPage = () => {
                 {t("myNdla.learningpath.form.next")}
               </Button>
             ) : (
-              <Button onClick={() => setState(SCHEMA_STATES[state].next!)}>{t("myNdla.learningpath.form.next")}</Button>
+              <Button
+                onClick={() => {
+                  setIsCreating(false);
+                  setState(SCHEMA_STATES[state].next!);
+                }}
+              >
+                {t("myNdla.learningpath.form.next")}
+              </Button>
             )}
           </StyledHStack>
         ) : null}

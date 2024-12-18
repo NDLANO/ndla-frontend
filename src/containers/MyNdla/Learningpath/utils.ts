@@ -22,9 +22,13 @@ export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) => {
   if (!step?.resource && !step?.oembed && !step?.embedUrl) {
     return "text";
-  } else if (step?.resource || step.embedUrl?.url.includes("resource")) {
+  }
+
+  if (step?.resource || step.embedUrl?.url.includes("resource")) {
     return "resource";
-  } else if (step?.embedUrl?.embedType === "external") {
+  }
+
+  if (step?.embedUrl?.embedType === "external") {
     return "external";
   }
   return undefined;
@@ -70,7 +74,9 @@ export const formValuesToGQLInput = (values: FormValues) => {
       introduction: values.introduction,
       description: values.description,
     };
-  } else if (values.type === "external") {
+  }
+
+  if (values.type === "external") {
     return {
       type: "TEXT",
       title: values.title,
@@ -80,14 +86,14 @@ export const formValuesToGQLInput = (values: FormValues) => {
         embedType: "external",
       },
     };
-  } else {
-    return {
-      type: "TEXT",
-      title: values.title,
-      embedUrl: {
-        url: values.embedUrl,
-        embedType: "iframe",
-      },
-    };
   }
+
+  return {
+    type: "TEXT",
+    title: values.title,
+    embedUrl: {
+      url: values.embedUrl,
+      embedType: "iframe",
+    },
+  };
 };

@@ -25,7 +25,7 @@ import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { getFormTypeFromStep, getValuesFromStep } from "../utils";
 
-const ContentWrapper = styled("form", {
+const ContentForm = styled("form", {
   base: {
     width: "100%",
     display: "flex",
@@ -34,7 +34,7 @@ const ContentWrapper = styled("form", {
     padding: "medium",
     border: "1px solid",
     borderColor: "stroke.discrete",
-    background: "surface.default.subtle",
+    background: "surface.subtle",
   },
 });
 
@@ -67,7 +67,7 @@ export interface TextFormValues {
 
 export type FormType = "text" | "external" | "resource" | "folder";
 
-const radiogroupOptions = ["text", "resource", "external", "folder"];
+const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"];
 
 export type FormValues = ExternalFormValues | FolderFormValues | ResourceFormValues | TextFormValues;
 
@@ -90,7 +90,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   return (
     <FormProvider {...methods}>
-      <ContentWrapper onSubmit={handleSubmit(onSave)}>
+      <ContentForm onSubmit={handleSubmit(onSave)}>
         <Controller
           name="type"
           control={control}
@@ -104,7 +104,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 orientation="vertical"
                 {...field}
               >
-                {radiogroupOptions.map((val) => (
+                {RADIO_GROUP_OPTIONS.map((val) => (
                   <RadioGroupItem value={val} key={val}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
@@ -123,12 +123,12 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {t("cancel")}
               </Button>
             ) : null}
-            <Button type="submit" disabled={!formState.isDirty || !formState.isValid}>
+            <Button type="submit" disabled={!formState.isDirty}>
               {t("save")}
             </Button>
           </HStack>
         </HStack>
-      </ContentWrapper>
+      </ContentForm>
     </FormProvider>
   );
 };
