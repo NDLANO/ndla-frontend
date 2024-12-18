@@ -36,6 +36,7 @@ const subjectPageQuery = gql`
 const SubjectPage = () => {
   const { contextId, subjectId } = useUrnIds();
   const {
+    error,
     loading,
     data: newData,
     previousData,
@@ -50,6 +51,10 @@ const SubjectPage = () => {
   });
 
   const data = newData ?? previousData;
+
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+    return <NotFoundPage />;
+  }
 
   if (!data && !loading) {
     return <DefaultErrorMessagePage />;

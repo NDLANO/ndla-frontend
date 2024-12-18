@@ -116,6 +116,10 @@ export const TopicPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
+  if (!query.data?.node.article) {
+    return <NotFoundPage />;
+  }
+
   const { node } = query.data;
   if (node.nodeType !== "TOPIC") {
     return <DefaultErrorMessagePage />;
