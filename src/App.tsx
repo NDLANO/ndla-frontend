@@ -117,7 +117,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":grade" element={null} />
                   </Route>
                 </Route>
-                <Route path="collection/:collectionId" element={<CollectionPage />} />
+                <Route path="samling/:collectionId" element={<CollectionPage />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
