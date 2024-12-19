@@ -32,7 +32,6 @@ export const EditLearningpathTitlePage = () => {
   const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
   const { data, loading } = useFetchLearningpath({
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
@@ -40,10 +39,10 @@ export const EditLearningpathTitlePage = () => {
 
   useEffect(() => {
     trackPageView({
-      title: t("htmlTitles.arenaNewCategoryPage"),
+      title: t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onSaveTitle = async ({ title, imageUrl }: TitleFormValues) => {
     if (
@@ -58,6 +57,7 @@ export const EditLearningpathTitlePage = () => {
             coverPhotoMetaUrl: imageUrl,
             description: " ",
             language: i18n.language,
+
             revision: data.myNdlaLearningpath.revision,
           },
         },
@@ -75,7 +75,7 @@ export const EditLearningpathTitlePage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
         page="learningpath"
@@ -88,7 +88,7 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.url ?? "",
         }}
       />
       <Stack justify="flex-end" direction="row">
