@@ -43,7 +43,9 @@ export const LearningpathStepDeleteDialog = ({ onDelete }: Props) => {
         </DialogHeader>
         <DialogBody>{t("myNdla.learningpath.form.deleteBody")}</DialogBody>
         <DialogFooter>
-          <Button variant="secondary">{t("cancel")}</Button>
+          <Button variant="secondary" onClick={() => setOpen(false)}>
+            {t("cancel")}
+          </Button>
           <Button variant="danger" onClick={deleteAndClose}>
             {t("myNdla.learningpath.form.deleteStep")}
           </Button>

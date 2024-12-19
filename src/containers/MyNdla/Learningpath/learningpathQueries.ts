@@ -30,7 +30,7 @@ export const myLearningpathQuery = gql`
 export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
 export const learningpathQuery = gql`
-  query myNdlaLearningpath($pathId: Int!) {
+  query myNdlaLearningpath($pathId: String!) {
     myNdlaLearningpath(pathId: $pathId) {
       ...MyNdlaLearningpath
     }

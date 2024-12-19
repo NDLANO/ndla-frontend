@@ -158,7 +158,8 @@ export const routes = {
     tags: "/minndla/folders/tag",
     learningpath: "/minndla/learningpaths",
     learningpathNew: "/minndla/learningpaths/new",
-    learningpathEdit: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit`,
+    learningpathEditTitle: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/title`,
+    learningpathEditSteps: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/steps`,
     learningpathPreview: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/preview`,
   },
 };

@@ -52,7 +52,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     const editLearningpath: MenuItemProps = {
       type: "link",
       text: t("myNdla.learningpath.menu.edit"),
-      link: routes.myNdla.learningpathEdit(learningpath.id),
+      link: routes.myNdla.learningpathEditSteps(learningpath.id),
       value: "editLearningPath",
       icon: <PencilLine />,
     };

@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { SchemaStates } from "../EditLearningpathPage";
 
 const StepWrapper = styled("ol", {
   base: {
@@ -60,12 +59,12 @@ const Line = styled("div", {
     alignItems: "center",
   },
 });
+const STEPS = ["title", "content", "preview", "save"] as const;
+type States = (typeof STEPS)[number];
 
 interface Props {
-  step: SchemaStates;
+  step: States;
 }
-
-const STEPS = ["title", "content", "preview", "save"] as const;
 
 export const LearningpathStepper = ({ step }: Props) => {
   return (

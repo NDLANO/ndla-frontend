@@ -1963,7 +1963,7 @@ export type GQLQueryListingPageArgs = {
 };
 
 export type GQLQueryMyNdlaLearningpathArgs = {
-  pathId: Scalars["Int"]["input"];
+  pathId: Scalars["String"]["input"];
 };
 
 export type GQLQueryNodeArgs = {
@@ -3396,7 +3396,7 @@ export type GQLMyLearningpathsQuery = {
 };
 
 export type GQLMyNdlaLearningpathQueryVariables = Exact<{
-  pathId: Scalars["Int"]["input"];
+  pathId: Scalars["String"]["input"];
 }>;
 
 export type GQLMyNdlaLearningpathQuery = {

@@ -54,7 +54,7 @@ export const NewLearningpathPage = () => {
       },
     });
     if (res.data?.newLearningpath.id) {
-      navigate(routes.myNdla.learningpathEdit(res.data.newLearningpath.id));
+      navigate(routes.myNdla.learningpathEditSteps(res.data.newLearningpath.id));
     }
   };
 

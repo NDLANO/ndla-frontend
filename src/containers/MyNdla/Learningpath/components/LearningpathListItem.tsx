@@ -74,7 +74,11 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
         <ListItemContent>
           <div>
             <ListItemHeading asChild consumeCss>
-              <StyledSafeLink to={routes.myNdla.learningpathEdit(learningpath.id)} unstyled css={linkOverlay.raw()}>
+              <StyledSafeLink
+                to={routes.myNdla.learningpathEditSteps(learningpath.id)}
+                unstyled
+                css={linkOverlay.raw()}
+              >
                 {learningpath.title}
               </StyledSafeLink>
             </ListItemHeading>

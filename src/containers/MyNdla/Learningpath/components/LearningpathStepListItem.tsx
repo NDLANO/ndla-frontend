@@ -73,7 +73,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
         learningstepId: step.id,
         learningpathId: learningpathId,
       },
-      refetchQueries: [{ query: learningpathQuery, variables: { pathId: learningpathId } }],
+      refetchQueries: [{ query: learningpathQuery, variables: { pathId: learningpathId.toString() } }],
     });
     if (res.errors?.length === 0) {
       toast.create({

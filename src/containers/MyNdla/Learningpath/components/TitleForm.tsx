@@ -19,7 +19,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { Stack, styled } from "@ndla/styled-system/jsx";
 import { ImagePicker } from "./ImagePicker";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -30,12 +30,6 @@ const StyledForm = styled("form", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-  },
-});
-
-const StyledHStack = styled(HStack, {
-  base: {
-    width: "100%",
   },
 });
 
@@ -115,16 +109,12 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
         )}
       />
       {!initialValues ? (
-        <StyledHStack justify="space-between">
-          <StyledHStack>
-            <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
-              {t("cancel")}
-            </SafeLinkButton>
-          </StyledHStack>
-          <StyledHStack>
-            <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
-          </StyledHStack>
-        </StyledHStack>
+        <Stack direction="row" justify="space-between">
+          <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
+            {t("cancel")}
+          </SafeLinkButton>
+          <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+        </Stack>
       ) : null}
     </StyledForm>
   );
