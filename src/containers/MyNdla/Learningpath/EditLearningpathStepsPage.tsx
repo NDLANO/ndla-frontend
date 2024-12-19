@@ -95,7 +95,7 @@ export const EditLearningpathStepsPage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {data.myNdlaLearningpath.title}
       </Heading>
-      <LearningpathStepper step="content" />
+      <LearningpathStepper step="content" learningpathId={data.myNdlaLearningpath.id} />
       <Stack gap="medium" justify="left">
         <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>

@@ -81,7 +81,7 @@ export const EditLearningpathTitlePage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {data.myNdlaLearningpath.title}
       </Heading>
-      <LearningpathStepper step="title" />
+      <LearningpathStepper step="title" learningpathId={data.myNdlaLearningpath.id} />
       <TitleForm
         onSave={onSaveTitle}
         initialValues={{
@@ -89,7 +89,7 @@ export const EditLearningpathTitlePage = () => {
           imageUrl: data.myNdlaLearningpath.coverphoto?.url ?? "",
         }}
       />
-      <Stack justify="flex-start" direction="row">
+      <Stack justify="flex-end" direction="row">
         <SafeLinkButton to={routes.myNdla.learningpathEditSteps(data.myNdlaLearningpath.id)}>
           {t("myNdla.learningpath.form.next")}
         </SafeLinkButton>

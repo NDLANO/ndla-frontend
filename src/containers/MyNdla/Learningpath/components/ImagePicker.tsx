@@ -18,7 +18,7 @@ import { GQLImageFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
-  imageUrl?: string;
+  imageUrl: string;
   onSelectImage: (image?: IImageMetaInformationV3DTO) => void;
 }
 
