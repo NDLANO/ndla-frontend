@@ -24,6 +24,7 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { getFormTypeFromStep, getValuesFromStep } from "../utils";
+import { ResourceForm, ResourceFormValues } from "./ResourceForm";
 
 const ContentForm = styled("form", {
   base: {
@@ -53,11 +54,6 @@ export interface FolderFormValues {
   embedUrl: string;
 }
 
-export interface ResourceFormValues {
-  type: "resource";
-  embedUrl: string;
-  title: string;
-}
 export interface TextFormValues {
   type: "text";
   title: string;
@@ -86,7 +82,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
   const methods = useForm<FormValues>({
     defaultValues: stepType ? getValuesFromStep(stepType, step) : undefined,
   });
-  const { handleSubmit, control, reset, formState } = methods;
+  const { handleSubmit, control, watch, reset, formState } = methods;
 
   return (
     <FormProvider {...methods}>
@@ -115,6 +111,20 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
             </FieldRoot>
           )}
         />
+        {watch("type") === "resource" ? (
+          <ResourceForm
+            resource={
+              step?.resource
+                ? {
+                    resourceTypes: step.resource.resourceTypes,
+                    title: step.title,
+                    breadcrumbs: step.resource.breadcrumbs,
+                    url: step.embedUrl?.url ?? "",
+                  }
+                : undefined
+            }
+          />
+        ) : null}
         <HStack justify={onDelete ? "space-between" : "end"}>
           {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>
