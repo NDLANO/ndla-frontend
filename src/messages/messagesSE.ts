@@ -112,6 +112,7 @@ const messages = {
           metaImage: "Metabilde",
           metaImageHelper: "Legg til et bilde som representerer læringsstien din",
           noResult: "Ingen bilder treffer din søketekst",
+          imageRequired: "Vennligst velg eit bilete.",
         },
         content: {
           title: "Legg til innhold",

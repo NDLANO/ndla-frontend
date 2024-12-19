@@ -106,6 +106,7 @@ const messages = {
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",
         navigation: "Schemenavigation",
+        imageRequired: "Please choose an image.",
         title: {
           titleHelper: "Give the path a descriptive title",
           imageTitle: "Imagetitle",

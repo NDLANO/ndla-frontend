@@ -90,15 +90,16 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
         control={control}
         name="imageUrl"
         rules={{
-          required: "Please select an image",
+          required: t("myNdla.learningpath.form.title.imageRequired"),
           validate: (value) => !!value,
         }}
-        render={({ field }) => (
+        render={({ field, fieldState }) => (
           <>
             <Text fontWeight="bold" textStyle="label.large">
               {t("myNdla.learningpath.form.title.metaImage")}
             </Text>
             <Text textStyle="label.small">{t("myNdla.learningpath.form.title.metaImageHelper")}</Text>
+            {fieldState.error?.message ? <Text color="stroke.error">{fieldState.error.message}</Text> : null}
             <ImagePicker
               imageUrl={field.value}
               onSelectImage={(image) =>
