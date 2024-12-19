@@ -4723,7 +4723,13 @@ export type GQLMovedTopicPage_NodeFragment = {
     metaDescription?: string;
     metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
   };
-  contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> }>;
+  contexts: Array<{
+    __typename?: "TaxonomyContext";
+    contextId: string;
+    url: string;
+    name: string;
+    breadcrumbs: Array<string>;
+  }>;
 };
 
 export type GQLMultidisciplinaryArticleList_NodeFragment = {
