@@ -2,7 +2,6 @@
 
 exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
 {
-  "contextFilters": [],
   "contextTypes": [],
   "fallback": "true",
   "grepCodes": [],
@@ -27,7 +26,6 @@ exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
 
 exports[`searchHelpers converSearchStringToObject with no location 1`] = `
 {
-  "contextFilters": [],
   "contextTypes": [],
   "fallback": "true",
   "grepCodes": [],
