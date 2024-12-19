@@ -8,9 +8,8 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
-import { Spinner, Heading } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -31,6 +30,8 @@ export const EditLearningpathTitlePage = () => {
   const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const { data, loading } = useFetchLearningpath({
     variables: { pathId: learningpathId ?? "-1" },
@@ -61,6 +62,7 @@ export const EditLearningpathTitlePage = () => {
           },
         },
       });
+      navigate(routes.myNdla.learningpathEditSteps(data.myNdlaLearningpath.id));
     }
   };
   if (loading) {
@@ -86,13 +88,13 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.url ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
         }}
       />
       <Stack justify="flex-end" direction="row">
-        <SafeLinkButton to={routes.myNdla.learningpathEditSteps(data.myNdlaLearningpath.id)}>
+        <Button type="submit" form="titleForm">
           {t("myNdla.learningpath.form.next")}
-        </SafeLinkButton>
+        </Button>
       </Stack>
     </MyNdlaPageWrapper>
   );
