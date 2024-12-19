@@ -37,17 +37,20 @@ const convertNodeToResult = (node: GQLMovedTopicPage_NodeFragment): GQLSearchRes
   id: node.id,
   ingress: node.meta?.metaDescription ?? "",
   breadcrumbs: node.breadcrumbs,
-  subjects: node.contexts?.map(({ breadcrumbs }) => ({
-    url: node.url,
-    title: breadcrumbs[0]!,
-    breadcrumb: breadcrumbs,
+  subjects: node.contexts?.map((context) => ({
+    url: context.url,
+    title: context.name,
+    breadcrumb: context.breadcrumbs,
   })),
   contentType: "topic",
 });
 
 const mergeTopicSubjects = (results: GQLSearchResultExtended[]) => {
-  // Must have at least one result in order to get here.
-  const firstResult = results[0]!;
+  // Must have at least one result in order to get here. One with url has active context.
+  const firstResult = results.find((res) => !!res.url);
+  if (!firstResult) {
+    return [];
+  }
   // Assuming that first element has the same values that the rest of the elements in the results array
   return [
     {
@@ -135,6 +138,8 @@ MovedTopicPage.fragments = {
       }
       contexts {
         contextId
+        url
+        name
         breadcrumbs
       }
     }
