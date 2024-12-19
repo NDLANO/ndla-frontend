@@ -62,8 +62,8 @@ export const EditLearningpathTitlePage = () => {
           },
         },
       });
-      navigate(routes.myNdla.learningpathEditSteps(data.myNdlaLearningpath.id));
     }
+    navigate(routes.myNdla.learningpathEditSteps(data?.myNdlaLearningpath?.id ?? 0));
   };
   if (loading) {
     return <Spinner aria-label={t("loading")} />;
@@ -88,7 +88,7 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.url ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
         }}
       />
       <Stack justify="flex-end" direction="row">
