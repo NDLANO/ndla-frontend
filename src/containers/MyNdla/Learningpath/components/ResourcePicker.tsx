@@ -12,7 +12,6 @@ import debounce from "lodash/debounce";
 import { useState, useId, useMemo, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
-import { SearchLine } from "@ndla/icons";
 import {
   Button,
   ComboboxContentStandalone,
@@ -21,7 +20,6 @@ import {
   ComboboxItem,
   ComboboxItemText,
   ComboboxRoot,
-  IconButton,
   Input,
   InputContainer,
   ListItemRoot,
@@ -202,14 +200,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
             />
           </ComboboxInput>
         </InputContainer>
-        <IconButton
-          variant="secondary"
-          type="submit"
-          aria-label={t("searchPage.search")}
-          title={t("searchPage.search")}
-        >
-          <SearchLine />
-        </IconButton>
       </ComboboxControl>
       <HitsWrapper aria-live="assertive">
         {!loading && !!query && (
