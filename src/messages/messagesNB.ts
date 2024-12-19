@@ -105,6 +105,7 @@ const messages = {
         back: "Forrige",
         deleteStep: "Slett trinn",
         deleteBody: "Innholdet kan ikke gjenopprettes",
+        navigation: "Skjemanavigering",
         title: {
           titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",

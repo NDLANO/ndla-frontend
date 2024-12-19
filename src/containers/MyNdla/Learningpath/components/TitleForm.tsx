@@ -57,7 +57,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
 
   return (
     <StyledForm onSubmit={handleSubmit(onSave)} id="titleForm">
-      <Heading textStyle="heading.small">
+      <Heading textStyle="heading.small" asChild consumeCss>
         <h2>{t("myNdla.learningpath.form.steps.title")}</h2>
       </Heading>
       <Controller

@@ -82,6 +82,7 @@ export const learningpathFragment = gql`
     revision
     coverphoto {
       url
+      metaUrl
     }
     learningsteps {
       ...MyNdlaLearningpathStep

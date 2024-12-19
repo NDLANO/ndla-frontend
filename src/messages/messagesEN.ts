@@ -105,6 +105,7 @@ const messages = {
         back: "Back",
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",
+        navigation: "Schemenavigation",
         title: {
           titleHelper: "Give the path a descriptive title",
           imageTitle: "Imagetitle",

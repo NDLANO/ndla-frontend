@@ -120,7 +120,11 @@ export const EditLearningpathStepsPage = () => {
         )}
       </Stack>
       <Stack justify="space-between" direction="row">
-        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(data.myNdlaLearningpath.id)}>
+        <SafeLinkButton
+          variant="secondary"
+          aria-label={t("")}
+          to={routes.myNdla.learningpathEditTitle(data.myNdlaLearningpath.id)}
+        >
           {t("myNdla.learningpath.form.back")}
         </SafeLinkButton>
         <SafeLinkButton to={routes.myNdla.learningpathPreview(data.myNdlaLearningpath.id)}>
