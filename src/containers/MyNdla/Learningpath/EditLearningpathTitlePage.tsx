@@ -81,7 +81,7 @@ export const EditLearningpathTitlePage = () => {
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {data.myNdlaLearningpath.title}
       </Heading>
-      <LearningpathStepper step="title" />
+      <LearningpathStepper step="title" learningpathId={data.myNdlaLearningpath.id} />
       <TitleForm
         onSave={onSaveTitle}
         initialValues={{

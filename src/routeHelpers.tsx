@@ -161,5 +161,6 @@ export const routes = {
     learningpathEditTitle: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/title`,
     learningpathEditSteps: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/steps`,
     learningpathPreview: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/preview`,
+    learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
   },
 };

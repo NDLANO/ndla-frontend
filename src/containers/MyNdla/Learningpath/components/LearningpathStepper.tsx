@@ -8,7 +8,9 @@
 
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { routes } from "../../../../routeHelpers";
 
 const StepWrapper = styled("ol", {
   base: {
@@ -59,33 +61,60 @@ const Line = styled("div", {
     alignItems: "center",
   },
 });
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+    _selected: {
+      textDecoration: "none",
+    },
+  },
+});
+
 const STEPS = ["title", "content", "preview", "save"] as const;
 type States = (typeof STEPS)[number];
 
 interface Props {
   step: States;
+  learningpathId?: number;
 }
 
-export const LearningpathStepper = ({ step }: Props) => {
+export const LearningpathStepper = ({ step, learningpathId }: Props) => {
   return (
     <>
-      <DesktopStepper step={step} />
-      <MobileStepper step={step} />
+      <DesktopStepper step={step} learningpathId={learningpathId} />
+      <MobileStepper step={step} learningpathId={learningpathId} />
     </>
   );
 };
 
-const DesktopStepper = ({ step }: Props) => {
+const PATH_MAPPING: Record<States, (val: number) => string> = {
+  content: routes.myNdla.learningpathEditSteps,
+  title: routes.myNdla.learningpathEditTitle,
+  preview: routes.myNdla.learningpathPreview,
+  save: routes.myNdla.learningpathSave,
+};
+
+const DesktopStepper = ({ step, learningpathId }: Props) => {
   const { t } = useTranslation();
 
   return (
     <StepWrapper>
       {STEPS.map((key, idx) => (
         <Step key={idx}>
-          <NumberText aria-selected={step === key} asChild consumeCss>
+          <NumberText aria-selected={step === key}>
             <span>{idx + 1}</span>
           </NumberText>
-          <Text>{t(`myNdla.learningpath.form.steps.${key}`)}</Text>
+          {learningpathId ? (
+            <StyledSafeLink unstyled aria-selected={step === key} to={PATH_MAPPING[key](learningpathId)}>
+              {t(`myNdla.learningpath.form.steps.${key}`)}
+            </StyledSafeLink>
+          ) : (
+            <Text>{t(`myNdla.learningpath.form.steps.${key}`)}</Text>
+          )}
           <Line />
         </Step>
       ))}
