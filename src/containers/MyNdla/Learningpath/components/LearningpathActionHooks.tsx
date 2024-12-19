@@ -20,12 +20,13 @@ import {
 } from "@ndla/icons";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
-import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes, toLearningPath } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
+import { myLearningpathQuery } from "../learningpathQueries";
+import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
@@ -51,7 +52,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     const editLearningpath: MenuItemProps = {
       type: "link",
       text: t("myNdla.learningpath.menu.edit"),
-      link: routes.myNdla.learningpathEdit(learningpath.id),
+      link: routes.myNdla.learningpathEditSteps(learningpath.id),
       value: "editLearningPath",
       icon: <PencilLine />,
     };
@@ -67,7 +68,10 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
-            const res = await onDeleteLearningpath({ variables: { id: learningpath.id } });
+            const res = await onDeleteLearningpath({
+              variables: { id: learningpath.id },
+              refetchQueries: [{ query: myLearningpathQuery }],
+            });
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
             if (res.errors?.length === 0) {
               toast.create({
