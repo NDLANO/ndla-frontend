@@ -23,7 +23,8 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { getFormTypeFromStep, getValuesFromStep } from "../utils";
+import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
+import { TextForm } from "./TextForm";
 
 const ContentForm = styled("form", {
   base: {
@@ -38,38 +39,18 @@ const ContentForm = styled("form", {
   },
 });
 
-// Temporary placement until forms are merged
-export interface ExternalFormValues {
-  type: "external";
-  title: string;
-  introduction: string;
-  url: string;
-  shareable: boolean;
-}
+const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
+export type FormType = (typeof RADIO_GROUP_OPTIONS)[number];
 
-export interface FolderFormValues {
-  type: "folder";
-  title: string;
-  embedUrl: string;
-}
-
-export interface ResourceFormValues {
-  type: "resource";
-  embedUrl: string;
-  title: string;
-}
-export interface TextFormValues {
-  type: "text";
+export type FormValues = {
+  type: string;
   title: string;
   introduction: string;
   description: string;
-}
-
-export type FormType = "text" | "external" | "resource" | "folder";
-
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"];
-
-export type FormValues = ExternalFormValues | FolderFormValues | ResourceFormValues | TextFormValues;
+  embedUrl: string;
+  url: string;
+  shareable: boolean;
+};
 
 interface Props {
   learningpathId: number;
@@ -84,9 +65,9 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
-    defaultValues: stepType ? getValuesFromStep(stepType, step) : undefined,
+    defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
-  const { handleSubmit, control, reset, formState } = methods;
+  const { handleSubmit, control, watch, reset, formState } = methods;
 
   return (
     <FormProvider {...methods}>
@@ -115,6 +96,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
             </FieldRoot>
           )}
         />
+        {watch("type") === "text" ? <TextForm /> : null}
         <HStack justify={onDelete ? "space-between" : "end"}>
           {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>
