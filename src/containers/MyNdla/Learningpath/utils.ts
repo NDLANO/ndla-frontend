@@ -49,7 +49,7 @@ export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragm
 export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
   const formType = getFormTypeFromStep(step);
   const isInitialType = formType === type;
-  return formValues(formType, isInitialType ? step : undefined);
+  return formValues(type, isInitialType ? step : undefined);
 };
 
 export const formValuesToGQLInput = (values: FormValues) => {

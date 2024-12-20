@@ -49,7 +49,7 @@ export const TextForm = () => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot required invalid={!!fieldState.error?.message}>
+          <FieldRoot invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.text.title.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.title.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -76,7 +76,7 @@ export const TextForm = () => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot required invalid={!!fieldState.error?.message}>
+          <FieldRoot invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.text.introduction.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.introduction.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -95,7 +95,7 @@ export const TextForm = () => {
           }),
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot required invalid={!!fieldState.error?.message}>
+          <FieldRoot invalid={!!fieldState.error?.message}>
             <FieldLabel onClick={() => document.getElementById("markdown-editor")?.focus()}>
               {t("myNdla.learningpath.form.content.text.description.label")}
             </FieldLabel>
