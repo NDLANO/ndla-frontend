@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
-import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Button, Heading, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -58,10 +57,10 @@ export const EditLearningpathStepsPage = () => {
 
   useEffect(() => {
     trackPageView({
-      title: t("htmlTitles.arenaNewCategoryPage"),
+      title: t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onSaveStep = async (values: FormValues) => {
     if (data?.myNdlaLearningpath?.id) {
@@ -69,9 +68,9 @@ export const EditLearningpathStepsPage = () => {
       await createStep({
         variables: {
           learningpathId: data.myNdlaLearningpath.id,
-          params: { ...transformedData, license: ALL_ABBREVIATIONS[4], language: i18n.language, showTitle: false },
+          params: { ...transformedData, language: i18n.language, showTitle: false },
         },
-        refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id } }],
+        refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id.toString() } }],
       });
       setIsCreating(false);
     }
@@ -87,7 +86,7 @@ export const EditLearningpathStepsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
         page="learningpath"
@@ -120,11 +119,7 @@ export const EditLearningpathStepsPage = () => {
         )}
       </Stack>
       <Stack justify="space-between" direction="row">
-        <SafeLinkButton
-          variant="secondary"
-          aria-label={t("")}
-          to={routes.myNdla.learningpathEditTitle(data.myNdlaLearningpath.id)}
-        >
+        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(data.myNdlaLearningpath.id)}>
           {t("myNdla.learningpath.form.back")}
         </SafeLinkButton>
         <SafeLinkButton to={routes.myNdla.learningpathPreview(data.myNdlaLearningpath.id)}>

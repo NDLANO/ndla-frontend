@@ -32,6 +32,7 @@ export const privateRoutes = [
   "minndla/learningpaths/:learningpathId/edit/title",
   "minndla/learningpaths/:learningpathId/edit/steps",
   "minndla/learningpaths/:learningpathId/preview",
+  "minndla/learningpaths/:learningpathId/save",
 ];
 
 export const routes = [

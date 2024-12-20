@@ -34,36 +34,22 @@ export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) =>
   return undefined;
 };
 
-const formValues: Record<FormType, (step?: GQLMyNdlaLearningpathStepFragment) => FormValues> = {
-  external: (step) => ({
-    type: "external",
-    title: step?.title ?? "",
-    introduction: step?.introduction ?? "",
-    url: step?.embedUrl?.url ?? "",
-    shareable: !!step?.embedUrl?.url,
-  }),
-  resource: (step) => ({
-    type: "resource",
-    title: step?.title ?? "",
-    embedUrl: step?.embedUrl?.url ?? "",
-  }),
-  text: (step) => ({
-    type: "text",
-    title: step?.title ?? "",
-    introduction: step?.introduction ?? "",
-    description: step?.description ?? "",
-  }),
-  folder: (step) => ({
-    type: "folder",
-    title: step?.title ?? "",
-    embedUrl: step?.embedUrl?.url ?? "",
-  }),
-};
+export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragment) => Partial<FormValues> = (
+  type?: FormType,
+  step?: GQLMyNdlaLearningpathStepFragment,
+) => ({
+  type: type ?? "",
+  title: step?.title ?? "",
+  introduction: step?.introduction ?? "",
+  embedUrl: step?.embedUrl?.url ?? "",
+  shareable: !!step?.embedUrl?.url,
+  description: step?.description ?? "<p></p>",
+});
 
 export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
   const formType = getFormTypeFromStep(step);
   const isInitialType = formType === type;
-  return formValues[type](isInitialType ? step : undefined);
+  return formValues(type, isInitialType ? step : undefined);
 };
 
 export const formValuesToGQLInput = (values: FormValues) => {
