@@ -24,12 +24,12 @@ const LearningpathPage = () => {
   const menuItems = useLearningpathActionHooks();
 
   useEffect(() => {
-    trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
+    trackPageView({ title: t("htmlTitles.learningpathsPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
   return (
     <MyNdlaPageWrapper menuItems={menuItems}>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathsPage")} />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
       </Heading>

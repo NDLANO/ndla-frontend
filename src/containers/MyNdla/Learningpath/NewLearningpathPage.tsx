@@ -31,7 +31,7 @@ export const NewLearningpathPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    trackPageView({ title: t("htmlTitles.learningpathPage"), dimensions: getAllDimensions({ user }) });
+    trackPageView({ title: t("htmlTitles.learningpathNewPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
   const onSave = async ({ title, imageUrl }: TitleFormValues) => {
@@ -60,7 +60,7 @@ export const NewLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "-1", name: t("myNdla.learningpath.newLearningpath") }]}
         page="learningpath"

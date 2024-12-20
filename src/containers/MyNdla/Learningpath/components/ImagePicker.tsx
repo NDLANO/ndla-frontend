@@ -80,6 +80,7 @@ const Wrapper = styled("div", {
   base: {
     padding: "xsmall",
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     border: "1px solid",
     borderRadius: "xsmall",

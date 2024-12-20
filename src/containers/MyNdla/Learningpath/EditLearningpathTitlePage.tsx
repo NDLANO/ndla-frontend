@@ -8,9 +8,8 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
-import { Spinner, Heading } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -32,6 +31,7 @@ export const EditLearningpathTitlePage = () => {
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
 
+  const navigate = useNavigate();
   const { data, loading } = useFetchLearningpath({
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
@@ -39,10 +39,10 @@ export const EditLearningpathTitlePage = () => {
 
   useEffect(() => {
     trackPageView({
-      title: t("htmlTitles.arenaNewCategoryPage"),
+      title: t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onSaveTitle = async ({ title, imageUrl }: TitleFormValues) => {
     if (
@@ -57,11 +57,13 @@ export const EditLearningpathTitlePage = () => {
             coverPhotoMetaUrl: imageUrl,
             description: " ",
             language: i18n.language,
+
             revision: data.myNdlaLearningpath.revision,
           },
         },
       });
     }
+    navigate(routes.myNdla.learningpathEditSteps(data?.myNdlaLearningpath?.id ?? 0));
   };
   if (loading) {
     return <Spinner aria-label={t("loading")} />;
@@ -73,7 +75,7 @@ export const EditLearningpathTitlePage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
         page="learningpath"
@@ -86,13 +88,13 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.url ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
         }}
       />
-      <Stack justify="flex-start" direction="row">
-        <SafeLinkButton to={routes.myNdla.learningpathEditSteps(data.myNdlaLearningpath.id)}>
+      <Stack justify="flex-end" direction="row">
+        <Button type="submit" form="titleForm">
           {t("myNdla.learningpath.form.next")}
-        </SafeLinkButton>
+        </Button>
       </Stack>
     </MyNdlaPageWrapper>
   );
