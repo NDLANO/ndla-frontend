@@ -7,8 +7,8 @@
  */
 
 import config from "../../../config";
-import { FormType, FormValues } from "./components/LearningpathStepForm";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
+import { FormValuesMap, FormValues, FormKeys } from "./types";
 
 export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpath/${id}`;
 
@@ -19,7 +19,7 @@ export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
 export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 
-export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) => {
+export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): FormKeys | undefined => {
   if (!step?.resource && !step?.oembed && !step?.embedUrl) {
     return "text";
   }
@@ -34,22 +34,30 @@ export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) =>
   return undefined;
 };
 
-export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragment) => Partial<FormValues> = (
-  type?: FormType,
+export const toFormValues = <T extends FormKeys>(
+  type: T,
   step?: GQLMyNdlaLearningpathStepFragment,
-) => ({
-  type: type ?? "",
-  title: step?.title ?? "",
-  introduction: step?.introduction ?? "",
-  embedUrl: step?.embedUrl?.url ?? "",
-  shareable: !!step?.embedUrl?.url,
-  description: step?.description ?? "<p></p>",
-});
-
-export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
-  const formType = getFormTypeFromStep(step);
-  const isInitialType = formType === type;
-  return formValues(type, isInitialType ? step : undefined);
+): FormValuesMap[T] => {
+  const baseValues = { title: step?.title ?? "" };
+  return (
+    {
+      text: {
+        ...baseValues,
+        type: "text",
+        introduction: step?.introduction ?? "",
+        description: step?.description ?? "",
+      },
+      resource: { ...baseValues, type: "resource", embedUrl: step?.embedUrl?.url ?? "" },
+      external: {
+        ...baseValues,
+        type: "external",
+        url: step?.embedUrl?.url ?? "",
+        introduction: step?.introduction ?? "",
+        shareable: !!step?.embedUrl?.url,
+      },
+      folder: { ...baseValues, type: "folder" },
+    } as const
+  )[type];
 };
 
 export const formValuesToGQLInput = (values: FormValues) => {
@@ -72,6 +80,10 @@ export const formValuesToGQLInput = (values: FormValues) => {
         embedType: "external",
       },
     };
+  }
+  if (values.type === "folder") {
+    // TODO: Implement once folder form is added
+    return { type: "TEXT", title: values.title };
   }
 
   return {
