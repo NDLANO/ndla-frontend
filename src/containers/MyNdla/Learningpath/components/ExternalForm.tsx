@@ -92,8 +92,8 @@ export const ExternalForm = () => {
             }),
           },
         }}
-        render={({ field }) => (
-          <FieldRoot>
+        render={({ field, fieldState }) => (
+          <FieldRoot required invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.external.title.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.title.labelHelper")}</FieldHelper>
             <Input {...field} />
@@ -118,8 +118,8 @@ export const ExternalForm = () => {
             }),
           },
         }}
-        render={({ field }) => (
-          <FieldRoot>
+        render={({ field, fieldState }) => (
+          <FieldRoot required invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.external.introduction.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.introduction.labelHelper")}</FieldHelper>
             <Input {...field} />
@@ -136,8 +136,8 @@ export const ExternalForm = () => {
             field: "url",
           }),
         }}
-        render={({ field }) => (
-          <FieldRoot>
+        render={({ field, fieldState }) => (
+          <FieldRoot required invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.external.content.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.content.labelHelper")}</FieldHelper>
             <Input {...field} />
@@ -158,8 +158,8 @@ export const ExternalForm = () => {
               field: "shareable",
             }),
           }}
-          render={({ field }) => (
-            <FieldRoot>
+          render={({ field, fieldState }) => (
+            <FieldRoot required invalid={!!fieldState.error?.message}>
               <StyledCheckboxRoot
                 checked={field.value}
                 onCheckedChange={() => {
