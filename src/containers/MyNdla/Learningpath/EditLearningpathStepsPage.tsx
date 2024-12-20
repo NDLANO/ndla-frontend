@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
-import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Button, Heading, Spinner, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -69,7 +68,7 @@ export const EditLearningpathStepsPage = () => {
       await createStep({
         variables: {
           learningpathId: data.myNdlaLearningpath.id,
-          params: { ...transformedData, license: ALL_ABBREVIATIONS[4], language: i18n.language, showTitle: false },
+          params: { ...transformedData, language: i18n.language, showTitle: false },
         },
         refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id.toString() } }],
       });
