@@ -204,7 +204,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       <HitsWrapper aria-live="assertive">
         {!loading && !!query && (
           <div>
-            {!(searchHits.length > 1) ? (
+            {!(searchHits.length >= 1) ? (
               <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
             ) : (
               <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
