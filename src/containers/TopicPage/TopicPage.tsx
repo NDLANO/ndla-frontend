@@ -82,6 +82,7 @@ export const TopicPage = () => {
       rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
       transformArgs: {
+        showVisualElement: "true",
         prettyUrl: true,
       },
     },
