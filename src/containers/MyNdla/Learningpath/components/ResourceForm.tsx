@@ -17,12 +17,7 @@ import { ContentTypeBadge } from "@ndla/ui";
 import { ResourcePicker } from "./ResourcePicker";
 import { GQLResourceType } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
-
-export interface ResourceFormValues {
-  type: "resource";
-  embedUrl: string;
-  title: string;
-}
+import { FormValuesMap } from "../types";
 
 interface ResourceFormProps {
   resource?: ResourceData;
@@ -31,7 +26,7 @@ interface ResourceFormProps {
 export const ResourceForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
-  const { setValue } = useFormContext<ResourceFormValues>();
+  const { setValue } = useFormContext<FormValuesMap["resource"]>();
 
   const onSelectResource = (resource?: ResourceData) => {
     setSelectedResource(resource);
