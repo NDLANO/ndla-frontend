@@ -43,7 +43,7 @@ export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragm
   introduction: step?.introduction ?? "",
   embedUrl: step?.embedUrl?.url ?? "",
   shareable: !!step?.embedUrl?.url,
-  description: step?.description ?? "",
+  description: step?.description ?? "<p></p>",
 });
 
 export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {

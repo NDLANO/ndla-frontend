@@ -49,7 +49,7 @@ export const TextForm = () => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot>
+          <FieldRoot required invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.text.title.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.title.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -76,9 +76,9 @@ export const TextForm = () => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot>
+          <FieldRoot required invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.text.introduction.label")}</FieldLabel>
-            <FieldHelper>{t("myNdla.learningpath.form.content.text.introduction.label")}</FieldHelper>
+            <FieldHelper>{t("myNdla.learningpath.form.content.text.introduction.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
             <FieldLength value={field?.value?.length ?? 0} maxLength={INTRODUCTION_MAX_LENGTH} />
@@ -108,7 +108,7 @@ export const TextForm = () => {
                     shouldDirty: true,
                   });
                 }}
-                initialValue={field.value ?? "<p></p>"}
+                initialValue={field.value}
                 {...field}
               />
             </Suspense>
