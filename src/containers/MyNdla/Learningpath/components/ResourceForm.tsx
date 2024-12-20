@@ -11,7 +11,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FieldHelperText } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons";
-import { FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { FieldLabel, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourcePicker } from "./ResourcePicker";
@@ -31,16 +31,16 @@ interface ResourceFormProps {
 export const ResourceForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
-  const { register, setValue } = useFormContext<ResourceFormValues>();
+  const { setValue } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource?: ResourceData) => {
     setSelectedResource(resource);
-    setValue("embedUrl", resource?.url ?? "");
-    setValue("title", resource?.title ?? "");
+    setValue("embedUrl", resource?.url ?? "", { shouldDirty: true });
+    setValue("title", resource?.title ?? "", { shouldDirty: true });
   };
 
   return (
-    <FieldRoot {...register("embedUrl")}>
+    <>
       <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.resource.label")}</FieldLabel>
       <FieldHelperText>{t("myNdla.learningpath.form.content.resource.labelHelper")}</FieldHelperText>
       {!selectedResource ? (
@@ -48,7 +48,7 @@ export const ResourceForm = ({ resource }: ResourceFormProps) => {
       ) : (
         <ResourceContent selectedResource={selectedResource} onRemove={() => onSelectResource(undefined)} />
       )}
-    </FieldRoot>
+    </>
   );
 };
 
