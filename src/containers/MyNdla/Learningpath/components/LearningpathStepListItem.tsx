@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
@@ -50,7 +49,6 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
   const [isEditing, setIsEditing] = useState(false);
 
   const { t, i18n } = useTranslation();
-  const toast = useToast();
 
   const [updateStep] = useUpdateLearningpathStep();
   const [deleteStep] = useDeleteLearningpathStep();
@@ -76,9 +74,6 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
       refetchQueries: [{ query: learningpathQuery, variables: { pathId: learningpathId.toString() } }],
     });
     if (res.errors?.length === 0) {
-      toast.create({
-        title: t(""),
-      });
       close();
     }
   };

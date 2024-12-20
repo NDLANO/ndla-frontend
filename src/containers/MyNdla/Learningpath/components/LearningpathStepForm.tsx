@@ -23,8 +23,8 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { getFormTypeFromStep, getValuesFromStep } from "../utils";
-import { TextForm, TextFormValues } from "./TextForm";
+import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
+import { TextForm } from "./TextForm";
 
 const ContentForm = styled("form", {
   base: {
@@ -39,32 +39,18 @@ const ContentForm = styled("form", {
   },
 });
 
-// Temporary placement until forms are merged
-export interface ExternalFormValues {
-  type: "external";
+const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
+export type FormType = (typeof RADIO_GROUP_OPTIONS)[number];
+
+export type FormValues = {
+  type: string;
   title: string;
   introduction: string;
+  description: string;
+  embedUrl: string;
   url: string;
   shareable: boolean;
-}
-
-export interface FolderFormValues {
-  type: "folder";
-  title: string;
-  embedUrl: string;
-}
-
-export interface ResourceFormValues {
-  type: "resource";
-  embedUrl: string;
-  title: string;
-}
-
-export type FormType = "text" | "external" | "resource" | "folder";
-
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"];
-
-export type FormValues = ExternalFormValues | FolderFormValues | ResourceFormValues | TextFormValues;
+};
 
 interface Props {
   learningpathId: number;
@@ -79,7 +65,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
-    defaultValues: stepType ? getValuesFromStep(stepType, step) : undefined,
+    defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
   const { handleSubmit, control, watch, reset, formState } = methods;
 

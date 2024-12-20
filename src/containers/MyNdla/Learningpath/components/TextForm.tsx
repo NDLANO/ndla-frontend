@@ -15,7 +15,6 @@ import FieldLength from "../../components/FieldLength";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
-const CONTENT_MAX_LENGTH = 32767;
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
@@ -94,14 +93,6 @@ export const TextForm = () => {
             type: "required",
             field: "description",
           }),
-          maxLength: {
-            value: CONTENT_MAX_LENGTH,
-            message: validationT({
-              type: "maxLength",
-              field: "description",
-              vars: { count: CONTENT_MAX_LENGTH },
-            }),
-          },
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>
@@ -120,7 +111,6 @@ export const TextForm = () => {
                 initialValue={field.value ?? "<p></p>"}
                 {...field}
               />
-              <FieldLength value={field?.value?.length ?? 0} maxLength={CONTENT_MAX_LENGTH} />
             </Suspense>
           </FieldRoot>
         )}
