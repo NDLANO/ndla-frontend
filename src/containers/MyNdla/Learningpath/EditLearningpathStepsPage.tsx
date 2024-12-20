@@ -58,10 +58,10 @@ export const EditLearningpathStepsPage = () => {
 
   useEffect(() => {
     trackPageView({
-      title: t("htmlTitles.arenaNewCategoryPage"),
+      title: t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [t, trackPageView, user]);
+  }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onSaveStep = async (values: FormValues) => {
     if (data?.myNdlaLearningpath?.id) {
@@ -87,7 +87,7 @@ export const EditLearningpathStepsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.learningpathPage")} />
+      <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
         page="learningpath"

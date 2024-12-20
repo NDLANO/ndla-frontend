@@ -36,7 +36,13 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
-    learningpathPage: `Mine læringsstier - ${titleTemplate}`,
+    learningpathsPage: `Mine læringsstier - ${titleTemplate}`,
+    learningpathPage: `{{name}}  - ${titleTemplate}`,
+    learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathEditTitlePage: `Rediger tittel - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathPreviewPage: `Forhåndsvis - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
@@ -105,6 +111,7 @@ const messages = {
         back: "Forrige",
         deleteStep: "Slett trinn",
         deleteBody: "Innholdet kan ikke gjenopprettes",
+        navigation: "Skjemanavigering",
         title: {
           titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",
@@ -112,6 +119,7 @@ const messages = {
           metaImage: "Metabilde",
           metaImageHelper: "Legg til et bilde som representerer læringsstien din",
           noResult: "Ingen bilder treffer din søketekst",
+          imageRequired: "Vennligst velg et bilde.",
         },
         content: {
           title: "Legg til innhold",

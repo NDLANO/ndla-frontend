@@ -83,9 +83,16 @@ interface Props {
 }
 
 export const LearningpathStepper = ({ step, learningpathId }: Props) => {
+  const { t } = useTranslation();
   return (
     <>
-      <DesktopStepper step={step} learningpathId={learningpathId} />
+      {learningpathId ? (
+        <nav aria-label={t("myNdla.learningpath.form.navigation")}>
+          <DesktopStepper step={step} learningpathId={learningpathId} />
+        </nav>
+      ) : (
+        <DesktopStepper step={step} />
+      )}
       <MobileStepper step={step} learningpathId={learningpathId} />
     </>
   );
@@ -109,7 +116,12 @@ const DesktopStepper = ({ step, learningpathId }: Props) => {
             <span>{idx + 1}</span>
           </NumberText>
           {learningpathId ? (
-            <StyledSafeLink unstyled aria-selected={step === key} to={PATH_MAPPING[key](learningpathId)}>
+            <StyledSafeLink
+              aria-label={t(`myNdla.learningpath.form.steps.${key}`)}
+              unstyled
+              aria-selected={step === key}
+              to={PATH_MAPPING[key](learningpathId)}
+            >
               {t(`myNdla.learningpath.form.steps.${key}`)}
             </StyledSafeLink>
           ) : (

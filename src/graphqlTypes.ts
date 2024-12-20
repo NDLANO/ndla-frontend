@@ -3321,7 +3321,7 @@ export type GQLMyNdlaLearningpathFragment = {
   status: string;
   madeAvailable?: string;
   revision: number;
-  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
   learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
 };
 

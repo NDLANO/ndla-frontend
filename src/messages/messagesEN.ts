@@ -36,7 +36,13 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
-    learningpathPage: `My learning paths - ${titleTemplate}`,
+    learningpathsPage: `My learning paths - ${titleTemplate}`,
+    learningpathPage: `{{name}}  - ${titleTemplate}`,
+    learningpathEditStepsPage: `Edit steps - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathEditTitlePage: `Edit title - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathPreviewPage: `Preview - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathSavePage: `Save - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathNewPage: `New Learningpath - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
@@ -105,6 +111,7 @@ const messages = {
         back: "Back",
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",
+        navigation: "Schemenavigation",
         title: {
           titleHelper: "Give the path a descriptive title",
           imageTitle: "Imagetitle",
@@ -112,6 +119,7 @@ const messages = {
           metaImage: "Metaimage",
           metaImageHelper: "Add a pciture that represents the learningpath",
           noResult: "No images matches your search query",
+          imageRequired: "Please choose an image.",
         },
         content: {
           title: "Append content",
