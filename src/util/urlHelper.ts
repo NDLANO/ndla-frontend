@@ -81,6 +81,9 @@ export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
   if (paths[1]) {
     paths[1] = paths[1] === "unknown" ? "nb" : paths[1];
   }
+  if (paths.includes("subjects")) {
+    paths.splice(paths.indexOf("subjects"), 1);
+  }
   if (ignoreLocale && isValidLocale(paths[1])) {
     paths.splice(1, 1);
   }
