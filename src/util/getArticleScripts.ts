@@ -66,7 +66,7 @@ export function getArticleScripts(
     scripts.push({
       src: "/static/h5p-resizer.js",
       type: "text/javascript",
-      async: false,
+      async: true,
       defer: true,
     });
   }
