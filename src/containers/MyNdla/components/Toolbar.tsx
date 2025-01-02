@@ -13,6 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
 import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
+import config from "../../../config";
 import { AuthContext } from "../../../components/AuthenticationContext";
 
 const ToolbarContainer = styled("div", {
@@ -116,7 +117,7 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
               </SettingsMenuWrapper>
             )}
           </div>
-          {!!user?.arenaEnabled && <NotificationPopover />}
+          {!!user?.arenaEnabled && !config.externalArena && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
       <MenuModalContent menuItems={menuItems} showButtons={showButtons} />
