@@ -123,6 +123,7 @@ export const searchQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
       grepCodes: $grepCodes
+      traits: $traits
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
     ) {

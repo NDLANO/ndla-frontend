@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
-import { converSearchStringToObject } from "./searchHelpers";
+import { convertSearchStringToObject } from "./searchHelpers";
 import SearchInnerPage, { getStateSearchParams } from "./SearchInnerPage";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -30,7 +30,7 @@ const SearchPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = converSearchStringToObject(location, i18n.language);
+  const searchParams = convertSearchStringToObject(location, i18n.language);
 
   const { data, loading } = useQuery<GQLSearchPageQuery>(searchPageQuery);
 

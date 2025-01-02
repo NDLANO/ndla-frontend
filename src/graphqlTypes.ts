@@ -2048,7 +2048,6 @@ export type GQLQuerySearchArgs = {
 };
 
 export type GQLQuerySearchWithoutPaginationArgs = {
-  contextFilters?: InputMaybe<Scalars["String"]["input"]>;
   contextTypes?: InputMaybe<Scalars["String"]["input"]>;
   fallback?: InputMaybe<Scalars["String"]["input"]>;
   ids?: InputMaybe<Array<Scalars["Int"]["input"]>>;

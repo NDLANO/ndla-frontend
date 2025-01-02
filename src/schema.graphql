@@ -1411,7 +1411,6 @@ type Query {
     traits: [String!]
   ): Search
   searchWithoutPagination(
-    contextFilters: String
     contextTypes: String
     fallback: String
     ids: [Int!]

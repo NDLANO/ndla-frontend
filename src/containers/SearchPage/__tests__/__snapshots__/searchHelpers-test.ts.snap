@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
+exports[`searchHelpers convertSearchStringToObject converts search string 1`] = `
 {
   "contextTypes": [],
   "fallback": "true",
@@ -21,10 +21,11 @@ exports[`searchHelpers converSearchStringToObject converts search string 1`] = `
     "urn:test:1",
     "urn:test:2",
   ],
+  "traits": [],
 }
 `;
 
-exports[`searchHelpers converSearchStringToObject with no location 1`] = `
+exports[`searchHelpers convertSearchStringToObject with no location 1`] = `
 {
   "contextTypes": [],
   "fallback": "true",
@@ -35,6 +36,7 @@ exports[`searchHelpers converSearchStringToObject with no location 1`] = `
   "relevance": [],
   "resourceTypes": [],
   "subjects": [],
+  "traits": [],
 }
 `;
 

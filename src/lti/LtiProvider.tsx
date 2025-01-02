@@ -17,7 +17,7 @@ import { PageLayout } from "../components/Layout/PageContainer";
 import { useLtiData } from "../components/LtiContext";
 import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
-import { converSearchStringToObject } from "../containers/SearchPage/searchHelpers";
+import { convertSearchStringToObject } from "../containers/SearchPage/searchHelpers";
 import SearchInnerPage, { getStateSearchParams } from "../containers/SearchPage/SearchInnerPage";
 import { GQLSearchPageQuery } from "../graphqlTypes";
 import { getLangAttributeValue } from "../i18n";
@@ -43,7 +43,7 @@ const LtiProvider = () => {
   const ltiContext = useLtiData();
   const location = useLocation();
   const navigate = useNavigate();
-  const searchParams = converSearchStringToObject(location);
+  const searchParams = convertSearchStringToObject(location);
 
   const { t, i18n } = useTranslation();
 
