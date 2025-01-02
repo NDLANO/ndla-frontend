@@ -14,6 +14,7 @@ import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
 import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import config from "../../../config";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -116,7 +117,7 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
               </SettingsMenuWrapper>
             )}
           </div>
-          {!!user?.arenaEnabled && <NotificationPopover />}
+          {!!user?.arenaEnabled && !config.externalArena && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
       <MenuModalContent menuItems={menuItems} showButtons={showButtons} />

@@ -9,6 +9,7 @@ import partition from "lodash/partition";
 import uniq from "lodash/uniq";
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@apollo/client";
+import config from "../config";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import { alertsQuery } from "../queries";
 
@@ -68,7 +69,7 @@ const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
   const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
     pollInterval: 10 * 60 * 1000,
-    skip: typeof window === "undefined",
+    skip: typeof window === "undefined" || config.externalArena,
   });
 
   const closeAlert = useCallback((id: number) => {
