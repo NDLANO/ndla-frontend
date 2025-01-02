@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { searchResultToLinkProps, converSearchStringToObject, convertSearchParam } from "../searchHelpers";
+import { searchResultToLinkProps, convertSearchStringToObject, convertSearchParam } from "../searchHelpers";
 
 test("searchHelpers searchResultToLinkProps learningpath", () => {
   const result = {
@@ -27,16 +27,16 @@ test("searchHelpers searchResultToLinkProps article", () => {
   expect(searchResultToLinkProps(result)).toMatchSnapshot();
 });
 
-test("searchHelpers converSearchStringToObject converts search string", () => {
+test("searchHelpers convertSearchStringToObject converts search string", () => {
   const locationWithSearch = {
     search: "?query=test&page=3&languageFilter=1,2,3&subjects=urn:test:3,urn:test:1,urn:test:2",
   };
 
-  expect(converSearchStringToObject(locationWithSearch)).toMatchSnapshot();
+  expect(convertSearchStringToObject(locationWithSearch)).toMatchSnapshot();
 });
 
-test("searchHelpers converSearchStringToObject with no location", () => {
-  expect(converSearchStringToObject()).toMatchSnapshot();
+test("searchHelpers convertSearchStringToObject with no location", () => {
+  expect(convertSearchStringToObject()).toMatchSnapshot();
 });
 
 test("searchHelpers convertSearchParam", () => {

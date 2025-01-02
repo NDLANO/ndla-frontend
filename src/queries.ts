@@ -97,7 +97,6 @@ export const searchQuery = gql`
     $language: String
     $ids: [Int!]
     $resourceTypes: String
-    $contextFilters: String
     $levels: String
     $sort: String
     $fallback: String
@@ -105,6 +104,7 @@ export const searchQuery = gql`
     $languageFilter: String
     $relevance: String
     $grepCodes: String
+    $traits: [String!]
     $aggregatePaths: [String!]
     $filterInactive: Boolean
   ) {
@@ -116,7 +116,6 @@ export const searchQuery = gql`
       language: $language
       ids: $ids
       resourceTypes: $resourceTypes
-      contextFilters: $contextFilters
       levels: $levels
       sort: $sort
       fallback: $fallback
@@ -124,6 +123,7 @@ export const searchQuery = gql`
       languageFilter: $languageFilter
       relevance: $relevance
       grepCodes: $grepCodes
+      traits: $traits
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
     ) {

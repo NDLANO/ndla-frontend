@@ -41,11 +41,11 @@ const arrayFields = [
   "relevance",
   "resourceTypes",
   "contextTypes",
-  "contextFilters",
   "grepCodes",
+  "traits",
 ];
 
-export const converSearchStringToObject = (
+export const convertSearchStringToObject = (
   location?: Pick<Location, "search">,
   locale?: LocaleType,
 ): Record<string, any> => {

@@ -15,7 +15,7 @@ import {
   getTypeFilter,
   mapSearchDataToGroups,
   convertSearchParam,
-  converSearchStringToObject,
+  convertSearchStringToObject,
   getTypeParams,
   TypeFilter,
   mapSubjectDataToGroup,
@@ -76,7 +76,7 @@ const SearchInnerPage = ({
     setTypeFilter(getTypeFilter(resourceTypes, selectedFilters, activeSubFilters, t));
   }, [resourceTypes, selectedFilters, activeSubFilters, t]);
 
-  const searchParams = converSearchStringToObject(location, i18n.language);
+  const searchParams = convertSearchStringToObject(location, i18n.language);
   const stateSearchParams = isLti
     ? {
         query: !query ? undefined : query,

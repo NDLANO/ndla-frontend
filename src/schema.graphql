@@ -1393,7 +1393,6 @@ type Query {
   resourceTypes: [ResourceTypeDefinition!]
   search(
     aggregatePaths: [String!]
-    contextFilters: String
     contextTypes: String
     fallback: String
     filterInactive: Boolean
@@ -1409,9 +1408,9 @@ type Query {
     resourceTypes: String
     sort: String
     subjects: String
+    traits: [String!]
   ): Search
   searchWithoutPagination(
-    contextFilters: String
     contextTypes: String
     fallback: String
     ids: [Int!]
