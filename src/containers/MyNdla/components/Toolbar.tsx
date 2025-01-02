@@ -13,8 +13,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
 import NotificationPopover from "./NotificationPopover";
 import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
-import config from "../../../config";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import config from "../../../config";
 
 const ToolbarContainer = styled("div", {
   base: {
