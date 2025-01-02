@@ -149,7 +149,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   }
   if (!resource?.article || !article) {
     const error = errors?.find((e) => e.path?.includes("resource"));
-    return <ArticleErrorMessage status={(error as any)?.status} />;
+    return <ArticleErrorMessage status={(error as any)?.status ?? 404} />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;

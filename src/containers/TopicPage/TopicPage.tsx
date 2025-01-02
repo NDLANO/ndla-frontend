@@ -82,6 +82,7 @@ export const TopicPage = () => {
       rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
       transformArgs: {
+        showVisualElement: "true",
         prettyUrl: true,
       },
     },
@@ -114,6 +115,10 @@ export const TopicPage = () => {
 
   if (!query.data?.node) {
     return <DefaultErrorMessagePage />;
+  }
+
+  if (!query.data?.node.article) {
+    return <NotFoundPage />;
   }
 
   const { node } = query.data;

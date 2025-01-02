@@ -36,7 +36,13 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
-    learningpathPage: `Mine læringsstiar - ${titleTemplate}`,
+    learningpathsPage: `Mine læringsstiar - ${titleTemplate}`,
+    learningpathPage: `{{name}}  - ${titleTemplate}`,
+    learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathEditTitlePage: `Rediger tittel - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathPreviewPage: `Førehandsvis - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
@@ -98,6 +104,83 @@ const messages = {
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {
+      newLearningpath: "Ny læringssti",
+      form: {
+        delete: "Slett",
+        next: "Neste",
+        back: "Forrige",
+        deleteStep: "Slett trinn",
+        deleteBody: "Innholdet kan ikkje gjenopprettast",
+        navigation: "Skjemanavigering",
+        title: {
+          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          imageTitle: "Bildetittel",
+          copyright: "Opphav",
+          metaImage: "Metabilde",
+          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
+          noResult: "Ingen bildar treffar din søketekst",
+          imageRequired: "Vennligst velg eit bilete.",
+        },
+        content: {
+          title: "Legg til innhald",
+          subTitle: "Legg til innhald til læringsstien",
+          resource: {
+            label: "Artikkel frå NDLA",
+            labelHelper: "Søk etter artikkel eller lim inn ein lenke",
+          },
+          text: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag ei beskrivande tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+            },
+            description: {
+              label: "Innhald",
+              labelHelper: "Skriv eller lim inn innhaldet ditt her.",
+            },
+          },
+          external: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag ei beskrivande tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+            },
+            content: {
+              label: "Innhald frå eit anna nettstad",
+              labelHelper: "Lim inn ein lenke til innhaldet du vil legge til.",
+            },
+            copyright:
+              "Når du deler innhald frå andre nettstader er du sjølv ansvarleg for at innhaldet er lovleg å dele. Les meir om ",
+            copyrightLink: "opphavsrett og deling.",
+            checkbox: "Inhaldet eg har lenka til er lovleg å dele.",
+          },
+          folder: {
+            label: "Søk i Mine mapper",
+            labelHelper: "Velg innhald frå mine mapper",
+          },
+        },
+        options: {
+          text: "Tekst eg har skrevet sjølv",
+          resource: "Innhald frå NDLA",
+          external: "Innhald frå eit anna nettstad",
+          folder: "Innhald frå ein av mine mapper i Min NDLA",
+        },
+        steps: {
+          next: "Neste: {{ next }}",
+          title: "Tittel og beskrivelse",
+          content: "Legg til innhald",
+          preview: "Sjå igjennom",
+          save: "Lagre og del",
+          edit: "Rediger trinn",
+          add: "Legg til trinn",
+        },
+      },
       title: "Mine læringsstiar",
       description:
         "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
@@ -159,6 +242,9 @@ const messages = {
       title: "Tittel",
       content: "Innhald",
       description: "Beskriving",
+      introduction: "Ingress",
+      url: "Lenka",
+      shareable: "Delbar",
     },
     required: "Dette feltet er påkrevd",
     requiredField: "$t(validation.fields.{{field}}) kan ikkje være tom",

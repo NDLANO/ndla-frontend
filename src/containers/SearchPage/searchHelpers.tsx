@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
@@ -85,6 +86,10 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
       return t("resource.trait.video");
     } else if (trait === "H5P") {
       return t("resource.trait.h5p");
+    } else if (trait === "PODCAST") {
+      return t("resource.trait.podcast");
+    } else if (trait === "AUDIO") {
+      return t("resource.trait.audio");
     }
     return trait;
   }) ?? [];

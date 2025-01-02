@@ -37,8 +37,11 @@ import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
+import { EditLearningpathStepsPage } from "./containers/MyNdla/Learningpath/EditLearningpathStepsPage";
+import { EditLearningpathTitlePage } from "./containers/MyNdla/Learningpath/EditLearningpathTitlePage";
 import { LearningpathCheck } from "./containers/MyNdla/Learningpath/LearningpathCheck";
 import LearningpathPage from "./containers/MyNdla/Learningpath/LearningpathPage";
+import { NewLearningpathPage } from "./containers/MyNdla/Learningpath/NewLearningpathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -211,6 +214,15 @@ const AppRoutes = ({ base }: AppProps) => {
                   </Route>
                   {!!config.learningpathEnabled && (
                     <Route path="learningpaths" element={<LearningpathCheck />}>
+                      <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                      <Route
+                        path=":learningpathId/edit/steps"
+                        element={<PrivateRoute element={<EditLearningpathStepsPage />} />}
+                      />
+                      <Route
+                        path=":learningpathId/edit/title"
+                        element={<PrivateRoute element={<EditLearningpathTitlePage />} />}
+                      />
                       <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
                     </Route>
                   )}
