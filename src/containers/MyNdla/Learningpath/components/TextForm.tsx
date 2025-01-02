@@ -12,22 +12,16 @@ import { Controller, useFormContext } from "react-hook-form";
 import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
+import { FormValuesMap } from "../types";
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
-export interface TextFormValues {
-  type: "text";
-  title: string;
-  introduction: string;
-  description: string;
-}
-
 export const TextForm = () => {
   const { validationT } = useValidationTranslation();
-  const { setValue, control } = useFormContext<TextFormValues>();
+  const { setValue, control } = useFormContext<FormValuesMap["text"]>();
 
   return (
     <>
@@ -53,7 +47,7 @@ export const TextForm = () => {
             <FieldLabel>{t("myNdla.learningpath.form.content.text.title.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.title.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldInput {...field} />
+            <FieldInput {...field} value={field.value ?? ""} />
             <FieldLength value={field.value?.length ?? 0} maxLength={TITLE_MAX_LENGTH} />
           </FieldRoot>
         )}
@@ -80,7 +74,7 @@ export const TextForm = () => {
             <FieldLabel>{t("myNdla.learningpath.form.content.text.introduction.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.introduction.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldInput {...field} />
+            <FieldInput {...field} value={field.value ?? ""} />
             <FieldLength value={field?.value?.length ?? 0} maxLength={INTRODUCTION_MAX_LENGTH} />
           </FieldRoot>
         )}
@@ -108,7 +102,7 @@ export const TextForm = () => {
                     shouldDirty: true,
                   });
                 }}
-                initialValue={field.value}
+                initialValue={field.value ?? "<p></p>"}
                 {...field}
               />
             </Suspense>

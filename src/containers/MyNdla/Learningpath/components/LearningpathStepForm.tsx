@@ -21,11 +21,12 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
 import { ExternalForm } from "./ExternalForm";
+import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceForm } from "./ResourceForm";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { FormKeys, FormValues } from "../types";
+import { toFormValues } from "../utils";
 import { TextForm } from "./TextForm";
 
 const ContentForm = styled("form", {
@@ -41,33 +42,21 @@ const ContentForm = styled("form", {
   },
 });
 
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
-export type FormType = (typeof RADIO_GROUP_OPTIONS)[number];
-
-export type FormValues = {
-  type: string;
-  title: string;
-  introduction: string;
-  description: string;
-  embedUrl: string;
-  url: string;
-  shareable: boolean;
-};
+const LEARNINGPATH_FORM_VARIANTS: FormKeys[] = ["text", "resource", "external", "folder"];
 
 interface Props {
-  learningpathId: number;
   step?: GQLMyNdlaLearningpathStepFragment;
+  defaultStepType: FormKeys;
   onClose?: VoidFunction;
   onDelete?: (close: VoidFunction) => Promise<void>;
   onSave: (data: FormValues) => Promise<void>;
 }
 
-export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props) => {
+export const LearningpathStepForm = ({ step, defaultStepType, onClose, onSave, onDelete }: Props) => {
   const { t } = useTranslation();
 
-  const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
-    defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
+    defaultValues: toFormValues(defaultStepType, step),
   });
   const { handleSubmit, control, watch, reset, formState } = methods;
 
@@ -83,11 +72,11 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
               <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
-                onValueChange={(details) => reset(getValuesFromStep(details.value as FormType, step))}
+                onValueChange={(details) => reset(toFormValues(details.value as FormKeys, step))}
                 orientation="vertical"
                 {...field}
               >
-                {RADIO_GROUP_OPTIONS.map((val) => (
+                {LEARNINGPATH_FORM_VARIANTS.map((val) => (
                   <RadioGroupItem value={val} key={val}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
