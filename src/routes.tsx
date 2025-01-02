@@ -112,21 +112,6 @@ export const embedRoutes = [
 ];
 
 export const oembedRoutes = [
-  "subjects/subject:subjectId/topic:topicId",
-  "subjects/subject:subjectId/topic:topicId/resource:resourceId",
-  "subjects/subject:subjectId/topic:topicId/resource:resourceId/:stepId",
-  "subjects/subject:subjectId/topic:topic1/topic:topicId",
-  "subjects/subject:subjectId/topic:topic1/topic:topicId/resource:resourceId",
-  "subjects/subject:subjectId/topic:topic1/topic:topicId/resource:resourceId/:stepId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId/:stepId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId/resource:resourceId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topicId/resource:resourceId/:stepId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId/resource:resourceId",
-  "subjects/subject:subjectId/topic:topic1/topic:topic2/topic:topic:3/topic:topic4/topic:topicId/resource:resourceId/:stepId",
   "subject:subjectId/topic:topicId",
   "subject:subjectId/topic:topicId/resource:resourceId",
   "subject:subjectId/topic:topicId/resource:resourceId/:stepId",
