@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
@@ -70,18 +69,16 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
 
   return (
     <div>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, article.title)}`}</title>
-        <meta name="robots" content="noindex, nofollow" />
-        {scripts.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        {oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
+      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <meta name="robots" content="noindex, nofollow" />
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
 
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
-        </script>
-      </Helmet>
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
+      </script>
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}

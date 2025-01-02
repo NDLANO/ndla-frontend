@@ -6,7 +6,6 @@
  *
  */
 
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { Heading, Text } from "@ndla/primitives";
@@ -15,7 +14,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import Flags from "./components/FlagCard";
 import FlaggedPostCard from "./components/FlaggedPostCard";
-import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { useArenaPostInContext } from "../arenaQueries";
@@ -40,14 +38,10 @@ const ArenaSingleFlagPage = () => {
     },
     skip: !Number(postId),
   });
-  const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (loading || !authContextLoaded) return <PageSpinner />;
+  if (loading) return <PageSpinner />;
 
   const flaggedPost = topic?.posts?.items[0];
-
-  if (!authenticated || (user && !(user.arenaEnabled || user.isModerator)))
-    return <Navigate to={routes.myNdla.arena} />;
 
   if (!postId || !topic || !flaggedPost) return <Navigate to={"/404"} replace />;
 

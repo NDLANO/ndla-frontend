@@ -9,8 +9,7 @@
 import parse from "html-react-parser";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
-import { AddLine } from "@ndla/icons/action";
+import { AddLine } from "@ndla/icons";
 import { Button, Text, Heading } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -20,7 +19,6 @@ import { useArenaCategories } from "./components/temporaryNodebbHooks";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { MenuItemProps } from "../components/SettingsMenu";
@@ -59,22 +57,19 @@ const ArenaPage = () => {
   const { t } = useTranslation();
   const { loading, arenaCategories, refetch: refetchCategories } = useArenaCategories();
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled) return;
     trackPageView({
       title: t("htmlTitles.arenaPage"),
       dimensions: getAllDimensions({ user }),
     });
-  }, [authContextLoaded, t, trackPageView, user]);
+  }, [t, trackPageView, user]);
 
-  if (loading || !authContextLoaded) {
+  if (loading) {
     return <PageSpinner />;
   }
-
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
 
   const menuItems: MenuItemProps[] = [
     {
@@ -99,7 +94,7 @@ const ArenaPage = () => {
         <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.arena.category.title")}</h2>
         </Heading>
-        {user?.isModerator && (
+        {!!user?.isModerator && (
           <ModeratorButtonWrapper>
             <Button size="small" onClick={() => setIsEditing((prev) => !prev)}>
               {isEditing ? t("myNdla.arena.admin.category.stopEditing") : t("myNdla.arena.admin.category.startEditing")}

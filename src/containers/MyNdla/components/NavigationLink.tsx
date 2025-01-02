@@ -8,6 +8,7 @@
 
 import { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
+import { ExternalLinkLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
@@ -87,6 +88,7 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
   const selected =
     to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(to);
   const selectedIcon = selected ? iconFilled ?? icon : icon;
+  const external = to.startsWith("http");
 
   return (
     <StyledSafeLink
@@ -95,10 +97,12 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
       to={to}
       reloadDocument={reloadDocument}
       onClick={onClick}
+      target={external ? "_blank" : undefined}
     >
       {selectedIcon}
       <LongText>{name}</LongText>
       <ShortText>{shortName}</ShortText>
+      {!!external && <ExternalLinkLine />}
     </StyledSafeLink>
   );
 };

@@ -9,6 +9,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Location } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import SearchContainer from "./SearchContainer";
 import {
   getTypeFilter,
@@ -26,7 +27,6 @@ import { LtiData } from "../../interfaces";
 import { groupSearchQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
-import { useGraphQuery } from "../../util/runQueries";
 
 export const getStateSearchParams = (searchParams: Record<string, any>) => {
   const stateSearchParams: Record<string, any> = {};
@@ -86,7 +86,7 @@ const SearchInnerPage = ({
 
   const activeSubFiltersWithoutLeading = activeSubFilters.map((asf) => asf.substring(asf.indexOf(":urn:") + 1));
 
-  const { data, previousData, error, loading, fetchMore } = useGraphQuery<GQLGroupSearchQuery>(groupSearchQuery, {
+  const { data, previousData, error, loading, fetchMore } = useQuery<GQLGroupSearchQuery>(groupSearchQuery, {
     variables: {
       ...stateSearchParams,
       language: i18n.language,
@@ -128,7 +128,7 @@ const SearchInnerPage = ({
 
   const getActiveSubFilters = (typeFilters: Record<string, TypeFilter>) => {
     return Object.entries(typeFilters)
-      .filter(([_, value]) => !value.selected.includes("all") && !!value.selected.length)
+      .filter(([, value]) => !value.selected.includes("all") && !!value.selected.length)
       .flatMap(([key, value]) => {
         return value.selected.map((filter) => `${key}:${filter}`);
       });

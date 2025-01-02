@@ -6,12 +6,11 @@
  *
  */
 
-import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
-import { gql } from "@apollo/client";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 import config from "../config";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
-import { useGraphQuery } from "../util/runQueries";
 
 export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
   isModerator: boolean;
@@ -20,8 +19,6 @@ export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  login: () => void;
-  logout: () => void;
   user: MyNDLAUserType | undefined;
   examLock: boolean;
 }
@@ -29,8 +26,6 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  login: () => {},
-  logout: () => {},
   user: undefined,
   examLock: false,
 });
@@ -86,7 +81,7 @@ const AuthenticationContext = ({ children }: Props) => {
   const [user, setUser] = useState<MyNDLAUserType | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
-  const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
+  const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
     skip: typeof window === "undefined" || !isAccessTokenValid(),
   });
 
@@ -109,21 +104,16 @@ const AuthenticationContext = ({ children }: Props) => {
       window.setTimeout(() => {
         setAuthenticated(false);
       }, timeoutMillis);
-    } else {
+    } else if (!myNdlaData.loading) {
       setLoaded(true);
     }
-  }, [myNdlaData.data]);
-
-  const login = useCallback(() => setAuthenticated(true), []);
-  const logout = useCallback(() => setAuthenticated(false), []);
+  }, [myNdlaData]);
 
   return (
     <AuthContext.Provider
       value={{
         authenticated,
         authContextLoaded,
-        login,
-        logout,
         user,
         examLock,
       }}

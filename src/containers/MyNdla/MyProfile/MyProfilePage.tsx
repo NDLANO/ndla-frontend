@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -92,9 +92,9 @@ const MyProfilePage = () => {
           primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
         }}
       />
-      {user && <MyPreferences user={user} />}
+      {!!user && <MyPreferences user={user} />}
       <InfoContainer>
-        {user && (
+        {!!user && (
           <>
             <HeadingWrapper>
               <Heading textStyle="heading.small" asChild consumeCss>

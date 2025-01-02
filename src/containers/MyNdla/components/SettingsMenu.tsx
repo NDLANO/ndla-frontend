@@ -9,7 +9,7 @@
 import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
-import { MoreLine } from "@ndla/icons/contentType";
+import { MoreLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -22,7 +22,6 @@ import {
   MenuContent,
   MenuItem,
   MenuItemVariantProps,
-  MenuPositioner,
   MenuRoot,
   MenuTrigger,
 } from "@ndla/primitives";
@@ -108,7 +107,7 @@ const StyledDialogBody = styled(DialogBody, {
 
 const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "medium" }: Props) => {
   const [open, setOpen] = useState(false);
-  const dropdownTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
   const selectors = useUserAgent();
   const { t } = useTranslation();
 
@@ -180,31 +179,29 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "mediu
           <MoreLine />
         </IconButton>
       </MenuTrigger>
-      <MenuPositioner>
-        <MenuContent>
-          {menuItems?.map((item) => (
-            <MenuItem
-              key={item.value}
-              value={item.value}
-              variant={item.variant}
-              onClick={item.onClick}
-              disabled={item.disabled}
-              closeOnSelect={item.type !== "dialog"}
-              asChild={item.type !== "action"}
-              consumeCss
+      <MenuContent>
+        {menuItems?.map((item) => (
+          <MenuItem
+            key={item.value}
+            value={item.value}
+            variant={item.variant}
+            onClick={item.onClick}
+            disabled={item.disabled}
+            closeOnSelect={item.type !== "dialog"}
+            asChild={item.type !== "action"}
+            consumeCss
+          >
+            <MenuItemElement
+              item={item}
+              handleDialogItemOpenChange={handleDialogItemOpenChange}
+              dropdownTriggerRef={dropdownTriggerRef}
             >
-              <MenuItemElement
-                item={item}
-                handleDialogItemOpenChange={handleDialogItemOpenChange}
-                dropdownTriggerRef={dropdownTriggerRef}
-              >
-                {item.icon}
-                {item.text}
-              </MenuItemElement>
-            </MenuItem>
-          ))}
-        </MenuContent>
-      </MenuPositioner>
+              {item.icon}
+              {item.text}
+            </MenuItemElement>
+          </MenuItem>
+        ))}
+      </MenuContent>
     </MenuRoot>
   );
 };
@@ -213,7 +210,7 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
-  dropdownTriggerRef?: RefObject<HTMLButtonElement>;
+  dropdownTriggerRef?: RefObject<HTMLButtonElement | null>;
 }
 
 export const MenuItemElement = ({

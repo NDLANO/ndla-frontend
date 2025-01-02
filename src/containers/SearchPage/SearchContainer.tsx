@@ -8,8 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
-import { Done } from "@ndla/icons/editor";
+import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
   CheckboxGroup,
@@ -228,7 +227,7 @@ const SearchContainer = ({
             )}
           </CompetenceWrapper>
         )}
-        <div aria-live="polite">{loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
+        <div aria-live="polite">{!!loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
         {sortedFilterItems.length > 1 && (
           <StyledFieldsetRoot>
             <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
@@ -237,7 +236,7 @@ const SearchContainer = ({
                 <CheckboxRoot key={item.value} value={item.value} variant="chip">
                   <CheckboxControl>
                     <CheckboxIndicator asChild>
-                      <Done />
+                      <CheckLine />
                     </CheckboxIndicator>
                   </CheckboxControl>
                   <CheckboxLabel>{item.label}</CheckboxLabel>
@@ -260,7 +259,7 @@ const SearchContainer = ({
               typeFilter={typeFilter}
             />
           ))}
-          {isLti && (
+          {!!isLti && (
             <StyledLanguageSelector
               languages={supportedLanguages}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}

@@ -33,8 +33,8 @@ import {
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $isAtNodeEnd } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister, $getNearestNodeOfType } from "@lexical/utils";
-import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons/editor";
-import { ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
+import { Bold, Italic, LinkMedium, ListUnordered, ListOrdered } from "@ndla/icons";
+import { IconButton, ToggleGroupItem, ToggleGroupRoot } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ADD_LINK_COMMAND } from "./FloatingLinkEditorPlugin";
 import { useUserAgent } from "../../UserAgentContext";
@@ -234,53 +234,52 @@ export const EditorToolbar = ({ editorIsFocused }: EditorToolbarProps) => {
     <StyledToggleGroupRoot multiple value={toolbarValues}>
       <ToggleGroupItem
         value={BOLD}
-        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         title={`${t(`markdownEditor.toolbar.bold.${isBold ? "active" : "inactive"}`)} ${osCtrl("b")}`}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-        size="small"
+        asChild
       >
-        <Bold />
+        <IconButton variant="tertiary" size="small">
+          <Bold />
+        </IconButton>
       </ToggleGroupItem>
       <ToggleGroupItem
         value={ITALIC}
-        variant="tertiary"
         aria-label={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")}`}
         title={`${t(`markdownEditor.toolbar.italic.${isItalic ? "active" : "inactive"}`)} ${osCtrl("i")} `}
         onClick={() => activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
-        size="small"
+        asChild
       >
-        <Italic />
+        <IconButton variant="tertiary" size="small">
+          <Italic />
+        </IconButton>
       </ToggleGroupItem>
       <ToggleGroupItem
         value={UNORDERED}
-        variant="tertiary"
         onClick={formatBulletList}
         aria-label={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.unorderedList.${isUnorderedList ? "active" : "inactive"}`)}
-        size="small"
+        asChild
       >
-        <ListUnordered />
+        <IconButton variant="tertiary" size="small">
+          <ListUnordered />
+        </IconButton>
       </ToggleGroupItem>
       <ToggleGroupItem
-        variant="tertiary"
         onClick={formatNumberedList}
         aria-label={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
         title={t(`markdownEditor.toolbar.orderedList.${isOrderedList ? "active" : "inactive"}`)}
-        size="small"
         value={ORDERED}
+        asChild
       >
-        <ListOrdered />
+        <IconButton variant="tertiary" size="small">
+          <ListOrdered />
+        </IconButton>
       </ToggleGroupItem>
-      <ToggleGroupItem
-        variant="tertiary"
-        onClick={insertLink}
-        aria-label={linkLabel}
-        title={linkLabel}
-        size="small"
-        value={LINK}
-      >
-        <LinkMedium />
+      <ToggleGroupItem onClick={insertLink} aria-label={linkLabel} title={linkLabel} value={LINK} asChild>
+        <IconButton variant="tertiary" size="small">
+          <LinkMedium />
+        </IconButton>
       </ToggleGroupItem>
     </StyledToggleGroupRoot>
   );

@@ -12,8 +12,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
+import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -113,11 +112,11 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: image.id,
-                  path: `${config.ndlaFrontendDomain}/image/${image.id}`,
+                  path: `/image/${image.id}`,
                   resourceType: "image",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/image/${image.id}`} />
+                <FavoriteButton path={`/image/${image.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
@@ -133,7 +132,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
-              {shouldShowLink && (
+              {!!shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ExternalLinkLine />
                   {t("license.openLink")}

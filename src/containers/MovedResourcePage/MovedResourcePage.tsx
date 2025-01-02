@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
@@ -16,14 +16,13 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import NavigationBox from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMovedResourcePage_ResourceFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
+import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
-import { useGraphQuery } from "../../util/runQueries";
 
 interface Props {
-  resource: GQLMovedResourcePage_ResourceFragment;
+  resource: GQLMovedResourcePage_NodeFragment;
 }
 
 const StyledMain = styled("main", {
@@ -45,11 +44,11 @@ const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
-  const { error, loading, data } = useGraphQuery<GQLMovedResourceQuery>(movedResourceQuery, {
+  const { error, loading, data } = useQuery<GQLMovedResourceQuery>(movedResourceQuery, {
     variables: { resourceId: resource.id },
   });
 
-  const convertResourceToResult = (resource: GQLMovedResourcePage_ResourceFragment) => {
+  const convertResourceToResult = (resource: GQLMovedResourcePage_NodeFragment) => {
     const resultId = isLearningpath ? resource.learningpath?.id : resource.article?.id;
     if (!resultId) return undefined;
 
@@ -61,13 +60,13 @@ const MovedResourcePage = ({ resource }: Props) => {
     return {
       id: resultId,
       title: resource.name,
-      url: resource.path ?? "",
+      url: resource.url ?? "",
       contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
       ingress: ingress ?? "",
       metaImage,
       breadcrumbs: resource.breadcrumbs,
-      subjects: data?.resource?.contexts.map(({ breadcrumbs, path }) => ({
-        url: path,
+      roots: data?.resource?.contexts.map(({ breadcrumbs, url }) => ({
+        url: url,
         title: breadcrumbs[0] ?? "",
       })),
     };
@@ -83,14 +82,16 @@ const MovedResourcePage = ({ resource }: Props) => {
   }
 
   const result = convertResourceToResult(resource);
-  const navigationBoxItems = result?.subjects?.map((subject) => ({
-    label: subject.title ?? "",
-    url: subject.url ?? "",
+  const navigationBoxItems = result?.roots?.map((root) => ({
+    label: root.title ?? "",
+    url: root.url ?? "",
   }));
 
   return (
     <PageContainer>
-      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")} />
+      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
+        <meta name="robots" content="noindex" />
+      </HelmetWithTracker>
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
@@ -115,14 +116,14 @@ const MovedResourcePage = ({ resource }: Props) => {
 
 MovedResourcePage.fragments = {
   resource: gql`
-    fragment MovedResourcePage_Resource on Resource {
+    fragment MovedResourcePage_Node on Node {
       id
       name
-      path
-      paths
+      url
       breadcrumbs
       contexts {
-        path
+        contextId
+        url
         breadcrumbs
       }
       article {

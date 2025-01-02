@@ -68,14 +68,10 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
       </Heading>
       <Text textStyle="title.medium">{user.primaryOrg}</Text>
       {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
-      {showProfileButton && (
-        <>
-          {!isStudent(user as withRole) && (
-            <MobileButtonContainer>
-              <EditProfilePicture />
-            </MobileButtonContainer>
-          )}
-        </>
+      {!!showProfileButton && !isStudent(user as withRole) && (
+        <MobileButtonContainer>
+          <EditProfilePicture />
+        </MobileButtonContainer>
       )}
     </MyContactAreaContainer>
   );

@@ -13,9 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { SelectHiddenSelect, SelectIndicator, SelectValueText } from "@ark-ui/react";
 import { createListCollection } from "@ark-ui/react/collection";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   FieldErrorMessage,
@@ -33,7 +31,6 @@ import {
   SelectTrigger,
   SelectRoot,
   SelectContent,
-  SelectPositioner,
   SelectItem,
   SelectItemText,
   SelectItemIndicator,
@@ -41,7 +38,7 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { INewCategoryDTO } from "@ndla/types-backend/myndla-api";
 import { GQLArenaCategoryV2Fragment, GQLTopiclessArenaCategoryV2 } from "../../../../graphqlTypes";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import { useArenaCategoriesV2 } from "../../arenaQueries";
@@ -75,7 +72,7 @@ interface ArenaFormProps {
   initialDescription?: string;
   initialVisible?: boolean;
   initialParentCategoryId?: number;
-  onSave: (data: Partial<INewCategory>) => Promise<void>;
+  onSave: (data: Partial<INewCategoryDTO>) => Promise<void>;
   onAbort: () => void;
   loading?: boolean;
   id?: number;
@@ -137,7 +134,7 @@ const ArenaCategoryForm = ({
     setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
   }, []);
 
-  const onSubmit = async (data: INewCategory) => {
+  const onSubmit = async (data: INewCategoryDTO) => {
     await onSave({
       title: data.title,
       description: data.description,
@@ -217,18 +214,17 @@ const ArenaCategoryForm = ({
                   </IconButton>
                 </SelectClearTrigger>
               </SelectControl>
-              <SelectPositioner>
-                <SelectContent>
-                  {possibleParents.map((option) => (
-                    <SelectItem item={option} key={option.value}>
-                      <SelectItemText>{option.label}</SelectItemText>
-                      <SelectItemIndicator asChild>
-                        <CheckLine />
-                      </SelectItemIndicator>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </SelectPositioner>
+              <SelectContent>
+                {possibleParents.map((option) => (
+                  <SelectItem item={option} key={option.value}>
+                    <SelectItemText>{option.label}</SelectItemText>
+                    <SelectItemIndicator asChild>
+                      <CheckLine />
+                    </SelectItemIndicator>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+              <SelectHiddenSelect />
             </SelectRoot>
           </FieldRoot>
         )}

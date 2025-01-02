@@ -7,8 +7,8 @@
  */
 
 import { Request, Response } from "express";
-import { FilledContext } from "react-helmet-async";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
+import { LocaleType } from "../interfaces";
 
 interface RenderLocationReturn {
   status: number;
@@ -17,9 +17,9 @@ interface RenderLocationReturn {
 
 export interface RenderDataReturn {
   status: number;
+  locale: LocaleType;
   data: {
     htmlContent: string;
-    helmetContext?: FilledContext;
     data?: any;
   };
 }

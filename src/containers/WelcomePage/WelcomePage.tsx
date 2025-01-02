@@ -8,8 +8,8 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
-import { ArrowRightLine } from "@ndla/icons/common";
+import { gql, useQuery } from "@apollo/client";
+import { ArrowRightLine } from "@ndla/icons";
 import { Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -24,7 +24,6 @@ import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { useGraphQuery } from "../../util/runQueries";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -124,6 +123,7 @@ const frontpageQuery = gql`
         created
         updated
         published
+        language
         transformedContent(transformArgs: $transformArgs) {
           content
           metaData {
@@ -153,7 +153,9 @@ const WelcomePage = () => {
     }
   }, [authContextLoaded, t, trackPageView, user]);
 
-  const fpQuery = useGraphQuery<GQLFrontpageDataQuery>(frontpageQuery);
+  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery, {
+    variables: { transformArgs: { prettyUrl: true } },
+  });
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;
@@ -161,6 +163,7 @@ const WelcomePage = () => {
     const transformedArticle = transformArticle(_article, i18n.language, {
       path: `${config.ndlaFrontendDomain}/`,
       frontendDomain: config.ndlaFrontendDomain,
+      articleLanguage: _article.language,
     });
     return [
       {
@@ -199,9 +202,7 @@ const WelcomePage = () => {
         title={t("welcomePage.heading.heading")}
         description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
-      >
-        <meta name="keywords" content={t("meta.keywords")} />
-      </SocialMediaMetadata>
+      />
       <Hero variant="brand1Moderate">
         <StyledHeroBackground />
         <StyledPageContainer asChild consumeCss>
@@ -226,7 +227,7 @@ const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            {article && (
+            {!!article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
               </ArticleWrapper>

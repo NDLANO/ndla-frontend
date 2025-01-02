@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
@@ -76,7 +76,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
             sourceTitle={text.title}
             sourceType="text"
           />
-          {printUrl && (
+          {!!printUrl && (
             <MediaListItemActions>
               <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
                 {t("article.printPage")}

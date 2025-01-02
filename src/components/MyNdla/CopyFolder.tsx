@@ -8,7 +8,7 @@
 
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InformationLine, AlertLine } from "@ndla/icons/common";
+import { InformationLine, AlertLine } from "@ndla/icons";
 import {
   Button,
   Text,
@@ -96,7 +96,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
               <InformationLine />
               <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
             </MessageBox>
-            {copySharedFolderMutation.error && (
+            {!!copySharedFolderMutation.error && (
               <MessageBox variant="error">
                 <AlertLine />
                 <Text>{t("errorMessage.description")}</Text>

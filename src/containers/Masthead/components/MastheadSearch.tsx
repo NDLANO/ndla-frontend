@@ -14,8 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowRightLine, SearchLine } from "@ndla/icons/common";
+import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Button,
   ComboboxControl,
@@ -29,7 +28,6 @@ import {
   IconButton,
   InputContainer,
   Input,
-  ComboboxContent,
   ComboboxItem,
   ComboboxItemText,
   Spinner,
@@ -37,11 +35,12 @@ import {
   NdlaLogoText,
   Text,
   ListItemRoot,
+  ComboboxContentStandalone,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew, useComboboxTranslations } from "@ndla/ui";
+import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
 import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
@@ -51,9 +50,9 @@ import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
-const debounceCall = debounce((fun: (func?: Function) => void) => fun(), 250);
+const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
-const StyledComboboxContent = styled(ComboboxContent, {
+const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
   },
@@ -163,7 +162,7 @@ const MastheadSearch = () => {
     const onSlashPressed = (evt: KeyboardEvent) => {
       if (
         evt.key === "/" &&
-        !["input", "textarea"].includes(document.activeElement?.tagName.toLowerCase() ?? "") &&
+        !["input", "textarea"].includes(document.activeElement?.tagName?.toLowerCase() ?? "") &&
         document.activeElement?.attributes.getNamedItem("contenteditable")?.value !== "true" &&
         !dialogState.open
       ) {
@@ -205,7 +204,7 @@ const MastheadSearch = () => {
     setQuery("");
   };
 
-  const mappedItems = useMemo(() => {
+  const searchHits = useMemo(() => {
     if (!query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
@@ -216,7 +215,7 @@ const MastheadSearch = () => {
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
-          path: context?.path ?? result.url,
+          path: context?.url ?? result.url,
         };
       }) ?? []
     );
@@ -236,11 +235,11 @@ const MastheadSearch = () => {
   const collection = useMemo(
     () =>
       createListCollection({
-        items: mappedItems,
+        items: searchHits,
         itemToValue: (item) => item.path,
         itemToString: (item) => item.title,
       }),
-    [mappedItems],
+    [searchHits],
   );
 
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
@@ -320,14 +319,14 @@ const MastheadSearch = () => {
               </IconButton>
             </ComboboxControl>
             <StyledHitsWrapper aria-live="assertive">
-              {!loading && query && (
+              {!loading && !!query && (
                 <div>
-                  {!(mappedItems.length > 1) ? (
-                    <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                  {!(searchHits.length >= 1) ? (
+                    <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
-                  {suggestion && (
+                  {!!suggestion && (
                     <Text textStyle="label.small">
                       {t("searchPage.resultType.searchPhraseSuggestion")}
                       <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
@@ -338,12 +337,12 @@ const MastheadSearch = () => {
                 </div>
               )}
             </StyledHitsWrapper>
-            {!!mappedItems.length || loading ? (
+            {!!searchHits.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
                   <Spinner />
                 ) : (
-                  mappedItems.map((resource) => (
+                  searchHits.map((resource) => (
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot context="list">
                         <TextWrapper>
@@ -363,7 +362,7 @@ const MastheadSearch = () => {
                             </Text>
                           )}
                         </TextWrapper>
-                        <ContentTypeBadgeNew contentType={resource.contentType} />
+                        <ContentTypeBadge contentType={resource.contentType} />
                       </StyledListItemRoot>
                     </ComboboxItem>
                   ))
@@ -371,7 +370,7 @@ const MastheadSearch = () => {
               </StyledComboboxContent>
             ) : null}
           </ComboboxRoot>
-          {!!mappedItems.length && !loading && (
+          {!!searchHits.length && !loading && (
             <Button variant="secondary" type="submit">
               {t("masthead.moreHits")}
               <ArrowRightLine />

@@ -11,7 +11,7 @@ import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primi
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew } from "@ndla/ui";
+import { ContentTypeBadge } from "@ndla/ui";
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
@@ -39,16 +39,16 @@ interface Props {
 export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
   return (
     <StyledCardRoot>
-      {metaImage && metaImage.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
+      {!!metaImage?.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
       <CardContent>
-        <ContentTypeBadgeNew contentType={contentType} />
+        <ContentTypeBadge contentType={contentType} />
         <CardHeading asChild consumeCss>
           <SafeLink to={url} unstyled css={linkOverlay.raw()}>
             {title}
           </SafeLink>
         </CardHeading>
         {!!ingress && <Text>{parse(ingress)}</Text>}
-        {breadcrumbs && (
+        {!!breadcrumbs && (
           <Text color="text.subtle" textStyle="label.small">
             {breadcrumbs.join(" › ")}
           </Text>

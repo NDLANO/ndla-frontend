@@ -25,9 +25,10 @@ import {
   LoginBoxLine,
   RouteLine,
   RouteFill,
-} from "@ndla/icons/common";
-import { MoreLine } from "@ndla/icons/contentType";
-import { FolderFill, FolderLine } from "@ndla/icons/editor";
+  MoreLine,
+  FolderFill,
+  FolderLine,
+} from "@ndla/icons";
 import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
@@ -160,7 +161,7 @@ const MyNdlaLayout = () => {
           </DialogTrigger>
         </StyledSideBar>
         <StyledContent>
-          {examLock && (
+          {!!examLock && (
             <MessageBox variant="warning">
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
@@ -214,14 +215,14 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     id: "learningpaths",
     to: routes.myNdla.learningpath,
     name: t("myNdla.learningpath.title"),
-    shortName: t("myNdla.iconMeny.learningpath"),
+    shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
     shownForUser: (user) => config.learningpathEnabled && user?.role === "employee",
   },
   {
     id: "arena",
-    to: routes.myNdla.arena,
+    to: config.externalArena ? config.arenaDomain : routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
@@ -235,7 +236,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.arena.admin.title"),
     icon: <ShieldUserLine />,
     iconFilled: <ShieldUserFill />,
-    shownForUser: (user) => !!(user?.arenaEnabled && user?.isModerator),
+    shownForUser: (user) => !!(!config.externalArena && user?.arenaEnabled && user?.isModerator),
   },
   {
     id: "profile",

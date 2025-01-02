@@ -7,14 +7,13 @@
  */
 
 import { ReactNode } from "react";
-import { ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowRightShortLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
 import { SafeLinkButton, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { DrawerListItem } from "./DrawerPortion";
 
 interface BaseProps {
-  bold?: boolean;
   type: "button" | "link";
   active?: boolean;
   id: string;
@@ -80,7 +79,7 @@ export const StyledSafeLink = styled(SafeLinkButton, {
 
 type Props = DrawerMenuButtonProps | DrawerMenuLinkProps;
 
-const DrawerMenuItem = ({ bold, children, active, current, id, ...specificProps }: Props) => {
+const DrawerMenuItem = ({ children, active, current, id, ...specificProps }: Props) => {
   return specificProps.type === "button" ? (
     <DrawerListItem role="none" data-list-item>
       <StyledButton

@@ -11,8 +11,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons/action";
-import { ExternalLinkLine } from "@ndla/icons/common";
+import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
@@ -102,11 +101,11 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: concept.id,
-                  path: `${config.ndlaFrontendDomain}/concept/${concept.id}`,
+                  path: `/concept/${concept.id}`,
                   resourceType: "concept",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/concept/${concept.id}`} />
+                <FavoriteButton path={`/concept/${concept.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
@@ -117,7 +116,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
-              {shouldShowLink && (
+              {!!shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" rel="noopener noreferrer" variant="secondary" size="small">
                   <ExternalLinkLine />
                   {t("license.openLink")}

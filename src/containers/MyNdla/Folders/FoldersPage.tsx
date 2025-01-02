@@ -10,6 +10,7 @@ import isEqual from "lodash/isEqual";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,7 +23,6 @@ import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
-import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { foldersPageQuery, useFolder } from "../folderMutations";
@@ -79,7 +79,7 @@ const FoldersPage = () => {
   const { folderId } = useParams();
   const { user, authContextLoaded, examLock } = useContext(AuthContext);
   const { trackPageView } = useTracker();
-  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {
@@ -149,7 +149,7 @@ const FoldersPage = () => {
     <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
       <HelmetWithTracker title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
-      {selectedFolder && (
+      {!!selectedFolder && (
         <p>
           <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
         </p>
@@ -161,7 +161,7 @@ const FoldersPage = () => {
         setFocusId={setFocusId}
         folderRefId={folderRefId}
       />
-      {selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
+      {!!selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
       {!selectedFolder && sharedByOthersFolders?.length > 0 && (
         <>
           <SharedHeading asChild consumeCss textStyle="heading.small">

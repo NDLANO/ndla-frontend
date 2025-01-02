@@ -8,13 +8,13 @@
 
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
-import { useGraphQuery } from "../../util/runQueries";
+import { isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
@@ -41,9 +41,9 @@ const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
-  const { loading, data } = useGraphQuery<GQLProgrammePageQuery>(programmePageQuery, {
+  const { loading, data } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
-    skip: programme?.includes("__"),
+    skip: programme?.includes("__") || !isValidContextId(contextId),
   });
 
   if (programme?.includes("__")) {

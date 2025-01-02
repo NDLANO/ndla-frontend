@@ -6,14 +6,13 @@
  *
  */
 
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
 import { MissingRouterContext, SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { PageContainer } from "@ndla/ui";
 import { Status } from "../../components";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import Masthead from "../Masthead/components/Masthead";
 import { Footer } from "../Page/components/Footer";
@@ -33,28 +32,25 @@ const ErrorMessageMain = styled("main", {
 });
 
 const ErrorPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   return (
     <MissingRouterContext.Provider value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
-        <PageContainer backgroundWide={true}>
-          <Helmet
-            htmlAttributes={{ lang: i18n.language === "nb" ? "no" : i18n.language }}
-            title="NDLA"
-            meta={[{ name: "description", content: t("meta.description") }]}
-          />
-          <Masthead fixed>
-            <LogoWrapper>
-              <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
-                <NdlaLogoText />
-              </SafeLink>
-            </LogoWrapper>
-          </Masthead>
+        <title>NDLA</title>
+        <meta name="description" content={t("meta.description")} />
+        <Masthead fixed>
+          <LogoWrapper>
+            <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
+              <NdlaLogoText />
+            </SafeLink>
+          </LogoWrapper>
+        </Masthead>
+        <PageLayout asChild>
           <ErrorMessageMain>
             <DefaultErrorMessage applySkipToContentId />
           </ErrorMessageMain>
-          <Footer />
-        </PageContainer>
+        </PageLayout>
+        <Footer />
       </Status>
     </MissingRouterContext.Provider>
   );

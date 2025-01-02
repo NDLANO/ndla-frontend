@@ -21,31 +21,27 @@ test("getAlternateLanguages without article", () => {
 });
 
 test("getAlternateUrl with article-url and empty language", () => {
-  const alternateUrl = getAlternateUrl({ pathname: "/article/123" }, "nb");
+  const alternateUrl = getAlternateUrl("/article/123", "nb");
   expect(alternateUrl).toMatch("https://test.ndla.no/nb/article/123");
 });
 
 test("getAlternateUrl with iframe-url and nn language", () => {
-  const alternateUrl = getAlternateUrl({ pathname: "/article-iframe/nb/urn:topic:123/1" }, "nn");
+  const alternateUrl = getAlternateUrl("/article-iframe/nb/urn:topic:123/1", "nn");
   expect(alternateUrl).toMatch("https://test.ndla.no/article-iframe/nn/urn:topic:123/1");
 });
 
 test("getCanonicalUrl with article-url and empty language", () => {
-  const canonicalUrl = getCanonicalUrl({ pathname: "/article/123" });
+  const canonicalUrl = getCanonicalUrl("/article/123");
   expect(canonicalUrl).toMatch("https://test.ndla.no/article/123");
 });
 
 test("getCanonicalUrl with iframe-url and nb language", () => {
-  const canonicalUrl = getCanonicalUrl({
-    pathname: "/article-iframe/nb/urn:topic:123/1",
-  });
+  const canonicalUrl = getCanonicalUrl("/article-iframe/nb/urn:topic:123/1");
   expect(canonicalUrl).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
 });
 
 test("getCanonicalUrl with iframe-url and no language", () => {
-  const canonicalUrl = getCanonicalUrl({
-    pathname: "/article-iframe/urn:topic:123/1",
-  });
+  const canonicalUrl = getCanonicalUrl("/article-iframe/urn:topic:123/1");
   expect(canonicalUrl).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
 });
 

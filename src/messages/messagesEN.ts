@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,
     notFound: `Page not found - ${titleTemplate}`,
+    forbidden: `Access denied - ${titleTemplate}`,
     unpublished: `Resource is unpublished - ${titleTemplate}`,
     accessDenied: `Access denied - ${titleTemplate}`,
     subject: "Subject",
@@ -35,7 +36,14 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
-    learningpathPage: `My learning paths - ${titleTemplate}`,
+    learningpathsPage: `My learning paths - ${titleTemplate}`,
+    learningpathPage: `{{name}}  - ${titleTemplate}`,
+    learningpathEditStepsPage: `Edit steps - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathEditTitlePage: `Edit title - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathPreviewPage: `Preview - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathSavePage: `Save - {{name}} - Learningpath - ${titleTemplate}`,
+    learningpathNewPage: `New Learningpath - ${titleTemplate}`,
+    collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "About us",
@@ -94,6 +102,133 @@ const messages = {
       error: "An error occured",
       userUpdated: "User updated",
     },
+    goToMyNdla: "Go to My NDLA",
+    learningpath: {
+      newLearningpath: "New learningpath",
+      form: {
+        delete: "Delete",
+        next: "Next",
+        back: "Back",
+        deleteStep: "Delete step",
+        deleteBody: "Content cannot be restored",
+        navigation: "Schemenavigation",
+        title: {
+          titleHelper: "Give the path a descriptive title",
+          imageTitle: "Imagetitle",
+          copyright: "Copyright",
+          metaImage: "Metaimage",
+          metaImageHelper: "Add a pciture that represents the learningpath",
+          noResult: "No images matches your search query",
+          imageRequired: "Please choose an image.",
+        },
+        content: {
+          title: "Append content",
+          subTitle: "Append content to the learningpath",
+          resource: {
+            label: "Article from NDLA",
+            labelHelper: "Search for an article or paste a link",
+          },
+          text: {
+            title: {
+              label: "Title",
+              labelHelper: "Create a descriptive title.",
+            },
+            introduction: {
+              label: "Introduction",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
+            },
+            description: {
+              label: "Content",
+              labelHelper: "Write or paste your content here.",
+            },
+          },
+          external: {
+            title: {
+              label: "Title",
+              labelHelper: "Create a descriptive title.",
+            },
+            introduction: {
+              label: "Introduction",
+              labelHelper: "Write a short introduction where you briefly summarize the content of your step.",
+            },
+            content: {
+              label: "Content from another website",
+              labelHelper: "Paste a link to the content you want to add.",
+            },
+            copyright:
+              "When you share content from other websites, you are responsible for ensuring that the content is legal to share. Learn more about ",
+            copyrightLink: "copyright and sharing.",
+            checkbox: "The content I have linked to is legal to share.",
+          },
+          folder: {
+            label: "Search in My Folders",
+            labelHelper: "Select content from my folders",
+          },
+        },
+        options: {
+          text: "Text written by myself",
+          resource: "Content from NDLA",
+          external: "Content from a external website",
+          folder: "Content from one of my folder in My NDLA",
+        },
+        steps: {
+          next: "Neste: {{ next }}",
+          title: "Title and description",
+          content: "Append content",
+          preview: "Preview",
+          save: "Save and share",
+          edit: "Edit step",
+          add: "Add step",
+        },
+      },
+      title: "My Learning Paths",
+      description:
+        "Here you can create your own learning paths and share them with your students. The learning paths can include articles from NDLA, links to other resources, and short texts you create yourself.",
+      created: "Created: {{ created }}",
+      shared: "Shared: {{ shared }}",
+      noPath: "You haven't created any learning paths yet. Click the <em>Add</em> button to start creating one",
+      menu: {
+        new: "New",
+        edit: "Edit",
+        delete: "Delete",
+        share: "Share",
+        unShare: "Stop Sharing",
+        goTo: "Go to",
+        copy: "Copy Link",
+      },
+      toast: {
+        deleted: 'The learning path "{{ name }}" has been deleted.',
+        unshared: 'The learning path "{{ name }}" is no longer shared.',
+        shared: "The learning path is shared.",
+        copy: 'Copied the link to the learning path "{{ name }}"',
+      },
+      status: {
+        shared: "Shared",
+        readyForSharing: "Ready to Share",
+        private: "Started",
+      },
+      delete: {
+        title: "Delete learning path",
+        body: "Are you sure you want to delete the learning path? This action cannot be undone.",
+        button: "Delete learning path",
+      },
+      sharing: {
+        title: "This learning path is shared",
+        description: {
+          shared:
+            "When you share a learning path, you create a link that is accessible to anyone with the link. You can edit the content or stop sharing it whenever you want.",
+          private:
+            "Now you can share this link with students or other teachers. If you make changes to the learning path, they will be visible to everyone you’ve shared the link with.",
+          copy: "Click the link to copy it",
+        },
+        link: "Copy Link",
+        copied: "The link has been copied",
+        button: {
+          done: "Done",
+          preview: "Preview learning path",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Films",
@@ -106,6 +241,9 @@ const messages = {
       description: "Description",
       title: "Title",
       content: "Content",
+      introduction: "Introduction",
+      url: "Link",
+      shareable: "Able to share",
     },
     required: "This field is required",
     requiredField: "$t(validation.fields.{{field}}) can not be empty",
@@ -195,6 +333,32 @@ const messages = {
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
     openInSubject: "Open the article in a subject:",
+  },
+  forbiddenPage: {
+    title: "Access denied",
+    errorDescription: "You do not have access to this page.",
+  },
+  collectionPage: {
+    title: `Resources in $t(languages.{{language}})`,
+    noSubjects: "We do not have any resources in this language yet.",
+  },
+  date: {
+    ago: "ago",
+    now: "Just now",
+    units: {
+      day: "day",
+      days: "days",
+      hour: "hour",
+      hours: "hours",
+      minute: "minute",
+      minutes: "minutes",
+      month: "month",
+      months: "months",
+      second: "second",
+      seconds: "seconds",
+      year: "year",
+      years: "years",
+    },
   },
 };
 

@@ -9,8 +9,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { AddLine } from "@ndla/icons/action";
-import { EyeFill } from "@ndla/icons/editor";
+import { AddLine, EyeFill } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -90,19 +89,17 @@ const TopicPage = () => {
   const { trackPageView } = useTracker();
 
   const { loading, arenaCategory, refetch: refetchCategory } = useArenaCategory(categoryId);
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !loading) return;
     trackPageView({
       title: t("htmlTitles.arenaTopicPage", { name: arenaCategory?.title }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaCategory?.title, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaCategory?.title, loading, t, trackPageView, user]);
 
-  if (loading || !authContextLoaded) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
+  if (loading) return <PageSpinner />;
   if (!arenaCategory) return <Navigate to={routes.myNdla.arena} />;
   const crumbs = arenaCategory.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const showCategories = !!arenaCategory.subcategories?.length || user?.isModerator;
@@ -124,7 +121,7 @@ const TopicPage = () => {
         <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
           {arenaCategory?.title}
-          {user?.isModerator && !arenaCategory?.visible && (
+          {!!user?.isModerator && !arenaCategory?.visible && (
             <EyeFill
               title={t("myNdla.arena.admin.category.notVisible")}
               aria-label={t("myNdla.arena.admin.category.notVisible")}
@@ -134,13 +131,13 @@ const TopicPage = () => {
         </StyledHeading>
         {!!arenaCategory?.description && <Text textStyle="body.xlarge">{arenaCategory.description}</Text>}
       </Introduction>
-      {showCategories && (
+      {!!showCategories && (
         <StyledContainer>
           <HeadingWrapper>
             <Heading textStyle="heading.small" asChild consumeCss>
               <h2>{t("myNdla.arena.category.subcategory")}</h2>
             </Heading>
-            {user?.isModerator && (
+            {!!user?.isModerator && (
               <ModeratorButtonWrapper>
                 <Button onClick={() => setIsEditing((prev) => !prev)}>
                   {isEditing
@@ -153,7 +150,7 @@ const TopicPage = () => {
               </ModeratorButtonWrapper>
             )}
           </HeadingWrapper>
-          {arenaCategory.subcategories && (
+          {!!arenaCategory.subcategories && (
             <SortableArenaCards
               isEditing={isEditing}
               categories={arenaCategory?.subcategories ?? []}
@@ -174,7 +171,7 @@ const TopicPage = () => {
             <h2>{t("myNdla.arena.posts.title")}</h2>
           </Heading>
           <ButtonContainer>
-            {user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
+            {!!user?.isModerator && <SafeLinkButton to="edit">{t("myNdla.arena.admin.category.edit")}</SafeLinkButton>}
             <SafeLinkButton to="topic/new">{t("myNdla.arena.new.topic")}</SafeLinkButton>
           </ButtonContainer>
         </HeadingWrapper>

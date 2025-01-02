@@ -8,14 +8,13 @@
 
 import { useCallback, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { INewCategoryDTO } from "@ndla/types-backend/myndla-api";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { useCreateArenaCategory } from "../arenaMutations";
@@ -27,18 +26,17 @@ export const NewCategoryPage = () => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const newCategoryMutation = useCreateArenaCategory();
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
     trackPageView({
       title: t("htmlTitles.arenaNewCategoryPage"),
       dimensions: getAllDimensions({ user }),
     });
-  }, [authContextLoaded, t, trackPageView, user]);
+  }, [t, trackPageView, user]);
 
   const onSave = useCallback(
-    async (values: Partial<INewCategory>) => {
+    async (values: Partial<INewCategoryDTO>) => {
       const category = await newCategoryMutation.createArenaCategory({
         variables: {
           description: values.description ?? "",
@@ -56,9 +54,6 @@ export const NewCategoryPage = () => {
   );
 
   const onAbort = useCallback(() => navigate(routes.myNdla.arena), [navigate]);
-
-  if (!authContextLoaded) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.arena} />;
 
   return (
     <MyNdlaPageWrapper>

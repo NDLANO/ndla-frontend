@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 
 export const urlIsNDLAApiUrl = (url: string) =>
@@ -39,7 +39,7 @@ const IframeWrapper = styled("div", {
 });
 
 const LearningpathIframe = ({ html, url }: Props) => {
-  const iframeRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const iframeRef = useRef<HTMLInputElement>(null);
   const [listeningToMessages, setListeningToMessages] = useState(true);
 
   const handleIframeResizing = (url: string) => {
@@ -72,7 +72,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     if (iframe) {
       const rect = iframe.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
 
       const top = evt.data.top + rect.top + scrollTop;
       window.scroll({ top });
@@ -86,7 +86,7 @@ const LearningpathIframe = ({ html, url }: Props) => {
     const iframe = getIframeDOM();
     if (iframe) {
       const newHeight = parseInt(evt.data.height, 10);
-      iframe.style.height = `${newHeight}px`; // eslint-disable-line no-param-reassign
+      iframe.style.height = `${newHeight}px`;
     }
   };
 

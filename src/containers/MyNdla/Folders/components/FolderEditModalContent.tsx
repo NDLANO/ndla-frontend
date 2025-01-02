@@ -41,7 +41,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        {folder && (
+        {!!folder && (
           <FolderForm
             folder={folder}
             siblings={siblings}

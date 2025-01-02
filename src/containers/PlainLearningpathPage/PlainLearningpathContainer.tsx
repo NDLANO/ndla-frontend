@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
@@ -62,12 +61,10 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 
   return (
     <>
-      <Helmet>
-        <title>{`${getDocumentTitle(learningpath, t)}`}</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <title>{`${getDocumentTitle(learningpath, t)}`}</title>
+      <meta name="robots" content="noindex, nofollow" />
       <SocialMediaMetadata
-        title={htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")])}
+        title={learningpath.title}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
@@ -85,6 +82,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 export const plainLearningpathContainerFragments = {
   learningpath: gql`
     fragment PlainLearningpathContainer_Learningpath on Learningpath {
+      id
       supportedLanguages
       tags
       description

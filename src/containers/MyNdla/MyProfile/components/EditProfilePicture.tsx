@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { PencilFill } from "@ndla/icons/action";
+import { PencilFill } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 
 const EditProfilePicture = () => {

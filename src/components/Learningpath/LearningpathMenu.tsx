@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
@@ -25,7 +25,7 @@ interface Props {
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
 }
 
-const StepperList = styled("ul", {
+const StepperList = styled("ol", {
   base: {
     display: "flex",
     flexDirection: "column",
@@ -153,11 +153,11 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
   const updateViewedSteps = () => {
     if (learningpath && currentStep?.seqNo !== undefined) {
       const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${learningpath.id}`;
-      const currentViewedSteps = window.localStorage.getItem(storageKey);
+      const currentViewedSteps = window.localStorage?.getItem(storageKey);
       const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
       setViewedSteps(updatedViewedSteps);
       updatedViewedSteps[currentStep.id] = true;
-      window.localStorage.setItem(storageKey, JSON.stringify(updatedViewedSteps));
+      window.localStorage?.setItem(storageKey, JSON.stringify(updatedViewedSteps));
     }
   };
 

@@ -23,7 +23,7 @@ interface MovieType {
   }[];
   title: string;
   id: string | number;
-  path: string;
+  url: string;
 }
 
 interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to">, StyledVariantProps<typeof StyledSafeLink> {
@@ -110,7 +110,7 @@ const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((a
   return acc;
 }, {});
 
-const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes }, ...rest }: Props) => {
+const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, ...rest }: Props) => {
   const resources = resourceTypes.reduce<string[]>((acc, curr) => {
     const name = mappedResourceTypes[curr.id];
     if (name) return acc.concat(curr.name);
@@ -118,7 +118,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, path, resourceTypes },
   }, []);
 
   return (
-    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={path}>
+    <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={url}>
       <ImageWrapper>
         <StyledImage src={metaImage?.url ?? ""} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">

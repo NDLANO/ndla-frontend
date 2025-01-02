@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -18,7 +18,6 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isAccessDeniedError } from "../../util/handleError";
-import { useGraphQuery } from "../../util/runQueries";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
@@ -41,7 +40,7 @@ const PlainArticlePage = () => {
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
-  const { loading, data, error } = useGraphQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
+  const { loading, data, error } = useQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
     plainArticlePageQuery,
     {
       variables: {
@@ -50,6 +49,7 @@ const PlainArticlePage = () => {
           showVisualElement: "true",
           path: pathname,
           isOembed: "false",
+          prettyUrl: true,
         },
       },
     },
@@ -58,7 +58,7 @@ const PlainArticlePage = () => {
   if (loading) {
     return <ContentPlaceholder variant="article" />;
   }
-  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;
   }

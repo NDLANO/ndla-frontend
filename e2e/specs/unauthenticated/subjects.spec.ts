@@ -28,9 +28,12 @@ test("should have valid breadcrumbs", async ({ page }) => {
 });
 
 test("include a list of valid topic links", async ({ page }) => {
-  await expect(page.getByTestId("nav-box-item")).toHaveCount(8);
+  const nav = page.getByRole("navigation", { name: "Emner" });
+  await expect(nav.getByRole("list").getByRole("listitem")).toHaveCount(8);
 
-  const links = await page.getByTestId("nav-box-list").getByRole("link").all();
+  expect(nav.getByRole("list").getByRole("link").all());
+
+  const links = await nav.getByRole("list").getByRole("link").all();
 
   expect(links).toHaveLength(8);
 });

@@ -8,8 +8,7 @@
 
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine, PencilLine } from "@ndla/icons/action";
-import { SpamLine, LockLine } from "@ndla/icons/common";
+import { DeleteBinLine, PencilLine, SpamLine, LockLine } from "@ndla/icons";
 import { ArenaFormValues } from "./ArenaForm";
 import FlagPostModalContent from "./FlagPostModalContent";
 import LockModal from "./LockModal";

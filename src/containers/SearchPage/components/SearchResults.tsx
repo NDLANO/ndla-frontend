@@ -8,7 +8,7 @@
 
 import { CSSProperties, useCallback, useId } from "react";
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons/editor";
+import { CheckLine } from "@ndla/icons";
 import {
   Heading,
   Text,
@@ -160,7 +160,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
         <ProgressBar>
           <Progress style={{ "--width": `${Math.ceil((toCount / group.totalCount) * 100)}%` } as CSSProperties} />
         </ProgressBar>
-        <div aria-live="polite">{loading && <Spinner aria-label={t("loading")} />}</div>
+        <div aria-live="polite">{!!loading && <Spinner aria-label={t("loading")} />}</div>
         {toCount < group.totalCount ? (
           <Button variant="secondary" aria-describedby={headingId} onClick={() => handleShowMore(group.type)}>
             {t("searchPage.resultType.showMore")}

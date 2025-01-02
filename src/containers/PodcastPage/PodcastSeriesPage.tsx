@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { ArrowDownShortLine } from "@ndla/icons/common";
+import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -32,7 +32,7 @@ import {
   ArticleHeader,
   ArticleHGroup,
   ArticleWrapper,
-  ContentTypeBadgeNew,
+  ContentTypeBadge,
   HomeBreadcrumb,
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -143,7 +143,7 @@ const PodcastSeriesPage = () => {
   return (
     <>
       <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {podcastSeries.hasRSS && (
+        {!!podcastSeries.hasRSS && (
           <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
         )}
         <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
@@ -152,7 +152,6 @@ const PodcastSeriesPage = () => {
         type="website"
         title={podcastSeries.title.title ?? ""}
         trackableContent={{
-          tags: podcastSeries?.episodes?.flatMap((ep) => ep.tags?.tags || []),
           supportedLanguages: podcastSeries.supportedLanguages,
         }}
         description={podcastSeries.description.description}
@@ -186,7 +185,7 @@ const PodcastSeriesPage = () => {
               <ArticleWrapper>
                 <ArticleHeader>
                   <ArticleHGroup>
-                    <ContentTypeBadgeNew contentType={"podcast"} />
+                    <ContentTypeBadge contentType={"podcast"} />
                     <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                       {podcastSeries.title.title}
                     </Heading>
@@ -268,9 +267,6 @@ const podcastSeriesPageQuery = gql`
 
         ...CopyrightInfo
       }
-        tags {
-          tags
-        }
       }
       hasRSS
     }

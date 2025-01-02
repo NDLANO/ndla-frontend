@@ -14,6 +14,7 @@ import {
   Reference,
   useApolloClient,
   useMutation,
+  useQuery,
 } from "@apollo/client";
 import {
   GQLAddFolderMutation,
@@ -51,7 +52,7 @@ import {
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
 } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
+import { nodeWithMetadataFragment } from "../../queries";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {
@@ -321,13 +322,10 @@ export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
   options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
 ) => {
-  const { data: { folderResourceMeta } = {}, ...rest } = useGraphQuery<GQLFolderResourceMetaQuery>(
-    folderResourceMetaQuery,
-    {
-      variables: { resource },
-      ...options,
-    },
-  );
+  const { data: { folderResourceMeta } = {}, ...rest } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
+    variables: { resource },
+    ...options,
+  });
 
   return { meta: folderResourceMeta, ...rest };
 };
@@ -346,7 +344,7 @@ export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
   options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
 ) => {
-  const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useGraphQuery<GQLFolderResourceMetaSearchQuery>(
+  const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLFolderResourceMetaSearchQuery>(
     folderResourceMetaSearchQuery,
     {
       variables: { resources },
@@ -367,7 +365,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   loading: boolean;
 } => {
   const { cache } = useApolloClient();
-  const { data, loading } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip,
     onCompleted: () => {
       cache.gc();
@@ -417,12 +415,9 @@ export const useGetSharedFolder = ({
   loading: boolean;
   error?: ApolloError;
 } => {
-  const { data, loading, error } = useGraphQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(
-    sharedFolderQuery,
-    {
-      variables: { id, includeResources, includeSubfolders },
-    },
-  );
+  const { data, loading, error } = useQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(sharedFolderQuery, {
+    variables: { id, includeResources, includeSubfolders },
+  });
 
   const folder = data?.sharedFolder as GQLFolder | undefined;
 
@@ -444,7 +439,7 @@ export const recentlyUsedQuery = gql`
 
 export const useRecentlyUsedResources = (skip?: boolean) => {
   const { cache } = useApolloClient();
-  const { data, ...rest } = useGraphQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
+  const { data, ...rest } = useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
     onCompleted: () => {
       cache.gc();
     },
@@ -456,19 +451,18 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
 
 export const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
-    subjects(ids: $ids) {
-      id
-      name
-      path
+    subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
+      ...NodeWithMetadata
     }
   }
+  ${nodeWithMetadataFragment}
 `;
 
 export const useFavouriteSubjects = (
   ids: string[],
   options?: Omit<QueryHookOptions<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
 ) => {
-  const queryResult = useGraphQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
+  const queryResult = useQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
     variables: { ids },
     ...options,
   });

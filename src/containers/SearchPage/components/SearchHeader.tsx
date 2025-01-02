@@ -8,8 +8,7 @@
 
 import { useState, useEffect, useMemo, FormEvent, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine, AddLine } from "@ndla/icons/action";
-import { SearchLine } from "@ndla/icons/common";
+import { CloseLine, AddLine, SearchLine } from "@ndla/icons";
 import {
   Button,
   IconButton,
@@ -139,7 +138,7 @@ const SearchHeader = ({
                   value={searchValue}
                   onChange={(e) => onSearchValueChange(e.target.value)}
                 />
-                {searchValue && (
+                {!!searchValue && (
                   <IconButton
                     variant="clear"
                     aria-label={t("welcomePage.resetSearch")}
@@ -165,17 +164,17 @@ const SearchHeader = ({
           </StyledSearchWrapper>
         </form>
         <StyledHitsWrapper aria-live="assertive">
-          {!loading && query && (
+          {!loading && !!query && (
             <div>
               {noResults ? (
                 <Text textStyle="label.small">
-                  {t("searchPage.noHitsShort", { query: query })}
+                  {`${t("searchPage.noHitsShort", { query: "" })}${query}`}
                   {activeSubjectFilters.length ? `. ${t("searchPage.removeFilterSuggestion")}` : undefined}
                 </Text>
               ) : (
-                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} ${query}`}</Text>
               )}
-              {suggestion && (
+              {!!suggestion && (
                 <Text textStyle="label.small">
                   {t("searchPage.resultType.searchPhraseSuggestion")}
                   <StyledButton variant="link" onClick={() => handleSearchParamsChange({ query: suggestion })}>

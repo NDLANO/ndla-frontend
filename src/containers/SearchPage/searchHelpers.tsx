@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { TFunction } from "i18next";
 import queryString from "query-string";
 import { ReactNode } from "react";
@@ -19,13 +20,12 @@ import {
 } from "../../graphqlTypes";
 import { LocaleType, LtiData } from "../../interfaces";
 import LtiEmbed from "../../lti/LtiEmbed";
-import { toSubject } from "../../routeHelpers";
 import { contentTypeMapping, resourceTypeMapping } from "../../util/getContentType";
 
 const { contentTypes } = constants;
 
-export const searchResultToLinkProps = (result?: { path?: string }) => {
-  return result?.path ? { to: result.path } : { to: "/404" };
+export const searchResultToLinkProps = (result?: { url?: string }) => {
+  return result?.url ? { to: result.url } : { to: "/404" };
 };
 
 export const plainUrl = (url: string) => {
@@ -86,6 +86,10 @@ const mapTraits = (traits: string[] | undefined, t: TFunction) =>
       return t("resource.trait.video");
     } else if (trait === "H5P") {
       return t("resource.trait.h5p");
+    } else if (trait === "PODCAST") {
+      return t("resource.trait.podcast");
+    } else if (trait === "AUDIO") {
+      return t("resource.trait.audio");
     }
     return trait;
   }) ?? [];
@@ -141,11 +145,11 @@ export const mapResourcesToItems = (
     url: isLti
       ? getLtiUrl(resource.id, resource.contexts[0]?.publicId, language)
       : resource.contexts?.length
-        ? resource.contexts[0]?.path || resource.path
-        : plainUrl(resource.path),
+        ? resource.url
+        : plainUrl(resource.url),
     labels: [...mapTraits(resource.traits, t), ...getContextLabels(resource.contexts)],
     contexts: resource.contexts?.map((context) => ({
-      url: context.path,
+      url: context.url,
       breadcrumb: context.breadcrumbs,
       isAdditional: context?.relevanceId === RELEVANCE_SUPPLEMENTARY,
     })),
@@ -161,7 +165,7 @@ export const mapResourcesToItems = (
         item={{
           id: resource.id,
           title: resource.title,
-          url: resource.path,
+          url: resource.url,
         }}
       />
     ) : undefined,
@@ -223,7 +227,7 @@ export const mapSubjectDataToGroup = (subjectData: GQLSubjectInfoFragment[] | un
         id: subject.id,
         title: subject.name,
         htmlTitle: subject.name,
-        url: toSubject(subject.id),
+        url: subject.url,
         metaImg: subject.subjectpage?.about?.visualElement?.url,
       })),
       resourceTypes: [],

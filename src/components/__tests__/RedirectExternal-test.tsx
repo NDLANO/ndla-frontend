@@ -43,10 +43,10 @@ test("External redirect for static router with basename", () => {
 });
 
 test("External redirect for (memory/dom) router", () => {
-  // @ts-ignore
+  // @ts-expect-error - This is a workaround
   delete window.location;
   const replace = vi.fn();
-  //@ts-ignore
+  // @ts-expect-error - This is a workaround
   window.location = { replace };
 
   render(

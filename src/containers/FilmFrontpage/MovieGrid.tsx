@@ -8,7 +8,7 @@
 
 import { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
@@ -17,7 +17,6 @@ import {
   GQLResourceTypeMoviesQueryVariables,
   GQLSelectionMovieGrid_MovieFragment,
 } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 const StyledSection = styled("section", {
   base: {
@@ -57,7 +56,7 @@ interface MovieGridLoadingShimmerProps {
 export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmerProps) => {
   return (
     <StyledSection>
-      {showHeading && (
+      {!!showHeading && (
         <Skeleton>
           <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
             <h3>&nbsp;</h3>
@@ -71,7 +70,7 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
               movie={{
                 id: `dummy-${index}`,
                 resourceTypes: [],
-                path: "",
+                url: "",
                 title: "",
               }}
             />
@@ -88,7 +87,7 @@ interface Props {
 
 export const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
-  const resourceTypeMovies = useGraphQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
+  const resourceTypeMovies = useQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
     resourceTypeMoviesQuery,
     {
       variables: {
@@ -107,19 +106,22 @@ export const MovieGrid = ({ resourceType }: Props) => {
         <MovieGridLoadingShimmer />
       ) : (
         <MovieListing>
-          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => (
-            <StyledFilmContentCard
-              style={{ "--index": index } as CSSProperties}
-              key={`${resourceType.id}-${index}`}
-              movie={{
-                id: movie.id,
-                metaImage: movie.metaImage,
-                resourceTypes: [],
-                title: movie.title,
-                path: movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? "",
-              }}
-            />
-          ))}
+          {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
+            const context = movie.contexts.find((c) => c.contextType === "standard");
+            return (
+              <StyledFilmContentCard
+                style={{ "--index": index } as CSSProperties}
+                key={`${resourceType.id}-${index}`}
+                movie={{
+                  id: movie.id,
+                  metaImage: movie.metaImage,
+                  resourceTypes: [],
+                  title: movie.title,
+                  url: context?.url ?? "",
+                }}
+              />
+            );
+          })}
         </MovieListing>
       )}
     </StyledSection>
@@ -172,8 +174,10 @@ const resourceTypeMoviesQuery = gql`
         }
         title
         contexts {
+          contextId
           contextType
-          path
+          url
+          rootId
         }
       }
     }

@@ -9,8 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Subject } from "./interfaces";
 import SubjectLink from "./SubjectLink";
+import { GQLTaxBase } from "../../graphqlTypes";
 
 export const GridList = styled("ul", {
   base: {
@@ -44,7 +44,7 @@ const StyledGridList = styled(GridList, {
 
 interface Props {
   label: string;
-  subjects: Subject[];
+  subjects: GQLTaxBase[];
   favorites: string[] | undefined;
 }
 

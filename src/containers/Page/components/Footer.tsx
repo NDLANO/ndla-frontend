@@ -8,13 +8,14 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, Facebook } from "@ndla/icons/common";
+import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, FacebookCircleFill } from "@ndla/icons";
 import { Heading, NdlaLogoEn, NdlaLogoNb, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { ZendeskButton } from "@ndla/ui";
 import config from "../../../config";
+import { getLangAttributeValue } from "../../../i18n";
 
 // TODO: Add new translations for the footer.
 
@@ -144,7 +145,7 @@ const FooterSocialMedia = () => {
     {
       text: t("footer.socialMediaLinks.facebook"),
       to: "https://www.facebook.com/ndla.no",
-      icon: <Facebook />,
+      icon: <FacebookCircleFill />,
     },
     {
       text: t("footer.socialMediaLinks.instagram"),
@@ -178,7 +179,7 @@ const FooterSocialMedia = () => {
             </li>
           ))}
           <styled.li css={{ width: "100%" }}>
-            <StyledSafeLink to="https://ndla.us6.list-manage.com/subscribe?u=99d41bbb28de0128915adebed&id=9a1d3ad1ea">
+            <StyledSafeLink to="https://ndla.no/om/nyhetsbrev">
               {t("footer.socialMediaLinks.newsletter")} <MailLine />
             </StyledSafeLink>
           </styled.li>
@@ -226,22 +227,22 @@ const MobileLogo = styled(NdlaLogoText, {
 
 export const Footer = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage = i18n.language === "nb" || i18n.language === "nn" ? "no" : i18n.language;
+  const zendeskLanguage = getLangAttributeValue(i18n.language);
 
   const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
 
   const commonLinks = [
     {
       text: t("footer.ndlaLinks.omNdla"),
-      to: "https://ndla.no/about/om-ndla",
+      to: "https://ndla.no/om/om-ndla",
     },
     {
       text: t("footer.ndlaLinks.aboutNdla"),
-      to: "https://ndla.no/about/about-us",
+      to: "https://ndla.no/om/about-us",
     },
     {
-      text: t("footer.ndlaLinks.vacancies"),
-      to: "https://ndla.no/about/utlysninger",
+      text: t("footer.ndlaLinks.contact"),
+      to: "https://ndla.no/om/kontakt-oss",
     },
   ];
 
@@ -274,7 +275,7 @@ export const Footer = () => {
 
   return (
     <FooterBlock>
-      {config.zendeskWidgetKey && (
+      {!!config.zendeskWidgetKey && (
         <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
           <QuestionLine />
           {t("askNDLA")}

@@ -13,7 +13,7 @@ import { ContentType } from "@ndla/ui";
 import { type Resource, ResourceItem } from "./ResourceItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
-const StyledResourceList = styled("ul", {
+const StyledResourceList = styled("ol", {
   base: {
     listStyle: "none",
   },
@@ -26,6 +26,7 @@ interface ResourceListProps {
   showAdditionalResources?: boolean;
   headingId?: string;
   currentResourceContentType?: ContentType;
+  currentResourceId?: string;
 }
 
 const ResourceList = ({
@@ -35,6 +36,7 @@ const ResourceList = ({
   title,
   showAdditionalResources,
   currentResourceContentType,
+  currentResourceId,
 }: ResourceListProps) => {
   const { t } = useTranslation();
   const renderAdditionalResourceTrigger =
@@ -50,11 +52,12 @@ const ResourceList = ({
             contentType={contentType}
             showAdditionalResources={showAdditionalResources}
             currentResourceContentType={currentResourceContentType}
+            active={currentResourceId === resource.id}
             {...resource}
           />
         ))}
       </StyledResourceList>
-      {renderAdditionalResourceTrigger && (
+      {!!renderAdditionalResourceTrigger && (
         <Text>
           {title
             ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })

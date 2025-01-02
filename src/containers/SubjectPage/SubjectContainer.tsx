@@ -7,38 +7,37 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, useEffect, useContext } from "react";
-import { Helmet } from "react-helmet-async";
+import { useEffect, useContext, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
-import TopicWrapper from "./components/TopicWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
+import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
+import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
+import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
+import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import {
-  RELEVANCE_SUPPLEMENTARY,
   SKIP_TO_CONTENT_ID,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContainer_SubjectFragment } from "../../graphqlTypes";
-import { removeUrn, toTopic, useIsNdlaFilm, useUrnIds } from "../../routeHelpers";
+import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
-  topicIds: string[];
-  subject: GQLSubjectContainer_SubjectFragment;
+  node: GQLSubjectContainer_NodeFragment;
+  subjectType?: string;
   loading?: boolean;
 };
 
@@ -48,6 +47,7 @@ const HeadingWrapper = styled("div", {
     flexDirection: "column",
     alignItems: "flex-start",
     gap: "medium",
+    paddingBlockEnd: "medium",
   },
 });
 
@@ -58,20 +58,9 @@ const HeaderWrapper = styled("div", {
   },
 });
 
-const StyledTopicWrapper = styled(PageContainer, {
-  base: {
-    paddingBlockStart: "0",
-    overflowX: "hidden",
-    // TODO: There's a bunch of tricky compositions for nested topics. This won't be necessary once we separate each topic out into their own page.
-    "& > [data-nav-box] + :is([data-resource-section], [data-topic]), > [data-resource-section] + [data-topic]": {
-      paddingBlockStart: "4xlarge",
-    },
-  },
-});
-
 const StyledSubjectWrapper = styled(PageContent, {
   base: {
-    paddingBlock: "xxlarge",
+    paddingBlockStart: "xxlarge",
     gap: "xxlarge",
     background: "surface.brand.1.subtle",
   },
@@ -83,7 +72,23 @@ const IntroductionText = styled(Text, {
   },
 });
 
-const PAGE = "page" as const;
+const StyledNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const StyledPageContainer = styled(PageContainer, {
+  base: {
+    paddingBlockStart: "0",
+    "& > :first-child": {
+      marginBlockStart: "xxlarge",
+      marginBlockEnd: "medium",
+    },
+  },
+});
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
   if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
@@ -107,31 +112,24 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
+const SubjectContainer = ({ node, subjectType, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
-  const ndlaFilm = useIsNdlaFilm();
-  const { subjectType } = useUrnIds();
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  const about = subject.subjectpage?.about;
+  const about = node.subjectpage?.about;
+  const headingId = useId();
 
   useEffect(() => {
-    if (!authContextLoaded || loading || topicIds.length) return;
+    if (!authContextLoaded || loading) return;
     const dimensions = getAllDimensions({
-      filter: subject.name,
+      filter: node.name,
       user,
     });
     trackPageView({
       dimensions,
-      title: htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]),
+      title: htmlTitle(node.name, [t("htmlTitles.titleTemplate")]),
     });
-  }, [authContextLoaded, loading, subject, t, topicIds.length, trackPageView, user]);
-
-  const [topicCrumbs, setTopicCrumbs] = useState<SimpleBreadcrumbItem[]>([]);
-
-  useEffect(() => {
-    setTopicCrumbs((crumbs) => crumbs.slice(0, topicIds.length));
-  }, [topicIds.length]);
+  }, [authContextLoaded, loading, node, t, trackPageView, user]);
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -139,131 +137,122 @@ const SubjectContainer = ({ topicIds, subject, loading }: Props) => {
       to: "/",
     },
     {
-      to: `${removeUrn(subject.id)}`,
-      name: subject.name,
+      name: node.name,
+      to: node.url || "",
     },
-    ...topicCrumbs,
-  ].reduce<SimpleBreadcrumbItem[]>((crumbs, crumb) => {
-    crumbs.push({
-      name: crumb.name,
-      to: `${crumbs[crumbs.length - 1]?.to ?? ""}${crumb.to}`,
-    });
+  ];
 
-    return crumbs;
-  }, []);
+  const pageTitle = htmlTitle(node.name, [t("htmlTitles.titleTemplate")]);
 
-  const pageTitle = htmlTitle(subject.name, [t("htmlTitles.titleTemplate")]);
-
-  const customFields = subject?.metadata.customFields || {};
+  const customFields = node?.metadata.customFields || {};
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
   const nonRegularSubjectTypeMessage = getSubjectTypeMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE], t);
 
-  const mainTopics = subject?.topics?.map((topic) => {
-    return {
-      ...topic,
-      label: topic?.name,
-      current: topicIds.length === 1 && topic?.id === topicIds[0] ? PAGE : topic?.id === topicIds[0],
-      url: toTopic(subject.id, topic?.id),
-      isRestrictedResource: topic.availability !== "everyone",
-      isAdditionalResource: topic.relevanceId === RELEVANCE_SUPPLEMENTARY,
-    };
-  });
-
   return (
     <main>
-      <Helmet>
-        {!topicIds.length && <title>{pageTitle}</title>}
-        {(customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === constants.subjectCategories.ARCHIVE_SUBJECTS ||
-          customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
-          <meta name="robots" content="noindex, nofollow" />
-        )}
-      </Helmet>
-      {!topicIds.length && (
-        <SocialMediaMetadata
-          title={subject.name}
-          description={subject.subjectpage?.metaDescription}
-          imageUrl={about?.visualElement.url}
-          trackableContent={{ supportedLanguages: subject.supportedLanguages }}
-        />
+      <title>{pageTitle}</title>
+      {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+        <meta name="robots" content="noindex, nofollow" />
       )}
+      <SocialMediaMetadata
+        title={node.name}
+        description={node.subjectpage?.metaDescription}
+        imageUrl={about?.visualElement.url}
+        trackableContent={{ supportedLanguages: node.supportedLanguages }}
+      />
       <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
-        <HeadingWrapper>
-          <HeaderWrapper>
-            <Heading
-              textStyle="heading.medium"
-              id={topicIds.length === 0 ? SKIP_TO_CONTENT_ID : undefined}
-              tabIndex={-1}
-            >
-              {subject.name}
-            </Heading>
-            <FavoriteSubject
-              subject={subject}
-              favorites={user?.favoriteSubjects}
-              subjectLinkOrText={<Text>{subject.name}</Text>}
+        <TransportationPageHeader>
+          <HeadingWrapper>
+            <HeaderWrapper>
+              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+                {node.name}
+              </Heading>
+              <FavoriteSubject
+                node={node}
+                favorites={user?.favoriteSubjects}
+                subjectLinkOrText={<Text>{node.name}</Text>}
+              />
+            </HeaderWrapper>
+            {!!node.subjectpage?.metaDescription && (
+              <Text textStyle="body.xlarge">{node.subjectpage.metaDescription}</Text>
+            )}
+            <SubjectLinks
+              buildsOn={node.subjectpage?.buildsOn ?? []}
+              connectedTo={node.subjectpage?.connectedTo ?? []}
+              leadsTo={node.subjectpage?.leadsTo ?? []}
             />
-          </HeaderWrapper>
-          <SubjectLinks
-            buildsOn={subject.subjectpage?.buildsOn ?? []}
-            connectedTo={subject.subjectpage?.connectedTo ?? []}
-            leadsTo={subject.subjectpage?.leadsTo ?? []}
-          />
-          {!!subject.grepCodes?.length && <CompetenceGoals codes={subject.grepCodes} subjectId={subject.id} />}
-          {subjectType === "toolbox" ? (
-            <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
-          ) : subjectType === "multiDisciplinary" ? (
-            <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
-          ) : null}
-        </HeadingWrapper>
-        {!ndlaFilm && subjectType !== "multiDisciplinary" && subjectType !== "toolbox" && nonRegularSubjectMessage && (
-          <MessageBox variant="warning">
-            <InformationLine />
-            <Text>{nonRegularSubjectMessage}</Text>
-          </MessageBox>
-        )}
-        {!ndlaFilm &&
+            {!!node.grepCodes?.length && <CompetenceGoals codes={node.grepCodes} subjectId={node.id} />}
+            {subjectType === "toolbox" ? (
+              <IntroductionText textStyle="body.xlarge">{t("toolboxPage.introduction")}</IntroductionText>
+            ) : subjectType === "multiDisciplinary" ? (
+              <IntroductionText textStyle="body.xlarge">{t("frontpageMultidisciplinarySubject.text")}</IntroductionText>
+            ) : null}
+          </HeadingWrapper>
+          {!!about?.visualElement && about.visualElement.type === "image" && (
+            <TransportationPageVisualElement metaImage={about.visualElement} />
+          )}
+        </TransportationPageHeader>
+      </StyledSubjectWrapper>
+      <StyledPageContainer>
+        {subjectType !== "film" &&
           subjectType !== "multiDisciplinary" &&
           subjectType !== "toolbox" &&
-          nonRegularSubjectTypeMessage && (
+          !!nonRegularSubjectMessage && (
+            <MessageBox variant="warning">
+              <InformationLine />
+              <Text>{nonRegularSubjectMessage}</Text>
+            </MessageBox>
+          )}
+        {subjectType !== "film" &&
+          subjectType !== "multiDisciplinary" &&
+          subjectType !== "toolbox" &&
+          !!nonRegularSubjectTypeMessage && (
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{nonRegularSubjectTypeMessage}</Text>
             </MessageBox>
           )}
-        <NavigationBox items={mainTopics || []} />
-      </StyledSubjectWrapper>
-      <StyledTopicWrapper>
-        {topicIds.map((topicId, index) => (
-          <TopicWrapper
-            key={topicId}
-            topicId={topicId}
-            subjectId={subject.id}
-            setBreadCrumb={setTopicCrumbs}
-            subTopicId={topicIds[index + 1]}
-            showResources={!topicIds[index + 1]}
-            subject={subject}
-          />
-        ))}
-      </StyledTopicWrapper>
+        {!!node.nodes?.length && (
+          <StyledNav aria-labelledby={headingId}>
+            <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
+              <h2>{t("topicPage.topics")}</h2>
+            </Heading>
+            <TransportationPageNodeListGrid>
+              {node.nodes.map((node) => (
+                <TransportationNode key={node.id} node={node} />
+              ))}
+            </TransportationPageNodeListGrid>
+          </StyledNav>
+        )}
+      </StyledPageContainer>
     </main>
   );
 };
 
 export const subjectContainerFragments = {
   subject: gql`
-    fragment SubjectContainer_Subject on Subject {
+    fragment SubjectContainer_Node on Node {
+      id
+      name
       supportedLanguages
+      url
+      nodeType
       metadata {
         customFields
       }
+      context {
+        contextId
+        isActive
+        rootId
+        parentIds
+        url
+      }
       grepCodes
-      topics {
-        name
-        id
-        availability
-        relevanceId
+      nodes: children(nodeType: "TOPIC") {
+        ...TransportationNode_Node
       }
       subjectpage {
         id
@@ -271,14 +260,17 @@ export const subjectContainerFragments = {
         about {
           title
           visualElement {
+            type
+            alt
             url
           }
         }
         ...SubjectLinks_SubjectPage
       }
-      ...TopicWrapper_Subject
+      ...FavoriteSubject_Node
     }
-    ${TopicWrapper.fragments.subject}
+    ${TransportationNode.fragments.node}
+    ${FavoriteSubject.fragments.node}
     ${SubjectLinks.fragments.subjectPage}
   `,
 };

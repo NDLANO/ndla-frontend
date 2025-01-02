@@ -9,7 +9,7 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
@@ -18,7 +18,6 @@ import RedirectContext from "../components/RedirectContext";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
-import { useGraphQuery } from "../util/runQueries";
 import "../style/index.css";
 
 const Error = () => {
@@ -53,18 +52,18 @@ const iframePageQuery = gql`
     article(id: $articleId) {
       ...IframeArticlePage_Article
     }
-    articleResource(taxonomyId: $taxonomyId, articleId: $articleId) {
-      ...IframeArticlePage_Resource
+    nodeByArticleId(nodeId: $taxonomyId, articleId: $articleId) {
+      ...IframeArticlePage_Node
     }
   }
-  ${iframeArticlePageFragments.resource}
+  ${iframeArticlePageFragments.node}
   ${iframeArticlePageFragments.article}
 `;
 
 export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useGraphQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
+  const { loading, data, error } = useQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
     variables: {
       articleId: articleId!,
       taxonomyId: taxonomyId || "",
@@ -72,6 +71,7 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
         showVisualElement: "true",
         path: location.pathname,
         isOembed,
+        prettyUrl: true,
       },
     },
     skip: !articleId,
@@ -84,16 +84,16 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
   if (loading) {
     return null;
   }
-  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
     redirectContext.status = 410;
   }
 
-  const { article, articleResource } = data ?? {};
+  const { article, nodeByArticleId } = data ?? {};
   // Only care if article can be rendered
   if (!article) {
     return <NotFoundPage />;
   }
-  return <IframeArticlePage resource={articleResource} article={article} />;
+  return <IframeArticlePage node={nodeByArticleId} article={article} />;
 };
 
 export default IframePage;

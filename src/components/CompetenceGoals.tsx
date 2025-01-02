@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
   Button,
@@ -18,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
   PageContent,
+  Spinner,
   TabsContent,
   TabsIndicator,
   TabsList,
@@ -31,7 +33,6 @@ import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../g
 import { CompetenceGoalsType } from "../interfaces";
 import { competenceGoalsQuery } from "../queries";
 import handleError from "../util/handleError";
-import { useGraphQuery } from "../util/runQueries";
 
 interface Props {
   supportedLanguages?: string[];
@@ -164,7 +165,7 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   const { t, i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
-  const { error, data, loading } = useGraphQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
+  const { error, data, loading } = useQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
     variables: { codes, language },
     skip: typeof window === "undefined",
   });
@@ -202,12 +203,14 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   return (
     <DialogRoot size="full">
       <DialogTrigger asChild>
+        {/* We bypass the regular loading prop here to avoid a crash that occurs when translating the page with Google Translate. */}
         <Button
-          loading={competenceGoalsLoading}
           aria-label={competenceGoalsLoading ? t("loading") : undefined}
           variant="secondary"
+          aria-disabled={competenceGoalsLoading ? "true" : undefined}
           size="small"
         >
+          {!!competenceGoalsLoading && <Spinner size="small" />}
           {t("competenceGoals.showCompetenceGoals")}
         </Button>
       </DialogTrigger>

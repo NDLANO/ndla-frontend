@@ -10,10 +10,7 @@ import { KeyboardEvent, ReactNode, useCallback, useMemo, useRef, useState } from
 import { flushSync } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { useTreeView, usePopoverContext, type PopoverOpenChangeDetails } from "@ark-ui/react";
-import { AddLine, HeartFill } from "@ndla/icons/action";
-import { ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons/common";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { AddLine, HeartFill, ArrowDownShortLine, ArrowRightShortLine, FolderUserLine, FolderLine } from "@ndla/icons";
 import {
   Button,
   IconButton,
@@ -33,18 +30,18 @@ import {
   TreeRootProvider,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { IFolder, IResource } from "@ndla/types-backend/myndla-api";
+import { IFolderDTO, IResourceDTO } from "@ndla/types-backend/myndla-api";
 
-const flattenFolders = (folders: IFolder[], openFolders?: string[]): IFolder[] => {
+const flattenFolders = (folders: IFolderDTO[], openFolders?: string[]): IFolderDTO[] => {
   return folders.reduce((acc, { subfolders, id, ...rest }) => {
     if (!subfolders || (openFolders && !openFolders.includes(id))) {
       return acc.concat({ subfolders, id, ...rest });
     }
     return acc.concat({ subfolders, id, ...rest }, flattenFolders(subfolders, openFolders));
-  }, [] as IFolder[]);
+  }, [] as IFolderDTO[]);
 };
 
-type OnCreatedFunc = (folder: IFolder | undefined) => void;
+type OnCreatedFunc = (folder: IFolderDTO | undefined) => void;
 
 type NewFolderInputFunc = ({
   onCancel,
@@ -60,9 +57,9 @@ export const MAX_LEVEL_FOR_FOLDERS = 5;
 
 export interface TreeStructureProps {
   loading?: boolean;
-  targetResource?: IResource;
+  targetResource?: IResourceDTO;
   defaultOpenFolders?: string[];
-  folders: IFolder[];
+  folders: IFolderDTO[];
   label?: string;
   maxLevel?: number;
   newFolderInput?: NewFolderInputFunc;
@@ -203,7 +200,7 @@ export const TreeStructure = ({
   });
 
   const onCreateFolder = useCallback(
-    (folder: IFolder | undefined) => {
+    (folder: IFolderDTO | undefined) => {
       if (!folder) return;
       const focus = treeView.focusItem;
       const expand = treeView.expand;
@@ -299,8 +296,8 @@ export const TreeStructure = ({
 };
 
 interface TreeStructureItemProps {
-  folder: IFolder;
-  targetResource?: IResource;
+  folder: IFolderDTO;
+  targetResource?: IResourceDTO;
 }
 
 const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) => {
@@ -328,7 +325,7 @@ const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) =
             <FolderIcon />
             <TreeItemText>{folder.name}</TreeItemText>
           </StyledHStack>
-          {containsResource && <StyledHeartFill title={t("myNdla.alreadyInFolder")} />}
+          {!!containsResource && <StyledHeartFill title={t("myNdla.alreadyInFolder")} />}
         </StyledHStack>
       </TreeItem>
     );
@@ -353,7 +350,7 @@ const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) =
               {folder.name}
             </TreeBranchText>
           </StyledHStack>
-          {containsResource && (
+          {!!containsResource && (
             <StyledHeartFill
               title={t("myNdla.alreadyInFolder")}
               aria-label={t("myNdla.alreadyInFolder")}

@@ -9,16 +9,15 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
-import { ArrowDownShortLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
   SelectContent,
+  SelectHiddenSelect,
   SelectItem,
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
-  SelectPositioner,
   SelectRoot,
   SelectRootProps,
   SelectTrigger,
@@ -53,18 +52,17 @@ export const LanguageSelector = ({ languages, ...props }: Props) => {
           {t("languages.prefixChangeLanguage")} <ArrowDownShortLine />
         </Button>
       </LanguageSelectTrigger>
-      <SelectPositioner>
-        <SelectContent>
-          {supportedLanguages.map((lang) => (
-            <SelectItem key={lang} item={lang}>
-              <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
-              <SelectItemIndicator>
-                <CheckLine />
-              </SelectItemIndicator>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </SelectPositioner>
+      <SelectContent>
+        {supportedLanguages.map((lang) => (
+          <SelectItem key={lang} item={lang}>
+            <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
+            <SelectItemIndicator>
+              <CheckLine />
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
+      </SelectContent>
+      <SelectHiddenSelect />
     </SelectRoot>
   );
 };

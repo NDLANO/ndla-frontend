@@ -8,6 +8,21 @@
 
 import { gql } from "@apollo/client/core";
 
+export const contextQuery = gql`
+  query Context($contextId: String!) {
+    node(contextId: $contextId) {
+      id
+      nodeType
+      context {
+        contextId
+        rootId
+        parentIds
+        url
+      }
+    }
+  }
+`;
+
 export const contributorInfoFragment = gql`
   fragment ContributorInfo on Contributor {
     name
@@ -17,9 +32,10 @@ export const contributorInfoFragment = gql`
 
 const searchContextFragment = gql`
   fragment SearchContext on SearchContext {
+    contextId
     publicId
     language
-    path
+    url
     breadcrumbs
     rootId
     root
@@ -36,7 +52,7 @@ const searchContextFragment = gql`
 export const GroupSearchResourceFragment = gql`
   fragment GroupSearchResource on GroupSearchResult {
     id
-    path
+    url
     title
     htmlTitle
     ingress
@@ -227,10 +243,10 @@ export const copyrightInfoFragment = gql`
 `;
 
 export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Subject {
+  fragment SubjectInfo on Node {
     id
     name
-    path
+    url
     metadata {
       customFields
     }
@@ -251,7 +267,7 @@ export const subjectInfoFragment = gql`
 
 export const searchPageQuery = gql`
   query searchPage {
-    subjects(filterVisible: true) {
+    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
       ...SubjectInfo
     }
     resourceTypes {
@@ -268,9 +284,10 @@ export const searchPageQuery = gql`
 
 export const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
-    resource(id: $resourceId) {
+    resource: node(id: $resourceId) {
       contexts {
-        path
+        contextId
+        url
         breadcrumbs
       }
     }
@@ -311,6 +328,17 @@ export const alertsQuery = gql`
       body
       closable
       number
+    }
+  }
+`;
+
+export const nodeWithMetadataFragment = gql`
+  fragment NodeWithMetadata on Node {
+    id
+    name
+    url
+    metadata {
+      customFields
     }
   }
 `;

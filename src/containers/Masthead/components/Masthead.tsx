@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import SkipToMainContent from "./SkipToMainContent";
@@ -71,11 +71,11 @@ export const Masthead = ({ children, fixed, skipToMainContentId, messages, onClo
 
   return (
     <StyledMasthead data-fixed={!!fixed} id="masthead">
-      {skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
+      {!!skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
       {messages?.map((message) => (
         <MessageBannerWrapper key={message.number}>
           <StyledText textStyle="body.large">{message.content}</StyledText>
-          {message.closable && (
+          {!!message.closable && (
             <StyledCloseButton
               variant="clear"
               onClick={() => onCloseAlert?.(message.number)}

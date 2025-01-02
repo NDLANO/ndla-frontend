@@ -9,7 +9,7 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ArrowLeftLine } from "@ndla/icons/common";
+import { ArrowLeftLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useDrawerContext } from "./DrawerContext";
@@ -18,14 +18,9 @@ import { MenuType } from "./drawerMenuTypes";
 import { DrawerPortion, DrawerHeader, DrawerList, DrawerListItem } from "./DrawerPortion";
 import DrawerRowHeader from "./DrawerRowHeader";
 import useArrowNavigation from "./useArrowNavigation";
-import {
-  FILM_PAGE_PATH,
-  MULTIDISCIPLINARY_SUBJECT_ID,
-  TOOLBOX_STUDENT_SUBJECT_ID,
-  TOOLBOX_TEACHER_SUBJECT_ID,
-} from "../../../constants";
-import { GQLDefaultMenu_SubjectFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../../constants";
+import { GQLDefaultMenu_RootFragment, GQLDrawerContent_FrontpageMenuFragment } from "../../../graphqlTypes";
+import { toAbout } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 
 const StyledCollapsedMenu = styled("div", {
@@ -49,24 +44,20 @@ const StyledDrawerPortion = styled(DrawerPortion, {
   },
 });
 
-const multiDiscUrl = `/${removeUrn(MULTIDISCIPLINARY_SUBJECT_ID)}`;
-const studentToolboxUrl = `/${removeUrn(TOOLBOX_STUDENT_SUBJECT_ID)}`;
-const teacherToolboxUrl = `/${removeUrn(TOOLBOX_TEACHER_SUBJECT_ID)}`;
-
 interface Props {
   onClose: () => void;
   setActiveMenu: (type: MenuType | undefined) => void;
   setFrontpageMenu: (menu: GQLDrawerContent_FrontpageMenuFragment) => void;
   dynamicMenus: GQLDrawerContent_FrontpageMenuFragment[];
   dynamicId?: string;
-  subject?: GQLDefaultMenu_SubjectFragment;
+  root?: GQLDefaultMenu_RootFragment;
   type?: MenuType;
   onCloseMenuPortion: () => void;
 }
 
-const validMenus: MenuType[] = ["subject", "programme", "about"];
+const validMenus: MenuType[] = ["subject", "programme", "om"];
 
-const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
+const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dynamicMenus, dynamicId }: Props) => {
   const previousType = usePrevious(type);
   const { t } = useTranslation();
   const { setShouldCloseLevel } = useDrawerContext();
@@ -113,12 +104,12 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
           title={t("masthead.menuOptions.programme")}
           onClick={() => setActiveMenu("programme")}
         />
-        {subject && (
+        {root?.nodeType === "SUBJECT" && (
           <DrawerRowHeader
             ownsId="subject-menu"
             id="subject"
             type="button"
-            title={subject.name}
+            title={root.name}
             onClick={() => setActiveMenu("subject")}
           />
         )}
@@ -129,10 +120,10 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
           title={t("masthead.menuOptions.subjects")}
           onClose={onClose}
         />
-        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_PATH} onClose={onClose}>
+        <DrawerMenuItem id="film" type="link" to={FILM_PAGE_URL} onClose={onClose}>
           {t("masthead.menuOptions.film")}
         </DrawerMenuItem>
-        <DrawerMenuItem id="multidisciplinary" type="link" to={multiDiscUrl} onClose={onClose}>
+        <DrawerMenuItem id="multidisciplinary" type="link" to={MULTIDISCIPLINARY_URL} onClose={onClose}>
           {t("masthead.menuOptions.multidisciplinarySubjects")}
         </DrawerMenuItem>
         <DrawerListItem>
@@ -140,10 +131,10 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
             <span>{t("menu.tipsAndAdvice")}</span>
           </DrawerHeader>
         </DrawerListItem>
-        <DrawerMenuItem id="toolboxStudents" type="link" to={studentToolboxUrl} onClose={onClose}>
+        <DrawerMenuItem id="toolboxStudents" type="link" to={TOOLBOX_STUDENT_URL} onClose={onClose}>
           {t("masthead.menuOptions.toolboxStudents")}
         </DrawerMenuItem>
-        <DrawerMenuItem id="toolboxTeachers" type="link" to={teacherToolboxUrl} onClose={onClose}>
+        <DrawerMenuItem id="toolboxTeachers" type="link" to={TOOLBOX_TEACHER_URL} onClose={onClose}>
           {t("masthead.menuOptions.toolboxTeachers")}
         </DrawerMenuItem>
         <DrawerListItem>
@@ -151,26 +142,37 @@ const DefaultMenu = ({ onClose, setActiveMenu, subject, type, setFrontpageMenu, 
             <span>{t("menu.about")}</span>
           </DrawerHeader>
         </DrawerListItem>
-        {dynamicMenus.map((menu) => (
-          <DrawerRowHeader
-            key={menu.article.slug}
-            ownsId={`${menu.article.slug}-menu`}
-            id={`${menu.article.slug}-dynamic`}
-            type="button"
-            title={menu.article.title}
-            onClick={() => setFrontpageMenu(menu)}
-          />
-        ))}
+        {dynamicMenus.map((menu) => {
+          const hasChildren = !!menu.menu?.length;
+          const baseAttributes = {
+            key: menu.article.slug,
+            id: `${menu.article.slug}-dynamic`,
+            title: menu.article.title,
+          };
+          return hasChildren ? (
+            <DrawerRowHeader
+              {...baseAttributes}
+              ownsId={`${menu.article.slug}-menu`}
+              type="button"
+              onClick={() => setFrontpageMenu(menu)}
+            />
+          ) : (
+            <DrawerRowHeader {...baseAttributes} type="link" to={toAbout(menu.article.slug)} onClose={onClose} />
+          );
+        })}
       </DrawerList>
     </StyledDrawerPortion>
   );
 };
 
 DefaultMenu.fragments = {
-  subject: gql`
-    fragment DefaultMenu_Subject on Subject {
+  root: gql`
+    fragment DefaultMenu_Root on Node {
       id
       name
+      url
+      path
+      nodeType
     }
   `,
 };

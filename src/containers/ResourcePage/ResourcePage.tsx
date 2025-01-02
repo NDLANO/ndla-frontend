@@ -6,106 +6,109 @@
  *
  */
 
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResource, GQLResourcePageQuery } from "../../graphqlTypes";
+import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { useUrnIds } from "../../routeHelpers";
-import { getTopicPath } from "../../util/getTopicPath";
-import { isAccessDeniedError } from "../../util/handleError";
-import { useGraphQuery } from "../../util/runQueries";
+import { findAccessDeniedErrors } from "../../util/handleError";
+import { isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
-import ArticlePage, { articlePageFragments } from "../ArticlePage/ArticlePage";
-import LearningpathPage, { learningpathPageFragments } from "../LearningpathPage/LearningpathPage";
+import ArticlePage from "../ArticlePage/ArticlePage";
+import LearningpathPage from "../LearningpathPage/LearningpathPage";
 import MovedResourcePage from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource } from "../Resources/resourceHelpers";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const urlInPaths = (location: Location, resource: Pick<GQLResource, "paths">) => {
-  return resource.paths?.find((p) => location.pathname.includes(p));
+const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "url">[]) => {
+  const pathname = decodeURIComponent(location.pathname);
+  return contexts?.find((c) => {
+    return pathname.includes(c.url);
+  });
+};
+
+const contextIdInContexts = (contexts: Pick<GQLTaxonomyContext, "contextId">[], contextId?: string) => {
+  return contexts?.find((c) => c.contextId === contextId);
 };
 
 const resourcePageQuery = gql`
   query resourcePage(
-    $topicId: String!
-    $subjectId: String!
-    $resourceId: String!
+    $topicId: String
+    $subjectId: String
+    $resourceId: String
+    $contextId: String
     $transformArgs: TransformedArticleContentInput
   ) {
-    subject(id: $subjectId) {
-      ...LearningpathPage_Subject
-      ...ArticlePage_Subject
-    }
     resourceTypes {
       ...ArticlePage_ResourceType
       ...LearningpathPage_ResourceTypeDefinition
     }
-    topic(id: $topicId, subjectId: $subjectId) {
-      ...LearningpathPage_Topic
-      ...ArticlePage_Topic
-    }
-    resource(id: $resourceId, subjectId: $subjectId, topicId: $topicId) {
+    node(id: $resourceId, rootId: $subjectId, parentId: $topicId, contextId: $contextId) {
       relevanceId
-      paths
       breadcrumbs
-      contexts {
-        breadcrumbs
-        parentIds
-        path
+      context {
+        contextId
+        url
       }
-      ...MovedResourcePage_Resource
-      ...ArticlePage_Resource
-      ...LearningpathPage_Resource
+      contexts {
+        contextId
+        url
+      }
+      ...MovedResourcePage_Node
+      ...ArticlePage_Node
+      ...LearningpathPage_Node
     }
   }
-  ${articlePageFragments.topic}
   ${MovedResourcePage.fragments.resource}
-  ${articlePageFragments.resource}
-  ${articlePageFragments.resourceType}
-  ${articlePageFragments.subject}
-  ${learningpathPageFragments.topic}
-  ${learningpathPageFragments.resourceType}
-  ${learningpathPageFragments.resource}
-  ${learningpathPageFragments.subject}
+  ${ArticlePage.fragments.resource}
+  ${ArticlePage.fragments.resourceType}
+  ${LearningpathPage.fragments.resourceType}
+  ${LearningpathPage.fragments.resource}
 `;
 const ResourcePage = () => {
   const { t } = useTranslation();
-  const { subjectId, resourceId, topicId, stepId } = useUrnIds();
   const location = useLocation();
-  const { error, loading, data } = useGraphQuery<GQLResourcePageQuery>(resourcePageQuery, {
+  const { contextId, subjectId, resourceId, topicId, stepId } = useUrnIds();
+
+  const { error, loading, data } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
       subjectId,
       topicId,
       resourceId,
+      contextId,
       transformArgs: {
         subjectId,
+        prettyUrl: true,
       },
     },
+    skip: !!contextId && !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
-
-  const topicPath = useMemo(() => {
-    if (!data?.resource?.path) return [];
-    return getTopicPath(data.resource.contexts, data.resource.path);
-  }, [data?.resource]);
 
   if (loading) {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (isAccessDeniedError(error)) {
-    return <AccessDeniedPage />;
+  const accessDeniedErrors = findAccessDeniedErrors(error);
+  if (accessDeniedErrors) {
+    const nonRecoverableError = accessDeniedErrors.some(
+      (e) => !e.path?.includes("coreResources") && !e.path?.includes("supplementaryResources"),
+    );
+
+    if (nonRecoverableError) {
+      return <AccessDeniedPage />;
+    }
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions.status === 410) && redirectContext) {
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
     redirectContext.status = 410;
     return <UnpublishedResourcePage />;
   }
@@ -118,39 +121,42 @@ const ResourcePage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data.resource || !data.resource.path) {
+  if (!data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 
-  if (data.resource && !urlInPaths(location, data.resource)) {
-    if (data.resource.paths?.length === 1) {
+  if (
+    data.node &&
+    (contextId ? !contextIdInContexts(data.node.contexts, contextId) : !urlInContexts(location, data.node.contexts))
+  ) {
+    if (data.node.contexts?.length === 1) {
       if (typeof window === "undefined") {
         if (redirectContext) {
           redirectContext.status = 301;
-          redirectContext.url = data.resource.paths[0]!;
+          redirectContext.url = data.node.contexts[0]?.url ?? "";
           return null;
         }
       } else {
-        return <Navigate to={data.resource.paths[0]!} replace />;
+        return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
       }
     } else {
-      return <MovedResourcePage resource={data.resource} />;
+      return <MovedResourcePage resource={data.node} />;
     }
   }
 
-  const { resource } = data;
-  const relevanceId = resource.relevanceId;
+  const { node } = data;
+  const relevanceId = node.relevanceId;
   const relevance =
     relevanceId === RELEVANCE_SUPPLEMENTARY
       ? t("searchPage.searchFilterMessages.supplementaryRelevance")
       : t("searchPage.searchFilterMessages.coreRelevance");
 
-  if (isLearningPathResource(resource)) {
+  if (isLearningPathResource(node)) {
     return (
       <LearningpathPage
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, relevance, topicPath }}
+        data={{ ...data, relevance }}
         loading={loading}
       />
     );
@@ -158,12 +164,8 @@ const ResourcePage = () => {
   return (
     <ArticlePage
       skipToContentId={SKIP_TO_CONTENT_ID}
-      resource={data.resource}
-      topic={data.topic}
-      topicPath={topicPath}
+      resource={data.node}
       relevance={relevance}
-      subject={data.subject}
-      resourceTypes={data.resourceTypes}
       errors={error?.graphQLErrors}
       loading={loading}
     />

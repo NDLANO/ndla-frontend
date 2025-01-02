@@ -64,6 +64,19 @@ const learningPathDomain = (ndlaEnvironment: string): string => {
   }
 };
 
+export const arenaDomain = (ndlaEnvironment: string): string => {
+  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
+  switch (ndlaEnvironment) {
+    case "dev":
+    case "local":
+      return "https://grupper.test.ndla.no";
+    case "prod":
+      return "https://grupper.ndla.no";
+    default:
+      return `https://grupper.${ndlaEnvironmentHostname}.ndla.no`;
+  }
+};
+
 export const feideDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -100,7 +113,6 @@ export type ConfigType = {
   learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
-  saamiEnabled: boolean;
   feideDomain: string;
   matomoUrl: string;
   matomoSiteId: string;
@@ -116,6 +128,8 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   learningpathEnabled: boolean;
+  externalArena: boolean;
+  arenaDomain: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -136,7 +150,6 @@ const getServerSideConfig = (): ConfigType => {
     learningPathDomain: getEnvironmentVariabel("LEARNINGPATH_DOMAIN", learningPathDomain(ndlaEnvironment)),
     zendeskWidgetKey: getEnvironmentVariabel("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
-    saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
     feideDomain: getEnvironmentVariabel("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
@@ -155,6 +168,8 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
+    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
+    arenaDomain: arenaDomain(ndlaEnvironment),
   };
 };
 

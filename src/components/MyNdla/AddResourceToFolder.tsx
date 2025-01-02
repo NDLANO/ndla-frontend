@@ -13,9 +13,7 @@ import uniq from "lodash/uniq";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
-import { ArrowDownShortLine, InformationLine } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, ArrowDownShortLine, InformationLine, CheckLine } from "@ndla/icons";
 import {
   MessageBox,
   Button,
@@ -100,7 +98,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   return (
     <div>
       {t("myNdla.resource.addedToFolder")}
-      <SafeLink to={routes.myNdla.folder(folder.id)}>"{folder.name}"</SafeLink>
+      <SafeLink to={routes.myNdla.folder(folder.id)}>{`"${folder.name}"`}</SafeLink>
     </div>
   );
 };
@@ -225,7 +223,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {alreadyAdded && (
+            {!!alreadyAdded && (
               <MessageBox variant="warning">
                 <Text>{t("myNdla.alreadyInFolder")}</Text>
               </MessageBox>
@@ -235,7 +233,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
                 <Text>{t("myNdla.addInSharedFolder")}</Text>
               </MessageBox>
             )}
-            {noFolderSelected && (
+            {!!noFolderSelected && (
               <MessageBox variant="error">
                 <InformationLine />
                 <Text>{t("myNdla.noFolderSelected")}</Text>

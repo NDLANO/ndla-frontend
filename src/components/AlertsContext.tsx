@@ -28,7 +28,7 @@ interface Props {
 
 const getClosedAlerts = (): number[] => {
   try {
-    const stored = localStorage.getItem("closedAlerts");
+    const stored = localStorage?.getItem("closedAlerts");
     if (stored) {
       const ids = JSON.parse(stored);
       if (Array.isArray(ids)) {
@@ -37,6 +37,7 @@ const getClosedAlerts = (): number[] => {
     }
     return [];
   } catch {
+    // eslint-disable-next-line no-console
     console.error("Could not read closedAlerts from localStorage.");
     return [];
   }
@@ -46,8 +47,9 @@ const setClosedAlert = (id: number) => {
   try {
     const stored = getClosedAlerts();
     const updated = uniq([...stored, id]);
-    localStorage.setItem("closedAlerts", JSON.stringify(updated));
+    localStorage?.setItem("closedAlerts", JSON.stringify(updated));
   } catch {
+    // eslint-disable-next-line no-console
     console.error("Could not save closedAlerts to localStorage.");
   }
 };
@@ -57,6 +59,7 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
     const ids = alerts.map((alert) => alert.number);
     localStorage.setItem("closedAlerts", JSON.stringify(ids));
   } catch {
+    // eslint-disable-next-line no-console
     console.error("Could not save closedAlerts to localStorage.");
   }
 };

@@ -89,14 +89,10 @@ const favicons = `
   <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="/static/apple-touch-icon-${faviconEnvironment}.png" />
 `;
 
-const prepareTemplate = (template: string, renderData: RenderDataReturn["data"]) => {
-  const { helmetContext, htmlContent, data } = renderData;
+const prepareTemplate = (template: string, renderData: RenderDataReturn) => {
+  const { htmlContent, data } = renderData.data;
   const meta = `
-  ${helmetContext?.helmet.title.toString() ?? ""}
-  ${helmetContext?.helmet.meta.toString() ?? ""}
-  ${helmetContext?.helmet.link.toString() ?? ""}
   ${favicons}
-  ${helmetContext?.helmet.script.toString() ?? ""}
   `;
 
   const serializedData = serialize({
@@ -114,10 +110,12 @@ const prepareTemplate = (template: string, renderData: RenderDataReturn["data"])
   </script>
   `;
 
+  const locale = renderData.locale === "nb" || renderData.locale === "nn" ? "no" : renderData.locale;
+
   const html = template
-    .replace('data-html-attributes=""', helmetContext?.helmet.htmlAttributes.toString() ?? "")
+    .replace('data-html-attributes=""', `lang="${locale}"`)
     .replace("<!--HEAD-->", meta)
-    .replace('data-body-attributes=""', helmetContext?.helmet.bodyAttributes.toString() ?? "")
+    .replace('data-body-attributes=""', "")
     .replace("<!--BODY-->", bodyContent);
 
   return html;
@@ -152,7 +150,7 @@ const renderRoute = async (req: Request, index: string, htmlTemplate: string, re
       data: { Location: response.location },
     };
   } else {
-    const html = prepareTemplate(template, response.data);
+    const html = prepareTemplate(template, response);
     return { status: response.status, data: html };
   }
 };
@@ -230,27 +228,21 @@ app.get("/lti", async (req, res, next) => {
   handleRequest(req, res, next, ltiRoute);
 });
 
-app.get(
-  ["/", "/*splat"],
-  (req, res, next) => {
-    const { basepath: path } = getLocaleInfoFromPath(req.path);
-    const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
-    const isPrivate = privateRoutes.some((r) => matchPath(r, path));
-    const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-    const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-    const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
-    const shouldRedirect = isPrivate && !isTokenValid;
+app.get(["/", "/*splat"], (req, res, next) => {
+  const { basepath: path } = getLocaleInfoFromPath(req.path);
+  const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
+  const isPrivate = privateRoutes.some((r) => matchPath(r, path));
+  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
+  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
+  const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
+  const shouldRedirect = isPrivate && !isTokenValid;
 
-    if (!route) {
-      next("route"); // skip to next route (i.e. proxy)
-    } else if (shouldRedirect) {
-      return res.redirect(`/login?state=${req.path}`);
-    } else {
-      handleRequest(req, res, next, defaultRoute);
-    }
-  },
-  (req, res, next) => handleRequest(req, res, next, defaultRoute),
-);
+  if (route && shouldRedirect) {
+    return res.redirect(`/login?state=${req.path}`);
+  }
+
+  return handleRequest(req, res, next, defaultRoute);
+});
 
 const errorRoute = async (req: Request) => renderRoute(req, "error.html", errorTemplateHtml, "error");
 
@@ -271,25 +263,28 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
     const { data } = await errorRoute(req);
     res.status(statusCode).send(data);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("Something went wrong when retrieving errorRoute.", e);
     res.status(statusCode).send("Internal server error");
   }
 }
 
-const errorHandler = (err: Error, req: Request, res: Response, __: (err: Error) => void) => {
+app.get("/*splat", (_req: Request, res: Response) => {
+  res.redirect(NOT_FOUND_PAGE_PATH);
+});
+app.post("/*splat", (_req: Request, res: Response) => {
+  res.redirect(NOT_FOUND_PAGE_PATH);
+});
+
+// NOTE: The error handler should be defined after all middlewares and routes
+//       according to the express documentation
+//       https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
+  // NOTE: Even though the next parameter is not used, it is required to define the error handler
   vite?.ssrFixStacktrace(err);
   const statusCode = getStatusCodeToReturn(err);
   handleError(err, req.path, { statusCode });
   sendInternalServerError(req, res, statusCode);
-};
-
-app.use(errorHandler);
-
-app.get("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
-  res.redirect(NOT_FOUND_PAGE_PATH);
-});
-app.post("/*splat", (_req: Request, res: Response, _next: NextFunction) => {
-  res.redirect(NOT_FOUND_PAGE_PATH);
 });
 
 export default app;

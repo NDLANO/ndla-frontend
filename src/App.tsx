@@ -18,8 +18,11 @@ import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
+import { CollectionPage } from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
+import { AdminCheck } from "./containers/MyNdla/Arena/AdminCheck";
 import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
+import { ArenaCheck } from "./containers/MyNdla/Arena/ArenaCheck";
 import ArenaFlagPage from "./containers/MyNdla/Arena/ArenaFlagPage";
 import ArenaNotificationPage from "./containers/MyNdla/Arena/ArenaNotificationsPage";
 import ArenaPage from "./containers/MyNdla/Arena/ArenaPage";
@@ -29,12 +32,16 @@ import CategoryEditPage from "./containers/MyNdla/Arena/CategoryEditPage";
 import NewCategoryPage from "./containers/MyNdla/Arena/NewCategoryPage";
 import { NewTopicPage } from "./containers/MyNdla/Arena/NewTopicPage";
 import PostsPage from "./containers/MyNdla/Arena/PostsPage";
-import TopicPage from "./containers/MyNdla/Arena/TopicPage";
+import ArenaTopicPage from "./containers/MyNdla/Arena/TopicPage";
 import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
-import LearningPathPage from "./containers/MyNdla/LearningPath/LearningPathPage";
+import { EditLearningpathStepsPage } from "./containers/MyNdla/Learningpath/EditLearningpathStepsPage";
+import { EditLearningpathTitlePage } from "./containers/MyNdla/Learningpath/EditLearningpathTitlePage";
+import { LearningpathCheck } from "./containers/MyNdla/Learningpath/LearningpathCheck";
+import LearningpathPage from "./containers/MyNdla/Learningpath/LearningpathPage";
+import { NewLearningpathPage } from "./containers/MyNdla/Learningpath/NewLearningpathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -54,7 +61,8 @@ import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
 import SearchPage from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
+import SubjectPage from "./containers/SubjectPage/SubjectPage";
+import { TopicPage } from "./containers/TopicPage/TopicPage";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
 
@@ -112,6 +120,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":grade" element={null} />
                   </Route>
                 </Route>
+                <Route path="collection/:collectionId" element={<CollectionPage />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
@@ -131,17 +140,31 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
                   {resourceRoutes}
                 </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />}>
+                <Route path="r" element={<ResourcePage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":contextId/:stepId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId/:stepId" element={null} />
+                </Route>
+                <Route path="e" element={<TopicPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="f" element={<SubjectPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                </Route>
+                <Route path="subject:subjectId" element={<SubjectPage />} />
+                <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
+                <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>
                   <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic1" element={null}>
+                  <Route path="topic:topic2" element={null}>
                     <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic2" element={null}>
+                    <Route path="topic:topic3" element={null}>
                       <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic3" element={null}>
+                      <Route path="topic:topic4" element={null}>
                         <Route path="topic:topicId" element={null} />
-                        <Route path="topic:topic4" element={null}>
-                          <Route path="topic:topicId" element={null} />
-                        </Route>
                       </Route>
                     </Route>
                   </Route>
@@ -165,19 +188,23 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
-                  <Route path="arena">
+                  <Route path="arena" element={<ArenaCheck />}>
                     <Route index element={<PrivateRoute element={<ArenaPage />} />} />
-                    <Route path="category/new" element={<PrivateRoute element={<NewCategoryPage />} />} />
+                    <Route path="category/new" element={<AdminCheck />}>
+                      <Route index element={<PrivateRoute element={<NewCategoryPage />} />} />
+                    </Route>
                     <Route path="category/:categoryId">
-                      <Route index element={<PrivateRoute element={<TopicPage />} />} />
-                      <Route path="edit" element={<PrivateRoute element={<CategoryEditPage />} />} />
+                      <Route index element={<PrivateRoute element={<ArenaTopicPage />} />} />
+                      <Route path="edit" element={<AdminCheck />}>
+                        <Route index element={<PrivateRoute element={<CategoryEditPage />} />} />
+                      </Route>
                       <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
                     </Route>
                     <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
                     <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
                     <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
                   </Route>
-                  <Route path="admin">
+                  <Route path="admin" element={<AdminCheck />}>
                     <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
                     <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
                     <Route path="flags">
@@ -185,14 +212,24 @@ const AppRoutes = ({ base }: AppProps) => {
                       <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
                     </Route>
                   </Route>
-                  <Route path="learningpaths">
-                    <Route index element={<PrivateRoute element={<LearningPathPage />} />} />
-                  </Route>
+                  {!!config.learningpathEnabled && (
+                    <Route path="learningpaths" element={<LearningpathCheck />}>
+                      <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                      <Route
+                        path=":learningpathId/edit/steps"
+                        element={<PrivateRoute element={<EditLearningpathStepsPage />} />}
+                      />
+                      <Route
+                        path=":learningpathId/edit/title"
+                        element={<PrivateRoute element={<EditLearningpathTitlePage />} />}
+                      />
+                      <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
+                    </Route>
+                  )}
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
-                <Route path="about/:slug" element={<AboutPage />} />
-
+                <Route path="om/:slug" element={<AboutPage />} />
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />

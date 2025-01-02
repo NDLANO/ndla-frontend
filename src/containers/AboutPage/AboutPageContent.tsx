@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
@@ -28,7 +27,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
 import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
@@ -107,7 +106,8 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
+      path: `${config.ndlaFrontendDomain}${ABOUT_PATH}/${_article.slug}`,
+      articleLanguage: _article.language,
     });
     return [
       {
@@ -136,17 +136,16 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, article.title)}`}</title>
-        <meta name="pageid" content={`${article.id}`} />
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-        </script>
-      </Helmet>
+      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <meta name="pageid" content={`${article.id}`} />
+      {scripts?.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
+      </script>
+
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
@@ -202,6 +201,7 @@ export const aboutPageFragments = {
       created
       updated
       slug
+      language
       published
       transformedContent(transformArgs: $transformArgs) {
         content

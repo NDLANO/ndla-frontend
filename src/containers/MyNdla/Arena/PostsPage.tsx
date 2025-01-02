@@ -8,7 +8,7 @@
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -61,16 +61,17 @@ const PostsPage = () => {
   const userAgent = useUserAgent();
   const { arenaCategory } = useArenaCategory(arenaTopic?.categoryId?.toString());
   const { trackPageView } = useTracker();
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const [subscribeToTopic] = useArenaFollowTopicMutation();
   const [unsubscribeFromTopic] = useArenaUnfollowTopicMutation();
-  const { replyToTopic } = useArenaReplyToTopicMutation(arenaTopic?.id!);
+  const { replyToTopic } = useArenaReplyToTopicMutation(arenaTopic?.id ?? -1);
 
   const createReply = useCallback(
     async (data: Partial<ArenaFormValues>, postId?: number) => {
+      if (!arenaTopic?.id) return;
       const newReply = await replyToTopic({
-        variables: { topicId: arenaTopic?.id!, content: data.content ?? "", postId: postId },
+        variables: { topicId: arenaTopic.id, content: data.content ?? "", postId: postId },
       });
 
       // TODO: Replace this with `setFocusId(newReply.data.replyToTopicV2.id)` when nodebb dies
@@ -101,12 +102,11 @@ const PostsPage = () => {
   }, [arenaTopic, unsubscribeFromTopic, toast, t, subscribeToTopic]);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || loading) return;
     trackPageView({
       title: t("htmlTitles.arenaPostPage", { name: arenaTopic?.title ?? "" }),
       dimensions: getAllDimensions({ user }),
     });
-  }, [arenaTopic?.title, authContextLoaded, loading, t, trackPageView, user]);
+  }, [arenaTopic?.title, loading, t, trackPageView, user]);
 
   useEffect(() => {
     if (document.getElementById(`post-${focusId}`)) {
@@ -116,7 +116,7 @@ const PostsPage = () => {
   }, [focusId, arenaTopic?.posts]);
 
   useEffect(() => {
-    if (error?.graphQLErrors.map((err) => err.extensions.status).includes(403) || (!loading && !arenaTopic)) {
+    if (error?.graphQLErrors.map((err) => err.extensions?.status).includes(403) || (!loading && !arenaTopic)) {
       if (document.referrer.includes(routes.myNdla.root)) {
         navigate(-1);
       } else {
@@ -132,8 +132,7 @@ const PostsPage = () => {
     arenaCategory?.breadcrumbs?.map((crumb) => ({ name: crumb.title, id: `category/${crumb.id}` })) ?? [];
   const crumbs = [...parentCrumbs, { name: arenaTopic?.title ?? "", id: topicId ?? "" }];
 
-  if (loading || !authContextLoaded || !arenaTopic?.posts?.items) return <PageSpinner />;
-  if (!authenticated || (user && !user.arenaEnabled)) return <Navigate to={routes.myNdla.root} />;
+  if (loading || !arenaTopic?.posts?.items?.[0]) return <PageSpinner />;
 
   return (
     <StyledMyNdlaPageWrapper>
@@ -141,7 +140,7 @@ const PostsPage = () => {
       <MyNdlaBreadcrumb breadcrumbs={crumbs} page={"arena"} />
       <div>
         <MainPostCard
-          post={arenaTopic?.posts?.items[0]!}
+          post={arenaTopic.posts.items[0]}
           topic={arenaTopic}
           onFollowChange={onFollowChange}
           setFocusId={setFocusId}

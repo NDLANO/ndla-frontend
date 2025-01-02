@@ -7,23 +7,27 @@
  */
 
 import express from "express";
+import jwt from "jsonwebtoken";
+import { errors as oidcErrors } from "openid-client";
 import { matchPath } from "react-router-dom";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
 import ltiConfig from "./ltiConfig";
+import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
-import config from "../config";
-import { FILM_PAGE_PATH, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_PATH } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
+import config, { getEnvironmentVariabel } from "../config";
+import { ABOUT_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_URL, programmeRedirects } from "../constants";
+import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
+import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
 
 const router = express.Router();
@@ -46,17 +50,17 @@ router.get("/health", (_, res) => {
   res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
-router.get("/film", (_, res) => {
-  res.redirect(FILM_PAGE_PATH);
+router.get(["/film", "/:lang/film"], (_, res) => {
+  res.redirect(FILM_PAGE_URL);
 });
 
-router.get("/utdanning", (_, res) => {
+router.get(["/utdanning", "/:lang/utdanning"], (_, res) => {
   res.redirect("/");
 });
 
 router.get("/ukr", (_req, res) => {
   res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
-  res.redirect(`/en${UKR_PAGE_PATH}`);
+  res.redirect(`/en${UKR_PAGE_URL}`);
 });
 
 router.get("/oembed", async (req, res) => {
@@ -100,7 +104,14 @@ router.get("/login/success", async (req, res) => {
     throw new BadRequestError("Missing code or verifier");
   }
 
-  const token = await getFeideToken(req, verifier, code);
+  const token = await getFeideToken(req, verifier, code).catch((error: Error) => {
+    if (error instanceof oidcErrors.OPError) {
+      log.info("Got OPError when fetching feide token.", { error });
+      throw new BadRequestError(`Got OPError when fetching feide token: ${error.message}`);
+    }
+    return Promise.reject(error);
+  });
+
   const feideCookie = {
     ...token,
     ndla_expires_at: (token.expires_at ?? 0) * 1000,
@@ -111,6 +122,20 @@ router.get("/login/success", async (req, res) => {
     encode: String,
     domain,
   });
+
+  // Set cookie for nodebb to use
+  const username = "https://n.feide.no/claims/eduPersonPrincipalName";
+  const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
+  const nodebbCookie = {
+    id: decoded?.sub,
+    username: decoded?.[username],
+    fullname: decoded?.name,
+    email: decoded?.email,
+    groups: ["unverified-users"],
+  };
+  const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+  res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
+
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
   if (!languageCookie) {
@@ -135,7 +160,9 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 });
 
 router.get("/logout/session", (req, res) => {
-  res.clearCookie("feide_auth", { domain: `.${config.feideDomain}` });
+  const domain = req.hostname === config.feideDomain ? `.${config.feideDomain}` : req.hostname;
+  res.clearCookie("feide_auth", { domain });
+  res.clearCookie("nodebb_auth", { domain });
   const state = typeof req.query.state === "string" ? req.query.state : "/";
   const { basepath, basename } = getLocaleInfoFromPath(state);
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
@@ -144,9 +171,16 @@ router.get("/logout/session", (req, res) => {
   return res.redirect(redirect);
 });
 
-router.get(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
+router.get(["/about/:path", "/:lang/about/:path"], (req, res) => {
+  log.info("Redirecting about path", { path: req.path, params: req.params });
   const { lang, path } = req.params;
-  res.redirect(301, lang ? `/${lang}/${path}` : `/${path}`);
+  res.redirect(301, lang ? `/${lang}${ABOUT_PATH}/${path}` : `${ABOUT_PATH}/${path}`);
+});
+
+router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjects/*path"], (req, res) => {
+  log.info("Redirecting subjects path", { path: req.path, params: req.params });
+  const { lang, path = [] } = req.params;
+  res.redirect(301, lang ? `/${lang}/${path.join("/")}` : `/${path.join("/")}`);
 });
 
 router.get("/lti/config.xml", async (_req, res) => {
@@ -178,6 +212,28 @@ router.post("/lti/oauth", async (req, res) => {
       [`/:lang/${path}/:nodeId`, `/:lang/${path}/:nodeId/*splat`, `/${path}/:nodeId`, `/${path}/:nodeId/*splat`],
       async (req, res, next) => forwardingRoute(req, res, next),
     );
+  },
+);
+
+router.get<{ splat: string[]; lang?: string }>(["/subject*splat", "/:lang/subject*splat"], async (req, res, next) => {
+  if (req.params.lang && !isValidLocale(req.params.lang)) {
+    next();
+  } else {
+    contextRedirectRoute(req, res, next);
+  }
+});
+
+/** Handle semi-old hardcoded programmes. */
+router.get(
+  ["/utdanning/:name", "/utdanning/:name/vg1", "/utdanning/:name/vg2", "/utdanning/:name/vg3"],
+  (req, res, next) => {
+    const { name = "" } = req.params;
+    if (programmeRedirects[name] !== undefined) {
+      log.info("Redirecting programme without contextId", { path: req.path });
+      res.redirect(301, `/utdanning/${name}/${programmeRedirects[name]}`);
+    } else {
+      next();
+    }
   },
 );
 

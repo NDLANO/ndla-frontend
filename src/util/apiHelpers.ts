@@ -111,7 +111,7 @@ const typePolicies: TypePolicies = {
         },
       },
       folderResourceMetaSearch: {
-        //@ts-ignore
+        //@ts-expect-error - We just want some autocomplete here
         read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
             toReference(
@@ -153,10 +153,10 @@ const typePolicies: TypePolicies = {
     },
   },
   SearchContext: {
-    keyFields: ["path"],
+    keyFields: ["contextId"],
   },
   GroupSearchResult: {
-    keyFields: ["path"],
+    keyFields: ["url"],
   },
   Filter: {
     keyFields: (object) => `${object.id}+${object.relevanceId}`,
@@ -164,8 +164,8 @@ const typePolicies: TypePolicies = {
   FrontpageMenu: {
     keyFields: ["articleId"],
   },
-  FrontpageSearchResult: {
-    keyFields: ["path"],
+  TaxonomyContext: {
+    keyFields: ["contextId"],
   },
   FolderResourceMeta: {
     keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
@@ -203,6 +203,15 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
   return new ApolloClient({
     link: createApolloLinks(language, versionHash, path),
     cache,
+    ssrMode: true,
+    defaultOptions: {
+      query: {
+        errorPolicy: "all",
+      },
+      mutate: {
+        errorPolicy: "all",
+      },
+    },
   });
 };
 

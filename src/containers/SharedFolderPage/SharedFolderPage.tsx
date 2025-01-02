@@ -8,11 +8,10 @@
 
 import keyBy from "lodash/keyBy";
 import { useContext, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { FileCopyLine } from "@ndla/icons/action";
-import { PresentationLine } from "@ndla/icons/common";
+import { useQuery } from "@apollo/client";
+import { FileCopyLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { SaveLink } from "./components/SaveLink";
@@ -29,7 +28,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
-import { useGraphQuery } from "../../util/runQueries";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -95,7 +93,7 @@ const SharedFolderPage = () => {
     includeSubfolders: true,
   });
 
-  const { data: folderData } = useGraphQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const { data: folderData } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip: !folder || !authenticated,
   });
 
@@ -142,7 +140,7 @@ const SharedFolderPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <Helmet title={folder.name} />
+        <title>{folder.name}</title>
         <SocialMediaMetadata
           type="website"
           title={folder.name}

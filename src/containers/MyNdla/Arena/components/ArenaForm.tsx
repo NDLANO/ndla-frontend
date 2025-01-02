@@ -9,8 +9,7 @@
 import { useContext, Suspense, lazy, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { InformationOutline } from "@ndla/icons/common";
-import { CheckLine } from "@ndla/icons/editor";
+import { InformationLine, CheckLine } from "@ndla/icons";
 import {
   FieldErrorMessage,
   FieldInput,
@@ -91,11 +90,13 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
   });
 
   useEffect(() => {
-    type === "topic"
-      ? setTimeout(() => document.getElementById("field-title")?.focus(), 1)
-      : id
-        ? setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1)
-        : setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+    if (type === "topic") {
+      setTimeout(() => document.getElementById("field-title")?.focus(), 1);
+    } else if (id) {
+      setTimeout(() => document.getElementById(`field-editor-${id}`)?.focus(), 1);
+    } else {
+      setTimeout(() => document.getElementById(`field-editor`)?.focus(), 1);
+    }
   }, [id, type]);
 
   const onSubmit = async ({ title, content, locked }: ArenaFormValues) => {
@@ -179,7 +180,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
           </FieldRoot>
         )}
       />
-      {showLockedOption && (
+      {!!showLockedOption && (
         <Controller
           control={control}
           name="locked"
@@ -209,7 +210,7 @@ const ArenaForm = ({ onSave, onAbort, type, initialTitle, initialContent, initia
         />
       )}
       <StyledMessageBox variant="info">
-        <InformationOutline />
+        <InformationLine />
         <Text>{t(`myNdla.arena.warning.${type}`)}</Text>
       </StyledMessageBox>
       <HStack gap="3xsmall" justify="flex-end">

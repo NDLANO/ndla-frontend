@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { INewCategory } from "@ndla/types-backend/myndla-api";
+import { INewCategoryDTO } from "@ndla/types-backend/myndla-api";
 import ArenaCategoryForm from "./components/ArenaCategoryForm";
 import { ArenaFormWrapper } from "./components/ArenaForm";
 import { useArenaCategory } from "./components/temporaryNodebbHooks";
@@ -30,18 +30,17 @@ const CategoryEditPage = () => {
   const navigate = useNavigate();
   const { loading, arenaCategory } = useArenaCategory(categoryId);
   const updateCategory = useEditArenaCategory();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authContextLoaded || !user?.arenaEnabled || !user?.isModerator) return;
     trackPageView({
       title: t("htmlTitles.arenaNewCategoryPage"),
       dimensions: getAllDimensions({ user }),
     });
-  }, [authContextLoaded, t, trackPageView, user]);
+  }, [t, trackPageView, user]);
 
   const onSave = useCallback(
-    async (values: Partial<INewCategory>) => {
+    async (values: Partial<INewCategoryDTO>) => {
       const category = await updateCategory.editArenaCategory({
         variables: {
           categoryId: Number(categoryId),
@@ -64,10 +63,8 @@ const CategoryEditPage = () => {
     else navigate(routes.myNdla.arena);
   }, [categoryId, navigate]);
 
-  if (loading || !authContextLoaded) return <PageSpinner />;
+  if (loading) return <PageSpinner />;
   if (!categoryId) return <Navigate to={routes.myNdla.arena} />;
-  if (user && !(user.isModerator || user.arenaEnabled))
-    return <Navigate to={routes.myNdla.arenaCategory(Number(categoryId))} />;
 
   return (
     <MyNdlaPageWrapper>

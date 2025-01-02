@@ -10,7 +10,7 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -27,7 +27,6 @@ import {
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
-import { useGraphQuery } from "../../../util/runQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
@@ -127,13 +126,10 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-  const { data, loading, error } = useGraphQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(
-    ResourceEmbedQuery,
-    {
-      variables: { id: id ?? "", type },
-      skip: !id,
-    },
-  );
+  const { data, loading, error } = useQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(ResourceEmbedQuery, {
+    variables: { id: id ?? "", type },
+    skip: !id,
+  });
 
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
 
@@ -210,10 +206,10 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   <section>{transformedContent}</section>
                 </ArticleContent>
                 <ArticleFooter>
-                  {data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
+                  {!!data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
                     <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
                   )}
-                  {isOembed && (
+                  {!!isOembed && (
                     <CreatedBy
                       name={t("createdBy.content")}
                       description={t("createdBy.text")}

@@ -8,15 +8,16 @@
 
 import { ReactNode, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { AuthContext } from "./AuthenticationContext";
 import FavoriteButton from "./MyNdla/FavoriteButton";
 import LoginModalContent from "./MyNdla/LoginModalContent";
 import { useToast } from "./ToastContext";
-import { Subject } from "../containers/AllSubjectsPage/interfaces";
 import DeleteModalContent from "../containers/MyNdla/components/DeleteModalContent";
 import { useUpdatePersonalData } from "../containers/MyNdla/userMutations";
+import { GQLFavoriteSubject_NodeFragment } from "../graphqlTypes";
 
 const SafeLinkWrapper = styled("div", {
   base: {
@@ -28,13 +29,13 @@ const SafeLinkWrapper = styled("div", {
 });
 
 interface Props {
-  subject: Subject;
+  node: GQLFavoriteSubject_NodeFragment;
   favorites: string[] | undefined;
   subjectLinkOrText: ReactNode;
 }
 
-const FavoriteSubject = ({ subject, favorites, subjectLinkOrText }: Props) => {
-  const isFavorite = !!favorites?.includes(subject.id);
+const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) => {
+  const isFavorite = !!favorites?.includes(node.id);
   const toast = useToast();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -45,13 +46,13 @@ const FavoriteSubject = ({ subject, favorites, subjectLinkOrText }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites.concat(subject.id);
+    const newFavorites = favorites.concat(node.id);
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites },
     });
     toast.create({
       title: t("myndla.resource.added"),
-      description: t("subjectsPage.addConfirmed", { subject: subject.name }),
+      description: t("subjectsPage.addConfirmed", { subject: node.name }),
     });
   };
 
@@ -59,67 +60,78 @@ const FavoriteSubject = ({ subject, favorites, subjectLinkOrText }: Props) => {
     if (!favorites) {
       return;
     }
-    const newFavorites = favorites?.filter((favorite) => favorite !== subject.id);
+    const newFavorites = favorites?.filter((favorite) => favorite !== node.id);
     await updatePersonalData({
       variables: { favoriteSubjects: newFavorites, shareName: undefined },
     });
     setShowDeleteModal(false);
     toast.create({
       title: t("myndla.resource.removed"),
-      description: t("subjectsPage.removeConfirmed", { subject: subject.name }),
+      description: t("subjectsPage.removeConfirmed", { subject: node.name }),
     });
   };
 
-  return (
-    <>
-      {authenticated && !isFavorite ? (
-        <FavoriteButton
-          onClick={setFavorite}
-          aria-label={t("subjectsPage.addFavorite")}
-          title={t("subjectsPage.addFavorite")}
-          isFavorite={false}
-        />
-      ) : authenticated ? (
-        <DialogRoot open={showDeleteModal} onOpenChange={(details) => setShowDeleteModal(details.open)}>
-          <DialogTrigger asChild>
-            <FavoriteButton
-              aria-label={t("subjectsPage.removeFavorite")}
-              title={t("subjectsPage.removeFavorite")}
-              isFavorite
-            />
-          </DialogTrigger>
-          <DeleteModalContent
-            onDelete={removeFavorite}
+  if (authenticated && !isFavorite) {
+    return (
+      <FavoriteButton
+        onClick={setFavorite}
+        aria-label={t("subjectsPage.addFavorite")}
+        title={t("subjectsPage.addFavorite")}
+        isFavorite={false}
+      />
+    );
+  } else if (authenticated) {
+    return (
+      <DialogRoot open={showDeleteModal} onOpenChange={(details) => setShowDeleteModal(details.open)}>
+        <DialogTrigger asChild>
+          <FavoriteButton
+            aria-label={t("subjectsPage.removeFavorite")}
             title={t("subjectsPage.removeFavorite")}
-            removeText={t("myNdla.resource.remove")}
-            description={t("subjectsPage.confirmRemove", {
-              subject: subject.name,
-            })}
+            isFavorite
           />
-        </DialogRoot>
-      ) : (
-        <DialogRoot>
-          <DialogTrigger asChild>
-            <FavoriteButton
-              aria-label={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
-              title={`${t("subjectsPage.addFavorite")}, ${subject.name}`}
-              variant="tertiary"
-              isFavorite={false}
-            />
-          </DialogTrigger>
-          <LoginModalContent
-            title={t("subjectsPage.subjectFavoritePitch")}
-            content={
-              <>
-                <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
-                <SafeLinkWrapper>{subjectLinkOrText}</SafeLinkWrapper>
-              </>
-            }
+        </DialogTrigger>
+        <DeleteModalContent
+          onDelete={removeFavorite}
+          title={t("subjectsPage.removeFavorite")}
+          removeText={t("myNdla.resource.remove")}
+          description={t("subjectsPage.confirmRemove", {
+            subject: node.name,
+          })}
+        />
+      </DialogRoot>
+    );
+  } else {
+    return (
+      <DialogRoot>
+        <DialogTrigger asChild>
+          <FavoriteButton
+            aria-label={`${t("subjectsPage.addFavorite")}, ${node.name}`}
+            title={`${t("subjectsPage.addFavorite")}, ${node.name}`}
+            variant="tertiary"
+            isFavorite={false}
           />
-        </DialogRoot>
-      )}
-    </>
-  );
+        </DialogTrigger>
+        <LoginModalContent
+          title={t("subjectsPage.subjectFavoritePitch")}
+          content={
+            <>
+              <span>{t("subjectsPage.subjectFavoriteGuide")}</span>
+              <SafeLinkWrapper>{subjectLinkOrText}</SafeLinkWrapper>
+            </>
+          }
+        />
+      </DialogRoot>
+    );
+  }
+};
+
+FavoriteSubject.fragments = {
+  node: gql`
+    fragment FavoriteSubject_Node on Node {
+      id
+      name
+    }
+  `,
 };
 
 export default FavoriteSubject;

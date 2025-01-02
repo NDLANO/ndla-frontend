@@ -16,6 +16,7 @@ const messages = {
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
     notFound: `Sida finst ikkje - ${titleTemplate}`,
+    forbidden: `Tilgang nekta - ${titleTemplate}`,
     unpublished: `Ressursen er avpublisert - ${titleTemplate}`,
     accessDenied: `Ingen tilgang - ${titleTemplate}`,
     subject: "Fag",
@@ -35,7 +36,14 @@ const messages = {
     arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
     arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
     arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
-    learningpathPage: `Mine læringsstiar - ${titleTemplate}`,
+    learningpathsPage: `Mine læringsstiar - ${titleTemplate}`,
+    learningpathPage: `{{name}}  - ${titleTemplate}`,
+    learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathEditTitlePage: `Rediger tittel - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathPreviewPage: `Førehandsvis - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
+    learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
+    collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
@@ -94,6 +102,134 @@ const messages = {
       error: "Ein feil oppstod",
       userUpdated: "Bruker oppdatert",
     },
+    goToMyNdla: "Gå til Min NDLA",
+    learningpath: {
+      newLearningpath: "Ny læringssti",
+      form: {
+        delete: "Slett",
+        next: "Neste",
+        back: "Forrige",
+        deleteStep: "Slett trinn",
+        deleteBody: "Innholdet kan ikkje gjenopprettast",
+        navigation: "Skjemanavigering",
+        title: {
+          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          imageTitle: "Bildetittel",
+          copyright: "Opphav",
+          metaImage: "Metabilde",
+          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
+          noResult: "Ingen bildar treffar din søketekst",
+          imageRequired: "Vennligst velg eit bilete.",
+        },
+        content: {
+          title: "Legg til innhald",
+          subTitle: "Legg til innhald til læringsstien",
+          resource: {
+            label: "Artikkel frå NDLA",
+            labelHelper: "Søk etter artikkel eller lim inn ein lenke",
+          },
+          text: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag ei beskrivande tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+            },
+            description: {
+              label: "Innhald",
+              labelHelper: "Skriv eller lim inn innhaldet ditt her.",
+            },
+          },
+          external: {
+            title: {
+              label: "Tittel",
+              labelHelper: "Lag ei beskrivande tittel.",
+            },
+            introduction: {
+              label: "Ingress",
+              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+            },
+            content: {
+              label: "Innhald frå eit anna nettstad",
+              labelHelper: "Lim inn ein lenke til innhaldet du vil legge til.",
+            },
+            copyright:
+              "Når du deler innhald frå andre nettstader er du sjølv ansvarleg for at innhaldet er lovleg å dele. Les meir om ",
+            copyrightLink: "opphavsrett og deling.",
+            checkbox: "Inhaldet eg har lenka til er lovleg å dele.",
+          },
+          folder: {
+            label: "Søk i Mine mapper",
+            labelHelper: "Velg innhald frå mine mapper",
+          },
+        },
+        options: {
+          text: "Tekst eg har skrevet sjølv",
+          resource: "Innhald frå NDLA",
+          external: "Innhald frå eit anna nettstad",
+          folder: "Innhald frå ein av mine mapper i Min NDLA",
+        },
+        steps: {
+          next: "Neste: {{ next }}",
+          title: "Tittel og beskrivelse",
+          content: "Legg til innhald",
+          preview: "Sjå igjennom",
+          save: "Lagre og del",
+          edit: "Rediger trinn",
+          add: "Legg til trinn",
+        },
+      },
+      title: "Mine læringsstiar",
+      description:
+        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
+      created: "Oppretta: {{ created }}",
+      shared: "Delt {{ shared }}",
+      noPath:
+        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å lage ein sti!",
+      menu: {
+        new: "Ny",
+        edit: "Endre",
+        delete: "Slett",
+        share: "Del",
+        unShare: "Avslutt deling",
+        goTo: "Gå til",
+        copy: "Kopier lenke",
+      },
+      toast: {
+        deleted: 'Læringsstien "{{ name }}" er sletta.',
+        unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',
+        copy: 'Kopierte lenka til læringsstien "{{ name }}"',
+        shared: "Læringsstien er delt.",
+      },
+      status: {
+        shared: "Delt",
+        readyForSharing: "Klar for deling",
+        private: "Starta",
+      },
+      delete: {
+        title: "Slett læringssti",
+        body: "Er du sikker på at du vil slette læringsstien? Handlinga kan ikkje angrast.",
+        button: "Slett læringssti",
+      },
+      sharing: {
+        title: "Denne læringsstien er delt",
+        description: {
+          shared:
+            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
+          private:
+            "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenka med.",
+          copy: "Trykk på lenka for å kopiere",
+        },
+        link: "Kopier lenke",
+        copied: "Lenka er kopiert",
+        button: {
+          done: "Ferdig",
+          preview: "Førehandsvis læringssti",
+        },
+      },
+    },
   },
   ndlaFilm: {
     films: "Filmar",
@@ -106,6 +242,9 @@ const messages = {
       title: "Tittel",
       content: "Innhald",
       description: "Beskriving",
+      introduction: "Ingress",
+      url: "Lenka",
+      shareable: "Delbar",
     },
     required: "Dette feltet er påkrevd",
     requiredField: "$t(validation.fields.{{field}}) kan ikkje være tom",
@@ -195,6 +334,32 @@ const messages = {
   movedResourcePage: {
     title: "Sida har flytta, men du finn den her:",
     openInSubject: "Opne artikkelen i eit fag:",
+  },
+  forbiddenPage: {
+    title: "Tilgang nekta",
+    errorDescription: "Du har ikkje tilgang til denne sida",
+  },
+  collectionPage: {
+    title: `Ressursar på $t(languages.{{language}})`,
+    noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
+  },
+  date: {
+    ago: "sidan",
+    now: "Akkurat no",
+    units: {
+      day: "dag",
+      days: "dagar",
+      hour: "time",
+      hours: "timar",
+      minute: "minutt",
+      minutes: "minutt",
+      month: "månad",
+      months: "månader",
+      second: "sekund",
+      seconds: "sekund",
+      year: "år",
+      years: "år",
+    },
   },
 };
 

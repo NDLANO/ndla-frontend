@@ -8,7 +8,7 @@
 import { ComponentPropsWithRef, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Assign } from "@ark-ui/react";
-import { ForumOutlined, LockFill, QuestionAnswerLine } from "@ndla/icons/common";
+import { ForumOutlined, LockFill, QuestionAnswerLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemProps, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -223,7 +223,7 @@ export const ArenaListItem = forwardRef<HTMLDivElement, Assign<ListItemProps, Ar
             </TextWrapper>
           </ContentWrapper>
           <ContentWrapper>
-            {isEditing && user?.isModerator && (
+            {!!isEditing && !!user?.isModerator && (
               <ButtonWrapper>
                 <DeleteCategoryModal categoryId={id} refetchCategories={refetchCategories} />
               </ButtonWrapper>

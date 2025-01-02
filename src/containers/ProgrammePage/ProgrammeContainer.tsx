@@ -8,10 +8,9 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
@@ -32,6 +31,7 @@ const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
 };
 
 interface GradesData {
+  id: string;
   name: string;
   missingProgrammeSubjects: boolean;
   categories?: {
@@ -58,7 +58,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
-          url: subject.path,
+          url: subject.url,
         };
       });
       return {
@@ -68,6 +68,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       };
     });
     return {
+      id: grade.id,
       name: grade.title.title,
       missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
@@ -164,20 +165,19 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <Helmet>
-          <title>{pageTitle}</title>
-        </Helmet>
+        <title>{pageTitle}</title>
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
-          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" />
+          {/* TODO: Use semantic tokens */}
+          <StyledImage src={programme.desktopImage?.url ?? ""} alt="" height="400" width="1128" />
           <HeadingWrapper>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
             </Heading>
             {!!grades.length && (
-              <GradesList aria-label={t("programme.grades")}>
+              <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
-                  <li key={item.name}>
+                  <li key={item.id}>
                     <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.name.toLowerCase())}
                       variant="secondary"
@@ -191,7 +191,7 @@ const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             )}
           </HeadingWrapper>
         </div>
-        {grade?.missingProgrammeSubjects && (
+        {!!grade?.missingProgrammeSubjects && (
           <MessageBoxWrapper>
             <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("programmePage.programmeSubjects")}</h2>
@@ -217,6 +217,7 @@ ProgrammeContainer.fragments = {
       metaDescription
       title {
         title
+        language
       }
       desktopImage {
         url
@@ -237,7 +238,7 @@ ProgrammeContainer.fragments = {
           subjects {
             id
             name
-            path
+            url
             subjectpage {
               about {
                 title

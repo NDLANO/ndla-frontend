@@ -6,7 +6,6 @@
  *
  */
 
-import { HelmetProvider, FilledContext } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
@@ -42,6 +41,7 @@ export const iframeArticleRender: RenderFunc = async (req) => {
   if (noSSR) {
     return {
       status: OK,
+      locale: locale ?? config.defaultLocale,
       data: {
         htmlContent: "",
         data: {
@@ -55,20 +55,16 @@ export const iframeArticleRender: RenderFunc = async (req) => {
   const client = createApolloClient(locale, undefined, req.path);
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
-  // @ts-ignore
-  const helmetContext: FilledContext = {};
 
   const Page = (
     <RedirectContext.Provider value={context}>
-      <HelmetProvider context={helmetContext}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <StaticRouter location={req.url}>
-              <IframePageContainer {...initialProps} />
-            </StaticRouter>
-          </ApolloProvider>
-        </I18nextProvider>
-      </HelmetProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <StaticRouter location={req.url}>
+            <IframePageContainer {...initialProps} />
+          </StaticRouter>
+        </ApolloProvider>
+      </I18nextProvider>
     </RedirectContext.Provider>
   );
 
@@ -85,8 +81,8 @@ export const iframeArticleRender: RenderFunc = async (req) => {
 
   return {
     status: context.status ?? OK,
+    locale: locale ?? config.defaultLocale,
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
         apolloState,

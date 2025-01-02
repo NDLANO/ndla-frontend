@@ -6,12 +6,11 @@
  *
  */
 
-import { compareDesc } from "date-fns";
 import { parse, stringify } from "query-string";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PaginationContext } from "@ark-ui/react";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Text,
   Badge,
@@ -125,6 +124,11 @@ type SearchObject = {
 
 export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
+};
+
+const compareDesc = (a: Date, b: Date) => {
+  if (a.getTime() === b.getTime()) return 0;
+  return a > b ? -1 : 1;
 };
 
 const FlaggedPosts = () => {

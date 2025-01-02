@@ -6,17 +6,15 @@
  *
  */
 
-import { ReactNode, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
+import { ReactNode, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleTitle, ArticleWrapper, ExternalEmbed } from "@ndla/ui";
 import LearningpathIframe from "./LearningpathIframe";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLLearningpathEmbed_LearningpathStepFragment,
   GQLLearningpathStepQuery,
@@ -27,7 +25,6 @@ import { Breadcrumb } from "../../interfaces";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { useGraphQuery } from "../../util/runQueries";
 import { transformArticle } from "../../util/transformArticle";
 import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
@@ -82,22 +79,25 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
 
+  const fallbackId = useId();
+
   const shouldUseConverter =
     !!articleId &&
     !learningpathStep.resource?.article &&
     learningpathStep.embedUrl &&
     urlIsNDLAUrl(learningpathStep.embedUrl?.url);
 
-  const { data, loading } = useGraphQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
+  const { data, loading } = useQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
     learningpathStepQuery,
     {
       variables: {
-        articleId: articleId ?? learningpathStep.resource?.article?.id.toString()!,
+        articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
         resourceId: taxId ?? "",
         includeResource: !!taxId,
         transformArgs: {
           path: location.pathname,
           subjectId,
+          prettyUrl: true,
         },
       },
       skip:
@@ -107,8 +107,8 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     },
   );
 
-  const path = !learningpathStep.resource?.path ? data?.resource?.path : undefined;
-  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
+  const url = !learningpathStep.resource?.url ? data?.node?.url : undefined;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const [article, scripts] = useMemo(() => {
     const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
@@ -143,11 +143,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
-          <ArticleTitle
-            id={skipToContentId ?? SKIP_TO_CONTENT_ID}
-            contentType="external"
-            title={learningpathStep.title}
-          />
+          <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={learningpathStep.title} />
           <ArticleContent>
             <section>
               <ExternalEmbed
@@ -183,7 +179,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
   }
 
   const learningpathStepResource = learningpathStep.resource ?? data;
-  const resource = learningpathStep.resource ?? data?.resource;
+  const resource = learningpathStep.resource ?? data?.node;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
@@ -192,16 +188,14 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
 
   return (
     <EmbedPageContent variant="content">
-      <Helmet>
-        {article && article.metaDescription && <meta name="description" content={article.metaDescription} />}
-        {scripts.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
+      {!!article?.metaDescription && <meta name="description" content={article.metaDescription} />}
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
 
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
-        </script>
-      </Helmet>
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
+      </script>
       <Article
         id={skipToContentId}
         article={article}
@@ -210,7 +204,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
       >
         {children}
-        {!!path && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
+        {!!url && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
       </Article>
     </EmbedPageContent>
   );
@@ -223,7 +217,6 @@ const articleFragment = gql`
     created
     updated
     articleType
-    metaDescription
     requiredLibraries {
       name
       url
@@ -244,7 +237,7 @@ LearningpathEmbed.fragments = {
       title
       resource {
         id
-        path
+        url
         resourceTypes {
           id
           name
@@ -282,9 +275,9 @@ const learningpathStepQuery = gql`
       oembed
       ...LearningpathEmbed_Article
     }
-    resource(id: $resourceId) @include(if: $includeResource) {
+    node(id: $resourceId) @include(if: $includeResource) {
       id
-      path
+      url
       resourceTypes {
         id
         name
