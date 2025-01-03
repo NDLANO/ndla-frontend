@@ -17,10 +17,12 @@ import { getCookie, setCookie } from "@ndla/util";
 import ErrorPage from "./ErrorPage";
 import Scripts from "../../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath } = window.DATA;
+const { config, serverPath, chunks } = window.DATA;
 
 initSentry(config);
 
@@ -39,7 +41,7 @@ const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
 
 const i18n = initializeI18n(i18nInstance, storedLanguage);
 
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
@@ -49,13 +51,15 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 };
 
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <BrowserRouter>
-      <MissingRouterContext.Provider value={true}>
-        <Scripts />
-        <ErrorPage />
-      </MissingRouterContext.Provider>
-    </BrowserRouter>
-  </I18nextProvider>,
+  document,
+  <Document language={storedLanguage} chunks={chunks} devEntrypoint={entryPoints.error}>
+    <I18nextProvider i18n={i18n}>
+      <BrowserRouter>
+        <MissingRouterContext.Provider value={true}>
+          <Scripts />
+          <ErrorPage />
+        </MissingRouterContext.Provider>
+      </BrowserRouter>
+    </I18nextProvider>
+  </Document>,
 );

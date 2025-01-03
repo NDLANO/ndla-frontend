@@ -27,6 +27,8 @@ import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import EmbedIframePageContainer from "./EmbedIframePageContainer";
+import { Document } from "../Document";
+import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
 import { LocaleType, LtiData } from "../interfaces";
 import { createApolloClient } from "../util/apiHelpers";
@@ -43,7 +45,7 @@ type EmbedInitialProps = {
   ltiData?: LtiData;
 };
 
-const { config, initialProps } = window.DATA;
+const { config, initialProps, chunks } = window.DATA;
 
 initSentry(config);
 
@@ -52,7 +54,7 @@ const language = initialProps.locale ?? config.defaultLocale;
 const client = createApolloClient(language, undefined, window.location.pathname);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
@@ -61,14 +63,16 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   }
 };
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <MissingRouterContext.Provider value={true}>
-          <EmbedIframePageContainer {...(initialProps as EmbedInitialProps)} />
-        </MissingRouterContext.Provider>
-      </BrowserRouter>
-    </ApolloProvider>
-  </I18nextProvider>,
+  document,
+  <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeEmbed}>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <MissingRouterContext.Provider value={true}>
+            <EmbedIframePageContainer {...(initialProps as EmbedInitialProps)} />
+          </MissingRouterContext.Provider>
+        </BrowserRouter>
+      </ApolloProvider>
+    </I18nextProvider>
+  </Document>,
 );
