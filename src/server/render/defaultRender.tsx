@@ -7,6 +7,7 @@
  */
 
 import { getSelectorsByUserAgent } from "react-device-detect";
+import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client/react";
@@ -20,6 +21,8 @@ import ResponseContext, { ResponseInfo } from "../../components/ResponseContext"
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
@@ -35,7 +38,7 @@ function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) 
   return abbreviation;
 }
 
-export const defaultRender: RenderFunc = async (req) => {
+export const defaultRender: RenderFunc = async (req, chunks) => {
   const resCookie = req.headers["cookie"] ?? "";
 
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
@@ -57,9 +60,10 @@ export const defaultRender: RenderFunc = async (req) => {
       status: OK,
       locale,
       data: {
-        htmlContent: "",
+        htmlContent: renderToString(<Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} />),
         data: {
           config: { ...config, disableSSR: noSSR },
+          chunks,
           serverPath: req.path,
           serverQuery: req.query,
         },
@@ -73,21 +77,23 @@ export const defaultRender: RenderFunc = async (req) => {
   const responseContext: ResponseInfo = {};
 
   const Page = (
-    <RedirectContext.Provider value={redirectContext}>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <ResponseContext.Provider value={responseContext}>
-            <VersionHashProvider value={versionHash}>
-              <UserAgentProvider value={userAgentSelectors}>
-                <StaticRouter basename={basename} location={req.url}>
-                  <App key={locale} />
-                </StaticRouter>
-              </UserAgentProvider>
-            </VersionHashProvider>
-          </ResponseContext.Provider>
-        </ApolloProvider>
-      </I18nextProvider>
-    </RedirectContext.Provider>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
+      <RedirectContext.Provider value={redirectContext}>
+        <I18nextProvider i18n={i18n}>
+          <ApolloProvider client={client}>
+            <ResponseContext.Provider value={responseContext}>
+              <VersionHashProvider value={versionHash}>
+                <UserAgentProvider value={userAgentSelectors}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App key={locale} />
+                  </StaticRouter>
+                </UserAgentProvider>
+              </VersionHashProvider>
+            </ResponseContext.Provider>
+          </ApolloProvider>
+        </I18nextProvider>
+      </RedirectContext.Provider>
+    </Document>
   );
 
   const html = await renderToStringWithData(Page);
@@ -107,6 +113,7 @@ export const defaultRender: RenderFunc = async (req) => {
     data: {
       htmlContent: html,
       data: {
+        chunks,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,

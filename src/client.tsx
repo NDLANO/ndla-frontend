@@ -32,6 +32,8 @@ import App from "./App";
 import ResponseContext from "./components/ResponseContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
+import { Document } from "./Document";
+import { entryPoints } from "./entrypoints";
 import {
   getLangAttributeValue,
   getLocaleInfoFromPath,
@@ -49,7 +51,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse },
+  DATA: { config, serverPath, serverResponse, chunks },
 } = window;
 
 initSentry(config);
@@ -151,7 +153,7 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   );
 };
 
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
@@ -161,14 +163,20 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
 };
 
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <ApolloProvider client={client}>
-      <ResponseContext.Provider value={{ status: serverResponse }}>
-        <VersionHashProvider value={versionHash}>
-          <LanguageWrapper basename={basename} />
-        </VersionHashProvider>
-      </ResponseContext.Provider>
-    </ApolloProvider>
-  </I18nextProvider>,
+  document,
+  <Document
+    chunks={chunks}
+    language={isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale}
+    devEntrypoint={entryPoints.default}
+  >
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <ResponseContext.Provider value={{ status: serverResponse }}>
+          <VersionHashProvider value={versionHash}>
+            <LanguageWrapper basename={basename} />
+          </VersionHashProvider>
+        </ResponseContext.Provider>
+      </ApolloProvider>
+    </I18nextProvider>
+  </Document>,
 );

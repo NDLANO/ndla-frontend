@@ -14,19 +14,19 @@ import { iframeEmbedRender } from "./render/iframeEmbedRender";
 import { ltiRender } from "./render/ltiRender";
 import { RootRenderFunc } from "./serverHelpers";
 
-const render: RootRenderFunc = (req: Request, renderer: string) => {
+const render: RootRenderFunc = (req: Request, renderer: string, chunks) => {
   if (renderer === "default") {
-    return defaultRender(req);
+    return defaultRender(req, chunks);
   } else if (renderer === "lti") {
-    return ltiRender(req);
+    return ltiRender(req, chunks);
   } else if (renderer === "iframeEmbed") {
-    return iframeEmbedRender(req);
+    return iframeEmbedRender(req, chunks);
   } else if (renderer === "iframeArticle") {
-    return iframeArticleRender(req);
+    return iframeArticleRender(req, chunks);
   } else if (renderer === "error") {
-    return errorRender(req);
+    return errorRender(req, chunks);
   } else {
-    return defaultRender(req);
+    return defaultRender(req, chunks);
   }
 };
 
