@@ -203,7 +203,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
         title={meta?.title ?? ""}
         resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
         resourceImage={{
-          src: meta?.metaImage?.url ?? "",
+          src: meta?.metaImage?.url,
           alt: meta?.metaImage?.alt ?? "",
         }}
       />

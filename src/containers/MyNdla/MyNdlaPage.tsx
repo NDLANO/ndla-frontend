@@ -240,7 +240,7 @@ const MyNdlaPage = () => {
                     link={res.path}
                     title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                     resourceImage={{
-                      src: meta?.metaImage?.url ?? "",
+                      src: meta?.metaImage?.url,
                       alt: "",
                     }}
                     resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}
