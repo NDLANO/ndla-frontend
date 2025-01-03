@@ -43,7 +43,7 @@
     "@graphql-codegen/typescript-operations": "^4.4.0",
     "@graphql-eslint/eslint-plugin": "^4.3.0",
     "@ndla/preset-panda": "^0.0.48",
-    "@ndla/scripts": "^2.1.6",
+    "@ndla/scripts": "^2.1.7",
     "@ndla/types-backend": "^1.0.1",
     "@ndla/types-embed": "^5.0.6-alpha.0",
     "@ndla/types-taxonomy": "^1.0.33",
