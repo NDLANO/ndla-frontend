@@ -27,11 +27,13 @@ import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import IframePageContainer from "./IframePageContainer";
+import { Document } from "../Document";
+import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
 
-const { config, initialProps } = window.DATA;
+const { config, initialProps, chunks } = window.DATA;
 
 initSentry(config);
 
@@ -40,7 +42,7 @@ const language = initialProps.locale ?? config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
+const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
@@ -49,14 +51,16 @@ const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
   }
 };
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <MissingRouterContext.Provider value={true}>
-          <IframePageContainer {...initialProps} />
-        </MissingRouterContext.Provider>
-      </BrowserRouter>
-    </ApolloProvider>
-  </I18nextProvider>,
+  document,
+  <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <MissingRouterContext.Provider value={true}>
+            <IframePageContainer {...initialProps} />
+          </MissingRouterContext.Provider>
+        </BrowserRouter>
+      </ApolloProvider>
+    </I18nextProvider>
+  </Document>,
 );

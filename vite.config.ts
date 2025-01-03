@@ -40,9 +40,16 @@ export default defineConfig(() => {
       target: "es2020",
       assetsDir: "static",
       outDir: "build/public",
+      manifest: true,
       sourcemap: true,
       rollupOptions: {
-        input: ["index.html", "lti.html", "iframe-article.html", "iframe-embed.html", "error.html"],
+        input: [
+          "src/client.tsx",
+          "src/lti/index.tsx",
+          "src/iframe/index.tsx",
+          "src/iframe/embedIframeIndex.tsx",
+          "src/containers/ErrorPage/ErrorEntry.tsx",
+        ],
       },
     },
     resolve: {

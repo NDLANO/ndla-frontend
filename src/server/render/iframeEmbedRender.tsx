@@ -6,6 +6,7 @@
  *
  */
 
+import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
@@ -14,13 +15,15 @@ import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
 import EmbedIframePageContainer from "../../iframe/EmbedIframePageContainer";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
 
-export const iframeEmbedRender: RenderFunc = async (req) => {
+export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
@@ -35,7 +38,13 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
       status: OK,
       locale: locale ?? config.defaultLocale,
       data: {
-        htmlContent: "",
+        htmlContent: renderToString(
+          <Document
+            language={locale ?? config.defaultLocale}
+            chunks={chunks}
+            devEntrypoint={entryPoints.iframeEmbed}
+          />,
+        ),
         data: {
           config: { ...config, disableSSR: true },
           initialProps,
@@ -49,15 +58,17 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
   const context: RedirectInfo = {};
 
   const Page = (
-    <RedirectContext.Provider value={context}>
-      <I18nextProvider i18n={i18n}>
-        <ApolloProvider client={client}>
-          <StaticRouter location={req.url}>
-            <EmbedIframePageContainer {...initialProps} />
-          </StaticRouter>
-        </ApolloProvider>
-      </I18nextProvider>
-    </RedirectContext.Provider>
+    <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeEmbed}>
+      <RedirectContext.Provider value={context}>
+        <I18nextProvider i18n={i18n}>
+          <ApolloProvider client={client}>
+            <StaticRouter location={req.url}>
+              <EmbedIframePageContainer {...initialProps} />
+            </StaticRouter>
+          </ApolloProvider>
+        </I18nextProvider>
+      </RedirectContext.Provider>
+    </Document>
   );
 
   const html = await renderToStringWithData(Page);
@@ -78,6 +89,7 @@ export const iframeEmbedRender: RenderFunc = async (req) => {
       htmlContent: html,
       data: {
         apolloState,
+        chunks,
         config: {
           ...config,
           disableSSR: noSSR,
