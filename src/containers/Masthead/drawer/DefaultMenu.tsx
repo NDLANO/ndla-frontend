@@ -145,19 +145,25 @@ const DefaultMenu = ({ onClose, setActiveMenu, root, type, setFrontpageMenu, dyn
         {dynamicMenus.map((menu) => {
           const hasChildren = !!menu.menu?.length;
           const baseAttributes = {
-            key: menu.article.slug,
             id: `${menu.article.slug}-dynamic`,
             title: menu.article.title,
           };
           return hasChildren ? (
             <DrawerRowHeader
               {...baseAttributes}
+              key={menu.article.slug}
               ownsId={`${menu.article.slug}-menu`}
               type="button"
               onClick={() => setFrontpageMenu(menu)}
             />
           ) : (
-            <DrawerRowHeader {...baseAttributes} type="link" to={toAbout(menu.article.slug)} onClose={onClose} />
+            <DrawerRowHeader
+              {...baseAttributes}
+              key={menu.article.slug}
+              type="link"
+              to={toAbout(menu.article.slug)}
+              onClose={onClose}
+            />
           );
         })}
       </DrawerList>
