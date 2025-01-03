@@ -228,7 +228,7 @@ const DraggableResource = ({
           isLoading={loading}
           key={resource.id}
           resourceImage={{
-            src: resourceMeta?.metaImage?.url ?? "",
+            src: resourceMeta?.metaImage?.url,
             alt: "",
           }}
           link={resourcePath}

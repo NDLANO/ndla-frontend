@@ -61,7 +61,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
                 link={resource.path}
                 title={meta?.title ?? ""}
                 resourceImage={{
-                  src: meta?.metaImage?.url ?? "",
+                  src: meta?.metaImage?.url,
                   alt: meta?.metaImage?.alt ?? "",
                 }}
                 resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}

@@ -191,7 +191,7 @@ const SharedFolderPage = () => {
                 <ListResource
                   id={resource.id}
                   resourceImage={{
-                    src: resourceMeta?.metaImage?.url ?? "",
+                    src: resourceMeta?.metaImage?.url,
                     alt: "",
                   }}
                   link={getResourceMetaPath(resource, resourceMeta)}

@@ -149,7 +149,7 @@ const Resources = ({ resources }: ResourcesProps) => {
             description={meta?.description ?? ""}
             resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
             resourceImage={{
-              src: meta?.metaImage?.url ?? "",
+              src: meta?.metaImage?.url,
               alt: "",
             }}
             menu={<SettingsMenu menuItems={createMenuItems(resource)} />}

@@ -120,7 +120,7 @@ const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, 
   return (
     <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={url}>
       <ImageWrapper>
-        <StyledImage src={metaImage?.url ?? ""} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
+        <StyledImage src={metaImage?.url} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">
           {resources.map((resource) => (
             <StyledMovieTags textStyle="label.small" key={resource}>

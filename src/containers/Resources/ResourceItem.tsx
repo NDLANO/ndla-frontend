@@ -213,7 +213,7 @@ export const ResourceItem = ({
         hidden={!!hidden && !active}
       >
         <StyledListItemImage
-          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
           alt=""
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}

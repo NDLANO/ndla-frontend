@@ -39,7 +39,7 @@ export interface ListResourceProps {
   id: string;
   link: string;
   title: string;
-  resourceImage: { src: string; alt: string };
+  resourceImage: { src: string | undefined; alt: string };
   resourceTypes: { id: string; name: string }[];
   description?: string;
   menu?: ReactNode;
@@ -162,7 +162,7 @@ const ListResource = ({
         nonInteractive={nonInteractive}
       >
         <Skeleton>
-          <ListItemImage src="" alt="" />
+          <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
           <TitleWrapper>
