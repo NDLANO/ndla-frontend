@@ -59,9 +59,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
             <div
               class="d_flex flex-d_column gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium [&_[data-contributors="false"]]:ms_auto tabletWide:flex-d_row"
             >
-              <span
-                property="cc:attributionName"
-              >
+              <span>
                 Skrevet av Someone. 
               </span>
               <div
