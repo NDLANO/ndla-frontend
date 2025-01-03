@@ -3237,18 +3237,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/scripts@npm:^2.1.6":
-  version: 2.1.6
-  resolution: "@ndla/scripts@npm:2.1.6"
+"@ndla/scripts@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "@ndla/scripts@npm:2.1.7"
   dependencies:
     cross-spawn: "npm:^7.0.3"
     cross-spawn-promise: "npm:^0.10.2"
+    fast-glob: "npm:^3.3.2"
     normalize-url: "npm:^8.0.1"
     url-regex-safe: "npm:^4.0.0"
     vercel: "npm:^33.6.2"
   bin:
     ndla-scripts: ./src/index.js
-  checksum: 10c0/52c9c93148f4c1ba77cedd8050c71c3af884334ef2819f76b1d7dca28c49b00a5a79981640cfa5465cb3269174b01f802db6332ec80280feed1c12c9a79031bd
+  checksum: 10c0/6068e8f4bd3f73d859912aeb73e745258f8b8453404df83f5420d3a5425b0ca57436c89a6f192b497de6bed5aa20d9c38999f81bf125e152ddbaad268556410e
   languageName: node
   linkType: hard
 
@@ -11559,7 +11560,7 @@ __metadata:
     "@ndla/preset-panda": "npm:^0.0.48"
     "@ndla/primitives": "npm:^1.0.67-alpha.0"
     "@ndla/safelink": "npm:^7.0.68-alpha.0"
-    "@ndla/scripts": "npm:^2.1.6"
+    "@ndla/scripts": "npm:^2.1.7"
     "@ndla/styled-system": "npm:^0.0.29"
     "@ndla/tracker": "npm:^5.0.16-alpha.0"
     "@ndla/types-backend": "npm:^1.0.1"
