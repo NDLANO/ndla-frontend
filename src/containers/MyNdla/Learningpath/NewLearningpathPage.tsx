@@ -62,7 +62,7 @@ export const NewLearningpathPage = () => {
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "-1", name: t("myNdla.learningpath.newLearningpath") }]}
+        breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
