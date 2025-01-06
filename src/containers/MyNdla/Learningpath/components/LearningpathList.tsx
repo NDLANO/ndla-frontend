@@ -10,8 +10,8 @@ import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathListItem } from "./LearningpathListItem";
 import { useMyLearningpaths } from "../learningpathQueries";
+import { LearningpathItem } from "./LearningpathItem";
 
 const StyledOl = styled("ol", {
   base: {
@@ -33,7 +33,7 @@ export const LearningpathList = () => {
     <StyledOl>
       {data?.myLearningpaths && data.myLearningpaths.length > 0 ? (
         data.myLearningpaths.map((learningpath) => (
-          <LearningpathListItem showMenu learningpath={learningpath} key={learningpath.id} />
+          <LearningpathItem showMenu learningpath={learningpath} key={learningpath.id} context="list" />
         ))
       ) : (
         <Text textStyle="label.medium" fontWeight="light">
