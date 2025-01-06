@@ -16,9 +16,14 @@ const isInformationalError = (exception: unknown): boolean => {
 };
 
 const sentryIgnoreErrors = [
+  // Network problems
+  "Failed to fetch",
+  // https://github.com/getsentry/sentry/issues/61469
   'Object.prototype.hasOwnProperty.call(o,"telephone")',
   'Object.prototype.hasOwnProperty.call(e,"telephone")',
+  // https://github.com/matomo-org/matomo/issues/22836
   "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property",
+  // Based on Sentry issues. ChromeOS specific errors.
   "Request timeout getDictionariesByLanguageId",
   "Request timeout getSupportScreenShot",
   "Request timeout isDictateAvailable",
@@ -50,16 +55,6 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
   const exception = hint.originalException;
   const infoError = isInformationalError(exception);
   if (infoError) return null;
-
-  if (
-    exception instanceof Error &&
-    (exception.message === "Failed to fetch" || exception.message === "[Network error]: Failed to fetch")
-  ) {
-    // Don't send network errors without more information
-    // These are not really something we can fix, usually triggered by exceptions blocking requests
-    // so logging them shouldn't provide much value.
-    return null;
-  }
 
   if (exception instanceof Error && sentryIgnoreErrors.find((e) => exception.message.includes(e)) !== undefined) {
     // https://github.com/getsentry/sentry/issues/61469
