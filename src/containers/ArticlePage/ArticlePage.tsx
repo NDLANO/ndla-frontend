@@ -32,6 +32,7 @@ import { useArticleCopyText, useNavigateToHash } from "../../components/Article/
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import Disclaimer from "../../components/Disclaimer";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -228,6 +229,11 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   )
                 }
                 lang={article.language === "nb" ? "no" : article.language}
+                disclaimer={
+                  article.transformedDisclaimer?.content ? (
+                    <Disclaimer disclaimer={article.transformedDisclaimer} />
+                  ) : null
+                }
               />
               <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
               <ArticleFooter>

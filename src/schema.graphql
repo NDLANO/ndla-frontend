@@ -208,6 +208,11 @@ type Article {
   title: String!
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
+  transformedDisclaimer: TransformedDisclaimerContent
+}
+
+type TransformedDisclaimerContent {
+  content: String!
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {

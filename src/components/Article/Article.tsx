@@ -127,6 +127,9 @@ Article.fragments = {
         }
       }
       language
+      transformedDisclaimer {
+        content
+      }
       ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}
