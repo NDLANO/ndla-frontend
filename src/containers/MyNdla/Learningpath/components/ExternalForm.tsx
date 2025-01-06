@@ -14,7 +14,6 @@ import {
   FieldLabel,
   FieldHelper,
   FieldRoot,
-  Input,
   Text,
   CheckboxRoot,
   CheckboxLabel,
@@ -22,6 +21,7 @@ import {
   CheckboxIndicator,
   CheckboxHiddenInput,
   FieldErrorMessage,
+  FieldInput,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
@@ -98,7 +98,7 @@ export const ExternalForm = () => {
             <FieldLabel>{t("myNdla.learningpath.form.content.external.title.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.title.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <Input {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={TITLE_MAX_LENGTH} />
           </FieldRoot>
         )}
@@ -125,7 +125,7 @@ export const ExternalForm = () => {
             <FieldLabel>{t("myNdla.learningpath.form.content.external.introduction.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.introduction.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <Input {...field} />
+            <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={INTRODUCTION_MAX_LENGTH} />
           </FieldRoot>
         )}
@@ -144,7 +144,7 @@ export const ExternalForm = () => {
             <FieldLabel>{t("myNdla.learningpath.form.content.external.content.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.external.content.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <Input {...field} />
+            <FieldInput {...field} />
           </FieldRoot>
         )}
       />

@@ -43,10 +43,13 @@ export const NewLearningpathPage = () => {
           title: title,
           copyright: {
             license: {
+              // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
               license: ALL_ABBREVIATIONS[4],
             },
+            // TODO: Should this be filled with the author / authors / owners?
             contributors: [],
           },
+          // TODO: This shouldn't be hardcoded
           description: "",
           tags: [],
           duration: 1,
@@ -62,7 +65,7 @@ export const NewLearningpathPage = () => {
     <MyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "-1", name: t("myNdla.learningpath.newLearningpath") }]}
+        breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">

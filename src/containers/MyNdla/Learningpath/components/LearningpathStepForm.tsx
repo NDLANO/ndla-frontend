@@ -6,7 +6,7 @@
  *
  */
 
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -69,7 +69,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
   const methods = useForm<FormValues>({
     defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
-  const { handleSubmit, control, watch, reset, formState } = methods;
+  const { handleSubmit, control, reset, formState } = methods;
 
   return (
     <FormProvider {...methods}>
@@ -78,7 +78,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
           name="type"
           control={control}
           render={({ field, fieldState }) => (
-            <FieldRoot>
+            <FieldRoot required>
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
               <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
@@ -88,7 +88,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {...field}
               >
                 {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val}>
+                  <RadioGroupItem value={val} key={val} disabled={val === "folder"}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
@@ -98,22 +98,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
             </FieldRoot>
           )}
         />
-        {watch("type") === "resource" ? (
-          <ResourceForm
-            resource={
-              step?.resource
-                ? {
-                    resourceTypes: step.resource.resourceTypes,
-                    title: step.title,
-                    breadcrumbs: step.resource.breadcrumbs,
-                    url: step.embedUrl?.url ?? "",
-                  }
-                : undefined
-            }
-          />
-        ) : null}
-        {watch("type") === "external" ? <ExternalForm /> : null}
-        {watch("type") === "text" ? <TextForm /> : null}
+        <StepFormType step={step} />
         <HStack justify={onDelete ? "space-between" : "end"}>
           {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>
@@ -130,4 +115,38 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
       </ContentForm>
     </FormProvider>
   );
+};
+
+interface StepFormTypeProps {
+  step: GQLMyNdlaLearningpathStepFragment | undefined;
+}
+
+const StepFormType = ({ step }: StepFormTypeProps) => {
+  const { watch } = useFormContext<FormValues>();
+  const formType = watch("type");
+
+  if (formType === "resource") {
+    return (
+      <ResourceForm
+        resource={
+          step?.resource
+            ? {
+                resourceTypes: step.resource.resourceTypes,
+                title: step.title,
+                breadcrumbs: step.resource.breadcrumbs,
+                url: step.embedUrl?.url ?? "",
+              }
+            : undefined
+        }
+      />
+    );
+  } else if (formType === "external") {
+    return <ExternalForm />;
+  } else if (formType === "text") {
+    return <TextForm />;
+  } else if (formType === "folder") {
+    // TODO: implement
+    return null;
+  }
+  return null;
 };
