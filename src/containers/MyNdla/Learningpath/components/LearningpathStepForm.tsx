@@ -78,7 +78,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
           name="type"
           control={control}
           render={({ field, fieldState }) => (
-            <FieldRoot>
+            <FieldRoot required>
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
               <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>

@@ -75,7 +75,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message}>
+          <FieldRoot invalid={!!fieldState.error?.message} required>
             <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("validation.fields.title")}
             </FieldLabel>
