@@ -88,7 +88,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {...field}
               >
                 {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val}>
+                  <RadioGroupItem value={val} key={val} disabled={val === "folder"}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
