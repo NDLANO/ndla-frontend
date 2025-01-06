@@ -86,24 +86,22 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
               {createdString}
             </TimestampText>
           </div>
-          {learningpath.status === LEARNINGPATH_SHARED && (
+          {learningpath.status === LEARNINGPATH_SHARED ? (
             <StatusText textStyle="label.small">
               <UserLine size="small" />
               {t("myNdla.learningpath.status.shared")}
             </StatusText>
-          )}
-          {learningpath.status === LEARNINGPATH_PRIVATE && (
+          ) : learningpath.status === LEARNINGPATH_PRIVATE ? (
             <StatusText textStyle="label.small">
               <PencilLine size="small" />
               {t("myNdla.learningpath.status.private")}
             </StatusText>
-          )}
-          {learningpath.status === LEARNINGPATH_READY_FOR_SHARING && (
+          ) : learningpath.status === LEARNINGPATH_READY_FOR_SHARING ? (
             <StatusText textStyle="label.small">
               <CheckLine size="small" />
               {t("myNdla.learningpath.status.readyForSharing")}
             </StatusText>
-          )}
+          ) : null}
         </ListItemContent>
         {showMenu ? (
           <MenuWrapper>
