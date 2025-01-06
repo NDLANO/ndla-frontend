@@ -43,10 +43,13 @@ export const NewLearningpathPage = () => {
           title: title,
           copyright: {
             license: {
+              // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
               license: ALL_ABBREVIATIONS[4],
             },
+            // TODO: Should this be filled with the author / authors / owners?
             contributors: [],
           },
+          // TODO: This shouldn't be hardcoded
           description: "",
           tags: [],
           duration: 1,
