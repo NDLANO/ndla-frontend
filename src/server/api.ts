@@ -128,7 +128,7 @@ router.get("/login/success", async (req, res) => {
   const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
   const nodebbCookie = {
     id: decoded?.sub,
-    username: decoded?.[username],
+    username: decoded?.[username]?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-"),
     fullname: decoded?.name,
     email: decoded?.email,
     groups: ["unverified-users"],
