@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
-import { LearningpathListItem } from "./LearningpathListItem";
+import { LearningpathItem } from "./LearningpathItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 
@@ -27,7 +27,7 @@ export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningpat
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <LearningpathListItem learningpath={learningpath} showMenu={false} />
+        <LearningpathItem learningpath={learningpath} showMenu={false} />
         <Text>{t("myNdla.learningpath.delete.body")}</Text>
       </DialogBody>
       <DialogFooter>

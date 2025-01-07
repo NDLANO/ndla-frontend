@@ -11,12 +11,12 @@ import { FileCopyLine } from "@ndla/icons";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathListItem } from "./LearningpathListItem";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedLearningpathLink } from "../utils";
+import { LearningpathItem } from "./LearningpathItem";
 
 const GapWrapper = styled("div", {
   base: {
@@ -66,7 +66,7 @@ export const LearningpathShareDialogContent = ({ learningpath, onCopyText, onClo
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <LearningpathListItem learningpath={learningpath} showMenu={false} />
+        <LearningpathItem learningpath={learningpath} showMenu={false} />
         <Text>{t("myNdla.learningpath.sharing.description.shared")}</Text>
         <Text>{t("myNdla.learningpath.sharing.description.private")}</Text>
         <GapWrapper>

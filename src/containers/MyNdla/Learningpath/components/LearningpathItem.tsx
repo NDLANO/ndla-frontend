@@ -6,10 +6,10 @@
  *
  */
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -52,9 +52,11 @@ interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
   showMenu: boolean;
 }
-export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) => {
+export const LearningpathItem = ({ learningpath, showMenu = true, context, ...rest }: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
   const menuItems = useLearningpathActionHooks(learningpath);
+
+  const MaybeWrapper = context === "list" ? "li" : Fragment;
 
   const createdString = useMemo(() => {
     const TIME_FORMAT = new Intl.DateTimeFormat(i18n.language);
@@ -68,8 +70,8 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
   }, [t, i18n, learningpath.created, learningpath.madeAvailable]);
 
   return (
-    <ListItemRoot context="list" asChild consumeCss>
-      <li>
+    <ListItemRoot {...rest} context={context} asChild={context === "list"} consumeCss={context === "list"}>
+      <MaybeWrapper>
         <RouteLine />
         <ListItemContent>
           <div>
@@ -108,7 +110,7 @@ export const LearningpathListItem = ({ learningpath, showMenu = true }: Props) =
             <SettingsMenu menuItems={menuItems} />
           </MenuWrapper>
         ) : null}
-      </li>
+      </MaybeWrapper>
     </ListItemRoot>
   );
 };
