@@ -4869,6 +4869,22 @@ export type GQLResourcesQueryQuery = {
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
 };
 
+export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
+  __typename?: "ResourceTypeDefinition";
+  id: string;
+  name: string;
+  subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
+};
+
+export type GQLSearchResult_GroupSearchResultFragment = {
+  __typename?: "GroupSearchResult";
+  id: number;
+  url: string;
+  htmlTitle: string;
+  ingress: string;
+  contexts: Array<{ __typename?: "SearchContext"; url: string; breadcrumbs: Array<string> }>;
+};
+
 export type GQLSubjectContainer_NodeFragment = {
   __typename?: "Node";
   id: string;
