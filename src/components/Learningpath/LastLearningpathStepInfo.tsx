@@ -7,16 +7,12 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { NoSSR } from "@ndla/util";
 import Resources from "../../containers/Resources/Resources";
-import {
-  GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment,
-  GQLLearningpathPage_NodeFragment,
-} from "../../graphqlTypes";
+import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 
 const LinksWrapper = styled("div", {
   base: {
@@ -36,7 +32,6 @@ const StyledHGroup = styled("hgroup", {
 
 interface Props {
   resource?: GQLLearningpathPage_NodeFragment;
-  resourceTypes?: GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment[];
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
@@ -89,15 +84,6 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
       )}
     </>
   );
-};
-
-LastLearningpathStepInfo.fragments = {
-  resourceType: gql`
-    fragment LastLearningpathStepInfo_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
-  `,
 };
 
 export default LastLearningpathStepInfo;
