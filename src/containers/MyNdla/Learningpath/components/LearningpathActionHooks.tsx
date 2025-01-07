@@ -22,7 +22,7 @@ import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogConte
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
-import { routes, toLearningPath } from "../../../../routeHelpers";
+import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 import { myLearningpathQuery } from "../learningpathQueries";
@@ -155,7 +155,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       icon: <ExternalLinkLine />,
       value: "copyLearningPathLink",
       onClick: () => {
-        navigator.clipboard.writeText(toLearningPath(learningpath.id));
+        copyLearningpathSharingLink(learningpath.id);
         toast.create({
           title: t("myNdla.resource.linkCopied"),
         });
