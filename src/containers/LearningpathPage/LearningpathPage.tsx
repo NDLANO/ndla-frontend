@@ -12,6 +12,7 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
@@ -94,14 +95,18 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
       />
-      <Learningpath
-        skipToContentId={skipToContentId}
-        learningpath={learningpath}
-        learningpathStep={learningpathStep}
-        resource={node}
-        resourcePath={node.url}
-        breadcrumbItems={breadcrumbItems}
-      />
+      <PageLayout asChild consumeCss>
+        <main>
+          <Learningpath
+            skipToContentId={skipToContentId}
+            learningpath={learningpath}
+            learningpathStep={learningpathStep}
+            resource={node}
+            resourcePath={node.url}
+            breadcrumbItems={breadcrumbItems}
+          />
+        </main>
+      </PageLayout>
     </>
   );
 };

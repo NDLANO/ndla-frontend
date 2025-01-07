@@ -13,16 +13,18 @@ import { CheckLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
+import { LearningpathContext } from "./learningpathUtils";
 import {
   GQLLearningpathMenu_LearningpathFragment,
   GQLLearningpathMenu_LearningpathStepFragment,
 } from "../../graphqlTypes";
-import { toLearningPath } from "../../routeHelpers";
+import { routes, toLearningPath } from "../../routeHelpers";
 
 interface Props {
   resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
   currentStep: GQLLearningpathMenu_LearningpathStepFragment;
+  context?: LearningpathContext;
 }
 
 const StepperList = styled("ol", {
@@ -89,8 +91,15 @@ const StepIndicatorWrapper = styled("div", {
     display: "flex",
     alignItems: "center",
     background: "background.default",
-    desktop: {
-      background: "background.subtle",
+  },
+  variants: {
+    context: {
+      default: {
+        desktop: {
+          background: "background.subtle",
+        },
+      },
+      preview: {},
     },
   },
 });
@@ -110,11 +119,18 @@ const StepIndicator = styled("div", {
     transitionProperty: "background",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
-    desktop: {
-      background: "background.subtle",
-    },
     "&[data-completed='true']": {
       background: "surface.brand.3.moderate",
+    },
+  },
+  variants: {
+    context: {
+      default: {
+        desktop: {
+          background: "background.subtle",
+        },
+      },
+      preview: {},
     },
   },
 });
@@ -130,17 +146,28 @@ const ListItem = styled("li", {
         bottom: "0",
         width: "100%",
         height: "50%",
-        desktop: {
-          background: "background.subtle",
+      },
+    },
+  },
+  variants: {
+    context: {
+      default: {
+        _last: {
+          _after: {
+            desktop: {
+              background: "background.subtle",
+            },
+          },
         },
       },
+      preview: {},
     },
   },
 });
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
 
@@ -172,15 +199,24 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
         <Track />
         <StepperList>
           {learningpath.learningsteps.map((step, index) => (
-            <ListItem key={step.id}>
+            <ListItem key={step.id} context={context}>
               <StyledSafeLink
-                to={toLearningPath(learningpath.id, step.id, resourcePath)}
+                to={
+                  context === "preview"
+                    ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
+                    : toLearningPath(learningpath.id, step.id, resourcePath)
+                }
                 aria-current={index === currentStep.seqNo ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
-                <StepIndicatorWrapper>
-                  <StepIndicator data-indicator="" data-completed={!!viewedSteps[step.id]} aria-hidden>
+                <StepIndicatorWrapper context={context}>
+                  <StepIndicator
+                    data-indicator=""
+                    data-completed={!!viewedSteps[step.id]}
+                    aria-hidden
+                    context={context}
+                  >
                     {viewedSteps[step.id] && index !== currentStep.seqNo ? <CheckLine size="small" /> : index + 1}
                   </StepIndicator>
                 </StepIndicatorWrapper>

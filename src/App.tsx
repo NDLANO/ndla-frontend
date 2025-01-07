@@ -42,6 +42,7 @@ import { EditLearningpathTitlePage } from "./containers/MyNdla/Learningpath/Edit
 import { LearningpathCheck } from "./containers/MyNdla/Learningpath/LearningpathCheck";
 import LearningpathPage from "./containers/MyNdla/Learningpath/LearningpathPage";
 import { NewLearningpathPage } from "./containers/MyNdla/Learningpath/NewLearningpathPage";
+import { PreviewLearningpathPage } from "./containers/MyNdla/Learningpath/PreviewLearningpathPage";
 import { SaveLearningpathPage } from "./containers/MyNdla/Learningpath/SaveLearningpathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
@@ -224,6 +225,11 @@ const AppRoutes = ({ base }: AppProps) => {
                         path=":learningpathId/save"
                         element={<PrivateRoute element={<SaveLearningpathPage />} />}
                       />
+
+                      <Route path=":learningpathId/preview">
+                        <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                        <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                      </Route>
                       <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
                     </Route>
                   )}
