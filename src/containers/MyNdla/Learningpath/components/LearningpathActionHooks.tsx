@@ -9,15 +9,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import {
-  PencilLine,
-  DeleteBinLine,
-  CloseLine,
-  AddLine,
-  ArrowRightLine,
-  ExternalLinkLine,
-  ShareLine,
-} from "@ndla/icons";
+import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
@@ -152,7 +144,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     const linkLearningpath: MenuItemProps = {
       type: "action",
       text: t("myNdla.learningpath.menu.copy"),
-      icon: <ExternalLinkLine />,
+      icon: <FileCopyLine />,
       value: "copyLearningPathLink",
       onClick: () => {
         copyLearningpathSharingLink(learningpath.id);
