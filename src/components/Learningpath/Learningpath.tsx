@@ -32,7 +32,6 @@ import LearningpathMenu from "./LearningpathMenu";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb as BreadcrumbType } from "../../interfaces";
@@ -45,7 +44,6 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   resource?: GQLLearningpathPage_NodeFragment;
-  resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
   breadcrumbItems: BreadcrumbType[];
   resourcePath?: string;
@@ -309,12 +307,6 @@ const Learningpath = ({
 };
 
 Learningpath.fragments = {
-  resourceType: gql`
-    fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...LastLearningpathStepInfo_ResourceTypeDefinition
-    }
-    ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {
       seqNo

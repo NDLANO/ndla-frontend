@@ -48,7 +48,6 @@ const resourcePageQuery = gql`
   ) {
     resourceTypes {
       ...ArticlePage_ResourceType
-      ...LearningpathPage_ResourceTypeDefinition
     }
     node(id: $resourceId, rootId: $subjectId, parentId: $topicId, contextId: $contextId) {
       relevanceId
@@ -69,7 +68,6 @@ const resourcePageQuery = gql`
   ${MovedResourcePage.fragments.resource}
   ${ArticlePage.fragments.resource}
   ${ArticlePage.fragments.resourceType}
-  ${LearningpathPage.fragments.resourceType}
   ${LearningpathPage.fragments.resource}
 `;
 const ResourcePage = () => {

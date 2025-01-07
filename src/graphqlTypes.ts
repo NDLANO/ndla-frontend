@@ -2619,14 +2619,6 @@ export type GQLMyNdlaDataQuery = {
 
 export type GQLFavoriteSubject_NodeFragment = { __typename?: "Node"; id: string; name: string };
 
-export type GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment = {
-  __typename?: "ResourceTypeDefinition";
-} & GQLResources_ResourceTypeDefinitionFragment;
-
-export type GQLLearningpath_ResourceTypeDefinitionFragment = {
-  __typename?: "ResourceTypeDefinition";
-} & GQLLastLearningpathStepInfo_ResourceTypeDefinitionFragment;
-
 export type GQLLearningpath_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
   seqNo: number;
@@ -3090,10 +3082,6 @@ export type GQLResourceTypeMoviesQuery = {
     >;
   };
 };
-
-export type GQLLearningpathPage_ResourceTypeDefinitionFragment = {
-  __typename?: "ResourceTypeDefinition";
-} & GQLLearningpath_ResourceTypeDefinitionFragment;
 
 export type GQLLearningpathPage_NodeFragment = {
   __typename?: "Node";
@@ -4809,10 +4797,7 @@ export type GQLResourcePageQueryVariables = Exact<{
 
 export type GQLResourcePageQuery = {
   __typename?: "Query";
-  resourceTypes?: Array<
-    { __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment &
-      GQLLearningpathPage_ResourceTypeDefinitionFragment
-  >;
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment>;
   node?: {
     __typename?: "Node";
     relevanceId?: string;

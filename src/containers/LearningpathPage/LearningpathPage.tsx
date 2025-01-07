@@ -123,12 +123,6 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
 };
 
 LearningpathPage.fragments = {
-  resourceType: gql`
-    fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Learningpath_ResourceTypeDefinition
-    }
-    ${Learningpath.fragments.resourceType}
-  `,
   resource: gql`
     fragment LearningpathPage_Node on Node {
       id
