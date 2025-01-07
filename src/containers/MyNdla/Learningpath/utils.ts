@@ -10,7 +10,7 @@ import config from "../../../config";
 import { FormType, FormValues } from "./components/LearningpathStepForm";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
 
-export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpath/${id}`;
+export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpaths/${id}`;
 
 export const copyLearningpathSharingLink = (id: number) =>
   window.navigator.clipboard.writeText(sharedLearningpathLink(id));
