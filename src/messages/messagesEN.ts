@@ -199,7 +199,9 @@ const messages = {
       toast: {
         deleted: 'The learning path "{{ name }}" has been deleted.',
         unshared: 'The learning path "{{ name }}" is no longer shared.',
+        unshareFailed: "Failed to unshare the learning path.",
         shared: "The learning path is shared.",
+        shareFailed: "Failed to share the learning path.",
         copy: 'Copied the link to the learning path "{{ name }}"',
       },
       status: {
@@ -227,6 +229,12 @@ const messages = {
           done: "Done",
           preview: "Preview learning path",
         },
+      },
+      saveLearningpath: {
+        saveAndClose: "Save and close",
+        pageHeading: "Save and share",
+        pageDescription:
+          "Save and share your learning path. When you share the learning path, you create a link that can be shared with students or teachers.",
       },
     },
   },

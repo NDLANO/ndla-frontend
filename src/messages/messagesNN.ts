@@ -200,8 +200,10 @@ const messages = {
       toast: {
         deleted: 'Læringsstien "{{ name }}" er sletta.',
         unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',
+        unshareFailed: "Kunne ikkje avslutte delinga av læringsstien.",
         copy: 'Kopierte lenka til læringsstien "{{ name }}"',
         shared: "Læringsstien er delt.",
+        shareFailed: "Kunne ikkje dele læringsstien.",
       },
       status: {
         shared: "Delt",
@@ -228,6 +230,12 @@ const messages = {
           done: "Ferdig",
           preview: "Førehandsvis læringssti",
         },
+      },
+      saveLearningpath: {
+        saveAndClose: "Lagre og lukk",
+        pageHeading: "Lagre og del",
+        pageDescription:
+          "Lagre og del læringstien din. Når du deler opprettar du ein delbar lenke som du kan sende til elevar eller lærarar.",
       },
     },
   },
