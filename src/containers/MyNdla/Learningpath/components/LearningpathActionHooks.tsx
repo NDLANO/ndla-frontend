@@ -9,20 +9,12 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import {
-  PencilLine,
-  DeleteBinLine,
-  CloseLine,
-  AddLine,
-  ArrowRightLine,
-  ExternalLinkLine,
-  ShareLine,
-} from "@ndla/icons";
+import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
-import { routes, toLearningPath } from "../../../../routeHelpers";
+import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 import { myLearningpathQuery } from "../learningpathQueries";
@@ -152,10 +144,10 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     const linkLearningpath: MenuItemProps = {
       type: "action",
       text: t("myNdla.learningpath.menu.copy"),
-      icon: <ExternalLinkLine />,
+      icon: <FileCopyLine />,
       value: "copyLearningPathLink",
       onClick: () => {
-        navigator.clipboard.writeText(toLearningPath(learningpath.id));
+        copyLearningpathSharingLink(learningpath.id);
         toast.create({
           title: t("myNdla.resource.linkCopied"),
         });
