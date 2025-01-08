@@ -223,14 +223,14 @@ const Learningpath = ({
             >
               <StyledAccordionItem value="menu">
                 <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-                  <h2>
+                  <span>
                     <AccordionItemTrigger>
                       {t("learningpathPage.accordionTitle")}
                       <AccordionItemIndicator asChild>
                         <ArrowDownShortLine />
                       </AccordionItemIndicator>
                     </AccordionItemTrigger>
-                  </h2>
+                  </span>
                 </Heading>
                 <StyledAccordionItemContent>{menu}</StyledAccordionItemContent>
               </StyledAccordionItem>
