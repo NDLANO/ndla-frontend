@@ -15,10 +15,46 @@ const isInformationalError = (exception: unknown): boolean => {
   return logLevel === "info";
 };
 
-const sentryIgnoreErrors = [
-  'Object.prototype.hasOwnProperty.call(o,"telephone")',
-  'Object.prototype.hasOwnProperty.call(e,"telephone")',
-  "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property",
+type SentryIgnore = {
+  error: string;
+  exact?: boolean;
+};
+
+const sentryIgnoreErrors: SentryIgnore[] = [
+  // Network problems
+  { error: "[Network error]: Failed to fetch", exact: true },
+  { error: "Failed to fetch", exact: true },
+  // https://github.com/getsentry/sentry/issues/61469
+  { error: 'Object.prototype.hasOwnProperty.call(o,"telephone")' },
+  { error: 'Object.prototype.hasOwnProperty.call(e,"telephone")' },
+  // https://github.com/matomo-org/matomo/issues/22836
+  { error: "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property" },
+  // Based on Sentry issues. ChromeOS specific errors.
+  { error: "Request timeout getDictionariesByLanguageId" },
+  { error: "Request timeout getSupportScreenShot" },
+  { error: "Request timeout isDictateAvailable" },
+  { error: "Request timeout isPredictionAvailable" },
+  { error: "Request timeout dictionariesDistributor.getValue" },
+  { error: "Request timeout speechVoicesDistributor.getValue" },
+  { error: "Request timeout userDistributor.getValue" },
+  { error: "Request timeout predictionDistributor.getValue" },
+  { error: "Request timeout dictateStateDistributor.getValue" },
+  { error: "Request timeout nn-NO_wordsDistributor.getValue" },
+  { error: "Request timeout availableTextCheckLanguagesDistributor.getValue" },
+  { error: "Request timeout es_wordsDistributor.getValue" },
+  { error: "Request timeout lettersVoicesDistributor.getValue" },
+  { error: "Request timeout topicsDistributor.getValue" },
+  { error: "Request timeout availableLanguagesDistributor.getValue" },
+  { error: "Request timeout ac_wordsDistributor.getValue" },
+  { error: "Request timeout nb-NO_wordsDistributor.getValue" },
+  { error: "Request timeout ua_wordsDistributor.getValue" },
+  { error: "Request timeout en_wordsDistributor.getValue" },
+  { error: "Request timeout appSettingsDistributor.getValue" },
+  { error: "Request timeout DefineExpirationForLanguagePacks.getValue" },
+  { error: "Request timeout textCheckersDistributor.getValue" },
+  { error: "Request timeout de_wordsDistributor.getValue" },
+  { error: "Request timeout fr_wordsDistributor.getValue" },
+  { error: "Request timeout ru_wordsDistributor.getValue" },
 ];
 
 export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => {
@@ -28,15 +64,10 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
 
   if (
     exception instanceof Error &&
-    (exception.message === "Failed to fetch" || exception.message === "[Network error]: Failed to fetch")
+    sentryIgnoreErrors.find(
+      (e) => (e.exact ? exception.message === e.error : exception.message.includes(e.error)) !== undefined,
+    )
   ) {
-    // Don't send network errors without more information
-    // These are not really something we can fix, usually triggered by exceptions blocking requests
-    // so logging them shouldn't provide much value.
-    return null;
-  }
-
-  if (exception instanceof Error && sentryIgnoreErrors.find((e) => exception.message.includes(e)) !== undefined) {
     // https://github.com/getsentry/sentry/issues/61469
     // https://github.com/matomo-org/matomo/issues/22836
     return null;

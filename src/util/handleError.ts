@@ -172,14 +172,14 @@ const logServerError = async (
   const err = getErrorLog(error, ctx);
   switch (logLevel) {
     case "info":
-      await log.info(err);
+      log.info(err);
       break;
     case "warn":
-      await log.warn(err);
+      log.warn(err);
       break;
     case "error":
     case undefined:
-      await log.error(err);
+      log.error(err);
       break;
     default:
       unreachable(logLevel);
