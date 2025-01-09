@@ -3251,6 +3251,20 @@ export type GQLMovedResourcePage_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 
+export type GQLPreviewLearningpathQueryVariables = Exact<{
+  pathId: Scalars["String"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLPreviewLearningpathQuery = {
+  __typename?: "Query";
+  learningpath?: {
+    __typename?: "Learningpath";
+    id: number;
+    learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
+  } & GQLLearningpath_LearningpathFragment;
+};
+
 export type GQLLearningpathStepEmbedUrlFragment = {
   __typename?: "LearningpathStepEmbedUrl";
   url: string;

@@ -236,6 +236,11 @@ const messages = {
         pageDescription:
           "Save and share your learning path. When you share the learning path, you create a link that can be shared with students or teachers.",
       },
+      previewLearningpath: {
+        pageHeading: "Preview",
+        pageDescription: "Preview the learning path you have created.",
+        noSteps: "You haven't added any steps to the learning path yet.",
+      },
     },
   },
   ndlaFilm: {
