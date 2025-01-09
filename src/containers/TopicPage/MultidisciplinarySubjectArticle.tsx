@@ -77,16 +77,6 @@ const HeaderWrapper = styled("div", {
   },
 });
 
-const TitleWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: "xsmall",
-    overflowWrap: "anywhere",
-  },
-});
-
 const StyledDivider = styled(Divider, {
   base: {
     paddingBlockStart: "xsmall",
@@ -194,35 +184,37 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>
-            <TitleWrapper>
-              <ArticleTitle
-                id={SKIP_TO_CONTENT_ID}
-                title={article.transformedContent.title}
-                introduction={article.transformedContent.introduction}
-                contentTypeLabel={node.resourceTypes?.[0]?.name}
-                competenceGoals={
-                  !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-                    <CompetenceGoals
-                      codes={article.grepCodes}
-                      subjectId={root?.id}
-                      supportedLanguages={article.supportedLanguages}
-                    />
-                  )
-                }
-                lang={article.language === "nb" ? "no" : article.language}
-              />
-              {!!node.url && !!article.id && (
-                <AddResourceToFolderModal
-                  resource={{
-                    id: `${article.id}`,
-                    path: node.url,
-                    resourceType: "multidisciplinary",
-                  }}
-                >
-                  <FavoriteButton path={node.url} />
-                </AddResourceToFolderModal>
-              )}
-            </TitleWrapper>
+            <ArticleTitle
+              id={SKIP_TO_CONTENT_ID}
+              title={article.transformedContent.title}
+              introduction={article.transformedContent.introduction}
+              contentTypeLabel={node.resourceTypes?.[0]?.name}
+              competenceGoals={
+                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                  <CompetenceGoals
+                    codes={article.grepCodes}
+                    subjectId={root?.id}
+                    supportedLanguages={article.supportedLanguages}
+                  />
+                )
+              }
+              lang={article.language === "nb" ? "no" : article.language}
+              heartButton={
+                !!node.url &&
+                !!article.id && (
+                  <AddResourceToFolderModal
+                    resource={{
+                      id: `${article.id}`,
+                      path: node.url,
+                      resourceType: "multidisciplinary",
+                    }}
+                  >
+                    <FavoriteButton path={node.url} />
+                  </AddResourceToFolderModal>
+                )
+              }
+              contentType="multidisciplinary"
+            />
             <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
             <ArticleFooter>
               <ArticleByline
