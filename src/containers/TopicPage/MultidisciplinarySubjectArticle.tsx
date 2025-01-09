@@ -24,9 +24,11 @@ import {
 import { NoSSR } from "@ndla/util";
 import Article from "../../components/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -72,6 +74,16 @@ const HeaderWrapper = styled("div", {
     flexDirection: "column",
     gap: "xsmall",
     alignItems: "flex-start",
+  },
+});
+
+const TitleWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "center",
+    gap: "xsmall",
+    overflowWrap: "anywhere",
   },
 });
 
@@ -182,22 +194,35 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>
-            <ArticleTitle
-              id={SKIP_TO_CONTENT_ID}
-              title={article.transformedContent.title}
-              introduction={article.transformedContent.introduction}
-              contentTypeLabel={node.resourceTypes?.[0]?.name}
-              competenceGoals={
-                !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-                  <CompetenceGoals
-                    codes={article.grepCodes}
-                    subjectId={root?.id}
-                    supportedLanguages={article.supportedLanguages}
-                  />
-                )
-              }
-              lang={article.language === "nb" ? "no" : article.language}
-            />
+            <TitleWrapper>
+              <ArticleTitle
+                id={SKIP_TO_CONTENT_ID}
+                title={article.transformedContent.title}
+                introduction={article.transformedContent.introduction}
+                contentTypeLabel={node.resourceTypes?.[0]?.name}
+                competenceGoals={
+                  !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+                    <CompetenceGoals
+                      codes={article.grepCodes}
+                      subjectId={root?.id}
+                      supportedLanguages={article.supportedLanguages}
+                    />
+                  )
+                }
+                lang={article.language === "nb" ? "no" : article.language}
+              />
+              {!!node.url && !!article.id && (
+                <AddResourceToFolderModal
+                  resource={{
+                    id: `${article.id}`,
+                    path: node.url,
+                    resourceType: "multidisciplinary",
+                  }}
+                >
+                  <FavoriteButton path={node.url} />
+                </AddResourceToFolderModal>
+              )}
+            </TitleWrapper>
             <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
             <ArticleFooter>
               <ArticleByline
