@@ -237,6 +237,11 @@ const messages = {
         pageDescription:
           "Lagre og del læringsstien din. Når du deler oppretter du en delbar lenke som du kan sende til elever eller lærere.",
       },
+      previewLearningpath: {
+        pageHeading: "Se igjennom",
+        pageDescription: "Se igjennom læringsstien du har laget.",
+        noSteps: "Du har ikke lagt til noen steg i læringsstien ennå.",
+      },
     },
   },
   ndlaFilm: {
