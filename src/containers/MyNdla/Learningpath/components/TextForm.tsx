@@ -7,13 +7,19 @@
  */
 
 import { t } from "i18next";
-import { lazy, Suspense } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import {
+  RichTextEditor,
+  richTextEditorComponents,
+  useRichTextEditor,
+} from "../../../../components/Editor/RichTextEditor";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
-
-const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
+import { Plate } from "@udecode/plate/react";
+import { serializeHtml } from "@udecode/plate";
+import { PlateStatic } from "../../../../components/Editor/util/serializeToHtml";
+// import { useMemo } from "react";
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
@@ -27,7 +33,8 @@ export interface TextFormValues {
 
 export const TextForm = () => {
   const { validationT } = useValidationTranslation();
-  const { setValue, control } = useFormContext<TextFormValues>();
+  const { setValue, control, getValues } = useFormContext<TextFormValues>();
+  const editor = useRichTextEditor();
 
   return (
     <>
@@ -99,19 +106,36 @@ export const TextForm = () => {
             <FieldLabel onClick={() => document.getElementById("markdown-editor")?.focus()}>
               {t("myNdla.learningpath.form.content.text.description.label")}
             </FieldLabel>
+            <Plate
+              editor={editor}
+              onValueChange={async () => {
+                const serialized = await serializeHtml(editor, {
+                  components: richTextEditorComponents,
+                  stripClassNames: true,
+                  editorComponent: PlateStatic,
+                  stripDataAttributes: true,
+                });
+                console.log(serialized);
+              }}
+              // onValueChange={(val) => {
+              //   console.log(serializeHtml(editor, val));
+              // }}
+            >
+              <RichTextEditor />
+            </Plate>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.description.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <Suspense fallback={<Spinner />}>
-              <MarkdownEditor
-                setContentWritten={(val) => {
-                  setValue("description", val, {
-                    shouldDirty: true,
-                  });
-                }}
-                initialValue={field.value}
-                {...field}
-              />
-            </Suspense>
+            {/* <Suspense fallback={<Spinner />}> */}
+            {/*   <MarkdownEditor */}
+            {/*     setContentWritten={(val) => { */}
+            {/*       setValue("description", val, { */}
+            {/*         shouldDirty: true, */}
+            {/*       }); */}
+            {/*     }} */}
+            {/*     initialValue={field.value} */}
+            {/*     {...field} */}
+            {/*   /> */}
+            {/* </Suspense> */}
           </FieldRoot>
         )}
       />
