@@ -55,6 +55,14 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
     });
   }
 
+  if (video.copyright?.origin) {
+    items.push({
+      label: t("source"),
+      description: video.copyright.origin,
+      metaType: metaTypes.other,
+    });
+  }
+
   const copyText = figureApa7CopyString(
     video.title,
     undefined,
