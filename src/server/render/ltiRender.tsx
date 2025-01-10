@@ -6,7 +6,10 @@
  *
  */
 
+import { renderToString } from "react-dom/server";
 import config from "../../config";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
 import { RenderFunc } from "../serverHelpers";
@@ -51,7 +54,7 @@ export function parseAndValidateParameters(body: any) {
     : { valid: false, messages: errorMessages };
 }
 
-export const ltiRender: RenderFunc = async (req) => {
+export const ltiRender: RenderFunc = async (req, chunks) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
@@ -69,16 +72,23 @@ export const ltiRender: RenderFunc = async (req) => {
     }
   }
 
+  const htmlContent = renderToString(
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.lti}>
+      {null}
+    </Document>,
+  );
+
   return {
     status: OK,
     locale: locale,
     data: {
-      htmlContent: "",
+      htmlContent,
       data: {
         initialProps: {
           ltiData: validParameters?.ltiData,
           locale,
         },
+        chunks,
         config: config,
       },
     },

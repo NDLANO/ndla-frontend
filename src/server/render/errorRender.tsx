@@ -15,25 +15,29 @@ import { RedirectInfo } from "../../components/RedirectContext";
 import Scripts from "../../components/Scripts/Scripts";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { RenderFunc } from "../serverHelpers";
 
-export const errorRender: RenderFunc = async (req) => {
+export const errorRender: RenderFunc = async (req, chunks) => {
   const context: RedirectInfo = {};
 
   const lang = getHtmlLang(req.params.lang ?? "");
   const locale = getLocaleObject(lang).abbreviation;
 
   const Page = (
-    <I18nextProvider i18n={i18nInstance}>
-      <MissingRouterContext.Provider value={true}>
-        <StaticRouter location={req.url}>
-          <Scripts />
-          <ErrorPage />
-        </StaticRouter>
-      </MissingRouterContext.Provider>
-    </I18nextProvider>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
+      <I18nextProvider i18n={i18nInstance}>
+        <MissingRouterContext.Provider value={true}>
+          <StaticRouter location={req.url}>
+            <Scripts />
+            <ErrorPage />
+          </StaticRouter>
+        </MissingRouterContext.Provider>
+      </I18nextProvider>
+    </Document>
   );
 
   const html = renderToString(Page);
@@ -51,6 +55,7 @@ export const errorRender: RenderFunc = async (req) => {
     data: {
       htmlContent: html,
       data: {
+        chunks,
         serverPath: req.path,
         serverQuery: req.query,
         config: {

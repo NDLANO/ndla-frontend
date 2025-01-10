@@ -30,12 +30,14 @@ import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
 import Scripts from "../components/Scripts/Scripts";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
+import { Document } from "../Document";
+import { entryPoints } from "../entrypoints";
 import { initializeI18n, isValidLocale } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
 
 const {
-  DATA: { initialProps, config },
+  DATA: { initialProps, config, chunks },
 } = window;
 
 initSentry(config);
@@ -45,24 +47,26 @@ const language = isValidLocale(storedLanguage) ? storedLanguage : config.default
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const root = createRoot(document.getElementById("root")!);
+const root = createRoot(document);
 root.render(
-  <LtiContextProvider ltiData={initialProps.ltiData}>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <MemoryRouter initialEntries={["/lti"]} basename="/">
-          <Scripts />
-          <Routes>
-            <Route path="lti" element={<LtiProvider />} />
-            <Route path="article-iframe" element={<LtiIframePage />}>
-              <Route path="article/:articleId" element={null} />
-              <Route path=":lang/article/:articleId" element={null} />
-              <Route path=":taxonomyId/:articleId" element={null} />
-              <Route path=":lang/:taxonomyId/:articleId" element={null} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </ApolloProvider>
-    </I18nextProvider>
-  </LtiContextProvider>,
+  <Document language={language} devEntrypoint={entryPoints.lti} chunks={chunks}>
+    <LtiContextProvider ltiData={initialProps.ltiData}>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <MemoryRouter initialEntries={["/lti"]} basename="/">
+            <Scripts />
+            <Routes>
+              <Route path="lti" element={<LtiProvider />} />
+              <Route path="article-iframe" element={<LtiIframePage />}>
+                <Route path="article/:articleId" element={null} />
+                <Route path=":lang/article/:articleId" element={null} />
+                <Route path=":taxonomyId/:articleId" element={null} />
+                <Route path=":lang/:taxonomyId/:articleId" element={null} />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </ApolloProvider>
+      </I18nextProvider>
+    </LtiContextProvider>
+  </Document>,
 );
