@@ -124,7 +124,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
     () =>
       createListCollection({
         items: searchHits,
-        itemToValue: (item) => item.path,
+        itemToValue: (item) => item.id,
         itemToString: (item) => item.title,
       }),
     [searchHits],
@@ -196,6 +196,10 @@ export const ResourcePicker = ({ setResource }: Props) => {
                 if (e.key === "Enter" && !highlightedValue) {
                   onSearch();
                 }
+                if (e.key === "Enter" && highlightedValue) {
+                  const resource = searchHits.find((item) => item.id === highlightedValue) as Resource;
+                  onResourceSelect(resource);
+                }
               }}
             />
           </ComboboxInput>
@@ -229,7 +233,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
               <ComboboxItem
                 key={resource.id}
                 item={resource}
-                onClick={async () => onResourceSelect(resource as Resource)}
+                onClick={() => onResourceSelect(resource as Resource)}
                 className="peer"
                 asChild
                 consumeCss
