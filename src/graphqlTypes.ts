@@ -971,9 +971,11 @@ export type GQLLearningpathStep = {
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   license?: Maybe<GQLLicense>;
   metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
+  opengraph?: Maybe<GQLExternalOpengraph>;
   resource?: Maybe<GQLResource>;
   revision: Scalars["Int"]["output"];
   seqNo: Scalars["Int"]["output"];
@@ -1489,6 +1491,7 @@ export type GQLMyNdlaLearningpathStep = {
   license?: Maybe<GQLLicense>;
   metaUrl: Scalars["String"]["output"];
   oembed?: Maybe<GQLLearningpathStepOembed>;
+  opengraph?: Maybe<GQLExternalOpengraph>;
   resource?: Maybe<GQLResource>;
   revision: Scalars["Int"]["output"];
   seqNo: Scalars["Int"]["output"];
@@ -2649,6 +2652,9 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
   id: number;
   title: string;
+  description?: string;
+  introduction?: string;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
   resource?: {
     __typename?: "Resource";
     id: string;
