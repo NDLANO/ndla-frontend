@@ -105,6 +105,8 @@ const messages = {
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {
       newLearningpath: "Ny læringssti",
+      editLearningpath: "Rediger læringssti",
+      editLearningpathTitle: "Rediger læringsstitittel",
       form: {
         delete: "Slett",
         next: "Neste",
