@@ -105,7 +105,7 @@ const messages = {
     learningpath: {
       newLearningpath: "Ny læringssti",
       editLearningpath: "Rediger læringssti",
-      editLearningpathTitle: "Rediger læringssti tittel",
+      editLearningpathTitle: "Rediger læringsstitittel",
       form: {
         delete: "Slett",
         next: "Neste",
