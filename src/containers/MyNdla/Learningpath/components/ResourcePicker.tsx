@@ -12,6 +12,7 @@ import debounce from "lodash/debounce";
 import { useState, useId, useMemo, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,
   ComboboxContentStandalone,
@@ -23,11 +24,17 @@ import {
   Input,
   InputContainer,
   ListItemRoot,
+  PaginationContext,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
   Spinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./ResourceForm";
 import config from "../../../../config";
 import {
@@ -72,6 +79,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
+    gap: "medium",
   },
 });
 
@@ -98,8 +106,8 @@ type Resource = GQLSearchResult & {
 };
 
 export const ResourcePicker = ({ setResource }: Props) => {
-  const [query, setQuery] = useState("");
-  const [delayedSearchQuery, setDelayedQuery] = useState("");
+  const [searchObject, setSearchObject] = useState({ page: 1, pageSize: 10, query: "" });
+  const [delayedSearchObject, setDelayedSearchObject] = useState({ page: 1, pageSize: 10, query: "" });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
     searchQuery,
@@ -110,11 +118,12 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   const { refetch } = useFetchOembed({ skip: true });
 
+  const paginationTranslations = usePaginationTranslations();
   const comboboxTranslations = useComboboxTranslations();
   const formId = useId();
 
   const searchHits = useMemo(() => {
-    if (!query.length) return [];
+    if (!searchObject.query.length) return [];
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
@@ -128,7 +137,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [searchObject.query.length, searchResult.search?.results]);
 
   const collection = useMemo(
     () =>
@@ -142,15 +151,13 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   const onSearch = () => {
     runSearch({
-      variables: {
-        query: query,
-      },
+      variables: searchObject,
     });
   };
 
   const onQueryChange = (val: string) => {
-    setQuery(val);
-    debounceCall(() => setDelayedQuery(val));
+    setSearchObject({ query: val, page: 1, pageSize: 10 });
+    debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
@@ -169,10 +176,12 @@ export const ResourcePicker = ({ setResource }: Props) => {
   };
 
   useEffect(() => {
-    if (delayedSearchQuery.length >= 2) {
+    if (delayedSearchObject.query.length >= 2) {
       runSearch({
         variables: {
-          query: delayedSearchQuery,
+          query: delayedSearchObject.query,
+          page: delayedSearchObject.page,
+          pageSize: delayedSearchObject.pageSize,
           resourceTypes: [
             RESOURCE_TYPE_LEARNING_PATH,
             RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -181,7 +190,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         },
       });
     }
-  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [delayedSearchObject]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ComboboxRoot
@@ -190,7 +199,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       highlightedValue={highlightedValue}
       onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       onInputValueChange={(details) => onQueryChange(details.inputValue)}
-      inputValue={query}
+      inputValue={searchObject.query}
       variant="complex"
       context="composite"
       closeOnSelect
@@ -217,14 +226,14 @@ export const ResourcePicker = ({ setResource }: Props) => {
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
-      {query ? (
+      {searchObject.query ? (
         <ContentWrapper>
           <HitsWrapper aria-live="assertive">
             <div>
               {!(searchHits.length >= 1) && !loading ? (
-                <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+                <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
               ) : (
-                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
               )}
               {!!suggestion && (
                 <Text textStyle="label.small">
@@ -269,6 +278,50 @@ export const ResourcePicker = ({ setResource }: Props) => {
                   </ComboboxItem>
                 ))
               )}
+              <PaginationRoot
+                page={searchObject.page}
+                onPageChange={(details) => {
+                  setSearchObject((prev) => ({ ...prev, page: details.page }));
+                  setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
+                }}
+                count={searchResult.search?.totalCount ?? 0}
+                pageSize={10}
+                translations={paginationTranslations}
+                siblingCount={2}
+                aria-label={t("podcastPage.paginationNav")}
+              >
+                <PaginationPrevTrigger asChild>
+                  <Button variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                    <ArrowLeftShortLine />
+                    <span>{t("pagination.prev")}</span>
+                  </Button>
+                </PaginationPrevTrigger>
+                <PaginationContext>
+                  {(pagination) =>
+                    pagination.pages.map((page, index) =>
+                      page.type === "page" ? (
+                        <PaginationItem key={index} {...page} asChild>
+                          <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                            {page.value}
+                          </Button>
+                        </PaginationItem>
+                      ) : (
+                        <PaginationEllipsis key={index} index={index} asChild>
+                          <Text asChild consumeCss>
+                            <div>&#8230;</div>
+                          </Text>
+                        </PaginationEllipsis>
+                      ),
+                    )
+                  }
+                </PaginationContext>
+                <PaginationNextTrigger asChild>
+                  <Button variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+                    <span>{t("pagination.next")}</span>
+                    <ArrowRightShortLine />
+                  </Button>
+                </PaginationNextTrigger>
+              </PaginationRoot>
             </StyledComboboxContent>
           ) : null}
         </ContentWrapper>
