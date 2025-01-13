@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { AccessibilityFill } from "@ndla/icons";
-import { Button, PopoverContent, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
+import { Button, PopoverContent, PopoverRoot, PopoverTitle, PopoverTrigger } from "@ndla/primitives";
 import { GQLTransformedDisclaimerContent } from "../graphqlTypes";
 
 interface Props {
@@ -32,7 +32,10 @@ const Disclaimer = ({ disclaimer }: Props) => {
           <AccessibilityFill />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>{transformedDisclaimer}</PopoverContent>
+      <PopoverContent>
+        <PopoverTitle>{t("uuDisclaimer.title")}</PopoverTitle>
+        <div>{transformedDisclaimer}</div>
+      </PopoverContent>
     </PopoverRoot>
   );
 };
