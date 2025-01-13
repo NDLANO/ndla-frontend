@@ -10,9 +10,9 @@ import { BoldPlugin, ItalicPlugin } from "@udecode/plate-basic-marks/react";
 import { BulletedListPlugin, NumberedListPlugin } from "@udecode/plate-list/react";
 import { Bold, Italic, LinkMedium, ListOrdered, ListUnordered } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import { LinkToolbarButton } from "./LinkToolbarButton";
 import { ListToolbarButton } from "./ListToolbarButton";
 import { MarkToolbarButton } from "./MarkToolbarButton";
-import { LinkToolbarButton } from "./LinkToolbarButton";
 
 const ToolbarContainer = styled("div", {
   base: {

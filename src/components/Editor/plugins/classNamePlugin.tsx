@@ -6,8 +6,8 @@
  *
  */
 
-import { createPlatePlugin } from "@udecode/plate/react";
+import { createSlatePlugin } from "@udecode/plate";
 
-export const classNamePlugin = createPlatePlugin({
+export const classNamePlugin = createSlatePlugin({
   key: "className",
 });

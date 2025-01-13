@@ -124,7 +124,7 @@ function ElementStatic({
     </Children>
   );
 
-  if (editor.isVoid(element)) {
+  if (editor.api.isVoid(element)) {
     attributes["data-slate-void"] = true;
     children = (
       <span
@@ -142,7 +142,7 @@ function ElementStatic({
       </span>
     );
   }
-  if (editor.isInline(element)) {
+  if (editor.api.isInline(element)) {
     attributes["data-slate-inline"] = true;
   }
 
@@ -243,55 +243,9 @@ export function PlateStatic(props: PlateStaticProps) {
 
   const decorate = pipeDecorate(editor);
 
-  let afterEditable: ReactNode = null;
-  let beforeEditable: ReactNode = null;
-
-  editor.pluginList.forEach((plugin) => {
-    const {
-      render: { afterEditable: AfterEditable, beforeEditable: BeforeEditable },
-    } = plugin;
-
-    if (AfterEditable) {
-      afterEditable = (
-        <>
-          {afterEditable}
-          <AfterEditable />
-        </>
-      );
-    }
-    if (BeforeEditable) {
-      beforeEditable = (
-        <>
-          {beforeEditable}
-          <BeforeEditable />
-        </>
-      );
-    }
-  });
-
-  const content = (
+  return (
     <Children components={components} decorate={decorate} decorations={[]} editor={editor}>
       {editor.children}
     </Children>
   );
-
-  let aboveEditable: ReactNode = (
-    <>
-      {beforeEditable}
-      {content}
-      {afterEditable}
-    </>
-  );
-
-  editor.pluginList.forEach((plugin) => {
-    const {
-      render: { aboveEditable: AboveEditable },
-    } = plugin;
-
-    if (AboveEditable) {
-      aboveEditable = <AboveEditable>{aboveEditable}</AboveEditable>;
-    }
-  });
-
-  return aboveEditable;
 }

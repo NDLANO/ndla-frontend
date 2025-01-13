@@ -20,7 +20,7 @@ import {
   useFloatingLinkInsertState,
 } from "@udecode/plate-link/react";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { Button, FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, IconButton, Input } from "@ndla/primitives";
+import { Button, FieldInput, FieldLabel, FieldRoot, IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 const floatingOptions: UseVirtualFloatingOptions = {
@@ -92,6 +92,7 @@ export const FloatingLinkMenu = ({ state }: LinkFloatingToolbarProps) => {
       ...state?.floatingOptions,
     },
   });
+
   const { editButtonProps, props: editProps, ref: editRef, unlinkButtonProps } = useFloatingLinkEdit(editState);
   const inputProps = useFormInputProps({
     preventDefaultOnEnterKeydown: true,
@@ -102,13 +103,13 @@ export const FloatingLinkMenu = ({ state }: LinkFloatingToolbarProps) => {
   const input = (
     <Wrapper {...inputProps}>
       <FieldRoot>
-        <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
+        <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
         <FloatingLinkUrlInput placeholder="Paste link" data-plate-focus asChild>
           <FieldInput />
         </FloatingLinkUrlInput>
       </FieldRoot>
       <FieldRoot>
-        <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
+        <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
         <FieldInput placeholder="Text to display" data-plate-focus {...textInputProps} />
       </FieldRoot>
       <ButtonWrapper>
@@ -140,62 +141,9 @@ export const FloatingLinkMenu = ({ state }: LinkFloatingToolbarProps) => {
       <FloatingContainer ref={insertRef} {...insertProps}>
         {input}
       </FloatingContainer>
-
       <FloatingContainer ref={editRef} {...editProps}>
         {editContent}
       </FloatingContainer>
     </>
-  );
-};
-
-export const FloatingLinkMenuu = ({ state }: LinkFloatingToolbarProps) => {
-  const editor = usePlateEditor();
-  const { t } = useTranslation();
-  const insertState = useFloatingLinkInsertState({
-    ...state,
-    floatingOptions: {
-      ...floatingOptions,
-      ...state?.floatingOptions,
-    },
-  });
-
-  const { hidden, props: insertProps, ref: insertRef, textInputProps } = useFloatingLinkInsert(insertState);
-  const inputProps = useFormInputProps({
-    preventDefaultOnEnterKeydown: true,
-  });
-
-  if (hidden) return null;
-
-  const input = (
-    <div className="flex w-[330px] flex-col" {...inputProps}>
-      <div className="flex items-center">
-        <FieldRoot required>
-          <FieldLabel>{t("markdownEditor.link.text")}</FieldLabel>
-          {/* <FieldErrorMessage data-disabled={editedLinkText.length < 1}> */}
-          {/*   {!!showErrorMessage && textError} */}
-          {/* </FieldErrorMessage> */}
-          <FloatingLinkUrlInput placeholder="Paste link" data-plate-focus />
-        </FieldRoot>
-      </div>
-      {/* <Separator className="my-1" /> */}
-
-      <FieldRoot required>
-        <FieldLabel>{t("markdownEditor.link.url")}</FieldLabel>
-        <Input {...textInputProps} data-plate-focus placeholder="Text to display" />
-      </FieldRoot>
-      <Button onClick={() => submitFloatingLink(editor)}>Submit</Button>
-      {/* <input */}
-      {/*   // className={inputVariants({ h: "sm", variant: "ghost" })} */}
-      {/*   placeholder="Text to display" */}
-      {/*   data-plate-focus */}
-      {/*   {...textInputProps} */}
-      {/* /> */}
-    </div>
-  );
-
-  return (
-    <FloatingContainer ref={insertRef} {...insertProps}>
-      {input}
-    </FloatingContainer>
   );
 };

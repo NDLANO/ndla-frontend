@@ -8,7 +8,9 @@
 
 import { t } from "i18next";
 import { Controller, useFormContext } from "react-hook-form";
-import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { serializeHtml } from "@udecode/plate";
+import { Plate } from "@udecode/plate/react";
+import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import {
   RichTextEditor,
   richTextEditorComponents,
@@ -16,8 +18,6 @@ import {
 } from "../../../../components/Editor/RichTextEditor";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
-import { Plate } from "@udecode/plate/react";
-import { serializeHtml } from "@udecode/plate";
 import { PlateStatic } from "../../../../components/Editor/util/serializeToHtml";
 // import { useMemo } from "react";
 

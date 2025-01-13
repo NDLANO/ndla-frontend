@@ -6,8 +6,7 @@
  *
  */
 
-import { ElementApi, NodeApi, NodeEntry } from "@udecode/plate";
-import { OverrideEditor, createPlatePlugin } from "@udecode/plate/react";
+import { createSlatePlugin, ElementApi, NodeApi, NodeEntry, OverrideEditor } from "@udecode/plate";
 
 export const withNormalizeSpan: OverrideEditor = ({
   editor: {
@@ -33,6 +32,6 @@ export const withNormalizeSpan: OverrideEditor = ({
   };
 };
 
-export const spanPlugin = createPlatePlugin({
+export const spanPlugin = createSlatePlugin({
   key: "normalize-span",
 }).overrideEditor(withNormalizeSpan);
