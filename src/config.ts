@@ -169,7 +169,7 @@ const getServerSideConfig = (): ConfigType => {
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
     externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
-    arenaDomain: arenaDomain(ndlaEnvironment),
+    arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };
 
