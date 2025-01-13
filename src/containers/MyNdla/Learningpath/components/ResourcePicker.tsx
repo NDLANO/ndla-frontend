@@ -74,6 +74,16 @@ const StyledComboboxContent = styled(ComboboxContentStandalone, {
     maxHeight: "surface.medium",
   },
 });
+
+const ContentWrapper = styled("div", {
+  base: {
+    boxShadow: "large",
+    padding: "small",
+    backgroundColor: "background.default",
+    borderRadius: "xsmall",
+  },
+});
+
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
 interface Props {
@@ -154,7 +164,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       title: resource.title,
       url: url,
       resourceTypes: resource.contexts?.[0]?.resourceTypes,
-      breadcrumbs: resource.contexts[0]?.breadcrumbs,
+      breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
     });
   };
 
@@ -182,7 +192,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       onInputValueChange={(details) => onQueryChange(details.inputValue)}
       inputValue={query}
       variant="complex"
-      context="standalone"
+      context="composite"
       closeOnSelect
       form={formId}
       selectionBehavior="preserve"
@@ -193,71 +203,75 @@ export const ResourcePicker = ({ setResource }: Props) => {
             <Input
               placeholder={t("searchPage.searchFieldPlaceholder")}
               onKeyDown={(e) => {
-                if (e.key === "Enter" && !highlightedValue) {
-                  onSearch();
-                }
-                if (e.key === "Enter" && highlightedValue) {
-                  const resource = searchHits.find((item) => item.id === highlightedValue) as Resource;
-                  onResourceSelect(resource);
+                if (e.key === "Enter") {
+                  if (!highlightedValue) {
+                    onSearch();
+                  }
+                  if (highlightedValue) {
+                    const resource = searchHits.find((item) => item.id === highlightedValue) as Resource;
+                    onResourceSelect(resource);
+                  }
                 }
               }}
             />
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
-      <HitsWrapper aria-live="assertive">
-        {!loading && !!query && (
-          <div>
-            {!(searchHits.length >= 1) ? (
-              <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
-            ) : (
-              <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
-            )}
-            {!!suggestion && (
-              <Text textStyle="label.small">
-                {t("searchPage.resultType.searchPhraseSuggestion")}
-                <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                  [{suggestion}]
-                </SuggestionButton>
-              </Text>
-            )}
-          </div>
-        )}
-      </HitsWrapper>
-      {!!searchHits.length || loading ? (
-        <StyledComboboxContent>
-          {loading ? (
-            <Spinner />
-          ) : (
-            searchHits.map((resource) => (
-              <ComboboxItem
-                key={resource.id}
-                item={resource}
-                onClick={() => onResourceSelect(resource as Resource)}
-                className="peer"
-                asChild
-                consumeCss
-              >
-                <StyledListItemRoot context="list">
-                  <TextWrapper>
-                    <ComboboxItemText>{parse(resource.htmlTitle)}</ComboboxItemText>
-                    {!!resource.contexts[0] && (
-                      <Text
-                        textStyle="label.small"
-                        color="text.subtle"
-                        css={{ textAlign: "start" }}
-                        aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                      >
-                        {resource.contexts[0].breadcrumbs.join(" > ")}
-                      </Text>
-                    )}
-                  </TextWrapper>
-                  <ContentTypeBadge contentType={resource.contentType} />
-                </StyledListItemRoot>
-              </ComboboxItem>
-            ))
-          )}
-        </StyledComboboxContent>
+      {query ? (
+        <ContentWrapper>
+          <HitsWrapper aria-live="assertive">
+            <div>
+              {!(searchHits.length >= 1) && !loading ? (
+                <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: query })}</Text>
+              ) : (
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+              )}
+              {!!suggestion && (
+                <Text textStyle="label.small">
+                  {t("searchPage.resultType.searchPhraseSuggestion")}
+                  <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                    [{suggestion}]
+                  </SuggestionButton>
+                </Text>
+              )}
+            </div>
+          </HitsWrapper>
+          {!!searchHits.length || loading ? (
+            <StyledComboboxContent>
+              {loading ? (
+                <Spinner />
+              ) : (
+                searchHits.map((resource) => (
+                  <ComboboxItem
+                    key={resource.id}
+                    item={resource}
+                    onClick={() => onResourceSelect(resource as Resource)}
+                    className="peer"
+                    asChild
+                    consumeCss
+                  >
+                    <StyledListItemRoot context="list">
+                      <TextWrapper>
+                        <ComboboxItemText>{parse(resource.htmlTitle)}</ComboboxItemText>
+                        {!!resource.contexts[0] && (
+                          <Text
+                            textStyle="label.small"
+                            color="text.subtle"
+                            css={{ textAlign: "start" }}
+                            aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                          >
+                            {resource.contexts[0].breadcrumbs.join(" > ")}
+                          </Text>
+                        )}
+                      </TextWrapper>
+                      <ContentTypeBadge contentType={resource.contentType} />
+                    </StyledListItemRoot>
+                  </ComboboxItem>
+                ))
+              )}
+            </StyledComboboxContent>
+          ) : null}
+        </ContentWrapper>
       ) : null}
     </ComboboxRoot>
   );
