@@ -6,8 +6,8 @@
  *
  */
 
+import { ElementApi, NodeApi, NodeEntry } from "@udecode/plate";
 import { OverrideEditor, createPlatePlugin } from "@udecode/plate/react";
-import { ElementApi, NodeApi, NodeEntry } from "@udecode/slate";
 
 export const withNormalizeSpan: OverrideEditor = ({
   editor: {

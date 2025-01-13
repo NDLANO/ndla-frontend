@@ -10,5 +10,5 @@ import { LinkPlugin } from "@udecode/plate-link/react";
 import { FloatingLinkMenu } from "../components/FloatingLinkMenu";
 
 export const linkPlugin = LinkPlugin.extend({
-  // render: { afterEditable: () => <FloatingLinkMenu /> },
+  render: { afterEditable: () => <FloatingLinkMenu /> },
 });

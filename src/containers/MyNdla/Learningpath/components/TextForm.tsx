@@ -36,6 +36,16 @@ export const TextForm = () => {
   const { setValue, control, getValues } = useFormContext<TextFormValues>();
   const editor = useRichTextEditor();
 
+  const onChange = async () => {
+    const serialized = await serializeHtml(editor, {
+      components: richTextEditorComponents,
+      stripClassNames: true,
+      editorComponent: PlateStatic,
+      stripDataAttributes: true,
+    });
+    console.log(serialized);
+  };
+
   return (
     <>
       <Controller
@@ -108,15 +118,7 @@ export const TextForm = () => {
             </FieldLabel>
             <Plate
               editor={editor}
-              onValueChange={async () => {
-                const serialized = await serializeHtml(editor, {
-                  components: richTextEditorComponents,
-                  stripClassNames: true,
-                  editorComponent: PlateStatic,
-                  stripDataAttributes: true,
-                });
-                console.log(serialized);
-              }}
+              onValueChange={onChange}
               // onValueChange={(val) => {
               //   console.log(serializeHtml(editor, val));
               // }}

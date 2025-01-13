@@ -17,8 +17,6 @@ import {
   type NodeComponents,
   type SlateEditor,
   type SlateRenderElementProps,
-} from "@udecode/plate";
-import {
   type DecoratedRange,
   type Descendant,
   type NodeEntry,
@@ -27,7 +25,7 @@ import {
   ElementApi,
   RangeApi,
   TextApi,
-} from "@udecode/slate";
+} from "@udecode/plate";
 
 export type SlateRenderLeaf = (props: RenderLeafProps) => ReactElement | undefined;
 

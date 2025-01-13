@@ -4570,13 +4570,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/plate-core@npm:42.0.0":
-  version: 42.0.0
-  resolution: "@udecode/plate-core@npm:42.0.0"
+"@udecode/plate-core@npm:42.0.1":
+  version: 42.0.1
+  resolution: "@udecode/plate-core@npm:42.0.1"
   dependencies:
     "@udecode/react-hotkeys": "npm:37.0.0"
     "@udecode/react-utils": "npm:42.0.0"
-    "@udecode/slate": "npm:42.0.0"
+    "@udecode/slate": "npm:42.0.1"
     "@udecode/utils": "npm:42.0.0"
     clsx: "npm:^2.1.1"
     html-entities: "npm:^2.5.2"
@@ -4595,7 +4595,7 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/4350e26d26da7ffc35a16c019515b0510d93021d6d0724d5eaffcbbbfb338d4b8e1d4d15faeb3aaa20d934a11db9b1c8fcae5b306ac78f7b72dd8e0b65e23ab4
+  checksum: 10c0/5eb491401c1ed5abd0137901864d44e9ac096fea2367a6a70ea4f92b8f3f4cd155b6f219b5bd07654a55d16d92185c9480169130c42957ac78b4c93c622f3e6c
   languageName: node
   linkType: hard
 
@@ -4665,37 +4665,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/plate-utils@npm:42.0.0":
-  version: 42.0.0
-  resolution: "@udecode/plate-utils@npm:42.0.0"
+"@udecode/plate-utils@npm:42.0.1":
+  version: 42.0.1
+  resolution: "@udecode/plate-utils@npm:42.0.1"
   dependencies:
-    "@udecode/plate-core": "npm:42.0.0"
+    "@udecode/plate-core": "npm:42.0.1"
     "@udecode/react-utils": "npm:42.0.0"
-    "@udecode/slate": "npm:42.0.0"
+    "@udecode/slate": "npm:42.0.1"
     "@udecode/utils": "npm:42.0.0"
     clsx: "npm:^2.1.1"
     lodash: "npm:^4.17.21"
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/da04a72ab6607466bcbb6aa4f95d6732dc4e6a5205c7bf020280bebbfcc42b0d9fe6c43683153537739e13f26b4255717973d18fa433b85e9f3ead47e3c8ce26
+  checksum: 10c0/1b3102308fc1b69d0c2b6e2826fc100cb256625f0d4b030c0c3c9d89bd2d513b85abaa53f46bdc312d4cb5399341f1bc1ef0237a1434e625696a035320618de6
   languageName: node
   linkType: hard
 
-"@udecode/plate@npm:^42.0.0":
-  version: 42.0.0
-  resolution: "@udecode/plate@npm:42.0.0"
+"@udecode/plate@npm:^42.0.1":
+  version: 42.0.1
+  resolution: "@udecode/plate@npm:42.0.1"
   dependencies:
-    "@udecode/plate-core": "npm:42.0.0"
-    "@udecode/plate-utils": "npm:42.0.0"
+    "@udecode/plate-core": "npm:42.0.1"
+    "@udecode/plate-utils": "npm:42.0.1"
     "@udecode/react-hotkeys": "npm:37.0.0"
     "@udecode/react-utils": "npm:42.0.0"
-    "@udecode/slate": "npm:42.0.0"
+    "@udecode/slate": "npm:42.0.1"
     "@udecode/utils": "npm:42.0.0"
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/c38cbf312158c9a4983c226f1f341c8700556ab8a10c37949ce58b9ea82959a8a49d46a669296e64a8c23796eaeb3a41dc6ce7ba970f0f7518514a03b3adda02
+  checksum: 10c0/eac1b989539190f153bc5c491460457d8c3da44b4eef5780859ca1f908a3f4d23a70f1d1045784a7dfd78f9b5a8693ebe70fe5dcaf46189bf08aa68ddd6efd97
   languageName: node
   linkType: hard
 
@@ -4723,16 +4723,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/slate@npm:42.0.0, @udecode/slate@npm:^42.0.0":
-  version: 42.0.0
-  resolution: "@udecode/slate@npm:42.0.0"
+"@udecode/slate@npm:42.0.1":
+  version: 42.0.1
+  resolution: "@udecode/slate@npm:42.0.1"
   dependencies:
     "@udecode/utils": "npm:42.0.0"
     is-plain-object: "npm:^5.0.0"
     lodash: "npm:^4.17.21"
     slate: "npm:0.112.0"
     slate-dom: "npm:0.111.0"
-  checksum: 10c0/c55c4bd5179f0222ad1137f6c16626fe9a1f4f40a6c9820eab235a3b707c79a89e7e8637d04232f2b6655d6947a5ecb6d0ad8e66cb37b3ac9abbf843242239cf
+  checksum: 10c0/a3b40b75c7834c2ea178f64306a437bb0d33b509279ceeba87cca9b75f90174823a41fcbc06394f87789d9b6e5a4efac0cad39c98425e2d341d821ee08560447
   languageName: node
   linkType: hard
 
@@ -11876,13 +11876,12 @@ __metadata:
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^19.0.0"
     "@types/react-dom": "npm:^19.0.1"
-    "@udecode/plate": "npm:^42.0.0"
+    "@udecode/plate": "npm:^42.0.1"
     "@udecode/plate-autoformat": "npm:^42.0.0"
     "@udecode/plate-basic-marks": "npm:^42.0.0"
     "@udecode/plate-floating": "npm:^42.0.0"
     "@udecode/plate-link": "npm:^42.0.0"
     "@udecode/plate-list": "npm:^42.0.0"
-    "@udecode/slate": "npm:^42.0.0"
     "@vitejs/plugin-react": "npm:^4.3.4"
     babel-plugin-graphql-tag: "npm:^3.3.0"
     concurrently: "npm:^9.1.0"
