@@ -42,7 +42,7 @@ const messages = {
     learningpathEditTitlePage: `Rediger tittel - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathPreviewPage: `Førehandsvis - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
-    learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
+    learningpathNewPage: `Ny læringssti - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
   },
   menu: {
@@ -53,19 +53,19 @@ const messages = {
   },
   podcastPage: {
     meta: "Lytt og lær! NDLA har meir enn 100 fritt tilgjengelege podkastar for engasjerande bruk i vidaregåande opplæring.",
-    episodes: "Episoder",
+    episodes: "Episodar",
     podcast: "Podkast",
-    podcasts: "Podkaster",
-    noResults: "...Ingen episoder",
+    podcasts: "Podkastar",
+    noResults: "... Ingen episodar",
     subtitle: "Lytt og lær!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: { label: "Kva fag vil du visa?", all: "Alle fag og ressursar" } },
+  subjectsPage: { tabFilter: { label: "Kva fag vil du vise?", all: "Alle fag og ressursar" } },
   searchPage: {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som startar på {{letter}}",
-    resourceTypeFilter: "Ressurstyper",
+    resourceTypeFilter: "Ressurstypar",
   },
   myndla: {
     tagsTitle: "Mine emneknaggar",
@@ -73,16 +73,16 @@ const messages = {
       title: "Prøv praterobotane våre",
       linkText: "Prøv praterobotar på NDLA",
       ingressStudent:
-        "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
+        "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunane tilgangen til robotane.",
       ingress:
-        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast i jobb og undervisning. I periodar med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotane.",
+        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast i jobb og undervisning. I periodar med eksamensgjennomføring stenger fylkeskommunane tilgangen til robotane.",
       ingressUnauthenticated:
         "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
     },
     resource: {
       addedToFolder: 'Ressurs er lagt i "{{folder}}"',
       added: "Lagt til",
-      removed: "Fjernet",
+      removed: "Fjerna",
       showTags: "Vis emneknaggar",
       tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
       noTags: "Ingen emneknaggar.",
@@ -100,7 +100,7 @@ const messages = {
       },
       reported: "Innhald rapportert",
       error: "Ein feil oppstod",
-      userUpdated: "Bruker oppdatert",
+      userUpdated: "Brukar oppdatert",
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {
@@ -116,12 +116,12 @@ const messages = {
         navigation: "Skjemanavigering",
         title: {
           titleHelper: "Skriv ein beskrivande tittel for dette steget i læringsstien.",
-          imageTitle: "Bildetittel",
+          imageTitle: "Bilettittel",
           copyright: "Opphav",
-          metaImage: "Metabilde",
-          metaImageHelper: "Legg til eit bilde som representerer læringsstien din",
-          noResult: "Ingen søketreff for bilder",
-          imageRequired: "Vennligst velg eit bilete.",
+          metaImage: "Metabilete",
+          metaImageHelper: "Legg til eit bilete som representerer læringsstien din",
+          noResult: "Ingen søketreff for bilete",
+          imageRequired: "Ver vennleg å velje eit bilete.",
         },
         content: {
           title: "Legg til innhald",
@@ -137,7 +137,7 @@ const messages = {
             },
             introduction: {
               label: "Ingress",
-              labelHelper: "Skriv ein kort ingress, der du oppsummerer innhaldet i steget ditt.",
+              labelHelper: "Skriv ein kort ingress der du oppsummerer innhaldet i steget ditt.",
             },
             description: {
               label: "Innhald",
@@ -154,30 +154,30 @@ const messages = {
               labelHelper: "Skriv ein kort ingress der du oppsummerer innhaldet i steget ditt.",
             },
             content: {
-              label: "Innhald frå eit anna nettstad",
-              labelHelper: "Lim inn ein lenke til innhaldet du vil legge til.",
+              label: "Innhald frå ein annan nettstad",
+              labelHelper: "Lim inn ei lenke til innhaldet du vil legge til.",
             },
             copyright:
               "Når du deler innhald frå andre nettstader, er du sjølv ansvarleg for at innhaldet er lovleg å dele. Les meir om ",
             copyrightLink: "opphavsrett og deling.",
-            checkbox: "Inhaldet eg har lenka til, er lovleg å dele.",
+            checkbox: "Innhaldet eg har lenka til, er lovleg å dele.",
           },
           folder: {
             label: "Søk i Mine mapper",
-            labelHelper: "Velg innhald frå mine mapper",
+            labelHelper: "Vel innhald frå mine mapper",
           },
         },
         options: {
           text: "Tekst eg har skrive sjølv",
           resource: "Innhald frå NDLA",
-          external: "Innhald frå ei annan nettstad",
+          external: "Innhald frå ein annan nettstad",
           folder: "Innhald frå ei av mine mapper i Min NDLA",
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og beskrivelse",
+          title: "Tittel og beskriving",
           content: "Legg til innhald",
-          preview: "Sjå igjennom",
+          preview: "Sjå gjennom",
           save: "Lagre og del",
           edit: "Rediger trinn",
           add: "Legg til trinn",
@@ -185,11 +185,11 @@ const messages = {
       },
       title: "Mine læringsstiar",
       description:
-        "Her kan du lage dine eigne læringsstiar, og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar, samt korte tekstar du lagar sjølv.",
+        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar og korte tekstar du lagar sjølv.",
       created: "Oppretta: {{ created }}",
       shared: "Delt {{ shared }}",
       noPath:
-        "Det ser ut til at du ikkje har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å lage ein sti!",
+        "Det ser ikkje ut til at du har laga nokon læringsstiar. Klikk på <em>Ny</em>-knappen over for å lage ein sti!",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -221,7 +221,7 @@ const messages = {
         title: "Denne læringsstien er delt",
         description: {
           shared:
-            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
+            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønsker det.",
           private:
             "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenka med.",
           copy: "Trykk på lenka for å kopiere",
@@ -237,18 +237,18 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringstien din. Når du deler, vert det laga ei lenke du kan sende til elevar eller andre lærarar.",
+          "Lagre og del læringstien din. Når du deler, blir det laga ei lenke du kan sende til elevar eller andre lærarar.",
       },
       previewLearningpath: {
-        pageHeading: "Sjå igjennom",
-        pageDescription: "Sjå igjennom læringsstien du har laga.",
+        pageHeading: "Sjå gjennom",
+        pageDescription: "Sjå gjennom læringsstien du har laga.",
         noSteps: "Du har ikkje lagt til nokon steg i læringsstien enno.",
       },
     },
   },
   ndlaFilm: {
     films: "Filmar",
-    topics: "Emner",
+    topics: "Emne",
     filterFilms: "Filtrer filmar",
   },
   validation: {
@@ -262,22 +262,22 @@ const messages = {
       shareable: "Delbar",
     },
     required: "Dette feltet er påkravd",
-    requiredField: "$t(validation.fields.{{field}}) kan ikkje være tom",
-    notUnique: "Finnes allereie",
-    maxLength: "Dette feltet kan maks innehalde {{count}} teikn",
-    maxLengthField: "$t(validation.fields.{{field}}) kan maks innehalde {{count}} teikn",
+    requiredField: "$t(validation.fields.{{field}}) kan ikkje vere tom",
+    notUnique: "Finst allereie",
+    maxLength: "Dette feltet kan innehalde maks {{count}} teikn",
+    maxLengthField: "$t(validation.fields.{{field}}) kan innehalde maks {{count}} teikn",
   },
   lti: {
     goBack: "Tilbake til LTI-søk",
   },
   resourcepageTitles: {
     video: "Video",
-    image: "Bilde",
+    image: "Bilete",
     concept: "Forklaring",
     audio: "Audio",
   },
   contentTypes: {
-    multidisciplinary: "Tverrfaglig case",
+    multidisciplinary: "Tverrfagleg case",
   },
   markdownEditor: {
     link: {
@@ -321,7 +321,7 @@ const messages = {
   },
   tabs: {
     competenceGoals: "Kategoriar",
-    licenseBox: "Innholdstypar",
+    licenseBox: "Innhaldstypar",
     subjectFilter: "Fagkategoriar",
   },
   masthead: {
@@ -333,7 +333,7 @@ const messages = {
     programmeSubjects: "Programfag",
   },
   aboutPage: {
-    nav: "Informasjonsider",
+    nav: "Informasjonssider",
   },
   subjectPage: {
     topicsTitle: "Emne i {{topic}}",
@@ -342,12 +342,12 @@ const messages = {
     programmes: "Utdanningsprogram",
   },
   learningpathPage: {
-    accordionTitle: "Innhold i læringssti",
+    accordionTitle: "Innhald i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
   },
   movedResourcePage: {
-    title: "Sida har flytta, men du finn den her:",
+    title: "Sida har flytta, men du finn ho her:",
     openInSubject: "Opne artikkelen i eit fag:",
   },
   forbiddenPage: {
@@ -356,7 +356,7 @@ const messages = {
   },
   collectionPage: {
     title: `Ressursar på $t(languages.{{language}})`,
-    noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
+    noSubjects: "Vi har ikkje nokon ressursar på dette språket enno.",
   },
   date: {
     ago: "sidan",
