@@ -76,6 +76,8 @@ const myNdlaQuery = gql`
   ${personalDataQueryFragment}
 `;
 
+const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
+
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
@@ -104,7 +106,7 @@ const AuthenticationContext = ({ children }: Props) => {
       if (personalData?.arenaEnabled) {
         const nodebbCookie = {
           id: personalData?.feideId,
-          username: personalData.username?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-"),
+          username: personalData.username?.replace(usernameSanitizerRegexp, "-"),
           fullname: personalData.displayName,
           email: personalData.email,
           groups: ["unverified-users"],
