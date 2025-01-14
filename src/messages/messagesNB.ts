@@ -111,16 +111,16 @@ const messages = {
         delete: "Slett",
         next: "Neste",
         back: "Forrige",
-        deleteStep: "Slett trinn",
+        deleteStep: "Slett steg",
         deleteBody: "Innholdet kan ikke gjenopprettes",
         navigation: "Skjemanavigering",
         title: {
-          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          titleHelper: "Gi steget i læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",
           copyright: "Opphav",
           metaImage: "Metabilde",
           metaImageHelper: "Legg til et bilde som representerer læringsstien din",
-          noResult: "Ingen bilder treffer din søketekst",
+          noResult: "Ingen bilder treffer søketeksten din",
           imageRequired: "Vennligst velg et bilde.",
         },
         content: {
@@ -137,7 +137,7 @@ const messages = {
             },
             introduction: {
               label: "Ingress",
-              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+              labelHelper: "Skriv en kort ingress hvor du oppsummerer innholdet i steget ditt.",
             },
             description: {
               label: "Innhold",
@@ -151,16 +151,16 @@ const messages = {
             },
             introduction: {
               label: "Ingress",
-              labelHelper: "Skriv en kort ingress hvor du kort oppsummerer innholdet i trinnet ditt.",
+              labelHelper: "Skriv en kort ingress hvor du oppsummerer innholdet i steget ditt.",
             },
             content: {
               label: "Innhold fra et annet nettsted",
               labelHelper: "Lim inn en lenke til innholdet du har lyst til å legge til.",
             },
             copyright:
-              "Når du deler innhold fra andre nettsteder er du selv ansvarlig for at innholdet er lovlig å dele. Les mer om ",
+              "Når du deler innhold fra andre nettsteder, er du selv ansvarlig for at innholdet er lovlig å dele. Les mer om ",
             copyrightLink: "opphavsrett og deling.",
-            checkbox: "Innholdet jeg har lenket til er lovlig å dele.",
+            checkbox: "Innholdet jeg har lenket til, er lovlig å dele.",
           },
           folder: {
             label: "Søk i Mine mapper",
@@ -177,19 +177,19 @@ const messages = {
           next: "Neste: {{ next }}",
           title: "Tittel og beskrivelse",
           content: "Legg til innhold",
-          preview: "Se igjennom",
+          preview: "Se gjennom",
           save: "Lagre og del",
-          edit: "Rediger trinn",
-          add: "Legg til trinn",
+          edit: "Rediger steg",
+          add: "Legg til steg",
         },
       },
       title: "Mine læringsstier",
       description:
-        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser, samt korte tekster du lager selv.",
+        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser og korte tekster du lager selv.",
       created: "Opprettet: {{ created }}",
       shared: "Delt: {{ shared }}",
       noPath:
-        "Det ser ut til at du ikke har laget noen læringsstier. Klikk på <em>Ny</em>-knappen over for å lage en sti!",
+        "Det ser ikke ut til at du har laget noen læringsstier. Klikk på <em>Ny</em>-knappen over for å lage en sti!",
       menu: {
         new: "Ny",
         edit: "Endre",
@@ -221,10 +221,10 @@ const messages = {
         title: "Denne læringsstien er delt",
         description: {
           shared:
-            "Når du deler en læringssti, lager du ei lenke som er åpen for alle som har lenka. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
+            "Når du deler en læringssti, lager du en lenke som er åpen for alle som har lenken. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
           private:
-            "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenka med.",
-          copy: "Trykk på lenka for å kopiere",
+            "Nå kan du dele denne lenken med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenken med.",
+          copy: "Trykk på lenken for å kopiere",
         },
         link: "Kopier lenke",
         copied: "Lenken er kopiert",
@@ -240,8 +240,8 @@ const messages = {
           "Lagre og del læringsstien din. Når du deler, oppretter du en lenke som du kan sende til elever eller andre lærere.",
       },
       previewLearningpath: {
-        pageHeading: "Se igjennom",
-        pageDescription: "Se igjennom læringsstien du har laget.",
+        pageHeading: "Se gjennom",
+        pageDescription: "Se gjennom læringsstien du har laget.",
         noSteps: "Du har ikke lagt til steg i læringsstien ennå.",
       },
     },
@@ -264,8 +264,8 @@ const messages = {
     required: "Dette feltet er påkrevd",
     requiredField: "$t(validation.fields.{{field}}) kan ikke være tom",
     notUnique: "Finnes allerede",
-    maxLength: "Dette feltet kan maks inneholde {{count}} tegn",
-    maxLengthField: "$t(validation.fields.{{field}}) kan maks innholde {{count}} tegn",
+    maxLength: "Dette feltet kan inneholde maks {{count}} tegn",
+    maxLengthField: "$t(validation.fields.{{field}}) kan innholde maks {{count}} tegn",
   },
   lti: {
     goBack: "Tilbake til LTI-søk",
@@ -273,7 +273,7 @@ const messages = {
   resourcepageTitles: {
     video: "Video",
     image: "Bilde",
-    audio: "Audio",
+    audio: "Lyd",
     concept: "Forklaring",
   },
   contentTypes: {
@@ -299,7 +299,7 @@ const messages = {
         inactive: "Legg til fet skrift",
       },
       italic: {
-        active: "Fjerne kursiv skrift",
+        active: "Fjern kursiv skrift",
         inactive: "Legg til kursiv skrift",
       },
       unorderedList: {
