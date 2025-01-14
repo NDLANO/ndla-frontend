@@ -6,7 +6,7 @@
  *
  */
 
-import { MutationHookOptions, useMutation, gql } from "@apollo/client";
+import { MutationHookOptions, useMutation, gql, useApolloClient } from "@apollo/client";
 import {
   GQLDeleteLearningpathMutation,
   GQLMutationDeleteLearningpathArgs,
@@ -33,7 +33,19 @@ const deleteLearningpathMutation = gql`
 
 export const useDeleteLearningpath = (
   options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
-) => useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, options);
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, {
+    ...options,
+    onCompleted: (_data, methodOptions) => {
+      const normalizedId = client.cache.identify({
+        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+      });
+      client.cache.evict({ id: normalizedId });
+      client.cache.gc();
+    },
+  });
+};
 
 const updateLearningpathStatusMutation = gql`
   mutation updateLearningpathStatus($id: Int!, $status: String!) {
@@ -46,11 +58,28 @@ const updateLearningpathStatusMutation = gql`
 
 export const useUpdateLearningpathStatus = (
   options?: MutationHookOptions<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
-) =>
-  useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
     updateLearningpathStatusMutation,
-    options,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        const normalizedId = client.cache.identify({
+          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+        });
+        client.cache.modify({
+          id: normalizedId,
+          fields: {
+            status: () => {
+              return methodOptions?.variables?.status;
+            },
+          },
+        });
+      },
+    },
   );
+};
 
 const newLearningpathMutation = gql`
   mutation newLearningpath($params: LearningpathNewInput!) {
@@ -64,10 +93,24 @@ const newLearningpathMutation = gql`
 export const useCreateLearningpath = (
   options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
 ) => {
+  const client = useApolloClient();
   const [createLearningpath, { loading, error }] = useMutation<
     GQLNewLearningpathMutation,
     GQLNewLearningpathMutationVariables
-  >(newLearningpathMutation, options);
+  >(newLearningpathMutation, {
+    ...options,
+    onCompleted: ({ newLearningpath }) => {
+      client.cache.modify({
+        fields: {
+          myNdlaLearningpath: (existingPaths = []) =>
+            existingPaths.concat({
+              __ref: client.cache.identify(newLearningpath),
+            }),
+        },
+      });
+    },
+  });
+
   return { createLearningpath, loading, error };
 };
 
@@ -82,11 +125,29 @@ const newLearningpathStepMutation = gql`
 
 export const useCreateLearningpathStep = (
   options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
-) =>
-  useMutation<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>(
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>(
     newLearningpathStepMutation,
-    options,
+    {
+      ...options,
+      onCompleted: (data, methodOptions) => {
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          }),
+          fields: {
+            learningsteps: (existingSteps = []) => {
+              return existingSteps.concat({
+                __ref: client.cache.identify(data.newLearningpathStep),
+              });
+            },
+          },
+        });
+      },
+    },
   );
+};
 
 const updateLearningpathStepMutation = gql`
   mutation updateLearningpathStep($learningpathId: Int!, $learningstepId: Int!, $params: LearningpathStepUpdateInput!) {
@@ -98,11 +159,45 @@ const updateLearningpathStepMutation = gql`
 `;
 export const useUpdateLearningpathStep = (
   options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
-) =>
-  useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
     updateLearningpathStepMutation,
-    options,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStep}`,
+          }),
+          fields: {
+            description: () => {
+              return methodOptions?.variables?.description;
+            },
+            introduction: () => {
+              return methodOptions?.variables?.introudction;
+            },
+            title: () => {
+              return methodOptions?.variables?.title;
+            },
+            embedUrl: () => {
+              return {
+                url: methodOptions?.variables?.embedUrl,
+                embedType: methodOptions?.variables?.embedType,
+              };
+            },
+            type: () => {
+              return methodOptions?.variables?.type;
+            },
+            revision: () => {
+              return methodOptions?.variables?.revision;
+            },
+          },
+        });
+      },
+    },
   );
+};
 
 const deleteLearningpathStepMutation = gql`
   mutation deleteLearningpathStep($learningpathId: Int!, $learningstepId: Int!) {
@@ -111,11 +206,22 @@ const deleteLearningpathStepMutation = gql`
 `;
 export const useDeleteLearningpathStep = (
   options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
-) =>
-  useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
     deleteLearningpathStepMutation,
-    options,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        const normalizedId = client.cache.identify({
+          __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
+        });
+        client.cache.evict({ id: normalizedId, broadcast: true });
+        client.cache.gc();
+      },
+    },
   );
+};
 
 const updateLearningpathMutation = gql`
   mutation updateLearningpath($learningpathId: Int!, $params: LearningpathUpdateInput!) {
@@ -127,8 +233,27 @@ const updateLearningpathMutation = gql`
 `;
 export const useUpdateLearningpath = (
   options?: MutationHookOptions<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
-) =>
-  useMutation<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>(
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>(
     updateLearningpathMutation,
-    options,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          }),
+          fields: {
+            title: () => {
+              return methodOptions?.variables?.title;
+            },
+            coverPhotoMetaUrl: () => {
+              return methodOptions?.variables?.coverPhotoMetaUrl;
+            },
+          },
+        });
+      },
+    },
   );
+};
