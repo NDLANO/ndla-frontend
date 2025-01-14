@@ -123,19 +123,6 @@ router.get("/login/success", async (req, res) => {
     domain,
   });
 
-  // Set cookie for nodebb to use
-  const username = "https://n.feide.no/claims/eduPersonPrincipalName";
-  const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
-  const nodebbCookie = {
-    id: decoded?.sub,
-    username: decoded?.[username]?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-"),
-    fullname: decoded?.name,
-    email: decoded?.email,
-    groups: ["unverified-users"],
-  };
-  const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
-  res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
-
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
   if (!languageCookie) {
@@ -143,6 +130,21 @@ router.get("/login/success", async (req, res) => {
     res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : config.defaultLocale);
   }
   return res.redirect(state);
+});
+
+router.post("/nodebb-cookie", async (req, res) => {
+  // Set cookie for nodebb to use
+  const { body } = req;
+  const domain = req.hostname === config.feideDomain ? `.${config.feideDomain}` : req.hostname;
+  if (body && body["document"]) {
+    const nodebbCookieString = jwt.sign(body["document"], getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+    const expires = new Date(parseInt(body["expiresAt"]));
+    res.cookie("nodebb_auth", nodebbCookieString, {
+      expires,
+      domain,
+    });
+  }
+  res.sendStatus(204);
 });
 
 router.get(["/logout", "/:lang/logout"], async (req, res) => {

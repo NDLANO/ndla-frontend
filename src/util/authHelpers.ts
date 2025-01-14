@@ -71,6 +71,10 @@ export const isAccessTokenValid = (cookie: FeideCookie | null = getFeideCookieCl
   return millisUntilExpiration(cookie) > 10000;
 };
 
+export const getFeideExpiration = (cookie: FeideCookie | null = getFeideCookieClient()): number => {
+  return cookie?.ndla_expires_at ?? 0;
+};
+
 export const initializeFeideLogin = (from?: string) => {
   const state = `${from ? `?state=${from}` : ""}`;
 

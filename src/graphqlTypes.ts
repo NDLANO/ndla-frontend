@@ -2594,6 +2594,7 @@ export type GQLArticle_ArticleFragment = {
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename: "MyNdlaPersonalData";
   id: number;
+  feideId: string;
   username: string;
   email: string;
   displayName: string;

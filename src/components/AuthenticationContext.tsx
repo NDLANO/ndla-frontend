@@ -10,7 +10,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import config from "../config";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
-import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
+import { getFeideExpiration, isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
 
 export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
   isModerator: boolean;
@@ -44,6 +44,7 @@ export const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
     __typename
     id
+    feideId
     username
     email
     displayName
@@ -99,6 +100,27 @@ const AuthenticationContext = ({ children }: Props) => {
         ...personalData,
       });
       setLoaded(true);
+      // write nodebb-cookie
+      if (personalData?.arenaEnabled) {
+        const nodebbCookie = {
+          id: personalData?.feideId,
+          username: personalData.username?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-"),
+          fullname: personalData.displayName,
+          email: personalData.email,
+          groups: ["unverified-users"],
+        };
+        fetch("/nodebb-cookie", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            document: nodebbCookie,
+            expiresAt: `${getFeideExpiration()}`,
+          }),
+        });
+      }
+
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
