@@ -110,34 +110,34 @@ const messages = {
       form: {
         delete: "Slett",
         next: "Neste",
-        back: "Forrige",
+        back: "Førre",
         deleteStep: "Slett trinn",
-        deleteBody: "Innholdet kan ikkje gjenopprettast",
+        deleteBody: "Innhaldet kan ikkje gjenopprettast",
         navigation: "Skjemanavigering",
         title: {
-          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          titleHelper: "Skriv ein beskrivande tittel for dette steget i læringsstien.",
           imageTitle: "Bildetittel",
           copyright: "Opphav",
           metaImage: "Metabilde",
-          metaImageHelper: "Legg til et bilde som representerer læringsstien din",
-          noResult: "Ingen bildar treffar din søketekst",
+          metaImageHelper: "Legg til eit bilde som representerer læringsstien din",
+          noResult: "Ingen søketreff for bilder",
           imageRequired: "Vennligst velg eit bilete.",
         },
         content: {
           title: "Legg til innhald",
-          subTitle: "Legg til innhald til læringsstien",
+          subTitle: "Legg til innhald i læringsstien",
           resource: {
             label: "Artikkel frå NDLA",
-            labelHelper: "Søk etter artikkel eller lim inn ein lenke",
+            labelHelper: "Søk etter artikkel eller lim inn ei lenke",
           },
           text: {
             title: {
               label: "Tittel",
-              labelHelper: "Lag ei beskrivande tittel.",
+              labelHelper: "Lag ein beskrivande tittel.",
             },
             introduction: {
               label: "Ingress",
-              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+              labelHelper: "Skriv ein kort ingress, der du oppsummerer innhaldet i steget ditt.",
             },
             description: {
               label: "Innhald",
@@ -147,20 +147,20 @@ const messages = {
           external: {
             title: {
               label: "Tittel",
-              labelHelper: "Lag ei beskrivande tittel.",
+              labelHelper: "Lag ein beskrivande tittel.",
             },
             introduction: {
               label: "Ingress",
-              labelHelper: "Skriv ein kort ingress der du kort oppsummerer innhaldet i steget ditt.",
+              labelHelper: "Skriv ein kort ingress der du oppsummerer innhaldet i steget ditt.",
             },
             content: {
               label: "Innhald frå eit anna nettstad",
               labelHelper: "Lim inn ein lenke til innhaldet du vil legge til.",
             },
             copyright:
-              "Når du deler innhald frå andre nettstader er du sjølv ansvarleg for at innhaldet er lovleg å dele. Les meir om ",
+              "Når du deler innhald frå andre nettstader, er du sjølv ansvarleg for at innhaldet er lovleg å dele. Les meir om ",
             copyrightLink: "opphavsrett og deling.",
-            checkbox: "Inhaldet eg har lenka til er lovleg å dele.",
+            checkbox: "Inhaldet eg har lenka til, er lovleg å dele.",
           },
           folder: {
             label: "Søk i Mine mapper",
@@ -168,10 +168,10 @@ const messages = {
           },
         },
         options: {
-          text: "Tekst eg har skrevet sjølv",
+          text: "Tekst eg har skrive sjølv",
           resource: "Innhald frå NDLA",
-          external: "Innhald frå eit anna nettstad",
-          folder: "Innhald frå ein av mine mapper i Min NDLA",
+          external: "Innhald frå ei annan nettstad",
+          folder: "Innhald frå ei av mine mapper i Min NDLA",
         },
         steps: {
           next: "Neste: {{ next }}",
@@ -185,7 +185,7 @@ const messages = {
       },
       title: "Mine læringsstiar",
       description:
-        "Her kan du lage dine eigne læringsstiar og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar samt korte tekstar du lagar sjølv.",
+        "Her kan du lage dine eigne læringsstiar, og dele dei med elevane dine. Læringsstiane kan innehalde artiklar frå NDLA, lenker til andre ressursar, samt korte tekstar du lagar sjølv.",
       created: "Oppretta: {{ created }}",
       shared: "Delt {{ shared }}",
       noPath:
@@ -214,7 +214,7 @@ const messages = {
       },
       delete: {
         title: "Slett læringssti",
-        body: "Er du sikker på at du vil slette læringsstien? Handlinga kan ikkje angrast.",
+        body: "Er du sikker på at du vil slette læringsstien? Stien kan ikkje gjenopprettast.",
         button: "Slett læringssti",
       },
       sharing: {
@@ -237,7 +237,7 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringstien din. Når du deler opprettar du ein delbar lenke som du kan sende til elevar eller lærarar.",
+          "Lagre og del læringstien din. Når du deler, vert det laga ei lenke du kan sende til elevar eller andre lærarar.",
       },
       previewLearningpath: {
         pageHeading: "Sjå igjennom",
@@ -261,7 +261,7 @@ const messages = {
       url: "Lenka",
       shareable: "Delbar",
     },
-    required: "Dette feltet er påkrevd",
+    required: "Dette feltet er påkravd",
     requiredField: "$t(validation.fields.{{field}}) kan ikkje være tom",
     notUnique: "Finnes allereie",
     maxLength: "Dette feltet kan maks innehalde {{count}} teikn",
@@ -328,7 +328,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis fleire treff",
   },
-  pagination: { next: "Neste", prev: "Forrige" },
+  pagination: { next: "Neste", prev: "Førre" },
   programmePage: {
     programmeSubjects: "Programfag",
   },

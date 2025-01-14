@@ -106,7 +106,7 @@ const messages = {
     learningpath: {
       newLearningpath: "Ny læringssti",
       editLearningpath: "Rediger læringssti",
-      editLearningpathTitle: "Rediger læringsstitittel",
+      editLearningpathTitle: "Rediger tittel på læringssti",
       form: {
         delete: "Slett",
         next: "Neste",
@@ -185,7 +185,7 @@ const messages = {
       },
       title: "Mine læringsstier",
       description:
-        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser samt korte tekster du lager selv.",
+        "Her kan du opprette dine egne læringsstier og dele dem med elevene dine. Læringsstiene kan inneholde artikler fra NDLA, lenker til andre ressurser, samt korte tekster du lager selv.",
       created: "Opprettet: {{ created }}",
       shared: "Delt: {{ shared }}",
       noPath:
@@ -214,7 +214,7 @@ const messages = {
       },
       delete: {
         title: "Slett læringssti",
-        body: "Er du sikker på at du vil slette læringsstien? Handlingen kan ikke angres.",
+        body: "Er du sikker på at du vil slette læringsstien? Den kan ikke gjenopprettes.",
         button: "Slett læringssti",
       },
       sharing: {
@@ -237,12 +237,12 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringsstien din. Når du deler oppretter du en delbar lenke som du kan sende til elever eller lærere.",
+          "Lagre og del læringsstien din. Når du deler, oppretter du en lenke som du kan sende til elever eller andre lærere.",
       },
       previewLearningpath: {
         pageHeading: "Se igjennom",
         pageDescription: "Se igjennom læringsstien du har laget.",
-        noSteps: "Du har ikke lagt til noen steg i læringsstien ennå.",
+        noSteps: "Du har ikke lagt til steg i læringsstien ennå.",
       },
     },
   },
