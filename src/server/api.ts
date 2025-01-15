@@ -146,7 +146,7 @@ router.get("/login/success", async (req, res) => {
       res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
     }
   } catch (error) {
-    // No cookie for you
+    log.error("Failed to set cookie for nodebb autologin", { error });
   }
 
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
