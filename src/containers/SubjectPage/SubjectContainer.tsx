@@ -121,10 +121,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
 
   useEffect(() => {
     if (!authContextLoaded || loading) return;
-    const dimensions = getAllDimensions({
-      filter: node.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({
       dimensions,
       title: htmlTitle(node.name, [t("htmlTitles.titleTemplate")]),

@@ -100,11 +100,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
-      const dimensions = getAllDimensions({
-        article: resource?.article,
-        filter: root?.name,
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({
         dimensions,
         title: getDocumentTitle(t, resource, root),

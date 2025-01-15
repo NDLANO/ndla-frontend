@@ -102,14 +102,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   useEffect(() => {
     if (authContextLoaded && node.article) {
-      const dimensions = getAllDimensions({
-        article: node.article,
-        filter: node.breadcrumbs[0],
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: pageTitle });
     }
-  }, [authContextLoaded, node.article, node.breadcrumbs, pageTitle, trackPageView, user]);
+  }, [authContextLoaded, node.article, pageTitle, trackPageView, user]);
 
   const breadcrumbs = useMemo(() => {
     if (!node.context) return [];
