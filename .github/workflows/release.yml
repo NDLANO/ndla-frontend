@@ -1,7 +1,7 @@
-name: 'Release: ndla-frontend'
+name: "Release: ndla-frontend"
 on:
   workflow_dispatch:
-    inputs: { }
+    inputs: {}
   push:
     branches:
       - master
@@ -36,10 +36,13 @@ jobs:
           path: ndla/deploy
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
       - uses: abatilo/actions-poetry@v2
         with:
           poetry-version: "1.6.1"
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.2"
       - name: Setup ~/bin directory
         run: |
           mkdir -p /home/runner/bin
