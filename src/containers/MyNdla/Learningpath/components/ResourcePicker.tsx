@@ -21,6 +21,7 @@ import {
   ComboboxItem,
   ComboboxItemText,
   ComboboxRoot,
+  IconButton,
   Input,
   InputContainer,
   ListItemRoot,
@@ -79,7 +80,6 @@ const StyledListItemRoot = styled(ListItemRoot, {
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
-    gap: "medium",
   },
 });
 
@@ -89,6 +89,19 @@ const ContentWrapper = styled("div", {
     padding: "small",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
+  },
+});
+
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    marginBlockStart: "medium",
+    flexWrap: "wrap",
+  },
+});
+
+const StyledComboboxItem = styled(ComboboxItem, {
+  base: {
+    flexWrap: "wrap",
   },
 });
 
@@ -251,7 +264,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
                 <Spinner />
               ) : (
                 searchHits.map((resource) => (
-                  <ComboboxItem
+                  <StyledComboboxItem
                     key={resource.id}
                     item={resource}
                     onClick={() => onResourceSelect(resource as Resource)}
@@ -275,33 +288,37 @@ export const ResourcePicker = ({ setResource }: Props) => {
                       </TextWrapper>
                       <ContentTypeBadge contentType={resource.contentType} />
                     </StyledListItemRoot>
-                  </ComboboxItem>
+                  </StyledComboboxItem>
                 ))
               )}
-              <PaginationRoot
+              <StyledPaginationRoot
                 page={searchObject.page}
                 onPageChange={(details) => {
                   setSearchObject((prev) => ({ ...prev, page: details.page }));
                   setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
                 }}
                 count={searchResult.search?.totalCount ?? 0}
+                siblingCount={2}
                 pageSize={10}
                 translations={paginationTranslations}
-                siblingCount={2}
                 aria-label={t("podcastPage.paginationNav")}
               >
                 <PaginationPrevTrigger asChild>
-                  <Button variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                  <IconButton
+                    variant="tertiary"
+                    aria-label={t("pagination.prev")}
+                    title={t("pagination.prev")}
+                    size="small"
+                  >
                     <ArrowLeftShortLine />
-                    <span>{t("pagination.prev")}</span>
-                  </Button>
+                  </IconButton>
                 </PaginationPrevTrigger>
                 <PaginationContext>
                   {(pagination) =>
                     pagination.pages.map((page, index) =>
                       page.type === "page" ? (
                         <PaginationItem key={index} {...page} asChild>
-                          <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                          <Button size="small" variant={page.value === pagination.page ? "primary" : "tertiary"}>
                             {page.value}
                           </Button>
                         </PaginationItem>
@@ -316,12 +333,16 @@ export const ResourcePicker = ({ setResource }: Props) => {
                   }
                 </PaginationContext>
                 <PaginationNextTrigger asChild>
-                  <Button variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-                    <span>{t("pagination.next")}</span>
+                  <IconButton
+                    variant="tertiary"
+                    aria-label={t("pagination.next")}
+                    title={t("pagination.next")}
+                    size="small"
+                  >
                     <ArrowRightShortLine />
-                  </Button>
+                  </IconButton>
                 </PaginationNextTrigger>
-              </PaginationRoot>
+              </StyledPaginationRoot>
             </StyledComboboxContent>
           ) : null}
         </ContentWrapper>
