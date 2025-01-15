@@ -75,6 +75,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0",
+    "vercel": "^33.6.2",
     "vite": "^6.0.2",
     "vitest": "^2.1.8"
   },
