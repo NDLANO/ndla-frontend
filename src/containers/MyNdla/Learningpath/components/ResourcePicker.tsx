@@ -305,7 +305,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
                 }}
                 count={searchResult.search?.totalCount ?? 0}
                 siblingCount={2}
-                pageSize={10}
+                pageSize={searchObject.pageSize}
                 translations={paginationTranslations}
               >
                 <PaginationPrevTrigger asChild>
