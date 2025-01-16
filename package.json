@@ -48,7 +48,7 @@
     "@ndla/types-embed": "^5.0.8-alpha.0",
     "@ndla/types-taxonomy": "^1.0.34",
     "@pandacss/dev": "^0.48.0",
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.49.1",
     "@sentry/vite-plugin": "^2.22.6",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -75,6 +75,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0",
+    "vercel": "^33.6.2",
     "vite": "^6.0.2",
     "vitest": "^2.1.8"
   },

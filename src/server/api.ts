@@ -10,6 +10,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { errors as oidcErrors } from "openid-client";
 import { matchPath } from "react-router-dom";
+import { IMyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
@@ -27,9 +28,11 @@ import { privateRoutes } from "../routes";
 import { OK, BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
+import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
 
+const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 const router = express.Router();
 
 router.get("/robots.txt", (req, res) => {
@@ -123,18 +126,28 @@ router.get("/login/success", async (req, res) => {
     domain,
   });
 
-  // Set cookie for nodebb to use
-  const username = "https://n.feide.no/claims/eduPersonPrincipalName";
-  const decoded = token.id_token ? jwt.decode(token.id_token, {}) : undefined;
-  const nodebbCookie = {
-    id: decoded?.sub,
-    username: decoded?.[username]?.replace(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/, "-"),
-    fullname: decoded?.name,
-    email: decoded?.email,
-    groups: ["unverified-users"],
-  };
-  const nodebbCookieString = jwt.sign(nodebbCookie, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
-  res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
+  // Set cookie for nodebb to use if user is arena enabled
+  try {
+    const response = await fetch(apiResourceUrl("/myndla-api/v1/users"), {
+      headers: {
+        FeideAuthorization: `Bearer ${token.access_token}`,
+      },
+    });
+    const userInfo = await resolveJsonOrRejectWithError<IMyNDLAUserDTO>(response);
+    if (userInfo && userInfo.arenaEnabled) {
+      const nodebbUser = {
+        id: userInfo.feideId,
+        username: userInfo.username?.replace(usernameSanitizerRegexp, "-"),
+        fullname: userInfo.displayName,
+        email: userInfo.email,
+        groups: ["unverified-users"],
+      };
+      const nodebbCookieString = jwt.sign(nodebbUser, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+      res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
+    }
+  } catch (error) {
+    log.error("Failed to set cookie for nodebb autologin", { error });
+  }
 
   const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
   //workaround to ensure language cookie is set before redirecting to state path
