@@ -118,10 +118,13 @@ type Resource = GQLSearchResult & {
   path: string;
 };
 
+const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
+
 export const ResourcePicker = ({ setResource }: Props) => {
-  const [searchObject, setSearchObject] = useState({ page: 1, pageSize: 10, query: "" });
-  const [delayedSearchObject, setDelayedSearchObject] = useState({ page: 1, pageSize: 10, query: "" });
+  const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
+  const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
   const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
     searchQuery,
     {
@@ -210,6 +213,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
       collection={collection}
       translations={comboboxTranslations}
       highlightedValue={highlightedValue}
+      onOpenChange={(details) => setOpen(details.open)}
+      onInteractOutside={(_details) => setOpen(false)}
       onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       onInputValueChange={(details) => onQueryChange(details.inputValue)}
       inputValue={searchObject.query}
@@ -217,6 +222,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       context="composite"
       closeOnSelect
       form={formId}
+      open={open}
       selectionBehavior="preserve"
     >
       <ComboboxControl>
@@ -239,7 +245,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
-      {searchObject.query ? (
+      {open ? (
         <ContentWrapper>
           <HitsWrapper aria-live="assertive">
             <div>
@@ -301,7 +307,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
                 siblingCount={2}
                 pageSize={10}
                 translations={paginationTranslations}
-                aria-label={t("podcastPage.paginationNav")}
               >
                 <PaginationPrevTrigger asChild>
                   <IconButton
