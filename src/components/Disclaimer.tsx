@@ -32,7 +32,9 @@ const Disclaimer = ({ disclaimer }: Props) => {
           <AccessibilityFill />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>{transformedDisclaimer}</PopoverContent>
+      <PopoverContent>
+        <div>{transformedDisclaimer}</div>
+      </PopoverContent>
     </PopoverRoot>
   );
 };
