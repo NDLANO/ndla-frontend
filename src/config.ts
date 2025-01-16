@@ -69,11 +69,11 @@ export const arenaDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case "dev":
     case "local":
-      return "https://grupper.test.ndla.no";
+      return "grupper.test.ndla.no";
     case "prod":
-      return "https://grupper.ndla.no";
+      return "grupper.ndla.no";
     default:
-      return `https://grupper.${ndlaEnvironmentHostname}.ndla.no`;
+      return `grupper.${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -169,7 +169,7 @@ const getServerSideConfig = (): ConfigType => {
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
     externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
-    arenaDomain: arenaDomain(ndlaEnvironment),
+    arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };
 

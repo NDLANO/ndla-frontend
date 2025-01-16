@@ -860,9 +860,11 @@ type LearningpathStep {
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
+  introduction: String
   license: License
   metaUrl: String!
   oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
   resource(parentId: String, rootId: String): Resource
   revision: Int!
   seqNo: Int!
@@ -1117,6 +1119,7 @@ type MyNdlaLearningpathStep {
   license: License
   metaUrl: String!
   oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
   resource(parentId: String, rootId: String): Resource
   revision: Int!
   seqNo: Int!

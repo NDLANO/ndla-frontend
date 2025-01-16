@@ -105,6 +105,8 @@ const messages = {
     goToMyNdla: "Go to My NDLA",
     learningpath: {
       newLearningpath: "New learningpath",
+      editLearningpath: "Edit learningpath",
+      editLearningpathTitle: "Edit learningpath title",
       form: {
         delete: "Delete",
         next: "Next",

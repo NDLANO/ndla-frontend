@@ -124,26 +124,36 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     ];
   }, [data?.article, i18n.language, learningpathStep.resource, subjectId]);
 
-  if (!learningpathStep || (!learningpathStep.resource && (!learningpathStep.embedUrl || !learningpathStep.oembed))) {
+  if (
+    (!learningpathStep || (!learningpathStep.resource && (!learningpathStep?.embedUrl || !learningpathStep?.oembed))) &&
+    learningpathStep.embedUrl?.embedType !== "external"
+  ) {
     return null;
   }
   const { embedUrl, oembed } = learningpathStep;
+  const isExternalLink = embedUrl?.embedType === "external";
   if (
-    !learningpathStep.resource &&
-    !shouldUseConverter &&
-    embedUrl &&
-    (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
-    oembed &&
-    oembed.html
+    (!learningpathStep.resource &&
+      !shouldUseConverter &&
+      embedUrl &&
+      (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
+      oembed &&
+      oembed.html) ||
+    isExternalLink
   ) {
-    if (urlIsNDLAUrl(embedUrl.url)) {
+    if (urlIsNDLAUrl(embedUrl.url) && oembed) {
       return <LearningpathIframe url={embedUrl.url} html={oembed.html} />;
     }
 
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
-          <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={learningpathStep.title} />
+          <ArticleTitle
+            id={skipToContentId ?? fallbackId}
+            contentType="external"
+            title={learningpathStep.title}
+            introduction={isExternalLink ? learningpathStep.introduction : undefined}
+          />
           <ArticleContent>
             <section>
               <ExternalEmbed
@@ -153,6 +163,9 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
                   embedData: {
                     resource: "external",
                     url: embedUrl.url,
+                    type: embedUrl.embedType === "external" ? "link" : undefined,
+                    title: learningpathStep.opengraph?.title,
+                    caption: learningpathStep.opengraph?.description,
                   },
                   data: {
                     oembed,
@@ -235,6 +248,13 @@ LearningpathEmbed.fragments = {
     fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
       id
       title
+      description
+      introduction
+      opengraph {
+        title
+        description
+        url
+      }
       resource {
         id
         url

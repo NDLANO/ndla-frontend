@@ -7,7 +7,6 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
@@ -18,7 +17,6 @@ import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
 const Layout = () => {
-  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
@@ -52,7 +50,6 @@ const Layout = () => {
     <>
       <TitleAnnouncer />
       {metaChildren}
-      <meta name="description" content={t("meta.description")} />
       <Masthead />
       <PageLayout style={mastheadHeightVar}>
         <Outlet />

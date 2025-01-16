@@ -222,7 +222,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "arena",
-    to: config.externalArena ? config.arenaDomain : routes.myNdla.arena,
+    to: config.externalArena ? `https://${config.arenaDomain}` : routes.myNdla.arena,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,

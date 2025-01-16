@@ -24,9 +24,11 @@ import {
 import { NoSSR } from "@ndla/util";
 import Article from "../../components/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -197,6 +199,21 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 )
               }
               lang={article.language === "nb" ? "no" : article.language}
+              heartButton={
+                !!node.url &&
+                !!article.id && (
+                  <AddResourceToFolderModal
+                    resource={{
+                      id: `${article.id}`,
+                      path: node.url,
+                      resourceType: "multidisciplinary",
+                    }}
+                  >
+                    <FavoriteButton path={node.url} />
+                  </AddResourceToFolderModal>
+                )
+              }
+              contentType="multidisciplinary"
             />
             <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
             <ArticleFooter>
