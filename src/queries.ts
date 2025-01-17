@@ -107,6 +107,7 @@ export const searchQuery = gql`
     $traits: [String!]
     $aggregatePaths: [String!]
     $filterInactive: Boolean
+    $license: String
   ) {
     search(
       query: $query
@@ -126,6 +127,7 @@ export const searchQuery = gql`
       traits: $traits
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
+      license: $license
     ) {
       pageSize
       page
@@ -165,6 +167,7 @@ export const groupSearchQuery = gql`
     $aggregatePaths: [String!]
     $grepCodesList: [String]
     $filterInactive: Boolean
+    $license: String
   ) {
     groupSearch(
       resourceTypes: $resourceTypes
@@ -178,6 +181,7 @@ export const groupSearchQuery = gql`
       grepCodes: $grepCodes
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
+      license: $license
     ) {
       resources {
         ...GroupSearchResource

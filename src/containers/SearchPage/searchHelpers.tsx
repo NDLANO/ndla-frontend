@@ -59,6 +59,7 @@ export const convertSearchStringToObject = (
   return {
     language: locale || "nb",
     fallback: "true",
+    license: "all",
     ...searchLocation,
     ...fields,
   };
