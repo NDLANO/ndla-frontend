@@ -238,6 +238,7 @@ export type GQLArticle = {
   tags?: Maybe<Array<Scalars["String"]["output"]>>;
   title: Scalars["String"]["output"];
   transformedContent: GQLTransformedArticleContent;
+  transformedDisclaimer?: Maybe<GQLTransformedDisclaimerContent>;
   updated: Scalars["String"]["output"];
 };
 
@@ -2498,6 +2499,11 @@ export type GQLTransformedArticleContentInput = {
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
+export type GQLTransformedDisclaimerContent = {
+  __typename?: "TransformedDisclaimerContent";
+  content: Scalars["String"]["output"];
+};
+
 export type GQLUpdatedFolder = {
   __typename?: "UpdatedFolder";
   name?: Maybe<Scalars["String"]["output"]>;
@@ -2589,6 +2595,7 @@ export type GQLArticle_ArticleFragment = {
       }>;
     };
   };
+  transformedDisclaimer?: { __typename?: "TransformedDisclaimerContent"; content: string };
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
