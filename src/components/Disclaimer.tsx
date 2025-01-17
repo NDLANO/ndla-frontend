@@ -10,8 +10,17 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { AccessibilityFill } from "@ndla/icons";
-import { Button, PopoverContent, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@ndla/primitives";
 import { GQLTransformedDisclaimerContent } from "../graphqlTypes";
+import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
   disclaimer: GQLTransformedDisclaimerContent;
@@ -25,17 +34,23 @@ const Disclaimer = ({ disclaimer }: Props) => {
   }, [disclaimer]);
 
   return (
-    <PopoverRoot>
-      <PopoverTrigger asChild>
+    <DialogRoot>
+      <DialogTrigger asChild>
         <Button variant="secondary" size="small">
           {t("uuDisclaimer.title")}
           <AccessibilityFill />
         </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div>{transformedDisclaimer}</div>
-      </PopoverContent>
-    </PopoverRoot>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("uuDisclaimer.title")}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
+          <div>{transformedDisclaimer}</div>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 
