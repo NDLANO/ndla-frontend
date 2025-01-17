@@ -55,6 +55,7 @@ const StyledPageContainer = styled(PageContainer, {
   base: {
     position: "relative",
     background: "background.subtle",
+    minHeight: "100vh",
     gap: "large",
   },
   variants: {
