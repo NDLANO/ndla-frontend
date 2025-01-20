@@ -25,7 +25,6 @@ import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { getContentType } from "../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
-import { getAllDimensions } from "../util/trackingUtil";
 import { transformArticle } from "../util/transformArticle";
 
 interface Props {
@@ -62,9 +61,7 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
 
   useEffect(() => {
     if (propArticle?.id) return;
-    const dimensions = getAllDimensions({ article: propArticle });
     trackPageView({
-      dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
   }, [propArticle, node, trackPageView]);
