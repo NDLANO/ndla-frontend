@@ -24,6 +24,7 @@ import {
   GQLUpdateLearningpathMutationVariables,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
+import { previewLearningpathQuery } from "./PreviewLearningpathPage";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {
@@ -124,6 +125,7 @@ const newLearningpathStepMutation = gql`
 `;
 
 export const useCreateLearningpathStep = (
+  pathId: string,
   options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -131,6 +133,8 @@ export const useCreateLearningpathStep = (
     newLearningpathStepMutation,
     {
       ...options,
+      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
+      awaitRefetchQueries: true,
       onCompleted: (data, methodOptions) => {
         client.cache.modify({
           id: client.cache.identify({
@@ -157,7 +161,9 @@ const updateLearningpathStepMutation = gql`
   }
   ${learningpathStepFragment}
 `;
+
 export const useUpdateLearningpathStep = (
+  pathId: string,
   options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -165,6 +171,8 @@ export const useUpdateLearningpathStep = (
     updateLearningpathStepMutation,
     {
       ...options,
+      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
+      awaitRefetchQueries: true,
       onCompleted: (_data, methodOptions) => {
         client.cache.modify({
           id: client.cache.identify({
@@ -204,7 +212,9 @@ const deleteLearningpathStepMutation = gql`
     deleteLearningpathStep(learningpathId: $learningpathId, learningstepId: $learningstepId)
   }
 `;
+
 export const useDeleteLearningpathStep = (
+  pathId: string,
   options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -219,6 +229,8 @@ export const useDeleteLearningpathStep = (
         client.cache.evict({ id: normalizedId, broadcast: true });
         client.cache.gc();
       },
+      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
+      awaitRefetchQueries: true,
     },
   );
 };
@@ -231,6 +243,7 @@ const updateLearningpathMutation = gql`
   }
   ${learningpathFragment}
 `;
+
 export const useUpdateLearningpath = (
   options?: MutationHookOptions<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
 ) => {

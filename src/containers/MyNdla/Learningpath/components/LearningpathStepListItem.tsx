@@ -49,8 +49,8 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
 
   const { t, i18n } = useTranslation();
 
-  const [updateStep] = useUpdateLearningpathStep();
-  const [deleteStep] = useDeleteLearningpathStep();
+  const [updateStep] = useUpdateLearningpathStep(learningpathId.toString());
+  const [deleteStep] = useDeleteLearningpathStep(learningpathId.toString());
 
   const onSave = async (data: FormValues) => {
     const transformedData = formValuesToGQLInput(data);

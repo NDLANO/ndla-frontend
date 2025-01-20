@@ -36,7 +36,7 @@ const TextWrapper = styled("div", {
   },
 });
 
-const previewLearningpathQuery = gql`
+export const previewLearningpathQuery = gql`
   query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     learningpath(pathId: $pathId) {
       id
@@ -61,6 +61,7 @@ export const PreviewLearningpathPage = () => {
     {
       variables: { pathId: learningpathId ?? "" },
       skip: !learningpathId,
+      fetchPolicy: "cache-and-network",
     },
   );
 

@@ -53,7 +53,7 @@ export const EditLearningpathStepsPage = () => {
     skip: !learningpathId,
   });
 
-  const [createStep] = useCreateLearningpathStep();
+  const [createStep] = useCreateLearningpathStep(learningpathId ?? "");
 
   useEffect(() => {
     trackPageView({
