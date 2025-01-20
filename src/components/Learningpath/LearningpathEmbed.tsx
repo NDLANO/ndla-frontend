@@ -30,6 +30,7 @@ import Article from "../Article";
 import { CreatedBy } from "../Article/CreatedBy";
 import { ContentPlaceholder } from "../ContentPlaceholder";
 import { DefaultErrorMessage } from "../DefaultErrorMessage";
+import { LearningpathExternal } from "./LearningpathExternal";
 
 export const EmbedPageContent = styled(PageContent, {
   base: {
@@ -71,6 +72,7 @@ interface Props {
   subjectId?: string;
   children?: ReactNode;
 }
+
 const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, breadcrumbItems, children }: Props) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -131,15 +133,14 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     return null;
   }
   const { embedUrl, oembed } = learningpathStep;
-  const isExternalLink = embedUrl?.embedType === "external";
+
   if (
-    (!learningpathStep.resource &&
-      !shouldUseConverter &&
-      embedUrl &&
-      (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
-      oembed &&
-      oembed.html) ||
-    isExternalLink
+    !learningpathStep.resource &&
+    !shouldUseConverter &&
+    embedUrl &&
+    (embedUrl.embedType === "oembed" || embedUrl.embedType === "iframe") &&
+    oembed &&
+    oembed.html
   ) {
     if (urlIsNDLAUrl(embedUrl.url) && oembed) {
       return <LearningpathIframe url={embedUrl.url} html={oembed.html} />;
@@ -148,12 +149,7 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
     return (
       <EmbedPageContent variant="content">
         <ArticleWrapper>
-          <ArticleTitle
-            id={skipToContentId ?? fallbackId}
-            contentType="external"
-            title={learningpathStep.title}
-            introduction={isExternalLink ? learningpathStep.introduction : undefined}
-          />
+          <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={learningpathStep.title} />
           <ArticleContent>
             <section>
               <ExternalEmbed
@@ -163,9 +159,6 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
                   embedData: {
                     resource: "external",
                     url: embedUrl.url,
-                    type: embedUrl.embedType === "external" ? "link" : undefined,
-                    title: learningpathStep.opengraph?.title,
-                    caption: learningpathStep.opengraph?.description,
                   },
                   data: {
                     oembed,
@@ -177,6 +170,10 @@ const LearningpathEmbed = ({ learningpathStep, skipToContentId, subjectId, bread
         </ArticleWrapper>
       </EmbedPageContent>
     );
+  }
+
+  if (embedUrl?.embedType === "external") {
+    return <LearningpathExternal learningpathStep={learningpathStep} skipToContentId={skipToContentId} />;
   }
 
   if (loading) {
