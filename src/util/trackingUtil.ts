@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const getAllDimensions = ({ user }: Props) => {
-  if (!user) {
+  if (!user?.role && !user?.organization) {
     return {};
   }
   const dimensions: DimensionType = {
