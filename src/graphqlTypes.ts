@@ -2644,6 +2644,43 @@ export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
 } & GQLLearningpathMenu_LearningpathFragment;
 
+export type GQLLearningpathMenu_LearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  lastUpdated: string;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string }>;
+};
+
+export type GQLLearningpathMenu_LearningpathStepFragment = {
+  __typename?: "LearningpathStep";
+  id: number;
+  seqNo: number;
+};
+
+export type GQLLearningpathStepQueryVariables = Exact<{
+  articleId: Scalars["String"]["input"];
+  resourceId: Scalars["String"]["input"];
+  includeResource: Scalars["Boolean"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLLearningpathStepQuery = {
+  __typename?: "Query";
+  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
+  node?: {
+    __typename?: "Node";
+    id: string;
+    url?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  };
+};
+
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2678,43 +2715,6 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
     type: string;
     version: string;
   };
-};
-
-export type GQLLearningpathStepQueryVariables = Exact<{
-  articleId: Scalars["String"]["input"];
-  resourceId: Scalars["String"]["input"];
-  includeResource: Scalars["Boolean"]["input"];
-  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
-}>;
-
-export type GQLLearningpathStepQuery = {
-  __typename?: "Query";
-  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
-  node?: {
-    __typename?: "Node";
-    id: string;
-    url?: string;
-    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-  };
-};
-
-export type GQLLearningpathMenu_LearningpathFragment = {
-  __typename?: "Learningpath";
-  id: number;
-  title: string;
-  lastUpdated: string;
-  copyright: {
-    __typename?: "LearningpathCopyright";
-    license: { __typename?: "License"; license: string };
-    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
-  };
-  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string }>;
-};
-
-export type GQLLearningpathMenu_LearningpathStepFragment = {
-  __typename?: "LearningpathStep";
-  id: number;
-  seqNo: number;
 };
 
 export type GQLSubjectLinks_SubjectPageFragment = {
