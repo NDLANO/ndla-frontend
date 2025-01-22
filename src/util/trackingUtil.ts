@@ -8,8 +8,6 @@
 
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 
-type DimensionType = Record<string, string | number | undefined>;
-
 interface Props {
   user?: GQLMyNdlaPersonalDataFragmentFragment;
 }
