@@ -8,14 +8,14 @@
 
 import { useId } from "react";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ExternalEmbed } from "@ndla/ui";
-import { GQLLearningpathEmbed_LearningpathStepFragment } from "../../../graphqlTypes";
+import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import LearningpathIframe, { urlIsNDLAUrl } from "../LearningpathIframe";
 import { EmbedPageContent } from "./LearningpathStep";
 
 interface EmbedStepProps {
   url: string;
   title: string;
-  oembed: GQLLearningpathEmbed_LearningpathStepFragment["oembed"];
+  oembed: GQLLearningpathStepOembedFragment;
   skipToContentId?: string;
 }
 
