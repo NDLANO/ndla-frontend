@@ -238,7 +238,7 @@ export type GQLArticle = {
   tags?: Maybe<Array<Scalars["String"]["output"]>>;
   title: Scalars["String"]["output"];
   transformedContent: GQLTransformedArticleContent;
-  transformedDisclaimer?: Maybe<GQLTransformedDisclaimerContent>;
+  transformedDisclaimer: GQLTransformedArticleContent;
   updated: Scalars["String"]["output"];
 };
 
@@ -251,6 +251,10 @@ export type GQLArticleRelatedContentArgs = {
 };
 
 export type GQLArticleTransformedContentArgs = {
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+};
+
+export type GQLArticleTransformedDisclaimerArgs = {
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 };
 
@@ -946,11 +950,11 @@ export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
 export type GQLLearningpathNewInput = {
   copyright: GQLLearningpathCopyrightInput;
   coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
-  description: Scalars["String"]["input"];
-  duration: Scalars["Int"]["input"];
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
-  tags: Array<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
   title: Scalars["String"]["input"];
 };
 
@@ -1926,6 +1930,7 @@ export type GQLQueryGroupSearchArgs = {
   grepCodes?: InputMaybe<Scalars["String"]["input"]>;
   language?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -2041,6 +2046,7 @@ export type GQLQuerySearchArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -2058,6 +2064,7 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
   relevance?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
@@ -2499,11 +2506,6 @@ export type GQLTransformedArticleContentInput = {
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type GQLTransformedDisclaimerContent = {
-  __typename?: "TransformedDisclaimerContent";
-  content: Scalars["String"]["output"];
-};
-
 export type GQLUpdatedFolder = {
   __typename?: "UpdatedFolder";
   name?: Maybe<Scalars["String"]["output"]>;
@@ -2595,7 +2597,7 @@ export type GQLArticle_ArticleFragment = {
       }>;
     };
   };
-  transformedDisclaimer?: { __typename?: "TransformedDisclaimerContent"; content: string };
+  transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
@@ -2663,24 +2665,6 @@ export type GQLLearningpathMenu_LearningpathStepFragment = {
   seqNo: number;
 };
 
-export type GQLLearningpathStepQueryVariables = Exact<{
-  articleId: Scalars["String"]["input"];
-  resourceId: Scalars["String"]["input"];
-  includeResource: Scalars["Boolean"]["input"];
-  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
-}>;
-
-export type GQLLearningpathStepQuery = {
-  __typename?: "Query";
-  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
-  node?: {
-    __typename?: "Node";
-    id: string;
-    url?: string;
-    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-  };
-};
-
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2714,6 +2698,24 @@ export type GQLLearningpathEmbed_LearningpathStepFragment = {
     height: number;
     type: string;
     version: string;
+  };
+};
+
+export type GQLLearningpathStepQueryVariables = Exact<{
+  articleId: Scalars["String"]["input"];
+  resourceId: Scalars["String"]["input"];
+  includeResource: Scalars["Boolean"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLLearningpathStepQuery = {
+  __typename?: "Query";
+  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
+  node?: {
+    __typename?: "Node";
+    id: string;
+    url?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
 

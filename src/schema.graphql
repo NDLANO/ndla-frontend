@@ -207,12 +207,8 @@ type Article {
   tags: [String!]
   title: String!
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+  transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
-  transformedDisclaimer: TransformedDisclaimerContent
-}
-
-type TransformedDisclaimerContent {
-  content: String!
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -841,11 +837,11 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 input LearningpathNewInput {
   copyright: LearningpathCopyrightInput!
   coverPhotoMetaUrl: String
-  description: String!
-  duration: Int!
+  description: String
+  duration: Int
   introduction: String
   language: String!
-  tags: [String!]!
+  tags: [String!]
   title: String!
 }
 
@@ -1363,6 +1359,7 @@ type Query {
     grepCodes: String
     language: String
     levels: String
+    license: String
     page: Int
     pageSize: Int
     query: String
@@ -1409,6 +1406,7 @@ type Query {
     language: String
     languageFilter: String
     levels: String
+    license: String
     page: Int
     pageSize: Int
     query: String
@@ -1425,6 +1423,7 @@ type Query {
     language: String
     languageFilter: String
     levels: String
+    license: String
     query: String
     relevance: String
     resourceTypes: String

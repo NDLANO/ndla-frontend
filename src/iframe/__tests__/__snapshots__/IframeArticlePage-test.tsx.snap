@@ -40,7 +40,40 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           </div>
           <div
             class="d_flex gap_small flex-wrap_wrap ai_center"
-          />
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="dialog"
+              class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.small min-h_large px_xsmall py_4xsmall [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_small [&_svg]:h_small"
+              data-part="trigger"
+              data-scope="dialog"
+              data-state="closed"
+              dir="ltr"
+              id="dialog::r0::trigger"
+              type="button"
+            >
+              Tilgjengelighet
+              <svg
+                aria-hidden="true"
+                class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                data-icon=""
+                data-license="Apache License 2.0"
+                data-source="NDLA"
+                fill="currentColor"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16"
+                />
+                <path
+                  clip-rule="evenodd"
+                  d="M10 4a1.6 1.6 0 0 0 0 3.22c.88 0 1.6-.72 1.6-1.61A1.6 1.6 0 0 0 10 4m4.5 4.06c0-.66-.59-1.25-1.3-1.11l-.98.21a8.6 8.6 0 0 1-2.21.32h-.02a8.6 8.6 0 0 1-2.21-.32c-.3-.07-.63-.15-.98-.21-.71-.14-1.3.45-1.3 1.11 0 .51.36.98.88 1.09.62.17 1.25.33 1.87.48a15 15 0 0 1-.17 2.01 11.8 11.8 0 0 1-.62 1.94l-.34.92c-.22.62.15 1.37.86 1.49a1.1 1.1 0 0 0 1.2-.74l.82-2.43.82 2.43c.17.49.66.82 1.2.74.7-.12 1.08-.87.86-1.5-.1-.3-.22-.61-.34-.9-.25-.66-.49-1.29-.62-1.95a15 15 0 0 1-.17-2 81.8 81.8 0 0 0 1.87-.5c.52-.1.87-.57.88-1.08"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </header>
         <section
           class="ndla-article"
@@ -77,7 +110,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               data-part="root"
               data-scope="accordion"
               dir="ltr"
-              id="accordion::r0:"
+              id="accordion::r1:"
             >
               <div
                 class="w_100%"
@@ -86,23 +119,23 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 data-scope="accordion"
                 data-state="closed"
                 dir="ltr"
-                id="collapsible:accordion::r0::item:rulesForUse"
+                id="collapsible:accordion::r1::item:rulesForUse"
               >
                 <h2
                   class="textStyle_label.medium fw_bold"
                 >
                   <button
-                    aria-controls="accordion::r0::content:rulesForUse"
+                    aria-controls="accordion::r1::content:rulesForUse"
                     aria-disabled="false"
                     aria-expanded="false"
                     class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
                     data-orientation="vertical"
-                    data-ownedby="accordion::r0:"
+                    data-ownedby="accordion::r1:"
                     data-part="item-trigger"
                     data-scope="accordion"
                     data-state="closed"
                     dir="ltr"
-                    id="accordion::r0::trigger:rulesForUse"
+                    id="accordion::r1::trigger:rulesForUse"
                     type="button"
                   >
                     Sitere eller gjenbruke?
@@ -128,7 +161,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   </button>
                 </h2>
                 <div
-                  aria-labelledby="accordion::r0::trigger:rulesForUse"
+                  aria-labelledby="accordion::r1::trigger:rulesForUse"
                   class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in open:motionReduce:anim_none closed:anim_collapse-out closed:motionReduce:anim_none bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
                   data-orientation="vertical"
                   data-part="item-content"
@@ -136,7 +169,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   data-state="closed"
                   dir="ltr"
                   hidden=""
-                  id="accordion::r0::content:rulesForUse"
+                  id="accordion::r1::content:rulesForUse"
                   role="region"
                   style="--height: 0px; --width: 0px;"
                 >
@@ -146,7 +179,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                     data-part="root"
                     data-scope="tabs"
                     dir="ltr"
-                    id="tabs::r2:"
+                    id="tabs::r3:"
                   >
                     <div
                       aria-label="Innholdstyper"
@@ -156,22 +189,22 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                       data-part="list"
                       data-scope="tabs"
                       dir="ltr"
-                      id="tabs::r2::list"
+                      id="tabs::r3::list"
                       role="tablist"
                     >
                       <button
-                        aria-controls="tabs::r2::content-text"
+                        aria-controls="tabs::r3::content-text"
                         aria-selected="true"
                         class="d_inline-flex ai_center jc_center flex-sh_0 cursor_pointer textStyle_label.small fw_bold trs-dur_normal trs-prop_color,_background,_border-color trs-tmf_default white-space_nowrap px_small py_3xsmall z_1 hover:c_text.action hover:bd-c_stroke.hover hover:focusVisible:bd-c_stroke.default selected:c_text.strong disabled:c_text.subtle disabled:cursor_not-allowed disabled:hover:c_text.subtle disabled:hover:bd-c_stroke.default disabled:bd-c_stroke.default motionReduce:trs_none motionReduce:trs-dur_0s bd-c_stroke.default horizontal:bd-b_1px_solid vertical:bd-l_1px_solid vertical:jc_flex-start focusVisible:ring_none focusVisible:bdr_unset peer"
                         data-focus=""
                         data-orientation="horizontal"
-                        data-ownedby="tabs::r2::list"
+                        data-ownedby="tabs::r3::list"
                         data-part="trigger"
                         data-scope="tabs"
                         data-selected=""
                         data-value="text"
                         dir="ltr"
-                        id="tabs::r2::trigger-text"
+                        id="tabs::r3::trigger-text"
                         role="tab"
                         tabindex="0"
                         type="button"
@@ -184,21 +217,21 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         data-part="indicator"
                         data-scope="tabs"
                         dir="ltr"
-                        id="tabs::r2::indicator"
+                        id="tabs::r3::indicator"
                         style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function);"
                       />
                     </div>
                     <div
-                      aria-labelledby="tabs::r2::trigger-text"
+                      aria-labelledby="tabs::r3::trigger-text"
                       class="d_flex flex-d_column ai_flex-start gap_xsmall z_1 horizontal:pbs_xsmall vertical:ps_xsmall focusVisible:ring_none focusVisible:bx-sh_0_0_0_3px_var(--shadow-color) focusVisible:bx-sh-c_stroke.default"
                       data-orientation="horizontal"
-                      data-ownedby="tabs::r2::list"
+                      data-ownedby="tabs::r3::list"
                       data-part="content"
                       data-scope="tabs"
                       data-selected=""
                       data-state="open"
                       dir="ltr"
-                      id="tabs::r2::content-text"
+                      id="tabs::r3::content-text"
                       role="tabpanel"
                       tabindex="0"
                     >
