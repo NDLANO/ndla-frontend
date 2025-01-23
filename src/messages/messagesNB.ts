@@ -71,7 +71,7 @@ const messages = {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv robotene våre",
-      linkText: "Prøv NDLAs prateroboter",
+      linkText: "Prøv NDLAs roboter",
       ingressStudent:
         "Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller lage illustrasjoner? Prøv robotene våre og se om de kan hjelpe deg! I perioder med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotene.",
       ingress:
