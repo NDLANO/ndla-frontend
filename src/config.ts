@@ -158,7 +158,7 @@ const getServerSideConfig = (): ConfigType => {
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
     arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
     arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
+    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
