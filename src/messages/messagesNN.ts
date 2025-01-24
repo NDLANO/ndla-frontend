@@ -70,8 +70,8 @@ const messages = {
   myndla: {
     tagsTitle: "Mine emneknaggar",
     campaignBlock: {
-      title: "Prøv praterobotane våre",
-      linkText: "Prøv praterobotar på NDLA",
+      title: "Prøv robotane våre",
+      linkText: "Prøv robotane våre",
       ingressStudent:
         "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunane tilgangen til robotane.",
       ingress:
