@@ -8,9 +8,18 @@
 
 import { useId } from "react";
 import { transform } from "@ndla/article-converter";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { BaseStepProps, EmbedPageContent } from "./LearningpathStep";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+
+const StyledArticleFooter = styled(ArticleFooter, {
+  base: {
+    "& > :is(:last-child)": {
+      paddingBlockEnd: "xxlarge",
+    },
+  },
+});
 
 interface TextStepProps extends BaseStepProps {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -31,9 +40,9 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: Te
         <ArticleContent>
           {learningpathStep.description ? <section>{transform(learningpathStep.description, {})}</section> : null}
         </ArticleContent>
-        <ArticleFooter>
+        <StyledArticleFooter>
           <ArticleByline authors={learningpath.copyright.contributors} />
-        </ArticleFooter>
+        </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
   );

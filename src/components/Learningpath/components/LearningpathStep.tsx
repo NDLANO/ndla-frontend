@@ -123,7 +123,7 @@ export const LearningpathStep = ({
           skipToContentId={skipToContentId}
         >
           <LastLearningpathStepInfo
-            seqNo={learningpathStep.seqNo}
+            seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
             numberOfLearningSteps={learningpath.learningsteps.length - 1}
             title={learningpath.title}
             resource={resource}

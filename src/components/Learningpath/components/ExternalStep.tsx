@@ -8,9 +8,18 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { BaseStepProps, EmbedPageContent } from "./LearningpathStep";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+
+const StyledArticleFooter = styled(ArticleFooter, {
+  base: {
+    "& > :is(:last-child)": {
+      paddingBlockEnd: "xxlarge",
+    },
+  },
+});
 
 interface Props extends BaseStepProps {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -38,9 +47,9 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
             />
           </section>
         </ArticleContent>
-        <ArticleFooter>
+        <StyledArticleFooter>
           <ArticleByline authors={learningpath.copyright.contributors} />
-        </ArticleFooter>
+        </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
   );
