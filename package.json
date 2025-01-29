@@ -44,7 +44,7 @@
     "@graphql-eslint/eslint-plugin": "^4.3.0",
     "@ndla/preset-panda": "^0.0.49",
     "@ndla/scripts": "^2.1.7",
-    "@ndla/types-backend": "^1.0.5",
+    "@ndla/types-backend": "^1.0.17",
     "@ndla/types-embed": "^5.0.9-alpha.0",
     "@ndla/types-taxonomy": "^1.0.34",
     "@pandacss/dev": "^0.48.0",

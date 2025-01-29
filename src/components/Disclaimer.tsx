@@ -19,11 +19,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
-import { GQLTransformedDisclaimerContent } from "../graphqlTypes";
+import { GQLTransformedArticleContent } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
-  disclaimer: GQLTransformedDisclaimerContent;
+  disclaimer: GQLTransformedArticleContent;
 }
 
 const Disclaimer = ({ disclaimer }: Props) => {

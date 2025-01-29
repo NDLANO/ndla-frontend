@@ -101,6 +101,23 @@ const messages = {
       reported: "Content reported",
       error: "An error occured",
       userUpdated: "User updated",
+      accept: {
+        success: "You now have access to the arena",
+        error: "Failed to accept the terms.",
+        title: "Welcome to the arena",
+        pitch1: "Here you can discuss and collaborate with teachers throughout Norway.",
+        pitch2:
+          "In the arena we are going to share and inspire each other - just remember to respect privacy and ensure that all content is legal!",
+        listTitle: "In summary:",
+        list1: "Don't share your own or others personally sensitive information",
+        list2: "Make sure that what you are sharing is legal to share.",
+        list3: "If you share content you have written yourself, others can reshare it as long as they quote you.",
+        terms: "Read more in our terms of service.",
+        privacyPolicy:
+          "When you create a user in the NDLA Arena, we will process your personally sensitive information. You can read more about our usage of personally sensitive information in ",
+        privacyPolicyLink: "our privacy policy",
+        acceptButton: "Accept",
+      },
     },
     goToMyNdla: "Go to My NDLA",
     learningpath: {

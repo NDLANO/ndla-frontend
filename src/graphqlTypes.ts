@@ -238,7 +238,7 @@ export type GQLArticle = {
   tags?: Maybe<Array<Scalars["String"]["output"]>>;
   title: Scalars["String"]["output"];
   transformedContent: GQLTransformedArticleContent;
-  transformedDisclaimer?: Maybe<GQLTransformedDisclaimerContent>;
+  transformedDisclaimer: GQLTransformedArticleContent;
   updated: Scalars["String"]["output"];
 };
 
@@ -251,6 +251,10 @@ export type GQLArticleRelatedContentArgs = {
 };
 
 export type GQLArticleTransformedContentArgs = {
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+};
+
+export type GQLArticleTransformedDisclaimerArgs = {
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 };
 
@@ -1429,6 +1433,7 @@ export type GQLMutationUpdateOtherArenaUserArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
+  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
@@ -1510,6 +1515,7 @@ export type GQLMyNdlaLearningpathStepResourceArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: "MyNdlaPersonalData";
+  arenaAccepted: Scalars["Boolean"]["output"];
   arenaEnabled: Scalars["Boolean"]["output"];
   arenaGroups: Array<Scalars["String"]["output"]>;
   displayName: Scalars["String"]["output"];
@@ -1926,6 +1932,7 @@ export type GQLQueryGroupSearchArgs = {
   grepCodes?: InputMaybe<Scalars["String"]["input"]>;
   language?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -2041,6 +2048,7 @@ export type GQLQuerySearchArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -2058,6 +2066,7 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
   relevance?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
@@ -2499,11 +2508,6 @@ export type GQLTransformedArticleContentInput = {
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type GQLTransformedDisclaimerContent = {
-  __typename?: "TransformedDisclaimerContent";
-  content: Scalars["String"]["output"];
-};
-
 export type GQLUpdatedFolder = {
   __typename?: "UpdatedFolder";
   name?: Maybe<Scalars["String"]["output"]>;
@@ -2595,7 +2599,7 @@ export type GQLArticle_ArticleFragment = {
       }>;
     };
   };
-  transformedDisclaimer?: { __typename?: "TransformedDisclaimerContent"; content: string };
+  transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
 } & GQLLicenseBox_ArticleFragment;
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
@@ -2608,6 +2612,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  arenaAccepted: boolean;
   arenaGroups: Array<string>;
   shareName: boolean;
   groups: Array<{
@@ -4634,12 +4639,14 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  arenaAccepted: boolean;
   shareName: boolean;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
+  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {
