@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import {
   Button,
   FieldErrorMessage,
-  FieldHelper,
   FieldLabel,
   FieldRoot,
   RadioGroupItem,
@@ -80,7 +79,6 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
           render={({ field, fieldState }) => (
             <FieldRoot required>
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
-              <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
                 onValueChange={(details) => reset(getValuesFromStep(details.value as FormType, step))}

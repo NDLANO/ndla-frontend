@@ -10,7 +10,7 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
-import { Button, Heading, Spinner, Text } from "@ndla/primitives";
+import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -99,7 +99,6 @@ export const EditLearningpathStepsPage = () => {
         <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
-        <Text textStyle="body.large">{t("myNdla.learningpath.form.content.subTitle")}</Text>
         <StyledOl>
           {data.myNdlaLearningpath.learningsteps.map((step) => (
             <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id ?? -1} step={step} key={step.id} />

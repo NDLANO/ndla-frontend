@@ -125,7 +125,6 @@ const messages = {
         },
         content: {
           title: "Append content",
-          subTitle: "Append content to the learningpath",
           resource: {
             label: "Article from NDLA",
             labelHelper: "Search for an article or paste a link",
