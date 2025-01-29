@@ -141,7 +141,6 @@ const messages = {
         },
         content: {
           title: "Legg til innhold",
-          subTitle: "Legg til innhold til læringsstien",
           resource: {
             label: "Artikkel fra NDLA",
             labelHelper: "Søk etter artikkel eller lim inn en lenke",
