@@ -171,6 +171,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
 
+  const currentIndex = learningpath.learningsteps.findIndex((step) => step.id === currentStep.id);
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
@@ -206,7 +207,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
                     ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
                     : toLearningPath(learningpath.id, step.id, resourcePath)
                 }
-                aria-current={index === currentStep.seqNo ? "page" : undefined}
+                aria-current={index === currentIndex ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
@@ -217,7 +218,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
                     aria-hidden
                     context={context}
                   >
-                    {viewedSteps[step.id] && index !== currentStep.seqNo ? <CheckLine size="small" /> : index + 1}
+                    {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + 1}
                   </StepIndicator>
                 </StepIndicatorWrapper>
                 <span data-link-text="">{step.title}</span>

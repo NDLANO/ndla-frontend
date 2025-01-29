@@ -43,7 +43,6 @@ export const NewLearningpathPage = () => {
         params: {
           language: i18n.language,
           coverPhotoMetaUrl: imageUrl,
-          description: "",
           title: title,
           copyright: {
             license: {

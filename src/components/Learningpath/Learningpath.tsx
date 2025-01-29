@@ -191,8 +191,9 @@ const Learningpath = ({
   const [accordionValue, setAccordionValue] = useState<string[]>();
   const accordionRef = useRef<HTMLDivElement>(null);
 
-  const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
-  const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
+  const index = learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id);
+  const previousStep = learningpath.learningsteps[index - 1];
+  const nextStep = learningpath.learningsteps[index + 1];
 
   const menu = useMemo(
     () => (
