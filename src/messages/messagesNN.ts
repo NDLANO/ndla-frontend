@@ -101,6 +101,23 @@ const messages = {
       reported: "Innhald rapportert",
       error: "Ein feil oppstod",
       userUpdated: "Brukar oppdatert",
+      accept: {
+        success: "Du har no tilgang til Arena",
+        error: "Klarte ikkje å godta vilkåra.",
+        title: "Velkommen til arenaen",
+        pitch1: "Her kan du diskutere og samarbeide med lærarar frå heile Noreg.",
+        pitch2:
+          "Her inne skal vi dele og inspirere kvarandre - berre hugs å respektere personvern og sørg for at alt innhald er lovleg!",
+        listTitle: "Kort oppsummert:",
+        list1: "Ikkje del eigne eller andres personvernopplysingar",
+        list2: "Sørg for at det du deler er lovleg å dele.",
+        list3: "Om du deler innhald du har skrive sjølv kan andre dele det vidare, så lenge dei siterer deg.",
+        terms: "Les meir i våre brukervilkår.",
+        privacyPolicy:
+          "Når du opprettar ein bruker i NDLA Arena, vil vi behandle dine personopplysingar. Du kan lese meir om vår handsaming av personvernopplysingar i ",
+        privacyPolicyLink: "vår personvernerklæring.",
+        acceptButton: "Godta",
+      },
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {

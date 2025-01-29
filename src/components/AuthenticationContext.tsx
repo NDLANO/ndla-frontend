@@ -57,6 +57,7 @@ export const personalDataQueryFragment = gql`
     favoriteSubjects
     role
     arenaEnabled
+    arenaAccepted
     arenaGroups
     shareName
   }
