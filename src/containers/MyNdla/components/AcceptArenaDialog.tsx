@@ -66,7 +66,7 @@ export const AcceptArenaDialog = ({ children }: Props) => {
             <li>{t("myNdla.arena.accept.list3")}</li>
           </UnOrderedList>
           {/* TODO: actual link */}
-          <SafeLink to="https://example.com">{t("myNdla.arena.accept.terms")}</SafeLink>
+          <SafeLink to="https://ndla.no/article/vilkr-for-bruk">{t("myNdla.arena.accept.terms")}</SafeLink>
           <Text>
             {t("myNdla.arena.accept.privacyPolicy")}
             <SafeLink to="https://ndla.no/article/personvernerklaering" target="_blank">
