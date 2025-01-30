@@ -1077,7 +1077,7 @@ type Mutation {
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
-  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
+  updatePersonalData(arenaAccepted: Boolean, favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
   updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
@@ -1132,6 +1132,7 @@ type MyNdlaLearningpathStep {
 }
 
 type MyNdlaPersonalData {
+  arenaAccepted: Boolean!
   arenaEnabled: Boolean!
   arenaGroups: [String!]!
   displayName: String!

@@ -71,7 +71,7 @@ const messages = {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv robotene våre",
-      linkText: "Prøv NDLAs prateroboter",
+      linkText: "Prøv NDLAs roboter",
       ingressStudent:
         "Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller lage illustrasjoner? Prøv robotene våre og se om de kan hjelpe deg! I perioder med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotene.",
       ingress:
@@ -101,6 +101,23 @@ const messages = {
       reported: "Innhold rapportert",
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
+      accept: {
+        success: "Du har nå tilgang til Arena",
+        error: "Klarte ikke å godta vilkårene.",
+        title: "Velkommen til arenaen",
+        pitch1: "Her kan du diskutere og samarbeide med lærere fra hele Norge.",
+        pitch2:
+          "Her inne skal vi dele og inspirere hverandre - bare husk å respektere personvern og sørg for at alt innhold er lovlig!",
+        listTitle: "Kort oppsummert:",
+        list1: "Ikke del egne eller andres personvernopplysninger",
+        list2: "Sørg for at det du deler er lovlig å dele.",
+        list3: "Hvis du deler innhold du har skrevet selv kan andre dele det videre, så lenge de siterer deg.",
+        terms: "Les mer i våre brukervilkår.",
+        privacyPolicy:
+          "Når du oppretter en bruker i NDLA Arena, vil vi behandle dine personopplysninger. Du kan lese mer om vår behandling av personopplysninger i ",
+        privacyPolicyLink: "vår personvernerklæring.",
+        acceptButton: "Godta",
+      },
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {
@@ -125,7 +142,6 @@ const messages = {
         },
         content: {
           title: "Legg til innhold",
-          subTitle: "Legg til innhold til læringsstien",
           resource: {
             label: "Artikkel fra NDLA",
             labelHelper: "Søk etter artikkel eller lim inn en lenke",

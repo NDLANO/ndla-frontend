@@ -1433,6 +1433,7 @@ export type GQLMutationUpdateOtherArenaUserArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
+  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
   shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
@@ -1514,6 +1515,7 @@ export type GQLMyNdlaLearningpathStepResourceArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: "MyNdlaPersonalData";
+  arenaAccepted: Scalars["Boolean"]["output"];
   arenaEnabled: Scalars["Boolean"]["output"];
   arenaGroups: Array<Scalars["String"]["output"]>;
   displayName: Scalars["String"]["output"];
@@ -2610,6 +2612,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  arenaAccepted: boolean;
   arenaGroups: Array<string>;
   shareName: boolean;
   groups: Array<{
@@ -4636,12 +4639,14 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
+  arenaAccepted: boolean;
   shareName: boolean;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   shareName?: InputMaybe<Scalars["Boolean"]["input"]>;
+  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {

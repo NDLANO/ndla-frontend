@@ -19,8 +19,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
-import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLTransformedArticleContent } from "../graphqlTypes";
+import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
   disclaimer: GQLTransformedArticleContent;

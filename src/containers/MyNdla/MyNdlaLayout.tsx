@@ -36,6 +36,8 @@ import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationCont
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
 import { routes } from "../../routeHelpers";
+import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
+import { MyNdlaButton } from "./components/MyNdlaButton";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {
@@ -116,6 +118,12 @@ const StyledSideBar = styled("div", {
   },
 });
 
+const StyledMyNdlaButton = styled(MyNdlaButton, {
+  base: {
+    width: "100%",
+  },
+});
+
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { user, examLock } = useContext(AuthContext);
@@ -151,7 +159,21 @@ const MyNdlaLayout = () => {
       <DialogRoot key={location.pathname} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
-            <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
+            <StyledNavList data-testid="my-ndla-menu">
+              {menuLink}
+              {!!user?.arenaEnabled && !!config.externalArena && !user?.arenaAccepted && (
+                <AcceptArenaDialog>
+                  <StyledLi>
+                    <DialogTrigger asChild>
+                      <StyledMyNdlaButton>
+                        <ForumOutlined />
+                        {t("myNdla.arena.title")}
+                      </StyledMyNdlaButton>
+                    </DialogTrigger>
+                  </StyledLi>
+                </AcceptArenaDialog>
+              )}
+            </StyledNavList>
           </nav>
           <DialogTrigger asChild>
             <MoreButton variant="tertiary">
@@ -227,7 +249,7 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
-    shownForUser: (user) => !!user?.arenaEnabled,
+    shownForUser: (user) => !!user?.arenaEnabled && !!user?.arenaAccepted,
   },
   {
     id: "admin",
