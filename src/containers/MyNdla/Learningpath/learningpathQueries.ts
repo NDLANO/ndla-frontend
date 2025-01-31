@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, QueryHookOptions, useQuery } from "@apollo/client";
+import { gql, QueryHookOptions, useLazyQuery, useQuery } from "@apollo/client";
 import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
@@ -67,4 +67,4 @@ const opengraphQuery = gql`
 `;
 
 export const useFetchOpengraph = (options?: QueryHookOptions<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
-  useQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);
+  useLazyQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);

@@ -282,6 +282,7 @@ const messages = {
     notUnique: "Finst allereie",
     maxLength: "Dette feltet kan innehalde maks {{count}} teikn",
     maxLengthField: "$t(validation.fields.{{field}}) kan innehalde maks {{count}} teikn",
+    properUrl: "Dette feltet kan berre innehalde ein ekte lenke.",
   },
   lti: {
     goBack: "Tilbake til LTI-søk",
