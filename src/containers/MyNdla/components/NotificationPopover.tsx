@@ -13,6 +13,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import NotificationBellButton from "./NotificationButton";
 import NotificationList from "./NotificationList";
+import config from "../../../config";
 import { routes } from "../../../routeHelpers";
 import {
   useArenaMarkNotificationsAsRead,
@@ -39,7 +40,7 @@ const TitleWrapper = styled("div", {
 });
 
 const NotificationPopover = () => {
-  const { notifications } = useTemporaryArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications(config.externalArena);
   const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
