@@ -43,6 +43,8 @@ const CopyrightText = styled(Text, {
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
+const URL_REGEX =
+  /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
 
 export interface ExternalFormValues {
   type: "external";
@@ -55,24 +57,24 @@ export interface ExternalFormValues {
 export const ExternalForm = () => {
   const { t } = useTranslation();
   const { control, setValue, watch } = useFormContext<ExternalFormValues>();
-  const { refetch } = useFetchOpengraph({ skip: true });
+  const [fetchOpengraph] = useFetchOpengraph({ skip: true });
   const { validationT } = useValidationTranslation();
 
   useEffect(() => {
     const { unsubscribe } = watch(async ({ url, title, introduction }, { name }) => {
       if (name === "url" && url?.length && url?.length > 0 && (!title || !introduction)) {
-        const { data } = await refetch({ url });
+        const { data } = await fetchOpengraph({ variables: { url } });
         if (!title) {
-          setValue("title", data.opengraph?.title ?? "");
+          setValue("title", data?.opengraph?.title ?? "");
         }
         if (!introduction) {
-          setValue("introduction", data.opengraph?.description ?? "");
+          setValue("introduction", data?.opengraph?.description ?? "");
         }
         setValue("shareable", false);
       }
     });
     return () => unsubscribe();
-  }, [refetch, setValue, watch]);
+  }, [fetchOpengraph, setValue, watch]);
 
   return (
     <>
@@ -138,6 +140,7 @@ export const ExternalForm = () => {
             type: "required",
             field: "url",
           }),
+          validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>

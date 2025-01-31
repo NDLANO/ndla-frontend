@@ -279,6 +279,7 @@ const messages = {
     notUnique: "Gávdno juo",
     maxLength: "Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat",
     maxLengthField: "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",
+    properUrl: "Dette feltet kan kun innholde en ekte lenke.",
   },
   resourcepageTitles: {
     video: "Video",

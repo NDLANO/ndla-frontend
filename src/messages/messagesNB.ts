@@ -282,6 +282,7 @@ const messages = {
     notUnique: "Finnes allerede",
     maxLength: "Dette feltet kan inneholde maks {{count}} tegn",
     maxLengthField: "$t(validation.fields.{{field}}) kan innholde maks {{count}} tegn",
+    properUrl: "Dette feltet kan kun innholde en ekte lenke.",
   },
   lti: {
     goBack: "Tilbake til LTI-søk",

@@ -66,6 +66,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
+    mode: "onSubmit",
     defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
   const { handleSubmit, control, reset, formState } = methods;
