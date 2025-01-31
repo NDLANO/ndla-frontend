@@ -12,6 +12,7 @@ import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { useArenaMarkNotificationsAsRead, useTemporaryArenaNotifications } from "./components/temporaryNodebbHooks";
+import config from "../../../config";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import MyNdlaTitle from "../components/MyNdlaTitle";
@@ -35,7 +36,7 @@ const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
 
 const ArenaNotificationPage = () => {
   const { t } = useTranslation();
-  const { notifications } = useTemporaryArenaNotifications();
+  const { notifications } = useTemporaryArenaNotifications(config.externalArena);
   const { markNotificationsAsRead } = useArenaMarkNotificationsAsRead();
 
   const markAllRead = useCallback(async () => {
