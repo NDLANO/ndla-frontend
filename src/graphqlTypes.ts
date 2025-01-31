@@ -2659,7 +2659,7 @@ export type GQLLearningpathMenu_LearningpathFragment = {
     license: { __typename?: "License"; license: string };
     contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
   };
-  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string }>;
+  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string; seqNo: number }>;
 };
 
 export type GQLLearningpathMenu_LearningpathStepFragment = {

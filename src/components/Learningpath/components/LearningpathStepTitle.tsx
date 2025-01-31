@@ -13,9 +13,7 @@ import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { BaseStepProps, EmbedPageContent } from "./LearningpathStep";
 
-interface DescriptionStepProps extends BaseStepProps {}
-
-export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: DescriptionStepProps) => {
+export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: BaseStepProps) => {
   const { i18n } = useTranslation();
   return learningpathStep.showTitle || learningpathStep.description ? (
     <EmbedPageContent variant="content">

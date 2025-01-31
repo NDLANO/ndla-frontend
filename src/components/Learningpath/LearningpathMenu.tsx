@@ -14,16 +14,13 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
 import { LearningpathContext } from "./learningpathUtils";
-import {
-  GQLLearningpathMenu_LearningpathFragment,
-  GQLLearningpathMenu_LearningpathStepFragment,
-} from "../../graphqlTypes";
+import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 
 interface Props {
   resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
-  currentStep: GQLLearningpathMenu_LearningpathStepFragment;
+  currentIndex: number;
   context?: LearningpathContext;
 }
 
@@ -167,11 +164,11 @@ const ListItem = styled("li", {
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
 
-  const currentIndex = learningpath.learningsteps.findIndex((step) => step.id === currentStep.id);
+  const currentStep = learningpath.learningsteps[currentIndex];
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
@@ -192,7 +189,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
   useEffect(() => {
     updateViewedSteps();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep.id]);
+  }, [currentStep?.id]);
 
   return (
     <>
@@ -254,6 +251,7 @@ LearningpathMenu.fragments = {
       learningsteps {
         id
         title
+        seqNo
       }
     }
   `,

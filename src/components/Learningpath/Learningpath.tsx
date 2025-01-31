@@ -200,11 +200,11 @@ const Learningpath = ({
       <LearningpathMenu
         resourcePath={resourcePath}
         learningpath={learningpath}
-        currentStep={learningpathStep}
+        currentIndex={index}
         context={context}
       />
     ),
-    [context, learningpath, learningpathStep, resourcePath],
+    [context, index, learningpath, resourcePath],
   );
   const parents = resource?.context?.parents || [];
   const root = parents[0];
