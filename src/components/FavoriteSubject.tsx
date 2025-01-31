@@ -62,7 +62,7 @@ const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) => {
     }
     const newFavorites = favorites?.filter((favorite) => favorite !== node.id);
     await updatePersonalData({
-      variables: { favoriteSubjects: newFavorites, shareName: undefined },
+      variables: { favoriteSubjects: newFavorites },
     });
     setShowDeleteModal(false);
     toast.create({

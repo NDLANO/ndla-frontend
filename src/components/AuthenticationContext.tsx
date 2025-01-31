@@ -59,7 +59,6 @@ export const personalDataQueryFragment = gql`
     arenaEnabled
     arenaAccepted
     arenaGroups
-    shareName
   }
 `;
 

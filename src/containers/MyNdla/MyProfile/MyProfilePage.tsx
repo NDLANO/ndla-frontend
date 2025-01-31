@@ -25,7 +25,6 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -61,6 +60,15 @@ const HeadingWrapper = styled("div", {
   },
 });
 
+const DisclaimerContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    maxWidth: "surface.xlarge",
+  },
+});
+
 const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
@@ -92,7 +100,14 @@ const MyProfilePage = () => {
           primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
         }}
       />
-      {!!user && <MyPreferences user={user} />}
+      {!!user && (
+        <DisclaimerContainer>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
+          </Heading>
+          <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
+        </DisclaimerContainer>
+      )}
       <InfoContainer>
         {!!user && (
           <>

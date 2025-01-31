@@ -173,7 +173,6 @@ input ArenaUserV2Input {
   arenaEnabled: Boolean
   arenaGroups: [String!]
   favoriteSubjects: [String!]
-  shareName: Boolean
 }
 
 type Article {
@@ -1077,7 +1076,7 @@ type Mutation {
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
-  updatePersonalData(arenaAccepted: Boolean, favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
+  updatePersonalData(arenaAccepted: Boolean, favoriteSubjects: [String]): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
   updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
@@ -1143,7 +1142,6 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
-  shareName: Boolean!
   username: String!
 }
 
