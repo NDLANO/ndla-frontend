@@ -94,6 +94,9 @@ const messages = {
       resourceRemovedTitle: "Resource not available",
     },
     arena: {
+      admin: {
+        title: "The arena",
+      },
       notification: {
         description:
           "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",

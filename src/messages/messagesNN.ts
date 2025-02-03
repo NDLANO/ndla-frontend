@@ -94,6 +94,9 @@ const messages = {
       resourceRemovedTitle: "Ressurs ikkje tilgjengeleg",
     },
     arena: {
+      admin: {
+        title: "Arenaen",
+      },
       notification: {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
