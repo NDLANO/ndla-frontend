@@ -13,6 +13,7 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
 import { LearningpathList } from "./components/LearningpathList";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { RichTextEditor } from "../../../components/RichTextEditor/RichTextEditor";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
@@ -34,6 +35,9 @@ const LearningpathPage = () => {
         {t("myNdla.learningpath.title")}
       </Heading>
       <Text>{t("myNdla.learningpath.description")}</Text>
+      <RichTextEditor
+        initialValue={[{ type: "section", children: [{ type: "paragraph", children: [{ text: "" }] }] }]}
+      />
       <LearningpathList />
     </MyNdlaPageWrapper>
   );
