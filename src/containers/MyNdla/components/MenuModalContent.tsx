@@ -19,6 +19,7 @@ import { BellIcon } from "./NotificationButton";
 import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import config from "../../../config";
 import { routes } from "../../../routeHelpers";
 import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { menuLinks } from "../MyNdlaLayout";
@@ -87,7 +88,7 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const location = useLocation();
   const { setOpen } = useDialogContext();
   const { user } = useContext(AuthContext);
-  const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
+  const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled || config.externalArena);
   const links = useMemo(
     () =>
       menuLinks(t, location, user).map(

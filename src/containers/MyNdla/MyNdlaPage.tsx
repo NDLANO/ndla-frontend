@@ -76,7 +76,7 @@ const MyNdlaPage = () => {
     skip: !user?.favoriteSubjects.length,
   });
   const { allFolderResources } = useRecentlyUsedResources(!authenticated);
-  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
+  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled || config.externalArena, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,

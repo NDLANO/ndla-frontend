@@ -185,7 +185,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         data-scope="tabs"
                         dir="ltr"
                         id="tabs::r2::indicator"
-                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function);"
+                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function); left: var(--left);"
                       />
                     </div>
                     <div
