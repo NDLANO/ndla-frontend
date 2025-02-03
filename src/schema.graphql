@@ -837,11 +837,11 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 input LearningpathNewInput {
   copyright: LearningpathCopyrightInput!
   coverPhotoMetaUrl: String
-  description: String!
-  duration: Int!
+  description: String
+  duration: Int
   introduction: String
   language: String!
-  tags: [String!]!
+  tags: [String!]
   title: String!
 }
 

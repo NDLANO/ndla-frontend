@@ -14,16 +14,13 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
 import { LearningpathContext } from "./learningpathUtils";
-import {
-  GQLLearningpathMenu_LearningpathFragment,
-  GQLLearningpathMenu_LearningpathStepFragment,
-} from "../../graphqlTypes";
+import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 
 interface Props {
   resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
-  currentStep: GQLLearningpathMenu_LearningpathStepFragment;
+  currentIndex: number;
   context?: LearningpathContext;
 }
 
@@ -167,10 +164,11 @@ const ListItem = styled("li", {
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t } = useTranslation();
 
+  const currentStep = learningpath.learningsteps[currentIndex];
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
@@ -191,7 +189,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
   useEffect(() => {
     updateViewedSteps();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep.id]);
+  }, [currentStep?.id]);
 
   return (
     <>
@@ -206,7 +204,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
                     ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
                     : toLearningPath(learningpath.id, step.id, resourcePath)
                 }
-                aria-current={index === currentStep.seqNo ? "page" : undefined}
+                aria-current={index === currentIndex ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
@@ -217,7 +215,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep, context }: 
                     aria-hidden
                     context={context}
                   >
-                    {viewedSteps[step.id] && index !== currentStep.seqNo ? <CheckLine size="small" /> : index + 1}
+                    {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + 1}
                   </StepIndicator>
                 </StepIndicatorWrapper>
                 <span data-link-text="">{step.title}</span>
@@ -253,6 +251,7 @@ LearningpathMenu.fragments = {
       learningsteps {
         id
         title
+        seqNo
       }
     }
   `,

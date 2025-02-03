@@ -950,11 +950,11 @@ export type GQLLearningpathFolderResourceMeta = GQLFolderResourceMeta & {
 export type GQLLearningpathNewInput = {
   copyright: GQLLearningpathCopyrightInput;
   coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
-  description: Scalars["String"]["input"];
-  duration: Scalars["Int"]["input"];
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
-  tags: Array<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
   title: Scalars["String"]["input"];
 };
 
@@ -2649,6 +2649,25 @@ export type GQLLearningpath_LearningpathFragment = {
   __typename?: "Learningpath";
 } & GQLLearningpathMenu_LearningpathFragment;
 
+export type GQLLearningpathMenu_LearningpathFragment = {
+  __typename?: "Learningpath";
+  id: number;
+  title: string;
+  lastUpdated: string;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string; seqNo: number }>;
+};
+
+export type GQLLearningpathMenu_LearningpathStepFragment = {
+  __typename?: "LearningpathStep";
+  id: number;
+  seqNo: number;
+};
+
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2701,25 +2720,6 @@ export type GQLLearningpathStepQuery = {
     url?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
-};
-
-export type GQLLearningpathMenu_LearningpathFragment = {
-  __typename?: "Learningpath";
-  id: number;
-  title: string;
-  lastUpdated: string;
-  copyright: {
-    __typename?: "LearningpathCopyright";
-    license: { __typename?: "License"; license: string };
-    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
-  };
-  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string }>;
-};
-
-export type GQLLearningpathMenu_LearningpathStepFragment = {
-  __typename?: "LearningpathStep";
-  id: number;
-  seqNo: number;
 };
 
 export type GQLSubjectLinks_SubjectPageFragment = {

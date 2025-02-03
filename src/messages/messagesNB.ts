@@ -364,6 +364,9 @@ const messages = {
     accordionTitle: "Innhold i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
+    externalWarning:
+      "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
+    externalLink: "Åpne i nytt vindu",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
