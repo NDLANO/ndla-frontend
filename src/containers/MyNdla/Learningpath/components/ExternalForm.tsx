@@ -25,6 +25,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { URL_REGEX } from "../../../../util/urlHelper";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
 import { useFetchOpengraph } from "../learningpathQueries";
@@ -43,15 +44,6 @@ const CopyrightText = styled(Text, {
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
-
-const isValidURL = (url: string) => {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-};
 
 export interface ExternalFormValues {
   type: "external";
@@ -147,7 +139,7 @@ export const ExternalForm = () => {
             type: "required",
             field: "url",
           }),
-          validate: (value) => isValidURL(value) || t("validation.properUrl"),
+          validate: (value) => value.match(URL_REGEX) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>
