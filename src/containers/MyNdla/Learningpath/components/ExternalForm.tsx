@@ -43,8 +43,15 @@ const CopyrightText = styled(Text, {
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
-const URL_REGEX =
-  /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+const isValidURL = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 export interface ExternalFormValues {
   type: "external";
@@ -140,7 +147,7 @@ export const ExternalForm = () => {
             type: "required",
             field: "url",
           }),
-          validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
+          validate: (value) => isValidURL(value) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>

@@ -284,7 +284,7 @@ const messages = {
     notUnique: "Already exists",
     maxLength: "This field can only contain {{count}} characters",
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
-    properUrl: "This field can only contain a valid link.",
+    properUrl: "This field can only contain a valid link. E.g: https://ndla.no",
   },
   lti: {
     goBack: "Go back to LTI search",
