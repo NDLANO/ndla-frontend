@@ -94,6 +94,9 @@ const messages = {
       resourceRemovedTitle: "Resource not available",
     },
     arena: {
+      admin: {
+        title: "The arena",
+      },
       notification: {
         description:
           "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",
@@ -361,6 +364,9 @@ const messages = {
     accordionTitle: "Learning path content",
     learningsteps: "Steps",
     stepCompleted: "Completed",
+    externalWarning:
+      "This learning path has been developed by an external teacher, who holds the editorial responsibility. Please note that it may contain texts and links that do not originate from ndla.no.",
+    externalLink: "Open in a new window",
   },
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",

@@ -94,6 +94,9 @@ const messages = {
       resourceRemovedTitle: "Ressurs ikkje tilgjengeleg",
     },
     arena: {
+      admin: {
+        title: "Arenaen",
+      },
       notification: {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
@@ -362,6 +365,9 @@ const messages = {
     accordionTitle: "Innhald i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
+    externalWarning:
+      "Denne læringsstien er utarbeidd av ein ekstern lærar, som har det redaksjonelle ansvaret. Ver merksam på at ho kan innehalde tekstar og lenkjer som ikkje kjem frå ndla.no.",
+    externalLink: "Åpne i nytt vindauge",
   },
   movedResourcePage: {
     title: "Sida har flytta, men du finn ho her:",

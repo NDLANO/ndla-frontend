@@ -134,7 +134,7 @@ router.get("/login/success", async (req, res) => {
       },
     });
     const userInfo = await resolveJsonOrRejectWithError<IMyNDLAUserDTO>(response);
-    if (userInfo && userInfo.arenaEnabled && userInfo.arenaAccepted) {
+    if (userInfo && userInfo.arenaEnabled) {
       const nodebbUser = {
         id: userInfo.feideId,
         username: userInfo.username?.replace(usernameSanitizerRegexp, "-"),
