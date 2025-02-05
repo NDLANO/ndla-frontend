@@ -25,6 +25,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { URL_REGEX } from "../../../../util/urlHelper";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
 import { useFetchOpengraph } from "../learningpathQueries";
@@ -55,24 +56,24 @@ export interface ExternalFormValues {
 export const ExternalForm = () => {
   const { t } = useTranslation();
   const { control, setValue, watch } = useFormContext<ExternalFormValues>();
-  const { refetch } = useFetchOpengraph({ skip: true });
+  const [fetchOpengraph] = useFetchOpengraph({ skip: true });
   const { validationT } = useValidationTranslation();
 
   useEffect(() => {
     const { unsubscribe } = watch(async ({ url, title, introduction }, { name }) => {
       if (name === "url" && url?.length && url?.length > 0 && (!title || !introduction)) {
-        const { data } = await refetch({ url });
+        const { data } = await fetchOpengraph({ variables: { url } });
         if (!title) {
-          setValue("title", data.opengraph?.title ?? "");
+          setValue("title", data?.opengraph?.title ?? "");
         }
         if (!introduction) {
-          setValue("introduction", data.opengraph?.description ?? "");
+          setValue("introduction", data?.opengraph?.description ?? "");
         }
         setValue("shareable", false);
       }
     });
     return () => unsubscribe();
-  }, [refetch, setValue, watch]);
+  }, [fetchOpengraph, setValue, watch]);
 
   return (
     <>
@@ -138,6 +139,7 @@ export const ExternalForm = () => {
             type: "required",
             field: "url",
           }),
+          validate: (value) => value.match(URL_REGEX) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>
