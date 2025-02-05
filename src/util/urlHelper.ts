@@ -119,4 +119,4 @@ export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path"
 export const isValidContextId = (id?: string) => validContextIdRegExp.test(id ?? "");
 
 export const URL_REGEX =
-  /^((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
+  /^((https:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/;
