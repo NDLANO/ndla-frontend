@@ -511,7 +511,6 @@ type EditorNote {
 }
 
 type Element {
-  explanation: [String]!
   reference: Reference!
 }
 
@@ -804,6 +803,16 @@ type Learningpath {
   verificationStatus: String!
 }
 
+input LearningpathCopyInput {
+  copyright: LearningpathCopyrightInput
+  coverPhotoMetaUrl: String
+  description: String
+  duration: Int
+  language: String!
+  tags: [String!]
+  title: String!
+}
+
 type LearningpathCopyright {
   contributors: [Contributor!]!
   license: License!
@@ -1005,6 +1014,7 @@ type Mutation {
   ): FolderResource!
   addPostUpvote(postId: Int!): Int!
   addPostUpvoteV2(postId: Int!): Int!
+  copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!

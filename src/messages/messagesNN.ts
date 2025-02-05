@@ -263,6 +263,14 @@ const messages = {
         pageDescription: "Sjå gjennom læringsstien du har laga.",
         noSteps: "Du har ikkje lagt til nokon steg i læringsstien enno.",
       },
+      copy: {
+        title: "Kopier læringssti",
+        description:
+          "Ved å kopiere læringsstien vil ein identisk kopi av denne læringsstien bli lagt til lista over dine læringsstiar.",
+        button: "Kopier til mine læringsstiar",
+        success: "Læringsstien er kopiert",
+        error: "Noko gjekk gale ved kopiering av læringsstien",
+      },
     },
   },
   ndlaFilm: {
