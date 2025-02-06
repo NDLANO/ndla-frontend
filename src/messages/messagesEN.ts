@@ -265,7 +265,7 @@ const messages = {
       copy: {
         title: "Copy learning path",
         description:
-          "By copying the learning path, an identical copy of this learning path will be added to your learning paths.",
+          "By copying a learning path, it is added to your list of learning paths. You can then edit and customize the path as you wish.",
         button: "Copy to my learning paths",
         success: "The learning path has been copied",
         error: "Something went wrong while copying the learning path",

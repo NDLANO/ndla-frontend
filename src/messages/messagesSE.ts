@@ -263,7 +263,7 @@ const messages = {
       copy: {
         title: "Kopier læringssti",
         description:
-          "Ved å ta kopi av læringsstien vil en identisk kopi av denne læringsstien bli lagt til listen over dine læringsstier.",
+          "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
         button: "Kopier til mine læringsstier",
         success: "Læringsstien er kopiert",
         error: "Noe gikk galt ved kopiering av læringsstien",

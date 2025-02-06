@@ -266,7 +266,7 @@ const messages = {
       copy: {
         title: "Kopier læringssti",
         description:
-          "Ved å kopiere læringsstien vil ein identisk kopi av denne læringsstien bli lagt til lista over dine læringsstiar.",
+          "Ved å kopiere ein læringssti blir han lagd til i lista over dine læringsstiar. Du kan deretter redigere og tilpasse stien slik du ønskjer.",
         button: "Kopier til mine læringsstiar",
         success: "Læringsstien er kopiert",
         error: "Noko gjekk gale ved kopiering av læringsstien",
