@@ -36,6 +36,7 @@ import { routes, toLearningPath } from "../../routeHelpers";
 import FavoriteButton from "../Article/FavoritesButton";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
+import CopyLearningPath from "./components/CopyLearningPath";
 import { LearningpathStep } from "./components/LearningpathStep";
 
 interface Props {
@@ -221,7 +222,7 @@ const Learningpath = ({
           <MetaWrapper data-testid="learningpath-meta">
             <ContentTypeWrapper>
               <ContentTypeBadge contentType="learning-path" />
-              {!!resourcePath && (
+              {resourcePath ? (
                 <AddResourceToFolderModal
                   resource={{
                     id: learningpath.id.toString(),
@@ -231,6 +232,8 @@ const Learningpath = ({
                 >
                   <FavoriteButton path={resourcePath} />
                 </AddResourceToFolderModal>
+              ) : (
+                <CopyLearningPath learningpath={learningpath} />
               )}
             </ContentTypeWrapper>
             <Text textStyle="label.large">

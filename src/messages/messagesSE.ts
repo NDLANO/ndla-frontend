@@ -260,6 +260,14 @@ const messages = {
         pageDescription: "Preview the learning path you have created.",
         noSteps: "You haven't added any steps to the learning path yet.",
       },
+      copy: {
+        title: "Kopier læringssti",
+        description:
+          "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
+        button: "Kopier til mine læringsstier",
+        success: "Læringsstien er kopiert",
+        error: "Noe gikk galt ved kopiering av læringsstien",
+      },
     },
   },
   ndlaFilm: {
