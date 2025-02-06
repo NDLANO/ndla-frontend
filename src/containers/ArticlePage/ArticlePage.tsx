@@ -76,12 +76,6 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -193,7 +187,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         <PageContent variant="article" asChild>
           <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
-        <StyledPageContent variant="article" gutters="tabletUp">
+        <PageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
             <ArticleWrapper {...licenseProps}>
               <ArticleTitle
@@ -259,7 +253,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
               </ArticleFooter>
             </ArticleWrapper>
           </PageContent>
-        </StyledPageContent>
+        </PageContent>
       </ContentTypeHero>
     </main>
   );
