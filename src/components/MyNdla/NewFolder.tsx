@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { CloseLine, CheckLine } from "@ndla/icons";
@@ -31,6 +31,7 @@ interface Props {
   onClose?: () => void;
   initialValue?: string;
   onCreate?: (folder: IFolderDTO, parentId: string) => void;
+  ref: RefObject<HTMLInputElement | null>;
 }
 
 const StyledSpinner = styled(Spinner, {
@@ -39,10 +40,9 @@ const StyledSpinner = styled(Spinner, {
   },
 });
 
-const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
+const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
   const { folders } = useFolders();
   const { cache } = useApolloClient();
@@ -58,9 +58,9 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
 
   useEffect(() => {
     if (selectors?.isMobile) {
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
+      ref.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [selectors?.isMobile]);
+  }, [ref, selectors?.isMobile]);
 
   const onSave = async () => {
     if (error) {
@@ -109,7 +109,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
         <FieldInput
           autoComplete="off"
           disabled={loading}
-          ref={inputRef}
+          ref={ref}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           placeholder={t("treeStructure.newFolder.placeholder")}
@@ -141,7 +141,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           </>
         ) : (
           <FieldHelper>
-            <StyledSpinner aria-label={t("loading")} />
+            <StyledSpinner size="small" aria-label={t("loading")} />
           </FieldHelper>
         )}
       </InputContainer>
