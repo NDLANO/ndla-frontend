@@ -96,6 +96,7 @@ const messages = {
       subtitle:
         "We have changed the display of shared folders. Your name is now shown on all shared folders and learning paths.",
       description: "If you do not want your name to be visible, you can stop sharing folders and learning paths.",
+      button: "OK",
     },
     arena: {
       admin: {

@@ -96,6 +96,7 @@ const messages = {
       subtitle: "Vi har endra visninga på delte mapper. No visast namnet ditt på alle delte mapper og læringsstier.",
       description:
         "Dersom du ikkje ønsker at namnet ditt skal være synleg kan du avslutte deling av mapper og læringsstier.",
+      button: "OK",
     },
     arena: {
       admin: {
