@@ -130,6 +130,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <div
                   aria-labelledby="accordion::r0::trigger:rulesForUse"
                   class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in open:motionReduce:anim_none closed:anim_collapse-out closed:motionReduce:anim_none bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
+                  data-collapsible=""
                   data-orientation="vertical"
                   data-part="item-content"
                   data-scope="accordion"
