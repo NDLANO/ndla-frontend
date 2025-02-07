@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Fag som startar på {{letter}}",
     resourceTypeFilter: "Ressurstypar",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv robotane våre",
@@ -87,11 +87,15 @@ const messages = {
       tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
       noTags: "Ingen emneknaggar.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
       resourceRemovedTitle: "Ressurs ikkje tilgjengeleg",
+    },
+    acceptedShareName: {
+      title: "No viser vi namnet ditt når du deler",
+      subtitle: "Vi har endra visninga på delte mapper. No visast namnet ditt på alle delte mapper og læringsstier.",
+      description:
+        "Dersom du ikkje ønsker at namnet ditt skal være synleg kan du avslutte deling av mapper og læringsstier.",
     },
     arena: {
       admin: {

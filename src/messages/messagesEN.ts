@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
     resourceTypeFilter: "Resource types",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbots",
@@ -87,11 +87,15 @@ const messages = {
       tagsDialogTitle: "Tags related to resource {{title}}",
       noTags: "No tags.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",
       resourceRemovedTitle: "Resource not available",
+    },
+    acceptedShareName: {
+      title: "Now we show your name when you share",
+      subtitle:
+        "We have changed the display of shared folders. Your name is now shown on all shared folders and learning paths.",
+      description: "If you do not want your name to be visible, you can stop sharing folders and learning paths.",
     },
     arena: {
       admin: {

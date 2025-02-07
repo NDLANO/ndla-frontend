@@ -170,7 +170,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       });
 
       toast.create({
-        title: t("myndla.resource.added"),
+        title: t("myNdla.resource.added"),
         description: <ResourceAddedSnack folder={selectedFolder} />,
       });
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
