@@ -92,7 +92,7 @@ const StyledDialogBody = styled(DialogBody, {
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { updatePersonalData } = useUpdatePersonalData();
+  const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
   const { trackPageView } = useTracker();
   const toast = useToast();
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
@@ -181,6 +181,7 @@ const MyNdlaPage = () => {
               <Button
                 variant="primary"
                 type="button"
+                loading={updateLoading}
                 onClick={() => {
                   onAcceptShareName();
                 }}
