@@ -96,6 +96,9 @@ const messages = {
       description:
         "Dersom du ikke ønsker at navnet ditt skal være synlig kan du avslutte deling av mapper og læringsstier.",
       button: "OK",
+      accept: {
+        error: "Kunne ikke lagre",
+      },
     },
     arena: {
       title: "Arenaen",
