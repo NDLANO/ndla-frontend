@@ -8,7 +8,6 @@
 
 import { Text, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import UserAvatar from "./UserAvatar";
 import { isStudent, withRole } from "../Folders/util";
 import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
@@ -38,13 +37,6 @@ const MyContactAreaContainer = styled("div", {
   },
 });
 
-const AvatarContainer = styled("div", {
-  base: {
-    maxHeight: "surface.xsmall",
-    maxWidth: "surface.xsmall",
-  },
-});
-
 const MobileButtonContainer = styled("div", {
   base: {
     paddingBlockStart: "4xsmall",
@@ -58,11 +50,6 @@ const MobileButtonContainer = styled("div", {
 const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
-      {!isStudent(user as withRole) && (
-        <AvatarContainer>
-          <UserAvatar userName={user.displayName} />
-        </AvatarContainer>
-      )}
       <Heading textStyle="heading.medium" asChild consumeCss>
         <h2>{user.displayName}</h2>
       </Heading>

@@ -18,5 +18,4 @@ test("has name, school and profile image", async ({ page }) => {
   expect(page.getByRole("heading", { name: "Anne LærerVGS Haugen" })).toBeTruthy();
   expect(page.getByText("LERK VGS")).toBeTruthy();
   expect(page.locator('div[data-myprofile="true"]')).toBeTruthy();
-  await expect(page.locator('div[data-myprofile="true"]')).toHaveText("AH");
 });
