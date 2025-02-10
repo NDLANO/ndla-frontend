@@ -62,7 +62,6 @@ const ResourcesPageContent = styled("div", {
 
 const StyledPageContent = styled(PageContent, {
   base: {
-    overflowX: "hidden",
     paddingBlockStart: "xxlarge",
     gap: "xsmall",
   },
