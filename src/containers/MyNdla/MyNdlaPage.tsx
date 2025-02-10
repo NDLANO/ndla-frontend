@@ -174,12 +174,8 @@ const MyNdlaPage = () => {
           <DialogContent>
             <StyledDialogBody>
               <DialogTitle textStyle="heading.small">{t("myNdla.acceptedShareName.title")}</DialogTitle>
-              <Text consumeCss textStyle="body.xlarge">
-                {t("myNdla.acceptedShareName.subtitle")}
-              </Text>
-              <Text consumeCss textStyle="body.large">
-                {t("myNdla.acceptedShareName.description")}
-              </Text>
+              <Text textStyle="body.xlarge">{t("myNdla.acceptedShareName.subtitle")}</Text>
+              <Text textStyle="body.large">{t("myNdla.acceptedShareName.description")}</Text>
             </StyledDialogBody>
             <DialogFooter>
               <Button

@@ -99,9 +99,7 @@ const messages = {
       button: "OK",
     },
     arena: {
-      admin: {
-        title: "Arenaen",
-      },
+      title: "Arenaen",
       notification: {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
