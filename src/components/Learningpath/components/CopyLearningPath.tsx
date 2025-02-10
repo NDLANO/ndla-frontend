@@ -21,9 +21,11 @@ import {
   DialogFooter,
   Text,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCopyLearningpathMutation } from "../../../containers/MyNdla/Learningpath/learningpathMutations";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";
 import LoginModalContent from "../../MyNdla/LoginModalContent";
@@ -56,7 +58,15 @@ const CopyLearningPath = ({ learningpath }: Props) => {
         },
       });
       setOpen(false);
-      toast.create({ title: t("myNdla.learningpath.copy.success") });
+      toast.create({
+        title: t("myNdla.learningpath.copy.success.title"),
+        description: (
+          <div>
+            {t("myNdla.learningpath.copy.success.description")}
+            <SafeLink to={routes.myNdla.learningpath}>{`"${t("myNdla.learningpath.title")}"`}</SafeLink>
+          </div>
+        ),
+      });
     } catch (err) {
       toast.create({ title: t("myNdla.learningpath.copy.error") });
     }
