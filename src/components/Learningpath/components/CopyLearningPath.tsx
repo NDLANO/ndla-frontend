@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons";
 import {
@@ -24,7 +24,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useCopyLearningpathMutation } from "../../../containers/MyNdla/Learningpath/learningpathMutations";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";
+import LoginModalContent from "../../MyNdla/LoginModalContent";
 import { useToast } from "../../ToastContext";
 
 const StyledFileCopyLine = styled(FileCopyLine, {
@@ -41,6 +43,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const [open, setOpen] = useState(false);
+  const { authenticated } = useContext(AuthContext);
 
   const [copyLearningPath] = useCopyLearningpathMutation();
 
@@ -70,21 +73,28 @@ const CopyLearningPath = ({ learningpath }: Props) => {
           <StyledFileCopyLine />
         </IconButton>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("myNdla.learningpath.copy.title")}</DialogTitle>
-          <DialogCloseButton />
-        </DialogHeader>
-        <DialogBody>
-          <Text>{t("myNdla.learningpath.copy.description")}</Text>
-        </DialogBody>
-        <DialogFooter>
-          <Button onClick={onCopyLearningPath}>
-            <FileCopyLine />
-            {t("myNdla.learningpath.copy.button")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
+      {authenticated ? (
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("myNdla.learningpath.copy.title")}</DialogTitle>
+            <DialogCloseButton />
+          </DialogHeader>
+          <DialogBody>
+            <Text>{t("myNdla.learningpath.copy.description")}</Text>
+          </DialogBody>
+          <DialogFooter>
+            <Button onClick={onCopyLearningPath}>
+              <FileCopyLine />
+              {t("myNdla.learningpath.copy.button")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      ) : (
+        <LoginModalContent
+          title={t("myNdla.learningpath.copy.loginCopyPitch")}
+          loginIngress={t("myNdla.learningpath.copy.description")}
+        />
+      )}
     </DialogRoot>
   );
 };

@@ -270,6 +270,7 @@ const messages = {
         button: "Kopier til mine læringsstiar",
         success: "Læringsstien er kopiert",
         error: "Noko gjekk gale ved kopiering av læringsstien",
+        loginCopyPitch: "Ønskjer du å kopiere denne læringsstien?",
       },
     },
   },

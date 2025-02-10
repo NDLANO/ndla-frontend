@@ -269,6 +269,7 @@ const messages = {
         button: "Copy to my learning paths",
         success: "The learning path has been copied",
         error: "Something went wrong while copying the learning path",
+        loginCopyPitch: "Do you want to copy this learning path?",
       },
     },
   },
