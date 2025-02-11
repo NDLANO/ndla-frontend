@@ -131,7 +131,6 @@ const StyledAccordionRoot = styled(AccordionRoot, {
     position: "sticky",
     zIndex: "sticky",
     top: "var(--masthead-height)",
-    marginInline: "small",
   },
   variants: {
     context: {
