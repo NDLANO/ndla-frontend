@@ -124,7 +124,7 @@ export const TextForm = () => {
         )}
       />
       <CopyrightText>
-        {t("myNdla.learningpath.form.content.text.copyright")}
+        {`${t("myNdla.learningpath.form.content.text.copyright")} `}
         <SafeLink
           to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering"
           target="_blank"
