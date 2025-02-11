@@ -23,6 +23,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     flexDirection: "column",
     alignItems: "flex-start",
+    padding: "medium",
   },
 });
 
@@ -32,7 +33,7 @@ export const SearchResult = ({ searchResult }: Props) => {
     <StyledListItemRoot asChild consumeCss context="list">
       <li>
         <ListItemHeading asChild consumeCss fontWeight="bold">
-          <SafeLink to={searchResult.url} unstyled css={linkOverlay.raw()}>
+          <SafeLink to={searchResult.contexts[0]?.url ?? ""} unstyled css={linkOverlay.raw()}>
             {parse(searchResult.htmlTitle)}
           </SafeLink>
         </ListItemHeading>
