@@ -376,6 +376,8 @@ const messages = {
     externalWarning:
       "This learning path has been developed by an external teacher, who holds the editorial responsibility. Please note that it may contain texts and links that do not originate from ndla.no.",
     externalLink: "Open in a new window",
+    bylineSuffix:
+      "The author has editorial responsibility for this learning path. Please be aware that it may contain texts and links that do not originate from ndla.no.",
   },
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",

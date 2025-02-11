@@ -377,6 +377,8 @@ const messages = {
     externalWarning:
       "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
     externalLink: "Åpne i nytt vindu",
+    bylineSuffix:
+      "Forfatteren har redaksjonelt ansvar for denne læringsstien. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",

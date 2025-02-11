@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
@@ -170,6 +171,8 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
 
   const currentStep = learningpath.learningsteps[currentIndex];
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
+  // TODO: update this check
+  const isMyNdlaLearningpath = !learningpath.description;
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
     lastUpdatedDate.getMonth() + 1
@@ -228,6 +231,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
         authors={learningpath.copyright.contributors}
         published={lastUpdatedString}
         bylineType="learningPath"
+        bylineSuffix={isMyNdlaLearningpath ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
       />
     </>
   );
