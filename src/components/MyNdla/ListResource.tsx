@@ -145,11 +145,12 @@ const ListResource = ({
     if (!firstContentType) {
       return constants.contentTypes.MISSING;
     }
-    return (
-      constants.contentTypeMapping[firstContentType] ??
+
+    return constants.contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
-      constants.contentTypeMapping.default!
-    );
+      firstContentType === "learningpath"
+      ? constants.contentTypes.LEARNING_PATH
+      : constants.contentTypeMapping.default!;
   }, [firstContentType]);
 
   if (isLoading) {
