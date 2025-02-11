@@ -162,6 +162,9 @@ const messages = {
               label: "Content",
               labelHelper: "Write or paste your content here.",
             },
+            copyright:
+              "What you share in a learning path will be available under a Creative Commons license (BY-SA). This means that others can use and share what you have created, as long as they give you credit.",
+            copyrightLink: "Read more about NDLA and content sharing here",
           },
           external: {
             title: {
