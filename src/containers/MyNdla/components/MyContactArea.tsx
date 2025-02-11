@@ -8,8 +8,6 @@
 
 import { Text, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { isStudent, withRole } from "../Folders/util";
-import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
 type UserProp = {
   username?: string;
@@ -20,7 +18,6 @@ type UserProp = {
 
 type MyContractAreaProps = {
   user: UserProp;
-  showProfileButton?: boolean;
 };
 
 const MyContactAreaContainer = styled("div", {
@@ -37,17 +34,7 @@ const MyContactAreaContainer = styled("div", {
   },
 });
 
-const MobileButtonContainer = styled("div", {
-  base: {
-    paddingBlockStart: "4xsmall",
-    display: "block",
-    tablet: {
-      display: "none",
-    },
-  },
-});
-
-const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
+const MyContactArea = ({ user }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
       <Heading textStyle="heading.medium" asChild consumeCss>
@@ -55,11 +42,6 @@ const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
       </Heading>
       <Text textStyle="title.medium">{user.primaryOrg}</Text>
       {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
-      {!!showProfileButton && !isStudent(user as withRole) && (
-        <MobileButtonContainer>
-          <EditProfilePicture />
-        </MobileButtonContainer>
-      )}
     </MyContactAreaContainer>
   );
 };
