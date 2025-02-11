@@ -10,17 +10,7 @@ import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
-import {
-  Button,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  Heading,
-  Text,
-} from "@ndla/primitives";
+import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -33,12 +23,10 @@ import TitleWrapper from "./components/TitleWrapper";
 import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
-import { useUpdatePersonalData } from "./userMutations";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { useToast } from "../../components/ToastContext";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
@@ -80,21 +68,10 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
   },
 });
 
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    height: "unset",
-    gap: "large",
-  },
-});
-
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
   const { trackPageView } = useTracker();
-  const toast = useToast();
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
@@ -110,15 +87,6 @@ const MyNdlaPage = () => {
       skip: !allFolderResources || !allFolderResources.length,
     },
   );
-
-  const onAcceptShareName = async () => {
-    const res = await updatePersonalData({ variables: { shareNameAccepted: true } });
-    if (!res.errors?.length) {
-      // do nothing, everything is fine
-    } else {
-      toast.create({ title: t("myNdla.shareName.accept.error") });
-    }
-  };
 
   const sortedSubjects = useMemo(() => {
     return sortSubjectsByRecentlyFavourited(
@@ -169,29 +137,6 @@ const MyNdlaPage = () => {
           <LoginModalContent masthead />
         </DialogRoot>
       )}
-      {authenticated && !user?.shareNameAccepted && user?.role === "employee" ? (
-        <DialogRoot modal open={!user?.shareNameAccepted}>
-          <DialogContent>
-            <StyledDialogBody>
-              <DialogTitle textStyle="heading.small">{t("myNdla.acceptedShareName.title")}</DialogTitle>
-              <Text textStyle="body.xlarge">{t("myNdla.acceptedShareName.subtitle")}</Text>
-              <Text textStyle="body.large">{t("myNdla.acceptedShareName.description")}</Text>
-            </StyledDialogBody>
-            <DialogFooter>
-              <Button
-                variant="primary"
-                type="button"
-                loading={updateLoading}
-                onClick={() => {
-                  onAcceptShareName();
-                }}
-              >
-                {t("myNdla.acceptedShareName.button")}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </DialogRoot>
-      ) : null}
       <CampaignBlock
         title={t("myNdla.campaignBlock.title")}
         headingLevel="h2"
