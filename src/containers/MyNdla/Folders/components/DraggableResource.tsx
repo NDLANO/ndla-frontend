@@ -136,12 +136,12 @@ const DraggableResource = ({
         type: "dialog",
         value: "showTags",
         icon: <HashTag />,
-        text: t("myndla.resource.showTags"),
+        text: t("myNdla.resource.showTags"),
         isModal: true,
         modalContent: () => (
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{t("myndla.resource.tagsDialogTitle", { title: resourceMeta?.title ?? "" })}</DialogTitle>
+              <DialogTitle>{t("myNdla.resource.tagsDialogTitle", { title: resourceMeta?.title ?? "" })}</DialogTitle>
               <DialogCloseButton />
             </DialogHeader>
             <DialogBody>
@@ -155,7 +155,7 @@ const DraggableResource = ({
                   ))}
                 </StyledTagsWrapper>
               ) : (
-                <Text>{t("myndla.resource.noTags")}</Text>
+                <Text>{t("myNdla.resource.noTags")}</Text>
               )}
             </DialogBody>
           </DialogContent>

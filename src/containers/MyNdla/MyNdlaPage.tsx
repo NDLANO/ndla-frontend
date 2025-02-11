@@ -138,7 +138,7 @@ const MyNdlaPage = () => {
         </DialogRoot>
       )}
       <CampaignBlock
-        title={t("myndla.campaignBlock.title")}
+        title={t("myNdla.campaignBlock.title")}
         headingLevel="h2"
         image={{
           src: "/static/ndla-ai.jpg",
@@ -147,14 +147,14 @@ const MyNdlaPage = () => {
         imageSide="right"
         url={{
           url: authenticated ? aiUrl : undefined,
-          text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
+          text: authenticated ? t("myNdla.campaignBlock.linkText") : undefined,
         }}
         description={
           !authenticated
-            ? t("myndla.campaignBlock.ingressUnauthenticated")
+            ? t("myNdla.campaignBlock.ingressUnauthenticated")
             : isStudent(user)
-              ? t("myndla.campaignBlock.ingressStudent")
-              : t("myndla.campaignBlock.ingress")
+              ? t("myNdla.campaignBlock.ingressStudent")
+              : t("myNdla.campaignBlock.ingress")
         }
       />
       {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (

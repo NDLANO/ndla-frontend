@@ -29,15 +29,27 @@ import {
   FolderFill,
   FolderLine,
 } from "@ndla/icons";
-import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  MessageBox,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { useToast } from "../../components/ToastContext";
 import config from "../../config";
 import { routes } from "../../routeHelpers";
 import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
 import { MyNdlaButton } from "./components/MyNdlaButton";
+import { useUpdatePersonalData } from "./userMutations";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {
@@ -124,9 +136,20 @@ const StyledMyNdlaButton = styled(MyNdlaButton, {
   },
 });
 
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "unset",
+    gap: "large",
+  },
+});
+
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
-  const { user, examLock } = useContext(AuthContext);
+  const { user, examLock, authenticated } = useContext(AuthContext);
+  const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
+  const toast = useToast();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -153,6 +176,15 @@ const MyNdlaLayout = () => {
       ),
     [location, t, user],
   );
+
+  const onAcceptShareName = async () => {
+    const res = await updatePersonalData({ variables: { shareNameAccepted: true } });
+    if (!res.errors?.length) {
+      // do nothing, everything is fine
+    } else {
+      toast.create({ title: t("myNdla.shareName.accept.error") });
+    }
+  };
 
   return (
     <StyledLayout>
@@ -188,6 +220,29 @@ const MyNdlaLayout = () => {
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           )}
+          {authenticated && !user?.shareNameAccepted && user?.role === "employee" ? (
+            <DialogRoot modal open={!user?.shareNameAccepted}>
+              <DialogContent>
+                <StyledDialogBody>
+                  <DialogTitle textStyle="heading.small">{t("myNdla.acceptedShareName.title")}</DialogTitle>
+                  <Text textStyle="body.xlarge">{t("myNdla.acceptedShareName.subtitle")}</Text>
+                  <Text textStyle="body.large">{t("myNdla.acceptedShareName.description")}</Text>
+                </StyledDialogBody>
+                <DialogFooter>
+                  <Button
+                    variant="primary"
+                    type="button"
+                    loading={updateLoading}
+                    onClick={() => {
+                      onAcceptShareName();
+                    }}
+                  >
+                    {t("myNdla.acceptedShareName.button")}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          ) : null}
           <Outlet />
         </StyledContent>
       </DialogRoot>

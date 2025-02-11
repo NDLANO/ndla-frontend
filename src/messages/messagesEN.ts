@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
     resourceTypeFilter: "Resource types",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbots",
@@ -87,16 +87,22 @@ const messages = {
       tagsDialogTitle: "Tags related to resource {{title}}",
       noTags: "No tags.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",
       resourceRemovedTitle: "Resource not available",
     },
-    arena: {
-      admin: {
-        title: "The arena",
+    acceptedShareName: {
+      title: "Now we show your name when you share",
+      subtitle:
+        "We have changed the display of shared folders. Your name is now shown on all shared folders and learning paths.",
+      description: "If you do not want your name to be visible, you can stop sharing folders and learning paths.",
+      button: "OK",
+      accept: {
+        error: "Could not save",
       },
+    },
+    arena: {
+      title: "The arena",
       notification: {
         description:
           "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",

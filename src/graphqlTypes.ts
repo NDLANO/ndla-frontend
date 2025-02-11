@@ -1434,6 +1434,7 @@ export type GQLMutationUpdateOtherArenaUserArgs = {
 export type GQLMutationUpdatePersonalDataArgs = {
   arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  shareNameAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type GQLMutationUpdatePostArgs = {
@@ -1524,6 +1525,7 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars["Int"]["output"];
   organization: Scalars["String"]["output"];
   role: Scalars["String"]["output"];
+  shareNameAccepted: Scalars["Boolean"]["output"];
   username: Scalars["String"]["output"];
 };
 
@@ -2608,6 +2610,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   organization: string;
   favoriteSubjects: Array<string>;
   role: string;
+  shareNameAccepted: boolean;
   arenaEnabled: boolean;
   arenaAccepted: boolean;
   arenaGroups: Array<string>;
@@ -4636,11 +4639,13 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   role: string;
   arenaEnabled: boolean;
   arenaAccepted: boolean;
+  shareNameAccepted: boolean;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
+  shareNameAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {

@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Fag som startar på {{letter}}",
     resourceTypeFilter: "Ressurstypar",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "Mine emneknaggar",
     campaignBlock: {
       title: "Prøv robotane våre",
@@ -87,16 +87,22 @@ const messages = {
       tagsDialogTitle: "Emneknaggar tilknytta ressurs {{title}}",
       noTags: "Ingen emneknaggar.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
       resourceRemovedTitle: "Ressurs ikkje tilgjengeleg",
     },
-    arena: {
-      admin: {
-        title: "Arenaen",
+    acceptedShareName: {
+      title: "No viser vi namnet ditt når du deler",
+      subtitle: "Vi har endra visninga på delte mapper. No visast namnet ditt på alle delte mapper og læringsstier.",
+      description:
+        "Dersom du ikkje ønsker at namnet ditt skal være synleg kan du avslutte deling av mapper og læringsstier.",
+      button: "OK",
+      accept: {
+        error: "Kunne ikke lagre",
       },
+    },
+    arena: {
+      title: "Arenaen",
       notification: {
         description:
           "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
