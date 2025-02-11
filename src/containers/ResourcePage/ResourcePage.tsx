@@ -115,6 +115,10 @@ const ResourcePage = () => {
     return <UnpublishedResourcePage />;
   }
 
+  if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+    return <NotFoundPage />;
+  }
+
   if (!data) {
     return <DefaultErrorMessagePage />;
   }
