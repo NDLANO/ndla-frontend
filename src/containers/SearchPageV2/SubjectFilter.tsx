@@ -19,6 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
   Heading,
+  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
@@ -84,6 +85,7 @@ export const SubjectFilter = () => {
         <h3>{t("searchPage.subjectFilter.heading")}</h3>
       </Heading>
       <FiltersWrapper>
+        {!!subjectsQuery.loading && <Spinner />}
         {activeSubjects.map((subject) => (
           <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
             {subject.name}
