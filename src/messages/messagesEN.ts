@@ -66,6 +66,7 @@ const messages = {
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
     oldResourceTypeFilter: "Resource types",
+    pagination: "Search results",
     showingResults: {
       hits: "Showing results {{from}}-{{to}} of {{total}}",
       query: 'for "{{query}}"',
