@@ -188,6 +188,7 @@ export const SearchContainer = () => {
       pageSize: 8,
       aggregatePaths: ["contexts.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
+      filterInactive: !searchParams.get("subjects")?.split(",").length,
     },
   });
 
