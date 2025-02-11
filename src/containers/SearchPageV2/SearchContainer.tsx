@@ -56,6 +56,7 @@ const SearchFieldWrapper = styled("div", {
 
 const FiltersWrapper = styled("div", {
   base: {
+    marginBlockStart: "large",
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
@@ -66,6 +67,20 @@ const FiltersWrapper = styled("div", {
 const StyledFieldRoot = styled(FieldRoot, {
   base: {
     width: "100%",
+  },
+});
+
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
+
+const FormWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -153,7 +168,7 @@ const ResultsWrapper = styled("div", {
     flex: "1",
     display: "flex",
     flexDirection: "column",
-    gap: "xlarge",
+    gap: "medium",
   },
 });
 
@@ -223,52 +238,54 @@ export const SearchContainer = () => {
           ]}
         />
       )}
-      {!isLti && (
-        <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
-          {t("searchPage.title")}
-        </Heading>
-      )}
-      {/* TODO: Change to /search/ */}
-      <form action="/searchv2/" onSubmit={handleSubmit}>
-        <SearchFieldWrapper>
-          <StyledFieldRoot>
-            <FieldLabel srOnly>{t("searchPage.title")}</FieldLabel>
-            <InputContainer>
-              <FieldInput
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                ref={inputRef}
-                placeholder={t("searchPage.searchFieldPlaceholder")}
-                type="search"
-                autoComplete="off"
-                name="search"
-              />
-              {!!query && (
-                <IconButton
-                  variant="clear"
-                  aria-label={t("welcomePage.resetSearch")}
-                  title={t("welcomePage.resetSearch")}
-                  onClick={() => {
-                    setQuery("");
-                    setSearchParams({ query: null });
-                    inputRef.current?.focus();
-                  }}
-                >
-                  <CloseLine />
-                </IconButton>
-              )}
-            </InputContainer>
-          </StyledFieldRoot>
-          <IconButton type="submit" aria-label={t("searchPage.search")} title={t("searchPage.search")}>
-            <SearchLine />
-          </IconButton>
-        </SearchFieldWrapper>
-      </form>
       <ContentWrapper>
         <ResultsWrapper>
-          {!!resultsTranslation && <Text>{resultsTranslation}</Text>}
+          {!isLti && (
+            <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+              {t("searchPage.title")}
+            </Heading>
+          )}
+          <FormWrapper>
+            {/* TODO: Change to /search/ */}
+            <form action="/searchv2/" onSubmit={handleSubmit}>
+              <SearchFieldWrapper>
+                <StyledFieldRoot>
+                  <FieldLabel srOnly>{t("searchPage.title")}</FieldLabel>
+                  <InputContainer>
+                    <FieldInput
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      ref={inputRef}
+                      placeholder={t("searchPage.searchFieldPlaceholder")}
+                      type="search"
+                      autoComplete="off"
+                      name="search"
+                    />
+                    {!!query && (
+                      <IconButton
+                        variant="clear"
+                        aria-label={t("welcomePage.resetSearch")}
+                        title={t("welcomePage.resetSearch")}
+                        onClick={() => {
+                          setQuery("");
+                          setSearchParams({ query: null });
+                          inputRef.current?.focus();
+                        }}
+                      >
+                        <CloseLine />
+                      </IconButton>
+                    )}
+                  </InputContainer>
+                </StyledFieldRoot>
+                <IconButton type="submit" aria-label={t("searchPage.search")} title={t("searchPage.search")}>
+                  <SearchLine />
+                </IconButton>
+              </SearchFieldWrapper>
+            </form>
+            {!!resultsTranslation && <Text textStyle="label.small">{resultsTranslation}</Text>}
+          </FormWrapper>
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
-          <PaginationRoot
+          <StyledPaginationRoot
             page={page}
             onPageChange={(details) => {
               setPage(details.page);
@@ -309,7 +326,7 @@ export const SearchContainer = () => {
                 <ArrowRightShortLine />
               </StyledButton>
             </PaginationNextTrigger>
-          </PaginationRoot>
+          </StyledPaginationRoot>
         </ResultsWrapper>
         <FiltersWrapper>
           <Heading textStyle="title.medium" asChild consumeCss>
