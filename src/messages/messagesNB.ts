@@ -162,6 +162,9 @@ const messages = {
               label: "Innhold",
               labelHelper: "Skriv eller lim inn innholdet ditt her.",
             },
+            copyright:
+              "Det du deler i en læringssti blir tilgjengelig under en Creative Commons-lisens (BY-SA). Dette betyr at andre kan bruke og dele det du har laget, så lenge de gir deg kreditering.",
+            copyrightLink: "Les mer om NDLA og deling av innhold her",
           },
           external: {
             title: {

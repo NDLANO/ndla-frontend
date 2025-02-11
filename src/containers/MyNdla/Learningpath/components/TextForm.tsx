@@ -9,9 +9,17 @@
 import { t } from "i18next";
 import { lazy, Suspense } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
+
+const CopyrightText = styled(Text, {
+  base: {
+    maxWidth: "surface.large",
+  },
+});
 
 const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
 
@@ -115,6 +123,15 @@ export const TextForm = () => {
           </FieldRoot>
         )}
       />
+      <CopyrightText>
+        {t("myNdla.learningpath.form.content.text.copyright")}
+        <SafeLink
+          to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering"
+          target="_blank"
+        >
+          {t("myNdla.learningpath.form.content.text.copyrightLink")}
+        </SafeLink>
+      </CopyrightText>
     </>
   );
 };
