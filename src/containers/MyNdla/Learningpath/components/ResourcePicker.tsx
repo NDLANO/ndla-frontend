@@ -37,6 +37,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./ResourceForm";
+import config from "../../../../config";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -45,6 +46,7 @@ import {
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResult } from "../../../../graphqlTypes";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { useFetchOembed } from "../learningpathQueries";
 
 const HitsWrapper = styled("div", {
   base: {
@@ -130,6 +132,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
     },
   );
 
+  const { refetch } = useFetchOembed({ skip: true });
+
   const paginationTranslations = usePaginationTranslations();
   const comboboxTranslations = useComboboxTranslations();
   const formId = useId();
@@ -175,9 +179,13 @@ export const ResourcePicker = ({ setResource }: Props) => {
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   const onResourceSelect = async (resource: Resource) => {
+    const data = await refetch({ url: `${config.ndlaFrontendDomain}${resource.path}` });
+    const iframe = data.data?.learningpathStepOembed.html;
+    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
+
     setResource({
       title: resource.title,
-      url: resource.path,
+      url: url,
       resourceTypes: resource.contexts?.[0]?.resourceTypes,
       breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
     });

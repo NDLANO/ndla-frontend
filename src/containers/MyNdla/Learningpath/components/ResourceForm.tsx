@@ -71,6 +71,7 @@ const ResourceWrapper = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     boxShadow: "xsmall",
+    backgroundColor: "background.default",
   },
 });
 

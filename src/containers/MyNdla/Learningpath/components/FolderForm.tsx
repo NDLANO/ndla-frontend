@@ -15,6 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import { ResourceFormValues } from "./ResourceForm";
 import config from "../../../../config";
+import { useFetchOembed } from "../learningpathQueries";
 
 const TextWrapper = styled("div", {
   base: {
@@ -52,10 +53,15 @@ export interface FolderResource {
 export const FolderForm = () => {
   const [resource, setResource] = useState<FolderResource | undefined>(undefined);
 
+  const { refetch } = useFetchOembed({ skip: true });
   const { setValue } = useFormContext<ResourceFormValues>();
 
-  const onResourceSelect = (selectedResource: FolderResource) => {
-    setValue("embedUrl", selectedResource.path, { shouldDirty: true });
+  const onResourceSelect = async (selectedResource: FolderResource) => {
+    const data = await refetch({ url: `${config.ndlaFrontendDomain}${selectedResource.path}` });
+    const iframe = data.data?.learningpathStepOembed.html;
+    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
+
+    setValue("embedUrl", url, { shouldDirty: true });
     setValue("title", selectedResource.title, { shouldDirty: true });
     setResource(selectedResource);
   };
