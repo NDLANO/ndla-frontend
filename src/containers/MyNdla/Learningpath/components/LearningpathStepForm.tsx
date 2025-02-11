@@ -24,6 +24,7 @@ import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
 import { ExternalForm } from "./ExternalForm";
+import { FolderForm } from "./FolderForm";
 import { ResourceForm } from "./ResourceForm";
 import { TextForm } from "./TextForm";
 
@@ -69,6 +70,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
     mode: "onSubmit",
     defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
+
   const { handleSubmit, control, reset, formState } = methods;
 
   return (
@@ -87,7 +89,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {...field}
               >
                 {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val} disabled={val === "folder"}>
+                  <RadioGroupItem value={val} key={val}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
@@ -144,8 +146,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   } else if (formType === "text") {
     return <TextForm />;
   } else if (formType === "folder") {
-    // TODO: implement
-    return null;
+    return <FolderForm />;
   }
   return null;
 };
