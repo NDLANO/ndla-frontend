@@ -401,6 +401,19 @@ const messages = {
       years: "years",
     },
   },
+  richTextEditor: {
+    plugin: {
+      link: {
+        edit: "Edit link",
+        create: "Create link",
+        popoverTitle: "Link to {{domain}}",
+        form: {
+          textLabel: "Text",
+          urlLabel: "URL",
+        },
+      },
+    },
+  },
 };
 
 export default messages;

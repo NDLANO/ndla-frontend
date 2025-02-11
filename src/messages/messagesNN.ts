@@ -402,6 +402,19 @@ const messages = {
       years: "år",
     },
   },
+  richTextEditor: {
+    plugin: {
+      link: {
+        edit: "Rediger lenke",
+        create: "Opprett lenke",
+        popoverTitle: "Lenke til {{domain}}",
+        form: {
+          textLabel: "Tekst",
+          urlLabel: "URL",
+        },
+      },
+    },
+  },
 };
 
 export default messages;

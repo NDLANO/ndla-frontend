@@ -7,11 +7,14 @@
  */
 
 import { t } from "i18next";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { Descendant } from "slate";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
 
@@ -21,7 +24,7 @@ const CopyrightText = styled(Text, {
   },
 });
 
-const MarkdownEditor = lazy(() => import("../../../../components/MarkdownEditor/MarkdownEditor"));
+const RichTextEditor = lazy(() => import("../../../../components/RichTextEditor/RichTextEditor"));
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
@@ -30,12 +33,20 @@ export interface TextFormValues {
   type: "text";
   title: string;
   introduction: string;
-  description: string;
+  description: Descendant[];
 }
 
-export const TextForm = () => {
+interface Props {
+  initialValue: string;
+}
+
+export const TextForm = ({ initialValue }: Props) => {
   const { validationT } = useValidationTranslation();
-  const { setValue, control } = useFormContext<TextFormValues>();
+  const { control } = useFormContext<TextFormValues>();
+
+  const editorInitialValue = useMemo(() => {
+    return deserializeToRichText(initialValue);
+  }, [initialValue]);
 
   return (
     <>
@@ -102,23 +113,16 @@ export const TextForm = () => {
             field: "description",
           }),
         }}
-        render={({ field, fieldState }) => (
+        // Slate doesn't support value
+        render={({ field: { value, ...rest }, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message} required>
-            <FieldLabel onClick={() => document.getElementById("markdown-editor")?.focus()}>
+            <ContentEditableFieldLabel>
               {t("myNdla.learningpath.form.content.text.description.label")}
-            </FieldLabel>
+            </ContentEditableFieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.description.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <Suspense fallback={<Spinner />}>
-              <MarkdownEditor
-                setContentWritten={(val) => {
-                  setValue("description", val, {
-                    shouldDirty: true,
-                  });
-                }}
-                initialValue={field.value}
-                {...field}
-              />
+              <RichTextEditor initialValue={editorInitialValue} {...rest} />
             </Suspense>
           </FieldRoot>
         )}
