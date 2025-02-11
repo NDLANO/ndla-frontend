@@ -66,7 +66,7 @@ const ResourceWrapper = styled("div", {
   base: {
     display: "flex",
     borderBottom: "1px solid",
-    borderColor: "black",
+    borderColor: "stroke.default",
     padding: "xsmall",
     gap: "medium",
     justifyContent: "space-between",
