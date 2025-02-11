@@ -7,6 +7,7 @@
  */
 
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -24,6 +25,7 @@ import { useStableSearchParams } from "../../util/useStableSearchParams";
 const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
 
 export const TraitFilter = () => {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchParams();
 
   const onValueChange = useCallback(
@@ -36,8 +38,7 @@ export const TraitFilter = () => {
   return (
     <FilterContainer>
       <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-        {/* TODO: i18n */}
-        <h3>Vis sider med</h3>
+        <h3>{t("searchPage.traitFilter.heading")}</h3>
       </Heading>
       <CheckboxGroup value={searchParams.get("traits")?.split(",") ?? []} onValueChange={onValueChange}>
         {TRAITS.map((trait) => (
@@ -47,8 +48,7 @@ export const TraitFilter = () => {
                 <CheckLine />
               </CheckboxIndicator>
             </CheckboxControl>
-            {/* TODO: i18n */}
-            <CheckboxLabel>{trait}</CheckboxLabel>
+            <CheckboxLabel>{t(`searchPage.traits.${trait}`)}</CheckboxLabel>
             <CheckboxHiddenInput />
           </CheckboxRoot>
         ))}

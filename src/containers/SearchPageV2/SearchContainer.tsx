@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useCallback, useRef, useState } from "react";
+import { FormEvent, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -33,7 +33,7 @@ import { SearchResult } from "./SearchResult";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLSearchQuery, GQLSearchQueryVariables } from "../../graphqlTypes";
+import { GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
@@ -118,8 +118,6 @@ const searchQueryFragment = gql`
       results {
         ...SearchResult_SearchResult
       }
-
-      # TODO: Might not need these
       aggregations {
         values {
           ...ResourceTypeFilter_BucketResult
@@ -181,7 +179,7 @@ export const SearchContainer = () => {
   const { t, i18n } = useTranslation();
   const paginationTranslations = usePaginationTranslations();
 
-  const searchQuery = useQuery<GQLSearchQuery, GQLSearchQueryVariables>(searchQueryFragment, {
+  const searchQuery = useQuery<GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables>(searchQueryFragment, {
     variables: {
       query: searchParams.get("query") ?? undefined,
       language: i18n.language,
@@ -202,6 +200,17 @@ export const SearchContainer = () => {
     },
     [query, setSearchParams],
   );
+
+  const resultsTranslation = useMemo(() => {
+    if (!data?.search) return undefined;
+    const from = page * data.search.pageSize - (data.search.pageSize - 1);
+    const to = page * data.search.pageSize;
+    const res = [t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount })];
+    if (query.length) {
+      res.push(t("searchPage.showingResults.query", { query }));
+    }
+    return res.filter(Boolean).join(" ");
+  }, [data?.search, page, query, t]);
 
   return (
     <StyledMain>
@@ -256,10 +265,7 @@ export const SearchContainer = () => {
       </form>
       <ContentWrapper>
         <ResultsWrapper>
-          {/* TODO: Insane code and i18n */}
-          {!!data?.search && !!searchParams.get("query") && (
-            <Text>{`Viser treff ${page * data.search.pageSize - (data.search.pageSize - 1)}-${page * data.search.pageSize} for "${searchParams.get("query")}"`}</Text>
-          )}
+          {!!resultsTranslation && <Text>{resultsTranslation}</Text>}
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
           <PaginationRoot
             page={page}
@@ -271,7 +277,6 @@ export const SearchContainer = () => {
             pageSize={data?.search?.pageSize ?? 0}
             translations={paginationTranslations}
             siblingCount={1}
-            // TODO: i18n
             aria-label={t("searchPage.pagination")}
           >
             <PaginationPrevTrigger asChild>
@@ -307,8 +312,7 @@ export const SearchContainer = () => {
         </ResultsWrapper>
         <FiltersWrapper>
           <Heading textStyle="title.medium" asChild consumeCss>
-            {/* TODO: i18n */}
-            <h2>Tilpass søket ditt</h2>
+            <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
           <TraitFilter />
           <SubjectFilter />

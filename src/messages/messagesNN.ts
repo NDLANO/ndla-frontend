@@ -65,7 +65,31 @@ const messages = {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som startar på {{letter}}",
-    resourceTypeFilter: "Ressurstypar",
+    oldResourceTypeFilter: "Ressurstypar",
+    pagination: "Søkeresultatar",
+    showingResults: {
+      hits: "Viser treff {{from}}-{{to}} av {{total}}",
+      query: 'for "{{query}}"',
+    },
+    traits: {
+      VIDEO: "Video",
+      AUDIO: "Lyd",
+      H5P: "Interaktiv oppgave",
+      PODCAST: "Podkast",
+    },
+    filtersHeading: "Tilpass søket ditt",
+    subjectFilter: {
+      heading: "Sorter på fag",
+      trigger: "Vel fag",
+      dialogTitle: "Filtrer søket",
+    },
+    traitFilter: {
+      heading: "Vis sider med",
+    },
+    resourceTypeFilter: {
+      title: "Vel sidetype",
+      showSubtypes: "Vis undertypar for {{parent}}",
+    },
   },
   myNdla: {
     tagsTitle: "Mine emneknaggar",

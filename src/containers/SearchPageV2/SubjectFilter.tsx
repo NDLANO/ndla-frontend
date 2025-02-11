@@ -81,8 +81,7 @@ export const SubjectFilter = () => {
   return (
     <FilterContainer>
       <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-        {/* TODO: i18n */}
-        <h3>Sorter på fag</h3>
+        <h3>{t("searchPage.subjectFilter.heading")}</h3>
       </Heading>
       <FiltersWrapper>
         {activeSubjects.map((subject) => (
@@ -94,13 +93,12 @@ export const SubjectFilter = () => {
       </FiltersWrapper>
       <DialogRoot size="full">
         <DialogTrigger asChild>
-          {/* TODO: i18n */}
-          <Button variant="secondary">Velg fag</Button>
+          <Button variant="secondary">{t("searchPage.subjectFilter.trigger")}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogBody>
             <DialogHeader>
-              <DialogTitle>{t("searchPage.searchFilterMessages.filterLabel")}</DialogTitle>
+              <DialogTitle>{t("searchPage.subjectFilter.dialogTitle")}</DialogTitle>
               <DialogCloseButton />
             </DialogHeader>
             <SubjectFilterContent

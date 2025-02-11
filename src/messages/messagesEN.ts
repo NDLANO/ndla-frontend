@@ -65,7 +65,30 @@ const messages = {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
-    resourceTypeFilter: "Resource types",
+    oldResourceTypeFilter: "Resource types",
+    showingResults: {
+      hits: "Showing results {{from}}-{{to}} of {{total}}",
+      query: 'for "{{query}}"',
+    },
+    traits: {
+      VIDEO: "Video",
+      AUDIO: "Audio",
+      H5P: "Interactive task",
+      PODCAST: "Podcast",
+    },
+    filtersHeading: "Customize your search",
+    subjectFilter: {
+      heading: "Sort by subject",
+      trigger: "Choose subject",
+      dialogTitle: "Filter search",
+    },
+    traitFilter: {
+      heading: "Show pages with",
+    },
+    resourceTypeFilter: {
+      title: "Choose page type",
+      showSubtypes: "Show subtypes for {{parent}}",
+    },
   },
   myNdla: {
     tagsTitle: "My tags",

@@ -7,6 +7,7 @@
  */
 
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
@@ -78,6 +79,7 @@ const searchResourceTypesQuery = gql`
 `;
 
 export const ResourceTypeFilter = ({ bucketResult }: Props) => {
+  const { t } = useTranslation();
   const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
 
   const keyedBucketResult = useMemo(() => {
@@ -87,15 +89,10 @@ export const ResourceTypeFilter = ({ bucketResult }: Props) => {
     }, {});
   }, [bucketResult]);
 
-  console.log(keyedBucketResult);
-
-  console.log(resourceTypesQuery.data);
-
   return (
     <FilterContainer>
       <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-        {/* TODO: i18n */}
-        <h3>Velg sidetype</h3>
+        <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
       </Heading>
       {resourceTypesQuery.loading ? (
         <Spinner />
@@ -115,8 +112,12 @@ export const ResourceTypeFilter = ({ bucketResult }: Props) => {
                     <CheckboxHiddenInput />
                   </CheckboxRoot>
                   <AccordionItemTrigger asChild>
-                    {/* TODO: i18n */}
-                    <IconButton variant="tertiary" size="small" aria-label="Åpne" title="Åpne">
+                    <IconButton
+                      variant="tertiary"
+                      size="small"
+                      aria-label={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
+                      title={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
+                    >
                       <AccordionItemIndicator asChild>
                         <ArrowDownShortLine size="medium" />
                       </AccordionItemIndicator>
