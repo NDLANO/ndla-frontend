@@ -183,6 +183,7 @@ const messages = {
           folder: {
             label: "Søk i Mine mapper",
             labelHelper: "Velg innhold fra mappene mine",
+            placeholder: "Søk etter ressurser som ligger i dine mapper",
           },
         },
         options: {
