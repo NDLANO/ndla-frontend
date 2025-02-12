@@ -33,8 +33,11 @@ import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
+import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables } from "../../graphqlTypes";
+import { supportedLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
@@ -363,6 +366,12 @@ export const SearchContainer = () => {
           <TraitFilter />
           <SubjectFilter />
           <ResourceTypeFilter bucketResult={data?.search?.aggregations?.[0]?.values ?? []} />
+          {!!isLti && (
+            <LanguageSelector
+              languages={supportedLanguages}
+              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+            />
+          )}
         </FiltersWrapper>
       </ContentWrapper>
     </StyledMain>
