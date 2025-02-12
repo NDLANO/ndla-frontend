@@ -27,7 +27,7 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
+import { useComboboxTranslations, ContentTypeBadge, constants } from "@ndla/ui";
 import { FolderResource } from "./FolderStepForm";
 import { GQLBreadcrumb, GQLFolder, GQLFolderResource } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
@@ -62,7 +62,7 @@ const ContentWrapper = styled("div", {
   },
 });
 
-const LEGAL_RESOURCE_TYPES = ["article", "multidisciplinary", "topic"];
+const LEGAL_RESOURCE_TYPES = ["article", constants.contentTypes.MULTIDISCIPLINARY, constants.contentTypes.TOPIC];
 
 type GQLFolderResourceWithCrumb = GQLFolderResource & { breadcrumb: GQLBreadcrumb[] };
 
