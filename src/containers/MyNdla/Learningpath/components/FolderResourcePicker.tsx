@@ -175,9 +175,11 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       </ComboboxControl>
       {open ? (
         <ContentWrapper>
-          <HitsText textStyle="label.small">
-            {t("searchPage.resultType.showingSearchPhrase")} {inputValue}
-          </HitsText>
+          {inputValue ? (
+            <HitsText textStyle="label.small">
+              {t("searchPage.resultType.showingSearchPhrase")} {inputValue}
+            </HitsText>
+          ) : null}
           {loading ? (
             <Spinner />
           ) : filteredResources?.length ? (
