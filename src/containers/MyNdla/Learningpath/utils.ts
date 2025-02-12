@@ -9,6 +9,7 @@
 import config from "../../../config";
 import { FormType, FormValues } from "./components/LearningpathStepForm";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
+import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 
 export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpaths/${id}`;
 
@@ -43,7 +44,7 @@ export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragm
   introduction: step?.introduction ?? "",
   url: step?.embedUrl?.url ?? "",
   shareable: !!step?.embedUrl?.url,
-  description: step?.description ?? "",
+  description: deserializeToRichText(step?.description ?? ""),
 });
 
 export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
@@ -58,7 +59,7 @@ export const formValuesToGQLInput = (values: FormValues) => {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
-      description: values.description,
+      description: serializeFromRichText(values.description),
     };
   }
 

@@ -8,6 +8,7 @@
 
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import {
   Button,
   FieldErrorMessage,
@@ -47,7 +48,7 @@ export type FormValues = {
   type: string;
   title: string;
   introduction: string;
-  description: string;
+  description: Descendant[];
   embedUrl: string;
   url: string;
   shareable: boolean;
@@ -142,7 +143,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   } else if (formType === "external") {
     return <ExternalForm />;
   } else if (formType === "text") {
-    return <TextForm />;
+    return <TextForm initialValue={step?.description ?? ""} />;
   } else if (formType === "folder") {
     // TODO: implement
     return null;
