@@ -32,6 +32,7 @@ import { useArticleCopyText, useNavigateToHash } from "../../components/Article/
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import Disclaimer from "../../components/Disclaimer";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -75,12 +76,6 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -100,11 +95,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
-      const dimensions = getAllDimensions({
-        article: resource?.article,
-        filter: root?.name,
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({
         dimensions,
         title: getDocumentTitle(t, resource, root),
@@ -196,7 +187,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         <PageContent variant="article" asChild>
           <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
-        <StyledPageContent variant="article" gutters="tabletUp">
+        <PageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
             <ArticleWrapper {...licenseProps}>
               <ArticleTitle
@@ -228,6 +219,11 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   )
                 }
                 lang={article.language === "nb" ? "no" : article.language}
+                disclaimer={
+                  article.transformedDisclaimer?.content ? (
+                    <Disclaimer disclaimer={article.transformedDisclaimer} />
+                  ) : null
+                }
               />
               <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
               <ArticleFooter>
@@ -257,7 +253,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
               </ArticleFooter>
             </ArticleWrapper>
           </PageContent>
-        </StyledPageContent>
+        </PageContent>
       </ContentTypeHero>
     </main>
   );

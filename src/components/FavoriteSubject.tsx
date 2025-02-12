@@ -51,7 +51,7 @@ const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) => {
       variables: { favoriteSubjects: newFavorites },
     });
     toast.create({
-      title: t("myndla.resource.added"),
+      title: t("myNdla.resource.added"),
       description: t("subjectsPage.addConfirmed", { subject: node.name }),
     });
   };
@@ -62,11 +62,11 @@ const FavoriteSubject = ({ node, favorites, subjectLinkOrText }: Props) => {
     }
     const newFavorites = favorites?.filter((favorite) => favorite !== node.id);
     await updatePersonalData({
-      variables: { favoriteSubjects: newFavorites, shareName: undefined },
+      variables: { favoriteSubjects: newFavorites },
     });
     setShowDeleteModal(false);
     toast.create({
-      title: t("myndla.resource.removed"),
+      title: t("myNdla.resource.removed"),
       description: t("subjectsPage.removeConfirmed", { subject: node.name }),
     });
   };

@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
     resourceTypeFilter: "Resource types",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "My tags",
     campaignBlock: {
       title: "Try our chatbots",
@@ -87,13 +87,22 @@ const messages = {
       tagsDialogTitle: "Tags related to resource {{title}}",
       noTags: "No tags.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",
       resourceRemovedTitle: "Resource not available",
     },
+    acceptedShareName: {
+      title: "Now we show your name when you share",
+      subtitle:
+        "We have changed the display of shared folders. Your name is now shown on all shared folders and learning paths.",
+      description: "If you do not want your name to be visible, you can stop sharing folders and learning paths.",
+      button: "OK",
+      accept: {
+        error: "Could not save",
+      },
+    },
     arena: {
+      title: "The arena",
       notification: {
         description:
           "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",
@@ -101,6 +110,23 @@ const messages = {
       reported: "Content reported",
       error: "An error occured",
       userUpdated: "User updated",
+      accept: {
+        success: "You now have access to the arena",
+        error: "Failed to accept the terms.",
+        title: "Welcome to the arena",
+        pitch1: "Here you can discuss and collaborate with teachers throughout Norway.",
+        pitch2:
+          "In the arena we are going to share and inspire each other - just remember to respect privacy and ensure that all content is legal!",
+        listTitle: "In summary:",
+        list1: "Don't share your own or others personally sensitive information",
+        list2: "Make sure that what you are sharing is legal to share.",
+        list3: "If you share content you have written yourself, others can reshare it as long as they quote you.",
+        terms: "Read more in our terms of service.",
+        privacyPolicy:
+          "When you create a user in the NDLA Arena, we will process your personally sensitive information. You can read more about our usage of personally sensitive information in ",
+        privacyPolicyLink: "our privacy policy",
+        acceptButton: "Accept",
+      },
     },
     goToMyNdla: "Go to My NDLA",
     learningpath: {
@@ -125,7 +151,6 @@ const messages = {
         },
         content: {
           title: "Append content",
-          subTitle: "Append content to the learningpath",
           resource: {
             label: "Article from NDLA",
             labelHelper: "Search for an article or paste a link",
@@ -143,6 +168,9 @@ const messages = {
               label: "Content",
               labelHelper: "Write or paste your content here.",
             },
+            copyright:
+              "What you share in a learning path will be available under a Creative Commons license (BY-SA). This means that others can use and share what you have created, as long as they give you credit.",
+            copyrightLink: "Read more about NDLA and content sharing here",
           },
           external: {
             title: {
@@ -265,6 +293,7 @@ const messages = {
     notUnique: "Already exists",
     maxLength: "This field can only contain {{count}} characters",
     maxLengthField: `$t(validation.fields.{{field}}) can only contain {{count}} characters`,
+    properUrl: "This field can only contain a valid link. E.g: https://ndla.no",
   },
   lti: {
     goBack: "Go back to LTI search",
@@ -344,6 +373,9 @@ const messages = {
     accordionTitle: "Learning path content",
     learningsteps: "Steps",
     stepCompleted: "Completed",
+    externalWarning:
+      "This learning path has been developed by an external teacher, who holds the editorial responsibility. Please note that it may contain texts and links that do not originate from ndla.no.",
+    externalLink: "Open in a new window",
   },
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
@@ -373,6 +405,19 @@ const messages = {
       seconds: "seconds",
       year: "year",
       years: "years",
+    },
+  },
+  richTextEditor: {
+    plugin: {
+      link: {
+        edit: "Edit link",
+        create: "Create link",
+        popoverTitle: "Link to {{domain}}",
+        form: {
+          textLabel: "Text",
+          urlLabel: "URL",
+        },
+      },
     },
   },
 };

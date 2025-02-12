@@ -69,11 +69,11 @@ export const arenaDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case "dev":
     case "local":
-      return "grupper.test.ndla.no";
+      return "arena.test.ndla.no";
     case "prod":
-      return "grupper.ndla.no";
+      return "arena.ndla.no";
     default:
-      return `grupper.${ndlaEnvironmentHostname}.ndla.no`;
+      return `arena.${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -158,7 +158,7 @@ const getServerSideConfig = (): ConfigType => {
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
     arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
     arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
+    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
@@ -168,7 +168,7 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
-    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
+    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", true),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };

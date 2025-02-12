@@ -62,7 +62,6 @@ const ResourcesPageContent = styled("div", {
 
 const StyledPageContent = styled(PageContent, {
   base: {
-    overflowX: "hidden",
     paddingBlockStart: "xxlarge",
     gap: "xsmall",
   },
@@ -102,16 +101,12 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
 
   useEffect(() => {
     if (!node?.article || !authContextLoaded) return;
-    const dimensions = getAllDimensions({
-      article: node.article,
-      filter: root?.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({
       dimensions,
       title: pageTitle,
     });
-  }, [authContextLoaded, root, t, node.article, node.url, trackPageView, user, pageTitle]);
+  }, [authContextLoaded, node.article, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);

@@ -40,12 +40,6 @@ interface Props {
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -99,7 +93,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   useEffect(() => {
     if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions({ article: _article, user });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);
@@ -159,7 +153,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
             <HomeBreadcrumb items={crumbs} />
           </StyledHeroContent>
         </PageContent>
-        <StyledPageContent variant="article" gutters="tabletUp">
+        <PageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
             <ArticleWrapper {...licenseProps}>
               <ArticleHeader>
@@ -185,7 +179,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
               </ArticleFooter>
             </ArticleWrapper>
           </PageContent>
-        </StyledPageContent>
+        </PageContent>
       </Hero>
     </main>
   );

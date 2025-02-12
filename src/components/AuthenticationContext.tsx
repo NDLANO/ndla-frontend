@@ -56,9 +56,10 @@ export const personalDataQueryFragment = gql`
     organization
     favoriteSubjects
     role
+    shareNameAccepted
     arenaEnabled
+    arenaAccepted
     arenaGroups
-    shareName
   }
 `;
 

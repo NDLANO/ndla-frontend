@@ -53,17 +53,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const { node } = data;
-    const learningpath = node?.learningpath;
-    const firstStep = learningpath?.learningsteps?.[0];
-    const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
-    const learningstep = currentStep || firstStep;
-    const dimensions = getAllDimensions({
-      learningpath,
-      learningstep,
-      filter: node?.context?.parents?.[0]?.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 

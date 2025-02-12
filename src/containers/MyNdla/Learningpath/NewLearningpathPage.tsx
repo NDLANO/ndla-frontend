@@ -35,6 +35,9 @@ export const NewLearningpathPage = () => {
   }, [t, trackPageView, user]);
 
   const onSave = async ({ title, imageUrl }: TitleFormValues) => {
+    if (!user) {
+      return;
+    }
     const res = await createLearningpath({
       variables: {
         params: {
@@ -46,13 +49,8 @@ export const NewLearningpathPage = () => {
               // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
               license: ALL_ABBREVIATIONS[4],
             },
-            // TODO: Should this be filled with the author / authors / owners?
-            contributors: [],
+            contributors: [{ name: user.displayName, type: "author" }],
           },
-          // TODO: This shouldn't be hardcoded
-          description: "",
-          tags: [],
-          duration: 1,
         },
       },
     });

@@ -38,6 +38,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
             </p>
           </div>
+          <div
+            class="d_flex gap_small flex-wrap_wrap ai_center"
+          />
         </header>
         <section
           class="ndla-article"
@@ -127,6 +130,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                 <div
                   aria-labelledby="accordion::r0::trigger:rulesForUse"
                   class="ov_hidden trs-prop_padding-bottom trs-dur_normal trs-tmf_default py_xsmall px_small open:anim_collapse-in open:motionReduce:anim_none closed:anim_collapse-out closed:motionReduce:anim_none bdr-b_xsmall bd-w_0_1px_1px border-style_solid bd-c_stroke.default"
+                  data-collapsible=""
                   data-orientation="vertical"
                   data-part="item-content"
                   data-scope="accordion"
@@ -182,7 +186,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         data-scope="tabs"
                         dir="ltr"
                         id="tabs::r2::indicator"
-                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function);"
+                        style="--transition-property: left, right, top, bottom, width, height; --left: 0px; --top: 0px; --width: 0px; --height: 0px; position: absolute; will-change: var(--transition-property); transition-property: var(--transition-property); transition-duration: 0ms; transition-timing-function: var(--transition-timing-function); left: var(--left);"
                       />
                     </div>
                     <div

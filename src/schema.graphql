@@ -173,7 +173,6 @@ input ArenaUserV2Input {
   arenaEnabled: Boolean
   arenaGroups: [String!]
   favoriteSubjects: [String!]
-  shareName: Boolean
 }
 
 type Article {
@@ -207,6 +206,7 @@ type Article {
   tags: [String!]
   title: String!
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+  transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
 }
 
@@ -836,11 +836,11 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 input LearningpathNewInput {
   copyright: LearningpathCopyrightInput!
   coverPhotoMetaUrl: String
-  description: String!
-  duration: Int!
+  description: String
+  duration: Int
   introduction: String
   language: String!
-  tags: [String!]!
+  tags: [String!]
   title: String!
 }
 
@@ -1076,7 +1076,11 @@ type Mutation {
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
   updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
-  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
+  updatePersonalData(
+    arenaAccepted: Boolean
+    favoriteSubjects: [String]
+    shareNameAccepted: Boolean
+  ): MyNdlaPersonalData!
   updatePost(content: String!, postId: Int!, title: String): ArenaPost!
   updatePostV2(content: String!, postId: Int!): ArenaPostV2!
   updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
@@ -1131,6 +1135,7 @@ type MyNdlaLearningpathStep {
 }
 
 type MyNdlaPersonalData {
+  arenaAccepted: Boolean!
   arenaEnabled: Boolean!
   arenaGroups: [String!]!
   displayName: String!
@@ -1141,7 +1146,7 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
-  shareName: Boolean!
+  shareNameAccepted: Boolean!
   username: String!
 }
 
@@ -1358,6 +1363,7 @@ type Query {
     grepCodes: String
     language: String
     levels: String
+    license: String
     page: Int
     pageSize: Int
     query: String
@@ -1404,6 +1410,7 @@ type Query {
     language: String
     languageFilter: String
     levels: String
+    license: String
     page: Int
     pageSize: Int
     query: String
@@ -1420,6 +1427,7 @@ type Query {
     language: String
     languageFilter: String
     levels: String
+    license: String
     query: String
     relevance: String
     resourceTypes: String

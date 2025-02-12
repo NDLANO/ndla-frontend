@@ -6,60 +6,18 @@
  *
  */
 
-import { GQLArticle, GQLLearningpathStep, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
-
-type DimensionKeys = "10" | "13" | "14" | "16" | "17" | "18" | "19" | "20";
-type DimensionType = Record<DimensionKeys, string | number | undefined>;
-
-export const getDimensionsCodes = {
-  "10": "CustDimKjerneelement",
-  "13": "CustDimStiLengde",
-  "14": "CustDimStiSteg",
-  "16": "CustDimFylke",
-  "17": "CustDimSkule",
-  "18": "CustDimRolle",
-  "19": "CustDimFilter",
-  "20": "CustDimKompetansemaal",
-};
-
-export const convertToGaOrGtmDimension = (dimensions: DimensionType): Record<string | number, any> => {
-  return Object.keys(dimensions).reduce((prev, curr) => {
-    const key = curr as DimensionKeys;
-    return {
-      ...prev,
-      [getDimensionsCodes[key]]: dimensions[key],
-    };
-  }, {});
-};
-
-const getGrepCodeOfType = (pattern: string, grepCodes?: string[]) =>
-  grepCodes?.filter((code) => code?.startsWith(pattern))?.join("|") || undefined;
-
-type RequiredLearningpath = {
-  learningsteps?: any[];
-};
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 
 interface Props {
-  article?: Pick<GQLArticle, "grepCodes">;
-  learningpath?: RequiredLearningpath;
-  learningstep?: Pick<GQLLearningpathStep, "seqNo">;
-  filter?: string;
   user?: GQLMyNdlaPersonalDataFragmentFragment;
 }
 
-export const getAllDimensions = ({ article, learningpath, learningstep, filter, user }: Props) => {
-  const dimensions: DimensionType = {
-    "10": getGrepCodeOfType("KE", article?.grepCodes),
-    "13": learningpath?.learningsteps?.length,
-    "14": learningstep ? learningstep.seqNo + 1 : undefined,
-    "16": user?.organization,
-    // This is disabled for now.
-    // "17": user?.groups.find((g) => g.isPrimarySchool)?.displayName,
-    "17": undefined,
-    "18": user?.role,
-    "19": filter,
-    "20": getGrepCodeOfType("KM", article?.grepCodes),
+export const getAllDimensions = ({ user }: Props) => {
+  if (!user?.role && !user?.organization) {
+    return {};
+  }
+  return {
+    CustDimFylke: user?.organization,
+    CustDimRolle: user?.role,
   };
-
-  return convertToGaOrGtmDimension(dimensions);
 };

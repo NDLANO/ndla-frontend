@@ -67,11 +67,11 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
     resourceTypeFilter: "Ressurstyper",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Prøv robotene våre",
-      linkText: "Prøv NDLAs prateroboter",
+      linkText: "Prøv NDLAs roboter",
       ingressStudent:
         "Vil du ha hjelp til å forenkle en tekst, øve til en prøve eller lage illustrasjoner? Prøv robotene våre og se om de kan hjelpe deg! I perioder med eksamensgjennomføring stenger fylkeskommunene tilgangen til robotene.",
       ingress:
@@ -87,13 +87,22 @@ const messages = {
       tagsDialogTitle: "Emneknagger knyttet til ressurs {{title}}",
       noTags: "Ingen emneknagger.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
       resourceRemovedTitle: "Ressurs ikke tilgjengelig",
     },
+    acceptedShareName: {
+      title: "Nå viser vi navnet ditt når du deler",
+      subtitle: "Vi har endret visningen på delte mapper. Nå vises navnet ditt på alle delte mapper og læringsstier.",
+      description:
+        "Dersom du ikke ønsker at navnet ditt skal være synlig kan du avslutte deling av mapper og læringsstier.",
+      button: "OK",
+      accept: {
+        error: "Kunne ikke lagre",
+      },
+    },
     arena: {
+      title: "Arenaen",
       notification: {
         description:
           "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
@@ -101,6 +110,23 @@ const messages = {
       reported: "Innhold rapportert",
       error: "En feil oppstod",
       userUpdated: "Bruker oppdatert",
+      accept: {
+        success: "Du har nå tilgang til Arena",
+        error: "Klarte ikke å godta vilkårene.",
+        title: "Velkommen til arenaen",
+        pitch1: "Her kan du diskutere og samarbeide med lærere fra hele Norge.",
+        pitch2:
+          "Her inne skal vi dele og inspirere hverandre - bare husk å respektere personvern og sørg for at alt innhold er lovlig!",
+        listTitle: "Kort oppsummert:",
+        list1: "Ikke del egne eller andres personvernopplysninger",
+        list2: "Sørg for at det du deler er lovlig å dele.",
+        list3: "Hvis du deler innhold du har skrevet selv kan andre dele det videre, så lenge de siterer deg.",
+        terms: "Les mer i våre brukervilkår.",
+        privacyPolicy:
+          "Når du oppretter en bruker i NDLA Arena, vil vi behandle dine personopplysninger. Du kan lese mer om vår behandling av personopplysninger i ",
+        privacyPolicyLink: "vår personvernerklæring.",
+        acceptButton: "Godta",
+      },
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpath: {
@@ -125,7 +151,6 @@ const messages = {
         },
         content: {
           title: "Legg til innhold",
-          subTitle: "Legg til innhold til læringsstien",
           resource: {
             label: "Artikkel fra NDLA",
             labelHelper: "Søk etter artikkel eller lim inn en lenke",
@@ -143,6 +168,9 @@ const messages = {
               label: "Innhold",
               labelHelper: "Skriv eller lim inn innholdet ditt her.",
             },
+            copyright:
+              "Det du deler i en læringssti blir tilgjengelig under en Creative Commons-lisens (BY-SA). Dette betyr at andre kan bruke og dele det du har laget, så lenge de gir deg kreditering.",
+            copyrightLink: "Les mer om NDLA og deling av innhold her",
           },
           external: {
             title: {
@@ -266,6 +294,7 @@ const messages = {
     notUnique: "Finnes allerede",
     maxLength: "Dette feltet kan inneholde maks {{count}} tegn",
     maxLengthField: "$t(validation.fields.{{field}}) kan innholde maks {{count}} tegn",
+    properUrl: "Dette feltet kan kun innholde en gyldig lenke. Eks: https://ndla.no",
   },
   lti: {
     goBack: "Tilbake til LTI-søk",
@@ -345,6 +374,9 @@ const messages = {
     accordionTitle: "Innhold i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
+    externalWarning:
+      "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
+    externalLink: "Åpne i nytt vindu",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
@@ -374,6 +406,19 @@ const messages = {
       seconds: "sekunder",
       year: "år",
       years: "år",
+    },
+  },
+  richTextEditor: {
+    plugin: {
+      link: {
+        edit: "Rediger lenke",
+        create: "Opprett lenke",
+        popoverTitle: "Lenke til {{domain}}",
+        form: {
+          textLabel: "Tekst",
+          urlLabel: "URL",
+        },
+      },
     },
   },
 };

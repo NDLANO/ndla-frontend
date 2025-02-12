@@ -122,7 +122,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
       dimensions,
       title: pageTitle,
     });
-  }, [authContextLoaded, pageTitle, t, trackPageView, user]);
+  }, [authContextLoaded, pageTitle, trackPageView, user]);
 
   return (
     <StyledPageContainer padding="large" asChild consumeCss>

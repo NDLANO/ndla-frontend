@@ -8,10 +8,10 @@
 
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Descendant } from "slate";
 import {
   Button,
   FieldErrorMessage,
-  FieldHelper,
   FieldLabel,
   FieldRoot,
   RadioGroupItem,
@@ -48,7 +48,7 @@ export type FormValues = {
   type: string;
   title: string;
   introduction: string;
-  description: string;
+  description: Descendant[];
   embedUrl: string;
   url: string;
   shareable: boolean;
@@ -67,6 +67,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
+    mode: "onSubmit",
     defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
   const { handleSubmit, control, reset, formState } = methods;
@@ -80,7 +81,6 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
           render={({ field, fieldState }) => (
             <FieldRoot required>
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
-              <FieldHelper>{t("myNdla.learningpath.form.content.subTitle")}</FieldHelper>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
                 onValueChange={(details) => reset(getValuesFromStep(details.value as FormType, step))}
@@ -143,7 +143,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   } else if (formType === "external") {
     return <ExternalForm />;
   } else if (formType === "text") {
-    return <TextForm />;
+    return <TextForm initialValue={step?.description ?? ""} />;
   } else if (formType === "folder") {
     // TODO: implement
     return null;

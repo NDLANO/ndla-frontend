@@ -9,9 +9,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
-import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -24,10 +22,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleContent, ArticleHeader, ArticleWrapper, ContentTypeBadge, HomeBreadcrumb, LicenseLink } from "@ndla/ui";
+import { ContentTypeBadge, HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
-import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
-import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
 import LearningpathMenu from "./LearningpathMenu";
 import type { LearningpathContext } from "./learningpathUtils";
 import {
@@ -35,18 +31,19 @@ import {
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
-import { Breadcrumb as BreadcrumbType } from "../../interfaces";
+import { Breadcrumb } from "../../interfaces";
 import { routes, toLearningPath } from "../../routeHelpers";
 import FavoriteButton from "../Article/FavoritesButton";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
+import { LearningpathStep } from "./components/LearningpathStep";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   resource?: GQLLearningpathPage_NodeFragment;
   skipToContentId?: string;
-  breadcrumbItems: BreadcrumbType[];
+  breadcrumbItems: Breadcrumb[];
   resourcePath?: string;
   context?: LearningpathContext;
 }
@@ -134,7 +131,6 @@ const StyledAccordionRoot = styled(AccordionRoot, {
     position: "sticky",
     zIndex: "sticky",
     top: "var(--masthead-height)",
-    marginInline: "small",
   },
   variants: {
     context: {
@@ -190,23 +186,24 @@ const Learningpath = ({
   breadcrumbItems,
   context = "default",
 }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [accordionValue, setAccordionValue] = useState<string[]>();
   const accordionRef = useRef<HTMLDivElement>(null);
 
-  const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
-  const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
+  const index = learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id);
+  const previousStep = learningpath.learningsteps[index - 1];
+  const nextStep = learningpath.learningsteps[index + 1];
 
   const menu = useMemo(
     () => (
       <LearningpathMenu
         resourcePath={resourcePath}
         learningpath={learningpath}
-        currentStep={learningpathStep}
+        currentIndex={index}
         context={context}
       />
     ),
-    [context, learningpath, learningpathStep, resourcePath],
+    [context, index, learningpath, resourcePath],
   );
   const parents = resource?.context?.parents || [];
   const root = parents[0];
@@ -273,39 +270,14 @@ const Learningpath = ({
         </StyledAccordionRoot>
         {context === "default" && <MenuWrapper>{menu}</MenuWrapper>}
         <StyledPageContent variant="article" gutters="never">
-          {(!!learningpathStep.description || !!learningpathStep.showTitle) && (
-            <EmbedPageContent variant="content">
-              <ArticleWrapper>
-                {!!learningpathStep.showTitle && (
-                  <ArticleHeader>
-                    <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
-                      {learningpathStep.title}
-                    </Heading>
-                    <LicenseLink
-                      license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
-                    />
-                  </ArticleHeader>
-                )}
-                <ArticleContent>
-                  {!!learningpathStep.description && <section>{transform(learningpathStep.description, {})}</section>}
-                </ArticleContent>
-              </ArticleWrapper>
-            </EmbedPageContent>
-          )}
-          <LearningpathEmbed
-            key={learningpathStep.id}
-            skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
+          <LearningpathStep
+            resource={resource}
             subjectId={root?.id}
-            learningpathStep={learningpathStep}
+            learningpath={learningpath}
             breadcrumbItems={breadcrumbItems}
-          >
-            <LastLearningpathStepInfo
-              seqNo={learningpathStep.seqNo}
-              numberOfLearningSteps={learningpath.learningsteps.length - 1}
-              title={learningpath.title}
-              resource={resource}
-            />
-          </LearningpathEmbed>
+            skipToContentId={skipToContentId}
+            learningpathStep={learningpathStep}
+          />
           {/* TODO: How should this handle long titles on smaller screens? */}
           <PageButtonsContainer>
             {previousStep ? (
@@ -362,7 +334,7 @@ Learningpath.fragments = {
       ...LearningpathMenu_LearningpathStep
     }
     ${LearningpathMenu.fragments.step}
-    ${LearningpathEmbed.fragments.learningpathStep}
+    ${LearningpathStep.fragments.learningpathStep}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

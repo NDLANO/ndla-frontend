@@ -180,7 +180,7 @@ const FoldersPage = () => {
       {!selectedFolder && tags.length ? (
         <>
           <TagsHeading asChild consumeCss textStyle="heading.small">
-            <h2>{t("myndla.tagsTitle")}</h2>
+            <h2>{t("myNdla.tagsTitle")}</h2>
           </TagsHeading>
           <nav aria-labelledby="tags-header">
             <StyledUl>
