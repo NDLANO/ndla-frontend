@@ -28,7 +28,7 @@ interface ResourceFormProps {
   resource?: ResourceData;
 }
 
-export const ResourceForm = ({ resource }: ResourceFormProps) => {
+export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
   const { setValue } = useFormContext<ResourceFormValues>();

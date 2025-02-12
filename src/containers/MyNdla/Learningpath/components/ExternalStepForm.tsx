@@ -53,7 +53,7 @@ export interface ExternalFormValues {
   shareable: boolean;
 }
 
-export const ExternalForm = () => {
+export const ExternalStepForm = () => {
   const { t } = useTranslation();
   const { control, setValue, watch } = useFormContext<ExternalFormValues>();
   const [fetchOpengraph] = useFetchOpengraph({ skip: true });

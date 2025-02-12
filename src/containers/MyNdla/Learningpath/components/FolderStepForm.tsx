@@ -13,9 +13,9 @@ import { DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FolderResourcePicker } from "./FolderResourcePicker";
-import { ResourceFormValues } from "./ResourceForm";
 import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
+import { ResourceFormValues } from "./ResourceStepForm";
 
 const TextWrapper = styled("div", {
   base: {
@@ -50,7 +50,7 @@ export interface FolderResource {
   path: string;
 }
 
-export const FolderForm = () => {
+export const FolderStepForm = () => {
   const [resource, setResource] = useState<FolderResource | undefined>(undefined);
 
   const { refetch } = useFetchOembed({ skip: true });

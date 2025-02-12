@@ -25,7 +25,7 @@ export interface TextFormValues {
   description: string;
 }
 
-export const TextForm = () => {
+export const TextStepForm = () => {
   const { validationT } = useValidationTranslation();
   const { setValue, control } = useFormContext<TextFormValues>();
 

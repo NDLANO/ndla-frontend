@@ -36,7 +36,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
-import { ResourceData } from "./ResourceForm";
 import config from "../../../../config";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
@@ -47,6 +46,7 @@ import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResult } from "../../
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
+import { ResourceData } from "./ResourceStepForm";
 
 const HitsWrapper = styled("div", {
   base: {

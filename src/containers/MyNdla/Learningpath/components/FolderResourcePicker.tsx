@@ -29,7 +29,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
-import { FolderResource } from "./FolderForm";
+import { FolderResource } from "./FolderStepForm";
 import { GQLBreadcrumb, GQLFolder, GQLFolderResource } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";

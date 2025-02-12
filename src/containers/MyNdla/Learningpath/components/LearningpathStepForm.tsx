@@ -23,10 +23,10 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
-import { ExternalForm } from "./ExternalForm";
-import { FolderForm } from "./FolderForm";
-import { ResourceForm } from "./ResourceForm";
-import { TextForm } from "./TextForm";
+import { ExternalStepForm } from "./ExternalStepForm";
+import { FolderStepForm } from "./FolderStepForm";
+import { ResourceStepForm } from "./ResourceStepForm";
+import { TextStepForm } from "./TextStepForm";
 
 const ContentForm = styled("form", {
   base: {
@@ -128,7 +128,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
 
   if (formType === "resource") {
     return (
-      <ResourceForm
+      <ResourceStepForm
         resource={
           step?.resource
             ? {
@@ -142,11 +142,11 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
       />
     );
   } else if (formType === "external") {
-    return <ExternalForm />;
+    return <ExternalStepForm />;
   } else if (formType === "text") {
-    return <TextForm />;
+    return <TextStepForm />;
   } else if (formType === "folder") {
-    return <FolderForm />;
+    return <FolderStepForm />;
   }
   return null;
 };
