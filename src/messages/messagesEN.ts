@@ -79,6 +79,10 @@ const messages = {
       H5P: "Interactive task",
       PODCAST: "Podcast",
     },
+    context: {
+      dialogTrigger: "+ {{count}} more contexts",
+      dialogHeading: "The resource is used in several contexts",
+    },
     filtersHeading: "Customize your search",
     subjectFilter: {
       heading: "Sort by subject",

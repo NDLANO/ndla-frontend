@@ -79,11 +79,11 @@ const messages = {
       H5P: "Interaktiv oppgave",
       PODCAST: "Podkast",
     },
-    filtersHeading: "Tilpass søket ditt",
     context: {
       dialogTrigger: "+ {{count}} flere steder",
       dialogHeading: "Ressursen er brukt flere steder",
     },
+    filtersHeading: "Tilpass søket ditt",
     subjectFilter: {
       heading: "Sorter på fag",
       trigger: "Velg fag",
