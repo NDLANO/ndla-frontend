@@ -66,9 +66,10 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
     oldResourceTypeFilter: "Ressurstyper",
     pagination: "Søkeresultater",
+    querySuggestion: "Søk heller",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
-      query: 'for "{{query}}"',
+      query: "for",
     },
     traits: {
       VIDEO: "Video",

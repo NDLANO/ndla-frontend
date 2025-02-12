@@ -67,9 +67,10 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
     oldResourceTypeFilter: "Ressurstyper",
     pagination: "Søkeresultater",
+    querySuggestion: "Søk heller ",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
-      query: 'for "{{query}}"',
+      query: "for",
     },
     traits: {
       VIDEO: "Video",
@@ -78,6 +79,10 @@ const messages = {
       PODCAST: "Podkast",
     },
     filtersHeading: "Tilpass søket ditt",
+    context: {
+      dialogTrigger: "+ {{count}} flere steder",
+      dialogHeading: "Ressursen er brukt flere steder",
+    },
     subjectFilter: {
       heading: "Sorter på fag",
       trigger: "Velg fag",

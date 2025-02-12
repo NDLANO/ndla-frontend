@@ -67,9 +67,10 @@ const messages = {
     subjectLetter: "Subjects starting with {{letter}}",
     oldResourceTypeFilter: "Resource types",
     pagination: "Search results",
+    querySuggestion: "Search instead for ",
     showingResults: {
       hits: "Showing results {{from}}-{{to}} of {{total}}",
-      query: 'for "{{query}}"',
+      query: "for",
     },
     traits: {
       VIDEO: "Video",

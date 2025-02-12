@@ -218,13 +218,18 @@ export const SearchContainer = () => {
     [query, setSearchParams],
   );
 
+  const suggestion = data?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+
   const resultsTranslation = useMemo(() => {
     if (!data?.search) return undefined;
     const from = page * data.search.pageSize - (data.search.pageSize - 1);
     const to = page * data.search.pageSize;
     const res = [t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount })];
     if (query.length) {
-      res.push(t("searchPage.showingResults.query", { query }));
+      res.push(t("searchPage.showingResults.query"));
+      // TODO: Should we account for the possibility that the query is wrapped in quotes? If so, how should we display it?
+      // Keep query out of the translation string to avoid escaping issues
+      res.push(`"${query}"`);
     }
     return res.filter(Boolean).join(" ");
   }, [data?.search, page, query, t]);
@@ -284,6 +289,20 @@ export const SearchContainer = () => {
               </SearchFieldWrapper>
             </form>
             {!!resultsTranslation && <Text textStyle="label.small">{resultsTranslation}</Text>}
+            {!!suggestion && (
+              <Text>
+                {t("searchPage.querySuggestion")}
+                <Button
+                  variant="link"
+                  onClick={() => {
+                    setQuery(suggestion);
+                    setSearchParams({ query: suggestion });
+                  }}
+                >
+                  [{suggestion}]
+                </Button>
+              </Text>
+            )}
           </FormWrapper>
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
           <StyledPaginationRoot
