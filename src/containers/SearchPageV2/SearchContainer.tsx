@@ -28,6 +28,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
+import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
 import { SubjectFilter } from "./SubjectFilter";
@@ -332,6 +333,7 @@ export const SearchContainer = () => {
           <Heading textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
+          <GrepFilter />
           <TraitFilter />
           <SubjectFilter />
           <ResourceTypeFilter bucketResult={data?.search?.aggregations?.[0]?.values ?? []} />

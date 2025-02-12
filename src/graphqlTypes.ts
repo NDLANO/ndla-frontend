@@ -4889,6 +4889,24 @@ export type GQLResourcesQueryQuery = {
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
 };
 
+export type GQLGrepFilterQueryVariables = Exact<{
+  codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+  language: Scalars["String"]["input"];
+}>;
+
+export type GQLGrepFilterQuery = {
+  __typename?: "Query";
+  competenceGoals?: Array<{
+    __typename?: "CompetenceGoal";
+    id: string;
+    title: string;
+    type: string;
+    curriculum?: { __typename?: "Reference"; id: string; title: string };
+    competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
+  }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
+};
+
 export type GQLSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSearchResourceTypesQuery = {

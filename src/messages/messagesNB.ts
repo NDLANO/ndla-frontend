@@ -86,6 +86,9 @@ const messages = {
     traitFilter: {
       heading: "Vis sider med",
     },
+    grepFilter: {
+      heading: "Filtrer på kompetansemål",
+    },
     resourceTypeFilter: {
       title: "Velg sidetype",
       showSubtypes: "Vis undertyper for {{parent}}",

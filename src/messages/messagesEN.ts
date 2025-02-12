@@ -86,6 +86,9 @@ const messages = {
     traitFilter: {
       heading: "Show pages with",
     },
+    grepFilter: {
+      heading: "Filter by competence goals",
+    },
     resourceTypeFilter: {
       title: "Choose page type",
       showSubtypes: "Show subtypes for {{parent}}",
