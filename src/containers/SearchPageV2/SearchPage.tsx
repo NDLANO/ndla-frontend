@@ -6,12 +6,28 @@
  *
  */
 
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useTracker } from "@ndla/tracker";
 import { SearchContainer } from "./SearchContainer";
+import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { getAllDimensions } from "../../util/trackingUtil";
 
 export const SearchPage = () => {
   const { t } = useTranslation();
+
+  const { trackPageView } = useTracker();
+  const { user, authContextLoaded } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (authContextLoaded) {
+      trackPageView({
+        title: t("htmlTitles.searchPage"),
+        dimensions: getAllDimensions({ user }),
+      });
+    }
+  }, [authContextLoaded, t, trackPageView, user]);
 
   return (
     <PageContainer>
