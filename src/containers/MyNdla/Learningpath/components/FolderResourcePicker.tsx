@@ -83,7 +83,7 @@ const StyledText = styled(Text, {
 
 const LEGAL_RESOURCE_TYPES = ["article", constants.contentTypes.MULTIDISCIPLINARY, constants.contentTypes.TOPIC];
 
-type GQLFolderResourceWithCrumb = GQLFolderResource & { breadcrumb: GQLBreadcrumb[] };
+type GQLFolderResourceWithCrumb = GQLFolderResource & { uniqueId: string; breadcrumb: GQLBreadcrumb[] };
 
 const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] =>
   folders
@@ -93,7 +93,7 @@ const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrum
         .map((resource) => ({ ...resource, breadcrumb: folder.breadcrumbs })),
       ...flattenFolderResources(folder.subfolders),
     ])
-    .filter((value, index, self) => index === self.findIndex((t) => t.id === value.id));
+    .map((resource, index) => ({ ...resource, uniqueId: `${resource.id}-${index}` }));
 
 interface ComboboxProps {
   onResourceSelect: (resource: FolderResource) => void;
@@ -130,7 +130,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     () =>
       createListCollection({
         items: filteredResources ?? [],
-        itemToValue: (item) => item.id,
+        itemToValue: (item) => item.uniqueId,
         itemToString: (item) => keyedData[`${item.resourceType}-${item.resourceId}`]?.title ?? item.id,
       }),
     [filteredResources, keyedData],
@@ -148,7 +148,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && highlightedValue) {
-      const resource = filteredResources?.find((item) => item.id === highlightedValue);
+      const resource = filteredResources?.find((item) => item.uniqueId === highlightedValue);
       const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
       onResourceSelect({
         path: resource?.path ?? "",
@@ -192,7 +192,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
             <Spinner />
           ) : filteredResources ? (
             <StyledComboboxContent>
-              {filteredResources.map((resource) => {
+              {filteredResources.map((resource, index) => {
                 const metaData = keyedData[`${resource.resourceType}-${resource.resourceId}`];
                 const contentType = metaData?.resourceTypes
                   ?.map((type) => contentTypeMapping[type.id])
@@ -200,7 +200,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
                 return (
                   <StyledComboboxItem
-                    key={resource.id}
+                    key={`${resource.id}-${index}`}
                     item={resource}
                     onClick={() =>
                       onResourceSelect({
