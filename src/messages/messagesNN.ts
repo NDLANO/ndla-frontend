@@ -98,6 +98,9 @@ const messages = {
     resourceTypeFilter: {
       title: "Vel sidetype",
       showSubtypes: "Vis undertypar for {{parent}}",
+      radioLabel: "Ressurstype",
+      resourceLabel: "Ressurs",
+      topicLabel: "Emne",
     },
   },
   myNdla: {

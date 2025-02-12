@@ -31,6 +31,7 @@ import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
+import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { LanguageSelector } from "../../components/LanguageSelector";
@@ -193,21 +194,18 @@ const StyledButton = styled(Button, {
 const getTypeVariables = (
   resourceTypes: string | null,
   allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[],
-  isLti: boolean,
+  nodeType: string,
 ) => {
-  const types = resourceTypes?.split(",");
-  const withoutTopicArticle = types?.filter((rt) => rt !== "topic-article");
-  const contextTypes = types?.includes("topic-article") ? "topic-article" : undefined;
-
-  if (!isLti && types?.length && types?.length !== withoutTopicArticle?.length) {
+  if (nodeType !== RESOURCE_NODE_TYPE) {
     return {
-      contextTypes,
+      contextTypes: nodeType === "topic" ? "topic-article" : nodeType,
     };
   }
 
-  const actualResourceTypes = withoutTopicArticle?.length
-    ? withoutTopicArticle.map((id) => `urn:resourcetype:${id}`).join(",")
-    : undefined;
+  const actualResourceTypes = resourceTypes
+    ?.split(",")
+    .map((id) => `urn:resourcetype:${id}`)
+    .join(",");
 
   const flattenedResourceTypes = allResourceTypes
     .flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
@@ -242,11 +240,14 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects: searchParams.get("subjects") ?? undefined,
       pageSize: 10,
-      // TODO: We need to aggregate topic articles
       aggregatePaths: ["contexts.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
       filterInactive: !searchParams.get("subjects")?.split(",").length,
-      ...getTypeVariables(searchParams.get("resourceTypes"), resourceTypes, isLti),
+      ...getTypeVariables(
+        searchParams.get("resourceTypes"),
+        resourceTypes,
+        searchParams.get("type") ?? RESOURCE_NODE_TYPE,
+      ),
     },
   });
 

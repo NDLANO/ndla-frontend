@@ -23,16 +23,23 @@ import {
   CheckboxRoot,
   Heading,
   IconButton,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
   Spinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
+import { RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import {
-  GQLResourceTypeDefinition,
   GQLResourceTypeFilter_BucketResultFragment,
   GQLResourceTypeFilter_ResourceTypeDefinitionFragment,
 } from "../../graphqlTypes";
+import { useLtiContext } from "../../LtiContext";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const DELIMITER = "//";
@@ -74,9 +81,30 @@ const StyledAccordionItemContent = styled(AccordionItemContent, {
   },
 });
 
+const RadioButtonWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "small",
+    flexWrap: "wrap",
+  },
+});
+
+const StyledRadioGroupRoot = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+  },
+});
+
+const NODE_TYPES = [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE];
+
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchParams();
   const { t } = useTranslation();
+  const isLti = useLtiContext();
+
+  const nodeType = useMemo(() => searchParams.get("type") ?? RESOURCE_NODE_TYPE, [searchParams]);
 
   const keyedBucketResult = useMemo(() => {
     return bucketResult.reduce<Record<string, number>>((acc, curr) => {
@@ -86,12 +114,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
   }, [bucketResult]);
 
   const resourceTypes = useMemo(() => {
-    const types = resourceTypesProp;
-    const topicArticleType: GQLResourceTypeDefinition = {
-      id: "topic-article",
-      name: t("contentTypes.topic-article"),
-    };
-    return [topicArticleType].concat(types).map((type) => ({
+    return resourceTypesProp.map((type) => ({
       ...type,
       id: type.id.replace("urn:resourcetype:", ""),
       subtypes: type.subtypes?.map((subtype) => ({
@@ -99,7 +122,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
         id: subtype.id.replace("urn:resourcetype:", ""),
       })),
     }));
-  }, [resourceTypesProp, t]);
+  }, [resourceTypesProp]);
 
   const currentResourceTypeIds = useMemo(() => searchParams.get("resourceTypes")?.split(",") ?? [], [searchParams]);
 
@@ -129,25 +152,109 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
     [currentResourceTypeIds, resourceTypes, setSearchParams],
   );
 
+  const onChangeNodeType = useCallback(
+    (id: string) => {
+      setSearchParams({ resourceTypes: null, type: id === RESOURCE_NODE_TYPE ? null : id });
+    },
+    [setSearchParams],
+  );
+
   return (
     <FilterContainer>
       <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
         <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
       </Heading>
-      {resourceTypesLoading ? (
-        <Spinner />
-      ) : (
-        <StyledAccordionRoot variant="clean" multiple>
-          {resourceTypes?.map((resourceType) =>
-            resourceType.subtypes?.length ? (
-              <AccordionItem key={resourceType.id} value={resourceType.id}>
-                <FilterWrapper>
+      {!isLti && (
+        <StyledRadioGroupRoot
+          orientation="horizontal"
+          value={nodeType}
+          onValueChange={(details) => onChangeNodeType(details.value)}
+        >
+          <RadioGroupLabel textStyle="label.small">{t("searchPage.resourceTypeFilter.radioLabel")}</RadioGroupLabel>
+          <RadioButtonWrapper>
+            {NODE_TYPES.map((type) => (
+              <RadioGroupItem key={type} value={type}>
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t(`searchPage.resourceTypeFilter.${type}Label`)}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            ))}
+          </RadioButtonWrapper>
+        </StyledRadioGroupRoot>
+      )}
+      <div hidden={nodeType !== RESOURCE_NODE_TYPE}>
+        {resourceTypesLoading ? (
+          <Spinner />
+        ) : (
+          <StyledAccordionRoot variant="clean" multiple>
+            {resourceTypes?.map((resourceType) =>
+              resourceType.subtypes?.length ? (
+                <AccordionItem key={resourceType.id} value={resourceType.id}>
+                  <FilterWrapper>
+                    <CheckboxRoot
+                      value={resourceType.id}
+                      checked={
+                        currentResourceTypeIds.includes(resourceType.id) ||
+                        resourceType.subtypes.some((s) => currentResourceTypeIds.includes(s.id))
+                      }
+                      onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
+                    >
+                      <CheckboxControl>
+                        <CheckboxIndicator asChild>
+                          <CheckLine />
+                        </CheckboxIndicator>
+                      </CheckboxControl>
+                      <CheckboxLabel>{resourceType.name}</CheckboxLabel>
+                      <CheckboxHiddenInput />
+                    </CheckboxRoot>
+                    <AccordionItemTrigger asChild>
+                      <IconButton
+                        variant="tertiary"
+                        size="small"
+                        aria-label={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
+                        title={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
+                      >
+                        <AccordionItemIndicator asChild>
+                          <ArrowDownShortLine size="medium" />
+                        </AccordionItemIndicator>
+                      </IconButton>
+                    </AccordionItemTrigger>
+                  </FilterWrapper>
+                  <StyledAccordionItemContent>
+                    {resourceType.subtypes.map((subtype) => (
+                      <FilterWrapper key={subtype.id}>
+                        <CheckboxRoot
+                          value={subtype.id}
+                          checked={currentResourceTypeIds.includes(subtype.id)}
+                          onCheckedChange={(details) =>
+                            onToggleResourceType(
+                              `${resourceType.id}${DELIMITER}${subtype.id}`,
+                              details.checked === true,
+                            )
+                          }
+                        >
+                          <CheckboxControl>
+                            <CheckboxIndicator asChild>
+                              <CheckLine />
+                            </CheckboxIndicator>
+                          </CheckboxControl>
+                          <CheckboxLabel>{subtype.name}</CheckboxLabel>
+                          <CheckboxHiddenInput />
+                        </CheckboxRoot>
+                        {keyedBucketResult[subtype.id] != null && (
+                          <Text asChild consumeCss color="text.subtle" textStyle="label.medium">
+                            <span>{keyedBucketResult[subtype.id]}</span>
+                          </Text>
+                        )}
+                      </FilterWrapper>
+                    ))}
+                  </StyledAccordionItemContent>
+                </AccordionItem>
+              ) : (
+                <FilterWrapper key={resourceType.id}>
                   <CheckboxRoot
                     value={resourceType.id}
-                    checked={
-                      currentResourceTypeIds.includes(resourceType.id) ||
-                      resourceType.subtypes.some((s) => currentResourceTypeIds.includes(s.id))
-                    }
+                    checked={currentResourceTypeIds.includes(resourceType.id)}
                     onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
                   >
                     <CheckboxControl>
@@ -158,71 +265,17 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
                     <CheckboxLabel>{resourceType.name}</CheckboxLabel>
                     <CheckboxHiddenInput />
                   </CheckboxRoot>
-                  <AccordionItemTrigger asChild>
-                    <IconButton
-                      variant="tertiary"
-                      size="small"
-                      aria-label={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
-                      title={t("searchPage.resourceTypeFilter.showSubtypes", { parent: resourceType.name })}
-                    >
-                      <AccordionItemIndicator asChild>
-                        <ArrowDownShortLine size="medium" />
-                      </AccordionItemIndicator>
-                    </IconButton>
-                  </AccordionItemTrigger>
+                  {keyedBucketResult[resourceType.id] != null && (
+                    <TopLevelCountText asChild consumeCss color="text.subtle" textStyle="label.medium">
+                      <span>{keyedBucketResult[resourceType.id]}</span>
+                    </TopLevelCountText>
+                  )}
                 </FilterWrapper>
-                <StyledAccordionItemContent>
-                  {resourceType.subtypes.map((subtype) => (
-                    <FilterWrapper key={subtype.id}>
-                      <CheckboxRoot
-                        value={subtype.id}
-                        checked={currentResourceTypeIds.includes(subtype.id)}
-                        onCheckedChange={(details) =>
-                          onToggleResourceType(`${resourceType.id}${DELIMITER}${subtype.id}`, details.checked === true)
-                        }
-                      >
-                        <CheckboxControl>
-                          <CheckboxIndicator asChild>
-                            <CheckLine />
-                          </CheckboxIndicator>
-                        </CheckboxControl>
-                        <CheckboxLabel>{subtype.name}</CheckboxLabel>
-                        <CheckboxHiddenInput />
-                      </CheckboxRoot>
-                      {keyedBucketResult[subtype.id] != null && (
-                        <Text asChild consumeCss color="text.subtle" textStyle="label.medium">
-                          <span>{keyedBucketResult[subtype.id]}</span>
-                        </Text>
-                      )}
-                    </FilterWrapper>
-                  ))}
-                </StyledAccordionItemContent>
-              </AccordionItem>
-            ) : (
-              <FilterWrapper key={resourceType.id}>
-                <CheckboxRoot
-                  value={resourceType.id}
-                  checked={currentResourceTypeIds.includes(resourceType.id)}
-                  onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
-                >
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{resourceType.name}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </CheckboxRoot>
-                {keyedBucketResult[resourceType.id] != null && (
-                  <TopLevelCountText asChild consumeCss color="text.subtle" textStyle="label.medium">
-                    <span>{keyedBucketResult[resourceType.id]}</span>
-                  </TopLevelCountText>
-                )}
-              </FilterWrapper>
-            ),
-          )}
-        </StyledAccordionRoot>
-      )}
+              ),
+            )}
+          </StyledAccordionRoot>
+        )}
+      </div>
     </FilterContainer>
   );
 };

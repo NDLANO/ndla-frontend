@@ -98,6 +98,9 @@ const messages = {
     resourceTypeFilter: {
       title: "Choose page type",
       showSubtypes: "Show subtypes for {{parent}}",
+      radioLabel: "Resource type",
+      resourceLabel: "Resource",
+      topicLabel: "Topic",
     },
   },
   myNdla: {
