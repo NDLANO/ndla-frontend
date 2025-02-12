@@ -8,9 +8,9 @@
 
 import { t } from "i18next";
 import keyBy from "lodash/keyBy";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, KeyboardEvent } from "react";
 import { ComboboxInputValueChangeDetails, createListCollection } from "@ark-ui/react";
-import { CloseLine, ArrowDownShortLine } from "@ndla/icons";
+import { ArrowDownShortLine } from "@ndla/icons";
 import {
   Text,
   InputContainer,
@@ -21,7 +21,6 @@ import {
   ComboboxRoot,
   ComboboxControl,
   ComboboxInput,
-  ComboboxClearTrigger,
   ComboboxTrigger,
   ComboboxItemText,
   Input,
@@ -37,7 +36,6 @@ import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 const HitsText = styled(Text, {
   base: {
     marginBlockStart: "3xsmall",
-    textAlign: "start",
   },
 });
 
@@ -45,16 +43,7 @@ const TextWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
     gap: "4xsmall",
-    flex: "1",
-  },
-});
-
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    minHeight: "unset",
-    textAlign: "start",
   },
 });
 
@@ -70,12 +59,6 @@ const ContentWrapper = styled("div", {
     padding: "small",
     backgroundColor: "background.default",
     borderRadius: "xsmall",
-  },
-});
-
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
-    flexWrap: "wrap",
   },
 });
 
@@ -126,18 +109,31 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     () =>
       createListCollection({
         items: filteredResources ?? [],
-        itemToValue: (item) => item?.id,
-        itemToString: (item) => keyedData[`${item?.resourceType}-${item?.resourceId}`]?.title ?? item?.id,
+        itemToValue: (item) => item.id,
+        itemToString: (item) => keyedData[`${item.resourceType}-${item.resourceId}`]?.title ?? item.id,
       }),
     [filteredResources, keyedData],
   );
 
-  const handleChange = (e: ComboboxInputValueChangeDetails) => {
+  const handleChange = (details: ComboboxInputValueChangeDetails) => {
     const filtered = resources.filter((item) =>
-      keyedData[`${item.resourceType}-${item.resourceId}`]?.title.toLowerCase().includes(e.inputValue.toLowerCase()),
+      keyedData[`${item.resourceType}-${item.resourceId}`]?.title
+        .toLowerCase()
+        .includes(details.inputValue.toLowerCase()),
     );
     setFilteredResources(filtered);
-    setInputValue(e.inputValue);
+    setInputValue(details.inputValue);
+  };
+
+  const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && highlightedValue) {
+      const resource = filteredResources?.find((item) => item.id === highlightedValue);
+      const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
+      onResourceSelect({
+        path: resource?.path ?? "",
+        title: metaData?.title ?? "",
+      });
+    }
   };
 
   useEffect(() => {
@@ -161,28 +157,9 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input
-              placeholder={t("myNdla.learningpath.form.content.folder.placeholder")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && highlightedValue) {
-                  if (highlightedValue) {
-                    const resource = filteredResources?.find((item) => item.id === highlightedValue);
-                    const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
-                    onResourceSelect({
-                      path: resource?.path ?? "",
-                      title: metaData?.title ?? "",
-                    });
-                  }
-                }
-              }}
-            />
+            <Input placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} onKeyDown={onInputKeyDown} />
           </ComboboxInput>
         </InputContainer>
-        <ComboboxClearTrigger asChild>
-          <IconButton variant="clear">
-            <CloseLine />
-          </IconButton>
-        </ComboboxClearTrigger>
         <ComboboxTrigger asChild>
           <IconButton variant="secondary">
             <ArrowDownShortLine />
@@ -198,43 +175,41 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
           ) : null}
           {loading ? (
             <Spinner />
-          ) : filteredResources?.length ? (
+          ) : filteredResources ? (
             <StyledComboboxContent>
-              {filteredResources?.map((resource) => {
+              {filteredResources.map((resource) => {
                 const metaData = keyedData[`${resource.resourceType}-${resource.resourceId}`];
                 const contentType = metaData?.resourceTypes
                   ?.map((type) => contentTypeMapping[type.id])
                   .filter(Boolean)[0];
 
                 return (
-                  <StyledComboboxItem
-                    key={resource?.id}
+                  <ComboboxItem
+                    key={resource.id}
                     item={resource}
-                    onClick={() => {
+                    onClick={() =>
                       onResourceSelect({
                         title: metaData?.title ?? "",
                         path: resource.path,
-                      });
-                    }}
-                    className="peer"
+                      })
+                    }
                     asChild
                     consumeCss
                   >
-                    <StyledListItemRoot context="list">
+                    <ListItemRoot context="list">
                       <TextWrapper>
                         <ComboboxItemText>{metaData?.title}</ComboboxItemText>
                         <Text
                           textStyle="label.small"
                           color="text.subtle"
-                          css={{ textAlign: "start" }}
                           aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumb.map((crumb) => crumb.name).join(", ")}`}
                         >
                           {resource.breadcrumb.map((crumb) => crumb.name).join(" > ")}
                         </Text>
                       </TextWrapper>
                       <ContentTypeBadge contentType={contentType ?? resource.resourceType} />
-                    </StyledListItemRoot>
-                  </StyledComboboxItem>
+                    </ListItemRoot>
+                  </ComboboxItem>
                 );
               })}
             </StyledComboboxContent>

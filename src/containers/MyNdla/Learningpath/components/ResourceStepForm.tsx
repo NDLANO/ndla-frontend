@@ -108,7 +108,12 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
       </TextWrapper>
       <HStack gap="medium">
         <ContentTypeBadge contentType={contentType} />
-        <IconButton aria-label={t("myNdla.learningpath.form.delete")} variant="tertiary" onClick={onRemove}>
+        <IconButton
+          aria-label={t("myNdla.learningpath.form.delete")}
+          title={t("myNdla.learningpath.form.delete")}
+          variant="tertiary"
+          onClick={onRemove}
+        >
           <DeleteBinLine />
         </IconButton>
       </HStack>

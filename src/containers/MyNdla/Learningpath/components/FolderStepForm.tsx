@@ -21,9 +21,7 @@ const TextWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
     gap: "4xsmall",
-    flex: "1",
   },
 });
 
@@ -67,7 +65,7 @@ export const FolderStepForm = () => {
   };
 
   return (
-    <FieldRoot required>
+    <FieldRoot>
       <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.folder.label")}</FieldLabel>
       <FieldHelper>{t("myNdla.learningpath.form.content.folder.labelHelper")}</FieldHelper>
       {!resource ? (
@@ -81,7 +79,12 @@ export const FolderStepForm = () => {
               {resource.path}
             </Text>
           </TextWrapper>
-          <IconButton onClick={() => setResource(undefined)} variant="tertiary">
+          <IconButton
+            aria-label={t("myNdla.learningpath.form.delete")}
+            title={t("myNdla.learningpath.form.delete")}
+            onClick={() => setResource(undefined)}
+            variant="tertiary"
+          >
             <DeleteBinLine />
           </IconButton>
         </ResourceWrapper>

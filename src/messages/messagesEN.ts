@@ -192,7 +192,7 @@ const messages = {
           },
           folder: {
             label: "Search in My Folders",
-            labelHelper: "Select content from my folders",
+            labelHelper: "Select content from your folders",
             placeholder: "Search for resources that are stored in your folders.",
           },
         },
