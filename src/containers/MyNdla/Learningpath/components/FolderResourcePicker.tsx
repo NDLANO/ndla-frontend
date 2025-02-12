@@ -62,23 +62,38 @@ const ContentWrapper = styled("div", {
   },
 });
 
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    minHeight: "unset",
+    textAlign: "start",
+  },
+});
+
+const StyledComboboxItem = styled(ComboboxItem, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
+const StyledText = styled(Text, {
+  base: {
+    lineClamp: "1",
+  },
+});
+
 const LEGAL_RESOURCE_TYPES = ["article", constants.contentTypes.MULTIDISCIPLINARY, constants.contentTypes.TOPIC];
 
 type GQLFolderResourceWithCrumb = GQLFolderResource & { breadcrumb: GQLBreadcrumb[] };
 
-const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
-  const results: GQLFolderResourceWithCrumb[] = folders
-    .flatMap((folder) =>
-      folder.resources
+const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] =>
+  folders
+    .flatMap((folder) => [
+      ...folder.resources
         .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType))
-        .map<GQLFolderResourceWithCrumb>((resource) => ({ ...resource, breadcrumb: folder.breadcrumbs })),
-    )
-    .flat();
-
-  folders.forEach((folder) => results.push(...flattenFolderResources(folder.subfolders)));
-
-  return results;
-};
+        .map((resource) => ({ ...resource, breadcrumb: folder.breadcrumbs })),
+      ...flattenFolderResources(folder.subfolders),
+    ])
+    .filter((value, index, self) => index === self.findIndex((t) => t.id === value.id));
 
 interface ComboboxProps {
   onResourceSelect: (resource: FolderResource) => void;
@@ -92,6 +107,12 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   const { folders } = useFolders();
   const resources = useMemo(() => flattenFolderResources(folders), [folders]);
+
+  useEffect(() => {
+    if (!filteredResources && !!resources.length) {
+      setFilteredResources(resources);
+    }
+  }, [filteredResources, resources]);
 
   const { data, loading } = useFolderResourceMetaSearch(
     resources.map((r) => ({
@@ -136,12 +157,6 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     }
   };
 
-  useEffect(() => {
-    if (!filteredResources && !!resources.length) {
-      setFilteredResources(resources);
-    }
-  }, [filteredResources, resources]);
-
   return (
     <ComboboxRoot
       onInputValueChange={handleChange}
@@ -184,7 +199,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
                   .filter(Boolean)[0];
 
                 return (
-                  <ComboboxItem
+                  <StyledComboboxItem
                     key={resource.id}
                     item={resource}
                     onClick={() =>
@@ -196,20 +211,20 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
                     asChild
                     consumeCss
                   >
-                    <ListItemRoot context="list">
+                    <StyledListItemRoot context="list">
                       <TextWrapper>
                         <ComboboxItemText>{metaData?.title}</ComboboxItemText>
-                        <Text
+                        <StyledText
                           textStyle="label.small"
                           color="text.subtle"
                           aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumb.map((crumb) => crumb.name).join(", ")}`}
                         >
                           {resource.breadcrumb.map((crumb) => crumb.name).join(" > ")}
-                        </Text>
+                        </StyledText>
                       </TextWrapper>
                       <ContentTypeBadge contentType={contentType ?? resource.resourceType} />
-                    </ListItemRoot>
-                  </ComboboxItem>
+                    </StyledListItemRoot>
+                  </StyledComboboxItem>
                 );
               })}
             </StyledComboboxContent>

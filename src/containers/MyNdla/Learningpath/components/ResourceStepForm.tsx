@@ -65,6 +65,7 @@ const TextWrapper = styled("div", {
 const ResourceWrapper = styled("div", {
   base: {
     display: "flex",
+    flexWrap: "wrap",
     borderBottom: "1px solid",
     borderColor: "stroke.default",
     padding: "xsmall",
@@ -72,6 +73,12 @@ const ResourceWrapper = styled("div", {
     justifyContent: "space-between",
     boxShadow: "xsmall",
     backgroundColor: "background.default",
+  },
+});
+
+const StyledHStack = styled(HStack, {
+  base: {
+    flexWrap: "wrap",
   },
 });
 
@@ -106,7 +113,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
           </Text>
         )}
       </TextWrapper>
-      <HStack gap="medium">
+      <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />
         <IconButton
           aria-label={t("myNdla.learningpath.form.delete")}
@@ -116,7 +123,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
         >
           <DeleteBinLine />
         </IconButton>
-      </HStack>
+      </StyledHStack>
     </ResourceWrapper>
   );
 };
