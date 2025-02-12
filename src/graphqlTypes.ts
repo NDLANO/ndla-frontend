@@ -290,6 +290,7 @@ export type GQLArticleRequiredLibrary = {
 
 export type GQLArticleSearchResult = GQLSearchResult & {
   __typename?: "ArticleSearchResult";
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -593,7 +594,6 @@ export type GQLEditorNote = {
 
 export type GQLElement = {
   __typename?: "Element";
-  explanation: Array<Maybe<Scalars["String"]["output"]>>;
   reference: GQLReference;
 };
 
@@ -914,6 +914,16 @@ export type GQLLearningpath = {
   verificationStatus: Scalars["String"]["output"];
 };
 
+export type GQLLearningpathCopyInput = {
+  copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
+  coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
+  language: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  title: Scalars["String"]["input"];
+};
+
 export type GQLLearningpathCopyright = {
   __typename?: "LearningpathCopyright";
   contributors: Array<GQLContributor>;
@@ -959,6 +969,7 @@ export type GQLLearningpathNewInput = {
 
 export type GQLLearningpathSearchResult = GQLSearchResult & {
   __typename?: "LearningpathSearchResult";
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -1132,6 +1143,7 @@ export type GQLMutation = {
   addFolderResource: GQLFolderResource;
   addPostUpvote: Scalars["Int"]["output"];
   addPostUpvoteV2: Scalars["Int"]["output"];
+  copyLearningpath: GQLMyNdlaLearningpath;
   copySharedFolder: GQLFolder;
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
@@ -1206,6 +1218,11 @@ export type GQLMutationAddPostUpvoteArgs = {
 
 export type GQLMutationAddPostUpvoteV2Args = {
   postId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationCopyLearningpathArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathCopyInput;
 };
 
 export type GQLMutationCopySharedFolderArgs = {
@@ -2226,6 +2243,7 @@ export type GQLSearchContextResourceTypes = {
 };
 
 export type GQLSearchResult = {
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -4973,12 +4991,23 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   id: number;
   url: string;
   htmlTitle: string;
+  title: string;
   metaDescription: string;
+  context?: {
+    __typename?: "SearchContext";
+    contextId: string;
+    publicId: string;
+    url: string;
+    breadcrumbs: Array<string>;
+    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+  };
   contexts: Array<{
     __typename?: "SearchContext";
     contextId: string;
+    publicId: string;
     url: string;
     breadcrumbs: Array<string>;
+    relevanceId: string;
     resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
   }>;
 };
@@ -4988,12 +5017,23 @@ type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
   id: number;
   url: string;
   htmlTitle: string;
+  title: string;
   metaDescription: string;
+  context?: {
+    __typename?: "SearchContext";
+    contextId: string;
+    publicId: string;
+    url: string;
+    breadcrumbs: Array<string>;
+    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+  };
   contexts: Array<{
     __typename?: "SearchContext";
     contextId: string;
+    publicId: string;
     url: string;
     breadcrumbs: Array<string>;
+    relevanceId: string;
     resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
   }>;
 };

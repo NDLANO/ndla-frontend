@@ -7,13 +7,30 @@
  */
 
 import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
+import { Portal } from "@ark-ui/react";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  ListItemHeading,
+  ListItemRoot,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge, constants } from "@ndla/ui";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
+import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
+import LtiEmbed from "../../lti/LtiEmbed";
+import { useLtiContext } from "../../LtiContext";
 
 interface Props {
   searchResult: GQLSearchResult_SearchResultFragment;
@@ -27,27 +44,88 @@ const StyledListItemRoot = styled(ListItemRoot, {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    marginInlineStart: "3xsmall",
+    position: "relative",
+  },
+});
+
+const resultUrl = (result: GQLSearchResult_SearchResultFragment, isLti: boolean, language: string) => {
+  if (isLti) {
+    const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
+    const publicId = result.contexts[0]?.publicId;
+    if (publicId) {
+      return `${commonPath}${publicId}/${result.id}`;
+    }
+    return `${commonPath}article/${result.id}`;
+  } else if (result.contexts.length) {
+    return result.context?.url ?? result.contexts[0]?.url;
+  } else {
+    const isLearningpath = result.url.includes("learningpath-api");
+    const id = result.url.split("/").pop();
+    return isLearningpath ? `/learningpaths/${id}` : `/article/${id}`;
+  }
+};
+
 export const SearchResult = ({ searchResult }: Props) => {
-  const context = searchResult.contexts[0];
+  const { t, i18n } = useTranslation();
+  const ltiContext = useLtiContext();
+  const context = searchResult.context;
   return (
     <StyledListItemRoot asChild consumeCss context="list">
       <li>
         <ListItemHeading asChild consumeCss fontWeight="bold">
-          <SafeLink to={searchResult.contexts[0]?.url ?? ""} unstyled css={linkOverlay.raw()}>
+          <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} unstyled css={linkOverlay.raw()}>
             {parse(searchResult.htmlTitle)}
           </SafeLink>
         </ListItemHeading>
         {!!searchResult.metaDescription && <Text textStyle="body.large">{searchResult.metaDescription}</Text>}
         {!!context && (
-          <>
-            <Text color="text.subtle" textStyle="label.small">
-              {context.breadcrumbs.join(" > ")}
-            </Text>
-            <ContentTypeBadge
-              contentType={constants.contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"]}
-            />
-          </>
+          <Text color="text.subtle" textStyle="label.small">
+            {context.breadcrumbs.join(" > ")}
+            {searchResult.contexts.length > 1 && (
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <StyledButton variant="link">
+                    {t("searchPage.context.dialogTrigger", {
+                      count: searchResult.contexts.length - 1,
+                    })}
+                  </StyledButton>
+                </DialogTrigger>
+                <Portal>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{t("searchPage.context.dialogHeading")}</DialogTitle>
+                      <DialogCloseButton />
+                    </DialogHeader>
+                    <DialogBody>
+                      <ul>
+                        {searchResult.contexts.map((c) => (
+                          <li key={c.url}>
+                            <SafeLink to={c.url || ""}>{searchResult.title}</SafeLink>
+                            <Text
+                              textStyle="label.small"
+                              aria-label={`${t("breadcrumb.breadcrumb")}: ${c.breadcrumbs.join(", ")}. ${c.relevanceId === RELEVANCE_SUPPLEMENTARY ? t("resource.tooltipAdditionalTopic") : t("resource.tooltipCoreTopic")}`}
+                            >
+                              {c.breadcrumbs.join(" › ")}
+                            </Text>
+                          </li>
+                        ))}
+                      </ul>
+                    </DialogBody>
+                  </DialogContent>
+                </Portal>
+              </DialogRoot>
+            )}
+          </Text>
         )}
+        {!!context && (
+          <ContentTypeBadge
+            contentType={constants.contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"]}
+          />
+        )}
+        {!!ltiContext && <LtiEmbed item={searchResult} />}
       </li>
     </StyledListItemRoot>
   );
@@ -59,11 +137,24 @@ SearchResult.fragments = {
       id
       url
       htmlTitle
+      title
       metaDescription
-      contexts {
+      context {
         contextId
+        publicId
         url
         breadcrumbs
+        resourceTypes {
+          id
+          name
+        }
+      }
+      contexts {
+        contextId
+        publicId
+        url
+        breadcrumbs
+        relevanceId
         resourceTypes {
           id
           name
