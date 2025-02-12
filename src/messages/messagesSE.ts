@@ -66,7 +66,7 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
     resourceTypeFilter: "Ressurstyper",
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
@@ -86,16 +86,22 @@ const messages = {
       tagsDialogTitle: "Emneknagger knyttet til ressurs {{title}}",
       noTags: "Ingen emneknagger.",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
       resourceRemovedTitle: "Ressurs ikke tilgjengelig",
     },
-    arena: {
-      admin: {
-        title: "Arenaen",
+    acceptedShareName: {
+      title: "Nå viser vi navnet ditt når du deler",
+      subtitle: "Vi har endret visningen på delte mapper. Nå vises navnet ditt på alle delte mapper og læringsstier.",
+      description:
+        "Dersom du ikke ønsker at navnet ditt skal være synlig kan du avslutte deling av mapper og læringsstier.",
+      button: "OK",
+      accept: {
+        error: "Kunne ikke lagre",
       },
+    },
+    arena: {
+      title: "Arenaen",
       notification: {
         description:
           "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
@@ -161,6 +167,9 @@ const messages = {
               label: "Innhold",
               labelHelper: "Skriv eller lim inn innholdet ditt her.",
             },
+            copyright:
+              "Det du deler i en læringssti blir tilgjengelig under en Creative Commons-lisens (BY-SA). Dette betyr at andre kan bruke og dele det du har laget, så lenge de gir deg kreditering.",
+            copyrightLink: "Les mer om NDLA og deling av innhold her",
           },
           external: {
             title: {

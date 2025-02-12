@@ -61,7 +61,7 @@ export const ExternalStepForm = () => {
 
   useEffect(() => {
     const { unsubscribe } = watch(async ({ url, title, introduction }, { name }) => {
-      if (name === "url" && url?.length && url?.length > 0 && (!title || !introduction)) {
+      if (name === "url" && url?.length && url?.match(URL_REGEX) && (!title || !introduction)) {
         const { data } = await fetchOpengraph({ variables: { url } });
         if (!title) {
           setValue("title", data?.opengraph?.title ?? "");
