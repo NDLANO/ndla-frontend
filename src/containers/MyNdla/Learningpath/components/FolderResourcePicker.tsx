@@ -92,7 +92,7 @@ const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrum
     )
     .flat();
 
-  folders.forEach((folder) => results.concat(flattenFolderResources(folder.subfolders)));
+  folders.forEach((folder) => results.push(...flattenFolderResources(folder.subfolders)));
 
   return results;
 };
