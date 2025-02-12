@@ -201,7 +201,7 @@ export const SearchContainer = () => {
       language: i18n.language,
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects: searchParams.get("subjects") ?? undefined,
-      pageSize: 8,
+      pageSize: 10,
       aggregatePaths: ["contexts.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
       filterInactive: !searchParams.get("subjects")?.split(",").length,
@@ -222,17 +222,24 @@ export const SearchContainer = () => {
 
   const resultsTranslation = useMemo(() => {
     if (!data?.search) return undefined;
-    const from = page * data.search.pageSize - (data.search.pageSize - 1);
-    const to = page * data.search.pageSize;
-    const res = [t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount })];
-    if (query.length) {
+    const res = [];
+
+    if (data.search.totalCount) {
+      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
+      const to = (page || 1) * data.search.pageSize;
+      res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
+    } else {
+      res.push(t("searchPage.showingResults.noHits"));
+    }
+    const currentQuery = searchParams.get("query");
+    if (currentQuery?.length) {
       res.push(t("searchPage.showingResults.query"));
       // TODO: Should we account for the possibility that the query is wrapped in quotes? If so, how should we display it?
       // Keep query out of the translation string to avoid escaping issues
-      res.push(`"${query}"`);
+      res.push(`"${currentQuery}"`);
     }
     return res.filter(Boolean).join(" ");
-  }, [data?.search, page, query, t]);
+  }, [data?.search, page, searchParams, t]);
 
   return (
     <StyledMain>

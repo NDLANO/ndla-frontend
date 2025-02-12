@@ -71,6 +71,7 @@ const messages = {
     showingResults: {
       hits: "Showing results {{from}}-{{to}} of {{total}}",
       query: "for",
+      noHits: "No results",
     },
     traits: {
       VIDEO: "Video",
