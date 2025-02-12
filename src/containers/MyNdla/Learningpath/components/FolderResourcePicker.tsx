@@ -31,6 +31,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
 import { FolderResource } from "./FolderForm";
 import { GQLBreadcrumb, GQLFolder, GQLFolderResource } from "../../../../graphqlTypes";
+import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 
 const HitsText = styled(Text, {
@@ -150,7 +151,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       onOpenChange={(details) => setOpen(details.open)}
       collection={collection}
       translations={translations}
-      variant="simple"
+      variant="complex"
       context="composite"
       open={open}
       selectionBehavior="preserve"
@@ -182,24 +183,28 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
           ) : filteredResources?.length ? (
             <StyledComboboxContent>
               {filteredResources?.map((resource) => {
-                const title = keyedData[`${resource.resourceType}-${resource.resourceId}`]?.title;
+                const metaData = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+                const contentType = metaData?.resourceTypes
+                  ?.map((type) => contentTypeMapping[type.id])
+                  .filter(Boolean)[0];
+
                 return (
                   <StyledComboboxItem
                     key={resource?.id}
                     item={resource}
-                    onClick={() =>
+                    onClick={() => {
                       onResourceSelect({
-                        title: title ?? "",
+                        title: metaData?.title ?? "",
                         path: resource.path,
-                      })
-                    }
+                      });
+                    }}
                     className="peer"
                     asChild
                     consumeCss
                   >
                     <StyledListItemRoot context="list">
                       <TextWrapper>
-                        <ComboboxItemText>{title}</ComboboxItemText>
+                        <ComboboxItemText>{metaData?.title}</ComboboxItemText>
                         <Text
                           textStyle="label.small"
                           color="text.subtle"
@@ -209,7 +214,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
                           {resource.breadcrumb.map((crumb) => crumb.name).join(" > ")}
                         </Text>
                       </TextWrapper>
-                      <ContentTypeBadge contentType={resource.resourceType} />
+                      <ContentTypeBadge contentType={contentType ?? resource.resourceType} />
                     </StyledListItemRoot>
                   </StyledComboboxItem>
                 );
