@@ -4925,19 +4925,14 @@ export type GQLGrepFilterQuery = {
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
-export type GQLSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLSearchResourceTypesQuery = {
-  __typename?: "Query";
-  resourceTypes?: Array<{
-    __typename?: "ResourceTypeDefinition";
-    id: string;
-    name: string;
-    subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
-  }>;
-};
-
 export type GQLResourceTypeFilter_BucketResultFragment = { __typename?: "BucketResult"; value: string; count: number };
+
+export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
+  __typename?: "ResourceTypeDefinition";
+  id: string;
+  name: string;
+  subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
+};
 
 export type GQLNewSearchQueryQueryVariables = Exact<{
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -4984,6 +4979,17 @@ export type GQLNewSearchQueryQuery = {
       }>;
     }>;
   };
+};
+
+export type GQLSearchContainer_ResourceTypeDefinitionFragment = {
+  __typename?: "ResourceTypeDefinition";
+} & GQLResourceTypeFilter_ResourceTypeDefinitionFragment;
+
+export type GQLSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLSearchResourceTypesQuery = {
+  __typename?: "Query";
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLSearchContainer_ResourceTypeDefinitionFragment>;
 };
 
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {

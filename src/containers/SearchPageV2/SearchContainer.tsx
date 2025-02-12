@@ -35,7 +35,11 @@ import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables } from "../../graphqlTypes";
+import {
+  GQLNewSearchQueryQuery,
+  GQLNewSearchQueryQueryVariables,
+  GQLSearchContainer_ResourceTypeDefinitionFragment,
+} from "../../graphqlTypes";
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
@@ -186,7 +190,40 @@ const StyledButton = styled(Button, {
   },
 });
 
-export const SearchContainer = () => {
+const getTypeVariables = (
+  resourceTypes: string | null,
+  allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[],
+  isLti: boolean,
+) => {
+  const types = resourceTypes?.split(",");
+  const withoutTopicArticle = types?.filter((rt) => rt !== "topic-article");
+  const contextTypes = types?.includes("topic-article") ? "topic-article" : undefined;
+
+  if (!isLti && types?.length && types?.length !== withoutTopicArticle?.length) {
+    return {
+      contextTypes,
+    };
+  }
+
+  const actualResourceTypes = withoutTopicArticle?.length
+    ? withoutTopicArticle.map((id) => `urn:resourcetype:${id}`).join(",")
+    : undefined;
+
+  const flattenedResourceTypes = allResourceTypes
+    .flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
+    .join(",");
+
+  return {
+    resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
+  };
+};
+
+interface Props {
+  resourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[];
+  resourceTypesLoading: boolean;
+}
+
+export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchParams();
   const [query, setQuery] = useState(searchParams.get("query") ?? "");
   const [page, setPage] = useState(() => {
@@ -205,9 +242,11 @@ export const SearchContainer = () => {
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects: searchParams.get("subjects") ?? undefined,
       pageSize: 10,
+      // TODO: We need to aggregate topic articles
       aggregatePaths: ["contexts.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
       filterInactive: !searchParams.get("subjects")?.split(",").length,
+      ...getTypeVariables(searchParams.get("resourceTypes"), resourceTypes, isLti),
     },
   });
 
@@ -365,7 +404,11 @@ export const SearchContainer = () => {
           <GrepFilter />
           <TraitFilter />
           <SubjectFilter />
-          <ResourceTypeFilter bucketResult={data?.search?.aggregations?.[0]?.values ?? []} />
+          <ResourceTypeFilter
+            bucketResult={data?.search?.aggregations?.[0]?.values ?? []}
+            resourceTypes={resourceTypes}
+            resourceTypesLoading={resourceTypesLoading}
+          />
           {!!isLti && (
             <LanguageSelector
               languages={supportedLanguages}
@@ -376,4 +419,13 @@ export const SearchContainer = () => {
       </ContentWrapper>
     </StyledMain>
   );
+};
+
+SearchContainer.fragments = {
+  resourceTypeDefinition: gql`
+    fragment SearchContainer_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...ResourceTypeFilter_ResourceTypeDefinition
+    }
+    ${ResourceTypeFilter.fragments.resourceTypeDefinition}
+  `,
 };

@@ -8,14 +8,27 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { gql, useQuery } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { SearchContainer } from "./SearchContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { GQLSearchResourceTypesQuery } from "../../graphqlTypes";
 import { getAllDimensions } from "../../util/trackingUtil";
+
+const searchResourceTypesQuery = gql`
+  query searchResourceTypes {
+    resourceTypes {
+      ...SearchContainer_ResourceTypeDefinition
+    }
+  }
+  ${SearchContainer.fragments.resourceTypeDefinition}
+`;
 
 export const SearchPage = () => {
   const { t } = useTranslation();
+
+  const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
 
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -32,7 +45,10 @@ export const SearchPage = () => {
   return (
     <PageContainer>
       <title>{t("htmlTitles.searchPage")}</title>
-      <SearchContainer />
+      <SearchContainer
+        resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []}
+        resourceTypesLoading={resourceTypesQuery.loading}
+      />
     </PageContainer>
   );
 };

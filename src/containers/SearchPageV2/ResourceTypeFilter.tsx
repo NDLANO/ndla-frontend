@@ -6,9 +6,9 @@
  *
  */
 
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -28,10 +28,19 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
-import { GQLResourceTypeFilter_BucketResultFragment, GQLSearchResourceTypesQuery } from "../../graphqlTypes";
+import {
+  GQLResourceTypeDefinition,
+  GQLResourceTypeFilter_BucketResultFragment,
+  GQLResourceTypeFilter_ResourceTypeDefinitionFragment,
+} from "../../graphqlTypes";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
+
+const DELIMITER = "//";
 
 interface Props {
   bucketResult: GQLResourceTypeFilter_BucketResultFragment[];
+  resourceTypes: GQLResourceTypeFilter_ResourceTypeDefinitionFragment[];
+  resourceTypesLoading: boolean;
 }
 
 const FilterWrapper = styled("div", {
@@ -65,44 +74,82 @@ const StyledAccordionItemContent = styled(AccordionItemContent, {
   },
 });
 
-const searchResourceTypesQuery = gql`
-  query searchResourceTypes {
-    resourceTypes {
-      id
-      name
-      subtypes {
-        id
-        name
-      }
-    }
-  }
-`;
-
-export const ResourceTypeFilter = ({ bucketResult }: Props) => {
+export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
+  const [searchParams, setSearchParams] = useStableSearchParams();
   const { t } = useTranslation();
-  const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
 
   const keyedBucketResult = useMemo(() => {
     return bucketResult.reduce<Record<string, number>>((acc, curr) => {
-      acc[curr.value] = curr.count;
+      acc[curr.value.replace("urn:resourcetype:", "")] = curr.count;
       return acc;
     }, {});
   }, [bucketResult]);
+
+  const resourceTypes = useMemo(() => {
+    const types = resourceTypesProp;
+    const topicArticleType: GQLResourceTypeDefinition = {
+      id: "topic-article",
+      name: t("contentTypes.topic-article"),
+    };
+    return [topicArticleType].concat(types).map((type) => ({
+      ...type,
+      id: type.id.replace("urn:resourcetype:", ""),
+      subtypes: type.subtypes?.map((subtype) => ({
+        ...subtype,
+        id: subtype.id.replace("urn:resourcetype:", ""),
+      })),
+    }));
+  }, [resourceTypesProp, t]);
+
+  const currentResourceTypeIds = useMemo(() => searchParams.get("resourceTypes")?.split(",") ?? [], [searchParams]);
+
+  const onToggleResourceType = useCallback(
+    (id: string, checked: boolean) => {
+      const [parentId, subtypeId] = id.split(DELIMITER);
+      if (!subtypeId && parentId) {
+        if (checked) {
+          setSearchParams({ resourceTypes: currentResourceTypeIds.concat(parentId).join(",") });
+        } else {
+          const subtypes = resourceTypes.find((rt) => rt.id === parentId)?.subtypes?.map((s) => s.id) ?? [];
+          const newResourceTypes = currentResourceTypeIds.filter((id) => id !== parentId && !subtypes.includes(id));
+          setSearchParams({ resourceTypes: newResourceTypes.join(",") });
+        }
+      } else if (subtypeId && parentId) {
+        if (checked) {
+          let newResourceTypeIds = currentResourceTypeIds.concat(subtypeId);
+          if (currentResourceTypeIds.includes(parentId)) {
+            newResourceTypeIds = newResourceTypeIds.filter((id) => id !== parentId);
+          }
+          setSearchParams({ resourceTypes: newResourceTypeIds.join(",") });
+        } else {
+          setSearchParams({ resourceTypes: currentResourceTypeIds.filter((s) => s !== subtypeId).join(",") });
+        }
+      }
+    },
+    [currentResourceTypeIds, resourceTypes, setSearchParams],
+  );
 
   return (
     <FilterContainer>
       <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
         <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
       </Heading>
-      {resourceTypesQuery.loading ? (
+      {resourceTypesLoading ? (
         <Spinner />
       ) : (
         <StyledAccordionRoot variant="clean" multiple>
-          {resourceTypesQuery.data?.resourceTypes?.map((resourceType) =>
+          {resourceTypes?.map((resourceType) =>
             resourceType.subtypes?.length ? (
               <AccordionItem key={resourceType.id} value={resourceType.id}>
                 <FilterWrapper>
-                  <CheckboxRoot value={resourceType.id}>
+                  <CheckboxRoot
+                    value={resourceType.id}
+                    checked={
+                      currentResourceTypeIds.includes(resourceType.id) ||
+                      resourceType.subtypes.some((s) => currentResourceTypeIds.includes(s.id))
+                    }
+                    onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
+                  >
                     <CheckboxControl>
                       <CheckboxIndicator asChild>
                         <CheckLine />
@@ -127,7 +174,13 @@ export const ResourceTypeFilter = ({ bucketResult }: Props) => {
                 <StyledAccordionItemContent>
                   {resourceType.subtypes.map((subtype) => (
                     <FilterWrapper key={subtype.id}>
-                      <CheckboxRoot value={subtype.id}>
+                      <CheckboxRoot
+                        value={subtype.id}
+                        checked={currentResourceTypeIds.includes(subtype.id)}
+                        onCheckedChange={(details) =>
+                          onToggleResourceType(`${resourceType.id}${DELIMITER}${subtype.id}`, details.checked === true)
+                        }
+                      >
                         <CheckboxControl>
                           <CheckboxIndicator asChild>
                             <CheckLine />
@@ -147,7 +200,11 @@ export const ResourceTypeFilter = ({ bucketResult }: Props) => {
               </AccordionItem>
             ) : (
               <FilterWrapper key={resourceType.id}>
-                <CheckboxRoot value={resourceType.id}>
+                <CheckboxRoot
+                  value={resourceType.id}
+                  checked={currentResourceTypeIds.includes(resourceType.id)}
+                  onCheckedChange={(details) => onToggleResourceType(resourceType.id, details.checked === true)}
+                >
                   <CheckboxControl>
                     <CheckboxIndicator asChild>
                       <CheckLine />
@@ -175,6 +232,16 @@ ResourceTypeFilter.fragments = {
     fragment ResourceTypeFilter_BucketResult on BucketResult {
       value
       count
+    }
+  `,
+  resourceTypeDefinition: gql`
+    fragment ResourceTypeFilter_ResourceTypeDefinition on ResourceTypeDefinition {
+      id
+      name
+      subtypes {
+        id
+        name
+      }
     }
   `,
 };
