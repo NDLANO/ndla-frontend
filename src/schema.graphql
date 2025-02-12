@@ -1371,7 +1371,7 @@ type Query {
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
-  imageSearch(page: Int, pageSize: Int, query: String): ImageSearch!
+  imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!

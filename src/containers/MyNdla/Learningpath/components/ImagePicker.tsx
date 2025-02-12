@@ -40,14 +40,14 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   }, [fetchImage, imageId]);
 
   const [refetch] = useImageSearch({
-    variables: { page: 1, pageSize: 16 },
+    variables: { page: 1, pageSize: 16, license: "CC-BY-SA-4.0" },
   });
 
   const onFetchImage = async (imageId: number) =>
     (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3DTO;
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3DTO;
+    (await refetch({ variables: { query, page, license: "CC-BY-SA-4.0" } }))?.data?.imageSearch as ISearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);

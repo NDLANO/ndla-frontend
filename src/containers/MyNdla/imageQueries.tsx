@@ -79,8 +79,8 @@ const imageFragment = gql`
 `;
 
 const imagesSearchQuery = gql`
-  query imageSearch($query: String, $page: Int, $pageSize: Int) {
-    imageSearch(query: $query, page: $page, pageSize: $pageSize) {
+  query imageSearch($query: String, $page: Int, $pageSize: Int, $license: String) {
+    imageSearch(query: $query, page: $page, pageSize: $pageSize, license: $license) {
       totalCount
       pageSize
       page
