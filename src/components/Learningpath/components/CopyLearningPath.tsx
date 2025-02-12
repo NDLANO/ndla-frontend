@@ -49,26 +49,32 @@ const CopyLearningPath = ({ learningpath }: Props) => {
 
   const [copyLearningPath] = useCopyLearningpathMutation();
 
+  const onError = () => toast.create({ title: t("myNdla.learningpath.copy.error") });
+
   const onCopyLearningPath = async () => {
     try {
-      await copyLearningPath({
+      const res = await copyLearningPath({
         variables: {
           learningpathId: learningpath.id,
           params: { title: `${learningpath.title}_Kopi`, language: i18n.language },
         },
       });
-      setOpen(false);
-      toast.create({
-        title: t("myNdla.learningpath.copy.success.title"),
-        description: (
-          <div>
-            {t("myNdla.learningpath.copy.success.description")}
-            <SafeLink to={routes.myNdla.learningpath}>{`"${t("myNdla.learningpath.title")}"`}</SafeLink>
-          </div>
-        ),
-      });
+      if (!res.errors?.length) {
+        setOpen(false);
+        toast.create({
+          title: t("myNdla.learningpath.copy.success.title"),
+          description: (
+            <div>
+              {t("myNdla.learningpath.copy.success.description")}
+              <SafeLink to={routes.myNdla.learningpath}>{`"${t("myNdla.learningpath.title")}"`}</SafeLink>
+            </div>
+          ),
+        });
+      } else {
+        onError();
+      }
     } catch (err) {
-      toast.create({ title: t("myNdla.learningpath.copy.error") });
+      onError();
     }
   };
 
