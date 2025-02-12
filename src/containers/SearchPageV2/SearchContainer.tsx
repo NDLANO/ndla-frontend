@@ -225,7 +225,7 @@ export const SearchContainer = () => {
     const res = [];
 
     if (data.search.totalCount) {
-      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
+      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0) + 1;
       const to = (page || 1) * data.search.pageSize;
       res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
     } else {
