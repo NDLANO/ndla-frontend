@@ -105,6 +105,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [filteredResources, setFilteredResources] = useState<GQLFolderResourceWithCrumb[] | undefined>(undefined);
+  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { folders } = useFolders();
   const resources = useMemo(() => flattenFolderResources(folders), [folders]);
@@ -124,11 +125,11 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const collection = useMemo(
     () =>
       createListCollection({
-        items: resources,
+        items: filteredResources ?? [],
         itemToValue: (item) => item?.id,
         itemToString: (item) => keyedData[`${item?.resourceType}-${item?.resourceId}`]?.title ?? item?.id,
       }),
-    [keyedData, resources],
+    [filteredResources, keyedData],
   );
 
   const handleChange = (e: ComboboxInputValueChangeDetails) => {
@@ -149,6 +150,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     <ComboboxRoot
       onInputValueChange={handleChange}
       onOpenChange={(details) => setOpen(details.open)}
+      onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       collection={collection}
       translations={translations}
       variant="complex"
@@ -159,7 +161,21 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} />
+            <Input
+              placeholder={t("myNdla.learningpath.form.content.folder.placeholder")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && highlightedValue) {
+                  if (highlightedValue) {
+                    const resource = filteredResources?.find((item) => item.id === highlightedValue);
+                    const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
+                    onResourceSelect({
+                      path: resource?.path ?? "",
+                      title: metaData?.title ?? "",
+                    });
+                  }
+                }
+              }}
+            />
           </ComboboxInput>
         </InputContainer>
         <ComboboxClearTrigger asChild>
