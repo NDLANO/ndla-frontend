@@ -18,7 +18,7 @@ interface Props {
 }
 const LtiEmbed = ({ ltiData, item }: Props) => {
   const _ltiData = useLtiData()?.ltiData;
-  const withFallback = ltiData || _ltiData || {};
+  const withFallback = ltiData ?? _ltiData ?? {};
   switch (ltiData?.lti_message_type) {
     case "basic-lti-launch-request":
       return <LtiBasicLaunch ltiData={withFallback} item={item} />;
