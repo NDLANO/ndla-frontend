@@ -125,6 +125,8 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
+const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
+
 const ListResource = ({
   id,
   link,
@@ -145,12 +147,12 @@ const ListResource = ({
     if (!firstContentType) {
       return constants.contentTypes.MISSING;
     }
-
-    return constants.contentTypeMapping[firstContentType] ??
+    return (
+      constants.contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
-      firstContentType === "learningpath"
-      ? constants.contentTypes.LEARNING_PATH
-      : constants.contentTypeMapping.default!;
+      learningpathMapping[firstContentType] ??
+      constants.contentTypeMapping.default!
+    );
   }, [firstContentType]);
 
   if (isLoading) {
