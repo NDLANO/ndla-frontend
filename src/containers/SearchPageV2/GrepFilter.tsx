@@ -13,8 +13,6 @@ import { CloseLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
-import { groupCompetenceGoals } from "../../components/CompetenceGoals";
-import { CompetenceItem } from "../../components/CompetenceGoalTab";
 import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
@@ -26,20 +24,20 @@ const FiltersWrapper = styled("div", {
   },
 });
 
-const CompetenceWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
-const CompetenceItemWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
+// const CompetenceWrapper = styled("div", {
+//   base: {
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: "small",
+//   },
+// });
+// const CompetenceItemWrapper = styled("div", {
+//   base: {
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: "xxsmall",
+//   },
+// });
 
 const grepFilterQuery = gql`
   query grepFilter($codes: [String!], $language: String!) {
@@ -75,20 +73,20 @@ export const GrepFilter = () => {
     skip: !codes.length,
   });
 
-  const groupedCompetenceGoals = useMemo(() => {
-    return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");
-  }, [grepQuery.data?.competenceGoals]);
-
-  const mappedCoreElements = useMemo(() => {
-    return (
-      grepQuery.data?.coreElements?.map((element) => ({
-        title: element.title,
-        text: element.description ?? "",
-        id: element.id,
-        url: "",
-      })) ?? []
-    );
-  }, [grepQuery.data?.coreElements]);
+  // const groupedCompetenceGoals = useMemo(() => {
+  //   return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");
+  // }, [grepQuery.data?.competenceGoals]);
+  //
+  // const mappedCoreElements = useMemo(() => {
+  //   return (
+  //     grepQuery.data?.coreElements?.map((element) => ({
+  //       title: element.title,
+  //       text: element.description ?? "",
+  //       id: element.id,
+  //       url: "",
+  //     })) ?? []
+  //   );
+  // }, [grepQuery.data?.coreElements]);
 
   const grepElements = useMemo(
     () => [grepQuery.data?.competenceGoals, grepQuery.data?.coreElements].filter((arr) => !!arr).flat(),
@@ -112,26 +110,26 @@ export const GrepFilter = () => {
       <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
         <h3>{t("searchPage.grepFilter.heading")}</h3>
       </Heading>
-      <CompetenceWrapper>
-        {!!groupedCompetenceGoals?.length && (
-          <CompetenceItemWrapper>
-            <Heading textStyle="title.large" asChild consumeCss>
-              <h4>{t("competenceGoals.competenceGoalItem.title")}</h4>
-            </Heading>
-            {groupedCompetenceGoals.map((goal, index) => (
-              <CompetenceItem item={goal} key={index} />
-            ))}
-          </CompetenceItemWrapper>
-        )}
-        {!!grepQuery.data?.coreElements?.length && (
-          <CompetenceItemWrapper>
-            <Heading textStyle="title.large" asChild consumeCss>
-              <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
-            </Heading>
-            <CompetenceItem item={{ elements: mappedCoreElements }} />
-          </CompetenceItemWrapper>
-        )}
-      </CompetenceWrapper>
+      {/* <CompetenceWrapper> */}
+      {/*   {!!groupedCompetenceGoals?.length && ( */}
+      {/*     <CompetenceItemWrapper> */}
+      {/*       <Heading textStyle="title.large" asChild consumeCss> */}
+      {/*         <h4>{t("competenceGoals.competenceGoalItem.title")}</h4> */}
+      {/*       </Heading> */}
+      {/*       {groupedCompetenceGoals.map((goal, index) => ( */}
+      {/*         <CompetenceItem item={goal} key={index} /> */}
+      {/*       ))} */}
+      {/*     </CompetenceItemWrapper> */}
+      {/*   )} */}
+      {/*   {!!grepQuery.data?.coreElements?.length && ( */}
+      {/*     <CompetenceItemWrapper> */}
+      {/*       <Heading textStyle="title.large" asChild consumeCss> */}
+      {/*         <h2>{t("competenceGoals.competenceTabCorelabel")}</h2> */}
+      {/*       </Heading> */}
+      {/*       <CompetenceItem item={{ elements: mappedCoreElements }} /> */}
+      {/*     </CompetenceItemWrapper> */}
+      {/*   )} */}
+      {/* </CompetenceWrapper> */}
       <FiltersWrapper>
         {grepElements.map((grep) => (
           <Button key={grep.id} size="small" variant="primary" onClick={() => onRemoveCode(grep.id)}>
