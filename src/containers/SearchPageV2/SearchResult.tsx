@@ -7,6 +7,7 @@
  */
 
 import parse from "html-react-parser";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
@@ -72,6 +73,16 @@ export const SearchResult = ({ searchResult }: Props) => {
   const { t, i18n } = useTranslation();
   const ltiContext = useLtiContext();
   const context = searchResult.context;
+
+  const contentType = useMemo(() => {
+    if (context?.resourceTypes?.length) {
+      return constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+    } else if (context?.url.startsWith("/e")) {
+      return constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+    }
+    return undefined;
+  }, [context]);
+
   return (
     <StyledListItemRoot asChild consumeCss context="list">
       <li>
@@ -120,11 +131,7 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        {!!context && (
-          <ContentTypeBadge
-            contentType={constants.contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"]}
-          />
-        )}
+        {!!contentType && <ContentTypeBadge contentType={contentType} />}
         {!!ltiContext && <LtiEmbed item={searchResult} />}
       </li>
     </StyledListItemRoot>
