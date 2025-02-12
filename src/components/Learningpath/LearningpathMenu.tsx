@@ -171,8 +171,6 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
 
   const currentStep = learningpath.learningsteps[currentIndex];
   const lastUpdatedDate = new Date(learningpath.lastUpdated);
-  // TODO: update this check
-  const isMyNdlaLearningpath = !learningpath.description;
 
   const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
     lastUpdatedDate.getMonth() + 1
@@ -231,7 +229,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
         authors={learningpath.copyright.contributors}
         published={lastUpdatedString}
         bylineType="learningPath"
-        bylineSuffix={isMyNdlaLearningpath ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
+        bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
       />
     </>
   );
@@ -257,6 +255,7 @@ LearningpathMenu.fragments = {
         title
         seqNo
       }
+      isMyNDLAOwner
     }
   `,
   step: gql`

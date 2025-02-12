@@ -290,6 +290,7 @@ export type GQLArticleRequiredLibrary = {
 
 export type GQLArticleSearchResult = GQLSearchResult & {
   __typename?: "ArticleSearchResult";
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -593,7 +594,6 @@ export type GQLEditorNote = {
 
 export type GQLElement = {
   __typename?: "Element";
-  explanation: Array<Maybe<Scalars["String"]["output"]>>;
   reference: GQLReference;
 };
 
@@ -901,6 +901,7 @@ export type GQLLearningpath = {
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
   isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
   lastUpdated: Scalars["String"]["output"];
   learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLLearningpathStep>;
@@ -912,6 +913,16 @@ export type GQLLearningpath = {
   tags: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
   verificationStatus: Scalars["String"]["output"];
+};
+
+export type GQLLearningpathCopyInput = {
+  copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
+  coverPhotoMetaUrl?: InputMaybe<Scalars["String"]["input"]>;
+  description?: InputMaybe<Scalars["String"]["input"]>;
+  duration?: InputMaybe<Scalars["Int"]["input"]>;
+  language: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
+  title: Scalars["String"]["input"];
 };
 
 export type GQLLearningpathCopyright = {
@@ -959,6 +970,7 @@ export type GQLLearningpathNewInput = {
 
 export type GQLLearningpathSearchResult = GQLSearchResult & {
   __typename?: "LearningpathSearchResult";
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -1132,6 +1144,7 @@ export type GQLMutation = {
   addFolderResource: GQLFolderResource;
   addPostUpvote: Scalars["Int"]["output"];
   addPostUpvoteV2: Scalars["Int"]["output"];
+  copyLearningpath: GQLMyNdlaLearningpath;
   copySharedFolder: GQLFolder;
   deleteCategory: Scalars["Int"]["output"];
   deleteFolder: Scalars["String"]["output"];
@@ -1206,6 +1219,11 @@ export type GQLMutationAddPostUpvoteArgs = {
 
 export type GQLMutationAddPostUpvoteV2Args = {
   postId: Scalars["Int"]["input"];
+};
+
+export type GQLMutationCopyLearningpathArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathCopyInput;
 };
 
 export type GQLMutationCopySharedFolderArgs = {
@@ -1474,6 +1492,7 @@ export type GQLMyNdlaLearningpath = {
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
   isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
   lastUpdated: Scalars["String"]["output"];
   learningstepUrl: Scalars["String"]["output"];
   learningsteps: Array<GQLMyNdlaLearningpathStep>;
@@ -2225,6 +2244,7 @@ export type GQLSearchContextResourceTypes = {
 };
 
 export type GQLSearchResult = {
+  context?: Maybe<GQLSearchContext>;
   contexts: Array<GQLSearchContext>;
   htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
@@ -2653,6 +2673,7 @@ export type GQLLearningpathMenu_LearningpathFragment = {
   id: number;
   title: string;
   lastUpdated: string;
+  isMyNDLAOwner: boolean;
   copyright: {
     __typename?: "LearningpathCopyright";
     license: { __typename?: "License"; license: string };
