@@ -69,7 +69,8 @@ const FiltersWrapper = styled("section", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    width: "surface.xsmall",
+    // TODO: This is a weird value
+    width: "360px",
   },
 });
 
