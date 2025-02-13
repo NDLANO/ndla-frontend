@@ -133,8 +133,17 @@ export const GrepFilter = () => {
       {!!grepQuery.loading && <Spinner />}
       <FiltersWrapper>
         {grepElements.map((grep) => (
-          <Button key={grep.id} size="small" variant="primary" onClick={() => onRemoveCode(grep.id)}>
+          <Button
+            key={grep.id}
+            size="small"
+            variant="primary"
+            onClick={() => onRemoveCode(grep.id)}
+            aria-label={t("searchPage.grepFilter.removeFilter", { code: grep.id, title: grep.title })}
+            title={t("searchPage.grepFilter.removeFilter", { code: grep.id, title: grep.title })}
+          >
             {grep.id}
+            {" - "}
+            {grep.title}
             <CloseLine />
           </Button>
         ))}

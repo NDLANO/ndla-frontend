@@ -95,6 +95,7 @@ const messages = {
     },
     grepFilter: {
       heading: "Filtrer på kompetansemål",
+      removeFilter: "Fjern {{code}} - {{title}}",
     },
     resourceTypeFilter: {
       title: "Velg sidetype",

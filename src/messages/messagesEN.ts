@@ -95,6 +95,7 @@ const messages = {
     },
     grepFilter: {
       heading: "Filter by competence goals",
+      removeFilter: "Remove {{code}}",
     },
     resourceTypeFilter: {
       title: "Choose page type",
