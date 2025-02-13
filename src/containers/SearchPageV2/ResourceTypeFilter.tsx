@@ -35,12 +35,12 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { useStableSearchPageParams } from "./useStableSearchParams";
 import {
   GQLResourceTypeFilter_BucketResultFragment,
   GQLResourceTypeFilter_ResourceTypeDefinitionFragment,
 } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
-import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const DELIMITER = "//";
 
@@ -100,7 +100,7 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
 const NODE_TYPES = [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
-  const [searchParams, setSearchParams] = useStableSearchParams();
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t } = useTranslation();
   const isLti = useLtiContext();
 

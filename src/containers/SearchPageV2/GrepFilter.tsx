@@ -13,8 +13,8 @@ import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
+import { useStableSearchPageParams } from "./useStableSearchParams";
 import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
-import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const FiltersWrapper = styled("div", {
   base: {
@@ -63,7 +63,7 @@ const grepFilterQuery = gql`
 `;
 
 export const GrepFilter = () => {
-  const [searchParams, setSearchParams] = useStableSearchParams();
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
 
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);

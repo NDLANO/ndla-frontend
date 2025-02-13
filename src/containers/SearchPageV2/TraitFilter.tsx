@@ -20,13 +20,13 @@ import {
 } from "@ndla/primitives";
 import { SearchTrait } from "@ndla/types-backend/search-api";
 import { FilterContainer } from "./FilterContainer";
-import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { useStableSearchPageParams } from "./useStableSearchParams";
 
 const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
 
 export const TraitFilter = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useStableSearchParams();
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
 
   const onValueChange = useCallback(
     (traits: string[]) => {

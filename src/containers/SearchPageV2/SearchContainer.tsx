@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, RefObject, useCallback, useMemo, useRef, useState } from "react";
+import { FormEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -34,6 +34,7 @@ import { SearchResult } from "./SearchResult";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
+import { useStableSearchPageParams } from "./useStableSearchParams";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -44,7 +45,6 @@ import {
 import { supportedLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
-import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const StyledMain = styled("main", {
   base: {
@@ -211,8 +211,6 @@ const getTypeVariables = (
     ?.flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
     .join(",");
 
-  // console.log(actualResourceTypes, flattenedResourceTypes);
-
   return {
     resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
   };
@@ -224,7 +222,7 @@ interface Props {
 }
 
 export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
-  const [searchParams, setSearchParams] = useStableSearchParams();
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(searchParams.get("query") ?? "");
   const [page, setPage] = useState(() => {
     const maybePage = parseInt(searchParams.get("page") ?? "1");
@@ -258,6 +256,13 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const searchQuery = useQuery<GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables>(searchQueryFragment, {
     variables: queryParams,
   });
+
+  useEffect(() => {
+    const pageParam = parseInt(searchParams.get("page") ?? "1");
+    if (pageParam !== page) {
+      setPage(pageParam);
+    }
+  }, [page, searchParams]);
 
   const data = searchQuery.data ?? searchQuery.previousData;
 

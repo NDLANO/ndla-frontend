@@ -23,10 +23,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
+import { useStableSearchPageParams } from "./useStableSearchParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLSubjectFilterQuery } from "../../graphqlTypes";
 import { getSubjectsCategories } from "../../util/subjects";
-import { useStableSearchParams } from "../../util/useStableSearchParams";
 import SubjectFilterContent from "../SearchPage/components/SubjectFilter";
 
 const FiltersWrapper = styled("div", {
@@ -53,7 +53,7 @@ const subjectFilterQuery = gql`
 
 export const SubjectFilter = () => {
   const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useStableSearchParams();
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
 
   const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery);
 
