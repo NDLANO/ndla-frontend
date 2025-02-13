@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useCallback, useMemo, useRef, useState } from "react";
+import { FormEvent, RefObject, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -230,6 +230,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     const maybePage = parseInt(searchParams.get("page") ?? "1");
     return maybePage ?? 1;
   });
+  const focusRef = useRef<HTMLElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isLti = useLtiContext();
   const { t, i18n } = useTranslation();
@@ -292,7 +293,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   }, [data?.search, page, searchParams, t]);
 
   return (
-    <StyledMain>
+    <StyledMain ref={isLti ? focusRef : undefined}>
       {!isLti && (
         <HomeBreadcrumb
           items={[
@@ -304,7 +305,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       <ContentWrapper>
         <ResultsWrapper>
           {!isLti && (
-            <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
+            <Heading id={SKIP_TO_CONTENT_ID} ref={focusRef as RefObject<HTMLHeadingElement | null>} tabIndex={-1}>
               {t("searchPage.title")}
             </Heading>
           )}
@@ -345,7 +346,11 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 </IconButton>
               </SearchFieldWrapper>
             </form>
-            {!!resultsTranslation && <Text textStyle="label.small">{resultsTranslation}</Text>}
+            {!!resultsTranslation && (
+              <Text textStyle="label.small" aria-live="polite" role="status">
+                {resultsTranslation}
+              </Text>
+            )}
             {!!suggestion && (
               <Text>
                 {t("searchPage.querySuggestion")}
@@ -367,6 +372,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             onPageChange={(details) => {
               setPage(details.page);
               setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
+              focusRef.current?.focus();
             }}
             count={data?.search?.totalCount ?? 0}
             pageSize={data?.search?.pageSize ?? 0}
