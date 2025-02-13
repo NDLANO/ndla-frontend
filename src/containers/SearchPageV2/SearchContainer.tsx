@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FormEvent, RefObject, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -63,7 +63,7 @@ const SearchFieldWrapper = styled("div", {
   },
 });
 
-const FiltersWrapper = styled("div", {
+const FiltersWrapper = styled("section", {
   base: {
     marginBlockStart: "large",
     display: "flex",
@@ -230,6 +230,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   });
   const focusRef = useRef<HTMLElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const filterHeadingId = useId();
   const isLti = useLtiContext();
   const { t, i18n } = useTranslation();
   const paginationTranslations = usePaginationTranslations();
@@ -418,8 +419,8 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             </StyledPaginationRoot>
           )}
         </ResultsWrapper>
-        <FiltersWrapper>
-          <Heading textStyle="title.medium" asChild consumeCss>
+        <FiltersWrapper aria-labelledby={filterHeadingId}>
+          <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
           <GrepFilter />
