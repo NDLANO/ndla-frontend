@@ -65,9 +65,9 @@ const messages = {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som startar på {{letter}}",
-    oldResourceTypeFilter: "Ressurstyper",
+    oldResourceTypeFilter: "Ressurstypar",
     pagination: "Søkeresultat",
-    querySuggestion: "Søk heller ",
+    querySuggestion: "Søk heller etter ",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
       query: "for",
@@ -76,7 +76,7 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Lyd",
-      H5P: "Interaktiv oppgave",
+      H5P: "Interaktiv oppgåve",
       PODCAST: "Podkast",
     },
     context: {
@@ -97,7 +97,7 @@ const messages = {
     },
     resourceTypeFilter: {
       title: "Vel sidetype",
-      showSubtypes: "Vis undertyper for {{parent}}",
+      showSubtypes: "Vis undertypar for {{parent}}",
       radioLabel: "Ressurstype",
       resourceLabel: "Ressurs",
       topicLabel: "Emne",

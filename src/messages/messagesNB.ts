@@ -67,7 +67,7 @@ const messages = {
     subjectLetter: "Fag som starter på {{letter}}",
     oldResourceTypeFilter: "Ressurstyper",
     pagination: "Søkeresultater",
-    querySuggestion: "Søk heller ",
+    querySuggestion: "Søk heller etter ",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
       query: "for",
