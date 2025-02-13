@@ -10,7 +10,7 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { CloseLine } from "@ndla/icons";
-import { Button, Heading } from "@ndla/primitives";
+import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
 import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
@@ -130,6 +130,7 @@ export const GrepFilter = () => {
       {/*     </CompetenceItemWrapper> */}
       {/*   )} */}
       {/* </CompetenceWrapper> */}
+      {!!grepQuery.loading && <Spinner />}
       <FiltersWrapper>
         {grepElements.map((grep) => (
           <Button key={grep.id} size="small" variant="primary" onClick={() => onRemoveCode(grep.id)}>
