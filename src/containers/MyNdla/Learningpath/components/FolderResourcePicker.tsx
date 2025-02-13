@@ -27,7 +27,8 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useComboboxTranslations, ContentTypeBadge, constants } from "@ndla/ui";
+import { ResourceType } from "@ndla/types-backend/myndla-api";
+import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
 import { FolderResource } from "./FolderStepForm";
 import { GQLBreadcrumb, GQLFolder, GQLFolderResource } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
@@ -81,7 +82,7 @@ const StyledText = styled(Text, {
   },
 });
 
-const LEGAL_RESOURCE_TYPES = ["article", constants.contentTypes.MULTIDISCIPLINARY, constants.contentTypes.TOPIC];
+const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
 
 type GQLFolderResourceWithCrumb = GQLFolderResource & { uniqueId: string; breadcrumb: GQLBreadcrumb[] };
 
@@ -89,7 +90,7 @@ const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrum
   folders
     .flatMap((folder) => [
       ...folder.resources
-        .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType))
+        .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
         .map((resource) => ({ ...resource, breadcrumb: folder.breadcrumbs })),
       ...flattenFolderResources(folder.subfolders),
     ])
