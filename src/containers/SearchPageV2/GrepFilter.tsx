@@ -96,9 +96,11 @@ export const GrepFilter = () => {
   //   );
   // }, [grepQuery.data?.coreElements]);
 
+  const data = grepQuery.data ?? grepQuery.previousData;
+
   const grepElements = useMemo(
-    () => [grepQuery.data?.competenceGoals, grepQuery.data?.coreElements].filter((arr) => !!arr).flat(),
-    [grepQuery.data?.competenceGoals, grepQuery.data?.coreElements],
+    () => [data?.competenceGoals, data?.coreElements].filter((arr) => !!arr).flat(),
+    [data?.competenceGoals, data?.coreElements],
   );
 
   const onRemoveCode = useCallback(
@@ -141,23 +143,27 @@ export const GrepFilter = () => {
       {/*     </CompetenceItemWrapper> */}
       {/*   )} */}
       {/* </CompetenceWrapper> */}
-      {!!grepQuery.loading && <Spinner />}
+      {!!grepQuery.loading && !grepQuery.previousData && <Spinner />}
       <FiltersWrapper>
-        {grepElements.map((grep) => (
-          <Button
-            key={grep.id}
-            size="small"
-            variant="primary"
-            onClick={() => onRemoveCode(grep.id)}
-            aria-label={t("searchPage.grepFilter.removeFilter", { code: grep.id, title: grep.title })}
-            title={t("searchPage.grepFilter.removeFilter", { code: grep.id, title: grep.title })}
-          >
-            {grep.id}
-            {" - "}
-            {grep.title}
-            <CloseLine />
-          </Button>
-        ))}
+        {codes.map((grep) => {
+          const item = grepElements.find((g) => g.id === grep);
+          if (!item) return null;
+          return (
+            <Button
+              key={item.id}
+              size="small"
+              variant="primary"
+              onClick={() => onRemoveCode(item.id)}
+              aria-label={t("searchPage.grepFilter.removeFilter", { code: item.id, title: item.title })}
+              title={t("searchPage.grepFilter.removeFilter", { code: item.id, title: item.title })}
+            >
+              {item.id}
+              {" - "}
+              {item.title}
+              <CloseLine />
+            </Button>
+          );
+        })}
       </FiltersWrapper>
     </FilterContainer>
   );
