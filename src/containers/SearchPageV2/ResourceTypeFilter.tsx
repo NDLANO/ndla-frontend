@@ -189,7 +189,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
           <Spinner />
         ) : (
           <StyledAccordionRoot variant="clean" multiple>
-            {resourceTypes?.map((resourceType) =>
+            {resourceTypes.map((resourceType) =>
               resourceType.subtypes?.length ? (
                 <AccordionItem key={resourceType.id} value={resourceType.id}>
                   <FilterWrapper>

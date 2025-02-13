@@ -9,6 +9,7 @@
 import { useCallback } from "react";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
+// This is just a thin wrapper around `useStableSearchParams` that unsets the `page` parameter (if it exists) when any other params are changed.
 export const useStableSearchPageParams = () => {
   const [searchParams, _setSearchParams] = useStableSearchParams();
 
