@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
@@ -93,8 +93,14 @@ export const SearchResult = ({ searchResult }: Props) => {
         </ListItemHeading>
         {!!searchResult.metaDescription && <Text textStyle="body.large">{searchResult.metaDescription}</Text>}
         {!!context && (
-          <Text color="text.subtle" textStyle="label.small">
-            {context.breadcrumbs.join(" > ")}
+          <Fragment>
+            <Text
+              color="text.subtle"
+              textStyle="label.small"
+              aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}
+            >
+              {context.breadcrumbs.join(" > ")}
+            </Text>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
                 <DialogTrigger asChild>
@@ -129,7 +135,7 @@ export const SearchResult = ({ searchResult }: Props) => {
                 </Portal>
               </DialogRoot>
             )}
-          </Text>
+          </Fragment>
         )}
         {!!contentType && <ContentTypeBadge contentType={contentType} />}
         {!!ltiContext && <LtiEmbed item={searchResult} />}
