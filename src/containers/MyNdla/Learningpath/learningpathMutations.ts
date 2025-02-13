@@ -103,7 +103,7 @@ export const useCreateLearningpath = (
     onCompleted: ({ newLearningpath }) => {
       client.cache.modify({
         fields: {
-          myNdlaLearningpath: (existingPaths = []) =>
+          myLearningpaths: (existingPaths = []) =>
             existingPaths.concat({
               __ref: client.cache.identify(newLearningpath),
             }),
