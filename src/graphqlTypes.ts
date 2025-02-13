@@ -1944,6 +1944,7 @@ export type GQLQueryImageArgs = {
 };
 
 export type GQLQueryImageSearchArgs = {
+  license?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
@@ -4319,6 +4320,7 @@ export type GQLImageSearchQueryVariables = Exact<{
   query?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLImageSearchQuery = {
