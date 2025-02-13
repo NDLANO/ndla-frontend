@@ -84,7 +84,7 @@ export const SearchResult = ({ searchResult }: Props) => {
   }, [context]);
 
   return (
-    <StyledListItemRoot asChild consumeCss context="list">
+    <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
       <li>
         <ListItemHeading asChild consumeCss fontWeight="bold">
           <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} unstyled css={linkOverlay.raw()}>
