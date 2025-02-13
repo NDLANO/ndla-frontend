@@ -81,14 +81,6 @@ const StyledAccordionItemContent = styled(AccordionItemContent, {
   },
 });
 
-const RadioButtonWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
-
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {
     _horizontal: {
@@ -163,25 +155,27 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
 
   return (
     <FilterContainer>
-      <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-        <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
-      </Heading>
+      {!!isLti && (
+        <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+          <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
+        </Heading>
+      )}
       {!isLti && (
         <StyledRadioGroupRoot
           orientation="horizontal"
           value={nodeType}
           onValueChange={(details) => onChangeNodeType(details.value)}
         >
-          <RadioGroupLabel textStyle="label.small">{t("searchPage.resourceTypeFilter.radioLabel")}</RadioGroupLabel>
-          <RadioButtonWrapper>
-            {NODE_TYPES.map((type) => (
-              <RadioGroupItem key={type} value={type}>
-                <RadioGroupItemControl />
-                <RadioGroupItemText>{t(`searchPage.resourceTypeFilter.${type}Label`)}</RadioGroupItemText>
-                <RadioGroupItemHiddenInput />
-              </RadioGroupItem>
-            ))}
-          </RadioButtonWrapper>
+          <RadioGroupLabel textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+            <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
+          </RadioGroupLabel>
+          {NODE_TYPES.map((type) => (
+            <RadioGroupItem key={type} value={type}>
+              <RadioGroupItemControl />
+              <RadioGroupItemText>{t(`searchPage.resourceTypeFilter.${type}Label`)}</RadioGroupItemText>
+              <RadioGroupItemHiddenInput />
+            </RadioGroupItem>
+          ))}
         </StyledRadioGroupRoot>
       )}
       <div hidden={nodeType !== RESOURCE_NODE_TYPE}>
