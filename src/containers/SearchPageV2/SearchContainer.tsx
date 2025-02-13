@@ -372,49 +372,51 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             )}
           </FormWrapper>
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
-          <StyledPaginationRoot
-            page={page}
-            onPageChange={(details) => {
-              setPage(details.page);
-              setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
-              focusRef.current?.focus();
-            }}
-            count={data?.search?.totalCount ?? 0}
-            pageSize={data?.search?.pageSize ?? 0}
-            translations={paginationTranslations}
-            siblingCount={1}
-            aria-label={t("searchPage.pagination")}
-          >
-            <PaginationPrevTrigger asChild>
-              <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
-                <ArrowLeftShortLine />
-                <span>{t("pagination.prev")}</span>
-              </StyledButton>
-            </PaginationPrevTrigger>
-            <PaginationContext>
-              {(pagination) =>
-                pagination.pages.map((page, index) =>
-                  page.type === "page" ? (
-                    <PaginationItem key={index} {...page} asChild>
-                      <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
-                    </PaginationItem>
-                  ) : (
-                    <PaginationEllipsis key={index} index={index} asChild>
-                      <Text asChild consumeCss>
-                        <div>&#8230;</div>
-                      </Text>
-                    </PaginationEllipsis>
-                  ),
-                )
-              }
-            </PaginationContext>
-            <PaginationNextTrigger asChild>
-              <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
-                <span>{t("pagination.next")}</span>
-                <ArrowRightShortLine />
-              </StyledButton>
-            </PaginationNextTrigger>
-          </StyledPaginationRoot>
+          {!!data?.search && data.search.totalCount > data.search.pageSize && (
+            <StyledPaginationRoot
+              page={page}
+              onPageChange={(details) => {
+                setPage(details.page);
+                setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
+                focusRef.current?.focus();
+              }}
+              count={data?.search?.totalCount ?? 0}
+              pageSize={data?.search?.pageSize ?? 0}
+              translations={paginationTranslations}
+              siblingCount={1}
+              aria-label={t("searchPage.pagination")}
+            >
+              <PaginationPrevTrigger asChild>
+                <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                  <ArrowLeftShortLine />
+                  <span>{t("pagination.prev")}</span>
+                </StyledButton>
+              </PaginationPrevTrigger>
+              <PaginationContext>
+                {(pagination) =>
+                  pagination.pages.map((page, index) =>
+                    page.type === "page" ? (
+                      <PaginationItem key={index} {...page} asChild>
+                        <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                      </PaginationItem>
+                    ) : (
+                      <PaginationEllipsis key={index} index={index} asChild>
+                        <Text asChild consumeCss>
+                          <div>&#8230;</div>
+                        </Text>
+                      </PaginationEllipsis>
+                    ),
+                  )
+                }
+              </PaginationContext>
+              <PaginationNextTrigger asChild>
+                <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+                  <span>{t("pagination.next")}</span>
+                  <ArrowRightShortLine />
+                </StyledButton>
+              </PaginationNextTrigger>
+            </StyledPaginationRoot>
+          )}
         </ResultsWrapper>
         <FiltersWrapper>
           <Heading textStyle="title.medium" asChild consumeCss>
