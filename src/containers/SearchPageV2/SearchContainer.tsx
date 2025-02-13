@@ -366,9 +366,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             page={page}
             onPageChange={(details) => {
               setPage(details.page);
-              if (details.page === 1) {
-                setSearchParams({ page: null });
-              }
+              setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
             }}
             count={data?.search?.totalCount ?? 0}
             pageSize={data?.search?.pageSize ?? 0}
