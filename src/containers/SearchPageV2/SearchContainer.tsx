@@ -193,7 +193,7 @@ const StyledButton = styled(Button, {
 
 const getTypeVariables = (
   resourceTypes: string | null,
-  allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[],
+  allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[] | undefined,
   nodeType: string,
 ) => {
   if (nodeType !== RESOURCE_NODE_TYPE) {
@@ -208,8 +208,10 @@ const getTypeVariables = (
     .join(",");
 
   const flattenedResourceTypes = allResourceTypes
-    .flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
+    ?.flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
     .join(",");
+
+  // console.log(actualResourceTypes, flattenedResourceTypes);
 
   return {
     resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
@@ -225,7 +227,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const [searchParams, setSearchParams] = useStableSearchParams();
   const [query, setQuery] = useState(searchParams.get("query") ?? "");
   const [page, setPage] = useState(() => {
-    const maybePage = parseInt(searchParams.get("page") ?? "0");
+    const maybePage = parseInt(searchParams.get("page") ?? "1");
     return maybePage ?? 1;
   });
   const inputRef = useRef<HTMLInputElement>(null);
@@ -233,22 +235,27 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const { t, i18n } = useTranslation();
   const paginationTranslations = usePaginationTranslations();
 
-  const searchQuery = useQuery<GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables>(searchQueryFragment, {
-    variables: {
+  const queryParams: GQLNewSearchQueryQueryVariables = useMemo(() => {
+    const subjects = searchParams.get("subjects") ?? undefined;
+    return {
       query: searchParams.get("query") ?? undefined,
       language: i18n.language,
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
-      subjects: searchParams.get("subjects") ?? undefined,
+      subjects,
       pageSize: 10,
       aggregatePaths: ["contexts.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
-      filterInactive: !searchParams.get("subjects")?.split(",").length,
+      filterInactive: !subjects?.split(",").length,
       ...getTypeVariables(
         searchParams.get("resourceTypes"),
-        resourceTypes,
+        isLti ? resourceTypes : undefined,
         searchParams.get("type") ?? RESOURCE_NODE_TYPE,
       ),
-    },
+    };
+  }, [i18n.language, isLti, resourceTypes, searchParams]);
+
+  const searchQuery = useQuery<GQLNewSearchQueryQuery, GQLNewSearchQueryQueryVariables>(searchQueryFragment, {
+    variables: queryParams,
   });
 
   const data = searchQuery.data ?? searchQuery.previousData;
@@ -268,8 +275,8 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     const res = [];
 
     if (data.search.totalCount) {
-      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0) + 1;
-      const to = (page || 1) * data.search.pageSize;
+      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
+      const to = Math.min((page || 1) * data.search.pageSize, data.search.totalCount);
       res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
     } else {
       res.push(t("searchPage.showingResults.noHits"));
@@ -359,7 +366,9 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             page={page}
             onPageChange={(details) => {
               setPage(details.page);
-              setSearchParams({ page: details.page.toString() });
+              if (details.page === 1) {
+                setSearchParams({ page: null });
+              }
             }}
             count={data?.search?.totalCount ?? 0}
             pageSize={data?.search?.pageSize ?? 0}
