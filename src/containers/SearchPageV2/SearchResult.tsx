@@ -93,14 +93,10 @@ export const SearchResult = ({ searchResult }: Props) => {
         </ListItemHeading>
         {!!searchResult.metaDescription && <Text textStyle="body.large">{searchResult.metaDescription}</Text>}
         {!!context && (
-          <Fragment>
-            <Text
-              color="text.subtle"
-              textStyle="label.small"
-              aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}
-            >
+          <Text color="text.subtle" textStyle="label.small">
+            <span aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}>
               {context.breadcrumbs.join(" > ")}
-            </Text>
+            </span>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
                 <DialogTrigger asChild>
@@ -135,7 +131,7 @@ export const SearchResult = ({ searchResult }: Props) => {
                 </Portal>
               </DialogRoot>
             )}
-          </Fragment>
+          </Text>
         )}
         {!!contentType && <ContentTypeBadge contentType={contentType} />}
         {!!ltiContext && <LtiEmbed item={searchResult} />}
