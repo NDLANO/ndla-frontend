@@ -65,7 +65,7 @@ const messages = {
     title: "Søk på ndla.no",
     filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som startar på {{letter}}",
-    oldResourceTypeFilter: "Ressurstypar",
+    oldResourceTypeFilter: "Ressurstyper",
     pagination: "Søkeresultat",
     querySuggestion: "Søk heller ",
     showingResults: {
@@ -97,7 +97,7 @@ const messages = {
     },
     resourceTypeFilter: {
       title: "Vel sidetype",
-      showSubtypes: "Vis undertypar for {{parent}}",
+      showSubtypes: "Vis undertyper for {{parent}}",
       radioLabel: "Ressurstype",
       resourceLabel: "Ressurs",
       topicLabel: "Emne",
