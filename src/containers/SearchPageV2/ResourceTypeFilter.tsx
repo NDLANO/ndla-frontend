@@ -245,7 +245,15 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
                           <CheckboxHiddenInput />
                         </CheckboxRoot>
                         {keyedBucketResult[subtype.id] != null && (
-                          <Text asChild consumeCss color="text.subtle" textStyle="label.medium">
+                          <Text
+                            asChild
+                            consumeCss
+                            color="text.subtle"
+                            textStyle="label.medium"
+                            aria-label={t("searchPage.resourceTypeFilter.hits", {
+                              count: keyedBucketResult[subtype.id],
+                            })}
+                          >
                             <span>{keyedBucketResult[subtype.id]}</span>
                           </Text>
                         )}

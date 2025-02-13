@@ -101,6 +101,7 @@ const messages = {
       radioLabel: "Resource type",
       resourceLabel: "Resource",
       topicLabel: "Topic",
+      hits: "{{count}} hits",
     },
   },
   myNdla: {
