@@ -255,7 +255,12 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const paginationTranslations = usePaginationTranslations();
 
   const queryParams: GQLNewSearchQueryQueryVariables = useMemo(() => {
-    const subjects = searchParams.get("subjects") ?? undefined;
+    const subjects =
+      searchParams
+        .get("subjects")
+        ?.split(",")
+        .map((s) => `urn:subject:${s}`)
+        .join(",") ?? undefined;
     return {
       query: searchParams.get("query") ?? undefined,
       language: i18n.language,
