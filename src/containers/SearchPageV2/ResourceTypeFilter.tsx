@@ -78,6 +78,7 @@ const StyledAccordionItemContent = styled(AccordionItemContent, {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+    marginInlineStart: "small",
   },
 });
 
@@ -89,7 +90,14 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   },
 });
 
-const NODE_TYPES = [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE];
+const CheckboxWrapper = styled("div", {
+  base: {
+    marginBlockStart: "xsmall",
+    marginInlineStart: "large",
+  },
+});
+
+const NODE_TYPES = [TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
@@ -178,7 +186,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
           ))}
         </StyledRadioGroupRoot>
       )}
-      <div hidden={nodeType !== RESOURCE_NODE_TYPE}>
+      <CheckboxWrapper hidden={nodeType !== RESOURCE_NODE_TYPE}>
         {resourceTypesLoading ? (
           <Spinner />
         ) : (
@@ -280,7 +288,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
             )}
           </StyledAccordionRoot>
         )}
-      </div>
+      </CheckboxWrapper>
     </FilterContainer>
   );
 };
