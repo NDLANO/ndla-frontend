@@ -24,6 +24,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
+  Spinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -395,6 +396,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 </Button>
               </Text>
             )}
+            {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
           {!!data?.search && data.search.totalCount > data.search.pageSize && (
