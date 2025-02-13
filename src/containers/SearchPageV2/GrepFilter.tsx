@@ -6,13 +6,14 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
+import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 
@@ -65,13 +66,20 @@ const grepFilterQuery = gql`
 export const GrepFilter = () => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t, i18n } = useTranslation();
+  const nodeType = searchParams.get("type");
 
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
   const grepQuery = useQuery<GQLGrepFilterQuery, GQLGrepFilterQueryVariables>(grepFilterQuery, {
     variables: { language: i18n.language, codes },
-    skip: !codes.length,
+    skip: !codes.length || (!!nodeType && nodeType !== RESOURCE_NODE_TYPE),
   });
+
+  useEffect(() => {
+    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+      setSearchParams({ grepCodes: null });
+    }
+  }, [nodeType, setSearchParams]);
 
   // const groupedCompetenceGoals = useMemo(() => {
   //   return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");
@@ -101,7 +109,10 @@ export const GrepFilter = () => {
     [codes, setSearchParams],
   );
 
-  if (!grepQuery.loading && !grepQuery.data?.competenceGoals?.length && !grepQuery.data?.coreElements?.length) {
+  if (
+    (!grepQuery.loading && !grepQuery.data?.competenceGoals?.length && !grepQuery.data?.coreElements?.length) ||
+    (nodeType && nodeType !== RESOURCE_NODE_TYPE)
+  ) {
     return;
   }
 

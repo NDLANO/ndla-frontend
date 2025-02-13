@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
 import { CloseLine } from "@ndla/icons";
@@ -23,6 +23,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
+import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLSubjectFilterQuery } from "../../graphqlTypes";
@@ -54,8 +55,17 @@ const subjectFilterQuery = gql`
 export const SubjectFilter = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchPageParams();
+  const nodeType = searchParams.get("type");
 
-  const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery);
+  const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery, {
+    skip: !!nodeType && nodeType !== RESOURCE_NODE_TYPE,
+  });
+
+  useEffect(() => {
+    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+      setSearchParams({ subjects: null });
+    }
+  }, [nodeType, setSearchParams]);
 
   const activeSubjectIds = useMemo(() => searchParams.get("subjects")?.split(",") ?? [], [searchParams]);
 
@@ -78,6 +88,10 @@ export const SubjectFilter = () => {
     () => getSubjectsCategories(t, subjectsQuery.data?.nodes ?? []),
     [t, subjectsQuery.data],
   );
+
+  if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+    return;
+  }
 
   return (
     <FilterContainer>

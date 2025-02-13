@@ -423,14 +423,14 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
-          <GrepFilter />
-          <TraitFilter />
-          <SubjectFilter />
           <ResourceTypeFilter
             bucketResult={data?.search?.aggregations?.[0]?.values ?? []}
             resourceTypes={resourceTypes}
             resourceTypesLoading={resourceTypesLoading}
           />
+          <GrepFilter />
+          <TraitFilter />
+          <SubjectFilter />
           {!!isLti && (
             <LanguageSelector
               languages={supportedLanguages}

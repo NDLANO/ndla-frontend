@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -20,6 +20,7 @@ import {
 } from "@ndla/primitives";
 import { SearchTrait } from "@ndla/types-backend/search-api";
 import { FilterContainer } from "./FilterContainer";
+import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 
 const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
@@ -27,6 +28,13 @@ const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
 export const TraitFilter = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchPageParams();
+  const nodeType = searchParams.get("type");
+
+  useEffect(() => {
+    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+      setSearchParams({ traits: null });
+    }
+  }, [nodeType, setSearchParams]);
 
   const onValueChange = useCallback(
     (traits: string[]) => {
@@ -34,6 +42,10 @@ export const TraitFilter = () => {
     },
     [setSearchParams],
   );
+
+  if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+    return;
+  }
 
   return (
     <FilterContainer>
