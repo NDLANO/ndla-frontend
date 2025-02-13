@@ -71,6 +71,20 @@ const FiltersWrapper = styled("section", {
     gap: "xsmall",
     // TODO: This is a weird value
     width: "360px",
+    desktopDown: {
+      width: "100%",
+    },
+  },
+});
+
+const MobilePaginationButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "center",
+    tablet: {
+      display: "none",
+    },
   },
 });
 
@@ -83,6 +97,9 @@ const StyledFieldRoot = styled(FieldRoot, {
 const StyledPaginationRoot = styled(PaginationRoot, {
   base: {
     marginBlockStart: "xsmall",
+    tabletDown: {
+      display: "none",
+    },
   },
 });
 
@@ -184,7 +201,7 @@ const ResultsWrapper = styled("div", {
 
 const StyledButton = styled(Button, {
   base: {
-    tabletDown: {
+    tabletWideDown: {
       "& span": {
         display: "none",
       },
@@ -380,8 +397,8 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               onPageChange={(details) => {
                 setPage(details.page);
                 setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
-                focusRef.current?.focus();
               }}
+              onClick={() => focusRef.current?.focus()}
               count={data?.search?.totalCount ?? 0}
               pageSize={data?.search?.pageSize ?? 0}
               translations={paginationTranslations}
@@ -419,6 +436,36 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               </PaginationNextTrigger>
             </StyledPaginationRoot>
           )}
+          <MobilePaginationButtonContainer>
+            <Button
+              variant="tertiary"
+              aria-label={t("pagination.prev")}
+              title={t("pagination.prev")}
+              onClick={() => {
+                const prevPage = page + 1;
+                setPage(prevPage);
+                setSearchParams({ page: prevPage.toString() });
+                focusRef.current?.focus();
+              }}
+            >
+              <ArrowLeftShortLine />
+              <span>{t("pagination.prev")}</span>
+            </Button>
+            <Button
+              variant="tertiary"
+              aria-label={t("pagination.next")}
+              title={t("pagination.next")}
+              onClick={() => {
+                const nextPage = page + 1;
+                setPage(nextPage);
+                setSearchParams({ page: nextPage.toString() });
+                focusRef.current?.focus();
+              }}
+            >
+              <span>{t("pagination.next")}</span>
+              <ArrowRightShortLine />
+            </Button>
+          </MobilePaginationButtonContainer>
         </ResultsWrapper>
         <FiltersWrapper aria-labelledby={filterHeadingId}>
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
