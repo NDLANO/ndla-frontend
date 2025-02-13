@@ -214,6 +214,7 @@ const getTypeVariables = (
   allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[] | undefined,
   nodeType: string,
 ) => {
+  // TODO: Figure out if we want this. It depends on what search approach we go for
   if (nodeType !== RESOURCE_NODE_TYPE) {
     return {
       contextTypes: nodeType === "topic" ? "topic-article" : nodeType,
