@@ -83,7 +83,9 @@ export type Resource = {
   };
 };
 
-const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemVariantProps["colorTheme"]> => {
+const getListItemColorTheme = (
+  contentType?: ContentType,
+): Exclude<NonNullable<ListItemVariantProps["colorTheme"]>, "neutral"> => {
   switch (contentType) {
     case contentTypes.TASKS_AND_ACTIVITIES:
     case contentTypes.ASSESSMENT_RESOURCES:
