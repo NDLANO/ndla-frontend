@@ -88,6 +88,7 @@ const messages = {
       heading: "Sorter på fag",
       trigger: "Vel fag",
       dialogTitle: "Filtrer søket",
+      removeFilter: "Fjern {{subject}}",
     },
     traitFilter: {
       heading: "Vis sider med",

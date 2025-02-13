@@ -88,6 +88,7 @@ const messages = {
       heading: "Sort by subject",
       trigger: "Choose subject",
       dialogTitle: "Filter search",
+      removeFilter: "Remove {{subject}}",
     },
     traitFilter: {
       heading: "Show pages with",

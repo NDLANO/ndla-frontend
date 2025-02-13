@@ -87,7 +87,14 @@ export const SubjectFilter = () => {
       <FiltersWrapper>
         {!!subjectsQuery.loading && <Spinner />}
         {activeSubjects.map((subject) => (
-          <Button key={subject.id} size="small" variant="primary" onClick={() => onToggleSubject(subject.id)}>
+          <Button
+            key={subject.id}
+            size="small"
+            variant="primary"
+            onClick={() => onToggleSubject(subject.id)}
+            aria-label={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
+            title={t("searchPage.subjectFilter.removeFilter", { subject: subject.name })}
+          >
             {subject.name}
             <CloseLine />
           </Button>
