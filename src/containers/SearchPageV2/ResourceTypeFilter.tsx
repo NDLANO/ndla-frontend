@@ -133,6 +133,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
         if (checked) {
           setSearchParams({ resourceTypes: currentResourceTypeIds.concat(parentId).join(",") });
         } else {
+          // If a parent type is unchecked, we also remove all subtypes of that type.
           const subtypes = resourceTypes.find((rt) => rt.id === parentId)?.subtypes?.map((s) => s.id) ?? [];
           const newResourceTypes = currentResourceTypeIds.filter((id) => id !== parentId && !subtypes.includes(id));
           setSearchParams({ resourceTypes: newResourceTypes.join(",") });
@@ -140,6 +141,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
       } else if (subtypeId && parentId) {
         if (checked) {
           let newResourceTypeIds = currentResourceTypeIds.concat(subtypeId);
+          // If the parent type is already checked, we can remove it. We only need to keep the subtype.
           if (currentResourceTypeIds.includes(parentId)) {
             newResourceTypeIds = newResourceTypeIds.filter((id) => id !== parentId);
           }
@@ -193,6 +195,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
                   <FilterWrapper>
                     <CheckboxRoot
                       value={resourceType.id}
+                      // Indicate that the parent type is checked if any of its subtypes are checked.
                       checked={
                         currentResourceTypeIds.includes(resourceType.id) ||
                         resourceType.subtypes.some((s) => currentResourceTypeIds.includes(s.id))
