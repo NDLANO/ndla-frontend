@@ -85,7 +85,7 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
   const { user } = useContext(AuthContext);
 
   return (
-    <ToolbarContainer data-visible={!!menuItems?.length || !!user?.arenaEnabled}>
+    <ToolbarContainer data-visible={!!menuItems?.length || (!!user?.arenaEnabled && !config.externalArena)}>
       <StyledPageContent>
         <Wrapper>
           <div>
