@@ -7,8 +7,8 @@
  */
 
 import { t } from "i18next";
-import { useState, useMemo, useEffect, KeyboardEvent } from "react";
-import { ComboboxInputValueChangeDetails, createListCollection } from "@ark-ui/react";
+import { useState, useMemo, useEffect } from "react";
+import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   Text,
@@ -89,9 +89,16 @@ const StyledText = styled(Text, {
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
 
 type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
-type GQLFolderResourceWithCrumb = GQLFolderResource & { breadcrumb: GQLBreadcrumb[] };
+type GQLFolderResourceWithCrumb = GQLFolderResource & {
+  uniqueId: string;
+  breadcrumbs: GQLBreadcrumb[];
+  meta?: GQLFolderResourceMetaSearch;
+  contentType?: string;
+};
 
-const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
+const toKeyedMetaId = (id: string, resourceType: string) => `${resourceType}-${id}`;
+
+const flattenResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
   if (folders.length === 0) return [];
 
   const resources = folders.flatMap((folder) =>
@@ -99,11 +106,27 @@ const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrum
       .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
       .map<GQLFolderResourceWithCrumb>((resource) => ({
         ...resource,
-        breadcrumb: folder.breadcrumbs,
+        breadcrumbs: folder.breadcrumbs,
+        uniqueId: `${resource.resourceId}-${resource.resourceType}-${folder.breadcrumbs.map((c) => c.id)}`,
       })),
   );
 
-  return resources.concat(flattenFolderResources(folders.flatMap((folder) => folder.subfolders)));
+  return resources.concat(flattenResources(folders.flatMap((folder) => folder.subfolders)));
+};
+
+const stitchResourcesWithMeta = (resources: GQLFolderResourceWithCrumb[], metaData: GQLFolderResourceMetaSearch[]) => {
+  const keyedMeta = metaData.reduce<Record<string, GQLFolderResourceMetaSearch>>((acc, curr) => {
+    acc[toKeyedMetaId(curr.id, curr.type)] = curr;
+    return acc;
+  }, {});
+  return resources.map((resource) => {
+    const meta = keyedMeta[toKeyedMetaId(resource.resourceId, resource.resourceType)];
+    return {
+      ...resource,
+      meta,
+      contentType: meta?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0],
+    };
+  });
 };
 
 interface ComboboxProps {
@@ -113,90 +136,60 @@ interface ComboboxProps {
 export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
-  const [filteredResources, setFilteredResources] = useState<GQLFolderResourceWithCrumb[] | undefined>(undefined);
-  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
+  const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
 
   const { folders } = useFolders();
   const translations = useComboboxTranslations();
-  const resources = useMemo(
-    () =>
-      flattenFolderResources(folders).filter(
-        (resource, index, arr) => index === arr.findIndex((val) => resource.id === val.id),
-      ),
-    [folders],
-  );
+
+  const resources = useMemo(() => flattenResources(folders), [folders]);
+
+  const resourceSearchInput = useMemo(() => {
+    return resources.map((r) => ({ id: r.resourceId, path: r.path, resourceType: r.resourceType }));
+  }, [resources]);
+
+  const { data, loading } = useFolderResourceMetaSearch(resourceSearchInput);
 
   useEffect(() => {
-    if (!filteredResources && !!resources.length) {
-      setFilteredResources(resources);
+    if (data && resources.length) {
+      setStitchedResources(stitchResourcesWithMeta(resources, data));
     }
-  }, [filteredResources, resources]);
+  }, [data, resources]);
 
-  const { data, loading } = useFolderResourceMetaSearch(
-    resources.map((r) => ({
-      id: r.resourceId,
-      path: r.path,
-      resourceType: r.resourceType,
-    })),
-  );
-
-  const keyedData = useMemo(
-    () =>
-      data?.reduce<Record<string, GQLFolderResourceMetaSearch>>((acc, curr) => {
-        const key = `${curr.type}-${curr.id}`;
-        acc[key] = curr;
-        return acc;
-      }, {}) ?? {},
-    [data],
-  );
+  const filteredResources = useMemo(() => {
+    return stitchedResources.filter((res) => res.meta?.title.toLowerCase().includes(inputValue.toLowerCase()));
+  }, [inputValue, stitchedResources]);
 
   const collection = useMemo(
     () =>
       createListCollection({
-        items: filteredResources ?? [],
-        itemToValue: (item) => item.id,
-        itemToString: (item) => keyedData[`${item.resourceType}-${item.resourceId}`]?.title ?? item.id,
+        items: filteredResources,
+        itemToValue: (item) => item.uniqueId,
+        itemToString: (item) => item.meta?.title ?? "",
       }),
-    [filteredResources, keyedData],
+    [filteredResources],
   );
-
-  const handleChange = (details: ComboboxInputValueChangeDetails) => {
-    const filtered = resources.filter((item) =>
-      keyedData[`${item.resourceType}-${item.resourceId}`]?.title
-        .toLowerCase()
-        .includes(details.inputValue.toLowerCase()),
-    );
-    setFilteredResources(filtered);
-    setInputValue(details.inputValue);
-  };
-
-  const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && highlightedValue) {
-      const resource = filteredResources?.find((item) => item.id === highlightedValue);
-      const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
-      onResourceSelect({
-        path: resource?.path ?? "",
-        title: metaData?.title ?? "",
-      });
-    }
-  };
 
   return (
     <ComboboxRoot
-      onInputValueChange={handleChange}
+      onInputValueChange={(details) => setInputValue(details.inputValue)}
       onOpenChange={(details) => setOpen(details.open)}
-      onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       collection={collection}
       translations={translations}
       variant="complex"
       context="composite"
       open={open}
+      onValueChange={(details) => {
+        const item = details.items[0];
+        if (item) {
+          onResourceSelect({ path: item.path ?? "", title: item.meta?.title ?? "" });
+        }
+      }}
       selectionBehavior="preserve"
     >
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} onKeyDown={onInputKeyDown} />
+            <Input placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} />
           </ComboboxInput>
         </InputContainer>
         <ComboboxTrigger asChild>
@@ -216,41 +209,23 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
             <Spinner />
           ) : filteredResources ? (
             <StyledComboboxContent>
-              {filteredResources.map((resource, index) => {
-                const metaData = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-                const contentType = metaData?.resourceTypes
-                  ?.map((type) => contentTypeMapping[type.id])
-                  .filter(Boolean)[0];
-
-                return (
-                  <StyledComboboxItem
-                    key={`${resource.id}-${index}`}
-                    item={resource}
-                    onClick={() =>
-                      onResourceSelect({
-                        title: metaData?.title ?? "",
-                        path: resource.path,
-                      })
-                    }
-                    asChild
-                    consumeCss
-                  >
-                    <StyledListItemRoot context="list">
-                      <TextWrapper>
-                        <ComboboxItemText>{metaData?.title}</ComboboxItemText>
-                        <StyledText
-                          textStyle="label.small"
-                          color="text.subtle"
-                          aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumb.map((crumb) => crumb.name).join(", ")}`}
-                        >
-                          {resource.breadcrumb.map((crumb) => crumb.name).join(" > ")}
-                        </StyledText>
-                      </TextWrapper>
-                      <ContentTypeBadge contentType={contentType ?? resource.resourceType} />
-                    </StyledListItemRoot>
-                  </StyledComboboxItem>
-                );
-              })}
+              {filteredResources.map((resource, index) => (
+                <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild consumeCss>
+                  <StyledListItemRoot context="list">
+                    <TextWrapper>
+                      <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
+                      <StyledText
+                        textStyle="label.small"
+                        color="text.subtle"
+                        aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
+                      >
+                        {resource.breadcrumbs.map((crumb) => crumb.name).join(" > ")}
+                      </StyledText>
+                    </TextWrapper>
+                    <ContentTypeBadge contentType={resource.contentType ?? resource.resourceType} />
+                  </StyledListItemRoot>
+                </StyledComboboxItem>
+              ))}
             </StyledComboboxContent>
           ) : null}
         </ContentWrapper>
