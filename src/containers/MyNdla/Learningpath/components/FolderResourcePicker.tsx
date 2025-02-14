@@ -7,7 +7,6 @@
  */
 
 import { t } from "i18next";
-import keyBy from "lodash/keyBy";
 import { useState, useMemo, useEffect, KeyboardEvent } from "react";
 import { ComboboxInputValueChangeDetails, createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
@@ -30,7 +29,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
 import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
 import { FolderResource } from "./FolderStepForm";
-import { GQLBreadcrumb, GQLFolder, GQLFolderResource } from "../../../../graphqlTypes";
+import {
+  GQLBreadcrumb,
+  GQLFolder,
+  GQLFolderResource,
+  GQLFolderResourceMetaSearchQuery,
+} from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 
@@ -84,17 +88,24 @@ const StyledText = styled(Text, {
 
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
 
+type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
 type GQLFolderResourceWithCrumb = GQLFolderResource & { uniqueId: string; breadcrumb: GQLBreadcrumb[] };
 
-const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] =>
-  folders
-    .flatMap((folder) => [
-      ...folder.resources
-        .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
-        .map((resource) => ({ ...resource, breadcrumb: folder.breadcrumbs })),
-      ...flattenFolderResources(folder.subfolders),
-    ])
-    .map((resource, index) => ({ ...resource, uniqueId: `${resource.id}-${index}` }));
+const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
+  if (folders.length === 0) return [];
+
+  const resources = folders.flatMap((folder) =>
+    folder.resources
+      .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
+      .map<GQLFolderResourceWithCrumb>((resource, index) => ({
+        ...resource,
+        breadcrumb: folder.breadcrumbs,
+        uniqueId: `${resource.id}-${index}`,
+      })),
+  );
+
+  return resources.concat(flattenFolderResources(folders.flatMap((folder) => folder.subfolders)));
+};
 
 interface ComboboxProps {
   onResourceSelect: (resource: FolderResource) => void;
@@ -107,6 +118,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { folders } = useFolders();
+  const translations = useComboboxTranslations();
   const resources = useMemo(() => flattenFolderResources(folders), [folders]);
 
   useEffect(() => {
@@ -123,9 +135,15 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     })),
   );
 
-  const translations = useComboboxTranslations();
-
-  const keyedData = useMemo(() => keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`), [data]);
+  const keyedData = useMemo(
+    () =>
+      data?.reduce<Record<string, GQLFolderResourceMetaSearch>>((acc, curr) => {
+        const key = `${curr.type}-${curr.id}`;
+        acc[key] = curr;
+        return acc;
+      }, {}) ?? {},
+    [data],
+  );
 
   const collection = useMemo(
     () =>

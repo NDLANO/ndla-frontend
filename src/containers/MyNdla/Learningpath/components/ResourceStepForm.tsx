@@ -39,6 +39,12 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
     setValue("title", resource.title, { shouldDirty: true });
   };
 
+  const onRemove = () => {
+    setSelectedResource(undefined);
+    setValue("embedUrl", "", { shouldValidate: true });
+    setValue("title", "", { shouldValidate: true });
+  };
+
   return (
     <FieldRoot>
       <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.resource.label")}</FieldLabel>
@@ -46,7 +52,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
       {!selectedResource ? (
         <ResourcePicker setResource={onSelectResource} />
       ) : (
-        <ResourceContent selectedResource={selectedResource} onRemove={() => setSelectedResource(undefined)} />
+        <ResourceContent selectedResource={selectedResource} onRemove={onRemove} />
       )}
     </FieldRoot>
   );
