@@ -268,7 +268,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects,
       pageSize: 10,
-      aggregatePaths: ["contexts.resourceTypes.id"],
+      aggregatePaths: ["context.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
       filterInactive: !subjects?.split(",").length,
       ...getTypeVariables(
