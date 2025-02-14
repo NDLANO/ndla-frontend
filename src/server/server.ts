@@ -25,12 +25,14 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
+import { LoggerFactory } from "../util/magnus/LoggerFactory";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
 
 global.fetch = fetch;
 const app = express();
+const testLogger = LoggerFactory.getLogger("impl2");
 const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];
 
 app.disable("x-powered-by");
@@ -183,6 +185,7 @@ app.get("/lti", async (req, res, next) => {
 });
 
 app.get(["/", "/*splat"], (req, res, next) => {
+  testLogger.info("Nå logger vi noe greier");
   const { basepath: path } = getLocaleInfoFromPath(req.path);
   const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
   const isPrivate = privateRoutes.some((r) => matchPath(r, path));
