@@ -40,7 +40,7 @@ interface Props {
   initialValue: string;
 }
 
-export const TextForm = ({ initialValue }: Props) => {
+export const TextStepForm = ({ initialValue }: Props) => {
   const { validationT } = useValidationTranslation();
   const { control } = useFormContext<TextFormValues>();
 
