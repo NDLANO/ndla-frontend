@@ -80,7 +80,6 @@ const messages = {
         "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots. Log in to to access the chatbots.",
     },
     resource: {
-      addedToFolder: 'Resource added to "{{folder}}"',
       added: "Added",
       removed: "Removed",
       showTags: "Show tags",
