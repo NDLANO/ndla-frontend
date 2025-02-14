@@ -89,7 +89,7 @@ const StyledText = styled(Text, {
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
 
 type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
-type GQLFolderResourceWithCrumb = GQLFolderResource & { uniqueId: string; breadcrumb: GQLBreadcrumb[] };
+type GQLFolderResourceWithCrumb = GQLFolderResource & { breadcrumb: GQLBreadcrumb[] };
 
 const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
   if (folders.length === 0) return [];
@@ -97,10 +97,9 @@ const flattenFolderResources = (folders: GQLFolder[]): GQLFolderResourceWithCrum
   const resources = folders.flatMap((folder) =>
     folder.resources
       .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
-      .map<GQLFolderResourceWithCrumb>((resource, index) => ({
+      .map<GQLFolderResourceWithCrumb>((resource) => ({
         ...resource,
         breadcrumb: folder.breadcrumbs,
-        uniqueId: `${resource.id}-${index}`,
       })),
   );
 
@@ -119,7 +118,13 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   const { folders } = useFolders();
   const translations = useComboboxTranslations();
-  const resources = useMemo(() => flattenFolderResources(folders), [folders]);
+  const resources = useMemo(
+    () =>
+      flattenFolderResources(folders).filter(
+        (resource, index, arr) => index === arr.findIndex((val) => resource.id === val.id),
+      ),
+    [folders],
+  );
 
   useEffect(() => {
     if (!filteredResources && !!resources.length) {
@@ -149,7 +154,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     () =>
       createListCollection({
         items: filteredResources ?? [],
-        itemToValue: (item) => item.uniqueId,
+        itemToValue: (item) => item.id,
         itemToString: (item) => keyedData[`${item.resourceType}-${item.resourceId}`]?.title ?? item.id,
       }),
     [filteredResources, keyedData],
@@ -167,7 +172,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && highlightedValue) {
-      const resource = filteredResources?.find((item) => item.uniqueId === highlightedValue);
+      const resource = filteredResources?.find((item) => item.id === highlightedValue);
       const metaData = keyedData[`${resource?.resourceType}-${resource?.resourceId}`];
       onResourceSelect({
         path: resource?.path ?? "",
