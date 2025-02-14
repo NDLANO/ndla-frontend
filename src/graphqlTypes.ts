@@ -3428,6 +3428,16 @@ export type GQLUpdateLearningpathMutation = {
   updateLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
 };
 
+export type GQLCopyLearningpathMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathCopyInput;
+}>;
+
+export type GQLCopyLearningpathMutation = {
+  __typename?: "Mutation";
+  copyLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+};
+
 export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLMyLearningpathsQuery = {

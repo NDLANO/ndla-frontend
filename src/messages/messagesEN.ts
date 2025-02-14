@@ -271,6 +271,15 @@ const messages = {
         pageDescription: "Preview the learning path you have created.",
         noSteps: "You haven't added any steps to the learning path yet.",
       },
+      copy: {
+        title: "Copy learning path",
+        description:
+          "By copying a learning path, it is added to your list of learning paths. You can then edit and customize the path as you wish.",
+        button: "Copy to my learning paths",
+        success: { title: "Copied", description: "The learning path is copied to " },
+        error: "Something went wrong while copying the learning path",
+        loginCopyPitch: "Do you want to copy this learning path?",
+      },
     },
   },
   ndlaFilm: {

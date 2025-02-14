@@ -36,6 +36,7 @@ import { routes, toLearningPath } from "../../routeHelpers";
 import FavoriteButton from "../Article/FavoritesButton";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
+import CopyLearningPath from "./components/CopyLearningPath";
 import { LearningpathStep } from "./components/LearningpathStep";
 
 interface Props {
@@ -207,6 +208,7 @@ const Learningpath = ({
   );
   const parents = resource?.context?.parents || [];
   const root = parents[0];
+  const path = resourcePath ? resourcePath : toLearningPath(learningpath.id);
 
   return (
     <StyledPageContainer variant="wide" gutters="tabletUp" rounded={context === "preview"}>
@@ -220,17 +222,16 @@ const Learningpath = ({
           <MetaWrapper data-testid="learningpath-meta">
             <ContentTypeWrapper>
               <ContentTypeBadge contentType="learning-path" />
-              {!!resourcePath && (
-                <AddResourceToFolderModal
-                  resource={{
-                    id: learningpath.id.toString(),
-                    path: resourcePath,
-                    resourceType: "learningpath",
-                  }}
-                >
-                  <FavoriteButton path={resourcePath} />
-                </AddResourceToFolderModal>
-              )}
+              <AddResourceToFolderModal
+                resource={{
+                  id: learningpath.id.toString(),
+                  path: path,
+                  resourceType: "learningpath",
+                }}
+              >
+                <FavoriteButton path={path} />
+              </AddResourceToFolderModal>
+              {!resourcePath && <CopyLearningPath learningpath={learningpath} />}
             </ContentTypeWrapper>
             <Text textStyle="label.large">
               {`${t("learningPath.youAreInALearningPath")}:`}
