@@ -80,7 +80,6 @@ const messages = {
         "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
     },
     resource: {
-      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
       added: "Lagt til",
       removed: "Fjerna",
       showTags: "Vis emneknaggar",
