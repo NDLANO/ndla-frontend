@@ -43,6 +43,12 @@ const ResourceWrapper = styled("div", {
   },
 });
 
+const PathText = styled(Text, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
 export interface FolderResource {
   title: string;
   path: string;
@@ -74,10 +80,10 @@ export const FolderStepForm = () => {
         <ResourceWrapper>
           <TextWrapper>
             <StyledText fontWeight="bold">{resource.title}</StyledText>
-            <Text textStyle="label.small" color="text.subtle" css={{ textAlign: "start" }}>
+            <PathText textStyle="label.small" color="text.subtle">
               {config.ndlaFrontendDomain}
               {resource.path}
-            </Text>
+            </PathText>
           </TextWrapper>
           <IconButton
             aria-label={t("myNdla.learningpath.form.delete")}

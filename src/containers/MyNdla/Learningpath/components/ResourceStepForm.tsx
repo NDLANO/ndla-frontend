@@ -33,10 +33,10 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
   const { setValue } = useFormContext<ResourceFormValues>();
 
-  const onSelectResource = (resource?: ResourceData) => {
+  const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
-    setValue("embedUrl", resource?.url ?? "", { shouldDirty: true });
-    setValue("title", resource?.title ?? "", { shouldDirty: true });
+    setValue("embedUrl", resource.url, { shouldDirty: true });
+    setValue("title", resource.title, { shouldDirty: true });
   };
 
   return (
@@ -46,7 +46,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
       {!selectedResource ? (
         <ResourcePicker setResource={onSelectResource} />
       ) : (
-        <ResourceContent selectedResource={selectedResource} onRemove={() => onSelectResource(undefined)} />
+        <ResourceContent selectedResource={selectedResource} onRemove={() => setSelectedResource(undefined)} />
       )}
     </FieldRoot>
   );
@@ -82,6 +82,12 @@ const StyledHStack = styled(HStack, {
   },
 });
 
+const CrumbText = styled(Text, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
 export interface ResourceData {
   title: string;
   breadcrumbs?: string[];
@@ -90,27 +96,27 @@ export interface ResourceData {
 }
 interface ResourceContentProps {
   onRemove: () => void;
-  selectedResource?: ResourceData;
+  selectedResource: ResourceData;
 }
 
 export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentProps) => {
   const { t } = useTranslation();
 
-  const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
+  const contentType = selectedResource.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
 
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <Text>{selectedResource?.title}</Text>
-        {!!selectedResource?.breadcrumbs && (
-          <Text
+        <Text>{selectedResource.title}</Text>
+        {!!selectedResource.breadcrumbs && (
+          <CrumbText
             textStyle="label.small"
             color="text.subtle"
             css={{ textAlign: "start" }}
             aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
           >
             {selectedResource.breadcrumbs.join(" > ")}
-          </Text>
+          </CrumbText>
         )}
       </TextWrapper>
       <StyledHStack gap="medium">
