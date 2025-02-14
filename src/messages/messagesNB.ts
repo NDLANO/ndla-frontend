@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og beskrivelse",
+          title: "Tittel og metabilde",
           content: "Legg til innhold",
           preview: "Se gjennom",
           save: "Lagre og del",
