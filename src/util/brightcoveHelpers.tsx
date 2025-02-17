@@ -6,21 +6,21 @@
  *
  */
 
-import { contributorTypes, contributorGroups } from "@ndla/licenses";
+import { contributorTypes, contributorGroups, licenses } from "@ndla/licenses";
 import { Author } from "../interfaces";
 
 const LicenseMapping: Record<string, string> = {
-  "navngivelse-ikkekommersiell-ingenbearbeidelse": "CC-BY-NC-ND-4.0",
-  "navngivelse-ikkekommersiell-delpåsammevilkår": "CC-BY-NC-SA-4.0",
-  "navngivelse-ikkekommersiell": "CC-BY-NC-4.0",
-  "navngivelse-ingenbearbeidelse": "CC-BY-ND-4.0",
-  "navngivelse-delpåsammevilkår": "CC-BY-SA-4.0",
-  navngivelse: "CC-BY-4.0",
-  offentligdomene: "PD",
-  publicdomaindedication: "CC0-1.0",
-  publicdomainmark: "PD",
-  "fristatus-erklæring": "CC0-1.0",
-  opphavsrett: "COPYRIGHTED",
+  "navngivelse-ikkekommersiell-ingenbearbeidelse": licenses.CC_BY_NC_ND_4,
+  "navngivelse-ikkekommersiell-delpåsammevilkår": licenses.CC_BY_NC_SA_4,
+  "navngivelse-ikkekommersiell": licenses.CC_BY_NC_4,
+  "navngivelse-ingenbearbeidelse": licenses.CC_BY_ND_4,
+  "navngivelse-delpåsammevilkår": licenses.CC_BY_SA_4,
+  navngivelse: licenses.CC_BY_4,
+  offentligdomene: licenses.PD,
+  publicdomaindedication: licenses.CC0,
+  publicdomainmark: licenses.PD,
+  "fristatus-erklæring": licenses.CC0,
+  opphavsrett: licenses.COPYRIGHTED,
 };
 
 const contributorMapping: Record<string, string> = {

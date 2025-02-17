@@ -195,11 +195,13 @@ const frameSrc = (() => {
     "jeopardylabs.com",
     "*.uio.no",
     "*.maps.arcgis.com",
+    "*.arcgis.com",
     "arcg.is",
     "norgeskart.no",
     "kartiskolen.no",
     "norgeibilder.no",
     "video.qbrick.com",
+    "www.norskpetroleum.no",
   ];
   if (config.runtimeType === "development") {
     return [

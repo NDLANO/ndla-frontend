@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  COPYRIGHTED,
+  rights,
   getLicenseByAbbreviation,
   getLicenseRightByAbbreviation,
   getResourceTypeNamespace,
@@ -68,7 +68,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
-  const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
+  const licenseRightsText = license.rights[0] === rights.COPYRIGHTED ? "restrictedUseText" : "licenseText";
   return (
     <div>
       <MediaListLicenseButtonWrapper>

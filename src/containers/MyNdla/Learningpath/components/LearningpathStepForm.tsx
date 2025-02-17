@@ -24,9 +24,10 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
-import { ExternalForm } from "./ExternalForm";
-import { ResourceForm } from "./ResourceForm";
-import { TextForm } from "./TextForm";
+import { ExternalStepForm } from "./ExternalStepForm";
+import { FolderStepForm } from "./FolderStepForm";
+import { ResourceStepForm } from "./ResourceStepForm";
+import { TextStepForm } from "./TextStepForm";
 
 const ContentForm = styled("form", {
   base: {
@@ -70,6 +71,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
     mode: "onSubmit",
     defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
   });
+
   const { handleSubmit, control, reset, formState } = methods;
 
   return (
@@ -88,7 +90,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
                 {...field}
               >
                 {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val} disabled={val === "folder"}>
+                  <RadioGroupItem value={val} key={val}>
                     <RadioGroupItemControl />
                     <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
                     <RadioGroupItemHiddenInput />
@@ -127,7 +129,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
 
   if (formType === "resource") {
     return (
-      <ResourceForm
+      <ResourceStepForm
         resource={
           step?.resource
             ? {
@@ -141,12 +143,11 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
       />
     );
   } else if (formType === "external") {
-    return <ExternalForm />;
+    return <ExternalStepForm />;
   } else if (formType === "text") {
-    return <TextForm initialValue={step?.description ?? ""} />;
+    return <TextStepForm initialValue={step?.description ?? ""} />;
   } else if (formType === "folder") {
-    // TODO: implement
-    return null;
+    return <FolderStepForm />;
   }
   return null;
 };

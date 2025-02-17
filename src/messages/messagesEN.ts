@@ -80,7 +80,6 @@ const messages = {
         "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots. Log in to to access the chatbots.",
     },
     resource: {
-      addedToFolder: 'Resource added to "{{folder}}"',
       added: "Added",
       removed: "Removed",
       showTags: "Show tags",
@@ -192,7 +191,8 @@ const messages = {
           },
           folder: {
             label: "Search in My Folders",
-            labelHelper: "Select content from my folders",
+            labelHelper: "Select content from your folders",
+            placeholder: "Search for resources that are stored in your folders.",
           },
         },
         options: {
@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Title and description",
+          title: "Title and metaimage",
           content: "Append content",
           preview: "Preview",
           save: "Save and share",
@@ -270,6 +270,15 @@ const messages = {
         pageHeading: "Preview",
         pageDescription: "Preview the learning path you have created.",
         noSteps: "You haven't added any steps to the learning path yet.",
+      },
+      copy: {
+        title: "Copy learning path",
+        description:
+          "By copying a learning path, it is added to your list of learning paths. You can then edit and customize the path as you wish.",
+        button: "Copy to my learning paths",
+        success: { title: "Copied", description: "The learning path is copied to " },
+        error: "Something went wrong while copying the learning path",
+        loginCopyPitch: "Do you want to copy this learning path?",
       },
     },
   },
@@ -376,6 +385,8 @@ const messages = {
     externalWarning:
       "This learning path has been developed by an external teacher, who holds the editorial responsibility. Please note that it may contain texts and links that do not originate from ndla.no.",
     externalLink: "Open in a new window",
+    bylineSuffix:
+      "The author has editorial responsibility for this learning path. Please be aware that it may contain texts and links that do not originate from ndla.no.",
   },
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",

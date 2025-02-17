@@ -80,7 +80,6 @@ const messages = {
         "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
     },
     resource: {
-      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
       added: "Lagt til",
       removed: "Fjerna",
       showTags: "Vis emneknaggar",
@@ -192,7 +191,8 @@ const messages = {
           },
           folder: {
             label: "Søk i Mine mapper",
-            labelHelper: "Vel innhald frå mine mapper",
+            labelHelper: "Vel innhald frå dine mapper",
+            placeholder: "Søk etter ressursar som ligg i dine mapper",
           },
         },
         options: {
@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og beskriving",
+          title: "Tittel og metabilete",
           content: "Legg til innhald",
           preview: "Sjå gjennom",
           save: "Lagre og del",
@@ -271,6 +271,15 @@ const messages = {
         pageHeading: "Sjå gjennom",
         pageDescription: "Sjå gjennom læringsstien du har laga.",
         noSteps: "Du har ikkje lagt til nokon steg i læringsstien enno.",
+      },
+      copy: {
+        title: "Kopier læringssti",
+        description:
+          "Ved å kopiere ein læringssti blir han lagd til i lista over dine læringsstiar. Du kan deretter redigere og tilpasse stien slik du ønskjer.",
+        button: "Kopier til mine læringsstiar",
+        success: { title: "Kopiert", description: "Læringsstien er kopiert til " },
+        error: "Noko gjekk gale ved kopiering av læringsstien",
+        loginCopyPitch: "Ønskjer du å kopiere denne læringsstien?",
       },
     },
   },
@@ -377,6 +386,8 @@ const messages = {
     externalWarning:
       "Denne læringsstien er utarbeidd av ein ekstern lærar, som har det redaksjonelle ansvaret. Ver merksam på at ho kan innehalde tekstar og lenkjer som ikkje kjem frå ndla.no.",
     externalLink: "Åpne i nytt vindauge",
+    bylineSuffix:
+      "Forfattaren har redaksjonelt ansvar for denne læringsstien. Ver merksam på at han kan innehalde tekstar og lenker som ikkje kjem frå ndla.no.",
   },
   movedResourcePage: {
     title: "Sida har flytta, men du finn ho her:",

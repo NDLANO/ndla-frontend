@@ -80,7 +80,6 @@ const messages = {
         "Vil du bruke KI i undervisningen? NDLA har laget prateroboter og en bilderobot som trygt kan brukes til jobb og i undervisning. Logg inn for å få tilgang til robotene.",
     },
     resource: {
-      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
       added: "Lagt til",
       removed: "Fjernet",
       showTags: "Vis emneknagger",
@@ -192,7 +191,8 @@ const messages = {
           },
           folder: {
             label: "Søk i Mine mapper",
-            labelHelper: "Velg innhold fra mappene mine",
+            labelHelper: "Velg innhold fra mappene dine",
+            placeholder: "Søk etter ressurser som ligger i dine mapper",
           },
         },
         options: {
@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og beskrivelse",
+          title: "Tittel og metabilde",
           content: "Legg til innhold",
           preview: "Se gjennom",
           save: "Lagre og del",
@@ -271,6 +271,15 @@ const messages = {
         pageHeading: "Se gjennom",
         pageDescription: "Se gjennom læringsstien du har laget.",
         noSteps: "Du har ikke lagt til steg i læringsstien ennå.",
+      },
+      copy: {
+        title: "Kopier læringssti",
+        description:
+          "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
+        button: "Kopier til mine læringsstier",
+        success: { title: "Kopiert", description: "Læringsstien er kopiert til " },
+        error: "Noe gikk galt ved kopiering av læringsstien",
+        loginCopyPitch: "Ønsker du å kopiere denne læringsstien?",
       },
     },
   },
@@ -377,6 +386,8 @@ const messages = {
     externalWarning:
       "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
     externalLink: "Åpne i nytt vindu",
+    bylineSuffix:
+      "Forfatteren har redaksjonelt ansvar for denne læringsstien. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",

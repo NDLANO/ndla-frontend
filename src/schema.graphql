@@ -239,6 +239,7 @@ type ArticleRequiredLibrary {
 }
 
 type ArticleSearchResult implements SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
   id: Int!
@@ -511,7 +512,6 @@ type EditorNote {
 }
 
 type Element {
-  explanation: [String]!
   reference: Reference!
 }
 
@@ -791,6 +791,7 @@ type Learningpath {
   duration: Int
   id: Int!
   isBasedOn: Int
+  isMyNDLAOwner: Boolean!
   lastUpdated: String!
   learningstepUrl: String!
   learningsteps: [LearningpathStep!]!
@@ -802,6 +803,16 @@ type Learningpath {
   tags: [String!]!
   title: String!
   verificationStatus: String!
+}
+
+input LearningpathCopyInput {
+  copyright: LearningpathCopyrightInput
+  coverPhotoMetaUrl: String
+  description: String
+  duration: Int
+  language: String!
+  tags: [String!]
+  title: String!
 }
 
 type LearningpathCopyright {
@@ -845,6 +856,7 @@ input LearningpathNewInput {
 }
 
 type LearningpathSearchResult implements SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
   id: Int!
@@ -1005,6 +1017,7 @@ type Mutation {
   ): FolderResource!
   addPostUpvote(postId: Int!): Int!
   addPostUpvoteV2(postId: Int!): Int!
+  copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
@@ -1102,6 +1115,7 @@ type MyNdlaLearningpath {
   duration: Int
   id: Int!
   isBasedOn: Int
+  isMyNDLAOwner: Boolean!
   lastUpdated: String!
   learningstepUrl: String!
   learningsteps: [MyNdlaLearningpathStep!]!
@@ -1371,7 +1385,7 @@ type Query {
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
-  imageSearch(page: Int, pageSize: Int, query: String): ImageSearch!
+  imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!
@@ -1548,6 +1562,7 @@ type SearchContextResourceTypes {
 }
 
 interface SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
   id: Int!

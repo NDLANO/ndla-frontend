@@ -22,6 +22,8 @@ import {
   GQLUpdateLearningpathStepMutationVariables,
   GQLUpdateLearningpathMutation,
   GQLUpdateLearningpathMutationVariables,
+  GQLCopyLearningpathMutationVariables,
+  GQLCopyLearningpathMutation,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
 import { previewLearningpathQuery } from "./PreviewLearningpathPage";
@@ -270,3 +272,16 @@ export const useUpdateLearningpath = (
     },
   );
 };
+
+const copyLearningpathMutation = gql`
+  mutation copyLearningpath($learningpathId: Int!, $params: LearningpathCopyInput!) {
+    copyLearningpath(learningpathId: $learningpathId, params: $params) {
+      ...MyNdlaLearningpath
+    }
+  }
+  ${learningpathFragment}
+`;
+
+export const useCopyLearningpathMutation = (
+  options?: MutationHookOptions<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
+) => useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, options);

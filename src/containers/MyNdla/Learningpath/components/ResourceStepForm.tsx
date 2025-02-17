@@ -28,15 +28,21 @@ interface ResourceFormProps {
   resource?: ResourceData;
 }
 
-export const ResourceForm = ({ resource }: ResourceFormProps) => {
+export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
   const { setValue } = useFormContext<ResourceFormValues>();
 
-  const onSelectResource = (resource?: ResourceData) => {
+  const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
-    setValue("embedUrl", resource?.url ?? "", { shouldDirty: true });
-    setValue("title", resource?.title ?? "", { shouldDirty: true });
+    setValue("embedUrl", resource.url, { shouldDirty: true });
+    setValue("title", resource.title, { shouldDirty: true });
+  };
+
+  const onRemove = () => {
+    setSelectedResource(undefined);
+    setValue("embedUrl", "", { shouldValidate: true });
+    setValue("title", "", { shouldValidate: true });
   };
 
   return (
@@ -46,7 +52,7 @@ export const ResourceForm = ({ resource }: ResourceFormProps) => {
       {!selectedResource ? (
         <ResourcePicker setResource={onSelectResource} />
       ) : (
-        <ResourceContent selectedResource={selectedResource} onRemove={() => onSelectResource(undefined)} />
+        <ResourceContent selectedResource={selectedResource} onRemove={onRemove} />
       )}
     </FieldRoot>
   );
@@ -65,12 +71,26 @@ const TextWrapper = styled("div", {
 const ResourceWrapper = styled("div", {
   base: {
     display: "flex",
+    flexWrap: "wrap",
     borderBottom: "1px solid",
-    borderColor: "black",
+    borderColor: "stroke.default",
     padding: "xsmall",
     gap: "medium",
     justifyContent: "space-between",
     boxShadow: "xsmall",
+    backgroundColor: "background.default",
+  },
+});
+
+const StyledHStack = styled(HStack, {
+  base: {
+    flexWrap: "wrap",
+  },
+});
+
+const CrumbText = styled(Text, {
+  base: {
+    overflowWrap: "anywhere",
   },
 });
 
@@ -82,35 +102,40 @@ export interface ResourceData {
 }
 interface ResourceContentProps {
   onRemove: () => void;
-  selectedResource?: ResourceData;
+  selectedResource: ResourceData;
 }
 
 export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentProps) => {
   const { t } = useTranslation();
 
-  const contentType = selectedResource?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
+  const contentType = selectedResource.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
 
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <Text>{selectedResource?.title}</Text>
-        {!!selectedResource?.breadcrumbs && (
-          <Text
+        <Text>{selectedResource.title}</Text>
+        {!!selectedResource.breadcrumbs && (
+          <CrumbText
             textStyle="label.small"
             color="text.subtle"
             css={{ textAlign: "start" }}
             aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
           >
             {selectedResource.breadcrumbs.join(" > ")}
-          </Text>
+          </CrumbText>
         )}
       </TextWrapper>
-      <HStack gap="medium">
+      <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />
-        <IconButton aria-label={t("myNdla.learningpath.form.delete")} variant="tertiary" onClick={onRemove}>
+        <IconButton
+          aria-label={t("myNdla.learningpath.form.delete")}
+          title={t("myNdla.learningpath.form.delete")}
+          variant="tertiary"
+          onClick={onRemove}
+        >
           <DeleteBinLine />
         </IconButton>
-      </HStack>
+      </StyledHStack>
     </ResourceWrapper>
   );
 };

@@ -125,6 +125,8 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
+const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
+
 const ListResource = ({
   id,
   link,
@@ -148,6 +150,7 @@ const ListResource = ({
     return (
       constants.contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
+      learningpathMapping[firstContentType] ??
       constants.contentTypeMapping.default!
     );
   }, [firstContentType]);

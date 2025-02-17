@@ -6,7 +6,7 @@
  *
  */
 
-import { COPYRIGHTED } from "@ndla/licenses";
+import { licenses } from "@ndla/licenses";
 import { GQLCopyright } from "../../graphqlTypes";
 
 type BaseCopyright = Pick<GQLCopyright, "creators" | "processors" | "rightsholders">;
@@ -22,4 +22,4 @@ export const licenseCopyrightToCopyrightType = <T extends BaseCopyright>(copyrig
   };
 };
 
-export const isCopyrighted = (license?: string) => license?.toLowerCase() === COPYRIGHTED;
+export const isCopyrighted = (license?: string) => license === licenses.COPYRIGHTED;

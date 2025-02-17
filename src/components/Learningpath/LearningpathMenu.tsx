@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
@@ -228,6 +229,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
         authors={learningpath.copyright.contributors}
         published={lastUpdatedString}
         bylineType="learningPath"
+        bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
       />
     </>
   );
@@ -253,6 +255,7 @@ LearningpathMenu.fragments = {
         title
         seqNo
       }
+      isMyNDLAOwner
     }
   `,
   step: gql`
