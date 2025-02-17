@@ -61,7 +61,7 @@ export const PreviewLearningpathPage = () => {
     {
       variables: { pathId: learningpathId ?? "" },
       skip: !learningpathId,
-      fetchPolicy: "cache-and-network",
+      fetchPolicy: "network-only",
     },
   );
 

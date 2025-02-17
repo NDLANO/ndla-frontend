@@ -71,7 +71,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
         learningpathId: learningpathId,
       },
     });
-    if (!res.errors || res.errors?.length === 0) {
+    if (!res.errors?.length) {
       close();
     }
   };
