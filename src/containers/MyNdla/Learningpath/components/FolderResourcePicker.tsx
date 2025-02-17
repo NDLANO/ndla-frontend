@@ -138,7 +138,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
 
-  const { folders } = useFolders();
+  const { folders, loading: foldersLoading } = useFolders();
   const translations = useComboboxTranslations();
 
   const resources = useMemo(() => flattenResources(folders), [folders]);
@@ -168,6 +168,10 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       }),
     [filteredResources],
   );
+
+  if (resources.length === 0 && !foldersLoading) {
+    return <Text>{t("myNdla.learningpath.form.content.folder.noResources")}</Text>;
+  }
 
   return (
     <ComboboxRoot
