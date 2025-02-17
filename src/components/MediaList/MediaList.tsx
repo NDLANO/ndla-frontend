@@ -86,7 +86,9 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
           {`. ${description}`}
         </Text>
       )}
-      <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      {license.rights.length > 1 && (
+        <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      )}
     </div>
   );
 };

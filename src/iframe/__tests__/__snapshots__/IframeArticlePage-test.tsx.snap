@@ -234,9 +234,6 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                                   </h3>
                                   <div />
                                 </div>
-                                <ul
-                                  class="li-t_disc ms_medium"
-                                />
                               </div>
                             </div>
                             <div
