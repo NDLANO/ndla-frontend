@@ -13,12 +13,14 @@ import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { RedirectInfo } from "../../components/RedirectContext";
 import Scripts from "../../components/Scripts/Scripts";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
+import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
 export const errorRender: RenderFunc = async (req, chunks) => {
@@ -26,15 +28,18 @@ export const errorRender: RenderFunc = async (req, chunks) => {
 
   const lang = getHtmlLang(req.params.lang ?? "");
   const locale = getLocaleObject(lang).abbreviation;
+  const siteTheme = getSiteTheme();
 
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
       <I18nextProvider i18n={i18nInstance}>
         <MissingRouterContext.Provider value={true}>
-          <StaticRouter location={req.url}>
-            <Scripts />
-            <ErrorPage />
-          </StaticRouter>
+          <SiteThemeProvider value={siteTheme}>
+            <StaticRouter location={req.url}>
+              <Scripts />
+              <ErrorPage />
+            </StaticRouter>
+          </SiteThemeProvider>
         </MissingRouterContext.Provider>
       </I18nextProvider>
     </Document>
@@ -56,6 +61,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
       htmlContent: html,
       data: {
         chunks,
+        siteTheme,
         serverPath: req.path,
         serverQuery: req.query,
         config: {
