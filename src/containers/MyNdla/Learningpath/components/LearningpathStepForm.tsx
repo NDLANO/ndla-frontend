@@ -8,7 +8,6 @@
 
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
 import {
   Button,
   FieldErrorMessage,
@@ -23,11 +22,12 @@ import {
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { formValues, getFormTypeFromStep, getValuesFromStep } from "../utils";
+import { toFormValues } from "../utils";
 import { ExternalStepForm } from "./ExternalStepForm";
 import { FolderStepForm } from "./FolderStepForm";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
+import { FormValues } from "../types";
 
 const ContentForm = styled("form", {
   base: {
@@ -43,33 +43,21 @@ const ContentForm = styled("form", {
 });
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
-export type FormType = (typeof RADIO_GROUP_OPTIONS)[number];
-
-export type FormValues = {
-  type: string;
-  title: string;
-  introduction: string;
-  description: Descendant[];
-  embedUrl: string;
-  url: string;
-  shareable: boolean;
-};
 
 interface Props {
-  learningpathId: number;
   step?: GQLMyNdlaLearningpathStepFragment;
+  stepType: FormValues["type"];
   onClose?: VoidFunction;
   onDelete?: (close: VoidFunction) => Promise<void>;
   onSave: (data: FormValues) => Promise<void>;
 }
 
-export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props) => {
+export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete }: Props) => {
   const { t } = useTranslation();
 
-  const stepType = getFormTypeFromStep(step);
   const methods = useForm<FormValues>({
     mode: "onSubmit",
-    defaultValues: stepType ? getValuesFromStep(stepType, step) : formValues(),
+    defaultValues: toFormValues(stepType, step),
   });
 
   const { handleSubmit, control, reset, formState } = methods;
@@ -85,7 +73,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
-                onValueChange={(details) => reset(getValuesFromStep(details.value as FormType, step))}
+                onValueChange={(details) => reset(toFormValues(details.value as FormValues["type"]))}
                 orientation="vertical"
                 {...field}
               >
