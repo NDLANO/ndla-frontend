@@ -9,7 +9,7 @@
 import { useCallback } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Editor, Node, Range } from "slate";
+import { Editor, Node, Range, Transforms } from "slate";
 import { useSlate } from "slate-react";
 import { useDialogContext } from "@ark-ui/react";
 import { isElementOfType, isLinkElement } from "@ndla/editor";
@@ -53,13 +53,13 @@ const updateNode = (editor: Editor, values: LinkFormValues) => {
 
   // we're updating an existing link
   if (linkEntry) {
-    editor.insertText(values.text, { at: linkEntry[1] });
-    editor.setNodes({ data: { href: values.url } }, { at: linkEntry[1], match: isLinkElement });
+    Transforms.insertText(editor, values.text, { at: linkEntry[1] });
+    Transforms.setNodes(editor, { data: { href: values.url } }, { at: [...linkEntry[1], 0], match: isLinkElement });
   } else if (Range.isCollapsed(selection)) {
     // we're inserting a link without having preselected text
-    editor.insertNodes({ type: "link", data: { href: values.url }, children: [{ text: values.text }] });
+    Transforms.insertNodes(editor, { type: "link", data: { href: values.url }, children: [{ text: values.text }] });
   } else {
-    editor.wrapNodes({ type: "link", data: { href: values.url }, children: [] }, { split: true });
+    Transforms.wrapNodes(editor, { type: "link", data: { href: values.url }, children: [] }, { split: true });
   }
 };
 
@@ -130,9 +130,7 @@ export const LinkDialogContent = ({ initialValue }: LinkDialogContentProps) => {
           <DialogCloseTrigger asChild>
             <Button variant="secondary">{t("close")}</Button>
           </DialogCloseTrigger>
-          <Button type="submit" onMouseDown={(e) => e.preventDefault()}>
-            {t("save")}
-          </Button>
+          <Button onClick={() => handleSubmit(onSave)()}>{t("save")}</Button>
         </DialogFooter>
       </form>
     </DialogContent>
