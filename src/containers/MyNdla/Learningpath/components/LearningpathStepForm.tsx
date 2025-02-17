@@ -76,7 +76,7 @@ export const LearningpathStepForm = ({ step, onClose, onSave, onDelete }: Props)
 
   return (
     <FormProvider {...methods}>
-      <ContentForm onSubmit={handleSubmit(onSave)}>
+      <ContentForm onSubmit={handleSubmit(onSave)} noValidate>
         <Controller
           name="type"
           control={control}
