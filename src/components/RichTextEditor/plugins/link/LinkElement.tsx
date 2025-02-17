@@ -6,11 +6,11 @@
  *
  */
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Node, Transforms } from "slate";
+import { Node, Selection, Transforms } from "slate";
 import { DOMEditor } from "slate-dom";
-import { RenderElementProps, useSlate } from "slate-react";
+import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { DialogContext, Portal } from "@ark-ui/react";
 import { ElementRenderer, isLinkElement, LinkElement as LinkElementType } from "@ndla/editor";
 import { InlineBugfix, useEditorPopover } from "@ndla/editor-components";
@@ -55,21 +55,47 @@ interface SlateLinkProps extends RenderElementProps {
 }
 
 const SlateLink = ({ children, element, attributes }: SlateLinkProps) => {
+  const [savedSelection, setSavedSelection] = useState<Selection | undefined>(undefined);
   const { t } = useTranslation();
   const editor = useSlate();
   const ref = useRef<HTMLDivElement>(null);
-  const popover = useEditorPopover({ initialFocusEl: () => ref.current });
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popover = useEditorPopover({ initialFocusEl: () => ref.current, triggerRef });
 
   return (
-    <DialogRoot onExitComplete={() => DOMEditor.focus(editor)}>
+    <DialogRoot
+      onOpenChange={(details) => {
+        if (details.open && editor.selection) {
+          setSavedSelection(editor.selection);
+        }
+      }}
+      onExitComplete={() => {
+        if (savedSelection) {
+          Transforms.setSelection(editor, savedSelection);
+          setSavedSelection(undefined);
+        }
+        const slateEditor = document.querySelector("[data-slate-editor]") as HTMLElement | undefined;
+        slateEditor?.focus();
+        setTimeout(() => {
+          ReactEditor.focus(editor);
+        }, 0);
+      }}
+    >
       <DialogContext>
         {(context) => (
           <PopoverRootProvider
             value={popover}
-            onExitComplete={() => (context.open ? undefined : DOMEditor.focus(editor))}
+            onExitComplete={() => {
+              if (context.open) return;
+              const slateEditor = document.querySelector("[data-slate-editor]") as HTMLElement | undefined;
+              slateEditor?.focus();
+              setTimeout(() => {
+                ReactEditor.focus(editor);
+              }, 0);
+            }}
           >
-            <PopoverTrigger asChild consumeCss>
-              <a {...attributes} href={element.data.href} target={element.data.target} tabIndex={0}>
+            <PopoverTrigger asChild consumeCss {...attributes} ref={triggerRef}>
+              <a href={element.data.href} target={element.data.target}>
                 <InlineBugfix />
                 {children}
                 <InlineBugfix />
@@ -109,7 +135,10 @@ const SlateLink = ({ children, element, attributes }: SlateLinkProps) => {
         )}
       </DialogContext>
       <Portal>
-        <LinkDialogContent initialValue={{ url: element.data.href, text: Node.string(element) }} />
+        <LinkDialogContent
+          key={Node.string(element)}
+          initialValue={{ url: element.data.href, text: Node.string(element) }}
+        />
       </Portal>
     </DialogRoot>
   );
