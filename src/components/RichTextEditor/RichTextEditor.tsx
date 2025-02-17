@@ -40,6 +40,7 @@ const StyledEditable = styled(
   Editable,
   {
     base: {
+      backgroundColor: "background.default",
       paddingInline: "xsmall",
       borderRadius: "xsmall",
       borderTopRadius: "0px",
