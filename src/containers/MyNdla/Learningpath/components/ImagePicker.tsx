@@ -44,9 +44,6 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
     variables: { page: 1, pageSize: 16, license: licenses.CC_BY_SA_4 },
   });
 
-  const onFetchImage = async (imageId: number) =>
-    (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3DTO;
-
   const onSearchImage = async (query?: string, page?: number) =>
     (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
       ?.imageSearch as ISearchResultV3DTO;
@@ -63,7 +60,6 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
       translations={searchImageTranslations}
       searchImages={onSearchImage}
       onImageSelect={onSelectImage}
-      fetchImage={onFetchImage}
       noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
       //TODO: Handle error?
       onError={() => {}}
