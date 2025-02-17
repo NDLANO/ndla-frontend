@@ -9,9 +9,8 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FieldHelperText } from "@ark-ui/react";
 import { DeleteBinLine } from "@ndla/icons";
-import { FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourcePicker } from "./ResourcePicker";
@@ -48,7 +47,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   return (
     <FieldRoot>
       <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.resource.label")}</FieldLabel>
-      <FieldHelperText>{t("myNdla.learningpath.form.content.resource.labelHelper")}</FieldHelperText>
+      <FieldHelper>{t("myNdla.learningpath.form.content.resource.labelHelper")}</FieldHelper>
       {!selectedResource ? (
         <ResourcePicker setResource={onSelectResource} />
       ) : (
