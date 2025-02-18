@@ -12,10 +12,10 @@ import { Heading, Text } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
 import { LearningpathList } from "./components/LearningpathList";
-import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const LearningpathPage = () => {
   const { t } = useTranslation();
@@ -28,14 +28,14 @@ const LearningpathPage = () => {
   }, [t, trackPageView, user]);
 
   return (
-    <LearningpathPageWrapper menuItems={menuItems}>
+    <MyNdlaPageWrapper menuItems={menuItems} type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathsPage")} />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
       </Heading>
       <Text>{t("myNdla.learningpath.description")}</Text>
       <LearningpathList />
-    </LearningpathPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };
 

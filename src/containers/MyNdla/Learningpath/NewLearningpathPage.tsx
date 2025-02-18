@@ -20,7 +20,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();
@@ -60,7 +60,7 @@ export const NewLearningpathPage = () => {
   };
 
   return (
-    <LearningpathPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
@@ -71,6 +71,6 @@ export const NewLearningpathPage = () => {
       </Heading>
       <LearningpathStepper step="title" />
       <TitleForm onSave={onSave} />
-    </LearningpathPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };

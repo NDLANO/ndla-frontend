@@ -13,7 +13,6 @@ import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 import { useUpdateLearningpathStatus } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
@@ -29,6 +28,7 @@ import { LearningpathShareDialogContent } from "./components/LearningpathShareDi
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const TextWrapper = styled("div", {
   base: {
@@ -115,7 +115,7 @@ export const SaveLearningpathPage = () => {
   const isShared = learningpath.status === LEARNINGPATH_SHARED;
 
   return (
-    <LearningpathPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <title>{t("htmlTitles.learningpathSavePage", { name: learningpath?.title })}</title>
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}
@@ -157,6 +157,6 @@ export const SaveLearningpathPage = () => {
           />
         </DialogRoot>
       </LearningpathFormButtonContainer>
-    </LearningpathPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };

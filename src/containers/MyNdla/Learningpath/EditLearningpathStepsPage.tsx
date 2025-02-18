@@ -14,7 +14,6 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
 import { LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep } from "./learningpathMutations";
 import { learningpathQuery, useFetchLearningpath } from "./learningpathQueries";
@@ -27,6 +26,7 @@ import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import { LearningpathStepListItem } from "./components/LearningpathStepListItem";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { FormValues } from "./types";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledOl = styled("ol", {
   base: {
@@ -86,7 +86,7 @@ export const EditLearningpathStepsPage = () => {
   }
 
   return (
-    <LearningpathPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpath")}` }]}
@@ -122,6 +122,6 @@ export const EditLearningpathStepsPage = () => {
           {t("myNdla.learningpath.form.next")}
         </SafeLinkButton>
       </Stack>
-    </LearningpathPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };
