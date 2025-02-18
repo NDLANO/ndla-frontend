@@ -13,6 +13,7 @@ import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import log from "./logger";
 import config from "../config";
+import { unreachable } from "./guards";
 
 type SingleGQLError = {
   status?: number;
@@ -126,10 +127,6 @@ const getErrorLog = (
   }
 
   return error;
-};
-
-const unreachable = (parameter: never): never => {
-  throw new Error(`This code should be unreachable but is not, because '${parameter}' is not of 'never' type.`);
 };
 
 export const getLogLevelFromStatusCode = (statusCode: number): LogLevel => {

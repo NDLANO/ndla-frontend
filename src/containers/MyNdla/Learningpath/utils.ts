@@ -7,9 +7,10 @@
  */
 
 import config from "../../../config";
-import { FormType, FormValues } from "./components/LearningpathStepForm";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
+import { FormValues } from "./types";
+import { unreachable } from "../../../util/guards";
 
 export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpaths/${id}`;
 
@@ -20,37 +21,42 @@ export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
 export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 
-export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) => {
-  if (!step?.resource && !step?.oembed && !step?.embedUrl) {
-    return "text";
-  }
-
-  if (step?.resource || step.embedUrl?.url.includes("resource")) {
-    return "resource";
-  }
-
-  if (step?.embedUrl?.embedType === "external") {
-    return "external";
-  }
-  return undefined;
+export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): FormValues["type"] => {
+  if (!step?.resource && !step?.oembed && !step?.embedUrl) return "text";
+  if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
+  if (step?.embedUrl?.embedType === "external") return "external";
+  return "text";
 };
 
-export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragment) => Partial<FormValues> = (
-  type?: FormType,
+export const toFormValues = <T extends FormValues["type"]>(
+  type: T,
   step?: GQLMyNdlaLearningpathStepFragment,
-) => ({
-  type: type ?? "",
-  title: step?.title ?? "",
-  introduction: step?.introduction ?? "",
-  url: step?.embedUrl?.url ?? "",
-  shareable: !!step?.embedUrl?.url,
-  description: deserializeToRichText(step?.description ?? ""),
-});
-
-export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
-  const formType = getFormTypeFromStep(step);
-  const isInitialType = formType === type;
-  return formValues(type, isInitialType ? step : undefined);
+): FormValues => {
+  switch (type) {
+    case "text":
+      return {
+        type: "text",
+        title: step?.title ?? "",
+        introduction: step?.introduction ?? "",
+        description: deserializeToRichText(step?.description ?? ""),
+      };
+    case "external":
+      return {
+        type: type,
+        title: step?.title ?? "",
+        introduction: step?.introduction ?? "",
+        url: step?.embedUrl?.url ?? "",
+        shareable: !!step?.embedUrl?.url,
+      };
+    case "resource":
+      return {
+        type: type,
+        title: step?.title ?? "",
+        embedUrl: step?.embedUrl?.url ?? "",
+      };
+    default:
+      return unreachable(type);
+  }
 };
 
 export const formValuesToGQLInput = (values: FormValues) => {

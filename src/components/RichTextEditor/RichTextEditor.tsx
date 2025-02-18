@@ -15,6 +15,7 @@ import {
   createSlate,
   headingPlugin,
   inlineNavigationPlugin,
+  LoggerManager,
   paragraphPlugin,
   sectionPlugin,
   softBreakPlugin,
@@ -23,6 +24,8 @@ import { useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BreakElement } from "./plugins/break/BreakElement";
 import { HeadingElement } from "./plugins/heading/HeadingElement";
+import { LinkElement } from "./plugins/link/LinkElement";
+import { linkPlugin } from "./plugins/link/linkPlugin";
 import { ListElement } from "./plugins/list/ListElement";
 import { listPlugin } from "./plugins/list/listPlugin";
 import { MarkLeaf } from "./plugins/mark/MarkLeaf";
@@ -40,6 +43,7 @@ const StyledEditable = styled(
   Editable,
   {
     base: {
+      backgroundColor: "background.default",
       paddingInline: "xsmall",
       borderRadius: "xsmall",
       borderTopRadius: "0px",
@@ -77,9 +81,11 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
         paragraphPlugin,
         softBreakPlugin,
         breakPlugin,
+        linkPlugin,
       ],
-      elementRenderers: [SectionElement, ParagraphElement, BreakElement, HeadingElement, ListElement],
+      elementRenderers: [SectionElement, ParagraphElement, BreakElement, HeadingElement, ListElement, LinkElement],
       leafRenderers: [MarkLeaf],
+      logger: new LoggerManager({ debug: true }),
     }),
   );
 

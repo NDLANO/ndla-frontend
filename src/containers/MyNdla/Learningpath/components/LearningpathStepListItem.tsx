@@ -14,7 +14,8 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
-import { FormValues, LearningpathStepForm } from "./LearningpathStepForm";
+import { LearningpathStepForm } from "./LearningpathStepForm";
+import { FormValues } from "../types";
 
 const ContentWrapper = styled("div", {
   base: {
@@ -98,9 +99,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
           </Button>
         )}
       </ContentWrapper>
-      {isEditing ? (
-        <LearningpathStepForm learningpathId={learningpathId} step={step} onSave={onSave} onDelete={onDelete} />
-      ) : null}
+      {isEditing ? <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} /> : null}
     </li>
   );
 };

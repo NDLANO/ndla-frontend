@@ -14,7 +14,7 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
+import { LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { formValuesToGQLInput } from "./utils";
@@ -26,6 +26,7 @@ import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepListItem } from "./components/LearningpathStepListItem";
 import { LearningpathStepper } from "./components/LearningpathStepper";
+import { FormValues } from "./types";
 
 const StyledOl = styled("ol", {
   base: {
@@ -109,11 +110,7 @@ export const EditLearningpathStepsPage = () => {
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
-          <LearningpathStepForm
-            learningpathId={data.myNdlaLearningpath.id}
-            onClose={() => setIsCreating(false)}
-            onSave={onSaveStep}
-          />
+          <LearningpathStepForm stepType="text" onClose={() => setIsCreating(false)} onSave={onSaveStep} />
         )}
       </Stack>
       <Stack justify="space-between" direction="row">
