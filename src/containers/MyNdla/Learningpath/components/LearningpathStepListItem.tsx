@@ -15,7 +15,6 @@ import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
 import { LearningpathStepForm } from "./LearningpathStepForm";
-import { learningpathQuery } from "../learningpathQueries";
 import { FormValues } from "../types";
 
 const ContentWrapper = styled("div", {
@@ -51,8 +50,8 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
 
   const { t, i18n } = useTranslation();
 
-  const [updateStep] = useUpdateLearningpathStep();
-  const [deleteStep] = useDeleteLearningpathStep();
+  const [updateStep] = useUpdateLearningpathStep(learningpathId.toString());
+  const [deleteStep] = useDeleteLearningpathStep(learningpathId.toString());
 
   const onSave = async (data: FormValues) => {
     const transformedData = formValuesToGQLInput(data);
@@ -72,9 +71,8 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
         learningstepId: step.id,
         learningpathId: learningpathId,
       },
-      refetchQueries: [{ query: learningpathQuery, variables: { pathId: learningpathId.toString() } }],
     });
-    if (res.errors?.length === 0) {
+    if (!res.errors?.length) {
       close();
     }
   };

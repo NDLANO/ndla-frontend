@@ -16,7 +16,7 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep } from "./learningpathMutations";
-import { learningpathQuery, useFetchLearningpath } from "./learningpathQueries";
+import { useFetchLearningpath } from "./learningpathQueries";
 import { formValuesToGQLInput } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -54,7 +54,7 @@ export const EditLearningpathStepsPage = () => {
     skip: !learningpathId,
   });
 
-  const [createStep] = useCreateLearningpathStep();
+  const [createStep] = useCreateLearningpathStep(learningpathId ?? "");
 
   useEffect(() => {
     trackPageView({
@@ -71,7 +71,6 @@ export const EditLearningpathStepsPage = () => {
           learningpathId: data.myNdlaLearningpath.id,
           params: { ...transformedData, language: i18n.language, showTitle: false },
         },
-        refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id.toString() } }],
       });
       setIsCreating(false);
     }
