@@ -28,7 +28,7 @@ const LearningpathPage = () => {
   }, [t, trackPageView, user]);
 
   return (
-    <MyNdlaPageWrapper menuItems={menuItems}>
+    <MyNdlaPageWrapper menuItems={menuItems} type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathsPage")} />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}

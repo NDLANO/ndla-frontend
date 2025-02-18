@@ -23,10 +23,10 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepListItem } from "./components/LearningpathStepListItem";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { FormValues } from "./types";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledOl = styled("ol", {
   base: {
@@ -86,7 +86,7 @@ export const EditLearningpathStepsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpath")}` }]}

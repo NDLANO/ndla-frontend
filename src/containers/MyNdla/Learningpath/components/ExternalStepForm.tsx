@@ -36,12 +36,6 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
-const CopyrightText = styled(Text, {
-  base: {
-    maxWidth: "surface.large",
-  },
-});
-
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
@@ -151,10 +145,10 @@ export const ExternalStepForm = () => {
         )}
       />
       <Stack align="start" gap="small">
-        <CopyrightText>
+        <Text>
           {t("myNdla.learningpath.form.content.external.copyright")}
           <SafeLink to={"TODO"}>{t("myNdla.learningpath.form.content.external.copyrightLink")}</SafeLink>
-        </CopyrightText>
+        </Text>
         <Controller
           name="shareable"
           control={control}

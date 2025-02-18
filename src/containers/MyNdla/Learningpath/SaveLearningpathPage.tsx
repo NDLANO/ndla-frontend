@@ -23,12 +23,12 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathItem } from "./components/LearningpathItem";
 import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const TextWrapper = styled("div", {
   base: {
@@ -115,7 +115,7 @@ export const SaveLearningpathPage = () => {
   const isShared = learningpath.status === LEARNINGPATH_SHARED;
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <title>{t("htmlTitles.learningpathSavePage", { name: learningpath?.title })}</title>
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}

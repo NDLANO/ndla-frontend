@@ -17,11 +17,11 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useUpdateLearningpath } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();
@@ -74,7 +74,7 @@ export const EditLearningpathTitlePage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpathTitle")}` }]}
