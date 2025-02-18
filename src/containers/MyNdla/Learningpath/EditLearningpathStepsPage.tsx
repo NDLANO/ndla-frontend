@@ -14,6 +14,7 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
 import { LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep } from "./learningpathMutations";
 import { learningpathQuery, useFetchLearningpath } from "./learningpathQueries";
@@ -23,7 +24,6 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepListItem } from "./components/LearningpathStepListItem";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { FormValues } from "./types";
@@ -86,7 +86,7 @@ export const EditLearningpathStepsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper>
+    <LearningpathPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpath")}` }]}
@@ -122,6 +122,6 @@ export const EditLearningpathStepsPage = () => {
           {t("myNdla.learningpath.form.next")}
         </SafeLinkButton>
       </Stack>
-    </MyNdlaPageWrapper>
+    </LearningpathPageWrapper>
   );
 };

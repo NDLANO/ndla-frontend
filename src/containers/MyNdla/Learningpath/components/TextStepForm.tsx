@@ -13,16 +13,9 @@ import { Descendant } from "slate";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
-
-const CopyrightText = styled(Text, {
-  base: {
-    maxWidth: "surface.large",
-  },
-});
 
 const RichTextEditor = lazy(() => import("../../../../components/RichTextEditor/RichTextEditor"));
 
@@ -127,7 +120,7 @@ export const TextStepForm = ({ initialValue }: Props) => {
           </FieldRoot>
         )}
       />
-      <CopyrightText>
+      <Text>
         {`${t("myNdla.learningpath.form.content.text.copyright")} `}
         <SafeLink
           to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering"
@@ -135,7 +128,7 @@ export const TextStepForm = ({ initialValue }: Props) => {
         >
           {t("myNdla.learningpath.form.content.text.copyrightLink")}
         </SafeLink>
-      </CopyrightText>
+      </Text>
     </>
   );
 };

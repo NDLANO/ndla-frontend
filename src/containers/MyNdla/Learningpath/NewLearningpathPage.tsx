@@ -12,15 +12,15 @@ import { useNavigate } from "react-router-dom";
 import { ALL_ABBREVIATIONS } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { useCreateLearningpath } from "./learningpathMutations";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { LearningpathStepper } from "./components/LearningpathStepper";
 import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import LearningpathPageWrapper from "./components/LearningpathPageWrapper";
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();
@@ -60,7 +60,7 @@ export const NewLearningpathPage = () => {
   };
 
   return (
-    <MyNdlaPageWrapper>
+    <LearningpathPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
@@ -71,6 +71,6 @@ export const NewLearningpathPage = () => {
       </Heading>
       <LearningpathStepper step="title" />
       <TitleForm onSave={onSave} />
-    </MyNdlaPageWrapper>
+    </LearningpathPageWrapper>
   );
 };
