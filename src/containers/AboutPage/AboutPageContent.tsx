@@ -48,6 +48,18 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
 export const findBreadcrumb = (
   menu: GQLAboutPage_FrontpageMenuFragment[],
   slug: string | undefined,
@@ -153,7 +165,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
             <HomeBreadcrumb items={crumbs} />
           </StyledHeroContent>
         </PageContent>
-        <PageContent variant="article" gutters="tabletUp">
+        <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
             <ArticleWrapper {...licenseProps}>
               <ArticleHeader>
@@ -164,7 +176,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
                   <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
                 )}
               </ArticleHeader>
-              <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content}</StyledArticleContent>
               <ArticleFooter>
                 <AccordionRoot multiple>
                   <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
@@ -179,7 +191,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
               </ArticleFooter>
             </ArticleWrapper>
           </PageContent>
-        </PageContent>
+        </StyledPageContent>
       </Hero>
     </main>
   );
