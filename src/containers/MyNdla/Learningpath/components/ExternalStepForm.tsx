@@ -177,6 +177,7 @@ export const ExternalStepForm = () => {
                 <CheckboxLabel>{t("myNdla.learningpath.form.content.external.checkbox")}</CheckboxLabel>
                 <CheckboxHiddenInput />
               </StyledCheckboxRoot>
+              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             </FieldRoot>
           )}
         />
