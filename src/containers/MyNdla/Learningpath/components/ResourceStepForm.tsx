@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
@@ -30,19 +30,29 @@ interface ResourceFormProps {
 export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const { setValue } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
     setValue("embedUrl", resource.url, { shouldDirty: true });
     setValue("title", resource.title, { shouldDirty: true });
+    setFocusId("remove-resource");
   };
 
   const onRemove = () => {
     setSelectedResource(undefined);
     setValue("embedUrl", "", { shouldValidate: true });
     setValue("title", "", { shouldValidate: true });
+    setFocusId("resource-input");
   };
+
+  useEffect(() => {
+    if (focusId) {
+      document.getElementById(focusId)?.focus();
+      setFocusId(undefined);
+    }
+  }, [focusId]);
 
   return (
     <FieldRoot>
@@ -127,6 +137,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
       <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />
         <IconButton
+          id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}
           title={t("myNdla.learningpath.form.delete")}
           variant="tertiary"

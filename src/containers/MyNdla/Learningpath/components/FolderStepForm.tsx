@@ -7,7 +7,7 @@
  */
 
 import { t } from "i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { DeleteBinLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
@@ -56,6 +56,7 @@ export interface FolderResource {
 
 export const FolderStepForm = () => {
   const [resource, setResource] = useState<FolderResource | undefined>(undefined);
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   const { refetch } = useFetchOembed({ skip: true });
   const { setValue } = useFormContext<ResourceFormValues>();
@@ -68,7 +69,22 @@ export const FolderStepForm = () => {
     setValue("embedUrl", url, { shouldDirty: true });
     setValue("title", selectedResource.title, { shouldDirty: true });
     setResource(selectedResource);
+    setFocusId("remove-resource");
   };
+
+  const onResourceRemove = () => {
+    setValue("embedUrl", "", { shouldDirty: true });
+    setValue("title", "", { shouldDirty: true });
+    setResource(undefined);
+    setFocusId("resource-input");
+  };
+
+  useEffect(() => {
+    if (focusId) {
+      document.getElementById(focusId)?.focus();
+      setFocusId(undefined);
+    }
+  }, [focusId]);
 
   return (
     <FieldRoot>
@@ -86,9 +102,10 @@ export const FolderStepForm = () => {
             </PathText>
           </TextWrapper>
           <IconButton
+            id="remove-resource"
             aria-label={t("myNdla.learningpath.form.delete")}
             title={t("myNdla.learningpath.form.delete")}
-            onClick={() => setResource(undefined)}
+            onClick={onResourceRemove}
             variant="tertiary"
           >
             <DeleteBinLine />

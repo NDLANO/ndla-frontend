@@ -229,6 +229,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         <InputContainer>
           <ComboboxInput asChild>
             <Input
+              id="resource-input"
               placeholder={t("searchPage.searchFieldPlaceholder")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
