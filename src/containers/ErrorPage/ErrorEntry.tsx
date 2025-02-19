@@ -16,6 +16,7 @@ import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import ErrorPage from "./ErrorPage";
 import Scripts from "../../components/Scripts/Scripts";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
@@ -54,12 +55,14 @@ renderOrHydrate(
   document,
   <Document language={storedLanguage} chunks={chunks} devEntrypoint={entryPoints.error}>
     <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <MissingRouterContext.Provider value={true}>
-          <Scripts />
-          <ErrorPage />
-        </MissingRouterContext.Provider>
-      </BrowserRouter>
+      <SiteThemeProvider value={window.DATA.siteTheme}>
+        <BrowserRouter>
+          <MissingRouterContext.Provider value={true}>
+            <Scripts />
+            <ErrorPage />
+          </MissingRouterContext.Provider>
+        </BrowserRouter>
+      </SiteThemeProvider>
     </I18nextProvider>
   </Document>,
 );

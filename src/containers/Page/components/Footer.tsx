@@ -14,6 +14,7 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { ZendeskButton } from "@ndla/ui";
+import { useSiteTheme } from "../../../components/SiteThemeContext";
 import config from "../../../config";
 import { getLangAttributeValue } from "../../../i18n";
 
@@ -29,32 +30,24 @@ export const FooterBlock = styled("footer", {
 
 const FooterWrapper = styled("div", {
   base: {
+    flex: "1",
     position: "relative",
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
-    paddingBlock: "xxlarge",
     tablet: {
       paddingBlock: "4xlarge",
+      paddingBottom: "large",
+      gap: "medium",
     },
-    desktopDown: {
-      flexDirection: "column-reverse",
+    tabletDown: {
+      flexDirection: "column",
       gap: "xxlarge",
+      alignItems: "center",
+      paddingBlock: "large",
     },
     "& a:focus-visible": {
       outlineColor: "surface.default",
-    },
-  },
-});
-
-const FooterTextWrapper = styled("div", {
-  base: {
-    tabletWide: {
-      alignSelf: "flex-end",
-    },
-    gridColumn: "span 2",
-    tabletToDesktop: {
-      paddingInline: "xxlarge",
     },
   },
 });
@@ -102,6 +95,32 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
+const FooterSiteTheme = styled("div", {
+  base: {
+    height: "120px",
+    clipPath: "polygon(0 0, 100% calc(0% + 5vw), 100% 100%, 0 100%)",
+  },
+  variants: {
+    variant: {
+      brand1: {
+        background: "surface.brand.1",
+      },
+      brand2: {
+        background: "surface.brand.2",
+      },
+      brand3: {
+        background: "surface.brand.3",
+      },
+      brand4: {
+        background: "surface.brand.4",
+      },
+      brand5: {
+        background: "surface.brand.5",
+      },
+    },
+  },
+});
+
 interface FooterLinkBlockProps {
   links: { to: string; text: string }[];
   label: string;
@@ -131,9 +150,8 @@ const FooterLinkBlock = ({ links, label }: FooterLinkBlockProps) => {
 
 const SocialMediaLinkList = styled(LinkList, {
   base: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "auto auto auto auto 1fr",
   },
 });
 
@@ -178,7 +196,7 @@ const FooterSocialMedia = () => {
               </SafeLinkIconButton>
             </li>
           ))}
-          <styled.li css={{ width: "100%" }}>
+          <styled.li css={{ gridColumn: "span 5" }}>
             <StyledSafeLink to="https://ndla.no/om/nyhetsbrev">
               {t("footer.socialMediaLinks.newsletter")} <MailLine />
             </StyledSafeLink>
@@ -192,7 +210,7 @@ const FooterSocialMedia = () => {
 const StyledHeading = styled(Heading, {
   base: {
     desktopDown: {
-      textAlign: "center",
+      textAlign: "start",
     },
   },
 });
@@ -207,7 +225,9 @@ const logoStyle = css.raw({
 
 const desktopLogoStyle = css.raw({
   display: "none",
-  desktop: {
+  width: "120px",
+  height: "300px",
+  tablet: {
     display: "block",
   },
 });
@@ -219,7 +239,7 @@ const MobileLogo = styled(NdlaLogoText, {
     tabletToDesktop: {
       paddingInline: "xxlarge",
     },
-    desktop: {
+    tablet: {
       display: "none",
     },
   },
@@ -228,6 +248,7 @@ const MobileLogo = styled(NdlaLogoText, {
 export const Footer = () => {
   const { t, i18n } = useTranslation();
   const zendeskLanguage = getLangAttributeValue(i18n.language);
+  const siteTheme = useSiteTheme();
 
   const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
 
@@ -261,17 +282,20 @@ export const Footer = () => {
     },
   ];
 
-  // TODO: Reintroduce this block when we do the language redesign. We're also missing an option
-  // const otherLanguages = [
-  //   {
-  //     to: "/se/subject:e474cd73-5b8a-42cf-b0f1-b027e522057c",
-  //     text: "Davvisámegiella",
-  //   },
-  //   {
-  //     to: "/en/subject:27e8623d-c092-4f00-9a6f-066438d6c466",
-  //     text: "Українська",
-  //   },
-  // ];
+  const otherLanguages = [
+    {
+      to: "/samling/ukr",
+      text: "Ukrainsk",
+    },
+    {
+      to: "/samling/sma",
+      text: "Sørsamisk",
+    },
+    {
+      to: "/samling/se",
+      text: "Nordsamisk",
+    },
+  ];
 
   return (
     <FooterBlock>
@@ -281,49 +305,40 @@ export const Footer = () => {
           {t("askNDLA")}
         </StyledZendesk>
       )}
-      <PageContent>
+      <PageContent gutters="always" variant="page">
         <FooterWrapper>
-          <Logo css={[logoStyle, desktopLogoStyle]} />
-          <MobileLogo css={logoStyle} width={undefined} height={undefined} preserveAspectRatio="xMidYMid meet" />
           <ContentWrapper>
             <StyledHeading asChild consumeCss textStyle="heading.small">
               <span>{t("footer.vision")}</span>
             </StyledHeading>
-            <FooterGrid>
+            <LinksWrapper>
               <FooterLinkBlock links={commonLinks} label={t("footer.linksHeader")} />
               <FooterLinkBlock links={privacyLinks} label={t("footer.aboutWebsite")} />
-              <div></div>
-              {/* <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} /> */}
+              <FooterLinkBlock links={otherLanguages} label={t("footer.otherLanguages")} />
               <FooterSocialMedia />
-              <FooterTextWrapper>
-                <Text textStyle="body.large">{t("footer.info")}</Text>
-                <Text textStyle="body.large">
-                  <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
-                </Text>
-              </FooterTextWrapper>
-            </FooterGrid>
+            </LinksWrapper>
+            <div>
+              <Text textStyle="body.large">{t("footer.info")}</Text>
+              <Text textStyle="body.large">
+                <strong>{t("footer.editorInChief")}</strong> Sigurd Trageton
+              </Text>
+            </div>
           </ContentWrapper>
+          <Logo css={[logoStyle, desktopLogoStyle]} />
+          <MobileLogo css={logoStyle} width={undefined} height={undefined} preserveAspectRatio="xMidYMid meet" />
         </FooterWrapper>
       </PageContent>
+      <FooterSiteTheme variant={siteTheme ?? "brand1"} />
     </FooterBlock>
   );
 };
 
-const FooterGrid = styled("div", {
+const LinksWrapper = styled("div", {
   base: {
-    display: "grid",
+    display: "flex",
+    gap: "medium",
     justifyContent: "space-between",
-    gridTemplateColumns: "repeat(3, auto)",
-    rowGap: "medium",
-    columnGap: "xlarge",
-    desktopDown: {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-    tabletDown: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "medium",
-    },
+    flexWrap: "wrap",
   },
 });
 
@@ -331,11 +346,10 @@ const ContentWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    flex: "1",
     gap: "xxlarge",
-    width: "100%",
     desktop: {
-      paddingInlineStart: "4xlarge",
+      paddingInlineEnd: "large",
     },
   },
 });
