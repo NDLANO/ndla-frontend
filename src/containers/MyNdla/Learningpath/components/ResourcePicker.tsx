@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { t } from "i18next";
 import debounce from "lodash/debounce";
-import { useState, useId, useMemo, useEffect } from "react";
+import { useState, useId, useMemo, useEffect, useRef, RefObject } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
@@ -107,6 +107,17 @@ const StyledComboboxItem = styled(ComboboxItem, {
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
+/**  
+  Copied from Editorial
+
+ keyboard scrolling does not work properly when items are not nested directly within
+ ComboboxContent, so we need to provide a custom scroll function
+ TODO: Check if ark provides a better fix for this.
+ */
+const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement | null>, index: number) => {
+  const el = contentRef.current?.querySelectorAll(`[role='option']`)[index];
+  el?.scrollIntoView({ behavior: "auto", block: "nearest" });
+};
 interface Props {
   setResource: (data: ResourceData) => void;
 }
@@ -125,6 +136,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
     searchQuery,
     {
@@ -213,17 +225,20 @@ export const ResourcePicker = ({ setResource }: Props) => {
       collection={collection}
       translations={comboboxTranslations}
       highlightedValue={highlightedValue}
-      onOpenChange={(details) => setOpen(details.open)}
-      onInteractOutside={(_details) => setOpen(false)}
       onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       onInputValueChange={(details) => onQueryChange(details.inputValue)}
       inputValue={searchObject.query}
+      onOpenChange={(details) => setOpen(details.open)}
+      open={open}
       variant="complex"
       context="composite"
       closeOnSelect
       form={formId}
-      open={open}
-      selectionBehavior="preserve"
+      selectionBehavior="clear"
+      positioning={{ strategy: "fixed" }}
+      scrollToIndexFn={(details) => {
+        scrollToIndexFn(contentRef, details.index);
+      }}
     >
       <ComboboxControl>
         <InputContainer>
@@ -247,109 +262,107 @@ export const ResourcePicker = ({ setResource }: Props) => {
       </ComboboxControl>
       {open ? (
         <ContentWrapper>
-          <HitsWrapper aria-live="assertive">
-            <div>
-              {!(searchHits.length >= 1) && !loading ? (
-                <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
-              ) : (
-                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
-              )}
-              {!!suggestion && (
-                <Text textStyle="label.small">
-                  {t("searchPage.resultType.searchPhraseSuggestion")}
-                  <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                    [{suggestion}]
-                  </SuggestionButton>
-                </Text>
-              )}
-            </div>
-          </HitsWrapper>
-          {!!searchHits.length || loading ? (
-            <StyledComboboxContent>
-              {loading ? (
-                <Spinner />
-              ) : (
-                searchHits.map((resource) => (
-                  <StyledComboboxItem
-                    key={resource.id}
-                    item={resource}
-                    onClick={() => onResourceSelect(resource as Resource)}
-                    className="peer"
-                    asChild
-                    consumeCss
-                  >
-                    <StyledListItemRoot context="list">
-                      <TextWrapper>
-                        <ComboboxItemText>{parse(resource.htmlTitle)}</ComboboxItemText>
-                        {!!resource.contexts[0] && (
-                          <Text
-                            textStyle="label.small"
-                            color="text.subtle"
-                            css={{ textAlign: "start" }}
-                            aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                          >
-                            {resource.contexts[0].breadcrumbs.join(" > ")}
-                          </Text>
-                        )}
-                      </TextWrapper>
-                      <ContentTypeBadge contentType={resource.contentType} />
-                    </StyledListItemRoot>
-                  </StyledComboboxItem>
-                ))
-              )}
-              <StyledPaginationRoot
-                page={searchObject.page}
-                onPageChange={(details) => {
-                  setSearchObject((prev) => ({ ...prev, page: details.page }));
-                  setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
-                }}
-                count={searchResult.search?.totalCount ?? 0}
-                siblingCount={2}
-                pageSize={searchObject.pageSize}
-                translations={paginationTranslations}
-              >
-                <PaginationPrevTrigger asChild>
-                  <IconButton
-                    variant="tertiary"
-                    aria-label={t("pagination.prev")}
-                    title={t("pagination.prev")}
-                    size="small"
-                  >
-                    <ArrowLeftShortLine />
-                  </IconButton>
-                </PaginationPrevTrigger>
-                <PaginationContext>
-                  {(pagination) =>
-                    pagination.pages.map((page, index) =>
-                      page.type === "page" ? (
-                        <PaginationItem key={index} {...page} asChild>
-                          <Button size="small" variant={page.value === pagination.page ? "primary" : "tertiary"}>
-                            {page.value}
-                          </Button>
-                        </PaginationItem>
-                      ) : (
-                        <PaginationEllipsis key={index} index={index} asChild>
-                          <Text asChild consumeCss>
-                            <div>&#8230;</div>
-                          </Text>
-                        </PaginationEllipsis>
-                      ),
-                    )
-                  }
-                </PaginationContext>
-                <PaginationNextTrigger asChild>
-                  <IconButton
-                    variant="tertiary"
-                    aria-label={t("pagination.next")}
-                    title={t("pagination.next")}
-                    size="small"
-                  >
-                    <ArrowRightShortLine />
-                  </IconButton>
-                </PaginationNextTrigger>
-              </StyledPaginationRoot>
-            </StyledComboboxContent>
-          ) : null}
+          <StyledComboboxContent ref={contentRef}>
+            <HitsWrapper aria-live="assertive">
+              <div>
+                {!(searchHits.length >= 1) && !loading ? (
+                  <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
+                ) : (
+                  <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
+                )}
+                {!!suggestion && (
+                  <Text textStyle="label.small">
+                    {t("searchPage.resultType.searchPhraseSuggestion")}
+                    <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                      [{suggestion}]
+                    </SuggestionButton>
+                  </Text>
+                )}
+              </div>
+            </HitsWrapper>
+            {loading ? (
+              <Spinner />
+            ) : (
+              searchHits.map((resource) => (
+                <StyledComboboxItem
+                  key={resource.id}
+                  item={resource}
+                  onClick={() => onResourceSelect(resource as Resource)}
+                  className="peer"
+                  asChild
+                  consumeCss
+                >
+                  <StyledListItemRoot context="list">
+                    <TextWrapper>
+                      <ComboboxItemText>{parse(resource.htmlTitle)}</ComboboxItemText>
+                      {!!resource.contexts[0] && (
+                        <Text
+                          textStyle="label.small"
+                          color="text.subtle"
+                          css={{ textAlign: "start" }}
+                          aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                        >
+                          {resource.contexts[0].breadcrumbs.join(" > ")}
+                        </Text>
+                      )}
+                    </TextWrapper>
+                    <ContentTypeBadge contentType={resource.contentType} />
+                  </StyledListItemRoot>
+                </StyledComboboxItem>
+              ))
+            )}
+            <StyledPaginationRoot
+              page={searchObject.page}
+              onPageChange={(details) => {
+                setSearchObject((prev) => ({ ...prev, page: details.page }));
+                setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
+              }}
+              count={searchResult.search?.totalCount ?? 0}
+              siblingCount={2}
+              pageSize={searchObject.pageSize}
+              translations={paginationTranslations}
+            >
+              <PaginationPrevTrigger asChild>
+                <IconButton
+                  variant="tertiary"
+                  aria-label={t("pagination.prev")}
+                  title={t("pagination.prev")}
+                  size="small"
+                >
+                  <ArrowLeftShortLine />
+                </IconButton>
+              </PaginationPrevTrigger>
+              <PaginationContext>
+                {(pagination) =>
+                  pagination.pages.map((page, index) =>
+                    page.type === "page" ? (
+                      <PaginationItem key={index} {...page} asChild>
+                        <Button size="small" variant={page.value === pagination.page ? "primary" : "tertiary"}>
+                          {page.value}
+                        </Button>
+                      </PaginationItem>
+                    ) : (
+                      <PaginationEllipsis key={index} index={index} asChild>
+                        <Text asChild consumeCss>
+                          <div>&#8230;</div>
+                        </Text>
+                      </PaginationEllipsis>
+                    ),
+                  )
+                }
+              </PaginationContext>
+              <PaginationNextTrigger asChild>
+                <IconButton
+                  variant="tertiary"
+                  aria-label={t("pagination.next")}
+                  title={t("pagination.next")}
+                  size="small"
+                >
+                  <ArrowRightShortLine />
+                </IconButton>
+              </PaginationNextTrigger>
+            </StyledPaginationRoot>
+          </StyledComboboxContent>
         </ContentWrapper>
       ) : null}
     </ComboboxRoot>
