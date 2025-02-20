@@ -137,6 +137,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
+  const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
   const { folders } = useFolders();
   const translations = useComboboxTranslations();
@@ -174,6 +175,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       onInputValueChange={(details) => setInputValue(details.inputValue)}
       onOpenChange={(details) => setOpen(details.open)}
       collection={collection}
+      onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
       translations={translations}
       variant="complex"
       context="composite"
@@ -189,7 +191,13 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input id="resource-input" placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} />
+            <Input
+              id="resource-input"
+              placeholder={t("myNdla.learningpath.form.content.folder.placeholder")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !highlightedValue) e.preventDefault();
+              }}
+            />
           </ComboboxInput>
         </InputContainer>
         <ComboboxTrigger asChild>
