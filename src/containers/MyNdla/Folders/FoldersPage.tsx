@@ -6,7 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
+import { isEqual } from "lodash-es";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";

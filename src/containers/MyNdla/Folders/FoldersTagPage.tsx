@@ -6,7 +6,7 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";

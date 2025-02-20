@@ -6,8 +6,7 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
-import keyBy from "lodash/keyBy";
+import { isEqual, keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";

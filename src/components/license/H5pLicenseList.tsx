@@ -6,7 +6,7 @@
  *
  */
 
-import uniqBy from "lodash/uniqBy";
+import { uniqBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
