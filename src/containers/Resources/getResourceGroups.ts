@@ -6,9 +6,7 @@
  *
  */
 
-import partition from "lodash/partition";
-import sortBy from "lodash/sortBy";
-import uniqBy from "lodash/uniqBy";
+import { partition, sortBy, uniqBy } from "lodash-es";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,

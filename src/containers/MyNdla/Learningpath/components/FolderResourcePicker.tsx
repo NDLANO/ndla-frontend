@@ -189,7 +189,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} />
+            <Input id="resource-input" placeholder={t("myNdla.learningpath.form.content.folder.placeholder")} />
           </ComboboxInput>
         </InputContainer>
         <ComboboxTrigger asChild>

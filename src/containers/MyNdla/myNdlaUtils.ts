@@ -6,7 +6,7 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
+import { keyBy } from "lodash-es";
 
 export const sortSubjectsByRecentlyFavourited = <T extends { id: string }>(
   subject: T[],

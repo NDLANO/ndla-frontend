@@ -30,6 +30,7 @@ import { i18nInstance } from "@ndla/ui";
 import { getCookie, setCookie } from "@ndla/util";
 import App from "./App";
 import ResponseContext from "./components/ResponseContext";
+import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { STORED_LANGUAGE_COOKIE_KEY } from "./constants";
 import { Document } from "./Document";
@@ -173,7 +174,9 @@ renderOrHydrate(
       <ApolloProvider client={client}>
         <ResponseContext.Provider value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
-            <LanguageWrapper basename={basename} />
+            <SiteThemeProvider value={window.DATA.siteTheme}>
+              <LanguageWrapper basename={basename} />
+            </SiteThemeProvider>
           </VersionHashProvider>
         </ResponseContext.Provider>
       </ApolloProvider>

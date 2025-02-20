@@ -5250,6 +5250,7 @@ export type GQLSearchQueryVariables = Exact<{
   traits?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLSearchQuery = {
@@ -5291,6 +5292,7 @@ export type GQLGroupSearchQueryVariables = Exact<{
   aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   grepCodesList?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>> | InputMaybe<Scalars["String"]["input"]>>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
+  license?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLGroupSearchQuery = {

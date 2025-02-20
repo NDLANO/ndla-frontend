@@ -28,6 +28,7 @@ export interface WindowData {
   ltiData?: LtiData;
   serverPath?: string;
   chunks?: ManifestChunk[];
+  siteTheme?: SiteTheme;
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;
   };
@@ -44,6 +45,8 @@ export interface Author {
 }
 
 export type LocaleType = (typeof LocaleValues)[number];
+
+export type SiteTheme = "brand1" | "brand2" | "brand3" | "brand4" | "brand5";
 
 export type Breadcrumb = { to: string; name: string };
 

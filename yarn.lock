@@ -4321,10 +4321,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.13":
-  version: 4.17.13
-  resolution: "@types/lodash@npm:4.17.13"
-  checksum: 10c0/c3d0b7efe7933ac0369b99f2f7bff9240d960680fdb74b41ed4bd1b3ca60cca1e31fe4046d9abbde778f941a41bc2a75eb629abf8659fa6c27b66efbbb0802a9
+"@types/lodash-es@npm:^4":
+  version: 4.17.12
+  resolution: "@types/lodash-es@npm:4.17.12"
+  dependencies:
+    "@types/lodash": "npm:*"
+  checksum: 10c0/5d12d2cede07f07ab067541371ed1b838a33edb3c35cb81b73284e93c6fd0c4bbeaefee984e69294bffb53f62d7272c5d679fdba8e595ff71e11d00f2601dde0
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.17.15
+  resolution: "@types/lodash@npm:4.17.15"
+  checksum: 10c0/2eb2dc6d231f5fb4603d176c08c8d7af688f574d09af47466a179cd7812d9f64144ba74bb32ca014570ffdc544eedc51b7a5657212bad083b6eecbd72223f9bb
   languageName: node
   linkType: hard
 
@@ -10846,6 +10855,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash-es@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: 10c0/fb407355f7e6cd523a9383e76e6b455321f0f153a6c9625e21a8827d10c54c2a2341bd2ae8d034358b60e07325e1330c14c224ff582d04612a46a4f0479ff2f2
+  languageName: node
+  linkType: hard
+
 "lodash.includes@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.includes@npm:4.3.0"
@@ -11569,7 +11585,7 @@ __metadata:
     "@testing-library/react": "npm:^16.1.0"
     "@types/express": "npm:^5.0.0"
     "@types/is-hotkey": "npm:^0.1"
-    "@types/lodash": "npm:^4.17.13"
+    "@types/lodash-es": "npm:^4"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^19.0.0"
     "@types/react-dom": "npm:^19.0.1"
@@ -11591,7 +11607,7 @@ __metadata:
     jsdom: "npm:^26.0.0"
     jsonwebtoken: "npm:^9.0.2"
     lexical: "npm:^0.12.4"
-    lodash: "npm:^4.17.21"
+    lodash-es: "npm:^4.17.21"
     nock: "npm:^14.0.0"
     openid-client: "npm:^5.6.1"
     picocolors: "npm:^1.1.1"

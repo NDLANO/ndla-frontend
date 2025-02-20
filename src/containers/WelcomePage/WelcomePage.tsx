@@ -18,12 +18,14 @@ import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import LicenseBox from "../../components/license/LicenseBox";
+import { useSiteTheme } from "../../components/SiteThemeContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { siteThemeToHeroVariant } from "../../util/siteTheme";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -143,6 +145,7 @@ const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
+  const siteTheme = useSiteTheme();
 
   useEffect(() => {
     if (authContextLoaded) {
@@ -203,7 +206,7 @@ const WelcomePage = () => {
         description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
       />
-      <Hero variant="brand1Moderate">
+      <Hero variant={siteThemeToHeroVariant(siteTheme)}>
         <StyledHeroBackground />
         <StyledPageContainer asChild consumeCss>
           <main>

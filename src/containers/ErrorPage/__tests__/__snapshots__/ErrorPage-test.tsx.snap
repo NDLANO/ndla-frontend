@@ -117,11 +117,308 @@ exports[`ErrorPage renderers correctly 1`] = `
       class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium"
     >
       <div
-        class="pos_relative d_flex ai_center jc_space-between py_xxlarge tablet:py_4xlarge desktopDown:flex-d_column-reverse desktopDown:gap_xxlarge [&_a:focus-visible]:ring-c_surface.default"
+        class="flex_1 pos_relative d_flex ai_flex-start jc_space-between tablet:py_4xlarge tablet:pb_large tablet:gap_medium tabletDown:flex-d_column tabletDown:gap_xxlarge tabletDown:ai_center tabletDown:py_large [&_a:focus-visible]:ring-c_surface.default"
       >
+        <div
+          class="d_flex flex-d_column flex_1 gap_xxlarge desktop:pe_large"
+        >
+          <span
+            class="textStyle_heading.small desktopDown:ta_start"
+          >
+            Sammen skaper vi framtidas læring
+          </span>
+          <div
+            class="d_flex gap_medium jc_space-between flex-wrap_wrap"
+          >
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r0:"
+              >
+                Kontakt
+              </span>
+              <nav
+                aria-labelledby=":r0:"
+              >
+                <ul
+                  class="d_flex flex-d_column gap_3xsmall"
+                >
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/om/om-ndla"
+                      rel="noopener noreferrer"
+                    >
+                      Om NDLA
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/om/about-us"
+                      rel="noopener noreferrer"
+                    >
+                      About NDLA
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/om/kontakt-oss"
+                      rel="noopener noreferrer"
+                    >
+                      Kontakt oss
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r1:"
+              >
+                Om nettstedet
+              </span>
+              <nav
+                aria-labelledby=":r1:"
+              >
+                <ul
+                  class="d_flex flex-d_column gap_3xsmall"
+                >
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/article/personvernerklaering"
+                      rel="noopener noreferrer"
+                    >
+                      Personvernerklæring
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/article/erklaering-for-informasjonskapsler"
+                      rel="noopener noreferrer"
+                    >
+                      Erklæring for informasjonskapsler
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
+                      rel="noopener noreferrer"
+                    >
+                      Tilgjengelighetserklæring
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r2:"
+              >
+                Andre språk
+              </span>
+              <nav
+                aria-labelledby=":r2:"
+              >
+                <ul
+                  class="d_flex flex-d_column gap_3xsmall"
+                >
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="/samling/ukr"
+                      rel="noopener noreferrer"
+                    >
+                      Ukrainsk
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="/samling/sma"
+                      rel="noopener noreferrer"
+                    >
+                      Sørsamisk
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="/samling/se"
+                      rel="noopener noreferrer"
+                    >
+                      Nordsamisk
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d_flex flex-d_column gap_3xsmall"
+            >
+              <span
+                class="textStyle_label.large fw_bold"
+                id=":r3:"
+              >
+                Følg oss
+              </span>
+              <nav
+                aria-labelledby=":r3:"
+              >
+                <ul
+                  class="d_grid flex-d_column gap_3xsmall grid-tc_auto_auto_auto_auto_1fr"
+                >
+                  <li>
+                    <a
+                      aria-label="NDLA på Facebook"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      href="https://www.facebook.com/ndla.no"
+                      title="NDLA på Facebook"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 2a10 10 0 0 0-1.56 19.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.9 3.78-3.9 1.09 0 2.23.2 2.23.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.9h-2.33v6.98A10 10 0 0 0 12 2"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      aria-label="NDLA på Instagram"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      href="https://instagram.com/ndla_no/"
+                      title="NDLA på Instagram"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0-2a5 5 0 1 1 0 10 5 5 0 0 1 0-10m6.5-.25a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0M12 4c-2.47 0-2.88 0-4.03.06-.78.03-1.3.14-1.8.33a2.9 2.9 0 0 0-1.08.7c-.33.34-.53.65-.7 1.08-.19.5-.3 1.02-.33 1.8A69.5 69.5 0 0 0 4 12c0 2.47 0 2.88.06 4.03.04.78.14 1.3.33 1.8a3.05 3.05 0 0 0 1.78 1.78c.5.2 1.02.3 1.8.33 1.1.05 1.5.06 4.03.06 2.48 0 2.88 0 4.03-.06.78-.03 1.3-.14 1.8-.33a3.05 3.05 0 0 0 1.78-1.78c.2-.5.3-1.02.33-1.8.05-1.1.06-1.5.06-4.03 0-2.47 0-2.88-.06-4.03a5.46 5.46 0 0 0-.33-1.8 2.91 2.91 0 0 0-.7-1.08 2.88 2.88 0 0 0-1.08-.7 5.42 5.42 0 0 0-1.8-.33C14.93 4 14.54 4 12 4m0-2c2.72 0 3.06.01 4.12.06 1.07.05 1.8.22 2.43.46.66.26 1.22.6 1.77 1.16.56.55.9 1.11 1.16 1.77.24.64.41 1.36.46 2.43C22 8.94 22 9.28 22 12s0 3.06-.06 4.12a7.38 7.38 0 0 1-.46 2.43c-.26.66-.6 1.22-1.16 1.77-.55.56-1.11.9-1.77 1.16a7.4 7.4 0 0 1-2.43.46c-1.06.05-1.4.06-4.12.06s-3.05-.01-4.12-.06a7.38 7.38 0 0 1-2.43-.46 4.89 4.89 0 0 1-1.77-1.16 4.9 4.9 0 0 1-1.15-1.77 7.38 7.38 0 0 1-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.07.22-1.8.47-2.43.25-.66.6-1.22 1.15-1.77a4.9 4.9 0 0 1 1.77-1.16 7.37 7.37 0 0 1 2.43-.46C8.95 2.01 9.28 2 12 2"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      aria-label="NDLA på LinkedIn"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      href="https://www.linkedin.com/company/ndla/"
+                      title="NDLA på LinkedIn"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m1 2v14h14V5zm2.5 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m-1 1h2v7.5h-2zm5.5.43a2.93 2.93 0 0 1 2-.93c2.07 0 3.5 1.68 3.5 3.75v4.25h-2v-4.25a1.75 1.75 0 1 0-3.5 0v4.25h-2V10h2z"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      aria-label="NDLA på YouTube"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
+                      title="NDLA på YouTube"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19.6 7a.81.81 0 0 0-.53-.6C18.63 6.28 16.5 6 12 6s-6.63.28-7.07.4a.81.81 0 0 0-.53.6c-.11.42-.4 2.2-.4 5s.29 4.58.4 5c.07.3.29.53.53.6.44.12 2.57.4 7.07.4s6.63-.28 7.07-.4c.24-.07.46-.3.54-.6.1-.42.4-2.2.4-5s-.3-4.58-.4-5m1.94-.5C22 8.28 22 12 22 12s0 3.72-.46 5.5a2.8 2.8 0 0 1-1.93 2.02C17.9 20 12 20 12 20s-5.9 0-7.61-.48a2.81 2.81 0 0 1-1.94-2.02C2 15.72 2 12 2 12s0-3.72.46-5.5A2.8 2.8 0 0 1 4.4 4.48C6.1 4 12 4 12 4s5.9 0 7.6.48a2.81 2.81 0 0 1 1.94 2.02M10 15.5v-7l6 3.5z"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                  <li
+                    class="grid-c_span_5"
+                  >
+                    <a
+                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      href="https://ndla.no/om/nyhetsbrev"
+                    >
+                      Meld deg på vårt nyhetsbrev 
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m17 4.24-7.93 7.1L4 7.22V19h16zM4.51 5l7.55 6.66L19.5 5z"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div>
+            <p
+              class="textStyle_body.large"
+            >
+              Nettstedet er utarbeidet som åpen kildekode.
+            </p>
+            <p
+              class="textStyle_body.large"
+            >
+              <strong>
+                Ansvarlig redaktør:
+              </strong>
+               Sigurd Trageton
+            </p>
+          </div>
+        </div>
         <svg
           aria-hidden="true"
-          class="c_icon.onAction flex-sh_0 print:c_icon.strong d_none desktop:d_block"
+          class="c_icon.onAction flex-sh_0 print:c_icon.strong d_none w_120px h_300px tablet:d_block"
           height="383"
           viewBox="0 0 260.29 611.89"
           width="163"
@@ -278,7 +575,7 @@ exports[`ErrorPage renderers correctly 1`] = `
         </svg>
         <svg
           aria-hidden="true"
-          class="c_icon.onAction d_block w_surface.xsmall tabletToDesktop:px_xxlarge desktop:d_none flex-sh_0 print:c_icon.strong"
+          class="c_icon.onAction d_block w_surface.xsmall tabletToDesktop:px_xxlarge tablet:d_none flex-sh_0 print:c_icon.strong"
           preserveAspectRatio="xMidYMid meet"
           viewBox="0 0 1104 280"
           xmlns="http://www.w3.org/2000/svg"
@@ -304,263 +601,11 @@ exports[`ErrorPage renderers correctly 1`] = `
             />
           </g>
         </svg>
-        <div
-          class="d_flex flex-d_column jc_space-between gap_xxlarge w_100% desktop:ps_4xlarge"
-        >
-          <span
-            class="textStyle_heading.small desktopDown:ta_center"
-          >
-            Sammen skaper vi framtidas læring
-          </span>
-          <div
-            class="d_grid jc_space-between grid-tc_repeat(3,_auto) rg_medium cg_xlarge desktopDown:grid-tc_repeat(2,_1fr) tabletDown:d_flex tabletDown:flex-d_column tabletDown:gap_medium"
-          >
-            <div
-              class="d_flex flex-d_column gap_3xsmall"
-            >
-              <span
-                class="textStyle_label.large fw_bold"
-                id=":r0:"
-              >
-                Kontakt
-              </span>
-              <nav
-                aria-labelledby=":r0:"
-              >
-                <ul
-                  class="d_flex flex-d_column gap_3xsmall"
-                >
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/om/om-ndla"
-                      rel="noopener noreferrer"
-                    >
-                      Om NDLA
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/om/about-us"
-                      rel="noopener noreferrer"
-                    >
-                      About NDLA
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/om/kontakt-oss"
-                      rel="noopener noreferrer"
-                    >
-                      Kontakt oss
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div
-              class="d_flex flex-d_column gap_3xsmall"
-            >
-              <span
-                class="textStyle_label.large fw_bold"
-                id=":r1:"
-              >
-                Om nettstedet
-              </span>
-              <nav
-                aria-labelledby=":r1:"
-              >
-                <ul
-                  class="d_flex flex-d_column gap_3xsmall"
-                >
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/article/personvernerklaering"
-                      rel="noopener noreferrer"
-                    >
-                      Personvernerklæring
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/article/erklaering-for-informasjonskapsler"
-                      rel="noopener noreferrer"
-                    >
-                      Erklæring for informasjonskapsler
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://uustatus.no/nn/erklaringer/publisert/8cefdf3d-3272-402a-907b-689ddfc9bba7"
-                      rel="noopener noreferrer"
-                    >
-                      Tilgjengelighetserklæring
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div />
-            <div
-              class="d_flex flex-d_column gap_3xsmall"
-            >
-              <span
-                class="textStyle_label.large fw_bold"
-                id=":r2:"
-              >
-                Følg oss
-              </span>
-              <nav
-                aria-labelledby=":r2:"
-              >
-                <ul
-                  class="d_flex flex-d_row gap_3xsmall flex-wrap_wrap"
-                >
-                  <li>
-                    <a
-                      aria-label="NDLA på Facebook"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                      href="https://www.facebook.com/ndla.no"
-                      title="NDLA på Facebook"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 2a10 10 0 0 0-1.56 19.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.5-3.9 3.78-3.9 1.09 0 2.23.2 2.23.2v2.46H15.2c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.9h-2.33v6.98A10 10 0 0 0 12 2"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      aria-label="NDLA på Instagram"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                      href="https://instagram.com/ndla_no/"
-                      title="NDLA på Instagram"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6m0-2a5 5 0 1 1 0 10 5 5 0 0 1 0-10m6.5-.25a1.25 1.25 0 1 1-2.5 0 1.25 1.25 0 0 1 2.5 0M12 4c-2.47 0-2.88 0-4.03.06-.78.03-1.3.14-1.8.33a2.9 2.9 0 0 0-1.08.7c-.33.34-.53.65-.7 1.08-.19.5-.3 1.02-.33 1.8A69.5 69.5 0 0 0 4 12c0 2.47 0 2.88.06 4.03.04.78.14 1.3.33 1.8a3.05 3.05 0 0 0 1.78 1.78c.5.2 1.02.3 1.8.33 1.1.05 1.5.06 4.03.06 2.48 0 2.88 0 4.03-.06.78-.03 1.3-.14 1.8-.33a3.05 3.05 0 0 0 1.78-1.78c.2-.5.3-1.02.33-1.8.05-1.1.06-1.5.06-4.03 0-2.47 0-2.88-.06-4.03a5.46 5.46 0 0 0-.33-1.8 2.91 2.91 0 0 0-.7-1.08 2.88 2.88 0 0 0-1.08-.7 5.42 5.42 0 0 0-1.8-.33C14.93 4 14.54 4 12 4m0-2c2.72 0 3.06.01 4.12.06 1.07.05 1.8.22 2.43.46.66.26 1.22.6 1.77 1.16.56.55.9 1.11 1.16 1.77.24.64.41 1.36.46 2.43C22 8.94 22 9.28 22 12s0 3.06-.06 4.12a7.38 7.38 0 0 1-.46 2.43c-.26.66-.6 1.22-1.16 1.77-.55.56-1.11.9-1.77 1.16a7.4 7.4 0 0 1-2.43.46c-1.06.05-1.4.06-4.12.06s-3.05-.01-4.12-.06a7.38 7.38 0 0 1-2.43-.46 4.89 4.89 0 0 1-1.77-1.16 4.9 4.9 0 0 1-1.15-1.77 7.38 7.38 0 0 1-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.07.22-1.8.47-2.43.25-.66.6-1.22 1.15-1.77a4.9 4.9 0 0 1 1.77-1.16 7.37 7.37 0 0 1 2.43-.46C8.95 2.01 9.28 2 12 2"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      aria-label="NDLA på LinkedIn"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                      href="https://www.linkedin.com/company/ndla/"
-                      title="NDLA på LinkedIn"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M4 3h16a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m1 2v14h14V5zm2.5 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m-1 1h2v7.5h-2zm5.5.43a2.93 2.93 0 0 1 2-.93c2.07 0 3.5 1.68 3.5 3.75v4.25h-2v-4.25a1.75 1.75 0 1 0-3.5 0v4.25h-2V10h2z"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      aria-label="NDLA på YouTube"
-                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
-                      href="https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA"
-                      title="NDLA på YouTube"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M19.6 7a.81.81 0 0 0-.53-.6C18.63 6.28 16.5 6 12 6s-6.63.28-7.07.4a.81.81 0 0 0-.53.6c-.11.42-.4 2.2-.4 5s.29 4.58.4 5c.07.3.29.53.53.6.44.12 2.57.4 7.07.4s6.63-.28 7.07-.4c.24-.07.46-.3.54-.6.1-.42.4-2.2.4-5s-.3-4.58-.4-5m1.94-.5C22 8.28 22 12 22 12s0 3.72-.46 5.5a2.8 2.8 0 0 1-1.93 2.02C17.9 20 12 20 12 20s-5.9 0-7.61-.48a2.81 2.81 0 0 1-1.94-2.02C2 15.72 2 12 2 12s0-3.72.46-5.5A2.8 2.8 0 0 1 4.4 4.48C6.1 4 12 4 12 4s5.9 0 7.6.48a2.81 2.81 0 0 1 1.94 2.02M10 15.5v-7l6 3.5z"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                  <li
-                    class="w_100%"
-                  >
-                    <a
-                      class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
-                      href="https://ndla.no/om/nyhetsbrev"
-                    >
-                      Meld deg på vårt nyhetsbrev 
-                      <svg
-                        aria-hidden="true"
-                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
-                        data-icon=""
-                        data-license="Apache License 2.0"
-                        data-source="RemixIcon"
-                        fill="currentColor"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m17 4.24-7.93 7.1L4 7.22V19h16zM4.51 5l7.55 6.66L19.5 5z"
-                        />
-                      </svg>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div
-              class="tabletWide:as_flex-end grid-c_span_2 tabletToDesktop:px_xxlarge"
-            >
-              <p
-                class="textStyle_body.large"
-              >
-                Nettstedet er utarbeidet som åpen kildekode.
-              </p>
-              <p
-                class="textStyle_body.large"
-              >
-                <strong>
-                  Ansvarlig redaktør:
-                </strong>
-                 Sigurd Trageton
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
+    <div
+      class="h_120px cp-path_polygon(0_0,_100%_calc(0%_+_5vw),_100%_100%,_0_100%) bg_surface.brand.1"
+    />
   </footer>
 </DocumentFragment>
 `;

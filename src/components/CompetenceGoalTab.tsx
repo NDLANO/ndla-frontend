@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -173,7 +174,9 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
             </InnerList>
           ) : (
             <CoreElementWrapper>
-              <Text>{element.text}</Text>
+              <Text asChild consumeCss>
+                <div>{parse(element.text)}</div>
+              </Text>
               {!!showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}

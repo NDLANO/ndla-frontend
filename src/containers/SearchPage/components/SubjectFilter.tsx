@@ -6,8 +6,7 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
-import sortBy from "lodash/sortBy";
+import { groupBy, sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";

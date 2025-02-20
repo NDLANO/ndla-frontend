@@ -18,6 +18,7 @@ import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
@@ -28,6 +29,7 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
 function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
@@ -50,6 +52,8 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
     };
   }
 
+  const siteTheme = getSiteTheme();
+
   const userAgent = req.headers["user-agent"];
   const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
@@ -63,6 +67,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
         htmlContent: renderToString(<Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} />),
         data: {
           config: { ...config, disableSSR: noSSR },
+          siteTheme,
           chunks,
           serverPath: req.path,
           serverQuery: req.query,
@@ -84,9 +89,11 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
             <ResponseContext.Provider value={responseContext}>
               <VersionHashProvider value={versionHash}>
                 <UserAgentProvider value={userAgentSelectors}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App key={locale} />
-                  </StaticRouter>
+                  <SiteThemeProvider value={siteTheme}>
+                    <StaticRouter basename={basename} location={req.url}>
+                      <App key={locale} />
+                    </StaticRouter>
+                  </SiteThemeProvider>
                 </UserAgentProvider>
               </VersionHashProvider>
             </ResponseContext.Provider>
@@ -113,6 +120,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
     data: {
       htmlContent: html,
       data: {
+        siteTheme: siteTheme,
         chunks,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
