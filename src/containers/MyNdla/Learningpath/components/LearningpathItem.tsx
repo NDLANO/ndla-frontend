@@ -50,11 +50,18 @@ const MenuWrapper = styled("div", {
 
 interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
+  learningpaths?: GQLMyNdlaLearningpathFragment[];
   showMenu: boolean;
 }
-export const LearningpathItem = ({ learningpath, showMenu = true, context, ...rest }: Props & ListItemVariantProps) => {
+export const LearningpathItem = ({
+  learningpath,
+  learningpaths,
+  showMenu = true,
+  context,
+  ...rest
+}: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
-  const menuItems = useLearningpathActionHooks(learningpath);
+  const menuItems = useLearningpathActionHooks(learningpaths, learningpath);
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
 
@@ -70,7 +77,13 @@ export const LearningpathItem = ({ learningpath, showMenu = true, context, ...re
   }, [t, i18n, learningpath.created, learningpath.madeAvailable]);
 
   return (
-    <ListItemRoot {...rest} context={context} asChild={context === "list"} consumeCss={context === "list"}>
+    <ListItemRoot
+      {...rest}
+      context={context}
+      asChild={context === "list"}
+      consumeCss={context === "list"}
+      id={`learningpath-listitem-${learningpath.id}`}
+    >
       <MaybeWrapper>
         <RouteLine />
         <ListItemContent>

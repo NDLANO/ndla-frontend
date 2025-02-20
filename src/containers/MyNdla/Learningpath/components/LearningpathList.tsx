@@ -33,7 +33,13 @@ export const LearningpathList = () => {
     <StyledOl>
       {data?.myLearningpaths && data.myLearningpaths.length > 0 ? (
         data.myLearningpaths.map((learningpath) => (
-          <LearningpathItem showMenu learningpath={learningpath} key={learningpath.id} context="list" />
+          <LearningpathItem
+            showMenu
+            learningpaths={data.myLearningpaths}
+            learningpath={learningpath}
+            key={learningpath.id}
+            context="list"
+          />
         ))
       ) : (
         <Text textStyle="label.medium" fontWeight="light">
