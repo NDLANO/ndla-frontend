@@ -6,7 +6,7 @@
  *
  */
 
-import partition from "lodash/partition";
+import { partition } from "lodash-es";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";

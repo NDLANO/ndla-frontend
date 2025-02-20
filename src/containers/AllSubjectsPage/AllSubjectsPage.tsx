@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import sortBy from "lodash/sortBy";
+import { sortBy } from "lodash-es";
 import { parse, stringify } from "query-string";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -6,8 +6,7 @@
  *
  */
 
-import findIndex from "lodash/findIndex";
-import nth from "lodash/nth";
+import { findIndex, nth } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 
 const ROOT_SELECTOR = '[role="menubar"], [role="tree"]';
