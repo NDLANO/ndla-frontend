@@ -174,7 +174,9 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
             </InnerList>
           ) : (
             <CoreElementWrapper>
-              <Text>{parse(element.text)}</Text>
+              <Text asChild consumeCss>
+                <div>{parse(element.text)}</div>
+              </Text>
               {!!showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
