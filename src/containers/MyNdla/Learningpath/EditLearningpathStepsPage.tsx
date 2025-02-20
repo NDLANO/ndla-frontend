@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useState } from "react";
+import { lazy, Suspense, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { AddLine } from "@ndla/icons";
@@ -14,7 +14,6 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { LearningpathStepForm } from "./components/LearningpathStepForm";
 import { useCreateLearningpathStep } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { formValuesToGQLInput } from "./utils";
@@ -27,6 +26,8 @@ import { LearningpathStepListItem } from "./components/LearningpathStepListItem"
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { FormValues } from "./types";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+const LearningpathStepForm = lazy(() => import("./components/LearningpathStepForm"));
 
 const StyledOl = styled("ol", {
   base: {
@@ -110,7 +111,9 @@ export const EditLearningpathStepsPage = () => {
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
-          <LearningpathStepForm stepType="text" onClose={() => setIsCreating(false)} onSave={onSaveStep} />
+          <Suspense fallback={<Spinner />}>
+            <LearningpathStepForm stepType="text" onClose={() => setIsCreating(false)} onSave={onSaveStep} />
+          </Suspense>
         )}
       </Stack>
       <Stack justify="space-between" direction="row">

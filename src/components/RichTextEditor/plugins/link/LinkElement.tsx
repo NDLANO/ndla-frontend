@@ -9,7 +9,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Node, Selection, Transforms } from "slate";
-import { DOMEditor } from "slate-dom";
 import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { DialogContext, Portal } from "@ark-ui/react";
 import { ElementRenderer, isLinkElement, LinkElement as LinkElementType } from "@ndla/editor";
@@ -122,7 +121,7 @@ const SlateLink = ({ children, element, attributes }: SlateLinkProps) => {
                     onClick={() => {
                       Transforms.unwrapNodes(editor, { match: isLinkElement });
                       setTimeout(() => {
-                        DOMEditor.focus(editor);
+                        ReactEditor.focus(editor);
                       });
                     }}
                   >

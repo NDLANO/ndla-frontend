@@ -7,17 +7,16 @@
  */
 
 import { t } from "i18next";
-import { lazy, Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Descendant } from "slate";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
-import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Spinner } from "@ndla/primitives";
+import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
-
-const RichTextEditor = lazy(() => import("../../../../components/RichTextEditor/RichTextEditor"));
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
@@ -114,9 +113,7 @@ export const TextStepForm = ({ initialValue }: Props) => {
             </ContentEditableFieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.description.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <Suspense fallback={<Spinner />}>
-              <RichTextEditor initialValue={editorInitialValue} {...rest} />
-            </Suspense>
+            <RichTextEditor initialValue={editorInitialValue} {...rest} />
           </FieldRoot>
         )}
       />
