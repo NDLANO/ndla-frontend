@@ -7,7 +7,8 @@
  */
 
 import { ExternalFormValues } from "./components/ExternalStepForm";
+import { FolderFormValues } from "./components/FolderStepForm";
 import { ResourceFormValues } from "./components/ResourceStepForm";
 import { TextFormValues } from "./components/TextStepForm";
 
-export type FormValues = TextFormValues | ExternalFormValues | ResourceFormValues;
+export type FormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;

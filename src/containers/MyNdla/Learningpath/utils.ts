@@ -49,6 +49,7 @@ export const toFormValues = <T extends FormValues["type"]>(
         shareable: !!step?.embedUrl?.url,
       };
     case "resource":
+    case "folder":
       return {
         type: type,
         title: step?.title ?? "",
