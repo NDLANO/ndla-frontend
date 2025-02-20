@@ -20,6 +20,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { IImageMetaInformationV3DTO } from "@ndla/types-backend/image-api";
 import { ImagePicker } from "./ImagePicker";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
@@ -54,6 +55,16 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
       imageUrl: initialValues?.imageUrl ?? "",
     },
   });
+
+  const onSelectImage = (image: IImageMetaInformationV3DTO) => {
+    setValue("imageUrl", image.metaUrl);
+    setTimeout(() => document.getElementById("remove-image")?.focus(), 1);
+  };
+
+  const onRemoveImage = () => {
+    resetField("imageUrl", { defaultValue: "" });
+    setTimeout(() => document.getElementsByTagName("input")?.[1]?.focus(), 0);
+  };
 
   return (
     <StyledForm onSubmit={handleSubmit(onSave)} id="titleForm">
@@ -100,12 +111,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
             </Text>
             <Text textStyle="label.small">{t("myNdla.learningpath.form.title.metaImageHelper")}</Text>
             {fieldState.error?.message ? <Text color="stroke.error">{fieldState.error.message}</Text> : null}
-            <ImagePicker
-              imageUrl={field.value}
-              onSelectImage={(image) =>
-                image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
-              }
-            />
+            <ImagePicker imageUrl={field.value} onSelectImage={onSelectImage} onRemoveImage={onRemoveImage} />
           </>
         )}
       />

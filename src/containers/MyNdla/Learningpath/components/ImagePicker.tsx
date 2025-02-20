@@ -20,10 +20,11 @@ import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
   imageUrl: string;
-  onSelectImage: (image?: IImageMetaInformationV3DTO) => void;
+  onSelectImage: (image: IImageMetaInformationV3DTO) => void;
+  onRemoveImage: VoidFunction;
 }
 
-export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
+export const ImagePicker = ({ imageUrl, onSelectImage, onRemoveImage }: Props) => {
   const searchImageTranslations = useImageSearchTranslations();
   const { i18n, t } = useTranslation();
 
@@ -48,12 +49,8 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
     (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
       ?.imageSearch as ISearchResultV3DTO;
 
-  const onRemove = () => {
-    onSelectImage(undefined);
-  };
-
   return imageId && image?.imageV3 ? (
-    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
+    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemoveImage} />
   ) : (
     <ImageSearch
       locale={i18n.language}
@@ -126,7 +123,7 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
         </StyledStack>
       </HStack>
       <VStack justify="flex-end">
-        <Button onClick={onRemove} variant="danger">
+        <Button id="remove-image" onClick={onRemove} variant="danger">
           {t("myNdla.learningpath.form.delete")}
           <DeleteBinLine />
         </Button>
