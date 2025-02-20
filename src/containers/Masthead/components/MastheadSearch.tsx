@@ -189,6 +189,7 @@ const MastheadSearch = () => {
             RESOURCE_TYPE_SUBJECT_MATERIAL,
             RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
           ].join(),
+          license: "all",
         },
       });
     }
