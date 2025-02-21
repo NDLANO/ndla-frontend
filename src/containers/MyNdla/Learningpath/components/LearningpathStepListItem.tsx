@@ -64,6 +64,11 @@ export const LearningpathStepListItem = ({ step, learningpathId, onDelete }: Lea
       },
     });
     setIsEditing(false);
+    setTimeout(() => document.getElementById(`edit-step-${step.id}`)?.focus(), 0);
+  };
+
+  const onClose = () => {
+    setIsEditing(false);
   };
 
   const stepType = getFormTypeFromStep(step);
@@ -78,11 +83,11 @@ export const LearningpathStepListItem = ({ step, learningpathId, onDelete }: Lea
           <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
         </Stack>
         {!isEditing ? (
-          <Button variant="tertiary" id={`edit-step-${step.id}`} onClick={() => setIsEditing(true)}>
+          <Button variant="tertiary" onClick={() => setIsEditing(true)}>
             {t("myNdla.learningpath.form.steps.edit")} <PencilLine />
           </Button>
         ) : (
-          <Button variant="tertiary" onClick={() => setIsEditing(false)}>
+          <Button variant="tertiary" onClick={onClose}>
             <CloseLine />
             {t("close")}
           </Button>

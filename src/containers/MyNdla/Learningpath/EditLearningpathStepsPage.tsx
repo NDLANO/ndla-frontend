@@ -106,6 +106,15 @@ export const EditLearningpathStepsPage = () => {
     }
   };
 
+  const onOpenCreate = async () => {
+    setIsCreating(true);
+    setTimeout(() => document.getElementById("create-step-form")?.getElementsByTagName("input")?.[0]?.focus(), 500);
+  };
+  const onCloseCreate = async () => {
+    setIsCreating(false);
+    setTimeout(() => document.getElementById("create-step")?.focus(), 0);
+  };
+
   if (loading) {
     return <Spinner aria-label={t("loading")} />;
   }
@@ -140,13 +149,13 @@ export const EditLearningpathStepsPage = () => {
           ))}
         </StyledOl>
         {!isCreating ? (
-          <AddButton variant="secondary" onClick={() => setIsCreating(true)}>
+          <AddButton id="create-step" variant="secondary" onClick={onOpenCreate}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
           <Suspense fallback={<Spinner />}>
-            <LearningpathStepForm stepType="text" onClose={() => setIsCreating(false)} onSave={onSaveStep} />
+            <LearningpathStepForm stepType="text" onClose={onCloseCreate} onSave={onSaveStep} id="create-step-form" />
           </Suspense>
         )}
       </Stack>
