@@ -6,10 +6,7 @@
  *
  */
 
-import compact from "lodash/compact";
-import isEqual from "lodash/isEqual";
-import sortBy from "lodash/sortBy";
-import uniq from "lodash/uniq";
+import { compact, isEqual, sortBy, uniq } from "lodash-es";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";

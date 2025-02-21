@@ -8,7 +8,7 @@
 
 import parse from "html-react-parser";
 import { t } from "i18next";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import { useState, useId, useMemo, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
@@ -229,6 +229,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         <InputContainer>
           <ComboboxInput asChild>
             <Input
+              id="resource-input"
               placeholder={t("searchPage.searchFieldPlaceholder")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {

@@ -6,7 +6,7 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
+import { groupBy } from "lodash-es";
 import { GQLNodeWithMetadataFragment } from "../../graphqlTypes";
 
 export const subjectLetters = [

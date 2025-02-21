@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";

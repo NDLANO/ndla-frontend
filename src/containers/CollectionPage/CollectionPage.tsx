@@ -6,7 +6,7 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
+import { groupBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";

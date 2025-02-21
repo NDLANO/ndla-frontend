@@ -6,7 +6,7 @@
  *
  */
 
-import uniqBy from "lodash/uniqBy";
+import { uniqBy } from "lodash-es";
 import queryString from "query-string";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

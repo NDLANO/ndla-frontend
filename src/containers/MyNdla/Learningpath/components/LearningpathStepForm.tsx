@@ -139,3 +139,5 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   }
   return null;
 };
+
+export default LearningpathStepForm;

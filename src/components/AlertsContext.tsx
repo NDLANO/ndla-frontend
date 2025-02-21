@@ -5,8 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import partition from "lodash/partition";
-import uniq from "lodash/uniq";
+import { partition, uniq } from "lodash-es";
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@apollo/client";
 import config from "../config";
