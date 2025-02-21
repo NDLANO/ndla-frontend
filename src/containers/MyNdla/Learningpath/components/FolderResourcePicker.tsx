@@ -38,9 +38,10 @@ import {
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 
-const HitsText = styled(Text, {
+const StyledHitsWrapper = styled("div", {
   base: {
-    marginBlockStart: "3xsmall",
+    marginTop: "3xsmall",
+    textAlign: "start",
   },
 });
 
@@ -139,7 +140,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
-  const { folders } = useFolders();
+  const { folders, loading: foldersLoading } = useFolders();
   const translations = useComboboxTranslations();
 
   const resources = useMemo(() => flattenResources(folders), [folders]);
@@ -208,11 +209,15 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       </ComboboxControl>
       {open ? (
         <ContentWrapper>
-          {inputValue ? (
-            <HitsText textStyle="label.small">
-              {t("searchPage.resultType.showingSearchPhrase")} {inputValue}
-            </HitsText>
-          ) : null}
+          <StyledHitsWrapper aria-live="assertive">
+            {inputValue && !loading && !foldersLoading ? (
+              !filteredResources.length ? (
+                <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${inputValue}`}</Text>
+              ) : (
+                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${inputValue}"`}</Text>
+              )
+            ) : null}
+          </StyledHitsWrapper>
           {loading ? (
             <Spinner />
           ) : filteredResources ? (
