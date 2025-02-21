@@ -512,15 +512,6 @@ export type GQLConceptLicense = {
   title: Scalars["String"]["output"];
 };
 
-export type GQLConceptResult = {
-  __typename?: "ConceptResult";
-  concepts: Array<GQLConcept>;
-  language: Scalars["String"]["output"];
-  page?: Maybe<Scalars["Int"]["output"]>;
-  pageSize: Scalars["Int"]["output"];
-  totalCount: Scalars["Int"]["output"];
-};
-
 export type GQLConfigMetaBoolean = {
   __typename?: "ConfigMetaBoolean";
   key: Scalars["String"]["output"];
@@ -1068,12 +1059,6 @@ export type GQLLicenseInput = {
   description?: InputMaybe<Scalars["String"]["input"]>;
   license: Scalars["String"]["input"];
   url?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLListingPage = {
-  __typename?: "ListingPage";
-  subjects?: Maybe<Array<GQLSubject>>;
-  tags?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type GQLManuscript = {
@@ -1755,8 +1740,6 @@ export type GQLQuery = {
   audio?: Maybe<GQLAudio>;
   competenceGoal?: Maybe<GQLCompetenceGoal>;
   competenceGoals?: Maybe<Array<GQLCompetenceGoal>>;
-  concept?: Maybe<GQLConcept>;
-  conceptSearch?: Maybe<GQLConceptResult>;
   coreElement?: Maybe<GQLCoreElement>;
   coreElements?: Maybe<Array<GQLCoreElement>>;
   examLockStatus: GQLConfigMetaBoolean;
@@ -1773,7 +1756,6 @@ export type GQLQuery = {
   learningpath?: Maybe<GQLLearningpath>;
   learningpathStepOembed: GQLLearningpathStepOembed;
   listArenaUserV2: GQLPaginatedArenaUsers;
-  listingPage?: Maybe<GQLListingPage>;
   myLearningpaths?: Maybe<Array<GQLMyNdlaLearningpath>>;
   myNdlaLearningpath?: Maybe<GQLMyNdlaLearningpath>;
   node?: Maybe<GQLNode>;
@@ -1896,23 +1878,6 @@ export type GQLQueryCompetenceGoalsArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
 };
 
-export type GQLQueryConceptArgs = {
-  id: Scalars["Int"]["input"];
-};
-
-export type GQLQueryConceptSearchArgs = {
-  conceptType?: InputMaybe<Scalars["String"]["input"]>;
-  exactMatch?: InputMaybe<Scalars["Boolean"]["input"]>;
-  fallback?: InputMaybe<Scalars["Boolean"]["input"]>;
-  ids?: InputMaybe<Array<Scalars["Int"]["input"]>>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  page?: InputMaybe<Scalars["Int"]["input"]>;
-  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
-  query?: InputMaybe<Scalars["String"]["input"]>;
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
-  tags?: InputMaybe<Scalars["String"]["input"]>;
-};
-
 export type GQLQueryCoreElementArgs = {
   code: Scalars["String"]["input"];
   language?: InputMaybe<Scalars["String"]["input"]>;
@@ -1986,10 +1951,6 @@ export type GQLQueryListArenaUserV2Args = {
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLQueryListingPageArgs = {
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryMyNdlaLearningpathArgs = {
@@ -2208,7 +2169,6 @@ export type GQLResourceTypeDefinition = {
 export type GQLSearch = {
   __typename?: "Search";
   aggregations: Array<GQLAggregationResult>;
-  concepts?: Maybe<GQLConceptResult>;
   language: Scalars["String"]["output"];
   page?: Maybe<Scalars["Int"]["output"]>;
   pageSize: Scalars["Int"]["output"];
