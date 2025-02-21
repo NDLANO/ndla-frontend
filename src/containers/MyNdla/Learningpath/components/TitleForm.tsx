@@ -58,7 +58,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
 
   const onSelectImage = (image: IImageMetaInformationV3DTO) => {
     setValue("imageUrl", image.metaUrl);
-    setTimeout(() => document.getElementById("remove-image")?.focus(), 1);
+    setTimeout(() => document.getElementById("remove-image")?.focus(), 200);
   };
 
   const onRemoveImage = () => {

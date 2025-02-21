@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
-import { Button, Image, Spinner, Text } from "@ndla/primitives";
+import { Button, Image, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
@@ -94,12 +94,8 @@ interface SelectedImageProps {
   onRemove: () => void;
 }
 
-const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
+const SelectedImage = ({ image, onRemove }: SelectedImageProps) => {
   const { t } = useTranslation();
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <Wrapper>
