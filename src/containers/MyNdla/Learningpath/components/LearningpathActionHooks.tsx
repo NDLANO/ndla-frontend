@@ -13,12 +13,18 @@ import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLin
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 import { myLearningpathQuery } from "../learningpathQueries";
-import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
+import {
+  copyLearningpathSharingLink,
+  LEARNINGPATH_READY_FOR_SHARING,
+  LEARNINGPATH_SHARED,
+  learningpathListItemId,
+} from "../utils";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
@@ -60,6 +66,11 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
+            const el = document.getElementById(learningpathListItemId(learningpath.id));
+            const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+              .find((el) => el?.tagName === "LI")
+              ?.querySelector("a");
+
             const res = await onDeleteLearningpath({
               variables: { id: learningpath.id },
               refetchQueries: [{ query: myLearningpathQuery }],
@@ -73,6 +84,9 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
               });
               close();
             }
+            setTimeout(() => {
+              (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus();
+            }, 1000);
           }}
         />
       ),
