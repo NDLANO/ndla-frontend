@@ -8,18 +8,13 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import config from "../config";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
-
-export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
-  isModerator: boolean;
-};
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  user: MyNDLAUserType | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
   examLock: boolean;
 }
 
@@ -34,11 +29,6 @@ interface Props {
   children: ReactNode;
   initialValue?: string;
 }
-
-export const isArenaModerator = (groups?: string[]): boolean => {
-  if (!groups) return false;
-  return groups.includes(config.arenaAdminGroup) || groups.includes(config.arenaModeratorGroup);
-};
 
 export const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
@@ -79,7 +69,7 @@ const myNdlaQuery = gql`
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<MyNDLAUserType | undefined>(undefined);
+  const [user, setUser] = useState<GQLMyNdlaPersonalDataFragmentFragment | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
   const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
@@ -95,10 +85,7 @@ const AuthenticationContext = ({ children }: Props) => {
       if (personalData?.role === "student") {
         setExamLock(examLockStatus?.value === true);
       }
-      setUser({
-        isModerator: isArenaModerator(personalData?.arenaGroups) && !config.enableNodeBB,
-        ...personalData,
-      });
+      setUser(personalData);
       setLoaded(true);
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();

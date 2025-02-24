@@ -20,8 +20,6 @@ import {
   LogoutBoxRightLine,
   UserFill,
   UserLine,
-  ShieldUserLine,
-  ShieldUserFill,
   LoginBoxLine,
   RouteLine,
   RouteFill,
@@ -42,10 +40,11 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
-import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
+import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { useToast } from "../../components/ToastContext";
 import config from "../../config";
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
 import { MyNdlaButton } from "./components/MyNdlaButton";
@@ -193,7 +192,7 @@ const MyNdlaLayout = () => {
           <nav aria-label={t("myNdla.myNDLAMenu")}>
             <StyledNavList data-testid="my-ndla-menu">
               {menuLink}
-              {!!user?.arenaEnabled && !!config.externalArena && !user?.arenaAccepted && (
+              {!!user?.arenaEnabled && !user?.arenaAccepted && (
                 <AcceptArenaDialog>
                   <StyledLi>
                     <DialogTrigger asChild>
@@ -259,11 +258,15 @@ interface MenuLink {
   shortName?: string;
   icon?: ReactElement;
   iconFilled?: ReactElement;
-  shownForUser?: (user: MyNDLAUserType | undefined) => boolean;
+  shownForUser?: (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => boolean;
   reloadDocument?: boolean;
 }
 
-export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined): MenuLink[] => [
+export const menuLinks = (
+  t: TFunction,
+  location: Location,
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined,
+): MenuLink[] => [
   {
     id: "root",
     to: routes.myNdla.root,
@@ -299,21 +302,12 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
   },
   {
     id: "arena",
-    to: config.externalArena ? `https://${config.arenaDomain}` : routes.myNdla.arena,
+    to: `https://${config.arenaDomain}`,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
     shownForUser: (user) => !!user?.arenaEnabled && !!user?.arenaAccepted,
-  },
-  {
-    id: "admin",
-    to: routes.myNdla.admin,
-    name: t("myNdla.arena.admin.title"),
-    shortName: t("myNdla.arena.admin.title"),
-    icon: <ShieldUserLine />,
-    iconFilled: <ShieldUserFill />,
-    shownForUser: (user) => !!(!config.externalArena && user?.arenaEnabled && user?.isModerator),
   },
   {
     id: "profile",
