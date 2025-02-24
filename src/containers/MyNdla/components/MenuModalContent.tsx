@@ -167,7 +167,7 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
                       </Button>
                     </li>
                   ))}
-                  {!!user?.arenaEnabled && notificationLink}
+                  {!!user?.arenaEnabled && !config.externalArena && notificationLink}
                   {!!user?.arenaEnabled && !user?.arenaAccepted && (
                     <AcceptArenaDialog>
                       <li>
