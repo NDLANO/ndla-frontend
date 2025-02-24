@@ -12,7 +12,7 @@ import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Spinner, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
+import { useUpdateLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
 import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
 
@@ -44,15 +44,15 @@ const ContentWrapper = styled("div", {
 interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
+  onDelete: (stepId: number, close: VoidFunction) => Promise<void>;
 }
 
-export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepListItemProps) => {
+export const LearningpathStepListItem = ({ step, learningpathId, onDelete }: LearningpathStepListItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const { t, i18n } = useTranslation();
 
   const [updateStep] = useUpdateLearningpathStep(learningpathId.toString());
-  const [deleteStep] = useDeleteLearningpathStep(learningpathId.toString());
 
   const onSave = async (data: FormValues) => {
     const transformedData = formValuesToGQLInput(data);
@@ -64,18 +64,11 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
       },
     });
     setIsEditing(false);
+    setTimeout(() => document.getElementById(`edit-step-${step.id}`)?.focus(), 0);
   };
 
-  const onDelete = async (close: VoidFunction) => {
-    const res = await deleteStep({
-      variables: {
-        learningstepId: step.id,
-        learningpathId: learningpathId,
-      },
-    });
-    if (!res.errors?.length) {
-      close();
-    }
+  const onClose = () => {
+    setIsEditing(false);
   };
 
   const stepType = getFormTypeFromStep(step);
@@ -94,7 +87,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
             {t("myNdla.learningpath.form.steps.edit")} <PencilLine />
           </Button>
         ) : (
-          <Button variant="tertiary" onClick={() => setIsEditing(false)}>
+          <Button variant="tertiary" onClick={onClose}>
             <CloseLine />
             {t("close")}
           </Button>
@@ -102,7 +95,12 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
       </ContentWrapper>
       {isEditing ? (
         <Suspense fallback={<Spinner />}>
-          <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
+          <LearningpathStepForm
+            step={step}
+            stepType={stepType}
+            onSave={onSave}
+            onDelete={(close) => onDelete(step.id, close)}
+          />
         </Suspense>
       ) : null}
     </li>
