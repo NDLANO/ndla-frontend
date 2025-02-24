@@ -30,12 +30,6 @@ const messages = {
     myTagsPage: `My tags - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-    arenaPage: `Arena - ${titleTemplate}`,
-    arenaAdminPage: `Administrate Arena - ${titleTemplate}`,
-    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
-    arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
     learningpathsPage: `My learning paths - ${titleTemplate}`,
     learningpathPage: `{{name}}  - ${titleTemplate}`,
     learningpathEditStepsPage: `Edit steps - {{name}} - Learningpath - ${titleTemplate}`,
@@ -102,13 +96,6 @@ const messages = {
     },
     arena: {
       title: "The arena",
-      notification: {
-        description:
-          "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",
-      },
-      reported: "Content reported",
-      error: "An error occured",
-      userUpdated: "User updated",
       accept: {
         success: "You now have access to the arena",
         error: "Failed to accept the terms.",
@@ -315,43 +302,6 @@ const messages = {
   },
   contentTypes: {
     multidisciplinary: "Multidisciplinary case",
-  },
-  markdownEditor: {
-    link: {
-      url: "URL",
-      text: "Text",
-      error: {
-        url: {
-          empty: "Link URL must not be empty",
-          invalid: "Invalid link URL. Follow the format https://ndla.no",
-        },
-        text: {
-          empty: "Link text must not be empty",
-        },
-      },
-    },
-    toolbar: {
-      bold: {
-        active: "Remove bold formatting",
-        inactive: "Add bold formatting",
-      },
-      italic: {
-        active: "Remove italic formatting",
-        inactive: "Add italic formatting",
-      },
-      unorderedList: {
-        active: "Remove unordered list",
-        inactive: "Add unordered list",
-      },
-      orderedList: {
-        active: "Remove ordered list",
-        inactive: "Add ordered list",
-      },
-      link: {
-        active: "Remove link",
-        inactive: "Add link",
-      },
-    },
   },
   multidisciplinary: {
     casesCount: "{{count}} cases",

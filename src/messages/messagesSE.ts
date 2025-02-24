@@ -29,12 +29,6 @@ const messages = {
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mu lihput - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-    arenaPage: `Arena - ${titleTemplate}`,
-    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
-    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
-    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
     learningpathsPage: `Mine læringsstier - ${titleTemplate}`,
     learningpathPage: `{{name}}  - ${titleTemplate}`,
     learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
@@ -101,13 +95,6 @@ const messages = {
     },
     arena: {
       title: "Arenaen",
-      notification: {
-        description:
-          "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
-      },
-      reported: "Innhold rapportert",
-      error: "En feil oppstod",
-      userUpdated: "Bruker oppdatert",
       accept: {
         success: "Du har nå tilgang til Arena",
         error: "Klarte ikke å godta vilkårene.",
@@ -310,43 +297,6 @@ const messages = {
   },
   contentTypes: {
     multidisciplinary: "Fágaidrasttideaddji fáddá",
-  },
-  markdownEditor: {
-    link: {
-      url: "Lenkeadresse",
-      text: "Lenketekst",
-      error: {
-        url: {
-          empty: "Lenkeadressa kan ikke være tom",
-          invalid: "Ugyldig lenkeadresse. Følg formatet https://ndla.no",
-        },
-        text: {
-          empty: "Lenketeksta kan ikke være tom",
-        },
-      },
-    },
-    toolbar: {
-      bold: {
-        active: "Váldde eret buoiddes fontta",
-        inactive: "Lasit buoiddes fontta",
-      },
-      italic: {
-        active: "Váldde eret vinjučála fontta",
-        inactive: "Lasit vinjučála fontta",
-      },
-      unorderedList: {
-        active: "Váldde eret čuoggátávvala",
-        inactive: "Lasit čuoggátávvala",
-      },
-      orderedList: {
-        active: "Váldde eret nummáraston listtu",
-        inactive: "Lasit nummárastojuvvon listtu",
-      },
-      link: {
-        active: "Váldde eret liŋkka",
-        inactive: "Lasit liŋkka",
-      },
-    },
   },
   tabs: {
     competenceGoals: "Kategorier",
