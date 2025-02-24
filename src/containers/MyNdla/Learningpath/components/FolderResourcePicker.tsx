@@ -171,6 +171,10 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     [filteredResources],
   );
 
+  if (resources.length === 0 && !foldersLoading) {
+    return <Text>{t("myNdla.learningpath.form.content.folder.noResources")}</Text>;
+  }
+
   return (
     <ComboboxRoot
       onInputValueChange={(details) => setInputValue(details.inputValue)}

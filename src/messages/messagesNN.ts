@@ -190,6 +190,7 @@ const messages = {
             checkbox: "Innhaldet eg har lenka til, er lovleg å dele.",
           },
           folder: {
+            noResources: "Du har ikkje lagt til nokon ressursar i mappane dine enno.",
             label: "Søk i Mine mapper",
             labelHelper: "Vel innhald frå dine mapper",
             placeholder: "Søk etter ressursar som ligg i dine mapper",
