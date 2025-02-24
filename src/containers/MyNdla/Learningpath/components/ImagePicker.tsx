@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
@@ -27,6 +27,7 @@ interface Props {
 export const ImagePicker = ({ imageUrl, onSelectImage, onRemoveImage }: Props) => {
   const searchImageTranslations = useImageSearchTranslations();
   const { i18n, t } = useTranslation();
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const imageId = imageUrl?.split("/").pop();
 
@@ -49,18 +50,32 @@ export const ImagePicker = ({ imageUrl, onSelectImage, onRemoveImage }: Props) =
     (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
       ?.imageSearch as ISearchResultV3DTO;
 
-  return imageId && image?.imageV3 ? (
-    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemoveImage} />
-  ) : (
-    <ImageSearch
-      locale={i18n.language}
-      translations={searchImageTranslations}
-      searchImages={onSearchImage}
-      onImageSelect={onSelectImage}
-      noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
-      //TODO: Handle error?
-      onError={() => {}}
-    />
+  const onSelect = (image: IImageMetaInformationV3DTO) => {
+    onSelectImage(image);
+    setTimeout(() => contentRef.current?.getElementsByTagName("button")?.[0]?.focus(), 200);
+  };
+
+  const onRemove = () => {
+    onRemoveImage();
+    setTimeout(() => contentRef.current?.getElementsByTagName("input")?.[0]?.focus(), 0);
+  };
+
+  return (
+    <div ref={contentRef}>
+      {imageId && image?.imageV3 ? (
+        <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
+      ) : (
+        <ImageSearch
+          locale={i18n.language}
+          translations={searchImageTranslations}
+          searchImages={onSearchImage}
+          onImageSelect={onSelect}
+          noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
+          //TODO: Handle error?
+          onError={() => {}}
+        />
+      )}
+    </div>
   );
 };
 
