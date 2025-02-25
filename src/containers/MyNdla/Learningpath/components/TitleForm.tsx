@@ -48,7 +48,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
 
-  const { control, setValue, resetField, handleSubmit } = useForm<TitleFormValues>({
+  const { control, setValue, resetField, handleSubmit, formState } = useForm<TitleFormValues>({
     values: {
       title: initialValues?.title ?? "",
       imageUrl: initialValues?.imageUrl ?? "",
@@ -103,7 +103,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
             <ImagePicker
               imageUrl={field.value}
               onSelectImage={(image) =>
-                image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
+                image?.id
+                  ? setValue("imageUrl", image.metaUrl, { shouldDirty: true, shouldValidate: true })
+                  : resetField("imageUrl", { defaultValue: "" })
               }
             />
           </>
@@ -114,7 +116,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
             {t("cancel")}
           </SafeLinkButton>
-          <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+          <Button type="submit" disabled={!formState.isDirty || !formState.isValid}>
+            {t("myNdla.learningpath.form.next")}
+          </Button>
         </Stack>
       ) : null}
     </StyledForm>
