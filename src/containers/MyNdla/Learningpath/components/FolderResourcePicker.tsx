@@ -87,7 +87,7 @@ const StyledText = styled(Text, {
   },
 });
 
-const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
+const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article"];
 
 type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
 type GQLFolderResourceWithCrumb = GQLFolderResource & {
