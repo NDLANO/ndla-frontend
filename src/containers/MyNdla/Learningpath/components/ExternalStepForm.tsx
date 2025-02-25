@@ -133,7 +133,7 @@ export const ExternalStepForm = () => {
             type: "required",
             field: "url",
           }),
-          validate: (value) => value.match(URL_REGEX) || t("validation.properUrl"),
+          validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
         }}
         render={({ field, fieldState }) => (
           <FieldRoot required invalid={!!fieldState.error?.message}>
@@ -147,7 +147,9 @@ export const ExternalStepForm = () => {
       <Stack align="start" gap="small">
         <Text>
           {t("myNdla.learningpath.form.content.external.copyright")}
-          <SafeLink to={"TODO"}>{t("myNdla.learningpath.form.content.external.copyrightLink")}</SafeLink>
+          <SafeLink to="https://ndla.no/article/opphavsrett">
+            {t("myNdla.learningpath.form.content.external.copyrightLink")}
+          </SafeLink>
         </Text>
         <Controller
           name="shareable"
