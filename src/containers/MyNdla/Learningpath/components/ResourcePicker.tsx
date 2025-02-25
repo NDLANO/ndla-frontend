@@ -44,7 +44,7 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
-import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResult } from "../../../../graphqlTypes";
+import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
@@ -82,13 +82,13 @@ const StyledListItemRoot = styled(ListItemRoot, {
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     overflowY: "unset",
+    maxHeight: "surface.medium",
   },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
   base: {
     overflowY: "auto",
-    height: "surface.medium",
   },
 });
 
@@ -122,13 +122,6 @@ const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement | null>, index: nu
 interface Props {
   setResource: (data: ResourceData) => void;
 }
-
-type Resource = GQLSearchResult & {
-  id: string;
-  resourceType?: string;
-  contentType?: string;
-  path: string;
-};
 
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
@@ -189,8 +182,9 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
-  const onResourceSelect = async (resource: Resource) => {
-    const data = await refetch({ url: `${config.ndlaFrontendDomain}${resource.path}` });
+  const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename" | "id">) => {
+    const path = resource.contexts?.[0]?.url;
+    const data = await refetch({ url: `${config.ndlaFrontendDomain}${path}` });
     const iframe = data.data?.learningpathStepOembed.html;
     const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
 
@@ -223,11 +217,18 @@ export const ResourcePicker = ({ setResource }: Props) => {
       <ComboboxControl>
         <InputContainer>
           <ComboboxInput asChild>
-            <Input placeholder={t("searchPage.searchFieldPlaceholder")} />
+            <Input
+              onKeyDown={(e) => {
+                if (e.key === "enter") {
+                  e.preventDefault();
+                }
+              }}
+              placeholder={t("searchPage.searchFieldPlaceholder")}
+            />
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
-      <StyledComboboxContent ref={contentRef}>
+      <StyledComboboxContent ref={contentRef} tabIndex={-1}>
         <HitsWrapper aria-live="assertive">
           <div>
             {!(searchHits.length >= 1) && !loading ? (
@@ -248,7 +249,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         {loading ? (
           <Spinner />
         ) : (
-          <StyledComboboxList>
+          <StyledComboboxList tabIndex={-1}>
             {collection.items.map((resource) => (
               <StyledComboboxItem key={collection.getItemValue(resource)} item={resource} className="peer" asChild>
                 <StyledListItemRoot context="list">
