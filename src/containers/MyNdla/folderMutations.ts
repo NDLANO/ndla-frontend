@@ -363,9 +363,10 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   folders: GQLFolder[];
   sharedFolders: GQLSharedFolder[];
   loading: boolean;
+  error?: ApolloError;
 } => {
   const { cache } = useApolloClient();
-  const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const { data, loading, error } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip,
     onCompleted: () => {
       cache.gc();
@@ -374,7 +375,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
 
   const folders = (data?.folders.folders ?? []) as GQLFolder[];
   const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolder[];
-  return { folders, sharedFolders, loading };
+  return { folders, sharedFolders, loading, error };
 };
 
 export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {

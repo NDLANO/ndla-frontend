@@ -193,6 +193,7 @@ const messages = {
             label: "Search in My Folders",
             labelHelper: "Select content from your folders",
             placeholder: "Search for resources that are stored in your folders.",
+            error: "Something went wrong while fetching resources",
           },
         },
         options: {
