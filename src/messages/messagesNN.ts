@@ -140,7 +140,7 @@ const messages = {
         deleteBody: "Innhaldet kan ikkje gjenopprettast",
         navigation: "Skjemanavigering",
         title: {
-          titleHelper: "Skriv ein beskrivande tittel for dette steget i læringsstien.",
+          titleHelper: "Skriv ein beskrivande tittel for læringsstien",
           imageTitle: "Bilettittel",
           copyright: "Opphav",
           metaImage: "Metabilete",
