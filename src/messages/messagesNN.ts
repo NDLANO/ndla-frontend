@@ -193,6 +193,7 @@ const messages = {
             label: "Søk i Mine mapper",
             labelHelper: "Vel innhald frå dine mapper",
             placeholder: "Søk etter ressursar som ligg i dine mapper",
+            error: "Noko gjekk gale ved henting av ressursar",
           },
         },
         options: {
