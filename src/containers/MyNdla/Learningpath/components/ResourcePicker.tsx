@@ -233,6 +233,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
               placeholder={t("searchPage.searchFieldPlaceholder")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
+                  e.preventDefault();
                   if (!highlightedValue) {
                     onSearch();
                   }
