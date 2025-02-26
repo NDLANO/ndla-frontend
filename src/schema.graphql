@@ -441,14 +441,6 @@ type ConceptLicense {
   title: String!
 }
 
-type ConceptResult {
-  concepts: [Concept!]!
-  language: String!
-  page: Int
-  pageSize: Int!
-  totalCount: Int!
-}
-
 type ConfigMetaBoolean {
   key: String!
   value: Boolean!
@@ -947,11 +939,6 @@ input LicenseInput {
   url: String
 }
 
-type ListingPage {
-  subjects: [Subject!]
-  tags: [String!]
-}
-
 type Manuscript {
   language: String!
   manuscript: String!
@@ -1347,19 +1334,6 @@ type Query {
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
-  concept(id: Int!): Concept
-  conceptSearch(
-    conceptType: String
-    exactMatch: Boolean
-    fallback: Boolean
-    ids: [Int!]
-    language: String
-    page: Int
-    pageSize: Int
-    query: String
-    subjects: String
-    tags: String
-  ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
@@ -1390,7 +1364,6 @@ type Query {
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!
   listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
-  listingPage(subjects: String): ListingPage
   myLearningpaths: [MyNdlaLearningpath!]
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
   node(contextId: String, id: String, parentId: String, rootId: String): Node
@@ -1527,7 +1500,6 @@ type ResourceTypeDefinition {
 
 type Search {
   aggregations: [AggregationResult!]!
-  concepts: ConceptResult
   language: String!
   page: Int
   pageSize: Int!

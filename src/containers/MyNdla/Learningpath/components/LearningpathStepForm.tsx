@@ -98,7 +98,7 @@ export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete
                 {t("cancel")}
               </Button>
             ) : null}
-            <Button type="submit" disabled={!formState.isDirty}>
+            <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting}>
               {t("save")}
             </Button>
           </HStack>

@@ -49,6 +49,7 @@ export const toFormValues = <T extends FormValues["type"]>(
         shareable: !!step?.embedUrl?.url,
       };
     case "resource":
+    case "folder":
       return {
         type: type,
         title: step?.title ?? "",
@@ -90,5 +91,7 @@ export const formValuesToGQLInput = (values: FormValues) => {
     },
   };
 };
+
+export const learningpathListItemId = (id: number) => `learningpath-${id}`;
 
 export const learningpathStepListItemId = (id: number) => `learningpathstep-${id}`;
