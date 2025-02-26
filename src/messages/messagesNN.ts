@@ -152,7 +152,7 @@ const messages = {
           title: "Legg til innhald",
           resource: {
             label: "Artikkel frå NDLA",
-            labelHelper: "Søk etter artikkel eller lim inn ei lenke",
+            labelHelper: "Søk etter artikkel",
           },
           text: {
             title: {
@@ -168,7 +168,7 @@ const messages = {
               labelHelper: "Skriv eller lim inn innhaldet ditt her.",
             },
             copyright:
-              "Det du delar i ein læringssti blir tilgjengeleg under ein Creative Commons-lisens (BY-SA). Dette betyr at andre kan bruke og dele det du har laga, så lenge dei gjev deg kreditering.",
+              "Alt du skriv i ein læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge dei gir deg kreditering.",
             copyrightLink: "Les meir om NDLA og deling av innhald her",
           },
           external: {
@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og metabilete",
+          title: "Tittel",
           content: "Legg til innhald",
           preview: "Sjå gjennom",
           save: "Lagre og del",
@@ -387,7 +387,7 @@ const messages = {
       "Denne læringsstien er utarbeidd av ein ekstern lærar, som har det redaksjonelle ansvaret. Ver merksam på at ho kan innehalde tekstar og lenkjer som ikkje kjem frå ndla.no.",
     externalLink: "Åpne i nytt vindauge",
     bylineSuffix:
-      "Forfattaren har redaksjonelt ansvar for denne læringsstien. Ver merksam på at han kan innehalde tekstar og lenker som ikkje kjem frå ndla.no.",
+      "Læringsstien er satt saman av ein lærar. NDLA har ikkje redaksjonelt ansvar for denne stien. Stien kan innehalde tekstar og lenker som ikkje kjem frå ndla.no.",
   },
   movedResourcePage: {
     title: "Sida har flytta, men du finn ho her:",

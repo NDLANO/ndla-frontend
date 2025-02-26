@@ -152,7 +152,7 @@ const messages = {
           title: "Append content",
           resource: {
             label: "Article from NDLA",
-            labelHelper: "Search for an article or paste a link",
+            labelHelper: "Search for an article",
           },
           text: {
             title: {
@@ -168,7 +168,7 @@ const messages = {
               labelHelper: "Write or paste your content here.",
             },
             copyright:
-              "What you share in a learning path will be available under a Creative Commons license (BY-SA). This means that others can use and share what you have created, as long as they give you credit.",
+              "Everything you write in a learning path on NDLA will be available under the license CC BY-SA. This means that others can use, adapt and share what you have created, as long as they give you credit.",
             copyrightLink: "Read more about NDLA and content sharing here",
           },
           external: {
@@ -203,7 +203,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Title and metaimage",
+          title: "Title",
           content: "Append content",
           preview: "Preview",
           save: "Save and share",
@@ -386,7 +386,7 @@ const messages = {
       "This learning path has been developed by an external teacher, who holds the editorial responsibility. Please note that it may contain texts and links that do not originate from ndla.no.",
     externalLink: "Open in a new window",
     bylineSuffix:
-      "The author has editorial responsibility for this learning path. Please be aware that it may contain texts and links that do not originate from ndla.no.",
+      "The learning path has been developed by a teacher. NDLA does not have editorial responsibility for this learning path. The learning path may contain texts and links that do not originate from ndla.no.",
   },
   movedResourcePage: {
     title: "The page has moved, but you can find it here:",
