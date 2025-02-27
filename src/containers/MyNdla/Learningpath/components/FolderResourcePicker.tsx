@@ -40,8 +40,8 @@ import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 
 const StyledHitsWrapper = styled("div", {
   base: {
-    marginTop: "3xsmall",
     textAlign: "start",
+    minHeight: "medium",
   },
 });
 
@@ -87,7 +87,7 @@ const StyledText = styled(Text, {
   },
 });
 
-const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article", "multidisciplinary", "topic"];
+const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article"];
 
 type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
 type GQLFolderResourceWithCrumb = GQLFolderResource & {
@@ -140,7 +140,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
 
-  const { folders, loading: foldersLoading } = useFolders();
+  const { folders, loading: foldersLoading, error: foldersError } = useFolders();
   const translations = useComboboxTranslations();
 
   const resources = useMemo(() => flattenResources(folders), [folders]);
@@ -149,7 +149,11 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     return resources.map((r) => ({ id: r.resourceId, path: r.path, resourceType: r.resourceType }));
   }, [resources]);
 
-  const { data, loading } = useFolderResourceMetaSearch(resourceSearchInput);
+  const {
+    data,
+    loading: folderResourceMetaLoading,
+    error: folderResourceMetaError,
+  } = useFolderResourceMetaSearch(resourceSearchInput);
 
   useEffect(() => {
     if (data && resources.length) {
@@ -170,6 +174,11 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       }),
     [filteredResources],
   );
+
+  if (!!foldersLoading || !!folderResourceMetaLoading) return <Spinner />;
+
+  if (!!foldersError || !!folderResourceMetaError)
+    return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;
 
   return (
     <ComboboxRoot
@@ -210,7 +219,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       {open ? (
         <ContentWrapper>
           <StyledHitsWrapper aria-live="assertive">
-            {inputValue && !loading && !foldersLoading ? (
+            {inputValue ? (
               !filteredResources.length ? (
                 <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${inputValue}`}</Text>
               ) : (
@@ -218,9 +227,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
               )
             ) : null}
           </StyledHitsWrapper>
-          {loading ? (
-            <Spinner />
-          ) : filteredResources ? (
+          {filteredResources ? (
             <StyledComboboxContent>
               {filteredResources.map((resource, index) => (
                 <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild consumeCss>

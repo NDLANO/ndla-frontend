@@ -80,7 +80,7 @@ const ListWrapper = styled("div", {
   },
 });
 
-const StyledForm = styled("form", {
+const StyledSwitchRoot = styled(SwitchRoot, {
   base: {
     marginInlineStart: "auto",
   },
@@ -187,15 +187,13 @@ const Resources = ({
           <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
         {!!hasSupplementaryResources && (
-          <StyledForm>
-            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
-              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
-              <SwitchControl>
-                <SwitchThumb />
-              </SwitchControl>
-              <SwitchHiddenInput />
-            </SwitchRoot>
-          </StyledForm>
+          <StyledSwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+            <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput />
+          </StyledSwitchRoot>
         )}
       </TitleWrapper>
       <ResourceContainer>

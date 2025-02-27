@@ -169,14 +169,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     };
 
     if (learningpath.status === LEARNINGPATH_SHARED) {
-      return [
-        editLearningpath,
-        shareLearningpath,
-        previewLearningpath,
-        linkLearningpath,
-        unShareLearningpath,
-        deleteLearningpath,
-      ];
+      return [editLearningpath, previewLearningpath, linkLearningpath, unShareLearningpath, deleteLearningpath];
     }
 
     return [editLearningpath, shareLearningpath, deleteLearningpath];

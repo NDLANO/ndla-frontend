@@ -88,7 +88,7 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
         }}
       />
       <Stack justify="flex-end" direction="row">

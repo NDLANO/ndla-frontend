@@ -126,7 +126,7 @@ const messages = {
         deleteBody: "Innholdet kan ikke gjenopprettes",
         navigation: "Skjemanavigering",
         title: {
-          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          titleHelper: "Gi læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",
           copyright: "Opphav",
           metaImage: "Metabilde",
@@ -138,7 +138,7 @@ const messages = {
           title: "Legg til innhold",
           resource: {
             label: "Artikkel fra NDLA",
-            labelHelper: "Søk etter artikkel eller lim inn en lenke",
+            labelHelper: "Søk etter artikkel",
           },
           text: {
             title: {
@@ -154,7 +154,7 @@ const messages = {
               labelHelper: "Skriv eller lim inn innholdet ditt her.",
             },
             copyright:
-              "Det du deler i en læringssti blir tilgjengelig under en Creative Commons-lisens (BY-SA). Dette betyr at andre kan bruke og dele det du har laget, så lenge de gir deg kreditering.",
+              "Alt du skriver i en læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge de gir deg kreditering.",
             copyrightLink: "Les mer om NDLA og deling av innhold her",
           },
           external: {
@@ -179,6 +179,7 @@ const messages = {
             label: "Søk i Mine mapper",
             labelHelper: "Velg innhold fra mappene dine",
             placeholder: "Søk etter ressurser som ligger i dine mapper",
+            error: "Noe gikk galt ved henting av ressurser",
           },
         },
         options: {
@@ -189,7 +190,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og metabilde",
+          title: "Tittel",
           content: "Legg til innhold",
           preview: "Se igjennom",
           save: "Lagre og del",
@@ -331,7 +332,7 @@ const messages = {
       "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
     externalLink: "Åpne i nytt vindu",
     bylineSuffix:
-      "Forfatteren har redaksjonelt ansvar for denne læringsstien. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
+      "Læringsstien er satt sammen av en lærer. NDLA har ikke redaksjonelt ansvar for denne stien. Stien kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
@@ -342,7 +343,7 @@ const messages = {
     errorDescription: "Du har ikke tilgang til denne sida",
   },
   collectionPage: {
-    title: `Ressursar på $t(languages.{{language}})`,
+    title: "Ressursar på {{language}}",
     noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
   },
   date: {
