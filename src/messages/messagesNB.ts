@@ -399,7 +399,7 @@ const messages = {
     errorDescription: "Du har ikke tilgang til denne siden.",
   },
   collectionPage: {
-    title: `Ressurser på $t(languages.{{language}})`,
+    title: "Ressurser på {{language}}",
     noSubjects: "Vi har ikke noen ressurser på dette språket enda.",
   },
   date: {
