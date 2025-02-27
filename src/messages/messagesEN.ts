@@ -177,6 +177,7 @@ const messages = {
             checkbox: "The content I have linked to is legal to share.",
           },
           folder: {
+            noResources: "You haven't added any resources to your folders yet.",
             label: "Search in My Folders",
             labelHelper: "Select content from your folders",
             placeholder: "Search for resources that are stored in your folders.",
