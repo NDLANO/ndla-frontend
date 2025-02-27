@@ -31,7 +31,6 @@ export const UKR_PAGE_URL = "/f/ukrainian-resources-in-norwegian-social-science/
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
-export const STORED_LANGUAGE_COOKIE_KEY = "language";
 
 export const PROGRAMME_PATH = "/utdanning";
 export const ABOUT_PATH = "/om";

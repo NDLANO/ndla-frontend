@@ -23,16 +23,14 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-import { getCookie } from "@ndla/util";
 import "../style/index.css";
 import { LtiIframePage } from "./LtiIframePage";
 import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
 import Scripts from "../components/Scripts/Scripts";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../constants";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
-import { initializeI18n, isValidLocale } from "../i18n";
+import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
 
@@ -42,8 +40,7 @@ const {
 
 initSentry(config);
 
-const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
-const language = isValidLocale(storedLanguage) ? storedLanguage : config.defaultLocale;
+const language = config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 

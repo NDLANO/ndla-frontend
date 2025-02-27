@@ -11,11 +11,10 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
-import { setCookie } from "@ndla/util";
 import { DefaultErrorMessagePage } from "../components/DefaultErrorMessage";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { useLtiData } from "../components/LtiContext";
-import { RESOURCE_TYPE_LEARNING_PATH, STORED_LANGUAGE_COOKIE_KEY } from "../constants";
+import { RESOURCE_TYPE_LEARNING_PATH } from "../constants";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 import { convertSearchStringToObject } from "../containers/SearchPage/searchHelpers";
 import SearchInnerPage, { getStateSearchParams } from "../containers/SearchPage/SearchInnerPage";
@@ -53,11 +52,6 @@ const LtiProvider = () => {
   i18n.on("languageChanged", (lang) => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
-    setCookie({
-      cookieName: STORED_LANGUAGE_COOKIE_KEY,
-      cookieValue: lang,
-      lax: true,
-    });
     document.documentElement.lang = getLangAttributeValue(lang);
   });
 

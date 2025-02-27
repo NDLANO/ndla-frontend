@@ -21,7 +21,7 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import { ABOUT_PATH, FILM_PAGE_URL, STORED_LANGUAGE_COOKIE_KEY, UKR_PAGE_URL, programmeRedirects } from "../constants";
+import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
@@ -62,7 +62,6 @@ router.get(["/utdanning", "/:lang/utdanning"], (_, res) => {
 });
 
 router.get("/ukr", (_req, res) => {
-  res.cookie(STORED_LANGUAGE_COOKIE_KEY, "en");
   res.redirect(`/en${UKR_PAGE_URL}`);
 });
 
@@ -72,22 +71,12 @@ router.get("/oembed", async (req, res) => {
   sendResponse(res, data, status);
 });
 
-const getLang = (paramLang?: string, cookieLang?: string | null): string | undefined => {
-  if (paramLang) {
-    return paramLang;
-  }
-  if (!paramLang && cookieLang && cookieLang !== config.defaultLocale) {
-    return cookieLang;
-  }
-  return undefined;
-};
-
 router.get(["/:lang/login", "/login"], async (req, res) => {
   const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === "string" ? req.query.state : "";
   res.setHeader("Cache-Control", "private");
-  const lang = getLang(req.params.lang, getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? ""));
+  const lang = req.params.lang;
   const redirect = constructNewPath(state, lang);
 
   if (feideToken && isAccessTokenValid(feideToken)) {
@@ -149,12 +138,6 @@ router.get("/login/success", async (req, res) => {
     log.error("Failed to set cookie for nodebb autologin", { error });
   }
 
-  const languageCookie = getCookie(STORED_LANGUAGE_COOKIE_KEY, req.headers.cookie ?? "");
-  //workaround to ensure language cookie is set before redirecting to state path
-  if (!languageCookie) {
-    const { basename } = getLocaleInfoFromPath(state);
-    res.cookie(STORED_LANGUAGE_COOKIE_KEY, basename.length ? basename : config.defaultLocale);
-  }
   return res.redirect(state);
 });
 
