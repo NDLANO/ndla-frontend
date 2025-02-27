@@ -30,12 +30,6 @@ const messages = {
     myTagsPage: `Mine emneknaggar - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-    arenaPage: `Arena - ${titleTemplate}`,
-    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
-    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaNewTopicPage: `Nytt innlegg - Arena - ${titleTemplate}`,
-    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
     learningpathsPage: `Mine læringsstiar - ${titleTemplate}`,
     learningpathPage: `{{name}}  - ${titleTemplate}`,
     learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
@@ -102,13 +96,6 @@ const messages = {
     },
     arena: {
       title: "Arenaen",
-      notification: {
-        description:
-          "Velkommen inn i arenaen for lærarar i vidaregåande opplæring! Dette er <em>din</em> arena: ein fagleg møtestad for diskusjon, inspirasjon, deling og utviklande samarbeid.",
-      },
-      reported: "Innhald rapportert",
-      error: "Ein feil oppstod",
-      userUpdated: "Brukar oppdatert",
       accept: {
         success: "Du har no tilgang til Arena",
         error: "Klarte ikkje å godta vilkåra.",
@@ -317,43 +304,6 @@ const messages = {
   },
   contentTypes: {
     multidisciplinary: "Tverrfagleg case",
-  },
-  markdownEditor: {
-    link: {
-      url: "Lenkeadresse",
-      text: "Lenketekst",
-      error: {
-        url: {
-          empty: "Lenkeadressa kan ikkje vere tom",
-          invalid: "Ugyldig lenkeadresse. Følg formatet https://ndla.no",
-        },
-        text: {
-          empty: "Lenketeksten kan ikkje vere tom",
-        },
-      },
-    },
-    toolbar: {
-      bold: {
-        active: "Fjern feit skrift",
-        inactive: "Legg til feit skrift",
-      },
-      italic: {
-        active: "Fjerne kursiv skrift",
-        inactive: "Legg til kursiv skrift",
-      },
-      unorderedList: {
-        active: "Fjern punktliste",
-        inactive: "Legg til punktliste",
-      },
-      orderedList: {
-        active: "Fjern nummerert liste",
-        inactive: "Legg til nummerert liste",
-      },
-      link: {
-        active: "Fjern lenke",
-        inactive: "Legg til lenke",
-      },
-    },
   },
   multidisciplinary: {
     casesCount: "{{count}} caser",
