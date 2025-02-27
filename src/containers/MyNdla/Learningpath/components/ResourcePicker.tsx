@@ -127,6 +127,7 @@ const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource }: Props) => {
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
+  const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -198,6 +199,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   return (
     <ComboboxRoot
+      highlightedValue={highlightedValue}
+      onHighlightChange={(details) => setHighlightedValue(details.highlightedValue)}
       collection={collection}
       translations={comboboxTranslations}
       scrollToIndexFn={(details) => scrollToIndexFn(contentRef, details.index)}
@@ -216,15 +219,15 @@ export const ResourcePicker = ({ setResource }: Props) => {
     >
       <ComboboxControl>
         <InputContainer>
-          <ComboboxInput asChild>
-            <Input
-              onKeyDown={(e) => {
-                if (e.key === "enter") {
-                  e.preventDefault();
-                }
-              }}
-              placeholder={t("searchPage.searchFieldPlaceholder")}
-            />
+          <ComboboxInput
+            asChild
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !highlightedValue) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <Input placeholder={t("searchPage.searchFieldPlaceholder")} />
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
