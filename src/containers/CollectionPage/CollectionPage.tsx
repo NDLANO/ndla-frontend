@@ -96,7 +96,10 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
 
-  const metaTitle = useMemo(() => t("collectionPage.title", { language: collectionLanguage }), [collectionLanguage, t]);
+  const metaTitle = useMemo(
+    () => t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() }),
+    [collectionLanguage, t],
+  );
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
 
   const subjectCategories = useMemo(() => {
@@ -133,7 +136,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
           {/* TODO: Use semantic tokens */}
           <StyledImage src={IMAGE_URL} alt="" height="400" width="1128" />
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-            {t("collectionPage.title", { language: collectionLanguage })}
+            {t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() })}
           </Heading>
         </div>
         {subjectCategories.length ? (

@@ -398,7 +398,7 @@ const messages = {
     errorDescription: "You do not have access to this page.",
   },
   collectionPage: {
-    title: `Resources in $t(languages.{{language}})`,
+    title: "Resources in {{language}}",
     noSubjects: "We do not have any resources in this language yet.",
   },
   date: {
