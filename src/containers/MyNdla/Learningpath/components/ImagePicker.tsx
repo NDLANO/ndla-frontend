@@ -6,12 +6,12 @@
  *
  */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
-import { Button, Image, Spinner, Text } from "@ndla/primitives";
+import { Button, Image, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
@@ -20,12 +20,14 @@ import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
   imageUrl: string;
-  onSelectImage: (image?: IImageMetaInformationV3DTO) => void;
+  onSelectImage: (image: IImageMetaInformationV3DTO) => void;
+  onRemoveImage: VoidFunction;
 }
 
-export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
+export const ImagePicker = ({ imageUrl, onSelectImage, onRemoveImage }: Props) => {
   const searchImageTranslations = useImageSearchTranslations();
   const { i18n, t } = useTranslation();
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const imageId = imageUrl?.split("/").pop();
 
@@ -48,22 +50,32 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
     (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
       ?.imageSearch as ISearchResultV3DTO;
 
-  const onRemove = () => {
-    onSelectImage(undefined);
+  const onSelect = (image: IImageMetaInformationV3DTO) => {
+    onSelectImage(image);
+    setTimeout(() => contentRef.current?.getElementsByTagName("button")?.[0]?.focus(), 200);
   };
 
-  return imageId && image?.imageV3 ? (
-    <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
-  ) : (
-    <ImageSearch
-      locale={i18n.language}
-      translations={searchImageTranslations}
-      searchImages={onSearchImage}
-      onImageSelect={onSelectImage}
-      noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
-      //TODO: Handle error?
-      onError={() => {}}
-    />
+  const onRemove = () => {
+    onRemoveImage();
+    setTimeout(() => contentRef.current?.getElementsByTagName("input")?.[0]?.focus(), 0);
+  };
+
+  return (
+    <div ref={contentRef}>
+      {imageId && image?.imageV3 ? (
+        <SelectedImage image={image.imageV3} loading={loading} onRemove={onRemove} />
+      ) : (
+        <ImageSearch
+          locale={i18n.language}
+          translations={searchImageTranslations}
+          searchImages={onSearchImage}
+          onImageSelect={onSelect}
+          noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
+          //TODO: Handle error?
+          onError={() => {}}
+        />
+      )}
+    </div>
   );
 };
 
@@ -97,12 +109,8 @@ interface SelectedImageProps {
   onRemove: () => void;
 }
 
-const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
+const SelectedImage = ({ image, onRemove }: SelectedImageProps) => {
   const { t } = useTranslation();
-
-  if (loading) {
-    return <Spinner />;
-  }
 
   return (
     <Wrapper>
@@ -126,7 +134,7 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
         </StyledStack>
       </HStack>
       <VStack justify="flex-end">
-        <Button onClick={onRemove} variant="danger">
+        <Button id="remove-image" onClick={onRemove} variant="danger">
           {t("myNdla.learningpath.form.delete")}
           <DeleteBinLine />
         </Button>

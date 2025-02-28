@@ -93,9 +93,8 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
             {fieldState.error?.message ? <Text color="stroke.error">{fieldState.error.message}</Text> : null}
             <ImagePicker
               imageUrl={field.value}
-              onSelectImage={(image) =>
-                image?.id ? setValue("imageUrl", image.metaUrl) : resetField("imageUrl", { defaultValue: "" })
-              }
+              onSelectImage={(image) => setValue("imageUrl", image.metaUrl)}
+              onRemoveImage={() => resetField("imageUrl", { defaultValue: "" })}
             />
           </>
         )}
