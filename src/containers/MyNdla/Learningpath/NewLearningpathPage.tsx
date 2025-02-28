@@ -49,7 +49,7 @@ export const NewLearningpathPage = () => {
               // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
               license: ALL_ABBREVIATIONS[4],
             },
-            contributors: [{ name: user.displayName, type: "author" }],
+            contributors: [{ name: user.displayName, type: "writer" }],
           },
         },
       },
