@@ -22,7 +22,7 @@ import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
@@ -31,7 +31,7 @@ import { RenderFunc } from "../serverHelpers";
 
 export const defaultRender: RenderFunc = async (req, chunks) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = abbreviation;
+  const locale = isValidLocale(abbreviation) ? abbreviation : config.defaultLocale;
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
     return {
       status: TEMPORARY_REDIRECT,

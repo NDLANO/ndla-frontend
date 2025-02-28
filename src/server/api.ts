@@ -76,7 +76,7 @@ router.get(["/:lang/login", "/login"], async (req, res) => {
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const state = typeof req.query.state === "string" ? req.query.state : "";
   res.setHeader("Cache-Control", "private");
-  const lang = req.params.lang;
+  const lang = isValidLocale(req.params.lang) ? req.params.lang : config.defaultLocale;
   const redirect = constructNewPath(state, lang);
 
   if (feideToken && isAccessTokenValid(feideToken)) {
