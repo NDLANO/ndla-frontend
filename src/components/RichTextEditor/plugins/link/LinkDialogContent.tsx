@@ -115,7 +115,7 @@ export const LinkDialogContent = ({ initialValue }: LinkDialogContentProps) => {
                 type: "required",
                 field: "url",
               }),
-              validate: (value) => value.match(URL_REGEX) || t("validation.properUrl"),
+              validate: (value) => !!value.match(URL_REGEX) || t("validation.properUrl"),
             }}
             render={({ field, fieldState }) => (
               <FieldRoot invalid={!!fieldState.error?.message}>
