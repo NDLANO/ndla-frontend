@@ -101,7 +101,7 @@ export const EditLearningpathStepsPage = () => {
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
         <StyledOl>
-          {data.myNdlaLearningpath.learningsteps.map((step) => (
+          {data.myNdlaLearningpath.learningsteps?.map((step) => (
             <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id ?? -1} step={step} key={step.id} />
           ))}
         </StyledOl>

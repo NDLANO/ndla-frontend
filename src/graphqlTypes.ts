@@ -2942,7 +2942,6 @@ export type GQLCollectionPageQuery = {
     name: string;
     url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-    subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
   }>;
 };
 
@@ -3322,7 +3321,7 @@ export type GQLMyNdlaLearningpathFragment = {
   madeAvailable?: string;
   revision: number;
   coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
-  learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
+  learningsteps?: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
 };
 
 export type GQLDeleteLearningpathMutationVariables = Exact<{
@@ -3334,6 +3333,7 @@ export type GQLDeleteLearningpathMutation = { __typename?: "Mutation"; deleteLea
 export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
   id: Scalars["Int"]["input"];
   status: Scalars["String"]["input"];
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdateLearningpathStatusMutation = {
@@ -3343,6 +3343,7 @@ export type GQLUpdateLearningpathStatusMutation = {
 
 export type GQLNewLearningpathMutationVariables = Exact<{
   params: GQLLearningpathNewInput;
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLNewLearningpathMutation = {
@@ -3381,6 +3382,7 @@ export type GQLDeleteLearningpathStepMutation = { __typename?: "Mutation"; delet
 export type GQLUpdateLearningpathMutationVariables = Exact<{
   learningpathId: Scalars["Int"]["input"];
   params: GQLLearningpathUpdateInput;
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdateLearningpathMutation = {
@@ -3391,6 +3393,7 @@ export type GQLUpdateLearningpathMutation = {
 export type GQLCopyLearningpathMutationVariables = Exact<{
   learningpathId: Scalars["Int"]["input"];
   params: GQLLearningpathCopyInput;
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLCopyLearningpathMutation = {
@@ -3398,7 +3401,9 @@ export type GQLCopyLearningpathMutation = {
   copyLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
 };
 
-export type GQLMyLearningpathsQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLMyLearningpathsQueryVariables = Exact<{
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
+}>;
 
 export type GQLMyLearningpathsQuery = {
   __typename?: "Query";
@@ -3407,6 +3412,7 @@ export type GQLMyLearningpathsQuery = {
 
 export type GQLMyNdlaLearningpathQueryVariables = Exact<{
   pathId: Scalars["String"]["input"];
+  includeSteps?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLMyNdlaLearningpathQuery = {
