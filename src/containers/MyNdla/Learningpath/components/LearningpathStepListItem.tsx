@@ -14,7 +14,7 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
-import { formValuesToGQLInput, getFormTypeFromStep, learningpathStepListItemId } from "../utils";
+import { formValuesToGQLInput, getFormTypeFromStep, learningpathStepId } from "../utils";
 
 const LearningpathStepForm = lazy(() => import("./LearningpathStepForm"));
 
@@ -65,7 +65,7 @@ export const LearningpathStepListItem = forwardRef<HTMLLIElement, Props>(
         },
       });
       setIsEditing(false);
-      setTimeout(() => document.getElementById(learningpathStepListItemId(step.id))?.focus(), 0);
+      setTimeout(() => document.getElementById(learningpathStepId(step.id))?.focus(), 0);
     };
 
     const onClose = () => {

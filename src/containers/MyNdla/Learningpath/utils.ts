@@ -92,6 +92,6 @@ export const formValuesToGQLInput = (values: FormValues) => {
   };
 };
 
-export const learningpathListItemId = (id: number) => `learningpath-${id}`;
+export const learningpathId = (id: number) => `learningpath-${id}`;
 
-export const learningpathStepListItemId = (id: number) => `learningpathstep-${id}`;
+export const learningpathStepId = (id: number) => `learningpathstep-${id}`;

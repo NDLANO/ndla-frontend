@@ -17,12 +17,7 @@ import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import SettingsMenu from "../../components/SettingsMenu";
-import {
-  LEARNINGPATH_PRIVATE,
-  LEARNINGPATH_READY_FOR_SHARING,
-  LEARNINGPATH_SHARED,
-  learningpathListItemId,
-} from "../utils";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED, learningpathId } from "../utils";
 
 const StatusText = styled(Text, {
   base: {
@@ -77,7 +72,7 @@ export const LearningpathItem = ({ learningpath, showMenu = true, context, ...re
   return (
     <ListItemRoot
       {...rest}
-      id={learningpathListItemId(learningpath.id)}
+      id={learningpathId(learningpath.id)}
       context={context}
       asChild={context === "list"}
       consumeCss={context === "list"}

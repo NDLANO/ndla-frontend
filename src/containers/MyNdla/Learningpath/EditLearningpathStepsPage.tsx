@@ -16,7 +16,7 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useCreateLearningpathStep, useDeleteLearningpathStep } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
-import { formValuesToGQLInput, learningpathStepListItemId } from "./utils";
+import { formValuesToGQLInput, learningpathStepId } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
@@ -41,6 +41,9 @@ const AddButton = styled(Button, {
     width: "100%",
   },
 });
+
+const CREATE_STEP_ID = "create-step";
+const CREATE_STEP_FORM_ID = "create-step";
 
 export const EditLearningpathStepsPage = () => {
   const [isCreating, setIsCreating] = useState(false);
@@ -79,7 +82,7 @@ export const EditLearningpathStepsPage = () => {
         setTimeout(
           () =>
             document
-              .getElementById(learningpathStepListItemId(res.data?.newLearningpathStep.id ?? 0))
+              .getElementById(learningpathStepId(res.data?.newLearningpathStep.id ?? 0))
               ?.querySelector("button")
               ?.focus(),
           0,
@@ -90,7 +93,7 @@ export const EditLearningpathStepsPage = () => {
 
   const onDeleteStep = async (stepId: number, close: VoidFunction) => {
     if (data?.myNdlaLearningpath?.id) {
-      const el = document.getElementById(learningpathStepListItemId(stepId));
+      const el = document.getElementById(learningpathStepId(stepId));
       const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
         .find((el) => el?.tagName === "LI")
         ?.querySelector("button");
@@ -111,12 +114,12 @@ export const EditLearningpathStepsPage = () => {
 
   const onOpenCreate = async () => {
     setIsCreating(true);
-    setTimeout(() => document.getElementById("create-step-form")?.querySelector("input")?.focus(), 500);
+    setTimeout(() => document.getElementById(CREATE_STEP_FORM_ID)?.querySelector("input")?.focus(), 500);
   };
 
   const onCloseCreate = async () => {
     setIsCreating(false);
-    setTimeout(() => document.getElementById("create-step")?.focus(), 0);
+    setTimeout(() => document.getElementById(CREATE_STEP_ID)?.focus(), 0);
   };
 
   if (loading) {
@@ -146,7 +149,7 @@ export const EditLearningpathStepsPage = () => {
           {data.myNdlaLearningpath.learningsteps.map((step) => (
             <LearningpathStepListItem
               learningpathId={data.myNdlaLearningpath?.id ?? -1}
-              id={learningpathStepListItemId(step.id)}
+              id={learningpathStepId(step.id)}
               onDelete={onDeleteStep}
               step={step}
               key={step.id}
@@ -154,13 +157,18 @@ export const EditLearningpathStepsPage = () => {
           ))}
         </StyledOl>
         {!isCreating ? (
-          <AddButton variant="secondary" onClick={onOpenCreate} id="create-step">
+          <AddButton variant="secondary" onClick={onOpenCreate} id={CREATE_STEP_ID}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
           <Suspense fallback={<Spinner />}>
-            <LearningpathStepForm stepType="text" onClose={onCloseCreate} onSave={onSaveStep} id="create-step-form" />
+            <LearningpathStepForm
+              stepType="text"
+              onClose={onCloseCreate}
+              onSave={onSaveStep}
+              id={CREATE_STEP_FORM_ID}
+            />
           </Suspense>
         )}
       </Stack>
