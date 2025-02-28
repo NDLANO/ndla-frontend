@@ -84,7 +84,7 @@ export const learningpathFragment = gql`
       url
       metaUrl
     }
-    learningsteps {
+    learningsteps @include(if: $includeSteps) {
       ...MyNdlaLearningpathStep
     }
   }
