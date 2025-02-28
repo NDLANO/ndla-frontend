@@ -180,6 +180,10 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   if (!!foldersError || !!folderResourceMetaError)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;
 
+  if (filteredResources.length === 0) {
+    return <Text>{t("myNdla.learningpath.form.content.folder.noResources")}</Text>;
+  }
+
   return (
     <ComboboxRoot
       onInputValueChange={(details) => setInputValue(details.inputValue)}
