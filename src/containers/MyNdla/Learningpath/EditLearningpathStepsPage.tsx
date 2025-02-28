@@ -14,9 +14,9 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { useCreateLearningpathStep } from "./learningpathMutations";
+import { useCreateLearningpathStep, useDeleteLearningpathStep } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
-import { formValuesToGQLInput } from "./utils";
+import { formValuesToGQLInput, learningpathStepId } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
@@ -42,6 +42,9 @@ const AddButton = styled(Button, {
   },
 });
 
+const CREATE_STEP_ID = "create-step";
+const CREATE_STEP_FORM_ID = "create-step";
+
 export const EditLearningpathStepsPage = () => {
   const [isCreating, setIsCreating] = useState(false);
 
@@ -56,6 +59,7 @@ export const EditLearningpathStepsPage = () => {
   });
 
   const [createStep] = useCreateLearningpathStep(learningpathId ?? "");
+  const [deleteStep] = useDeleteLearningpathStep(learningpathId ?? "");
 
   useEffect(() => {
     trackPageView({
@@ -67,14 +71,55 @@ export const EditLearningpathStepsPage = () => {
   const onSaveStep = async (values: FormValues) => {
     if (data?.myNdlaLearningpath?.id) {
       const transformedData = formValuesToGQLInput(values);
-      await createStep({
+      const res = await createStep({
         variables: {
           learningpathId: data.myNdlaLearningpath.id,
           params: { ...transformedData, language: i18n.language, showTitle: false },
         },
       });
-      setIsCreating(false);
+      if (!res.errors?.length) {
+        setIsCreating(false);
+        setTimeout(
+          () =>
+            document
+              .getElementById(learningpathStepId(res.data?.newLearningpathStep.id ?? 0))
+              ?.querySelector("button")
+              ?.focus(),
+          0,
+        );
+      }
     }
+  };
+
+  const onDeleteStep = async (stepId: number, close: VoidFunction) => {
+    if (data?.myNdlaLearningpath?.id) {
+      const el = document.getElementById(learningpathStepId(stepId));
+      const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+        .find((el) => el?.tagName === "LI")
+        ?.querySelector("button");
+
+      const res = await deleteStep({
+        variables: {
+          learningstepId: stepId,
+          learningpathId: data.myNdlaLearningpath.id,
+        },
+      });
+
+      if (!res.errors?.length) {
+        close();
+        setTimeout(() => (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus(), 0);
+      }
+    }
+  };
+
+  const onOpenCreate = async () => {
+    setIsCreating(true);
+    setTimeout(() => document.getElementById(CREATE_STEP_FORM_ID)?.querySelector("input")?.focus(), 500);
+  };
+
+  const onCloseCreate = async () => {
+    setIsCreating(false);
+    setTimeout(() => document.getElementById(CREATE_STEP_ID)?.focus(), 0);
   };
 
   if (loading) {
@@ -102,17 +147,28 @@ export const EditLearningpathStepsPage = () => {
         </Heading>
         <StyledOl>
           {data.myNdlaLearningpath.learningsteps.map((step) => (
-            <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id ?? -1} step={step} key={step.id} />
+            <LearningpathStepListItem
+              learningpathId={data.myNdlaLearningpath?.id ?? -1}
+              id={learningpathStepId(step.id)}
+              onDelete={onDeleteStep}
+              step={step}
+              key={step.id}
+            />
           ))}
         </StyledOl>
         {!isCreating ? (
-          <AddButton variant="secondary" onClick={() => setIsCreating(true)}>
+          <AddButton variant="secondary" onClick={onOpenCreate} id={CREATE_STEP_ID}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
           <Suspense fallback={<Spinner />}>
-            <LearningpathStepForm stepType="text" onClose={() => setIsCreating(false)} onSave={onSaveStep} />
+            <LearningpathStepForm
+              stepType="text"
+              onClose={onCloseCreate}
+              onSave={onSaveStep}
+              id={CREATE_STEP_FORM_ID}
+            />
           </Suspense>
         )}
       </Stack>
