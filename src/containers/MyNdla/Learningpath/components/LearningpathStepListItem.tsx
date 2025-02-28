@@ -6,17 +6,17 @@
  *
  */
 
-import { lazy, Suspense, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
-import { Button, Spinner, Text } from "@ndla/primitives";
+import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
-import { formValuesToGQLInput, getFormTypeFromStep } from "../utils";
-
-const LearningpathStepForm = lazy(() => import("./LearningpathStepForm"));
+import { getFormTypeFromStep } from "../utils";
+import LearningpathStepForm from "./LearningpathStepForm";
+import { formValuesToGQLInput } from "../learningpathFormUtils";
 
 const ContentWrapper = styled("div", {
   base: {
@@ -100,11 +100,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
           </Button>
         )}
       </ContentWrapper>
-      {isEditing ? (
-        <Suspense fallback={<Spinner />}>
-          <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
-        </Suspense>
-      ) : null}
+      {isEditing ? <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} /> : null}
     </li>
   );
 };
