@@ -50,11 +50,7 @@ interface DraggableData {
   index: number;
 }
 
-export const makeDndTranslations = (
-  type: "folder" | "resource" | "category",
-  t: TFunction,
-  length: number,
-): Announcements => {
+export const makeDndTranslations = (type: "folder" | "resource", t: TFunction, length: number): Announcements => {
   return {
     onDragStart: ({ active }) => {
       const { name, index } = active.data.current as DraggableData;

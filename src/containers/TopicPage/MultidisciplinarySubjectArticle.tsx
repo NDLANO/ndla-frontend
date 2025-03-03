@@ -60,8 +60,15 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
 const StyledPageContent = styled(PageContent, {
   base: {
+    overflowX: "clip",
     paddingBlockStart: "xxlarge",
     gap: "xsmall",
   },
@@ -210,7 +217,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               }
               contentType="multidisciplinary"
             />
-            <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+            <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
             <ArticleFooter>
               <ArticleByline
                 footnotes={article.transformedContent.metaData?.footnotes ?? []}

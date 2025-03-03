@@ -51,7 +51,7 @@ export const useDeleteLearningpath = (
 };
 
 const updateLearningpathStatusMutation = gql`
-  mutation updateLearningpathStatus($id: Int!, $status: String!) {
+  mutation updateLearningpathStatus($id: Int!, $status: String!, $includeSteps: Boolean = false) {
     updateLearningpathStatus(id: $id, status: $status) {
       ...MyNdlaLearningpath
     }
@@ -85,7 +85,7 @@ export const useUpdateLearningpathStatus = (
 };
 
 const newLearningpathMutation = gql`
-  mutation newLearningpath($params: LearningpathNewInput!) {
+  mutation newLearningpath($params: LearningpathNewInput!, $includeSteps: Boolean = false) {
     newLearningpath(params: $params) {
       ...MyNdlaLearningpath
     }
@@ -238,7 +238,11 @@ export const useDeleteLearningpathStep = (
 };
 
 const updateLearningpathMutation = gql`
-  mutation updateLearningpath($learningpathId: Int!, $params: LearningpathUpdateInput!) {
+  mutation updateLearningpath(
+    $learningpathId: Int!
+    $params: LearningpathUpdateInput!
+    $includeSteps: Boolean = false
+  ) {
     updateLearningpath(learningpathId: $learningpathId, params: $params) {
       ...MyNdlaLearningpath
     }
@@ -274,7 +278,7 @@ export const useUpdateLearningpath = (
 };
 
 const copyLearningpathMutation = gql`
-  mutation copyLearningpath($learningpathId: Int!, $params: LearningpathCopyInput!) {
+  mutation copyLearningpath($learningpathId: Int!, $params: LearningpathCopyInput!, $includeSteps: Boolean = false) {
     copyLearningpath(learningpathId: $learningpathId, params: $params) {
       ...MyNdlaLearningpath
     }

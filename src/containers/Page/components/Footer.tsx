@@ -16,6 +16,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ZendeskButton } from "@ndla/ui";
 import { useSiteTheme } from "../../../components/SiteThemeContext";
 import config from "../../../config";
+import { UKR_PAGE_URL } from "../../../constants";
 import { getLangAttributeValue } from "../../../i18n";
 
 // TODO: Add new translations for the footer.
@@ -284,16 +285,16 @@ export const Footer = () => {
 
   const otherLanguages = [
     {
-      to: "/samling/ukr",
-      text: "Ukrainsk",
+      to: UKR_PAGE_URL,
+      text: t("languages.ukr"),
     },
     {
       to: "/samling/sma",
-      text: "Sørsamisk",
+      text: t("languages.sma"),
     },
     {
       to: "/samling/se",
-      text: "Nordsamisk",
+      text: t("languages.se"),
     },
   ];
 

@@ -40,11 +40,6 @@ const collectionPageQuery = gql`
       metadata {
         customFields
       }
-      subjectpage {
-        about {
-          title
-        }
-      }
     }
   }
 `;
@@ -105,7 +100,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
   const subjectCategories = useMemo(() => {
     const transformedSubjects = subjects?.map((subject) => ({
       ...subject,
-      label: subject.subjectpage?.about?.title ?? subject.name ?? "",
+      label: subject.name ?? "",
       url: subject.url,
       metadata: {
         ...subject.metadata,

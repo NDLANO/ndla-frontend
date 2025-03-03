@@ -15,8 +15,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { CampaignBlock } from "@ndla/ui";
-import { TopicListItem } from "./Arena/components/ArenaListItem";
-import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";
@@ -76,7 +74,6 @@ const MyNdlaPage = () => {
     skip: !user?.favoriteSubjects.length,
   });
   const { allFolderResources } = useRecentlyUsedResources(!authenticated);
-  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled || config.externalArena, 5);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
     allFolderResources?.map((r) => ({
       id: r.resourceId,
@@ -170,31 +167,6 @@ const MyNdlaPage = () => {
 
           <SafeLink to={routes.myNdla.subjects}>
             {t("myNdla.myPage.favouriteSubjects.viewAll")}
-            <StyledArrowRightLine />
-          </SafeLink>
-        </SectionWrapper>
-      )}
-      {!config.externalArena && !!recentArenaTopicsQuery.data?.items?.length && (
-        <SectionWrapper>
-          <Heading asChild consumeCss textStyle="heading.small">
-            <h2>{t("myNdla.myPage.recentArenaPosts.title")}</h2>
-          </Heading>
-          <StyledList>
-            {recentArenaTopicsQuery.data?.items?.map((topic) => (
-              <li key={topic.id}>
-                <TopicListItem
-                  id={topic.id}
-                  context="list"
-                  postCount={topic.postCount}
-                  voteCount={topic.voteCount}
-                  title={topic.title}
-                  timestamp={topic.created}
-                />
-              </li>
-            ))}
-          </StyledList>
-          <SafeLink to="arena">
-            {t("myNdla.myPage.recentArenaPosts.link")}
             <StyledArrowRightLine />
           </SafeLink>
         </SectionWrapper>
