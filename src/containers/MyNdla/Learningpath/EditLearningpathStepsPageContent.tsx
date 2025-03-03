@@ -17,6 +17,7 @@ import { LearningpathStepListItem } from "./components/LearningpathStepListItem"
 import { formValuesToGQLInput } from "./learningpathFormUtils";
 import { useCreateLearningpathStep } from "./learningpathMutations";
 import { FormValues } from "./types";
+import { useToast } from "../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 
@@ -42,6 +43,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const [isCreating, setIsCreating] = useState(false);
   const [createStep] = useCreateLearningpathStep(learningpath.id.toString() ?? "");
+  const toast = useToast();
 
   const onSaveStep = async (values: FormValues) => {
     if (learningpath?.id) {
@@ -53,6 +55,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         },
       });
       setIsCreating(false);
+      toast.create({ title: t("myNdla.learningpath.form.steps.created", { name: values.title }) });
     }
   };
 

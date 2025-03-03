@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
@@ -50,6 +51,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
   const [isEditing, setIsEditing] = useState(false);
 
   const { t, i18n } = useTranslation();
+  const toast = useToast();
 
   const [updateStep] = useUpdateLearningpathStep(learningpathId.toString());
   const [deleteStep] = useDeleteLearningpathStep(learningpathId.toString());
@@ -74,6 +76,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
       },
     });
     if (!res.errors?.length) {
+      toast.create({ title: t("myNdla.learningpath.form.steps.deleted", { name: step.title }) });
       close();
     }
   };

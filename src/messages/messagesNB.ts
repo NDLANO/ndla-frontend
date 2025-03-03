@@ -198,6 +198,8 @@ const messages = {
           save: "Lagre og del",
           edit: "Rediger steg",
           add: "Legg til steg",
+          created: "Et steg med tittel '{{ name }}' ble opprettet.",
+          deleted: "Et steg med tittel '{{ name }}' ble slettet.",
         },
       },
       title: "Mine læringsstier",
