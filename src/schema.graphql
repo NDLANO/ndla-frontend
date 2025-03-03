@@ -5,176 +5,6 @@ type AggregationResult {
   values: [BucketResult!]!
 }
 
-type ArenaBreadcrumb {
-  id: Int!
-  name: String!
-  type: String!
-}
-
-type ArenaCategory {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  children: [ArenaCategory!]
-  description: String!
-  disabled: Boolean!
-  htmlDescription: String!
-  id: Int!
-  name: String!
-  parentCategoryId: Int
-  postCount: Int!
-  slug: String!
-  topicCount: Int!
-  topics: [ArenaTopic!]
-  voteCount: Int
-}
-
-type ArenaCategoryV2 implements ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  categoryCount: Int
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  subcategories: [TopiclessArenaCategoryV2!]
-  title: String!
-  topicCount: Int!
-  topics: [ArenaTopicV2!]
-  visible: Boolean!
-  voteCount: Int
-}
-
-interface ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  title: String!
-  topicCount: Int!
-  visible: Boolean!
-  voteCount: Int
-}
-
-type ArenaFlag {
-  created: String!
-  flagger: ArenaUserV2
-  id: Int!
-  isResolved: Boolean!
-  reason: String!
-  resolved: String
-}
-
-type ArenaNewPostNotificationV2 {
-  id: Int!
-  isRead: Boolean!
-  notificationTime: String!
-  post: ArenaPostV2!
-  topicId: Int!
-  topicTitle: String!
-}
-
-type ArenaNotification {
-  bodyShort: String!
-  datetimeISO: String!
-  from: Int!
-  image: String
-  importance: Int!
-  notificationId: String!
-  path: String!
-  postId: Int!
-  read: Boolean!
-  readClass: String!
-  subject: String!
-  topicId: Int!
-  topicTitle: String!
-  type: String!
-  user: ArenaUser!
-}
-
-type ArenaPost {
-  content: String!
-  deleted: Boolean!
-  flagId: Int
-  id: Int!
-  isMainPost: Boolean!
-  replies: [ArenaPost!]!
-  timestamp: String!
-  toPid: Int
-  topicId: Int!
-  upvoted: Boolean!
-  upvotes: Int!
-  user: ArenaUser
-}
-
-type ArenaPostV2 {
-  content: String!
-  contentAsHTML: String
-  created: String!
-  flags: [ArenaFlag!]
-  id: Int!
-  owner: ArenaUserV2
-  replies: [ArenaPostV2!]!
-  topicId: Int!
-  updated: String!
-  upvoted: Boolean!
-  upvotes: Int!
-}
-
-type ArenaTopic {
-  breadcrumbs: [ArenaBreadcrumb!]!
-  categoryId: Int!
-  deleted: Boolean!
-  id: Int!
-  isFollowing: Boolean
-  locked: Boolean!
-  pinned: Boolean!
-  postCount: Int!
-  posts: [ArenaPost!]!
-  slug: String!
-  timestamp: String!
-  title: String!
-  voteCount: Int!
-}
-
-type ArenaTopicV2 {
-  categoryId: Int!
-  created: String!
-  id: Int!
-  isFollowing: Boolean!
-  isLocked: Boolean!
-  isPinned: Boolean!
-  postCount: Int!
-  posts: PaginatedPosts
-  title: String!
-  updated: String!
-  voteCount: Int!
-}
-
-type ArenaUser {
-  displayName: String!
-  groupTitleArray: [String!]
-  id: Int!
-  location: String
-  profilePicture: String
-  slug: String!
-  username: String!
-}
-
-type ArenaUserV2 {
-  displayName: String!
-  groups: [String!]!
-  id: Int!
-  location: String!
-  username: String!
-}
-
-input ArenaUserV2Input {
-  arenaEnabled: Boolean
-  arenaGroups: [String!]
-  favoriteSubjects: [String!]
-}
-
 type Article {
   articleType: String!
   availability: String
@@ -1002,49 +832,19 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): FolderResource!
-  addPostUpvote(postId: Int!): Int!
-  addPostUpvoteV2(postId: Int!): Int!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
-  deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
   deletePersonalData: Boolean!
-  deletePost(postId: Int!): Int!
-  deletePostV2(postId: Int!): Int!
-  deleteTopic(topicId: Int!): Int!
-  deleteTopicV2(topicId: Int!): Int!
   favoriteSharedFolder(folderId: String!): String!
-  followCategory(categoryId: Int!): ArenaCategoryV2!
-  followTopic(topicId: Int!): ArenaTopicV2!
-  markAllNotificationsAsRead: Boolean!
-  markNotificationAsRead(topicIds: [Int!]!): [Int!]!
-  markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
-  newArenaCategory(description: String!, parentCategoryId: Int, title: String!, visible: Boolean!): ArenaCategoryV2!
-  newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
-  newArenaTopicV2(
-    categoryId: Int!
-    content: String!
-    isLocked: Boolean
-    isPinned: Boolean
-    title: String!
-  ): ArenaTopicV2!
-  newFlag(id: Int!, reason: String!, type: String!): Int!
-  newFlagV2(postId: Int!, reason: String!): Int!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
-  removePostUpvote(postId: Int!): Int!
-  removePostUpvoteV2(postId: Int!): Int!
-  replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
-  replyToTopicV2(content: String!, postId: Int, topicId: Int!): ArenaPostV2!
-  resolveFlag(flagId: Int!): ArenaFlag!
-  sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   sortSavedSharedFolders(sortedIds: [String!]!): SortResult!
-  subscribeToTopic(topicId: Int!): Int!
   transformArticleContent(
     absoluteUrl: Boolean
     content: String!
@@ -1055,16 +855,6 @@ type Mutation {
     visualElement: String
   ): String!
   unFavoriteSharedFolder(folderId: String!): String!
-  unfollowCategory(categoryId: Int!): ArenaCategoryV2!
-  unfollowTopic(topicId: Int!): ArenaTopicV2!
-  unsubscribeFromTopic(topicId: Int!): Int!
-  updateArenaCategory(
-    categoryId: Int!
-    description: String!
-    parentCategoryId: Int
-    title: String!
-    visible: Boolean!
-  ): ArenaCategoryV2!
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
@@ -1075,15 +865,11 @@ type Mutation {
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
-  updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
   updatePersonalData(
     arenaAccepted: Boolean
     favoriteSubjects: [String]
     shareNameAccepted: Boolean
   ): MyNdlaPersonalData!
-  updatePost(content: String!, postId: Int!, title: String): ArenaPost!
-  updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
 }
 
 type MyNdlaGroup {
@@ -1138,7 +924,6 @@ type MyNdlaLearningpathStep {
 type MyNdlaPersonalData {
   arenaAccepted: Boolean!
   arenaEnabled: Boolean!
-  arenaGroups: [String!]!
   displayName: String!
   email: String!
   favoriteSubjects: [String!]!
@@ -1200,34 +985,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
 
 type Owner {
   name: String!
-}
-
-type PaginatedArenaNewPostNotificationV2 {
-  items: [ArenaNewPostNotificationV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedArenaUsers {
-  items: [ArenaUserV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedPosts {
-  items: [ArenaPostV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedTopics {
-  items: [ArenaTopicV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
 }
 
 type PodcastLicense {
@@ -1311,24 +1068,7 @@ type Query {
   aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
-  arenaAllFlags(page: Int, pageSize: Int): PaginatedPosts!
-  arenaCategories: [ArenaCategory!]!
-  arenaCategoriesV2(filterFollowed: Boolean): [ArenaCategoryV2!]!
-  arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
-  arenaCategoryV2(categoryId: Int!, page: Int, pageSize: Int): ArenaCategoryV2
   arenaEnabledOrgs: ConfigMetaStringList
-  arenaNotifications: [ArenaNotification!]!
-  arenaNotificationsV2(page: Int, pageSize: Int): PaginatedArenaNewPostNotificationV2!
-  arenaPostInContext(pageSize: Int, postId: Int!): ArenaTopicV2
-  arenaRecentTopics: [ArenaTopic!]!
-  arenaRecentTopicsV2(page: Int, pageSize: Int): PaginatedTopics!
-  arenaTopic(page: Int, topicId: Int!): ArenaTopic
-  arenaTopicV2(page: Int, pageSize: Int, topicId: Int!): ArenaTopicV2
-  arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
-  arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
-  arenaUser(username: String!): ArenaUser
-  arenaUserById(id: Int!): ArenaUser
-  arenaUserV2(username: String!): ArenaUserV2
   article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
@@ -1363,7 +1103,6 @@ type Query {
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!
-  listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
   myLearningpaths: [MyNdlaLearningpath!]
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
   node(contextId: String, id: String, parentId: String, rootId: String): Node
@@ -1742,21 +1481,6 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
   url: String
-}
-
-type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  categoryCount: Int
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  subcategories: [TopiclessArenaCategoryV2!]
-  title: String!
-  topicCount: Int!
-  visible: Boolean!
-  voteCount: Int
 }
 
 type Transcription {
