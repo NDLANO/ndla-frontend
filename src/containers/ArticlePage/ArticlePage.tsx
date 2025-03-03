@@ -84,6 +84,18 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
 const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -187,7 +199,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         <PageContent variant="article" asChild>
           <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
-        <PageContent variant="article" gutters="tabletUp">
+        <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
             <ArticleWrapper {...licenseProps}>
               <ArticleTitle
@@ -225,7 +237,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   ) : null
                 }
               />
-              <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
               <ArticleFooter>
                 <ArticleByline
                   footnotes={article.transformedContent.metaData?.footnotes ?? []}
@@ -253,7 +265,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
               </ArticleFooter>
             </ArticleWrapper>
           </PageContent>
-        </PageContent>
+        </StyledPageContent>
       </ContentTypeHero>
     </main>
   );
