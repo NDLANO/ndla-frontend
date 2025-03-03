@@ -76,7 +76,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
               refetchQueries: [{ query: myLearningpathQuery }],
             });
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-            if (res.errors?.length === 0) {
+            if (!res.errors?.length) {
               toast.create({
                 title: t("myNdla.learningpath.toast.deleted", {
                   name: learningpath.title,
@@ -116,7 +116,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
             });
 
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-            if (res.errors?.length === 0) {
+            if (!res.errors?.length) {
               toast.create({
                 title: t("myNdla.learningpath.toast.shared"),
               });
