@@ -48,14 +48,16 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const onSaveStep = async (values: FormValues) => {
     if (learningpath?.id) {
       const transformedData = formValuesToGQLInput(values);
-      await createStep({
+      const { errors } = await createStep({
         variables: {
           learningpathId: learningpath.id,
           params: { ...transformedData, language: i18n.language, showTitle: false },
         },
       });
-      setIsCreating(false);
-      toast.create({ title: t("myNdla.learningpath.form.steps.created", { name: values.title }) });
+      if (!errors?.length) {
+        setIsCreating(false);
+        toast.create({ title: t("myNdla.learningpath.form.steps.created", { name: values.title }) });
+      }
     }
   };
 
