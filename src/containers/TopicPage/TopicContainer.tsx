@@ -179,7 +179,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         ) : node.children?.length ? (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
-              <h2>{t("topicPage.topics")}</h2>
+              <h2>{t("topicsPage.topics")}</h2>
             </Heading>
             <StyledTransportationPageNodeListGrid>
               {node.children.map((node) => (
