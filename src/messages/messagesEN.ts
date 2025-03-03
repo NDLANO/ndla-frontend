@@ -324,6 +324,8 @@ const messages = {
           save: "Save and share",
           edit: "Edit step",
           add: "Add step",
+          created: "Created learningpath step with title: {{ name }}",
+          deleted: "Deleted learningpath step with title: {{ name }}",
         },
       },
       title: "My Learning Paths",
