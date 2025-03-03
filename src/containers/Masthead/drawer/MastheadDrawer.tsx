@@ -24,7 +24,7 @@ import {
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
-import { supportedLanguages } from "../../../i18n";
+import { preferredLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
 import { useUserAgent } from "../../../UserAgentContext";
@@ -277,7 +277,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  languages={supportedLanguages}
+                  languages={preferredLanguages}
                   onValueChange={(details) => {
                     setOpen(false);
                     setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);

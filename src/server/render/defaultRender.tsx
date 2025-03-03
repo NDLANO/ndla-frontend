@@ -13,7 +13,6 @@ import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client/react";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
@@ -21,30 +20,18 @@ import ResponseContext, { ResponseInfo } from "../../components/ResponseContext"
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
-import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
-function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
-  return abbreviation;
-}
-
 export const defaultRender: RenderFunc = async (req, chunks) => {
-  const resCookie = req.headers["cookie"] ?? "";
-
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
+  const locale = isValidLocale(abbreviation) ? abbreviation : config.defaultLocale;
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
     return {
       status: TEMPORARY_REDIRECT,

@@ -23,7 +23,7 @@ import {
   SelectTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { supportedLanguages } from "../i18n";
+import { preferredLanguages } from "../i18n";
 import { LocaleType } from "../interfaces";
 
 const LanguageSelectTrigger = styled(SelectTrigger, {
@@ -53,7 +53,7 @@ export const LanguageSelector = ({ languages, ...props }: Props) => {
         </Button>
       </LanguageSelectTrigger>
       <SelectContent>
-        {supportedLanguages.map((lang) => (
+        {preferredLanguages.map((lang) => (
           <SelectItem key={lang} item={lang}>
             <SelectItemText>{t(`languages.${lang}`)}</SelectItemText>
             <SelectItemIndicator>
