@@ -6,7 +6,6 @@
  *
  */
 
-import { sortBy } from "lodash-es";
 import queryString from "query-string";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,6 +21,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { GQLSearchPageQuery } from "../../graphqlTypes";
 import { searchPageQuery } from "../../queries";
 import { searchSubjects } from "../../util/searchHelpers";
+import { sortBy } from "../../util/sortBy";
 import { getAllDimensions } from "../../util/trackingUtil";
 
 const SearchPage = () => {

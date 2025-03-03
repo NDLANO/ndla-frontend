@@ -6,7 +6,6 @@
  *
  */
 
-import { groupBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
@@ -24,6 +23,7 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
+import { groupBy } from "../../util/groupBy";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";

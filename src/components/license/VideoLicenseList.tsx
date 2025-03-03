@@ -6,7 +6,6 @@
  *
  */
 
-import { uniqBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -21,6 +20,7 @@ import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
+import { uniqBy } from "../../util/uniq";
 import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,

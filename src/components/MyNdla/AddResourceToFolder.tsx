@@ -6,7 +6,6 @@
  *
  */
 
-import { compact, isEqual, sortBy, uniq } from "lodash-es";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
@@ -46,6 +45,7 @@ import {
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
+import { sortBy } from "../../util/sortBy";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
 
@@ -119,10 +119,10 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      const newTags = uniq(compact(getAllTags(folders)));
+      const newTags = [...new Set(getAllTags(folders).filter(Boolean))];
       setAllTags(newTags ?? []);
       setTags(newTags ?? []);
-      setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
+      setSelectedTags((prevTags) => [...new Set(prevTags.concat(_storedResource?.tags ?? []))]);
     }
   }, [folders, loading, resource.path, storedResource]);
 
@@ -142,9 +142,12 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
   const shouldUpdateFolderResource = (storedResource: GQLFolderResource, selectedTags: string[]) => {
-    const sortedStored = sortBy(storedResource.tags);
-    const sortedSelected = sortBy(selectedTags);
-    return !isEqual(sortedStored, sortedSelected);
+    const sortedStored = sortBy(storedResource.tags, (tag) => tag);
+    const sortedSelected = sortBy(selectedTags, (tag) => tag);
+    const isEqual =
+      sortedStored.length === sortedSelected.length &&
+      sortedStored.every((value, index) => value === sortedSelected[index]);
+    return !isEqual;
   };
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();

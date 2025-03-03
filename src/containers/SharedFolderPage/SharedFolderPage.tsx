@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -25,7 +24,7 @@ import FoldersPageTitle from "../../components/MyNdla/FoldersPageTitle";
 import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMetaFragment, GQLFoldersPageQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
@@ -106,7 +105,10 @@ const SharedFolderPage = () => {
     { skip: !folder || folder?.resources?.length === 0 },
   );
 
-  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
+  const keyedData = (data ?? [])?.reduce<Record<string, GQLFolderResourceMetaFragment>>((acc, resource) => {
+    acc[`${resource.type}-${resource.id}`] = resource;
+    return acc;
+  }, {});
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
   const warningText = t(`myNdla.folder.sharing.warning.${authenticated ? "authenticated" : "unauthenticated"}`, {

@@ -7,17 +7,17 @@
  */
 
 import type { TFunction } from "i18next";
-import { uniqBy, uniq } from "lodash-es";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceResourceType, GQLSharedFolder } from "../graphqlTypes";
+import { uniqBy } from "./uniq";
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
   const allTags = allFolders.flatMap((f) => f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)));
-  return uniq(allTags);
+  return [...new Set(allTags)];
 };
 
 export const getAllResources = (allFolders: GQLFolder[]): GQLFolderResource[] => {
   const allResources = allFolders.flatMap((f) => f.resources.concat(getAllResources(f.subfolders)));
-  return uniq(allResources);
+  return [...new Set(allResources)];
 };
 
 export const getResourceForPath = (allFolders: GQLFolder[], path: string): GQLFolderResource | undefined => {

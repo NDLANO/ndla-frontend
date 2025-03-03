@@ -6,7 +6,6 @@
  *
  */
 
-import { uniqBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -19,6 +18,7 @@ import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import config from "../../config";
 import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
+import { uniqBy } from "../../util/uniq";
 import {
   MediaList,
   MediaListItem,

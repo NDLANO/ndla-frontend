@@ -6,7 +6,6 @@
  *
  */
 
-import { isEqual, keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
@@ -18,6 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
+import { keyBy } from "../../../../util/keyBy";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
 import { makeDndSortFunction, makeDndTranslations } from "../util";
 
@@ -49,7 +49,9 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   useEffect(() => {
     const resourceIds = resources.map((f) => f.id).sort();
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
-    if (!isEqual(resourceIds, prevResourceIds) && focusId) {
+    const isEqual =
+      resourceIds.length === prevResourceIds.length && resourceIds.every((v, i) => v === prevResourceIds[i]);
+    if (!isEqual && focusId) {
       setTimeout(
         () => document.getElementById(`resource-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(),
         // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox

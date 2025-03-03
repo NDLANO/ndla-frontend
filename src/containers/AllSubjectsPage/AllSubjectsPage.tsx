@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import { sortBy } from "lodash-es";
 import { parse, stringify } from "query-string";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +27,7 @@ import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { nodeWithMetadataFragment } from "../../queries";
+import { sortBy } from "../../util/sortBy";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 

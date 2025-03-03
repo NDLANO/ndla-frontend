@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
@@ -23,6 +22,7 @@ import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
+import { keyBy } from "../../../util/keyBy";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
@@ -98,7 +98,7 @@ const Resources = ({ resources }: ResourcesProps) => {
     })),
     { skip: resources.length === 0 },
   );
-  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
+  const keyedData = keyBy(data, (resource) => `${resource.type}-${resource.id}`);
 
   const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
     if (examLock) return [];

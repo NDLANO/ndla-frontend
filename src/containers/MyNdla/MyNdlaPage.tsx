@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
@@ -30,6 +29,7 @@ import { myndlaLanguages } from "../../i18n";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getNdlaRobotDateFormat } from "../../util/formatDate";
+import { keyBy } from "../../util/keyBy";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";

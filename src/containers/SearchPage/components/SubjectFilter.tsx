@@ -6,7 +6,6 @@
  *
  */
 
-import { groupBy, sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
@@ -29,6 +28,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
+import { groupBy } from "../../../util/groupBy";
+import { sortBy } from "../../../util/sortBy";
 
 const OuterList = styled("ul", {
   base: {
