@@ -6,7 +6,6 @@
  *
  */
 
-import { isEqual } from "lodash-es";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -128,11 +127,12 @@ const FoldersPage = () => {
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
-    if (!isEqual(folderIds, prevFolderIds) && focusId) {
+    const isEqual = folderIds.length === prevFolderIds.length && folderIds.every((v, i) => v === prevFolderIds[i]);
+    if (!isEqual && focusId) {
       setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
       setFocusId(undefined);
       setPreviousFolders(folders);
-    } else if (!isEqual(folderIds, prevFolderIds) && folderIds.length === 1 && prevFolderIds?.length === 1) {
+    } else if (!isEqual && folderIds.length === 1 && prevFolderIds?.length === 1) {
       const id = folders[0]?.id;
       if (id) {
         setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
