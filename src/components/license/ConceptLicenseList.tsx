@@ -6,7 +6,6 @@
  *
  */
 
-import { uniqBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -22,6 +21,7 @@ import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
+import { uniqBy } from "../../util/uniq";
 import FavoriteButton from "../Article/FavoritesButton";
 import {
   MediaList,

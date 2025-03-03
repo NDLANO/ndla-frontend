@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { t } from "i18next";
-import { debounce } from "lodash-es";
 import { useState, useMemo, RefObject, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
@@ -49,6 +48,7 @@ import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
 import { ResourceData } from "./ResourceStepForm";
+import { debounce } from "../../../../util/debounce";
 
 const HitsWrapper = styled("div", {
   base: {

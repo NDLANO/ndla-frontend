@@ -7,7 +7,6 @@
  */
 
 import parse from "html-react-parser";
-import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -48,6 +47,7 @@ import {
 } from "../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
+import { debounce } from "../../../util/debounce";
 import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);

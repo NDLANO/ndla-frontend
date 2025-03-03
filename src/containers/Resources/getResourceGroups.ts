@@ -6,7 +6,6 @@
  *
  */
 
-import { partition, sortBy, uniqBy } from "lodash-es";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -17,6 +16,9 @@ import {
   RELEVANCE_CORE,
 } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
+import { partition } from "../../util/partition";
+import { sortBy } from "../../util/sortBy";
+import { uniqBy } from "../../util/uniq";
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,

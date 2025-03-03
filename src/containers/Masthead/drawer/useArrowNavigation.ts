@@ -6,7 +6,6 @@
  *
  */
 
-import { findIndex, nth } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 
 const ROOT_SELECTOR = '[role="menubar"], [role="tree"]';
@@ -15,9 +14,11 @@ const ITEM_SELECTOR = '[role="menuitem"], [role="treeitem"]';
 const getItem = (activeElement: Element, direction: number) => {
   const elements = activeElement.closest(ROOT_SELECTOR)?.querySelectorAll(ITEM_SELECTOR);
 
-  const index = findIndex(elements, (el) => el === activeElement);
+  const arr = Array.from(elements ?? []);
 
-  return nth(elements, index + direction);
+  const index = Array.from(arr).findIndex((el) => el === activeElement);
+
+  return arr.at(index + direction);
 };
 
 interface ArrowNavigationConfig {

@@ -5,11 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { partition, uniq } from "lodash-es";
+
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@apollo/client";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import { alertsQuery } from "../queries";
+import { partition } from "../util/partition";
 
 interface AlertsContextProps {
   openAlerts: GQLAlertsQuery["alerts"];
@@ -45,7 +46,7 @@ const getClosedAlerts = (): number[] => {
 const setClosedAlert = (id: number) => {
   try {
     const stored = getClosedAlerts();
-    const updated = uniq([...stored, id]);
+    const updated = [...new Set([...stored, id])];
     localStorage?.setItem("closedAlerts", JSON.stringify(updated));
   } catch {
     // eslint-disable-next-line no-console

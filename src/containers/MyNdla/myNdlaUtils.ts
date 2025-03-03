@@ -6,12 +6,12 @@
  *
  */
 
-import { keyBy } from "lodash-es";
+import { keyBy } from "../../util/keyBy";
 
 export const sortSubjectsByRecentlyFavourited = <T extends { id: string }>(
   subject: T[],
   favouriteSubjects: string[],
 ): T[] => {
-  const keyedSubjects = keyBy(subject, "id");
+  const keyedSubjects = keyBy(subject, (s) => s.id);
   return favouriteSubjects.map((id) => keyedSubjects[id]).filter(Boolean) as T[];
 };
