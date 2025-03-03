@@ -784,6 +784,7 @@ const messages = {
     competenceTabLK20label: "Competence goal",
     competenceTabCorelabel: "Core element",
     modalText: "Explore curriculum links",
+    showCompetenceGoals: "Show competence goals",
     competenceGoalItem: {
       title: "Competence goals and assessment",
     },

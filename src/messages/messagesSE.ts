@@ -779,6 +779,7 @@ const messages = {
     competenceTabLK20label: "Gealbomihttomearri",
     competenceTabCorelabel: "Guovddášelemeanta",
     modalText: "Suokkar oahppoplánačanastagaid",
+    showCompetenceGoals: "Čájet gealbomihttomeari",
     competenceGoalItem: {
       title: "Gealbomihttomearit ja árvvoštallan",
     },
