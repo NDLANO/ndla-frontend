@@ -147,7 +147,7 @@ export const ExternalStepForm = () => {
       <Stack align="start" gap="small">
         <Text>
           {t("myNdla.learningpath.form.content.external.copyright")}
-          <SafeLink to="https://ndla.no/article/opphavsrett">
+          <SafeLink to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering">
             {t("myNdla.learningpath.form.content.external.copyrightLink")}
           </SafeLink>
         </Text>
