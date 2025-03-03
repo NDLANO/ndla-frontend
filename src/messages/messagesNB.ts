@@ -782,6 +782,7 @@ const messages = {
     competenceTabLK20label: "Kompetansemål",
     competenceTabCorelabel: "Kjerneelement",
     modalText: "Utforsk læreplankoblinger",
+    showCompetenceGoals: "Vis kompetansemål",
     competenceGoalItem: {
       title: "Kompetansemål og vurdering",
     },
