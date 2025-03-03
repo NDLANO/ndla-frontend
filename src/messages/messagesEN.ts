@@ -403,10 +403,10 @@ const messages = {
     myNDLA: "My NDLA",
     myNDLAMenu: "My NDLA menu",
     support: "Support",
-    resources: "{{count}} Resource",
-    resources_plural: "{{count}} Resources",
-    folders: "{{count}} Folder",
-    folders_plural: "{{count}} Folders",
+    resources_one: "{{count}} Resource",
+    resources_other: "{{count}} Resources",
+    folders_one: "{{count}} Folder",
+    folders_other: "{{count}} Folders",
     settings: "Settings",
     showEditOptions: "Show editing options",
     folder: {
@@ -491,10 +491,10 @@ const messages = {
       learningpath: "Learning paths",
     },
     tagList: "Tags",
-    tags: "{{count}} tag",
-    tags_plural: "{{count}} tags",
-    moreTags: "Show one more tag",
-    moreTags_plural: "Show {{count}} more tags",
+    tags_one: "{{count}} tag",
+    tags_other: "{{count}} tags",
+    moreTags_one: "Show one more tag",
+    moreTags_other: "Show {{count}} more tags",
     confirmDeleteFolder:
       "Are you sure you want to delete this folder? Subfolders of this folder will also be deleted. This action cannot be undone.",
 
@@ -600,9 +600,8 @@ const messages = {
     },
     favoriteSubjects: {
       title: "My subjects",
-      subjects: "{{count}} subject",
-      subjects_0: "{{count}} subjects",
-      subjects_plural: "{{count}} subjects",
+      subjects_one: "{{count}} subject",
+      subjects_other: "{{count}} subjects",
       noFavorites: "Add a heart to subjects, and they will show up here.",
       goToAllSubjects: "Go to all subjects",
     },
@@ -834,8 +833,8 @@ const messages = {
     grades: "Grades",
   },
   common: {
-    subject: "Subject",
-    subject_plural: "Subjects",
+    subject_one: "Subject",
+    subject_other: "Subjects",
   },
   resource: {
     noCoreResourcesAvailableUnspecific: "There is no core content available.",
