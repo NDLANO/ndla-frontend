@@ -73,15 +73,15 @@ const MyNdlaPage = () => {
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
-  const { allFolderResources } = useRecentlyUsedResources(!authenticated);
+  const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources?.map((r) => ({
+    recentlyUsedResources?.allFolderResources?.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })) ?? [],
     {
-      skip: !allFolderResources || !allFolderResources.length,
+      skip: !recentlyUsedResources?.allFolderResources.length,
     },
   );
 
@@ -194,13 +194,13 @@ const MyNdlaPage = () => {
             </SafeLink>
           </SectionWrapper>
         </>
-      ) : !!allFolderResources && allFolderResources?.length > 0 ? (
+      ) : recentlyUsedResources?.allFolderResources?.length ? (
         <SectionWrapper>
           <Heading asChild consumeCss textStyle="heading.small">
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
           <StyledList>
-            {allFolderResources.map((res) => {
+            {recentlyUsedResources.allFolderResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <li key={res.id}>

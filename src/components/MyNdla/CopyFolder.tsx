@@ -50,11 +50,11 @@ const CopyFolder = ({ folder, onClose }: Props) => {
   const { t } = useTranslation();
   const toast = useToast();
   const { folders, loading } = useFolders();
-  const copySharedFolderMutation = useCopySharedFolderMutation();
+  const [copySharedFolder, { error, loading: copyLoading }] = useCopySharedFolderMutation();
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   const onSave = async () => {
-    await copySharedFolderMutation.copySharedFolder({
+    await copySharedFolder({
       variables: {
         folderId: folder.id,
         destinationFolderId: selectedFolderId === "folders" ? undefined : selectedFolderId,
@@ -96,7 +96,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
               <InformationLine />
               <Text>{t("myNdla.copyFolderDisclaimer")}</Text>
             </MessageBox>
-            {!!copySharedFolderMutation.error && (
+            {!!error && (
               <MessageBox variant="error">
                 <AlertLine />
                 <Text>{t("errorMessage.description")}</Text>
@@ -119,7 +119,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
           {t("cancel")}
         </Button>
         <Button
-          loading={copySharedFolderMutation.loading}
+          loading={copyLoading}
           disabled={examLock}
           onMouseDown={(e) => {
             e.preventDefault();
@@ -128,7 +128,7 @@ const CopyFolder = ({ folder, onClose }: Props) => {
             e.preventDefault();
           }}
           onClick={onSave}
-          aria-label={copySharedFolderMutation.loading ? t("loading") : undefined}
+          aria-label={copyLoading ? t("loading") : undefined}
         >
           {t("myNdla.resource.save")}
         </Button>

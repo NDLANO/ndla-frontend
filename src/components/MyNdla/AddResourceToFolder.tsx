@@ -147,8 +147,10 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     return !isEqual(sortedStored, sortedSelected);
   };
 
-  const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
+  const [updateFolderResource] = useUpdateFolderResourceMutation();
+  const [addResourceToFolder, { loading: addResourceLoading }] = useAddResourceToFolderMutation(
+    selectedFolder?.id ?? "",
+  );
 
   const allTagsCollection = useMemo(() => createListCollection({ items: allTags }), [allTags]);
 
@@ -156,7 +158,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
   const onSave = async () => {
     if (selectedFolder && !alreadyAdded) {
-      await addResourceToFolder({
+      const res = await addResourceToFolder({
         variables: {
           resourceId: resource.id,
           resourceType: resource.resourceType,
@@ -165,20 +167,32 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-
-      toast.create({
-        title: t("myNdla.resource.added"),
-        description: <ResourceAddedSnack folder={selectedFolder} />,
-      });
+      if (!res.errors?.length) {
+        onClose();
+        toast.create({
+          title: t("myNdla.resource.added"),
+          description: <ResourceAddedSnack folder={selectedFolder} />,
+        });
+      } else {
+        toast.create({
+          title: t("myNdla.resource.addedFailed"),
+        });
+      }
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
-      await updateFolderResource({
+      const res = await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      toast.create({
-        title: t("myNdla.resource.tagsUpdated"),
-      });
+      if (!res.errors?.length) {
+        onClose();
+        toast.create({
+          title: t("myNdla.resource.tagsUpdated"),
+        });
+      } else {
+        toast.create({
+          title: t("myNdla.resource.tagsUpdatedFailed"),
+        });
+      }
     }
-    onClose();
   };
 
   const onInputValueChange = (e: ComboboxInputValueChangeDetails) => {
