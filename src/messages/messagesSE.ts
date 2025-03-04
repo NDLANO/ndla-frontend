@@ -792,6 +792,7 @@ const messages = {
     nextArrow: "Mana boahtte lávkái",
     previousArrow: "Mana ovddit lávkái",
     youAreInALearningPath: "Don leat dál muhtin oahppobálgás",
+    lastUpdated: "Maŋemus ođastuvvon",
     lastStep: {
       heading: "Maŋemus ceahkki oahppobálgás",
       headingSmall: "Don leat dál oahppobálgá maŋemus ceahkis {{learningPathName}}",

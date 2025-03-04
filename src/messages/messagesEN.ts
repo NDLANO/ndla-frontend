@@ -794,6 +794,7 @@ const messages = {
     leadsTo: "Leads to",
   },
   learningPath: {
+    lastUpdated: "Last updated",
     youAreInALearningPath: "You are now in a learningpath",
     nextArrow: "Go to next step",
     previousArrow: "Go to previous step",

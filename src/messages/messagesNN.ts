@@ -791,6 +791,7 @@ const messages = {
     leadsTo: "Leier til",
   },
   learningPath: {
+    lastUpdated: "Sist oppdatert",
     youAreInALearningPath: "Du er no inne i ein læringssti",
     nextArrow: "Gå til neste steg",
     previousArrow: "Gå til førre steg",
