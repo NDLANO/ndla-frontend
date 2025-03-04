@@ -45,7 +45,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const [open, setOpen] = useState(false);
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, user } = useContext(AuthContext);
 
   const [copyLearningPath] = useCopyLearningpathMutation();
 
@@ -53,10 +53,20 @@ const CopyLearningPath = ({ learningpath }: Props) => {
 
   const onCopyLearningPath = async () => {
     try {
+      const contributors = learningpath.copyright.contributors
+        .map((c) => ({ name: c.name, type: c.type }))
+        .concat({
+          type: "writer",
+          name: user?.displayName ?? "User",
+        });
       const res = await copyLearningPath({
         variables: {
           learningpathId: learningpath.id,
-          params: { title: `${learningpath.title}_Kopi`, language: i18n.language },
+          params: {
+            title: `${learningpath.title}_Kopi`,
+            language: i18n.language,
+            copyright: { license: { license: learningpath.copyright.license.license }, contributors },
+          },
         },
       });
       if (!res.errors?.length) {
