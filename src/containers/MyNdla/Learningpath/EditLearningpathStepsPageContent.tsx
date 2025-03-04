@@ -56,7 +56,9 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
       });
       if (!errors?.length) {
         setIsCreating(false);
-        toast.create({ title: t("myNdla.learningpath.form.steps.created", { name: values.title }) });
+        toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
+      } else {
+        toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
     }
   };

@@ -83,10 +83,16 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
                 }),
               });
               close();
+              setTimeout(() => {
+                (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus();
+              }, 1000);
+            } else {
+              toast.create({
+                title: t("myNdla.learningpath.toast.deletedFailed", {
+                  name: learningpath.title,
+                }),
+              });
             }
-            setTimeout(() => {
-              (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus();
-            }, 1000);
           }}
         />
       ),

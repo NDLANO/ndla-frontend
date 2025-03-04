@@ -58,14 +58,18 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
 
   const onSave = async (data: FormValues) => {
     const transformedData = formValuesToGQLInput(data);
-    await updateStep({
+    const res = await updateStep({
       variables: {
         learningpathId: learningpathId,
         learningstepId: step.id,
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
-    setIsEditing(false);
+    if (!res.errors?.length) {
+      setIsEditing(false);
+    } else {
+      toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: step.title }) });
+    }
   };
 
   const onDelete = async (close: VoidFunction) => {
@@ -76,8 +80,10 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
       },
     });
     if (!res.errors?.length) {
-      toast.create({ title: t("myNdla.learningpath.form.steps.deleted", { name: step.title }) });
+      toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
       close();
+    } else {
+      toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: step.title }) });
     }
   };
 
