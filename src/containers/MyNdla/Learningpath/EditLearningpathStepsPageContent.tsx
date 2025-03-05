@@ -41,7 +41,7 @@ interface Props {
 
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
-  const [formId, setFormId] = useState<undefined | number>(undefined);
+  const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<undefined | number>(undefined);
   const [createStep] = useCreateLearningpathStep(learningpath.id.toString() ?? "");
   const toast = useToast();
 
@@ -55,7 +55,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         },
       });
       if (!errors?.length) {
-        setFormId(undefined);
+        setSelectedLearningpathStepId(undefined);
         toast.create({ title: t("myNdla.learningpath.form.steps.created", { name: values.title }) });
       }
     }
@@ -73,19 +73,23 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
               learningpathId={learningpath.id ?? -1}
               step={step}
               key={step.id}
-              formId={formId}
-              setFormId={setFormId}
+              selectedLearningpathStepId={selectedLearningpathStepId}
+              setSelectedLearningpathStepId={setSelectedLearningpathStepId}
             />
           ))}
         </StyledOl>
-        {!formId || formId !== -1 ? (
-          <AddButton variant="secondary" onClick={() => setFormId(-1)}>
+        {!selectedLearningpathStepId || selectedLearningpathStepId !== -1 ? (
+          <AddButton variant="secondary" onClick={() => setSelectedLearningpathStepId(-1)}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : null}
-        {formId === -1 ? (
-          <LearningpathStepForm stepType="text" onClose={() => setFormId(undefined)} onSave={onSaveStep} />
+        {selectedLearningpathStepId === -1 ? (
+          <LearningpathStepForm
+            stepType="text"
+            onClose={() => setSelectedLearningpathStepId(undefined)}
+            onSave={onSaveStep}
+          />
         ) : null}
       </Stack>
       <Stack justify="space-between" direction="row">

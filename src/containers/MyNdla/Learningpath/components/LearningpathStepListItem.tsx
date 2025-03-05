@@ -45,15 +45,15 @@ const ContentWrapper = styled("div", {
 interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
-  formId?: number;
-  setFormId: Dispatch<SetStateAction<number | undefined>>;
+  selectedLearningpathStepId: number | undefined;
+  setSelectedLearningpathStepId: Dispatch<SetStateAction<number | undefined>>;
 }
 
 export const LearningpathStepListItem = ({
   step,
   learningpathId,
-  formId,
-  setFormId,
+  selectedLearningpathStepId,
+  setSelectedLearningpathStepId,
 }: LearningpathStepListItemProps) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
@@ -70,7 +70,7 @@ export const LearningpathStepListItem = ({
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
-    setFormId(undefined);
+    setSelectedLearningpathStepId(undefined);
   };
 
   const onDelete = async (close: VoidFunction) => {
@@ -90,25 +90,25 @@ export const LearningpathStepListItem = ({
 
   return (
     <li>
-      <ContentWrapper editing={step.id === formId}>
+      <ContentWrapper editing={step.id === selectedLearningpathStepId}>
         <Stack gap="xxsmall">
           <Text fontWeight="bold" textStyle="label.medium">
             {step.title}
           </Text>
           <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
         </Stack>
-        {step.id !== formId ? (
-          <Button variant="tertiary" onClick={() => setFormId(step.id)}>
+        {step.id !== selectedLearningpathStepId ? (
+          <Button variant="tertiary" onClick={() => setSelectedLearningpathStepId(step.id)}>
             {t("myNdla.learningpath.form.steps.edit")} <PencilLine />
           </Button>
         ) : (
-          <Button variant="tertiary" onClick={() => setFormId(undefined)}>
+          <Button variant="tertiary" onClick={() => setSelectedLearningpathStepId(undefined)}>
             <CloseLine />
             {t("close")}
           </Button>
         )}
       </ContentWrapper>
-      {step.id === formId ? (
+      {step.id === selectedLearningpathStepId ? (
         <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
       ) : null}
     </li>
