@@ -245,7 +245,7 @@ const messages = {
       editLearningpathTitle: "Rediger læringsstitittel",
       form: {
         delete: "Slett",
-        next: "Neste",
+        next: "Gå videre",
         back: "Forrige",
         deleteStep: "Slett trinn",
         deleteBody: "Innholdet kan ikke gjenopprettes",
