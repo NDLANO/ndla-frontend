@@ -6,7 +6,7 @@
  *
  */
 
-import { compact, isEqual, sortBy, uniq } from "lodash-es";
+import { compact, sortBy, uniq } from "lodash-es";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
@@ -144,7 +144,10 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   const shouldUpdateFolderResource = (storedResource: GQLFolderResource, selectedTags: string[]) => {
     const sortedStored = sortBy(storedResource.tags);
     const sortedSelected = sortBy(selectedTags);
-    return !isEqual(sortedStored, sortedSelected);
+    const isEqual =
+      sortedSelected.length === sortedStored.length &&
+      sortedSelected.every((value, index) => value === sortedStored[index]);
+    return !isEqual;
   };
 
   const { updateFolderResource } = useUpdateFolderResourceMutation();

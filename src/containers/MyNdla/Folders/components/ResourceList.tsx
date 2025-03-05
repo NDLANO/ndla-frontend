@@ -6,7 +6,7 @@
  *
  */
 
-import { isEqual, keyBy } from "lodash-es";
+import { keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
@@ -49,7 +49,9 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   useEffect(() => {
     const resourceIds = resources.map((f) => f.id).sort();
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
-    if (!isEqual(resourceIds, prevResourceIds) && focusId) {
+    const isEqual =
+      resourceIds.length === prevResourceIds.length && resourceIds.every((v, i) => v === prevResourceIds[i]);
+    if (!isEqual && focusId) {
       setTimeout(
         () => document.getElementById(`resource-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(),
         // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox
