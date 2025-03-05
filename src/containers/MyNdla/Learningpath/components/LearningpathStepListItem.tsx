@@ -6,7 +6,7 @@
  *
  */
 
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
@@ -45,11 +45,16 @@ const ContentWrapper = styled("div", {
 interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
+  formId?: number;
+  setFormId: Dispatch<SetStateAction<number | undefined>>;
 }
 
-export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathStepListItemProps) => {
-  const [isEditing, setIsEditing] = useState(false);
-
+export const LearningpathStepListItem = ({
+  step,
+  learningpathId,
+  formId,
+  setFormId,
+}: LearningpathStepListItemProps) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
 
@@ -65,7 +70,7 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
-    setIsEditing(false);
+    setFormId(undefined);
   };
 
   const onDelete = async (close: VoidFunction) => {
@@ -85,25 +90,27 @@ export const LearningpathStepListItem = ({ step, learningpathId }: LearningpathS
 
   return (
     <li>
-      <ContentWrapper editing={isEditing}>
+      <ContentWrapper editing={step.id === formId}>
         <Stack gap="xxsmall">
           <Text fontWeight="bold" textStyle="label.medium">
             {step.title}
           </Text>
           <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
         </Stack>
-        {!isEditing ? (
-          <Button variant="tertiary" onClick={() => setIsEditing(true)}>
+        {step.id !== formId ? (
+          <Button variant="tertiary" onClick={() => setFormId(step.id)}>
             {t("myNdla.learningpath.form.steps.edit")} <PencilLine />
           </Button>
         ) : (
-          <Button variant="tertiary" onClick={() => setIsEditing(false)}>
+          <Button variant="tertiary" onClick={() => setFormId(undefined)}>
             <CloseLine />
             {t("close")}
           </Button>
         )}
       </ContentWrapper>
-      {isEditing ? <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} /> : null}
+      {step.id === formId ? (
+        <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
+      ) : null}
     </li>
   );
 };
