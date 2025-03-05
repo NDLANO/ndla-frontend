@@ -247,7 +247,7 @@ const messages = {
       editLearningpathTitle: "Edit learningpath title",
       form: {
         delete: "Delete",
-        next: "Next",
+        next: "Proceed",
         back: "Back",
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",
@@ -801,6 +801,7 @@ const messages = {
     leadsTo: "Leads to",
   },
   learningPath: {
+    lastUpdated: "Last updated",
     youAreInALearningPath: "You are now in a learningpath",
     nextArrow: "Go to next step",
     previousArrow: "Go to previous step",

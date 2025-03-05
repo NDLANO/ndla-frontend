@@ -87,7 +87,7 @@ export const LearningpathStep = ({
 
   const shouldUseConverter =
     !!articleId &&
-    !learningpathStep.resource?.article &&
+    !!learningpathStep.resource?.article &&
     !!learningpathStep.embedUrl &&
     urlIsNDLAUrl(learningpathStep.embedUrl?.url);
 

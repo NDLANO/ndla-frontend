@@ -246,7 +246,7 @@ const messages = {
       editLearningpathTitle: "Rediger tittel på læringssti",
       form: {
         delete: "Slett",
-        next: "Neste",
+        next: "Gå videre",
         back: "Forrige",
         deleteStep: "Slett steg",
         deleteBody: "Innholdet kan ikke gjenopprettes",
@@ -802,6 +802,7 @@ const messages = {
     youAreInALearningPath: "Du er nå inne i en læringssti",
     nextArrow: "Gå til neste steg",
     previousArrow: "Gå til forrige steg",
+    lastUpdated: "Sist oppdatert",
     lastStep: {
       heading: "Siste steg i læringsstien",
       headingSmall: "Du er nå på siste steget i læringsstien {{learningPathName}}",

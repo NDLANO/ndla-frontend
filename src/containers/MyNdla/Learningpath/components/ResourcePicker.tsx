@@ -40,7 +40,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import config from "../../../../config";
 import {
-  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
@@ -107,7 +109,7 @@ const StyledComboboxItem = styled(ComboboxItem, {
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
-/**  
+/**
   Copied from Editorial
 
  keyboard scrolling does not work properly when items are not nested directly within
@@ -137,9 +139,11 @@ export const ResourcePicker = ({ setResource }: Props) => {
       page: delayedSearchObject.page,
       pageSize: delayedSearchObject.pageSize,
       resourceTypes: [
-        RESOURCE_TYPE_LEARNING_PATH,
         RESOURCE_TYPE_SUBJECT_MATERIAL,
         RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+        RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+        RESOURCE_TYPE_CONCEPT,
+        RESOURCE_TYPE_SOURCE_MATERIAL,
       ].join(),
     },
     fetchPolicy: "no-cache",
@@ -227,7 +231,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
               }
             }}
           >
-            <Input placeholder={t("searchPage.searchFieldPlaceholder")} />
+            <Input placeholder={t("searchPage.searchFieldPlaceholderShort")} />
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>

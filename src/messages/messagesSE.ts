@@ -245,7 +245,7 @@ const messages = {
       editLearningpathTitle: "Rediger læringsstitittel",
       form: {
         delete: "Slett",
-        next: "Neste",
+        next: "Gå videre",
         back: "Forrige",
         deleteStep: "Slett trinn",
         deleteBody: "Innholdet kan ikke gjenopprettes",
@@ -799,6 +799,7 @@ const messages = {
     nextArrow: "Mana boahtte lávkái",
     previousArrow: "Mana ovddit lávkái",
     youAreInALearningPath: "Don leat dál muhtin oahppobálgás",
+    lastUpdated: "Maŋemus ođastuvvon",
     lastStep: {
       heading: "Maŋemus ceahkki oahppobálgás",
       headingSmall: "Don leat dál oahppobálgá maŋemus ceahkis {{learningPathName}}",

@@ -246,7 +246,7 @@ const messages = {
       editLearningpathTitle: "Rediger læringsstitittel",
       form: {
         delete: "Slett",
-        next: "Neste",
+        next: "Gå vidare",
         back: "Førre",
         deleteStep: "Slett trinn",
         deleteBody: "Innhaldet kan ikkje gjenopprettast",
@@ -798,6 +798,7 @@ const messages = {
     leadsTo: "Leier til",
   },
   learningPath: {
+    lastUpdated: "Sist oppdatert",
     youAreInALearningPath: "Du er no inne i ein læringssti",
     nextArrow: "Gå til neste steg",
     previousArrow: "Gå til førre steg",

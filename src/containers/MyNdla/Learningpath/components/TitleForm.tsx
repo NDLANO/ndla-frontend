@@ -105,7 +105,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
             {t("cancel")}
           </SafeLinkButton>
-          <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+          <Button variant="secondary" type="submit">
+            {t("myNdla.learningpath.form.next")}
+          </Button>
         </Stack>
       ) : null}
     </StyledForm>
