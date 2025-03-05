@@ -121,7 +121,6 @@
     "prom-client": "^15.1.2",
     "query-string": "5",
     "react": "^19.0.0",
-    "react-device-detect": "^2.2.3",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.53.2",
     "react-i18next": "^15.4.1",

@@ -23,7 +23,6 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { IFolderDTO } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
-import { useUserAgent } from "../../UserAgentContext";
 import useValidationTranslation from "../../util/useValidationTranslation";
 
 interface Props {
@@ -54,13 +53,10 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
   const { addFolder, loading } = useAddFolderMutation();
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const selectors = useUserAgent();
 
   useEffect(() => {
-    if (selectors?.isMobile) {
-      ref.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [ref, selectors?.isMobile]);
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [ref]);
 
   const onSave = async () => {
     if (error) {

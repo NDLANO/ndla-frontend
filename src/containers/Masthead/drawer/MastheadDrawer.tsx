@@ -27,7 +27,6 @@ import {
 import { preferredLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
-import { useUserAgent } from "../../../UserAgentContext";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
 
@@ -131,7 +130,6 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const { t, i18n } = useTranslation();
-  const userAgent = useUserAgent();
   const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
@@ -220,7 +218,6 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
       finalFocusEl={() => drawerTriggerRef.current}
-      closeOnInteractOutside={!userAgent?.isMobile}
     >
       <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton

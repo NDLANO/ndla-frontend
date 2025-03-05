@@ -41,7 +41,7 @@ const StyledButtonList = styled("ul", {
     margin: "0",
     padding: "0",
 
-    desktop: {
+    tablet: {
       display: "flex",
     },
   },
@@ -50,7 +50,7 @@ const StyledButtonList = styled("ul", {
 const SettingsMenuWrapper = styled("div", {
   base: {
     display: "none",
-    mobileWideToDesktop: {
+    mobileWideToTablet: {
       display: "unset",
     },
   },
@@ -108,7 +108,7 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
             </StyledButtonList>
             {!!menuItems?.length && (
               <SettingsMenuWrapper>
-                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} showSingle elementSize="small" />
+                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} elementSize="small" />
               </SettingsMenuWrapper>
             )}
           </div>
