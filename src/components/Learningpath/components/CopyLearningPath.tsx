@@ -24,7 +24,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCopyLearningpathMutation } from "../../../containers/MyNdla/Learningpath/learningpathMutations";
-import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { GQLLearningpath_LearningpathFragment, GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";
@@ -51,13 +51,13 @@ const CopyLearningPath = ({ learningpath }: Props) => {
 
   const onError = () => toast.create({ title: t("myNdla.learningpath.copy.error") });
 
-  const onCopyLearningPath = async () => {
+  const onCopyLearningPath = async (user: GQLMyNdlaPersonalDataFragmentFragment) => {
     try {
       const contributors = learningpath.copyright.contributors
         .map((c) => ({ name: c.name, type: c.type }))
         .concat({
           type: "writer",
-          name: user?.displayName ?? "User",
+          name: user.displayName,
         });
       const res = await copyLearningPath({
         variables: {
@@ -99,7 +99,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
           <StyledFileCopyLine />
         </IconButton>
       </DialogTrigger>
-      {authenticated ? (
+      {authenticated && user ? (
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("myNdla.learningpath.copy.title")}</DialogTitle>
@@ -109,7 +109,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
             <Text>{t("myNdla.learningpath.copy.description")}</Text>
           </DialogBody>
           <DialogFooter>
-            <Button onClick={onCopyLearningPath}>
+            <Button onClick={() => onCopyLearningPath(user)}>
               <FileCopyLine />
               {t("myNdla.learningpath.copy.button")}
             </Button>
