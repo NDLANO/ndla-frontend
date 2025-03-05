@@ -342,7 +342,7 @@ const messages = {
         copy: "Kopier lenke",
       },
       toast: {
-        createdFailed: "Læringsstien kunne ikkje bli oppretta.",
+        createdFailed: "Klarte ikkje oppretta læringssti.",
         deleted: 'Læringsstien "{{ name }}" er sletta.',
         deletedFailed: 'Kunne ikkje slette læringsstien "{{ name }}".',
         unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',

@@ -340,7 +340,7 @@ const messages = {
         copy: "Kopier lenke",
       },
       toast: {
-        createdFailed: "Læringsstien kunne ikke bli opprettet.",
+        createdFailed: "Klarte ikke opprette læringssti.",
         deleted: 'Læringsstien "{{ name }}" er slettet.',
         deletedFailed: 'Kunne ikke slette læringstien "{{ name }}".',
         unshared: 'Læringsstien "{{ name }}" er ikke lenger delt.',

@@ -342,7 +342,7 @@ const messages = {
         copy: "Copy Link",
       },
       toast: {
-        createdFailed: "The learning path could not be created.",
+        createdFailed: "Could not create learningpath.",
         deleted: 'The learning path "{{ name }}" has been deleted.',
         deletedFailed: 'Deleting the learning path "{{ name }}" failed.',
         unshared: 'The learning path "{{ name }}" is no longer shared.',
