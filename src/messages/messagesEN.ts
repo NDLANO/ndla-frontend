@@ -247,7 +247,7 @@ const messages = {
       editLearningpathTitle: "Edit learningpath title",
       form: {
         delete: "Delete",
-        next: "Next",
+        next: "Proceed",
         back: "Back",
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",

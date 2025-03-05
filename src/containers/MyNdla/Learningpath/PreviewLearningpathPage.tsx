@@ -128,7 +128,7 @@ export const PreviewLearningpathPage = () => {
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditSteps(learningpath.id)}>
           {t("myNdla.learningpath.form.back")}
         </SafeLinkButton>
-        <SafeLinkButton to={routes.myNdla.learningpathSave(learningpath.id)}>
+        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathSave(learningpath.id)}>
           {t("myNdla.learningpath.form.next")}
         </SafeLinkButton>
       </LearningpathFormButtonContainer>
