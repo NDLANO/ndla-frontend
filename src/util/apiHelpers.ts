@@ -6,11 +6,11 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
+import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
 import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
@@ -247,31 +247,4 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
   });
 
   return ApolloLink.from([errorLink, headersLink, new BatchHttpLink({ uri })]);
-};
-
-type HttpHeaders = {
-  headers?: {
-    "Content-Type": string;
-  };
-};
-
-export const fetchAuthorized = (url: string, config?: HttpHeaders) => fetchWithAuthorization(url, false, config);
-
-export const fetchWithAuthorization = async (url: string, forceAuth: boolean, config?: HttpHeaders) => {
-  if (forceAuth || !isAccessTokenValid()) {
-    await renewAuth();
-  }
-
-  const contentType = config?.headers ? config?.headers["Content-Type"] : "text/plain";
-  const extraHeaders: HeadersInit = contentType ? { "Content-Type": contentType } : {};
-  const cacheControl: HeadersInit = { "Cache-Control": "no-cache" };
-
-  return fetch(url, {
-    ...config,
-    headers: {
-      ...extraHeaders,
-      ...cacheControl,
-      FeideAuthorization: `Bearer ${getAccessToken(document.cookie)}`,
-    },
-  });
 };
