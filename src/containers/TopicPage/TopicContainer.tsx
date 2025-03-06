@@ -19,6 +19,7 @@ import { NoSSR } from "@ndla/util";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -168,6 +169,13 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                   ? parse(node.article.htmlIntroduction)
                   : node.meta?.metaDescription}
               </Text>
+            )}
+            {!!node.article?.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+              <CompetenceGoals
+                codes={node.article.grepCodes}
+                subjectId={node.context?.rootId}
+                supportedLanguages={node.article.supportedLanguages}
+              />
             )}
           </HeaderWrapper>
           <TransportationPageVisualElement embed={embedMeta} metaImage={node.article?.metaImage} />
