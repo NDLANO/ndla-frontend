@@ -9,8 +9,7 @@
 import { keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient } from "@apollo/client";
-import { Reference } from "@apollo/client/cache";
+import { useApolloClient, Reference } from "@apollo/client";
 import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";

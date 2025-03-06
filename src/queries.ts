@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client/core";
+import { gql } from "@apollo/client";
 
 export const contextQuery = gql`
   query Context($contextId: String!) {

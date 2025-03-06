@@ -10,7 +10,7 @@ import { getSelectorsByUserAgent } from "react-device-detect";
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
-import { ApolloProvider } from "@apollo/client/react";
+import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
