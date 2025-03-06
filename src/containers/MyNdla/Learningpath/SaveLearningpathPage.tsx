@@ -113,7 +113,7 @@ export const SaveLearningpathPage = () => {
   }
 
   const learningpath = learningpathQuery.data.myNdlaLearningpath;
-  const isShared = learningpath.status === LEARNINGPATH_SHARED;
+  const isShared = !open && learningpath.status === LEARNINGPATH_SHARED;
 
   return (
     <MyNdlaPageWrapper type="learningpath">
