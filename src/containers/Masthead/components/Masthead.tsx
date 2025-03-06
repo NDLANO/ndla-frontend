@@ -34,7 +34,11 @@ const StyledMasthead = styled("header", {
     zIndex: "banner",
     boxShadow: "inner",
 
-    "&[data-fixed=true]": { top: 0, position: "sticky", _print: { position: "relative" } },
+    "@media screen and (max-resolution: 3x)": {
+      top: 0,
+      position: "sticky",
+      _print: { position: "relative" },
+    },
   },
 });
 
@@ -60,17 +64,16 @@ interface Alert {
 
 interface Props {
   children?: ReactNode;
-  fixed?: boolean;
   skipToMainContentId?: string;
   messages?: Alert[];
   onCloseAlert?: (id: number) => void;
 }
 
-export const Masthead = ({ children, fixed, skipToMainContentId, messages, onCloseAlert }: Props) => {
+export const Masthead = ({ children, skipToMainContentId, messages, onCloseAlert }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledMasthead data-fixed={!!fixed} id="masthead">
+    <StyledMasthead id="masthead">
       {!!skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
       {messages?.map((message) => (
         <MessageBannerWrapper key={message.number}>

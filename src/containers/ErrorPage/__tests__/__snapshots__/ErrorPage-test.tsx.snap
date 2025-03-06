@@ -3,8 +3,7 @@
 exports[`ErrorPage renderers correctly 1`] = `
 <DocumentFragment>
   <header
-    class="bg_surface.default z_banner bx-sh_inner [&[data-fixed=true]]:top_0 [&[data-fixed=true]]:pos_sticky [&[data-fixed=true]]:print:pos_relative"
-    data-fixed="true"
+    class="bg_surface.default z_banner bx-sh_inner [@media_screen_and_(max-resolution:_3x)]:top_0 [@media_screen_and_(max-resolution:_3x)]:pos_sticky [@media_screen_and_(max-resolution:_3x)]:print:pos_relative"
     id="masthead"
   >
     <div

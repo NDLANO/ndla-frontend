@@ -116,7 +116,7 @@ const MastheadContainer = () => {
 
   return (
     <ErrorBoundary>
-      <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
+      <Masthead skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer root={data?.root} crumbs={crumbs} />
           <MastheadSearch />
