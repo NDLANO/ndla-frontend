@@ -40,6 +40,7 @@ export default defineConfig(() => {
       target: "es2020",
       assetsDir: "static",
       outDir: "build/public",
+      cssCodeSplit: false,
       manifest: true,
       sourcemap: true,
       rollupOptions: {
