@@ -205,6 +205,9 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
     cache,
     ssrMode: true,
     defaultOptions: {
+      watchQuery: {
+        errorPolicy: "all",
+      },
       query: {
         errorPolicy: "all",
       },
