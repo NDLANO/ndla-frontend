@@ -125,7 +125,6 @@ export type ConfigType = {
   debugGraphQLCache: boolean;
   sentrydsn: string;
   formbricksId: string;
-  learningpathEnabled: boolean;
   arenaDomain: string;
 };
 
@@ -162,7 +161,6 @@ const getServerSideConfig = (): ConfigType => {
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };
