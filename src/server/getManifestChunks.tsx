@@ -34,6 +34,10 @@ function getImportedChunks(manifest: Manifest, name: string): ManifestChunk[] {
 export const getRouteChunks = (manifest: Manifest, entryPoint: EntryPointType): ManifestChunk[] => {
   const mainEntry = manifest[entryPoints[entryPoint]];
   if (!mainEntry) return [];
+  const stylesheets = Object.entries(manifest)
+    .filter(([key]) => key.endsWith(".css"))
+    .map(([, value]) => value);
+  mainEntry.css = (mainEntry.css ?? []).concat(stylesheets.map((chunk) => chunk.file));
   const importedChunks = getImportedChunks(manifest, entryPoints[entryPoint]);
   return [mainEntry].concat(importedChunks);
 };
