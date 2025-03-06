@@ -7,31 +7,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FileCopyLine } from "@ndla/icons";
-import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { LearningpathItem } from "./LearningpathItem";
+import { LearningpathShareLink } from "./LearningpathShareLink";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { sharedLearningpathLink } from "../utils";
-import { LearningpathItem } from "./LearningpathItem";
-
-const GapWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
-const CopyLinkButton = styled(Button, {
-  base: {
-    justifyContent: "space-between",
-    overflowWrap: "anywhere",
-  },
-});
 
 const StyledDialogBody = styled(DialogBody, {
   base: {
@@ -51,13 +34,11 @@ const StyledDialogFooter = styled(DialogFooter, {
 
 interface Props {
   onClose: () => void;
-  onCopyText: () => void;
   learningpath: GQLMyNdlaLearningpathFragment;
 }
 
-export const LearningpathShareDialogContent = ({ learningpath, onCopyText, onClose }: Props) => {
+export const LearningpathShareDialogContent = ({ learningpath, onClose }: Props) => {
   const { t } = useTranslation();
-  const toast = useToast();
 
   return (
     <DialogContent>
@@ -67,27 +48,7 @@ export const LearningpathShareDialogContent = ({ learningpath, onCopyText, onClo
       </DialogHeader>
       <StyledDialogBody>
         <LearningpathItem learningpath={learningpath} showMenu={false} />
-        <Text>{t("myNdla.learningpath.sharing.description.shared")}</Text>
-        <Text>{t("myNdla.learningpath.sharing.description.private")}</Text>
-        <GapWrapper>
-          <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-            <span>{t("myNdla.learningpath.sharing.description.copy")}</span>
-          </Text>
-          <CopyLinkButton
-            aria-label={t("myNdla.learningpath.sharing.link")}
-            title={t("myNdla.learningpath.sharing.link")}
-            variant="secondary"
-            onClick={() => {
-              onCopyText?.();
-              toast.create({
-                title: t("myNdla.learningpath.sharing.copied"),
-              });
-            }}
-          >
-            {sharedLearningpathLink(learningpath.id)}
-            <FileCopyLine />
-          </CopyLinkButton>
-        </GapWrapper>
+        <LearningpathShareLink learningpath={learningpath} />
       </StyledDialogBody>
       <StyledDialogFooter>
         <SafeLinkButton variant="tertiary" to={routes.myNdla.learningpathPreview(learningpath.id)}>

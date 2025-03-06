@@ -16,7 +16,7 @@ import { useTracker } from "@ndla/tracker";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 import { useUpdateLearningpathStatus } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
-import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
+import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { PageSpinner } from "../../../components/PageSpinner";
@@ -29,6 +29,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { LearningpathShareLink } from "./components/LearningpathShareLink";
 
 const TextWrapper = styled("div", {
   base: {
@@ -112,7 +113,7 @@ export const SaveLearningpathPage = () => {
   }
 
   const learningpath = learningpathQuery.data.myNdlaLearningpath;
-  const isShared = learningpath.status === LEARNINGPATH_SHARED;
+  const isShared = !open && learningpath.status === LEARNINGPATH_SHARED;
 
   return (
     <MyNdlaPageWrapper type="learningpath">
@@ -132,6 +133,7 @@ export const SaveLearningpathPage = () => {
         <Text>{t("myNdla.learningpath.saveLearningpath.pageDescription")}</Text>
       </TextWrapper>
       <LearningpathItem learningpath={learningpath} showMenu={false} context="standalone" />
+      {isShared ? <LearningpathShareLink learningpath={learningpath} /> : null}
       <LearningpathFormButtonContainer>
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathPreview(learningpath.id)}>
           {t("myNdla.learningpath.form.back")}
@@ -150,11 +152,7 @@ export const SaveLearningpathPage = () => {
           onOpenChange={(details) => setOpen(details.open)}
           finalFocusEl={() => buttonRef.current}
         >
-          <LearningpathShareDialogContent
-            learningpath={learningpath}
-            onClose={() => setOpen(false)}
-            onCopyText={() => copyLearningpathSharingLink(learningpath.id)}
-          />
+          <LearningpathShareDialogContent learningpath={learningpath} onClose={() => setOpen(false)} />
         </DialogRoot>
       </LearningpathFormButtonContainer>
     </MyNdlaPageWrapper>

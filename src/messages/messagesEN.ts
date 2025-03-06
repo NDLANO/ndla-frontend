@@ -386,7 +386,7 @@ const messages = {
         saveAndClose: "Save and close",
         pageHeading: "Save and share",
         pageDescription:
-          "Save and share your learning path. When you share the learning path, you create a link that can be shared with students or teachers.",
+          "Save and share your learning path. When you share the learning path, you create a shareable link that you can send to students or teachers.",
       },
       previewLearningpath: {
         pageHeading: "Preview",

@@ -386,7 +386,7 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringsstien din. Når du deler, oppretter du en lenke som du kan sende til elever eller andre lærere.",
+          "Lagre og del læringsstien din. Når du deler oppretter du en delbar lenke som du kan sende til elever eller lærere.",
       },
       previewLearningpath: {
         pageHeading: "Se gjennom",

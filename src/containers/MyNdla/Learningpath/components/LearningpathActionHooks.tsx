@@ -105,13 +105,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       text: t("myNdla.learningpath.menu.share"),
       value: "shareLearningPath",
       icon: <ShareLine />,
-      modalContent: (close) => (
-        <LearningpathShareDialogContent
-          learningpath={learningpath}
-          onClose={close}
-          onCopyText={() => copyLearningpathSharingLink(learningpath.id)}
-        />
-      ),
+      modalContent: (close) => <LearningpathShareDialogContent learningpath={learningpath} onClose={close} />,
       onClick: !isShared
         ? async () => {
             const res = await updateLearningpathStatus({
