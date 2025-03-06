@@ -38,7 +38,7 @@ const ErrorPage = () => {
       <Status code={INTERNAL_SERVER_ERROR}>
         <title>NDLA</title>
         <meta name="description" content={t("meta.description")} />
-        <Masthead fixed>
+        <Masthead>
           <LogoWrapper>
             <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
               <NdlaLogoText />

@@ -14,6 +14,7 @@ import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
 import { GQLArticle } from "../../graphqlTypes";
+import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 
 export const useArticleCopyText = (
   article: Pick<GQLArticle, "id" | "title" | "published" | "copyright"> | undefined,
@@ -40,6 +41,7 @@ export const useArticleCopyText = (
 export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
   const { height = MastheadHeightPx } = useComponentSize("masthead");
   const location = useLocation();
+  const isMastheadSticky = useIsMastheadSticky();
 
   useEffect(() => {
     if (location.hash && articleContent) {
@@ -48,7 +50,7 @@ export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = absoluteTop - height - 20;
+        const scrollPosition = isMastheadSticky ? absoluteTop - height - 20 : absoluteTop - 20;
 
         window.scrollTo({
           top: scrollPosition,
