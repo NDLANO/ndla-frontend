@@ -8,7 +8,8 @@
 
 import express from "express";
 import { PathMatch } from "react-router-dom";
-import { ApolloClient, NormalizedCacheObject, gql } from "@apollo/client";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
+import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
