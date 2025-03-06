@@ -6,37 +6,8 @@
  *
  */
 
-import { TokenSet, TokenSetParameters } from "openid-client";
+import { TokenSetParameters } from "openid-client";
 import { getCookie } from "@ndla/util";
-import { resolveJsonOrRejectWithError } from "./apiHelpers";
-import config from "../config";
-
-interface Feide extends TokenSet {
-  url?: string;
-}
-
-const locationOrigin = (() => {
-  if (config.runtimeType === "test") {
-    return "http://ndla-frontend";
-  }
-
-  if (!config.isClient) {
-    return "";
-  }
-  if (typeof window === "undefined") {
-    return "";
-  }
-  if (typeof window.location.origin === "undefined") {
-    window.location = {
-      ...window.location,
-      origin: [window.location.protocol, "//", window.location.host, ":", window.location.port].join(""),
-    };
-  }
-
-  return window.location.origin;
-})();
-
-export { locationOrigin };
 
 interface FeideCookie extends TokenSetParameters {
   ndla_expires_at: number;
@@ -55,11 +26,6 @@ const getFeideCookieClient = (): FeideCookie | null => {
   return getFeideCookie(document.cookie);
 };
 
-export const getAccessToken = (cookies?: string) => {
-  const cookie = getFeideCookie(cookies ?? "");
-  return cookie?.access_token;
-};
-
 export const millisUntilExpiration = (cookie: FeideCookie | null = getFeideCookieClient()): number => {
   const expiration = cookie?.ndla_expires_at ?? 0;
   const currentTime = new Date().getTime();
@@ -69,21 +35,4 @@ export const millisUntilExpiration = (cookie: FeideCookie | null = getFeideCooki
 
 export const isAccessTokenValid = (cookie: FeideCookie | null = getFeideCookieClient()): boolean => {
   return millisUntilExpiration(cookie) > 10000;
-};
-
-export const initializeFeideLogin = (from?: string) => {
-  const state = `${from ? `?state=${from}` : ""}`;
-
-  return fetch(`${locationOrigin}/feide/login${state}`)
-    .then((res) => resolveJsonOrRejectWithError<Feide>(res))
-    .then((data) => {
-      window.location.href = data?.url || "";
-    });
-};
-
-export const renewAuth = () => {
-  if (getFeideCookieClient()) {
-    return initializeFeideLogin();
-  }
-  return;
 };
