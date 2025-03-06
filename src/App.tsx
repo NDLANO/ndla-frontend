@@ -176,25 +176,20 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
-                  {!!config.learningpathEnabled && (
-                    <Route path="learningpaths" element={<LearningpathCheck />}>
-                      <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
-                      <Route path=":learningpathId/edit">
-                        <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
-                        <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
-                      </Route>
-                      <Route
-                        path=":learningpathId/save"
-                        element={<PrivateRoute element={<SaveLearningpathPage />} />}
-                      />
-
-                      <Route path=":learningpathId/preview">
-                        <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
-                        <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
-                      </Route>
-                      <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
+                  <Route path="learningpaths" element={<LearningpathCheck />}>
+                    <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                    <Route path=":learningpathId/edit">
+                      <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
+                      <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
                     </Route>
-                  )}
+                    <Route path=":learningpathId/save" element={<PrivateRoute element={<SaveLearningpathPage />} />} />
+
+                    <Route path=":learningpathId/preview">
+                      <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                      <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                    </Route>
+                    <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
+                  </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>

@@ -298,7 +298,7 @@ export const menuLinks = (
     shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
-    shownForUser: (user) => config.learningpathEnabled && user?.role === "employee",
+    shownForUser: (user) => user?.role === "employee",
   },
   {
     id: "arena",
