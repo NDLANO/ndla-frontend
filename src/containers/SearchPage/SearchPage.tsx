@@ -6,7 +6,6 @@
  *
  */
 
-import { sortBy } from "lodash-es";
 import queryString from "query-string";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
+import { sortBy } from "@ndla/util";
 import { convertSearchStringToObject } from "./searchHelpers";
 import SearchInnerPage, { getStateSearchParams } from "./SearchInnerPage";
 import { AuthContext } from "../../components/AuthenticationContext";
