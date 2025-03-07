@@ -117,6 +117,7 @@ const messages = {
       title: "Vel sidetype",
       showSubtypes: "Vis undertypar for {{parent}}",
       resourceLabel: "Ressurs",
+      subjectLabel: "Fag",
       topicLabel: "Emne",
       hits: "{{count}} treff",
     },
