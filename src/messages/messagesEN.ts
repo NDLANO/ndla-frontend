@@ -81,8 +81,46 @@ const messages = {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
-    resourceTypeFilter: "Resource types",
-
+    oldResourceTypeFilter: "Resource types",
+    pagination: "Search results",
+    querySuggestion: "Search instead for ",
+    showingResults: {
+      hits: "Showing results {{from}}-{{to}} of {{total}}",
+      query: "for",
+      noHits: "No results",
+    },
+    traits: {
+      VIDEO: "Video",
+      AUDIO: "Audio",
+      H5P: "Interactive task",
+      PODCAST: "Podcast",
+    },
+    context: {
+      dialogTrigger: "+ {{count}} more contexts",
+      dialogHeading: "The resource is used in several contexts",
+    },
+    filtersHeading: "Customize your search",
+    subjectFilter: {
+      heading: "Sort by subject",
+      trigger: "Choose subject",
+      dialogTitle: "Filter search",
+      removeFilter: "Remove {{subject}}",
+    },
+    traitFilter: {
+      heading: "Show pages with",
+    },
+    grepFilter: {
+      heading: "Filter by competence goals",
+      removeFilter: "Remove {{code}}",
+    },
+    resourceTypeFilter: {
+      title: "Choose page type",
+      showSubtypes: "Show subtypes for {{parent}}",
+      resourceLabel: "Resource",
+      subjectLabel: "Subject",
+      topicLabel: "Topic",
+      hits: "{{count}} hits",
+    },
     noHits: "Your search - {{query}} - did not match any articles. ",
     noHitsShort: "No results for search: {{query}}",
     removeFilterSuggestion: "Try removing filters",
