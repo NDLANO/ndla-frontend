@@ -12,6 +12,7 @@ import { useApolloClient } from "@apollo/client";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import FolderForm from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMutations";
 
@@ -23,9 +24,10 @@ interface Props {
 
 export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
   const { t } = useTranslation();
-  const { updateFolder, loading } = useUpdateFolderMutation();
+  const [updateFolder, { loading }] = useUpdateFolderMutation();
   const { cache } = useApolloClient();
   const { folders } = useFolders();
+  const toast = useToast();
 
   const levelFolders = useMemo(
     () => (folder?.parentId ? getFolder(cache, folder.parentId)?.subfolders ?? [] : folders),
@@ -46,15 +48,19 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
             folder={folder}
             siblings={siblings}
             onSave={async (values) => {
-              await updateFolder({
+              const res = await updateFolder({
                 variables: {
                   id: folder.id,
                   name: values.name,
                   description: values.description,
                 },
               });
-              onSaved();
-              onClose();
+              if (!res.errors?.length) {
+                onSaved();
+                onClose();
+              } else {
+                toast.create({ title: t("myNdla.folder.updateFailed") });
+              }
             }}
             loading={loading}
           />

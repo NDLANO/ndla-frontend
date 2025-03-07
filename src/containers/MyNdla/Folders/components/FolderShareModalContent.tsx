@@ -68,7 +68,7 @@ const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareMod
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
+        <DialogTitle>{t("myNdla.folder.sharing.sharedHeader")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
