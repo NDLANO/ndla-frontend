@@ -116,6 +116,7 @@ const messages = {
       title: "Velg sidetype",
       showSubtypes: "Vis undertyper for {{parent}}",
       resourceLabel: "Ressurs",
+      subjectLabel: "Fag",
       topicLabel: "Emne",
       hits: "{{count}} treff",
     },

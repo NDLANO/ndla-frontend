@@ -118,6 +118,7 @@ const messages = {
       showSubtypes: "Vis undertyper for {{parent}}",
       resourceLabel: "Ressurs",
       topicLabel: "Emne",
+      subjectLabel: "Fag",
       hits: "{{count}} treff",
     },
     noHits: "Ingen artikler samsvarte med søket ditt på: {{query}}",
