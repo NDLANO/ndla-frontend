@@ -28,7 +28,7 @@ import { preferredLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
-import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
+import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
 
 const MainMenu = styled("div", {
   base: {

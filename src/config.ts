@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LocaleType } from "./interfaces";
 
 type RuntimeType = "test" | "development" | "production";
 
@@ -98,7 +97,7 @@ const logglyApiKey = (): string | undefined => {
 };
 
 export type ConfigType = {
-  defaultLocale: LocaleType;
+  defaultLocale: string;
   componentName: string;
   ndlaEnvironment: string;
   host: string;
@@ -131,7 +130,7 @@ export type ConfigType = {
 const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "dev");
   return {
-    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb") as LocaleType,
+    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
     ndlaEnvironment,
     host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),

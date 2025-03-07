@@ -7,16 +7,12 @@
  */
 
 import { gql } from "@apollo/client";
-import { PageContent } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import {
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpath_LearningpathFragment,
   GQLLearningpathPage_NodeFragment,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
-import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
-import Article from "../../Article";
 import LastLearningpathStepInfo from "../LastLearningpathStepInfo";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
@@ -24,18 +20,6 @@ import { ExternalStep } from "./ExternalStep";
 import { LearningpathStepTitle } from "./LearningpathStepTitle";
 import { TextStep } from "./TextStep";
 import { Breadcrumb } from "../../../interfaces";
-
-export const EmbedPageContent = styled(PageContent, {
-  base: {
-    background: "background.default",
-    tablet: {
-      border: "1px solid",
-      borderColor: "stroke.subtle",
-      boxShadow: "small",
-      borderRadius: "xsmall",
-    },
-  },
-});
 
 const urlIsNDLAApiUrl = (url: string) => /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
 const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
@@ -65,11 +49,6 @@ interface Props {
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
-}
-
-export interface BaseStepProps {
-  learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  skipToContentId?: string;
 }
 
 export const LearningpathStep = ({
@@ -148,86 +127,11 @@ export const LearningpathStep = ({
   return <LearningpathStepTitle learningpathStep={learningpathStep} />;
 };
 
-export const articleFragment = gql`
-  fragment LearningpathEmbed_Article on Article {
-    id
-    metaDescription
-    created
-    updated
-    articleType
-    requiredLibraries {
-      name
-      url
-      mediaType
-    }
-    ...StructuredArticleData
-    ...Article_Article
-  }
-  ${structuredArticleDataFragment}
-  ${Article.fragments.article}
-`;
-
 LearningpathStep.fragments = {
-  article: articleFragment,
   learningpathStep: gql`
-    fragment LearningpathEmbed_LearningpathStep on LearningpathStep {
-      id
-      title
-      description
-      introduction
-      opengraph {
-        title
-        description
-        url
-      }
-      resource {
-        id
-        url
-        resourceTypes {
-          id
-          name
-        }
-        article {
-          ...LearningpathEmbed_Article
-        }
-      }
-      embedUrl {
-        embedType
-        url
-      }
-      oembed {
-        html
-        width
-        height
-        type
-        version
-      }
+    fragment LearningpathStep_LearningpathStep on LearningpathStep {
+      ...ArticleStep_LearningpathStep
     }
-    ${articleFragment}
-    ${structuredArticleDataFragment}
-    ${Article.fragments.article}
+    ${ArticleStep.fragments.learningpathStep}
   `,
 };
-
-export const learningpathStepQuery = gql`
-  query learningpathStep(
-    $articleId: String!
-    $resourceId: String!
-    $includeResource: Boolean!
-    $transformArgs: TransformedArticleContentInput
-  ) {
-    article(id: $articleId) {
-      oembed
-      ...LearningpathEmbed_Article
-    }
-    node(id: $resourceId) @include(if: $includeResource) {
-      id
-      url
-      resourceTypes {
-        id
-        name
-      }
-    }
-  }
-  ${articleFragment}
-`;

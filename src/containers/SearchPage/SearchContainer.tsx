@@ -27,7 +27,7 @@ import { HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
 import { SearchResultGroup } from "./components/SearchResults";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
-import { SearchCompetenceGoal, SearchCoreElements } from "./SearchInnerPage";
+import { SearchCompetenceGoal, SearchCoreElements } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { LanguageSelector } from "../../components/LanguageSelector";
