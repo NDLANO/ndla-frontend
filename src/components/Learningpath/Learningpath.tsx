@@ -333,8 +333,8 @@ Learningpath.fragments = {
       license {
         license
       }
-      ...LearningpathEmbed_LearningpathStep
       ...LearningpathMenu_LearningpathStep
+      ...LearningpathStep_LearningpathStep
     }
     ${LearningpathMenu.fragments.step}
     ${LearningpathStep.fragments.learningpathStep}

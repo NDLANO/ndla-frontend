@@ -20,6 +20,7 @@ import {
   TypeFilter,
   mapSubjectDataToGroup,
 } from "./searchHelpers";
+import { SearchCompetenceGoal, SearchCoreElements } from "./searchTypes";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import config from "../../config";
 import { GQLGroupSearchQuery, GQLResourceTypeDefinition, GQLSubjectInfoFragment } from "../../graphqlTypes";
@@ -36,9 +37,6 @@ export const getStateSearchParams = (searchParams: Record<string, any>) => {
   return stateSearchParams;
 };
 
-export type SearchCompetenceGoal = Required<GQLGroupSearchQuery>["competenceGoals"][0];
-
-export type SearchCoreElements = Required<GQLGroupSearchQuery>["coreElements"][0];
 interface Props {
   selectedFilters: string[];
   activeSubFilters: string[];

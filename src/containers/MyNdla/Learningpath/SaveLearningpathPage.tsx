@@ -132,7 +132,7 @@ export const SaveLearningpathPage = () => {
         </Heading>
         <Text>{t("myNdla.learningpath.saveLearningpath.pageDescription")}</Text>
       </TextWrapper>
-      <LearningpathItem learningpath={learningpath} showMenu={false} context="standalone" />
+      <LearningpathItem learningpath={learningpath} context="standalone" />
       {isShared ? <LearningpathShareLink learningpath={learningpath} /> : null}
       <LearningpathFormButtonContainer>
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathPreview(learningpath.id)}>

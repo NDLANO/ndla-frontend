@@ -9,19 +9,22 @@
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { BaseStepProps, learningpathStepQuery, EmbedPageContent } from "./LearningpathStep";
+import { gql, useQuery } from "@apollo/client";
 import config from "../../../config";
 import { GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables } from "../../../graphqlTypes";
 import { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { getContentType } from "../../../util/getContentType";
-import getStructuredDataFromArticle from "../../../util/getStructuredDataFromArticle";
+import getStructuredDataFromArticle, {
+  structuredArticleDataFragment,
+} from "../../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../../util/transformArticle";
 import Article from "../../Article";
 import { CreatedBy } from "../../Article/CreatedBy";
 import { ContentPlaceholder } from "../../ContentPlaceholder";
 import { DefaultErrorMessage } from "../../DefaultErrorMessage";
+import { BaseStepProps } from "../learningpathTypes";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface ArticleStepProps extends BaseStepProps {
   breadcrumbItems: Breadcrumb[];
@@ -122,3 +125,87 @@ export const ArticleStep = ({
     </EmbedPageContent>
   );
 };
+
+export const articleFragment = gql`
+  fragment LearningpathEmbed_Article on Article {
+    id
+    metaDescription
+    created
+    updated
+    articleType
+    requiredLibraries {
+      name
+      url
+      mediaType
+    }
+    ...StructuredArticleData
+    ...Article_Article
+  }
+  ${structuredArticleDataFragment}
+  ${Article.fragments.article}
+`;
+
+ArticleStep.fragments = {
+  article: articleFragment,
+  learningpathStep: gql`
+    fragment ArticleStep_LearningpathStep on LearningpathStep {
+      id
+      title
+      description
+      introduction
+      opengraph {
+        title
+        description
+        url
+      }
+      resource {
+        id
+        url
+        resourceTypes {
+          id
+          name
+        }
+        article {
+          ...LearningpathEmbed_Article
+        }
+      }
+      embedUrl {
+        embedType
+        url
+      }
+      oembed {
+        html
+        width
+        height
+        type
+        version
+      }
+    }
+    ${articleFragment}
+    ${structuredArticleDataFragment}
+    ${Article.fragments.article}
+  `,
+};
+
+const learningpathStepQuery = gql`
+  query learningpathStep(
+    $articleId: String!
+    $resourceId: String!
+    $includeResource: Boolean!
+    $transformArgs: TransformedArticleContentInput
+  ) {
+    article(id: $articleId) {
+      oembed
+      ...LearningpathEmbed_Article
+    }
+    node(id: $resourceId) @include(if: $includeResource) {
+      id
+      url
+      resourceTypes {
+        id
+        name
+      }
+    }
+  }
+  ${articleFragment}
+`;

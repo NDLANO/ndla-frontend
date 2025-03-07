@@ -8,12 +8,13 @@
 
 import { ApolloError } from "@apollo/client";
 import * as Sentry from "@sentry/react";
-import { ErrorType, LogLevel } from "./error";
+import { ErrorType } from "./error";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import log from "./logger";
 import config from "../config";
 import { unreachable } from "./guards";
+import { LogLevel } from "../interfaces";
 
 type SingleGQLError = {
   status?: number;

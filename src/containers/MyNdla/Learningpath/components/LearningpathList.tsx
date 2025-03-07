@@ -11,7 +11,10 @@ import { useTranslation } from "react-i18next";
 import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMyLearningpaths } from "../learningpathQueries";
+import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { LearningpathItem } from "./LearningpathItem";
+import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import SettingsMenu from "../../components/SettingsMenu";
 
 const StyledOl = styled("ol", {
   base: {
@@ -33,7 +36,7 @@ export const LearningpathList = () => {
     <StyledOl>
       {data?.myLearningpaths && data.myLearningpaths.length > 0 ? (
         data.myLearningpaths.map((learningpath) => (
-          <LearningpathItem showMenu learningpath={learningpath} key={learningpath.id} context="list" />
+          <LearningpathItemWithMenu learningpath={learningpath} key={learningpath.id} />
         ))
       ) : (
         <Text textStyle="label.medium" fontWeight="light">
@@ -42,4 +45,13 @@ export const LearningpathList = () => {
       )}
     </StyledOl>
   );
+};
+
+interface LearningpathItemWithMenuProps {
+  learningpath: GQLMyNdlaLearningpathFragment;
+}
+
+const LearningpathItemWithMenu = ({ learningpath }: LearningpathItemWithMenuProps) => {
+  const menuItems = useLearningpathActionHooks(learningpath);
+  return <LearningpathItem learningpath={learningpath} menu={<SettingsMenu menuItems={menuItems} />} context="list" />;
 };

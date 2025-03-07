@@ -16,6 +16,7 @@ import { VStack } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
+import { AllTopicsType, TopicWithSubTopics } from "./drawerMenuTypes";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
@@ -29,12 +30,6 @@ interface Props {
   topicPathIds: string[];
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
-
-type AllTopicsType = NonNullable<GQLSubjectMenu_RootFragment["allTopics"]>[0];
-
-export type TopicWithSubTopics = AllTopicsType & {
-  subtopics: TopicWithSubTopics[];
-};
 
 const placeholders = [0, 1, 2, 3, 4, 5];
 

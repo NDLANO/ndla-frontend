@@ -11,7 +11,8 @@ import { transform } from "@ndla/article-converter";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
-import { BaseStepProps, EmbedPageContent } from "./LearningpathStep";
+import { BaseStepProps } from "../learningpathTypes";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: BaseStepProps) => {
   const { i18n } = useTranslation();

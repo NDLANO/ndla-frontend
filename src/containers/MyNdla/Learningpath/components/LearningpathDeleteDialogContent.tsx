@@ -27,7 +27,7 @@ export const LearningpathDeleteDialogContent = ({ onDelete, onClose, learningpat
         <DialogCloseButton />
       </DialogHeader>
       <DialogBody>
-        <LearningpathItem learningpath={learningpath} showMenu={false} />
+        <LearningpathItem learningpath={learningpath} />
         <Text>{t("myNdla.learningpath.delete.body")}</Text>
       </DialogBody>
       <DialogFooter>

@@ -47,7 +47,7 @@ export const LearningpathShareDialogContent = ({ learningpath, onClose }: Props)
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <LearningpathItem learningpath={learningpath} showMenu={false} />
+        <LearningpathItem learningpath={learningpath} />
         <LearningpathShareLink learningpath={learningpath} />
       </StyledDialogBody>
       <StyledDialogFooter>

@@ -12,9 +12,9 @@ import { gql, useQuery } from "@apollo/client";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
+import { TopicWithSubTopics } from "./drawerMenuTypes";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import ResourceTypeList from "./ResourceTypeList";
-import { TopicWithSubTopics } from "./SubjectMenu";
 import useArrowNavigation from "./useArrowNavigation";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../../constants";
 import {
