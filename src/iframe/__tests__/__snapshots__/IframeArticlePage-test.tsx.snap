@@ -170,6 +170,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                         data-part="trigger"
                         data-scope="tabs"
                         data-selected=""
+                        data-ssr=""
                         data-value="text"
                         dir="ltr"
                         id="tabs::r2::trigger-text"
