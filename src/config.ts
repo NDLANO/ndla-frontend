@@ -119,7 +119,6 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
@@ -152,7 +151,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariabel("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),

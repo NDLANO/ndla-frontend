@@ -71,14 +71,14 @@ const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Reque
   const width = req.query.width || 854;
   const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
   const node = contextId ? await queryNodeByContexts(contextId, lang) : await fetchNode(nodeId, lang);
-  if (node.contentUri?.includes("learningpath")) {
-    return {};
+  if (node.contentUri?.includes("article")) {
+    const articleId = getArticleIdFromResource(node);
+    return {
+      title: node.name,
+      html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
+    };
   }
-  const articleId = getArticleIdFromResource(node);
-  return {
-    title: node.name,
-    html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
-  };
+  return {};
 };
 
 const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
