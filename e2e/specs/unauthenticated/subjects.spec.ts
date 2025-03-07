@@ -16,6 +16,9 @@ test.beforeEach(async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql");
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
   await mockWaitResponse(page, "**/graphql-api/graphql");
+
+  const competenceButton = page.getByRole("button").getByText("Vis kompetansemål");
+  await expect(competenceButton).not.toBeDisabled();
 });
 
 test("should have valid breadcrumbs", async ({ page }) => {
