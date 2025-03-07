@@ -6,13 +6,13 @@
  *
  */
 
-import { partition } from "lodash-es";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Skeleton } from "@ndla/primitives";
 import { VStack } from "@ndla/styled-system/jsx";
+import { partition } from "@ndla/util";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";

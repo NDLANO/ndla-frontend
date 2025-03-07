@@ -7,7 +7,6 @@
  */
 
 import { TFunction } from "i18next";
-import { sortBy } from "lodash-es";
 import { parse, stringify } from "query-string";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +16,7 @@ import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, constants } from "@ndla/ui";
+import { sortBy } from "@ndla/util";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";

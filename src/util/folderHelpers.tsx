@@ -7,7 +7,7 @@
  */
 
 import type { TFunction } from "i18next";
-import { uniqBy, uniq } from "lodash-es";
+import { uniqBy, uniq } from "@ndla/util";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceResourceType, GQLSharedFolder } from "../graphqlTypes";
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
