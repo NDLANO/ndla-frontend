@@ -9,7 +9,6 @@
 import "./style/index.css";
 import queryString from "query-string";
 import { ReactNode, useLayoutEffect, useRef, useState } from "react";
-import { useDeviceSelectors } from "react-device-detect";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
@@ -41,7 +40,6 @@ import {
   supportedLanguages,
 } from "./i18n";
 import { NDLAWindow } from "./interfaces";
-import { UserAgentProvider } from "./UserAgentContext";
 import { createApolloClient, createApolloLinks } from "./util/apiHelpers";
 import { initSentry } from "./util/sentry";
 
@@ -78,7 +76,6 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   const [base, setBase] = useState(basename ?? "");
   const firstRender = useRef(true);
   const client = useApolloClient();
-  const [selectors] = useDeviceSelectors(window.navigator.userAgent);
 
   i18n.on("languageChanged", (lang) => {
     client.resetStore();
@@ -97,11 +94,9 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
   }, [i18n.language]);
 
   return (
-    <UserAgentProvider value={selectors}>
-      <BrowserRouter key={base} basename={base}>
-        <App base={base} />
-      </BrowserRouter>
-    </UserAgentProvider>
+    <BrowserRouter key={base} basename={base}>
+      <App base={base} />
+    </BrowserRouter>
   );
 };
 

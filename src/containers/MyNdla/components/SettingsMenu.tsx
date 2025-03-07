@@ -28,7 +28,6 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { useUserAgent } from "../../../UserAgentContext";
 
 interface BaseMenuItem {
   value: string;
@@ -59,7 +58,6 @@ export type MenuItemProps = LinkMenuItem | ButtonMenuItem | DialogMenuItem;
 interface Props {
   menuItems?: MenuItemProps[];
   modalHeader?: string;
-  showSingle?: boolean;
   elementSize?: "small" | "medium";
 }
 
@@ -77,23 +75,33 @@ const StyledDialogContent = styled(DialogContent, {
   },
 });
 
+const StyledDialogTrigger = styled(DialogTrigger, {
+  base: {
+    desktop: {
+      display: "none",
+    },
+  },
+});
+
+const StyledMenuTrigger = styled(MenuTrigger, {
+  base: {
+    desktopDown: {
+      display: "none",
+    },
+  },
+});
+
 const StyledList = styled("ul", {
   base: {
     listStyle: "none",
-  },
-  variants: {
-    mobile: {
-      true: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "3xsmall",
-        paddingInline: "xsmall",
-        "& a, button": {
-          display: "flex",
-          justifyContent: "flex-start",
-          width: "100%",
-        },
-      },
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
+    paddingInline: "xsmall",
+    "& a, button": {
+      display: "flex",
+      justifyContent: "flex-start",
+      width: "100%",
     },
   },
 });
@@ -105,19 +113,23 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "medium" }: Props) => {
-  const [open, setOpen] = useState(false);
+const SettingsMenu = ({ menuItems, modalHeader, elementSize = "medium" }: Props) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
-  const selectors = useUserAgent();
   const { t } = useTranslation();
 
   const handleDialogItemOpenChange = (open: boolean) => {
     if (!open) {
-      setOpen(false);
+      setDialogOpen(false);
+      setMenuOpen(false);
     }
   };
 
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    setDialogOpen(false);
+    setMenuOpen(false);
+  }, []);
 
   const title = t("myNdla.showEditOptions");
 
@@ -145,64 +157,62 @@ const SettingsMenu = ({ menuItems, modalHeader, showSingle, elementSize = "mediu
     </li>
   ));
 
-  if (selectors?.isMobile || selectors?.isTablet) {
-    return (
-      <DialogRoot open={open} variant="dialog" position="bottom" onOpenChange={(details) => setOpen(details.open)}>
-        <DialogTrigger asChild ref={dropdownTriggerRef}>
+  return (
+    <>
+      <DialogRoot
+        open={dialogOpen}
+        variant="dialog"
+        position="bottom"
+        onOpenChange={(details) => setDialogOpen(details.open)}
+      >
+        <StyledDialogTrigger asChild ref={dropdownTriggerRef}>
           <IconButton title={title} aria-label={title} variant="tertiary" disabled={!menuItems?.length}>
             <MoreLine />
           </IconButton>
-        </DialogTrigger>
+        </StyledDialogTrigger>
         <StyledDialogContent>
           <DialogHeader>
             <Heading textStyle="heading.small">{modalHeader ?? t("myNdla.settings")}</Heading>
             <DialogCloseButton />
           </DialogHeader>
-          <StyledDialogBody>{!!menuItems?.length && <StyledList mobile>{items}</StyledList>}</StyledDialogBody>
+          <StyledDialogBody>{!!menuItems?.length && <StyledList>{items}</StyledList>}</StyledDialogBody>
         </StyledDialogContent>
       </DialogRoot>
-    );
-  }
-
-  if (showSingle && menuItems?.length === 1) {
-    return <StyledList>{items}</StyledList>;
-  }
-
-  return (
-    <MenuRoot
-      open={open}
-      positioning={{ placement: "bottom-end", strategy: "fixed" }}
-      onOpenChange={(details) => setOpen(details.open)}
-    >
-      <MenuTrigger asChild ref={dropdownTriggerRef}>
-        <IconButton title={title} aria-label={title} variant="clear" disabled={!menuItems?.length} size={elementSize}>
-          <MoreLine />
-        </IconButton>
-      </MenuTrigger>
-      <MenuContent>
-        {menuItems?.map((item) => (
-          <MenuItem
-            key={item.value}
-            value={item.value}
-            variant={item.variant}
-            onClick={item.onClick}
-            disabled={item.disabled}
-            closeOnSelect={item.type !== "dialog"}
-            asChild={item.type !== "action"}
-            consumeCss
-          >
-            <MenuItemElement
-              item={item}
-              handleDialogItemOpenChange={handleDialogItemOpenChange}
-              dropdownTriggerRef={dropdownTriggerRef}
+      <MenuRoot
+        open={menuOpen}
+        positioning={{ placement: "bottom-end", strategy: "fixed" }}
+        onOpenChange={(details) => setMenuOpen(details.open)}
+      >
+        <StyledMenuTrigger asChild ref={dropdownTriggerRef}>
+          <IconButton title={title} aria-label={title} variant="clear" disabled={!menuItems?.length} size={elementSize}>
+            <MoreLine />
+          </IconButton>
+        </StyledMenuTrigger>
+        <MenuContent>
+          {menuItems?.map((item) => (
+            <MenuItem
+              key={item.value}
+              value={item.value}
+              variant={item.variant}
+              onClick={item.onClick}
+              disabled={item.disabled}
+              closeOnSelect={item.type !== "dialog"}
+              asChild={item.type !== "action"}
+              consumeCss
             >
-              {item.icon}
-              {item.text}
-            </MenuItemElement>
-          </MenuItem>
-        ))}
-      </MenuContent>
-    </MenuRoot>
+              <MenuItemElement
+                item={item}
+                handleDialogItemOpenChange={handleDialogItemOpenChange}
+                dropdownTriggerRef={dropdownTriggerRef}
+              >
+                {item.icon}
+                {item.text}
+              </MenuItemElement>
+            </MenuItem>
+          ))}
+        </MenuContent>
+      </MenuRoot>
+    </>
   );
 };
 

@@ -6,7 +6,6 @@
  *
  */
 
-import { getSelectorsByUserAgent } from "react-device-detect";
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
@@ -24,7 +23,6 @@ import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
-import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
@@ -41,8 +39,6 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
 
   const siteTheme = getSiteTheme();
 
-  const userAgent = req.headers["user-agent"];
-  const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
 
@@ -75,13 +71,11 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
           <ApolloProvider client={client}>
             <ResponseContext.Provider value={responseContext}>
               <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
-                  <SiteThemeProvider value={siteTheme}>
-                    <StaticRouter basename={basename} location={req.url}>
-                      <App key={locale} />
-                    </StaticRouter>
-                  </SiteThemeProvider>
-                </UserAgentProvider>
+                <SiteThemeProvider value={siteTheme}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App key={locale} />
+                  </StaticRouter>
+                </SiteThemeProvider>
               </VersionHashProvider>
             </ResponseContext.Provider>
           </ApolloProvider>

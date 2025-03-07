@@ -10993,7 +10993,6 @@ __metadata:
     prom-client: "npm:^15.1.2"
     query-string: "npm:5"
     react: "npm:^19.0.0"
-    react-device-detect: "npm:^2.2.3"
     react-dom: "npm:^19.0.0"
     react-hook-form: "npm:^7.53.2"
     react-i18next: "npm:^15.4.1"
@@ -12528,18 +12527,6 @@ __metadata:
     iconv-lite: "npm:0.6.3"
     unpipe: "npm:1.0.0"
   checksum: 10c0/f8daf4b724064a4811d118745a781ca0fb4676298b8adadfd6591155549cfea0a067523cf7dd3baeb1265fecc9ce5dfb2fc788c12c66b85202a336593ece0f87
-  languageName: node
-  linkType: hard
-
-"react-device-detect@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "react-device-detect@npm:2.2.3"
-  dependencies:
-    ua-parser-js: "npm:^1.0.33"
-  peerDependencies:
-    react: ">= 0.14.0"
-    react-dom: ">= 0.14.0"
-  checksum: 10c0/396bbeeab0cb21da084c67434d204c9cf502fad6c683903313084d3f6487950a36a34f9bf67ccf5c1772a1bb5b79a2a4403fcfe6b51d93877db4c2d9f3a3a925
   languageName: node
   linkType: hard
 
@@ -14443,13 +14430,6 @@ __metadata:
   version: 0.7.33
   resolution: "ua-parser-js@npm:0.7.33"
   checksum: 10c0/d58bf54c91e3e80e6e086b6215fa15266791e23e6e403039179c020129940168634a5b931f65ce70c6550b05d0d62c7c944bf7378b6b42133cd4a7ccb07f1948
-  languageName: node
-  linkType: hard
-
-"ua-parser-js@npm:^1.0.33":
-  version: 1.0.33
-  resolution: "ua-parser-js@npm:1.0.33"
-  checksum: 10c0/71a01030f648cfefe992d0552d85a6f72cee88965b3c0698cbc3e27edfa7ff551cfd5d928da32e246889ef1aeac19edb5419f5ccb4aa43e32e749c0ebc6af9b3
   languageName: node
   linkType: hard
 
