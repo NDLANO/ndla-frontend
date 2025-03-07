@@ -26,7 +26,6 @@ import {
   GQLCopyLearningpathMutation,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
-import { previewLearningpathQuery } from "./PreviewLearningpathPage";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {
@@ -127,7 +126,6 @@ const newLearningpathStepMutation = gql`
 `;
 
 export const useCreateLearningpathStep = (
-  pathId: string,
   options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -135,7 +133,6 @@ export const useCreateLearningpathStep = (
     newLearningpathStepMutation,
     {
       ...options,
-      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
       awaitRefetchQueries: true,
       onCompleted: (data, methodOptions) => {
         client.cache.modify({
@@ -165,7 +162,6 @@ const updateLearningpathStepMutation = gql`
 `;
 
 export const useUpdateLearningpathStep = (
-  pathId: string,
   options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -173,7 +169,6 @@ export const useUpdateLearningpathStep = (
     updateLearningpathStepMutation,
     {
       ...options,
-      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
       awaitRefetchQueries: true,
       onCompleted: (_data, methodOptions) => {
         client.cache.modify({
@@ -216,7 +211,6 @@ const deleteLearningpathStepMutation = gql`
 `;
 
 export const useDeleteLearningpathStep = (
-  pathId: string,
   options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
@@ -231,7 +225,6 @@ export const useDeleteLearningpathStep = (
         client.cache.evict({ id: normalizedId, broadcast: true });
         client.cache.gc();
       },
-      refetchQueries: [{ query: previewLearningpathQuery, variables: { pathId } }],
       awaitRefetchQueries: true,
     },
   );
