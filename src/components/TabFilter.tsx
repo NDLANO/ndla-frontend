@@ -51,7 +51,7 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
     <StyledRadioGroupRoot
       orientation="horizontal"
       value={selectedValue}
-      onValueChange={(details) => onChange(details.value)}
+      onValueChange={(details) => (details.value ? onChange(details.value) : undefined)}
     >
       <RadioGroupLabel>{t("subjectsPage.tabFilter.label")}</RadioGroupLabel>
       <RadioButtonWrapper>
