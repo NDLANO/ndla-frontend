@@ -6,13 +6,13 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { keyBy } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";

@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient, Reference } from "@apollo/client";
@@ -14,6 +13,7 @@ import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, close
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { styled } from "@ndla/styled-system/jsx";
+import { keyBy } from "@ndla/util";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
