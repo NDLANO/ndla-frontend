@@ -29,7 +29,7 @@ import {
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
   const [onDeleteLearningpath] = useDeleteLearningpath();
@@ -161,7 +161,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       icon: <FileCopyLine />,
       value: "copyLearningPathLink",
       onClick: () => {
-        copyLearningpathSharingLink(learningpath.id);
+        copyLearningpathSharingLink(learningpath.id, i18n.language);
         toast.create({
           title: t("myNdla.resource.linkCopied"),
         });
@@ -180,7 +180,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     }
 
     return [editLearningpath, shareLearningpath, deleteLearningpath];
-  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus]);
+  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus, i18n]);
 
   return actionItems;
 };

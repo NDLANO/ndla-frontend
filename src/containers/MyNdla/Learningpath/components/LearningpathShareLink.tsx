@@ -34,7 +34,7 @@ interface Props {
 }
 
 export const LearningpathShareLink = ({ learningpath }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const toast = useToast();
 
   return (
@@ -50,13 +50,13 @@ export const LearningpathShareLink = ({ learningpath }: Props) => {
           title={t("myNdla.learningpath.sharing.link")}
           variant="secondary"
           onClick={() => {
-            copyLearningpathSharingLink(learningpath.id);
+            copyLearningpathSharingLink(learningpath.id, i18n.language);
             toast.create({
               title: t("myNdla.learningpath.sharing.copied"),
             });
           }}
         >
-          {sharedLearningpathLink(learningpath.id)}
+          {sharedLearningpathLink(learningpath.id, i18n.language)}
           <FileCopyLine />
         </CopyLinkButton>
       </GapWrapper>
