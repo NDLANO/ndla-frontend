@@ -17,6 +17,7 @@ import { ArticleByline } from "@ndla/ui";
 import { LearningpathContext } from "./learningpathUtils";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
+import formatDate from "../../util/formatDate";
 
 interface Props {
   resourcePath: string | undefined;
@@ -167,14 +168,10 @@ const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
 const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const currentStep = learningpath.learningsteps[currentIndex];
-  const lastUpdatedDate = new Date(learningpath.lastUpdated);
-
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
-    lastUpdatedDate.getMonth() + 1
-  }.${lastUpdatedDate.getFullYear()}`;
+  const lastUpdated = formatDate(learningpath.lastUpdated, i18n.language);
 
   const updateViewedSteps = () => {
     if (learningpath && currentStep?.seqNo !== undefined) {
@@ -227,7 +224,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
       </StyledNav>
       <ArticleByline
         authors={learningpath.copyright.contributors}
-        published={lastUpdatedString}
+        published={lastUpdated}
         bylineType="learningPath"
         bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
       />
