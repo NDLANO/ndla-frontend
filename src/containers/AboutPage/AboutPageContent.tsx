@@ -23,6 +23,7 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
+import { findBreadcrumb } from "./aboutPageUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -59,25 +60,6 @@ const StyledArticleContent = styled(ArticleContent, {
     overflowX: "visible",
   },
 });
-
-export const findBreadcrumb = (
-  menu: GQLAboutPage_FrontpageMenuFragment[],
-  slug: string | undefined,
-  currentPath: GQLAboutPage_FrontpageMenuFragment[] = [],
-): GQLAboutPage_FrontpageMenuFragment[] => {
-  for (const item of menu) {
-    const newPath = currentPath.concat(item);
-    if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
-      return newPath;
-    } else if (item.menu?.length) {
-      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath);
-      if (foundPath.length) {
-        return foundPath;
-      }
-    }
-  }
-  return [];
-};
 
 const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_FrontpageMenuFragment, t: TFunction) => {
   const crumbs = findBreadcrumb(frontpage.menu as GQLAboutPage_FrontpageMenuFragment[], slug);

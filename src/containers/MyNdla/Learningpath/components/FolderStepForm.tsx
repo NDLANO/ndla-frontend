@@ -15,6 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
+import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
 
 const TextWrapper = styled("div", {
@@ -53,11 +54,6 @@ export interface FolderFormValues {
   type: "folder";
   embedUrl: string;
   title: string;
-}
-
-export interface FolderResource {
-  title: string;
-  path: string;
 }
 
 export const FolderStepForm = () => {

@@ -10,8 +10,9 @@ import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
-import { BaseStepProps, EmbedPageContent } from "./LearningpathStep";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { BaseStepProps } from "../learningpathTypes";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {

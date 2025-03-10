@@ -28,7 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
 import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
-import { FolderResource } from "./FolderStepForm";
+import { FolderResource } from "./folderTypes";
 import {
   GQLBreadcrumb,
   GQLFolder,

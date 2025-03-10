@@ -42,7 +42,7 @@ interface Props {
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<undefined | number>(undefined);
-  const [createStep] = useCreateLearningpathStep(learningpath.id.toString() ?? "");
+  const [createStep] = useCreateLearningpathStep();
   const toast = useToast();
 
   const onSaveStep = async (values: FormValues) => {

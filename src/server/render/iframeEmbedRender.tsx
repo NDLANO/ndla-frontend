@@ -19,6 +19,7 @@ import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
 import EmbedIframePageContainer from "../../iframe/EmbedIframePageContainer";
+import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
@@ -36,11 +37,11 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   if (noSSR) {
     return {
       status: OK,
-      locale: locale ?? config.defaultLocale,
+      locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
         htmlContent: renderToString(
           <Document
-            language={locale ?? config.defaultLocale}
+            language={locale ?? (config.defaultLocale as LocaleType)}
             chunks={chunks}
             devEntrypoint={entryPoints.iframeEmbed}
           />,
@@ -54,7 +55,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   }
 
   const client = createApolloClient(locale, undefined, req.path);
-  const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
+  const i18n = initializeI18n(i18nInstance, locale ?? (config.defaultLocale as LocaleType));
   const context: RedirectInfo = {};
 
   const Page = (
@@ -84,7 +85,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
 
   return {
     status: context.status ?? OK,
-    locale: locale ?? config.defaultLocale,
+    locale: locale ?? (config.defaultLocale as LocaleType),
     data: {
       htmlContent: html,
       data: {

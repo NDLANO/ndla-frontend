@@ -50,7 +50,7 @@ import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } fr
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
-import { ResourceData } from "./ResourceStepForm";
+import { ResourceData } from "./folderTypes";
 
 const HitsWrapper = styled("div", {
   base: {

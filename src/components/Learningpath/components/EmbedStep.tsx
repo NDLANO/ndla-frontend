@@ -10,7 +10,7 @@ import { useId } from "react";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ExternalEmbed } from "@ndla/ui";
 import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import LearningpathIframe, { urlIsNDLAUrl } from "../LearningpathIframe";
-import { EmbedPageContent } from "./LearningpathStep";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface EmbedStepProps {
   url: string;

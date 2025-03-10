@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { findBreadcrumb } from "./AboutPageContent";
+import { findBreadcrumb } from "./aboutPageUtils";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { GQLAboutPageFooter_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";

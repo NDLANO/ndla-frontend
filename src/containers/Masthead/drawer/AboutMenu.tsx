@@ -20,7 +20,7 @@ import {
   GQLDrawerContent_FrontpageMenuFragment,
 } from "../../../graphqlTypes";
 import { toAbout, useTypedParams } from "../../../routeHelpers";
-import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
+import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
 
 interface Props {
   onCloseMenuPortion: () => void;
