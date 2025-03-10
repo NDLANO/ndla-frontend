@@ -10,10 +10,13 @@ import config from "../../../config";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
 import { FormValues } from "./types";
 
-export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpaths/${id}`;
+export const sharedLearningpathLink = (id: number, language?: string) => {
+  const languageParam = language ? `/${language}` : "";
+  return `${config.ndlaFrontendDomain}${languageParam}/learningpaths/${id}`;
+};
 
-export const copyLearningpathSharingLink = (id: number) =>
-  window.navigator.clipboard.writeText(sharedLearningpathLink(id));
+export const copyLearningpathSharingLink = (id: number, language?: string) =>
+  window.navigator.clipboard.writeText(sharedLearningpathLink(id, language));
 
 export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
