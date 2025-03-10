@@ -92,7 +92,7 @@ const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[]
 
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
-  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult"],
+  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
   FolderResourceMeta: ["ArticleFolderResourceMeta", "LearningpathFolderResourceMeta"],
 };
 
@@ -154,6 +154,9 @@ const typePolicies: TypePolicies = {
   },
   SearchContext: {
     keyFields: ["contextId"],
+  },
+  SearchResult: {
+    keyFields: ["id", "__typename"],
   },
   GroupSearchResult: {
     keyFields: ["url"],

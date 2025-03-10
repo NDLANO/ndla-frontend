@@ -261,7 +261,12 @@ export const ResourcePicker = ({ setResource }: Props) => {
               <StyledComboboxItem key={collection.getItemValue(resource)} item={resource} className="peer" asChild>
                 <StyledListItemRoot context="list">
                   <StyledListItemContent>
-                    <ComboboxItemText>{parse(resource.htmlTitle)}</ComboboxItemText>
+                    <ComboboxItemText>
+                      {resource.__typename === "ArticleSearchResult" ||
+                      resource.__typename === "LearningpathSearchResult"
+                        ? parse(resource.htmlTitle)
+                        : resource.title}
+                    </ComboboxItemText>
                     {!!resource.contexts[0] && (
                       <Text
                         textStyle="label.small"

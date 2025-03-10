@@ -213,7 +213,10 @@ const MastheadSearch = () => {
         const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
-          id: result.id.toString(),
+          htmlTitle:
+            result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
+              ? parse(result.htmlTitle)
+              : result.title,
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
           path: context?.url ?? result.url,
@@ -349,7 +352,7 @@ const MastheadSearch = () => {
                         <TextWrapper>
                           <ComboboxItemText>
                             <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                              {parse(resource.htmlTitle)}
+                              {resource.htmlTitle}
                             </SafeLink>
                           </ComboboxItemText>
                           {!!resource.contexts[0] && (
