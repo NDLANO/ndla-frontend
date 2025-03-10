@@ -74,7 +74,7 @@
     "prettier": "^3.2.5",
     "sirv": "^3.0.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.7.2",
+    "typescript": "^5.8.2",
     "typescript-eslint": "^8.17.0",
     "vercel": "^41.3.0",
     "vite": "^6.2.0",
