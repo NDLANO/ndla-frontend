@@ -141,7 +141,7 @@ export const useFolderActions = (
         });
       } else {
         toast.create({
-          title: t("myNdla.folder.sharing.unSavedLinkFailed", { name: selectedFolder.name }),
+          title: t("myNdla.folder.sharing.unSavedLinkFailed"),
         });
       }
     }
