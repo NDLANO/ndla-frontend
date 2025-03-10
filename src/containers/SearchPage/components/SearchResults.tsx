@@ -126,7 +126,7 @@ export const SearchResultGroup = ({ group, typeFilter, handleShowMore, handleSub
       </HeaderWrapper>
       {groupFilter?.filters.length ? (
         <FieldsetRoot>
-          <FieldsetLegend srOnly>{t("searchPage.resourceTypeFilter")}</FieldsetLegend>
+          <FieldsetLegend srOnly>{t("searchPage.oldResourceTypeFilter")}</FieldsetLegend>
           <StyledCheckboxGroup onValueChange={(v) => handleSubFilterClick(group.type, v)} value={groupFilter.selected}>
             {filters.map((filter) => (
               <CheckboxRoot key={filter.id} value={filter.id} variant="chip">
