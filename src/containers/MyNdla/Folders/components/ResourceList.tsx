@@ -35,7 +35,7 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
-  const { sortResources } = useSortResourcesMutation();
+  const [sortResources] = useSortResourcesMutation();
 
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [sortedResources, setSortedResources] = useState(resources);

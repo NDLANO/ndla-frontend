@@ -24,6 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { IFolderDTO } from "@ndla/types-backend/myndla-api";
 import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import useValidationTranslation from "../../util/useValidationTranslation";
+import { useToast } from "../ToastContext";
 
 interface Props {
   parentId: string;
@@ -42,6 +43,7 @@ const StyledSpinner = styled(Spinner, {
 const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
+  const toast = useToast();
   const [error, setError] = useState("");
   const { folders } = useFolders();
   const { cache } = useApolloClient();
@@ -50,7 +52,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
-  const { addFolder, loading } = useAddFolderMutation();
+  const [addFolder, { loading }] = useAddFolderMutation();
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
 
@@ -72,6 +74,9 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
     if (createdFolder) {
       onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
       onClose?.();
+    }
+    if (res.errors?.length) {
+      toast.create({ title: "myNdla.folder.toast.folderCreatedFailed" });
     }
   };
 
