@@ -108,7 +108,7 @@
     "cross-env": "^7.0.3",
     "express": "^5.0.0",
     "express-prom-bundle": "^8.0.0",
-    "graphql": "^16.9.0",
+    "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.0.0",
     "html-react-parser": "^5.2.0",
