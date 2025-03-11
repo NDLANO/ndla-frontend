@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
@@ -15,6 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { CampaignBlock } from "@ndla/ui";
+import { keyBy } from "@ndla/util";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import MyNdlaTitle from "./components/MyNdlaTitle";
 import TitleWrapper from "./components/TitleWrapper";

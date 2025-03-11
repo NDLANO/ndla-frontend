@@ -6,7 +6,6 @@
  *
  */
 
-import { groupBy, sortBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckboxHiddenInput } from "@ark-ui/react";
@@ -28,6 +27,7 @@ import {
   FieldsetLegend,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { groupBy, sortBy } from "@ndla/util";
 import { GQLSubjectInfoFragment } from "../../../graphqlTypes";
 
 const OuterList = styled("ul", {
@@ -137,7 +137,11 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
                 </StyledMessageBox>
               )}
               <SubjectList
-                subjects={groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase())}
+                subjects={groupBy(
+                  sortedSubjects.filter((s) => !!s.name?.length),
+                  // we already check that the name is not empty, but TS doesn't know that
+                  (s) => s.name[0]!.toUpperCase(),
+                )}
                 onToggleSubject={onToggleSubject}
                 selectedSubjects={selectedSubjects}
               />
@@ -154,7 +158,11 @@ const SubjectFilter = ({ categories, onToggleSubject, selectedSubjects }: Props)
       id: "allsubjects",
       content: (
         <SubjectList
-          subjects={groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase())}
+          subjects={groupBy(
+            // we already check that the name is not empty, but TS doesn't know that
+            allSubjectsSorted.filter((s) => !!s.name?.length),
+            (s) => s.name[0]!.toUpperCase(),
+          )}
           onToggleSubject={onToggleSubject}
           selectedSubjects={selectedSubjects}
         />

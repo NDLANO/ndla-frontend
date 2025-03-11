@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { partition, uniq } from "lodash-es";
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@apollo/client";
+import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import { alertsQuery } from "../queries";
 
