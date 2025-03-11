@@ -240,6 +240,16 @@ const messages = {
       },
     },
     goToMyNdla: "Gå til Min NDLA",
+    learningpathstep: {
+      onDragStart: "Plukket opp læringsstisteget {{name}}. Læringsstisteget er på posisjon {{index}} av {{length}}",
+      onDragOver: "Læringsstisteget {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragOverMissingOver: "Læringsstisteget {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Læringsstisteget {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Læringsstisteget {{name}} ble sluppet",
+      onDragCancel: "Flytting avbrutt. Læringsstisteget {{name}} ble sluppet",
+      dragHandle: "Sorter læringsstisteg {{name}}",
+      error: "Noe gikk galt ved flytting av læringsstisteget",
+    },
     learningpath: {
       newLearningpath: "Ny læringssti",
       editLearningpath: "Rediger læringssti",

@@ -791,6 +791,11 @@ export type GQLLearningpathSearchResult = GQLSearchResult & {
   url: Scalars["String"]["output"];
 };
 
+export type GQLLearningpathSeqNo = {
+  __typename?: "LearningpathSeqNo";
+  seqNo: Scalars["Int"]["output"];
+};
+
 export type GQLLearningpathStep = {
   __typename?: "LearningpathStep";
   description?: Maybe<Scalars["String"]["output"]>;
@@ -966,6 +971,7 @@ export type GQLMutation = {
   updateLearningpath: GQLMyNdlaLearningpath;
   updateLearningpathStatus: GQLMyNdlaLearningpath;
   updateLearningpathStep: GQLMyNdlaLearningpathStep;
+  updateLearningpathStepSeqNo: GQLLearningpathSeqNo;
   updatePersonalData: GQLMyNdlaPersonalData;
 };
 
@@ -1084,6 +1090,12 @@ export type GQLMutationUpdateLearningpathStepArgs = {
   learningpathId: Scalars["Int"]["input"];
   learningstepId: Scalars["Int"]["input"];
   params: GQLLearningpathStepUpdateInput;
+};
+
+export type GQLMutationUpdateLearningpathStepSeqNoArgs = {
+  learningpathId: Scalars["Int"]["input"];
+  learningpathStepId: Scalars["Int"]["input"];
+  seqNo: Scalars["Int"]["input"];
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
@@ -2889,6 +2901,17 @@ export type GQLCopyLearningpathMutationVariables = Exact<{
 export type GQLCopyLearningpathMutation = {
   __typename?: "Mutation";
   copyLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+};
+
+export type GQLUpdateLearningpathStepSeqNoMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  learningpathStepId: Scalars["Int"]["input"];
+  seqNo: Scalars["Int"]["input"];
+}>;
+
+export type GQLUpdateLearningpathStepSeqNoMutation = {
+  __typename?: "Mutation";
+  updateLearningpathStepSeqNo: { __typename?: "LearningpathSeqNo"; seqNo: number };
 };
 
 export type GQLMyLearningpathsQueryVariables = Exact<{

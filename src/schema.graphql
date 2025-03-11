@@ -690,6 +690,10 @@ type LearningpathSearchResult implements SearchResult {
   url: String!
 }
 
+type LearningpathSeqNo {
+  seqNo: Int!
+}
+
 type LearningpathStep {
   description: String
   embedUrl: LearningpathStepEmbedUrl
@@ -865,6 +869,7 @@ type Mutation {
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
+  updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updatePersonalData(
     arenaAccepted: Boolean
     favoriteSubjects: [String]

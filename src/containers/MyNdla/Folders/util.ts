@@ -6,8 +6,7 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { DragEndEvent, Announcements } from "@dnd-kit/core";
+import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import config from "../../../config";
 
@@ -42,50 +41,6 @@ export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
         parentId,
       },
     }).catch(() => updateCache(originalIds));
-  };
-};
-
-interface DraggableData {
-  name: string;
-  index: number;
-}
-
-export const makeDndTranslations = (type: "folder" | "resource", t: TFunction, length: number): Announcements => {
-  return {
-    onDragStart: ({ active }) => {
-      const { name, index } = active.data.current as DraggableData;
-      return t(`myNdla.${type}.onDragStart`, {
-        name,
-        index,
-        length,
-      });
-    },
-    onDragOver: ({ active, over }) => {
-      const { name } = active.data.current as DraggableData;
-      const overData = over?.data.current as DraggableData;
-      return overData
-        ? t(`myNdla.${type}.onDragOver`, {
-            name,
-            index: overData.index,
-            length,
-          })
-        : t(`myNdla.${type}.onDragMissingOver`, { name });
-    },
-    onDragEnd: ({ active, over }) => {
-      const { name } = active.data.current as DraggableData;
-      const overData = over?.data.current as DraggableData;
-      return overData
-        ? t(`myNdla.${type}.onDragEnd`, {
-            name,
-            index: overData.index,
-            length,
-          })
-        : t(`myNdla.${type}.onDragEndMissingOver`, { name });
-    },
-    onDragCancel: ({ active }) => {
-      const { name } = active.data.current as DraggableData;
-      return t(`myNdla.${type}.onDragCancel`, { name });
-    },
   };
 };
 

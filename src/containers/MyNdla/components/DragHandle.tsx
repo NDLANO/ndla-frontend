@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends Omit<IconButtonProps, "type"> {
   sortableId: string;
-  type: "folder" | "resource" | "category";
+  type: "folder" | "resource" | "category" | "learningpathstep";
   name: string;
 }
 

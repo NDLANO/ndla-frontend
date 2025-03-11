@@ -17,8 +17,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
+import { makeDndTranslations } from "../../dndUtil";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
-import { makeDndSortFunction, makeDndTranslations } from "../util";
+import { makeDndSortFunction } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {
   base: {

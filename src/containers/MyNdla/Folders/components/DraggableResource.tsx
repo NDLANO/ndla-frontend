@@ -14,7 +14,7 @@ import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { DraggableListItem, DragWrapper } from "./DraggableFolder";
+import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
@@ -28,6 +28,7 @@ import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../../folderMutations";
+import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 const StyledTagsWrapper = styled("div", {
   base: {
