@@ -3722,7 +3722,7 @@ export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
   subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
-export type GQLNewSearchQueryQueryVariables = Exact<{
+export type GQLSearchPageQueryVariables = Exact<{
   query?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
@@ -3745,7 +3745,7 @@ export type GQLNewSearchQueryQueryVariables = Exact<{
   nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
-export type GQLNewSearchQueryQuery = {
+export type GQLSearchPageQuery = {
   __typename?: "Query";
   search?: {
     __typename?: "Search";
@@ -4155,18 +4155,6 @@ export type GQLSearchContextFragment = {
   resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
 };
 
-export type GQLGroupSearchResourceFragment = {
-  __typename?: "GroupSearchResult";
-  id: number;
-  url: string;
-  title: string;
-  htmlTitle: string;
-  ingress: string;
-  traits: Array<string>;
-  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-};
-
 type GQLSearchResource_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
   htmlTitle: string;
@@ -4256,53 +4244,6 @@ export type GQLSearchQuery = {
   };
 };
 
-export type GQLGroupSearchQueryVariables = Exact<{
-  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
-  query?: InputMaybe<Scalars["String"]["input"]>;
-  page?: InputMaybe<Scalars["Int"]["input"]>;
-  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  fallback?: InputMaybe<Scalars["String"]["input"]>;
-  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
-  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  grepCodesList?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>> | InputMaybe<Scalars["String"]["input"]>>;
-  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
-  license?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLGroupSearchQuery = {
-  __typename?: "Query";
-  groupSearch?: Array<{
-    __typename?: "GroupSearch";
-    resourceType: string;
-    totalCount: number;
-    language: string;
-    resources: Array<{ __typename?: "GroupSearchResult" } & GQLGroupSearchResourceFragment>;
-    aggregations: Array<{
-      __typename?: "AggregationResult";
-      values: Array<{ __typename?: "BucketResult"; value: string }>;
-    }>;
-    suggestions: Array<{
-      __typename?: "SuggestionResult";
-      suggestions: Array<{
-        __typename?: "SearchSuggestion";
-        options: Array<{ __typename?: "SuggestOption"; text: string }>;
-      }>;
-    }>;
-  }>;
-  competenceGoals?: Array<{
-    __typename?: "CompetenceGoal";
-    id: string;
-    title: string;
-    type: string;
-    curriculum?: { __typename?: "Reference"; id: string; title: string };
-    competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
-  }>;
-  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
-};
-
 export type GQLCopyrightInfoFragment = {
   __typename?: "Copyright";
   origin?: string;
@@ -4311,37 +4252,6 @@ export type GQLCopyrightInfoFragment = {
   creators: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
   processors: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
   rightsholders: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
-};
-
-export type GQLSubjectInfoFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-  subjectpage?: {
-    __typename?: "SubjectPage";
-    id: number;
-    about?: {
-      __typename?: "SubjectPageAbout";
-      title: string;
-      visualElement: { __typename?: "SubjectPageVisualElement"; url: string };
-    };
-    banner: { __typename?: "SubjectPageBanner"; desktopUrl: string };
-  };
-};
-
-export type GQLSearchPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLSearchPageQuery = {
-  __typename?: "Query";
-  subjects?: Array<{ __typename?: "Node" } & GQLSubjectInfoFragment>;
-  resourceTypes?: Array<{
-    __typename?: "ResourceTypeDefinition";
-    id: string;
-    name: string;
-    subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
-  }>;
 };
 
 export type GQLMovedResourceQueryVariables = Exact<{

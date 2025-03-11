@@ -47,8 +47,7 @@ import H5pPage from "./containers/ResourceEmbed/H5pPage";
 import ImagePage from "./containers/ResourceEmbed/ImagePage";
 import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
-import SearchPage from "./containers/SearchPage/SearchPage";
-import { SearchPage as SearchPageV2 } from "./containers/SearchPageV2/SearchPage";
+import { SearchPage } from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
 import SubjectPage from "./containers/SubjectPage/SubjectPage";
 import { TopicPage } from "./containers/TopicPage/TopicPage";
@@ -103,7 +102,6 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route index element={<WelcomePage />} />
                 <Route path="subjects" element={<AllSubjectsPage />} />
                 <Route path="search" element={<SearchPage />} />
-                <Route path="searchv2" element={<SearchPageV2 />} />
                 <Route path="utdanning">
                   <Route path=":programme" element={<ProgrammePage />} />
                   <Route path=":programme/:contextId" element={<ProgrammePage />}>

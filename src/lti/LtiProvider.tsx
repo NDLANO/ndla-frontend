@@ -11,7 +11,7 @@ import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
-import { SearchContainer } from "../containers/SearchPageV2/SearchContainer";
+import { SearchContainer } from "../containers/SearchPage/SearchContainer";
 import { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
 import { getLangAttributeValue } from "../i18n";
 import { LtiContextProvider } from "../LtiContext";

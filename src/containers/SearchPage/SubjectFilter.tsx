@@ -6,8 +6,6 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
-import sortBy from "lodash/sortBy";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
@@ -39,12 +37,14 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { constants } from "@ndla/ui";
+import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { GQLSubjectFilterQuery, GQLSubjectInfoFragment } from "../../graphqlTypes";
-import { getSubjectsCategories } from "../../util/subjects";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
+import { GQLSubjectFilterQuery } from "../../graphqlTypes";
 
 const FiltersWrapper = styled("div", {
   base: {
@@ -67,6 +67,16 @@ const subjectFilterQuery = gql`
     }
   }
 `;
+
+type LocalSubject = NonNullable<GQLSubjectFilterQuery["nodes"]>[number];
+
+interface SubjectCategory {
+  type: string;
+  subjects: LocalSubject[];
+  message?: string;
+}
+
+type SubjectCategoryType = "active" | "archived" | "beta" | "other";
 
 export const SubjectFilter = () => {
   const { t } = useTranslation();
@@ -101,10 +111,38 @@ export const SubjectFilter = () => {
     [activeSubjectIds, setSearchParams],
   );
 
-  const localeSubjectCategories = useMemo(
-    () => getSubjectsCategories(t, subjectsQuery.data?.nodes ?? []),
-    [t, subjectsQuery.data],
-  );
+  // TODO: Fix messy mapping of subjects to make path absolute.
+  // Inherited from old implementation
+  const localeSubjectCategories = useMemo(() => {
+    const subjects = subjectsQuery.data?.nodes ?? [];
+    const reduced = subjects.reduce<Record<SubjectCategoryType, SubjectCategory>>(
+      (acc, curr) => {
+        const subject = { ...curr, url: curr.url ?? "" };
+        const category = curr.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY];
+        if (category === constants.subjectCategories.ACTIVE_SUBJECTS) {
+          acc.active.subjects.push(subject);
+        } else if (category === constants.subjectCategories.ARCHIVE_SUBJECTS) {
+          acc.archived.subjects.push(subject);
+        } else if (category === constants.subjectCategories.BETA_SUBJECTS) {
+          acc.beta.subjects.push(subject);
+        } else if (category === constants.subjectCategories.OTHER) {
+          acc.other.subjects.push(subject);
+        }
+        return acc;
+      },
+      {
+        active: { type: constants.subjectCategories.ACTIVE_SUBJECTS, subjects: [] },
+        archived: {
+          type: constants.subjectCategories.ARCHIVE_SUBJECTS,
+          subjects: [],
+          message: t("messageBoxInfo.frontPageExpired"),
+        },
+        beta: { type: constants.subjectCategories.BETA_SUBJECTS, subjects: [] },
+        other: { type: constants.subjectCategories.OTHER, subjects: [] },
+      },
+    );
+    return [reduced.active, reduced.archived, reduced.beta, reduced.other];
+  }, [subjectsQuery.data?.nodes, t]);
 
   if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
     return;
@@ -158,15 +196,8 @@ export const SubjectFilter = () => {
   );
 };
 
-interface Category {
-  type?: string;
-  visible?: boolean;
-  message?: string;
-  subjects: GQLSubjectInfoFragment[];
-}
-
 interface SubjectFilterDialogContentProps {
-  categories: Category[];
+  categories: SubjectCategory[];
   onToggleSubject: (id: string) => void;
   selectedSubjects: string[];
 }
@@ -179,12 +210,12 @@ const SubjectFilterDialogContent = ({
   const { t } = useTranslation();
 
   const tabs = useMemo(() => {
-    const allSubjects: GQLSubjectInfoFragment[] = [];
+    const allSubjects: LocalSubject[] = [];
     const data = [];
     categories.forEach((category) => {
       allSubjects.push(...category.subjects);
       const sortedSubjects = sortBy(category.subjects, (s) => s.name);
-      if (category.visible) {
+      if (category.subjects.length) {
         data.push({
           title: t(`subjectCategories.${category.type}`),
           id: category.type,
@@ -196,7 +227,7 @@ const SubjectFilterDialogContent = ({
                 </StyledMessageBox>
               )}
               <SubjectList
-                subjects={groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase())}
+                subjects={groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase() ?? "undefined")}
                 onToggleSubject={onToggleSubject}
                 selectedSubjects={selectedSubjects}
               />
@@ -213,7 +244,7 @@ const SubjectFilterDialogContent = ({
       id: "allsubjects",
       content: (
         <SubjectList
-          subjects={groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase())}
+          subjects={groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase() ?? "undefined")}
           onToggleSubject={onToggleSubject}
           selectedSubjects={selectedSubjects}
         />
@@ -248,7 +279,7 @@ const SubjectFilterDialogContent = ({
 };
 
 interface SubjectListProps {
-  subjects: Record<string, GQLSubjectInfoFragment[]>;
+  subjects: Record<string, LocalSubject[]>;
   onToggleSubject: (id: string) => void;
   selectedSubjects: string[];
 }
