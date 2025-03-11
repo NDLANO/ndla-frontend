@@ -4111,6 +4111,13 @@ export type GQLIframePageQuery = {
   nodeByArticleId?: { __typename?: "Node" } & GQLIframeArticlePage_NodeFragment;
 };
 
+export type GQLLtiSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLLtiSearchResourceTypesQuery = {
+  __typename?: "Query";
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLSearchContainer_ResourceTypeDefinitionFragment>;
+};
+
 export type GQLContextQueryVariables = Exact<{
   contextId: Scalars["String"]["input"];
 }>;

@@ -93,7 +93,13 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
 const CheckboxWrapper = styled("div", {
   base: {
     marginBlockStart: "xsmall",
-    marginInlineStart: "large",
+  },
+  variants: {
+    lti: {
+      false: {
+        marginInlineStart: "large",
+      },
+    },
   },
 });
 
@@ -186,7 +192,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
           ))}
         </StyledRadioGroupRoot>
       )}
-      <CheckboxWrapper hidden={nodeType !== RESOURCE_NODE_TYPE}>
+      <CheckboxWrapper hidden={nodeType !== RESOURCE_NODE_TYPE} lti={isLti}>
         {resourceTypesLoading ? (
           <Spinner />
         ) : (

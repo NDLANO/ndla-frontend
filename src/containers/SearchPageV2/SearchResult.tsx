@@ -144,7 +144,15 @@ export const SearchResult = ({ searchResult }: Props) => {
           </Text>
         )}
         {!!contentType && <ContentTypeBadge contentType={contentType} />}
-        {!!ltiContext && <LtiEmbed item={searchResult} />}
+        {!!ltiContext && (
+          <LtiEmbed
+            item={{
+              id: searchResult.id,
+              title: searchResult.title,
+              url: searchResult.context?.url ?? searchResult.contexts[0]?.url ?? "",
+            }}
+          />
+        )}
       </li>
     </StyledListItemRoot>
   );
