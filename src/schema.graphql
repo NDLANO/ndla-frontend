@@ -72,7 +72,7 @@ type ArticleSearchResult implements SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
@@ -681,7 +681,7 @@ type LearningpathSearchResult implements SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
@@ -983,6 +983,18 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   url: String
 }
 
+type NodeSearchResult implements SearchResult {
+  context: SearchContext
+  contexts: [SearchContext!]!
+  htmlTitle: String!
+  id: String!
+  metaDescription: String!
+  metaImage: MetaImage
+  supportedLanguages: [String!]!
+  title: String!
+  url: String!
+}
+
 type Owner {
   name: String!
 }
@@ -1092,10 +1104,12 @@ type Query {
     language: String
     levels: String
     license: String
+    nodeTypes: String
     page: Int
     pageSize: Int
     query: String
     resourceTypes: String
+    resultTypes: String
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
@@ -1137,11 +1151,13 @@ type Query {
     languageFilter: String
     levels: String
     license: String
+    nodeTypes: String
     page: Int
     pageSize: Int
     query: String
     relevance: String
     resourceTypes: String
+    resultTypes: String
     sort: String
     subjects: String
     traits: [String!]
@@ -1154,9 +1170,11 @@ type Query {
     languageFilter: String
     levels: String
     license: String
+    nodeTypes: String
     query: String
     relevance: String
     resourceTypes: String
+    resultTypes: String
     sort: String
     subjects: String
   ): SearchWithoutPagination
@@ -1253,9 +1271,7 @@ type SearchContext {
   contextType: String!
   isActive: Boolean!
   isPrimary: Boolean!
-  isVisible: Boolean!
   language: String!
-  parentIds: [String!]!
   path: String!
   publicId: String!
   relevance: String!
@@ -1275,15 +1291,14 @@ type SearchContextResourceTypes {
 interface SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
-  htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
-  metaImage: MetaImage
   supportedLanguages: [String!]!
   title: String!
-  traits: [String!]!
   url: String!
 }
+
+union SearchResultUnion = ArticleSearchResult | LearningpathSearchResult | NodeSearchResult
 
 type SearchSuggestion {
   length: Int!
