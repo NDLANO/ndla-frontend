@@ -244,6 +244,12 @@ const messages = {
       newLearningpath: "Ny læringssti",
       editLearningpath: "Rediger læringssti",
       editLearningpathTitle: "Rediger tittel på læringssti",
+      alert: {
+        title: "Du har ulagrede endringer i steget",
+        content: "Du har ulagrede endringer i steget. Om du fortsetter vil alle endringer bli mistet.",
+        continue: "Fortsett",
+        cancel: "Avbryt",
+      },
       form: {
         delete: "Slett",
         next: "Gå videre",

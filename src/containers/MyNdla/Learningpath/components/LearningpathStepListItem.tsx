@@ -6,13 +6,12 @@
  *
  */
 
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
 import { getFormTypeFromStep } from "../utils";
@@ -43,15 +42,15 @@ const ContentWrapper = styled("div", {
 });
 
 interface LearningpathStepListItemProps {
-  learningpathId: number;
+  learningpath: GQLMyNdlaLearningpathFragment;
   step: GQLMyNdlaLearningpathStepFragment;
   selectedLearningpathStepId: number | undefined;
-  setSelectedLearningpathStepId: Dispatch<SetStateAction<number | undefined>>;
+  setSelectedLearningpathStepId: (val: number | undefined) => void;
 }
 
 export const LearningpathStepListItem = ({
   step,
-  learningpathId,
+  learningpath,
   selectedLearningpathStepId,
   setSelectedLearningpathStepId,
 }: LearningpathStepListItemProps) => {
@@ -65,11 +64,12 @@ export const LearningpathStepListItem = ({
     const transformedData = formValuesToGQLInput(data);
     const res = await updateStep({
       variables: {
-        learningpathId: learningpathId,
+        learningpathId: learningpath.id,
         learningstepId: step.id,
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
+
     if (!res.errors?.length) {
       setSelectedLearningpathStepId(undefined);
     } else {
@@ -81,7 +81,7 @@ export const LearningpathStepListItem = ({
     const res = await deleteStep({
       variables: {
         learningstepId: step.id,
-        learningpathId: learningpathId,
+        learningpathId: learningpath.id,
       },
     });
     if (!res.errors?.length) {
@@ -115,7 +115,7 @@ export const LearningpathStepListItem = ({
         )}
       </ContentWrapper>
       {step.id === selectedLearningpathStepId ? (
-        <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
+        <LearningpathStepForm stepType={stepType} step={step} onSave={onSave} onDelete={onDelete} />
       ) : null}
     </li>
   );

@@ -245,6 +245,12 @@ const messages = {
       newLearningpath: "New learningpath",
       editLearningpath: "Edit learningpath",
       editLearningpathTitle: "Edit learningpath title",
+      alert: {
+        title: "You have unsaved changes in the form",
+        content: "You have unsaved changes in the form. If you continue all changes will be lost.",
+        continue: "Continue",
+        cancel: "Cancel",
+      },
       form: {
         delete: "Delete",
         next: "Proceed",
