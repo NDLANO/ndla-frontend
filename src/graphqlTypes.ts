@@ -1443,12 +1443,10 @@ export type GQLQueryGroupSearchArgs = {
   language?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
   license?: InputMaybe<Scalars["String"]["input"]>;
-  nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
   page?: InputMaybe<Scalars["Int"]["input"]>;
   pageSize?: InputMaybe<Scalars["Int"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  resultTypes?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
 };
 
@@ -1571,11 +1569,9 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   languageFilter?: InputMaybe<Scalars["String"]["input"]>;
   levels?: InputMaybe<Scalars["String"]["input"]>;
   license?: InputMaybe<Scalars["String"]["input"]>;
-  nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
   query?: InputMaybe<Scalars["String"]["input"]>;
   relevance?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  resultTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
 };
@@ -3745,6 +3741,8 @@ export type GQLNewSearchQueryQueryVariables = Exact<{
   aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
   license?: InputMaybe<Scalars["String"]["input"]>;
+  resultTypes?: InputMaybe<Scalars["String"]["input"]>;
+  nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLNewSearchQueryQuery = {
@@ -3758,6 +3756,7 @@ export type GQLNewSearchQueryQuery = {
     results: Array<
       | ({ __typename?: "ArticleSearchResult" } & GQLSearchResult_SearchResult_ArticleSearchResult_Fragment)
       | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment)
+      | ({ __typename?: "NodeSearchResult" } & GQLSearchResult_SearchResult_NodeSearchResult_Fragment)
     >;
     aggregations: Array<{
       __typename?: "AggregationResult";
@@ -3786,9 +3785,9 @@ export type GQLSearchResourceTypesQuery = {
 
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
-  id: number;
-  url: string;
   htmlTitle: string;
+  id: string;
+  url: string;
   title: string;
   metaDescription: string;
   context?: {
@@ -3812,9 +3811,34 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
 
 type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
   __typename?: "LearningpathSearchResult";
-  id: number;
-  url: string;
   htmlTitle: string;
+  id: string;
+  url: string;
+  title: string;
+  metaDescription: string;
+  context?: {
+    __typename?: "SearchContext";
+    contextId: string;
+    publicId: string;
+    url: string;
+    breadcrumbs: Array<string>;
+    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+  };
+  contexts: Array<{
+    __typename?: "SearchContext";
+    contextId: string;
+    publicId: string;
+    url: string;
+    breadcrumbs: Array<string>;
+    relevanceId: string;
+    resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+  }>;
+};
+
+type GQLSearchResult_SearchResult_NodeSearchResult_Fragment = {
+  __typename?: "NodeSearchResult";
+  id: string;
+  url: string;
   title: string;
   metaDescription: string;
   context?: {
@@ -3838,7 +3862,8 @@ type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
 
 export type GQLSearchResult_SearchResultFragment =
   | GQLSearchResult_SearchResult_ArticleSearchResult_Fragment
-  | GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment;
+  | GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment
+  | GQLSearchResult_SearchResult_NodeSearchResult_Fragment;
 
 export type GQLSubjectFilterQueryVariables = Exact<{ [key: string]: never }>;
 

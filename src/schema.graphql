@@ -1104,12 +1104,10 @@ type Query {
     language: String
     levels: String
     license: String
-    nodeTypes: String
     page: Int
     pageSize: Int
     query: String
     resourceTypes: String
-    resultTypes: String
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
@@ -1170,11 +1168,9 @@ type Query {
     languageFilter: String
     levels: String
     license: String
-    nodeTypes: String
     query: String
     relevance: String
     resourceTypes: String
-    resultTypes: String
     sort: String
     subjects: String
   ): SearchWithoutPagination

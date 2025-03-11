@@ -117,6 +117,7 @@ const messages = {
       title: "Choose page type",
       showSubtypes: "Show subtypes for {{parent}}",
       resourceLabel: "Resource",
+      subjectLabel: "Subject",
       topicLabel: "Topic",
       hits: "{{count}} hits",
     },

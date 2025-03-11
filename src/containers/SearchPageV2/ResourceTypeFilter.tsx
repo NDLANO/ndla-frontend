@@ -34,7 +34,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
-import { RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 import {
   GQLResourceTypeFilter_BucketResultFragment,
@@ -97,7 +97,7 @@ const CheckboxWrapper = styled("div", {
   },
 });
 
-const NODE_TYPES = [TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
+const NODE_TYPES = [SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();

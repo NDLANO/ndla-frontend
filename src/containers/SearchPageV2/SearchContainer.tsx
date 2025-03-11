@@ -133,6 +133,8 @@ const searchQueryFragment = gql`
     $aggregatePaths: [String!]
     $filterInactive: Boolean
     $license: String
+    $resultTypes: String
+    $nodeTypes: String
   ) {
     search(
       query: $query
@@ -153,6 +155,8 @@ const searchQueryFragment = gql`
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
       license: $license
+      resultTypes: $resultTypes
+      nodeTypes: $nodeTypes
     ) {
       page
       pageSize
@@ -218,7 +222,9 @@ const getTypeVariables = (
   // TODO: Figure out if we want this. It depends on what search approach we go for
   if (nodeType !== RESOURCE_NODE_TYPE) {
     return {
-      contextTypes: nodeType === "topic" ? "topic-article" : nodeType,
+      contextTypes: nodeType === "topic" ? "topic-article" : nodeType === "subject" ? "subject" : nodeType,
+      resultTypes: nodeType === "subject" ? "node" : undefined,
+      nodeTypes: nodeType === "subject" ? "SUBJECT" : undefined,
     };
   }
 
@@ -233,6 +239,9 @@ const getTypeVariables = (
 
   return {
     resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
+    // TODO: Keep for later, in case we want to replace "resource" with "all"
+    // resultTypes: !resourceTypes ? "article,node" : undefined,
+    // nodeTypes: !resourceTypes ? "SUBJECT" : undefined,
   };
 };
 

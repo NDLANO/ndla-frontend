@@ -53,6 +53,10 @@ const StyledButton = styled(Button, {
 });
 
 const resultUrl = (result: GQLSearchResult_SearchResultFragment, isLti: boolean, language: string) => {
+  if (result.__typename === "NodeSearchResult") {
+    // search returns full URL for nodes
+    return "/f/".concat(result.url.split("/f/").pop() ?? "");
+  }
   if (isLti) {
     const commonPath = `/article-iframe/${language ? `${language}/` : ""}`;
     const publicId = result.contexts[0]?.publicId;
@@ -75,20 +79,26 @@ export const SearchResult = ({ searchResult }: Props) => {
   const context = searchResult.context;
 
   const contentType = useMemo(() => {
+    if (searchResult.__typename === "NodeSearchResult") {
+      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
+      return constants.contentTypes.SUBJECT;
+    }
     if (context?.resourceTypes?.length) {
       return constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
     } else if (context?.url.startsWith("/e")) {
       return constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
     }
     return undefined;
-  }, [context]);
+  }, [context?.resourceTypes, context?.url, searchResult.__typename]);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
       <li>
         <ListItemHeading asChild consumeCss fontWeight="bold">
           <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} unstyled css={linkOverlay.raw()}>
-            {parse(searchResult.htmlTitle)}
+            {searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult"
+              ? parse(searchResult.htmlTitle)
+              : searchResult.title}
           </SafeLink>
         </ListItemHeading>
         {!!searchResult.metaDescription && <Text textStyle="body.large">{searchResult.metaDescription}</Text>}
@@ -145,8 +155,13 @@ SearchResult.fragments = {
     fragment SearchResult_SearchResult on SearchResult {
       id
       url
-      htmlTitle
       title
+      ... on ArticleSearchResult {
+        htmlTitle
+      }
+      ... on LearningpathSearchResult {
+        htmlTitle
+      }
       metaDescription
       context {
         contextId
