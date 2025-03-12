@@ -313,15 +313,16 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   );
 
   const suggestion = data?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
+  const totalCount = Math.min(data?.search?.totalCount ?? 0, 10000);
 
   const resultsTranslation = useMemo(() => {
     if (!data?.search) return undefined;
     const res = [];
 
-    if (data.search.totalCount) {
+    if (totalCount) {
       const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
-      const to = Math.min((page || 1) * data.search.pageSize, data.search.totalCount);
-      res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
+      const to = Math.min((page || 1) * data.search.pageSize, totalCount);
+      res.push(t("searchPage.showingResults.hits", { from, to, total: totalCount }));
     } else {
       res.push(t("searchPage.showingResults.noHits"));
     }
@@ -333,7 +334,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       res.push(`"${currentQuery}"`);
     }
     return res.filter(Boolean).join(" ");
-  }, [data?.search, page, searchParams, t]);
+  }, [data?.search, page, searchParams, t, totalCount]);
 
   return (
     <StyledMain ref={isLti ? focusRef : undefined}>
@@ -410,7 +411,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
           <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
-          {!!data?.search && data.search.totalCount > data.search.pageSize && (
+          {!!data?.search && totalCount > data.search.pageSize && (
             <StyledPaginationRoot
               page={page}
               onPageChange={(details) => {
@@ -418,7 +419,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
               }}
               onClick={() => focusRef.current?.focus()}
-              count={data?.search?.totalCount ?? 0}
+              count={totalCount ?? 0}
               pageSize={data?.search?.pageSize ?? 0}
               translations={paginationTranslations}
               siblingCount={1}
@@ -475,7 +476,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               variant="tertiary"
               aria-label={t("pagination.next")}
               title={t("pagination.next")}
-              disabled={!data?.search || data.search.totalCount <= page * data.search.pageSize}
+              disabled={!data?.search || totalCount <= page * data.search.pageSize}
               onClick={() => {
                 const nextPage = page + 1;
                 setPage(nextPage);
