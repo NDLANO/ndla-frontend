@@ -24,6 +24,8 @@ import {
   GQLUpdateLearningpathMutationVariables,
   GQLCopyLearningpathMutationVariables,
   GQLCopyLearningpathMutation,
+  GQLUpdateLearningpathStepSeqNoMutation,
+  GQLUpdateLearningpathStepSeqNoMutationVariables,
 } from "../../../graphqlTypes";
 import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
 
@@ -133,7 +135,6 @@ export const useCreateLearningpathStep = (
     newLearningpathStepMutation,
     {
       ...options,
-      awaitRefetchQueries: true,
       onCompleted: (data, methodOptions) => {
         client.cache.evict({
           id: "ROOT_QUERY",
@@ -174,7 +175,6 @@ export const useUpdateLearningpathStep = (
     updateLearningpathStepMutation,
     {
       ...options,
-      awaitRefetchQueries: true,
       onCompleted: (_data, methodOptions) => {
         client.cache.evict({
           id: "ROOT_QUERY",
@@ -240,7 +240,6 @@ export const useDeleteLearningpathStep = (
         client.cache.evict({ id: normalizedId, broadcast: true });
         client.cache.gc();
       },
-      awaitRefetchQueries: true,
     },
   );
 };
@@ -297,3 +296,42 @@ const copyLearningpathMutation = gql`
 export const useCopyLearningpathMutation = (
   options?: MutationHookOptions<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
 ) => useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, options);
+
+const updateLearningpathStepSeqNo = gql`
+  mutation updateLearningpathStepSeqNo($learningpathId: Int!, $learningpathStepId: Int!, $seqNo: Int!) {
+    updateLearningpathStepSeqNo(
+      learningpathId: $learningpathId
+      learningpathStepId: $learningpathStepId
+      seqNo: $seqNo
+    ) {
+      seqNo
+    }
+  }
+`;
+
+export const useUpdateLearningpathStepSeqNo = (
+  options?: MutationHookOptions<
+    GQLUpdateLearningpathStepSeqNoMutation,
+    GQLUpdateLearningpathStepSeqNoMutationVariables
+  >,
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLUpdateLearningpathStepSeqNoMutation, GQLUpdateLearningpathStepSeqNoMutationVariables>(
+    updateLearningpathStepSeqNo,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        client.cache.evict({
+          id: "ROOT_QUERY",
+          fieldName: "learningpath",
+          args: { pathId: methodOptions?.variables?.learningpathId?.toString() },
+        });
+        const normalizedId = client.cache.identify({
+          __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
+        });
+        client.cache.evict({ id: normalizedId, broadcast: true });
+        client.cache.gc();
+      },
+    },
+  );
+};

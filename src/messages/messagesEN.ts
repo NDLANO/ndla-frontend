@@ -244,6 +244,17 @@ const messages = {
       },
     },
     goToMyNdla: "Go to My NDLA",
+    learningpathstep: {
+      onDragStart:
+        "Picked up the learningpath step {{name}}. The learningpath step is in position {{index}} of {{length}}",
+      onDragOver: "The learningpath step {{name}} was moved into position {{index}} of {{length}}",
+      onDragOverMissingOver: "The learningpath step {{name}} is no longer over a droppable area",
+      onDragEnd: "The learningpath step {{name}} was dropped at position {{index}} of {{length}}",
+      onDragEndMissingOver: "The learningpath step {{name}} was dropped",
+      onDragCancel: "Dragging was cancelled. The learningpath step {{name}} was dropped",
+      dragHandle: "Drag the learningpath step {{name}}",
+      error: "Something went wrong while moving the learningpath step",
+    },
     learningpath: {
       newLearningpath: "New learningpath",
       editLearningpath: "Edit learningpath",
@@ -440,7 +451,7 @@ const messages = {
       onDragStart: "Picked up the folder {{name}}. The folder is in position {{index}} of {{length}}",
       onDragOver: "The folder {{name}} was moved into position {{index}} of {{length}}",
       onDragOverMissingOver: "The folder {{name}} is no longer over a droppable area",
-      onDragEnd: "The folder {{name}} was dropped at position {{index}} og {{length}}",
+      onDragEnd: "The folder {{name}} was dropped at position {{index}} of {{length}}",
       onDragEndMissingOver: "The folder {{name}} was dropped",
       onDragCancel: "Dragging was cancelled. The folder {{name}} was dropped",
       dragHandle: "Drag the folder {{name}}",
