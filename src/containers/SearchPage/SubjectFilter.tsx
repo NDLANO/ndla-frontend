@@ -40,7 +40,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
-import { RESOURCE_NODE_TYPE } from "./searchUtils";
+import { SUBJECT_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -83,11 +83,11 @@ export const SubjectFilter = () => {
   const nodeType = searchParams.get("type");
 
   const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery, {
-    skip: !!nodeType && nodeType !== RESOURCE_NODE_TYPE,
+    skip: nodeType === SUBJECT_NODE_TYPE,
   });
 
   useEffect(() => {
-    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+    if (nodeType === SUBJECT_NODE_TYPE) {
       setSearchParams({ subjects: null });
     }
   }, [nodeType, setSearchParams]);
@@ -141,7 +141,7 @@ export const SubjectFilter = () => {
     return [reduced.active, reduced.archived, reduced.beta, reduced.other];
   }, [subjectsQuery.data?.nodes, t]);
 
-  if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+  if (nodeType === SUBJECT_NODE_TYPE) {
     return;
   }
 
