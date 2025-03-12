@@ -6,7 +6,6 @@
  *
  */
 
-import { uniqBy } from "lodash-es";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -14,6 +13,7 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";

@@ -6,7 +6,6 @@
  *
  */
 
-import { keyBy } from "lodash-es";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient, Reference } from "@apollo/client";
@@ -14,11 +13,13 @@ import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, close
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { styled } from "@ndla/styled-system/jsx";
+import { keyBy } from "@ndla/util";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
+import { makeDndTranslations } from "../../dndUtil";
 import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
-import { makeDndSortFunction, makeDndTranslations } from "../util";
+import { makeDndSortFunction } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {
   base: {
@@ -35,7 +36,7 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
-  const { sortResources } = useSortResourcesMutation();
+  const [sortResources] = useSortResourcesMutation();
 
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [sortedResources, setSortedResources] = useState(resources);

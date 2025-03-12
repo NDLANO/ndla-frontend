@@ -107,20 +107,23 @@ export const MovieGrid = ({ resourceType }: Props) => {
       ) : (
         <MovieListing>
           {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-            const context = movie.contexts.find((c) => c.contextType === "standard");
-            return (
-              <StyledFilmContentCard
-                style={{ "--index": index } as CSSProperties}
-                key={`${resourceType.id}-${index}`}
-                movie={{
-                  id: movie.id,
-                  metaImage: movie.metaImage,
-                  resourceTypes: [],
-                  title: movie.title,
-                  url: context?.url ?? "",
-                }}
-              />
-            );
+            if (movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") {
+              const context = movie.contexts.find((c) => c.contextType === "standard");
+              return (
+                <StyledFilmContentCard
+                  style={{ "--index": index } as CSSProperties}
+                  key={`${resourceType.id}-${index}`}
+                  movie={{
+                    id: movie.id,
+                    metaImage: movie.metaImage,
+                    resourceTypes: [],
+                    title: movie.title,
+                    url: context?.url ?? "",
+                  }}
+                />
+              );
+            }
+            return null;
           })}
         </MovieListing>
       )}
@@ -169,8 +172,15 @@ const resourceTypeMoviesQuery = gql`
       results {
         id
         metaDescription
-        metaImage {
-          url
+        ... on ArticleSearchResult {
+          metaImage {
+            url
+          }
+        }
+        ... on LearningpathSearchResult {
+          metaImage {
+            url
+          }
         }
         title
         contexts {

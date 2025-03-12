@@ -6,7 +6,7 @@
  *
  */
 
-import { partition, sortBy, uniqBy } from "lodash-es";
+import { partition, sortBy, uniqBy } from "@ndla/util";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,

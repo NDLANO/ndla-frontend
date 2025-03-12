@@ -72,7 +72,7 @@ type ArticleSearchResult implements SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
@@ -681,13 +681,17 @@ type LearningpathSearchResult implements SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
   title: String!
   traits: [String!]!
   url: String!
+}
+
+type LearningpathSeqNo {
+  seqNo: Int!
 }
 
 type LearningpathStep {
@@ -865,6 +869,7 @@ type Mutation {
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
+  updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
   updatePersonalData(
     arenaAccepted: Boolean
     favoriteSubjects: [String]
@@ -981,6 +986,18 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   url: String
+}
+
+type NodeSearchResult implements SearchResult {
+  context: SearchContext
+  contexts: [SearchContext!]!
+  htmlTitle: String!
+  id: String!
+  metaDescription: String!
+  metaImage: MetaImage
+  supportedLanguages: [String!]!
+  title: String!
+  url: String!
 }
 
 type Owner {
@@ -1137,11 +1154,13 @@ type Query {
     languageFilter: String
     levels: String
     license: String
+    nodeTypes: String
     page: Int
     pageSize: Int
     query: String
     relevance: String
     resourceTypes: String
+    resultTypes: String
     sort: String
     subjects: String
     traits: [String!]
@@ -1253,9 +1272,7 @@ type SearchContext {
   contextType: String!
   isActive: Boolean!
   isPrimary: Boolean!
-  isVisible: Boolean!
   language: String!
-  parentIds: [String!]!
   path: String!
   publicId: String!
   relevance: String!
@@ -1275,15 +1292,14 @@ type SearchContextResourceTypes {
 interface SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
-  htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
-  metaImage: MetaImage
   supportedLanguages: [String!]!
   title: String!
-  traits: [String!]!
   url: String!
 }
+
+union SearchResultUnion = ArticleSearchResult | LearningpathSearchResult | NodeSearchResult
 
 type SearchSuggestion {
   length: Int!
@@ -1373,6 +1389,7 @@ type SubjectPageBanner {
 
 type SubjectPageVisualElement {
   alt: String
+  image: ImageLicense
   type: String!
   url: String!
 }

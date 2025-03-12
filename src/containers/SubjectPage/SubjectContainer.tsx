@@ -34,6 +34,8 @@ import {
 import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
+import ImageLicenseList from "../../components/license/ImageLicenseList";
+import {ImageLicenseAccordion} from "../../components/license/ImageLicenseAccordion";
 
 type Props = {
   node: GQLSubjectContainer_NodeFragment;
@@ -224,6 +226,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
             </TransportationPageNodeListGrid>
           </StyledNav>
         )}
+        {!!about?.visualElement.image && <ImageLicenseAccordion images={[about.visualElement.image]} />}
       </StyledPageContainer>
     </main>
   );
@@ -260,6 +263,9 @@ export const subjectContainerFragments = {
             type
             alt
             url
+            image {
+              ...ImageLicenseList_ImageLicense
+            }
           }
         }
         ...SubjectLinks_SubjectPage
@@ -267,6 +273,7 @@ export const subjectContainerFragments = {
       ...FavoriteSubject_Node
     }
     ${TransportationNode.fragments.node}
+    ${ImageLicenseList.fragments.image}
     ${FavoriteSubject.fragments.node}
     ${SubjectLinks.fragments.subjectPage}
   `,

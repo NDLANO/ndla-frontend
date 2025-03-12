@@ -14,7 +14,7 @@ import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { DraggableListItem, DragWrapper } from "./DraggableFolder";
+import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
@@ -28,6 +28,7 @@ import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
 import { useDeleteFolderResourceMutation } from "../../folderMutations";
+import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 const StyledTagsWrapper = styled("div", {
   base: {
@@ -70,31 +71,39 @@ const DraggableResource = ({
     },
   });
 
-  const { deleteFolderResource } = useDeleteFolderResourceMutation(selectedFolder.id);
+  const [deleteFolderResource] = useDeleteFolderResourceMutation(selectedFolder.id);
 
   const onDeleteFolder = useCallback(
     async (resource: GQLFolderResource, index?: number) => {
       const next = index !== undefined ? resources[index + 1]?.id : undefined;
       const prev = index !== undefined ? resources[index - 1]?.id : undefined;
-      await deleteFolderResource({
+      const res = await deleteFolderResource({
         variables: { folderId: selectedFolder.id, resourceId: resource.id },
       });
-      toast.create({
-        title: t("myNdla.resource.removedFromFolder", {
-          folderName: selectedFolder.name,
-        }),
-      });
-      if (next || prev) {
-        setFocusId(next ?? prev);
-      } else if (resourceRefId) {
-        setTimeout(
-          () =>
-            (
-              document.getElementById(resourceRefId)?.getElementsByTagName("a")?.[0] ??
-              document.getElementById(resourceRefId)
-            )?.focus({ preventScroll: true }),
-          1,
-        );
+      if (!res.errors?.length) {
+        toast.create({
+          title: t("myNdla.resource.removedFromFolder", {
+            folderName: selectedFolder.name,
+          }),
+        });
+        if (next || prev) {
+          setFocusId(next ?? prev);
+        } else if (resourceRefId) {
+          setTimeout(
+            () =>
+              (
+                document.getElementById(resourceRefId)?.getElementsByTagName("a")?.[0] ??
+                document.getElementById(resourceRefId)
+              )?.focus({ preventScroll: true }),
+            1,
+          );
+        }
+      } else {
+        toast.create({
+          title: t("myNdla.resource.removedFromFolderFailed", {
+            folderName: selectedFolder.name,
+          }),
+        });
       }
     },
     [resources, deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t, resourceRefId, setFocusId],
