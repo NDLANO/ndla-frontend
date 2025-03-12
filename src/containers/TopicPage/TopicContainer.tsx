@@ -164,10 +164,12 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               )}
             </HeadingWrapper>
             {!!(node.article?.htmlIntroduction?.length || node.meta?.metaDescription?.length) && (
-              <Text textStyle="body.large">
-                {node.article?.htmlIntroduction?.length
-                  ? parse(node.article.htmlIntroduction)
-                  : node.meta?.metaDescription}
+              <Text textStyle="body.large" asChild consumeCss>
+                <div>
+                  {node.article?.htmlIntroduction?.length
+                    ? parse(node.article.htmlIntroduction)
+                    : node.meta?.metaDescription}
+                </div>
               </Text>
             )}
             {!!node.article?.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
