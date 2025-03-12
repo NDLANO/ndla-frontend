@@ -6,7 +6,8 @@
  *
  */
 
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -55,55 +56,52 @@ interface Props {
 export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete }: Props) => {
   const { t } = useTranslation();
 
-  const methods = useForm<FormValues>({
-    mode: "onSubmit",
-    defaultValues: toFormValues(stepType, step),
-  });
+  const { handleSubmit, control, reset, formState } = useFormContext<FormValues>();
 
-  const { handleSubmit, control, reset, formState } = methods;
+  useEffect(() => {
+    reset(toFormValues(stepType, step));
+  }, [reset, step, stepType]);
 
   return (
-    <FormProvider {...methods}>
-      <ContentForm onSubmit={handleSubmit(onSave)} noValidate>
-        <Controller
-          name="type"
-          control={control}
-          render={({ field, fieldState }) => (
-            <FieldRoot required>
-              <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-              <RadioGroupRoot
-                onValueChange={(details) => reset(toFormValues(details.value as FormValues["type"]))}
-                orientation="vertical"
-                {...field}
-              >
-                {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val}>
-                    <RadioGroupItemControl />
-                    <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
-                    <RadioGroupItemHiddenInput />
-                  </RadioGroupItem>
-                ))}
-              </RadioGroupRoot>
-            </FieldRoot>
-          )}
-        />
-        <StepFormType step={step} />
-        <HStack justify={onDelete ? "space-between" : "end"}>
-          {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
-          <HStack>
-            {onClose ? (
-              <Button variant="secondary" onClick={onClose}>
-                {t("cancel")}
-              </Button>
-            ) : null}
-            <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting}>
-              {t("save")}
+    <ContentForm onSubmit={handleSubmit(onSave)} noValidate>
+      <Controller
+        name="type"
+        control={control}
+        render={({ field, fieldState }) => (
+          <FieldRoot required>
+            <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <RadioGroupRoot
+              onValueChange={(details) => reset(toFormValues(details.value as FormValues["type"]))}
+              orientation="vertical"
+              {...field}
+            >
+              {RADIO_GROUP_OPTIONS.map((val) => (
+                <RadioGroupItem value={val} key={val}>
+                  <RadioGroupItemControl />
+                  <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
+                  <RadioGroupItemHiddenInput />
+                </RadioGroupItem>
+              ))}
+            </RadioGroupRoot>
+          </FieldRoot>
+        )}
+      />
+      <StepFormType step={step} />
+      <HStack justify={onDelete ? "space-between" : "end"}>
+        {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
+        <HStack>
+          {onClose ? (
+            <Button variant="secondary" onClick={onClose}>
+              {t("cancel")}
             </Button>
-          </HStack>
+          ) : null}
+          <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting}>
+            {t("save")}
+          </Button>
         </HStack>
-      </ContentForm>
-    </FormProvider>
+      </HStack>
+    </ContentForm>
   );
 };
 
