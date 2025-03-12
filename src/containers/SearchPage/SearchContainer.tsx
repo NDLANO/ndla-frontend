@@ -457,8 +457,9 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               variant="tertiary"
               aria-label={t("pagination.prev")}
               title={t("pagination.prev")}
+              disabled={page === 1}
               onClick={() => {
-                const prevPage = page + 1;
+                const prevPage = page - 1;
                 setPage(prevPage);
                 setSearchParams({ page: prevPage.toString() });
                 focusRef.current?.focus();
@@ -471,6 +472,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               variant="tertiary"
               aria-label={t("pagination.next")}
               title={t("pagination.next")}
+              disabled={!data?.search || data.search.totalCount <= page * data.search.pageSize}
               onClick={() => {
                 const nextPage = page + 1;
                 setPage(nextPage);
