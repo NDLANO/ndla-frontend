@@ -43,7 +43,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
             <ResourceBox
               title={learningpathStep.opengraph?.title ?? ""}
               caption={learningpathStep.opengraph?.description ?? ""}
-              url={learningpathStep.opengraph?.url ?? ""}
+              url={learningpathStep.opengraph?.url ?? learningpathStep.embedUrl?.url ?? ""}
               buttonText={t("learningpathPage.externalLink")}
             />
           </section>
