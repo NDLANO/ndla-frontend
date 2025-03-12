@@ -209,7 +209,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
           </NoSSR>
         )}
         {!!node.article?.transformedContent.metaData?.images && (
-          <ImageLicenseAccordion images={node.article.transformedContent.metaData.images} />
+          <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
         )}
       </StyledPageContainer>
     </main>

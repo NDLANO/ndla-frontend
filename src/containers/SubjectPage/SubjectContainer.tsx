@@ -227,7 +227,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
           </StyledNav>
         )}
         {!!about?.visualElement.imageLicense && (
-          <ImageLicenseAccordion images={[about.visualElement.imageLicense]} />
+          <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
         )}
       </StyledPageContainer>
     </main>

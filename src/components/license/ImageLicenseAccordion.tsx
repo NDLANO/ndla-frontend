@@ -20,7 +20,7 @@ import ImageLicenseList from "./ImageLicenseList";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 
 type Props = {
-  images: GQLImageLicenseList_ImageLicenseFragment[];
+  imageLicenses: GQLImageLicenseList_ImageLicenseFragment[];
 };
 
 const StyledAccordionRoot = styled(AccordionRoot, {
@@ -29,7 +29,7 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   },
 });
 
-export const ImageLicenseAccordion = ({ images }: Props) => {
+export const ImageLicenseAccordion = ({ imageLicenses }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -46,7 +46,7 @@ export const ImageLicenseAccordion = ({ images }: Props) => {
           </h2>
         </Heading>
         <AccordionItemContent>
-          <ImageLicenseList images={images} />
+          <ImageLicenseList images={imageLicenses} />
         </AccordionItemContent>
       </AccordionItem>
     </StyledAccordionRoot>
