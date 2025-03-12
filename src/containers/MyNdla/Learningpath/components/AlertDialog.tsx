@@ -97,7 +97,12 @@ export const AlertDialog = ({ formState, onContinue, onAbort, isBlocking }: Prop
   }, [shouldBlock, nextLocation, navigate]);
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
+      onInteractOutside={onCancel}
+      onEscapeKeyDown={onCancel}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t(`myNdla.learningpath.alert.title`)}</DialogTitle>

@@ -49,7 +49,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [createStep] = useCreateLearningpathStep();
   const toast = useToast();
 
-  const methods = useForm<FormValues>({
+  const formMethods = useForm<FormValues>({
     defaultValues: toFormValues("text"),
   });
 
@@ -63,10 +63,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         },
       });
       if (!res.errors?.length) {
-        //Reset the form to remove traces of changes
-        methods.reset();
-
-        setSelectedLearningpathStepId(undefined);
+        handleStateChanges(undefined);
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
@@ -75,7 +72,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   };
 
   const onFormChange = (val: number | undefined) => {
-    if (methods.formState.isDirty && val) {
+    if (formMethods.formState.isDirty && val) {
       setNextId(val);
     } else {
       handleStateChanges(val);
@@ -83,15 +80,17 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   };
 
   const handleStateChanges = (val: number | undefined) => {
+    //Reset the form to remove traces of changes
+    formMethods.reset();
     setSelectedLearningpathStepId(val);
     setNextId(undefined);
   };
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...formMethods}>
       {nextId ? (
         <AlertDialog
-          formState={methods.formState}
+          formState={formMethods.formState}
           isBlocking={!!nextId}
           onAbort={() => setNextId(undefined)}
           onContinue={() => handleStateChanges(nextId)}
