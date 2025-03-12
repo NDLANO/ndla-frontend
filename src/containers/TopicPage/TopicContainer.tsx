@@ -208,7 +208,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
             </BleedPageContent>
           </NoSSR>
         )}
-        {!!node.article?.transformedContent.metaData?.images && <ImageLicenseAccordion images={node.article.transformedContent.metaData.images} />}
+        {!!node.article?.transformedContent.metaData?.images && (
+          <ImageLicenseAccordion images={node.article.transformedContent.metaData.images} />
+        )}
       </StyledPageContainer>
     </main>
   );

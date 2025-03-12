@@ -19,6 +19,8 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
+import ImageLicenseList from "../../components/license/ImageLicenseList";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -34,8 +36,6 @@ import {
 import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
-import ImageLicenseList from "../../components/license/ImageLicenseList";
-import {ImageLicenseAccordion} from "../../components/license/ImageLicenseAccordion";
 
 type Props = {
   node: GQLSubjectContainer_NodeFragment;
