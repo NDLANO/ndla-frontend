@@ -226,7 +226,9 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
             </TransportationPageNodeListGrid>
           </StyledNav>
         )}
-        {!!about?.visualElement.image && <ImageLicenseAccordion images={[about.visualElement.image]} />}
+        {!!about?.visualElement.imageLicense && (
+          <ImageLicenseAccordion images={[about.visualElement.imageLicense]} />
+        )}
       </StyledPageContainer>
     </main>
   );
@@ -263,7 +265,7 @@ export const subjectContainerFragments = {
             type
             alt
             url
-            image {
+            imageLicense {
               ...ImageLicenseList_ImageLicense
             }
           }
