@@ -38,7 +38,7 @@ export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
 
 const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
-  const { sortFolders } = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
+  const [sortFolders] = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
   const client = useApolloClient();
   const [sortedFolders, setSortedFolders] = useState(folders);
 
