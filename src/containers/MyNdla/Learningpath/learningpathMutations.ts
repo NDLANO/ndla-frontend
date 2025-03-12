@@ -326,10 +326,25 @@ export const useUpdateLearningpathStepSeqNo = (
           fieldName: "learningpath",
           args: { pathId: methodOptions?.variables?.learningpathId?.toString() },
         });
-        const normalizedId = client.cache.identify({
-          __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          }),
+          fields: {
+            learningsteps: (existingSteps = []) => {
+              const updatedStepsOrder = [...existingSteps];
+              const fromIndex = updatedStepsOrder.findIndex(
+                (el) => el.__ref === `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}`,
+              );
+              const movedElement = updatedStepsOrder[fromIndex];
+              // Remove from old position
+              updatedStepsOrder.splice(fromIndex, 1);
+              // Add to new position
+              updatedStepsOrder.splice(methodOptions?.variables?.seqNo, 0, movedElement);
+              return updatedStepsOrder;
+            },
+          },
         });
-        client.cache.evict({ id: normalizedId, broadcast: true });
         client.cache.gc();
       },
     },
