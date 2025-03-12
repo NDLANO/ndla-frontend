@@ -55,7 +55,6 @@ const FiltersWrapper = styled("div", {
 });
 
 const subjectFilterQuery = gql`
-  # TODO: this should be based on the content in SubjectFilterContent
   query subjectFilter {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
       id
@@ -111,8 +110,6 @@ export const SubjectFilter = () => {
     [activeSubjectIds, setSearchParams],
   );
 
-  // TODO: Fix messy mapping of subjects to make path absolute.
-  // Inherited from old implementation
   const localeSubjectCategories = useMemo(() => {
     const subjects = subjectsQuery.data?.nodes ?? [];
     const reduced = subjects.reduce<Record<SubjectCategoryType, SubjectCategory>>(
@@ -219,20 +216,8 @@ const SubjectFilterDialogContent = ({
         data.push({
           title: t(`subjectCategories.${category.type}`),
           id: category.type,
-          content: (
-            <>
-              {!!category.message && (
-                <StyledMessageBox variant="warning">
-                  <Text>{category.message}</Text>
-                </StyledMessageBox>
-              )}
-              <SubjectList
-                subjects={groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase() ?? "undefined")}
-                onToggleSubject={onToggleSubject}
-                selectedSubjects={selectedSubjects}
-              />
-            </>
-          ),
+          message: category.message,
+          subjects: groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase() ?? "undefined"),
         });
       }
     });
@@ -242,17 +227,12 @@ const SubjectFilterDialogContent = ({
     data.push({
       title: t("frontpageMenu.allsubjects"),
       id: "allsubjects",
-      content: (
-        <SubjectList
-          subjects={groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase() ?? "undefined")}
-          onToggleSubject={onToggleSubject}
-          selectedSubjects={selectedSubjects}
-        />
-      ),
+      message: undefined,
+      subjects: groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase() ?? "undefined"),
     });
 
     return data;
-  }, [categories, onToggleSubject, selectedSubjects, t]);
+  }, [categories, t]);
 
   return (
     <TabsRoot
@@ -271,18 +251,48 @@ const SubjectFilterDialogContent = ({
       </TabsList>
       {tabs.map((tab) => (
         <TabsContent key={tab.id} value={tab.id}>
-          {tab.content}
+          {!!tab.message && (
+            <StyledMessageBox variant="warning">
+              <Text>{tab.message}</Text>
+            </StyledMessageBox>
+          )}
+          <OuterList>
+            {Object.entries(tab.subjects).map(([letter, subjects]) => (
+              <OuterListItem key={letter}>
+                <FieldsetRoot>
+                  <FieldsetLegend
+                    textStyle="title.large"
+                    color="text.strong"
+                    aria-label={t("searchPage.subjectLetter", { letter })}
+                  >
+                    {letter}
+                  </FieldsetLegend>
+                  <StyledCheckboxGroup>
+                    {subjects.map((subject) => (
+                      <StyledCheckboxRoot
+                        key={subject.name}
+                        checked={selectedSubjects.includes(subject.id)}
+                        onCheckedChange={() => onToggleSubject(subject.id)}
+                      >
+                        <CheckboxControl>
+                          <CheckboxIndicator asChild>
+                            <CheckLine />
+                          </CheckboxIndicator>
+                        </CheckboxControl>
+                        <CheckboxLabel>{subject.name}</CheckboxLabel>
+                        <CheckboxHiddenInput />
+                      </StyledCheckboxRoot>
+                    ))}
+                  </StyledCheckboxGroup>
+                </FieldsetRoot>
+              </OuterListItem>
+            ))}
+          </OuterList>
         </TabsContent>
       ))}
     </TabsRoot>
   );
 };
-
-interface SubjectListProps {
-  subjects: Record<string, LocalSubject[]>;
-  onToggleSubject: (id: string) => void;
-  selectedSubjects: string[];
-}
 
 const OuterList = styled("ul", {
   base: {
@@ -320,42 +330,3 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
     paddingBlock: "4xsmall",
   },
 });
-
-const SubjectList = ({ subjects, onToggleSubject, selectedSubjects = [] }: SubjectListProps) => {
-  const { t } = useTranslation();
-
-  return (
-    <OuterList>
-      {Object.entries(subjects).map(([letter, subjects]) => (
-        <OuterListItem key={letter}>
-          <FieldsetRoot>
-            <FieldsetLegend
-              textStyle="title.large"
-              color="text.strong"
-              aria-label={t("searchPage.subjectLetter", { letter })}
-            >
-              {letter}
-            </FieldsetLegend>
-            <StyledCheckboxGroup>
-              {subjects.map((subject) => (
-                <StyledCheckboxRoot
-                  key={subject.name}
-                  checked={selectedSubjects.includes(subject.id)}
-                  onCheckedChange={() => onToggleSubject(subject.id)}
-                >
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{subject.name}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </StyledCheckboxRoot>
-              ))}
-            </StyledCheckboxGroup>
-          </FieldsetRoot>
-        </OuterListItem>
-      ))}
-    </OuterList>
-  );
-};
