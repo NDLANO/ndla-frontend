@@ -239,6 +239,7 @@ const getTypeVariables = (
 
   return {
     resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
+    contextTypes: "standard,learningpath",
     // TODO: Keep for later, in case we want to replace "resource" with "all"
     // resultTypes: !resourceTypes ? "article,node" : undefined,
     // nodeTypes: !resourceTypes ? "SUBJECT" : undefined,
