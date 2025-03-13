@@ -14,7 +14,7 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
-import { useStableSearchPageParams } from "./useStableSearchParams";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 
 const FiltersWrapper = styled("div", {

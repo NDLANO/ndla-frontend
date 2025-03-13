@@ -35,7 +35,7 @@ import { SearchResult } from "./SearchResult";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
-import { useStableSearchPageParams } from "./useStableSearchParams";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {

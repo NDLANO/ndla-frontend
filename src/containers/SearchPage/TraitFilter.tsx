@@ -21,7 +21,7 @@ import {
 import { SearchTrait } from "@ndla/types-backend/search-api";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
-import { useStableSearchPageParams } from "./useStableSearchParams";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
 

@@ -41,7 +41,7 @@ import { constants } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
 import { SUBJECT_NODE_TYPE } from "./searchUtils";
-import { useStableSearchPageParams } from "./useStableSearchParams";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import { GQLSubjectFilterQuery } from "../../graphqlTypes";
