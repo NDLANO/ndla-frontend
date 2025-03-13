@@ -217,7 +217,10 @@ const SubjectFilterDialogContent = ({
           title: t(`subjectCategories.${category.type}`),
           id: category.type,
           message: category.message,
-          subjects: groupBy(sortedSubjects, (s) => s.name[0]?.toUpperCase() ?? "undefined"),
+          subjects: groupBy(
+            sortedSubjects.filter((s) => s.name.length),
+            (s) => s.name[0]!.toUpperCase(),
+          ),
         });
       }
     });
@@ -228,7 +231,10 @@ const SubjectFilterDialogContent = ({
       title: t("frontpageMenu.allsubjects"),
       id: "allsubjects",
       message: undefined,
-      subjects: groupBy(allSubjectsSorted, (s) => s.name[0]?.toUpperCase() ?? "undefined"),
+      subjects: groupBy(
+        allSubjectsSorted.filter((s) => s.name.length),
+        (s) => s.name[0]!.toUpperCase(),
+      ),
     });
 
     return data;
