@@ -111,10 +111,7 @@ export const GrepFilter = () => {
     [codes, setSearchParams],
   );
 
-  if (
-    (!grepQuery.loading && !grepQuery.data?.competenceGoals?.length && !grepQuery.data?.coreElements?.length) ||
-    (nodeType && nodeType !== RESOURCE_NODE_TYPE)
-  ) {
+  if (!grepQuery.loading && !grepQuery.data?.competenceGoals?.length && !grepQuery.data?.coreElements?.length) {
     return;
   }
 
