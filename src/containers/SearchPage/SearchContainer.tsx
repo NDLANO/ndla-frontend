@@ -282,6 +282,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       traits: searchParams.get("traits") ?? undefined,
       fallback: "true",
       license: "all",
+      grepCodes: searchParams.get("grepCodes") ?? undefined,
       filterInactive: !subjects?.split(",").length,
       ...getTypeVariables(
         searchParams.get("resourceTypes"),
