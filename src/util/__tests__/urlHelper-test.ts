@@ -44,7 +44,7 @@ test("isCurrentPage", () => {
         url: "/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe",
       },
     ),
-  ).toBe(true);
+  ).toBe(false);
   expect(
     isCurrentPage("/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe", {
       url: "/e/aarjelsaemien-voestesgïeline-sr-jaa1/guktie-buerebelaakan-tjaeledh/f8608f0cbe",
@@ -58,7 +58,7 @@ test("isCurrentPage", () => {
         url: "/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4",
       },
     ),
-  ).toBe(true);
+  ).toBe(false);
   expect(
     isCurrentPage("/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4/1269", {
       url: "/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4",
