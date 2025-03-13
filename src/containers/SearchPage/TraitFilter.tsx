@@ -31,10 +31,10 @@ export const TraitFilter = () => {
   const nodeType = searchParams.get("type");
 
   useEffect(() => {
-    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+    if (nodeType && nodeType !== RESOURCE_NODE_TYPE && searchParams.get("traits")) {
       setSearchParams({ traits: null });
     }
-  }, [nodeType, setSearchParams]);
+  }, [nodeType, searchParams, setSearchParams]);
 
   const onValueChange = useCallback(
     (traits: string[]) => {

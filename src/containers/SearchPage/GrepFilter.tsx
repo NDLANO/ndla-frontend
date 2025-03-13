@@ -76,10 +76,10 @@ export const GrepFilter = () => {
   });
 
   useEffect(() => {
-    if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+    if (nodeType && nodeType !== RESOURCE_NODE_TYPE && codes.length) {
       setSearchParams({ grepCodes: null });
     }
-  }, [nodeType, setSearchParams]);
+  }, [codes.length, nodeType, setSearchParams]);
 
   // const groupedCompetenceGoals = useMemo(() => {
   //   return groupCompetenceGoals(grepQuery.data?.competenceGoals ?? [], true, "LK20");

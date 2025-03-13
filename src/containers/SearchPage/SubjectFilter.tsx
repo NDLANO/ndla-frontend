@@ -87,10 +87,10 @@ export const SubjectFilter = () => {
   });
 
   useEffect(() => {
-    if (nodeType === SUBJECT_NODE_TYPE) {
+    if (nodeType && nodeType === SUBJECT_NODE_TYPE && searchParams.get("subjects")) {
       setSearchParams({ subjects: null });
     }
-  }, [nodeType, setSearchParams]);
+  }, [nodeType, searchParams, setSearchParams]);
 
   const activeSubjectIds = useMemo(() => searchParams.get("subjects")?.split(",") ?? [], [searchParams]);
 

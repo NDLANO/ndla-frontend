@@ -465,7 +465,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
               onClick={() => {
                 const prevPage = page - 1;
                 setPage(prevPage);
-                setSearchParams({ page: prevPage.toString() });
+                setSearchParams({ page: prevPage === 1 ? null : prevPage.toString() });
                 focusRef.current?.focus();
               }}
             >
