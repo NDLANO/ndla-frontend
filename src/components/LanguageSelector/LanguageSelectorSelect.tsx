@@ -23,8 +23,8 @@ import {
   SelectTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { preferredLanguages } from "../i18n";
-import { LocaleType } from "../interfaces";
+import { preferredLanguages } from "../../i18n";
+import { LocaleType } from "../../interfaces";
 
 const LanguageSelectTrigger = styled(SelectTrigger, {
   base: {
@@ -36,7 +36,7 @@ interface Props extends Omit<SelectRootProps<LocaleType>, "collection"> {
   languages: LocaleType[];
 }
 
-export const LanguageSelector = ({ languages, ...props }: Props) => {
+export const LanguageSelectorSelect = ({ languages, ...props }: Props) => {
   const { t, i18n } = useTranslation();
 
   const collection = useMemo(
