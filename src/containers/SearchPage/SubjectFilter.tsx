@@ -110,37 +110,6 @@ export const SubjectFilter = () => {
     [activeSubjectIds, setSearchParams],
   );
 
-  const localeSubjectCategories = useMemo(() => {
-    const subjects = subjectsQuery.data?.nodes ?? [];
-    const reduced = subjects.reduce<Record<SubjectCategoryType, SubjectCategory>>(
-      (acc, curr) => {
-        const subject = { ...curr, url: curr.url ?? "" };
-        const category = curr.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY];
-        if (category === constants.subjectCategories.ACTIVE_SUBJECTS) {
-          acc.active.subjects.push(subject);
-        } else if (category === constants.subjectCategories.ARCHIVE_SUBJECTS) {
-          acc.archived.subjects.push(subject);
-        } else if (category === constants.subjectCategories.BETA_SUBJECTS) {
-          acc.beta.subjects.push(subject);
-        } else if (category === constants.subjectCategories.OTHER) {
-          acc.other.subjects.push(subject);
-        }
-        return acc;
-      },
-      {
-        active: { type: constants.subjectCategories.ACTIVE_SUBJECTS, subjects: [] },
-        archived: {
-          type: constants.subjectCategories.ARCHIVE_SUBJECTS,
-          subjects: [],
-          message: t("messageBoxInfo.frontPageExpired"),
-        },
-        beta: { type: constants.subjectCategories.BETA_SUBJECTS, subjects: [] },
-        other: { type: constants.subjectCategories.OTHER, subjects: [] },
-      },
-    );
-    return [reduced.active, reduced.archived, reduced.beta, reduced.other];
-  }, [subjectsQuery.data?.nodes, t]);
-
   if (nodeType === SUBJECT_NODE_TYPE) {
     return;
   }
@@ -177,7 +146,7 @@ export const SubjectFilter = () => {
               <DialogCloseButton />
             </DialogHeader>
             <SubjectFilterDialogContent
-              categories={localeSubjectCategories}
+              subjects={subjectsQuery.data?.nodes ?? []}
               onToggleSubject={onToggleSubject}
               selectedSubjects={
                 searchParams
@@ -194,17 +163,47 @@ export const SubjectFilter = () => {
 };
 
 interface SubjectFilterDialogContentProps {
-  categories: SubjectCategory[];
+  subjects: LocalSubject[];
   onToggleSubject: (id: string) => void;
   selectedSubjects: string[];
 }
 
 const SubjectFilterDialogContent = ({
-  categories,
+  subjects,
   onToggleSubject,
   selectedSubjects,
 }: SubjectFilterDialogContentProps) => {
   const { t } = useTranslation();
+
+  const categories = useMemo(() => {
+    const reduced = (subjects ?? []).reduce<Record<SubjectCategoryType, SubjectCategory>>(
+      (acc, curr) => {
+        const subject = { ...curr, url: curr.url ?? "" };
+        const category = curr.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY];
+        if (category === constants.subjectCategories.ACTIVE_SUBJECTS) {
+          acc.active.subjects.push(subject);
+        } else if (category === constants.subjectCategories.ARCHIVE_SUBJECTS) {
+          acc.archived.subjects.push(subject);
+        } else if (category === constants.subjectCategories.BETA_SUBJECTS) {
+          acc.beta.subjects.push(subject);
+        } else if (category === constants.subjectCategories.OTHER) {
+          acc.other.subjects.push(subject);
+        }
+        return acc;
+      },
+      {
+        active: { type: constants.subjectCategories.ACTIVE_SUBJECTS, subjects: [] },
+        archived: {
+          type: constants.subjectCategories.ARCHIVE_SUBJECTS,
+          subjects: [],
+          message: t("messageBoxInfo.frontPageExpired"),
+        },
+        beta: { type: constants.subjectCategories.BETA_SUBJECTS, subjects: [] },
+        other: { type: constants.subjectCategories.OTHER, subjects: [] },
+      },
+    );
+    return [reduced.active, reduced.archived, reduced.beta, reduced.other];
+  }, [subjects, t]);
 
   const tabs = useMemo(() => {
     const allSubjects: LocalSubject[] = [];
