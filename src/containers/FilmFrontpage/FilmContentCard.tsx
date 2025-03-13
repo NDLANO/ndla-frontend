@@ -150,7 +150,6 @@ FilmContentCard.fragments = {
         id
         name
       }
-      path
       url
     }
   `,
